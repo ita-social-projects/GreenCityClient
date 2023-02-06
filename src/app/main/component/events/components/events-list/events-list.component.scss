@@ -37,7 +37,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 30px 80px;
+  gap: 32px;
   margin-bottom: 30px;
 
   .mat-card {
@@ -46,6 +46,8 @@
 
   .event-list-item {
     overflow: hidden;
-    background-color: var(--primary-light-grey);
+    max-width: 359px;
+    background-color: var(--primary-white);
+    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   }
 }

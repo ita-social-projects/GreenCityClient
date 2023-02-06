@@ -47,10 +47,7 @@
                 (currentLanguage === 'ua' ? addressCity : addressCityEng).touched
               "
             >
-              <app-ubs-input-error
-                [formElement]="currentLanguage === 'ua' ? addressCity : addressCityEng"
-                [controlName]="currentLanguage === 'ua' ? 'addressCity' : 'addressCityEng'"
-              ></app-ubs-input-error>
+              <app-ubs-input-error [formElement]="currentLanguage === 'ua' ? addressCity : addressCityEng"></app-ubs-input-error>
             </div>
           </div>
         </div>
@@ -84,11 +81,7 @@
                 (currentLanguage === 'ua' ? addressStreet : addressStreetEng).touched
               "
             >
-              <app-ubs-input-error
-                [formElement]="currentLanguage === 'ua' ? addressStreet : addressStreetEng"
-                [controlName]="currentLanguage === 'ua' ? 'addressStreet' : 'addressStreetEng'"
-              >
-              </app-ubs-input-error>
+              <app-ubs-input-error [formElement]="currentLanguage === 'ua' ? addressStreet : addressStreetEng"> </app-ubs-input-error>
             </div>
           </div>
           <div class="building">
@@ -96,21 +89,21 @@
               <label for="building">{{ 'address-details.building' | translate }}</label>
               <input type="text" class="form-control" id="building" formControlName="addressHouseNumber" />
               <div class="validation" *ngIf="addressHouseNumber.invalid && addressHouseNumber.touched">
-                <app-ubs-input-error [formElement]="addressHouseNumber" [controlName]="'addressHouseNumber'"></app-ubs-input-error>
+                <app-ubs-input-error [formElement]="addressHouseNumber"></app-ubs-input-error>
               </div>
             </div>
             <div class="form-group">
               <label for="corpus">{{ 'address-details.corpus' | translate }}</label>
               <input type="text" class="form-control" id="corpus" formControlName="addressHouseCorpus" />
               <div class="validation" *ngIf="addressHouseCorpus.invalid && addressHouseCorpus.touched">
-                <app-ubs-input-error [formElement]="addressHouseCorpus" [controlName]="'addressHouseCorpus'"></app-ubs-input-error>
+                <app-ubs-input-error [formElement]="addressHouseCorpus"></app-ubs-input-error>
               </div>
             </div>
             <div class="form-group">
               <label for="entrance">{{ 'address-details.entrance' | translate }}</label>
               <input formControlName="addressEntranceNumber" type="text" class="form-control" id="entrance" />
               <div class="validation" *ngIf="addressEntranceNumber.invalid && addressEntranceNumber.touched">
-                <app-ubs-input-error [formElement]="addressEntranceNumber" [controlName]="'addressEntranceNumber'"></app-ubs-input-error>
+                <app-ubs-input-error [formElement]="addressEntranceNumber"></app-ubs-input-error>
               </div>
             </div>
           </div>
@@ -144,10 +137,7 @@
               (currentLanguage === 'ua' ? addressDistrict : addressDistrictEng).touched
             "
           >
-            <app-ubs-input-error
-              [formElement]="currentLanguage === 'ua' ? addressDistrict : addressDistrictEng"
-              [controlName]="currentLanguage === 'ua' ? 'addressDistrict' : 'addressDistrictEng'"
-            ></app-ubs-input-error>
+            <app-ubs-input-error [formElement]="currentLanguage === 'ua' ? addressDistrict : addressDistrictEng"></app-ubs-input-error>
           </div>
         </div>
       </div>

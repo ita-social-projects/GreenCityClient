@@ -1,5 +1,5 @@
 import { CheckTokenService } from './../../../../main/service/auth/check-token/check-token.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,15 +16,19 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   templateUrl: './ubs-main-page.component.html',
   styleUrls: ['./ubs-main-page.component.scss']
 })
-export class UbsMainPageComponent implements OnInit, OnDestroy {
+export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private subs = new Subscription();
   private destroy: Subject<boolean> = new Subject<boolean>();
-  ubsMainPageImages = ubsMainPageImages;
+  public ubsMainPageImages = ubsMainPageImages;
   locations: CourierLocations;
   selectedLocationId: number;
   isFetching: boolean;
   currentLocation: string;
   public isAdmin = false;
+  public boxWidth;
+  public lineSize = Array(4).fill(0);
+  public screenWidth;
+  public isMarqueShown = false;
 
   priceCard = [
     {
@@ -41,26 +45,25 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     }
   ];
 
+  perPackageTitle = 'ubs-homepage.ubs-courier.price.price-title.li_4';
+
+  stepsOrderTitle = 'ubs-homepage.ubs-courier.price.caption-steps';
   stepsOrder = [
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_1',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_1',
-      numberStep: 1
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_1'
     },
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_2',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_2',
-      numberStep: 2
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_2'
     },
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_3',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_3',
-      numberStep: 3
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_3'
     },
     {
       header: 'ubs-homepage.ubs-courier.price.steps-title.li_4',
-      content: 'ubs-homepage.ubs-courier.price.steps-content.li_4',
-      numberStep: 4
+      content: 'ubs-homepage.ubs-courier.price.steps-content.li_4'
     }
   ];
 
@@ -76,7 +79,26 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
   rules = [
     'ubs-homepage.ubs-courier.rules.content.li_1',
     'ubs-homepage.ubs-courier.rules.content.li_2',
+    'ubs-homepage.ubs-courier.rules.content.li_2.1',
     'ubs-homepage.ubs-courier.rules.content.li_3'
+  ];
+
+  bonuses = [
+    'ubs-homepage.ubs-courier.bonuses.content.li_1',
+    'ubs-homepage.ubs-courier.bonuses.content.li_2',
+    'ubs-homepage.ubs-courier.bonuses.content.li_3',
+    'ubs-homepage.ubs-courier.bonuses.content.li_3.1'
+  ];
+
+  howWorksPickUp = [
+    {
+      header: 'ubs-homepage.ubs-courier.how-works.header.pre_1',
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_1'
+    },
+    {
+      header: 'ubs-homepage.ubs-courier.how-works.header.pre_2',
+      content: 'ubs-homepage.ubs-courier.how-works.time.pre_2'
+    }
   ];
 
   constructor(
@@ -85,18 +107,73 @@ export class UbsMainPageComponent implements OnInit, OnDestroy {
     private checkTokenservice: CheckTokenService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
     this.onCheckToken();
     this.isAdmin = this.checkIsAdmin();
+    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+  }
+
+  ngAfterViewChecked(): void {
+    this.screenWidth = window.innerWidth;
+    this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
+    this.calcLineSize();
+    this.adjustMarqueText();
+    this.cdref.detectChanges();
   }
 
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+  }
+
+  calcLineSize() {
+    if (this.screenWidth >= 1024) {
+      const quantity = 4;
+      const circleSize = 36;
+      const circleMargin = 10;
+      const sumOfIndents = quantity * (circleSize + 2 * circleMargin);
+      this.lineSize[0] = (this.boxWidth - sumOfIndents) / (quantity * 2);
+    } else {
+      const boxes = document.getElementsByClassName('content-box');
+      const halfCircleHeight = 11;
+      const circleIndent = 6;
+      const boxesIndent = 16;
+
+      this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
+    }
+  }
+
+  public adjustMarqueText() {
+    if (this.isMarqueShown) {
+      return;
+    }
+
+    const text =
+      'NO WASTE — NO STRESS!<img src="assets/img/ubs/auto.svg" style="margin: 0 12px; height: 90%;">' +
+      'NO WASTE — NO STRESS!<img src="assets/img/ubs/bag.svg" style="margin: 0 12px; height: 90%;">';
+
+    const block = document.getElementsByClassName('marquee-w')[0];
+    const blockWidth = block.getBoundingClientRect().width;
+
+    const marque = document.getElementsByClassName('marquee')[0];
+    marque.getElementsByTagName('span')[0].innerHTML = text;
+
+    const marqueWidth = marque.getBoundingClientRect().width;
+    const repeatCount = Math.ceil(blockWidth / marqueWidth);
+
+    marque.getElementsByTagName('span')[0].innerHTML = text.repeat(repeatCount);
+
+    const span = marque.cloneNode(true);
+    document.querySelector('.marquee-w').appendChild(span);
+    document.getElementsByClassName('marquee')[1].classList.add('marquee2');
+
+    this.isMarqueShown = true;
   }
 
   public onCheckToken(): void {

@@ -8,10 +8,13 @@ import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tarif
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
+import { TariffsService } from '../../../../services/tariffs.service';
+import { Bag } from '../../../../models/tariffs.interface';
 
 describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
+  let fakeTariffService: TariffsService;
 
   const fakeBagForm = new FormGroup({
     name: new FormControl('fake'),
@@ -22,6 +25,19 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     description: new FormControl('fake'),
     descriptionEng: new FormControl('fake')
   });
+
+  const fakeBag: Bag = {
+    capacity: 150,
+    price: 50,
+    locationId: 2,
+    commission: 5,
+    tariffTranslationDtoList: {
+      name: 'Name',
+      description: 'adsaasdadsad',
+      descriptionEng: 'asdssadads',
+      nameEng: 'NameEng'
+    }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,6 +51,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsAddTariffServicePopUpComponent);
     component = fixture.componentInstance;
+    fakeTariffService = TestBed.inject(TariffsService);
     fixture.detectChanges();
   });
 
@@ -56,14 +73,15 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     });
   });
 
+  it('should call addTariffForNewService correctly', () => {
+    const addNewTariffForServiceSpy = spyOn(component, 'addNewTariffForService');
+    component.addNewTariffForService();
+    fakeTariffService.createNewTariffForService(fakeBag);
+    expect(addNewTariffForServiceSpy).toHaveBeenCalled();
+  });
+
   it('should fillFields correctly', () => {
     component.addTariffServiceForm.patchValue(fakeBagForm.value);
     expect(component.addTariffServiceForm.value).toEqual(fakeBagForm.value);
-  });
-
-  it('should call createAndStoreNewTariff correctly', () => {
-    const spy = spyOn(component, 'createAndStoreNewTariff');
-    component.createAndStoreNewTariff();
-    expect(spy).toHaveBeenCalled();
   });
 });

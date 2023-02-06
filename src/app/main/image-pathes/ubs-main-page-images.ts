@@ -5,5 +5,8 @@ export const ubsMainPageImages = {
   ubsBlackGarbageTranspBackgr: 'assets/img/ubs/black-package-cut.png',
   ubsRectangle: 'assets/img/ubs/second_rectangle.png',
   ubsPolygon: 'assets/img/ubs/polygon.svg',
-  ubsSignboard: 'assets/img/ubs/ubs_signboard.svg'
+  ubsPickUpCity: 'assets/img/ubs/ubs_pick_up.png',
+  ubsSignboard: 'assets/img/ubs/ubs_signboard.svg',
+  ubsAuto: 'assets/img/ubs/auto.svg',
+  ubsBag: 'assets/img/ubs/bag.svg'
 };

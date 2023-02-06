@@ -1,24 +1,21 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Patterns } from 'src/assets/patterns/patterns';
 
+enum errorType {
+  email = 'email',
+  pattern = 'pattern',
+  minlength = 'minlength',
+  maxlength = 'maxlength',
+  required = 'required'
+}
 @Component({
   selector: 'app-ubs-input-error',
-  templateUrl: './ubs-input-error.component.html'
+  templateUrl: './ubs-input-error.component.html',
+  styleUrls: ['./ubs-input-error.component.scss']
 })
-export class UBSInputErrorComponent implements OnChanges {
-  @Input() public controlName: string;
+export class UBSInputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
-  @Input() public certificateFieldValue: string;
-  @Input() public firstNameFieldValue: string;
-  @Input() public anotherClientFirstNameFieldValue: string;
-  @Input() public lastNameFieldValue: string;
-  @Input() public anotherClientLastNameFieldValue: string;
-  @Input() public emailFieldValue: string;
-  @Input() public anotherClientEmailFieldValue: string;
-  @Input() public phoneNumberFieldValue: string;
-  @Input() public anotherClientPhoneNumberFieldValue: string;
-  @Input() public streetFieldValue: string;
-  @Input() public houseNumberFieldValue: string;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -31,29 +28,61 @@ export class UBSInputErrorComponent implements OnChanges {
     maxlengthComment: 'input-error.max-length-comment',
     pattern: 'input-error.pattern',
     required: 'input-error.required',
+    wrongName: 'input-error.name-wrong',
     wrongNumber: 'input-error.number-wrong',
+    wrongCity: 'input-error.city-wrong',
+    wrongHouse: 'input-error.house-wrong',
+    wrongCorpus: 'input-error.corpus-wrong',
+    wrongEntrance: 'input-error.entrance-wrong',
     numberLength: 'input-error.number-length'
   };
 
-  ngOnChanges() {
+  ngOnInit() {
     this.getType();
+    this.formElement.valueChanges.pipe().subscribe(() => {
+      this.getType();
+    });
   }
 
-  private getType() {
-    for (const error in this.validationErrors) {
-      if (this.formElement.errors[error]) {
-        if (this.formElement.errors.maxlength) {
-          this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength);
-          break;
+  getType() {
+    Object.values(errorType).forEach((err) => {
+      if (this.formElement.errors?.[err]) {
+        switch (err) {
+          case errorType.pattern:
+            this.errorMessage = this.getPatternErrorMessage(this.formElement.errors.pattern.requiredPattern);
+            break;
+          case errorType.maxlength:
+            this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength);
+            break;
+          default:
+            this.errorMessage = this.validationErrors[err];
         }
-
-        this.errorMessage = this.validationErrors[error];
-        break;
       }
+    });
+  }
+
+  getPatternErrorMessage(pattern: string): string {
+    switch (pattern) {
+      case Patterns.ubsWithDigitPattern.toString():
+        return this.validationErrors.wrongCity;
+      case Patterns.ubsHousePattern.toString():
+        return this.validationErrors.wrongHouse;
+      case Patterns.ubsCorpusPattern.toString():
+        return this.validationErrors.wrongCorpus;
+      case Patterns.ubsEntrNumPattern.toString():
+        return this.validationErrors.wrongEntrance;
+      case Patterns.NamePattern.toString():
+        return this.validationErrors.wrongName;
+      case Patterns.ubsMailPattern.toString():
+        return this.validationErrors.email;
+      case Patterns.adminPhone.toString():
+        return this.validationErrors.wrongNumber;
+      default:
+        return this.validationErrors.pattern;
     }
   }
 
-  private getMaxlengthErrorMessage(maxlength: number): string {
+  getMaxlengthErrorMessage(maxlength: number): string {
     switch (maxlength) {
       case 2:
         return this.validationErrors.maxlengthEntrance;

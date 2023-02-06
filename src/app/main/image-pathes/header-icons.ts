@@ -8,8 +8,13 @@ export const headerIcons = {
 };
 
 export const ubsHeaderIcons = {
-  ubsAdminLogo: 'assets/admin-header/logo-admin.svg',
+  ubsAdminLogo: 'assets/admin-header/new-logo-admin.svg',
   search: 'assets/img/search.svg',
   searchIcon: 'assets/admin-header/search.svg',
-  arrowDown: 'assets/img/arrow_down.svg'
+  arrowDown: 'assets/img/filled_arrow_down.svg',
+  ubsLogoFooter: 'assets/admin-header/logo-footer.svg',
+  facebookIcon: 'assets/admin-header/face-icon.svg',
+  instagramIcon: 'assets/admin-header/insta-icon.svg',
+  telegramIcon: 'assets/admin-header/telegram-icon.svg',
+  youTubeIcon: 'assets/admin-header/you-tube-icon.svg'
 };
