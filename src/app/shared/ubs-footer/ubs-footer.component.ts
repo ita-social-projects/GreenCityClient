@@ -18,7 +18,8 @@ export class UbsFooterComponent {
     { name: 'Green City', route: '/', url: false }
   ];
 
-  onResize() {
+  onResize(event) {
+    event.target.innerWidth;
     this.screenWidth = window.innerWidth;
   }
 }
