@@ -19,9 +19,9 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
 
 export function ValidatorRegExp(controlName: string) {
   return (formGroup: FormGroup) => {
-    const regexpName = Patterns.regexpName;
+    const namePattern = Patterns.NamePattern;
     const regexpPass = Patterns.regexpPass;
-    const regexp = controlName === 'firstName' ? regexpName : regexpPass;
+    const regexp = controlName === 'firstName' ? namePattern : regexpPass;
     const control = formGroup.controls[controlName];
     if (control.value === '') {
       control.setErrors({ required: true });

@@ -19,13 +19,16 @@
     <div class="error-message" *ngIf="commentForm.get('cancellationComment').value && commentForm.invalid && commentForm.touched">
       <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
     </div>
-    <div class="error-message" *ngIf="commentForm.touched && !commentForm.get('cancellationComment').value">
+    <div
+      class="error-message"
+      *ngIf="cancellationReason === 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
+    >
       <div>{{ 'order-cancel.reason.comment-empty-message' | translate }}</div>
     </div>
   </form>
   <div class="btn-container">
     <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
-    <button type="submit" class="agree btn" (click)="save()" [disabled]="commentForm.invalid && commentForm.touched">
+    <button type="submit" class="agree btn" [disabled]="disableButton()" (click)="save()">
       {{ 'order-cancel.btn.add' | translate }}
     </button>
   </div>

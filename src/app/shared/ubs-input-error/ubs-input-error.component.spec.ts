@@ -1,14 +1,18 @@
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UBSInputErrorComponent } from './ubs-input-error.component';
+import { FormControl } from '@angular/forms';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 describe('ErrorComponent ', () => {
   let component: UBSInputErrorComponent;
   let fixture: ComponentFixture<UBSInputErrorComponent>;
   let httpTestingController: HttpTestingController;
+
+  const formElementMock = new FormControl('місто Київ');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,6 +25,7 @@ describe('ErrorComponent ', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UBSInputErrorComponent);
     component = fixture.componentInstance;
+    component.formElement = formElementMock;
     fixture.detectChanges();
   });
 
@@ -28,17 +33,24 @@ describe('ErrorComponent ', () => {
     expect(component).toBeTruthy();
   });
 
-  it('checking function calling', () => {
-    Object.assign(component, { formElement: { errors: ['required'] } });
-    spyOn(component, 'ngOnChanges').and.callThrough();
-    component.ngOnChanges();
-    expect(component.ngOnChanges).toHaveBeenCalled();
+  it('method ngOnInit should call getType method', () => {
+    const spy = spyOn(component, 'getType');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
+
+  it('method ngOnInit should call getType method when control value was changed', fakeAsync(() => {
+    const spy = spyOn(component, 'getType');
+    component.ngOnInit();
+    component.formElement.updateValueAndValidity({ emitEvent: true });
+    tick();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  }));
 
   it('errorMessage should have correct value if we have maxlength error in "Entrance" field', () => {
     Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 2 } } } });
     fixture.detectChanges();
-    // @ts-ignore
     component.getType();
     expect(component.errorMessage).toBe('input-error.max-length-entrance');
   });
@@ -46,7 +58,6 @@ describe('ErrorComponent ', () => {
   it('errorMessage should have correct value if we have maxlength error in "House number" field', () => {
     Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 4 } } } });
     fixture.detectChanges();
-    // @ts-ignore
     component.getType();
     expect(component.errorMessage).toBe('input-error.max-length-house');
   });
@@ -54,7 +65,6 @@ describe('ErrorComponent ', () => {
   it('errorMessage should have correct value if we have maxlength error in "Street" field', () => {
     Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 120 } } } });
     fixture.detectChanges();
-    // @ts-ignore
     component.getType();
     expect(component.errorMessage).toBe('input-error.max-length-street');
   });
@@ -62,7 +72,6 @@ describe('ErrorComponent ', () => {
   it('errorMessage should have correct value if we have maxlength error in "Comment address" field', () => {
     Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 255 } } } });
     fixture.detectChanges();
-    // @ts-ignore
     component.getType();
     expect(component.errorMessage).toBe('input-error.max-length-comment');
   });
@@ -70,8 +79,71 @@ describe('ErrorComponent ', () => {
   it('errorMessage should have correct value if we have required error', () => {
     Object.assign(component, { formElement: { errors: { required: true } } });
     fixture.detectChanges();
-    // @ts-ignore
     component.getType();
     expect(component.errorMessage).toBe('input-error.required');
+  });
+
+  it('getType should have call method for setting correct maxlength error', () => {
+    const spy = spyOn(component, 'getMaxlengthErrorMessage');
+    Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 255 } } } });
+    fixture.detectChanges();
+    component.getType();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('getType should have call method for setting correct pattern error', () => {
+    const spy = spyOn(component, 'getPatternErrorMessage');
+    Object.assign(component, { formElement: { errors: { pattern: { requiredPattern: 'fake' } } } });
+    fixture.detectChanges();
+    component.getType();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong city input', () => {
+    const pattern = Patterns.ubsWithDigitPattern.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.city-wrong');
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong house input', () => {
+    const pattern = Patterns.ubsHousePattern.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.house-wrong');
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong corpus input', () => {
+    const pattern = Patterns.ubsCorpusPattern.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.corpus-wrong');
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong entrance input', () => {
+    const pattern = Patterns.ubsEntrNumPattern.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.entrance-wrong');
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong name input', () => {
+    const pattern = Patterns.NamePattern.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.name-wrong');
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong number input', () => {
+    const pattern = Patterns.adminPhone.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.number-wrong');
+  });
+
+  it('getPatternErrorMessage should have return correct error for wrong email input', () => {
+    const pattern = Patterns.ubsMailPattern.toString();
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.email-wrong');
+  });
+
+  it('getPatternErrorMessage should have return default error', () => {
+    const pattern = null;
+    const result = component.getPatternErrorMessage(pattern);
+    expect(result).toEqual('input-error.pattern');
   });
 });

@@ -15,14 +15,12 @@ export interface Bag {
   createdAt?: string;
   locationId?: number;
   createdBy?: string;
-  tariffTranslationDtoList?: [
-    {
-      name: string;
-      description: string;
-      descriptionEng: string;
-      nameEng: string;
-    }
-  ];
+  tariffTranslationDtoList?: {
+    name: string;
+    description: string;
+    descriptionEng: string;
+    nameEng: string;
+  };
 }
 
 export interface Service {
@@ -120,10 +118,8 @@ export interface TariffCard {
   creator: string;
   createdAt: string;
   courierLimit: string;
-  minAmountOfBags: number;
-  maxAmountOfBags: number;
-  minPriceOfOrder: number;
-  maxPriceOfOrder: number;
+  min: number;
+  max: number;
 }
 
 export interface RegionDto {

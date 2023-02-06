@@ -111,11 +111,6 @@ select {
   margin: 0 15px 0 0;
 }
 
-.validation {
-  color: var(--error-red);
-  font-size: 10px;
-}
-
 .form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
 }

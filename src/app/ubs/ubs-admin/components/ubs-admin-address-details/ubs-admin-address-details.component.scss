@@ -64,12 +64,6 @@ label {
   max-width: 408px;
 }
 
-.validation {
-  color: var(--error-red);
-  line-height: 10px;
-  font-size: 8px;
-}
-
 .form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
 }

@@ -118,13 +118,13 @@
               id="min-order-amount"
               name="courierLimit"
               value="LIMIT_BY_SUM_OF_ORDER"
-              (click)="sumToggler()"
-              [checked]="toggle"
+              (click)="sumLimitStatus()"
+              [checked]="limitStatus === limitEnum.limitByPriceOfOrder"
             >
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <fieldset [disabled]="!toggle || toggle === null">
+            <fieldset [disabled]="limitStatus === limitEnum.limitByAmountOfBag || limitStatus === null">
               <legend></legend>
               <input
                 class="input"
@@ -151,12 +151,12 @@
               id="min-packages"
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
-              (click)="bagToggler()"
-              [checked]="!toggle"
+              (click)="bagLimitStatus()"
+              [checked]="limitStatus === limitEnum.limitByAmountOfBag"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <fieldset [disabled]="toggle || toggle === null">
+            <fieldset [disabled]="limitStatus === limitEnum.limitByPriceOfOrder || limitStatus === null">
               <legend></legend>
               <input
                 class="input"
@@ -181,12 +181,10 @@
         </mat-radio-group>
         <div class="min-bags-number">
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
-          <div *ngIf="bags[0]">
-            <div *ngFor="let tariff of ourTariffs; let i = index">
-              <div *ngIf="bags[i]">
-                <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ tariff.name }}</mat-checkbox>
-                <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ tariff.nameEng }}</mat-checkbox>
-              </div>
+          <div *ngFor="let bag of bags; let i = index">
+            <div>
+              <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ bag.name }}</mat-checkbox>
+              <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ bag.nameEng }}</mat-checkbox>
             </div>
           </div>
         </div>
