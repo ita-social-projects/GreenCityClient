@@ -1,189 +1,100 @@
 <div class="ubsHomepage">
-  <div *ngIf="screenWidth <= 768" class="marquee-section">
-    <div class="marquee-w">
-      <div class="marquee">
-        <span></span>
-      </div>
-    </div>
-  </div>
-
+  <h1>{{ 'ubs-homepage.general' | translate }}</h1>
   <header>
     <div class="header-left">
-      <img [src]="ubsMainPageImages.ubsPickUpCity" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
+      <img [src]="ubsMainPageImages.ubsArmoredTrack" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
     </div>
-    <app-ubs-main-page-spinner></app-ubs-main-page-spinner>
-    <div class="main-content">
-      <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
-        {{ 'ubs-homepage.header.btn-order-courier' | translate }}
-      </button>
-      <div class="main-caption">
-        <p>{{ 'ubs-homepage.header.caption' | translate }}</p>
+    <div class="header-right">
+      <div class="main-content">
+        <h2>{{ 'ubs-homepage.header.caption' | translate }}</h2>
         <p>{{ 'ubs-homepage.header.content' | translate }}</p>
+        <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
+          {{ 'ubs-homepage.header.btn-order-courier' | translate }}
+        </button>
       </div>
     </div>
   </header>
-  <!-- Marque text (generated in ts file) -->
-  <div *ngIf="screenWidth > 768" class="marquee-section">
-    <div class="marquee-w">
-      <div class="marquee">
-        <span></span>
-      </div>
-    </div>
-  </div>
-
+  <h4 class="section-header">{{ 'ubs-homepage.ubs-courier.info-header' | translate }}</h4>
+  <img [src]="ubsMainPageImages.ubsPolygon" class="ubs-polygon" alt="ubs-polygon" aria-hidden="true" />
   <section>
-    <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
-    <div class="how-to-prepare">
-      <div class="main-content-left">
-        <div class="box-item">
-          <div class="box-number">01</div>
-          <div class="box-text">
+    <div class="how-preparing">
+      <div class="header-left">
+        <img [src]="ubsMainPageImages.ubsGreenGarbage" class="ubs-image" alt="ubs-green-garbage" aria-hidden="true" />
+        <img
+          [src]="ubsMainPageImages.ubsBlackGarbageTranspBackgr"
+          class="ubs-image"
+          id="ubs-image-black"
+          alt="ubs-black-garbage"
+          aria-hidden="true"
+        />
+      </div>
+      <div class="header-right">
+        <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
+        <ul>
+          <li>
             {{ preparingContent[0] | translate }}
-            <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
-              preparingContent[1] | translate
-            }}</a>
-          </div>
-        </div>
-        <div class="box-item">
-          <div class="box-number">02</div>
-          <div class="box-text">{{ preparingContent[2] | translate }}</div>
-        </div>
-        <div class="box-item">
-          <div class="box-number">03</div>
-          <div class="box-text">{{ preparingContent[3] | translate }}</div>
-        </div>
-        <div class="box-item">
-          <div class="box-number">04</div>
-          <div class="box-text">{{ preparingContent[4] | translate }}</div>
-        </div>
-        <div class="box-item">
-          <div class="box-number">05</div>
-          <div class="box-text">{{ preparingContent[5] | translate }}</div>
-        </div>
-      </div>
-      <div class="main-content-right">
-        <div class="conditions">
-          <div class="caption">
-            <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
-          </div>
-          <div class="rules">
-            <div class="rule">{{ rules[0] | translate }}</div>
-            <div class="rule">
-              {{ rules[1] | translate }}
-              <div class="lifehack">{{ rules[2] | translate }}</div>
-            </div>
-            <div class="rule">{{ rules[3] | translate }}</div>
-          </div>
-        </div>
-
-        <div class="bonuses">
-          <div class="caption">
-            <h2>{{ 'ubs-homepage.ubs-courier.bonuses.caption' | translate }}</h2>
-          </div>
-          <div class="rules">
-            <div class="rule">{{ bonuses[0] | translate }}</div>
-            <div class="rule">
-              {{ bonuses[1] | translate }}
-            </div>
-            <div class="rule">
-              {{ bonuses[2] | translate }}
-              <a href="https://nowaste.com.ua/nwu_services/courier/" class="link" target="_blank" rel="noopener">{{
-                bonuses[3] | translate
-              }}</a>
-            </div>
-          </div>
+            (<a href="https://nowaste.com.ua/sort-station/" target="_blank" rel="noopener">{{ preparingContent[1] | translate }}</a
+            >).
+          </li>
+          <li *ngFor="let li of preparingContent | slice: 2">
+            {{ li | translate }}
+          </li>
+        </ul>
+        <div class="main-content">
+          <h2>{{ 'ubs-homepage.ubs-courier.rules.caption' | translate }}</h2>
+          <ul>
+            <li *ngFor="let rule of rules">
+              {{ rule | translate }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
-
   <section>
-    <div class="price-section">
-      <h2>{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
-      <div class="box-card">
-        <div id="price-frame" *ngFor="let elemPrice of priceCard">
-          <div class="content-price">
-            <div>{{ elemPrice.content | translate }}</div>
-          </div>
-          <div class="header-price">
-            <div class="price">{{ elemPrice.header | translate }}</div>
-            <div>{{ perPackageTitle | translate }}</div>
-          </div>
+    <h2 class="price-header">{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
+    <div class="boxCard">
+      <div id="price-frame" *ngFor="let elemPrice of priceCard">
+        <img [src]="ubsMainPageImages.ubsRectangle" class="ubs-rectangle" alt="ubs-rectangle" aria-hidden="true" />
+        <h2 class="header-price">{{ elemPrice.header | translate }}</h2>
+        <p class="content-price">{{ elemPrice.content | translate }}</p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="box">
+      <div id="step-order" *ngFor="let step of stepsOrder">
+        <div class="circle">
+          {{ step.numberStep }}
+        </div>
+        <hr />
+        <h2 class="header-step">{{ step.header | translate }}</h2>
+        <div class="show-on-hover">
+          <p class="content-step">{{ step.content | translate }}</p>
         </div>
       </div>
     </div>
   </section>
-
-  <section class="pick-up-service">
-    <div class="main-container">
-      <h2>{{ stepsOrderTitle | translate }}</h2>
-      <div *ngIf="screenWidth >= 1024" class="box">
-        <div
-          class="step-order"
-          id="step-order-{{ i }}"
-          *ngFor="let step of stepsOrder; let odd = odd; let i = index"
-          [ngStyle]="{ 'flex-direction': !(i % 2) ? 'column' : 'column-reverse' }"
-        >
-          <div class="content-box" [ngStyle]="{ 'flex-direction': odd ? 'column' : 'column-reverse' }">
-            <h1
-              class="step-order-header"
-              [ngClass]="odd ? 'odd' : 'even'"
-              [ngStyle]="odd ? { 'margin-bottom': '20px' } : { 'margin-top': '20px' }"
-            >
-              {{ step.header | translate }}
-            </h1>
-            <p class="step-order-content">{{ step.content | translate }}</p>
-          </div>
-          <div class="base-line">
-            <hr [ngStyle]="{ width: lineSize[0] + 'px' }" />
-            <div class="circle">
-              <p>{{ i + 1 }}</p>
-            </div>
-            <hr [ngStyle]="{ width: lineSize[0] + 'px' }" />
-          </div>
-          <div class="content-box-filler"></div>
-        </div>
-      </div>
-      <div *ngIf="screenWidth < 1024" class="box-mobile">
-        <div class="step-order" id="step-order-{{ i }}" *ngFor="let step of stepsOrder; let i = index">
-          <div class="base-line">
-            <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
-            <div class="circle">
-              <p>{{ i + 1 }}</p>
-            </div>
-            <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />
-          </div>
-          <div class="content-box">
-            <h1 class="step-order-header">
-              {{ step.header | translate }}
-            </h1>
-            <p class="step-order-content">{{ step.content | translate }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="how-works">
-    <div class="box-how-works">
+    <div class="header-left">
+      <img [src]="ubsMainPageImages.ubsSignboard" class="ubs-image" alt="ubs-signboard" aria-hidden="true" />
+    </div>
+    <div class="header-right">
       <div id="main-content">
-        <div class="time-frame" *ngFor="let elemTime of howWorksPickUp">
-          <h2 class="header-how-works">{{ elemTime.header | translate }}</h2>
-          <p class="content-time">{{ elemTime.content | translate }}</p>
+        <h2 id="header-how-works">{{ 'ubs-homepage.ubs-courier.how-works.header' | translate }}</h2>
+        <p class="time-how">{{ 'ubs-homepage.ubs-courier.how-works.time.pre_1' | translate }}</p>
+        <p class="time-how">{{ 'ubs-homepage.ubs-courier.how-works.time.pre_2' | translate }}</p>
+        <div id="how-works-content">
+          <p>
+            {{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}
+            <a target="_blank" href="https://shop.nowaste.com.ua/" rel="noopener">{{
+              'ubs-homepage.ubs-courier.how-works.content.link' | translate
+            }}</a>
+          </p>
         </div>
-      </div>
-
-      <div id="how-works-content">
         <button class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
-
-        <div class="link-to-shop">
-          {{ 'ubs-homepage.ubs-courier.how-works.content.pre_1' | translate }}
-          <a target="_blank" href="https://shop.nowaste.com.ua/" rel="noopener">{{
-            'ubs-homepage.ubs-courier.how-works.content.link' | translate
-          }}</a>
-        </div>
       </div>
     </div>
   </section>

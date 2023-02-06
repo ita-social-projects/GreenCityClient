@@ -90,7 +90,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.toggleHeader();
     this.setLangArr();
     this.updateArrayLang();
-    console.log(this.isUBS);
 
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
       this.focusDone();

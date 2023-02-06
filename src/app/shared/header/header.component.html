@@ -1,5 +1,5 @@
-<header role="banner" aria-label="Welcome to header" [ngClass]="{ 'burger-modal_open': toggleBurgerMenu, header_ubs: isUBS }">
-  <div [ngClass]="isUBS ? 'container-fluid' : 'container'">
+<header role="banner" aria-label="Welcome to header" [ngClass]="toggleBurgerMenu ? 'burger-modal_open main' : 'main'">
+  <div class="header_wrp" [ngClass]="isUBS ? 'container-fluid' : 'container'">
     <div class="header_container">
       <a
         class="header_logo"
@@ -11,9 +11,9 @@
       >
         <img [src]="imageLogo" role="link" alt="{{ imgAlt }}" />
       </a>
-      <div class="header_navigation-menu">
+      <div [ngClass]="isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
-          <ul role="tablist">
+          <ul role="tablist" [ngClass]="{ ubs: isUBS }">
             <li *ngFor="let link of navLinks" tabindex="0" role="listitem">
               <a *ngIf="link.url; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer">
                 {{ link.name | translate }}
@@ -90,7 +90,7 @@
             </li>
             <!-- Search icon -->
             <li
-              *ngIf="!isAllSearchOpen && !isUBS"
+              *ngIf="!isAllSearchOpen"
               aria-label="site search"
               class="search-icon"
               role="search"
@@ -106,19 +106,13 @@
               aria-label="language switcher"
               role="menu"
               tabindex="0"
-              [ngClass]="{
-                'add-shadow': langDropdownVisible,
-                'header_lang-switcher-wrp header_navigation-menu-right-list': true,
-                'ubs-lang-switcher': isUBS
-              }"
+              [ngClass]="{ 'add-shadow': langDropdownVisible, 'header_lang-switcher-wrp header_navigation-menu-right-list': true }"
               (click)="langDropdownVisible = !langDropdownVisible"
               (clickOutSide)="autoCloseLangDropDown($event)"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible"
             >
               <li role="option" aria-label="english">
-                <span [ngStyle]="{ 'font-size': isUBS && '18px', 'font-weight': isUBS && '800' }" aria-hidden="true">{{
-                  arrayLang[0].lang
-                }}</span>
+                <span aria-hidden="true">{{ arrayLang[0].lang }}</span>
                 <img
                   alt="language switcher"
                   aria-hidden="true"
@@ -135,7 +129,7 @@
                     [attr.aria-label]="lang.lang"
                     (click)="changeCurrentLanguage(lang.lang, index)"
                   >
-                    <span [ngClass]="isUBS && 'ubs-lang-switcher-span'" aria-hidden="true">{{ lang.lang }}</span>
+                    <span aria-hidden="true">{{ lang.lang }}</span>
                   </li>
                 </ng-container>
               </ng-container>
@@ -148,12 +142,7 @@
                 tabindex="0"
                 appCloseDropdown
                 [attr.aria-label]="ariaStatus"
-                [ngClass]="{
-                  'd-none': toggleBurgerMenu,
-                  'add-shadow': dropdownVisible,
-                  'item-list-margin': dropdownVisible && isUBS,
-                  'ubs-user-cabinet': isUBS
-                }"
+                [ngClass]="{ 'd-none': toggleBurgerMenu, 'add-shadow': dropdownVisible, 'item-list-margin': dropdownVisible && isUBS }"
                 (click)="toggleDropdown()"
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
