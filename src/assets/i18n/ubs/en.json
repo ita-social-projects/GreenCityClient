@@ -6,7 +6,7 @@
     "max-length-street": "The field should contain 1-120 characters.",
     "max-length-house": "The field should contain 1-4 characters.",
     "max-length-entrance": "The field should contain 1-2 characters.",
-    "max-length-comment": "Maximum 255 characters are allowed.",
+    "max-length-comment": "The maximum character length is 255 characters, including alphabetic, numeric and all special characters.",
     "minlength-short": "The field contains insufficient characters.",
     "max-length": "The field should contain 1-30 characters.",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed."
