@@ -30,7 +30,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   selectedCardId: number;
   selectedCard;
   isLoading = true;
-  ourTariffs;
   amount;
   currentCourierId: number;
   saveBTNClicked: boolean;
@@ -82,11 +81,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.initializeLocationId();
     this.getLocations();
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      this.getService();
       this.getAllTariffsForService();
+      this.getService();
       this.getCouriers();
     });
-    this.getOurTariffs();
   }
 
   private initForm(): void {
@@ -180,7 +178,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.getCouriers();
         });
-
       this.changeDescription();
     }
 
@@ -191,7 +188,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.getCouriers();
         });
-
       this.changeDescription();
     }
     this.saveBTNClicked = true;
@@ -249,17 +245,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  async getOurTariffs() {
-    try {
-      await this.tariffsService.setAllTariffsForService();
-      const result = await this.tariffsService.allTariffServices;
-      this.ourTariffs = result;
-      return this.ourTariffs;
-    } catch (e) {
-      return Error('getOurTariffs Error');
-    }
-  }
-
   async initializeLocationId(): Promise<number> {
     this.locationId = await this.getLocationId();
     return this.locationId;
@@ -267,10 +252,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   routeParams(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((res) => {
-      this.getAllTariffsForService();
       this.selectedCardId = Number(res.id);
       this.currentLocation = Number(res.id);
       this.getService();
+      this.getAllTariffsForService();
     });
   }
 
@@ -318,13 +303,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getAllTariffsForService(): void {
+    const tariffId = this.selectedCardId;
     this.isLoadBar = true;
     this.tariffsService
-      .getAllTariffsForService()
+      .getAllTariffsForService(tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Bag[]) => {
         this.bags = res;
-        this.filterBags();
         this.isLoadBar = false;
       });
   }
@@ -339,16 +324,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.service = res;
         this.isLoadBar1 = false;
       });
-  }
-
-  private async filterBags(): Promise<any> {
-    const locationId = await this.getLocationId();
-
-    this.bags = this.bags
-      .filter((value) => {
-        return value.locationId === locationId;
-      })
-      .sort((a, b) => b.price - a.price);
   }
 
   async setCourierId(): Promise<any> {
