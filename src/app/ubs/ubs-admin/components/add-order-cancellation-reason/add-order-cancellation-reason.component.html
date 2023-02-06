@@ -21,7 +21,7 @@
     </div>
     <div
       class="error-message"
-      *ngIf="cancellationReason == 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
+      *ngIf="cancellationReason === 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
     >
       <div>{{ 'order-cancel.reason.comment-empty-message' | translate }}</div>
     </div>
