@@ -866,6 +866,7 @@
     "required": "This field is required.",
     "email-wrong": "Please enter the correct email.",
     "number-wrong": "Enter the correct phone number",
+    "number-format": "Only 9 digits starting with: +380",
     "minlength-short": "The field contains insufficient characters.",
     "max-length": "The field should contain 1-30 characters.",
     "max-length-street": "The field should contain 1-120 characters.",
