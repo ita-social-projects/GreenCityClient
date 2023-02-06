@@ -603,45 +603,10 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.alternativeEmailDisplay).toBe(true);
   });
 
-  it('method getErrorMessageKey should return error message for alternativeEmail maxLenght', () => {
-    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
-    const result = component.getErrorMessageKey(formControlMock, true);
-
-    expect(result).toBe('ubs-client-profile.error-message-if-edit-alternativeEmail');
-  });
-
   it('method toggleAlternativeEmail should toggle input for alternative email', () => {
     component.alternativeEmailDisplay = true;
     component.toggleAlternativeEmail();
     expect(component.alternativeEmailDisplay).toBeFalsy();
-  });
-
-  it('method getErrorMessageKey should return correct error message key - required', () => {
-    const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
-    const result = component.getErrorMessageKey(formControlMock);
-
-    expect(result).toBe('input-error.required');
-  });
-
-  it('method getErrorMessageKey should return correct error message key - maxlength', () => {
-    const formControlMock = { errors: { maxlength: true } } as unknown as AbstractControl;
-    const result = component.getErrorMessageKey(formControlMock);
-
-    expect(result).toBe('ubs-client-profile.error-message-if-edit-name-surname');
-  });
-
-  it('method getErrorMessageKey should return correct error message key - pattern', () => {
-    const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
-    const result = component.getErrorMessageKey(formControlMock);
-
-    expect(result).toBe('input-error.pattern');
-  });
-
-  it('method getErrorMessageKey should return correct error message key - empty message key', () => {
-    const formControlMock = { errors: {} } as unknown as AbstractControl;
-    const result = component.getErrorMessageKey(formControlMock);
-
-    expect(result).toBe(undefined);
   });
 
   describe('Testing controls for the form:', () => {

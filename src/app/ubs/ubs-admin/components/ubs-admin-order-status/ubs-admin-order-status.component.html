@@ -63,7 +63,7 @@
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
           <div class="validation" *ngIf="adminComment.invalid && adminComment.touched">
-            <app-ubs-input-error [formElement]="adminComment" [controlName]="'adminComment'"> </app-ubs-input-error>
+            <app-ubs-input-error [formElement]="adminComment"> </app-ubs-input-error>
           </div>
         </div>
       </div>

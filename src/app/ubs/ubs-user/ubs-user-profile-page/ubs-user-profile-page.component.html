@@ -31,9 +31,7 @@
               <input *ngIf="isEditing" type="text" class="form-control recipientName" id="recipientName" formControlName="recipientName" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
               <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
-                <div class="error-message">
-                  {{ getErrorMessageKey(getControl('recipientName')) | translate }}
-                </div>
+                <app-ubs-input-error [formElement]="getControl('recipientName')"> </app-ubs-input-error>
               </div>
             </div>
             <div [ngClass]="{ inputMargin: isEditing }" class="form-group">
@@ -47,9 +45,7 @@
               />
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
               <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
-                <div class="error-message">
-                  {{ getErrorMessageKey(getControl('recipientSurname')) | translate }}
-                </div>
+                <app-ubs-input-error [formElement]="getControl('recipientSurname')"> </app-ubs-input-error>
               </div>
             </div>
           </div>
@@ -87,9 +83,7 @@
                   aria-describedby="emailHelp"
                 />
                 <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
-                  <div class="error-message">
-                    {{ getErrorMessageKey(getControl('alternateEmail'), true) | translate }}
-                  </div>
+                  <app-ubs-input-error [formElement]="getControl('alternateEmail')"> </app-ubs-input-error>
                 </div>
               </div>
             </div>
@@ -111,9 +105,7 @@
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
               <div *ngIf="getControl('recipientPhone').invalid && getControl('recipientPhone').touched">
-                <div class="error-message">
-                  {{ getErrorMessageKey(getControl('recipientPhone')) | translate }}
-                </div>
+                <app-ubs-input-error [formElement]="getControl('recipientPhone')"> </app-ubs-input-error>
               </div>
             </div>
             <div class="form-group col-sm-6">
@@ -231,11 +223,7 @@
                       class="validation"
                       *ngIf="address.get(getLangValue('city', 'cityEn')).invalid && address.get(getLangValue('city', 'cityEn')).touched"
                     >
-                      <app-ubs-input-error
-                        [formElement]="address.get(getLangValue('city', 'cityEn'))"
-                        [controlName]="getLangValue('city', 'cityEn')"
-                      >
-                      </app-ubs-input-error>
+                      <app-ubs-input-error [formElement]="address.get(getLangValue('city', 'cityEn'))"> </app-ubs-input-error>
                     </div>
                   </div>
                 </div>
@@ -267,33 +255,28 @@
                         address.get(getLangValue('street', 'streetEn')).invalid && address.get(getLangValue('street', 'streetEn')).touched
                       "
                     >
-                      <app-ubs-input-error
-                        [formElement]="address.get(getLangValue('street', 'streetEn'))"
-                        [controlName]="getLangValue('street', 'streetEn')"
-                      >
-                      </app-ubs-input-error>
+                      <app-ubs-input-error [formElement]="address.get(getLangValue('street', 'streetEn'))"></app-ubs-input-error>
                     </div>
                   </div>
                   <div class="form-group input-margin houseNumber">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
                     <input type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
                     <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
-                      <app-ubs-input-error [formElement]="address.get('houseNumber')" [controlName]="'houseNumber'"> </app-ubs-input-error>
+                      <app-ubs-input-error [formElement]="address.get('houseNumber')"> </app-ubs-input-error>
                     </div>
                   </div>
                   <div class="form-group input-margin houseCorpus">
                     <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
                     <input type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
                     <div class="validation" *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
-                      <app-ubs-input-error [formElement]="address.get('houseCorpus')" [controlName]="'houseCorpus'"> </app-ubs-input-error>
+                      <app-ubs-input-error [formElement]="address.get('houseCorpus')"> </app-ubs-input-error>
                     </div>
                   </div>
                   <div class="form-group entranceNumber">
                     <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
                     <input type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
                     <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
-                      <app-ubs-input-error [formElement]="address.get('entranceNumber')" [controlName]="'entranceNumber'">
-                      </app-ubs-input-error>
+                      <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
                     </div>
                   </div>
                 </div>

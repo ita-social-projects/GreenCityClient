@@ -25,7 +25,14 @@
   </form>
   <div class="btn-container">
     <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
-    <button type="submit" class="agree btn" (click)="save()" [disabled]="commentForm.invalid && commentForm.touched">
+    <button
+      type="submit"
+      class="agree btn"
+      (click)="save()"
+      [disabled]="
+        (commentForm.invalid && commentForm.touched) || (cancellationReason == 'OTHER' && !commentForm.get('cancellationComment').value)
+      "
+    >
       {{ 'order-cancel.btn.add' | translate }}
     </button>
   </div>

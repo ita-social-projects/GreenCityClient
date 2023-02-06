@@ -7,12 +7,7 @@
       <label>{{ 'personal-info.info-name' | translate }}</label>
       <input formControlName="firstName" type="text" class="shadow-none form-control" />
       <div class="validation" *ngIf="getControl('firstName').invalid && getControl('firstName').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('firstName')"
-          [firstNameFieldValue]="getControl('firstName').value"
-          [controlName]="'firstName'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('firstName')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
@@ -26,32 +21,21 @@
         [imask]="{ mask: phoneMask }"
       />
       <div class="validation" *ngIf="getControl('phoneNumber').invalid && getControl('phoneNumber').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('phoneNumber')"
-          [phoneNumberFieldValue]="getControl('phoneNumber').value"
-          [controlName]="'phoneNumber'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('phoneNumber')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label>{{ 'personal-info.info-surname' | translate }}</label>
       <input formControlName="lastName" type="text" class="shadow-none form-control" />
       <div class="validation" *ngIf="getControl('lastName').invalid && getControl('lastName').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('lastName')"
-          [lastNameFieldValue]="getControl('lastName').value"
-          [controlName]="'lastName'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('lastName')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label>Email</label>
       <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
       <div class="validation" *ngIf="getControl('email').invalid && getControl('email').touched">
-        <app-ubs-input-error [formElement]="getControl('email')" [emailFieldValue]="getControl('email').value" [controlName]="'email'">
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('email')"> </app-ubs-input-error>
       </div>
     </div>
   </div>
@@ -71,12 +55,7 @@
         placeholder="{{ 'personal-info.info-name' | translate }}"
       />
       <div class="validation" *ngIf="getControl('anotherClientFirstName').invalid && getControl('anotherClientFirstName').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('anotherClientFirstName')"
-          [anotherClientFirstNameFieldValue]="getControl('anotherClientFirstName').value"
-          [controlName]="'anotherClientFirstName'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('anotherClientFirstName')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
@@ -90,12 +69,7 @@
         [imask]="{ mask: phoneMask }"
       />
       <div class="validation" *ngIf="getControl('anotherClientPhoneNumber').invalid && getControl('anotherClientPhoneNumber').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('anotherClientPhoneNumber')"
-          [anotherClientPhoneNumberFieldValue]="getControl('anotherClientPhoneNumber').value"
-          [controlName]="'anotherClientPhoneNumber'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('anotherClientPhoneNumber')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
@@ -107,24 +81,14 @@
         placeholder="{{ 'personal-info.info-surname' | translate }}"
       />
       <div class="validation" *ngIf="getControl('anotherClientLastName').invalid && getControl('anotherClientLastName').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('anotherClientLastName')"
-          [anotherClientLastNameFieldValue]="getControl('anotherClientLastName').value"
-          [controlName]="'anotherClientLastName'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('anotherClientLastName')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
       <label>Email ({{ 'personal-info.info-optionally' | translate }})</label>
       <input formControlName="anotherClientEmail" type="text" class="shadow-none form-control" placeholder="example@email.com" />
       <div class="validation" *ngIf="getControl('anotherClientEmail').invalid && getControl('anotherClientEmail').touched">
-        <app-ubs-input-error
-          [formElement]="getControl('anotherClientEmail')"
-          [anotherClientEmailFieldValue]="getControl('anotherClientEmail').value"
-          [controlName]="'anotherClientEmail'"
-        >
-        </app-ubs-input-error>
+        <app-ubs-input-error [formElement]="getControl('anotherClientEmail')"> </app-ubs-input-error>
       </div>
     </div>
   </div>
@@ -183,7 +147,7 @@
       (blur)="changeAddressComment()"
     ></textarea>
     <div class="validation" *ngIf="getControl('addressComment').invalid && getControl('addressComment').touched">
-      <app-ubs-input-error [formElement]="getControl('addressComment')" [controlName]="'addressComment'"> </app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getControl('addressComment')"> </app-ubs-input-error>
     </div>
   </div>
 </form>

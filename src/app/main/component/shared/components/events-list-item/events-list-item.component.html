@@ -1,55 +1,81 @@
 <div class="card-wrapper">
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
-    <div class="event-stars">
-      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="true"> </rating>
+    <div class="event-stars" *ngIf="!isEventOpen">
+      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
       <ng-template #star let-index="index" let-value="value">
         <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
       </ng-template>
     </div>
-    <div class="event-flags">
+    <div class="event-flags" *ngIf="isEventOpen">
       <span class="flag"></span>
     </div>
-    <div class="event-title">
-      <h3>{{ event.title }}</h3>
+    <div class="event-participants" *ngIf="attendees.length">
+      <div class="event-participants-avatars">
+        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+          <img [src]="avatar" alt="" />
+        </div>
+      </div>
+      <div class="event-participants-count-container">
+        <span class="event-participants-count">+{{ attendees.length }}</span>
+      </div>
     </div>
   </div>
 
   <div class="main-container">
+    <ul class="ul-eco-buttons" aria-label="filter by items">
+      <li *ngFor="let tag of activeTags">
+        <a role="button" class="tag" tabindex="0">
+          <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
+          <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
+        </a>
+      </li>
+    </ul>
     <div *ngIf="event.dates[0]" class="date-container">
       <span class="clock"></span>
       <div class="date">
         {{ event.dates[0].startDate | date }}
       </div>
-      <h5>{{ ' | ' }}</h5>
-      <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}...</div>
+      <span class="time-divider">|</span>
+      <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
     </div>
-    <div *ngIf="event.dates[0]" class="date-container">
-      <div>
-        <span class="place"></span>
-      </div>
-      <div *ngIf="event.dates[0].coordinates?.addressEn; else elseBlock">
-        {{ event.dates[0].coordinates.addressEn }}
-      </div>
-      <ng-template #elseBlock>{{ event.dates[0].onlineLink }}</ng-template>
+    <div class="date-container">
+      <span class="lock-open" *ngIf="isEventOpen"></span>
+      <span class="lock-closed" *ngIf="!isEventOpen"></span>
+      <div *ngIf="isEventOpen">{{ 'homepage.events.open' | translate }}</div>
+      <div *ngIf="!isEventOpen">{{ 'homepage.events.completed' | translate }}</div>
+      <span class="time-divider" *ngIf="isEventOpen">|</span>
+      <div *ngIf="isRegistered && isEventOpen">{{ 'homepage.events.registered' | translate }}</div>
+    </div>
+    <div class="event-title">
+      <h3 [innerHTML]="cutTitle()"></h3>
+    </div>
+    <div class="description" [innerHTML]="cutDescription()"></div>
+  </div>
+  <div class="btn-group">
+    <button class="secondary-global-button event-button" (click)="routeToEvent()">
+      {{ 'event.btn-top' | translate }}
+    </button>
+    <button class="{{ styleBtn }} event-button" [hidden]="isJoinBtnHidden" (click)="buttonAction()">{{ nameBtn | translate }}</button>
+  </div>
+  <div class="additional-info">
+    <div class="date">
+      <img src="assets/events-icons/date.png" class="date-image" alt="date" />
+      <p>{{ newDate | translate }}</p>
+      <p></p>
     </div>
 
-    <div>
-      <ul class="ul-eco-buttons" aria-label="filter by items">
-        <li *ngFor="let tag of itemTags">
-          <a role="button" class="tag" [ngClass]="{ 'global-tag-clicked': tag.isActive }" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
-          </a>
-        </li>
-      </ul>
+    <div class="author">
+      <img src="assets/events-icons/author.png" class="author-image" alt="author" />
+      <p>{{ author }}</p>
     </div>
-
-    <div class="description" [innerHTML]="event.description"></div>
-    <div class="btn-group">
-      <button class="secondary-global-button event-button" (click)="routeToEvent()">
-        {{ 'event.btn-top' | translate }}
-      </button>
-      <button class="{{ styleBtn }} event-button" [hidden]="isJoinBtnHidden" (click)="buttonAction()">{{ nameBtn | translate }}</button>
+    <div class="frame">
+      <img src="assets/events-icons/frame.png" class="frame-image" alt="frame" />
+      <p>{{ '14' }}</p>
+    </div>
+    <div class="like">
+      <img src="assets/events-icons/like.png" class="like-image" alt="like" />
+      <p>{{ '10' }}</p>
     </div>
   </div>
 </div>

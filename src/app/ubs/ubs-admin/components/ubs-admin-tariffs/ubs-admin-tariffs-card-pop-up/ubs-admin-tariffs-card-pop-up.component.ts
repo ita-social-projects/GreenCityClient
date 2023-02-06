@@ -32,8 +32,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     cross: '././assets/img/ubs/cross.svg'
   };
   public name: string;
-  public datePipe = new DatePipe('ua');
-  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  public currentLanguage: string;
+  public datePipe;
+  public newDate;
   unsubscribe: Subject<any> = new Subject();
 
   public couriers: Couriers[];
@@ -86,6 +87,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
+    });
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
+      this.datePipe = new DatePipe(this.currentLanguage);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
     this.setStationPlaceholder();
     this.setCountOfSelectedCity();

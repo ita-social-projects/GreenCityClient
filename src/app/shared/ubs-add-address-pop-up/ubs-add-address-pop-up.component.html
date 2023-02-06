@@ -35,7 +35,7 @@
         addAddressForm.get(this.getLangValue('city', 'cityEn')).invalid && addAddressForm.get(this.getLangValue('city', 'cityEn')).touched
       "
     >
-      <app-ubs-input-error [formElement]="getLangValue(city, cityEn)" [controlName]="getLangValue('city', 'cityEn')"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getLangValue(city, cityEn)"></app-ubs-input-error>
     </div>
   </div>
 
@@ -68,8 +68,7 @@
         addAddressForm.get(this.getLangValue('street', 'streetEn')).touched
       "
     >
-      <app-ubs-input-error [formElement]="getLangValue(street, streetEn)" [controlName]="getLangValue('street', 'streetEn')">
-      </app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getLangValue(street, streetEn)"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
@@ -82,7 +81,7 @@
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
       />
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
-        <app-ubs-input-error [formElement]="houseNumber" [controlName]="'houseNumber'"></app-ubs-input-error>
+        <app-ubs-input-error [formElement]="houseNumber"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
@@ -94,7 +93,7 @@
         placeholder="{{ 'personal-info.pop-up-corps' | translate }}"
       />
       <div class="validation" *ngIf="houseCorpus.invalid && houseCorpus.touched">
-        <app-ubs-input-error [formElement]="houseCorpus" [controlName]="'houseCorpus'"></app-ubs-input-error>
+        <app-ubs-input-error [formElement]="houseCorpus"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
@@ -106,7 +105,7 @@
         placeholder="{{ 'personal-info.pop-up-entrance' | translate }}"
       />
       <div class="validation" *ngIf="entranceNumber.invalid && entranceNumber.touched">
-        <app-ubs-input-error [formElement]="entranceNumber" [controlName]="'entranceNumber'"></app-ubs-input-error>
+        <app-ubs-input-error [formElement]="entranceNumber"></app-ubs-input-error>
       </div>
     </div>
   </div>
@@ -136,10 +135,7 @@
         addAddressForm.get(this.getLangValue('district', 'districtEn')).touched
       "
     >
-      <app-ubs-input-error
-        [formElement]="getLangValue(district, districtEn)"
-        [controlName]="getLangValue('district', 'districtEn')"
-      ></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getLangValue(district, districtEn)"></app-ubs-input-error>
     </div>
   </div>
   <div class="form-group comment-section">
@@ -150,7 +146,7 @@
       placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
     ></textarea>
     <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
-      <app-ubs-input-error [formElement]="addressComment" [controlName]="'addressComment'"> </app-ubs-input-error>
+      <app-ubs-input-error [formElement]="addressComment"> </app-ubs-input-error>
     </div>
   </div>
 </form>

@@ -80,7 +80,7 @@
           </div>
           <div *ngIf="userInfoDto.controls['recipientPhoneNumber'].invalid && userInfoDto.controls['recipientPhoneNumber'].touched">
             <div class="error-message">
-              {{ getErrorMessage(userInfoDto.controls['recipientPhoneNumber']) | translate }}
+              {{ getErrorMessage(userInfoDto.controls['recipientPhoneNumber'], 'recipientPhoneNumber') | translate }}
             </div>
           </div>
           <div class="form-group">
@@ -95,7 +95,7 @@
               formControlName="recipientEmail"
             />
             <div class="validation" *ngIf="recipientEmail.invalid && recipientEmail.touched">
-              <app-ubs-input-error [formElement]="recipientEmail" [controlName]="'recipientEmail'"> </app-ubs-input-error>
+              <app-ubs-input-error [formElement]="recipientEmail"> </app-ubs-input-error>
             </div>
           </div>
         </div>

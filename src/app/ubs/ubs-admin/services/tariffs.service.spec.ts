@@ -125,11 +125,11 @@ describe('TariffsService', () => {
   });
 
   it('should get all tariffs', () => {
-    service.getAllTariffsForService().subscribe((data) => {
+    service.getAllTariffsForService(5).subscribe((data) => {
       expect(data).toBe(tariff);
     });
 
-    httpTest('/ubs/superAdmin/getTariffService', 'GET', tariff);
+    httpTest('/ubs/superAdmin/5/getTariffService', 'GET', tariff);
   });
 
   it('should create new tariff', () => {

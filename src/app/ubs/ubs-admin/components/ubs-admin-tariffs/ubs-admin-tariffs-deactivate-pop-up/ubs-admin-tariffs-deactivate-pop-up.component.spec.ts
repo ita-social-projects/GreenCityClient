@@ -212,10 +212,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -252,10 +250,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -292,10 +288,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -332,10 +326,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     }
   ];
 
@@ -375,10 +367,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -415,10 +405,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -455,10 +443,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -495,10 +481,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     }
   ];
 
