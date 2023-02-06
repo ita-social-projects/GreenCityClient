@@ -31,7 +31,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 
-fdescribe('UbsAdminTariffsLocationDashboardComponent', () => {
+describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
   let httpMock: HttpTestingController;
