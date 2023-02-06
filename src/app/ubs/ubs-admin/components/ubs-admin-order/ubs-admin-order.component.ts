@@ -63,6 +63,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
+  public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
