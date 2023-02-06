@@ -118,21 +118,21 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       regionEn: [this.data.edit ? this.data.address.regionEn : this.bigRegionsList[1].regionName, Validators.required],
       city: [
         this.data.edit ? this.data.address.city : null,
-        [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
       ],
       cityEn: [
         this.data.edit ? this.data.address.cityEn : null,
-        [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
       ],
       district: [this.data.edit ? this.data.address.district : '', Validators.required],
       districtEn: [this.data.edit ? this.data.address.districtEn : '', Validators.required],
       street: [
         this.data.edit ? this.data.address.street : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
       ],
       streetEn: [
         this.data.edit ? this.data.address.streetEn : '',
-        [Validators.required, Validators.minLength(3), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
       ],
       houseNumber: [
         this.data.edit ? this.data.address.houseNumber : '',

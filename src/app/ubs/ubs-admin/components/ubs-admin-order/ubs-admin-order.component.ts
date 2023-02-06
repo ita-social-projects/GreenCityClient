@@ -187,26 +187,26 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
         ],
         recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern(Patterns.adminPhone)]],
-        recipientEmail: [this.userInfo.recipientEmail, [Validators.email]]
+        recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
       }),
       addressExportDetailsDto: this.fb.group({
         addressRegion: [this.addressInfo.addressRegion, Validators.required],
         addressRegionEng: [this.addressInfo.addressRegionEng, Validators.required],
         addressCity: [
           this.addressInfo.addressCity,
-          [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
         ],
         addressCityEng: [
           this.addressInfo.addressCityEng,
-          [Validators.required, Validators.minLength(3), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
         ],
         addressStreet: [
           this.addressInfo.addressStreet,
-          [Validators.required, Validators.minLength(3), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+          [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
         ],
         addressStreetEng: [
           this.addressInfo.addressStreetEng,
-          [Validators.required, Validators.minLength(3), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+          [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
         ],
         addressHouseNumber: [
           this.addressInfo.addressHouseNumber,
