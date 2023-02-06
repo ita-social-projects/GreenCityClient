@@ -103,19 +103,6 @@ button {
   flex-direction: column-reverse;
 }
 
-.friend-without-photo {
-  display: flex;
-  flex-direction: row;
-}
-
-.rate-without-photo {
-  font-size: 14px;
-  font-weight: 700;
-  font-family: var(--primary-font);
-  width: 40px;
-  background: none;
-}
-
 @media only screen and (min-width: 768px) {
   .friend-item {
     width: 554px;
