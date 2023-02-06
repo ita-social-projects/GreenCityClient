@@ -53,6 +53,7 @@
     "order-title": "Послуги",
     "choose-location": "Змінити локацію",
     "current-location": "Ваша локація: {{currentLocation}}",
+    "title-without-location": "Оберіть, будь ласка, локацію",
     "order-content": "Зверніть, будь ласка, увагу на те, що мінімальна сума замовлення має складати 500.00 грн.",
     "service": "Послуга",
     "volume": "Об'єм",

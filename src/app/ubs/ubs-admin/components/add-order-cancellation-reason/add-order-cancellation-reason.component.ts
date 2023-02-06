@@ -75,4 +75,14 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     };
     this.dialogRef.close(res);
   }
+
+  public disableButton(): boolean {
+    const isInvalidCommentForm = this.commentForm.invalid && this.commentForm.touched && !this.cancellationReason;
+    const isOtherCancellationReasonInvalid = this.cancellationReason === 'OTHER' && !this.commentForm.get('cancellationComment').value;
+
+    if (isInvalidCommentForm || isOtherCancellationReasonInvalid) {
+      return true;
+    }
+    return false;
+  }
 }

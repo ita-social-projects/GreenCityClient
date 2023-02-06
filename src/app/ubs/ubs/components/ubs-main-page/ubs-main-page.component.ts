@@ -25,9 +25,9 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   isFetching: boolean;
   currentLocation: string;
   public isAdmin = false;
-  public boxWidth;
+  public boxWidth: number;
   public lineSize = Array(4).fill(0);
-  public screenWidth;
+  public screenWidth: number;
   public isMarqueShown = false;
 
   priceCard = [

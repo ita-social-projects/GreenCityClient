@@ -52,6 +52,7 @@
     "order-title": "Services",
     "choose-location": "Change your location",
     "current-location": "Your location: {{currentLocation}}",
+    "title-without-location": "Choose a location, please",
     "order-content": "Please note that the minimum order amount is 500.00 UAH",
     "service": "Service",
     "volume": "Volume",
