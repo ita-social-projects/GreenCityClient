@@ -112,7 +112,10 @@
       "delete-no": "ні",
       "my-space": {
         "tag-title": "Мої події"
-      }
+      },
+      "open": "Відкрито",
+      "registered": "Є зареєстровані",
+      "completed": "Подія завершена"
     },
     "eco-advices": {
       "caption": "Еко поради"

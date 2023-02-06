@@ -112,7 +112,10 @@
       "delete-no": "no",
       "my-space": {
         "tag-title": "My Events"
-      }
+      },
+      "open": "Open",
+      "registered": "Anyone registered",
+      "completed": "Event completed"
     },
     "subscription": {
       "caption": "Receive interesting news",
