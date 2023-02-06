@@ -118,10 +118,8 @@ export interface TariffCard {
   creator: string;
   createdAt: string;
   courierLimit: string;
-  minAmountOfBags: number;
-  maxAmountOfBags: number;
-  minPriceOfOrder: number;
-  maxPriceOfOrder: number;
+  min: number;
+  max: number;
 }
 
 export interface RegionDto {
