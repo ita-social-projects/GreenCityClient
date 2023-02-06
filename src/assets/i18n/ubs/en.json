@@ -232,7 +232,7 @@
     "contact": "contact us"
   },
   "ubs-homepage": {
-    "general": "PICK UP from UBS",
+    "general": "Convenient pick up service from UBS provides fast garbage collection",
     "header": {
       "caption": "NO WASTE — NO STRESS!",
       "content": "You sort - we recycle!",
@@ -255,22 +255,34 @@
         "caption": "Rules",
         "content": {
           "li_1": "Minimum order within Kyiv - 240 l",
-          "li_2": "Minimum order within a radius of 20 km from Kyiv (2400 l). Lifehack: team up with your neighbors 😉",
+          "li_2": "Minimum order within a radius of 20 km from Kyiv (2400 l).",
+          "li_2_1": "Lifehack: team up with your neighbors ☝️",
           "li_3": "One package should not weigh more than 30 kg"
+        }
+      },
+      "bonuses": {
+        "caption": "Bonus",
+        "content": {
+          "li_1": "Along with paid packages, the courier can pick up an unlimited number of some extrapositions of raw materials for processing for free.",
+          "li_2": "Mandatory condition: they must be clean, dry and packed in a frame bag.",
+          "li_3": "See the list ",
+          "li_3.1": "here"
         }
       },
       "price": {
         "caption": "The cost of PICK UP service",
         "price-title": {
-          "li_1": "280 UAH / 1 package",
-          "li_2": "220 UAH / 1 package",
-          "li_3": "110 UAH / 1 package"
+          "li_1": "280 UAH",
+          "li_2": "220 UAH",
+          "li_3": "110 UAH",
+          "li_4": "per 1 package"
         },
         "price-description": {
-          "li_1": "with recyclable materials and illiquid plastics with a volume of 120l.",
-          "li_2": "with textile waste of 60l size.",
-          "li_3": "with textile waste of 20l size."
+          "li_1": "With recyclable materials and illiquid plastics with a volume of 120l.",
+          "li_2": "With textile waste of 60l size.",
+          "li_3": "With textile waste of 20l size."
         },
+        "caption-steps": "To order PICK UP service:",
         "steps-title": {
           "li_1": "Register",
           "li_2": "Order and pay for the service",
@@ -285,10 +297,13 @@
         }
       },
       "how-works": {
-        "header": "Working hours PICK UP",
+        "header": {
+          "pre_1": "Working hours",
+          "pre_2": "Route forming time"
+        },
         "time": {
-          "pre_1": "On weekdays - from 10:00 to 17:00.",
-          "pre_2": "Route forming time is 2-5 business days."
+          "pre_1": "Mondey-Friday from 10:00 to 17:00.",
+          "pre_2": "From 2 to 5 business days."
         },
         "content": {
           "pre_1": "Get free products shipping",
@@ -304,7 +319,7 @@
   },
   "user": {
     "lower-nav-bar": {
-      "about-us": "About us",
+      "about-us": "About service",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
     },
