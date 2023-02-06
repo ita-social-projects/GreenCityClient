@@ -7,8 +7,6 @@ $ubs-header-height: 116px;
   background-color: transparent;
 }
 
-/* stylelint-disable */
-
 .active-link {
   color: var(--primary-green) !important;
 
@@ -123,7 +121,20 @@ header {
 
   // hide GreenCity for prod
   .header_navigation-menu-left li:nth-child(4) a {
-    display: none;
+    //display: none;
+  }
+}
+
+.header_sign-in-link {
+  font-size: 12px;
+  font-weight: 600;
+  width: 70px;
+  padding: 0 12px;
+
+  a {
+    color: var(--secondary-dark-green);
+    display: block;
+    min-width: 40px;
   }
 }
 
@@ -623,5 +634,3 @@ ul .ubs-user-cabinet {
     }
   }
 }
-
-/* stylelint-enable */
