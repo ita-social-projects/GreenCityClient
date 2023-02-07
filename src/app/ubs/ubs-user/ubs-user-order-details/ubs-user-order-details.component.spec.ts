@@ -6,6 +6,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UbsUserOrderDetailsComponent } from './ubs-user-order-details.component';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsUserOrderDetailsComponent', () => {
   let component: UbsUserOrderDetailsComponent;
@@ -52,10 +53,16 @@ describe('UbsUserOrderDetailsComponent', () => {
     }
   };
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrderDetailsComponent, LocalizedCurrencyPipe],
       imports: [TranslateModule.forRoot()],
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -90,15 +97,8 @@ describe('UbsUserOrderDetailsComponent', () => {
     });
   });
 
-  it(' should return ua Value by getLangValue', () => {
-    component.currentLanguage = 'ua';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLanguage = 'en';
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });

@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { IUserOrderInfo, CheckPaymentStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
@@ -16,7 +17,7 @@ export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public certificatesAmount: number;
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor(private localStorageService: LocalStorageService, private langService: LanguageService) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
       this.currentLanguage = lang;
@@ -32,7 +33,7 @@ export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
-    return this.currentLanguage === 'ua' ? uaValue : enValue;
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {
