@@ -558,7 +558,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
   }
 
-  public getLangValue(uaValue, enValue): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
