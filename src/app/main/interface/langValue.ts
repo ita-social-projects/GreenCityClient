@@ -1,3 +1,3 @@
 import { AbstractControl } from '@angular/forms';
 
-export type langValue = string | string[] | AbstractControl;
+export type langValue = string | any[] | AbstractControl;

@@ -483,7 +483,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   private setCard(): void {
-    this.cards = this.currentLang === 'ua' ? this.cardsUk : this.cardsEn;
+    this.cards = this.languageService.getLangValue(this.cardsUk, this.cardsEn) as any[];
   }
 
   checkRegionValue(value): void {

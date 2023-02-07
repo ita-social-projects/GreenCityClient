@@ -203,7 +203,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs', 'getLangValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  languageServiceMock.getLangValue.and.returnValue('fakeValue');
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
@@ -322,7 +324,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.selectCity(eventMock as any);
     expect(component.selectedCities).toEqual([
       { name: 'фейк2', id: 0, ukrainianName: 'фейк2', englishName: 'fake2' },
-      { name: 'fakeValue', id: 159, ukrainianName: 'фейк', englishName: 'fake' }
+      { name: 'фейк', id: 159, ukrainianName: 'фейк', englishName: 'fake' }
     ]);
   });
 
@@ -745,7 +747,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should get all couriers', () => {
     component.getCouriers();
-    expect(component.couriersName).toEqual(['fakeValue']);
+    expect(component.couriersName).toEqual(['фейкКурєр1']);
   });
 
   it('should set  default value for filtering', () => {
