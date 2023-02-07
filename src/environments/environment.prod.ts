@@ -6,7 +6,7 @@ export const environment = {
   backendChatLink: 'https://greencity-chat.pick-up.city/',
   backendUserLink: 'https://greencity-user.pick-up.city/',
   backendUbsLink: 'https://greencity-ubs.pick-up.city',
-  frontendLink: 'https://www.pick-up.city/GreenCityClient/',
+  frontendLink: 'https://www.pick-up.city/',
   socket: 'https://greencity.pick-up.city/socket',
   chatSocket: 'https://greencity-chat.pick-up.city/socket',
   firebaseConfig: {
