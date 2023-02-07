@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 export enum limitStatus {
   limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
@@ -63,6 +64,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private tariffsService: TariffsService;
   private orderService: OrderService;
   private localStorageService: LocalStorageService;
+  private langService: LanguageService;
   private route: ActivatedRoute;
   private location: Location;
   private fb: FormBuilder;
@@ -74,6 +76,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.tariffsService = injector.get(TariffsService);
     this.orderService = injector.get(OrderService);
     this.localStorageService = injector.get(LocalStorageService);
+    this.langService = injector.get(LanguageService);
     this.route = injector.get(ActivatedRoute);
     this.fb = injector.get(FormBuilder);
   }
@@ -511,7 +514,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
-    return this.currentLanguage === 'ua' ? uaValue : enValue;
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

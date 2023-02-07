@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Locations } from '../../../models/tariffs.interface';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -179,6 +180,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: TariffsService, useValue: tariifsServiceMock },
         { provide: GoogleScript, useValue: googleScriptMock }
