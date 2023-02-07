@@ -42,10 +42,7 @@
             </mat-autocomplete>
             <div
               class="validation"
-              *ngIf="
-                addressExportDetailsDto.get(getLangValue('addressCity', 'addressCityEng')).invalid &&
-                addressExportDetailsDto.get(getLangValue('addressCity', 'addressCityEng')).touched
-              "
+              *ngIf="getLangControl(addressCity, addressCityEng).invalid && getLangControl(addressCity, addressCityEng).touched"
             >
               <app-ubs-input-error [formElement]="getLangControl(addressCity, addressCityEng)"></app-ubs-input-error>
             </div>
@@ -76,10 +73,7 @@
             </mat-autocomplete>
             <div
               class="validation"
-              *ngIf="
-                addressExportDetailsDto.get(getLangValue('addressStreet', 'addressStreetEng')).invalid &&
-                addressExportDetailsDto.get(getLangValue('addressStreet', 'addressStreetEng')).touched
-              "
+              *ngIf="getLangControl(addressStreet, addressStreetEng).invalid && getLangControl(addressStreet, addressStreetEng).touched"
             >
               <app-ubs-input-error [formElement]="getLangControl(addressStreet, addressStreetEng)"> </app-ubs-input-error>
             </div>
@@ -133,8 +127,7 @@
           <div
             class="validation"
             *ngIf="
-              addressExportDetailsDto.get(getLangValue('addressDistrict', 'addressDistrictEng')).invalid &&
-              addressExportDetailsDto.get(getLangValue('addressDistrict', 'addressDistrictEng')).touched
+              getLangControl(addressDistrict, addressDistrictEng).invalid && getLangControl(addressDistrict, addressDistrictEng).touched
             "
           >
             <app-ubs-input-error [formElement]="getLangControl(addressDistrict, addressDistrictEng)"></app-ubs-input-error>
