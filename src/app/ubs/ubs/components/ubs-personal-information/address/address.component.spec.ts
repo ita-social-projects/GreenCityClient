@@ -2,14 +2,21 @@ import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressComponent } from './address.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('AddressComponent', () => {
   let component: AddressComponent;
   let fixture: ComponentFixture<AddressComponent>;
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }],
       declarations: [AddressComponent]
     }).compileComponents();
   }));
@@ -29,14 +36,7 @@ describe('AddressComponent', () => {
   });
 
   it(' should return ua Value by getLangValue', () => {
-    component.currentLang = 'ua';
     const value = (component as any).getLangValue('uaValue', 'enValue');
     expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLang = 'en';
-    const value = (component as any).getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
   });
 });

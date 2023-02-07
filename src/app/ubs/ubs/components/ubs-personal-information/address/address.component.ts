@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-address',
@@ -13,7 +14,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   currentLang: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private localStorageService: LocalStorageService, private langService: LanguageService) {}
 
   ngOnInit(): void {
     this.currentLang = this.localStorageService.getCurrentLanguage();
@@ -23,7 +24,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
-    return this.currentLang === 'ua' ? uaValue : enValue;
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {
