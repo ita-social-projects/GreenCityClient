@@ -24,6 +24,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 interface LocationItem {
   location: string;
@@ -100,6 +101,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
+    private langService: LanguageService,
     private googleScript: GoogleScript,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
@@ -186,7 +188,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
         )
       )
       .flat(2);
-    this.activeCities = this.getLangValue(this.cities, this.enCities);
+    this.activeCities = this.langService.getLangValue(this.cities, this.enCities) as any[];
   }
 
   translate(sourceText: string, input: any): void {
@@ -276,10 +278,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
     });
-  }
-
-  public getLangValue(uaValue, enValue): any {
-    return this.currentLang === 'ua' ? uaValue : enValue;
   }
 
   addEventToAutocomplete(): void {
@@ -407,6 +405,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     const newCityName = item.toLowerCase();
     const cityList = array.map((it) => it.toLowerCase());
     return cityList.includes(newCityName);
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngAfterViewChecked(): void {

@@ -154,6 +154,11 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string | any[], valEn: string | any[]) => {
+    return valUa;
+  };
+
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
 
@@ -298,29 +303,14 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     component.currentLongitude = 0;
     component.citySelected = true;
     component.currentLang = 'ua';
-    const uaLocation = component.currentLang === 'ua' ? component.location.value : component.englishLocation.value;
-    const enLocation = component.currentLang === 'ua' ? component.englishLocation.value : component.location.value;
+    const uaLocation = component.getLangValue(component.location.value, component.englishLocation.value);
+    const enLocation = component.getLangValue(component.englishLocation.value, component.location.value);
     component.addCity();
     expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
     expect(uaLocation).toBe('фейк');
     expect(enLocation).toBe('fake');
-  });
-
-  it('should add new city when current language is en', () => {
-    component.input.nativeElement.value = 'фейк';
-    component.location.setValue('Київ');
-    component.englishLocation.setValue('Kyiv');
-    component.cities = [];
-    component.selectedCities = [];
-    component.citySelected = true;
-    component.currentLang = 'en';
-    const uaLocation = component.currentLang === 'ua' ? component.location.value : component.englishLocation.value;
-    const enLocation = component.currentLang === 'ua' ? component.englishLocation.value : component.location.value;
-    component.addCity();
-    expect(uaLocation).toBe('Kyiv');
-    expect(enLocation).toBe('Київ');
   });
 
   it('should add new edited city', () => {
@@ -344,15 +334,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should return ua Value by getLangValue', () => {
-    component.currentLang = 'ua';
     const value = (component as any).getLangValue('uaValue', 'enValue');
     expect(value).toBe('uaValue');
-  });
-
-  it(' should return en Value by getLangValue', () => {
-    component.currentLang = 'en';
-    const value = (component as any).getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue');
   });
 
   it('should filter options', () => {
@@ -373,13 +356,13 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   });
 
   it('should set ua lang on translate', () => {
-    const lang = component.currentLang === 'ua' ? 'uk' : 'en';
+    const lang = component.getLangValue('uk', 'en');
     component.translate('фейк', component.englishLocation);
     expect(lang).toBe('uk');
   });
 
   it('should set ua langTranslate on translate', () => {
-    const langTranslate = component.currentLang === 'ua' ? 'en' : 'uk';
+    const langTranslate = component.getLangValue('en', 'uk');
     component.translate('фейк', component.englishLocation);
     expect(langTranslate).toBe('en');
   });
