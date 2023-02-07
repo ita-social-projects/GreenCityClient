@@ -89,22 +89,18 @@
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
-            <div class="col-sm-2 offset-sm-8 d-flex justify-content-center form-group count">
-              <span class="shadow-none p-2">
-                <span *ngIf="doneAfterBroughtHimself">-</span>
-                <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
-                  <input
-                    class="shadow-none form-control input p-2 ubs-courier"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    [value]="courierPrice | currency"
-                    (change)="changeWriteOffSum($event)"
-                  />
-                  <span>
-                    {{ '' | localizedCurrency }}
-                  </span>
-                </div>
+            <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
+              <span *ngIf="doneAfterBroughtHimself"> - </span>
+              <input
+                class="shadow-none form-control input p-2 ubs-courier"
+                type="number"
+                step="0.01"
+                min="0"
+                [value]="courierPrice | currency"
+                (change)="changeWriteOffSum($event)"
+              />
+              <span>
+                {{ '' | localizedCurrency }}
               </span>
             </div>
           </li>
