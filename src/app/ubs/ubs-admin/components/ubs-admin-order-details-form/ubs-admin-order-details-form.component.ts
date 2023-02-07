@@ -132,8 +132,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
       actual: this.bagsInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.orderDetails.courierPricePerPackage : 0)
     };
-    if (this.doneAfterBroughtHimself) {
-      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert - this.courierPrice + this.writeoffAtStationSum;
+    if (this.doneAfterBroughtHimself || (this.isVisible && this.showUbsCourier)) {
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert + this.writeoffAtStationSum;
     }
     for (const type in this.bagsInfo.finalSum) {
       if (this.bagsInfo.finalSum[type] < 0) {
