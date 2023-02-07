@@ -221,10 +221,8 @@ export interface CourierLocations {
     nameUk: string;
     regionId: number;
   };
-  maxAmountOfBigBags: number;
-  maxPriceOfOrder: number;
-  minAmountOfBigBags: number;
-  minPriceOfOrder: number;
+  min: number;
+  max: number;
 }
 
 export interface ActiveLocations {
