@@ -51,7 +51,7 @@ class DatePipeMock implements PipeTransform {
   }
 }
 
-fdescribe('EventDetailsComponent', () => {
+describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
   let fixture: ComponentFixture<EventDetailsComponent>;
   let route: ActivatedRoute;
