@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
@@ -27,6 +27,8 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewChecked(): void {
     const isFormRequired = !this.statuses.includes(this.orderStatus);
 
@@ -46,6 +48,8 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
       this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
       this.exportDetailsDto.updateValueAndValidity();
     });
+
+    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
@@ -75,7 +79,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.showTimePicker = false;
   }
 
-  isTimeValid(): Boolean {
+  isTimeValid(): boolean {
     return this.exportDetailsDto.get('timeDeliveryFrom').invalid || this.exportDetailsDto.get('timeDeliveryTo').invalid;
   }
 
