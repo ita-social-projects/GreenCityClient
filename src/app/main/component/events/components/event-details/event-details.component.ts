@@ -90,7 +90,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.setNewsId();
+    this.eventId = this.route.snapshot.params.id;
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
@@ -113,10 +113,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.currentLang = lang;
       this.bindLang(this.currentLang);
     });
-  }
-
-  private setNewsId(): void {
-    this.eventId = this.route.snapshot.params.id;
   }
 
   private getEventById(eventId: number): void {

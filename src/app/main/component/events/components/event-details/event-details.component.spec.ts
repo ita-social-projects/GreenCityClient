@@ -45,7 +45,7 @@ class TranslatePipeMock implements PipeTransform {
 }
 
 @Pipe({ name: 'dateLocalisation' })
-class datePipeMock implements PipeTransform {
+class DatePipeMock implements PipeTransform {
   transform(value: string): string {
     return value;
   }
@@ -134,7 +134,7 @@ fdescribe('EventDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
-      declarations: [EventDetailsComponent, datePipeMock, TranslatePipeMock],
+      declarations: [EventDetailsComponent, DatePipeMock, TranslatePipeMock],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
         { provide: EventsService, useValue: EventsServiceMock },
