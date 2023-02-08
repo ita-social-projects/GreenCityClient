@@ -97,17 +97,19 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.localStorageService.setEditMode('canUserEdit', true);
 
-    this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
-      this.event = res;
-      this.images = [res.titleImage, ...res.additionalImages];
-      this.rate = Math.round(this.event.organizer.organizerRating);
-      this.mapDialogData = {
-        lat: this.event.dates[0].coordinates.latitude,
-        lng: this.event.dates[0].coordinates.longitude
-      };
+    if (this.eventId) {
+      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
+        this.event = res;
+        this.images = [res.titleImage, ...res.additionalImages];
+        this.rate = Math.round(this.event.organizer.organizerRating);
+        this.mapDialogData = {
+          lat: this.event.dates[0].coordinates.latitude,
+          lng: this.event.dates[0].coordinates.longitude
+        };
 
-      this.role = this.verifyRole();
-    });
+        this.role = this.verifyRole();
+      });
+    }
 
     this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
       this.attendees = attendees;
