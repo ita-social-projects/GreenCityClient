@@ -255,6 +255,10 @@ header {
         margin-left: 0;
       }
 
+      &:nth-child(4) {
+        display: none;
+      }
+
       a {
         font-size: 14px;
         line-height: 16px;
