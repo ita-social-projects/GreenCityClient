@@ -1,5 +1,5 @@
 import { Language } from './../../../../i18n/Language';
-import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -41,6 +41,13 @@ class TranslationServiceStub {
   }
   public setDefaultLang() {
     return true;
+  }
+}
+
+@Pipe({ name: 'dateLocalisation' })
+class DatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
   }
 }
 
@@ -146,7 +153,7 @@ describe('EventsListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent, DateLocalisationPipe],
+      declarations: [EventsListItemComponent, DatePipeMock],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },

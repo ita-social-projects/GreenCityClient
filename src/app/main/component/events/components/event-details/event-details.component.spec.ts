@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Pipe, PipeTransform } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -11,31 +11,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
-
-class TranslationServiceStub {
-  public onLangChange = new EventEmitter<any>();
-  public onTranslationChange = new EventEmitter<any>();
-  public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) {}
-  public getLangs() {
-    return 'en-us';
-  }
-  public getBrowserLang() {
-    return '';
-  }
-  public getBrowserCultureLang() {
-    return '';
-  }
-  public use(lang: string) {
-    return '';
-  }
-  public get(key: any): any {
-    return of(key);
-  }
-  public setDefaultLang() {
-    return true;
-  }
-}
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -141,7 +116,7 @@ describe('EventDetailsComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub }
       ],
