@@ -70,16 +70,17 @@
         (change)="onFilesSelected($event)"
       />
     </div>
-
-    <div class="btn-container">
-      <button type="reset" class="disagree btn" (click)="close()">{{ 'order-not-taken-out.btn.cancel' | translate }}</button>
-      <button type="submit" class="agree btn" [disabled]="!addNotTakenOutForm.valid" (click)="send()">
-        {{ 'order-not-taken-out.btn.add' | translate }}
-      </button>
-    </div>
-    <div class="row">
-      <span class="date">{{ 'order-not-taken-out.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
-      <span class="info">{{ 'order-not-taken-out.added' | translate }}: {{ adminName }}</span>
+    <div class="bottom-container">
+      <div class="btn-container">
+        <button type="reset" class="disagree btn" (click)="close()">{{ 'order-not-taken-out.btn.cancel' | translate }}</button>
+        <button type="submit" class="agree btn" [disabled]="!addNotTakenOutForm.valid" (click)="send()">
+          {{ 'order-not-taken-out.btn.add' | translate }}
+        </button>
+      </div>
+      <div class="row">
+        <span class="date">{{ 'order-not-taken-out.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
+        <span class="info">{{ 'order-not-taken-out.added' | translate }}: {{ adminName }}</span>
+      </div>
     </div>
   </div>
 </div>
