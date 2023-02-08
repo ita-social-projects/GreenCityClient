@@ -32,14 +32,6 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
 
     const everyFieldFilled = Object.keys(this.exportDetailsDto.controls).every((key) => !!this.exportDetailsDto.get(key).value);
     const someFieldFilled = Object.keys(this.exportDetailsDto.controls).some((key) => !!this.exportDetailsDto.get(key).value);
-
-    /**
-     * Calculates whether all or some fields are filled.
-     *
-     * @param {boolean} everyFieldFilled - A Boolean value indicating whether every field is filled.
-     * @param {boolean} someFieldFilled - A Boolean value indicating whether some field is filled.
-     * @return {boolean} A Boolean value indicating whether there are not valid fields (either not all or not some fields are filled).
-     */
     const hasNotValidFields = Number(everyFieldFilled) ^ Number(someFieldFilled);
 
     Object.keys(this.exportDetailsDto.controls).forEach((controlName) => {
@@ -53,7 +45,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
       }
       this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
       this.exportDetailsDto.updateValueAndValidity();
-    }); /** */
+    });
   }
 
   ngOnInit(): void {

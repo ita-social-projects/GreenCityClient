@@ -362,24 +362,24 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     return currentEmployee;
   }
 
+  public validateExportDetails() {
+    const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
+    const validatedValues = Object.values(exportDetailsDtoValue).map((val) => (!val ? null : val));
+
+    Object.keys(exportDetailsDtoValue).forEach((key, index) => {
+      exportDetailsDtoValue[key] = validatedValues[index];
+    });
+
+    return exportDetailsDtoValue;
+  }
+
   public onSubmit(): void {
     this.isSubmitted = true;
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
 
-    if (changedValues.exportDetailsDto) {
-      this.formatExporteValue(changedValues.exportDetailsDto);
-    } else {
-      const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
-      const validatedValues = Object.values(exportDetailsDtoValue).map((val) => (!val ? null : val));
-
-      Object.keys(exportDetailsDtoValue).forEach((key, index) => {
-        exportDetailsDtoValue[key] = validatedValues[index];
-      });
-
-      changedValues.exportDetailsDto = exportDetailsDtoValue;
-      this.formatExporteValue(changedValues.exportDetailsDto);
-    }
+    changedValues.exportDetailsDto = this.validateExportDetails();
+    this.formatExporteValue(changedValues.exportDetailsDto);
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
