@@ -74,7 +74,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public maxRating = 5;
   public currentLang: string;
-  public startDate: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
