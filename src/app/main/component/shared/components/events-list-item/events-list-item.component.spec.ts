@@ -16,6 +16,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
+import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
 @Injectable()
 class TranslationServiceStub {
@@ -145,7 +146,7 @@ describe('EventsListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent],
+      declarations: [EventsListItemComponent, DateLocalisationPipe],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },

@@ -25,7 +25,7 @@
       <div class="left-side">
         <div class="event-title">{{ event.title }}</div>
         <div class="date-author">
-          <div>{{ event.dates[0].startDate | date | dateLocalisation }}</div>
+          <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
           <div>|</div>
           <div>{{ 'homepage.events.author' | translate }} {{ event.organizer.name }}</div>
         </div>
@@ -71,14 +71,14 @@
                 <img [src]="icons.clock" alt="" />
               </div>
               <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
-                <div class="event-duration">{{ event.dates[0].startDate | date: 'MMM d, y' | dateLocalisation }}</div>
+                <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                 <div>|</div>
                 <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
               </div>
               <ng-template #multipleDays>
                 <div class="event-date-content">
                   <div class="event-duration">
-                    {{ event.dates[0].startDate | date: 'MMM d, y' | dateLocalisation }}
+                    {{ event.dates[0].startDate | dateLocalisation }}
                     &nbsp;-&nbsp;
                     {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
                   </div>
@@ -96,7 +96,7 @@
                   event.dates[0].onlineLink
                     ? event.dates[0].onlineLink
                     : currentLang == 'ua'
-                    ? event.dates[0].coordinates.addressUa
+                    ? event.dates[0].coordinates.addressEn
                     : event.dates[0].coordinates.addressEn
                 }}
               </div>

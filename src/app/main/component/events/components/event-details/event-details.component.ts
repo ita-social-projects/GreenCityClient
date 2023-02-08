@@ -12,9 +12,7 @@ import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject } from 'rxjs';
-import { Subscription } from 'stompjs';
 import { TranslateService } from '@ngx-translate/core';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-details',
@@ -76,8 +74,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public maxRating = 5;
   public currentLang: string;
-  public datePipe: DatePipe;
-  public newDate: string;
+  public startDate: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -93,24 +90,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.eventId = this.route.snapshot.params.id;
+    this.setNewsId();
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
 
     this.localStorageService.setEditMode('canUserEdit', true);
 
-    this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
-      this.event = res;
-      this.images = [res.titleImage, ...res.additionalImages];
-      this.rate = Math.round(this.event.organizer.organizerRating);
-      this.mapDialogData = {
-        lat: this.event.dates[0].coordinates.latitude,
-        lng: this.event.dates[0].coordinates.longitude
-      };
-
-      this.role = this.verifyRole();
-    });
+    if (this.eventId) {
+      this.getEventById(this.eventId);
+    }
 
     this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
       this.attendees = attendees;
@@ -122,7 +111,26 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.currentLang = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.bindLang(lang);
+      this.bindLang(this.currentLang);
+    });
+  }
+
+  private setNewsId(): void {
+    this.eventId = this.route.snapshot.params.id;
+  }
+
+  private getEventById(eventId: number): void {
+    this.eventService.getEventById(eventId).subscribe((res: EventPageResponceDto) => {
+      this.event = res;
+      this.startDate = this.event.dates[0].startDate;
+      this.images = [res.titleImage, ...res.additionalImages];
+      this.rate = Math.round(this.event.organizer.organizerRating);
+      this.mapDialogData = {
+        lat: this.event.dates[0].coordinates.latitude,
+        lng: this.event.dates[0].coordinates.longitude
+      };
+
+      this.role = this.verifyRole();
     });
   }
 
