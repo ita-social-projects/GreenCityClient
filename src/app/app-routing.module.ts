@@ -7,12 +7,22 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
+import { UbsOrderComponent } from './ubs/ubs/ubs-order.component';
+import { UbsMainPageComponent } from './ubs/ubs/components/ubs-main-page/ubs-main-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
+    component: UbsOrderComponent,
     children: [
+      // {
+      //   path: '',
+      //   component: UbsMainPageComponent
+      // },
+      {
+        path: '',
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+      },
       {
         path: 'about',
         loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
@@ -43,15 +53,11 @@ export const routes: Routes = [
         canActivate: [ConfirmRestorePasswordGuard]
       },
       {
-        path: '',
-        pathMatch: 'full',
+        path: 'greenCity',
+        // pathMatch: 'full',
         component: HomepageComponent
       }
     ]
-  },
-  {
-    path: 'ubs',
-    loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
   },
   {
     path: 'ubs-admin',

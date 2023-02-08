@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
   public isUBS: boolean;
-  public ubsUrl = 'ubs';
+  public ubsUrl = '/';
   public imageLogo;
   public navLinks;
   public selectedIndex: number = null;
@@ -130,6 +130,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleHeader(): void {
     this.selectedIndex = this.headerService.getSelectedIndex();
+    console.log('ubs', this.isUBS);
     this.navLinks = this.headerService.getNavLinks(this.isUBS);
     this.headerImageList = this.isUBS ? ubsHeaderIcons : headerIcons;
     this.imageLogo = this.isUBS ? ubsHeaderIcons.ubsAdminLogo : headerIcons.greenCityLogo;

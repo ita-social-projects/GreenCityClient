@@ -9,6 +9,7 @@ import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-ord
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UBSOrderDetailsComponent } from './components/ubs-order-details/ubs-order-details.component';
+import { MainComponent } from '../../main/main.component';
 
 const ubsRoutes: Routes = [
   {
@@ -20,7 +21,8 @@ const ubsRoutes: Routes = [
       { path: 'confirm', component: UbsConfirmPageComponent, canActivate: [AuthPageGuardService] },
       { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] },
       { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
-      { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent }
+      { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
+      { path: 'greenCity', component: MainComponent }
     ]
   }
 ];
