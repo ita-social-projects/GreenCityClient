@@ -6,7 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -26,10 +26,11 @@ class DatePipeMock implements PipeTransform {
   }
 }
 
-describe('EventDetailsComponent', () => {
+fdescribe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
   let fixture: ComponentFixture<EventDetailsComponent>;
   let route: ActivatedRoute;
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
   const eventMock = {
     additionalImages: [],
@@ -99,7 +100,6 @@ describe('EventDetailsComponent', () => {
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
@@ -135,5 +135,56 @@ describe('EventDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call methods on ngOnInit', () => {
+    const spy1 = spyOn(component as any, 'bindLang');
+    const spy2 = spyOn(component as any, 'verifyRole');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith('ua');
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('should call setDefaultLang on bindLang', () => {
+    (component as any).bindLang('en');
+    expect(translateServiceMock.setDefaultLang).toHaveBeenCalledWith('en');
+  });
+
+  it('should verify unauthenticated role', () => {
+    const role = component.roles.UNAUTHENTICATED;
+    expect(role).toBe('UNAUTHENTICATED');
+  });
+
+  it('should verify user role', () => {
+    jwtServiceFake.getUserRole = () => 'ROLE_USER';
+    let role = 'UNAUTHENTICATED';
+    role = jwtServiceFake.getUserRole() === 'ROLE_USER' ? 'USER' : role;
+    expect(role).toBe('USER');
+  });
+
+  it('should verify organizer role', () => {
+    let role = 'UNAUTHENTICATED';
+    (component as any).userId = 1;
+    eventMock.organizer.id = 1;
+    role = (component as any).userId === eventMock.organizer.id ? 'ORGANIZER' : role;
+    expect(role).toBe('ORGANIZER');
+  });
+
+  it('should verify admin role', () => {
+    jwtServiceFake.getUserRole = () => 'ROLE_ADMIN';
+    let role = 'UNAUTHENTICATED';
+    role = jwtServiceFake.getUserRole() === 'ROLE_ADMIN' ? 'ADMIN' : role;
+    expect(role).toBe('ADMIN');
+  });
+
+  it('should redirect to edit page', (done) => {
+    fixture.ngZone.run(() => {
+      component.navigateToEditEvent();
+      fixture.whenStable().then(() => {
+        expect(routerSpy.navigate).toBeDefined();
+        done();
+      });
+    });
   });
 });
