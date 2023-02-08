@@ -107,6 +107,7 @@
     },
     "events": {
       "title": "Events",
+      "author": "by",
       "delete-title": "Delete event",
       "delete-yes": "yes",
       "delete-no": "no",
@@ -115,7 +116,15 @@
       },
       "open": "Open",
       "registered": "Anyone registered",
-      "completed": "Event completed"
+      "completed": "Event completed",
+      "people-joined": "people are going",
+      "btn": {
+        "back-route": "Back to Events",
+        "save-btn": "Save event",
+        "join-btn": "Join event",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
     },
     "subscription": {
       "caption": "Receive interesting news",

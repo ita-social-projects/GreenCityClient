@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Subject } from 'rxjs';
+import { Subscription } from 'stompjs';
+import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss']
 })
-export class EventDetailsComponent implements OnInit {
+export class EventDetailsComponent implements OnInit, OnDestroy {
   bsOpen = false;
 
   public icons = {
@@ -71,11 +75,17 @@ export class EventDetailsComponent implements OnInit {
   public address = 'Should be adress';
 
   public maxRating = 5;
+  public currentLang: string;
+  public datePipe: DatePipe;
+  public newDate: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     private route: ActivatedRoute,
     private eventService: EventsService,
     public router: Router,
     private localStorageService: LocalStorageService,
+    private translate: TranslateService,
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
@@ -108,6 +118,16 @@ export class EventDetailsComponent implements OnInit {
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
+
+    this.currentLang = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.bindLang(lang);
+    });
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
   }
 
   private verifyRole() {
@@ -158,5 +178,10 @@ export class EventDetailsComponent implements OnInit {
           this.isPosting = true;
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.unsubscribe();
   }
 }

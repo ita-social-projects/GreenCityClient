@@ -107,6 +107,7 @@
     },
     "events": {
       "title": "Події",
+      "author": "автор",
       "delete-title": "Видалити подію",
       "delete-yes": "так",
       "delete-no": "ні",
@@ -115,7 +116,15 @@
       },
       "open": "Відкрито",
       "registered": "Є зареєстровані",
-      "completed": "Подія завершена"
+      "completed": "Подія завершена",
+      "people-joined": "людей приєдналося",
+      "btn": {
+        "back-route": "Повернутися",
+        "save-btn": "Зберегти подію",
+        "join-btn": "Приєднатися до події",
+        "edit": "Редагувати",
+        "delete": "Видалити"
+      }
     },
     "eco-advices": {
       "caption": "Еко поради"
