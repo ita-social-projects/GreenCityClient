@@ -22,7 +22,7 @@ const ubsRoutes: Routes = [
       { path: `notification/confirm/:orderId`, component: UbsSubmitOrderNotificationComponent, canActivate: [AuthPageGuardService] },
       { path: 'auth/restore', component: ConfirmRestorePasswordComponent, canActivate: [ConfirmRestorePasswordGuard] },
       { path: 'ubs/order/:isThisExistingOrder', component: UBSOrderDetailsComponent },
-      { path: 'greenCity', component: MainComponent }
+      { path: 'greenCity-main', component: MainComponent }
     ]
   }
 ];

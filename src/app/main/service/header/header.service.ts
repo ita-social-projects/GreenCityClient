@@ -14,12 +14,12 @@ export class HeaderService {
   ];
 
   public navLinks = [
-    { name: 'user.lower-nav-bar.eco-events', route: '/news', url: false },
-    { name: 'user.lower-nav-bar.events', route: '/events', url: false },
-    { name: 'user.lower-nav-bar.map', route: '/places', url: false },
-    { name: 'user.lower-nav-bar.about-us', route: '/about', url: false },
-    { name: 'user.lower-nav-bar.my-habits', route: '/profile', url: false },
-    { name: 'user.lower-nav-bar.ubs', route: '/ubs', url: false }
+    { name: 'user.lower-nav-bar.eco-events', route: '/greenCity-news', url: false },
+    { name: 'user.lower-nav-bar.events', route: '/greenCity-events', url: false },
+    { name: 'user.lower-nav-bar.map', route: '/greenCity-places', url: false },
+    { name: 'user.lower-nav-bar.about-us', route: '/greenCity-about', url: false },
+    { name: 'user.lower-nav-bar.my-habits', route: '/greenCity-profile', url: false },
+    { name: 'user.lower-nav-bar.ubs', route: '/', url: false }
   ];
 
   public ubsArrLang = [

@@ -47,8 +47,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
-  public isUBS: boolean;
-  public ubsUrl = '/';
+  // public isUBS: boolean;
+  // public ubsUrl = '/';
+  public GreenCityURL = 'greenCity';
+  public isGreenCity: boolean;
   public imageLogo;
   public navLinks;
   public selectedIndex: number = null;
@@ -83,9 +85,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isUBS = this.router.url.includes(this.ubsUrl);
-    this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
-    this.localeStorageService.setUbsRegistration(this.isUBS);
+    // this.isUBS = this.router.url.includes(this.ubsUrl);
+    // this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
+    // this.localeStorageService.setUbsRegistration(this.isUBS);
+
+    this.isGreenCity = this.router.url.includes(this.GreenCityURL);
+    this.imgAlt = this.isGreenCity ? 'Image green city logo' : 'Image ubs logo';
+    this.localeStorageService.setUbsRegistration(!this.isGreenCity);
     this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.toggleHeader();
     this.setLangArr();
@@ -119,10 +125,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public getRouterLink(): string {
-    if (this.isUBS && this.isAdmin) {
+    if (!this.isGreenCity && this.isAdmin) {
       return '/ubs-admin/orders';
     }
-    if (this.isUBS && !this.isAdmin) {
+    if (!this.isGreenCity && !this.isAdmin) {
       return '/ubs';
     }
     return '/';
@@ -130,10 +136,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleHeader(): void {
     this.selectedIndex = this.headerService.getSelectedIndex();
-    console.log('ubs', this.isUBS);
-    this.navLinks = this.headerService.getNavLinks(this.isUBS);
-    this.headerImageList = this.isUBS ? ubsHeaderIcons : headerIcons;
-    this.imageLogo = this.isUBS ? ubsHeaderIcons.ubsAdminLogo : headerIcons.greenCityLogo;
+    console.log('greencity', this.isGreenCity);
+    this.navLinks = this.headerService.getNavLinks(!this.isGreenCity);
+    this.headerImageList = !this.isGreenCity ? ubsHeaderIcons : headerIcons;
+    this.imageLogo = !this.isGreenCity ? ubsHeaderIcons.ubsAdminLogo : headerIcons.greenCityLogo;
   }
 
   public focusDone(): void {
@@ -152,13 +158,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private updateArrayLang() {
     this.arrayLang = [];
-    this.arrayLang = this.headerService.getArrayLang(this.isUBS);
+    this.arrayLang = this.headerService.getArrayLang(!this.isGreenCity);
   }
 
   private setLangArr(): void {
     this.updateArrayLang();
     let mainLang = null;
-    if (this.isUBS && this.currentLanguage === Language.RU) {
+    if (!this.isGreenCity && this.currentLanguage === Language.RU) {
       this.languageService.changeCurrentLanguage(Language.UA.toLowerCase() as Language);
       this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     }
@@ -268,7 +274,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((isRedirected: boolean) => {
+    this.router.navigateByUrl(this.isGreenCity ? '/greenCity' : '/').then((isRedirected: boolean) => {
       if (isRedirected) {
         this.userOwnAuthService.isLoginUserSubject.next(false);
         this.localeStorageService.clear();
