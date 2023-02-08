@@ -15,6 +15,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
+import { environment } from '@environment/environment';
+import { accounts } from 'google-one-tap';
+
+declare var google: any;
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -120,17 +124,59 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signInWithGoogle(): void {
-    this.authService
-      .signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then((data) => {
-        this.googleService
-          .signIn(data.idToken)
-          .pipe(takeUntil(this.destroy))
-          .subscribe((signInData: UserSuccessSignIn) => {
-            this.onSignInWithGoogleSuccess(signInData);
-          });
-      })
-      .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
+    console.log('here');
+
+    const gAccounts: accounts = google.accounts;
+
+    gAccounts.id.initialize({
+      client_id: environment.googleClientId,
+      ux_mode: 'popup',
+      cancel_on_tap_outside: true,
+      callback: this.handleGgOneTap.bind(this)
+    });
+
+    gAccounts.id.prompt();
+
+    // window.google.accounts.id.initialize({
+    //   client_id: '1041981142587-jo5jdj07bap3gdn45n74e7ur1u1cnfi6.apps.googleusercontent.com',
+    //   callback: this.handleGgOneTap.bind(this)
+    // });
+    // window.google.accounts.id.prompt();
+
+    // window.google.accounts.id.initialize({
+    //   client_id: "651068629896-8l1fds7jlqdb4k82846cgg4leiq4838a.apps.googleusercontent.com",
+    //   callback: this.handleGoogleSignIn.bind(this)
+    // });
+    // window.google.accounts.id.prompt();
+
+    // google.accounts.id.initialize({
+    //   client_id: "236025958894-l05tha7iovc0ool81upch4i6gi91npe8.apps.googleusercontent.com",
+    //   callback: (response: any) => this.handleGoogleSignIn(response)
+    // });
+
+    // this.authService
+    //   .signIn(GoogleLoginProvider.PROVIDER_ID)
+    //   .then((data) => {
+    //     console.log(data)
+    //     this.googleService
+    //       .signIn(data.idToken)
+    //       .pipe(takeUntil(this.destroy))
+    //       .subscribe((signInData: UserSuccessSignIn) => {
+    //         this.onSignInWithGoogleSuccess(signInData);
+    //       });
+    //   })
+    //   .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
+  }
+
+  handleGgOneTap(resp) {
+    console.log('handleGgOneTap ', resp);
+
+    this.googleService
+      .signIn(resp.credential)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((signInData: UserSuccessSignIn) => {
+        this.onSignInWithGoogleSuccess(signInData);
+      });
   }
 
   public onOpenModalWindow(windowPath: string): void {
