@@ -1,8 +1,9 @@
 import { finalize, takeUntil } from 'rxjs/operators';
-import { ProfileService } from './../profile-service/profile.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { Subscription, Subject } from 'rxjs';
+
+import { ProfileService } from './../profile-service/profile.service';
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
 
 @Component({
   selector: 'app-shopping-list',
@@ -24,12 +25,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getShoppingList();
-  }
-
-  public getShoppingList(): void {
-    this.profileSubscription = this.profileService
-      .getShoppingList()
+    // this.getShoppingList();
+    this.profileSubscription = this.profileService.shoppingList$
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => {
@@ -38,11 +35,27 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
           }
         })
       )
-      .subscribe(
-        (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
-        (error) => (this.shoppingList = [])
-      );
+      .subscribe((shoppingListArr: ShoppingList[]) => {
+        this.shoppingList = shoppingListArr;
+      });
   }
+
+  // public getShoppingList(): void {
+  //   this.profileSubscription = this.profileService
+  //     .getShoppingList()
+  // .pipe(
+  //   takeUntil(this.destroy$),
+  //   finalize(() => {
+  //     if (!this.shoppingList) {
+  //       this.shoppingList = [];
+  //     }
+  //   })
+  // )
+  //     .subscribe(
+  //       (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
+  //       (error) => (this.shoppingList = [])
+  //     );
+  // }
 
   public openCloseList() {
     this.toggle = !this.toggle;

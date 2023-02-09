@@ -13,6 +13,8 @@ import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions'
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ProfileService } from '../profile-service/profile.service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -51,7 +53,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
     private store: Store,
-    private eventService: EventsService
+    private eventService: EventsService,
+    public profileService: ProfileService
   ) {}
 
   ngOnInit() {
@@ -128,6 +131,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.setHabitsForView();
         this.loading = false;
+
+        let shoppingListArr: ShoppingList[] = [];
+
+        this.habitAssignService.habitsInProgress.forEach((habit) => {
+          shoppingListArr = [
+            ...shoppingListArr,
+            ...habit.habit.shoppingListItems.filter((item) => item.status === 'INPROGRESS' || item.status === 'DONE')
+          ];
+        });
+
+        this.profileService.updateShoppingList(shoppingListArr);
       });
   }
 

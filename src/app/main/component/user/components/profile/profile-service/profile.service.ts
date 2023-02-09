@@ -1,6 +1,6 @@
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
 import { ShoppingList } from '@user-models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,9 @@ import { mainLink, mainUserLink } from '../../../../../links';
 })
 export class ProfileService {
   public userId: number;
+
+  private shoppingList = new Subject<ShoppingList[]>();
+  public shoppingList$ = this.shoppingList.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
 
@@ -37,9 +40,16 @@ export class ProfileService {
   public getShoppingList(): Observable<ShoppingList[]> {
     const currentLang = this.languageService.getCurrentLanguage();
     this.setUserId();
-    return this.http.get<ShoppingList[]>(`
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}
-    `);
+    return this.http.get<ShoppingList[]>(
+      `${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}`
+      //   `
+      //   ${mainLink}user/shopping-list-items/${this.userId}/get-all-inprogress?lang=${currentLang}
+      // `
+    );
+  }
+
+  public updateShoppingList(list: ShoppingList[]): any {
+    this.shoppingList.next(list);
   }
 
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
