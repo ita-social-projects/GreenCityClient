@@ -6,7 +6,7 @@ describe('LocalizedDatePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  xit('converts UTC date to date string with adjusted locale and timezone', () => {
+  it('converts UTC date to date string with adjusted locale and timezone', () => {
     const pipe = new LocalizedDatePipe(); // +13
     const options = { fromTimeZone: 'America/Puerto_Rico', toTimeZone: 'Asia/Tokyo' };
     expect(pipe.transform('2022-09-09T13:59:17.320416', options)).toBe('9/10/2022, 2:59:17 AM');
