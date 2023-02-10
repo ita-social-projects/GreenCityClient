@@ -2,34 +2,34 @@
   <div class="container">
     <div class="footer-top-box">
       <div class="footer_logo-wrp">
-        <a [routerLink]="['/']">
+        <a [routerLink]="['/greenCity']">
           <img [src]="footerImageList.greenCityLogo" class="logo" alt="GreenCity home" />
         </a>
       </div>
       <nav class="footer_links" role="navigation">
         <ul class="footer_left-side" role="menu">
           <li>
-            <a [routerLink]="['/news']" class="footer_link-item">
+            <a [routerLink]="['/greenCity-news']" class="footer_link-item">
               {{ 'footer.eco-events' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/events']" class="footer_link-item">
+            <a [routerLink]="['/greenCity-events']" class="footer_link-item">
               {{ 'footer.events' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/places']" class="footer_link-item">
+            <a [routerLink]="['/greenCity-places']" class="footer_link-item">
               {{ 'footer.map' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/about']" class="footer_link-item">
+            <a [routerLink]="['/greenCity-about']" class="footer_link-item">
               {{ 'footer.about-us' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
+            <a [routerLink]="['/greenCity-profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
               {{ 'footer.my-habits' | translate }}
             </a>
           </li>
