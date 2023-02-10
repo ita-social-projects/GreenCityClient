@@ -1,5 +1,5 @@
-<header role="banner" aria-label="Welcome to header" [ngClass]="{ 'burger-modal_open': toggleBurgerMenu, header_ubs: !isGreenCity }">
-  <div [ngClass]="!isGreenCity ? 'container-fluid' : 'container'">
+<header role="banner" aria-label="Welcome to header" [ngClass]="{ 'burger-modal_open': toggleBurgerMenu, header_ubs: this.isUBS }">
+  <div [ngClass]="this.isUBS ? 'container-fluid' : 'container'">
     <div class="header_container">
       <a
         class="header_logo"
@@ -11,7 +11,7 @@
       >
         <img [src]="imageLogo" role="link" alt="{{ imgAlt }}" />
       </a>
-      <div [ngClass]="!isGreenCity ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
+      <div [ngClass]="this.isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist">
             <li *ngFor="let link of navLinks" tabindex="0" role="listitem" class="nav-left-list">
@@ -21,7 +21,7 @@
               <ng-template #routerLink>
                 <a
                   [routerLink]="link.route"
-                  [routerLinkActive]="isGreenCity ? 'active-link' : ''"
+                  [routerLinkActive]="!this.isUBS ? 'active-link' : ''"
                   [routerLinkActiveOptions]="{ exact: true }"
                   class="url-name"
                 >
@@ -35,7 +35,7 @@
               <li *ngIf="toggleBurgerMenu" class="header_mobile-menu-sign-in" role="link">
                 <a
                   class="tertiary-global-button"
-                  [ngClass]="{ 'header_sign-in-link-green-city': isGreenCity }"
+                  [ngClass]="{ 'header_sign-in-link-green-city': !this.isUBS }"
                   (click)="openAuthModalWindow('sign-in')"
                 >
                   {{ 'top-bar.sign-in' | translate }}
@@ -69,7 +69,7 @@
               </li>
             </ng-template>
             <li class="header_mobile-menu-sign-up" *ngIf="toggleBurgerMenu && !isLoggedIn" (click)="openAuthModalWindow('sign-up')">
-              <div role="link" [ngClass]="!isGreenCity ? 'ubs-header_sign-up-btn' : 'header_sign-up-btn secondary-global-button'">
+              <div role="link" [ngClass]="this.isUBS ? 'ubs-header_sign-up-btn' : 'header_sign-up-btn secondary-global-button'">
                 <span>{{ 'top-bar.sign-up' | translate }}</span>
               </div>
             </li>
@@ -79,7 +79,7 @@
           <ul role="menu" class="header_navigation-menu-right-list">
             <!-- Notification icon -->
             <li
-              *ngIf="!isAllSearchOpen && isGreenCity && isLoggedIn"
+              *ngIf="!isAllSearchOpen && !this.isUBS && isLoggedIn"
               aria-label="site notification"
               class="notification-icon"
               role="notification"
@@ -89,7 +89,7 @@
             </li>
             <!-- Bookmark icon -->
             <li
-              *ngIf="!isAllSearchOpen && isGreenCity && isLoggedIn"
+              *ngIf="!isAllSearchOpen && !this.isUBS && isLoggedIn"
               aria-label="site bookmark"
               class="bookmark-icon"
               role="bookmark"
@@ -99,7 +99,7 @@
             </li>
             <!-- Search icon -->
             <li
-              *ngIf="!isAllSearchOpen && isGreenCity"
+              *ngIf="!isAllSearchOpen && !this.isUBS"
               aria-label="site search"
               class="search-icon"
               role="search"
@@ -118,7 +118,7 @@
               [ngClass]="{
                 'add-shadow': langDropdownVisible,
                 'header_lang-switcher-wrp header_navigation-menu-right-lang': true,
-                'ubs-lang-switcher': !isGreenCity
+                'ubs-lang-switcher': this.isUBS
               }"
               (click)="langDropdownVisible = !langDropdownVisible"
               (clickOutSide)="autoCloseLangDropDown($event)"
@@ -127,9 +127,9 @@
               <li role="option" aria-label="english" class="lang-option">
                 <span
                   [ngStyle]="{
-                    'font-size': !isGreenCity && '18px',
-                    'font-weight': !isGreenCity && '800',
-                    color: !isGreenCity && '#575757'
+                    'font-size': this.isUBS && '18px',
+                    'font-weight': this.isUBS && '800',
+                    color: this.isUBS && '#575757'
                   }"
                   aria-hidden="true"
                   >{{ arrayLang[0].lang }}</span
@@ -150,7 +150,7 @@
                     [attr.aria-label]="lang.lang"
                     (click)="changeCurrentLanguage(lang.lang, index)"
                   >
-                    <span [ngClass]="!isGreenCity && 'ubs-lang-switcher-span'" aria-hidden="true">{{ lang.lang }}</span>
+                    <span [ngClass]="this.isUBS && 'ubs-lang-switcher-span'" aria-hidden="true">{{ lang.lang }}</span>
                   </li>
                 </ng-container>
               </ng-container>
@@ -166,18 +166,18 @@
                 [ngClass]="{
                   'd-none': toggleBurgerMenu,
                   'add-shadow': dropdownVisible,
-                  'item-list-margin': dropdownVisible && !isGreenCity,
-                  'ubs-user-cabinet': !isGreenCity
+                  'item-list-margin': dropdownVisible && this.isUBS,
+                  'ubs-user-cabinet': this.isUBS
                 }"
                 (click)="toggleDropdown()"
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
               >
                 <li class="list-item" role="listitem">
-                  <a [ngClass]="!isGreenCity ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
+                  <a [ngClass]="this.isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
                     <span>{{ name }}</span>
                     <img
-                      *ngIf="isGreenCity"
+                      *ngIf="!this.isUBS"
                       alt="arrow down icon"
                       aria-hidden="true"
                       [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
@@ -221,7 +221,7 @@
                 role="link"
                 tabindex="0"
                 [class.d-none]="toggleBurgerMenu"
-                [ngClass]="!isGreenCity ? 'ubs-header-sign-in' : 'header_sign-in-link tertiary-global-button'"
+                [ngClass]="this.isUBS ? 'ubs-header-sign-in' : 'header_sign-in-link tertiary-global-button'"
                 (click)="openAuthModalWindow('sign-in')"
                 (keyup.enter)="openAuthModalWindow('sign-in')"
               >
@@ -237,7 +237,7 @@
               (click)="openAuthModalWindow('sign-up')"
               (keyup.enter)="openAuthModalWindow('sign-up')"
             >
-              <div #signupref [ngClass]="!isGreenCity ? 'ubs-header_sign-up-btn' : 'header_sign-up-btn'" tabindex="0">
+              <div #signupref [ngClass]="this.isUBS ? 'ubs-header_sign-up-btn' : 'header_sign-up-btn'" tabindex="0">
                 <span>{{ 'top-bar.sign-up' | translate }}</span>
               </div>
             </li>
