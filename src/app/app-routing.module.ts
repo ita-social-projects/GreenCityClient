@@ -7,8 +7,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
-import { UbsOrderComponent } from './ubs/ubs/ubs-order.component';
-import { UbsMainPageComponent } from './ubs/ubs/components/ubs-main-page/ubs-main-page.component';
 
 export const routes: Routes = [
   {
