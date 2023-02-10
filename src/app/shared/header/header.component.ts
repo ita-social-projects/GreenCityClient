@@ -88,10 +88,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isUBS = this.router.url.includes(this.ubsUrl);
     this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
     this.localeStorageService.setUbsRegistration(this.isUBS);
-
-    // this.isGreenCity = this.router.url.includes(this.GreenCityURL);
-    // this.imgAlt = this.isGreenCity ? 'Image green city logo' : 'Image ubs logo';
-    // this.localeStorageService.setUbsRegistration(!this.isGreenCity);
     this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.toggleHeader();
     this.setLangArr();
@@ -131,12 +127,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isUBS && !this.isAdmin) {
       return '/ubs';
     }
-    return '/';
+    return '/greenCity';
   }
 
   toggleHeader(): void {
     this.selectedIndex = this.headerService.getSelectedIndex();
-    console.log('isUBS', this.isUBS);
     this.navLinks = this.headerService.getNavLinks(this.isUBS);
     this.headerImageList = this.isUBS ? ubsHeaderIcons : headerIcons;
     this.imageLogo = this.isUBS ? ubsHeaderIcons.ubsAdminLogo : headerIcons.greenCityLogo;
