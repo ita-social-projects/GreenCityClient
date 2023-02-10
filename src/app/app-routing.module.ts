@@ -25,23 +25,23 @@ export const routes: Routes = [
         redirectTo: 'ubs'
       },
       {
-        path: 'greenCity-about',
+        path: 'about',
         loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
       },
       {
-        path: 'greenCity-places',
+        path: 'places',
         loadChildren: () => import('./main/component/places/places.module').then((mod) => mod.PlacesModule)
       },
       {
-        path: 'greenCity-news',
+        path: 'news',
         loadChildren: () => import('./main/component/eco-news/eco-news.module').then((mod) => mod.EcoNewsModule)
       },
       {
-        path: 'greenCity-events',
+        path: 'events',
         loadChildren: () => import('./main/component/events/events.module').then((mod) => mod.EventsModule)
       },
       {
-        path: 'greenCity-profile',
+        path: 'profile',
         loadChildren: () => import('./main/component/user/user.module').then((mod) => mod.UserModule)
       },
       {

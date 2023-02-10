@@ -9,27 +9,27 @@
       <nav class="footer_links" role="navigation">
         <ul class="footer_left-side" role="menu">
           <li>
-            <a [routerLink]="['/greenCity-news']" class="footer_link-item">
+            <a [routerLink]="['/news']" class="footer_link-item">
               {{ 'footer.eco-events' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/greenCity-events']" class="footer_link-item">
+            <a [routerLink]="['/events']" class="footer_link-item">
               {{ 'footer.events' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/greenCity-places']" class="footer_link-item">
+            <a [routerLink]="['/places']" class="footer_link-item">
               {{ 'footer.map' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/greenCity-about']" class="footer_link-item">
+            <a [routerLink]="['/about']" class="footer_link-item">
               {{ 'footer.about-us' | translate }}
             </a>
           </li>
           <li>
-            <a [routerLink]="['/greenCity-profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
+            <a [routerLink]="['/profile', getUserId()]" (click)="ubsSetRegValue()" class="footer_link-item">
               {{ 'footer.my-habits' | translate }}
             </a>
           </li>

@@ -49,8 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public elementName;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
-  // public GreenCityURL = 'greenCity';
-  // public isGreenCity: boolean;
   public imageLogo;
   public navLinks;
   public selectedIndex: number = null;
