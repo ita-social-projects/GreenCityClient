@@ -13,15 +13,16 @@ import { UbsMainPageComponent } from './ubs/ubs/components/ubs-main-page/ubs-mai
 export const routes: Routes = [
   {
     path: '',
-    component: UbsOrderComponent,
+    component: MainComponent,
     children: [
-      // {
-      //   path: '',
-      //   component: UbsMainPageComponent
-      // },
+      {
+        path: 'ubs',
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+      },
       {
         path: '',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+        pathMatch: 'full',
+        redirectTo: 'ubs'
       },
       {
         path: 'greenCity-about',
@@ -54,7 +55,6 @@ export const routes: Routes = [
       },
       {
         path: 'greenCity',
-        // pathMatch: 'full',
         component: HomepageComponent
       }
     ]
