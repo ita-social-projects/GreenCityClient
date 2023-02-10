@@ -37,17 +37,6 @@
       </div>
       <div class="form-group col-md-4">
         <label for="station">{{ 'export-details.station' | translate }}</label>
-        <!--<div class="input-wrapper">
-          <input
-            type="text"
-            formControlName="receivingStationId" class="form-control" id="station"
-          />
-            <mat-option value="Усі">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
-            <mat-option *ngFor="let station of allReceivingStations" [value]="station">
-              {{ station }}
-            </mat-option>
-          <mat-icon class="cross-img" (click)="resetValue()">close</mat-icon>
-        </div>-->
         <select formControlName="receivingStationId" class="form-control" id="station">
           <option *ngFor="let station of allReceivingStations" [value]="station">
             {{ station }}
