@@ -35,7 +35,8 @@ h3 {
 }
 
 /* Firefox */
-.eco-store[type='number'] {
+.eco-store[type='number'],
+.input[type='number'] {
   -moz-appearance: textfield;
 }
 
