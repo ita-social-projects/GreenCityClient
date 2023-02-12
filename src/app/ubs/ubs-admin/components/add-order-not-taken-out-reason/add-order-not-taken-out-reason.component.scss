@@ -1,15 +1,29 @@
 .container {
   font-family: var(--primary-font);
   max-width: 573px;
-  max-height: 100vh;
   padding: 0 45px;
+  overflow-y: auto;
+  height: calc(100vh - 48px);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--ubs-secondary-white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--ubs-secondary-grey);
+    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
   .close-container {
     position: relative;
     display: flex;
     justify-content: flex-end;
-    top: -5px;
-    right: 5px;
   }
 
   .close-btn {
@@ -162,8 +176,6 @@ textarea::placeholder {
 }
 
 .bottom-container {
-  height: 300px;
-
   .btn-container {
     display: flex;
     justify-content: flex-end;
@@ -196,24 +208,26 @@ textarea::placeholder {
 }
 
 @media screen and (max-width: 576px) {
-  .container {
-    padding: 0;
+  .close-container .close-btn img {
+    width: 15px;
   }
 
-  .btn-container {
+  .bottom-container .btn-container {
     justify-content: center;
+
+    .row {
+      font-size: 12px;
+    }
   }
 }
 
 @media screen and (max-width: 376px) {
-  .bottom-container {
-    .btn-container {
-      justify-content: center;
+  .bottom-container .btn-container {
+    justify-content: center;
 
-      .disagree {
-        margin-right: 0;
-        margin-bottom: 10px;
-      }
+    .disagree {
+      margin-right: 0;
+      margin-bottom: 10px;
     }
 
     .row {
