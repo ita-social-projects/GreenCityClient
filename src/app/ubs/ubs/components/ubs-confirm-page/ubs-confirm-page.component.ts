@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { UserOrdersService } from './../../../ubs-user/services/user-orders.service';
 
 @Component({
   selector: 'app-ubs-confirm-page',
