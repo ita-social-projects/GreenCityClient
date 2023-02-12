@@ -306,4 +306,12 @@ export class LocalStorageService {
   public removeAdminOrderDateFilters(): void {
     window.localStorage.removeItem('UbsAdminOrdersDateFilters');
   }
+
+  public setFinalSumOfOrder(value): void {
+    localStorage.setItem('finalSumOfOrder', JSON.stringify(value));
+  }
+
+  public getFinalSumOfOrder(): number {
+    return JSON.parse(localStorage.getItem('finalSumOfOrder'));
+  }
 }

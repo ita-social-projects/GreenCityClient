@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { UserOrdersService } from './../../../ubs-user/services/user-orders.service';
 
 @Component({
   selector: 'app-ubs-confirm-page',
@@ -20,6 +21,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   isSpinner = true;
   pageReloaded = false;
   orderPaymentError = false;
+  private finalSumOfOrder;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -49,9 +51,9 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       }
       if (oderID) {
         this.orderId = oderID;
-        this.checkPaymentStatus();
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
+        this.checkPaymentStatus();
         this.renderView();
       } else {
         this.orderService
@@ -80,7 +82,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       .getUbsOrderStatus()
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        this.orderPaymentError = response?.code === 'payment_not_found';
+        this.finalSumOfOrder = this.localStorageService.getFinalSumOfOrder();
+        this.orderPaymentError = this.finalSumOfOrder ? response?.code === 'payment_not_found' : false;
         this.isSpinner = false;
       });
   }
