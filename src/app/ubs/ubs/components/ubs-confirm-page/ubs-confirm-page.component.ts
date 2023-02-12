@@ -21,7 +21,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   isSpinner = true;
   pageReloaded = false;
   orderPaymentError = false;
-  private finalSumOfOrder;
+  finalSumOfOrder: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
