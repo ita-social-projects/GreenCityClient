@@ -356,7 +356,17 @@
       padding-right: 10%;
 
       .caption {
-        margin: auto 5%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        width: 135px;
+        align-items: center;
+
+        .col {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
 
         h2 {
           margin: 0;
@@ -369,8 +379,8 @@
         }
       }
 
-      .rules,
-      .bonuses {
+      .rules {
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
