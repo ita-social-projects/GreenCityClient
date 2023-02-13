@@ -58,7 +58,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public isAdmin = false;
   public event: EventPageResponceDto;
-  public locationLink: String;
+  public locationLink: string;
   public locationAddress: string;
   public addressUa: string;
   public addressEn: string;
