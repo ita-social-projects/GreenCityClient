@@ -1,15 +1,29 @@
 .container {
   font-family: var(--primary-font);
   max-width: 573px;
-  max-height: 879px;
   padding: 0 45px;
+  overflow-y: auto;
+  height: calc(100vh - 48px);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--ubs-secondary-white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--ubs-secondary-grey);
+    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
   .close-container {
     position: relative;
     display: flex;
     justify-content: flex-end;
-    top: -5px;
-    right: 5px;
   }
 
   .close-btn {
@@ -48,10 +62,11 @@ h6 {
   margin-top: 32px;
 }
 
-.photo-description {
+.photo-description h6 {
   color: var(--quaternary-grey);
   font-weight: 700;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 textarea {
@@ -63,7 +78,7 @@ textarea {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 480px;
+  width: 100%;
   height: 141px;
 }
 
@@ -77,6 +92,7 @@ textarea::placeholder {
   font-weight: 400;
   font-size: 12px;
   color: var(--quaternary-grey);
+  line-height: 1.5;
 }
 
 .images {
@@ -159,29 +175,63 @@ textarea::placeholder {
   transform: translate(-50%, -50%);
 }
 
-.btn-container {
-  text-align-last: right;
-  margin-bottom: 40px;
-  margin-top: 40px;
+.bottom-container {
+  .btn-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    text-align-last: right;
+    margin-bottom: 40px;
+    margin-top: 40px;
 
-  .btn {
-    border-radius: 5px;
-    font-size: 20px;
+    .btn {
+      border-radius: 5px;
+      font-size: 20px;
+    }
   }
-}
 
-.date {
-  margin-right: 32px;
-}
+  .date {
+    margin-right: 32px;
+  }
 
-.info .date {
-  color: var(--quaternary-grey);
-  font-weight: normal;
-  font-size: 14px;
+  .info .date {
+    color: var(--quaternary-grey);
+    font-weight: normal;
+    font-size: 14px;
+  }
 }
 
 .error-message {
   color: var(--ubs-primary-red);
   font-size: 14px;
   font-weight: 400;
+}
+
+@media screen and (max-width: 576px) {
+  .close-container .close-btn img {
+    width: 15px;
+  }
+
+  .bottom-container .btn-container {
+    justify-content: center;
+
+    .row {
+      font-size: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .bottom-container .btn-container {
+    justify-content: center;
+
+    .disagree {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+
+    .row {
+      font-size: 12px;
+    }
+  }
 }
