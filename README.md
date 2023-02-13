@@ -38,7 +38,7 @@ Use this link to install Node v.14.17.6 (https://nodejs.org/en/blog/release/v14.
 
 If the problem persists, try to install npm:6.14.15 at this link (https://www.npmjs.com/package/npm/v/6.14.15).
 
-You should install Angular CLI 9.1.15 writting this in console: npm install -g @angular/cli@6.1.15
+You should install Angular CLI 9.1.15 writting this in console: npm install -g @angular/cli@9.1.15
 
 ## Running json-server
 
