@@ -95,7 +95,7 @@
             </div>
             <div class="event-status-access">
               <div class="event-status-icon">
-                <img [src]="icons.lock" alt="" />
+                <img [src]="event.open ? icons.lock.open : icons.lock.closed" alt="" />
               </div>
               <div class="event-status-access-content">
                 <div class="event-status">{{ event.open ? 'Open' : 'Finished' }}</div>
