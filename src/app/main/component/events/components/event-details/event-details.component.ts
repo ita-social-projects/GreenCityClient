@@ -7,7 +7,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { take, takeUntil } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { DateEventResponceDto, EventPageResponceDto } from '../../models/events.interface';
+import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
