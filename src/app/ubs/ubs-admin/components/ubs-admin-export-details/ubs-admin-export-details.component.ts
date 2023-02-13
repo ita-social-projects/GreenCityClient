@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
 
@@ -8,9 +8,10 @@ import { IExportDetails } from '../../models/ubs-admin.interface';
   templateUrl: './ubs-admin-export-details.component.html',
   styleUrls: ['./ubs-admin-export-details.component.scss']
 })
-export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
+export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() exportInfo: IExportDetails;
   @Input() exportDetailsDto: FormGroup;
+  @Input() orderStatus: string;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
@@ -23,10 +24,41 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
   public to: string;
   public allReceivingStations: string[];
   public current: string;
+  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
+  private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngAfterViewChecked(): void {
+    const isFormRequired = !this.statuses.includes(this.orderStatus);
+
+    const everyFieldFilled = Object.keys(this.exportDetailsDto.controls).every((key) => !!this.exportDetailsDto.get(key).value);
+    const someFieldFilled = Object.keys(this.exportDetailsDto.controls).some((key) => !!this.exportDetailsDto.get(key).value);
+    const hasNotValidFields = (everyFieldFilled && !someFieldFilled) || (!everyFieldFilled && someFieldFilled);
+
+    Object.keys(this.exportDetailsDto.controls).forEach((controlName) => {
+      if (hasNotValidFields || isFormRequired) {
+        this.exportDetailsDto.get(controlName).setValidators(Validators.required);
+        this.exportDetailsDto.setErrors({ incorrect: true });
+      } else {
+        this.exportDetailsDto.setErrors(null);
+        this.exportDetailsDto.get(controlName).setErrors(null);
+        this.exportDetailsDto.get(controlName).clearValidators();
+      }
+      this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
+      this.exportDetailsDto.updateValueAndValidity();
+    });
+
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
     this.allReceivingStations = this.exportInfo.allReceivingStations.map((e) => e.name);
     this.current = new Date().toISOString().split('T')[0];
+  }
+
+  public resetValue(): void {
+    this.exportDetailsDto.get('receivingStationId').setValue(null);
   }
 
   openDetails(): void {
@@ -49,6 +81,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
     this.exportDetailsDto.get('timeDeliveryFrom').markAsDirty();
     this.exportDetailsDto.get('timeDeliveryTo').markAsDirty();
     this.showTimePicker = false;
+  }
+
+  isTimeValid(): boolean {
+    return this.exportDetailsDto.get('timeDeliveryFrom').invalid || this.exportDetailsDto.get('timeDeliveryTo').invalid;
   }
 
   ngOnDestroy(): void {

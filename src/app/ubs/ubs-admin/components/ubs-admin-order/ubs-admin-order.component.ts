@@ -60,6 +60,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   overpayment: number;
   isMinOrder = true;
   isSubmitted = false;
+  private isFormResetted = false;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
@@ -362,22 +363,24 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     return currentEmployee;
   }
 
+  public validateExportDetails() {
+    const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
+    const validatedValues = Object.values(exportDetailsDtoValue).map((val) => (!val ? null : val));
+
+    Object.keys(exportDetailsDtoValue).forEach((key, index) => {
+      exportDetailsDtoValue[key] = validatedValues[index];
+    });
+
+    return exportDetailsDtoValue;
+  }
+
   public onSubmit(): void {
     this.isSubmitted = true;
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
 
-    if (changedValues.exportDetailsDto) {
-      this.formatExporteValue(changedValues.exportDetailsDto);
-    } else {
-      const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
-      const validatedValues = Object.values(exportDetailsDtoValue).map((val) => (!val ? null : val));
-
-      Object.keys(exportDetailsDtoValue).forEach((key, index) => {
-        exportDetailsDtoValue[key] = validatedValues[index];
-      });
-
-      changedValues.exportDetailsDto = exportDetailsDtoValue;
+    if (changedValues.exportDetailsDto || this.isFormResetted) {
+      changedValues.exportDetailsDto = this.validateExportDetails();
       this.formatExporteValue(changedValues.exportDetailsDto);
     }
 
@@ -400,7 +403,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
       changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
       delete changedValues.responsiblePersonsForm;
-    } else {
+    } else if (this.isFormResetted) {
       changedValues.responsiblePersonsForm = this.orderForm.get('responsiblePersonsForm').value;
     }
 
@@ -481,13 +484,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       exportDetailsDto.receivingStationId = this.getReceivingStationIdByName(exportDetailsDto.receivingStationId.toString());
     }
   }
+
   public getReceivingStationIdByName(receivingStationName: string): number {
     return this.exportInfo.allReceivingStations.find((element) => receivingStationName === element.name).id;
   }
+
   public getReceivingStationById(receivingStationId: number): string | null {
     const receivingStationName = this.exportInfo.allReceivingStations.find((element) => receivingStationId === element.id)?.name;
     return receivingStationName || null;
   }
+
   public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
@@ -517,6 +523,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     return result;
   }
+
   statusCanceledOrDone(): void {
     if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
       this.orderForm.get('exportDetailsDto').disable();
@@ -526,6 +533,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderForm.get('responsiblePersonsForm').enable();
     }
   }
+
   notRequiredFieldsStatuses(): void {
     const exportDetails = this.orderForm.get('exportDetailsDto');
     const responsiblePersons = this.orderForm.get('responsiblePersonsForm');
@@ -538,12 +546,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       responsiblePersonNames.forEach((el) => responsiblePersons.get(el).clearValidators());
       exportDetails.reset();
       responsiblePersons.reset();
+      this.isFormResetted = true;
     } else {
       exportDetaisFields.forEach((el) => exportDetails.get(el).setValidators([Validators.required]));
       responsiblePersonNames.forEach((el) => responsiblePersons.get(el).setValidators([Validators.required]));
     }
     this.statusCanceledOrDone();
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

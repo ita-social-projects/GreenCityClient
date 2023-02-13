@@ -20,6 +20,19 @@
   cursor: pointer;
 }
 
+.reset-button {
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  height: 8px;
+  left: 180px;
+  bottom: 30px;
+
+  img {
+    height: 8px;
+  }
+}
+
 @mixin input {
   height: 36px;
   left: calc(50% - 170px);
@@ -171,4 +184,8 @@ select {
       margin-right: 21px;
     }
   }
+}
+
+.ng-invalid {
+  border-color: red;
 }
