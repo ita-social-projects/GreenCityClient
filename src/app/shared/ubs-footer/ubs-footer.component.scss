@@ -38,11 +38,15 @@
 
     .par {
       margin: 0;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 15px;
+      color: #8c8c8c;
     }
   }
 
   .container-fluid {
-    margin: 0 50px;
+    margin-right: 50px;
     display: flex;
     flex-direction: row;
     align-items: baseline;
@@ -50,14 +54,14 @@
 
     .menu-left {
       display: flex;
-      width: 50%;
+      width: 55%;
       height: 100%;
       align-items: center;
 
       .footer-menu {
         display: flex;
         width: 100%;
-        justify-content: space-evenly;
+        justify-content: space-between;
         padding: 0;
 
         li {
@@ -139,8 +143,14 @@
 }
 
 @media (min-width: 320px) and (max-width: 768px) {
-  .footer-container-mobile .footer-menu-mobile .footer-menu {
-    justify-content: space-between;
-    gap: 0;
+  .footer-container-mobile {
+    .footer-menu-mobile .footer-menu {
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    .footer-bottom-part {
+      margin-bottom: 0;
+    }
   }
 }
