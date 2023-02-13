@@ -53,7 +53,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     region: { en: string; ua: string };
     location: { en: string; ua: string };
     courier: { en: string; ua: string };
-    station: string;
+    // station: string;
   }[] = [];
   employeeDataToSend: Page;
   isDeleting = false;
@@ -106,6 +106,16 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  private mappers = {
+    tariffs: (tariffData) =>
+      tariffData.map((tariff) => ({
+        id: tariff.id,
+        courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
+        region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
+        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk }))
+      }))
+  };
+
   constructor(
     private employeeService: UbsAdminEmployeeService,
     private store: Store<IAppState>,
@@ -114,6 +124,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
+    console.log(this.data);
     this.employeeForm = this.fb.group({
       firstName: [this.data?.firstName ?? '', Validators.required],
       lastName: [this.data?.lastName ?? '', Validators.required],
@@ -121,6 +132,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       email: [this.data?.email ?? '']
     });
     this.employeePositions = this.data?.employeePositions ?? [];
+    this.tariffs = this.mappers.tariffs(this.data?.tariffs) ?? [];
+    console.log(this.tariffs);
     // this.receivingStations = this.data?.receivingStations ?? [];
     this.imageURL = this.data?.image;
     this.editMode = !!this.data;
@@ -196,7 +209,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       ...this.employeeForm.value,
       employeePositions: this.employeePositions,
       // receivingStations: this.receivingStations,
-      tariffs: this.tariffs.map(({ id }) => ({ id }))
+      tariffId: this.tariffs.map((it) => it.id)
     };
     if (this.isUpdatingEmployee) {
       this.employeeDataToSend.id = this.data.id;
@@ -229,6 +242,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   updateEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
+    console.log(dataToSend);
+    console.log(this.employeeDataToSend);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
