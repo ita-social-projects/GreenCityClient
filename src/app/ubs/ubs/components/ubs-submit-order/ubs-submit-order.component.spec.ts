@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
@@ -60,6 +61,11 @@ describe('UBSSubmitOrderComponent', () => {
     }
   }
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
@@ -67,7 +73,8 @@ describe('UBSSubmitOrderComponent', () => {
       providers: [
         { provide: UBSOrderFormService, useClass: FakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService }
+        { provide: LocalStorageService, useValue: fakeLocalStorageService },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -129,5 +136,10 @@ describe('UBSSubmitOrderComponent', () => {
     fixture.detectChanges();
     component.redirectToOrder();
     expect(component.loadingAnim).toBe(false);
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });

@@ -16,6 +16,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -131,6 +132,11 @@ describe('EventsListItemComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
@@ -152,6 +158,7 @@ describe('EventsListItemComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
       ],
@@ -191,6 +198,11 @@ describe('EventsListItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 
   describe('ngOnInit', () => {

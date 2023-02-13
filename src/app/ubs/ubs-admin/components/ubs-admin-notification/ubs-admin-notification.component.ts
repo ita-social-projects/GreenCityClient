@@ -10,6 +10,7 @@ import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { NotificationTemplate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -25,13 +26,14 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     delete: './assets/img/ubs-admin-notifications/trashcan.svg',
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
-  lang = 'en';
+  currentLanguage: string;
   initialNotification = null;
   notification = null;
 
   constructor(
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -39,8 +41,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
-      this.lang = lang;
+      this.currentLanguage = lang;
     });
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
       const id = Number(params.id);
@@ -145,5 +148,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
 
   onSaveChanges(): void {
     this.notificationsService.updateNotificationTemplate(this.notification.id, this.notification);
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

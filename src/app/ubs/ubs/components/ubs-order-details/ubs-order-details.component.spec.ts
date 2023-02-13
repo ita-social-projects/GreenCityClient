@@ -18,6 +18,7 @@ import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-o
 import { IMaskModule } from 'angular-imask';
 import { InteractivityChecker } from '@angular/cdk/a11y';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -76,6 +77,11 @@ describe('OrderDetailsFormComponent', () => {
   shareFormService.locationId = 1;
   shareFormService.locations = mockLocations;
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
@@ -92,7 +98,8 @@ describe('OrderDetailsFormComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
-        { provide: LocalStorageService, useValue: localStorageService }
+        { provide: LocalStorageService, useValue: localStorageService },
+        { provide: LanguageService, useValue: languageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -273,6 +280,11 @@ describe('OrderDetailsFormComponent', () => {
     const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
     expect(component.formArrayCertificates).toBe(formArray);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it(' should return ua Value by getLangValue', () => {
+    const value = component.getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

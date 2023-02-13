@@ -54,6 +54,30 @@ describe('LanguageService', () => {
     expect(spy).toBe('ua');
   });
 
+  it('getLangValue should return ua string', () => {
+    getCurrentLanguageMock.and.returnValue('ua');
+    const spy = service.getLangValue('valUa', 'valEn');
+    expect(spy).toBe('valUa');
+  });
+
+  it('getLangValue should return ua value of string array', () => {
+    getCurrentLanguageMock.and.returnValue('ua');
+    const spy = service.getLangValue(['valUa'], ['valEn']);
+    expect(spy).toEqual(['valUa']);
+  });
+
+  it('getLangValue should return en string', () => {
+    getCurrentLanguageMock.and.returnValue('en');
+    const spy = service.getLangValue('valUa', 'valEn');
+    expect(spy).toBe('valEn');
+  });
+
+  it('getLangValue should return en value of string array', () => {
+    getCurrentLanguageMock.and.returnValue('en');
+    const spy = service.getLangValue(['valUa'], ['valEn']);
+    expect(spy).toEqual(['valEn']);
+  });
+
   it('getLanguageByString should return the language', () => {
     const spy = service[getLanguageByString]('ua');
     expect(spy).toBe('ua');

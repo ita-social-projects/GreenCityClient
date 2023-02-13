@@ -23,11 +23,7 @@ export class CreateEditNewsFormBuilder {
       title: [data.title, [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [data.source],
       content: [data.text || data.content || data.content.html, [Validators.required, Validators.minLength(20)]],
-      tags: this.fb.array(
-        this.localStorageService.getCurrentLanguage() === 'ua' || this.localStorageService.getCurrentLanguage() === 'ru'
-          ? data.tagsUa
-          : data.tags
-      ),
+      tags: this.fb.array(this.localStorageService.getCurrentLanguage() === 'ua' ? data.tagsUa : data.tags),
       image: [data.imagePath]
     });
   }

@@ -38,10 +38,8 @@
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ service?.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ service?.nameEng }}</td>
-        <td *ngIf="currentLanguage === 'ua'">{{ service?.description }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ service?.descriptionEng }}</td>
+        <td>{{ getLangValue(service.name, service.nameEng) }}</td>
+        <td>{{ getLangValue(service.description, service.descriptionEng) }}</td>
         <td>{{ service?.price | currency | localizedCurrency }}</td>
       </tr>
     </table>
@@ -86,8 +84,7 @@
             />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ bag.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ bag.nameEng }}</td>
+        <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
         <td>{{ bag.capacity | volume }}</td>
         <td>{{ bag.description }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
@@ -183,8 +180,7 @@
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
           <div *ngFor="let bag of bags; let i = index">
             <div>
-              <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ bag.name }}</mat-checkbox>
-              <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ bag.nameEng }}</mat-checkbox>
+              <mat-checkbox class="example-margin">{{ getLangValue(bag.name, bag.nameEng) }}</mat-checkbox>
             </div>
           </div>
         </div>

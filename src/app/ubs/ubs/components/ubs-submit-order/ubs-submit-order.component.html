@@ -17,8 +17,7 @@
       <ul class="services-list w-100 p-0 m-0">
         <li class="services-list_item d-flex justify-content-between align-items-baseline" *ngFor="let bag of bags">
           <ng-container *ngIf="bag.quantity">
-            <span *ngIf="currentLanguage === 'ua'" class="bag-name">{{ bag.name }}</span>
-            <span *ngIf="currentLanguage === 'en'" class="bag-name">{{ bag.nameEng }}</span>
+            <span class="bag-name">{{ getLangValue(bag.name, bag.nameEng) }}</span>
             <span class="bag-name">{{ bag.capacity }} {{ 'order-details.litr' | translate }}</span>
             <span class="bag-name">{{ bag.price | currency }} {{ 'order-details.currency' | translate }}</span>
             <span class="bag-name">{{ bag.quantity }} {{ 'order-details.pieces' | translate }}</span>
@@ -100,10 +99,8 @@
             <p class="order-header">{{ 'order-details.export-address' | translate }}</p>
             <ul class="order-list">
               <li class="order-list-item">
-                <span
-                  >{{ 'personal-info.address-city' | translate }} {{ currentLanguage === 'ua' ? personalData.city : personalData.cityEn }},
-                </span>
-                <span>{{ currentLanguage === 'ua' ? personalData.street : personalData.streetEn }}, {{ personalData.houseNumber }}, </span>
+                <span>{{ 'personal-info.address-city' | translate }} {{ getLangValue(personalData.city, personalData.cityEn) }}, </span>
+                <span>{{ getLangValue(personalData.street, personalData.streetEn) }}, {{ personalData.houseNumber }}, </span>
                 <span *ngIf="personalData.houseCorpus">
                   {{ 'personal-info.address-corp' | translate }} {{ personalData.houseCorpus }}
                 </span>
@@ -114,9 +111,9 @@
               <li class="order-list-item">
                 <span
                   >{{ 'personal-info.address-district' | translate }}
-                  {{ currentLanguage === 'ua' ? personalData.district.split(' ')[0] : personalData.districtEn.split(' ')[0] }},
+                  {{ getLangValue(personalData.district.split(' ')[0], personalData.districtEn.split(' ')[0]) }},
                 </span>
-                <span>{{ currentLanguage === 'ua' ? personalData.region : personalData.regionEn }}</span>
+                <span>{{ getLangValue(personalData.region, personalData.regionEn) }}</span>
               </li>
             </ul>
           </div>

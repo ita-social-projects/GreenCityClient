@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { of } from 'rxjs';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -281,13 +281,19 @@ describe('UbsAdminAddressDetailsComponent', () => {
   fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminAddressDetailsComponent],
       imports: [TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk }
+        { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -617,5 +623,15 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('method setDistrict should set district value in Kyiv region', () => {
     component.setDistrict('1');
     expect(component.addressDistrict.value).toEqual(fakeDistricts[1].name);
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
+  });
+
+  it('should return ua value by getLangControl', () => {
+    const value = component.getLangControl(component.addressCity, component.addressCityEng);
+    expect(value).toEqual(component.addressCity);
   });
 });
