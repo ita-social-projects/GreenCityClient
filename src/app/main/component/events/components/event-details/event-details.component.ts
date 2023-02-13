@@ -7,7 +7,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { take, takeUntil } from 'rxjs/operators';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { EventPageResponceDto } from '../../models/events.interface';
+import { DateEventResponceDto, EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -58,6 +58,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public isAdmin = false;
   public event: EventPageResponceDto;
+  public locationLink: string = '';
+  public locationAddress: string = '';
+  public addressUa: string = '';
+  public addressEn: string = '';
 
   public images: string[] = [];
   public sliderIndex = 0;
@@ -102,12 +106,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.bindLang(this.currentLang);
+      this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
     });
 
     this.localStorageService.setEditMode('canUserEdit', true);
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
+      this.locationLink = this.event.dates[0].onlineLink;
+      this.addressUa = this.event.dates[0].coordinates.addressUa;
+      this.addressEn = this.event.dates[0].coordinates.addressEn;
+      this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
@@ -178,11 +187,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           this.isPosting = true;
         }
       });
-  }
-
-  public getEventLocation(event: any): string {
-    const address = this.getLangValue(event.coordinates.addressUa, event.coordinates.addressEn);
-    return event.onlineLink ? event.onlineLink : address;
   }
 
   public getLangValue(uaValue, enValue): string {

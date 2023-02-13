@@ -92,7 +92,7 @@
                 <img [src]="icons.location" alt="" />
               </div>
               <div>
-                {{ getEventLocation(event.dates[0]) }}
+                {{ locationLink ? locationLink : locationAddress }}
               </div>
             </div>
             <div class="event-status-access">
