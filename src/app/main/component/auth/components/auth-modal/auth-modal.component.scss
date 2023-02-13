@@ -12,7 +12,7 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   max-height: 760px;
   max-width: 960px;
@@ -21,6 +21,8 @@
   overflow: hidden;
 
   .left-side {
+    display: flex;
+    align-items: center;
     height: 100%;
   }
 
@@ -54,20 +56,20 @@
 
 @media screen and (max-width: 1620px) {
   .wrapper {
-    max-height: 700px;
+    max-height: 680px;
   }
 }
 
 @media screen and (max-width: 992px) {
-  .left-side {
-    display: none;
-  }
-
   .wrapper {
     width: 100%;
     max-width: 480px;
     max-height: 1000px;
     height: 1000px;
+
+    .left-side {
+      display: none;
+    }
   }
 }
 
