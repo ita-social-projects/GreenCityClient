@@ -15,6 +15,7 @@ import { Locations } from 'src/assets/locations/locations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -313,6 +314,11 @@ describe('UbsUserProfilePageComponent', () => {
   fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
   fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
+    return valUa;
+  };
+
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
@@ -324,6 +330,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: ClientProfileService, useValue: clientProfileServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript }
       ],
@@ -998,5 +1005,10 @@ describe('UbsUserProfilePageComponent', () => {
     const district = currentFormGroup.get('district');
     component.setDistrict('1', currentFormGroup);
     expect(district.value).toEqual(fakeDistricts[1].name);
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });

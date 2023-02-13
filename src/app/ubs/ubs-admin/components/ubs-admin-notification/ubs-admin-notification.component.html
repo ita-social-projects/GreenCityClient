@@ -20,7 +20,7 @@
     <tbody>
       <tr>
         <td>
-          {{ lang === 'ua' ? notification.title.ua : notification.title.en }}
+          {{ getLangValue(notification.title.ua, notification.title.en) }}
         </td>
         <td>
           {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
@@ -29,7 +29,7 @@
           {{ 'ubs-notifications.time.' + notification.time | translate }}
         </td>
         <td>
-          {{ notification.schedule | cron: lang }}
+          {{ notification.schedule | cron: currentLanguage }}
         </td>
         <td>
           {{ 'ubs-notifications.statuses.' + notification.status | translate }}
@@ -58,7 +58,7 @@
       <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
         <td>{{ platform.name | titlecase }}</td>
         <td>
-          {{ lang === 'ua' ? platform.body.ua : platform.body.en }}
+          {{ getLangValue(platform.body.ua, platform.body.en) }}
         </td>
         <td class="col-action">
           <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">

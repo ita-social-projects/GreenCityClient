@@ -27,6 +27,7 @@ import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -184,6 +185,11 @@ describe('UbsAdminPricingPageComponent', () => {
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage']);
   localStorageServiceMock.languageBehaviourSubject = of();
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
@@ -218,6 +224,7 @@ describe('UbsAdminPricingPageComponent', () => {
         { provide: MatDialogRef, useValue: dialogStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: Store, useValue: storeMock }
       ],
@@ -504,6 +511,11 @@ describe('UbsAdminPricingPageComponent', () => {
     component.getCouriers();
     expect(spy).toHaveBeenCalled();
     expect(component.couriers).toEqual([fakeCouriers]);
+  });
+
+  it('should return ua Value by getLangValue', () => {
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

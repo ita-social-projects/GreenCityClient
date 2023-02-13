@@ -168,10 +168,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
     courierPricePerPackage: 65,
     courierInfo: {
       courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      maxAmountOfBigBags: 99,
-      maxPriceOfOrder: 500000,
-      minAmountOfBigBags: 2,
-      minPriceOfOrder: 500
+      max: 99,
+      min: 2
     },
     orderBonusDiscount: 0,
     orderCertificateTotalDiscount: 0,

@@ -5,10 +5,7 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <select *ngIf="currentLanguage === 'ua'" formControlName="region" class="shadow-none form-control">
-      <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
-    </select>
-    <select *ngIf="currentLanguage === 'en'" formControlName="regionEn" class="shadow-none form-control">
+    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
       <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
     </select>
   </div>
@@ -16,7 +13,7 @@
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
     <input
       id="cityInput"
-      formControlName="{{ currentLanguage === 'ua' ? 'city' : 'cityEn' }}"
+      [formControlName]="getLangValue('city', 'cityEn')"
       class="shadow-none form-control"
       (keyup)="setPredictCities()"
       matInput
@@ -34,9 +31,11 @@
     </mat-autocomplete>
     <div
       class="validation"
-      *ngIf="(currentLanguage === 'ua' ? city : cityEn).invalid && (currentLanguage === 'ua' ? city : cityEn).touched"
+      *ngIf="
+        addAddressForm.get(this.getLangValue('city', 'cityEn')).invalid && addAddressForm.get(this.getLangValue('city', 'cityEn')).touched
+      "
     >
-      <app-ubs-input-error [formElement]="currentLanguage === 'ua' ? city : cityEn"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getLangValue(city, cityEn)"></app-ubs-input-error>
     </div>
   </div>
 
@@ -44,7 +43,7 @@
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
       id="streetInput"
-      formControlName="{{ currentLanguage === 'ua' ? 'street' : 'streetEn' }}"
+      [formControlName]="getLangValue('street', 'streetEn')"
       type="text"
       class="shadow-none form-control"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
@@ -64,9 +63,12 @@
     </mat-autocomplete>
     <div
       class="validation"
-      *ngIf="(currentLanguage === 'ua' ? street : streetEn).invalid && (currentLanguage === 'ua' ? street : streetEn).touched"
+      *ngIf="
+        addAddressForm.get(this.getLangValue('street', 'streetEn')).invalid &&
+        addAddressForm.get(this.getLangValue('street', 'streetEn')).touched
+      "
     >
-      <app-ubs-input-error [formElement]="currentLanguage === 'ua' ? street : streetEn"> </app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getLangValue(street, streetEn)"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
@@ -112,7 +114,7 @@
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select
       *ngIf="!isDistrict"
-      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+      [formControlName]="getLangValue('district', 'districtEn')"
       class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
     >
@@ -120,7 +122,7 @@
     </select>
     <select
       *ngIf="isDistrict"
-      formControlName="{{ currentLanguage === 'ua' ? 'district' : 'districtEn' }}"
+      [formControlName]="getLangValue('district', 'districtEn')"
       class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
     >
@@ -128,9 +130,12 @@
     </select>
     <div
       class="validation"
-      *ngIf="(currentLanguage === 'ua' ? district : districtEn).invalid && (currentLanguage === 'ua' ? district : districtEn).touched"
+      *ngIf="
+        addAddressForm.get(this.getLangValue('district', 'districtEn')).invalid &&
+        addAddressForm.get(this.getLangValue('district', 'districtEn')).touched
+      "
     >
-      <app-ubs-input-error [formElement]="currentLanguage === 'ua' ? district : districtEn"></app-ubs-input-error>
+      <app-ubs-input-error [formElement]="getLangValue(district, districtEn)"></app-ubs-input-error>
     </div>
   </div>
   <div class="form-group comment-section">

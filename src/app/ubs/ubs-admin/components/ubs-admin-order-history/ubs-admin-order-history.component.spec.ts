@@ -119,10 +119,8 @@ describe('UbsAdminOrderHistoryComponent', () => {
     courierPricePerPackage: 1,
     courierInfo: {
       courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      maxAmountOfBigBags: 99,
-      maxPriceOfOrder: null,
-      minAmountOfBigBags: 2,
-      minPriceOfOrder: null
+      min: 2,
+      max: 99
     },
     orderBonusDiscount: 0,
     orderCertificateTotalDiscount: 0,

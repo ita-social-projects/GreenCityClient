@@ -21,7 +21,7 @@
   <div class="tags">
     <div *ngFor="let tag of tags">
       <div class="tags-item" *ngIf="tag.isActive">
-        {{ currentLang === 'ua' ? tag.nameUa : tag.name }}
+        {{ getLangValue(tag.nameUa, tag.name) }}
       </div>
     </div>
   </div>

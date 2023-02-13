@@ -15,6 +15,7 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -73,6 +74,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private clientProfileService: ClientProfileService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private locations: Locations,
     private googleScript: GoogleScript
   ) {}
@@ -84,6 +86,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   ngAfterViewInit(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
       this.googleScript.load(lang);
     });
   }
@@ -204,7 +207,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
-    (this.currentLanguage === 'ua' ? region : regionEn).valueChanges.subscribe(() => {
+    currentFormGroup.get(this.getLangValue('region', 'regionEn')).valueChanges.subscribe(() => {
       currentFormGroup.get('cityEn').setValue('');
       currentFormGroup.get('city').setValue('');
       currentFormGroup.get('districtEn').setValue('');
@@ -264,13 +267,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   onCitySelected(formGroupName: number, selectedCity: google.maps.places.AutocompletePrediction): void {
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const cityEn = currentFormGroup.get('cityEn');
-    const city = currentFormGroup.get('city');
 
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
     this.setValueOfCity(selectedCity, currentFormGroup, 'cityEn');
 
-    (this.currentLanguage === 'ua' ? city : cityEn).valueChanges.subscribe(() => {
+    currentFormGroup.get(this.getLangValue('city', 'cityEn')).valueChanges.subscribe(() => {
       currentFormGroup.get('districtEn').setValue('');
       currentFormGroup.get('district').setValue('');
       currentFormGroup.get('street').setValue('');
@@ -555,6 +556,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.alternativeEmailDisplay = !this.alternativeEmailDisplay;
 
     this.alternativeEmailDisplay ? this.userForm.addControl('alternateEmail', control) : this.userForm.removeControl('alternateEmail');
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

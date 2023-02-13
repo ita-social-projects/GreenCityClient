@@ -76,10 +76,8 @@ export interface IOrderInfo {
 
 export interface ICourierInfo {
   courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
-  maxAmountOfBigBags: number;
-  maxPriceOfOrder: number;
-  minAmountOfBigBags: number;
-  minPriceOfOrder: number;
+  min: number;
+  max: number;
 }
 
 export interface IOrderDetails {
