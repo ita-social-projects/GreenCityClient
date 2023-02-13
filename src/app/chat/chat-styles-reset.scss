@@ -171,7 +171,7 @@ body {
   color: #222;
 }
 
-.custom-dialog-container .mat-dialog-container {
+.custom-dialog-container .mat-dialog-container::-webkit-scrollbar {
   display: none;
 }
 
