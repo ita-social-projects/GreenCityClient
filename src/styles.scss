@@ -259,6 +259,21 @@ body {
   background-color: var(--primary-green);
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ubs-secondary-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ubs-secondary-grey);
+  box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .disagree {
   background: #fff;
   color: var(--ubs-primary-green);
