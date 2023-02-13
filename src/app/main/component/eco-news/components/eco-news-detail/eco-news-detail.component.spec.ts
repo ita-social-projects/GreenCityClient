@@ -17,6 +17,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Language } from '../../../../i18n/Language';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -68,6 +69,9 @@ describe('EcoNewsDetailComponent', () => {
   ecoNewsServ.postToggleLike.and.returnValue(of({}));
   ecoNewsServ.getIsLikedByUser.and.returnValue(of(true));
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue(['tagOne', 'tagTwo']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -85,7 +89,8 @@ describe('EcoNewsDetailComponent', () => {
         { provide: EcoNewsService, useValue: ecoNewsServ },
         Sanitizer,
         { provide: DomSanitizer, useValue: sanitaizerMock },
-        { provide: LocalStorageService, useValue: backLink }
+        { provide: LocalStorageService, useValue: backLink },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
 
@@ -159,12 +164,14 @@ describe('EcoNewsDetailComponent', () => {
   });
 
   it('getAllTags should return array of ua tags', () => {
+    languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
     component.newsItem.tagsUa = ['Події', 'Освіта'];
     expect(component.getAllTags()).toEqual(['Події', 'Освіта']);
   });
 
   it('getAllTags should return array of tags', () => {
     component.currentLang = 'en';
+    languageServiceMock.getLangValue.and.returnValue(['Events', 'Education']);
     component.newsItem.tags = ['Events', 'Education'];
     expect(component.getAllTags()).toEqual(['Events', 'Education']);
   });
@@ -201,10 +208,9 @@ describe('EcoNewsDetailComponent', () => {
 
   it('should return twitter social share link and call open method', () => {
     const spy = spyOn(window, 'open');
-    const tags = component.tags;
     component.onSocialShareLinkClick('twitter');
     expect(spy).toHaveBeenCalledWith(
-      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${tags.join(',')}`,
+      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${component.tags.join(',')}`,
       '_blank'
     );
   });

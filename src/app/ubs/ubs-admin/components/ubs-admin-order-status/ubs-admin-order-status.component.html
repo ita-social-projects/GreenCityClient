@@ -28,7 +28,7 @@
                     [selected]="status?.key === generalInfo.orderStatus"
                     [value]="status?.key"
                   >
-                    {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
+                    {{ getLangValue(status?.ua, status?.eng) }}
                   </option>
                 </select>
               </div>
@@ -45,7 +45,7 @@
                     *ngFor="let status of generalInfo.orderPaymentStatusesDto"
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
                   >
-                    {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
+                    {{ getLangValue(status?.ua, status?.eng) }}
                   </option>
                 </select>
               </div>

@@ -28,11 +28,7 @@ export const tariffReducer = createReducer(
         action.editedLocations.forEach((actionEditedLocation) => {
           if (locationDto.locationId === actionEditedLocation.locationId) {
             stateLocations[stateLocationIndex].locationsDto[locationDtoIndex].locationTranslationDtoList.forEach((location) => {
-              if (location.languageCode === 'ua') {
-                location.locationName = actionEditedLocation.nameUa;
-              } else {
-                location.locationName = actionEditedLocation.nameEn;
-              }
+              location.locationName = location.languageCode === 'ua' ? actionEditedLocation.nameUa : actionEditedLocation.nameEn;
             });
           }
         });

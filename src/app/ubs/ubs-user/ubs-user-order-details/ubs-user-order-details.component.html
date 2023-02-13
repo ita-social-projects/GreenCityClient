@@ -10,8 +10,7 @@
     </tr>
     <ng-container *ngFor="let bag of order.bags">
       <tr class="data_table">
-        <td *ngIf="currentLanguage === 'ua'">{{ bag.service }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ bag.serviceEng }}</td>
+        <td>{{ getLangValue(bag.service, bag.serviceEng) }}</td>
         <td>{{ bag.capacity }} {{ 'user-orders.details.litr' | translate }}</td>
         <td>{{ bag.fullPrice }} {{ 'user-orders.details.currency' | translate }}</td>
         <td>{{ bag.count }} {{ 'user-orders.details.pieces' | translate }}</td>
@@ -67,21 +66,17 @@
     </ol>
     <ol class="recipient">
       <h6 class="bold_text">{{ 'user-orders.details.export-address' | translate }}</h6>
-      <li *ngIf="currentLanguage === 'ua'">м. {{ order.address.addressCity }}</li>
-      <li *ngIf="currentLanguage === 'en'">{{ order.address.addressCityEng }}</li>
+      <li>{{ getLangValue('м. ', '') }}{{ getLangValue(order.address.addressCity, order.address.addressCityEng) }}</li>
       <li>
-        <span *ngIf="currentLanguage === 'ua'">{{ order.address.addressStreet }}, </span>
-        <span *ngIf="currentLanguage === 'en'">{{ order.address.addressStreetEng }}, </span>
+        <span>{{ getLangValue(order.address.addressStreet, order.address.addressStreetEng) }}, </span>
         <span>{{ order.address.houseNumber }},</span><br />
         <span>{{ 'user-orders.details.block-number' | translate }} {{ order.address.houseCorpus || '-' }}</span
         ><br />
         <span>{{ 'user-orders.details.entrance' | translate }} {{ order.address.entranceNumber || '-' }}</span
         ><br />
-        <span *ngIf="currentLanguage === 'ua'">
-          {{ 'user-orders.details.district' | translate }} {{ order.address.addressDistinct || '-' }}</span
-        >
-        <span *ngIf="currentLanguage === 'en'">
-          {{ 'user-orders.details.district' | translate }} {{ order.address.addressDistinctEng || '-' }}</span
+        <span>
+          {{ 'user-orders.details.district' | translate }}
+          {{ getLangValue(order.address.addressDistinct || '-', order.address.addressDistinctEng || '-') }}</span
         >
       </li>
     </ol>

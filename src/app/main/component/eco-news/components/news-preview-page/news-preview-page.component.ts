@@ -12,6 +12,7 @@ import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/sto
 import { ofType } from '@ngrx/effects';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-news-preview-page',
@@ -37,6 +38,7 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private createEcoNewsService: CreateEcoNewsService,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private router: Router,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {}
@@ -109,6 +111,10 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
       return this.previewItem.value.image;
     }
     return this.images.largeImage;
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy() {

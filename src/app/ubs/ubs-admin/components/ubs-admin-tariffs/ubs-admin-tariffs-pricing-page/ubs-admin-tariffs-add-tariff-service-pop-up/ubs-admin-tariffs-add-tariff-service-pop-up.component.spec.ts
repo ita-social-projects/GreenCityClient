@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +10,7 @@ import { ModalTextComponent } from '../../../shared/components/modal-text/modal-
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
+import { Patterns } from '../../../../../../../assets/patterns/patterns';
 
 describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
@@ -19,9 +20,9 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   const fakeBagForm = new FormGroup({
     name: new FormControl('fake'),
     nameEng: new FormControl('fake'),
-    capacity: new FormControl('fake'),
-    commission: new FormControl('fake'),
-    price: new FormControl('fake'),
+    capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    commission: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
     description: new FormControl('fake'),
     descriptionEng: new FormControl('fake')
   });

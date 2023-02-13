@@ -31,7 +31,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     },
     clock: 'assets/img/events/clock.svg',
     location: 'assets/img/events/location.svg',
-    lock: 'assets/img/events/lock.svg',
+    lock: {
+      open: 'assets/img/events/lock.svg',
+      closed: 'assets/img/events/lock-closed.svg'
+    },
     user: 'assets/img/events/user.svg',
     ellipsis: 'assets/img/events/ellipsis.svg',
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
