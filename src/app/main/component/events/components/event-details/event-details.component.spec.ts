@@ -2,28 +2,29 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
-@Pipe({ name: 'translate' })
-class TranslatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
-}
+export function mockPipe(options: Pipe): Pipe {
+  const metadata: Pipe = {
+    name: options.name
+  };
 
-@Pipe({ name: 'dateLocalisation' })
-class DatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
+  return <any>Pipe(metadata)(
+    class MockPipe implements PipeTransform {
+      transform(value: string): string {
+        return value;
+      }
+    }
+  );
 }
 
 describe('EventDetailsComponent', () => {
@@ -98,8 +99,14 @@ describe('EventDetailsComponent', () => {
     }
   }
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
@@ -109,13 +116,14 @@ describe('EventDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
-      declarations: [EventDetailsComponent, DatePipeMock, TranslatePipeMock],
+      declarations: [EventDetailsComponent, mockPipe({ name: 'dateLocalisation' }), mockPipe({ name: 'translate' })],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub }
@@ -144,11 +152,6 @@ describe('EventDetailsComponent', () => {
     expect(spy1).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith('ua');
     expect(spy2).toHaveBeenCalled();
-  });
-
-  it('should call setDefaultLang on bindLang', () => {
-    (component as any).bindLang('en');
-    expect(translateServiceMock.setDefaultLang).toHaveBeenCalledWith('en');
   });
 
   it('should verify unauthenticated role', () => {
@@ -186,5 +189,10 @@ describe('EventDetailsComponent', () => {
         done();
       });
     });
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });

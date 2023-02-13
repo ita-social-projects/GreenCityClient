@@ -13,6 +13,7 @@ import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-event-details',
@@ -84,6 +85,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private eventService: EventsService,
     public router: Router,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private translate: TranslateService,
     private dialog: MatDialog,
     private store: Store,
@@ -176,6 +178,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           this.isPosting = true;
         }
       });
+  }
+
+  public getEventLocation(event: any): string {
+    const address = this.getLangValue(event.coordinates.addressUa, event.coordinates.addressEn);
+    return event.onlineLink ? event.onlineLink : address;
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy() {

@@ -16,7 +16,6 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
-import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()

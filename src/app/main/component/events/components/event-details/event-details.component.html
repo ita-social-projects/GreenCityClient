@@ -48,7 +48,7 @@
 
         <div class="event-tags-participants">
           <div class="event-tags">
-            <div class="event-tag" *ngFor="let tag of event.tags">{{ (currentLang == 'ua' ? tag.nameUa : tag.nameEn) | uppercase }}</div>
+            <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
           </div>
           <div class="event-participants">
             <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
@@ -92,13 +92,7 @@
                 <img [src]="icons.location" alt="" />
               </div>
               <div>
-                {{
-                  event.dates[0].onlineLink
-                    ? event.dates[0].onlineLink
-                    : currentLang == 'ua'
-                    ? event.dates[0].coordinates.addressEn
-                    : event.dates[0].coordinates.addressEn
-                }}
+                {{ getEventLocation(event.dates[0]) }}
               </div>
             </div>
             <div class="event-status-access">
