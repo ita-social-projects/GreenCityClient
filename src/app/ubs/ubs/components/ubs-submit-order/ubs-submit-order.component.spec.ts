@@ -17,7 +17,11 @@ describe('UBSSubmitOrderComponent', () => {
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
   let mockedtakeOrderDetails;
   let router: Router;
-  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'setUserPagePayment']);
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'getCurrentLanguage',
+    'setUserPagePayment',
+    'setFinalSumOfOrder'
+  ]);
   fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
   fakeLocalStorageService.languageSubject = of('ua');
   const fakeOrderService = jasmine.createSpyObj('fakeOrderService', ['getOrderUrl']);
@@ -112,8 +116,8 @@ describe('UBSSubmitOrderComponent', () => {
     fixture.detectChanges();
     component.takeOrderDetails = mockedtakeOrderDetails;
     component.takeOrderDetails();
-    expect(component.orderDetails).toBe(mockedOrderDetails);
-    expect(component.personalData).toBe(mockedPersonalData);
+    expect(component.orderDetails).toEqual(mockedOrderDetails);
+    expect(component.personalData).toEqual(mockedPersonalData);
   });
 
   it('error from subscription should set loadingAnim to false', () => {

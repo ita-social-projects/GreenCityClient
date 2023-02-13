@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -22,6 +22,7 @@ describe('UbsConfirmPageComponent', () => {
     'saveDataOnLocalStorage'
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getFinalSumOfOrder', 'clearPaymentInfo']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +31,8 @@ describe('UbsConfirmPageComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: fakeSnackBar },
         { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
-        { provide: JwtService, useValue: fakeJwtService }
+        { provide: JwtService, useValue: fakeJwtService },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -82,6 +84,7 @@ describe('UbsConfirmPageComponent', () => {
   it('checkPaymentStatus should set true to orderPaymentError if response.code is payment_not_found', () => {
     const orderService = 'orderService';
     spyOn(component[orderService], 'getUbsOrderStatus').and.returnValue(of({ code: 'payment_not_found', order_id: '123_457' }));
+    fakeLocalStorageService.getFinalSumOfOrder.and.returnValue('999');
     component.checkPaymentStatus();
     expect(component.isSpinner).toBeFalsy();
     expect(component.orderPaymentError).toBeTruthy();

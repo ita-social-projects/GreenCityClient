@@ -20,6 +20,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   isSpinner = true;
   pageReloaded = false;
   orderPaymentError = false;
+  finalSumOfOrder: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -80,7 +81,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       .getUbsOrderStatus()
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        this.orderPaymentError = response?.code === 'payment_not_found';
+        this.finalSumOfOrder = this.localStorageService.getFinalSumOfOrder();
+        this.orderPaymentError = this.finalSumOfOrder ? response?.code === 'payment_not_found' : false;
         this.isSpinner = false;
       });
   }
