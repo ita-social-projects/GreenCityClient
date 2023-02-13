@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 })
 export class OneHabitComponent implements OnInit, OnDestroy {
   @Input() habit: HabitAssignInterface;
+  today: string;
   currentDate: string;
   showPhoto: boolean;
   daysCounter: number;
@@ -52,7 +53,8 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.currentDate = this.formatDateService.formatDate(new Date().toLocaleDateString());
+    this.today = this.formatDateService.formatDate(new Date().toString());
+    this.currentDate = this.formatDateService.formatDate(this.today);
     this.buildHabitDescription();
   }
 
@@ -75,23 +77,18 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   }
 
   setGreenCircleInCalendar(isSetCircle: boolean) {
-    const currentDate = this.formatDateService.formatDate(new Date().toLocaleDateString());
-    const lastDayInMonth = this.formatDateService.formatDate(
-      new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toLocaleDateString()
-    );
-    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find(
-      (item) => item.enrollDate === this.formatDateService.formatDate(new Date().toLocaleDateString())
-    );
+    const lastDayInMonth = this.formatDateService.formatDate(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toString());
+    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.today);
     if (dataFromDashBoard) {
       dataFromDashBoard.habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
     } else {
       this.habitAssignService
-        .getAssignHabitsByPeriod(currentDate, lastDayInMonth)
+        .getAssignHabitsByPeriod(this.currentDate, lastDayInMonth)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res) => {
           this.habitAssignService.habitsFromDashBoard = res;
           this.habitAssignService.habitsFromDashBoard
-            .find((item) => item.enrollDate === this.formatDateService.formatDate(new Date().toLocaleDateString()))
+            .find((item) => item.enrollDate === this.currentDate)
             .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
         });
     }
