@@ -46,6 +46,12 @@
     </div>
     <hr />
   </div>
-  <app-time-picker *ngIf="showTimePicker" (timeOfExport)="setExportTime($event)" [setTimeFrom]="fromInput" [setTimeTo]="toInput">
+  <app-time-picker
+    *ngIf="showTimePicker"
+    (timeOfExport)="setExportTime($event)"
+    [setTimeFrom]="fromInput"
+    [setTimeTo]="toInput"
+    [exportDate]="getExportDate()"
+  >
   </app-time-picker>
 </div>

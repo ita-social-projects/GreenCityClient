@@ -39,6 +39,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy {
     this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
   }
 
+  getExportDate(): string {
+    return this.exportDetailsDto.get('dateExport').value;
+  }
+
   setExportTime(data: any): void {
     this.exportDetailsDto.get('timeDeliveryFrom').setValue(data.from);
     this.exportDetailsDto.get('timeDeliveryTo').setValue(data.to);
