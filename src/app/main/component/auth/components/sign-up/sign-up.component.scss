@@ -143,7 +143,7 @@
 }
 
 .exist-account {
-  margin-top: 86px;
+  margin-top: 70px;
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 24px;
@@ -160,5 +160,11 @@
     color: var(--primary-green);
     margin-left: 16px;
     text-decoration: none;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .exist-account {
+    margin-top: 40px;
   }
 }

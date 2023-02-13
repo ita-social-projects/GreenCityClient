@@ -207,3 +207,9 @@ h2 {
     text-decoration: none;
   }
 }
+
+@media screen and (max-width: 375px) {
+  .missing-account {
+    margin-top: 40px;
+  }
+}
