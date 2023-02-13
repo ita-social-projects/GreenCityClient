@@ -159,6 +159,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   takeOrderDetails() {
     this.shareFormService.changedOrder.pipe(takeUntil(this.destroy)).subscribe((orderDetails: OrderDetails) => {
+      this.localStorageService.setFinalSumOfOrder(orderDetails.finalSum);
       this.orderDetails = orderDetails;
       this.bags = orderDetails.bags.filter((bagItem) => bagItem.quantity !== null);
       this.additionalOrders = orderDetails.additionalOrders;
