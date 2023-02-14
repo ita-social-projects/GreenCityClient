@@ -132,8 +132,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       email: [this.data?.email ?? '']
     });
     this.employeePositions = this.data?.employeePositions ?? [];
-    this.tariffs = this.mappers.tariffs(this.data?.tariffs) ?? [];
-    console.log(this.tariffs);
     // this.receivingStations = this.data?.receivingStations ?? [];
     this.imageURL = this.data?.image;
     this.editMode = !!this.data;
@@ -148,6 +146,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         employeePositionsIds: this.employeePositions.map((position) => position.id)
         // receivingStationsIds: this.receivingStations.map((station) => station.id)
       };
+      this.tariffs = this.mappers.tariffs(this.data?.tariffs) ?? [];
     }
   }
 
@@ -223,6 +222,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
+    console.log(formData.get(dto));
     return formData;
   }
 
@@ -248,7 +248,10 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   createEmployee(): void {
-    const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto');
+    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL;
+    const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto', image);
+    console.log(dataToSend);
+    console.log(this.employeeDataToSend);
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
