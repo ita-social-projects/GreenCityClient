@@ -16,6 +16,6 @@ describe('FormatDateService', () => {
 
   it('formatDate', () => {
     const dateRes = service.formatDate('Mon Feb 13 2023 21:57:55 GMT+0200 (за східноєвропейським стандартним часом)');
-    expect(dateRes).toBe('2022-02-13');
+    expect(dateRes).toBe('2023-02-13');
   });
 });
