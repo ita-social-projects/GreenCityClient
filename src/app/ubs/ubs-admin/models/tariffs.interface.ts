@@ -3,6 +3,7 @@ export interface Bag {
   nameEng?: string;
   capacity: number;
   price: number;
+  limitIncluded?: boolean;
   commission: number;
   description?: string;
   descriptionEng?: string;

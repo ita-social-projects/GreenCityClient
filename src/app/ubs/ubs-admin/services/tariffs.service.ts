@@ -101,6 +101,14 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
   }
 
+  includeBag(id: number) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/excludeLimit/${id}`, null);
+  }
+
+  excludeBag(id: number) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/includeLimit/${id}`, null);
+  }
+
   public getJSON(sourceText, lang, translateTo): Observable<any> {
     return ajax.getJSON(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)

@@ -202,6 +202,31 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitStatus = null;
   }
 
+  private filterBags(): void {
+    this.bags = this.bags.sort((a, b) => b.price - a.price);
+  }
+
+  setLimitIncludedStatus(index) {
+    const id = this.bags[index].id;
+
+    if (!this.bags[index].limitIncluded) {
+      this.tariffsService
+        .excludeBag(id)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getAllTariffsForService();
+        });
+    }
+    if (this.bags[index].limitIncluded) {
+      this.tariffsService
+        .includeBag(id)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getAllTariffsForService();
+        });
+    }
+  }
+
   async getCourierId(): Promise<any> {
     try {
       const res: any = await this.tariffsService.getCardInfo().toPromise();
@@ -318,6 +343,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Bag[]) => {
         this.bags = res;
+        this.filterBags();
         this.isLoadBar = false;
       });
   }
