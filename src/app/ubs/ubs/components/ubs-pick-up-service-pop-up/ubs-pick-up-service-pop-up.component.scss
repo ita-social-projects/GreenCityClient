@@ -1,0 +1,84 @@
+.pick-up-service {
+  width: 1339px;
+  height: 1317px;
+  background-color: #f6f6f6;
+  border-radius: 18px;
+  font-family: var(--secondary-font);
+  flex-direction: column;
+  justify-content: space-around;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 2000;
+
+  .about-service {
+    width: 1339px;
+    height: 150px;
+    position: fixed;
+    top: 0;
+    // margin-left: 100px;
+    background-color: #f6f6f6;
+  }
+
+  .main-container {
+    overflow-y: scroll;
+    display: flex;
+    margin: 50px 130px 0 100px;
+
+    .box {
+      background: #ffffff;
+      border-radius: 15px;
+    }
+
+    .title {
+      font-weight: 800;
+      font-size: 60px;
+      line-height: 73px;
+      letter-spacing: -0.025em;
+    }
+
+    .caption {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    .content {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: black;
+    }
+  }
+}
+
+.left-column,
+.right-column {
+  width: 540px;
+  height: 1065px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.box-item {
+  display: flex;
+}
+
+.pick-up-city {
+  height: 152px;
+}
+
+.how-it-works {
+  height: 200px;
+}
+
+.courier {
+  height: 389px;
+}
+
+.price {
+  height: 276px;
+}

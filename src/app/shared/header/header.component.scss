@@ -5,6 +5,14 @@ $ubs-header-height: 116px;
 
 ::ng-deep .custom-dialog-container .mat-dialog-container {
   background-color: transparent;
+  overflow: hidden;
+}
+
+::ng-deep .custom-dialog-container-pick-up {
+  width: 1340px;
+  height: 1320px;
+  overflow: hidden;
+  padding: 0;
 }
 
 .active-link {
@@ -406,13 +414,21 @@ header {
   .header_navigation-menu-left {
     width: 50%;
 
-    ul .nav-left-list {
-      &:first-child {
+    .pick-up-service {
+      font-family: var(--ubs-secondary-font);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+      color: var(--ubs-main-page-text-grey);
+
+      &:hover {
         text-decoration: underline;
         text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
         text-underline-offset: 7px;
       }
+    }
 
+    ul .nav-left-list {
       .url-name {
         font-family: var(--ubs-secondary-font);
         font-weight: 700;
