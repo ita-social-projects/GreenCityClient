@@ -116,12 +116,11 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
       nameEng,
       price,
       description,
-      descriptionEng,
-      id
+      descriptionEng
     };
     this.loadingAnim = true;
     this.tariffsService
-      .editService(this.service)
+      .editService(this.service, id)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close();

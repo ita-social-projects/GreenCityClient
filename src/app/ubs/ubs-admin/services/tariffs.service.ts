@@ -68,8 +68,8 @@ export class TariffsService {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getService`);
   }
 
-  editService(service: Service) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService`, service);
+  editService(service: Service, id: number) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
 
   getLocations(): Observable<Locations[]> {
