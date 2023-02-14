@@ -81,7 +81,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
       price,
-      tariffId,
       description,
       descriptionEng,
       name,
@@ -89,7 +88,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     };
     this.loadingAnim = true;
     this.tariffsService
-      .createService(this.service)
+      .createService(this.service, tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close();

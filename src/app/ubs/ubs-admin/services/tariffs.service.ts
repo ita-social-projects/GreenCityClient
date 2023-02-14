@@ -14,7 +14,6 @@ export class TariffsService {
 
   courierId: number;
   locationId: number;
-  allTariffServices: any;
   serviceId: number;
 
   setServiceId(id: number) {
@@ -45,8 +44,8 @@ export class TariffsService {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
 
-  createNewTariffForService(tariffService: Bag) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createTariffService`, tariffService);
+  createNewTariffForService(tariffService: Bag, tariffId: number) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/${tariffId}/createTariffService`, tariffService);
   }
 
   deleteTariffForService(id: number) {
@@ -61,8 +60,8 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, body);
   }
 
-  createService(service: Service) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createService`, service);
+  createService(service: Service, tariffId: number) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/${tariffId}/createService`, service);
   }
 
   getService(tariffId) {
