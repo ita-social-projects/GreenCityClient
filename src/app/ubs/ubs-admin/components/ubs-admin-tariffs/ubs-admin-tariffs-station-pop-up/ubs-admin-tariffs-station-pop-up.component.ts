@@ -27,8 +27,8 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   stationExist = false;
   authorName: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe;
-  newDate;
+  datePipe: DatePipe;
+  newDate: string;
   stations = [];
   currentId: number;
   private destroy: Subject<boolean> = new Subject<boolean>();

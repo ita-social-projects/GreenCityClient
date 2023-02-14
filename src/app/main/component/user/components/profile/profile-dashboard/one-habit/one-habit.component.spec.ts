@@ -1,13 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitService } from '@global-service/habit/habit.service';
-import { FormatDateService } from '@global-user/services/format-date.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { OneHabitComponent } from './one-habit.component';
+
+@Pipe({ name: 'datePipe' })
+class DatePipeMock implements PipeTransform {
+  transform(value: Date): string {
+    const date = value.toLocaleDateString().split('/');
+    return [date[2], date[0].length < 2 ? '0' + date[0] : date[0], date[1].length < 2 ? '0' + date[1] : date[1]].join('-');
+  }
+}
 
 describe('OneHabitComponent', () => {
   let component: OneHabitComponent;
@@ -53,18 +60,15 @@ describe('OneHabitComponent', () => {
     'enrollByHabit',
     'unenrollByHabit'
   ]);
-  const formatDateServiceMock = jasmine.createSpyObj('formatDateService', ['formatDate']);
-  formatDateServiceMock.formatDate.and.returnValue('2022-02-19');
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, TranslateModule.forRoot(), DatePipeMock],
       declarations: [OneHabitComponent],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: HabitService, useValue: {} },
-        { provide: FormatDateService, useValue: formatDateServiceMock },
         { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

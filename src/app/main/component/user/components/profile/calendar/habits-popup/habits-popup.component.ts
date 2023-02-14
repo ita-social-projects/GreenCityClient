@@ -6,8 +6,8 @@ import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
 import { HabitPopupInterface } from '../habit-popup-interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LanguageService } from '../../../../../../i18n/language.service';
-import { FormatDateService } from '@global-user/services/format-date.service';
 import { HabitStatusCalendarListInterface } from '../../../../../../interface/habit/habit-assign.interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-habits-popup',
@@ -31,7 +31,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<HabitsPopupComponent>,
     public habitAssignService: HabitAssignService,
-    public formatDateService: FormatDateService,
+    public datePipe: DatePipe,
     public languageService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -139,15 +139,15 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   setCircleFromPopUpToCards(id: number, habitIndex: number, isEnrolled: boolean) {
-    const today = new Date().toString();
+    const currentDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     const isExistArray = this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id);
     this.setWorkingDaysForVisibleHabit(isEnrolled, id);
     this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
     if (this.habitsCalendarSelectedDate === this.today) {
       if (isEnrolled) {
-        this.arrayOfDate.push({ enrollDate: this.formatDateService.formatDate(today), id: null });
+        this.arrayOfDate.push({ enrollDate: currentDate, id: null });
       } else {
-        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDateService.formatDate(today));
+        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== currentDate);
       }
       this.updateHabitsCardsCircleAndStreak(id, isExistArray, this.arrayOfDate);
     }
