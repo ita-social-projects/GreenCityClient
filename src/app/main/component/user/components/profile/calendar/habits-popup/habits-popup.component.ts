@@ -26,7 +26,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   destroy = new Subject<void>();
   arrayOfDay: any;
   habitStreak = 0;
-  currentDate: any;
+  currentDate: Date;
 
   constructor(
     public dialogRef: MatDialogRef<HabitsPopupComponent>,

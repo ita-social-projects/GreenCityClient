@@ -9,12 +9,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { DatePipe } from '@angular/common';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
   transform(value: Date): string {
-    const date = value.toLocaleDateString().split('/');
-    return [date[2], date[0].length < 2 ? '0' + date[0] : date[0], date[1].length < 2 ? '0' + date[1] : date[1]].join('-');
+    return '2023-02-14';
   }
 }
 
@@ -50,9 +50,10 @@ describe('HabitsPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot(), DatePipeMock],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [HabitsPopupComponent],
       providers: [
+        { provide: DatePipe, useClass: DatePipeMock },
         { provide: MatDialogRef, useValue: dialogRefMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
@@ -170,7 +171,7 @@ describe('HabitsPopupComponent', () => {
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(true, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
-      expect(component.arrayOfDate).toEqual([{ enrollDate: '2022-02-19', id: null }]);
+      expect(component.arrayOfDate).toEqual([{ enrollDate: '2023-02-14', id: null }]);
     });
 
     it('makes expected calls when is not enrolled', () => {
