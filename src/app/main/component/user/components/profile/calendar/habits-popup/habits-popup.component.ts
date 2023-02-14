@@ -139,16 +139,15 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   setCircleFromPopUpToCards(id: number, habitIndex: number, isEnrolled: boolean) {
+    const today = new Date().toString();
     const isExistArray = this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id);
     this.setWorkingDaysForVisibleHabit(isEnrolled, id);
     this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
     if (this.habitsCalendarSelectedDate === this.today) {
       if (isEnrolled) {
-        this.arrayOfDate.push({ enrollDate: this.formatDateService.formatDate(new Date().toLocaleDateString()), id: null });
+        this.arrayOfDate.push({ enrollDate: this.formatDateService.formatDate(today), id: null });
       } else {
-        this.arrayOfDate = this.arrayOfDate.filter(
-          (item) => item.enrollDate !== this.formatDateService.formatDate(new Date().toLocaleDateString())
-        );
+        this.arrayOfDate = this.arrayOfDate.filter((item) => item.enrollDate !== this.formatDateService.formatDate(today));
       }
       this.updateHabitsCardsCircleAndStreak(id, isExistArray, this.arrayOfDate);
     }
