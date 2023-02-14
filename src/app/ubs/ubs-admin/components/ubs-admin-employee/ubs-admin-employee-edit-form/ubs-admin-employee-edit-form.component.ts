@@ -73,6 +73,16 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   selectedFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
+  private mappers = {
+    tariffs: (tariffData) =>
+      tariffData.map((tariff) => ({
+        id: tariff.id,
+        courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
+        region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
+        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk }))
+      }))
+  };
+
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
       (roles) => {
@@ -105,16 +115,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
-
-  private mappers = {
-    tariffs: (tariffData) =>
-      tariffData.map((tariff) => ({
-        id: tariff.id,
-        courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
-        region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
-        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk }))
-      }))
-  };
 
   constructor(
     private employeeService: UbsAdminEmployeeService,
