@@ -88,8 +88,8 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
   }
 
-  setLimitDescription(description, courierId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${courierId}`, description);
+  setLimitDescription(description, tariffId: number) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${tariffId}`, description);
   }
 
   setLimitsBySumOrder(info, tariffId) {

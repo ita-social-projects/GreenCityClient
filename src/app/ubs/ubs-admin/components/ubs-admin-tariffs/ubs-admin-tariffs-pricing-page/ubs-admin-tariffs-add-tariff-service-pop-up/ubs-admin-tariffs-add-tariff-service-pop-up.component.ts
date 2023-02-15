@@ -44,7 +44,6 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
     this.initForm();
     this.fillFields();
-    console.log(this.receivedData);
   }
 
   private initForm(): void {

@@ -237,7 +237,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async changeDescription(): Promise<any> {
+  changeDescription(): void {
     const { limitDescription } = this.limitsForm.value;
     const tariffId = this.selectedCardId;
 
