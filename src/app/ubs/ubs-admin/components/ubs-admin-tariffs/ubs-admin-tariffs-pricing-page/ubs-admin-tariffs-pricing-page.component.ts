@@ -50,6 +50,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
+  checkBoxInfo = [];
   service: Service;
   thisLocation: Locations[];
   reset = true;
@@ -215,9 +216,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getCheckBoxInfo(): void {
-    const checkBoxInfo = [];
     this.bags.forEach((value) => {
-      checkBoxInfo.push({ id: value.id, limitIncluded: value.limitIncluded });
+      this.checkBoxInfo.push({ id: value.id, limitIncluded: value.limitIncluded });
     });
   }
 

@@ -82,7 +82,9 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeBag: Bag = {
     capacity: 111,
     price: 478,
-    commission: 15
+    commission: 15,
+    limitIncluded: false,
+    id: 1
   };
   const fakeDescription = {
     limitDescription: 'fake'
@@ -511,6 +513,28 @@ describe('UbsAdminPricingPageComponent', () => {
     component.getCouriers();
     expect(spy).toHaveBeenCalled();
     expect(component.couriers).toEqual([fakeCouriers]);
+  });
+
+  it('onCheck should set limitIncluded to true of checked is true', () => {
+    const fakeEvent = {
+      checked: true
+    };
+    component.onChecked(fakeBag.id, fakeEvent);
+    expect(fakeBag.limitIncluded).toEqual(true);
+  });
+
+  it('onCheck should set limitIncluded to false of checked is false', () => {
+    const fakeEvent = {
+      checked: false
+    };
+    component.onChecked(fakeBag.id, fakeEvent);
+    expect(fakeBag.limitIncluded).toEqual(false);
+  });
+
+  it('should check whether getCheckBoxInfo works correctly', () => {
+    component.bags = [fakeBag];
+    component.getCheckBoxInfo();
+    expect(component.checkBoxInfo).toEqual([{ id: 1, limitIncluded: false }]);
   });
 
   it('should return ua Value by getLangValue', () => {
