@@ -35,6 +35,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { environment } from '@environment/environment';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     NgSelectModule,
     MatCheckboxModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      apiKey: environment.apiMapKey,
       libraries: ['places']
     }),
     TranslateModule
