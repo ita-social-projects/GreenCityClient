@@ -47,13 +47,11 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   roles: IEmployeePositions[];
   employeeForm: FormGroup;
   employeePositions: IEmployeePositions[];
-  // receivingStations: IReceivingStations[];
   tariffs: {
     id: number;
     region: { en: string; ua: string };
     location: { en: string; ua: string };
     courier: { en: string; ua: string };
-    // station: string;
   }[] = [];
   employeeDataToSend: Page;
   isDeleting = false;
@@ -124,7 +122,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
-    console.log(this.data);
     this.employeeForm = this.fb.group({
       firstName: [this.data?.firstName ?? '', Validators.required],
       lastName: [this.data?.lastName ?? '', Validators.required],
@@ -207,7 +204,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.employeeDataToSend = {
       ...this.employeeForm.value,
       employeePositions: this.employeePositions,
-      // receivingStations: this.receivingStations,
       tariffId: this.tariffs.map((it) => it.id)
     };
     if (this.isUpdatingEmployee) {
@@ -222,7 +218,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
-    console.log(formData.get(dto));
     return formData;
   }
 
@@ -242,16 +237,12 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   updateEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
     const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
-    console.log(dataToSend);
-    console.log(this.employeeDataToSend);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
   createEmployee(): void {
-    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL;
-    const dataToSend = this.prepareEmployeeDataToSend('addEmployeeDto', image);
-    console.log(dataToSend);
-    console.log(this.employeeDataToSend);
+    const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
+    const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 

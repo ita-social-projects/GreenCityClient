@@ -92,6 +92,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       if (item) {
         this.tableData = item[`content`];
         this.employees = this.tableData.map((employee: Page) => {
+          console.log(employee);
           //////////////////////////////////////////////////////////////////////
           // const tariffs = employee.tariffs;
           // const regions = [];

@@ -43,7 +43,7 @@ export class UbsAdminEmployeeService {
   }
 
   deleteEmployee(id: number) {
-    return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee/${id}`);
+    return this.http.put(`${ubsAdminEmployeeLink}/deactivate-employee/${id}`, id);
   }
 
   getAllEmployeePermissions(email: string) {
