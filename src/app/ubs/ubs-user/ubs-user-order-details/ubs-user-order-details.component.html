@@ -49,7 +49,7 @@
         <span>{{ order.additionalOrders.join(', ') }}</span>
       </p>
     </div>
-    <div *ngIf="order.orderComment !== ''">
+    <div *ng-If="order.orderComment !== ''">
       <h6 class="bold_text">{{ 'user-orders.details.comment-order' | translate }}</h6>
       <p>{{ order.orderComment }}</p>
     </div>
