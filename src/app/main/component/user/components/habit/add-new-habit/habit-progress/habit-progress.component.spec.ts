@@ -141,12 +141,14 @@ describe('HabitProgressComponent', () => {
     });
 
     it('should get right description for one day in row on getDayName', () => {
-      const value = component.getDayName(1);
+      component.habit.habitStreak = 1;
+      const value = component.getDayName();
       expect(value).toBe('user.habit.one-habit.good-day');
     });
 
     it('should get right description for days in row on getDayName', () => {
-      const value = component.getDayName(2);
+      component.habit.habitStreak = 2;
+      const value = component.getDayName();
       expect(value).toBe('user.habit.one-habit.good-days');
     });
   });
