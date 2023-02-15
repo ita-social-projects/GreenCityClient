@@ -66,7 +66,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
     crumbs: './assets/img/ubs-tariff/crumbs.svg',
