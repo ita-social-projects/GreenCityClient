@@ -725,7 +725,8 @@
         }
       },
       "one-habit": {
-        "good": "in a row. You're good!",
+        "good-day": "day in a row. You're good!",
+        "good-days": "days in a row. You're good!",
         "done": "Mark as done",
         "great": "Great! You've got a habit!"
       }

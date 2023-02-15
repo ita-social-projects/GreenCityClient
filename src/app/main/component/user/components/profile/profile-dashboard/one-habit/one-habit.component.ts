@@ -132,6 +132,10 @@ export class OneHabitComponent implements OnInit, OnDestroy {
       });
   }
 
+  public getDayName(value: number): string {
+    return value === 1 ? 'user.habit.one-habit.good-day' : 'user.habit.one-habit.good-days';
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
