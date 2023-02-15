@@ -1,100 +1,116 @@
 <div class="pick-up-service">
-  <div>
-    <div class="about-service">
-      <h1 class="title">{{ 'ubs-homepage.pick-up-service.caption' | translate }}</h1>
+  <div class="about-service__section">
+    <div class="about-service__header">
+      <h1 class="title">
+        {{ 'ubs-homepage.pick-up-service.caption' | translate }}
+      </h1>
     </div>
+    <div class="about-service__close">
+      <button class="about-service__btn">X</button>
+    </div>
+  </div>
+  <div class="main-container__section">
+    <div class="left-column">
+      <div class="pick-up-city box">
+        <h6 class="caption">{{ 'ubs-homepage.pick-up-service.pick-up-city.title' | translate }}</h6>
+        <span class="content">{{ 'ubs-homepage.pick-up-service.pick-up-city.content' | translate }}</span>
+      </div>
 
-    <div class="main-container">
-      <div class="left-column">
-        <div class="pick-up-city box">
-          <h6 class="caption">{{ 'ubs-homepage.pick-up-service.pick-up-city.title' | translate }}</h6>
-          <span class="content">{{ 'ubs-homepage.pick-up-service.pick-up-city.content' | translate }}</span>
-        </div>
+      <div class="how-it-works box">
+        <h6 class="caption">{{ 'ubs-homepage.pick-up-service.how-it-works.title' | translate }}</h6>
 
-        <div class="how-it-works box">
-          <h6 class="caption">{{ 'ubs-homepage.pick-up-service.how-it-works.title' | translate }}</h6>
+        <ul class="numbered--list">
+          <li class="numbered--list__item">
+            {{ howWorksPickUp[0] | translate }}
+            <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
+              howWorksPickUp[1] | translate
+            }}</a>
+            {{ howWorksPickUp[2] | translate }}
+            <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
+              howWorksPickUp[3] | translate
+            }}</a>
+          </li>
+          <li class="numbered--list__item" *ngFor="let item of howWorksPickUp | slice: 4; let i = index">
+            {{ item | translate }}
+          </li>
+        </ul>
+      </div>
 
-          <div>
-            <div class="box-item">
-              <div class="box-number">01</div>
-              <div class="box-text">
-                {{ howWorksPickUp[0] | translate }}
-                <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
-                  howWorksPickUp[1] | translate
-                }}</a>
-                {{ howWorksPickUp[2] | translate }}
-                <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
-                  howWorksPickUp[4] | translate
-                }}</a>
-              </div>
+      <div class="courier box">
+        <h6 class="caption">{{ 'ubs-homepage.pick-up-service.courier.title' | translate }}</h6>
+
+        <ol class="numbered--list">
+          <li class="numbered--list__item">
+            <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">
+              {{ courierPickUp[0] | translate }}
+            </a>
+            {{ courierPickUp[1] | translate }}
+            <div class="box-text">
+              {{ courierPickUp[2] | translate }}
             </div>
-            <div class="box-item" *ngFor="let item of howWorksPickUp | slice: 2; let i = index">
-              <div class="box-number">0{{ i + 2 }}</div>
-              <div class="box-text">{{ item | translate }}</div>
+          </li>
+
+          <li class="numbered--list__item">
+            {{ courierPickUp[3] | translate }}
+            <div class="box-text">
+              {{ courierPickUp[4] | translate }}
+              <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
+                courierPickUp[5] | translate
+              }}</a>
             </div>
-          </div>
-        </div>
+          </li>
 
-        <div class="courier box">
-          <h6 class="caption">{{ 'ubs-homepage.pick-up-service.courier.title' | translate }}</h6>
-
-          <div>
-            <div class="box-item">
-              <div class="box-number">
-                01
-                <div>
-                  <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
-                    courierPickUp[0] | translate
-                  }}</a
-                  >{{ courierPickUp[1] | translate }}
-                </div>
-              </div>
-              <div class="box-text">
-                {{ courierPickUp[3] | translate }}
-              </div>
+          <li class="numbered--list__item">
+            {{ courierPickUp[6] | translate }}
+            <div class="box-text">
+              {{ courierPickUp[7] | translate }}
             </div>
+          </li>
+        </ol>
+      </div>
 
-            <div class="box-item">
-              <div class="box-number">
-                02
-                <div>{{ courierPickUp[4] | translate }}</div>
-              </div>
-              <div class="box-text">
-                {{ courierPickUp[5] | translate }}
-                <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
-                  courierPickUp[6] | translate
-                }}</a>
-              </div>
-            </div>
-
-            <div class="box-item">
-              <div class="box-number">
-                03
-                <div>{{ courierPickUp[7] | translate }}</div>
-              </div>
-              <div class="box-text">
-                {{ courierPickUp[8] | translate }}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="price box">
-          <h6 class="caption">{{ pricePickUp[0] | translate }}</h6>
-
-          <div class="box-item" *ngFor="let box of pricePickUp | slice: 1; let i = index">
+      <div class="price box">
+        <h6 class="caption">{{ pricePickUp[0] | translate }}</h6>
+        <div class="price-conditions">
+          <div class="box-item numbered-columns" *ngFor="let box of pricePickUp | slice: 1; let i = index">
             <div class="box-number">0{{ i + 1 }}</div>
             <div class="box-text">{{ box | translate }}</div>
           </div>
         </div>
       </div>
-      <div class="right-column">
-        <div class="extraoffer">
-          <div class="items-to-be-taken box"></div>
-          <div class="conditions box"></div>
+    </div>
+    <div class="right-column">
+      <div class="extra-offer-block">
+        <div class="items-to-be-taken box">
+          <h6 class="caption">
+            {{ 'ubs-homepage.pick-up-service.extraoffer.title' | translate }}
+          </h6>
+          <span class="description">
+            {{ 'ubs-homepage.pick-up-service.extraoffer.condition' | translate }}
+          </span>
+          <ul class="arrow--list">
+            <li *ngFor="let item of extraoffer" class="arrow--list__item">{{ item | translate }}</li>
+          </ul>
         </div>
-        <div class="minimal-volume box"></div>
+        <div class="conditions box">
+          <h6 class="caption">{{ 'ubs-homepage.pick-up-service.conditions.title' | translate }}</h6>
+          <div class="items">
+            <div class="box-item numbered-columns" *ngFor="let box of conditions; let i = index">
+              <div class="box-number">0{{ i + 1 }}</div>
+              <div class="box-text">{{ box | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="minimal-volume box">
+        <h6 class="caption">
+          {{ 'ubs-homepage.pick-up-service.minimum-volume.title' | translate }}
+        </h6>
+        <ul class="arrow--list">
+          <li *ngFor="let item of minimumVolume" class="arrow--list__item">{{ item | translate }}</li>
+        </ul>
       </div>
     </div>
   </div>
+  <div class="filler"></div>
 </div>

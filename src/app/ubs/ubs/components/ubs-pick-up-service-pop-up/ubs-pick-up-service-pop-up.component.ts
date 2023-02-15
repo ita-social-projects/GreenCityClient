@@ -33,11 +33,15 @@ export class UbsPickUpServicePopUpComponent {
     'ubs-homepage.pick-up-service.price.li_3'
   ];
 
-  exstraoffer = [
+  extraoffer = [
     'ubs-homepage.pick-up-service.extraoffer.items.li_1',
     'ubs-homepage.pick-up-service.extraoffer.items.li_2',
     'ubs-homepage.pick-up-service.extraoffer.items.li_3',
     'ubs-homepage.pick-up-service.extraoffer.items.li_4',
     'ubs-homepage.pick-up-service.extraoffer.items.li_5'
   ];
+
+  minimumVolume = ['ubs-homepage.pick-up-service.minimum-volume.li_1', 'ubs-homepage.pick-up-service.minimum-volume.li_2'];
+
+  conditions = ['ubs-homepage.pick-up-service.conditions.item_1', 'ubs-homepage.pick-up-service.conditions.item_2'];
 }

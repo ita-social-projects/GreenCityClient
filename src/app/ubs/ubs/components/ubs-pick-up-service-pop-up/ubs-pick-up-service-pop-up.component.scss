@@ -1,35 +1,54 @@
 .pick-up-service {
   width: 1339px;
-  height: 1317px;
+  height: 100%;
   background-color: #f6f6f6;
   border-radius: 18px;
   font-family: var(--secondary-font);
   flex-direction: column;
-  justify-content: space-around;
-
-  overflow-y: scroll;
-  overflow-x: hidden;
   display: flex;
   align-items: center;
-  z-index: 2000;
+  z-index: 1;
+  padding: 0 100px;
 
-  .about-service {
-    width: 1339px;
-    height: 150px;
-    position: fixed;
-    top: 0;
-    // margin-left: 100px;
-    background-color: #f6f6f6;
+  .about-service__section {
+    width: 100%;
+    display: flex;
+    padding: 60px 0 26px 0;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
   }
 
-  .main-container {
-    overflow-y: scroll;
+  .main-container__section {
+    width: 100%;
     display: flex;
-    margin: 50px 130px 0 100px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0px;
+    gap: 23px;
+
+    &::-webkit-scrollbar {
+      width: 26px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: white;
+      border-radius: 6px;
+      border-left: 8px solid white;
+      border-right: 8px solid white;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #f6f6f6;
+      border-radius: 12px;
+      border-left: 8px solid white;
+      border-right: 8px solid white;
+    }
 
     .box {
       background: #ffffff;
       border-radius: 15px;
+      padding: 40px 35px;
     }
 
     .title {
@@ -51,34 +70,198 @@
       line-height: 20px;
       color: black;
     }
+
+    .courier {
+      .box-number {
+        width: 45px;
+
+        &__marker {
+          color: #5b8901;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  a {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: underline;
+    color: #87bc1e;
   }
 }
 
 .left-column,
 .right-column {
   width: 540px;
-  height: 1065px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  gap: 16px;
+}
+
+.extra-offer-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border: 2px solid #5b8901;
+  border-radius: 15px;
+  padding: 35px;
 }
 
 .box-item {
   display: flex;
 }
 
-.pick-up-city {
-  height: 152px;
+.numbered-columns {
+  flex-direction: row;
+
+  .box-number {
+    width: 45px;
+    color: #5b8901;
+    font-weight: 700;
+    align-self: center;
+  }
+
+  .box-text {
+    width: 100%;
+  }
 }
 
-.how-it-works {
-  height: 200px;
-}
-
-.courier {
-  height: 389px;
+.filler {
+  height: 70px;
 }
 
 .price {
   height: 276px;
+
+  .price-conditions {
+    margin-top: 24px;
+    height: 152px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.items-to-be-taken {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .description {
+    color: #8c8c8c;
+  }
+
+  .arrow--list {
+    height: 184px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.conditions {
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .items {
+    height: 155px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .box-text {
+      line-height: 20px;
+    }
+  }
+}
+.right-column .minimal-volume {
+  height: 232px;
+  padding: 54px 35px 40px 35px !important;
+
+  .arrow--list {
+    margin-top: 24px;
+    height: 76px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.arrow--list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+
+    &::before {
+      content: url('../../../../../assets/img/ubs/arrow_right_ubs_popup_list.svg');
+      padding-right: 28px;
+    }
+  }
+}
+
+.about-service__header .title {
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 73px;
+  letter-spacing: -0.025em;
+}
+
+.pick-up-city {
+  height: 152px;
+}
+
+.courier {
+  height: 389px;
+
+  .numbered--list {
+    height: 265px;
+
+    .box-text {
+      line-height: 20px;
+      color: #8c8c8c;
+    }
+  }
+}
+
+.numbered--list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 24px;
+
+  &__item {
+    counter-increment: itemNumber;
+    list-style-position: inside;
+
+    &::before {
+      content: counters(itemNumber, '.', decimal-leading-zero);
+      color: #5b8901;
+      font-family: var(--secondary-font);
+      font-weight: 700;
+      padding-right: 20px;
+    }
+  }
 }
