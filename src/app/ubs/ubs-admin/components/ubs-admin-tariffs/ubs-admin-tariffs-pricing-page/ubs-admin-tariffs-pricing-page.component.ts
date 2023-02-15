@@ -202,29 +202,23 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.limitStatus = null;
   }
 
-  private filterBags(): void {
-    this.bags = this.bags.sort((a, b) => b.price - a.price);
+  onChecked(id, event): void {
+    const currentBag = this.bags.find((bag) => bag.id === id);
+
+    if (!event.checked) {
+      currentBag.limitIncluded = false;
+    }
+    if (event.checked) {
+      currentBag.limitIncluded = true;
+    }
+    this.getCheckBoxInfo();
   }
 
-  setLimitIncludedStatus(index) {
-    const id = this.bags[index].id;
-
-    if (!this.bags[index].limitIncluded) {
-      this.tariffsService
-        .excludeBag(id)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getAllTariffsForService();
-        });
-    }
-    if (this.bags[index].limitIncluded) {
-      this.tariffsService
-        .includeBag(id)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getAllTariffsForService();
-        });
-    }
+  getCheckBoxInfo(): void {
+    const checkBoxInfo = [];
+    this.bags.forEach((value) => {
+      checkBoxInfo.push({ id: value.id, limitIncluded: value.limitIncluded });
+    });
   }
 
   async getCourierId(): Promise<any> {
@@ -346,6 +340,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.filterBags();
         this.isLoadBar = false;
       });
+  }
+
+  private filterBags(): void {
+    this.bags = this.bags.sort((a, b) => a.id - b.id);
   }
 
   getService(): void {

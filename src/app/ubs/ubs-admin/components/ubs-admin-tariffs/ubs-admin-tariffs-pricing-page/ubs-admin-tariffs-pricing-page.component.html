@@ -180,7 +180,7 @@
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
           <div *ngFor="let bag of bags; let i = index">
             <div>
-              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (click)="setLimitIncludedStatus(i)">{{
+              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (change)="onChecked(bag.id, $event)">{{
                 getLangValue(bag.name, bag.nameEng)
               }}</mat-checkbox>
             </div>
