@@ -139,5 +139,15 @@ describe('HabitProgressComponent', () => {
       expect(component.habit.habitStreak).toBe(5);
       expect(component.isRequest).toBeFalsy();
     });
+
+    it('should get right description for one day in row on getDayName', () => {
+      const value = component.getDayName(1);
+      expect(value).toBe('user.habit.one-habit.good-day');
+    });
+
+    it('should get right description for days in row on getDayName', () => {
+      const value = component.getDayName(2);
+      expect(value).toBe('user.habit.one-habit.good-days');
+    });
   });
 });
