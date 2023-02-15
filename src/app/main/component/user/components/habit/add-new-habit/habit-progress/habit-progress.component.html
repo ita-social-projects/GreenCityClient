@@ -7,7 +7,7 @@
     </ng-template>
     <ng-template ngSwitchCase="done">
       <button class="{{ habitMark }}" (click)="unenroll()" [disabled]="isRequest"></button>
-      <div class="green">{{ habit.habitStreak }} {{ getDayName(habit.habitStreak) | translate }}</div>
+      <div class="green">{{ habit.habitStreak }} {{ getDayName() | translate }}</div>
     </ng-template>
     <ng-template ngSwitchDefault="aquired">
       <div class="{{ habitMark }}"></div>
