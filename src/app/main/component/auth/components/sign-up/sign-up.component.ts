@@ -158,6 +158,10 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.passwordControlConfirm = this.signUpForm.get('repeatPassword');
   }
 
+  public trimValue(control: AbstractControl): void {
+    control.setValue(control.value.trim());
+  }
+
   private setNullAllMessage(): void {
     this.firstNameErrorMessageBackEnd = null;
     this.emailErrorMessageBackEnd = null;
