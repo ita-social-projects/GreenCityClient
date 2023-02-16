@@ -126,7 +126,11 @@
             >
               <li role="option" aria-label="english" class="lang-option">
                 <span
-                  [ngStyle]="{ 'font-size': isUBS && '18px', 'font-weight': isUBS && '800', color: isUBS && '#575757' }"
+                  [ngStyle]="{
+                    'font-size': isUBS && '18px',
+                    'font-weight': isUBS && '800',
+                    color: isUBS && '#575757'
+                  }"
                   aria-hidden="true"
                   >{{ arrayLang[0].lang }}</span
                 >

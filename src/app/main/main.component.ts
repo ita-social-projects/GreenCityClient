@@ -5,6 +5,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { UserService } from '@global-service/user/user.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-main',
@@ -14,6 +15,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 export class MainComponent implements OnInit {
   public toggle: boolean;
   public isUBS: boolean;
+  public ubsUrl = 'ubs';
   public isLogin: boolean;
 
   constructor(
@@ -21,6 +23,7 @@ export class MainComponent implements OnInit {
     private titleAndMetaTagsService: TitleAndMetaTagsService,
     private router: Router,
     private uiActionsService: UiActionsService,
+    private localStorageService: LocalStorageService,
     private userService: UserService,
     private userOwnAuthService: UserOwnAuthService
   ) {}
@@ -29,6 +32,8 @@ export class MainComponent implements OnInit {
   @ViewChild('focusLast', { static: true }) focusLast: ElementRef;
 
   ngOnInit() {
+    this.isUBS = this.router.url.includes(this.ubsUrl);
+    this.localStorageService.setUbsRegistration(this.isUBS);
     this.languageService.setDefaultLanguage();
     this.navigateToStartingPositionOnPage();
     this.titleAndMetaTagsService.useTitleMetasData();

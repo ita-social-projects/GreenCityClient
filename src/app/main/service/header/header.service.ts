@@ -10,7 +10,7 @@ export class HeaderService {
     { name: 'user.lower-nav-bar.about-us', route: '/ubs', url: false },
     { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/yak-sortyvaty-na-karantuni/', url: true },
     { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
-    { name: 'Green City', route: '/', url: false }
+    { name: 'Green City', route: '/greenCity', url: false }
   ];
 
   public navLinks = [
@@ -19,7 +19,7 @@ export class HeaderService {
     { name: 'user.lower-nav-bar.map', route: '/places', url: false },
     { name: 'user.lower-nav-bar.about-us', route: '/about', url: false },
     { name: 'user.lower-nav-bar.my-habits', route: '/profile', url: false },
-    { name: 'user.lower-nav-bar.ubs', route: '/ubs', url: false }
+    { name: 'user.lower-nav-bar.ubs', route: '/', url: false }
   ];
 
   public ubsArrLang = [

@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isUBS && !this.isAdmin) {
       return '/ubs';
     }
-    return '/';
+    return '/greenCity';
   }
 
   toggleHeader(): void {
@@ -267,7 +267,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((isRedirected: boolean) => {
+    this.router.navigateByUrl(!this.isUBS ? '/greenCity' : '/').then((isRedirected: boolean) => {
       if (isRedirected) {
         this.userOwnAuthService.isLoginUserSubject.next(false);
         this.localeStorageService.clear();
