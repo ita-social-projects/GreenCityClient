@@ -37,7 +37,12 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
     this.addCertificateForm = this.fb.group({
       code: new FormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
       monthCount: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateMonthCount)]),
-      initialPointsValue: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateInitialValue)])
+      initialPointsValue: new FormControl('', [
+        Validators.required,
+        Validators.pattern(Patterns.sertificateInitialValue),
+        Validators.min(0),
+        Validators.max(9999.99)
+      ])
     });
   }
 
