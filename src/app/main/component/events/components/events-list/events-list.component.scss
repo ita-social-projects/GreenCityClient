@@ -4,10 +4,45 @@
   }
 }
 
+.create-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.container-img {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-white);
+  border-radius: 4px;
+  box-shadow: 0 0 1px 0 var(--primary-grey);
+}
+
+.search-img {
+  width: 17px;
+  height: 17px;
+}
+
+.my-events-img {
+  width: 17px;
+  height: 17px;
+}
+
+.bookmark-img {
+  width: 12px;
+  height: 17px;
+}
+
 .event-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .create {

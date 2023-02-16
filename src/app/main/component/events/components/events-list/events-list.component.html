@@ -2,11 +2,22 @@
   <div class="wrapper">
     <div class="event-header">
       <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
-      <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
-        <div class="secondary-global-button create-button">
-          <span class="create-button-text">Create</span>
+      <div class="create-container">
+        <div class="container-img">
+          <img class="search-img" src="assets/events-icons/search.png" alt="search" />
         </div>
-      </a>
+        <div class="container-img">
+          <img class="bookmark-img" src="assets/events-icons/bookmark-grey.png" alt="bookmark" />
+        </div>
+        <div class="container-img">
+          <img class="my-events-img" src="assets/events-icons/my-event.png" alt="bookmark" />
+        </div>
+        <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
+          <div class="secondary-global-button create-button">
+            <span class="create-button-text">Create events</span>
+          </div>
+        </a>
+      </div>
     </div>
 
     <div class="event-list">
