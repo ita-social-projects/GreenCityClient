@@ -205,13 +205,12 @@
 
 .numbered--list {
   padding: 0;
-  margin: 0;
+  margin: 24px 0 0 0;
   list-style: none;
   min-height: 76px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 24px;
 
   &__item {
     counter-increment: itemNumber;
@@ -361,6 +360,10 @@
     .left-column,
     .right-column {
       width: 95%;
+
+      .minimal-volume {
+        min-height: 150px;
+      }
     }
   }
 
@@ -372,7 +375,7 @@
   .numbered--list__item {
     display: flex;
     flex-direction: column;
-    margin-top: 16px;
+    margin-top: 10px;
 
     .box-number {
       align-self: flex-start;
@@ -380,12 +383,26 @@
     }
   }
 
+  .arrow--list {
+    &__item {
+      &::before {
+        padding-right: 16px;
+      }
+    }
+  }
+
   .numbered--list {
+    margin-top: 0;
+
     &__item {
       &::before {
         font-size: 16px;
       }
     }
+  }
+
+  .price .price-conditions {
+    margin-top: 0;
   }
 
   ::-webkit-scrollbar {
