@@ -4,7 +4,18 @@
   }
 }
 
+.main-header {
+  height: 56px;
+  font-family: var(--secondary-font);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  letter-spacing: 0.2px;
+  text-align: left;
+}
+
 .create-container {
+  height: 40px;
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -38,7 +49,14 @@
   height: 17px;
 }
 
+.filter-container {
+  width: 100%;
+  margin-top: 24px;
+  display: flex;
+}
+
 .event-header {
+  margin-top: 40px;
   width: 100%;
   display: flex;
   justify-content: space-between;
