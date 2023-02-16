@@ -13,7 +13,7 @@
             <select
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
               (change)="setRegionValue($event)"
-              class="shadow-none form-control"
+              class="shadow-none form-control placeholderPositioning"
               id="region"
             >
               <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
@@ -108,7 +108,7 @@
             *ngIf="isDistrict"
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="form-control"
+            class="form-control placeholderPositioning"
             (change)="onDistrictSelected($event)"
           >
             <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>

@@ -5,7 +5,7 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control placeholderPositioning">
+    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
       <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
     </select>
   </div>
@@ -115,7 +115,7 @@
     <select
       *ngIf="!isDistrict"
       [formControlName]="getLangValue('district', 'districtEn')"
-      class="shadow-none form-control placeholderPositioning"
+      class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
     >
       <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>

@@ -60,9 +60,12 @@ label {
   width: 50%;
 }
 
+.placeholderPositioning {
+  padding-left: 7px;
+}
+
 .form-control {
   max-width: 408px;
-  text-align: center;
 }
 
 .form-control.ng-invalid.ng-touched {
