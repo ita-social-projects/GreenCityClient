@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { UbsPickUpServicePopUpComponent } from './ubs-pick-up-service-pop-up.component';
 
 describe('UbsPickUpServicePopUpComponent', () => {
@@ -8,6 +8,7 @@ describe('UbsPickUpServicePopUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [UbsPickUpServicePopUpComponent]
     }).compileComponents();
   }));
