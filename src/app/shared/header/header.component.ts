@@ -265,7 +265,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'background-transparent',
       height: '640px'
     });
   }
