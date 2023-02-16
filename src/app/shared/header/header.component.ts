@@ -18,6 +18,7 @@ import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { UbsPickUpServicePopUpComponent } from 'src/app/ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -257,6 +258,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       data: {
         popUpName: page
       }
+    });
+  }
+
+  public openAboutServicePopUp(): void {
+    this.dialog.open(UbsPickUpServicePopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'background-transparent',
+      height: '640px'
     });
   }
 
