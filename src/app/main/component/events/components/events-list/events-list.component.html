@@ -1,17 +1,20 @@
-<div class="wrapper">
-  <div class="event-header">
-    <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
-    <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
-      <div class="secondary-global-button create-button">
-        <span class="create-button-text">Create</span>
-      </div>
-    </a>
-  </div>
+<div class="container">
+  <div class="wrapper">
+    <div class="event-header">
+      <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
+      <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
+        <div class="secondary-global-button create-button">
+          <span class="create-button-text">Create</span>
+        </div>
+      </a>
+    </div>
 
-  <div class="event-list">
-    <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
-      <app-events-list-item [event]="eventItem"></app-events-list-item>
-    </mat-card>
+    <div class="event-list">
+      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
+        <app-events-list-item [event]="eventItem"></app-events-list-item>
+      </mat-card>
+    </div>
+
+    <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
   </div>
-  <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
 </div>

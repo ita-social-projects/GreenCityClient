@@ -1,7 +1,7 @@
 .card-wrapper {
   display: flex;
   flex-direction: column;
-  max-width: 486px;
+  max-width: 348px;
   height: 100%;
   flex: 1 0 auto;
   font-family: var(--primary-font);
@@ -13,7 +13,7 @@
 }
 
 .image-container {
-  width: 359px;
+  width: 348px;
   height: 204px;
   overflow: hidden;
   position: relative;

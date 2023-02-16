@@ -1,6 +1,4 @@
 .wrapper {
-  padding: 20px 100px;
-
   @media screen and (max-width: 800px) {
     padding: 20px 0;
   }
@@ -46,7 +44,7 @@
 
   .event-list-item {
     overflow: hidden;
-    max-width: 359px;
+    max-width: 348px;
     background-color: var(--primary-white);
     box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   }
