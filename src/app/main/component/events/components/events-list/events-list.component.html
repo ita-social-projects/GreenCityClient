@@ -20,14 +20,93 @@
       </div>
     </div>
     <div class="filter-container">
-      <p>Sort By</p>
-      <div class="dropdown-menu">
-        <a class="dropdown-item search_font-styles" tabindex="0">
-          {{ '1addasasdds' | translate }}
-        </a>
-        <a class="dropdown-item search_font-styles" tabindex="0">
-          {{ '2saadas' | translate }}
-        </a>
+      <p class="sort-by">{{ 'Sort By' | translate }}</p>
+      <div class="dropdown">
+        <p class="filter">{{ 'Event time' | translate }}</p>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngFor="let item of goods">
+            <mat-icon>check_box</mat-icon>
+            <span>{{ item }}</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="dropdown">
+        <p class="filter">{{ 'Location' | translate }}</p>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>check_box</mat-icon>
+            <span>{{ 'Select All' }}</span>
+          </button>
+          <hr />
+          <!--divider-->
+          <button mat-menu-item *ngFor="let item of goods">
+            <mat-icon>check_box</mat-icon>
+            <span>{{ item }}</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="dropdown">
+        <p class="filter">{{ 'Status' | translate }}</p>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngFor="let item of goods">
+            <mat-icon>check_box</mat-icon>
+            <span>{{ item }}</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="dropdown">
+        <p class="filter">{{ 'Type' | translate }}</p>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngFor="let item of goods">
+            <mat-icon>check_box</mat-icon>
+            <span>{{ item }}</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div>
+        <button class="reset">{{ 'Reset all' | translate }}</button>
+      </div>
+    </div>
+    <hr />
+    <div class="active-filter-container">
+      <p>{{ goods[3] }} {{ 'Items found' | translate }}</p>
+      <div class="chips">
+        <div class="active-filter">
+          {{ 'Lviv' }}
+          <div class="cross-container">
+            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+          </div>
+        </div>
+        <div class="active-filter">
+          {{ 'Kyiv' }}
+          <div class="cross-container">
+            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+          </div>
+        </div>
+        <div class="active-filter">
+          {{ 'Donetsk' }}
+          <div class="cross-container">
+            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+          </div>
+        </div>
+        <div class="active-filter">
+          {{ 'Kharkiv' }}
+          <div class="cross-container">
+            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+          </div>
+        </div>
       </div>
     </div>
 

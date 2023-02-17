@@ -26,6 +26,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public total = 0;
   public page = 0;
   private eventsPerPage = 6;
+  goods = [1, 2, 3, 4, 5, 6, 7];
 
   public pageConfig(items: number, page: number, total: number): PaginationInterface {
     return {
