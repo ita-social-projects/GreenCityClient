@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../../../../ubs/ubs/services/order.service';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 
 @Component({
   selector: 'app-form-base',
@@ -29,12 +30,18 @@ export class FormBaseComponent implements ComponentCanDeactivate {
       popupCancel: ''
     }
   };
+  public habitId: number;
 
   public getFormValues(): any {
     // TODO: add functionality to this method
   }
 
-  constructor(public router: Router, public dialog: MatDialog, public orderService?: OrderService) {}
+  constructor(
+    public router: Router,
+    public dialog: MatDialog,
+    public orderService?: OrderService,
+    public habitAssignService?: HabitAssignService
+  ) {}
 
   @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
@@ -44,6 +51,11 @@ export class FormBaseComponent implements ComponentCanDeactivate {
   public cancel(): void {
     this.cancelPopupJustifying(true);
     localStorage.removeItem('newsTags');
+  }
+
+  public cancelHabit(id: number): void {
+    this.habitId = id;
+    this.cancelPopupJustifying(true);
   }
 
   public checkChanges(): boolean {
@@ -90,6 +102,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
           }
           if (confirm === null && isUbsOrderSubmit) {
             this.cancelUBSwithoutSaving();
+          }
+          if (confirm && this.habitId) {
+            this.habitAssignService.deleteHabitById(this.habitId);
           }
         });
       return;

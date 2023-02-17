@@ -705,9 +705,10 @@
         "cant-delete-last-hint": "Ви не можете видалити свою останню звичку",
         "button-save": "Зберегти",
         "button-cancel": "Скасувати",
-        "confirmation-modal-text": "Ви впевнені, що хочете видалити цю еко-звичку?",
+        "confirmation-modal-title": "Ви впевнені, що хочете здатися?",
+        "confirmation-modal-text": "Весь ваш прогрес у відстеженні звички буде втрачено",
         "confirmation-modal-yes": "Так",
-        "confirmation-modal-cancel": "Скасувати"
+        "confirmation-modal-no": "Ні"
       },
       "all-habits": {
         "back-button": "Назад до Моїх звичок",

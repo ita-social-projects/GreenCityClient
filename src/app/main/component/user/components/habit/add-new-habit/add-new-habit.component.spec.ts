@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -71,7 +72,14 @@ describe('AddNewHabitComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddNewHabitComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, NoopAnimationsModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule,
+        NoopAnimationsModule,
+        MatDialogModule
+      ],
       providers: [
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
@@ -177,7 +185,7 @@ describe('AddNewHabitComponent', () => {
   it('cancel method should navigate', () => {
     component.userId = '2';
     spyOn((component as any).router, 'navigate').and.returnValue('test');
-    component.cancel();
+    component.cancelAdd();
     expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
@@ -212,15 +220,6 @@ describe('AddNewHabitComponent', () => {
     spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
     component.updateHabit();
     expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitUpdated');
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
-  });
-
-  it('method deleteHabit should navigate and openSnackBar', () => {
-    component.userId = '2';
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
-    component.deleteHabit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitDeleted');
     expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 

@@ -11,13 +11,16 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 
 @Component({
   selector: 'app-add-new-habit',
   templateUrl: './add-new-habit.component.html',
   styleUrls: ['./add-new-habit.component.scss']
 })
-export class AddNewHabitComponent implements OnInit, OnDestroy {
+export class AddNewHabitComponent extends FormBaseComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
@@ -32,18 +35,35 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
+  public previousPath: string;
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'user.habit.add-new-habit.confirmation-modal-title',
+      popupSubtitle: 'user.habit.add-new-habit.confirmation-modal-text',
+      popupConfirm: 'user.habit.add-new-habit.confirmation-modal-yes',
+      popupCancel: 'user.habit.add-new-habit.confirmation-modal-no'
+    }
+  };
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public router: Router,
+    public dialog: MatDialog,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
-    private habitAssignService: HabitAssignService,
+    public orderService: OrderService,
+    public habitAssignService: HabitAssignService,
     private shoppingListService: ShoppingListService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location
-  ) {}
+  ) {
+    super(router, dialog, orderService, habitAssignService);
+  }
 
   ngOnInit() {
     this.getUserId();
@@ -103,6 +123,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = localStorage.getItem('userId');
+    this.previousPath = `profile/${this.userId}`;
   }
 
   public getDuration(newDuration: number) {
@@ -129,7 +150,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public cancel() {
+  public cancelAdd(): void {
     this.router.navigate(['profile', this.userId]);
   }
 
@@ -155,16 +176,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.router.navigate(['profile', this.userId]);
         this.snackBar.openSnackBar('habitUpdated');
-      });
-  }
-
-  public deleteHabit() {
-    this.habitAssignService
-      .deleteHabitById(this.habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitDeleted');
       });
   }
 
