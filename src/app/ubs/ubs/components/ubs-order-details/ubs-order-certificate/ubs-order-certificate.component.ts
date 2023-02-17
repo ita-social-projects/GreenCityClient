@@ -396,6 +396,11 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.clickOnNo = false;
     }
   }
+  public showActivateCetificate([i]) {
+    if (this.certificates.expirationDates[i] && this.certSize && !this.certificates.failed[i] && this.certificateSum < this.showTotal) {
+      return true;
+    }
+  }
 
   ngOnDestroy() {
     this.destroy.next();
