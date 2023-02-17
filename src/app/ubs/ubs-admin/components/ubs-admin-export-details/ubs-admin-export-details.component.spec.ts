@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
-
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
 
 describe('UbsAdminExportDetailsComponent', () => {
@@ -97,5 +96,15 @@ describe('UbsAdminExportDetailsComponent', () => {
     expect(component.exportDetailsDto.get('timeDeliveryFrom').dirty).toBe(true);
     expect(component.exportDetailsDto.get('timeDeliveryTo').dirty).toBe(true);
     expect(component.showTimePicker).toBe(false);
+  });
+
+  it('should set isOrderStatusCancelOrDone to true if orderStatus is CANCELED or DONE', () => {
+    component.orderStatus = 'CANCELED';
+    component.ngAfterViewChecked();
+    expect(component.isOrderStatusCancelOrDone).toBe(true);
+
+    component.orderStatus = 'DONE';
+    component.ngAfterViewChecked();
+    expect(component.isOrderStatusCancelOrDone).toBe(true);
   });
 });

@@ -1,9 +1,25 @@
 <div class="container" [formGroup]="responsiblePersonsForm">
   <div class="empty_card" (click)="openDetails()">
-    <img *ngIf="!pageOpen && responsiblePersonsForm.valid" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
-    <img *ngIf="pageOpen && responsiblePersonsForm.valid" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
-    <img *ngIf="!responsiblePersonsForm.valid && pageOpen" src="assets/img/ubs-admin-orders/red_arrow_down.svg" alt="arrow down" />
-    <img *ngIf="!responsiblePersonsForm.valid && !pageOpen" src="assets/img/ubs-admin-orders/red_arrow_up.svg" alt="arrow up" />
+    <img
+      *ngIf="!pageOpen && (responsiblePersonsForm.valid || isOrderStatusCancelOrDone)"
+      src="assets/img/ubs-admin-orders/arrow_up.svg"
+      alt="arrow up"
+    />
+    <img
+      *ngIf="pageOpen && (responsiblePersonsForm.valid || isOrderStatusCancelOrDone)"
+      src="assets/img/ubs-admin-orders/arrow_down.svg"
+      alt="arrow down"
+    />
+    <img
+      *ngIf="pageOpen && !responsiblePersonsForm.valid && !isOrderStatusCancelOrDone"
+      src="assets/img/ubs-admin-orders/red_arrow_down.svg"
+      alt="arrow down"
+    />
+    <img
+      *ngIf="!pageOpen && !responsiblePersonsForm.valid && !isOrderStatusCancelOrDone"
+      src="assets/img/ubs-admin-orders/red_arrow_up.svg"
+      alt="arrow up"
+    />
 
     <h1 class="form__headline">{{ 'responsible-persons.title' | translate }}</h1>
   </div>
