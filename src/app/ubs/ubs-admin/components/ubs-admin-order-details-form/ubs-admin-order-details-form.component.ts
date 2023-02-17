@@ -60,6 +60,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     } else {
       this.doneAfterBroughtHimself = false;
     }
+
+    if (changes.orderStatusInfo?.currentValue.key === 'NOT_TAKEN_OUT') {
+      this.isVisible = true;
+      this.showUbsCourier = true;
+    }
   }
 
   ngOnInit(): void {
