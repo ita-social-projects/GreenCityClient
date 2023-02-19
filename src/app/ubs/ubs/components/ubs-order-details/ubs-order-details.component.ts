@@ -195,7 +195,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private setCurrentLocation(currentLanguage: string): void {
     const currentLocationEn = `${this.locations?.locationsDtosList[0].nameEn}, ${this.locations?.regionDto.nameEn}`;
     const currentLocationUk = `${this.locations?.locationsDtosList[0].nameUk}, ${this.locations?.regionDto.nameUk}`;
-    this.currentLocation = currentLanguage === 'en' ? currentLocationEn : currentLocationUk;
+    this.currentLocation = this.getLangValue(currentLocationUk, currentLocationEn);
   }
 
   getFormValues(): boolean {
