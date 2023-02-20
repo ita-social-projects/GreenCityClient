@@ -40,7 +40,7 @@
       </div>
       <div class="habit__picture-wrp">
         <div class="habit__picture">
-          <img [src]="habit.image" alt="habit picture" />
+          <img [src]="habit.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
         </div>
       </div>
     </div>
