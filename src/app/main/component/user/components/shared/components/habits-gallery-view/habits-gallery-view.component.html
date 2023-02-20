@@ -14,7 +14,7 @@
     </div>
     <div class="habit__info">
       <div class="tags">
-        <span>{{ habit.habitTranslation.habitItem }}</span>
+        <span *ngFor="let tag of habit.tags; let last = last"> {{ tag }}<ng-container *ngIf="!last">,&nbsp;</ng-container> </span>
       </div>
       <div class="title">
         <h2>{{ habit.habitTranslation.name }}</h2>
