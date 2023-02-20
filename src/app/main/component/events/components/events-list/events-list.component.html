@@ -75,41 +75,21 @@
     </div>
     <hr />
     <div class="active-filter-container">
-      <p>{{ goods[3] }} {{ 'Items found' | translate }}</p>
+      <p>{{ selectedFilters.length }} {{ 'Items found' | translate }}</p>
       <div class="chips">
-        <div class="active-filter">
-          {{ 'Lviv' }}
-          <div class="cross-container">
-            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
-          </div>
-        </div>
-        <div class="active-filter">
-          {{ 'Kyiv' }}
-          <div class="cross-container">
-            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
-          </div>
-        </div>
-        <div class="active-filter">
-          {{ 'Donetsk' }}
-          <div class="cross-container">
-            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
-          </div>
-        </div>
-        <div class="active-filter">
-          {{ 'Kharkiv' }}
-          <div class="cross-container">
+        <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
+          {{ filter }}
+          <div class="cross-container" (click)="deleteFilter(i)">
             <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
           </div>
         </div>
       </div>
     </div>
-
     <div class="event-list">
       <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
         <app-events-list-item [event]="eventItem"></app-events-list-item>
       </mat-card>
     </div>
-
     <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
   </div>
 </div>
