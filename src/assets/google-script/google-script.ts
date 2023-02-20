@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { environment } from '@environment/environment';
 
 @Injectable({ providedIn: 'root' })
 export class GoogleScript {
-  url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&callback=initMap&libraries=places&language=`;
+  apiMapKey = environment.apiMapKey;
+  url = `https://maps.googleapis.com/maps/api/js?key=${this.apiMapKey}&callback=initMap&libraries=places&language=`;
 
   load(lang: string): void {
     const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');

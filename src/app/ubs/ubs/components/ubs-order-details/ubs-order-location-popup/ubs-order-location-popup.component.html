@@ -29,7 +29,7 @@
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>
   <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondaryButton secondary-global-button" mat-dialog-close>
+    <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button

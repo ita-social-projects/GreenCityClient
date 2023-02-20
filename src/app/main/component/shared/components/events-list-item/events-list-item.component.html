@@ -34,7 +34,7 @@
     <div *ngIf="event.dates[0]" class="date-container">
       <span class="clock"></span>
       <div class="date">
-        {{ event.dates[0].startDate | date }}
+        {{ event.dates[0].startDate | dateLocalisation }}
       </div>
       <span class="time-divider">|</span>
       <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
