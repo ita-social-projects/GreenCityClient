@@ -291,7 +291,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   shortenCommentLenght(): string {
-    const comment = (<HTMLInputElement>document.querySelector('#customer-comment'))?.value;
+    const comment = (document.querySelector('#customer-comment') as HTMLInputElement)?.value;
     if (comment && comment.length < 105) {
       return comment;
     }
