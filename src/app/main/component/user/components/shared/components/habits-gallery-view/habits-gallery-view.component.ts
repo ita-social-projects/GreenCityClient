@@ -29,7 +29,6 @@ export class HabitsGalleryViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.habit);
     this.getStars(this.habit.complexity);
   }
 
