@@ -36,6 +36,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { MatIconModule } from '@angular/material/icon';
     DragDropModule,
     MatBottomSheetModule,
     NgbDropdownModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
   ],
   exports: [TranslateModule]
 })

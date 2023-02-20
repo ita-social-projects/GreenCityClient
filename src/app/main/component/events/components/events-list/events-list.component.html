@@ -22,58 +22,52 @@
     <div class="filter-container">
       <p class="sort-by">{{ 'Sort By' | translate }}</p>
       <div class="dropdown">
-        <p class="filter">{{ 'Event time' | translate }}</p>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let item of goods">
-            <mat-icon>check_box</mat-icon>
-            <span>{{ item }}</span>
-          </button>
-        </mat-menu>
+        <mat-label class="filter">{{ 'Event time' | translate }}</mat-label>
+        <mat-select [(value)]="selectedValues" multiple>
+          <mat-option (click)="toggleAllSelection()">{{ 'Any time' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <div *ngFor="let eventTime of eventTimeList">
+            <mat-option [value]="eventTime">
+              {{ eventTime }}
+            </mat-option>
+          </div>
+        </mat-select>
       </div>
       <div class="dropdown">
-        <p class="filter">{{ 'Location' | translate }}</p>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>check_box</mat-icon>
-            <span>{{ 'Select All' }}</span>
-          </button>
-          <hr />
-          <!--divider-->
-          <button mat-menu-item *ngFor="let item of goods">
-            <mat-icon>check_box</mat-icon>
-            <span>{{ item }}</span>
-          </button>
-        </mat-menu>
+        <mat-label class="filter">{{ 'Location' | translate }}</mat-label>
+        <mat-select [(value)]="selectedValues" multiple>
+          <mat-option (click)="toggleAllSelection()">{{ 'Any location' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <div *ngFor="let eventTime of eventTimeList">
+            <mat-option [value]="eventTime">
+              {{ eventTime }}
+            </mat-option>
+          </div>
+        </mat-select>
       </div>
       <div class="dropdown">
-        <p class="filter">{{ 'Status' | translate }}</p>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let item of goods">
-            <mat-icon>check_box</mat-icon>
-            <span>{{ item }}</span>
-          </button>
-        </mat-menu>
+        <mat-label class="filter">{{ 'Status' | translate }}</mat-label>
+        <mat-select class="" value="selectedValues" multiple>
+          <mat-option (click)="toggleAllSelection()">{{ 'Any status' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <div *ngFor="let eventTime of eventTimeList">
+            <mat-option [value]="eventTime">
+              {{ eventTime }}
+            </mat-option>
+          </div>
+        </mat-select>
       </div>
       <div class="dropdown">
-        <p class="filter">{{ 'Type' | translate }}</p>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>expand_more</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngFor="let item of goods">
-            <mat-icon>check_box</mat-icon>
-            <span>{{ item }}</span>
-          </button>
-        </mat-menu>
+        <mat-label class="filter">{{ 'Type' | translate }}</mat-label>
+        <mat-select [(value)]="selectedValues" multiple>
+          <mat-option (click)="toggleAllSelection()">{{ 'Any type' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <div *ngFor="let eventTime of eventTimeList">
+            <mat-option [value]="eventTime">
+              {{ eventTime }}
+            </mat-option>
+          </div>
+        </mat-select>
       </div>
       <div>
         <button class="reset">{{ 'Reset all' | translate }}</button>

@@ -56,6 +56,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public currentLang: string;
   public datePipe;
   public newDate;
+  bookmarkSelected = false;
 
   attendees = [];
   attendeesAvatars = [];
@@ -277,6 +278,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  toggleBookmark() {
+    this.bookmarkSelected = !this.bookmarkSelected;
   }
 
   ngOnDestroy(): void {

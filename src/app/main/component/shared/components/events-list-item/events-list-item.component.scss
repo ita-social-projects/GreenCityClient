@@ -123,10 +123,15 @@
       display: inline-block;
       width: 25px;
       height: 25px;
+      transition: all 0.3s;
     }
 
     .flag {
       background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
+    }
+
+    .flag-active {
+      background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
     }
   }
 

@@ -53,6 +53,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  font-family: var(--primary-font);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .filter {
