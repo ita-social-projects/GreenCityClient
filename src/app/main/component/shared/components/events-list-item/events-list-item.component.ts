@@ -280,7 +280,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  toggleBookmark() {
+  addToFavourite() {
     this.bookmarkSelected = !this.bookmarkSelected;
   }
 

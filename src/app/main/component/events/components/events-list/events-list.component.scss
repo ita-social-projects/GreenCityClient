@@ -32,20 +32,38 @@
   background-color: var(--primary-white);
   border-radius: 4px;
   box-shadow: 0 0 1px 0 var(--primary-grey);
-}
 
-.search-img {
-  width: 17px;
-  height: 17px;
+  span {
+    transition: all 0.3s;
+  }
+
+  .search-img {
+    min-width: 20px;
+    min-height: 20px;
+    background: url('src/assets/events-icons/search.png');
+  }
+
+  .search-img-active {
+    min-width: 20px;
+    min-height: 20px;
+    background: url('src/assets/events-icons/search-active.png');
+  }
+
+  .bookmark-img {
+    width: 12px;
+    height: 17px;
+    background: url('src/assets/events-icons/bookmark-grey.png');
+  }
+
+  .bookmark-img-active {
+    width: 12px;
+    height: 17px;
+    background: url('src/assets/events-icons/bookmark-active.png');
+  }
 }
 
 .my-events-img {
   width: 17px;
-  height: 17px;
-}
-
-.bookmark-img {
-  width: 12px;
   height: 17px;
 }
 

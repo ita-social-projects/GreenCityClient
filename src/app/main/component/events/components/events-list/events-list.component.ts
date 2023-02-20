@@ -27,6 +27,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public page = 0;
   private eventsPerPage = 6;
   goods = [1, 2, 3, 4, 5, 6, 7];
+  searchToggle = false;
+  bookmarkSelected = false;
   selectedValues: any;
   eventTimeList = ['Upcoming', 'Passed'];
   allSelected = false;
@@ -59,9 +61,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   toggleAllSelection() {
     this.allSelected = !this.allSelected;
-    console.log('1', this.selectedValues);
     this.selectedValues = this.allSelected ? this.eventTimeList : [];
-    console.log('2', this.selectedValues);
+  }
+
+  search() {
+    this.searchToggle = !this.searchToggle;
+  }
+
+  addToFavourite() {
+    this.bookmarkSelected = !this.bookmarkSelected;
   }
 
   public checkPagination(): boolean {
