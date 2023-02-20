@@ -289,4 +289,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.writeoffAtStationSum = +e.target.value;
     this.calculateFinalSum();
   }
+
+  shortenCommentLenght(): string {
+    const comment = (<HTMLInputElement>document.querySelector('#customer-comment'))?.value;
+    if (comment && comment.length < 105) {
+      return comment;
+    }
+    if (comment && comment.length >= 105) {
+      return comment.slice(0, 105);
+    }
+  }
 }

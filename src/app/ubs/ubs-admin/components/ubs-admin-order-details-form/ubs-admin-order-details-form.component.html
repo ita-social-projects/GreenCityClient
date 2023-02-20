@@ -1,6 +1,6 @@
 <div class="container">
   <form class="form" [formGroup]="orderDetailsForm">
-    <div class="empty_card" (click)="openDetails()">
+    <div class="empty_card" (click)="openDetails(); shortenCommentLenght()">
       <img *ngIf="!pageOpen" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
       <img *ngIf="pageOpen" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
       <h3 class="form__headline">{{ 'order-details.title' | translate }}</h3>
@@ -179,6 +179,7 @@
             formControlName="customerComment"
             placeholder="{{ 'order-details.client-comment.placeholder' | translate }}"
             id="customer-comment"
+            maxlength="105"
             disabled
           >
           </textarea>
