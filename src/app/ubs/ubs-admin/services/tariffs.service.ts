@@ -14,7 +14,6 @@ export class TariffsService {
 
   courierId: number;
   locationId: number;
-  allTariffServices: any;
   serviceId: number;
 
   setServiceId(id: number) {
@@ -45,8 +44,8 @@ export class TariffsService {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
 
-  createNewTariffForService(tariffService: Bag) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createTariffService`, tariffService);
+  createNewTariffForService(tariffService: Bag, tariffId: number) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/${tariffId}/createTariffService`, tariffService);
   }
 
   deleteTariffForService(id: number) {
@@ -61,16 +60,16 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, body);
   }
 
-  createService(service: Service) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createService`, service);
+  createService(service: Service, tariffId: number) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/${tariffId}/createService`, service);
   }
 
   getService(tariffId) {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getService`);
   }
 
-  editService(service: Service) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService`, service);
+  editService(service: Service, id: number) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
 
   getLocations(): Observable<Locations[]> {
@@ -89,8 +88,8 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
   }
 
-  setLimitDescription(description, courierId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${courierId}`, description);
+  setLimitDescription(description, tariffId: number) {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${tariffId}`, description);
   }
 
   setLimitsBySumOrder(info, tariffId) {
