@@ -133,11 +133,11 @@ describe('TariffsService', () => {
   });
 
   it('should create new tariff', () => {
-    service.createNewTariffForService(tariff).subscribe((data) => {
+    service.createNewTariffForService(tariff, 1).subscribe((data) => {
       expect(data).toBe(tariff);
     });
 
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createTariffService');
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/1/createTariffService');
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(tariff);
     request.flush(tariff);
@@ -159,11 +159,11 @@ describe('TariffsService', () => {
   });
 
   it('should crate new service', () => {
-    service.createService(service1).subscribe((data) => {
+    service.createService(service1, 1).subscribe((data) => {
       expect(data).toBe(service1);
     });
 
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createService');
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/1/createService');
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(service1);
     request.flush(service1);
@@ -178,10 +178,10 @@ describe('TariffsService', () => {
   });
 
   it('should edit service', () => {
-    service.editService(service1).subscribe((data) => {
+    service.editService(service1, 1).subscribe((data) => {
       expect(data).toBe(service1);
     });
-    httpTest('/ubs/superAdmin/editService', 'PUT', service1);
+    httpTest('/ubs/superAdmin/editService/1', 'PUT', service1);
   });
 
   it('should return all locations', () => {

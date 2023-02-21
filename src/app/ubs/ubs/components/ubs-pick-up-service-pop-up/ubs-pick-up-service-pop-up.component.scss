@@ -1,0 +1,421 @@
+.pick-up-service {
+  width: 100%;
+  max-width: 1340px;
+  height: 100%;
+  background-color: var(--ubs-main-page-secondary-light-grey);
+  border-radius: 18px;
+  font-family: var(--secondary-font);
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  padding: 0 100px;
+
+  .about-service__section {
+    width: 100%;
+    display: flex;
+    padding: 60px 0 26px 0;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .main-container__section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    gap: 23px;
+
+    .box {
+      background: var(--primary-white);
+      border-radius: 15px;
+      padding: 40px 35px;
+      height: fit-content;
+    }
+
+    .caption {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    .content {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: black;
+    }
+  }
+
+  a {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: underline;
+    color: var(--ubs-secondary-light-green);
+  }
+}
+
+.about-service__close .about-service__btn {
+  border: none;
+  background-color: transparent;
+
+  img {
+    height: 40px;
+  }
+}
+
+.left-column,
+.right-column {
+  width: 540px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.main-container__section .left-column .how-it-works {
+  min-height: 200px;
+  padding: 40px 30px 40px 35px;
+}
+
+.extra-offer-block {
+  min-height: 814px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border: 2px solid var(--ubs-tertiary-dark-green);
+  border-radius: 15px;
+  padding: 35px;
+}
+
+.box-item {
+  display: flex;
+}
+
+.numbered-columns {
+  flex-direction: row;
+
+  .box-number {
+    width: 45px;
+    color: var(--ubs-tertiary-dark-green);
+    font-weight: 700;
+    align-self: center;
+  }
+
+  .box-text {
+    width: 100%;
+  }
+}
+
+.filler {
+  height: 70px;
+}
+
+.price {
+  min-height: 276px;
+
+  .price-conditions {
+    margin-top: 24px;
+    min-height: 152px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .box-text {
+      line-height: 20px;
+    }
+  }
+}
+
+.arrow--list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+
+    &::before {
+      content: url('../../../../../assets/img/ubs/arrow_right_ubs_popup_list.svg');
+      padding-right: 28px;
+    }
+  }
+}
+
+.items-to-be-taken {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .description {
+    color: var(--ubs-primary-dark-grey);
+  }
+
+  .arrow--list {
+    min-height: 184px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.conditions {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .items {
+    min-height: 155px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .box-text {
+      line-height: 20px;
+    }
+  }
+}
+
+.about-service__header .about-service__title {
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 73px;
+  letter-spacing: -0.025em;
+}
+
+.pick-up-city {
+  min-height: 152px;
+}
+
+.numbered--list {
+  padding: 0;
+  margin: 24px 0 0 0;
+  list-style: none;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__item {
+    counter-increment: itemNumber;
+    list-style-position: inside;
+
+    &::before {
+      content: counters(itemNumber, '.', decimal-leading-zero);
+      color: var(--ubs-tertiary-dark-green);
+      font-family: var(--secondary-font);
+      font-weight: 700;
+      padding-right: 20px;
+    }
+  }
+}
+
+.courier {
+  min-height: 389px;
+
+  .box-number {
+    width: 45px;
+
+    &__marker {
+      color: var(--ubs-tertiary-dark-green);
+      font-weight: 700;
+    }
+  }
+
+  .numbered--list {
+    min-height: 265px;
+
+    .box-text {
+      line-height: 20px;
+      color: var(--ubs-primary-dark-grey);
+    }
+  }
+}
+
+.right-column {
+  margin-right: 20px;
+
+  .minimal-volume {
+    min-height: 232px;
+    padding: 54px 35px 40px 35px !important;
+
+    .arrow--list {
+      margin-top: 24px;
+      min-height: 76px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  .pick-up-service {
+    padding: 0 80px;
+
+    .about-service__section {
+      padding: 30px 0 20px 0;
+
+      .about-service__close img {
+        height: 20px;
+      }
+
+      .about-service__title {
+        font-size: 40px;
+      }
+    }
+
+    .main-container__section {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .box {
+      padding: 30px 25px;
+    }
+
+    .left-column,
+    .right-column {
+      width: 440px;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  ::-webkit-scrollbar {
+    width: 26px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--primary-white);
+    border-radius: 6px;
+    border-left: 8px solid var(--primary-white);
+    border-right: 8px solid var(--primary-white);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--ubs-main-page-secondary-light-grey);
+    border-radius: 12px;
+    border-left: 8px solid var(--primary-white);
+    border-right: 8px solid var(--primary-white);
+  }
+}
+
+@media (max-width: 576px) {
+  .pick-up-service {
+    padding: 0 16px;
+
+    .about-service__section {
+      padding: 24px 0 24px 0;
+
+      .about-service__close img {
+        height: 17px;
+      }
+
+      .about-service__title {
+        font-size: 28px;
+        line-height: 88.4%;
+      }
+    }
+
+    .main-container__section {
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-x: hidden;
+      font-size: 11px;
+
+      .caption {
+        font-size: 14px;
+        line-height: 17px;
+      }
+
+      .content,
+      a {
+        font-size: 11px;
+        line-height: 13px;
+      }
+    }
+
+    .box {
+      padding: 24px;
+      border-radius: 6px;
+    }
+
+    .left-column,
+    .right-column {
+      width: 95%;
+
+      .minimal-volume {
+        min-height: 150px;
+      }
+    }
+  }
+
+  .description {
+    margin-bottom: 24px;
+  }
+
+  .numbered-columns,
+  .numbered--list__item {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+
+    .box-number {
+      align-self: flex-start;
+      font-size: 16px;
+    }
+  }
+
+  .arrow--list {
+    &__item {
+      &::before {
+        padding-right: 16px;
+      }
+    }
+  }
+
+  .numbered--list {
+    margin-top: 0;
+
+    &__item {
+      &::before {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .price .price-conditions {
+    margin-top: 0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--ubs-main-page-secondary-light-grey);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--ubs-primary-dark-grey);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
