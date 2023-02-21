@@ -5,7 +5,7 @@
   <div *ngIf="data.button === 'update'">
     <p class="add-location-title">{{ 'ubs-tariffs-add-service.edit_service' | translate }}</p>
   </div>
-  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="data.edit"></app-dialog-tariff>
   <ng-template #form>
     <div class="d-flex">
       <div class="form-group">
@@ -19,13 +19,13 @@
         />
       </div>
       <div class="form-group">
-        <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+        <label for="name">{{ 'ubs-tariffs-add-service.lang.name_of_the_service' | translate }}</label>
         <input
           type="text"
           formControlName="nameEng"
           class="shadow-none form-control"
           id="nameEng"
-          placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+          placeholder="{{ 'ubs-tariffs-add-service.lang.placeholder-service' | translate }}"
         />
       </div>
     </div>
@@ -56,13 +56,13 @@
         </textarea>
       </div>
       <div class="form-group">
-        <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
+        <label for="description">{{ 'ubs-tariffs-add-service.lang.service_description' | translate }}</label>
         <textarea
           class="description-input"
           type="text"
           formControlName="descriptionEng"
           id="descriptionEng"
-          placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
+          placeholder="{{ 'ubs-tariffs-add-service.lang.placeholder-text' | translate }}"
         >
         </textarea>
       </div>

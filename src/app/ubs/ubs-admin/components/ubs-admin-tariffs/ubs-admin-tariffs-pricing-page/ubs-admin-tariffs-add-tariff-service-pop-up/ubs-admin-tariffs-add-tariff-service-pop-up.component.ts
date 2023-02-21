@@ -24,8 +24,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  public currentLang: string;
+  datePipe;
+  newDate;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -42,8 +43,14 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+    this.currentLang = this.localeStorageService.getCurrentLanguage();
     this.initForm();
     this.fillFields();
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    });
   }
 
   private initForm(): void {
