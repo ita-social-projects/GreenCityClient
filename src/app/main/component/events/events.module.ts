@@ -34,6 +34,7 @@ import { EventScheduleOverlayComponent } from './components/event-details/event-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

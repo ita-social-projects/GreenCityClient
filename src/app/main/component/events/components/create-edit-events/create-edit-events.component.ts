@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
-import { DateObj, ItemTime, TagsArray, WeekArrayEn, WeekArrayUa } from '../../models/event-consts';
+import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -35,7 +35,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isPosting = false;
   public contentValid: boolean;
   public checkAfterSend = true;
-  public dateArrCount = WeekArrayUa;
+  public dateArrCount = WeekArray;
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
