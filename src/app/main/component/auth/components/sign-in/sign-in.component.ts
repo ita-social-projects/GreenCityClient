@@ -72,7 +72,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
+      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
     // Get form fields to use it in the template
