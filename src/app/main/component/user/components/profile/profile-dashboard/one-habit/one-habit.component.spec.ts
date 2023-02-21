@@ -1,13 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitService } from '@global-service/habit/habit.service';
-import { FormatDateService } from '@global-user/services/format-date.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { OneHabitComponent } from './one-habit.component';
+import { DatePipe } from '@angular/common';
+
+@Pipe({ name: 'datePipe' })
+class DatePipeMock implements PipeTransform {
+  transform(value: Date): string {
+    return '2022-02-20';
+  }
+}
 
 describe('OneHabitComponent', () => {
   let component: OneHabitComponent;
@@ -53,8 +60,20 @@ describe('OneHabitComponent', () => {
     'enrollByHabit',
     'unenrollByHabit'
   ]);
-  const formatDateServiceMock = jasmine.createSpyObj('formatDateService', ['formatDate']);
-  formatDateServiceMock.formatDate.and.returnValue('2022-02-19');
+  habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
+    JSON.stringify([
+      {
+        enrollDate: '2022-02-10',
+        habitAssigns: [
+          {
+            habitId: 123,
+            enrolled: false
+          }
+        ]
+      }
+    ])
+  );
+  habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
@@ -64,7 +83,7 @@ describe('OneHabitComponent', () => {
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: HabitService, useValue: {} },
-        { provide: FormatDateService, useValue: formatDateServiceMock },
+        { provide: DatePipe, useClass: DatePipeMock },
         { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -75,20 +94,6 @@ describe('OneHabitComponent', () => {
     fixture = TestBed.createComponent(OneHabitComponent);
     component = fixture.componentInstance;
     component.habit = fakeHabitAssign as any;
-    habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
-      JSON.stringify([
-        {
-          enrollDate: '2022-02-20',
-          habitAssigns: [
-            {
-              habitId: 123,
-              enrolled: false
-            }
-          ]
-        }
-      ])
-    );
-    habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
     fixture.detectChanges();
   });
 
@@ -100,7 +105,7 @@ describe('OneHabitComponent', () => {
     const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
     component.ngOnInit();
     expect(buildHabitDescriptionSpy).toHaveBeenCalled();
-    expect(component.currentDate).toBe('2022-02-19');
+    expect(component.currentDate).toBe('2022-02-20');
   });
 
   it('goToHabitProfile', () => {
@@ -140,7 +145,7 @@ describe('OneHabitComponent', () => {
   describe('setGreenCircleInCalendar', () => {
     it('makes expected calls', () => {
       component.setGreenCircleInCalendar(true);
-      expect(habitAssignServiceMock.getAssignHabitsByPeriod).toHaveBeenCalledWith('2022-02-19', '2022-02-19');
+      expect(habitAssignServiceMock.getAssignHabitsByPeriod).toHaveBeenCalledWith('2022-02-20', '2022-02-20');
     });
   });
 

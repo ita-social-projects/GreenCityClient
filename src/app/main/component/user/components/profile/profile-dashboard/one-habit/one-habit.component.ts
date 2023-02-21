@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { FormatDateService } from '@global-user/services/format-date.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitMark } from '@global-user/models/HabitMark.enum';
 import { Subject } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-one-habit',
@@ -46,13 +46,13 @@ export class OneHabitComponent implements OnInit, OnDestroy {
 
   constructor(
     private habitAssignService: HabitAssignService,
-    public formatDateService: FormatDateService,
+    public datePipe: DatePipe,
     public router: Router,
     public habitService: HabitService
   ) {}
 
   ngOnInit() {
-    this.currentDate = this.formatDateService.formatDate(new Date().toLocaleDateString());
+    this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
     this.buildHabitDescription();
   }
 
@@ -75,23 +75,19 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   }
 
   setGreenCircleInCalendar(isSetCircle: boolean) {
-    const currentDate = this.formatDateService.formatDate(new Date().toLocaleDateString());
-    const lastDayInMonth = this.formatDateService.formatDate(
-      new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toLocaleDateString()
-    );
-    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find(
-      (item) => item.enrollDate === this.formatDateService.formatDate(new Date().toLocaleDateString())
-    );
+    const lastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+    const lastDayInMonth = this.datePipe.transform(lastDay, 'yyy-MM-dd');
+    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.currentDate);
     if (dataFromDashBoard) {
       dataFromDashBoard.habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
     } else {
       this.habitAssignService
-        .getAssignHabitsByPeriod(currentDate, lastDayInMonth)
+        .getAssignHabitsByPeriod(this.currentDate, lastDayInMonth)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res) => {
           this.habitAssignService.habitsFromDashBoard = res;
           this.habitAssignService.habitsFromDashBoard
-            .find((item) => item.enrollDate === this.formatDateService.formatDate(new Date().toLocaleDateString()))
+            .find((item) => item.enrollDate === this.currentDate)
             .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
         });
     }
