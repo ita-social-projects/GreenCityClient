@@ -25,7 +25,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   name: string;
   unsubscribe: Subject<any> = new Subject();
 
-  public newDate: Object;
+  public newDate: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -47,6 +47,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
       const datePipe = new DatePipe(lang);
       this.newDate = datePipe.transform(new Date(), 'MMM dd, yyyy');
+      console.log(this.newDate);
+      console.log(typeof this.newDate);
     });
   }
 
