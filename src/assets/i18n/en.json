@@ -983,6 +983,7 @@
     "text-finish": "Thank you !!!"
   },
   "create-event": {
+    "back": "назад",
     "title": "Create Event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
