@@ -728,7 +728,7 @@
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
     "basic_cost": "Basic cost",
-    "commission": "Сommission",
+    "commission": "Commission",
     "full_cost": "Full cost",
     "service_description": "Service description",
     "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
@@ -737,6 +737,13 @@
       "add": "Add",
       "cancel": "Cancel",
       "save": "Save"
+    },
+    "lang": {
+      "description_title_of_the_service": "Введіть наступні дані АНГЛІЙСЬКОЮ мовою",
+      "name_of_the_service": "Найменування послуги",
+      "placeholder-service": "Введіть назву послуги",
+      "service_description": "Опис послуги",
+      "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання"
     }
   },
   "modal-text": {
