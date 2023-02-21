@@ -25,24 +25,6 @@
   height: calc(100vh - 350px);
   overflow: auto;
   padding-bottom: 20px;
-
-  &::-webkit-scrollbar {
-    width: 16px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--ubs-secondary-white);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #e0e3e5;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #cacfd3;
-  }
 }
 
 .drop {

@@ -41,38 +41,6 @@
   box-sizing: border-box;
   padding: 4px;
 
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--primary-white);
-    border-radius: 3px;
-    border: 1px solid var(--quaternary-light-grey);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--primary-light-grey);
-    border-radius: 4px;
-  }
-
-  @media (min-width: 576px) {
-    ::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--primary-white);
-      border-radius: 3px;
-      border: 1px solid var(--quaternary-light-grey);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary-light-grey);
-      border-radius: 2px;
-    }
-  }
-
   .event-date-place-block-content {
     padding: 20px;
     width: 100%;

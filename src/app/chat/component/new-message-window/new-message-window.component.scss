@@ -73,16 +73,6 @@
   height: 200px;
   flex: 1;
   overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 5px;
-    background: var(--primary-white);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: var(--quaternary-dark-grey);
-  }
 }
 
 .chat-days-separate-line {
