@@ -23,26 +23,22 @@
       <p class="sort-by">{{ 'Sort By' | translate }}</p>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Event time' | translate }}</mat-label>
-        <mat-select [(value)]="selectedValues" multiple>
+        <mat-select [(value)]="selectedEventTime" multiple>
           <mat-option (click)="toggleAllSelection()">{{ 'Any time' | translate }}</mat-option>
           <mat-divider></mat-divider>
-          <div *ngFor="let eventTime of eventTimeList">
-            <mat-option [value]="eventTime">
-              {{ eventTime }}
-            </mat-option>
-          </div>
+          <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
+            {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
+          </mat-option>
         </mat-select>
       </div>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Location' | translate }}</mat-label>
-        <mat-select [(value)]="selectedValues" multiple>
+        <mat-select [(value)]="selectedEventTime" multiple>
           <mat-option (click)="toggleAllSelection()">{{ 'Any location' | translate }}</mat-option>
           <mat-divider></mat-divider>
-          <div *ngFor="let eventTime of eventTimeList">
-            <mat-option [value]="eventTime">
-              {{ eventTime }}
-            </mat-option>
-          </div>
+          <mat-option [value]="location" *ngFor="let location of eventLocationList">
+            {{ getLangValue(location.nameUa, location.nameEn) }}
+          </mat-option>
         </mat-select>
       </div>
       <div class="dropdown">
@@ -50,27 +46,23 @@
         <mat-select class="" value="selectedValues" multiple>
           <mat-option (click)="toggleAllSelection()">{{ 'Any status' | translate }}</mat-option>
           <mat-divider></mat-divider>
-          <div *ngFor="let eventTime of eventTimeList">
-            <mat-option [value]="eventTime">
-              {{ eventTime }}
-            </mat-option>
-          </div>
+          <mat-option [value]="status" *ngFor="let status of statusList">
+            {{ getLangValue(status.nameUa, status.nameEn) }}
+          </mat-option>
         </mat-select>
       </div>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Type' | translate }}</mat-label>
-        <mat-select [(value)]="selectedValues" multiple>
+        <mat-select [(value)]="selectedEventTime" multiple>
           <mat-option (click)="toggleAllSelection()">{{ 'Any type' | translate }}</mat-option>
           <mat-divider></mat-divider>
-          <div *ngFor="let eventTime of eventTimeList">
-            <mat-option [value]="eventTime">
-              {{ eventTime }}
-            </mat-option>
-          </div>
+          <mat-option *ngFor="let type of typeList" [value]="type">
+            <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
+          </mat-option>
         </mat-select>
       </div>
       <div>
-        <button class="reset">{{ 'Reset all' | translate }}</button>
+        <button class="reset" (click)="resetAll()">{{ 'Reset all' | translate }}</button>
       </div>
     </div>
     <hr />
