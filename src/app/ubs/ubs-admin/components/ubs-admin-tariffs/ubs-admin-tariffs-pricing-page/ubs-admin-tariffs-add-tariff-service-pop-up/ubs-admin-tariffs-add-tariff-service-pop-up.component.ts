@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-tariff-service-pop-up',
@@ -24,9 +25,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  public currentLang: string;
-  datePipe;
-  newDate;
+  public newDate: Object;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -43,13 +42,12 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
-    this.currentLang = this.localeStorageService.getCurrentLanguage();
+    // this.currentLang = this.localeStorageService.getCurrentLanguage();
     this.initForm();
     this.fillFields();
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
-      this.currentLang = lang;
-      this.datePipe = new DatePipe(this.currentLang);
-      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+      const datePipe = new DatePipe(lang);
+      this.newDate = datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
   }
 

@@ -733,7 +733,6 @@
       "save": "Зберегти"
     },
     "lang": {
-      "description_title_of_the_service": "Enter the following data in UKRAINIAN",
       "name_of_the_service": "Name of the service",
       "placeholder-service": "Enter a name for the service",
       "service_description": "Service description",
