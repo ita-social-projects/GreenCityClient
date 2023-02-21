@@ -15,6 +15,7 @@
     name="email"
     required
     formControlName="email"
+    (focusout)="trimValue(emailControl)"
     (input)="setEmailBackendErr()"
     [ngClass]="emailClassCheck()"
     tabindex="0"
@@ -35,6 +36,7 @@
     name="firstName"
     required
     formControlName="firstName"
+    (focusout)="trimValue(firstNameControl)"
     (input)="setEmailBackendErr()"
     [ngClass]="firstNameClassCheck()"
     tabindex="0"
@@ -58,6 +60,7 @@
       formControlName="password"
       id="password"
       name="form-control password"
+      (focusout)="trimValue(passwordControl)"
       (input)="setEmailBackendErr()"
       tabindex="0"
     />
@@ -93,6 +96,7 @@
       formControlName="repeatPassword"
       id="repeatPassword"
       name="form-control password-confirm"
+      (focusout)="trimValue(passwordControlConfirm)"
       (input)="setEmailBackendErr()"
       tabindex="0"
     />
