@@ -35,7 +35,7 @@ h3 {
 }
 
 /* Firefox */
-.eco-store[type='number'] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -494,6 +494,10 @@ h5 {
   line-height: 24px;
 }
 
+.error-text {
+  color: var(--ubs-primary-red);
+}
+
 .primary-global-button {
   padding: 8px 14px;
   border-radius: 4px;
@@ -576,6 +580,12 @@ li {
   &:last-child {
     color: var(--ubs-primary-grey);
     font-weight: bold;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .bag-name .quantity-input-wrapper button {
+    width: 10px;
   }
 }
 
@@ -743,6 +753,10 @@ li {
     width: 100%;
     padding: 0;
   }
+
+  .bag-name .quantity-input-wrapper button {
+    width: 8px;
+  }
 }
 
 @media screen and (max-width: 420px) {
@@ -757,10 +771,32 @@ li {
   .label-total {
     text-align: end;
   }
+
+  .bag-name .quantity-input-wrapper {
+    input {
+      width: 2rem;
+    }
+
+    button {
+      width: 8px;
+      font-size: 15px;
+    }
+  }
 }
 
 @media screen and (max-width: 360px) {
   .label {
     font-size: 10px;
+  }
+
+  .bag-name .quantity-input-wrapper {
+    input {
+      width: 1.5rem;
+    }
+
+    button {
+      width: 8px;
+      font-size: 12px;
+    }
   }
 }

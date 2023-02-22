@@ -14,6 +14,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -30,7 +31,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = Patterns.ubsNameAndSernamePattern;
+  namePattern = Patterns.NamePattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
   firstOrder = true;
@@ -42,12 +43,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   currentLanguage: string;
   mainUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&libraries=places&language=';
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private personalDataFormValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.minLength(2),
-    Validators.maxLength(30),
-    Validators.pattern(this.namePattern)
-  ];
+  private personalDataFormValidators: ValidatorFn[] = [Validators.required, Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -71,7 +67,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private fb: FormBuilder,
     public dialog: MatDialog,
     private localService: LocalStorageService,
-    private listOflocations: Locations
+    private listOflocations: Locations,
+    private googleScript: GoogleScript
   ) {
     super(router, dialog, orderService);
     this.initForm();
@@ -84,8 +81,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.setDisabledCityForLocation();
       }
     });
+    this.localService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
+      this.googleScript.load(lang);
+    });
 
-    this.currentLanguage = this.localService.getCurrentLanguage();
     if (localStorage.getItem('anotherClient')) {
       this.anotherClient = JSON.parse(localStorage.getItem('anotherClient'));
     }
@@ -103,7 +103,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalDataForm.controls.address.setValue(data);
       this.personalDataForm.controls.addressComment.setValue(data.addressComment);
     });
-    this.loadScript();
   }
 
   setDisabledCityForLocation(): void {
@@ -127,19 +126,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   getFormValues(): boolean {
     return true;
-  }
-
-  loadScript(): void {
-    const script = document.getElementById('googleMaps') as HTMLScriptElement;
-    if (script) {
-      script.src = this.mainUrl + this.currentLanguage;
-    } else {
-      const google = document.createElement('script');
-      google.type = 'text/javascript';
-      google.id = 'googleMaps';
-      google.setAttribute('src', this.mainUrl + this.currentLanguage);
-      document.getElementsByTagName('head')[0].appendChild(google);
-    }
   }
 
   findAllAddresses(isCheck: boolean) {

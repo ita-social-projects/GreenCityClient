@@ -12,6 +12,7 @@ import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface'
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -92,6 +93,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     private fb: FormBuilder,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     public orderService: OrderService,
     public renderer: Renderer2,
     private route: ActivatedRoute,
@@ -145,10 +147,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public setLimitsValues(): void {
     this.checkCourierLimit();
     this.locations = this.localStorageService.getLocations();
-    this.minOrderValue = this.locations?.minPriceOfOrder;
-    this.maxOrderValue = this.locations?.maxPriceOfOrder;
-    this.minAmountOfBigBags = this.locations?.minAmountOfBigBags;
-    this.maxAmountOfBigBags = this.locations?.maxAmountOfBigBags;
+    this.minOrderValue = this.locations?.min;
+    this.maxOrderValue = this.locations?.max;
+    this.minAmountOfBigBags = this.locations?.min;
+    this.maxAmountOfBigBags = this.locations?.max;
     this.validateBags();
     this.validateSum();
   }
@@ -529,6 +531,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   redirectToZeroStep() {
     this.openLocationDialog();
+  }
+
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy() {

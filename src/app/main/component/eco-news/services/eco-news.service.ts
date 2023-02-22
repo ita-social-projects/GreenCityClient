@@ -2,7 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Observer, ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { EcoNewsModel, NewsTagInterface } from '../models/eco-news-model';
+import { EcoNewsModel } from '../models/eco-news-model';
+import { TagInterface } from '../../shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { EcoNewsDto } from '../models/eco-news-dto';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -20,8 +21,8 @@ export class EcoNewsService implements OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
 
-  public getAllPresentTags(): Observable<Array<NewsTagInterface>> {
-    return this.http.get<Array<NewsTagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
+  public getAllPresentTags(): Observable<Array<TagInterface>> {
+    return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
   public getEcoNewsListByPage(page: number, quantity: number) {

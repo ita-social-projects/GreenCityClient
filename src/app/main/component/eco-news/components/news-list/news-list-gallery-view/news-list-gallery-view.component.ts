@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-news-list-gallery-view',
@@ -24,15 +25,14 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public translate: TranslateService, private localStorageService: LocalStorageService) {}
+  constructor(public translate: TranslateService, private localStorageService: LocalStorageService, private langService: LanguageService) {}
   ngOnInit() {
-    this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;
-    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.tags = this.currentLang === 'ua' || this.currentLang === 'ru' ? this.ecoNewsModel.tagsUa : this.ecoNewsModel.tagsEn;
+      this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn) as string[];
     });
   }
+
   public checkNewsImage(): string {
     this.newsImage =
       this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' '

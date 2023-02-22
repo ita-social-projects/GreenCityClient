@@ -29,7 +29,9 @@
         </div>
 
         <div class="duration-choice">
-          <mat-label>Duration</mat-label>
+          <div class="title-wrapper">
+            <mat-label>Duration</mat-label>
+          </div>
           <mat-form-field appearance="outline" class="date-item">
             <mat-label>Min 1 day</mat-label>
             <mat-select formControlName="eventDuration" ngDefaultControl (selectionChange)="setDateCount(+$event.value.split(' ')[0])">

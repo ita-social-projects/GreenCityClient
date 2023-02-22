@@ -192,7 +192,7 @@
         </div>
       </td>
       <td>
-        {{ card.tariff | tariffStatus }}
+        {{ card.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
@@ -236,7 +236,7 @@
         </div>
       </td>
       <td>
-        {{ selectedCard.tariff | tariffStatus }}
+        {{ selectedCard.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="selectedCard.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />

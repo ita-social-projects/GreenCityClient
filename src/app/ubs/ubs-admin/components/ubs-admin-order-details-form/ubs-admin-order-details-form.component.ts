@@ -101,7 +101,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   private setBagsInfo() {
-    this.orderDetails.bags = this.orderDetails.bags.filter((bag) => bag.planned);
     this.orderDetails.bags.forEach((bag) => {
       this.bagsInfo = {
         amount: {
@@ -133,8 +132,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
       actual: this.bagsInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.orderDetails.courierPricePerPackage : 0)
     };
-    if (this.doneAfterBroughtHimself) {
-      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert - this.courierPrice + this.writeoffAtStationSum;
+    if (this.doneAfterBroughtHimself || (this.isVisible && this.showUbsCourier)) {
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert + this.writeoffAtStationSum;
     }
     for (const type in this.bagsInfo.finalSum) {
       if (this.bagsInfo.finalSum[type] < 0) {
@@ -215,33 +214,30 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.checkMinOrder.emit(true);
     this.setAmountOfBigBags(type);
     if (this.orderDetails.courierInfo.courierLimit === 'LIMIT_BY_AMOUNT_OF_BAG') {
-      expression = this.orderDetails.courierInfo.maxAmountOfBigBags
-        ? this.amountOfBigBags < this.orderDetails.courierInfo.minAmountOfBigBags ||
-          this.amountOfBigBags > this.orderDetails.courierInfo.maxAmountOfBigBags
-        : this.amountOfBigBags < this.orderDetails.courierInfo.minAmountOfBigBags;
+      expression = this.orderDetails.courierInfo.max
+        ? this.amountOfBigBags < this.orderDetails.courierInfo.min || this.amountOfBigBags > this.orderDetails.courierInfo.max
+        : this.amountOfBigBags < this.orderDetails.courierInfo.min;
       this.limitMsg = {
         min: 'order-details.min-bags',
         max: 'order-details.max-bags'
       };
       this.limitAmount = {
-        min: this.orderDetails.courierInfo.minAmountOfBigBags,
-        max: this.orderDetails.courierInfo.maxAmountOfBigBags || '-'
+        min: this.orderDetails.courierInfo.min,
+        max: this.orderDetails.courierInfo.max || '-'
       };
     } else if (this.orderDetails.courierInfo.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
-      expression = this.orderDetails.courierInfo.maxPriceOfOrder
-        ? this.bagsInfo.sum[type] < this.orderDetails.courierInfo.minPriceOfOrder ||
-          this.bagsInfo.sum[type] > this.orderDetails.courierInfo.maxPriceOfOrder
-        : this.bagsInfo.sum[type] < this.orderDetails.courierInfo.minPriceOfOrder;
+      expression = this.orderDetails.courierInfo.max
+        ? this.bagsInfo.sum[type] < this.orderDetails.courierInfo.min || this.bagsInfo.sum[type] > this.orderDetails.courierInfo.max
+        : this.bagsInfo.sum[type] < this.orderDetails.courierInfo.min;
       this.limitMsg = {
         min: 'order-details.min-sum',
         max: 'order-details.max-sum'
       };
       this.limitAmount = {
-        min: this.orderDetails.courierInfo.minPriceOfOrder,
-        max: this.orderDetails.courierInfo.maxPriceOfOrder || '-'
+        min: this.orderDetails.courierInfo.min,
+        max: this.orderDetails.courierInfo.max || '-'
       };
     }
-
     if (expression) {
       if (type === 'actual') {
         this.showUbsCourier = true;

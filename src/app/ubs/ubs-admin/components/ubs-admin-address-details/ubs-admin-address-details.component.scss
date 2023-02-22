@@ -34,19 +34,38 @@ label {
   line-height: 24px;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.address {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-}
-
 .settlement,
 .building {
   display: flex;
+}
+
+.settlement > div {
+  width: 50%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.building div {
+  padding-right: 15px;
+  width: 100%;
+}
+
+.district {
+  padding: 0 15px;
+  width: 50%;
+}
+
+.comment {
+  padding: 0 15px;
+  width: 50%;
+}
+
+.form-control {
+  max-width: 408px;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border: 1px solid var(--ubs-error-ligh-red);
 }
 
 #address-comment {
@@ -62,7 +81,25 @@ label {
 
 @media (min-width: 992px) {
   #address-comment {
-    width: 340px;
+    // width: 50%;
     height: 92px;
+  }
+}
+
+@media (max-width: 760px) {
+  .settlement {
+    flex-direction: column;
+  }
+
+  .settlement > div {
+    width: 100%;
+  }
+
+  .district {
+    width: 100%;
+  }
+
+  .comment {
+    width: 100%;
   }
 }

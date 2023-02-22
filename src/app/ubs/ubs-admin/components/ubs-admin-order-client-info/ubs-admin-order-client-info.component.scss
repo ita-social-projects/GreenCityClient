@@ -54,6 +54,10 @@
   margin-right: 38px;
 }
 
+input.ng-invalid.ng-touched {
+  border: 1px solid var(--ubs-error-ligh-red);
+}
+
 input {
   position: static;
   height: 36px;
@@ -92,6 +96,10 @@ input {
 .active,
 .empty_card:hover {
   cursor: pointer;
+}
+
+.active {
+  color: var(--ubs-electric-violet);
 }
 
 .name-input {

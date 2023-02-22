@@ -9,18 +9,30 @@
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.name' | translate }}</label>
         <input formControlName="firstName" />
+        <div class="validation" *ngIf="firstName.invalid && firstName.touched">
+          <app-ubs-input-error [formElement]="firstName"></app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.surname' | translate }}</label>
         <input formControlName="lastName" />
+        <div class="validation" *ngIf="lastName.invalid && lastName.touched">
+          <app-ubs-input-error [formElement]="lastName"></app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
         <input formControlName="phoneNumber" placeholder="+380" [imask]="{ mask: phoneMask }" [unmask]="true" />
+        <div class="validation" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+          <app-ubs-input-error [formElement]="phoneNumber"></app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
         <input formControlName="email" />
+        <div class="validation" *ngIf="email.invalid && email.touched">
+          <app-ubs-input-error [formElement]="email"></app-ubs-input-error>
+        </div>
       </div>
       <div class="checkbox-section-role">
         <cdk-accordion class="role-accordion accordion">

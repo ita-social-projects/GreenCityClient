@@ -7,6 +7,7 @@ import { environment } from '@environment/environment.js';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
+  const backendLink = environment.backendLink;
   let habitService: HabitService;
   let httpMock: HttpTestingController;
   let langMock = null;
@@ -78,7 +79,11 @@ describe('HabitService', () => {
       status: 'ACTIVE'
     }
   ];
-  const tagsMock = ['clothes', 'eco', 'green', 'natural'];
+  const tagsMock = [
+    { id: 1, name: 'clothes', nameUa: 'одяг' },
+    { id: 2, name: 'eco', nameUa: 'еко' },
+    { id: 3, name: 'natural', nameUa: 'натуральний' }
+  ];
   const habitListMock = {
     currentPage: 1,
     page: [
@@ -166,11 +171,11 @@ describe('HabitService', () => {
   });
 
   it('should return habit tags', () => {
-    habitService.getHabitsTags().subscribe((data) => {
+    habitService.getAllTags().subscribe((data) => {
       expect(data).not.toBeNull();
       expect(data).toEqual(tagsMock);
     });
-    const req = httpMock.expectOne(`${habitLink}/tags?lang=en`);
+    const req = httpMock.expectOne(`${backendLink}tags/v2/search?type=HABIT`);
     expect(req.request.method).toBe('GET');
     req.flush(tagsMock);
   });

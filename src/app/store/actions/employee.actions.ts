@@ -22,7 +22,7 @@ export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuc
 
 export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: FormData; employee: Page }>());
 
-export const AddEmployeeSuccess = createAction(EmployeesActions.AddEmployeeSuccess, props<{ employee: Page }>());
+export const AddEmployeeSuccess = createAction(EmployeesActions.AddEmployeeSuccess, props<{ employee: any }>());
 
 export const DeleteEmployee = createAction(EmployeesActions.DeleteEmployee, props<{ id: number }>());
 
@@ -30,6 +30,6 @@ export const DeleteEmployeeSuccess = createAction(EmployeesActions.DeleteEmploye
 
 export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: FormData; employee: Page }>());
 
-export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
+export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: any }>());
 
 export const ReceivedFailure = createAction(EmployeesActions.ReceivedFailure, props<{ error: string | null }>());

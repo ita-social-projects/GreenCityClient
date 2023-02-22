@@ -11,7 +11,8 @@ import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/s
 import { Subject } from 'rxjs';
 import { Masks } from 'src/assets/patterns/patterns';
 import { TariffSelectorComponent } from './tariff-selector/tariff-selector.component';
-
+import { Patterns } from 'src/assets/patterns/patterns';
+import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 interface IEmployeePositions {
   id: number;
   name: string;
@@ -53,7 +54,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     location: { en: string; ua: string };
     courier: { en: string; ua: string };
   }[] = [];
-  employeeDataToSend: Page;
+  employeeDataToSend;
   isDeleting = false;
   phoneMask = Masks.phoneMask;
   private maxImageSize = 10485760;
@@ -80,6 +81,37 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk }))
       }))
   };
+
+  constructor(
+    private employeeService: UbsAdminEmployeeService,
+    private store: Store<IAppState>,
+    public dialogRef: MatDialogRef<UbsAdminEmployeeEditFormComponent>,
+    public fb: FormBuilder,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: Page
+  ) {
+    this.employeeForm = this.fb.group({
+      firstName: [this.data?.firstName ?? '', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]],
+      lastName: [this.data?.lastName ?? '', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]],
+      phoneNumber: [this.data?.phoneNumber ?? '', [Validators.required, PhoneNumberValidator('UA')]],
+      email: [this.data?.email ?? '', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]]
+    });
+    this.employeePositions = this.data?.employeePositions ?? [];
+    this.imageURL = this.data?.image;
+    this.editMode = !!this.data;
+    if (this.editMode) {
+      this.editEmployee();
+      this.initialData = {
+        firstName: this.data.firstName,
+        lastName: this.data.lastName,
+        phoneNumber: this.data.phoneNumber.replace('+', ''),
+        email: this.data?.email,
+        imageURL: this.data?.image,
+        employeePositionsIds: this.employeePositions.map((position) => position.id)
+      };
+      this.tariffs = this.mappers.tariffs(this.data?.tariffs) ?? [];
+    }
+  }
 
   ngOnInit() {
     this.employeeService.getAllPositions().subscribe(
@@ -114,45 +146,28 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  constructor(
-    private employeeService: UbsAdminEmployeeService,
-    private store: Store<IAppState>,
-    public dialogRef: MatDialogRef<UbsAdminEmployeeEditFormComponent>,
-    public fb: FormBuilder,
-    private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: Page
-  ) {
-    this.employeeForm = this.fb.group({
-      firstName: [this.data?.firstName ?? '', Validators.required],
-      lastName: [this.data?.lastName ?? '', Validators.required],
-      phoneNumber: [this.data?.phoneNumber ?? '', Validators.required],
-      email: [this.data?.email ?? '']
-    });
-    this.employeePositions = this.data?.employeePositions ?? [];
-    // this.receivingStations = this.data?.receivingStations ?? [];
-    this.imageURL = this.data?.image;
-    this.editMode = !!this.data;
-    if (this.editMode) {
-      this.editEmployee();
-      this.initialData = {
-        firstName: this.data.firstName,
-        lastName: this.data.lastName,
-        phoneNumber: this.data.phoneNumber.replace('+', ''),
-        email: this.data?.email,
-        imageURL: this.data?.image,
-        employeePositionsIds: this.employeePositions.map((position) => position.id)
-        // receivingStationsIds: this.receivingStations.map((station) => station.id)
-      };
-      this.tariffs = this.mappers.tariffs(this.data?.tariffs) ?? [];
-    }
-  }
-
   get isUpdatingEmployee() {
     return this.data && Object.keys(this.data).length !== 0;
   }
 
   get userHasDefaultPhoto() {
     return this.imageURL === this.defaultPhotoURL;
+  }
+
+  get firstName() {
+    return this.employeeForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.employeeForm.get('lastName');
+  }
+
+  get phoneNumber() {
+    return this.employeeForm.get('phoneNumber');
+  }
+
+  get email() {
+    return this.employeeForm.get('email');
   }
 
   checkIsInitialPositionsChanged(): boolean {
@@ -202,15 +217,17 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   prepareEmployeeDataToSend(dto: string, image?: string): FormData {
     this.isUploading = true;
     this.employeeDataToSend = {
-      ...this.employeeForm.value,
-      employeePositions: this.employeePositions,
+      employeeDto: {
+        ...this.employeeForm.value,
+        employeePositions: this.employeePositions
+      },
       tariffId: this.tariffs.map((it) => it.id)
     };
     if (this.isUpdatingEmployee) {
-      this.employeeDataToSend.id = this.data.id;
+      this.employeeDataToSend.employeeDto.id = this.data.id;
     }
     if (image) {
-      this.employeeDataToSend.image = image;
+      this.employeeDataToSend.employeeDto.image = image;
     }
     const formData: FormData = new FormData();
     const stringifiedDataToSend = JSON.stringify(this.employeeDataToSend);
@@ -236,13 +253,13 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   updateEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
+    const dataToSend = this.prepareEmployeeDataToSend('employeeWithTariffsIdDto', image);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 
   createEmployee(): void {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
-    const dataToSend = this.prepareEmployeeDataToSend('employeeDto', image);
+    const dataToSend = this.prepareEmployeeDataToSend('employeeWithTariffsIdDto', image);
     this.store.dispatch(AddEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
   }
 

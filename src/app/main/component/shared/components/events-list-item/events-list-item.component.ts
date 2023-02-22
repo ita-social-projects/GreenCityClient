@@ -17,6 +17,9 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { DatePipe } from '@angular/common';
+import { EventsService } from '../../../events/services/events.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -27,12 +30,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
+  public activeTags: Array<TagObj>;
 
   public nameBtn: string;
   public styleBtn: string;
   public isJoinBtnHidden = false;
   public rate: number;
   public userId: number;
+  public author: string;
 
   public isJoined: boolean;
   public isEventOpen: boolean;
@@ -49,6 +54,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public langChangeSub: Subscription;
   public currentLang: string;
+  public datePipe;
+  public newDate;
+
+  attendees = [];
+  attendeesAvatars = [];
 
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
@@ -61,10 +71,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private userOwnAuthService: UserOwnAuthService,
     private modalService: BsModalService,
     private dialog: MatDialog,
     private store: Store,
+    private eventService: EventsService,
     private translate: TranslateService
   ) {}
 
@@ -78,7 +90,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.initAllStatusesOfEvent();
     this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
+    this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.author = this.event.organizer.name;
   }
 
   public routeToEvent(): void {
@@ -87,15 +101,16 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public filterTags(tags: Array<TagDto>) {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
+    this.activeTags = this.itemTags.filter((val) => val.isActive);
   }
 
   public initAllStatusesOfEvent(): void {
-    this.isJoined = this.event.isSubscribed ? true : false;
+    this.isJoined = this.event.isSubscribed;
     this.isEventOpen = this.event.open;
     this.isOwner = this.userId === this.event.organizer.id;
-    this.isRegistered = this.userId ? true : false;
+    this.isRegistered = !!this.userId;
     this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
-    this.isRated = this.rate ? true : false;
+    this.isRated = !!this.rate;
   }
 
   public getUserId(): void {
@@ -238,6 +253,30 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+    this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    });
+  }
+
+  cutTitle(): string {
+    return this.event.title.length > 40 ? this.event.title.slice(0, 30) + '...' : this.event.title;
+  }
+
+  cutDescription(): string {
+    return this.event.description.length > 90 ? this.event.description.slice(0, 90) + '...' : this.event.description;
+  }
+
+  getAllAttendees() {
+    this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
+      this.attendees = attendees;
+      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+    });
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

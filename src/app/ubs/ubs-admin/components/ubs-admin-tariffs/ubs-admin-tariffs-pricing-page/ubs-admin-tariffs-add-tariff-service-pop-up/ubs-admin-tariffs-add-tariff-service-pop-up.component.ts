@@ -5,7 +5,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
 import { Subject } from 'rxjs';
-import { CreateEditTariffsServicesFormBuilder } from '../../../../services/create-edit-tariffs-service-form-builder';
 import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -18,7 +17,6 @@ import { ModalTextComponent } from '../../../shared/components/modal-text/modal-
 })
 export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   addTariffServiceForm: FormGroup;
-  slide = false;
   receivedData;
   tariffs;
   tariffService: Bag;
@@ -35,7 +33,6 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
     private fb: FormBuilder,
-    private formBuilder: CreateEditTariffsServicesFormBuilder,
     private localeStorageService: LocalStorageService
   ) {
     this.receivedData = data;
@@ -46,8 +43,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       this.name = firstName;
     });
     this.initForm();
-    this.fillFields(this.receivedData);
-    this.tariffsService.setAllTariffsForService();
+    this.fillFields();
   }
 
   private initForm(): void {
@@ -55,24 +51,31 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   }
 
   addForm(): void {
-    this.addTariffServiceForm = this.formBuilder.createTariffService();
+    this.addTariffServiceForm = this.createTariffService();
+  }
+
+  createTariffService() {
+    return this.fb.group({
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      description: new FormControl('', [Validators.required]),
+      descriptionEng: new FormControl('', [Validators.required])
+    });
   }
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.bagData.name }),
       nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }),
-      capacity: new FormControl({ value: this.receivedData.bagData.capacity }),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [Validators.pattern(Patterns.ubsServicePrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }),
-      descriptionEng: new FormControl(this.receivedData.bagData.descriptionEng),
-      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)])
+      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng })
     });
-  }
-
-  createAndStoreNewTariff() {
-    this.addNewTariffForService();
-    this.tariffsService.setAllTariffsForService();
   }
 
   addNewTariffForService() {
@@ -84,14 +87,12 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       price,
       locationId,
       commission,
-      tariffTranslationDtoList: [
-        {
-          name,
-          description,
-          descriptionEng,
-          nameEng
-        }
-      ]
+      tariffTranslationDtoList: {
+        name,
+        description,
+        descriptionEng,
+        nameEng
+      }
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -106,9 +107,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editTariffForService(receivedData) {
     const langCode = receivedData.bagData.languageCode;
-    const { name, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
+    const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
     this.tariffService = {
       name,
+      nameEng,
       capacity,
       price,
       commission,
@@ -126,16 +128,17 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.loadingAnim = false;
   }
 
-  fillFields(receivedData) {
+  fillFields() {
     if (this.receivedData.bagData) {
-      const { name, nameEng, price, capacity, commission, description } = this.receivedData.bagData;
+      const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
         name,
         nameEng,
         price,
         capacity,
         commission,
-        description
+        description,
+        descriptionEng
       });
     }
   }
@@ -145,6 +148,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
+        title: 'modal-text.cancel',
         name: 'cancel',
         text: 'modal-text.cancel-message',
         action: 'modal-text.yes'

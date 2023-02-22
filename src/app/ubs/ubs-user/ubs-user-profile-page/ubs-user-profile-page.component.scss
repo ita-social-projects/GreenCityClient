@@ -23,6 +23,7 @@ $inputwidth: 260px;
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
+  margin-top: 19px;
 
   .ubs_profile-header {
     width: 100%;
@@ -106,11 +107,6 @@ $inputwidth: 260px;
 
   input.ng-invalid.ng-touched {
     border: 1px solid var(--ubs-error-ligh-red);
-  }
-
-  .validation {
-    color: var(--error-red);
-    font-size: 8px;
   }
 
   button {

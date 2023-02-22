@@ -121,12 +121,16 @@ describe('UbsAdminOrderPaymentComponent', () => {
     addressExportDetailsDto: {
       addressId: 32,
       addressCity: 'Київ',
+      addressCityEng: 'Київ',
       addressDistrict: 'Шевченківський',
+      addressDistrictEng: 'Шевченківський',
       addressEntranceNumber: 1,
       addressHouseCorpus: 3,
       addressHouseNumber: 42,
       addressRegion: 'Київська область',
-      addressStreet: 'Січових Стрільців вул'
+      addressRegionEng: 'Київська область',
+      addressStreet: 'Січових Стрільців вул',
+      addressStreetEng: 'Січових Стрільців вул'
     },
     addressComment: '',
     amountOfBagsConfirmed: fakeAmountOfBagsConfirmed,
@@ -164,10 +168,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
     courierPricePerPackage: 65,
     courierInfo: {
       courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      maxAmountOfBigBags: 99,
-      maxPriceOfOrder: 500000,
-      minAmountOfBigBags: 2,
-      minPriceOfOrder: 500
+      max: 99,
+      min: 2
     },
     orderBonusDiscount: 0,
     orderCertificateTotalDiscount: 0,

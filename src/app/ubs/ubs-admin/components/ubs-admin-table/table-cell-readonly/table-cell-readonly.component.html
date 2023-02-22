@@ -1,5 +1,5 @@
 <div
-  *ngIf="date !== 'orderDate' && date !== 'id'"
+  *ngIf="date !== 'orderDate' && date !== 'paymentDate' && date !== 'id'"
   #tooltip="matTooltip"
   matTooltip="{{ title }}"
   matTooltipClass="my-custom-tooltip"
@@ -12,6 +12,6 @@
 <div *ngIf="date === 'id'" class="order-number">
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>
-<div class="readonly_date" *ngIf="date === 'orderDate'">
+<div class="readonly_date" *ngIf="date === 'orderDate' || date === 'paymentDate'">
   <span>{{ title | date: 'dd/MM/y' }}</span>
 </div>

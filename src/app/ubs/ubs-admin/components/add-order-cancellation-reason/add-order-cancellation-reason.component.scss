@@ -34,6 +34,7 @@
     text-align-last: right;
     margin-bottom: 40px;
     margin-top: 40px;
+    display: flex;
 
     .btn {
       border-radius: 5px;
@@ -77,5 +78,27 @@
 
   .error-message {
     color: var(--error-red);
+  }
+}
+
+@media screen and (max-height: 770px), (max-width: 425px) {
+  .container {
+    overflow-y: scroll;
+    max-height: 700px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-light-grey);
+    box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
   }
 }

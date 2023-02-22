@@ -130,6 +130,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
             // couriers
           };
         });
+        console.log(this.employees);
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
           this.isLoading = false;

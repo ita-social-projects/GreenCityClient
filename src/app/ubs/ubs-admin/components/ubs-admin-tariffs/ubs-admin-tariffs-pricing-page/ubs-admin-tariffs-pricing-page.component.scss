@@ -43,6 +43,11 @@
       margin-top: 5px;
       font-size: 18px;
     }
+
+    &:disabled {
+      background: var(--ubs-quaternary-light-grey);
+      border-color: var(--ubs-quaternary-light-grey);
+    }
   }
 }
 
@@ -67,6 +72,10 @@ th:nth-child(4) {
     padding-left: 15px;
     font-style: normal;
     font-weight: normal;
+  }
+
+  .empty {
+    width: 4%;
   }
 
   table {

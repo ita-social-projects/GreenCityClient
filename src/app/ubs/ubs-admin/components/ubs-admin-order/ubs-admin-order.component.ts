@@ -31,6 +31,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -59,9 +60,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   overpayment: number;
   isMinOrder = true;
   isSubmitted = false;
+  private isFormResetted = false;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
+  public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
@@ -71,7 +74,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private router: Router,
     private changeDetector: ChangeDetectorRef,
     private injector: Injector,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private googleScript: GoogleScript
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -87,6 +91,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
+      this.googleScript.load(lang);
     });
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
@@ -127,7 +132,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] || 0;
+      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' ? bag.confirmed : 0;
+      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
       return bag;
     });
     this.orderDetails = {
@@ -176,23 +182,45 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       userInfoDto: this.fb.group({
         recipientName: [
           this.userInfo.recipientName,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
+          [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
         ],
         recipientSurName: [
           this.userInfo.recipientSurName,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
+          [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
         ],
         recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern(Patterns.adminPhone)]],
-        recipientEmail: [this.userInfo.recipientEmail, [Validators.email]]
+        recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
       }),
       addressExportDetailsDto: this.fb.group({
-        addressRegion: this.addressInfo.addressRegion,
-        addressCity: this.addressInfo.addressCity,
-        addressStreet: this.addressInfo.addressStreet,
-        addressHouseNumber: this.addressInfo.addressHouseNumber,
-        addressHouseCorpus: this.addressInfo.addressHouseCorpus,
-        addressEntranceNumber: this.addressInfo.addressEntranceNumber,
-        addressDistrict: this.addressInfo.addressDistrict
+        addressRegion: [this.addressInfo.addressRegion, Validators.required],
+        addressRegionEng: [this.addressInfo.addressRegionEng, Validators.required],
+        addressCity: [
+          this.addressInfo.addressCity,
+          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressCityEng: [
+          this.addressInfo.addressCityEng,
+          [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressStreet: [
+          this.addressInfo.addressStreet,
+          [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressStreetEng: [
+          this.addressInfo.addressStreetEng,
+          [Validators.required, Validators.minLength(1), Validators.maxLength(120), Validators.pattern(Patterns.ubsWithDigitPattern)]
+        ],
+        addressHouseNumber: [
+          this.addressInfo.addressHouseNumber,
+          [Validators.required, Validators.maxLength(4), Validators.pattern(Patterns.ubsHousePattern)]
+        ],
+        addressHouseCorpus: [this.addressInfo.addressHouseCorpus, [Validators.maxLength(4), Validators.pattern(Patterns.ubsCorpusPattern)]],
+        addressEntranceNumber: [
+          this.addressInfo.addressEntranceNumber,
+          [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
+        ],
+        addressDistrict: [this.addressInfo.addressDistrict, Validators.required],
+        addressDistrictEng: [this.addressInfo.addressDistrictEng, Validators.required]
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
@@ -335,12 +363,24 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     return currentEmployee;
   }
 
+  public validateExportDetails() {
+    const exportDetailsDtoValue = this.orderForm.get('exportDetailsDto').value;
+    const validatedValues = Object.values(exportDetailsDtoValue).map((val) => (!val ? null : val));
+
+    Object.keys(exportDetailsDtoValue).forEach((key, index) => {
+      exportDetailsDtoValue[key] = validatedValues[index];
+    });
+
+    return exportDetailsDtoValue;
+  }
+
   public onSubmit(): void {
     this.isSubmitted = true;
     const changedValues: any = {};
     this.getUpdates(this.orderForm, changedValues);
 
-    if (changedValues.exportDetailsDto) {
+    if (changedValues.exportDetailsDto || this.isFormResetted) {
+      changedValues.exportDetailsDto = this.validateExportDetails();
       this.formatExporteValue(changedValues.exportDetailsDto);
     }
 
@@ -363,6 +403,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       const keyUpdateResponsibleEmployeeDto = 'updateResponsibleEmployeeDto';
       changedValues[keyUpdateResponsibleEmployeeDto] = arrEmployees;
       delete changedValues.responsiblePersonsForm;
+    } else if (this.isFormResetted) {
+      changedValues.responsiblePersonsForm = this.orderForm.get('responsiblePersonsForm').value;
     }
 
     this.addIdForUserAndAdress(changedValues);
@@ -423,7 +465,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   public formatExporteValue(exportDetailsDto: IExportDetails): void {
-    const exportDate = new Date(exportDetailsDto.dateExport);
+    const exportDate = new Date(
+      exportDetailsDto.dateExport ? exportDetailsDto.dateExport : this.orderForm.get('exportDetailsDto').value.dateExport
+    );
 
     if (exportDetailsDto.dateExport) {
       exportDetailsDto.dateExport = exportDate.toISOString();
@@ -440,13 +484,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       exportDetailsDto.receivingStationId = this.getReceivingStationIdByName(exportDetailsDto.receivingStationId.toString());
     }
   }
+
   public getReceivingStationIdByName(receivingStationName: string): number {
     return this.exportInfo.allReceivingStations.find((element) => receivingStationName === element.name).id;
   }
+
   public getReceivingStationById(receivingStationId: number): string | null {
     const receivingStationName = this.exportInfo.allReceivingStations.find((element) => receivingStationId === element.id)?.name;
     return receivingStationName || null;
   }
+
   public formatBagsValue(orderDetailsForm) {
     const confirmed = {};
     const exported = {};
@@ -476,6 +523,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     return result;
   }
+
   statusCanceledOrDone(): void {
     if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
       this.orderForm.get('exportDetailsDto').disable();
@@ -485,6 +533,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderForm.get('responsiblePersonsForm').enable();
     }
   }
+
   notRequiredFieldsStatuses(): void {
     const exportDetails = this.orderForm.get('exportDetailsDto');
     const responsiblePersons = this.orderForm.get('responsiblePersonsForm');
@@ -497,12 +546,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       responsiblePersonNames.forEach((el) => responsiblePersons.get(el).clearValidators());
       exportDetails.reset();
       responsiblePersons.reset();
+      this.isFormResetted = true;
     } else {
       exportDetaisFields.forEach((el) => exportDetails.get(el).setValidators([Validators.required]));
       responsiblePersonNames.forEach((el) => responsiblePersons.get(el).setValidators([Validators.required]));
     }
     this.statusCanceledOrDone();
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

@@ -1,5 +1,5 @@
 .container {
-  margin-top: 100px;
+  margin-top: 130px;
   margin-bottom: 100px;
 
   &.spin-padding {
@@ -14,7 +14,10 @@
 }
 
 .row {
-  position: relative;
+  max-width: 1150px;
+  width: 100%;
+  padding-left: 15px;
+  margin: 0 auto -15px auto;
 }
 
 button:disabled {
@@ -23,8 +26,7 @@ button:disabled {
   color: var(--ubs-secondary-light-grey);
 }
 
-.back-button,
-.back-button-top {
+.back-button {
   background-color: transparent;
   color: var(--ubs-tertiary-dark-grey);
   border: none;
@@ -33,16 +35,22 @@ button:disabled {
   font-weight: bold;
   width: 150px;
   height: 44px;
+  margin-left: 15px;
 }
 
 .back-button-top {
-  top: 71px;
-  left: -130px;
-  position: absolute;
-}
+  background-color: transparent;
+  border: none;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: var(--ubs-primary-grey);
 
-.back-button {
-  margin-left: 15px;
+  img {
+    margin-right: 6px;
+  }
 }
 
 .cancel-button,

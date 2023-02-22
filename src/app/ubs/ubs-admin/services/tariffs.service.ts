@@ -41,12 +41,8 @@ export class TariffsService {
     return this.locationId;
   }
 
-  async setAllTariffsForService() {
-    this.allTariffServices = await this.getAllTariffsForService().toPromise();
-  }
-
-  getAllTariffsForService() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
+  getAllTariffsForService(tariffId: number) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
 
   createNewTariffForService(tariffService: Bag) {
@@ -69,12 +65,12 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/createService`, service);
   }
 
-  getAllServices() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getService`);
+  getService(tariffId) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getService`);
   }
 
-  editService(id: number, service: Service) {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
+  editService(service: Service) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService`, service);
   }
 
   getLocations(): Observable<Locations[]> {

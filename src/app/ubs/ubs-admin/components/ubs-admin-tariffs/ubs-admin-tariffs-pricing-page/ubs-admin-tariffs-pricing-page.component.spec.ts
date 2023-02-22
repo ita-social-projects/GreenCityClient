@@ -26,6 +26,8 @@ import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -39,10 +41,10 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
     courierLimitsBy: new FormControl('fake'),
-    minPriceOfOrder: new FormControl('fake'),
-    maxPriceOfOrder: new FormControl('fake'),
-    minAmountOfBigBags: new FormControl('fake'),
-    maxAmountOfBigBags: new FormControl('fake'),
+    minPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
     limitDescription: new FormControl('fake')
   });
   const fakeLocations: Locations = {
@@ -70,10 +72,11 @@ describe('UbsAdminPricingPageComponent', () => {
   };
 
   const fakeService = {
-    locationId: 159,
-    price: 555,
-    commission: 333,
-    languageCode: 'ua'
+    name: 'fake1',
+    nameEng: 'fake',
+    price: 2,
+    description: 'fake1',
+    descriptionEng: 'fake1'
   };
 
   const fakeBag: Bag = {
@@ -131,8 +134,25 @@ describe('UbsAdminPricingPageComponent', () => {
       }
     ],
     tariffStatus: 'Active',
-    cardId: 3
+    cardId: 3,
+    min: 1,
+    max: 100,
+    courierLimit: 'fake',
+    limitDescription: 'fake'
   };
+
+  const fakeBagLimits = {
+    minAmountOfBigBags: 1,
+    maxAmountOfBigBags: 5,
+    limitDescription: 'fake'
+  };
+
+  const fakePriceLimits = {
+    minPriceOfOrder: 10,
+    maxPriceOfOrder: 205,
+    limitDescription: 'fake'
+  };
+
   const dialogStub = {
     afterClosed() {
       return of(true);
@@ -143,7 +163,7 @@ describe('UbsAdminPricingPageComponent', () => {
     'getLocations',
     'editInfo',
     'getCouriers',
-    'getAllServices',
+    'getService',
     'getAllTariffsForService',
     'setLimitDescription',
     'setLimitsBySumOrder',
@@ -152,7 +172,7 @@ describe('UbsAdminPricingPageComponent', () => {
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
-  tariffsServiceMock.getAllServices.and.returnValue(of([fakeService]));
+  tariffsServiceMock.getService.and.returnValue(of(fakeService));
   tariffsServiceMock.getAllTariffsForService.and.returnValue(of([fakeBag]));
   tariffsServiceMock.setLimitDescription.and.returnValue(of([fakeDescription]));
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
@@ -164,6 +184,11 @@ describe('UbsAdminPricingPageComponent', () => {
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage']);
   localStorageServiceMock.languageBehaviourSubject = of();
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
 
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 
@@ -199,6 +224,7 @@ describe('UbsAdminPricingPageComponent', () => {
         { provide: MatDialogRef, useValue: dialogStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: Store, useValue: storeMock }
       ],
@@ -215,6 +241,7 @@ describe('UbsAdminPricingPageComponent', () => {
     fixture = TestBed.createComponent(UbsAdminTariffsPricingPageComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;
+    // component.limitEnum = component;
     httpMock = TestBed.inject(HttpTestingController);
     route = TestBed.inject(ActivatedRoute);
     location = TestBed.inject(Location);
@@ -244,10 +271,15 @@ describe('UbsAdminPricingPageComponent', () => {
       city: ['Місто'],
       tariff: 'Active',
       regionId: 1,
-      cardId: 3
+      cardId: 3,
+      min: 1,
+      max: 100,
+      courierLimit: 'fake',
+      limitDescription: 'fake'
     };
     component.getSelectedTariffCard();
     expect(component.selectedCard).toEqual(result);
+    fixture.detectChanges();
     expect(component.isLoading).toEqual(false);
   });
 
@@ -267,17 +299,6 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should call getOurTariffs correctly', (done) => {
-    fixture.detectChanges();
-    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
-    component.getOurTariffs();
-    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(getOurTariffsSpy).toHaveBeenCalled();
-      done();
-    });
-  });
-
   it('should call getLocationId correctly', (done) => {
     fixture.detectChanges();
     const getLocationIdSpy = spyOn(component, 'getLocationId').and.returnValue(Promise.resolve());
@@ -285,17 +306,6 @@ describe('UbsAdminPricingPageComponent', () => {
     getLocationIdSpy.calls.mostRecent().returnValue.then(() => {
       fixture.detectChanges();
       expect(getLocationIdSpy).toHaveBeenCalled();
-      done();
-    });
-  });
-
-  it('should call getOurTariffs correctly', (done) => {
-    fixture.detectChanges();
-    const getOurTariffsSpy = spyOn(component, 'getOurTariffs').and.returnValue(Promise.resolve());
-    component.getOurTariffs();
-    getOurTariffsSpy.calls.mostRecent().returnValue.then(() => {
-      fixture.detectChanges();
-      expect(getOurTariffsSpy).toHaveBeenCalled();
       done();
     });
   });
@@ -316,14 +326,102 @@ describe('UbsAdminPricingPageComponent', () => {
     });
   });
 
-  it('should call sumToggler', () => {
-    component.sumToggler();
-    expect(component.toggle).toBe(true);
+  it('should call setLimits for Bag case', () => {
+    component.selectedCardId = 3;
+    component.getSelectedTariffCard();
+    component.selectedCard.courierLimit = component.limitEnum.limitByAmountOfBag;
+    component.setLimits();
+    component.limitsForm.patchValue(fakeBagLimits);
+    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(1);
+    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(5);
+    expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
+    expect(component.limitStatus).toEqual(component.limitEnum.limitByAmountOfBag);
   });
 
-  it('should call bagToggler', () => {
-    component.bagToggler();
-    expect(component.toggle).toBe(false);
+  it('should call setLimits for price case', () => {
+    component.selectedCardId = 3;
+    component.getSelectedTariffCard();
+    component.selectedCard.courierLimit = component.limitEnum.limitByPriceOfOrder;
+    component.setLimits();
+    component.limitsForm.patchValue(fakePriceLimits);
+    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(10);
+    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(205);
+    expect(component.limitsForm.get('limitDescription').value).toEqual('fake');
+    expect(component.limitStatus).toEqual(component.limitEnum.limitByPriceOfOrder);
+  });
+
+  it('should call initializeCourierId', () => {
+    const spy = spyOn(component, 'initializeCourierId').and.returnValue(Promise.resolve(5));
+    component.initializeCourierId();
+    spy.calls.mostRecent().returnValue.then();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call initializeLocationId', () => {
+    const spy = spyOn(component, 'initializeLocationId').and.returnValue(Promise.resolve(5));
+    component.initializeLocationId();
+    spy.calls.mostRecent().returnValue.then();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should check whether sumLimitStatus patching values correctly', () => {
+    component.limitsForm.patchValue({
+      minAmountOfBigBags: 'fake',
+      maxAmountOfBigBags: 'fake'
+    });
+    component.sumLimitStatus();
+    expect(component.limitsForm.get('minAmountOfBigBags').value).toEqual(null);
+    expect(component.limitsForm.get('maxAmountOfBigBags').value).toEqual(null);
+    expect(component.limitStatus).toBe(component.limitEnum.limitByPriceOfOrder);
+  });
+
+  it('should check whether bagLimitStatus patching values correctly', () => {
+    component.limitsForm.patchValue({
+      minPriceOfOrder: 1,
+      maxPriceOfOrder: 3
+    });
+    component.bagLimitStatus();
+    expect(component.limitsForm.get('minPriceOfOrder').value).toEqual(null);
+    expect(component.limitsForm.get('maxPriceOfOrder').value).toEqual(null);
+    expect(component.limitStatus).toBe(component.limitEnum.limitByAmountOfBag);
+  });
+
+  it('should call saveChanges method', () => {
+    const spy = spyOn(component, 'saveChanges');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set values on saveChanges method', () => {
+    const limit = {
+      courierLimitsBy: 'fake',
+      minPriceOfOrder: 1,
+      maxPriceOfOrder: 100,
+      minAmountOfBigBags: 1,
+      maxAmountOfBigBags: 100,
+      limitDescription: 'fake'
+    };
+    component.limitsForm.setValue(limit);
+    component.locationId = 2;
+    component.saveChanges();
+    expect(component.bagInfo).toEqual({ min: 1, max: 100, locationId: 2 });
+    expect(component.sumInfo).toEqual({ min: 1, max: 100, locationId: 2 });
+    expect(component.descriptionInfo).toEqual({ limitDescription: 'fake' });
+    expect(component.saveBTNClicked).toBeTruthy();
+  });
+
+  it('should call changeDescription method on saveChanges method if limitStatus is limitByAmountOfBag', () => {
+    component.limitStatus = component.limitEnum.limitByAmountOfBag;
+    const spy = spyOn(component, 'changeDescription');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeDescription method on saveChanges method if limitStatus is limitByPriceOfOrder', () => {
+    component.limitStatus = component.limitEnum.limitByPriceOfOrder;
+    const spy = spyOn(component, 'changeDescription');
+    component.saveChanges();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('navigate to tariffs page', () => {
@@ -349,9 +447,12 @@ describe('UbsAdminPricingPageComponent', () => {
 
   it('should call openAddServicePopup', () => {
     component.currentLocation = 159;
+    component.selectedCardId = 1;
+    component.service = fakeService;
     const addtariffData = {
       button: 'add',
-      locationId: 159
+      tariffId: 1,
+      service: fakeService
     };
     component.openAddServicePopup();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -377,9 +478,11 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should call openUpdateServicePopup', () => {
+    component.locationId = 159;
     const tariffData = {
       button: 'update',
-      serviceData: fakeService
+      serviceData: fakeService,
+      locationId: 159
     };
     component.openUpdateServicePopup(fakeService);
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsAddServicePopUpComponent, {
@@ -391,20 +494,16 @@ describe('UbsAdminPricingPageComponent', () => {
   });
 
   it('should get all tariffs for service', () => {
-    const spy = spyOn<any>(component, 'filterBags');
     component.bags = [];
     component.getAllTariffsForService();
     expect(component.isLoadBar).toEqual(false);
     expect(component.bags).toEqual([fakeBag]);
-    expect(spy).toHaveBeenCalled();
   });
 
   it('should get all services', () => {
-    const spy = spyOn<any>(component, 'filterServices');
-    component.getAllServices();
+    component.getService();
     expect(component.isLoadBar1).toEqual(false);
-    expect(component.services).toEqual([fakeService]);
-    expect(spy).toHaveBeenCalled();
+    expect(component.service).toEqual(fakeService);
   });
 
   it('should get couriers', () => {
@@ -414,20 +513,16 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(component.couriers).toEqual([fakeCouriers]);
   });
 
+  it('should return ua Value by getLangValue', () => {
+    const value = (component as any).getLangValue('uaValue', 'enValue');
+    expect(value).toBe('uaValue');
+  });
+
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     const destroy = 'destroy';
     component[destroy] = new Subject<boolean>();
     spyOn(component[destroy], 'unsubscribe');
     component.ngOnDestroy();
     expect(component[destroy].unsubscribe).toHaveBeenCalledTimes(1);
-  });
-
-  it('should disable save button correctly', () => {
-    component.disableSaveButton();
-    expect(component.inputDisable).toBe(true);
-  });
-  it('should disable save button falsy', () => {
-    component.disableSaveButton();
-    expect(!component.inputDisable).toBe(false);
   });
 });

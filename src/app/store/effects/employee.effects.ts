@@ -36,11 +36,12 @@ export class EmployeesEffects {
   addEmployee = createEffect(() => {
     return this.actions.pipe(
       ofType(AddEmployee),
-      mergeMap((action: { data: FormData; employee: Page }) => {
+      mergeMap((action: { data: FormData; employee: any }) => {
         return this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
-          map((data: Page) => {
-            const employee = JSON.parse(JSON.stringify(action.employee));
-            employee.id = data.id;
+          map((data: any) => {
+            const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
+            employee.id = data.employeeDto.id;
+            employee.tariffs = data.tariffs;
             if (employee.image !== data.image) {
               employee.image = data.image;
             }

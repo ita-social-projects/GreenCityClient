@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
@@ -39,6 +40,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   const fakeStation = {
     createDate: 'fake date',
     createdBy: 'fakeUser',
+    stationStatus: 'ACTIVE',
     id: 1,
     name: 'fake'
   };
@@ -157,9 +159,10 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of());
 
-  const localStorageServiceStub = () => ({
-    firstNameBehaviourSubject: { pipe: () => of('fakeName') }
-  });
+  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -169,7 +172,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
-        { provide: LocalStorageService, useFactory: localStorageServiceStub },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: Store, useValue: storeMock },
         FormBuilder

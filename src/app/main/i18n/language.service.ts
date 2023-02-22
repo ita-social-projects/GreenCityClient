@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageId } from '../interface/language-id';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { langValue } from '../interface/langValue';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,10 @@ export class LanguageService {
 
   public getCurrentLanguage() {
     return this.localStorageService.getCurrentLanguage();
+  }
+
+  public getLangValue(uaValue: langValue, enValue: langValue): langValue {
+    return this.localStorageService.getCurrentLanguage() === 'ua' ? uaValue : enValue;
   }
 
   private getLanguageByString(languageString: string) {
