@@ -24,6 +24,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public to: string;
   public allReceivingStations: string[];
   public current: string;
+  public isOrderStatusCancelOrDone = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
@@ -48,6 +49,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
       this.exportDetailsDto.get(controlName).updateValueAndValidity({ onlySelf: true });
       this.exportDetailsDto.updateValueAndValidity();
     });
+
+    if (this.orderStatus === 'CANCELED' || this.orderStatus === 'DONE') {
+      this.isOrderStatusCancelOrDone = true;
+    }
 
     this.cdr.detectChanges();
   }

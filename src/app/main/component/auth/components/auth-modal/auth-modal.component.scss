@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
   z-index: 2000;
+  height: 100%;
 }
 
 .wrapper {
@@ -19,12 +20,19 @@
   border-radius: 4px;
   overflow: hidden;
 
+  .left-side {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
   .right-side {
     width: 100%;
     max-width: 480px;
     height: 100%;
     display: flex;
     flex-direction: column;
+    padding-bottom: 48px;
 
     .close-modal-window {
       display: flex;
@@ -46,15 +54,21 @@
   }
 }
 
-@media screen and (max-width: 992px) {
-  .left-side {
-    display: none;
+@media screen and (max-width: 1620px) {
+  .wrapper {
+    height: 680px;
   }
+}
 
+@media screen and (max-width: 992px) {
   .wrapper {
     width: 100%;
     max-width: 480px;
     height: 1000px;
+
+    .left-side {
+      display: none;
+    }
   }
 }
 

@@ -234,6 +234,13 @@ describe('SignUpComponent', () => {
 
     validPassword.forEach((el) => controlsValidator(el, 'password', 'valid'));
 
+    it('should trim value', () => {
+      const emailControl = component.signUpForm.get('email');
+      emailControl.setValue('    1qQ@');
+      component.trimValue(emailControl);
+      expect(emailControl.value).toBe('1qQ@');
+    });
+
     it('form should be invalid passwords not matching', () => {
       const passwordControl = component.signUpForm.get('password');
       passwordControl.setValue('123456qQ@');

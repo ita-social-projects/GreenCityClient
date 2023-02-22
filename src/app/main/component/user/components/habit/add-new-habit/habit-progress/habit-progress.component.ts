@@ -95,4 +95,8 @@ export class HabitProgressComponent implements OnChanges {
         this.isRequest = false;
       });
   }
+
+  public getDayName(): string {
+    return this.habit.habitStreak === 1 ? 'user.habit.one-habit.good-day' : 'user.habit.one-habit.good-days';
+  }
 }

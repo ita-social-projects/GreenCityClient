@@ -55,7 +55,7 @@
       <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
         {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
       </small>
-      <small class="text-message" *ngIf="certificates.expirationDates[i] && certSize && !certificates.failed[i]">
+      <small class="text-message" *ngIf="showActivateCetificate(i)">
         {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
       </small>
       <small class="text-message" *ngIf="certSize && certificateSum > showTotal && i === certificates.codes.length - 1">

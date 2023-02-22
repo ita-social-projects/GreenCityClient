@@ -125,21 +125,6 @@ body {
     min-height: inherit;
     max-height: 100vh;
     background: var(--primary-white);
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: var(--ubs-secondary-white);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--ubs-secondary-grey);
-      box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
-      border-radius: 4px;
-      cursor: pointer;
-    }
   }
 }
 
@@ -185,6 +170,21 @@ body {
   opacity: 1;
   background-size: contain;
   background-image: url('assets/img/icon/white-cross.png');
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ubs-secondary-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ubs-secondary-grey);
+  box-shadow: 2px 2px 4px rgba(73, 74, 73, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 // [END] Tag guidelines
