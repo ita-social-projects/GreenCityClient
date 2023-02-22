@@ -1,10 +1,10 @@
 <div class="wrapper">
-  <div class="back-to-my-habits" (click)="onGoBack()">
+  <div class="backToMyHabits" (click)="onGoBack()">
     <div class="arrow"></div>
     <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
   </div>
-  <div class="habit-container">
-    <div class="habit-info">
+  <div class="habitContainer">
+    <div class="habitInfo">
       <div class="header">
         <div class="tags">{{ 'user.habit.header.tags' | translate }}</div>
         <div class="line"></div>
@@ -14,7 +14,7 @@
           <img *ngFor="let star of stars" alt="star" [src]="star" />
         </div>
       </div>
-      <div class="habit-title">
+      <div class="habitTitle">
         {{ habitResponse?.habitTranslation.name }}
       </div>
       <div class="description">
@@ -23,21 +23,21 @@
         </p>
       </div>
     </div>
-    <div class="habit-img">
+    <div class="habitImg">
       <img class="img" [src]="habitResponse?.image" alt="" />
     </div>
   </div>
-  <div class="habit-edit">{{ 'user.habit.info' | translate }}</div>
+  <div class="habitEdit">{{ 'user.habit.info' | translate }}</div>
   <div class="divider"></div>
-  <div class="container-habit-edit">
-    <div class="habit-progress">
+  <div class="containerHabitEdit">
+    <div class="habitProgress">
       <app-habit-progress [habit]="habit"></app-habit-progress>
     </div>
-    <div class="habit-info-right-block">
-      <div class="invite-friends">
+    <div class="habitInfoRightBlock">
+      <div class="inviteFriends">
         <app-habit-invite-friends></app-habit-invite-friends>
       </div>
-      <div class="duration-shoping">
+      <div class="durationShoping">
         <div class="duration" *ngIf="habitResponse">
           <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>

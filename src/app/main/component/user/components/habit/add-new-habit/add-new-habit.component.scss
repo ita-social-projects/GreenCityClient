@@ -3,7 +3,7 @@
   margin: -30px auto 30px auto;
   padding: 0 15px;
 
-  .back-to-my-habits {
+  .backToMyHabits {
     height: 30px;
     display: flex;
     flex-direction: row;
@@ -31,7 +31,7 @@
     }
   }
 
-  .habit-container {
+  .habitContainer {
     height: 360px;
     padding: 40px 0 0 0;
     margin-bottom: 24px;
@@ -39,7 +39,7 @@
     flex-direction: row;
     justify-content: space-between;
 
-    .habit-info {
+    .habitInfo {
       display: flex;
       flex-direction: column;
 
@@ -77,7 +77,7 @@
         }
       }
 
-      .habit-title {
+      .habitTitle {
         margin-bottom: 16px;
         font-family: var(--secondary-font);
         font-size: 36px;
@@ -99,7 +99,7 @@
       }
     }
 
-    .habit-img {
+    .habitImg {
       width: 395px;
       align-self: flex-end;
       margin-left: 25px;
@@ -110,7 +110,7 @@
     }
   }
 
-  .habit-edit {
+  .habitEdit {
     font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;
@@ -125,41 +125,40 @@
     background-color: var(--secondary-light-grey);
   }
 
-  .container-habit-edit {
+  .containerHabitEdit {
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
 
-    .habit-progress,
-    .habit-info-right-block {
+    .habitProgress,
+    .habitInfoRightBlock {
       width: 554px;
     }
 
-    .habit-progress {
+    .habitProgress {
       padding: 36px 36px 36px 36px;
       background-color: var(--secondary-light-grey);
       border-radius: 8px;
       align-self: flex-start;
     }
 
-    .habit-info-right-block {
+    .habitInfoRightBlock {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
 
-      .invite-friends {
-        display: flex;
+      .inviteFriends {
         width: 554px;
         height: 182px;
         margin-bottom: 25px;
-        padding: 24px;
+        padding: 12px;
         background: var(--secondary-light-grey);
         border-radius: 8px;
       }
 
-      .duration-shoping {
+      .durationShoping {
         display: flex;
         flex-direction: row;
         width: 554px;
@@ -208,10 +207,10 @@
 
 @media screen and (max-width: 1200px) {
   .wrapper {
-    .container-habit-edit {
+    .containerHabitEdit {
       justify-content: center;
 
-      .habit-info-right-block .invite-friends {
+      .habitInfoRightBlock .inviteFriends {
         margin: 32px auto;
       }
 

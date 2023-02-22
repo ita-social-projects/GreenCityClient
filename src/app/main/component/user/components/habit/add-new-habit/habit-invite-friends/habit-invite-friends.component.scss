@@ -1,16 +1,10 @@
 .invite-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-
   p {
     font-family: var(--secondary-font);
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
-    margin: 0;
     color: var(--secondary-grey);
   }
 
@@ -34,13 +28,12 @@
 
     .plus-circle {
       width: 100px;
-      margin: 0;
+      margin: 0 10px;
 
-      .icon-plus {
-        background: url('~/assets/icons/habits/plus-circle-grey.svg') no-repeat center;
-        width: 56px;
-        height: 56px;
-        cursor: pointer;
+      img {
+        margin: 10px auto;
+        width: 60px;
+        height: 60px;
       }
     }
   }
@@ -52,6 +45,6 @@
 
   .invite-detail {
     height: 15px;
-    margin: 5px 0;
+    margin: 5px 10px;
   }
 }
