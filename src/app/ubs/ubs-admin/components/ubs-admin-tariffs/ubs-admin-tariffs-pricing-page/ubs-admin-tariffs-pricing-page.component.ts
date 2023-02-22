@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, skip } from 'rxjs/operators';
-import { Bag, Service, Locations, TariffCard } from '../../../models/tariffs.interface';
+import { Bag, Service, Locations, TariffCard, BagLimitDto } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -39,6 +39,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   amount;
   currentCourierId: number;
   saveBTNClicked: boolean;
+  areAllCheckBoxEmpty: boolean;
   info;
   bagInfo;
   sumInfo;
@@ -50,7 +51,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
-  checkBoxInfo = [];
+  checkBoxInfo: BagLimitDto[] = [];
   service: Service;
   thisLocation: Locations[];
   reset = true;
@@ -157,50 +158,57 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const { minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.limitsForm.value;
 
     const tariffId = this.selectedCardId;
-    const locationId = this.locationId;
+    this.getCheckBoxStatus();
 
-    this.bagInfo = {
-      min: minAmountOfBigBags,
-      max: maxAmountOfBigBags,
-      locationId
-    };
-
-    this.sumInfo = {
-      min: minPriceOfOrder,
-      max: maxPriceOfOrder,
-      locationId
-    };
-
-    this.descriptionInfo = {
-      limitDescription
-    };
-
-    if (this.limitStatus === limitStatus.limitByPriceOfOrder) {
-      this.tariffsService
-        .setLimitsBySumOrder(this.sumInfo, tariffId)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getCouriers();
-        });
-      this.changeDescription();
-    }
+    let limit;
 
     if (this.limitStatus === limitStatus.limitByAmountOfBag) {
+      limit = {
+        bagLimitDtoList: this.getCheckBoxInfo(),
+        courierLimit: this.limitStatus,
+        limitDescription,
+        min: minAmountOfBigBags,
+        max: maxAmountOfBigBags
+      };
+    } else {
+      limit = {
+        bagLimitDtoList: this.getCheckBoxInfo(),
+        courierLimit: this.limitStatus,
+        limitDescription,
+        min: minPriceOfOrder,
+        max: maxPriceOfOrder
+      };
+    }
+
+    if (this.areAllCheckBoxEmpty) {
+      limit.min = null;
+      limit.max = null;
+
       this.tariffsService
-        .setLimitsByAmountOfBags(this.bagInfo, tariffId)
+        .setTariffLimits(limit, tariffId)
         .pipe(takeUntil(this.destroy))
         .subscribe(() => {
           this.getCouriers();
         });
-      this.changeDescription();
-    }
-
-    if (this.limitStatus === null) {
-      this.changeDescription();
+    } else {
+      this.tariffsService
+        .setTariffLimits(limit, tariffId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getCouriers();
+        });
     }
 
     this.saveBTNClicked = true;
     this.limitStatus = null;
+  }
+
+  getCheckBoxStatus(): void {
+    const filteredCheckBoxes = this.getCheckBoxInfo().filter((val: BagLimitDto) => {
+      return val.limitIncluded === true;
+    });
+
+    this.areAllCheckBoxEmpty = !filteredCheckBoxes.length;
   }
 
   onChecked(id, event): void {
@@ -212,13 +220,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     if (event.checked) {
       currentBag.limitIncluded = true;
     }
-    this.getCheckBoxInfo();
   }
 
-  getCheckBoxInfo(): void {
+  getCheckBoxInfo(): Array<BagLimitDto> {
+    this.checkBoxInfo = [];
     this.bags.forEach((value) => {
       this.checkBoxInfo.push({ id: value.id, limitIncluded: value.limitIncluded });
     });
+
+    return this.checkBoxInfo;
   }
 
   async getCourierId(): Promise<any> {

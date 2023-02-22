@@ -24,6 +24,11 @@ export interface Bag {
   };
 }
 
+export interface BagLimitDto {
+  id: number;
+  limitIncluded: boolean;
+}
+
 export interface Service {
   price: number;
   description?: string;
