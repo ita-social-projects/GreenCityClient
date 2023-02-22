@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -30,10 +30,9 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private jwtService: JwtService,
     private ubsOrderFormService: UBSOrderFormService,
     private shareFormService: UBSOrderFormService,
-    private localStorageService: LocalStorageService,
+    public localStorageService: LocalStorageService,
     private orderService: OrderService,
-    public router: Router,
-    private route: ActivatedRoute
+    public router: Router
   ) {}
 
   toPersonalAccount(): void {
@@ -81,7 +80,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private removeOrderFromLocalStorage(): void {
+  public removeOrderFromLocalStorage(): void {
     this.routeSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && event.url.toString() !== '/ubs/confirm') {
         this.localStorageService.removeOrderWithoutPayment();
