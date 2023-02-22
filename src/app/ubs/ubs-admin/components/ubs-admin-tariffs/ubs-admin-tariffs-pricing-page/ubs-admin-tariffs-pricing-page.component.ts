@@ -256,7 +256,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async changeDescription(): Promise<any> {
+  changeDescription(): void {
     const { limitDescription } = this.limitsForm.value;
     const tariffId = this.selectedCardId;
 
@@ -297,7 +297,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.locationId
+        tariffId: this.selectedCardId
       }
     });
     dialogRefTariff

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { GoogleScript } from '../google-script/google-script';
+import { environment } from '@environment/environment';
 
 describe('GoogleScript', () => {
   let googleScript;
+  const apiMapKey = environment.apiMapKey;
 
-  const urlUa =
-    'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&callback=initMap&libraries=places&language=ua';
-  const urlEn =
-    'https://maps.googleapis.com/maps/api/js?key=AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4&callback=initMap&libraries=places&language=en';
+  const urlUa = `https://maps.googleapis.com/maps/api/js?key=${apiMapKey}&callback=initMap&libraries=places&language=ua`;
+  const urlEn = `https://maps.googleapis.com/maps/api/js?key=${apiMapKey}&callback=initMap&libraries=places&language=en`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

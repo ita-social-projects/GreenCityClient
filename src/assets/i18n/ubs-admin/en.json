@@ -391,7 +391,7 @@
     "driver": "Driver"
   },
   "cancel-modal": {
-    "question": "If you will cancel this order it will be deleted. Do you really want to cancel this order?",
+    "question": "If you cancel the changes, they will be deleted. Are you sure you want to cancel the changes?",
     "disagree": "No",
     "agree": "Yes"
   },

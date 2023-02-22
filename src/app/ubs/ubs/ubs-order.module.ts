@@ -36,6 +36,7 @@ import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
+import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/
     UbsSubmitOrderNotificationComponent,
     UbsOrderCertificateComponent,
     ExtraPackagesPopUpComponent,
-    UbsMainPageSpinnerComponent
+    UbsMainPageSpinnerComponent,
+    UbsPickUpServicePopUpComponent
   ],
   imports: [
     MatAutocompleteModule,

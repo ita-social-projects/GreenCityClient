@@ -185,8 +185,7 @@ h2 {
 }
 
 .missing-account {
-  margin-top: 177px;
-  margin-bottom: 40px;
+  margin-top: 127px;
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
@@ -205,5 +204,11 @@ h2 {
     color: var(--primary-green);
     margin-left: 16px;
     text-decoration: none;
+  }
+}
+
+@media screen and (max-width: 1620px) {
+  .missing-account {
+    margin-top: 40px;
   }
 }

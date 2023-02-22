@@ -18,6 +18,11 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Running unit tests with code coverage
+
+Run `ng test --codeCoverage` to execute the unit tests via [Karma](https://karma-runner.github.io) and to display test coverage via [karma-coverage-istanbul-reporter](https://github.com/mattlewis92/karma-coverage-istanbul-reporter).
+After passing all tests run `cd coverage/GreenCityClient/ && start index.html` for Windows or `cd coverage/GreenCityClient/ && open index.html` for MacOS
+
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
@@ -30,11 +35,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 1. Run ng version and npm -v in the console. You must have the following versions to work correctly:
    Angular CLI: 9.1.15
-   Node: 14.7.6
+   Node: 14.20.1
    npm: 6.14.15
 
 In most cases reinstalling the Node is enough.
-Use this link to install Node v.14.17.6 (https://nodejs.org/en/blog/release/v14.17.6/) before that, uninstall your installed version.
+Use this link to install Node v.14.20.1 (https://nodejs.org/en/blog/release/v14.20.1) before that, uninstall your installed version.
 
 If the problem persists, try to install npm:6.14.15 at this link (https://www.npmjs.com/package/npm/v/6.14.15).
 

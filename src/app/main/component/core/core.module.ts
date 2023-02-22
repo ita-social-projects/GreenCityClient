@@ -9,6 +9,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedMainModule } from '../shared/shared-main.module';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { environment } from '@environment/environment';
 
 @NgModule({
   declarations: [ProposeCafeComponent],
@@ -20,7 +21,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
+      apiKey: environment.apiMapKey,
       libraries: ['places', 'geometry']
     }),
     NgSelectModule,

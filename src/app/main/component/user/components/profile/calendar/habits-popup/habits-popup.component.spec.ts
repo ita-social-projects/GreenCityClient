@@ -4,12 +4,19 @@ import { Observable, of } from 'rxjs';
 import { HabitPopupInterface } from '../habit-popup-interface';
 
 import { HabitsPopupComponent } from './habits-popup.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { FormatDateService } from '@global-user/services/format-date.service';
+import { DatePipe } from '@angular/common';
+
+@Pipe({ name: 'datePipe' })
+class DatePipeMock implements PipeTransform {
+  transform(value: Date): string {
+    return '2023-02-14';
+  }
+}
 
 describe('HabitsPopupComponent', () => {
   let component: HabitsPopupComponent;
@@ -40,18 +47,16 @@ describe('HabitsPopupComponent', () => {
   dialogRefMock.beforeClosed.and.returnValue(of(true));
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
-  const formatDateServiceMock = jasmine.createSpyObj('formatDateService', ['formatDate']);
-  formatDateServiceMock.formatDate.and.returnValue('2022-02-19');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [HabitsPopupComponent],
       providers: [
+        { provide: DatePipe, useClass: DatePipeMock },
         { provide: MatDialogRef, useValue: dialogRefMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: FormatDateService, useValue: formatDateServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockData }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -166,7 +171,7 @@ describe('HabitsPopupComponent', () => {
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(true, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
-      expect(component.arrayOfDate).toEqual([{ enrollDate: '2022-02-19', id: null }]);
+      expect(component.arrayOfDate).toEqual([{ enrollDate: '2023-02-14', id: null }]);
     });
 
     it('makes expected calls when is not enrolled', () => {
