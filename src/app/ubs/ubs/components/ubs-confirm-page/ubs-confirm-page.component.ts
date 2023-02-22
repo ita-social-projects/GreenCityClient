@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-confirm-page',
@@ -15,6 +16,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 })
 export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderId: string;
+  private routeSubscription: Subscription;
   orderResponseError = false;
   orderStatusDone: boolean;
   isSpinner = true;
@@ -22,6 +24,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderPaymentError = false;
   finalSumOfOrder: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isOrderSavedWithoutPayment: boolean;
 
   constructor(
     private snackBar: MatSnackBarComponent,
@@ -30,7 +33,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
-    public router: Router
+    public router: Router,
+    private route: ActivatedRoute
   ) {}
 
   toPersonalAccount(): void {
@@ -43,16 +47,19 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isOrderSavedWithoutPayment = this.localStorageService.getOrderWithoutPayment();
+
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
-      if (!oderID && this.localStorageService.getUbsOrderId()) {
-        oderID = this.localStorageService.getUbsOrderId();
+      if (!oderID && this.localStorageService.getUbsLiqPayOrderId()) {
+        oderID = this.localStorageService.getUbsLiqPayOrderId();
         this.pageReloaded = true;
       }
-      if (oderID) {
+      if (oderID || this.isOrderSavedWithoutPayment) {
         this.orderId = oderID;
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
         this.checkPaymentStatus();
+        this.removeOrderFromLocalStorage();
         this.renderView();
       } else {
         this.orderService
@@ -76,15 +83,27 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  private removeOrderFromLocalStorage(): void {
+    this.routeSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && event.url.toString() !== '/ubs/confirm') {
+        this.localStorageService.removeOrderWithoutPayment();
+      }
+    });
+  }
+
   public checkPaymentStatus(): void {
-    this.orderService
-      .getUbsOrderStatus()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response) => {
-        this.finalSumOfOrder = this.localStorageService.getFinalSumOfOrder();
-        this.orderPaymentError = this.finalSumOfOrder ? response?.code === 'payment_not_found' : false;
-        this.isSpinner = false;
-      });
+    if (this.isOrderSavedWithoutPayment) {
+      this.isSpinner = false;
+    } else {
+      this.orderService
+        .getUbsOrderStatus()
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((response) => {
+          this.finalSumOfOrder = this.localStorageService.getFinalSumOfOrder();
+          this.orderPaymentError = this.finalSumOfOrder ? response?.code === 'payment_not_found' : false;
+          this.isSpinner = false;
+        });
+    }
   }
 
   public isUserPageOrderPayment(): boolean {

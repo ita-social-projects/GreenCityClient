@@ -98,7 +98,7 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
   });
 
-  it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
+  it('in saveDataOnLocalStorage should removeUbsLiqPayOrderId and saveDataOnLocalStorage be called', () => {
     component.saveDataOnLocalStorage();
     expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
   });
