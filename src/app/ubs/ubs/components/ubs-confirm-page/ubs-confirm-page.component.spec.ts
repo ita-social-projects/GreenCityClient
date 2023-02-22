@@ -21,7 +21,14 @@ describe('UbsConfirmPageComponent', () => {
     'getOrderStatus',
     'saveDataOnLocalStorage'
   ]);
-  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getFinalSumOfOrder', 'clearPaymentInfo']);
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'getFinalSumOfOrder',
+    'clearPaymentInfo',
+    'getUbsOrderId',
+    'setUbsOrderId',
+    'getOrderWithoutPayment',
+    'removeOrderWithoutPayment'
+  ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
   beforeEach(async(() => {
@@ -55,6 +62,7 @@ describe('UbsConfirmPageComponent', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
     fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
+    fakeLocalStorageService.getOrderWithoutPayment.and.returnValue(of(false));
     const checkPaymentStatusMock = spyOn(component, 'checkPaymentStatus');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
