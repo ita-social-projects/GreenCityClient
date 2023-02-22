@@ -36,24 +36,7 @@ export interface Page {
   phoneNumber: string;
   receivingStations: ReceivingStations[];
   expanded?: boolean;
-  tariffs: {
-    id: number;
-    region: {
-      id: number;
-      nameEn: string;
-      nameUk: string;
-    };
-    locationsDtos: {
-      id: number;
-      nameEn: string;
-      nameUk: string;
-    }[];
-    courier: {
-      id: number;
-      nameEn: string;
-      nameUk: string;
-    };
-  }[];
+  tariffs: Tariff[];
 }
 
 export interface EmployeePositions {
@@ -61,9 +44,61 @@ export interface EmployeePositions {
   name: string;
 }
 
+export interface Tariff {
+  id: number;
+  region: TariffItem;
+  locationsDtos: TariffItem[];
+  courier: TariffItem;
+}
+
+export interface TariffItem {
+  id: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface InitialData {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  imageURL: string;
+  employeePositionsIds: number[];
+}
+
 export interface ReceivingStations {
   id: number;
   name: string;
+}
+
+export interface TariffForEmployee {
+  id: number;
+  region: TariffForEmployeeItem;
+  location: TariffForEmployeeItem[];
+  courier: TariffForEmployeeItem;
+}
+export interface TariffForEmployeeItem {
+  en: string;
+  ua: string;
+}
+
+export interface EmployeeDataToSend {
+  employeeDto: EmployeeDto;
+  tariffId: number[];
+}
+
+export interface EmployeeDataResponse {
+  employeeDto: EmployeeDto;
+  tariffs: Tariff[];
+}
+
+export interface EmployeeDto {
+  firstName: string;
+  id?: number;
+  image: string;
+  lastName: string;
+  phoneNumber: string;
+  employeePositions: EmployeePositions[];
 }
 
 export interface IOrderInfo {

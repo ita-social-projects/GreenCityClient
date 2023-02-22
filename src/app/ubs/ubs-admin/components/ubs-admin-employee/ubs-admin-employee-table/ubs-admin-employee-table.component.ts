@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -26,26 +25,14 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   sizeForTable = 30;
   search: string;
   searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  displayedColumns: string[] = [];
-  dataSource: MatTableDataSource<any>;
   totalPagesForTable: number;
   tableData: Page[];
   employees: Page[];
-  isStationsOpen = false;
-  isPositionsOpen = false;
-  allPositions: any[] = [];
-  allStations: any[] = [];
-  selectedStations: string[] = [];
-  selectedPositions: string[] = [];
   filteredTableData: Page[] = [];
   firstPageLoad = true;
   reset = true;
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   public isTooltipOpened: boolean;
-  public viewMode: boolean;
-  public editMode: boolean;
-  public isUploading: boolean;
-  public isDeleting: boolean;
   public deleteDialogData = {
     popupTitle: 'employees.warning-title',
     popupConfirm: 'employees.btn.delete',
@@ -92,24 +79,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       if (item) {
         this.tableData = item[`content`];
         this.employees = this.tableData.map((employee: Page) => {
-          console.log(employee);
-          //////////////////////////////////////////////////////////////////////
-          // const tariffs = employee.tariffs;
-          // const regions = [];
-          // tariffs.forEach((tariff) => {
-          //   const uniqueRegionsIds = regions.map((r) => r.id);
-          //   const regionId = tariff.region.id;
-          //   if (!uniqueRegionsIds.includes(regionId)) {
-          //     regions.push({ ...tariff.region, locations: tariff.locationsDtos });
-          //     return;
-          //   }
-          //   const presentRegion = regions.find((region) => region.id === regionId);
-          //   presentRegion.locations = [...presentRegion.locations, ...tariff.locationsDtos];
-          // });
-          // const couriers = tariffs
-          //   .map((tariff) => tariff.courier)
-          //   .reduce((unique, courier) => (!unique.map((uc) => uc.id).includes(courier.id) ? [...unique, courier] : unique), []);
-          //////////////////////////////////////////////////////////////////////
           return {
             ...employee,
             tariffs: employee.tariffs.map((tariff) => ({
@@ -120,17 +89,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
               }
             })),
             expanded: false
-            // regions: regions.map((reg) => ({
-            //   ...reg,
-            //   locations: {
-            //     displayed: reg.locations.slice(0, 3),
-            //     additional: reg.locations.slice(3)
-            //   }
-            // })),
-            // couriers
           };
         });
-        console.log(this.employees);
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
           this.isLoading = false;
@@ -139,6 +99,40 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
         this.isUpdateTable = false;
         this.reset = false;
       }
+    });
+  }
+
+  updateTable() {
+    this.isUpdateTable = true;
+    this.getEmployeesPages();
+  }
+
+  getEmployeesPages(): void {
+    this.store.dispatch(
+      GetEmployees({
+        pageNumber: this.currentPageForTable,
+        pageSize: this.sizeForTable,
+        search: this.search,
+        reset: this.reset
+      })
+    );
+  }
+
+  onScroll() {
+    if (!this.isUpdateTable && this.currentPageForTable < this.totalPagesForTable - 1) {
+      this.currentPageForTable++;
+      this.updateTable();
+    }
+  }
+
+  openEditDialog(employeeData: Page, event: Event) {
+    event.stopPropagation();
+    this.dialog.open(UbsAdminEmployeeEditFormComponent, {
+      data: employeeData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'custom-dialog-container'
     });
   }
 
@@ -168,123 +162,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.isDeleting = true;
           this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
         }
       });
-  }
-
-  updateTable() {
-    this.isUpdateTable = true;
-    this.getEmployeesPages();
-  }
-
-  getEmployeesPages(): void {
-    this.store.dispatch(
-      GetEmployees({
-        pageNumber: this.currentPageForTable,
-        pageSize: this.sizeForTable,
-        search: this.search,
-        reset: this.reset
-      })
-    );
-  }
-
-  onScroll() {
-    if (!this.isUpdateTable && this.currentPageForTable < this.totalPagesForTable - 1) {
-      this.currentPageForTable++;
-      this.updateTable();
-    }
-  }
-
-  openPositions() {
-    this.isPositionsOpen = !this.isPositionsOpen;
-    this.isStationsOpen = false;
-    if (this.allPositions.length === 0) {
-      this.ubsAdminEmployeeService.getAllPositions().subscribe((pos) => {
-        this.allPositions = pos;
-      });
-    }
-    if (this.isPositionsOpen === false) {
-      this.selectedPositions = [];
-    }
-  }
-
-  getPositionId(e: any, id: string) {
-    if (e.target.checked) {
-      this.selectedPositions.push(id);
-      this.positionsFilter();
-    } else {
-      this.selectedPositions = this.selectedPositions.filter((m) => m !== id);
-      this.positionsFilter();
-    }
-  }
-
-  positionsFilter() {
-    if (this.selectedPositions.length !== 0) {
-      this.onPositionSelected();
-    } else if (this.selectedStations.length === 0 && this.selectedPositions.length === 0) {
-      this.dataSource.data = this.tableData;
-    }
-  }
-
-  onPositionSelected() {
-    this.filteredTableData = this.tableData.filter((user) => {
-      return user.employeePositions.some((position) => {
-        return this.selectedPositions.some((ids) => position.id === +ids);
-      });
-    });
-    this.dataSource.data = this.filteredTableData;
-  }
-
-  getStationId(e: any, id: string) {
-    if (e.target.checked) {
-      this.selectedStations.push(id);
-      this.stationsFilter();
-    } else {
-      this.selectedStations = this.selectedStations.filter((m) => m !== id);
-      this.stationsFilter();
-    }
-  }
-
-  stationsFilter() {
-    if (this.selectedStations.length !== 0) {
-      this.onStationSelected();
-    } else if (this.selectedPositions.length === 0 && this.selectedStations.length === 0) {
-      this.dataSource.data = this.tableData;
-    }
-  }
-
-  onStationSelected() {
-    this.filteredTableData = this.tableData.filter((user) => {
-      return user.receivingStations.some((station) => {
-        return this.selectedStations.some((ids) => station.id === +ids);
-      });
-    });
-    this.dataSource.data = this.filteredTableData;
-  }
-
-  openStations() {
-    this.isStationsOpen = !this.isStationsOpen;
-    this.isPositionsOpen = false;
-    if (this.allStations.length === 0) {
-      this.ubsAdminEmployeeService.getAllStations().subscribe((stations) => {
-        this.allStations = stations;
-      });
-    }
-    if (this.isStationsOpen === false) {
-      this.selectedStations = [];
-    }
-  }
-
-  openEditDialog(employeeData: Page, event: Event) {
-    event.stopPropagation();
-    this.dialog.open(UbsAdminEmployeeEditFormComponent, {
-      data: employeeData,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
   }
 }

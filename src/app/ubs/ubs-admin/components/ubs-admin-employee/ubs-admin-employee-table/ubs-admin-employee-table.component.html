@@ -92,12 +92,8 @@
                 ></div>
               </div>
             </div>
-            <!-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
             <div class="description-item">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <!-- <div class="locations-list">
-                  <div *ngFor="let location of tariff.locations">{{ location.nameEn }}</div>
-                </div> -->
                 <div *ngIf="!tariff.locations.additional.length; else moreThanThreeLocations" class="locations-list">
                   <div *ngFor="let location of tariff.locations.displayed">{{ location.nameEn }}</div>
                 </div>
@@ -128,26 +124,6 @@
                 ></div>
               </div>
             </div>
-
-            <!-- <div class="description-item">
-              <div class="description-sub-item station" *ngFor="let station of employee.receivingStations; let i = index">
-                <ng-container *ngIf="!employee.expanded; else allStations">
-                  <ng-container *ngIf="employee.receivingStations.length > 3 && i <= 2">
-                    <img [src]="icons.location" alt="location" />
-                    <span class="location">{{ i < 2 ? station.name : station.name + '...' }}</span>
-                  </ng-container>
-                  <ng-container *ngIf="employee.receivingStations.length <= 3">
-                    <img [src]="icons.location" alt="location" />
-                    <span class="location">{{ station.name }}</span>
-                  </ng-container>
-                </ng-container>
-                <ng-template #allStations>
-                  <img [src]="icons.location" alt="location" />
-                  <span class="location">{{ station.name }}</span>
-                </ng-template>
-              </div>
-            </div> -->
-            <!-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
             <span
               class="toggle-icon"
               *ngIf="!employee.expanded; else deleteIcon"

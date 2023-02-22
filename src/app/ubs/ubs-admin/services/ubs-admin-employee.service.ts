@@ -50,7 +50,7 @@ export class UbsAdminEmployeeService {
     return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
   }
 
-  updatePermissions(employeeId, permissions) {
-    return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities/`, { employeeId, authorities: permissions });
+  updatePermissions(employeeEmail, permissions) {
+    return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities/`, { employeeEmail, authorities: permissions });
   }
 }

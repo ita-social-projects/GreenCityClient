@@ -2,7 +2,14 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
-import { Employees, Page } from '../../../models/ubs-admin.interface';
+import {
+  Employees,
+  Page,
+  EmployeePositions,
+  InitialData,
+  TariffForEmployee,
+  EmployeeDataToSend
+} from '../../../models/ubs-admin.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.actions';
@@ -13,25 +20,6 @@ import { Masks } from 'src/assets/patterns/patterns';
 import { TariffSelectorComponent } from './tariff-selector/tariff-selector.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-interface IEmployeePositions {
-  id: number;
-  name: string;
-}
-
-interface IReceivingStations {
-  id: number;
-  name: string;
-}
-
-interface InitialData {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  imageURL: string;
-  employeePositionsIds: number[];
-  // receivingStationsIds: number[];
-}
 
 @Component({
   selector: 'app-ubs-admin-employee-edit-form',
@@ -43,19 +31,11 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     accordionArrowDown: './assets/img/icon/arrows/arrow-accordion-down.svg',
     cross: 'assets/img/ubs/cross.svg'
   };
-
-  locations: IReceivingStations[];
-  roles: IEmployeePositions[];
+  roles: EmployeePositions[];
   employeeForm: FormGroup;
-  employeePositions: IEmployeePositions[];
-  tariffs: {
-    id: number;
-    region: { en: string; ua: string };
-    location: { en: string; ua: string };
-    courier: { en: string; ua: string };
-  }[] = [];
-  employeeDataToSend;
-  isDeleting = false;
+  employeePositions: EmployeePositions[];
+  tariffs: TariffForEmployee[] = [];
+  employeeDataToSend: EmployeeDataToSend;
   phoneMask = Masks.phoneMask;
   private maxImageSize = 10485760;
   private destroyed$: Subject<void> = new Subject<void>();
@@ -120,12 +100,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       },
       (error) => console.error('Observer for role got an error: ' + error)
     );
-    this.employeeService.getAllStations().subscribe(
-      (locations) => {
-        this.locations = locations;
-      },
-      (error) => console.error('Observer for stations got an error: ' + error)
-    );
     this.store
       .select((state: IAppState): Employees => state.employees.employees)
       .pipe(skip(1))
@@ -137,7 +111,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       .pipe(skip(1))
       .subscribe(() => {
         this.isUploading = false;
-        this.isDeleting = false;
       });
   }
 

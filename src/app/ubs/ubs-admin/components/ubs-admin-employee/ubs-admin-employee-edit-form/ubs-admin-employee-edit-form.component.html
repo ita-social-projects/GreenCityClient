@@ -82,7 +82,6 @@
                   <tr>
                     <th class="col-region">{{ 'ubs-employee.tariffs-columns.region' | translate }}</th>
                     <th class="col-city">{{ 'ubs-employee.tariffs-columns.city' | translate }}</th>
-                    <!-- <th class="col-station">{{ 'ubs-employee.tariffs-columns.station' | translate }}</th> -->
                     <th class="col-courier">{{ 'ubs-employee.tariffs-columns.courier' | translate }}</th>
                     <th class="col-actions"></th>
                   </tr>
@@ -107,13 +106,6 @@
                 </tbody>
               </table>
               <button mat-raised-button class="add-tariff-button" (click)="onAddTariff()">{{ 'ubs-employee.add' | translate }}</button>
-              <!-- <mat-checkbox
-                *ngFor="let location of locations"
-                [checked]="doesIncludeLocation(location)"
-                (change)="onCheckChangeLocation(location)"
-              >
-                {{ location.name }}
-              </mat-checkbox> -->
             </div>
           </cdk-accordion-item>
         </cdk-accordion>

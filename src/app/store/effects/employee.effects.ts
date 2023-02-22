@@ -14,7 +14,7 @@ import {
   ReceivedFailure
 } from '../actions/employee.actions';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { Employees, EmployeeDataResponse, EmployeeDataToSend } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { EMPTY, of } from 'rxjs';
 
 @Injectable()
@@ -36,9 +36,9 @@ export class EmployeesEffects {
   addEmployee = createEffect(() => {
     return this.actions.pipe(
       ofType(AddEmployee),
-      mergeMap((action: { data: FormData; employee: any }) => {
+      mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) => {
         return this.ubsAdminEmployeeService.postEmployee(action.data).pipe(
-          map((data: any) => {
+          map((data: EmployeeDataResponse) => {
             const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
             employee.id = data.employeeDto.id;
             employee.tariffs = data.tariffs;
@@ -56,9 +56,9 @@ export class EmployeesEffects {
   updateEmployee = createEffect(() => {
     return this.actions.pipe(
       ofType(UpdateEmployee),
-      mergeMap((action: { data: FormData; employee: any }) => {
+      mergeMap((action: { data: FormData; employee: EmployeeDataToSend }) => {
         return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
-          map((data: any) => {
+          map((data: EmployeeDataResponse) => {
             const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
             employee.tariffs = data.tariffs;
             if (employee.image !== data.employeeDto.image) {
