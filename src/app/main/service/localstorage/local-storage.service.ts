@@ -163,13 +163,21 @@ export class LocalStorageService {
   }
 
   public setOrderWithoutPayment(SaveOrderWithoutPayment: boolean) {
-    localStorage.setItem('SaveOrderWithoutPayment', JSON.stringify(orderId));
+    localStorage.setItem('SaveOrderWithoutPayment', JSON.stringify(SaveOrderWithoutPayment));
   }
 
   public getOrderWithoutPayment(): any {
     return localStorage.getItem('SaveOrderWithoutPayment') === 'undefined'
       ? false
       : JSON.parse(localStorage.getItem('SaveOrderWithoutPayment'));
+  }
+
+  public setUbsOrderId(orderId: string | number) {
+    localStorage.setItem('UbsOrderId', JSON.stringify(orderId));
+  }
+
+  public getUbsOrderId(): any {
+    return localStorage.getItem('UbsOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsOrderId'));
   }
 
   public setUbsLiqPayOrderId(orderId: string | number) {
@@ -182,6 +190,10 @@ export class LocalStorageService {
 
   public removeUbsLiqPayOrderId() {
     localStorage.removeItem('UbsLiqPayOrderId');
+  }
+
+  public removeUbsOrderId() {
+    localStorage.removeItem('UbsOrderId');
   }
 
   public setUbsFondyOrderId(orderId: string | number) {

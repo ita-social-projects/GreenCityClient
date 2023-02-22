@@ -24,7 +24,6 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderPaymentError = false;
   finalSumOfOrder: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  private isOrderSavedWithoutPayment: boolean;
 
   constructor(
     private snackBar: MatSnackBarComponent,
@@ -47,15 +46,14 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isOrderSavedWithoutPayment = this.localStorageService.getOrderWithoutPayment();
-
+    const orderIdWithoutPayment = this.localStorageService.getUbsOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
       if (!oderID && this.localStorageService.getUbsLiqPayOrderId()) {
         oderID = this.localStorageService.getUbsLiqPayOrderId();
         this.pageReloaded = true;
       }
-      if (oderID || this.isOrderSavedWithoutPayment) {
-        this.orderId = oderID;
+      if (oderID || orderIdWithoutPayment) {
+        this.orderId = oderID || this.localStorageService.getUbsOrderId();
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
         this.checkPaymentStatus();
@@ -87,12 +85,15 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd && event.url.toString() !== '/ubs/confirm') {
         this.localStorageService.removeOrderWithoutPayment();
+        this.localStorageService.removeUbsOrderId();
       }
     });
   }
 
   public checkPaymentStatus(): void {
-    if (this.isOrderSavedWithoutPayment) {
+    const isOrderSavedWithoutPayment = this.localStorageService.getOrderWithoutPayment();
+    if (isOrderSavedWithoutPayment) {
+      this.localStorageService.setUbsOrderId(this.orderId);
       this.isSpinner = false;
     } else {
       this.orderService
