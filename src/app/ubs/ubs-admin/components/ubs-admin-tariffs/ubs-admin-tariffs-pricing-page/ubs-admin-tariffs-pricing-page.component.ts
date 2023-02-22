@@ -40,12 +40,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   currentCourierId: number;
   saveBTNClicked: boolean;
   areAllCheckBoxEmpty: boolean;
-  info;
-  bagInfo;
-  sumInfo;
   limitStatus: limitStatus = null;
   description;
-  descriptionInfo;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
@@ -227,7 +223,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.bags.forEach((value) => {
       this.checkBoxInfo.push({ id: value.id, limitIncluded: value.limitIncluded });
     });
-
     return this.checkBoxInfo;
   }
 
@@ -264,22 +259,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     } catch (e) {
       return Error('getLocationId Error');
     }
-  }
-
-  changeDescription(): void {
-    const { limitDescription } = this.limitsForm.value;
-    const tariffId = this.selectedCardId;
-
-    this.descriptionInfo = {
-      limitDescription
-    };
-
-    this.tariffsService
-      .setLimitDescription(this.descriptionInfo.limitDescription, tariffId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        this.getCouriers();
-      });
   }
 
   async initializeLocationId(): Promise<number> {
