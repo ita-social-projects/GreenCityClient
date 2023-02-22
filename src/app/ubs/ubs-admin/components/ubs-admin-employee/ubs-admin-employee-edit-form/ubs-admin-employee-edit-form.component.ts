@@ -64,7 +64,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   public isInitialDataChanged = false;
   public isInitialImageChanged = false;
   public isInitialPositionsChanged = false;
-  public isInitialStationsChanged = false;
+  public isInitialTariffsChanged = false;
   public editMode: boolean;
   initialData: InitialData;
   imageURL: string;
@@ -170,20 +170,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return this.employeeForm.get('email');
   }
 
-  checkIsInitialPositionsChanged(): boolean {
-    if (this.initialData.employeePositionsIds.length !== this.employeePositions.length) {
-      return true;
-    }
-    return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
-  }
-
-  // checkIsInitialStationsChanged(): boolean {
-  //   if (this.initialData.receivingStationsIds.length !== this.receivingStations.length) {
-  //     return true;
-  //   }
-  //   return this.receivingStations.filter((station) => !this.initialData.receivingStationsIds.includes(station.id)).length > 0;
-  // }
-
   onCheckChangeRole(role) {
     if (this.doesIncludeRole(role)) {
       this.employeePositions = this.employeePositions.filter((position) => position.id !== role.id);
@@ -199,20 +185,12 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return this.employeePositions.some((existingRole) => existingRole.id === role.id);
   }
 
-  // onCheckChangeLocation(location) {
-  //   if (this.doesIncludeLocation(location)) {
-  //     this.receivingStations = this.receivingStations.filter((station) => station.id !== location.id);
-  //   } else {
-  //     this.receivingStations = [...this.receivingStations, location];
-  //   }
-  //   if (this.editMode) {
-  //     this.isInitialStationsChanged = this.checkIsInitialStationsChanged();
-  //   }
-  // }
-
-  // doesIncludeLocation(location): boolean {
-  //   return this.receivingStations.some((station) => location.id === station.id);
-  // }
+  checkIsInitialPositionsChanged(): boolean {
+    if (this.initialData.employeePositionsIds.length !== this.employeePositions.length) {
+      return true;
+    }
+    return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
+  }
 
   prepareEmployeeDataToSend(dto: string, image?: string): FormData {
     this.isUploading = true;
@@ -336,10 +314,12 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
           newTariffs.push(tariff);
         });
         this.tariffs = newTariffs;
+        this.isInitialTariffsChanged = true;
       });
   }
 
   onRemoveTariff(tariffToRemove): void {
     this.tariffs = this.tariffs.filter((tariff) => tariff !== tariffToRemove);
+    this.isInitialTariffsChanged = true;
   }
 }

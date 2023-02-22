@@ -42,8 +42,8 @@ export class EmployeesEffects {
             const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
             employee.id = data.employeeDto.id;
             employee.tariffs = data.tariffs;
-            if (employee.image !== data.image) {
-              employee.image = data.image;
+            if (employee.image !== data.employeeDto.image) {
+              employee.image = data.employeeDto.image;
             }
             return AddEmployeeSuccess({ employee });
           }),
@@ -56,12 +56,13 @@ export class EmployeesEffects {
   updateEmployee = createEffect(() => {
     return this.actions.pipe(
       ofType(UpdateEmployee),
-      mergeMap((action: { data: FormData; employee: Page }) => {
+      mergeMap((action: { data: FormData; employee: any }) => {
         return this.ubsAdminEmployeeService.updateEmployee(action.data).pipe(
-          map((data: Page) => {
-            const employee = JSON.parse(JSON.stringify(action.employee));
-            if (employee.image !== data.image) {
-              employee.image = data.image;
+          map((data: any) => {
+            const employee = JSON.parse(JSON.stringify(action.employee.employeeDto));
+            employee.tariffs = data.tariffs;
+            if (employee.image !== data.employeeDto.image) {
+              employee.image = data.employeeDto.image;
             }
             return UpdateEmployeeSuccess({ employee });
           }),

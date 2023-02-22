@@ -151,7 +151,7 @@
           employeeForm.invalid ||
           !employeePositions.length ||
           isUploading ||
-          (editMode && !isInitialDataChanged && !isInitialImageChanged && !isInitialPositionsChanged && !isInitialStationsChanged)
+          (editMode && !isInitialDataChanged && !isInitialImageChanged && !isInitialPositionsChanged && !isInitialTariffsChanged)
         "
         (click)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()"
       >
