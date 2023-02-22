@@ -7,7 +7,7 @@
           <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }" (click)="search()"></span>
         </div>
         <div class="container-img">
-          <span class="bookmark-img" [ngClass]="{ 'bookmark-img-active': bookmarkSelected }" (click)="addToFavourite()"></span>
+          <span class="bookmark-img" [ngClass]="{ 'bookmark-img-active': bookmarkSelected }" (click)="showFavourite()"></span>
         </div>
         <div class="container-img">
           <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
@@ -23,7 +23,7 @@
       <p class="sort-by">{{ 'Sort By' | translate }}</p>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Event time' | translate }}</mat-label>
-        <mat-select [(value)]="selectedEventTime" multiple>
+        <mat-select [(ngModel)]="selectedEventTime" multiple>
           <mat-option (click)="toggleAllSelection()">{{ 'Any time' | translate }}</mat-option>
           <mat-divider></mat-divider>
           <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
@@ -33,8 +33,8 @@
       </div>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Location' | translate }}</mat-label>
-        <mat-select [(value)]="selectedEventTime" multiple>
-          <mat-option (click)="toggleAllSelection()">{{ 'Any location' | translate }}</mat-option>
+        <mat-select multiple>
+          <mat-option>{{ 'Any location' | translate }}</mat-option>
           <mat-divider></mat-divider>
           <mat-option [value]="location" *ngFor="let location of eventLocationList">
             {{ getLangValue(location.nameUa, location.nameEn) }}
@@ -43,8 +43,8 @@
       </div>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Status' | translate }}</mat-label>
-        <mat-select class="" value="selectedValues" multiple>
-          <mat-option (click)="toggleAllSelection()">{{ 'Any status' | translate }}</mat-option>
+        <mat-select multiple>
+          <mat-option>{{ 'Any status' | translate }}</mat-option>
           <mat-divider></mat-divider>
           <mat-option [value]="status" *ngFor="let status of statusList">
             {{ getLangValue(status.nameUa, status.nameEn) }}
@@ -53,8 +53,8 @@
       </div>
       <div class="dropdown">
         <mat-label class="filter">{{ 'Type' | translate }}</mat-label>
-        <mat-select [(value)]="selectedEventTime" multiple>
-          <mat-option (click)="toggleAllSelection()">{{ 'Any type' | translate }}</mat-option>
+        <mat-select multiple>
+          <mat-option>{{ 'Any type' | translate }}</mat-option>
           <mat-divider></mat-divider>
           <mat-option *ngFor="let type of typeList" [value]="type">
             <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
@@ -71,7 +71,7 @@
       <div class="chips">
         <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
           {{ filter }}
-          <div class="cross-container" (click)="deleteFilter(i)">
+          <div class="cross-container" (click)="deleteOneFilter(i)">
             <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
           </div>
         </div>

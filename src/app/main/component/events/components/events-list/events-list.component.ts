@@ -28,7 +28,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public total = 0;
   public page = 0;
   private eventsPerPage = 6;
-  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data
+  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data,should be deleted when back-end is ready
   searchToggle = false;
   bookmarkSelected = false;
   selectedEventTime: any;
@@ -78,11 +78,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.searchToggle = !this.searchToggle;
   }
 
-  addToFavourite(): void {
+  showFavourite(): void {
     this.bookmarkSelected = !this.bookmarkSelected;
   }
 
-  deleteFilter(index): void {
+  deleteOneFilter(index): void {
     this.selectedFilters.splice(index, 1);
   }
 
