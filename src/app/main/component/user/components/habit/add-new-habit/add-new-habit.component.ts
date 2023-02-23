@@ -22,12 +22,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
+  public tags: string[];
   public userId: string;
   public newDuration: number;
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
-  public isAssigned = false;
+  public isEditing = false;
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
@@ -68,6 +69,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   public initHabitData(data) {
     this.habitResponse = data;
+    this.tags = this.habitResponse.tags;
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
@@ -120,13 +122,20 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe((response: Array<HabitAssignInterface>) => {
         for (const assigned of response) {
           if (assigned.habit.id === this.habitId) {
-            this.isAssigned = true;
+            this.isEditing = true;
             this.habit = assigned;
+            this.tags = this.habit.habit.tags;
             break;
           }
         }
-        this.isAssigned ? this.getCustomItems() : this.getDefaultItems();
+        this.isEditing ? this.getCustomItems() : this.getDefaultItems();
       });
+  }
+
+  public checkIsEditing(addHabit, editHabit): any {
+    console.log(addHabit);
+    console.log(editHabit);
+    return this.isEditing ? addHabit : editHabit;
   }
 
   public cancel() {

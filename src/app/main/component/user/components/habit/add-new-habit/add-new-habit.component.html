@@ -6,7 +6,12 @@
   <div class="habit-container">
     <div class="habit-info">
       <div class="header">
-        <div class="item">{{ 'user.habit.header.tags' | translate }}</div>
+        <div class="item">
+          <span *ngFor="let tag of tags; let last = last">
+            {{ tag }}
+            <ng-container *ngIf="!last">,&nbsp;</ng-container>
+          </span>
+        </div>
         <div class="line"></div>
         <div class="item">{{ 'user.habit.header.aquired' | translate }}</div>
         <div class="line"></div>
@@ -52,13 +57,13 @@
         <app-habit-invite-friends></app-habit-invite-friends>
       </div>
     </div>
-    <div *ngIf="!isAssigned" class="add-habit-container">
+    <div *ngIf="!isEditing" class="add-habit-container">
       <button class="primary-global-button cancel-habit-button" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
       <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
-    <div *ngIf="isAssigned" class="add-habit-container">
+    <div *ngIf="isEditing" class="add-habit-container">
       <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
@@ -67,4 +72,5 @@
       </button>
     </div>
   </div>
+  <app-habits-widget [tags]="tags"></app-habits-widget>
 </div>
