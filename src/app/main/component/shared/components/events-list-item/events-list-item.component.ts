@@ -20,6 +20,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -282,8 +283,21 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
+
   addToFavourite() {
     this.bookmarkSelected = !this.bookmarkSelected;
+    if(!this.isRegistered) this.openAuthModalWindow('sign-in');
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
   }
 
   ngOnDestroy(): void {

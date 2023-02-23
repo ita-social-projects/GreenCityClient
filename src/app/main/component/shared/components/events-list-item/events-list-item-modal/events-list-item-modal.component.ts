@@ -46,7 +46,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     if (!this.isRegistered) {
       this.bsModalRef.hide();
       setTimeout(() => {
-        this.openAuthModalWindow('sign-up');
+        this.openAuthModalWindow('sign-in');
       }, 500);
     } else {
       this.onRateChange();

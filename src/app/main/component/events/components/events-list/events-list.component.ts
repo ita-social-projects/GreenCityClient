@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { EventPageResponceDto, PaginationInterface } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
@@ -9,6 +9,9 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
 import { TagsArray, eventTimeList, eventStatusList, tempLocationList } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
+import { Router } from '@angular/router';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-events-list',
@@ -50,8 +53,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private store: Store,
     private userOwnAuthService: UserOwnAuthService,
     private languageService: LanguageService,
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    public injector: Injector
+  ) {
+    this.dialog = injector.get(MatDialog);
+  }
+  private dialog: MatDialog;
+
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);
@@ -102,8 +111,23 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.store.dispatch(GetEcoEventsByPageAction({ currentPage: event - 1, numberOfEvents: this.eventsPerPage }));
   }
 
-  getLangValue(uaValue: string, enValue: string): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public isUserLoggedRedirect(): void {
+    this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
   }
 
   ngOnDestroy(): void {
