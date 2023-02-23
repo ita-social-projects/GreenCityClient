@@ -34,7 +34,12 @@
           </div>
           <mat-form-field appearance="outline" class="date-item">
             <mat-label>Min 1 day</mat-label>
-            <mat-select formControlName="eventDuration" ngDefaultControl (selectionChange)="setDateCount(+$event.value.split(' ')[0])">
+            <mat-select
+              [(ngModel)]="selectedDay"
+              formControlName="eventDuration"
+              ngDefaultControl
+              (selectionChange)="setDateCount(+$event.value.split(' ')[0])"
+            >
               <mat-option *ngFor="let date of dateArrCount" [value]="date">
                 {{ date }}
               </mat-option>
