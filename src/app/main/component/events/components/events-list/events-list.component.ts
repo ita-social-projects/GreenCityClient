@@ -40,6 +40,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   statusList = eventStatusList;
   eventLocationList = tempLocationList;
   allSelected = false;
+  private dialog: MatDialog;
 
   public pageConfig(items: number, page: number, total: number): PaginationInterface {
     return {
@@ -59,7 +60,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   ) {
     this.dialog = injector.get(MatDialog);
   }
-  private dialog: MatDialog;
+
 
 
   ngOnInit(): void {
