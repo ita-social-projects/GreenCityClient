@@ -86,7 +86,7 @@
         </td>
         <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
         <td>{{ bag.capacity | volume }}</td>
-        <td>{{ bag.description }}</td>
+        <td>{{ getLangValue(bag.description, bag.descriptionEng) }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
         <td>{{ bag.commission | currency | localizedCurrency }}</td>
         <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
