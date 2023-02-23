@@ -10,7 +10,7 @@
         <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
         <div class="delete-block">
           <div>{{ img.name }}</div>
-          <div (click)="deleteImage(i)">{{ 'create-event.picture-delete' | translate }}</div>
+          <div (click)="deleteImage(i)">X</div>
         </div>
 
         <div *ngIf="img.isLabel" class="drag-inscription">

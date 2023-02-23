@@ -994,7 +994,6 @@
     "textarea-title": "Events Description",
     "picture": "Picture",
     "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
-    "picture-delete": "X",
     "event-theme": "Initiative type",
     "event-type-check": "you should choose at least one type",
     "event-type": "Event type",
