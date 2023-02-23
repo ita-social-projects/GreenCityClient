@@ -116,7 +116,7 @@ describe('EventsListItemModalComponent', () => {
 
     it(`should be called on click and open the auth modal`, () => {
       component.isRegistered = false;
-      spyOn(component, 'openAuthModalWindow').withArgs('sign-up');
+      spyOn(component, 'openAuthModalWindow').withArgs('sign-in');
       jasmine.clock().install();
       component.modalBtn();
       jasmine.clock().tick(500);
