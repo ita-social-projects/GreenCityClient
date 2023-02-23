@@ -330,7 +330,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   private filterBags(): void {
-    this.bags = this.bags.sort((a, b) => a.id - b.id);
+    this.bags.sort((a, b) => a.id - b.id);
   }
 
   getService(): void {
