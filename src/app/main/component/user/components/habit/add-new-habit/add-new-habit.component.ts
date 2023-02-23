@@ -23,6 +23,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habitResponse: HabitResponseInterface;
   public habitId: number;
   public tags: string[];
+  public amountAcquired = 6;
   public userId: string;
   public newDuration: number;
   public initialDuration: number;
