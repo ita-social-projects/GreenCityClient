@@ -11,7 +11,7 @@ import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/s
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 
-xdescribe('UbsAdminEmployeeEditFormComponent', () => {
+describe('UbsAdminEmployeeEditFormComponent', () => {
   let component: UbsAdminEmployeeEditFormComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeEditFormComponent>;
 
@@ -49,7 +49,48 @@ xdescribe('UbsAdminEmployeeEditFormComponent', () => {
     image: defaultImagePath,
     lastName: 'fake',
     phoneNumber: 'fake',
-    receivingStations: mockedReceivingStations
+    tariffs: [
+      {
+        id: 1,
+        region: {
+          id: 1,
+          nameEn: 'Kyiv Oblast',
+          nameUk: 'Київська область'
+        },
+        locationsDtos: [
+          {
+            id: 1,
+            nameEn: 'Kyiv',
+            nameUk: 'Київ'
+          }
+        ],
+        courier: {
+          id: 1,
+          nameEn: 'UBS',
+          nameUk: 'УБС'
+        }
+      },
+      {
+        id: 2,
+        region: {
+          id: 1,
+          nameEn: 'Kyiv Oblast',
+          nameUk: 'Київська область'
+        },
+        locationsDtos: [
+          {
+            id: 2,
+            nameEn: 'Irpin',
+            nameUk: 'Ірпінь'
+          }
+        ],
+        courier: {
+          id: 1,
+          nameEn: 'UBS',
+          nameUk: 'УБС'
+        }
+      }
+    ]
   };
   const mockedInitialData = {
     firstName: 'fake',
@@ -230,7 +271,7 @@ xdescribe('UbsAdminEmployeeEditFormComponent', () => {
     expect(component.imageName).toBe('fake');
   });
 
-  xdescribe('checkIsInitialPositionsChanged', () => {
+  describe('checkIsInitialPositionsChanged', () => {
     it('isInitialPositionsChangedMock should be falsy', () => {
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();
       expect(isInitialPositionsChangedMock).toBeFalsy();
@@ -274,7 +315,7 @@ xdescribe('UbsAdminEmployeeEditFormComponent', () => {
   //   });
   // });
 
-  xdescribe('editEmployee', () => {
+  describe('editEmployee', () => {
     it(`employee has been edited`, () => {
       component.editEmployee();
       component.employeeForm.controls.firstName.setValue('NewFakeName');
@@ -282,7 +323,7 @@ xdescribe('UbsAdminEmployeeEditFormComponent', () => {
     });
   });
 
-  xdescribe('openImg', () => {
+  describe('openImg', () => {
     it(`dialog has been opened`, () => {
       component.openImg();
       expect(matDialogMock.open).toHaveBeenCalledWith(ShowImgsPopUpComponent, {
