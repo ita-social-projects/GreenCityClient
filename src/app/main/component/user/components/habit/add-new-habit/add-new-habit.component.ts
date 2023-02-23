@@ -23,6 +23,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habitResponse: HabitResponseInterface;
   public habitId: number;
   public tags: string[];
+  public recommendedHabits: HabitResponseInterface;
   public amountAcquired = 6;
   public userId: string;
   public newDuration: number;
@@ -131,12 +132,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         }
         this.isEditing ? this.getCustomItems() : this.getDefaultItems();
       });
-  }
-
-  public checkIsEditing(addHabit, editHabit): any {
-    console.log(addHabit);
-    console.log(editHabit);
-    return this.isEditing ? addHabit : editHabit;
   }
 
   public cancel() {

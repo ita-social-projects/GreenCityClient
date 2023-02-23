@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HabitService } from '@global-service/habit/habit.service';
+import { take } from 'rxjs/operators';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 
 @Component({
@@ -8,8 +10,20 @@ import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.
 })
 export class HabitsWidgetComponent implements OnInit {
   recommendedHabits = [];
-  @Input() tags: string[];
-  constructor() {}
+  @Input() tag: string;
 
-  ngOnInit(): void {}
+  constructor(private habitService: HabitService) {}
+
+  ngOnInit(): void {
+    this.getAllHabits(1, 3);
+  }
+
+  private getAllHabits(page, size): void {
+    this.habitService
+      .getAllHabits(page, size)
+      .pipe(take(1))
+      .subscribe((data) => {
+        this.recommendedHabits = data.page;
+      });
+  }
 }

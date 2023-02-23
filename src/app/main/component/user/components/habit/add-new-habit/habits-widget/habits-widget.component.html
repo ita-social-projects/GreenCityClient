@@ -1,23 +1,12 @@
 <div class="wrapper">
   <p>
     {{ 'user.habit.habit-widget.title' | translate }}
-    <span *ngFor="let tag of tags; let last = last">
-      {{ tag }}
-      <ng-container *ngIf="!last">,&nbsp;</ng-container>
-    </span>
+    <span>{{ tag }}</span>
   </p>
   <hr />
-  <div class="m-0 p-0 container-fluid d-flex justify-content-center align-items-center">
-    <div class="gallery-view-active m-0 justify-content-between w-100">
-      <div class="p-0 pb-3 d-flex justify-content-center align-items-center" *ngFor="let data of recommendedHabits; index as i">
-        <!-- <app-news-list-gallery-view
-            [ecoNewsModel]="data"
-            [routerLink]="['/news', data.id]"
-            [class.last-item]="i === 2"
-            [class.recommended-item]="true"
-          >
-          </app-news-list-gallery-view> -->
-      </div>
+  <div class="habits-recomended">
+    <div class="habit-card" *ngFor="let habit of recommendedHabits; index as i">
+      <app-habits-gallery-view [habit]="habit"></app-habits-gallery-view>
     </div>
   </div>
 </div>
