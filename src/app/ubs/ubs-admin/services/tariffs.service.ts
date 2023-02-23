@@ -12,34 +12,6 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
-  courierId: number;
-  locationId: number;
-  serviceId: number;
-
-  setServiceId(id: number) {
-    this.serviceId = id;
-  }
-
-  getServiceId() {
-    return this.serviceId;
-  }
-
-  setCourierId(id: number) {
-    this.courierId = id;
-  }
-
-  getCourierId() {
-    return this.courierId;
-  }
-
-  setLocationId(id: number) {
-    this.locationId = id;
-  }
-
-  getLocationId() {
-    return this.locationId;
-  }
-
   getAllTariffsForService(tariffId: number) {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
@@ -86,18 +58,6 @@ export class TariffsService {
 
   editInfo(info) {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
-  }
-
-  setLimitDescription(description, tariffId: number) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${tariffId}`, description);
-  }
-
-  setLimitsBySumOrder(info, tariffId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsBySumOfOrder/${tariffId}`, info);
-  }
-
-  setLimitsByAmountOfBags(info, tariffId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
   }
 
   setTariffLimits(limits, tariffId: number) {

@@ -94,6 +94,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  fn() {
+    console.log('pr page', this.service);
+  }
+
   private initForm(): void {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
@@ -234,7 +238,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
-      this.tariffsService.setCourierId(card.courierDto.courierId);
       return card.courierDto.courierId;
     } catch (e) {
       return Error('getCourierId Error');
@@ -254,7 +257,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
-      this.tariffsService.setLocationId(card.locationInfoDtos[0].locationId);
       return card.locationInfoDtos[0].locationId;
     } catch (e) {
       return Error('getLocationId Error');
@@ -389,7 +391,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteTariffForService(bag: Bag): void {
-    this.tariffsService.setServiceId(bag.id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {
@@ -399,7 +400,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
       bagName: this.getLangValue(bag.name, bag.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
-      isTariffForService: true
+      isTariffForService: true,
+      bagId: bag.id
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
@@ -409,7 +411,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteService(service: Service): void {
-    this.tariffsService.setServiceId(service.id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {
@@ -419,7 +420,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
       serviceName: this.getLangValue(service.name, service.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
-      isService: true
+      isService: true,
+      serviceId: this.service.id
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
