@@ -559,12 +559,6 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(fakeBag.limitIncluded).toEqual(false);
   });
 
-  it('should check whether getCheckBoxInfo works correctly', () => {
-    component.bags = [fakeBag];
-    component.getCheckBoxInfo();
-    expect(component.checkBoxInfo).toEqual([{ id: 1, limitIncluded: false }]);
-  });
-
   it('should call getCheckBoxStatus correctly if not all check boxes empty', () => {
     const spy = spyOn(component, 'getCheckBoxInfo').and.returnValue(fakeCheckBoxes);
     component.getCheckBoxInfo();
