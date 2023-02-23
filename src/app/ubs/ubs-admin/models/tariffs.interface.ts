@@ -29,6 +29,14 @@ export interface BagLimitDto {
   limitIncluded: boolean;
 }
 
+export interface ILimit {
+  bagLimitDtoList: BagLimitDto[];
+  courierLimit: string;
+  limitDescription: string;
+  min: number;
+  max: number;
+}
+
 export interface Service {
   price: number;
   description?: string;

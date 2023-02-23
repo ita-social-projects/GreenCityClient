@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, skip } from 'rxjs/operators';
-import { Bag, Service, Locations, TariffCard, BagLimitDto } from '../../../models/tariffs.interface';
+import { Bag, Service, Locations, TariffCard, BagLimitDto, ILimit } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -156,24 +156,18 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const tariffId = this.selectedCardId;
     this.getCheckBoxStatus();
 
-    let limit;
+    let limit: ILimit = {
+      bagLimitDtoList: this.getCheckBoxInfo(),
+      courierLimit: this.limitStatus,
+      limitDescription,
+      min: null,
+      max: null
+    };
 
     if (this.limitStatus === limitStatus.limitByAmountOfBag) {
-      limit = {
-        bagLimitDtoList: this.getCheckBoxInfo(),
-        courierLimit: this.limitStatus,
-        limitDescription,
-        min: minAmountOfBigBags,
-        max: maxAmountOfBigBags
-      };
+      limit = { ...limit, min: minAmountOfBigBags, max: maxAmountOfBigBags };
     } else {
-      limit = {
-        bagLimitDtoList: this.getCheckBoxInfo(),
-        courierLimit: this.limitStatus,
-        limitDescription,
-        min: minPriceOfOrder,
-        max: maxPriceOfOrder
-      };
+      limit = { ...limit, min: minPriceOfOrder, max: maxPriceOfOrder };
     }
 
     if (this.areAllCheckBoxEmpty) {
