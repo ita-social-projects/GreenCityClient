@@ -30,7 +30,10 @@
       <img class="img" [src]="habitResponse?.image" alt="" />
     </div>
   </div>
-  <div class="habit-edit">{{ 'user.habit.info' | translate }}</div>
+  <div class="habit-edit">
+    <h3>{{ 'user.habit.info' | translate }}</h3>
+    <div class="lock-icon"></div>
+  </div>
   <div class="divider"></div>
   <div class="container-habit-edit">
     <div class="habit-progress">

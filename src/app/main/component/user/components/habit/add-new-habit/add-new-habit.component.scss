@@ -62,7 +62,7 @@
         .stars {
           display: flex;
           width: 60px;
-          padding-bottom: 6px;
+          padding-bottom: 5px;
           justify-content: space-between;
           cursor: pointer;
 
@@ -113,12 +113,25 @@
   }
 
   .habit-edit {
-    font-family: var(--secondary-font);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
     color: var(--secondary-dark-grey);
+
+    h3 {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      margin: 0;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 35px;
+    }
+
+    .lock-icon {
+      height: 24px;
+      width: 23px;
+      background: url('~/assets/icons/habits/lock-icon-closed.svg') center no-repeat;
+    }
   }
 
   .divider {
@@ -156,7 +169,6 @@
         display: flex;
         width: 554px;
         height: 172px;
-        margin-top: 25px;
         padding: 24px;
         background: var(--secondary-light-grey);
         border-radius: 8px;
@@ -164,7 +176,7 @@
 
       .duration-shoping {
         display: flex;
-        flex-direction: row;
+        height: 268px;
         width: 554px;
         justify-content: space-between;
 
