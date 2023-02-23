@@ -94,10 +94,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  fn() {
-    console.log('pr page', this.service);
-  }
-
   private initForm(): void {
     this.limitsForm = this.fb.group({
       limitDescription: new FormControl(''),
