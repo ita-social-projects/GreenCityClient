@@ -4,7 +4,7 @@ import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
-fdescribe('LocalStorageService', () => {
+describe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 
