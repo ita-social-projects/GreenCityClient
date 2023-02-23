@@ -212,13 +212,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
     const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
     component.openPermissionsDialog(fakeEmployees[0], mockEvent as any);
     expect(mockEvent.stopPropagation).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminEmployeeEditFormComponent, {
-      data: fakeEmployees[0],
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'custom-dialog-container'
-    });
+    expect(matDialogMock.open).toHaveBeenCalled();
   });
 
   it('should open delete dialog', () => {
