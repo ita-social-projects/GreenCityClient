@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HabitService } from '@global-service/habit/habit.service';
 import { take } from 'rxjs/operators';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 
 @Component({
   selector: 'app-habits-widget',
