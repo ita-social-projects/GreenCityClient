@@ -1,3 +1,18 @@
+::ng-deep .more-locations-overlay {
+  padding: 8px 16px;
+  color: var(--quaternary-dark-grey);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  min-height: unset !important;
+
+  .locations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
 .mat-cell,
 .mat-header-cell,
 .mat-footer-cell {
@@ -136,7 +151,7 @@
 
 .employees-column-names {
   display: grid;
-  grid-template-columns: 412px 292px 292px;
+  grid-template-columns: 96px 1fr 1fr 1fr 1fr 1fr 62px;
   margin-bottom: 8px;
   height: 24px;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
@@ -249,20 +264,22 @@
     }
 
     .mat-expansion-panel-header {
-      height: 100px !important;
-      padding: 18px;
+      height: unset !important;
+      padding: 16px;
 
       &:hover {
         background-color: unset !important;
       }
 
+      ::ng-deep .mat-content {
+        display: block !important;
+      }
+
       .mat-expansion-panel-header-title {
-        max-width: 392px;
         width: 100%;
         font-family: var(--primary-font);
-        flex-grow: unset;
-        gap: 18px;
-        margin-right: unset;
+        display: grid;
+        grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr 46px;
 
         .photo {
           flex: none;
@@ -298,27 +315,24 @@
             color: var(--ubs-freinacht-black);
           }
         }
-      }
 
-      .mat-expansion-panel-header-description {
         .description-item {
+          padding: 8px 0;
           display: flex;
           flex-direction: column;
-          max-width: 292px;
-          width: 100%;
-          padding-top: 5px;
+          gap: 4px;
+          max-height: 64px;
 
-          .description-sub-item {
+          .locations-list {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+          }
 
-            &.phone {
-              span {
-                font-weight: 700;
-                letter-spacing: 0.1px;
-              }
-            }
+          .description-item-text {
+            color: var(--quaternary-dark-grey);
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 20px;
           }
         }
       }
@@ -367,28 +381,6 @@
 
         &.edit {
           width: 179px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .employees-column-names {
-    grid-template-columns: 286px 174px 174px;
-  }
-
-  .employees-cards {
-    .mat-expansion-panel {
-      .mat-expansion-panel-header {
-        .mat-expansion-panel-header-title {
-          max-width: 265px;
-        }
-
-        .mat-expansion-panel-header-description {
-          .description-item {
-            max-width: 175px;
-          }
         }
       }
     }

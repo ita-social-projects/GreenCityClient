@@ -468,11 +468,14 @@
     "phone-number": "Phone number*",
     "position": "Position",
     "contacts": "Contacts",
+    "region": "Region",
+    "city": "City",
+    "courier": "Courier",
     "receiving-station": "Receiving station",
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
-    "warning-title": "Are you sure you want to remove this employee from the system?",
+    "warning-title": "Are you sure you want to deactivate this employee?",
     "settings": "Set permissions",
     "edit": "Edit",
     "permissions": {
@@ -485,7 +488,7 @@
         "see-main-page": "See the main page of the Employee",
         "create-card": "Create a new employee card",
         "edit-card": "Edit employee card",
-        "delete-card": "Delete an employee",
+        "delete-card": "Deactivate an employee",
         "edit-authority": "Edit an employee's authority"
       },
       "certificates": {
@@ -523,19 +526,19 @@
     },
     "tooltip": {
       "title": "Employee card",
-      "text": "By clicking on the employee's card, you get all additional information about the employee: all positions, detailed information, etc., as well as the ability to edit the employee's data, adjust the employee's permissions and delete the employee."
+      "text": "By clicking on the employee's card, you get all additional information about the employee: all positions, detailed information, etc., as well as the ability to edit the employee's data, adjust the employee's permissions and deactivate the employee."
     },
     "actions": {
       "edit": "Edit employee data",
       "settings": "Set employee permissions",
-      "delete": "Delete employee"
+      "delete": "Deactivate employee"
     },
     "btn": {
       "cancel": "Cancel",
       "add": "Add",
       "add-employee": "Add employee",
       "edit": "Edit",
-      "delete": "Delete",
+      "delete": "Deactivate",
       "no": "No",
       "yes": "Yes"
     }
@@ -570,7 +573,20 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update"
+    "update": "Update",
+    "tariffs": "Tariffs",
+    "tariffs-columns": {
+      "region": "Region",
+      "city": "City",
+      "station": "Station",
+      "courier": "Courier"
+    },
+    "tariffs-selector": {
+      "title": "Add tariffs",
+      "search": "Search",
+      "cancel": "Cancel",
+      "select": "Select"
+    }
   },
   "ubs-user": {
     "orders": "Orders",
