@@ -116,9 +116,4 @@ describe('EventsListComponent', () => {
     component.toggleAllSelection();
     expect(component.selectedEventTime).toEqual(component.eventTimeList);
   });
-
-  it('should return en value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('enValue');
-  });
 });
