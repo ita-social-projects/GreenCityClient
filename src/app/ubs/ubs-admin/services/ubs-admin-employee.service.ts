@@ -3,7 +3,6 @@ import { Employees } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

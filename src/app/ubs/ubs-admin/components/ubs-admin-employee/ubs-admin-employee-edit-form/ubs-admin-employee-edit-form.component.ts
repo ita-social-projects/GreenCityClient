@@ -16,9 +16,8 @@ import { AddEmployee, UpdateEmployee } from 'src/app/store/actions/employee.acti
 import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
-import { Masks } from 'src/assets/patterns/patterns';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { TariffSelectorComponent } from './tariff-selector/tariff-selector.component';
-import { Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 
 @Component({

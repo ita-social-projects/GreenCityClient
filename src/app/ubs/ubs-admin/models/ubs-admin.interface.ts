@@ -34,7 +34,6 @@ export interface Page {
   image: string;
   lastName: string;
   phoneNumber: string;
-  receivingStations: ReceivingStations[];
   expanded?: boolean;
   tariffs: Tariff[];
 }
