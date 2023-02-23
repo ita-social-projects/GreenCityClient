@@ -6,12 +6,15 @@
   <div class="habit-container">
     <div class="habit-info">
       <div class="header">
-        <div class="tags">{{ 'user.habit.header.tags' | translate }}</div>
+        <div class="item">{{ 'user.habit.header.tags' | translate }}</div>
         <div class="line"></div>
-        <div class="aquired">{{ 'user.habit.header.aquired' | translate }}</div>
+        <div class="item">{{ 'user.habit.header.aquired' | translate }}</div>
         <div class="line"></div>
-        <div class="stars">
-          <img *ngFor="let star of stars" alt="star" [src]="star" />
+        <div class="item">
+          <div>{{ 'user.habit.header.difficulty' | translate }}</div>
+          <div class="stars">
+            <img *ngFor="let star of stars" alt="star" [src]="star" />
+          </div>
         </div>
       </div>
       <div class="habit-title">
@@ -34,9 +37,6 @@
       <app-habit-progress [habit]="habit"></app-habit-progress>
     </div>
     <div class="habit-info-right-block">
-      <div class="invite-friends">
-        <app-habit-invite-friends></app-habit-invite-friends>
-      </div>
       <div class="duration-shoping">
         <div class="duration" *ngIf="habitResponse">
           <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
@@ -44,6 +44,9 @@
         <div class="shopping">
           <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
         </div>
+      </div>
+      <div class="invite-friends">
+        <app-habit-invite-friends></app-habit-invite-friends>
       </div>
     </div>
     <div *ngIf="!isAssigned" class="add-habit-container">
