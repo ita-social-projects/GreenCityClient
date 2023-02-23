@@ -3,7 +3,7 @@
     <div class="row">
       <div class="title-wrapper">
         <mat-label>{{ 'create-event.picture' | translate }}</mat-label>
-        <mat-label>{{ imageCount }}{{ 'create-event.picture-length' | translate }}</mat-label>
+        <mat-label>{{ imageCount }}/5</mat-label>
       </div>
       <mat-label class="image-title">{{ 'create-event.picture-title' | translate }}</mat-label>
       <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
