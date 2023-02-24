@@ -23,7 +23,6 @@ describe('UbsConfirmPageComponent', () => {
   ]);
   const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getFinalSumOfOrder', 'clearPaymentInfo']);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
-  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getFinalSumOfOrder', 'clearPaymentInfo']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
