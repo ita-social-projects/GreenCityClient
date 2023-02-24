@@ -1,5 +1,5 @@
 import { Language } from './../../../../i18n/Language';
-import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,6 +16,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -40,6 +41,13 @@ class TranslationServiceStub {
   }
   public setDefaultLang() {
     return true;
+  }
+}
+
+@Pipe({ name: 'dateLocalisation' })
+class DatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
   }
 }
 
@@ -131,6 +139,11 @@ describe('EventsListItemComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
@@ -145,13 +158,14 @@ describe('EventsListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent],
+      declarations: [EventsListItemComponent, DatePipeMock],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
       ],
@@ -191,6 +205,11 @@ describe('EventsListItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 
   describe('ngOnInit', () => {

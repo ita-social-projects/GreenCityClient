@@ -3,6 +3,7 @@
 *.jpg
 *.svg
 *.ico
+*.conf
 .prettierignore
 greencity-client-chart
 Dockerfile

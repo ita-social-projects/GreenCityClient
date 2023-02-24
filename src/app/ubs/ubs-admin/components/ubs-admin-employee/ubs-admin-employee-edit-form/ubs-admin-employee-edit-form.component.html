@@ -9,18 +9,30 @@
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.name' | translate }}</label>
         <input formControlName="firstName" />
+        <div class="validation" *ngIf="firstName.invalid && firstName.touched">
+          <app-ubs-input-error [formElement]="firstName"></app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.surname' | translate }}</label>
         <input formControlName="lastName" />
+        <div class="validation" *ngIf="lastName.invalid && lastName.touched">
+          <app-ubs-input-error [formElement]="lastName"></app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.phone-number' | translate }}</label>
         <input formControlName="phoneNumber" placeholder="+380" [imask]="{ mask: phoneMask }" [unmask]="true" />
+        <div class="validation" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+          <app-ubs-input-error [formElement]="phoneNumber"></app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
         <input formControlName="email" />
+        <div class="validation" *ngIf="email.invalid && email.touched">
+          <app-ubs-input-error [formElement]="email"></app-ubs-input-error>
+        </div>
       </div>
       <div class="checkbox-section-role">
         <cdk-accordion class="role-accordion accordion">
@@ -33,7 +45,7 @@
           >
             <div class="accordion-item-header" (click)="accordionRole.toggle()">
               <span class="accordion-item-description">
-                <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
+                <img [src]="icons.accordionArrowDown" alt="arrow" />
               </span>
               <span class="group-title position-title">{{ 'ubs-employee.position' | translate }}</span>
             </div>
@@ -60,18 +72,40 @@
           >
             <div class="accordion-item-header" (click)="accordionStation.toggle()">
               <span class="accordion-item-description">
-                <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
+                <img [src]="icons.accordionArrowDown" alt="arrow" />
               </span>
-              <span class="group-title station-title">{{ 'ubs-employee.receiving-station' | translate }}</span>
+              <span class="group-title station-title">{{ 'ubs-employee.tariffs' | translate }}</span>
             </div>
             <div class="accordion-item-body" role="region" [style.display]="accordionStation.expanded ? '' : 'none'">
-              <mat-checkbox
-                *ngFor="let location of locations"
-                [checked]="doesIncludeLocation(location)"
-                (change)="onCheckChangeLocation(location)"
-              >
-                {{ location.name }}
-              </mat-checkbox>
+              <table class="table-tariffs" aria-label="Tariffs list">
+                <thead>
+                  <tr>
+                    <th class="col-region">{{ 'ubs-employee.tariffs-columns.region' | translate }}</th>
+                    <th class="col-city">{{ 'ubs-employee.tariffs-columns.city' | translate }}</th>
+                    <th class="col-courier">{{ 'ubs-employee.tariffs-columns.courier' | translate }}</th>
+                    <th class="col-actions"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tariff of tariffs">
+                    <td>
+                      {{ tariff.region.en }}
+                    </td>
+                    <td>
+                      <span *ngFor="let location of tariff.locations">{{ location.en }}</span>
+                    </td>
+                    <td>
+                      {{ tariff.courier.en }}
+                    </td>
+                    <td>
+                      <div class="remove-tariff-button" (click)="onRemoveTariff(tariff)">
+                        <img [src]="icons.cross" alt="remove" />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button mat-raised-button class="add-tariff-button" (click)="onAddTariff()">{{ 'ubs-employee.add' | translate }}</button>
             </div>
           </cdk-accordion-item>
         </cdk-accordion>
@@ -94,7 +128,7 @@
         <div class="image-input current-image">
           <div class="avatar-edit-head">
             <span class="image-name">{{ imageName | maxImageName }}</span>
-            <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
+            <img class="user-image" [src]="icons.cross" alt="close" (click)="removeImage()" />
           </div>
           <img [src]="imageURL" alt="Your photo" (click)="openImg()" />
         </div>
@@ -108,9 +142,8 @@
         [disabled]="
           employeeForm.invalid ||
           !employeePositions.length ||
-          !receivingStations.length ||
           isUploading ||
-          (editMode && !isInitialDataChanged && !isInitialImageChanged && !isInitialPositionsChanged && !isInitialStationsChanged)
+          (editMode && !isInitialDataChanged && !isInitialImageChanged && !isInitialPositionsChanged && !isInitialTariffsChanged)
         "
         (click)="isUpdatingEmployee ? this.updateEmployee() : this.createEmployee()"
       >

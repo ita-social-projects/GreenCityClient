@@ -28,7 +28,6 @@ import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-locat
 import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-deactivate-pop-up/ubs-admin-tariffs-deactivate-pop-up.component';
 import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 
@@ -101,6 +100,18 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     tariffStatus: 'Active',
     cardId: 3
   };
+
+  const fakeCards = [
+    {
+      courier: 'УБС',
+      station: 'Станція',
+      region: 'Регіон',
+      city: 'Місто',
+      tariff: 'ACTIVE',
+      regionId: 3,
+      cardId: 4
+    }
+  ];
 
   const fakeCouriers = {
     courierId: 1,
@@ -189,9 +200,12 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs']);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getCurrentLangObs', 'getLangValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('ua'));
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
@@ -401,6 +415,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for filtering card with chosen courier', () => {
+    (component as any).getLangValue = () => 'фейкКурєр1';
     const eventMock = {
       value: 'фейкКурєр1'
     };
@@ -525,7 +540,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         id: 1,
         locationTranslationDtoList: [
           {
-            locationName: 'Фейк1',
+            locationName: 'fakeValue',
             languageCode: 'ua'
           },
           {
@@ -539,7 +554,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         id: 2,
         locationTranslationDtoList: [
           {
-            locationName: 'Фейк2',
+            locationName: 'fakeValue',
             languageCode: 'ua'
           },
           {
@@ -554,16 +569,16 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.selectedCities.length).toEqual(2);
     expect(component.selectedCities).toEqual([
       {
-        name: 'Фейк1',
+        name: 'fakeValue',
         id: 1,
         englishName: 'Fake1',
-        ukrainianName: 'Фейк1'
+        ukrainianName: 'fakeValue'
       },
       {
-        name: 'Фейк2',
+        name: 'fakeValue',
         id: 2,
         englishName: 'Fake2',
-        ukrainianName: 'Фейк2'
+        ukrainianName: 'fakeValue'
       }
     ]);
   });
@@ -574,7 +589,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       id: 1,
       locationTranslationDtoList: [
         {
-          locationName: 'Фейк1',
+          locationName: 'fakeValue',
           languageCode: 'ua'
         },
         {
@@ -583,17 +598,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         }
       ]
     };
-    expect(component.transformCityToSelectedCity(city, 'ua')).toEqual({
-      name: 'Фейк1',
+    expect(component.transformCityToSelectedCity(city)).toEqual({
+      name: 'fakeValue',
       id: 1,
       englishName: 'Fake1',
-      ukrainianName: 'Фейк1'
-    });
-    expect(component.transformCityToSelectedCity(city, 'en')).toEqual({
-      name: 'Fake1',
-      id: 1,
-      englishName: 'Fake1',
-      ukrainianName: 'Фейк1'
+      ukrainianName: 'fakeValue'
     });
   });
 
@@ -603,7 +612,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       id: 1,
       locationTranslationDtoList: [
         {
-          locationName: 'Фейк1',
+          locationName: 'fakeValue',
           languageCode: 'ua'
         },
         {
@@ -612,16 +621,16 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         }
       ]
     };
-    expect(component.getSelectedCityName(city, 'ua')).toEqual('Фейк1');
+    expect(component.getSelectedCityName(city, 'ua')).toEqual('fakeValue');
     expect(component.getSelectedCityName(city, 'en')).toEqual('Fake1');
   });
 
   it('should select all items of cities', () => {
     const city = {
-      name: 'Фейк1',
+      name: 'fakeValue',
       id: 1,
       englishName: 'Fake1',
-      ukrainianName: 'Фейк1'
+      ukrainianName: 'fakeValue'
     };
     const spy = spyOn(component, 'isCityChecked').and.returnValue(false);
     component.cities = [
@@ -630,7 +639,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         id: 1,
         locationTranslationDtoList: [
           {
-            locationName: 'Фейк1',
+            locationName: 'fakeValue',
             languageCode: 'ua'
           },
           {
@@ -993,6 +1002,11 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('checkSelectedItem should return false if item is not in selectedStation', () => {
     const selectedStation = [{ name: 'stationItem', id: 1 }];
     expect(component.checkSelectedItem('Фейк', selectedStation)).toEqual(false);
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = (component as any).getLangValue('fakeValue', 'enValue');
+    expect(value).toBe('fakeValue');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

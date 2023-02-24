@@ -25,7 +25,7 @@ export class UbsAdminEmployeeComponent {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'custom-dialog-container'
+      panelClass: 'edit-dialog-container'
     });
   }
 }

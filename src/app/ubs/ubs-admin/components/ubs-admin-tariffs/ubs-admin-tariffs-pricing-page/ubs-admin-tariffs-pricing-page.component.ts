@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 export enum limitStatus {
   limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
@@ -63,6 +64,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private tariffsService: TariffsService;
   private orderService: OrderService;
   private localStorageService: LocalStorageService;
+  private langService: LanguageService;
   private route: ActivatedRoute;
   private location: Location;
   private fb: FormBuilder;
@@ -74,6 +76,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.tariffsService = injector.get(TariffsService);
     this.orderService = injector.get(OrderService);
     this.localStorageService = injector.get(LocalStorageService);
+    this.langService = injector.get(LanguageService);
     this.route = injector.get(ActivatedRoute);
     this.fb = injector.get(FormBuilder);
   }
@@ -234,7 +237,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async changeDescription(): Promise<any> {
+  changeDescription(): void {
     const { limitDescription } = this.limitsForm.value;
     const tariffId = this.selectedCardId;
 
@@ -275,7 +278,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       panelClass: 'address-matDialog-styles-pricing-page',
       data: {
         button: 'add',
-        locationId: this.locationId
+        tariffId: this.selectedCardId
       }
     });
     dialogRefTariff
@@ -381,7 +384,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-title',
       text: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text1',
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
-      bagName: this.currentLanguage === 'ua' ? bag.name : bag.nameEng,
+      bagName: this.getLangValue(bag.name, bag.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
       isTariffForService: true
     };
@@ -401,7 +404,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       title: 'ubs-tariffs-pricing-page-delete-service.delete-service-title',
       text: 'ubs-tariffs-pricing-page-delete-service.delete-service-text1',
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
-      serviceName: this.currentLanguage === 'ua' ? service.name : service.nameEng,
+      serviceName: this.getLangValue(service.name, service.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
       isService: true
     };
@@ -508,6 +511,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     if (value) {
       this.saveBTNClicked = false;
     }
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

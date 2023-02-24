@@ -57,7 +57,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   it('should call addNewService correctly', () => {
     const addNewServiceSpy = spyOn(component, 'addNewService');
     component.addNewService();
-    fakeTariffService.createService(fakeService);
+    fakeTariffService.createService(fakeService, 1);
     expect(addNewServiceSpy).toHaveBeenCalled();
   });
 

@@ -93,6 +93,7 @@ import { EditPaymentConfirmationPopUpComponent } from './components/shared/compo
 import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-notification/ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { ConfirmationDialogComponent } from './components/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/tariff-selector/tariff-selector.component';
 
 @NgModule({
   declarations: [
@@ -157,7 +158,8 @@ import { ConfirmationDialogComponent } from './components/shared/components/conf
     EditPaymentConfirmationPopUpComponent,
     UbsAdminNotificationEditFormComponent,
     UbsAdminNotificationSettingsComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    TariffSelectorComponent
   ],
   imports: [
     CommonModule,

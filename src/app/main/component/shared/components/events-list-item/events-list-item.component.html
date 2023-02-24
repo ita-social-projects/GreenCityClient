@@ -26,7 +26,7 @@
     <ul class="ul-eco-buttons" aria-label="filter by items">
       <li *ngFor="let tag of activeTags">
         <a role="button" class="tag" tabindex="0">
-          <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ currentLang === 'ua' ? tag.nameUa : tag.nameEn }}</span>
+          <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
           <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
         </a>
       </li>
@@ -34,7 +34,7 @@
     <div *ngIf="event.dates[0]" class="date-container">
       <span class="clock"></span>
       <div class="date">
-        {{ event.dates[0].startDate | date }}
+        {{ event.dates[0].startDate | dateLocalisation }}
       </div>
       <span class="time-divider">|</span>
       <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>

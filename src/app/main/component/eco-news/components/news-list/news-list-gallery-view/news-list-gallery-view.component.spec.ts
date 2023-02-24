@@ -4,6 +4,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { NewsListGalleryViewComponent } from './news-list-gallery-view.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/main/i18n/Language';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { BehaviorSubject } from 'rxjs';
 
 describe('NewsListGalleryViewComponent', () => {
   let component: NewsListGalleryViewComponent;
@@ -30,11 +34,21 @@ describe('NewsListGalleryViewComponent', () => {
     source: null
   };
 
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [NewsListGalleryViewComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -48,6 +62,13 @@ describe('NewsListGalleryViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set current Language and tags onInit', () => {
+    languageServiceMock.getLangValue.and.returnValue(['Події', 'Освіта']);
+    component.ngOnInit();
+    expect(component.currentLang).toBe('ua');
+    expect(component.tags).toEqual(['Події', 'Освіта']);
   });
 
   it('should get default image', () => {

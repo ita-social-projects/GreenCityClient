@@ -12,6 +12,8 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.component';
+import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
+import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
 
 describe('UbsAdminEmployeeTableComponent', () => {
   let component: UbsAdminEmployeeTableComponent;
@@ -23,10 +25,106 @@ describe('UbsAdminEmployeeTableComponent', () => {
       return of(true);
     }
   };
+
   const fakeTableItems = {
     content: ['fakeData1', 'fakeData2'],
     totalPages: 7
   };
+
+  const mockedEmployeePositions = [
+    {
+      id: 2,
+      name: 'fake'
+    }
+  ];
+
+  const defaultImagePath =
+    'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
+
+  const fakeEmployees = [
+    {
+      email: 'fake',
+      employeePositions: mockedEmployeePositions,
+      firstName: 'fake',
+      id: 1,
+      image: defaultImagePath,
+      lastName: 'fake',
+      phoneNumber: 'fake',
+      tariffs: [
+        {
+          id: 1,
+          region: {
+            id: 1,
+            nameEn: 'Kyiv Oblast',
+            nameUk: 'Київська область'
+          },
+          locationsDtos: [
+            {
+              id: 1,
+              nameEn: 'Kyiv',
+              nameUk: 'Київ'
+            }
+          ],
+          courier: {
+            id: 1,
+            nameEn: 'UBS',
+            nameUk: 'УБС'
+          }
+        },
+        {
+          id: 2,
+          region: {
+            id: 1,
+            nameEn: 'Kyiv Oblast',
+            nameUk: 'Київська область'
+          },
+          locationsDtos: [
+            {
+              id: 2,
+              nameEn: 'Irpin',
+              nameUk: 'Ірпінь'
+            }
+          ],
+          courier: {
+            id: 1,
+            nameEn: 'UBS',
+            nameUk: 'УБС'
+          }
+        }
+      ]
+    },
+    {
+      email: 'fake2',
+      employeePositions: mockedEmployeePositions,
+      firstName: 'fake2',
+      id: 1,
+      image: defaultImagePath,
+      lastName: 'fake2',
+      phoneNumber: 'fake2',
+      tariffs: [
+        {
+          id: 1,
+          region: {
+            id: 1,
+            nameEn: 'Kyiv Oblast',
+            nameUk: 'Київська область'
+          },
+          locationsDtos: [
+            {
+              id: 1,
+              nameEn: 'Kyiv',
+              nameUk: 'Київ'
+            }
+          ],
+          courier: {
+            id: 1,
+            nameEn: 'UBS',
+            nameUk: 'УБС'
+          }
+        }
+      ]
+    }
+  ];
 
   ubsAdminEmployeeServiceMock.getAllStations.and.returnValue(of(['fakeStation1', 'fakeStation2', 'fakeStation3']));
   ubsAdminEmployeeServiceMock.getAllPositions.and.returnValue(of(['fakePosition1', 'fakePosition2', 'fakePosition3']));
@@ -79,57 +177,55 @@ describe('UbsAdminEmployeeTableComponent', () => {
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
-  it('should change the init data after calling openPositions', () => {
-    component.isPositionsOpen = true;
-    component.allPositions = [];
-    component.selectedPositions = ['fake'];
-    component.openPositions();
-    expect(component.allPositions).toEqual(['fakePosition1', 'fakePosition2', 'fakePosition3']);
-    expect(component.selectedPositions).toEqual([]);
-  });
-
-  it('should change the init data after calling openStations', () => {
-    component.isStationsOpen = true;
-    component.allStations = [];
-    component.selectedStations = ['fake'];
-    component.openStations();
-    expect(component.allStations).toEqual(['fakeStation1', 'fakeStation2', 'fakeStation3']);
-    expect(component.selectedStations).toEqual([]);
-  });
-
-  it('should call positionsFilter inside getPositionId if checked', () => {
-    const e = { target: { checked: true } };
-    component.selectedPositions = [];
-    const spy = spyOn(component, 'positionsFilter');
-    component.getPositionId(e, '132');
+  it('updateTable method should call getEmployeesPages', () => {
+    component.isUpdateTable = false;
+    const spy = spyOn(component, 'getEmployeesPages');
+    component.updateTable();
     expect(spy).toHaveBeenCalled();
-    expect(component.selectedPositions).toEqual(['132']);
+    expect(component.isUpdateTable).toEqual(true);
   });
 
-  it('should call positionsFilter inside getPositionId if not checked', () => {
-    const e = { target: { checked: false } };
-    component.selectedPositions = ['132', '312'];
-    const spy = spyOn(component, 'positionsFilter');
-    component.getPositionId(e, '312');
+  it('table should be updated on scroll', () => {
+    component.isUpdateTable = false;
+    component.currentPageForTable = 2;
+    component.totalPagesForTable = 4;
+    const spy = spyOn(component, 'updateTable');
+    component.onScroll();
     expect(spy).toHaveBeenCalled();
-    expect(component.selectedPositions).toEqual(['132']);
+    expect(component.currentPageForTable).toEqual(3);
   });
 
-  it('should call stationsFilter inside getStationId if checked', () => {
-    const e = { target: { checked: true } };
-    component.selectedStations = [];
-    const spy = spyOn(component, 'stationsFilter');
-    component.getStationId(e, '132');
-    expect(spy).toHaveBeenCalled();
-    expect(component.selectedStations).toEqual(['132']);
+  it('should open edit dialog', () => {
+    const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+    component.openEditDialog(fakeEmployees[0], mockEvent as any);
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminEmployeeEditFormComponent, {
+      data: fakeEmployees[0],
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'edit-dialog-container'
+    });
   });
 
-  it('should call stationsFilter inside getStationId if not checked', () => {
-    const e = { target: { checked: false } };
-    component.selectedStations = ['132', '312'];
-    const spy = spyOn(component, 'stationsFilter');
-    component.getStationId(e, '312');
-    expect(spy).toHaveBeenCalled();
-    expect(component.selectedStations).toEqual(['132']);
+  it('should open permitions dialog', () => {
+    const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+    component.openPermissionsDialog(fakeEmployees[0], mockEvent as any);
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalled();
+  });
+
+  it('should open delete dialog', () => {
+    const mockEvent = { stopPropagation: jasmine.createSpy('stopPropagation') };
+    matDialogMock.open.and.returnValue(dialogRefStub as any);
+    component.openDeleteDialog(fakeEmployees[0], mockEvent as any);
+    expect(mockEvent.stopPropagation).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
+      data: component.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'delete-dialog-container'
+    });
   });
 });

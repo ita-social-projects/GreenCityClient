@@ -528,8 +528,11 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
   tariffsServiceMock.deactivate.and.returnValue(of());
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
@@ -1419,6 +1422,11 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedCities = [];
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('Назва', 'Title');
+    expect(value).toBe('Назва');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

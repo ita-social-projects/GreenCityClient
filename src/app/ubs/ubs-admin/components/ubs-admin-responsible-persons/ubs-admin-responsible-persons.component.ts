@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IEmployee, IResponsiblePersons } from '../../models/ubs-admin.interface';
@@ -8,16 +8,24 @@ import { IEmployee, IResponsiblePersons } from '../../models/ubs-admin.interface
   templateUrl: './ubs-admin-responsible-persons.component.html',
   styleUrls: ['./ubs-admin-responsible-persons.component.scss']
 })
-export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy {
+export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() responsiblePersonInfo: IResponsiblePersons;
   @Input() responsiblePersonsForm: FormGroup;
+  @Input() orderStatus: string;
 
   public allCallManagers: string[];
   public allLogisticians: string[];
   public allNavigators: string[];
   public allDrivers: string[];
+  public isOrderStatusCancelOrDone = false;
   pageOpen: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.orderStatus?.currentValue === 'CANCELED' || changes.orderStatus?.currentValue === 'DONE') {
+      this.isOrderStatusCancelOrDone = true;
+    }
+  }
 
   ngOnInit(): void {
     this.setEmployeesByPosition();

@@ -45,11 +45,16 @@
           (newPaymentStatus)="onUpdatePaymentStatus($event)"
           (paymentUpdate)="onPaymentUpdate($event)"
         ></app-ubs-admin-order-payment>
-        <app-ubs-admin-export-details [exportDetailsDto]="getFormGroup('exportDetailsDto')" [exportInfo]="exportInfo">
+        <app-ubs-admin-export-details
+          [exportDetailsDto]="getFormGroup('exportDetailsDto')"
+          [exportInfo]="exportInfo"
+          [orderStatus]="currentOrderStatus"
+        >
         </app-ubs-admin-export-details>
         <app-ubs-admin-responsible-persons
           [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
           [responsiblePersonInfo]="responsiblePersonInfo"
+          [orderStatus]="currentOrderStatus"
         >
         </app-ubs-admin-responsible-persons>
         <app-ubs-admin-order-history [orderInfo]="orderInfo"></app-ubs-admin-order-history>

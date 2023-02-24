@@ -60,7 +60,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
       capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl('', [Validators.required]),
       descriptionEng: new FormControl('', [Validators.required])
     });
@@ -70,33 +70,30 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.addTariffServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.bagData.name }),
       nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }),
-      capacity: new FormControl({ value: this.receivedData.bagData.capacity }),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
+      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [Validators.pattern(Patterns.ubsServicePrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }),
-      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng }),
-      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)])
+      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng })
     });
   }
 
   addNewTariffForService() {
-    const locationId = this.receivedData.locationId;
+    const tariffId = this.receivedData.tariffId;
     const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.value;
 
     this.tariffService = {
       capacity,
       price,
-      locationId,
       commission,
-      tariffTranslationDtoList: {
-        name,
-        description,
-        descriptionEng,
-        nameEng
-      }
+      name,
+      description,
+      descriptionEng,
+      nameEng
     };
     this.loadingAnim = true;
     this.tariffsService
-      .createNewTariffForService(this.tariffService)
+      .createNewTariffForService(this.tariffService, tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close({});

@@ -50,9 +50,9 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
       }
       if (oderID) {
         this.orderId = oderID;
-        this.checkPaymentStatus();
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
+        this.checkPaymentStatus();
         this.renderView();
       } else {
         this.orderService

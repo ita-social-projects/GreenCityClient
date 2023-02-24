@@ -6,17 +6,17 @@
         <a [routerLink]="['/events']" class="button-link">
           <div class="button-content">
             <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
-            <div class="button-text">Back to Events</div>
+            <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
           </div>
         </a>
       </div>
 
       <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
         <div class="secondary-global-button delete-button">
-          <span (click)="deleteEvent()">Delete</span>
+          <span (click)="deleteEvent()">{{ 'homepage.events.btn.delete' | translate }}</span>
         </div>
         <div class="secondary-global-button edit-button">
-          <span (click)="navigateToEditEvent()">Edit</span>
+          <span (click)="navigateToEditEvent()">{{ 'homepage.events.btn.edit' | translate }}</span>
         </div>
       </div>
     </div>
@@ -25,9 +25,9 @@
       <div class="left-side">
         <div class="event-title">{{ event.title }}</div>
         <div class="date-author">
-          <div>Jan 30, 2020</div>
+          <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
           <div>|</div>
-          <div>by {{ event.organizer.name }}</div>
+          <div>{{ 'homepage.events.author' | translate }} {{ event.organizer.name }}</div>
         </div>
       </div>
       <div class="right-side">
@@ -48,7 +48,7 @@
 
         <div class="event-tags-participants">
           <div class="event-tags">
-            <div class="event-tag" *ngFor="let tag of event.tags">{{ tag.nameEn | uppercase }}</div>
+            <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
           </div>
           <div class="event-participants">
             <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
@@ -59,7 +59,7 @@
             <div class="event-participants-count-container">
               <span class="event-participants-count">{{ attendees.length }}</span
               >&nbsp;
-              <span>people are going</span>
+              <span>{{ 'homepage.events.people-joined' | translate }}</span>
             </div>
           </div>
         </div>
@@ -71,14 +71,14 @@
                 <img [src]="icons.clock" alt="" />
               </div>
               <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
-                <div class="event-duration">{{ event.dates[0].startDate | date: 'MMM d, y' }}</div>
+                <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                 <div>|</div>
                 <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
               </div>
               <ng-template #multipleDays>
                 <div class="event-date-content">
                   <div class="event-duration">
-                    {{ event.dates[0].startDate | date: 'MMM d, y' }}
+                    {{ event.dates[0].startDate | dateLocalisation }}
                     &nbsp;-&nbsp;
                     {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
                   </div>
@@ -91,23 +91,25 @@
               <div class="event-location-icon">
                 <img [src]="icons.location" alt="" />
               </div>
-              <div>{{ event.dates[0].onlineLink ? event.dates[0].onlineLink : event.dates[0].coordinates.addressEn }}</div>
+              <div>
+                {{ locationLink ? locationLink : locationAddress }}
+              </div>
             </div>
             <div class="event-status-access">
               <div class="event-status-icon">
-                <img [src]="icons.lock" alt="" />
+                <img [src]="event.open ? icons.lock.open : icons.lock.closed" alt="" />
               </div>
               <div class="event-status-access-content">
-                <div class="event-status">{{ event.open ? 'Open' : 'Finished' }}</div>
+                <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
                 <div>|</div>
-                <div>Anyone registered</div>
+                <div>{{ 'homepage.events.registered' | translate }}</div>
               </div>
             </div>
             <div class="event-author">
               <div class="event-author-icon">
                 <img [src]="icons.user" alt="" />
               </div>
-              <div>John Smith</div>
+              <div>{{ event.organizer.name }}</div>
             </div>
           </div>
           <div class="event-info-days">
@@ -116,8 +118,8 @@
         </div>
 
         <div class="save-join-event-block" *ngIf="role === roles.USER">
-          <button class="save-event">Save event</button>
-          <button class="join-event">Join event</button>
+          <button class="save-event">{{ 'homepage.events.btn.save-btn' | translate }}</button>
+          <button class="join-event">{{ 'homepage.events.btn.join-btn' | translate }}</button>
         </div>
       </div>
 

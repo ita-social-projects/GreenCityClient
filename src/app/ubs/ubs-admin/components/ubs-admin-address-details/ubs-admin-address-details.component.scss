@@ -47,7 +47,7 @@ label {
 
 .building div {
   padding-right: 15px;
-  width: 30%;
+  width: 100%;
 }
 
 .district {
@@ -58,6 +58,10 @@ label {
 .comment {
   padding: 0 15px;
   width: 50%;
+}
+
+.placeholder-positioning {
+  padding-left: 7px;
 }
 
 .form-control {
