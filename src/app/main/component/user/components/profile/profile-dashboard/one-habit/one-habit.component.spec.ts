@@ -16,7 +16,7 @@ class DatePipeMock implements PipeTransform {
   }
 }
 
-fdescribe('OneHabitComponent', () => {
+describe('OneHabitComponent', () => {
   let component: OneHabitComponent;
   let fixture: ComponentFixture<OneHabitComponent>;
 
