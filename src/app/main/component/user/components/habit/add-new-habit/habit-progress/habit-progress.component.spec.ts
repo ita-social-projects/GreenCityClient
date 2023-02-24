@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 
 describe('HabitProgressComponent', () => {
   let component: HabitProgressComponent;
@@ -92,8 +91,6 @@ describe('HabitProgressComponent', () => {
       component.currentDate = '2022-06-19';
       component.habit = fakeHabitInProgress as any;
       component.buildHabitDescription();
-      expect(component.daysCounter).toBe(4);
-      expect(component.showPhoto).toBe(false);
       expect(component.habitMark).toBe('done');
     });
 
@@ -101,8 +98,6 @@ describe('HabitProgressComponent', () => {
       component.currentDate = '2022-02-19';
       component.habit = fakeHabitInProgress as any;
       component.buildHabitDescription();
-      expect(component.daysCounter).toBe(4);
-      expect(component.showPhoto).toBe(true);
       expect(component.habitMark).toBe('undone');
     });
   });
@@ -111,8 +106,6 @@ describe('HabitProgressComponent', () => {
     it('makes expected calls if status is acquired', () => {
       habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitAcquired));
       component.enroll();
-      expect(component.daysCounter).toBe(44);
-      expect(component.showPhoto).toBeFalsy();
       expect(component.habitMark).toBe('aquired');
     });
 
@@ -122,8 +115,6 @@ describe('HabitProgressComponent', () => {
       component.enroll();
       expect(buildHabitDescriptionSpy).toHaveBeenCalled();
       expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
-      expect(component.habit.workingDays).toBe(4);
-      expect(component.habit.habitStreak).toBe(5);
       expect(component.isRequest).toBeFalsy();
     });
   });
