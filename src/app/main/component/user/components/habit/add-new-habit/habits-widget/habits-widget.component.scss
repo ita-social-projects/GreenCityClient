@@ -1,11 +1,11 @@
-.habits-recomended {
+.cards-container {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+}
 
-  .habit-card {
-    width: 359px;
-  }
+.habit-card {
+  width: 359px;
 }
 
 p {
