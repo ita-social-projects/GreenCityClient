@@ -22,7 +22,7 @@ export class HabitProgressComponent implements OnChanges {
   public isHidden = false;
   private descriptionType = {
     acquired: () => {
-      this.daysCounter = this.habit.duration;
+      this.daysCounter = this.habit.workingDays;
       this.showPhoto = false;
       this.habitMark = HabitMark.AQUIRED;
     },
@@ -48,7 +48,6 @@ export class HabitProgressComponent implements OnChanges {
 
   public countProgressBar(): void {
     this.indicator = Math.round((this.habit.workingDays / this.habit.duration) * 100);
-    this.indicator = this.indicator > 100 ? 100 : this.indicator;
   }
 
   public buildHabitDescription(): void {

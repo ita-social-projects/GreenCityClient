@@ -26,7 +26,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
-      this.daysCounter = this.habit.duration;
+      this.daysCounter = this.habit.workingDays;
       this.showPhoto = false;
       this.habitMark = HabitMark.AQUIRED;
     },
