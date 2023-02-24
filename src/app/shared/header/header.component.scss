@@ -3,7 +3,7 @@ $header-height: 54px;
 $white-color: var(--ubs-primary-white);
 $ubs-header-height: 116px;
 
-:host ::ng-deep .custom-dialog-container .mat-dialog-container {
+::ng-deep .custom-dialog-container .mat-dialog-container {
   background-color: transparent;
   overflow: hidden;
 }
