@@ -22,18 +22,15 @@ export class HabitProgressComponent implements OnChanges {
   public isHidden = false;
   private descriptionType = {
     acquired: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = false;
+      this.setHabitValue(false);
       this.habitMark = HabitMark.AQUIRED;
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = false;
+      this.setHabitValue(false);
       this.habitMark = HabitMark.DONE;
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = true;
+      this.setHabitValue(true);
       this.habitMark = HabitMark.UNDONE;
     }
   };
@@ -98,5 +95,10 @@ export class HabitProgressComponent implements OnChanges {
 
   public getDayName(): string {
     return this.habit.habitStreak === 1 ? 'user.habit.one-habit.good-day' : 'user.habit.one-habit.good-days';
+  }
+
+  private setHabitValue(check: boolean): void {
+    this.daysCounter = this.habit.workingDays;
+    this.showPhoto = check;
   }
 }
