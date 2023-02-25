@@ -340,4 +340,12 @@ export class LocalStorageService {
   public getFinalSumOfOrder(): number {
     return JSON.parse(localStorage.getItem('finalSumOfOrder'));
   }
+
+  public setTariffId(currentTariffId: number): void {
+    localStorage.setItem('currentTariffId', JSON.stringify(currentTariffId));
+  }
+
+  public getTariffId(): number {
+    return JSON.parse(localStorage.getItem('currentTariffId'));
+  }
 }

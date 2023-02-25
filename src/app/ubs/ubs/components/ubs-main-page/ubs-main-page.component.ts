@@ -212,10 +212,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   saveLocation(locationsData: AllLocationsDtos): void {
     this.locations = locationsData.tariffsForLocationDto;
-    this.selectedLocationId = locationsData.tariffsForLocationDto.locationsDtosList[0].locationId;
+    this.selectedLocationId = locationsData.tariffsForLocationDto.tariffInfoId;
+    this.selectedTariffId = locationsData.tariffsForLocationDto.locationsDtosList[0].locationId;
     this.currentLocation = locationsData.tariffsForLocationDto.locationsDtosList[0].nameEn;
     this.orderService.completedLocation(true);
     this.localStorageService.setLocationId(this.selectedLocationId);
+    this.localStorageService.setTariffId(this.selectedTariffId);
     this.localStorageService.setLocations(this.locations);
     this.orderService.setLocationData(this.currentLocation);
   }
