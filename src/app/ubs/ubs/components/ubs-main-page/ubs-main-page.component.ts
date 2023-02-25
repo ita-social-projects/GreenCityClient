@@ -29,6 +29,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   public lineSize = Array(4).fill(0);
   public screenWidth: number;
   public isMarqueShown = false;
+  public selectedTariffId: number;
 
   priceCard = [
     {
