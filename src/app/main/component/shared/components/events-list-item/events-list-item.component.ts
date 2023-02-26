@@ -283,7 +283,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-
   addToFavourite() {
     this.bookmarkSelected = !this.bookmarkSelected;
     if(!this.isRegistered) this.openAuthModalWindow('sign-in');
