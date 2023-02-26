@@ -112,7 +112,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     gAccounts.id.prompt();
   }
 
-  handleGgOneTap(resp): void {
+  public handleGgOneTap(resp): void {
     try {
       this.googleService
         .signIn(resp.credential, this.currentLanguage)
