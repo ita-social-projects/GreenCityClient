@@ -118,8 +118,8 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
         .signIn(resp.credential, this.currentLanguage)
         .pipe(takeUntil(this.destroy))
         .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
-    } catch {
-      (errorData) => this.signUpWithGoogleError(errorData);
+    } catch (errorData) {
+      this.signUpWithGoogleError(errorData);
     }
   }
 
