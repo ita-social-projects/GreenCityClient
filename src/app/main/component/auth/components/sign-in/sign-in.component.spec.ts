@@ -3,7 +3,7 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
+// import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -22,7 +22,6 @@ import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
-import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 describe('SignIn component', () => {
@@ -31,10 +30,8 @@ describe('SignIn component', () => {
   let localStorageServiceMock: LocalStorageService;
   let matDialogMock: MatDialogRef<SignInComponent>;
   let signInServiceMock: UserOwnSignInService;
-  let authServiceMock: AuthService;
   let router: Router;
   let googleServiceMock: GoogleSignInService;
-  let promiseSocialUser;
   let userSuccessSignIn;
 
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
@@ -47,18 +44,6 @@ describe('SignIn component', () => {
   matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
 
-  promiseSocialUser = new Promise<SocialUser>((resolve) => {
-    const val = new SocialUser();
-    val.email = '1';
-    val.firstName = '1';
-    val.authorizationCode = '1';
-    val.id = '1';
-    val.name = '1';
-    val.photoUrl = '1';
-    val.authToken = '1';
-    resolve(val);
-  });
-
   userSuccessSignIn = new UserSuccessSignIn();
   userSuccessSignIn.userId = 1;
   userSuccessSignIn.name = '1';
@@ -70,9 +55,6 @@ describe('SignIn component', () => {
     return of(userSuccessSignIn);
   };
   signInServiceMock.saveUserToLocalStorage = () => true;
-
-  authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
-  authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
@@ -94,9 +76,7 @@ describe('SignIn component', () => {
       ],
       providers: [
         { provide: GoogleSignInService, useValue: googleServiceMock },
-        { provide: AuthService, useValue: authServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: MatDialogRef, useValue: matDialogMock },
         { provide: UserOwnSignInService, useValue: signInServiceMock },
@@ -174,42 +154,15 @@ describe('SignIn component', () => {
       });
     }));
 
-    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
-      component.onSignInWithGoogleSuccess = () => true;
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
-      spyOn(service2, 'signIn').and.returnValue(of(userSuccessSignIn));
-      component.signInWithGoogle();
+    it('Should call sinIn method', inject([GoogleSignInService], (service: GoogleSignInService) => {
+      const resp = {};
+      const spy1 = spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
+      const spy2 = spyOn(component, 'onSignInWithGoogleSuccess');
+      component.handleGgOneTap(resp as any);
       fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalled();
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalledWith(userSuccessSignIn);
     }));
-
-    it('Should call sinIn method with errors', async(
-      inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
-        const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
-          const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-          reject(errors);
-        });
-        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
-        component.signInWithGoogle();
-        fixture.detectChanges();
-        expect(serviceSpy).toHaveBeenCalled();
-      })
-    ));
-
-    it('Should call onSignInFailure with errors', inject(
-      [AuthService, GoogleSignInService],
-      (service: AuthService, service2: GoogleSignInService) => {
-        component.onSignInWithGoogleSuccess = () => false;
-        const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-        const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
-        spyOn(service2, 'signIn').and.returnValue(throwError(errors));
-
-        // @ts-ignore
-        component.signInWithGoogle();
-        fixture.detectChanges();
-        expect(serviceSpy).toHaveBeenCalled();
-      }
-    ));
 
     it('Test sign in method with invalid signInForm', async(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {

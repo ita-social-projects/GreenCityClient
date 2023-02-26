@@ -31,8 +31,6 @@ import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-ord
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
 import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
 import { InterceptorService } from 'src/app/shared/interceptors/interceptor.service';
-import { AuthServiceConfig } from 'angularx-social-login';
-import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
@@ -96,10 +94,6 @@ import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/
       multi: true
     },
     { provide: MatDialogRef, useValue: {} },
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
-    },
     DatePipe,
     PendingChangesGuard,
     ConfirmRestorePasswordGuard,
