@@ -6,7 +6,6 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -53,7 +52,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnSignInService: UserOwnSignInService,
     private jwtService: JwtService,
     private router: Router,
-    private authService: AuthService,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
@@ -124,53 +122,17 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signInWithGoogle(): void {
-    console.log('here');
-
     const gAccounts: accounts = google.accounts;
-
     gAccounts.id.initialize({
       client_id: environment.googleClientId,
       ux_mode: 'popup',
       cancel_on_tap_outside: true,
       callback: this.handleGgOneTap.bind(this)
     });
-
     gAccounts.id.prompt();
-
-    // window.google.accounts.id.initialize({
-    //   client_id: '1041981142587-jo5jdj07bap3gdn45n74e7ur1u1cnfi6.apps.googleusercontent.com',
-    //   callback: this.handleGgOneTap.bind(this)
-    // });
-    // window.google.accounts.id.prompt();
-
-    // window.google.accounts.id.initialize({
-    //   client_id: "651068629896-8l1fds7jlqdb4k82846cgg4leiq4838a.apps.googleusercontent.com",
-    //   callback: this.handleGoogleSignIn.bind(this)
-    // });
-    // window.google.accounts.id.prompt();
-
-    // google.accounts.id.initialize({
-    //   client_id: "236025958894-l05tha7iovc0ool81upch4i6gi91npe8.apps.googleusercontent.com",
-    //   callback: (response: any) => this.handleGoogleSignIn(response)
-    // });
-
-    // this.authService
-    //   .signIn(GoogleLoginProvider.PROVIDER_ID)
-    //   .then((data) => {
-    //     console.log(data)
-    //     this.googleService
-    //       .signIn(data.idToken)
-    //       .pipe(takeUntil(this.destroy))
-    //       .subscribe((signInData: UserSuccessSignIn) => {
-    //         this.onSignInWithGoogleSuccess(signInData);
-    //       });
-    //   })
-    //   .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
   }
 
-  handleGgOneTap(resp) {
-    console.log('handleGgOneTap ', resp);
-
+  handleGgOneTap(resp): void {
     this.googleService
       .signIn(resp.credential)
       .pipe(takeUntil(this.destroy))
