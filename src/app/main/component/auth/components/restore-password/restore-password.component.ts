@@ -146,10 +146,8 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
       this.googleService.signIn(resp.credential).subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);
       });
-    } catch {
-      (errors: HttpErrorResponse) => {
-        this.onSignInFailure(errors);
-      };
+    } catch (errors) {
+      this.onSignInFailure(errors);
     }
   }
 
