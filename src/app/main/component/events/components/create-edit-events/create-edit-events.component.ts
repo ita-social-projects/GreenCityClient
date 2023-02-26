@@ -36,7 +36,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public contentValid: boolean;
   public checkAfterSend = true;
   public dateArrCount = WeekArray;
-  public selectedDay: string = WeekArray[0];
+  public selectedDay = WeekArray[0];
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
