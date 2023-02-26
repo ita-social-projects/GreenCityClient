@@ -141,7 +141,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
     gAccounts.id.prompt();
   }
 
-  handleGgOneTap(resp): void {
+  public handleGgOneTap(resp): void {
     try {
       this.googleService.signIn(resp.credential).subscribe((signInData: UserSuccessSignIn) => {
         this.onSignInWithGoogleSuccess(signInData);

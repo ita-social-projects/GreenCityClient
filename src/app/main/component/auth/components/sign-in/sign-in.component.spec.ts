@@ -3,7 +3,6 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-// import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';

@@ -132,7 +132,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     gAccounts.id.prompt();
   }
 
-  handleGgOneTap(resp): void {
+  public handleGgOneTap(resp): void {
     this.googleService
       .signIn(resp.credential)
       .pipe(takeUntil(this.destroy))
