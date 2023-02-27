@@ -48,6 +48,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isImageSizeError: boolean;
   public isImageTypeError = false;
   public images = singleNewsImages;
+  public currentLang: string;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
