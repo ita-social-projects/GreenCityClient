@@ -206,7 +206,9 @@
         </button>
       </mat-menu>
       <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
+        <button mat-menu-item (click)="openTariffRestorePopUp(card, card.cardId)">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
+        </button>
       </td>
       <mat-menu #restore="matMenu">
         <button mat-menu-item>

@@ -24,6 +24,13 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+
+export enum statusOfTariff {
+  active = 'ACTIVE',
+  deactivated = 'DEACTIVATED',
+  new = 'NEW'
+}
+
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
   templateUrl: './ubs-admin-tariffs-location-dashboard.component.html',
@@ -73,6 +80,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
+
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
@@ -662,9 +670,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService.deactivateTariffCard(card.cardId).pipe().subscribe();
+        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.deactivated).pipe().subscribe();
       }
     });
+  }
+
+  openTariffRestorePopUp(card, tariffId): void {
+    console.log('card', card);
   }
 
   public openCreateCard(): void {

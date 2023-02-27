@@ -168,7 +168,7 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
   }
 
-  deactivateTariffCard(tariffId: number): Observable<object> {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/deactivateTariff/${tariffId}`, null);
+  switchTariffStatus(tariffId: number, tariffStatus): Observable<object> {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/switchTariffStatus/${tariffId}`, tariffStatus);
   }
 }
