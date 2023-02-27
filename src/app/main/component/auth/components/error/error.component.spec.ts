@@ -21,7 +21,7 @@ describe('error component', () => {
     component.formElement.setErrors({ required: true });
     (component as any).getType();
 
-    expect(component.errorMessage).toBe('user.auth.sign-in.password-is-required');
+    expect(component.errorMessage).toBe('user.auth.sign-up.password-confirm-is-required');
   });
 
   it('Error: get email message', () => {
@@ -29,11 +29,15 @@ describe('error component', () => {
   });
 
   it('Error: get required message', () => {
-    expect((component as any).getErrorMsg[`required`]()).toBe('user.auth.sign-in.password-is-required');
+    expect((component as any).getErrorMsg[`required`]()).toBe('user.auth.sign-up.password-confirm-is-required');
   });
 
   it('Error: get passwordMismatch message', () => {
     expect((component as any).getErrorMsg[`passwordMismatch`]()).toBe('user.auth.sign-up.password-match');
+  });
+
+  it('Error: get emptyPassword message', () => {
+    expect((component as any).getErrorMsg[`passwordIsEmpty`]()).toBe('user.auth.sign-up.password-match-is-empty');
   });
 
   it('Error: get minlength message', () => {
