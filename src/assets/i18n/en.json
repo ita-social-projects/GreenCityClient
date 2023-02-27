@@ -365,7 +365,7 @@
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
-        "password-is-required": "Please enter your password",
+        "password-is-required": "Password is required.",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
@@ -994,5 +994,29 @@
     "text-2": "Nice and sound",
     "text-3": "Good job!",
     "text-finish": "Thank you !!!"
+  },
+  "create-event": {
+    "back": "back",
+    "title": "Create Event",
+    "edit": "Edit Event",
+    "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
+    "event-name": "Enter name for Event",
+    "placeholder": "Event name up to 70 symbols.",
+    "duration": "Duration",
+    "min-duration": "Min 1 day",
+    "textarea-title": "Events Description",
+    "picture": "Picture",
+    "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
+    "event-theme": "Initiative type",
+    "event-type-check": "you should choose at least one type",
+    "event-type": "Event type",
+    "open": "Open",
+    "close": "Close",
+    "cansel": "Cansel",
+    "preview": "Preview",
+    "publish": "Publish",
+    "invite": "Invite",
+    "all": "All",
+    "friends": "Friends"
   }
 }

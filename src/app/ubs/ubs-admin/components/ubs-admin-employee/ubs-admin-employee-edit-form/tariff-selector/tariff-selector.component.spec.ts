@@ -67,12 +67,6 @@ describe('TariffSelectorComponent', () => {
     }
   };
 
-  // const getOptionsText = async (selectHarness: MatSelectHarness) => {
-  //   await selectHarness.open();
-  //   const options = await selectHarness.getOptions();
-  //   return await Promise.all(options.map((option) => option.getText()));
-  // };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TariffSelectorComponent],

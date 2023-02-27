@@ -7,6 +7,8 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
+import { TagsArray, eventTimeList, eventStatusList, tempLocationList } from '../../models/event-consts';
+import { LanguageService } from '../../../../i18n/language.service';
 
 @Component({
   selector: 'app-events-list',
@@ -26,6 +28,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public total = 0;
   public page = 0;
   private eventsPerPage = 6;
+  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data,should be deleted when back-end is ready
+  searchToggle = false;
+  bookmarkSelected = false;
+  selectedEventTime: any;
+  eventTimeList = eventTimeList;
+  typeList = TagsArray;
+  statusList = eventStatusList;
+  eventLocationList = tempLocationList;
+  allSelected = false;
 
   public pageConfig(items: number, page: number, total: number): PaginationInterface {
     return {
@@ -35,7 +46,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private store: Store, private userOwnAuthService: UserOwnAuthService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private store: Store,
+    private userOwnAuthService: UserOwnAuthService,
+    private languageService: LanguageService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);
@@ -53,6 +69,27 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  toggleAllSelection(): void {
+    this.allSelected = !this.allSelected;
+    this.selectedEventTime = this.allSelected ? this.eventTimeList : [];
+  }
+
+  search(): void {
+    this.searchToggle = !this.searchToggle;
+  }
+
+  showFavourite(): void {
+    this.bookmarkSelected = !this.bookmarkSelected;
+  }
+
+  deleteOneFilter(index): void {
+    this.selectedFilters.splice(index, 1);
+  }
+
+  resetAll(): void {
+    this.selectedFilters.splice(0, this.selectedFilters.length);
+  }
+
   public checkPagination(): boolean {
     return this.total > this.items;
   }
@@ -63,6 +100,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public setPage(event: number): void {
     this.store.dispatch(GetEcoEventsByPageAction({ currentPage: event - 1, numberOfEvents: this.eventsPerPage }));
+  }
+
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

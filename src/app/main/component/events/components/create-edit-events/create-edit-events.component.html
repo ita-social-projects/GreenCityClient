@@ -3,15 +3,14 @@
   <a [routerLink]="['/events']">
     <div class="button-arrow">
       <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
-      <div class="edit-news">Back</div>
+      <div class="edit-news">{{ 'create-event.back' | translate }}</div>
     </div>
   </a>
   <div class="event-header">
-    <h3 *ngIf="!editMode">Create Event</h3>
-    <h3 *ngIf="editMode">Edit Event</h3>
+    <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
+    <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
     <p>
-      Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event
-      anytime after publishing
+      {{ 'create-event.description' | translate }}
     </p>
   </div>
   <div class="event-main">
@@ -19,21 +18,21 @@
       <div class="main-title">
         <div class="title-input">
           <div class="title-wrapper">
-            <mat-label>Enter name for Event</mat-label>
+            <mat-label>{{ 'create-event.event-name' | translate }}</mat-label>
             <mat-label>{{ eventFormGroup.get('titleForm').value.length }}/70</mat-label>
           </div>
           <mat-form-field appearance="outline" class="event-input">
-            <mat-label>Event name up to 70 symbols.</mat-label>
+            <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
             <input matInput placeholder="title" formControlName="titleForm" />
           </mat-form-field>
         </div>
 
         <div class="duration-choice">
           <div class="title-wrapper">
-            <mat-label>Duration</mat-label>
+            <mat-label>{{ 'create-event.duration' | translate }}</mat-label>
           </div>
           <mat-form-field appearance="outline" class="date-item">
-            <mat-label>Min 1 day</mat-label>
+            <mat-label>{{ 'create-event.min-duration' | translate }}</mat-label>
             <mat-select formControlName="eventDuration" ngDefaultControl (selectionChange)="setDateCount(+$event.value.split(' ')[0])">
               <mat-option *ngFor="let date of dateArrCount" [value]="date">
                 {{ date }}
@@ -59,12 +58,12 @@
             >
             </app-event-date-time-picker>
           </div>
-          <p *ngIf="dates.length && !isAddressFill" class="tag-error">You shoud fill at least one address or link</p>
+          <p *ngIf="dates.length && !isAddressFill" class="tag-error">You should fill at least one address or link</p>
         </div>
       </div>
 
       <div class="textarea-wrapper">
-        <h3 class="textarea-title">Events Description</h3>
+        <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
         <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
           <quill-editor
             class="editor"
@@ -87,8 +86,8 @@
       </app-images-container>
 
       <div class="buttons-container">
-        <mat-label>Initiative type</mat-label>
-        <p *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">you should choose at least one type</p>
+        <mat-label>{{ 'create-event.event-theme' | translate }}</mat-label>
+        <p *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</p>
         <div>
           <ul class="ul-eco-buttons" aria-label="filter by items">
             <li *ngFor="let tag of tags">
@@ -109,7 +108,7 @@
       </div>
 
       <div class="buttons-container">
-        <mat-label>Event type</mat-label>
+        <mat-label>{{ 'create-event.event-type' | translate }}</mat-label>
         <div class="flex-container">
           <a
             role="button"
@@ -118,7 +117,7 @@
             tabindex="0"
             (click)="changeToOpen()"
           >
-            <span class="text">open</span>
+            <span class="text">{{ 'create-event.open' | translate }}</span>
             <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
           </a>
           <a
@@ -128,25 +127,25 @@
             tabindex="0"
             (click)="changeToClose()"
           >
-            <span class="text">close</span>
+            <span class="text">{{ 'create-event.close' | translate }}</span>
             <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
           </a>
         </div>
       </div>
 
       <mat-form-field appearance="fill">
-        <mat-label>Invite</mat-label>
+        <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
         <select matNativeControl required>
-          <option value="All">All</option>
-          <option value="Frends">Frends</option>
+          <option value="All">{{ 'create-event.all' | translate }}</option>
+          <option value="Frends">{{ 'create-event.friends' | translate }}</option>
         </select>
       </mat-form-field>
     </mat-card>
   </div>
 
   <div class="submit-container">
-    <button mat-raised-button class="button" (click)="escapeFromCreateEvent()">Cancel</button>
-    <button mat-raised-button class="secondary-global-button">Preview</button>
-    <button mat-raised-button class="primary-global-button" (click)="onSubmit()">Publish</button>
+    <button mat-raised-button class="button" (click)="escapeFromCreateEvent()">{{ 'create-event.cansel' | translate }}</button>
+    <button mat-raised-button class="secondary-global-button">{{ 'create-event.preview' | translate }}</button>
+    <button mat-raised-button class="primary-global-button" (click)="onSubmit()">{{ 'create-event.publish' | translate }}</button>
   </div>
 </div>

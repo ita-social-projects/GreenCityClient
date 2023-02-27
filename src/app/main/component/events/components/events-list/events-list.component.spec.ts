@@ -39,6 +39,11 @@ describe('EventsListComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(MockData);
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    of(valEn);
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListComponent],
@@ -79,5 +84,36 @@ describe('EventsListComponent', () => {
     storeMock.dispatch.calls.reset();
     component.setPage(3);
     expect(storeMock.dispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it('should check weather resetAll works correctly', () => {
+    component.selectedFilters = ['one', 'two', 'three'];
+    component.resetAll();
+    expect(component.selectedFilters.length).toEqual(0);
+  });
+
+  it('should check weather deleteOneFilter works correctly', () => {
+    component.selectedFilters = ['one', 'two', 'three'];
+    const filterRemoved = ['one', 'three'];
+    component.deleteOneFilter(1);
+    expect(component.selectedFilters).toEqual(filterRemoved);
+  });
+
+  it('should check weather showFavourite works correctly', () => {
+    component.bookmarkSelected = false;
+    component.showFavourite();
+    expect(component.bookmarkSelected).toEqual(true);
+  });
+
+  it('should check weather search works correctly', () => {
+    component.searchToggle = false;
+    component.search();
+    expect(component.searchToggle).toEqual(true);
+  });
+
+  it('should check weather toggleAllSelection works correctly', () => {
+    component.allSelected = false;
+    component.toggleAllSelection();
+    expect(component.selectedEventTime).toEqual(component.eventTimeList);
   });
 });

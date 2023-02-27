@@ -126,14 +126,13 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   }
 
   openEditDialog(employeeData: Page, event: Event) {
-    console.log(event);
     event.stopPropagation();
     this.dialog.open(UbsAdminEmployeeEditFormComponent, {
       data: employeeData,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'custom-dialog-container'
+      panelClass: 'edit-dialog-container'
     });
   }
 

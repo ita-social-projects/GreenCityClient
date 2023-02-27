@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { howWorksPickUp, courierPickUp, pricePickUp, extraoffer, minimumVolume, conditions } from './pick-up-text';
 
 @Component({
   selector: 'app-ubs-pick-up-service-pop-up',
@@ -6,42 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./ubs-pick-up-service-pop-up.component.scss']
 })
 export class UbsPickUpServicePopUpComponent {
-  howWorksPickUp = [
-    'ubs-homepage.pick-up-service.how-it-works.content.li_1',
-    'ubs-homepage.pick-up-service.how-it-works.content.li_1.1',
-    'ubs-homepage.pick-up-service.how-it-works.content.li_1.2',
-    'ubs-homepage.pick-up-service.how-it-works.content.li_1.3',
-    'ubs-homepage.pick-up-service.how-it-works.content.li_2',
-    'ubs-homepage.pick-up-service.how-it-works.content.li_3'
-  ];
-
-  courierPickUp = [
-    'ubs-homepage.pick-up-service.courier.content.li_1',
-    'ubs-homepage.pick-up-service.courier.content.li_1.1',
-    'ubs-homepage.pick-up-service.courier.content.li_1.2',
-    'ubs-homepage.pick-up-service.courier.content.li_2',
-    'ubs-homepage.pick-up-service.courier.content.li_2.1',
-    'ubs-homepage.pick-up-service.courier.content.li_2.2',
-    'ubs-homepage.pick-up-service.courier.content.li_3',
-    'ubs-homepage.pick-up-service.courier.content.li_3.1'
-  ];
-
-  pricePickUp = [
-    'ubs-homepage.pick-up-service.price.title',
-    'ubs-homepage.pick-up-service.price.li_1',
-    'ubs-homepage.pick-up-service.price.li_2',
-    'ubs-homepage.pick-up-service.price.li_3'
-  ];
-
-  extraoffer = [
-    'ubs-homepage.pick-up-service.extraoffer.items.li_1',
-    'ubs-homepage.pick-up-service.extraoffer.items.li_2',
-    'ubs-homepage.pick-up-service.extraoffer.items.li_3',
-    'ubs-homepage.pick-up-service.extraoffer.items.li_4',
-    'ubs-homepage.pick-up-service.extraoffer.items.li_5'
-  ];
-
-  minimumVolume = ['ubs-homepage.pick-up-service.minimum-volume.li_1', 'ubs-homepage.pick-up-service.minimum-volume.li_2'];
-
-  conditions = ['ubs-homepage.pick-up-service.conditions.item_1', 'ubs-homepage.pick-up-service.conditions.item_2'];
+  public howWorksPickUp = howWorksPickUp;
+  public courierPickUp = courierPickUp;
+  public pricePickUp = pricePickUp;
+  public extraoffer = extraoffer;
+  public minimumVolume = minimumVolume;
+  public conditions = conditions;
 }

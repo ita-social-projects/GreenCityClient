@@ -312,6 +312,7 @@
   ::-webkit-scrollbar-thumb {
     background: var(--ubs-main-page-secondary-light-grey);
     border-radius: 12px;
+    box-shadow: none;
     border-left: 8px solid var(--primary-white);
     border-right: 8px solid var(--primary-white);
   }

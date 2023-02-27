@@ -208,7 +208,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           console.log('RESPONSE ', response);
           const { orderId, link } = JSON.parse(response);
           this.shareFormService.orderUrl = '';
-          this.localStorageService.removeUbsOrderId();
+          this.localStorageService.removeUbsLiqPayOrderId();
           this.localStorageService.removeUBSExistingOrderId();
           this.shareFormService.orderUrl = link.toString();
           this.localStorageService.setUbsFondyOrderId(orderId);
@@ -233,12 +233,12 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         (response) => {
           const { orderId, link } = JSON.parse(response);
           this.shareFormService.orderUrl = '';
-          this.localStorageService.removeUbsOrderId();
+          this.localStorageService.removeUbsLiqPayOrderId();
           if (this.isFinalSumZero && !this.isTotalAmountZero) {
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);
             this.ubsOrderFormService.setOrderStatus(true);
-            this.localStorageService.setUbsOrderId(orderId);
+            this.localStorageService.setUbsLiqPayOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
             this.localStorageService.setUbsFondyOrderId(orderId);
@@ -263,7 +263,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       .subscribe(
         (res) => {
           const { orderId, liqPayButton } = JSON.parse(res);
-          this.localStorageService.setUbsOrderId(orderId);
+          this.localStorageService.setUbsLiqPayOrderId(orderId);
           this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
           setTimeout(() => {
             this.liqPayButton = document.getElementsByName('btn_text');

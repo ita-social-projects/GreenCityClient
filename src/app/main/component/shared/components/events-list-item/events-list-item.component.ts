@@ -56,6 +56,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public currentLang: string;
   public datePipe;
   public newDate;
+  bookmarkSelected = false;
 
   attendees = [];
   attendeesAvatars = [];
@@ -261,11 +262,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   cutTitle(): string {
-    return this.event.title.length > 40 ? this.event.title.slice(0, 30) + '...' : this.event.title;
+    const maxTitleLength = 30;
+    return this.event.title.length > 40 ? this.event.title.slice(0, maxTitleLength) + '...' : this.event.title;
   }
 
   cutDescription(): string {
-    return this.event.description.length > 90 ? this.event.description.slice(0, 90) + '...' : this.event.description;
+    const maxDescriptionLength = 90;
+    return this.event.description.length > 90 ? this.event.description.slice(0, maxDescriptionLength) + '...' : this.event.description;
   }
 
   getAllAttendees() {
@@ -277,6 +280,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  addToFavourite() {
+    this.bookmarkSelected = !this.bookmarkSelected;
   }
 
   ngOnDestroy(): void {
