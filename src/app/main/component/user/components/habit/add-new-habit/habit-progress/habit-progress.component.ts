@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -40,9 +41,11 @@ export class HabitProgressComponent implements OnChanges {
 
   @Output() nowAcquiredHabit = new EventEmitter();
 
-  constructor(private habitAssignService: HabitAssignService) {}
+  constructor(private habitAssignService: HabitAssignService, public datePipe: DatePipe) {}
 
   ngOnChanges() {
+    this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
+    this.buildHabitDescription();
     this.countProgressBar();
   }
 
