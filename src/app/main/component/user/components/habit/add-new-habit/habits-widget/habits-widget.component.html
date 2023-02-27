@@ -4,14 +4,14 @@
     <span>{{ tag }}</span>
   </p>
   <hr />
-  <div *ngIf="isHabit" class="habits-recomended">
+  <div *ngIf="isHabit && recommendedHabits" class="habits-recomended">
     <div class="cards-container">
       <div class="habit-card" *ngFor="let habit of recommendedHabits; index as i">
         <app-habits-gallery-view [habit]="habit" [routerLink]="['/allhabits/addhabit', habit.id]"> </app-habits-gallery-view>
       </div>
     </div>
   </div>
-  <div *ngIf="!isHabit" class="habits-recomended">
+  <div *ngIf="!isHabit && recommendedNews" class="habits-recomended">
     <div class="cards-container">
       <div class="habit-card" *ngFor="let news of recommendedNews; index as i">
         <app-news-list-gallery-view

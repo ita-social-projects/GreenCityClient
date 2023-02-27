@@ -4,6 +4,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { take } from 'rxjs/operators';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
+import { HabitInterface, HabitListInterface } from 'src/app/main/interface/habit/habit.interface';
 
 @Component({
   selector: 'app-habits-widget',
@@ -11,11 +12,11 @@ import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
   styleUrls: ['./habits-widget.component.scss']
 })
 export class HabitsWidgetComponent implements OnInit, AfterViewInit {
-  recommendedHabits = [];
-  recommendedNews: EcoNewsModel[];
   @Input() tag: string;
   @Input() isHabit: boolean;
 
+  public recommendedHabits: HabitInterface[];
+  public recommendedNews: EcoNewsModel[];
   private page: number;
   private size: number;
 
@@ -35,7 +36,7 @@ export class HabitsWidgetComponent implements OnInit, AfterViewInit {
     this.habitService
       .getHabitsByTagAndLang(page, size, tags)
       .pipe(take(1))
-      .subscribe((data) => {
+      .subscribe((data: HabitListInterface) => {
         this.recommendedHabits = data.page;
       });
   }
