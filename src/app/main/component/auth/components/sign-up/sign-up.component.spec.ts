@@ -1,6 +1,5 @@
 import { Language } from './../../../../i18n/Language';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
-import { provideConfig } from 'src/app/main/config/GoogleAuthConfig';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { async, ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -14,10 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { AuthService, AuthServiceConfig, LoginOpt, SocialUser } from 'angularx-social-login';
 import { of, throwError } from 'rxjs';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
-import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -39,7 +36,6 @@ class UserOwnSignUpServiceMock {
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
-  let authServiceMock: AuthService;
   let MatSnackBarMock: MatSnackBarComponent;
   let localStorageServiceMock: LocalStorageService;
   let router: Router;
@@ -56,26 +52,11 @@ describe('SignUpComponent', () => {
     close() {}
   }
 
-  const promiseSocialUser = new Promise<SocialUser>((resolve) => {
-    const val = new SocialUser();
-    val.email = '1';
-    val.firstName = '1';
-    val.authorizationCode = '1';
-    val.id = '1';
-    val.name = '1';
-    val.photoUrl = '1';
-    val.authToken = '1';
-    resolve(val);
-  });
-
   const mockFormData = {
     email: 'test@gmail.com',
     firstName: 'JohnSmith',
     password: '123456qW@'
   };
-
-  authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
-  authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
@@ -94,9 +75,7 @@ describe('SignUpComponent', () => {
         MatSnackBarModule
       ],
       providers: [
-        { provide: AuthService, useValue: authServiceMock },
         { provide: MatDialogRef, useClass: MatDialogRefMock },
-        { provide: AuthServiceConfig, useFactory: provideConfig },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOwnSignUpService, useClass: UserOwnSignUpServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
@@ -281,29 +260,6 @@ describe('SignUpComponent', () => {
     });
 
     describe('Check sign up with signInWithGoogle', () => {
-      it('Should call sinIn method', async(
-        inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
-          const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser).and.callThrough();
-          spyOn(service2, 'signIn').and.returnValue(of(mockUserSuccessSignIn));
-          component.signUpWithGoogle();
-          fixture.detectChanges();
-          expect(serviceSpy).toHaveBeenCalled();
-        })
-      ));
-
-      it('Should call sinIn method with errors', async(
-        inject([AuthService, GoogleSignInService], (service: AuthService, service2: GoogleSignInService) => {
-          const promiseErrors = new Promise<SocialUser>((resolve, reject) => {
-            const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-            reject(errors);
-          });
-          const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseErrors);
-          component.signUpWithGoogle();
-          fixture.detectChanges();
-          expect(serviceSpy).toHaveBeenCalled();
-        })
-      ));
-
       it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);

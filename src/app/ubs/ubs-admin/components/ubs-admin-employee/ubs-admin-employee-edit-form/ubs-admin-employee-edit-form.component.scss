@@ -203,3 +203,33 @@ label {
   height: 15px !important;
   cursor: pointer;
 }
+
+.table-tariffs {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  width: 100%;
+
+  thead tr th {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: var(--ubs-primary-grey);
+    padding: 4px 16px;
+    border-bottom: 1px solid var(--ubs-primary-light-grey);
+  }
+
+  tbody tr {
+    background: var(--ubs-primary-white);
+    box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
+
+    td {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ubs-quaternary-dark-grey);
+      padding: 16px;
+    }
+  }
+}

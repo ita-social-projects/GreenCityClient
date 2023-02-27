@@ -6,7 +6,6 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -15,6 +14,10 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
+import { environment } from '@environment/environment';
+import { accounts } from 'google-one-tap';
+
+declare var google: any;
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -49,7 +52,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnSignInService: UserOwnSignInService,
     private jwtService: JwtService,
     private router: Router,
-    private authService: AuthService,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
@@ -70,7 +72,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     // Initialization of reactive form
     this.signInForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8)])
+      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
     // Get form fields to use it in the template
@@ -120,17 +122,23 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signInWithGoogle(): void {
-    this.authService
-      .signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then((data) => {
-        this.googleService
-          .signIn(data.idToken)
-          .pipe(takeUntil(this.destroy))
-          .subscribe((signInData: UserSuccessSignIn) => {
-            this.onSignInWithGoogleSuccess(signInData);
-          });
-      })
-      .catch((errors: HttpErrorResponse) => this.onSignInFailure(errors));
+    const gAccounts: accounts = google.accounts;
+    gAccounts.id.initialize({
+      client_id: environment.googleClientId,
+      ux_mode: 'popup',
+      cancel_on_tap_outside: true,
+      callback: this.handleGgOneTap.bind(this)
+    });
+    gAccounts.id.prompt();
+  }
+
+  public handleGgOneTap(resp): void {
+    this.googleService
+      .signIn(resp.credential)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((signInData: UserSuccessSignIn) => {
+        this.onSignInWithGoogleSuccess(signInData);
+      });
   }
 
   public onOpenModalWindow(windowPath: string): void {
