@@ -740,7 +740,8 @@
         "great": "Great! You've got a habit!"
       },
       "habit-widget": {
-        "title": "More habits from "
+        "title": "More habits from ",
+        "title-news": "Check out our useful links"
       }
     }
   },
