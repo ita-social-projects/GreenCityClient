@@ -10,16 +10,18 @@ import { take } from 'rxjs/operators';
 export class HabitsWidgetComponent implements OnInit {
   recommendedHabits = [];
   @Input() tag: string;
+  private page = 1;
+  private size = 3;
 
   constructor(private habitService: HabitService) {}
 
   ngOnInit(): void {
-    this.getAllHabits(1, 3);
+    this.getAllHabits(this.page, this.size, [this.tag]);
   }
 
-  private getAllHabits(page, size): void {
+  private getAllHabits(page, size, tags): void {
     this.habitService
-      .getAllHabits(page, size)
+      .getHabitsByTagAndLang(page, size, tags)
       .pipe(take(1))
       .subscribe((data) => {
         this.recommendedHabits = data.page;
