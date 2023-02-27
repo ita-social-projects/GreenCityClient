@@ -80,6 +80,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
             this.areChangesSaved = true;
           }
           if (confirm && isUbsOrderSubmit) {
+            this.orderService.saveOrderData();
             this.router.navigate(['ubs', 'confirm']);
           }
           if (confirm && !isUbsOrderSubmit && isUBS) {
