@@ -56,7 +56,7 @@
     <button class="secondary-global-button event-button" (click)="routeToEvent()">
       {{ 'event.btn-top' | translate }}
     </button>
-    <button class="{{ styleBtn }} event-button" [hidden]="isJoinBtnHidden" (click)="buttonAction()">{{ nameBtn | translate }}</button>
+    <button class="{{ styleBtn }} event-button" (click)="buttonAction()">{{ nameBtn | translate }}</button>
   </div>
   <div class="additional-info">
     <div class="date">

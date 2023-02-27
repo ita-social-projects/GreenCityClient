@@ -37,6 +37,7 @@ import { EventScheduleComponent } from './components/event-details/event-schedul
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MatDividerModule } from '@angular/material/divider';
     EventScheduleComponent
   ],
   imports: [
+    MatDialogModule,
     RatingModule.forRoot(),
     ReactiveFormsModule,
     GooglePlaceModule,

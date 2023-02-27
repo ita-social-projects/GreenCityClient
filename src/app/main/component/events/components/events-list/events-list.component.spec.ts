@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -43,15 +44,18 @@ describe('EventsListComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     of(valEn);
   };
+  let matDialogService: jasmine.SpyObj<MatDialog>;
+  matDialogService = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListComponent],
-      imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule],
+      imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule, MatDialogModule],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: MatDialog, useValue: matDialogService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
