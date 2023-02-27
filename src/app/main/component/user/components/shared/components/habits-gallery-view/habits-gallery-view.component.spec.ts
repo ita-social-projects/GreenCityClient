@@ -74,7 +74,7 @@ describe('HabitsGalleryViewComponent', () => {
     expect((component as any).userId).toBe(1);
   });
 
-  it('should call open SnackBar', () => {
+  it('should navigate to habit-more page', () => {
     const spy = spyOn(component.router, 'navigate');
     component.goHabitMore();
     expect(spy).toHaveBeenCalled();
