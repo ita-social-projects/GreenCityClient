@@ -30,7 +30,7 @@ export class HabitsWidgetComponent implements AfterViewInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.cdr?.detectChanges();
+    this.cdr.detectChanges();
   }
 
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {

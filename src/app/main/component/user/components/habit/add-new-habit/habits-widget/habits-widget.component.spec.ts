@@ -6,13 +6,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HabitService } from '@global-service/habit/habit.service';
-import { HabitInterface, HabitListInterface } from 'src/app/main/interface/habit/habit.interface';
+import { HabitListInterface } from 'src/app/main/interface/habit/habit.interface';
 import { of } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
-fdescribe('HabitsWidgetComponent', () => {
+describe('HabitsWidgetComponent', () => {
   let component: HabitsWidgetComponent;
   let fixture: ComponentFixture<HabitsWidgetComponent>;
 
@@ -37,25 +37,6 @@ fdescribe('HabitsWidgetComponent', () => {
     ],
     totalElements: 3,
     totalPages: 1
-  };
-
-  const ecoNewsMock: EcoNewsModel = {
-    countComments: 2,
-    id: 1,
-    imagePath: 'defaultImagePath',
-    title: 'string',
-    content: 'string',
-    author: {
-      id: 1,
-      name: 'string'
-    },
-    tags: ['test'],
-    tagsEn: ['test'],
-    tagsUa: ['test'],
-    creationDate: '11',
-    likes: 0,
-    shortInfo: 'info',
-    source: null
   };
 
   const NewsMock: EcoNewsDto = {
