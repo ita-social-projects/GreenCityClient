@@ -194,22 +194,14 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   getCheckBoxStatus(): void {
-    const filteredCheckBoxes = this.getCheckBoxInfo().filter((val: BagLimitDto) => {
-      return val.limitIncluded === true;
-    });
-
+    const filteredCheckBoxes = this.getCheckBoxInfo().filter((val: BagLimitDto) => val.limitIncluded);
     this.areAllCheckBoxEmpty = !filteredCheckBoxes.length;
   }
 
   onChecked(id, event): void {
     const currentBag = this.bags.find((bag) => bag.id === id);
 
-    if (!event.checked) {
-      currentBag.limitIncluded = false;
-    }
-    if (event.checked) {
-      currentBag.limitIncluded = true;
-    }
+    currentBag.limitIncluded = event.checked;
   }
 
   getCheckBoxInfo(): Array<BagLimitDto> {
