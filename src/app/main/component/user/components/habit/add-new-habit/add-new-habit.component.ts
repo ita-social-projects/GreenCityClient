@@ -71,7 +71,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   public initHabitData(data) {
     this.habitResponse = data;
-    this.tags = this.habitResponse.tags;
+    this.tags = data.tags;
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
