@@ -1,5 +1,6 @@
 ::ng-deep {
   font-family: 'Lato', sans-serif;
+
   .mat-tab-label-content {
     font-size: 20px;
   }
@@ -156,9 +157,8 @@ button {
 
 .mat-expansion-panel {
   margin: 10px 0 10px 0;
-  box-shadow: none;
-  background: #ffffff;
-  box-shadow: 0px 2px 6px rgba(100, 114, 125, 0.15);
+  background: var(--primary-white);
+  box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
 }
 
 .mat-expansion-panel-header-title {
@@ -259,16 +259,17 @@ button {
 
       .mat-tab-label-active .mat-tab-label-content {
         color: var(--ubs-button-light-green);
+        font-size: 16px;
       }
     }
 
-    mat-ink-bar {
+    .mat-expansion-indicator {
+      display: none;
+    }
+
+    .mat-ink-bar {
       background-color: var(--ubs-button-light-green) !important;
     }
-  }
-
-  ::ng-deep .mat-tab-label-content {
-    font-size: 16px;
   }
 
   .mat-expansion-panel-header {
@@ -336,11 +337,5 @@ button {
   .order_list-paymentDate,
   .order_list-paymentAmount {
     display: none;
-  }
-
-  ::ng-deep {
-    .mat-expansion-indicator {
-      display: none;
-    }
   }
 }

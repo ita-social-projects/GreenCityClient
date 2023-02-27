@@ -70,10 +70,6 @@
   text-align: center;
 }
 
-mat-expansion-panel {
-  box-shadow: 0px 2px 6px rgba(100, 114, 125, 0.15);
-}
-
 @media (max-width: 1540px) {
   .wrapper {
     width: unset;
@@ -138,10 +134,6 @@ mat-expansion-panel {
 }
 
 @media (max-width: 480px) {
-  ::ng-deep app-ubs-footer {
-    display: none !important;
-  }
-
   .wrapper {
     width: 100vw;
     padding-top: 32px;
