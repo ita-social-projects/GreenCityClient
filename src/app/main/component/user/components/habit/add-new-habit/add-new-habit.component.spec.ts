@@ -34,7 +34,8 @@ describe('AddNewHabitComponent', () => {
     },
     id: 2,
     image: 'test',
-    shoppingListItems: []
+    shoppingListItems: [],
+    tags: []
   };
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
@@ -160,7 +161,7 @@ describe('AddNewHabitComponent', () => {
 
   it('checkIfAssigned method should invoke getCustomItems', () => {
     component.habitId = 2;
-    component.isAssigned = false;
+    component.isEditing = false;
     spyOn(component, 'getCustomItems').and.returnValue();
     component.checkIfAssigned();
     expect(component.getCustomItems).toHaveBeenCalled();
@@ -168,7 +169,7 @@ describe('AddNewHabitComponent', () => {
 
   it('checkIfAssigned method should invoke getDefaultItems', () => {
     component.habitId = 3;
-    component.isAssigned = false;
+    component.isEditing = false;
     spyOn(component, 'getDefaultItems').and.returnValue();
     component.checkIfAssigned();
     expect(component.getDefaultItems).toHaveBeenCalled();
