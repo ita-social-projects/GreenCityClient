@@ -23,18 +23,12 @@ export class HabitProgressComponent implements OnChanges {
   public isHidden = false;
   private descriptionType = {
     acquired: () => {
-      this.daysCounter = this.habit.duration;
-      this.showPhoto = false;
       this.habitMark = HabitMark.AQUIRED;
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = false;
       this.habitMark = HabitMark.DONE;
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = true;
       this.habitMark = HabitMark.UNDONE;
     }
   };
