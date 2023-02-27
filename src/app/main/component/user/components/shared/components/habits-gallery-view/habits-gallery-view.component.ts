@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '../../../../../../interface/habit/habit.interface';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -15,6 +16,7 @@ import { HabitInterface } from '../../../../../../interface/habit/habit.interfac
 export class HabitsGalleryViewComponent implements OnInit {
   @Input() habit: HabitInterface;
   private requesting = false;
+  private userId: number;
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
@@ -25,11 +27,13 @@ export class HabitsGalleryViewComponent implements OnInit {
     public route: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
     public habitAssignService: HabitAssignService,
-    public profileService: ProfileService
+    public profileService: ProfileService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
     this.getStars(this.habit.complexity);
+    this.userId = this.localStorageService.getUserId();
   }
 
   public getStars(complexity: number) {
@@ -39,7 +43,7 @@ export class HabitsGalleryViewComponent implements OnInit {
   }
 
   public goHabitMore() {
-    this.router.navigate(['addhabit', this.habit.id], { relativeTo: this.route });
+    this.router.navigate([`/profile/${this.userId}/allhabits/addhabit`, this.habit.id], { relativeTo: this.route });
   }
 
   public addHabit() {
@@ -48,7 +52,7 @@ export class HabitsGalleryViewComponent implements OnInit {
       .assignHabit(this.habit.id)
       .pipe(take(1))
       .subscribe(() => {
-        this.router.navigate(['profile', this.profileService.userId]);
+        this.router.navigate(['profile', this.userId]);
         this.snackBar.openSnackBar('habitAdded');
       });
   }
