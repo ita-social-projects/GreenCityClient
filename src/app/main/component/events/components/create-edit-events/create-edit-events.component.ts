@@ -36,6 +36,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public contentValid: boolean;
   public checkAfterSend = true;
   public dateArrCount = WeekArray;
+  public selectedDay = WeekArray[0];
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
@@ -78,7 +79,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
-      eventDuration: new FormControl('', [Validators.required, Validators.minLength(2)])
+      eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
 
     if (this.editMode) {
@@ -89,6 +90,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     if (!this.checkUserSigned()) {
       this.snackBar.openSnackBar('userUnauthorised');
     }
+
+    this.dates = [{ ...DateObj }];
   }
 
   get titleForm() {
