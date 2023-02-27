@@ -69,7 +69,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
             this.localStorageService.removeUbsFondyOrderId();
-            this.localStorageService.removeUbsOrderId();
+            this.localStorageService.removeUbsLiqPayOrderId();
             this.matDialogRef.close(reply);
             this.isLoading = false;
           },

@@ -1,25 +1,25 @@
-<div class="progressHabit">
-  <div class="progressText">{{ 'user.habit.progress-title' | translate }}</div>
-  <div class="markAsDone" [ngSwitch]="habitMark">
+<div class="progress-habit">
+  <div class="progress-text">{{ 'user.habit.progress-title' | translate }}</div>
+  <div class="mark-done" [ngSwitch]="habitMark">
     <ng-template ngSwitchCase="undone">
       <button class="{{ habitMark }}" (click)="enroll()" [disabled]="isRequest"></button>
-      <div class="grey">{{ 'user.habit.one-habit.done' | translate }}</div>
+      <div>{{ 'user.habit.one-habit.done' | translate }}</div>
     </ng-template>
     <ng-template ngSwitchCase="done">
       <button class="{{ habitMark }}" (click)="unenroll()" [disabled]="isRequest"></button>
-      <div class="green">{{ habit.habitStreak }} {{ getDayName() | translate }}</div>
+      <div>{{ habit.habitStreak }} {{ getDayName() | translate }}</div>
     </ng-template>
     <ng-template ngSwitchDefault="aquired">
       <div class="{{ habitMark }}"></div>
-      <div class="green">{{ 'user.habit.one-habit.great' | translate }}</div>
+      <div>{{ 'user.habit.one-habit.great' | translate }}</div>
     </ng-template>
   </div>
 </div>
 <div class="calendar">
   <app-habit-calendar></app-habit-calendar>
-  <div class="daysDuration">
-    <div class="thumbLabel" [style.bottom.%]="indicator - heightThumbLabel" *ngIf="isHidden">{{ indicator }}%</div>
+  <div class="days-duration">
+    <div class="thumb-label" [style.bottom.%]="indicator - heightThumbLabel" *ngIf="isHidden">{{ indicator }}%</div>
     <div class="indicator" (mouseenter)="isHidden = !isHidden" (mouseleave)="isHidden = !isHidden" [style.height.%]="indicator"></div>
-    <div class="startLine"></div>
+    <div class="start-line"></div>
   </div>
 </div>

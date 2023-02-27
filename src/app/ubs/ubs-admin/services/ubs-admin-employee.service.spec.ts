@@ -47,7 +47,7 @@ describe('UbsAdminEmployeeService', () => {
 
   it('should get all employees', () => {
     service.getEmployees(0, 10).subscribe((data: any) => {
-      expect(data).toBe(employeeMock as any);
+      expect(data).toEqual(employeeMock as any);
     });
     const req = httpMock.expectOne(`${urlMock}/getAll-active-employees?pageNumber=0&pageSize=10`);
     expect(req.request.method).toBe('GET');
@@ -103,8 +103,8 @@ describe('UbsAdminEmployeeService', () => {
     service.deleteEmployee(1).subscribe((data) => {
       expect(data).toBe(employeeMock);
     });
-    const req = httpMock.expectOne(`${urlMock}/delete-employee/1`);
-    expect(req.request.method).toBe('DELETE');
+    const req = httpMock.expectOne(`${urlMock}/deactivate-employee/1`);
+    expect(req.request.method).toBe('PUT');
     req.flush(employeeMock);
   });
 });

@@ -93,7 +93,7 @@ describe('WarningPopUpComponent', () => {
       const spyTransferOrderId = spyOn(component.ubsOrderFormService, 'transferOrderId');
       const spySetOrderResponseErrorStatus = spyOn(component.ubsOrderFormService, 'setOrderResponseErrorStatus');
       const localStorageService = 'localStorageService';
-      const removeUbsOrderIdMock = spyOn(component[localStorageService], 'removeUbsOrderId');
+      const removeUbsOrderIdMock = spyOn(component[localStorageService], 'removeUbsLiqPayOrderId');
       const removeUbsFondyOrderIdMock = spyOn(component[localStorageService], 'removeUbsFondyOrderId');
       component.userReply(true);
       expect(spyChangeShouldBePaid).toHaveBeenCalled();

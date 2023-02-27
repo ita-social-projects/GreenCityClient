@@ -8,7 +8,7 @@
       </ng-template>
     </div>
     <div class="event-flags" *ngIf="isEventOpen">
-      <span class="flag"></span>
+      <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }" (click)="addToFavourite()"></span>
     </div>
     <div class="event-participants" *ngIf="attendees.length">
       <div class="event-participants-avatars">

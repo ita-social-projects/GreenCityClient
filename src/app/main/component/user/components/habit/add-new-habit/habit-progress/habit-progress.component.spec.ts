@@ -6,6 +6,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+
+@Pipe({ name: 'datePipe' })
+class DatePipeMock implements PipeTransform {
+  transform(value: Date): string {
+    return '2022-02-20';
+  }
+}
 
 describe('HabitProgressComponent', () => {
   let component: HabitProgressComponent;
@@ -64,7 +74,10 @@ describe('HabitProgressComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HabitProgressComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],
-      providers: [{ provide: HabitAssignService, useValue: habitAssignServiceMock }]
+      providers: [
+        { provide: HabitAssignService, useValue: habitAssignServiceMock },
+        { provide: DatePipe, useClass: DatePipeMock }
+      ]
     }).compileComponents();
   }));
 
