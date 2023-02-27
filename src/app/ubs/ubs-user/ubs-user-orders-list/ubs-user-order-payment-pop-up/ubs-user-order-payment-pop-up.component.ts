@@ -297,7 +297,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
             this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(response.liqPayButton);
             setTimeout(() => {
               this.liqPayButton = document.getElementsByName('btn_text');
-              this.localStorageService.setUbsOrderId(this.orderClientDto.orderId);
+              this.localStorageService.setUbsLiqPayOrderId(this.orderClientDto.orderId);
               this.liqPayButton[0].click();
             }, 0);
           }

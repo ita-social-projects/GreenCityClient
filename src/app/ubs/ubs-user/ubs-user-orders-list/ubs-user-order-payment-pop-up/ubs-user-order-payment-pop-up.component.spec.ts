@@ -62,7 +62,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     'processOrderLiqPayFromUserOrderList'
   ]);
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
-    'setUbsOrderId',
+    'setUbsLiqPayOrderId',
     'setUbsFondyOrderId',
     'clearPaymentInfo',
     'setUserPagePayment'

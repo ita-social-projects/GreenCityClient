@@ -13,13 +13,21 @@
         <p class="tooltip-text">{{ 'employees.tooltip.text' | translate }}</p>
       </div>
     </div>
+  </div>
+  <div class="head-item position">
     <span>{{ 'employees.position' | translate }}</span>
   </div>
   <div class="head-item position">
     <span>{{ 'employees.contacts' | translate }}</span>
   </div>
   <div class="head-item position">
-    <span>{{ 'employees.receiving-station' | translate }}</span>
+    <span>{{ 'employees.region' | translate }}</span>
+  </div>
+  <div class="head-item position">
+    <span>{{ 'employees.city' | translate }}</span>
+  </div>
+  <div class="head-item position">
+    <span>{{ 'employees.courier' | translate }}</span>
   </div>
 </div>
 <div
@@ -62,70 +70,94 @@
                 </ng-container>
               </div>
             </div>
-          </mat-panel-title>
-          <mat-panel-description>
+
             <div class="description-item contacts" [class.expanded]="employee.expanded">
               <div class="description-sub-item phone">
-                <img [src]="icons.phone" alt="phone" />
-                <span>{{ employee.phoneNumber }}</span>
+                <img [src]="icons.phone" alt="phone" />&nbsp;
+                <span class="description-item-text">{{ employee.phoneNumber }}</span>
               </div>
               <div class="description-sub-item email">
-                <img [src]="icons.email" alt="email" />
+                <img [src]="icons.email" alt="email" />&nbsp;
                 <span class="link">{{ employee.email }}</span>
               </div>
             </div>
+
             <div class="description-item receiving-station">
-              <div class="description-sub-item station" *ngFor="let station of employee.receivingStations; let i = index">
-                <ng-container *ngIf="!employee.expanded; else allStations">
-                  <ng-container *ngIf="employee.receivingStations.length > 3 && i <= 2">
-                    <img [src]="icons.location" alt="location" />
-                    <span class="location">{{ i < 2 ? station.name : station.name + '...' }}</span>
-                  </ng-container>
-                  <ng-container *ngIf="employee.receivingStations.length <= 3">
-                    <img [src]="icons.location" alt="location" />
-                    <span class="location">{{ station.name }}</span>
-                  </ng-container>
-                </ng-container>
-                <ng-template #allStations>
-                  <img [src]="icons.location" alt="location" />
-                  <span class="location">{{ station.name }}</span>
+              <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
+                <div>{{ tariff.region.nameEn }}</div>
+                <div
+                  *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat"
+                  class="region-placeholder"
+                  style="height: 20px"
+                ></div>
+              </div>
+            </div>
+            <div class="description-item">
+              <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
+                <div *ngIf="!tariff.locations.additional.length; else moreThanThreeLocations" class="locations-list">
+                  <div *ngFor="let location of tariff.locations.displayed">{{ location.nameEn }}</div>
+                </div>
+                <ng-template #moreThanThreeLocations>
+                  <div class="locations-list">
+                    <div>{{ tariff.locations.displayed[0].nameEn }}</div>
+                    <div>{{ tariff.locations.displayed[1].nameEn }}</div>
+                    <div style="color: #5639bb; text-decoration: underline" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">
+                      {{ tariff.locations.displayed[2].nameEn }} and {{ tariff.locations.additional.length }} more
+                    </div>
+                    <mat-menu class="more-locations-overlay" #menu="matMenu">
+                      <div class="locations-list">
+                        <div *ngFor="let location of tariff.locations.additional">{{ location.nameEn }}</div>
+                      </div>
+                    </mat-menu>
+                  </div>
                 </ng-template>
               </div>
             </div>
-          </mat-panel-description>
-          <span
-            class="toggle-icon"
-            *ngIf="!employee.expanded; else deleteIcon"
-            [matMenuTriggerFor]="crumbs"
-            (click)="$event.stopPropagation()"
-          >
-            <img [src]="icons.crumbs" alt="options" />
-          </span>
-          <mat-menu class="menu" #crumbs="matMenu">
-            <button class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
-              <span class="menu-item-content">
-                <img class="menu-item-img" [src]="icons.edit" alt="edit" />
-                <span class="menu-item-action">{{ 'employees.actions.edit' | translate }}</span>
-              </span>
-            </button>
-            <button class="menu-item" (click)="openPermissionsDialog(employee, $event)" mat-menu-item>
-              <span class="menu-item-content">
-                <img class="menu-item-img" [src]="icons.settings" alt="edit" />
-                <span class="menu-item-action">{{ 'employees.actions.settings' | translate }}</span>
-              </span>
-            </button>
-            <button class="menu-item" (click)="openDeleteDialog(employee, $event)" mat-menu-item>
-              <span class="menu-item-content">
-                <img class="menu-item-img" [src]="icons.delete" alt="edit" />
-                <span class="menu-item-action">{{ 'employees.actions.delete' | translate }}</span>
-              </span>
-            </button>
-          </mat-menu>
-          <ng-template #deleteIcon>
-            <span class="delete-icon" (click)="openDeleteDialog(employee, $event)">
-              <img [src]="icons.delete" alt="delete" />
+
+            <div class="description-item">
+              <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
+                <div>{{ tariff.courier.nameEn }}</div>
+                <div
+                  *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat"
+                  class="region-placeholder"
+                  style="height: 20px"
+                ></div>
+              </div>
+            </div>
+            <span
+              class="toggle-icon"
+              *ngIf="!employee.expanded; else deleteIcon"
+              [matMenuTriggerFor]="crumbs"
+              (click)="$event.stopPropagation()"
+            >
+              <img [src]="icons.crumbs" alt="options" />
             </span>
-          </ng-template>
+            <mat-menu class="menu" #crumbs="matMenu">
+              <button class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
+                <span class="menu-item-content">
+                  <img class="menu-item-img" [src]="icons.edit" alt="edit" />
+                  <span class="menu-item-action">{{ 'employees.actions.edit' | translate }}</span>
+                </span>
+              </button>
+              <button class="menu-item" (click)="openPermissionsDialog(employee, $event)" mat-menu-item>
+                <span class="menu-item-content">
+                  <img class="menu-item-img" [src]="icons.settings" alt="edit" />
+                  <span class="menu-item-action">{{ 'employees.actions.settings' | translate }}</span>
+                </span>
+              </button>
+              <button class="menu-item" (click)="openDeleteDialog(employee, $event)" mat-menu-item>
+                <span class="menu-item-content">
+                  <img class="menu-item-img" [src]="icons.delete" alt="edit" />
+                  <span class="menu-item-action">{{ 'employees.actions.delete' | translate }}</span>
+                </span>
+              </button>
+            </mat-menu>
+            <ng-template #deleteIcon>
+              <span class="delete-icon" (click)="openDeleteDialog(employee, $event)">
+                <img [src]="icons.delete" alt="delete" />
+              </span>
+            </ng-template>
+          </mat-panel-title>
         </mat-expansion-panel-header>
 
         <div class="actions-row">

@@ -41,7 +41,7 @@
   },
   "order-details": {
     "location": {
-      "title": "Welcome to UBS! First choose location of waste disposal. Currently we work in Kyiv and suburbs.",
+      "title": "Welcome to UBS! First choose location of waste disposal. Currently, we work only in the city of Kyiv and selected cities.",
       "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
       "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
       "btn": {
@@ -242,7 +242,7 @@
     "header": {
       "caption": "NO WASTE — NO STRESS!",
       "content": "You sort - we recycle!",
-      "btn-order-courier": "Order"
+      "btn-order-courier": "Order a courier"
     },
     "pick-up-service": {
       "caption": "About service",
@@ -430,7 +430,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
-        "too-long-password": "Password is too long, a maximum of 20 characters allowed",
+        "too-long-password": "Password must be less than 20 characters in length without spaces.",
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",

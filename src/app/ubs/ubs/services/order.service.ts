@@ -105,7 +105,7 @@ export class OrderService {
   }
 
   getUbsOrderStatus(): Observable<any> {
-    const liqPayOrderId = this.localStorageService.getUbsOrderId();
+    const liqPayOrderId = this.localStorageService.getUbsLiqPayOrderId();
     const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
     if (liqPayOrderId) {
       return this.getLiqPayStatus(liqPayOrderId);
@@ -165,8 +165,12 @@ export class OrderService {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.orderDetails = null;
     this.shareFormService.personalData = null;
-    this.localStorageService.removeUbsOrderId();
+    this.localStorageService.removeUbsLiqPayOrderId();
     this.localStorageService.removeUbsFondyOrderId();
     this.shareFormService.saveDataOnLocalStorage();
+  }
+
+  saveOrderData(): void {
+    this.localStorageService.setOrderWithoutPayment(true);
   }
 }

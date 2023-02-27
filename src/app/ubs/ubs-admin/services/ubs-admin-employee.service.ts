@@ -42,14 +42,14 @@ export class UbsAdminEmployeeService {
   }
 
   deleteEmployee(id: number) {
-    return this.http.delete(`${ubsAdminEmployeeLink}/delete-employee/${id}`);
+    return this.http.put(`${ubsAdminEmployeeLink}/deactivate-employee/${id}`, id);
   }
 
   getAllEmployeePermissions(email: string) {
     return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
   }
 
-  updatePermissions(employeeId, permissions) {
-    return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities/`, { employeeId, authorities: permissions });
+  updatePermissions(employeeEmail, permissions) {
+    return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities/`, { employeeEmail, authorities: permissions });
   }
 }
