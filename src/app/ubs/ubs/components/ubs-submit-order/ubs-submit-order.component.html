@@ -91,10 +91,8 @@
                 {{ 'order-details.order-comment' | translate }}
               </p>
               <ul class="order-list">
-                <li class="order-list-item">
-                  {{
-                    orderDetails.orderComment.length > 70 ? (orderDetails.orderComment | slice: 0:70) + '...' : orderDetails.orderComment
-                  }}
+                <li class="order-list-item order-comment-width">
+                  {{ orderDetails.orderComment }}
                 </li>
               </ul>
             </div>
@@ -125,10 +123,8 @@
             <p class="order-header">
               {{ 'order-details.address-comment' | translate }}
             </p>
-            <p>
-              {{
-                personalData.addressComment.length > 70 ? (personalData.addressComment | slice: 0:70) + '...' : personalData.addressComment
-              }}
+            <p class="order-comment-width">
+              {{ personalData.addressComment }}
             </p>
           </div>
         </div>
