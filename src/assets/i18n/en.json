@@ -365,7 +365,7 @@
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
-        "password-is-required": "Please enter your password",
+        "password-is-required": "Password is required.",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
         "sign-in": "Sign in",
         "sign-up": "Sign up",

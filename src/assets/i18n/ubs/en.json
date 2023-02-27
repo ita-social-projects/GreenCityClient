@@ -430,7 +430,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
-        "too-long-password": "Password is too long, a maximum of 20 characters allowed",
+        "too-long-password": "Password must be less than 20 characters in length without spaces.",
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
