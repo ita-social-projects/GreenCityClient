@@ -285,7 +285,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   addToFavourite() {
     this.bookmarkSelected = !this.bookmarkSelected;
-    if(!this.isRegistered) this.openAuthModalWindow('sign-in');
+    if (!this.isRegistered) {
+      this.openAuthModalWindow('sign-in');
+    }
   }
 
   public openAuthModalWindow(page: string): void {
