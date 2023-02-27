@@ -20,8 +20,8 @@ describe('HabitsGalleryViewComponent', () => {
   habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
   habitAssignServiceMock.assignHabit = () => new Observable();
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId']);
-  localeStorageServiceMock.getUserId = () => 1;
+  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId']);
+  localStorageServiceMock.getUserId = () => 1;
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
@@ -33,7 +33,7 @@ describe('HabitsGalleryViewComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
-        { provide: LocalStorageService, useValue: localeStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
     httpTestingController = TestBed.inject(HttpTestingController);
