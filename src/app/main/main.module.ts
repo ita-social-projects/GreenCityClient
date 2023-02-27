@@ -9,9 +9,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { AuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { provideConfig } from './config/GoogleAuthConfig';
 import { environment } from '@environment/environment';
 import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
@@ -40,7 +38,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     HomeModule,
     InfiniteScrollModule,
     HttpClientModule,
-    SocialLoginModule,
     FormsModule,
     AdminModule,
     ReactiveFormsModule,
@@ -64,10 +61,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: false }
-    },
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
     },
     DatePipe,
     PendingChangesGuard,
