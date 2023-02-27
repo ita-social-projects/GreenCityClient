@@ -61,7 +61,7 @@ describe('LocalStorageService', () => {
     it('should set the orderId to localStorage', () => {
       const orderId = '12345';
       service.setUbsOrderId(orderId);
-      expect(localStorage.getItem('UbsOrderId')).toEqual(JSON.stringify(orderId));
+      expect(localStorage.getItem('UbsOrderId')).toEqual(String(orderId));
     });
 
     it('should accept a number as an argument', () => {
@@ -273,7 +273,7 @@ describe('LocalStorageService', () => {
     it('should set the UbsFondyOrderId in local storage', () => {
       const orderId = '123';
       service.setUbsFondyOrderId(orderId);
-      expect(localStorage.getItem('UbsFondyOrderId')).toEqual(JSON.stringify(orderId));
+      expect(localStorage.getItem('UbsFondyOrderId')).toEqual(String(orderId));
     });
 
     it('should get the UbsFondyOrderId from local storage', () => {
@@ -606,5 +606,17 @@ describe('LocalStorageService', () => {
     const key = 'testKey';
     service.setEventForEdit(key, mockEvent);
     expect(localStorage.getItem(key)).toEqual(JSON.stringify(mockEvent));
+  });
+
+  it('should set the current tariff ID in local storage', () => {
+    const tariffId = 123;
+    service.setTariffId(tariffId);
+    expect(localStorage.getItem('currentTariffId')).toEqual(String(tariffId));
+  });
+
+  it('should return the current tariff ID from local storage', () => {
+    const tariffId = 567;
+    localStorage.setItem('currentTariffId', String(tariffId));
+    expect(service.getTariffId()).toEqual(tariffId);
   });
 });

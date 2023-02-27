@@ -38,7 +38,7 @@ export class OrderService {
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 
-  getExistingOrder(userId: number): Observable<any> {
+  getExistingOrder(userId: number): Observable<OrderDetails> {
     return this.http.get<OrderDetails>(`${this.url}/details-for-existing-order/userId=${userId}`);
   }
 
