@@ -88,6 +88,12 @@
   column-gap: 1.4vw;
 }
 
+button {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .btn-space {
   display: flex;
   width: 30%;
@@ -110,8 +116,6 @@
       width: 114px;
       border: none;
       padding: 8px 24px;
-      font-size: 14px;
-      line-height: 20px;
       text-align: center;
       color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-button-light-green);
@@ -121,10 +125,9 @@
     .btn_cancel {
       height: 36px;
       width: 100px;
-      font-size: 14px;
       color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-primary-white);
-      border: 1px solid var(--ubs-primary-green);
+      border: 1px solid var(--ubs-primary-black);
       border-radius: 4px;
     }
 
@@ -154,6 +157,8 @@
 .mat-expansion-panel {
   margin: 10px 0 10px 0;
   box-shadow: none;
+  background: #ffffff;
+  box-shadow: 0px 2px 6px rgba(100, 114, 125, 0.15);
 }
 
 .mat-expansion-panel-header-title {
