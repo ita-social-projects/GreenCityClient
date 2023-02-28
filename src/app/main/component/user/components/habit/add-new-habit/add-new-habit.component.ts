@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogMainComponent } from '@shared/components/confirm-dialog-main/confirm-dialog-main.component';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -34,17 +34,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
-  public popupConfig = {
+  public popUpGiveUp = {
     title: 'user.habit.add-new-habit.confirmation-modal-title',
     subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
     confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
-    cancel: 'user.habit.add-new-habit.confirmation-modal-no',
-    hasAdditionalData: true,
-    additionalData: {
-      dataId: 1,
-      name: '',
-      userId: ''
-    }
+    cancel: 'user.habit.add-new-habit.confirmation-modal-no'
   };
 
   constructor(
@@ -66,7 +60,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
-      this.popupConfig.additionalData.dataId = this.habitId;
     });
     this.checkIfAssigned();
   }
@@ -87,7 +80,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
-    this.popupConfig.additionalData.name = data.habitTranslation.name;
   }
 
   public getDefaultItems() {
@@ -120,7 +112,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = localStorage.getItem('userId');
-    this.popupConfig.additionalData.userId = this.userId;
   }
 
   public getDuration(newDuration: number) {
@@ -148,9 +139,20 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   giveUpHabit(): void {
-    this.dialog.open(ConfirmDialogMainComponent, {
-      width: '600px',
-      data: this.popupConfig
+    const dialogRef = this.dialog.open(WarningPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'popup-dialog-container',
+      data: {
+        popupTitle: this.popUpGiveUp.title,
+        popupSubtitle: this.popUpGiveUp.subtitle,
+        popupConfirm: this.popUpGiveUp.confirm,
+        popupCancel: this.popUpGiveUp.cancel,
+        isHabit: true,
+        habitId: this.habitId,
+        habitName: this.habitResponse.habitTranslation.name
+      }
     });
   }
 

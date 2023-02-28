@@ -1,8 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../../../ubs/ubs/services/order.service';
 import { UBSOrderFormService } from '../../../../../ubs/ubs/services/ubs-order-form.service';
 
@@ -19,6 +22,10 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public isUBS: boolean;
   public isUbsOrderSubmit: boolean;
+  public isHabit: boolean;
+  public habitName: string;
+  public habitId: number;
+  public userId: number;
   public closeButton = './assets/img/profile/icons/cancel.svg';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -27,7 +34,10 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data,
     public orderService: OrderService,
     public ubsOrderFormService: UBSOrderFormService,
-    private localStorageService: LocalStorageService
+    private habitAssignService: HabitAssignService,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit() {
@@ -47,6 +57,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
       .backdropClick()
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => this.userReply(false));
+    this.userId = this.localStorageService.getUserId();
   }
 
   private setTitles(): void {
@@ -56,6 +67,11 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.popupCancel = this.data.popupCancel;
     this.isUBS = this.data.isUBS;
     this.isUbsOrderSubmit = this.data.isUbsOrderSubmit;
+    this.isHabit = this.data.isHabit;
+    if (this.isHabit) {
+      this.habitName = this.data.habitName;
+      this.habitId = this.data.habitId;
+    }
   }
 
   public userReply(reply: boolean | null): void {
@@ -79,6 +95,16 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
           }
         );
         return;
+      }
+      if (this.isHabit) {
+        this.habitAssignService
+          .deleteHabitById(this.habitId)
+          .pipe(take(1))
+          .subscribe(() => {
+            this.matDialogRef.close(reply);
+            this.router.navigate(['profile', this.userId]);
+            this.snackBar.openSnackBar('habitDeleted');
+          });
       }
       localStorage.removeItem('newsTags');
     }
