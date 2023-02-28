@@ -11,10 +11,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
-import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { ConfirmationDialogComponent } from 'src/app/ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConfirmDialogMainComponent } from '@shared/components/confirm-dialog-main/confirm-dialog-main.component';
 
 @Component({
