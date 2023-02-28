@@ -314,6 +314,7 @@
     border-radius: 12px;
     border-left: 8px solid var(--primary-white);
     border-right: 8px solid var(--primary-white);
+    box-shadow: none;
   }
 }
 
@@ -417,5 +418,6 @@
     background: var(--ubs-primary-dark-grey);
     border-radius: 4px;
     cursor: pointer;
+    box-shadow: none;
   }
 }
