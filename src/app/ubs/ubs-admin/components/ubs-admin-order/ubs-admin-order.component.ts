@@ -5,10 +5,9 @@ import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { OrderService } from '../../services/order.service';
@@ -32,6 +31,8 @@ import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { selectIsOrderDoneAfterBroughtHimself } from 'src/app/store/selector/orderStatus.selector';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -63,6 +64,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private isFormResetted = false;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
+  isOrderDoneAfterBroughtHimself$: Observable<boolean>;
   private orderService: OrderService;
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   constructor(
@@ -88,6 +90,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   ngOnInit() {
+    console.log('ffhhfh');
+
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
@@ -96,10 +100,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
     });
+
     this.getOrderInfo(this.orderId, false);
   }
 
-  public getOrderInfo(orderId: number, submitMode: boolean): void {
+  public getOrderInfo(orderId: number, submitMode: boolean) {
+    this.store.pipe(select(selectIsOrderDoneAfterBroughtHimself)).subscribe((isOrderDoneAfterBroughtHimself) => {
+      console.log('isOrderDoneAfterBroughtHimself', isOrderDoneAfterBroughtHimself);
+    });
+
     this.orderService
       .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))

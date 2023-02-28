@@ -3,6 +3,9 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitte
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { SetOrderStatus } from 'src/app/store/actions/orderStatus.actions';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
@@ -41,7 +44,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderStatusInfo;
   @Input() totalPaid: number;
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor(private fb: FormBuilder, private orderService: OrderService, private store: Store<IAppState>) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.totalPaid) {
@@ -209,6 +212,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   private checkStatusDoneAfterBroughtHimself(prevStatus, currentStatus) {
+    const item = prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
+
+    this.store.dispatch(SetOrderStatus({ isOrderDoneAfterBroughtHimself: item }));
+    console.log('this.store.dispatch');
+
     return prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
   }
 
