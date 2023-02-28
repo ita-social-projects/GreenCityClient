@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { Employees, Page, EmployeeDataToSend } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum EmployeesActions {
   GetEmployees = '[Employees] Get Employees',
@@ -20,7 +20,7 @@ export const GetEmployees = createAction(
 
 export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees; reset: boolean }>());
 
-export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: FormData; employee: Page }>());
+export const AddEmployee = createAction(EmployeesActions.AddEmployee, props<{ data: FormData; employee: EmployeeDataToSend }>());
 
 export const AddEmployeeSuccess = createAction(EmployeesActions.AddEmployeeSuccess, props<{ employee: Page }>());
 
@@ -28,7 +28,7 @@ export const DeleteEmployee = createAction(EmployeesActions.DeleteEmployee, prop
 
 export const DeleteEmployeeSuccess = createAction(EmployeesActions.DeleteEmployeeSuccess, props<{ id: number }>());
 
-export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: FormData; employee: Page }>());
+export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: FormData; employee: EmployeeDataToSend }>());
 
 export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
 

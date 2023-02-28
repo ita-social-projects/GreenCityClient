@@ -20,6 +20,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -56,6 +57,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public currentLang: string;
   public datePipe;
   public newDate;
+  bookmarkSelected = false;
 
   attendees = [];
   attendeesAvatars = [];
@@ -261,11 +263,13 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   cutTitle(): string {
-    return this.event.title.length > 40 ? this.event.title.slice(0, 30) + '...' : this.event.title;
+    const maxTitleLength = 30;
+    return this.event.title.length > 40 ? this.event.title.slice(0, maxTitleLength) + '...' : this.event.title;
   }
 
   cutDescription(): string {
-    return this.event.description.length > 90 ? this.event.description.slice(0, 90) + '...' : this.event.description;
+    const maxDescriptionLength = 90;
+    return this.event.description.length > 90 ? this.event.description.slice(0, maxDescriptionLength) + '...' : this.event.description;
   }
 
   getAllAttendees() {
@@ -277,6 +281,24 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  addToFavourite() {
+    this.bookmarkSelected = !this.bookmarkSelected;
+    if (!this.isRegistered) {
+      this.openAuthModalWindow('sign-in');
+    }
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
   }
 
   ngOnDestroy(): void {

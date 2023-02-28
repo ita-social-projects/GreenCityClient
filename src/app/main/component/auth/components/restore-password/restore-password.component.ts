@@ -1,11 +1,10 @@
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,6 +13,10 @@ import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { environment } from '@environment/environment';
+import { accounts } from 'google-one-tap';
+
+declare var google: any;
 
 @Component({
   selector: 'app-restore-password',
@@ -40,13 +43,13 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private matDialogRef: MatDialogRef<RestorePasswordComponent>,
     public dialog: MatDialog,
-    private authService: AuthService,
     private googleService: GoogleSignInService,
     private userOwnSignInService: UserOwnSignInService,
     private router: Router,
     private restorePasswordService: RestorePasswordService,
     private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -129,21 +132,31 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data) => {
-      this.googleService.signIn(data.idToken).subscribe(
-        (signInData: UserSuccessSignIn) => {
-          this.onSignInWithGoogleSuccess(signInData);
-        },
-        (errors: HttpErrorResponse) => {
-          this.onSignInFailure(errors);
-        }
-      );
+    const gAccounts: accounts = google.accounts;
+    gAccounts.id.initialize({
+      client_id: environment.googleClientId,
+      ux_mode: 'popup',
+      cancel_on_tap_outside: true,
+      callback: this.handleGgOneTap.bind(this)
     });
+    gAccounts.id.prompt();
+  }
+
+  public handleGgOneTap(resp): void {
+    try {
+      this.googleService.signIn(resp.credential).subscribe((signInData: UserSuccessSignIn) => {
+        this.onSignInWithGoogleSuccess(signInData);
+      });
+    } catch (errors) {
+      this.onSignInFailure(errors);
+    }
   }
 
   private onSignInWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
-    this.router.navigate(['/']);
+    this.zone.run(() => {
+      this.router.navigate(['/']);
+    });
   }
 
   public classCheck(): string {

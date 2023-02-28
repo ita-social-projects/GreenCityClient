@@ -1,0 +1,46 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>{{ 'ubs-employee.tariffs-selector.title' | translate }}</h2>
+
+  <div mat-dialog-content class="dialog-content">
+    <div class="filters-block">
+      <div class="filter-wrapper">
+        <input [formControl]="search" [placeholder]="'ubs-employee.tariffs-selector.search' | translate" matInput />
+      </div>
+    </div>
+
+    <table class="table-tariffs" aria-label="Tariffs list">
+      <thead>
+        <tr>
+          <th class="col-region">{{ 'ubs-employee.tariffs-columns.region' | translate }}</th>
+          <th class="col-city">{{ 'ubs-employee.tariffs-columns.city' | translate }}</th>
+          <th class="col-courier">{{ 'ubs-employee.tariffs-columns.courier' | translate }}</th>
+          <th class="col-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tariff of filteredTariffs">
+          <td>
+            {{ tariff.region.en }}
+          </td>
+          <td>
+            <span *ngFor="let location of tariff.locations">{{ location.en }}</span>
+          </td>
+          <td>
+            {{ tariff.courier.en }}
+          </td>
+          <td>
+            <mat-checkbox class="tariff-checkbox" [(ngModel)]="tariff.selected"></mat-checkbox>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div mat-dialog-actions class="controls">
+    <button mat-flat-button class="cancel-button" type="button" (click)="onCancel()">
+      {{ 'ubs-employee.tariffs-selector.cancel' | translate }}
+    </button>
+    <button mat-flat-button color="warn" class="submit-button" type="submit" (click)="onSubmit()">
+      {{ 'ubs-employee.tariffs-selector.select' | translate }}
+    </button>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -39,14 +40,22 @@ describe('EventsListComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(MockData);
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    of(valEn);
+  };
+  let matDialogService: jasmine.SpyObj<MatDialog>;
+  matDialogService = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListComponent],
-      imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule],
+      imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule, MatDialogModule],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: MatDialog, useValue: matDialogService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -79,5 +88,36 @@ describe('EventsListComponent', () => {
     storeMock.dispatch.calls.reset();
     component.setPage(3);
     expect(storeMock.dispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it('should check weather resetAll works correctly', () => {
+    component.selectedFilters = ['one', 'two', 'three'];
+    component.resetAll();
+    expect(component.selectedFilters.length).toEqual(0);
+  });
+
+  it('should check weather deleteOneFilter works correctly', () => {
+    component.selectedFilters = ['one', 'two', 'three'];
+    const filterRemoved = ['one', 'three'];
+    component.deleteOneFilter(1);
+    expect(component.selectedFilters).toEqual(filterRemoved);
+  });
+
+  it('should check weather showFavourite works correctly', () => {
+    component.bookmarkSelected = false;
+    component.showFavourite();
+    expect(component.bookmarkSelected).toEqual(true);
+  });
+
+  it('should check weather search works correctly', () => {
+    component.searchToggle = false;
+    component.search();
+    expect(component.searchToggle).toEqual(true);
+  });
+
+  it('should check weather toggleAllSelection works correctly', () => {
+    component.allSelected = false;
+    component.toggleAllSelection();
+    expect(component.selectedEventTime).toEqual(component.eventTimeList);
   });
 });
