@@ -1015,5 +1015,10 @@
     "invite": "Invite",
     "all": "All",
     "friends": "Friends"
+  },
+  "register": {
+    "not-register": "You cannot add this event. First register on the site",
+    "success-join": "You have successfully joined the event",
+    "rate-event": "Evaluate the event and the organizer"
   }
 }

@@ -1,0 +1,9 @@
+<div class="modal-inner">
+  <h3 class="modal-title">
+    {{ isRegistered ? 'You have successfully joined the event' : 'You cannot add this event. First register on the site'}}
+  </h3>
+  <div class="modal-bnt-group">
+    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">Close</button>
+    <button class="primary-global-button modal-btn" *ngIf="!isRegistered">Register</button>
+  </div>
+</div>

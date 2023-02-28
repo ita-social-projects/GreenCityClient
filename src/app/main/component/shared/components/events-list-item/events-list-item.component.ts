@@ -12,6 +12,7 @@ import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
+import { EventListItemSuccessComponent } from './events-list-item-success/events-list-item-success';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -181,6 +182,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
           this.localStorageService.setEventForEdit('editEvent', this.event);
           this.router.navigate(['events/', 'create-event']);
         } else {
+          this.isJoined ? '' : this.joinNotification();
           this.actionIsJoined(this.isJoined);
         }
         break;
@@ -197,6 +199,16 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       default:
         this.openModal();
     }
+  }
+
+  public joinNotification(): void {
+    const initialState = {
+      id: this.event.id,
+      isRegistered: this.isRegistered,
+      isReadonly: this.isReadonly
+    };
+    this.bsModalRef = this.modalService.show(EventListItemSuccessComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
   public actionIsJoined(isJoined: boolean) {

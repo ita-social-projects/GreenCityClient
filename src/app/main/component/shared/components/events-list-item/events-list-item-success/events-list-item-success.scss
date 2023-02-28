@@ -1,0 +1,52 @@
+::ng-deep {
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+}
+
+.modal-inner {
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  align-items: center;
+  background: url('src/assets/events-icons/background.png') no-repeat center;
+
+  .modal-title {
+    width: max-content;
+    padding-top: 48px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0.002em;
+    color: #313131;
+  }
+}
+
+.modal-bnt-group {
+  display: flex;
+  width: 195px;
+  gap: 16px;
+  padding-top: 32px;
+  padding-bottom: 48px;
+
+  .modal-btn {
+    width: 82px;
+    height: 40px;
+  }
+
+  .modal-btn-cancel {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    border-radius: 0;
+  }
+}
+
+.modal-text {
+  padding-top: 15px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #313131;
+}
