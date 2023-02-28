@@ -13,15 +13,16 @@ import { take } from 'rxjs/operators';
 export class ConfirmDialogMainComponent implements OnInit {
   public title: string;
   public subtitle: string;
-  public name: string;
   public confirm: string;
   public cancel: string;
 
+  public hasAdditionals = false;
+  public name: string;
   private habitId: number;
   private userId: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public resData,
+    @Inject(MAT_DIALOG_DATA) public data,
     public dialogRef: MatDialogRef<ConfirmDialogMainComponent>,
     private habitAssignService: HabitAssignService,
     private router: Router,
@@ -29,24 +30,31 @@ export class ConfirmDialogMainComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title = this.resData.data.title;
-    this.subtitle = this.resData.data.subtitle;
-    this.name = this.resData.habitName;
-    this.confirm = this.resData.data.confirm;
-    this.cancel = this.resData.data.cancel;
-    this.habitId = this.resData.habitId;
-    this.userId = this.resData.userId;
+    this.title = this.data.title;
+    this.subtitle = this.data.data.subtitle;
+    this.confirm = this.data.data.confirm;
+    this.cancel = this.data.data.cancel;
+
+    this.hasAdditionals = this.data.hasAdditionalData;
+    if (this.hasAdditionals) {
+      this.name = this.data.additionalData.name;
+      this.habitId = this.data.additionalData.dataId;
+      this.userId = this.data.additionalData.userId;
+    }
   }
 
   onSubmit(): void {
-    this.habitAssignService
-      .deleteHabitById(this.habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.dialogRef.close(true);
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitDeleted');
-      });
+    if (this.hasAdditionals) {
+      this.habitAssignService
+        .deleteHabitById(this.habitId)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.dialogRef.close(true);
+          this.router.navigate(['profile', this.userId]);
+          this.snackBar.openSnackBar('habitDeleted');
+        });
+    }
+    this.dialogRef.close(true);
   }
 
   onCancel(): void {

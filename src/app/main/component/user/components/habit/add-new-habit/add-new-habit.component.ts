@@ -38,14 +38,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
   public popupConfig = {
-    habitId: 1,
-    habitName: '',
-    userId: '',
-    data: {
-      title: 'user.habit.add-new-habit.confirmation-modal-title',
-      subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
-      confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
-      cancel: 'user.habit.add-new-habit.confirmation-modal-no'
+    title: 'user.habit.add-new-habit.confirmation-modal-title',
+    subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
+    confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
+    cancel: 'user.habit.add-new-habit.confirmation-modal-no',
+    hasAdditionalData: true,
+    additionalData: {
+      dataId: 1,
+      name: '',
+      userId: ''
     }
   };
 
@@ -69,7 +70,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
-      this.popupConfig.habitId = this.habitId;
+      this.popupConfig.additionalData.dataId = this.habitId;
     });
     this.checkIfAssigned();
   }
@@ -90,7 +91,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
-    this.popupConfig.habitName = data.habitTranslation.name;
+    this.popupConfig.additionalData.name = data.habitTranslation.name;
   }
 
   public getDefaultItems() {
@@ -123,7 +124,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = localStorage.getItem('userId');
-    this.popupConfig.userId = this.userId;
+    this.popupConfig.additionalData.userId = this.userId;
   }
 
   public getDuration(newDuration: number) {
