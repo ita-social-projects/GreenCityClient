@@ -53,7 +53,7 @@
       </button>
     </div>
     <div *ngIf="isAssigned" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="cancelHabit(habitId)">
+      <button class="primary-global-button delete-habit-button" type="submit" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
       <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">

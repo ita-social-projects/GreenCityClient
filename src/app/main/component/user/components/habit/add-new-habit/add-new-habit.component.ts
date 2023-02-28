@@ -14,13 +14,15 @@ import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.se
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { ConfirmationDialogComponent } from 'src/app/ubs/ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmDialogMainComponent } from '@shared/components/confirm-dialog-main/confirm-dialog-main.component';
 
 @Component({
   selector: 'app-add-new-habit',
   templateUrl: './add-new-habit.component.html',
   styleUrls: ['./add-new-habit.component.scss']
 })
-export class AddNewHabitComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class AddNewHabitComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
@@ -37,15 +39,13 @@ export class AddNewHabitComponent extends FormBaseComponent implements OnInit, O
   public star: number;
   public previousPath: string;
   public popupConfig = {
-    hasBackdrop: true,
-    closeOnNavigation: true,
-    disableClose: true,
-    panelClass: 'popup-dialog-container',
+    id: 1,
     data: {
-      popupTitle: 'user.habit.add-new-habit.confirmation-modal-title',
-      popupSubtitle: 'user.habit.add-new-habit.confirmation-modal-text',
-      popupConfirm: 'user.habit.add-new-habit.confirmation-modal-yes',
-      popupCancel: 'user.habit.add-new-habit.confirmation-modal-no'
+      title: 'user.habit.add-new-habit.confirmation-modal-title',
+      subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
+      confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
+      cancel: 'user.habit.add-new-habit.confirmation-modal-no',
+      name: ''
     }
   };
 
@@ -61,9 +61,7 @@ export class AddNewHabitComponent extends FormBaseComponent implements OnInit, O
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location
-  ) {
-    super(router, dialog, orderService, habitAssignService);
-  }
+  ) {}
 
   ngOnInit() {
     this.getUserId();
@@ -71,6 +69,7 @@ export class AddNewHabitComponent extends FormBaseComponent implements OnInit, O
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
+      this.popupConfig.id = this.habitId;
     });
     this.checkIfAssigned();
   }
@@ -91,6 +90,7 @@ export class AddNewHabitComponent extends FormBaseComponent implements OnInit, O
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
+    this.popupConfig.data.name = data.habitTranslation.name;
   }
 
   public getDefaultItems() {
@@ -148,6 +148,13 @@ export class AddNewHabitComponent extends FormBaseComponent implements OnInit, O
         }
         this.isAssigned ? this.getCustomItems() : this.getDefaultItems();
       });
+  }
+
+  giveUpHabit(): void {
+    this.dialog.open(ConfirmDialogMainComponent, {
+      width: '560px',
+      data: this.popupConfig
+    });
   }
 
   public cancelAdd(): void {

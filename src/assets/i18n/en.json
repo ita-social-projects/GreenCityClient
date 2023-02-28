@@ -709,7 +709,7 @@
         "cant-delete-last-hint": "You can't delete your last habit",
         "button-save": "Save changes",
         "button-cancel": "Cancel",
-        "confirmation-modal-title": "Are you sure you want to give up?",
+        "confirmation-modal-title": "Are you sure you want to give up",
         "confirmation-modal-text": "All your progress of habit's tracking will be lost",
         "confirmation-modal-yes": "Yes",
         "confirmation-modal-no": "No"
