@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
-import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { limitStatus, UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
@@ -22,10 +21,9 @@ import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Bag, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { Bag, BagLimitDto, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
@@ -71,6 +69,36 @@ describe('UbsAdminPricingPageComponent', () => {
     ]
   };
 
+  const fakeCheckBoxes: BagLimitDto[] = [
+    {
+      id: 4,
+      limitIncluded: true
+    },
+    {
+      id: 5,
+      limitIncluded: true
+    },
+    {
+      id: 6,
+      limitIncluded: false
+    }
+  ];
+
+  const fakeAllCheckBoxesAreEmpty: BagLimitDto[] = [
+    {
+      id: 4,
+      limitIncluded: false
+    },
+    {
+      id: 5,
+      limitIncluded: false
+    },
+    {
+      id: 6,
+      limitIncluded: false
+    }
+  ];
+
   const fakeService = {
     name: 'fake1',
     nameEng: 'fake',
@@ -82,7 +110,9 @@ describe('UbsAdminPricingPageComponent', () => {
   const fakeBag: Bag = {
     capacity: 111,
     price: 478,
-    commission: 15
+    commission: 15,
+    limitIncluded: false,
+    id: 1
   };
   const fakeDescription = {
     limitDescription: 'fake'
@@ -168,7 +198,8 @@ describe('UbsAdminPricingPageComponent', () => {
     'setLimitDescription',
     'setLimitsBySumOrder',
     'setLimitsByAmountOfBags',
-    'getCardInfo'
+    'getCardInfo',
+    'setTariffLimits'
   ]);
   tariffsServiceMock.editInfo.and.returnValue(of([]));
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
@@ -178,6 +209,7 @@ describe('UbsAdminPricingPageComponent', () => {
   tariffsServiceMock.setLimitsBySumOrder.and.returnValue(of([fakeSumInfo]));
   tariffsServiceMock.setLimitsByAmountOfBags.and.returnValue(of([fakeBagInfo]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeCard]));
+  tariffsServiceMock.setTariffLimits.and.returnValue(of());
 
   const matDialogMock = jasmine.createSpyObj('matDialogMock', ['open']);
   matDialogMock.open.and.returnValue(dialogStub);
@@ -392,36 +424,34 @@ describe('UbsAdminPricingPageComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set values on saveChanges method', () => {
+  it('should call saveChanges method if order by amount', () => {
+    component.limitStatus = limitStatus.limitByAmountOfBag;
     const limit = {
       courierLimitsBy: 'fake',
-      minPriceOfOrder: 1,
-      maxPriceOfOrder: 100,
       minAmountOfBigBags: 1,
       maxAmountOfBigBags: 100,
       limitDescription: 'fake'
     };
-    component.limitsForm.setValue(limit);
+    component.limitsForm.patchValue(limit);
     component.locationId = 2;
     component.saveChanges();
-    expect(component.bagInfo).toEqual({ min: 1, max: 100, locationId: 2 });
-    expect(component.sumInfo).toEqual({ min: 1, max: 100, locationId: 2 });
-    expect(component.descriptionInfo).toEqual({ limitDescription: 'fake' });
+    expect(component.limitStatus).toBe(null);
     expect(component.saveBTNClicked).toBeTruthy();
   });
 
-  it('should call changeDescription method on saveChanges method if limitStatus is limitByAmountOfBag', () => {
-    component.limitStatus = component.limitEnum.limitByAmountOfBag;
-    const spy = spyOn(component, 'changeDescription');
+  it('should call  saveChanges method if order by price', () => {
+    component.limitStatus = limitStatus.limitByPriceOfOrder;
+    const limit = {
+      courierLimitsBy: 'fake',
+      minPriceOfOrder: 1,
+      maxriceOfOrder: 100,
+      limitDescription: 'fake'
+    };
+    component.limitsForm.patchValue(limit);
+    component.locationId = 2;
     component.saveChanges();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call changeDescription method on saveChanges method if limitStatus is limitByPriceOfOrder', () => {
-    component.limitStatus = component.limitEnum.limitByPriceOfOrder;
-    const spy = spyOn(component, 'changeDescription');
-    component.saveChanges();
-    expect(spy).toHaveBeenCalled();
+    expect(component.limitStatus).toBe(null);
+    expect(component.saveBTNClicked).toBeTruthy();
   });
 
   it('navigate to tariffs page', () => {
@@ -511,6 +541,38 @@ describe('UbsAdminPricingPageComponent', () => {
     component.getCouriers();
     expect(spy).toHaveBeenCalled();
     expect(component.couriers).toEqual([fakeCouriers]);
+  });
+
+  it('onCheck should set limitIncluded to true of checked is true', () => {
+    const fakeEvent = {
+      checked: true
+    };
+    component.onChecked(fakeBag.id, fakeEvent);
+    expect(fakeBag.limitIncluded).toEqual(true);
+  });
+
+  it('onCheck should set limitIncluded to false of checked is false', () => {
+    const fakeEvent = {
+      checked: false
+    };
+    component.onChecked(fakeBag.id, fakeEvent);
+    expect(fakeBag.limitIncluded).toEqual(false);
+  });
+
+  it('should call getCheckBoxStatus correctly if not all check boxes empty', () => {
+    const spy = spyOn(component, 'getCheckBoxInfo').and.returnValue(fakeCheckBoxes);
+    component.getCheckBoxInfo();
+    component.getCheckBoxStatus();
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(component.areAllCheckBoxEmpty).toEqual(false);
+  });
+
+  it('should call getCheckBoxStatus correctly if all are check boxes empty', () => {
+    const spy = spyOn(component, 'getCheckBoxInfo').and.returnValue(fakeAllCheckBoxesAreEmpty);
+    component.getCheckBoxInfo();
+    component.getCheckBoxStatus();
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(component.areAllCheckBoxEmpty).toEqual(true);
   });
 
   it('should return ua Value by getLangValue', () => {

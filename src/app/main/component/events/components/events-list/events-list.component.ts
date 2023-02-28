@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { EventPageResponceDto, PaginationInterface } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
@@ -7,6 +7,11 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
+import { TagsArray, eventTimeList, eventStatusList, tempLocationList } from '../../models/event-consts';
+import { LanguageService } from '../../../../i18n/language.service';
+import { Router } from '@angular/router';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-events-list',
@@ -26,6 +31,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public total = 0;
   public page = 0;
   private eventsPerPage = 6;
+  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data,should be deleted when back-end is ready
+  searchToggle = false;
+  bookmarkSelected = false;
+  selectedEventTime: any;
+  eventTimeList = eventTimeList;
+  typeList = TagsArray;
+  statusList = eventStatusList;
+  eventLocationList = tempLocationList;
+  allSelected = false;
+  private dialog: MatDialog;
 
   public pageConfig(items: number, page: number, total: number): PaginationInterface {
     return {
@@ -35,7 +50,18 @@ export class EventsListComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private store: Store, private userOwnAuthService: UserOwnAuthService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private store: Store,
+    private userOwnAuthService: UserOwnAuthService,
+    private languageService: LanguageService,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    public injector: Injector
+  ) {
+    this.dialog = injector.get(MatDialog);
+  }
+
+
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);
@@ -53,6 +79,27 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  toggleAllSelection(): void {
+    this.allSelected = !this.allSelected;
+    this.selectedEventTime = this.allSelected ? this.eventTimeList : [];
+  }
+
+  search(): void {
+    this.searchToggle = !this.searchToggle;
+  }
+
+  showFavourite(): void {
+    this.bookmarkSelected = !this.bookmarkSelected;
+  }
+
+  deleteOneFilter(index): void {
+    this.selectedFilters.splice(index, 1);
+  }
+
+  resetAll(): void {
+    this.selectedFilters.splice(0, this.selectedFilters.length);
+  }
+
   public checkPagination(): boolean {
     return this.total > this.items;
   }
@@ -63,6 +110,25 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public setPage(event: number): void {
     this.store.dispatch(GetEcoEventsByPageAction({ currentPage: event - 1, numberOfEvents: this.eventsPerPage }));
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public isUserLoggedRedirect(): void {
+    this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
   }
 
   ngOnDestroy(): void {

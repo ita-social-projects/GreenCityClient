@@ -1,17 +1,87 @@
-<div class="wrapper">
-  <div class="event-header">
-    <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
-    <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
-      <div class="secondary-global-button create-button">
-        <span class="create-button-text">Create</span>
+<div class="container">
+  <div class="wrapper">
+    <div class="event-header">
+      <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
+      <div class="create-container">
+        <div class="container-img">
+          <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }" (click)="search()"></span>
+        </div>
+        <div class="container-img">
+          <span class="bookmark-img" [ngClass]="{ 'bookmark-img-active': bookmarkSelected }" (click)="showFavourite()"></span>
+        </div>
+        <div class="container-img">
+          <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
+        </div>
+        <div class="create">
+          <div class="secondary-global-button create-button"(click)="isUserLoggedRedirect()">
+            <span class="create-button-text">{{ 'Create events' | translate }}</span>
+          </div>
+        </div>
       </div>
-    </a>
+    </div>
+    <div class="filter-container">
+      <p class="sort-by">{{ 'Sort By' | translate }}</p>
+      <div class="dropdown">
+        <mat-label class="filter">{{ 'Event time' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedEventTime" multiple>
+          <mat-option (click)="toggleAllSelection()">{{ 'Any time' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
+            {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="dropdown">
+        <mat-label class="filter">{{ 'Location' | translate }}</mat-label>
+        <mat-select multiple>
+          <mat-option>{{ 'Any location' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option [value]="location" *ngFor="let location of eventLocationList">
+            {{ getLangValue(location.nameUa, location.nameEn) }}
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="dropdown">
+        <mat-label class="filter">{{ 'Status' | translate }}</mat-label>
+        <mat-select multiple>
+          <mat-option>{{ 'Any status' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option [value]="status" *ngFor="let status of statusList">
+            {{ getLangValue(status.nameUa, status.nameEn) }}
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="dropdown">
+        <mat-label class="filter">{{ 'Type' | translate }}</mat-label>
+        <mat-select multiple>
+          <mat-option>{{ 'Any type' | translate }}</mat-option>
+          <mat-divider></mat-divider>
+          <mat-option *ngFor="let type of typeList" [value]="type">
+            <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
+          </mat-option>
+        </mat-select>
+      </div>
+      <div>
+        <button class="reset" (click)="resetAll()">{{ 'Reset all' | translate }}</button>
+      </div>
+    </div>
+    <hr />
+    <div class="active-filter-container">
+      <p>{{ selectedFilters.length }} {{ 'Items found' | translate }}</p>
+      <div class="chips">
+        <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
+          {{ filter }}
+          <div class="cross-container" (click)="deleteOneFilter(i)">
+            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-list">
+      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
+        <app-events-list-item [event]="eventItem"></app-events-list-item>
+      </mat-card>
+    </div>
+    <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
   </div>
-
-  <div class="event-list">
-    <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
-      <app-events-list-item [event]="eventItem"></app-events-list-item>
-    </mat-card>
-  </div>
-  <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
 </div>

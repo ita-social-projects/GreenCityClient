@@ -32,10 +32,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-#       - name: Set up Go
-#         uses: actions/setup-go@v3
-#         with:
-#           go-version: 1.18
+      #       - name: Set up Go
+      #         uses: actions/setup-go@v3
+      #         with:
+      #           go-version: 1.18
 
       # Runs a set of commands using the runners shell
       - name: Install
@@ -111,7 +111,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.dockerRepoName }}:test-${{ env.GITHUB_SHA_SHORT }}
-
 #       - name: Kubernetes Set Context
 #         uses: Azure/k8s-set-context@v3.0
 #         with:
