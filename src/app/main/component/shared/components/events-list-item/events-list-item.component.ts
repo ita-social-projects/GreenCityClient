@@ -182,7 +182,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
           this.localStorageService.setEventForEdit('editEvent', this.event);
           this.router.navigate(['events/', 'create-event']);
         } else {
-          if (this.isJoined) {
+          if (!this.isJoined) {
             this.joinNotification();
           }
           this.actionIsJoined(this.isJoined);
