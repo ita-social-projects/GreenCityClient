@@ -2,7 +2,7 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -55,7 +55,8 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private zone: NgZone
   ) {}
 
   ngOnDestroy(): void {
@@ -149,18 +150,20 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    this.router
-      .navigate(this.isUbs ? ['ubs'] : ['profile', data.userId])
-      .then(() => {
-        this.localStorageService.setFirstSignIn();
-        this.profileService
-          .getUserInfo()
-          .pipe(take(1))
-          .subscribe((item) => {
-            this.localStorageService.setFirstName(item.name);
-          });
-      })
-      .catch((fail) => console.log('redirect has failed ' + fail));
+    this.zone.run(() => {
+      this.router
+        .navigate(this.isUbs ? ['ubs'] : ['profile', data.userId])
+        .then(() => {
+          this.localStorageService.setFirstSignIn();
+          this.profileService
+            .getUserInfo()
+            .pipe(take(1))
+            .subscribe((item) => {
+              this.localStorageService.setFirstName(item.name);
+            });
+        })
+        .catch((fail) => console.log('redirect has failed ' + fail));
+    });
   }
 
   public togglePassword(input: HTMLInputElement, src: HTMLImageElement): void {
