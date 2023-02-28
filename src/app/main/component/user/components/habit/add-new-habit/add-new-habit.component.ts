@@ -11,7 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
@@ -24,7 +24,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
-  public userId: string;
+  public userId: number;
   public newDuration: number;
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
@@ -45,6 +45,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
+    private matDialogRef: MatDialogRef<WarningPopUpComponent>,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
@@ -111,7 +112,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   private getUserId() {
-    this.userId = localStorage.getItem('userId');
+    this.userId = this.localStorageService.getUserId();
   }
 
   public getDuration(newDuration: number) {
@@ -150,10 +151,23 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         popupConfirm: this.popUpGiveUp.confirm,
         popupCancel: this.popUpGiveUp.cancel,
         isHabit: true,
-        habitId: this.habitId,
         habitName: this.habitResponse.habitTranslation.name
       }
     });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.habitAssignService
+            .deleteHabitById(this.habitId)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.router.navigate(['profile', this.userId]);
+              this.snackBar.openSnackBar('habitDeleted');
+            });
+        }
+      });
   }
 
   public cancelAdd(): void {

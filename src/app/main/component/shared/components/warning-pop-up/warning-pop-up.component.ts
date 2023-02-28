@@ -70,7 +70,6 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.isHabit = this.data.isHabit;
     if (this.isHabit) {
       this.habitName = this.data.habitName;
-      this.habitId = this.data.habitId;
     }
   }
 
@@ -95,16 +94,6 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
           }
         );
         return;
-      }
-      if (this.isHabit) {
-        this.habitAssignService
-          .deleteHabitById(this.habitId)
-          .pipe(take(1))
-          .subscribe(() => {
-            this.matDialogRef.close(reply);
-            this.router.navigate(['profile', this.userId]);
-            this.snackBar.openSnackBar('habitDeleted');
-          });
       }
       localStorage.removeItem('newsTags');
     }
