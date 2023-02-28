@@ -12,7 +12,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog } from '@angular/material/dialog';
-import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ConfirmDialogMainComponent } from '@shared/components/confirm-dialog-main/confirm-dialog-main.component';
 
 @Component({
@@ -50,12 +49,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    public router: Router,
-    public dialog: MatDialog,
+    private router: Router,
+    private dialog: MatDialog,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
-    public orderService: OrderService,
-    public habitAssignService: HabitAssignService,
+    private habitAssignService: HabitAssignService,
     private shoppingListService: ShoppingListService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
