@@ -34,10 +34,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data,
     public orderService: OrderService,
     public ubsOrderFormService: UBSOrderFormService,
-    private habitAssignService: HabitAssignService,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private snackBar: MatSnackBarComponent
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {

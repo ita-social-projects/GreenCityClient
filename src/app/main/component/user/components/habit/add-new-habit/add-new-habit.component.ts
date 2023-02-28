@@ -45,7 +45,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private matDialogRef: MatDialogRef<WarningPopUpComponent>,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,

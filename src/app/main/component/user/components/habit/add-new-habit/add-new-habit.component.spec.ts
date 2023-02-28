@@ -58,11 +58,14 @@ describe('AddNewHabitComponent', () => {
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', {
     getHabitById: of(mockHabitResponse)
   });
+
   fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
     getCurrentLanguage: () => 'ua'
   });
+  fakeLocalStorageService.getUserId = () => 2;
   fakeLocalStorageService.languageSubject = new Subject<string>();
   fakeLocalStorageService.languageSubject.next('ua');
+
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', {
     saveCustomItems: of([])
@@ -151,9 +154,8 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('getUserId should set this.userId', () => {
-    localStorage.setItem('userId', '2');
     (component as any).getUserId();
-    expect(component.userId).toBe('2');
+    expect(component.userId).toBe(2);
   });
 
   it('getDuration should set this.newDuration', () => {
@@ -183,14 +185,14 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('cancel method should navigate', () => {
-    component.userId = '2';
+    component.userId = 2;
     spyOn((component as any).router, 'navigate').and.returnValue('test');
     component.cancelAdd();
     expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
   it('method addHabit should navigate and openSnackBar', () => {
-    component.userId = '2';
+    component.userId = 2;
     component.newList = [
       {
         selected: true,
@@ -207,7 +209,7 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('method updateHabit should navigate and openSnackBar', () => {
-    component.userId = '2';
+    component.userId = 2;
     component.newList = [
       {
         selected: true,
