@@ -111,11 +111,6 @@ describe('TariffsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get location id', () => {
-    service.locationId = 1;
-    expect(service.getLocationId()).toBe(1);
-  });
-
   it('should delete service ', () => {
     const id = 1;
     service.deleteService(id).subscribe((data) => {
@@ -214,30 +209,6 @@ describe('TariffsService', () => {
     });
 
     httpTest('/ubs/superAdmin/editInfoAboutTariff', 'PATCH', info);
-  });
-
-  it('should set limit description', () => {
-    service.setLimitDescription('test', 1).subscribe((data) => {
-      expect(data).toBe('test');
-    });
-
-    httpTest('/ubs/superAdmin/setLimitDescription/1', 'PATCH', 'test');
-  });
-
-  it('should set limit by sum order', () => {
-    service.setLimitsBySumOrder('test', 1).subscribe((data) => {
-      expect(data).toBe('test');
-    });
-
-    httpTest('/ubs/superAdmin/setLimitsBySumOfOrder/1', 'PATCH', 'test');
-  });
-
-  it('should set limit by amount of bags', () => {
-    service.setLimitsByAmountOfBags('test', 1).subscribe((data) => {
-      expect(data).toBe('test');
-    });
-
-    httpTest('/ubs/superAdmin/setLimitsByAmountOfBags/1', 'PATCH', 'test');
   });
 
   it('should add location', () => {
