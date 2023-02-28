@@ -37,15 +37,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
-  public previousPath: string;
   public popupConfig = {
-    id: 1,
+    habitId: 1,
+    habitName: '',
+    userId: '',
     data: {
       title: 'user.habit.add-new-habit.confirmation-modal-title',
       subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
       confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
-      cancel: 'user.habit.add-new-habit.confirmation-modal-no',
-      name: ''
+      cancel: 'user.habit.add-new-habit.confirmation-modal-no'
     }
   };
 
@@ -69,7 +69,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
-      this.popupConfig.id = this.habitId;
+      this.popupConfig.habitId = this.habitId;
     });
     this.checkIfAssigned();
   }
@@ -90,7 +90,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
-    this.popupConfig.data.name = data.habitTranslation.name;
+    this.popupConfig.habitName = data.habitTranslation.name;
   }
 
   public getDefaultItems() {
@@ -123,7 +123,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = localStorage.getItem('userId');
-    this.previousPath = `profile/${this.userId}`;
+    this.popupConfig.userId = this.userId;
   }
 
   public getDuration(newDuration: number) {
@@ -152,7 +152,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   giveUpHabit(): void {
     this.dialog.open(ConfirmDialogMainComponent, {
-      width: '560px',
+      width: '600px',
       data: this.popupConfig
     });
   }

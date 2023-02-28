@@ -1,5 +1,15 @@
 .dialog-container {
   min-width: 400px;
+  padding: 56px;
+
+  .title {
+    font-family: var(--secondary-font);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 28px;
+    color: var(--secondary-dark-grey);
+  }
 
   .controls {
     display: flex;
@@ -8,36 +18,19 @@
     padding: 20px 0;
     gap: 10px;
 
-    .cancel-button {
-      height: 36px;
-      font-family: var(--primary-font);
-      letter-spacing: 0.1px;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-      padding: 8px 24px;
-      color: var(--ubs-quaternary-dark-grey);
-      border-radius: 4px;
-      background-color: transparent;
-      border: 1px solid var(--ubs-quaternary-dark-grey);
-    }
-
     .submit-button {
-      height: 36px;
-      font-family: var(--primary-font);
-      letter-spacing: 0.1px;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-      padding: 8px 24px;
-      color: var(--ubs-quaternary-dark-grey);
-      border-radius: 4px;
-      background: var(--ubs-button-light-green);
-      border: 0;
-
-      &:disabled {
-        background-color: var(--ubs-primary-light-grey);
-      }
+      background: transparent;
+      color: var(--primary-green);
+      border: 1px solid var(--primary-green);
     }
   }
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  padding: 16px 40px;
+  color: var(--ubs-primary-white);
 }
