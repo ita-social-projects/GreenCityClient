@@ -29,6 +29,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public limitAmount;
   public courierPrice: number;
   public writeoffAtStationSum: number;
+  private isOrderCancelled = false;
   finalPrice: number;
   @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
@@ -61,9 +62,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.doneAfterBroughtHimself = false;
     }
 
-    if (changes.orderStatusInfo?.currentValue.key === 'NOT_TAKEN_OUT') {
-      this.isVisible = true;
-      this.showUbsCourier = true;
+    if (changes.orderStatusInfo?.currentValue.key === 'CANCELED') {
+      this.isOrderCancelled = true;
+      this.calculateOverpayment();
     }
   }
 
@@ -135,11 +136,17 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.bagsInfo.finalSum = {
       planned: this.bagsInfo.sum.planned - bonusesAndCert,
       confirmed: this.bagsInfo.sum.confirmed - bonusesAndCert,
-      actual: this.bagsInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.orderDetails.courierPricePerPackage : 0)
+      actual: this.bagsInfo.sum.actual - bonusesAndCert + (this.showUbsCourier ? this.courierPrice : 0)
     };
-    if (this.doneAfterBroughtHimself || (this.isVisible && this.showUbsCourier)) {
-      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - bonusesAndCert + this.writeoffAtStationSum;
+
+    if (this.doneAfterBroughtHimself) {
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - this.courierPrice + this.writeoffAtStationSum;
     }
+
+    if (this.isVisible && this.showUbsCourier && !this.doneAfterBroughtHimself) {
+      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual + this.courierPrice;
+    }
+
     for (const type in this.bagsInfo.finalSum) {
       if (this.bagsInfo.finalSum[type] < 0) {
         this.bagsInfo.finalSum[type] = 0;
@@ -176,11 +183,14 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     const bagType = this.orderStatusInfo.ableActualChange ? 'actual' : 'confirmed';
     let priceWithoutCertificate = this.bagsInfo.sum[bagType] - this.orderDetails.certificateDiscount;
 
-    if (priceWithoutCertificate < 0) {
-      priceWithoutCertificate = 0;
+    priceWithoutCertificate = Math.max(priceWithoutCertificate, 0);
+
+    this.overpayment = this.orderDetails.bonuses + this.orderDetails.paidAmount - priceWithoutCertificate - this.writeoffAtStationSum;
+
+    if (this.showUbsCourier) {
+      this.overpayment += this.courierPrice * (this.isOrderCancelled ? -1 : 1);
     }
 
-    this.overpayment = this.orderDetails.bonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
     this.changeOverpayment.emit(this.overpayment);
     if (this.overpayment) {
       this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
