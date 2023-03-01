@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, Cha
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
-import { Subject } from 'rxjs';
+import { Subject, Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -695,13 +695,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  async checkTariffAvailability(tariffId): Promise<boolean> {
-    const [service, tariffForService, limits] = await Promise.all([
-      this.tariffsService.getService(tariffId).toPromise(),
-      this.tariffsService.getAllTariffsForService(tariffId).toPromise(),
-      this.tariffsService.getTariffLimits(tariffId).toPromise()
-    ]);
-    return !!(service && tariffForService && limits);
+  checkTariffAvailability(tariffId: number): Observable<boolean> {
+    return forkJoin([
+      this.tariffsService.getService(tariffId),
+      this.tariffsService.getAllTariffsForService(tariffId),
+      this.tariffsService.getTariffLimits(tariffId)
+    ]).pipe(map(([service, tariffForService, limits]) => !!(service && tariffForService && limits)));
   }
 
   public openCreateCard(): void {
