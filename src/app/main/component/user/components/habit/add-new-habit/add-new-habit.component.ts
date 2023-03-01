@@ -91,6 +91,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
+  public getProgressValue(value: number): void {
+    console.log(value);
+  }
+
   public getStars(complexity: number) {
     for (this.star = 0; this.star < complexity; this.star++) {
       this.stars[this.star] = this.greenStar;

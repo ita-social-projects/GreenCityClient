@@ -31,7 +31,7 @@
   <div class="divider"></div>
   <div class="container-habit-edit">
     <div class="habit-progress">
-      <app-habit-progress [habit]="habit"></app-habit-progress>
+      <app-habit-progress [habit]="habit" (progressValue)="getProgressValue($event)"></app-habit-progress>
     </div>
     <div class="habit-info-right-block">
       <div class="invite-friends">
