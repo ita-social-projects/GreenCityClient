@@ -12,34 +12,6 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
-  courierId: number;
-  locationId: number;
-  serviceId: number;
-
-  setServiceId(id: number) {
-    this.serviceId = id;
-  }
-
-  getServiceId() {
-    return this.serviceId;
-  }
-
-  setCourierId(id: number) {
-    this.courierId = id;
-  }
-
-  getCourierId() {
-    return this.courierId;
-  }
-
-  setLocationId(id: number) {
-    this.locationId = id;
-  }
-
-  getLocationId() {
-    return this.locationId;
-  }
-
   getAllTariffsForService(tariffId: number) {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
@@ -92,18 +64,9 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
   }
 
-  setLimitDescription(description, tariffId: number) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${tariffId}`, description);
+  setTariffLimits(limits, tariffId: number) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/setTariffLimits/${tariffId}`, limits);
   }
-
-  setLimitsBySumOrder(info, tariffId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsBySumOfOrder/${tariffId}`, info);
-  }
-
-  setLimitsByAmountOfBags(info, tariffId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
-  }
-
   public getJSON(sourceText, lang, translateTo): Observable<any> {
     return ajax.getJSON(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)

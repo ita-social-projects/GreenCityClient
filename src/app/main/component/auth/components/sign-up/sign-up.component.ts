@@ -1,7 +1,7 @@
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -60,7 +60,8 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     private router: Router,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -200,7 +201,9 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
+    this.zone.run(() => {
+      this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
+    });
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {
