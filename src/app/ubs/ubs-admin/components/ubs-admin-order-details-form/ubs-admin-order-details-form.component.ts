@@ -212,12 +212,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   private checkStatusDoneAfterBroughtHimself(prevStatus, currentStatus) {
-    const item = prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
-
-    this.store.dispatch(SetOrderStatus({ isOrderDoneAfterBroughtHimself: item }));
-    console.log('this.store.dispatch');
-
-    return prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
+    const isStatusChanged = prevStatus === 'BROUGHT_IT_HIMSELF' && currentStatus === 'DONE';
+    this.store.dispatch(SetOrderStatus({ isOrderDoneAfterBroughtHimself: isStatusChanged }));
+    return isStatusChanged;
   }
 
   private setAmountOfBigBags(type) {

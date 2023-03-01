@@ -31,8 +31,6 @@ import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { selectIsOrderDoneAfterBroughtHimself } from 'src/app/store/selector/orderStatus.selector';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -64,7 +62,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private isFormResetted = false;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
-  isOrderDoneAfterBroughtHimself$: Observable<boolean>;
+  isOrderDoneAfterBroughtHimself$: boolean;
   private orderService: OrderService;
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   constructor(
@@ -90,8 +88,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   ngOnInit() {
-    console.log('ffhhfh');
-
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLanguage = lang;
       this.translate.setDefaultLang(lang);
@@ -100,17 +96,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.route.params.subscribe((params: Params) => {
       this.orderId = +params.id;
     });
-
     this.getOrderInfo(this.orderId, false);
   }
 
   public getOrderInfo(orderId: number, submitMode: boolean) {
-    this.store.pipe(select(selectIsOrderDoneAfterBroughtHimself)).subscribe((isOrderDoneAfterBroughtHimself) => {
-      console.log('isOrderDoneAfterBroughtHimself', isOrderDoneAfterBroughtHimself);
-    });
+    this.store
+      .select((state: IAppState): boolean => state.orderStatus.isOrderDoneAfterBroughtHimself)
+      .subscribe((value: boolean) => {
+        this.isOrderDoneAfterBroughtHimself$ = value;
+      });
 
     this.orderService
-      .getOrderInfo(orderId)
+      .getOrderInfo(orderId, this.isOrderDoneAfterBroughtHimself$)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderInfo) => {
         this.orderInfo = data;
