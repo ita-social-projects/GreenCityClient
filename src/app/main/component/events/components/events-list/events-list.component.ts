@@ -7,11 +7,11 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import { TagsArray, eventTimeList, eventStatusList, tempLocationList } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { eventTimeList, TagsArray, eventStatusList, tempLocationList } from '../../models/event-consts';
 
 @Component({
   selector: 'app-events-list',
@@ -60,8 +60,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   ) {
     this.dialog = injector.get(MatDialog);
   }
-
-
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);

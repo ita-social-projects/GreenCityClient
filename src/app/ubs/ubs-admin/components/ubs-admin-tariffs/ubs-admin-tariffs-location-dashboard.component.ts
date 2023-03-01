@@ -675,8 +675,33 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  openTariffRestorePopUp(card, tariffId): void {
-    console.log('card', card);
+  openTariffRestorePopUp(card, tariffId) {
+    const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        courierName: card.courier,
+        stationNames: card.station,
+        regionName: card.region.split(),
+        locationNames: card.city
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res && this.checkTariffAvailability(tariffId)) {
+        console.log('Taras');
+      } else {
+        console.log('someone');
+      }
+    });
+  }
+
+  async checkTariffAvailability(tariffId): Promise<boolean> {
+    const [service, tariffForService, limits] = await Promise.all([
+      this.tariffsService.getService(tariffId).toPromise(),
+      this.tariffsService.getAllTariffsForService(tariffId).toPromise(),
+      this.tariffsService.getTariffLimits(tariffId).toPromise()
+    ]);
+    return !!(service && tariffForService && limits);
   }
 
   public openCreateCard(): void {
