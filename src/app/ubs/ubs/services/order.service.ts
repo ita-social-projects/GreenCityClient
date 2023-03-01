@@ -31,7 +31,7 @@ export class OrderService {
       return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     }
     const param1 = locationId ? `?locationId=${locationId}` : '';
-    const param2 = tariffId ? `?tariffId=${tariffId}` : '';
+    const param2 = tariffId ? `tariffId=${tariffId}` : '';
 
     return this.http
       .get<OrderDetails>(`${this.url}/order-details-for-tariff${param1}&${param2}`)
