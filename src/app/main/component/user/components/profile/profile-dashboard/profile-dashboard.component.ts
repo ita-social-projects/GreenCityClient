@@ -76,7 +76,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.localStorageService.setCurentPage('previousPage', '/profile');
 
     this.route.params.subscribe((params) => {
-      const tabId = +params['tabId'];
+      const tabId = +params?.tabId;
 
       if (!isNaN(tabId)) {
         this.selectedIndex = tabId;
