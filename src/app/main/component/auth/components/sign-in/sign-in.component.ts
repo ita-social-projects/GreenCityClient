@@ -35,7 +35,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
   public emailFieldValue: string;
-  public passwordFieldValue: string;
+  public passwordFieldValueSignIn: string;
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -90,7 +90,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.generalError = null;
     if (this.signInForm) {
       this.emailFieldValue = this.emailField.value;
-      this.passwordFieldValue = this.passwordField.value;
+      this.passwordFieldValueSignIn = this.passwordField.value;
     }
   }
 

@@ -11,6 +11,7 @@ export class ErrorComponent implements OnChanges {
   @Input() public emailFieldValue: string;
   @Input() public nameFieldValue: string;
   @Input() public passwordFieldValue: string;
+  @Input() public passwordFieldValueSignIn: string;
   @Input() public passwordConfirmFieldValue: string;
 
   public errorMessage = '';
@@ -31,7 +32,7 @@ export class ErrorComponent implements OnChanges {
     passwordMismatch: () => 'user.auth.sign-up.password-match',
     passwordIsEmpty: () => 'user.auth.sign-up.password-match-is-empty',
     minlength: () => 'user.auth.sign-in.password-must-be-at-least-8-characters-long',
-    maxlength: () => 'user.auth.sign-up.too-long-password',
+    maxlength: () => (this.passwordFieldValueSignIn ? 'user.auth.sign-in.too-long-password' : 'user.auth.sign-up.too-long-password'),
     symbolInvalid: () => (this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size')
   };
 

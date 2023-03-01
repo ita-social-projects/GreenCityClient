@@ -19,7 +19,7 @@
     tabindex="0"
   />
   <div
-    *ngIf="emailField.invalid && emailField.touched && (!passwordField.touched || passwordFieldValue) && !generalError"
+    *ngIf="emailField.invalid && emailField.touched && (!passwordField.touched || passwordFieldValueSignIn) && !generalError"
     id="email-err-msg"
     class="validation-email-error"
   >
@@ -58,7 +58,7 @@
     id="pass-err-msg"
     class="validation-password-error"
   >
-    <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'"></app-error>
+    <app-error [formElement]="passwordField" [passwordFieldValueSignIn]="passwordFieldValueSignIn" [controlName]="'password'"></app-error>
   </div>
   <div *ngIf="generalError" class="alert-general-error" tabindex="0">
     {{ generalError | translate }}
