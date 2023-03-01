@@ -39,7 +39,7 @@ export class OrderService {
   }
 
   getExistingOrder(userId: number): Observable<OrderDetails> {
-    return this.http.get<OrderDetails>(`${this.url}/details-for-existing-order/userId=${userId}`);
+    return this.http.get<OrderDetails>(`${this.url}/details-for-existing-order/${userId}`);
   }
 
   setLocationData(obj) {
