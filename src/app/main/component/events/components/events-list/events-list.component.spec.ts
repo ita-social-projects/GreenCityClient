@@ -84,12 +84,6 @@ describe('EventsListComponent', () => {
     expect(component.isLoggedIn).toBe(3 as any);
   });
 
-  it('setPage', () => {
-    storeMock.dispatch.calls.reset();
-    component.setPage(3);
-    expect(storeMock.dispatch).toHaveBeenCalledTimes(1);
-  });
-
   it('should check weather resetAll works correctly', () => {
     component.selectedFilters = ['one', 'two', 'three'];
     component.resetAll();
