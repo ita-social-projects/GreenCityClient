@@ -2,7 +2,7 @@
   <div class="container" *ngIf="newsItem">
     <div class="top-elements">
       <div class="back-button">
-        <a [routerLink]="[backRoute]" class="button-link">
+        <a [routerLink]="[backRoute, routedFromProfile && { tabId: 1 }]" class="button-link">
           <div class="button-content">
             <div class="button-arrow">
               <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
