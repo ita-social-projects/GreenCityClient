@@ -657,7 +657,7 @@
       "location": "Location",
       "courier": "Courier",
       "station": "Receiving station",
-      "restore": "Restore",
+      "restore-confirmation": "Restore confirmation",
       "delete_page": "Delete page",
       "duplicate_page": "Duplicate page"
     },

@@ -81,7 +81,6 @@
           (matChipInputTokenEnd)="addItem($event)"
         />
         <mat-autocomplete
-          #select
           #autoCity="matAutocomplete"
           (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
           autoActiveFirstOption
@@ -130,7 +129,7 @@
           formControlName="station"
           [matAutocomplete]="autoStation"
         />
-        <mat-autocomplete #select #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
+        <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
           <mat-option value="all">
             <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
             {{ 'ubs-tariffs.states.all' | translate }}
@@ -205,16 +204,11 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <button mat-menu-item (click)="openTariffRestorePopUp(card, card.cardId)">
+      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'">
+        <button mat-menu-item (click)="openTariffRestore(card, card.cardId)">
           <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
       </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
-        </button>
-      </mat-menu>
     </tr>
   </tbody>
   <tbody *ngIf="!showAllTariff && !isLoading">

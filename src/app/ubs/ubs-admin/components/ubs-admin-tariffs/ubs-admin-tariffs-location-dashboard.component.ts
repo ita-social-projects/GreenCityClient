@@ -665,32 +665,32 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         courierName: card.courier,
         stationNames: card.station,
         regionName: card.region.split(),
-        locationNames: card.city
+        locationNames: card.city,
+        isDeactivate: true
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.deactivated).pipe().subscribe();
+        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.deactivated).subscribe();
       }
     });
   }
 
-  openTariffRestorePopUp(card, tariffId) {
-    const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+  openTariffRestore(card, tariffId) {
+    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         courierName: card.courier,
         stationNames: card.station,
         regionName: card.region.split(),
-        locationNames: card.city
+        locationNames: card.city,
+        isRestore: true
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res && this.checkTariffAvailability(tariffId)) {
-        console.log('Taras');
-      } else {
-        console.log('someone');
+        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.active).subscribe();
       }
     });
   }

@@ -1,5 +1,8 @@
-<div class="w-100">
+<div class="w-100" *ngIf="isDeactivate">
   <p class="title">{{ 'ubs-tariffs-add-location-pop-up.deactivate-confirm' | translate }}</p>
+</div>
+<div class="w-100" *ngIf="isRestore">
+  <p class="title">{{ 'ubs-tariffs.btn.restore-confirmation' | translate }}</p>
 </div>
 <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="adminName" [edit]="true"></app-dialog-tariff>
 <ng-template #form>
@@ -27,8 +30,11 @@
     <button class="button secondary-global-button" mat-button (click)="onCancelClick()">
       {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
     </button>
-    <button class="button primary-global-button" (click)="actionClick()">
+    <button class="button primary-global-button" *ngIf="isDeactivate" (click)="actionClick()">
       {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
+    </button>
+    <button class="button primary-global-button" *ngIf="isRestore" (click)="actionClick()">
+      {{ 'ubs-tariffs.restore-button' | translate }}
     </button>
   </div>
 </ng-template>
