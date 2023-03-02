@@ -47,16 +47,19 @@
       </div>
     </div>
     <div *ngIf="!isAssigned" class="add-habit-container">
-      <button class="primary-global-button cancel-habit-button" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
-      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
+      <button class="secondary-global-button btn" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="primary-global-button btn" type="submit" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
     <div *ngIf="isAssigned" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
+      <button class="tertiary-global-button btn" (click)="deleteHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
+      <button *ngIf="canAcquire" class="secondary-global-button btn" (click)="setHabitStatus()">
+        {{ 'user.habit.btn.acquire' | translate }}
+      </button>
+      <button class="primary-global-button btn" type="submit" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
       </button>
     </div>

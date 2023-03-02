@@ -28,6 +28,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
   public isAssigned = false;
+  public canAcquire = false;
+  public setStatus = 'ACQUIRED';
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
@@ -92,7 +94,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   public getProgressValue(value: number): void {
-    console.log(value);
+    this.canAcquire = value >= 80;
   }
 
   public getStars(complexity: number) {
@@ -162,7 +164,17 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteHabit() {
+  public setHabitStatus(): void {
+    this.habitAssignService
+      .setHabitStatus(this.habitId, this.setStatus)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['profile', this.userId]);
+        this.snackBar.openSnackBar('habitAcquired');
+      });
+  }
+
+  public deleteHabit(): void {
     this.habitAssignService
       .deleteHabitById(this.habitId)
       .pipe(take(1))
