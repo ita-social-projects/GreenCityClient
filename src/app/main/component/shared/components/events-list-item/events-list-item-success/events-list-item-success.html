@@ -1,9 +1,11 @@
 <div class="modal-inner">
-  <h3 class="modal-title">
-    {{ isRegistered ? 'You have successfully joined the event' : 'You cannot add this event. First register on the site'}}
-  </h3>
+  <h3 class="modal-title">{{ isRegistered ? ('register.success-join' | translate) : ('register.not-register' | translate)}}</h3>
   <div class="modal-bnt-group">
-    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">Close</button>
-    <button class="primary-global-button modal-btn" *ngIf="!isRegistered">Register</button>
+    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">
+      {{'event.btn-close' | translate}}
+    </button>
+    <ng-template [ngIf]="!isRegistered"
+      ><button class="primary-global-button modal-btn" (click)="modalBtn()">{{'event.btn-register' | translate}}</button></ng-template
+    >
   </div>
 </div>

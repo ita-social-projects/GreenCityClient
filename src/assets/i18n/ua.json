@@ -1040,7 +1040,7 @@
     "friends": "Друзів"
   },
   "register": {
-    "not-register": "You cannot add this event. First register on the site",
+    "not-register": "Спочатку зареєструйтеся на сайті",
     "success-join": "Ви успішно приєдналися до події",
     "rate-event": "Оцініть захід та організатора"
   }

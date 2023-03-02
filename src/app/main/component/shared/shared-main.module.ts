@@ -32,6 +32,7 @@ import { EventsListItemComponent } from './components/events-list-item/events-li
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { EventsListItemSuccessComponent } from './components/events-list-item/events-list-item-success/events-list-item-success';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -51,7 +52,8 @@ registerLocaleData(ukLocale, 'ua');
     FormBaseComponent,
     HabitsPopupComponent,
     EventsListItemComponent,
-    EventsListItemModalComponent
+    EventsListItemModalComponent,
+    EventsListItemSuccessComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -99,7 +101,8 @@ registerLocaleData(ukLocale, 'ua');
     WarningPopUpComponent,
     FormBaseComponent,
     EventsListItemComponent,
-    EventsListItemModalComponent
+    EventsListItemModalComponent,
+    EventsListItemSuccessComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
