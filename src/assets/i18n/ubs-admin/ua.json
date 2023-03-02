@@ -747,6 +747,12 @@
       "add": "Додати",
       "cancel": "Скасувати",
       "save": "Зберегти"
+    },
+    "lang": {
+      "name_of_the_service": "Name of the service",
+      "placeholder-service": "Enter a name for the service",
+      "service_description": "Service description",
+      "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision"
     }
   },
   "modal-text": {
