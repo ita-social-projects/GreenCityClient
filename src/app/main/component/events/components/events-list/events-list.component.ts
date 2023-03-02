@@ -7,11 +7,11 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
+import { TagsArray, eventTimeList, eventStatusList, tempLocationList, selectedFilters } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { eventTimeList, TagsArray, eventStatusList, tempLocationList } from '../../models/event-consts';
 
 @Component({
   selector: 'app-events-list',
@@ -31,8 +31,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public hasNext = true;
   public remaining = 0;
   private eventsPerPage = 6;
-  public elementsArePresent = true;
-  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data,should be deleted when back-end is ready
+  selectedFilters = selectedFilters; // test data,should be deleted when back-end is ready
   searchToggle = false;
   bookmarkSelected = false;
   selectedEventTime: any;
@@ -41,6 +40,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   statusList = eventStatusList;
   eventLocationList = tempLocationList;
   allSelected = false;
+  elementsArePresent:boolean;
   public scroll: boolean;
   private dialog: MatDialog;
 

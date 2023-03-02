@@ -84,16 +84,26 @@
   line-height: 20px;
 }
 
+.filter-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min-content;
+}
+
 .filter {
   display: flex;
   justify-content: center;
   align-items: center;
+  // width: 100%;
 }
 
 .dropdown {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 15px;
+  white-space: nowrap;
 }
 
 hr {
@@ -106,6 +116,7 @@ hr {
 .reset {
   border: none;
   background-color: var(--primary-white);
+  white-space: nowrap;
 }
 
 p {
@@ -118,7 +129,7 @@ p {
   margin-right: 20px;
   margin-top: 16px;
   height: 28px;
-  width: 75px;
+  // width: 75px;
   font-family: var(--primary-font);
   font-size: 20px;
   font-weight: 700;

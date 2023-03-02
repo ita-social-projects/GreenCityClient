@@ -14,63 +14,68 @@
         </div>
         <div class="create">
           <div class="secondary-global-button create-button" (click)="isUserLoggedRedirect()">
-            <span class="create-button-text">{{ 'Create events' | translate }}</span>
+            <span class="create-button-text">{{ 'homepage.events.create-title' | translate }}</span>
           </div>
         </div>
       </div>
     </div>
     <div class="filter-container">
-      <p class="sort-by">{{ 'Sort By' | translate }}</p>
-      <div class="dropdown">
-        <mat-label class="filter">{{ 'Event time' | translate }}</mat-label>
-        <mat-select [(ngModel)]="selectedEventTime" multiple>
-          <mat-option (click)="toggleAllSelection()">{{ 'Any time' | translate }}</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
-            {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
-          </mat-option>
-        </mat-select>
-      </div>
-      <div class="dropdown">
-        <mat-label class="filter">{{ 'Location' | translate }}</mat-label>
-        <mat-select multiple>
-          <mat-option>{{ 'Any location' | translate }}</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option [value]="location" *ngFor="let location of eventLocationList">
-            {{ getLangValue(location.nameUa, location.nameEn) }}
-          </mat-option>
-        </mat-select>
-      </div>
-      <div class="dropdown">
-        <mat-label class="filter">{{ 'Status' | translate }}</mat-label>
-        <mat-select multiple>
-          <mat-option>{{ 'Any status' | translate }}</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option [value]="status" *ngFor="let status of statusList">
-            {{ getLangValue(status.nameUa, status.nameEn) }}
-          </mat-option>
-        </mat-select>
-      </div>
-      <div class="dropdown">
-        <mat-label class="filter">{{ 'Type' | translate }}</mat-label>
-        <mat-select multiple>
-          <mat-option>{{ 'Any type' | translate }}</mat-option>
-          <mat-divider></mat-divider>
-          <mat-option *ngFor="let type of typeList" [value]="type">
-            <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
-          </mat-option>
-        </mat-select>
-      </div>
-      <div>
-        <button class="reset" (click)="resetAll()">{{ 'Reset all' | translate }}</button>
+      <p class="sort-by">{{ 'homepage.events.filter-title' | translate }}</p>
+      <div class="filter-list">
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
+          <mat-select [(ngModel)]="selectedEventTime" multiple>
+            <mat-option (click)="toggleAllSelection()">{{ 'homepage.events.time-any-time' | translate }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
+              {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
+          <mat-select multiple>
+            <mat-option>{{ 'homepage.events.filter-location-аny-location' | translate }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option [value]="location" *ngFor="let location of eventLocationList">
+              {{ getLangValue(location.nameUa, location.nameEn) }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
+          <mat-select multiple>
+            <mat-option>{{ 'homepage.events.filter-status-аny-status' | translate }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option [value]="status" *ngFor="let status of statusList">
+              {{ getLangValue(status.nameUa, status.nameEn) }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
+          <mat-select multiple>
+            <mat-option>{{ 'homepage.events.filter-аny-type' | translate }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option *ngFor="let type of typeList" [value]="type">
+              <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
+            </mat-option>
+          </mat-select>
+        </div>
+        <div>
+          <button class="reset" (click)="resetAll()">{{ 'homepage.events.filter-reset-all' | translate }}</button>
+        </div>
       </div>
     </div>
     <hr />
     <div class="active-filter-container">
-      <p>{{ selectedFilters.length }} {{ 'Items found' | translate }}</p>
+      <p>
+        {{ 'homepage.events.item-found-text' | translate }} {{ selectedFilters.length }}
+        {{ 'homepage.events.items-event-text' | translate }}
+      </p>
       <div class="chips">
         <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
-          {{ filter }}
+          {{ getLangValue(filter.nameUa, filter.nameEn) }}
           <div class="cross-container" (click)="deleteOneFilter(i)">
             <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
           </div>
