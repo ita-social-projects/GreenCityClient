@@ -29,6 +29,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   public lineSize = Array(4).fill(0);
   public screenWidth: number;
   public isMarqueShown = false;
+  public selectedTariffId: number;
 
   priceCard = [
     {
@@ -213,9 +214,11 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   saveLocation(locationsData: AllLocationsDtos): void {
     this.locations = locationsData.tariffsForLocationDto;
     this.selectedLocationId = locationsData.tariffsForLocationDto.locationsDtosList[0].locationId;
+    this.selectedTariffId = locationsData.tariffsForLocationDto.tariffInfoId;
     this.currentLocation = locationsData.tariffsForLocationDto.locationsDtosList[0].nameEn;
     this.orderService.completedLocation(true);
     this.localStorageService.setLocationId(this.selectedLocationId);
+    this.localStorageService.setTariffId(this.selectedTariffId);
     this.localStorageService.setLocations(this.locations);
     this.orderService.setLocationData(this.currentLocation);
   }

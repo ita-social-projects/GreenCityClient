@@ -47,11 +47,11 @@
               <li class="header_mobile-menu-item header_user-name tertiary-global-button" role="link">
                 {{ name }}
               </li>
-              <li class="header_mobile-menu-item" role="link">
+              <!--<li class="header_mobile-menu-item" role="link">
                 <a (click)="openSettingDialog()">
                   {{ 'nav-bar.user-settings' | translate }}
                 </a>
-              </li>
+              </li>-->
               <li *ngIf="isLoggedIn && isGreenCityAdmin" class="header_mobile-menu-item">
                 <a [href]="managementLink" target="_blank" role="link">
                   {{ 'nav-bar.management' | translate }}
@@ -186,11 +186,11 @@
                     />
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="settings" tabindex="0">
+                <!--<li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="settings" tabindex="0">
                   <a (click)="openSettingDialog()">
                     {{ 'nav-bar.user-settings' | translate }}
                   </a>
-                </li>
+                </li>-->
                 <li
                   *ngIf="isLoggedIn && isGreenCityAdmin"
                   aria-label="management"
