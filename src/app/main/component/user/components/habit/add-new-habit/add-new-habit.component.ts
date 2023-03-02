@@ -29,6 +29,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public newList: ShoppingList[];
   public isAssigned = false;
   public canAcquire = false;
+  private enoughToAcquire = 80;
   public setStatus = 'ACQUIRED';
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
@@ -93,8 +94,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getProgressValue(value: number): void {
-    this.canAcquire = value >= 80;
+  public getProgressValue(progress: number): void {
+    this.canAcquire = progress >= this.enoughToAcquire;
   }
 
   public getStars(complexity: number) {
