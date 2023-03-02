@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import { TagsArray, eventTimeList, eventStatusList, tempLocationList } from '../../models/event-consts';
+import { TagsArray, eventTimeList, eventStatusList, tempLocationList, selectedFilters } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -31,7 +31,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public total = 0;
   public page = 0;
   private eventsPerPage = 6;
-  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data,should be deleted when back-end is ready
+  selectedFilters = selectedFilters; // test data,should be deleted when back-end is ready
   searchToggle = false;
   bookmarkSelected = false;
   selectedEventTime: any;
@@ -60,8 +60,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   ) {
     this.dialog = injector.get(MatDialog);
   }
-
-
 
   ngOnInit(): void {
     this.localStorageService.setEditMode('canUserEdit', false);
