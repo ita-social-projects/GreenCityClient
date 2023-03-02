@@ -16,6 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -334,7 +335,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript }
       ],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
