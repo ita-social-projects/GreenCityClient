@@ -24,16 +24,21 @@ export class OrderService {
 
   constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
 
-  getOrders(locationId?: number): Observable<any> {
+  getOrders(locationId?: number, tariffId?: number): Observable<any> {
     const ubsOrderData = this.localStorageService.getUbsOrderData();
     if (ubsOrderData) {
       const observable = new Observable((observer) => observer.next(ubsOrderData));
       return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     }
-    const param = locationId ? `?locationId=${locationId}` : '';
+    const param1 = locationId ? `?locationId=${locationId}` : '';
+    const param2 = tariffId ? `tariffId=${tariffId}` : '';
     return this.http
-      .get<OrderDetails>(`${this.url}/order-details${param}`)
+      .get<OrderDetails>(`${this.url}/order-details-for-tariff${param1}&${param2}`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+  }
+
+  getExistingOrder(userId: number): Observable<OrderDetails> {
+    return this.http.get<OrderDetails>(`${this.url}/details-for-existing-order/${userId}`);
   }
 
   setLocationData(obj) {

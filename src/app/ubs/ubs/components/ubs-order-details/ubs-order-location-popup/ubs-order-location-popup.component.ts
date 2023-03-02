@@ -24,6 +24,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public myControl = new FormControl();
   public filteredOptions: Observable<any>;
+  public selectedTariffId: number;
 
   constructor(
     private orderService: OrderService,
@@ -87,7 +88,9 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         if (res.orderIsPresent) {
           this.locations = res.tariffsForLocationDto;
           this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
+          this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
           this.localStorageService.setLocationId(this.selectedLocationId);
+          this.localStorageService.setTariffId(this.selectedTariffId);
           this.localStorageService.setLocations(this.locations);
           this.orderService.setLocationData(this.currentLocation);
           this.orderService.completedLocation(true);

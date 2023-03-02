@@ -133,9 +133,12 @@ describe('UBSSubmitOrderComponent', () => {
       status: 404
     });
     fakeOrderService.getOrderUrl.and.returnValue(throwError(errorResponse));
+    component.isFinalSumZero = true;
     fixture.detectChanges();
     component.redirectToOrder();
     expect(component.loadingAnim).toBe(false);
+    expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(false);
+    expect(component.isLiqPay).toBeFalsy();
   });
 
   it('should return ua value by getLangValue', () => {
