@@ -329,7 +329,8 @@
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection",
-      "unauthorised-user": "You need to be authorized to edit an event"
+      "unauthorised-user": "You need to be authorized to edit an event",
+      "exist-address": "This address has already been added"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
