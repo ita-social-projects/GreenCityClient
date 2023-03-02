@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
 import { takeUntil, skip } from 'rxjs/operators';
-import { Bag, Service, Locations, TariffCard } from '../../../models/tariffs.interface';
+import { Bag, Service, Locations, TariffCard, BagLimitDto, ILimit } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -39,17 +39,15 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   amount;
   currentCourierId: number;
   saveBTNClicked: boolean;
-  info;
-  bagInfo;
-  sumInfo;
+  areAllCheckBoxEmpty: boolean;
   limitStatus: limitStatus = null;
   description;
-  descriptionInfo;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
+  checkBoxInfo: BagLimitDto[] = [];
   service: Service;
   thisLocation: Locations[];
   reset = true;
@@ -156,50 +154,62 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     const { minPriceOfOrder, maxPriceOfOrder, minAmountOfBigBags, maxAmountOfBigBags, limitDescription } = this.limitsForm.value;
 
     const tariffId = this.selectedCardId;
-    const locationId = this.locationId;
+    this.getCheckBoxStatus();
 
-    this.bagInfo = {
-      min: minAmountOfBigBags,
-      max: maxAmountOfBigBags,
-      locationId
+    let limit: ILimit = {
+      bagLimitDtoList: this.getCheckBoxInfo(),
+      courierLimit: this.limitStatus,
+      limitDescription,
+      min: null,
+      max: null
     };
-
-    this.sumInfo = {
-      min: minPriceOfOrder,
-      max: maxPriceOfOrder,
-      locationId
-    };
-
-    this.descriptionInfo = {
-      limitDescription
-    };
-
-    if (this.limitStatus === limitStatus.limitByPriceOfOrder) {
-      this.tariffsService
-        .setLimitsBySumOrder(this.sumInfo, tariffId)
-        .pipe(takeUntil(this.destroy))
-        .subscribe(() => {
-          this.getCouriers();
-        });
-      this.changeDescription();
-    }
 
     if (this.limitStatus === limitStatus.limitByAmountOfBag) {
+      limit = { ...limit, min: minAmountOfBigBags, max: maxAmountOfBigBags };
+    } else {
+      limit = { ...limit, min: minPriceOfOrder, max: maxPriceOfOrder };
+    }
+
+    if (this.areAllCheckBoxEmpty) {
+      limit.min = null;
+      limit.max = null;
+
       this.tariffsService
-        .setLimitsByAmountOfBags(this.bagInfo, tariffId)
+        .setTariffLimits(limit, tariffId)
         .pipe(takeUntil(this.destroy))
         .subscribe(() => {
           this.getCouriers();
         });
-      this.changeDescription();
-    }
-
-    if (this.limitStatus === null) {
-      this.changeDescription();
+    } else {
+      this.tariffsService
+        .setTariffLimits(limit, tariffId)
+        .pipe(takeUntil(this.destroy))
+        .subscribe(() => {
+          this.getCouriers();
+        });
     }
 
     this.saveBTNClicked = true;
     this.limitStatus = null;
+  }
+
+  getCheckBoxStatus(): void {
+    const filteredCheckBoxes = this.getCheckBoxInfo().filter((val: BagLimitDto) => val.limitIncluded);
+    this.areAllCheckBoxEmpty = !filteredCheckBoxes.length;
+  }
+
+  onChecked(id, event): void {
+    const currentBag = this.bags.find((bag) => bag.id === id);
+
+    currentBag.limitIncluded = event.checked;
+  }
+
+  getCheckBoxInfo(): Array<BagLimitDto> {
+    this.checkBoxInfo = [];
+    this.bags.forEach((value) => {
+      this.checkBoxInfo.push({ id: value.id, limitIncluded: value.limitIncluded });
+    });
+    return this.checkBoxInfo;
   }
 
   async getCourierId(): Promise<any> {
@@ -210,7 +220,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
-      this.tariffsService.setCourierId(card.courierDto.courierId);
       return card.courierDto.courierId;
     } catch (e) {
       return Error('getCourierId Error');
@@ -230,27 +239,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
           return true;
         }
       });
-      this.tariffsService.setLocationId(card.locationInfoDtos[0].locationId);
       return card.locationInfoDtos[0].locationId;
     } catch (e) {
       return Error('getLocationId Error');
     }
-  }
-
-  changeDescription(): void {
-    const { limitDescription } = this.limitsForm.value;
-    const tariffId = this.selectedCardId;
-
-    this.descriptionInfo = {
-      limitDescription
-    };
-
-    this.tariffsService
-      .setLimitDescription(this.descriptionInfo.limitDescription, tariffId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        this.getCouriers();
-      });
   }
 
   async initializeLocationId(): Promise<number> {
@@ -318,8 +310,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Bag[]) => {
         this.bags = res;
+        this.filterBags();
         this.isLoadBar = false;
       });
+  }
+
+  private filterBags(): void {
+    this.bags.sort((a, b) => a.id - b.id);
   }
 
   getService(): void {
@@ -376,7 +373,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteTariffForService(bag: Bag): void {
-    this.tariffsService.setServiceId(bag.id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {
@@ -386,7 +382,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       text2: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-text2',
       bagName: this.getLangValue(bag.name, bag.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-tariffs.delete-tariff-action',
-      isTariffForService: true
+      isTariffForService: true,
+      bagId: bag.id
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService
@@ -396,7 +393,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   openDeleteService(service: Service): void {
-    this.tariffsService.setServiceId(service.id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'address-matDialog-styles-pricing-page';
     dialogConfig.data = {
@@ -406,7 +402,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       text2: 'ubs-tariffs-pricing-page-delete-service.delete-service-text2',
       serviceName: this.getLangValue(service.name, service.nameEng),
       action: 'ubs-tariffs-pricing-page-delete-service.delete-service-action',
-      isService: true
+      isService: true,
+      serviceId: this.service.id
     };
     const dialogRefService = this.dialog.open(ModalTextComponent, dialogConfig);
     dialogRefService

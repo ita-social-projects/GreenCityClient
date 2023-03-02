@@ -24,8 +24,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+
+  public newDate: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -44,6 +44,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
     this.initForm();
     this.fillFields();
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      const datePipe = new DatePipe(lang);
+      this.newDate = datePipe.transform(new Date(), 'MMM dd, yyyy');
+    });
   }
 
   private initForm(): void {

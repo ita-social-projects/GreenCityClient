@@ -155,7 +155,7 @@ export class LocalStorageService {
   }
 
   public setLocationId(currentLocationId: number) {
-    localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
+    localStorage.setItem('currentLocationId', String(currentLocationId));
   }
 
   public setLocations(locations: any) {
@@ -163,7 +163,7 @@ export class LocalStorageService {
   }
 
   public setOrderWithoutPayment(value: boolean): void {
-    localStorage.setItem('saveOrderWithoutPayment', JSON.stringify(value));
+    localStorage.setItem('saveOrderWithoutPayment', String(value));
   }
 
   public getOrderWithoutPayment(): any {
@@ -173,7 +173,7 @@ export class LocalStorageService {
   }
 
   public setUbsOrderId(orderId: string | number): void {
-    localStorage.setItem('UbsOrderId', JSON.stringify(orderId));
+    localStorage.setItem('UbsOrderId', String(orderId));
   }
 
   public getUbsOrderId(): any {
@@ -181,7 +181,7 @@ export class LocalStorageService {
   }
 
   public setUbsLiqPayOrderId(orderId: string | number): void {
-    localStorage.setItem('UbsLiqPayOrderId', JSON.stringify(orderId));
+    localStorage.setItem('UbsLiqPayOrderId', String(orderId));
   }
 
   public getUbsLiqPayOrderId(): any {
@@ -197,7 +197,7 @@ export class LocalStorageService {
   }
 
   public setUbsFondyOrderId(orderId: string | number) {
-    localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
+    localStorage.setItem('UbsFondyOrderId', String(orderId));
   }
 
   public getUbsFondyOrderId(): any {
@@ -217,7 +217,7 @@ export class LocalStorageService {
   }
 
   public setUserPagePayment(state: boolean): unknown {
-    return localStorage.setItem('IsUserPagePayment', JSON.stringify(state));
+    return localStorage.setItem('IsUserPagePayment', String(state));
   }
 
   public getUserPagePayment(): string {
@@ -339,5 +339,13 @@ export class LocalStorageService {
 
   public getFinalSumOfOrder(): number {
     return JSON.parse(localStorage.getItem('finalSumOfOrder'));
+  }
+
+  public setTariffId(currentTariffId: number): void {
+    localStorage.setItem('currentTariffId', String(currentTariffId));
+  }
+
+  public getTariffId(): number {
+    return JSON.parse(localStorage.getItem('currentTariffId'));
   }
 }

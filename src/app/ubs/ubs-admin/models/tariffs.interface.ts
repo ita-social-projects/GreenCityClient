@@ -3,6 +3,7 @@ export interface Bag {
   nameEng?: string;
   capacity: number;
   price: number;
+  limitIncluded?: boolean;
   commission: number;
   description?: string;
   descriptionEng?: string;
@@ -21,6 +22,19 @@ export interface Bag {
     descriptionEng: string;
     nameEng: string;
   };
+}
+
+export interface BagLimitDto {
+  id: number;
+  limitIncluded: boolean;
+}
+
+export interface ILimit {
+  bagLimitDtoList: BagLimitDto[];
+  courierLimit: string;
+  limitDescription: string;
+  min: number;
+  max: number;
 }
 
 export interface Service {
