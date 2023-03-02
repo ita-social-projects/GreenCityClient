@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -21,7 +21,15 @@ describe('UbsConfirmPageComponent', () => {
     'getOrderStatus',
     'saveDataOnLocalStorage'
   ]);
-  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getFinalSumOfOrder', 'clearPaymentInfo']);
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'getFinalSumOfOrder',
+    'clearPaymentInfo',
+    'getUbsOrderId',
+    'setUbsOrderId',
+    'getOrderWithoutPayment',
+    'removeOrderWithoutPayment',
+    'removeUbsOrderId'
+  ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
   beforeEach(async(() => {

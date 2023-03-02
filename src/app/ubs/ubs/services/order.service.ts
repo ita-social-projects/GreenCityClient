@@ -110,7 +110,7 @@ export class OrderService {
   }
 
   getUbsOrderStatus(): Observable<any> {
-    const liqPayOrderId = this.localStorageService.getUbsOrderId();
+    const liqPayOrderId = this.localStorageService.getUbsLiqPayOrderId();
     const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
     if (liqPayOrderId) {
       return this.getLiqPayStatus(liqPayOrderId);
@@ -119,6 +119,10 @@ export class OrderService {
       return this.getFondyStatus(fondyOrderId);
     }
     return throwError(new Error('There is no OrderId!'));
+  }
+
+  saveOrderData(): void {
+    this.localStorageService.setOrderWithoutPayment(true);
   }
 
   getLiqPayStatus(orderId: string): Observable<any> {
