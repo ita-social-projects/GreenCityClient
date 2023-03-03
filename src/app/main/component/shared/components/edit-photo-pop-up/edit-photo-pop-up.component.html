@@ -4,13 +4,13 @@
     <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
     <p *ngIf="!isWarning">{{ 'user.edit-profile.change-photo' | translate }}</p>
     <div class="buttons">
-      <button type="button" class="primary-global-button" (click)="closeEditPhoto()" tabindex="0">
+      <button type="button" class="tertiary-global-button m-btn" (click)="closeEditPhoto()" tabindex="0">
         {{ 'user.edit-profile.btn.cancel' | translate }}
       </button>
-      <button type="button" class="primary-global-button delete" [disabled]="!avatarImg" (click)="isNotification = true" tabindex="0">
+      <button type="button" class="secondary-global-button m-btn" [disabled]="!avatarImg" (click)="isNotification = true" tabindex="0">
         {{ 'user.edit-profile.btn.delete' | translate }}
       </button>
-      <button class="secondary-global-button" (click)="isDragAndDropMenu = true">
+      <button class="primary-global-button m-btn" (click)="isDragAndDropMenu = true">
         {{ 'user.edit-profile.btn.new-photo' | translate }}
       </button>
     </div>
@@ -48,11 +48,11 @@
         <p *ngIf="isWarning" class="warning">{{ 'user.edit-profile.picture-tooltip' | translate }}</p>
         <p *ngIf="!isWarning">{{ 'user.edit-profile.would-you-like' | translate }}</p>
         <div class="buttons">
-          <button type="button" class="primary-global-button" (click)="closeEditPhoto()">Cancel</button>
-          <button class="primary-global-button delete" (click)="selectedPhoto = false; files.pop()">
+          <button type="button" class="tertiary-global-button m-btn" (click)="closeEditPhoto()">Cancel</button>
+          <button class="secondary-global-button m-btn" (click)="selectedPhoto = false; files.pop()">
             {{ 'user.edit-profile.btn.change-photo' | translate }}
           </button>
-          <button type="button" class="secondary-global-button save" [disabled]="isWarning" (click)="savePhoto()" tabindex="0">
+          <button type="button" class="primary-global-button m-btn" [disabled]="isWarning" (click)="savePhoto()" tabindex="0">
             <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             {{ 'user.edit-profile.btn.save-photo' | translate }}
           </button>
@@ -63,10 +63,10 @@
   <div *ngIf="isNotification" class="wrapper">
     <p>{{ 'user.edit-profile.notification' | translate }}</p>
     <div class="buttons">
-      <button type="button" class="primary-global-button confirm-delete" (click)="isNotification = false">
+      <button type="button" class="secondary-global-button m-btn" (click)="isNotification = false">
         {{ 'user.edit-profile.btn.continue' | translate }}
       </button>
-      <button type="button" class="secondary-global-button" (click)="deletePhoto()">
+      <button type="button" class="primary-global-button m-btn" (click)="deletePhoto()">
         <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         {{ 'user.edit-profile.btn.yes-delete' | translate }}
       </button>

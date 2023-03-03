@@ -60,86 +60,7 @@
 
       .primary-global-button,
       .secondary-global-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         margin: 0 8px;
-        box-sizing: border-box;
-        border-radius: 4px;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 16px;
-      }
-
-      .primary-global-button {
-        width: 98px;
-        height: 40px;
-        background: var(--primary-white);
-        color: var(--primary-green);
-
-        &:hover {
-          border: var(--secondary-dark-green);
-          color: var(--secondary-dark-green);
-        }
-
-        &:focus {
-          box-shadow: 0 0 0 3px var(--primary-white);
-        }
-      }
-
-      .primary-global-button.delete {
-        width: 143px;
-        height: 40px;
-      }
-
-      .primary-global-button.confirm-delete {
-        width: 120px;
-      }
-
-      .delete {
-        background: transparent;
-        border: 1px solid var(--primary-green);
-        color: var(--primary-green);
-
-        &:hover {
-          border: 1px solid var(--error-red);
-          background: var(--error-red);
-          color: var(--primary-white);
-        }
-
-        &:disabled {
-          color: var(--primary-green);
-          background: transparent;
-          border: 1px solid var(--primary-green);
-        }
-      }
-
-      .secondary-global-button {
-        width: 181px;
-        height: 40px;
-        background: var(--primary-green);
-        color: var(--primary-white);
-
-        &:hover {
-          background: var(--secondary-dark-green);
-        }
-
-        &:focus {
-          box-shadow: 0 0 0 3px var(--primary-white);
-        }
-
-        .spinner-border {
-          margin-right: 10px;
-        }
-      }
-
-      .save {
-        width: 129px;
-      }
-
-      .change {
-        width: 191px;
-        display: flex;
       }
 
       input {
@@ -225,17 +146,8 @@
     .buttons {
       flex-direction: row;
 
-      .primary-global-button {
-        width: 98px;
-      }
-
-      .primary-global-button.delete {
-        width: 143px;
-      }
-
       .secondary-global-button {
         margin: 8px 0;
-        width: 181px;
       }
     }
   }
