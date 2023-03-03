@@ -132,6 +132,10 @@
   &:active {
     outline: none;
   }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .ubs-primary-global-button {

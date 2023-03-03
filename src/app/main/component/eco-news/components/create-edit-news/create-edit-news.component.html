@@ -12,7 +12,7 @@
             <div class="item-block">
               <div class="title-wrapper">
                 <h3>{{ 'create-news.news-title' | translate }}</h3>
-                <span [ngClass]="{ warning: form.value.title.length >= 170 }"> {{ form.value.title.length }}/170 </span>
+                <span class="span" [ngClass]="{ warning: form.value.title.length >= 170 }"> {{ form.value.title.length }}/170 </span>
               </div>
               <label>
                 <textarea
@@ -28,20 +28,23 @@
               <p [ngClass]="{ warning: isFilterValidation }">
                 {{ 'create-news.tags-tooltip' | translate }}
               </p>
-              <button
-                *ngFor="let filter of filters"
-                (click)="addFilters(filter)"
-                type="button"
-                [ngClass]="{ 'filters-color': filter.isActive }"
-                class="tag-news"
-              >
-                {{ currentLang === 'en' ? filter.name : filter.nameUa }}
-              </button>
+              <div class="tags-box">
+                <button
+                  *ngFor="let filter of filters"
+                  (click)="addFilters(filter)"
+                  type="button"
+                  [ngClass]="{ 'filters-color': filter.isActive }"
+                  class="custom-chip global-tag"
+                >
+                  {{ currentLang === 'en' ? filter.name : filter.nameUa }}
+                  <span [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></span>
+                </button>
+              </div>
             </div>
             <div>
               <div class="title-wrapper">
                 <h3>{{ 'create-news.source-title' | translate }}</h3>
-                <span [ngClass]="{ warning: !isLinkOrEmpty }">
+                <span class="span" [ngClass]="{ warning: !isLinkOrEmpty }">
                   {{ 'create-news.source-tooltip-1' | translate }}
                   {{ 'create-news.source-tooltip-2' | translate }}
                 </span>
@@ -87,11 +90,11 @@
           </p>
         </div>
         <div class="submit-buttons">
-          <button class="cancel" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
-          <button class="preview" type="button" (click)="goToPreview()">
+          <button class="tertiary-global-button" type="button" (click)="cancel()">{{ 'create-news.cancel-button' | translate }}</button>
+          <button class="secondary-global-button" type="button" (click)="goToPreview()">
             {{ 'create-news.preview-button' | translate }}
           </button>
-          <button type="submit" class="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
+          <button class="primary-global-button" type="submit" [disabled]="isFormInvalid">{{ attributes.btnCaption | translate }}</button>
         </div>
       </form>
     </div>

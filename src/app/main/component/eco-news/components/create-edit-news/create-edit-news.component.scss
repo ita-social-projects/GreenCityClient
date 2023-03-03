@@ -19,8 +19,7 @@ h3,
 p,
 span,
 b,
-h2,
-button {
+h2 {
   color: var(--primary-dark-grey);
   font-family: var(--primary-font);
 }
@@ -82,7 +81,7 @@ form {
 }
 
 .left-form-column p,
-.left-form-column span {
+.left-form-column .span {
   margin-top: 4px;
   display: block;
   color: var(--secondary-grey);
@@ -116,40 +115,13 @@ form {
   font-size: 12px;
 }
 
-button {
-  margin-bottom: 8px;
-  border: 1px solid var(--secondary-grey);
-  background-color: #fff;
-  border-radius: 50px;
-  padding: 5px 15px 5px 15px;
-  outline: none;
-
-  &:hover {
-    border: 1px solid var(--primary-green);
-    color: var(--primary-green);
-  }
-}
-
 .submit-buttons button {
-  border: 0;
   margin-left: 20px;
-  border-radius: 3px;
-  background-color: #fff;
   width: 154px;
-  height: 48px;
-  color: var(--primary-green);
-  font-weight: bold;
-  cursor: pointer;
 }
 
-.tags button {
-  margin: 0 8px 8px 0;
-  font-size: 14px;
-  color: var(--tertiary-grey);
-
-  &:hover {
-    color: var(--primary-green);
-  }
+.tags-box {
+  display: flex;
 }
 
 form .textarea-wrapper textarea {
@@ -203,53 +175,18 @@ textarea.ng-invalid.ng-dirty + p {
   display: flex;
   justify-content: flex-end;
   margin-top: 26px;
-}
-
-.submit-buttons .cancel {
-  border: 0;
-
-  &:hover {
-    color: var(--secondary-dark-green);
-  }
-}
-
-.submit-buttons .preview {
-  border: 1px solid var(--primary-green);
-
-  &:hover {
-    border: 1px solid var(--secondary-dark-green);
-    color: var(--secondary-dark-green);
-  }
-}
-
-.submit-buttons .submit {
-  background-color: var(--primary-green);
-  color: #fff;
-
-  &:disabled {
-    background-color: var(--primary-light-green);
-    cursor: default;
-  }
-
-  &:hover:enabled {
-    background-color: var(--secondary-dark-green);
-  }
+  margin-bottom: 8px;
 }
 
 .tags .filters-color {
+  color: var(--primary-white);
   background-color: var(--primary-green);
-  color: #fff;
   border: none;
 
   &:hover {
     color: var(--primary-white);
     border: none;
   }
-}
-
-.filters-color::after {
-  content: '  \2716';
-  font-size: 12px;
 }
 
 .warning {
