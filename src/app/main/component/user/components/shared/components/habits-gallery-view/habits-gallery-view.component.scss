@@ -3,10 +3,6 @@
   justify-content: space-between;
 }
 
-.secondary-global-button {
-  background: transparent;
-}
-
 .habit-wrp {
   width: 100%;
   background: var(--secondary-light-grey);
@@ -14,19 +10,19 @@
   padding: 30px;
   height: 640px;
 
-  .habit__container {
+  .habit-container {
     display: grid;
     grid-template-rows: 20px 40% 37.5% 111px;
     height: 100%;
   }
 }
 
-.habit__header {
+.habit-header {
   display: flex;
   justify-content: space-between;
 }
 
-.habit__picture {
+.habit-picture {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,15 +35,13 @@
   }
 }
 
-.habit__action-wrp {
+.habit-action-wrp {
   display: grid;
-  grid-template-rows: repeat(2, 48px);
-  row-gap: 15px;
+  grid-template-rows: repeat(2, 40px);
+  row-gap: 20px;
 
   button {
     width: 100%;
-    font-weight: 600;
-    height: 48px;
     word-break: break-word;
   }
 }
@@ -57,12 +51,12 @@
   font-size: 14px;
   color: var(--primary-green);
 
-  .calendar__icon {
+  .calendar-icon {
     margin-right: 15px;
   }
 }
 
-.habit__info {
+.habit-info {
   display: flex;
   flex-direction: column;
   padding: 30px 0;

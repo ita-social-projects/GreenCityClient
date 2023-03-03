@@ -1,10 +1,10 @@
 <main role="main" id="main-content">
   <div class="habit-wrp">
-    <div class="habit__container">
-      <div class="habit__header-wrp">
-        <div class="habit__header">
+    <div class="habit-container">
+      <div class="habit-header-wrp">
+        <div class="habit-header">
           <div class="calendar">
-            <img class="calendar__icon" src="assets/img/icon/Calendar_icon.png" alt="calendar" />
+            <img class="calendar-icon" src="assets/img/icon/Calendar_icon.png" alt="calendar" />
             <span class="days">{{ habit.defaultDuration }} days</span>
           </div>
           <div class="tags">
@@ -17,7 +17,7 @@
             <img *ngFor="let star of stars" [src]="star" alt="star" />
           </div>
         </div>
-        <div class="habit__info">
+        <div class="habit-info">
           <div class="title">
             <h2>{{ habit.habitTranslation.name }}</h2>
           </div>
@@ -25,21 +25,21 @@
             <p>{{ habit.habitTranslation.description }}</p>
           </div>
         </div>
-        <div class="habit__action-wrp">
+        <div class="habit-action-wrp">
           <div>
-            <button [disabled]="habit.isAssigned" class="primary-global-button" (click)="addHabit()">
+            <button [disabled]="habit.isAssigned" class="primary-global-button m-btn" (click)="addHabit()">
               {{ 'user.habit.all-habits.btn-add' | translate }}
             </button>
           </div>
           <div>
-            <button class="secondary-global-button" (click)="goHabitMore()">
+            <button class="secondary-global-button m-btn" (click)="goHabitMore()">
               {{ 'user.habit.all-habits.btn-more' | translate }}
             </button>
           </div>
         </div>
       </div>
-      <div class="habit__picture-wrp">
-        <div class="habit__picture">
+      <div class="habit-picture-wrp">
+        <div class="habit-picture">
           <img [src]="habit.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
         </div>
       </div>
