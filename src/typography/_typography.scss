@@ -120,98 +120,97 @@
   padding: 8px 24px;
   font-family: var(--primary-font);
   border-radius: 4px;
-  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   border: none;
   outline: none;
   background: none;
   cursor: pointer;
-
-  &:hover,
-  &:active {
-    outline: none;
-  }
-
-  &:disabled {
-    cursor: default;
-  }
 }
 
 .ubs-primary-global-button {
   color: var(--ubs-quaternary-dark-grey);
   background: var(--ubs-button-light-green);
+}
 
-  &:hover,
-  &:active {
-    background: var(--ubs-button-light-green);
-  }
+.ubs-primary-global-button:hover,
+.ubs-primary-global-button:active {
+  background: var(--ubs-button-light-green);
+  outline: none;
+}
 
-  &:disabled {
-    color: var(--ubs-secondary-grey);
-    background-color: var(--ubs-quaternary-light-grey);
-  }
+.ubs-primary-global-button:disabled {
+  color: var(--ubs-secondary-grey);
+  background-color: var(--ubs-quaternary-light-grey);
+  cursor: default;
 }
 
 .primary-global-button {
   color: var(--primary-white);
   background: var(--primary-green);
+}
 
-  &:hover,
-  &:active {
-    color: var(--primary-white);
-    background: var(--secondary-dark-green);
-  }
+.primary-global-button:hover,
+.primary-global-button:active {
+  color: var(--primary-white);
+  background: var(--secondary-dark-green);
+  outline: none;
+}
 
-  &:focus {
-    color: var(--primary-white);
-    outline: none;
-    border: 1px solid var(--secondary-dark-green);
-  }
+.primary-global-button:focus {
+  color: var(--primary-white);
+  border: 2px solid var(--secondary-dark-green);
+  outline: none;
+}
 
-  &:disabled {
-    color: var(--primary-white);
-    background-color: var(--primary-light-green);
-  }
+.primary-global-button:disabled {
+  color: var(--primary-white);
+  background-color: var(--primary-light-green);
+  cursor: default;
 }
 
 .secondary-global-button {
   color: var(--primary-green);
   border: 1px solid var(--primary-green);
+}
 
-  &:hover,
-  &:active {
-    color: var(--secondary-dark-green);
-    border: 1px solid var(--secondary-dark-green);
-  }
+.secondary-global-button:hover,
+.secondary-global-button:active {
+  color: var(--secondary-dark-green);
+  border: 1px solid var(--secondary-dark-green);
+  outline: none;
+}
 
-  &:focus {
-    outline: none;
-    border: 1px solid var(--secondary-dark-green);
-  }
+.secondary-global-button:focus {
+  border: 2px solid var(--secondary-dark-green);
+  outline: none;
+}
 
-  &:disabled {
-    color: var(--primary-light-green);
-    border: 1px solid var(--primary-light-green);
-  }
+.secondary-global-button:disabled {
+  color: var(--primary-light-green);
+  border: 1px solid var(--primary-light-green);
+  cursor: default;
 }
 
 .tertiary-global-button {
   color: var(--primary-green);
   text-decoration-line: none;
+}
 
-  &:hover,
-  &:active {
-    color: var(--secondary-dark-green);
-  }
+.tertiary-global-button:hover,
+.tertiary-global-button:active {
+  color: var(--secondary-dark-green);
+  outline: none;
+}
 
-  &:focus {
-    text-decoration-line: underline;
-  }
+.tertiary-global-button:focus {
+  text-decoration-line: underline;
+  outline: none;
+}
 
-  &:disabled {
-    color: var(--primary-light-green);
-  }
+.tertiary-global-button:disabled {
+  color: var(--primary-light-green);
+  cursor: default;
 }
 
 .nav-global-button {
@@ -220,6 +219,7 @@
 
   &:hover,
   &:active {
+    outline: none;
     color: var(--secondary-dark-green);
   }
 
