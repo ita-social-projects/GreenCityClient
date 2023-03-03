@@ -15,13 +15,10 @@
       src="assets/img/ubs-admin-orders/red_arrow_down.svg"
       alt="arrow down"
     />
-    <img
-      *ngIf="!pageOpen && !responsiblePersonsForm.valid && !isOrderStatusCancelOrDone"
-      src="assets/img/ubs-admin-orders/red_arrow_up.svg"
-      alt="arrow up"
-    />
+    <img *ngIf="isFormRequired()" src="assets/img/ubs-admin-orders/red_arrow_up.svg" alt="arrow up" />
 
     <h1 class="form__headline">{{ 'responsible-persons.title' | translate }}</h1>
+    <div *ngIf="isFormRequired()" class="alert-message">{{ 'responsible-persons.alert-message' | translate }}</div>
   </div>
   <div *ngIf="pageOpen">
     <div class="form-row">
