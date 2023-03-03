@@ -16,6 +16,11 @@
   width: 292px;
 }
 
+.btn-link {
+  padding: 0;
+  text-align: start;
+}
+
 .stat-row-image .image-wrapper {
   display: block;
   max-height: 360px;
@@ -85,6 +90,7 @@
   height: auto;
   margin-top: 3px;
   margin-right: 10px;
+  height: 38px;
   width: 40px;
 }
 
