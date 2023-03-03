@@ -134,14 +134,17 @@
 
   &:hover,
   &:active {
-    background: var(--ubs-button-light-green);
-    outline: none;
+    background: var(--ubs-button-dark-green);
+  }
+
+  &:focus {
+    background: var(--ubs-primary-light-green);
+    border: 2px solid var(--ubs-button-dark-green);
   }
 
   &:disabled {
     color: var(--ubs-secondary-grey);
     background-color: var(--ubs-quaternary-light-grey);
-    cursor: default;
   }
 }
 
@@ -153,19 +156,10 @@
   &:active {
     color: var(--primary-white);
     background: var(--secondary-dark-green);
-    outline: none;
-  }
-
-  &:focus {
-    color: var(--primary-white);
-    border: 2px solid var(--secondary-dark-green);
-    outline: none;
   }
 
   &:disabled {
-    color: var(--primary-white);
     background-color: var(--primary-light-green);
-    cursor: default;
   }
 }
 
@@ -180,15 +174,8 @@
     outline: none;
   }
 
-  &:focus {
-    border: 2px solid var(--secondary-dark-green);
-    outline: none;
-  }
-
   &:disabled {
-    color: var(--primary-light-green);
     border: 1px solid var(--primary-light-green);
-    cursor: default;
   }
 }
 
@@ -197,19 +184,9 @@
   text-decoration-line: none;
 
   &:hover,
-  &:active {
-    color: var(--secondary-dark-green);
-    outline: none;
-  }
-
+  &:active,
   &:focus {
-    text-decoration-line: underline;
-    outline: none;
-  }
-
-  &:disabled {
-    color: var(--primary-light-green);
-    cursor: default;
+    color: var(--secondary-dark-green);
   }
 }
 
@@ -219,13 +196,28 @@
 
   &:hover,
   &:active {
-    outline: none;
     color: var(--secondary-dark-green);
   }
+}
 
-  &:disabled {
-    color: var(--primary-light-green);
-  }
+.primary-global-button:focus,
+.secondary-global-button:focus,
+.tertiary-global-button:focus {
+  outline: none;
+  border: 2px solid var(--secondary-dark-green);
+}
+
+.ubs-primary-global-button:disabled,
+.primary-global-button:disabled,
+.secondary-global-button:disabled,
+.tertiary-global-button:disabled {
+  cursor: default;
+}
+
+.secondary-global-button:disabled,
+.tertiary-global-button:disabled,
+.nav-global-button:disabled {
+  color: var(--primary-light-green);
 }
 
 .m-btn {
