@@ -106,12 +106,6 @@
   letter-spacing: 0.1px;
 }
 
-.medium-btn {
-  height: 40px;
-  line-height: 24px;
-  font-size: 16px;
-}
-
 .ubs-primary-global-button,
 .primary-global-button,
 .secondary-global-button,
@@ -128,7 +122,7 @@
   border-radius: 4px;
   font-size: 18px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   border: none;
   outline: none;
   background: none;
@@ -228,4 +222,10 @@
   &:disabled {
     color: var(--primary-light-green);
   }
+}
+
+.m-btn {
+  height: 40px;
+  line-height: 24px;
+  font-size: 16px;
 }
