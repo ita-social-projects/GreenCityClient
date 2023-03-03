@@ -10,12 +10,12 @@
   background-color: var(--after-primary-light-grey);
 }
 
-.main_header {
+.main-header {
   display: flex;
   justify-content: space-between;
 }
 
-.main_header-title {
+.main-header-title {
   margin: 0 0 12px 0;
   font-style: normal;
   font-weight: 700;
@@ -23,7 +23,7 @@
   line-height: 40px;
 }
 
-.if_empty {
+.if-empty {
   margin: 16px 0 0 44px;
 
   a {
@@ -40,16 +40,10 @@
   }
 }
 
-.btn_new_order {
-  height: 36px;
+.ubs-primary-global-button {
   min-width: 179px;
   margin-right: 24px;
   margin-top: 10px;
-  border: none;
-  color: var(--ubs-quaternary-dark-grey);
-  padding: 8px 24px 8px 24px;
-  background: var(--ubs-button-light-green);
-  border-radius: 4px;
 }
 
 .user-orders-pagination::ng-deep .ngx-pagination .current {
@@ -79,11 +73,11 @@
     margin-bottom: 10px;
   }
 
-  .main_header {
+  .main-header {
     padding-right: 45px;
   }
 
-  .main_header-title {
+  .main-header-title {
     margin: 0;
   }
 }
@@ -98,19 +92,19 @@
     background-color: var(--after-primary-light-grey);
   }
 
-  .main_header {
+  .main-header {
     display: flex;
     flex-direction: column;
     padding-right: 30px;
   }
 
-  .btn_new_order {
+  .ubs-primary-global-button {
     width: 100%;
     min-width: unset;
     margin-right: 0;
   }
 
-  .main_header-title {
+  .main-header-title {
     margin: 0;
   }
 }

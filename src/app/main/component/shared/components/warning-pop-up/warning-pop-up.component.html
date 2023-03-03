@@ -11,10 +11,10 @@
     </div>
   </div>
   <div class="buttons-container">
-    <button class="secondary-global-button s-btn" [class.submit-cancel]="isUbsOrderSubmit" (click)="userReply(null)">
+    <button class="secondary-global-button m-btn" [class.submit-cancel]="isUbsOrderSubmit" (click)="userReply(null)">
       {{ popupCancel | translate }}
     </button>
-    <button class="primary-global-button s-btn" [class.submit-confirm]="isUbsOrderSubmit" [disabled]="isLoading" (click)="userReply(true)">
+    <button class="primary-global-button m-btn" [class.submit-confirm]="isUbsOrderSubmit" [disabled]="isLoading" (click)="userReply(true)">
       <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ popupConfirm | translate }}
     </button>

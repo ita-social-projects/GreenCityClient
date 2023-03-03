@@ -31,20 +31,7 @@
 
 .buttons-container {
   display: flex;
-}
-
-.primary-global-button,
-.secondary-global-button {
-  font-family: var(--primary-font);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 16px;
-  padding: 16px 40px;
-}
-
-.secondary-global-button {
-  background-color: #fff;
-  margin-right: 24px;
+  gap: 24px;
 }
 
 @media screen and (max-width: 767px) {
@@ -55,11 +42,6 @@
   .warning-text {
     font-size: 18px;
     line-height: 24px;
-  }
-
-  .secondary-global-button,
-  .primary-global-button {
-    padding: 16px 38px;
   }
 }
 
@@ -82,12 +64,7 @@
     height: 128px;
     flex-direction: column;
     justify-content: space-between;
-  }
-
-  .secondary-global-button,
-  .primary-global-button {
-    height: 48px;
-    margin: 0;
+    gap: 0;
   }
 
   .secondary-global-button {
