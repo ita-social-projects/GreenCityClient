@@ -12,7 +12,7 @@
       </a>
     </div>
     <form (ngSubmit)="onSubmit()" class="submit-form">
-      <button type="submit" *ngIf="previewItem.valid && previewItem.value.tags.length !== 0" class="primary-global-button">
+      <button type="submit" *ngIf="previewItem.valid && previewItem.value.tags.length" class="primary-global-button">
         {{ attributes.btnCaption | translate }}
       </button>
     </form>
