@@ -106,76 +106,112 @@
   letter-spacing: 0.1px;
 }
 
-.ubs-primary-global-button {
-  background: var(--ubs-button-light-green);
+.btn-h1 {
+  height: 44px;
+  line-height: 28px;
+  font-size: 18px;
 }
 
-.primary-global-button {
-  background: var(--primary-green);
+.btn-h2 {
+  height: 40px;
+  line-height: 24px;
+  font-size: 16px;
 }
 
 .ubs-primary-global-button,
-.primary-global-button {
-  border: none;
-  border-radius: 3px;
-  font-family: var(--primary-font);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 16px;
+.primary-global-button,
+.secondary-global-button,
+.tertiary-global-button {
+  display: flex;
+  justify-content: center;
   align-items: center;
   text-align: center;
-  color: #fff;
-}
-
-.ubs-primary-global-button:active {
-  background: var(--ubs-button-light-green);
-}
-
-.primary-global-button:hover,
-.primary-global-button:active {
-  background: var(--secondary-dark-green);
+  height: 44px;
+  line-height: 28px;
+  font-size: 18px;
+  padding: 8px 24px;
+  font-family: var(--primary-font);
+  border-radius: 4px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  border: none;
   outline: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    outline: none;
+  }
 }
 
-.ubs-primary-global-button:hover,
-.ubs-primary-global-button:disabled,
-.primary-global-button:disabled {
-  background-color: var(--primary-grey);
-  border: 1px solid var(--primary-grey);
+.ubs-primary-global-button {
+  color: var(--ubs-quaternary-dark-grey);
+  background: var(--ubs-button-light-green);
+
+  &:hover,
+  &:active {
+    background: var(--ubs-button-light-green);
+  }
+
+  &:disabled {
+    color: var(--ubs-secondary-grey);
+    background-color: var(--ubs-quaternary-light-grey);
+  }
+}
+
+.primary-global-button {
+  color: var(--primary-white);
+  background: var(--primary-green);
+
+  &:hover,
+  &:active {
+    background: var(--secondary-dark-green);
+  }
+
+  &:focus {
+    border: 1px solid var(--secondary-dark-green);
+  }
+
+  &:disabled {
+    background-color: var(--primary-light-green);
+  }
 }
 
 .secondary-global-button {
-  border: 1px solid var(--primary-green);
-  box-sizing: border-box;
-  border-radius: 3px;
-  font-family: var(--primary-font);
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 16px;
   color: var(--primary-green);
-  text-align: center;
-}
+  border: 1px solid var(--primary-green);
 
-.secondary-global-button:hover,
-.secondary-global-button:active {
-  border: 1px solid var(--secondary-dark-green);
-  line-height: 22px;
-  color: var(--secondary-dark-green);
+  &:hover,
+  &:active {
+    color: var(--secondary-dark-green);
+    border: 1px solid var(--secondary-dark-green);
+  }
+
+  &:focus {
+    border: 1px solid var(--secondary-dark-green);
+  }
+
+  &:disabled {
+    color: var(--primary-light-green);
+    border: 1px solid var(--primary-light-green);
+  }
 }
 
 .tertiary-global-button {
-  font-family: var(--primary-font);
-  font-size: 16px;
-  font-stretch: normal;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 16px;
-  color: var(--secondary-dark-green);
-}
-
-.tertiary-global-button:hover,
-.tertiary-global-button:focus {
   color: var(--primary-green);
+
+  &:hover,
+  &:active {
+    color: var(--secondary-dark-green);
+  }
+
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    color: var(--primary-light-green);
+  }
 }
