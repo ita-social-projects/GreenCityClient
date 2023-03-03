@@ -22,11 +22,15 @@
   </div>
   <div class="buttons">
     <div class="friend-btn">
-      <button id="addButton">{{ 'profile.friends.add-new-friend' | translate }}</button>
+      <button id="addButton" class="secondary-global-button m-btn">{{ 'profile.friends.add-new-friend' | translate }}</button>
     </div>
     <div class="friend-btn">
-      <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton">{{ 'profile.friends.open-chat' | translate }}</button>
-      <button *ngIf="!friend.friendsChatDto.chatExists" id="createChatButton">{{ 'profile.friends.create-chat' | translate }}</button>
+      <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton" class="secondary-global-button m-btn">
+        {{ 'profile.friends.open-chat' | translate }}
+      </button>
+      <button *ngIf="!friend.friendsChatDto.chatExists" id="createChatButton" class="secondary-global-button m-btn">
+        {{ 'profile.friends.create-chat' | translate }}
+      </button>
     </div>
   </div>
 </div>
