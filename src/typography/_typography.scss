@@ -106,6 +106,12 @@
   letter-spacing: 0.1px;
 }
 
+.medium-btn {
+  height: 40px;
+  line-height: 24px;
+  font-size: 16px;
+}
+
 .ubs-primary-global-button,
 .primary-global-button,
 .secondary-global-button,
@@ -114,7 +120,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 48px;
+  height: 44px;
   line-height: 28px;
   font-size: 18px;
   padding: 8px 24px;
@@ -122,7 +128,7 @@
   border-radius: 4px;
   font-size: 18px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   border: none;
   outline: none;
   background: none;
