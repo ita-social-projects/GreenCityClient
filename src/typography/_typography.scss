@@ -194,6 +194,7 @@
 
 .tertiary-global-button {
   color: var(--primary-green);
+  text-decoration-line: none;
 
   &:hover,
   &:active {
@@ -201,7 +202,21 @@
   }
 
   &:focus {
-    text-decoration: underline;
+    text-decoration-line: underline;
+  }
+
+  &:disabled {
+    color: var(--primary-light-green);
+  }
+}
+
+.nav-global-button {
+  color: var(--primary-green);
+  text-decoration-line: none;
+
+  &:hover,
+  &:active {
+    color: var(--secondary-dark-green);
   }
 
   &:disabled {
