@@ -61,6 +61,10 @@
       .primary-global-button,
       .secondary-global-button {
         margin: 0 8px;
+
+        .spinner-border {
+          margin-right: 10px;
+        }
       }
 
       input {
