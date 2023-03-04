@@ -143,7 +143,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     };
 
     if (this.doneAfterBroughtHimself) {
-      this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - this.courierPrice + this.writeoffAtStationSum;
+      // this.bagsInfo.finalSum.actual = this.bagsInfo.sum.actual - this.courierPrice + this.writeoffAtStationSum;
+      this.bagsInfo.finalSum.confirmed = this.writeoffAtStationSum;
     }
 
     if (this.isVisible && this.showUbsCourier && !this.doneAfterBroughtHimself) {
@@ -193,6 +194,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.showUbsCourier) {
       this.overpayment += this.courierPrice * (this.isOrderCancelled ? -1 : 1);
     }
+    console.log(this.overpayment);
 
     this.changeOverpayment.emit(this.overpayment);
     if (this.overpayment) {
