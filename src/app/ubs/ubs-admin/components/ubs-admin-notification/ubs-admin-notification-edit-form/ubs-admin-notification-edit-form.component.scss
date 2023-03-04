@@ -58,3 +58,24 @@
     }
   }
 }
+
+.menu {
+  background-color: #f3f3f3;
+  position: absolute;
+  cursor: pointer;
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  padding: 1rem;
+}
+
+.menu-item:hover:not(.selected) {
+  background-color: #fafafa;
+}
+
+.menu-item.selected {
+  background-color: slateGray;
+  color: white;
+}

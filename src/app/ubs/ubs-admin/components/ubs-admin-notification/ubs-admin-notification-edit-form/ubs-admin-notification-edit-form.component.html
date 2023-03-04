@@ -2,6 +2,9 @@
   <h2 mat-dialog-title>{{ 'ubs-notifications.text-editing-popup.title' | translate }}&nbsp;{{ platform }}</h2>
 
   <div mat-dialog-content class="edit-notification-content">
+    <select (change)="addTextToLastFocused($event.target)">
+      <option *ngFor="let item of items" value="{{ item.name }}">{{ item.name }}</option>
+    </select>
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
@@ -10,7 +13,8 @@
         <div class="edit-notification">
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput formControlName="textUa" class="edit-text"></textarea>
+            <textarea matInput #textUa formControlName="textUa" class="edit-text" (click)="saveCaretPosition()"></textarea>
+            <ul #list class="menu" role="listbox"></ul>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
@@ -21,7 +25,7 @@
         <div class="edit-notification">
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput formControlName="textEn" class="edit-text"></textarea>
+            <textarea matInput #textEn formControlName="textEn" class="edit-text" (click)="saveCaretPosition()"></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
