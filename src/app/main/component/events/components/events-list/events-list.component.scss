@@ -239,7 +239,7 @@ p {
   background-color: var(--primary-green) !important;
 }
 
-.mat-option:hover:not(.mat-option-disabled),
+.mat-option.mat-option:hover:not(.mat-option-disabled),
 .mat-option.mat-active:not(.mat-option-disabled) {
   background: var(--ubs-primary-liberty-green);
 }
