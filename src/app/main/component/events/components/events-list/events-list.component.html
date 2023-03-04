@@ -24,8 +24,10 @@
       <div class="filter-list">
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
-          <mat-select [(ngModel)]="selectedEventTime" multiple>
-            <mat-option (click)="toggleAllSelection()">{{ 'homepage.events.time-any-time' | translate }}</mat-option>
+          <mat-select #timeFilter [formControl]="timeFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(timeList)">
+              {{ 'homepage.events.time-any-time' | translate }}
+            </mat-option>
             <mat-divider></mat-divider>
             <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
               {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
@@ -34,8 +36,10 @@
         </div>
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
-          <mat-select multiple>
-            <mat-option>{{ 'homepage.events.filter-location-аny-location' | translate }}</mat-option>
+          <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(locationList)">{{
+              'homepage.events.filter-location-аny-location' | translate
+            }}</mat-option>
             <mat-divider></mat-divider>
             <mat-option [value]="location" *ngFor="let location of eventLocationList">
               {{ getLangValue(location.nameUa, location.nameEn) }}
@@ -44,8 +48,10 @@
         </div>
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
-          <mat-select multiple>
-            <mat-option>{{ 'homepage.events.filter-status-аny-status' | translate }}</mat-option>
+          <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(statusesList)">{{
+              'homepage.events.filter-status-аny-status' | translate
+            }}</mat-option>
             <mat-divider></mat-divider>
             <mat-option [value]="status" *ngFor="let status of statusList">
               {{ getLangValue(status.nameUa, status.nameEn) }}
@@ -54,8 +60,8 @@
         </div>
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
-          <mat-select multiple>
-            <mat-option>{{ 'homepage.events.filter-аny-type' | translate }}</mat-option>
+          <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(typesList)">{{ 'homepage.events.filter-аny-type' | translate }}</mat-option>
             <mat-divider></mat-divider>
             <mat-option *ngFor="let type of typeList" [value]="type">
               <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
