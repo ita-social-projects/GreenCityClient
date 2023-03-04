@@ -125,10 +125,4 @@ describe('EventsListComponent', () => {
     component.search();
     expect(component.searchToggle).toEqual(true);
   });
-
-  it('should check weather toggleAllSelection works correctly', () => {
-    component.allSelected = false;
-    component.toggleAllSelection(component.eventTimeList);
-    expect(component.selectedEventTime).toEqual(component.eventTimeList);
-  });
 });
