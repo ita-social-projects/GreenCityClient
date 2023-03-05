@@ -131,7 +131,7 @@
     "polyfoam": "polyfoam (type of packaging - 120 l bag (we take no more than 1 bag for 1 shipment)).",
     "condition1": "Indicate in the comment that you plan to give free positions to the Courier, as well as indicate their volume and number.",
     "condition2": "Pack each type of package separately. A mix of these wastes in one bag/box will not be collected by UBS Courier. Tie up packages before handing them over.",
-    "button": "Of course"
+    "button": "OK"
   },
   "personal-info": {
     "address-city": "city",
