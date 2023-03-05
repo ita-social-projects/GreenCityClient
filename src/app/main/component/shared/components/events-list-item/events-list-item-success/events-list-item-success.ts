@@ -1,22 +1,22 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, OnDestroy } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subscription } from 'rxjs';
+import { Subscription, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-event-list-item-success',
   templateUrl: 'events-list-item-success.html',
   styleUrls: ['events-list-item-success.scss']
 })
-export class EventsListItemSuccessComponent implements OnInit {
+export class EventsListItemSuccessComponent implements OnInit, OnDestroy {
   public id: number;
   public isRegistered: boolean;
-  public elementName: string;
   public dialog: MatDialog;
   public langChangeSub: Subscription;
+  private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -42,7 +42,6 @@ export class EventsListItemSuccessComponent implements OnInit {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.elementName = page;
     this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -59,5 +58,11 @@ export class EventsListItemSuccessComponent implements OnInit {
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+    this.langChangeSub.unsubscribe();
   }
 }

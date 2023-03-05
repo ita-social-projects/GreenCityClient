@@ -119,4 +119,12 @@ describe('EventsListItemSuccessComponent', () => {
       expect(bindLangSpy).toHaveBeenCalled();
     });
   });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe of language change', () => {
+      component.langChangeSub = of(true).subscribe();
+      component.ngOnDestroy();
+      expect(component.langChangeSub.closed).toBeTruthy();
+    });
+  });
 });

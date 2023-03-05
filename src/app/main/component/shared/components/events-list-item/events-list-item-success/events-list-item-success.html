@@ -4,8 +4,6 @@
     <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">
       {{'event.btn-close' | translate}}
     </button>
-    <ng-template [ngIf]="!isRegistered"
-      ><button class="primary-global-button modal-btn" (click)="modalBtn()">{{'event.btn-register' | translate}}</button></ng-template
-    >
+    <button class="primary-global-button modal-btn" *ngIf="!isRegistered" (click)="modalBtn()">{{'event.btn-register' | translate}}</button>
   </div>
 </div>
