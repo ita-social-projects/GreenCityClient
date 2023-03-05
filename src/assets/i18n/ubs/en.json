@@ -41,7 +41,7 @@
   },
   "order-details": {
     "location": {
-      "title": "Welcome to UBS! First choose location of waste disposal. Currently, we work only in the city of Kyiv and selected cities.",
+      "title": "Welcome to UBS! First, choose the location of waste disposal. Currently, we work in Kyiv and the suburbs.",
       "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
       "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
       "btn": {
