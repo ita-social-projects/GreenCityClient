@@ -32,6 +32,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
+  public isAssigned = false;
+  public canAcquire = false;
+  private enoughToAcquire = 80;
+  public setStatus = 'ACQUIRED';
   public isEditing = false;
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
@@ -122,6 +126,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.newDuration = newDuration;
   }
 
+  public getProgressValue(progress: number): void {
+    this.canAcquire = progress >= this.enoughToAcquire;
+  }
+
   public getList(list: ShoppingList[]): void {
     this.newList = list;
   }
@@ -208,13 +216,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteHabit(): void {
+  public setHabitStatus(): void {
     this.habitAssignService
-      .deleteHabitById(this.habitId)
+      .setHabitStatus(this.habitId, this.setStatus)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitDeleted');
+        this.snackBar.openSnackBar('habitAcquired');
       });
   }
 
