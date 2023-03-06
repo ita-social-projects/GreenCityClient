@@ -198,7 +198,7 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="openEditPopUp(card)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button mat-menu-item (click)="openTariffDeactivatePopUp(card)">

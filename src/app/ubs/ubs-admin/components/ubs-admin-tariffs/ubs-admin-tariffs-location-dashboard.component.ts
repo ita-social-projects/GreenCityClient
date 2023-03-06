@@ -461,20 +461,22 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             courier: el.courierDto.nameUk,
             station: el.receivingStationDtos.map((it) => it.name),
             region: el.regionDto.nameUk,
-            city: el.locationInfoDtos.map((it) => it.nameUk),
+            city: el.locationInfoDtos.map((it) => it.name),
             tariff: el.tariffStatus,
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
           const cardObjEn = {
             courier: el.courierDto.nameEn,
-            station: el.receivingStationDtos.map((it) => it.name),
+            station: el.receivingStationDtos.map((it) => it.nameEn),
             region: el.regionDto.nameEn,
             city: el.locationInfoDtos.map((it) => it.nameEn),
             tariff: el.tariffStatus,
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
+          this.courierEnglishName = el.courierDto.nameEn;
+          this.regionEnglishName = el.regionDto.nameEn;
           this.cardsUk.push(cardObjUk);
           this.cardsEn.push(cardObjEn);
         });
@@ -567,6 +569,27 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         this.isCardExist = false;
       }
     });
+  }
+
+  openEditPopUp(card): void {
+    const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
+        courier: card.courier,
+        station: card.station,
+        courierEnglishName: this.courierEnglishName,
+        region: card.region,
+        regionEnglishName: this.regionEnglishName,
+        city: card.city,
+        action: 'ubs-tariffs-add-location-pop-up.edit_button',
+        edit: true,
+        button: 'edit'
+      }
+    });
+
+    matDialogRef.afterClosed().subscribe((res) => {});
   }
 
   public createCardRequest(card): void {
@@ -672,7 +695,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'createCard'
+        headerText: 'createCard',
+        create: true
       }
     });
   }
