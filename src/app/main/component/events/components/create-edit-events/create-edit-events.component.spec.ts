@@ -104,6 +104,8 @@ describe('CreateEditEventsComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
+
+    route = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {
