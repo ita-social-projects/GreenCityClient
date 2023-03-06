@@ -35,9 +35,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
   public emailFieldValue: string;
-  public passwordFieldValueSignIn: string;
+  public passwordFieldValue: string;
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  public isSignInPage: boolean;
 
   // generalError can contain:
   // 'user.auth.sign-in.fill-all-red-fields', or
@@ -89,9 +90,9 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public configDefaultErrorMessage(): void {
     this.generalError = null;
     if (this.signInForm) {
-      console.log('ssss');
       this.emailFieldValue = this.emailField.value;
-      this.passwordFieldValueSignIn = this.passwordField.value;
+      this.passwordFieldValue = this.passwordField.value;
+      this.isSignInPage = true;
     }
   }
 
