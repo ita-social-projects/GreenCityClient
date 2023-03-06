@@ -1,5 +1,5 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { EventPageResponceDto, PaginationInterface } from '../../models/events.interface';
+import { EventPageResponceDto } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
