@@ -164,6 +164,16 @@ describe('AddNewHabitComponent', () => {
     expect(component.newDuration).toEqual(1);
   });
 
+  it('getProgressValue should set canAcquire false', () => {
+    component.getProgressValue(60);
+    expect(component.canAcquire).toBeFalsy();
+  });
+
+  it('getProgressValue should set canAcquire true', () => {
+    component.getProgressValue(80);
+    expect(component.canAcquire).toBeTruthy();
+  });
+
   it('getList should set this.newList', () => {
     component.getList([]);
     expect(component.newList).toEqual([]);
