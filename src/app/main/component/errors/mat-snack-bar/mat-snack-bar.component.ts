@@ -91,6 +91,7 @@ export class MatSnackBarComponent {
     habitDidNotGiveUp: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.habit-did-not-give-up');
+    },
     habitAcquired: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.habit-acquired');
