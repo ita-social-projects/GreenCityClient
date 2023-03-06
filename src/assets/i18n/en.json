@@ -329,7 +329,8 @@
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection",
-      "unauthorised-user": "You need to be authorized to edit an event"
+      "unauthorised-user": "You need to be authorized to edit an event",
+      "exist-address": "This address has already been added"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -656,6 +657,7 @@
         "back-to-habit": "Back to my habits",
         "save": "Save",
         "give-up": "Give up",
+        "acquire": "Acquire",
         "add": "Add Habit",
         "cancel": "Cancel",
         "see-all": "See all",
@@ -665,8 +667,8 @@
         "add-new-habit": "Add new habit!"
       },
       "header": {
-        "tags": "Smart consuming",
-        "aquired": "Aquired by 134 users"
+        "aquired": "Aquired by ",
+        "difficulty": "Difficulty: "
       },
       "info": "Habit info",
       "progress-title": "Progress",
@@ -709,9 +711,10 @@
         "cant-delete-last-hint": "You can't delete your last habit",
         "button-save": "Save changes",
         "button-cancel": "Cancel",
-        "confirmation-modal-text": "Are you sure you want to delete this eco habit?",
+        "confirmation-modal-title": "Are you sure you want to give up",
+        "confirmation-modal-text": "All your progress of habit's tracking will be lost",
         "confirmation-modal-yes": "Yes",
-        "confirmation-modal-cancel": "Cancel"
+        "confirmation-modal-no": "No"
       },
       "all-habits": {
         "back-button": "Back to My habits",
@@ -723,6 +726,7 @@
         "btn-add": "Add habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
+        "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list"
       },
       "habit-trackers": {
@@ -738,6 +742,10 @@
         "good-days": "days in a row. You're good!",
         "done": "Mark as done",
         "great": "Great! You've got a habit!"
+      },
+      "habit-widget": {
+        "title": "More habits from ",
+        "title-news": "Check out our useful links"
       }
     }
   },

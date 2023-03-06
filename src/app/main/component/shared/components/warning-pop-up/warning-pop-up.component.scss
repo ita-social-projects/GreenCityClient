@@ -1,9 +1,10 @@
 .main-container {
   position: relative;
-  max-width: 568px;
-  height: 256px;
+  max-width: 600px;
+  max-height: 324px;
   padding: 56px;
   border-radius: 4px;
+  gap: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

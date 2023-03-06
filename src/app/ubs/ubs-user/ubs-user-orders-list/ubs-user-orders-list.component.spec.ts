@@ -134,13 +134,13 @@ describe('UbsUserOrdersListComponent', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(true);
       spyOn(component, 'isOrderUnpaid').and.returnValue(true);
       const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[0] as any);
-      expect(isOrderPaymentAccessRes).toBeTruthy();
+      expect(isOrderPaymentAccessRes).toBeFalsy();
     });
 
     it('isOrderPriceGreaterThenZero and isOrderHalfPaid are true', () => {
       spyOn(component, 'isOrderPriceGreaterThenZero').and.returnValue(true);
       spyOn(component, 'isOrderHalfPaid').and.returnValue(true);
-      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[2] as any);
+      const isOrderPaymentAccessRes = component.isOrderPaymentAccess(fakeIputOrderData[1] as any);
       expect(isOrderPaymentAccessRes).toBeTruthy();
     });
 

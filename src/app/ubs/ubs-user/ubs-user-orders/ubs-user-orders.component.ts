@@ -29,6 +29,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   orderIdToScroll: number;
   orderToScroll: any;
   selected = new FormControl(0);
+  public infoIcon = './assets/img/icon/info-icon.svg';
 
   constructor(
     private router: Router,

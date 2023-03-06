@@ -45,6 +45,9 @@
   margin-right: 24px;
   margin-top: 10px;
 }
+.mobile-title {
+  display: none;
+}
 
 .user-orders-pagination::ng-deep .ngx-pagination .current {
   background: var(--ubs-button-light-green);
@@ -82,20 +85,29 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .mobile-title {
+    display: flex;
+    align-items: flex-start;
+    margin: 16px 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+
+    > div {
+      width: 90%;
+      margin-left: 13px;
+    }
+  }
+
   .wrapper {
-    width: 100vw;
-    font-size: 16px;
-    line-height: 24px;
-    color: var(--ubs-primary-black);
-    font-family: var(--primary-font);
-    background-color: var(--after-primary-light-grey);
+    padding-top: 32px;
   }
 
   .main-header {
     display: flex;
     flex-direction: column;
-    padding-right: 30px;
+    padding-right: 0;
   }
 
   .ubs-primary-global-button {
@@ -106,5 +118,20 @@
 
   .main-header-title {
     margin: 0;
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    width: 100vw;
+    padding-top: 32px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--ubs-primary-black);
+    font-family: var(--primary-font);
+    background-color: var(--after-primary-light-grey);
   }
 }

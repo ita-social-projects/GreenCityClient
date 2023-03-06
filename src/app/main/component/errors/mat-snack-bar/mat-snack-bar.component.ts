@@ -88,6 +88,10 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-updated');
     },
+    habitAcquired: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.habit-acquired');
+    },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage(error);
@@ -102,7 +106,7 @@ export class MatSnackBarComponent {
     },
     existAddress: () => {
       this.className = 'error-snackbar';
-      this.getSnackBarMessage('snack-bar.exist-address');
+      this.getSnackBarMessage('snack-bar.error.exist-address');
     },
     userUnauthorised: () => {
       this.className = 'error-snackbar';

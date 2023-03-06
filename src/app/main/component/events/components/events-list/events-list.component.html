@@ -14,7 +14,7 @@
         </div>
         <div class="create">
           <div class="secondary-global-button m-btn" (click)="isUserLoggedRedirect()">
-            {{ 'Create events' | translate }}
+            {{ 'homepage.events.create-title' | translate }}
           </div>
         </div>
       </div>
@@ -78,10 +78,11 @@
       </div>
     </div>
     <div class="event-list">
-      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
+      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
         <app-events-list-item [event]="eventItem"></app-events-list-item>
       </mat-card>
     </div>
-    <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
+    <app-spinner *ngIf="elementsArePresent"></app-spinner>
+    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
 </div>

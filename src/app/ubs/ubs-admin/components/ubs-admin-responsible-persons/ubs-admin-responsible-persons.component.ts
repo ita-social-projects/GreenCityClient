@@ -43,6 +43,14 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
     this.allDrivers = this.getEmployeesById(employees, 5);
   }
 
+  public isFormRequired(): boolean {
+    const isNotOpen = !this.pageOpen;
+    const isNotValid = !this.responsiblePersonsForm.valid;
+    const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
+
+    return isNotOpen && isNotValid && isNotCancelOrDone;
+  }
+
   public getEmployeesById(employeeObjects: Map<string, IEmployee[]>, id: number): string[] {
     for (const key of Object.keys(employeeObjects)) {
       if (key.includes(`id=${id},`)) {

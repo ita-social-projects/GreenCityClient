@@ -15,7 +15,6 @@ import {
   EcoNewsWidgetComponent,
   NewsListComponent,
   ChangeViewButtonComponent,
-  NewsListGalleryViewComponent,
   NewsListListViewComponent,
   NewsPreviewPageComponent,
   PostNewsLoaderComponent,
@@ -36,7 +35,6 @@ import { EcoNewsCommentsService } from '@eco-news-service/eco-news-comments.serv
   declarations: [
     EcoNewsComponent,
     ChangeViewButtonComponent,
-    NewsListGalleryViewComponent,
     NewsListListViewComponent,
     NewsListComponent,
     RemainingCountComponent,

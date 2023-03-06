@@ -312,6 +312,13 @@ $inputwidth: 260px;
   }
 }
 
+.delete-address {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 180px;
+}
+
 @media (max-width: 1439px) {
   .ubs_profile-container {
     max-width: 800px;

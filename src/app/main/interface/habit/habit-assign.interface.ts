@@ -25,6 +25,7 @@ export interface HabitResponseInterface {
   id: number;
   image: string;
   shoppingListItems: Array<ShoppingList>;
+  tags: Array<string>;
 }
 
 export interface HabitStatusCalendarListInterface {

@@ -6,7 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NewsListListViewComponent } from './news-list-list-view/news-list-list-view.component';
-import { NewsListGalleryViewComponent } from '..';
+import { NewsListGalleryViewComponent } from 'src/app/shared/news-list-gallery-view/news-list-gallery-view.component';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
