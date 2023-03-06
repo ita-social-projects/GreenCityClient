@@ -561,7 +561,7 @@
     "employee": "Employee",
     "edit": "Edit",
     "required-fields": "*Required fields",
-    "name": "Name*",
+    "name": "First name*",
     "surname": "Last name*",
     "phone-number": "Phone number*",
     "email": "Email",
