@@ -653,7 +653,7 @@
       "location": "Локація",
       "courier": "Кур'єр",
       "station": "Станція приймання",
-      "restore": "Відновити",
+      "restore-confirmation": "Підтвердження відновлення",
       "delete_page": "Видалити сторінку",
       "duplicate_page": "Дублювати сторінку"
     },

@@ -40,6 +40,10 @@ export class TariffsService {
     return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getService`);
   }
 
+  getTariffLimits(tariffId) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffLimits/${tariffId}`);
+  }
+
   editService(service: Service, id: number) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
@@ -131,7 +135,7 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
   }
 
-  deactivateTariffCard(tariffId: number): Observable<object> {
-    return this.http.put(`${mainUbsLink}/ubs/superAdmin/deactivateTariff/${tariffId}`, null);
+  switchTariffStatus(tariffId: number, status): Observable<object> {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/switchTariffStatus/${tariffId}?status=${status}`, null);
   }
 }
