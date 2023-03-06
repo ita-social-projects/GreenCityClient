@@ -373,7 +373,8 @@
     "title": "Export details",
     "export-date": "Export date",
     "export-time": "Export time",
-    "station": "Station"
+    "station": "Station",
+    "alert-message": "Please, fill in export details"
   },
   "order-history": {
     "title": "Order history",
@@ -388,7 +389,8 @@
     "call-manager": "Call manager",
     "logistician": "Logistician",
     "navigator": "Navigator",
-    "driver": "Driver"
+    "driver": "Driver",
+    "alert-message": "Please, fill in responsible persons"
   },
   "cancel-modal": {
     "question": "If you cancel the changes, they will be deleted. Are you sure you want to cancel the changes?",
