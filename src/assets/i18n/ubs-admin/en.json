@@ -373,7 +373,8 @@
     "title": "Export details",
     "export-date": "Export date",
     "export-time": "Export time",
-    "station": "Station"
+    "station": "Station",
+    "alert-message": "Please, fill in export details"
   },
   "order-history": {
     "title": "Order history",
@@ -388,7 +389,8 @@
     "call-manager": "Call manager",
     "logistician": "Logistician",
     "navigator": "Navigator",
-    "driver": "Driver"
+    "driver": "Driver",
+    "alert-message": "Please, fill in responsible persons"
   },
   "cancel-modal": {
     "question": "If you cancel the changes, they will be deleted. Are you sure you want to cancel the changes?",
@@ -423,6 +425,7 @@
     "order-date": "Order date",
     "order-payment-status": "Payment status",
     "amount-due": "Amount-due",
+    "info-title": "By clicking on the order card, you get all the additional information on the order.",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",
@@ -657,7 +660,7 @@
       "location": "Location",
       "courier": "Courier",
       "station": "Receiving station",
-      "restore": "Restore",
+      "restore-confirmation": "Restore confirmation",
       "delete_page": "Delete page",
       "duplicate_page": "Duplicate page"
     },
@@ -744,7 +747,7 @@
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
     "basic_cost": "Basic cost",
-    "commission": "Сommission",
+    "commission": "Commission",
     "full_cost": "Full cost",
     "service_description": "Service description",
     "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
@@ -753,6 +756,12 @@
       "add": "Add",
       "cancel": "Cancel",
       "save": "Save"
+    },
+    "lang": {
+      "name_of_the_service": "Найменування послуги",
+      "placeholder-service": "Введіть назву послуги",
+      "service_description": "Опис послуги",
+      "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання"
     }
   },
   "modal-text": {
@@ -1105,6 +1114,11 @@
         "li_1": "2 packages of 120 l in Kyiv ",
         "li_2": "20 packages of 120 liters in the suburbs within 20 km of Kyiv"
       }
+    }
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "This address has already been added"
     }
   }
 }

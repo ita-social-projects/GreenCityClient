@@ -83,6 +83,7 @@ import { FriendProfilePageComponent } from './components/profile/users-friends/f
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
 import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-widget/habits-widget.component';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     OneNewsComponent,
     FriendProfilePageComponent,
     FriendProfileDashboardComponent,
-    SetCountComponent
+    SetCountComponent,
+    HabitsWidgetComponent
   ],
   imports: [
     NgbModule,

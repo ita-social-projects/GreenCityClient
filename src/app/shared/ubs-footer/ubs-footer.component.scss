@@ -16,6 +16,14 @@
     padding: 0;
     margin: 0;
 
+    .pick-up-service {
+      display: flex;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 12px;
+      color: var(--ubs-primary-white);
+    }
+
     li {
       list-style-type: none;
 
@@ -63,6 +71,12 @@
         width: 100%;
         justify-content: space-between;
         padding: 0;
+
+        .pick-up-service {
+          display: flex;
+          font-size: 16px;
+          line-height: 20px;
+        }
 
         li {
           list-style-type: none;

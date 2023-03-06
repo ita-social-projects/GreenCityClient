@@ -65,13 +65,13 @@ export class ShoppingListService {
     this.list$.next(this.list);
   }
 
-  public saveCustomItems(userId: string, habitId: number) {
+  public saveCustomItems(userId: number, habitId: number) {
     return this.http.post<Array<ShoppingList>>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, {
       customShoppingListItemSaveRequestDtoList: this.customList
     });
   }
 
-  public getCustomItems(userId: string, habitId: number) {
+  public getCustomItems(userId: number, habitId: number) {
     this.http.get(`${mainLink}custom/shopping-list-items/${userId}/${habitId}`).subscribe((res: ShoppingList[]) => {
       this.fillList(res);
     });

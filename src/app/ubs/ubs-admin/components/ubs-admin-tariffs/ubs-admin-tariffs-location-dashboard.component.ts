@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, Cha
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
-import { Subject } from 'rxjs';
+import { Subject, Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,6 +24,13 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+
+export enum statusOfTariff {
+  active = 'ACTIVE',
+  deactivated = 'DEACTIVATED',
+  new = 'NEW'
+}
+
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
   templateUrl: './ubs-admin-tariffs-location-dashboard.component.html',
@@ -73,6 +80,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     arrowDown: './assets/img/ubs-tariff/arrow-down.svg',
     arrowRight: './assets/img/ubs-tariff/arrow-right.svg'
   };
+
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
@@ -657,14 +665,42 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         courierName: card.courier,
         stationNames: card.station,
         regionName: card.region.split(),
-        locationNames: card.city
+        locationNames: card.city,
+        isDeactivate: true
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService.deactivateTariffCard(card.cardId).pipe().subscribe();
+        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.deactivated).subscribe();
       }
     });
+  }
+
+  openTariffRestore(card, tariffId) {
+    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        courierName: card.courier,
+        stationNames: card.station,
+        regionName: card.region.split(),
+        locationNames: card.city,
+        isRestore: true
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res && this.checkTariffAvailability(tariffId)) {
+        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.active).subscribe();
+      }
+    });
+  }
+
+  checkTariffAvailability(tariffId: number): Observable<boolean> {
+    return forkJoin([
+      this.tariffsService.getService(tariffId),
+      this.tariffsService.getAllTariffsForService(tariffId),
+      this.tariffsService.getTariffLimits(tariffId)
+    ]).pipe(map(([service, tariffForService, limits]) => !!(service && tariffForService && limits)));
   }
 
   public openCreateCard(): void {

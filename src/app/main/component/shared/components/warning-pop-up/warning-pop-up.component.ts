@@ -1,5 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,6 +20,10 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public isUBS: boolean;
   public isUbsOrderSubmit: boolean;
+  public isHabit: boolean;
+  public habitName: string;
+  public habitId: number;
+  public userId: number;
   public closeButton = './assets/img/profile/icons/cancel.svg';
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -47,6 +52,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
       .backdropClick()
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => this.userReply(false));
+    this.userId = this.localStorageService.getUserId();
   }
 
   private setTitles(): void {
@@ -56,6 +62,10 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
     this.popupCancel = this.data.popupCancel;
     this.isUBS = this.data.isUBS;
     this.isUbsOrderSubmit = this.data.isUbsOrderSubmit;
+    this.isHabit = this.data.isHabit;
+    if (this.isHabit) {
+      this.habitName = this.data.habitName;
+    }
   }
 
   public userReply(reply: boolean | null): void {

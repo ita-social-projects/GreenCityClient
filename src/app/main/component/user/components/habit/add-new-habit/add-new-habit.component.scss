@@ -22,7 +22,6 @@
     }
 
     .text {
-      font-family: var(--primary-font);
       font-size: 16px;
       line-height: 22px;
       display: flex;
@@ -50,22 +49,25 @@
         color: var(--primary-green);
         margin-bottom: 8px;
 
-        .tags,
-        .aquired {
-          font-style: regular;
+        .item {
+          display: flex;
+          align-items: center;
+          font-style: normal;
+          gap: 8px;
           font-size: 14px;
           letter-spacing: 1px;
           text-transform: uppercase;
-          cursor: pointer;
         }
 
         .stars {
           display: flex;
-          width: 88px;
+          width: 60px;
+          padding-bottom: 5px;
           justify-content: space-between;
+          cursor: pointer;
 
           img {
-            cursor: pointer;
+            width: 16px;
           }
         }
 
@@ -111,12 +113,25 @@
   }
 
   .habit-edit {
-    font-family: var(--secondary-font);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
     color: var(--secondary-dark-grey);
+
+    h3 {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      margin: 0;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 35px;
+    }
+
+    .lock-icon {
+      height: 24px;
+      width: 23px;
+      background: url('~/assets/icons/habits/lock-icon-closed.svg') center no-repeat;
+    }
   }
 
   .divider {
@@ -134,6 +149,7 @@
 
     .habit-progress,
     .habit-info-right-block {
+      height: 468px;
       width: 554px;
     }
 
@@ -152,8 +168,7 @@
       .invite-friends {
         display: flex;
         width: 554px;
-        height: 182px;
-        margin-bottom: 25px;
+        height: 172px;
         padding: 24px;
         background: var(--secondary-light-grey);
         border-radius: 8px;
@@ -161,7 +176,7 @@
 
       .duration-shoping {
         display: flex;
-        flex-direction: row;
+        height: 268px;
         width: 554px;
         justify-content: space-between;
 

@@ -106,7 +106,7 @@ export class MatSnackBarComponent {
     },
     existAddress: () => {
       this.className = 'error-snackbar';
-      this.getSnackBarMessage('snack-bar.exist-address');
+      this.getSnackBarMessage('snack-bar.error.exist-address');
     },
     userUnauthorised: () => {
       this.className = 'error-snackbar';

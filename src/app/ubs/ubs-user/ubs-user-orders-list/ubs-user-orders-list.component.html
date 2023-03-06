@@ -12,29 +12,44 @@
 <mat-accordion multi="false">
   <div *ngFor="let order of orders">
     <mat-expansion-panel>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header [collapsedHeight]="'none'" [expandedHeight]="'none'">
         <div class="mat-content-wrapper" (click)="changeCard(order.id)" [id]="order.id">
-          <mat-panel-title class="order_list-num table-data">
-            {{ order.id }}
-          </mat-panel-title>
-          <mat-panel-description class="order_list-date table-data">
-            {{ order.dateForm | date: 'dd.MM.y' }}
-          </mat-panel-description>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-num">{{ 'user-orders.order-number' | translate }}</div>
+            <mat-panel-title class="order_list-num table-data">
+              {{ order.id }}
+            </mat-panel-title>
+          </div>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-date">{{ 'user-orders.order-date' | translate }}</div>
+            <mat-panel-description class="order_list-date table-data">
+              {{ order.dateForm | date: 'dd.MM.y' }}
+            </mat-panel-description>
+          </div>
           <mat-panel-description class="order_list-paymentDate table-data">
             {{ order.datePaid | date: 'dd.MM.y' }}
           </mat-panel-description>
-          <mat-panel-description class="order_list-status table-data">
-            {{ getLangValue(order.orderStatus, order.orderStatusEng) }}
-          </mat-panel-description>
-          <mat-panel-description class="order_list-paymentStatus table-data">
-            {{ getLangValue(order.paymentStatus, order.paymentStatusEng) }}
-          </mat-panel-description>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-status">{{ 'user-orders.order-status' | translate }}</div>
+            <mat-panel-description class="order_list-status table-data">
+              {{ getLangValue(order.orderStatus, order.orderStatusEng) }}
+            </mat-panel-description>
+          </div>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
+            <mat-panel-description class="order_list-paymentStatus table-data">
+              {{ getLangValue(order.paymentStatus, order.paymentStatusEng) }}
+            </mat-panel-description>
+          </div>
           <mat-panel-description class="order_list-paymentAmount table-data">
             {{ order.orderFullPrice | currency | localizedCurrency }}
           </mat-panel-description>
-          <mat-panel-description class="order_list-paymentAmountDue table-data">
-            {{ order.amountBeforePayment | currency | localizedCurrency }}
-          </mat-panel-description>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-date">{{ 'user-orders.order-date' | translate }}</div>
+            <mat-panel-description class="order_list-paymentAmountDue table-data">
+              {{ order.amountBeforePayment | currency | localizedCurrency }}
+            </mat-panel-description>
+          </div>
         </div>
 
         <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
@@ -50,9 +65,8 @@
           </div>
         </div>
       </mat-expansion-panel-header>
-    </mat-expansion-panel>
-    <div class="description" *ngIf="order.extend">
+
       <app-ubs-user-order-details [order]="order"></app-ubs-user-order-details>
-    </div>
+    </mat-expansion-panel>
   </div>
 </mat-accordion>

@@ -76,6 +76,7 @@
           color: var(--primary-green);
           border: 1px solid var(--primary-green);
           border-radius: 5px;
+          cursor: pointer;
 
           @media (max-width: 575px) {
             width: 100%;

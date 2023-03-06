@@ -18,6 +18,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public locations: CourierLocations;
   public cities: LocationsName[];
   public selectedLocationId: number;
+  public selectedTariffId: number;
   public isFetching = false;
   private currentLanguage: string;
   public currentLocation: string;
@@ -87,7 +88,9 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         if (res.orderIsPresent) {
           this.locations = res.tariffsForLocationDto;
           this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
+          this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
           this.localStorageService.setLocationId(this.selectedLocationId);
+          this.localStorageService.setTariffId(this.selectedTariffId);
           this.localStorageService.setLocations(this.locations);
           this.orderService.setLocationData(this.currentLocation);
           this.orderService.completedLocation(true);

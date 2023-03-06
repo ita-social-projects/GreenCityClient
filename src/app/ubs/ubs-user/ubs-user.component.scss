@@ -21,10 +21,6 @@
 
 @media (max-width: 480px) {
   .footer {
-    position: fixed;
-    width: 100%;
-    margin-left: 0;
-    bottom: 60px;
-    z-index: 3;
+    display: none;
   }
 }

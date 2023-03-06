@@ -107,4 +107,10 @@ describe('UbsAdminExportDetailsComponent', () => {
     component.ngAfterViewChecked();
     expect(component.isOrderStatusCancelOrDone).toBe(true);
   });
+
+  it('should return true when pageOpen is false, exportDetailsDto is invalid and orderStatus is not cancel or done', () => {
+    component.pageOpen = false;
+    component.isOrderStatusCancelOrDone = false;
+    expect(component.isFormRequired()).toBeTruthy();
+  });
 });

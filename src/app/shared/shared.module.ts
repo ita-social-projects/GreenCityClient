@@ -37,6 +37,7 @@ import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
+import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizabl
     DialogPopUpComponent,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
+    NewsListGalleryViewComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
@@ -103,6 +105,7 @@ import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizabl
     MaxImageNamePipe,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
+    NewsListGalleryViewComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,

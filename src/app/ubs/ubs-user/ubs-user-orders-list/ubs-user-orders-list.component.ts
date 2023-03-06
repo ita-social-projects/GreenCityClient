@@ -116,7 +116,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     let personalDataResponse: PersonalData;
 
     const orderDataRequest: Observable<OrderDetails> = this.orderService
-      .getOrders()
+      .getExistingOrder(order.id)
       .pipe(takeUntil(this.destroy$))
       .pipe(
         tap((orderData) => {
