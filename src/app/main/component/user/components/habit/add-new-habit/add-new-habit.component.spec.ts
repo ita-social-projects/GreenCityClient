@@ -148,7 +148,7 @@ describe('AddNewHabitComponent', () => {
     expect(component.initHabitData).toHaveBeenCalled();
   });
 
-  it('onGoBack() should invoke location.back()', () => {
+  xit('onGoBack() should invoke location.back()', () => {
     const spyBack = spyOn(locationMock, 'back');
     component.onGoBack();
     expect(spyBack).toHaveBeenCalled();

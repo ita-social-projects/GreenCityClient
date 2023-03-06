@@ -111,7 +111,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   onGoBack(): void {
-    this.location.back();
+    this.router.navigate(['/profile']);
   }
 
   private getUserId() {
