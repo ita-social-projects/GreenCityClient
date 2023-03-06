@@ -58,13 +58,13 @@
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
-      <button class="primary-global-button cancel-habit-button" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="primary-global-button cancel-habit-button" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
       <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
     <div *ngIf="isEditing" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
+      <button class="primary-global-button delete-habit-button" type="submit" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
       <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">

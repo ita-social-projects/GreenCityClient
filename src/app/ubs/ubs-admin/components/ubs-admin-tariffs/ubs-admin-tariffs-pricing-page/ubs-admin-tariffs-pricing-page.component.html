@@ -86,7 +86,7 @@
         </td>
         <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
         <td>{{ bag.capacity | volume }}</td>
-        <td>{{ bag.description }}</td>
+        <td>{{ getLangValue(bag.description, bag.descriptionEng) }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
         <td>{{ bag.commission | currency | localizedCurrency }}</td>
         <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
@@ -180,7 +180,9 @@
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
           <div *ngFor="let bag of bags; let i = index">
             <div>
-              <mat-checkbox class="example-margin">{{ getLangValue(bag.name, bag.nameEng) }}</mat-checkbox>
+              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (change)="onChecked(bag.id, $event)">{{
+                getLangValue(bag.name, bag.nameEng)
+              }}</mat-checkbox>
             </div>
           </div>
         </div>

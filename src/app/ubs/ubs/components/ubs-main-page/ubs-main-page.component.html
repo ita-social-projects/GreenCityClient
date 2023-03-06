@@ -162,7 +162,7 @@
         </div>
       </div>
       <div id="how-works-content">
-        <button class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
+        <button *ngIf="!isAdmin" class="button primary-global-button" [disabled]="isFetching" (click)="redirectToOrder()">
           {{ 'ubs-homepage.header.btn-order-courier' | translate }}
         </button>
         <div class="link-to-shop">

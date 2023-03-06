@@ -419,6 +419,7 @@
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума замовлення",
     "amount-due": "Сума до оплати",
+    "info-title": "Натискаючи на картку замовлення, ви отримуєте всю додаткову інформацію по замовленню.",
     "btn": {
       "cancel": "Скасувати",
       "pay": "Оплатити",
@@ -652,7 +653,7 @@
       "location": "Локація",
       "courier": "Кур'єр",
       "station": "Станція приймання",
-      "restore": "Відновити",
+      "restore-confirmation": "Підтвердження відновлення",
       "delete_page": "Видалити сторінку",
       "duplicate_page": "Дублювати сторінку"
     },
@@ -747,6 +748,12 @@
       "add": "Додати",
       "cancel": "Скасувати",
       "save": "Зберегти"
+    },
+    "lang": {
+      "name_of_the_service": "Name of the service",
+      "placeholder-service": "Enter a name for the service",
+      "service_description": "Service description",
+      "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision"
     }
   },
   "modal-text": {
@@ -1099,6 +1106,11 @@
         "li_1": "2 пакети на 120 л в Києві ",
         "li_2": "20 пакетів на 120 л в передмісті в межах 20 км від Києва"
       }
+    }
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "Ця адреса вже додана"
     }
   }
 }

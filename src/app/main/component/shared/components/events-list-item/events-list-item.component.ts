@@ -168,7 +168,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.styleBtn = 'secondary-global-button';
     } else {
       this.isJoinBtnHidden = this.isJoined && !this.isLoggedIn;
-      this.nameBtn = !this.isEventOpen ? 'event.btn-see' : 'event.btn-rate';
+      this.nameBtn = !this.isEventOpen && this.isJoined ? 'event.btn-see' : 'event.btn-rate';
       this.styleBtn = !this.isRated ? 'primary-global-button' : 'secondary-global-button';
     }
   }

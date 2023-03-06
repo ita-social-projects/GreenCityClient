@@ -7,6 +7,7 @@
         </a>
       </div>
       <ul *ngIf="screenWidth >= 1024" class="footer-menu">
+        <a class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
         <li *ngFor="let link of ubsNavLinks" tabindex="0" role="listitem">
           <a [href]="link.route" target="_blank" rel="noopener noreferrer">
             {{ link.name | translate }}
@@ -37,6 +38,7 @@
   <div class="footer-container-mobile" *ngIf="screenWidth < 1024">
     <div class="footer-menu-mobile">
       <ul class="footer-menu">
+        <a class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
         <li *ngFor="let link of ubsNavLinks" tabindex="0" role="listitem">
           <a [href]="link.route" target="_blank" rel="noopener noreferrer">
             {{ link.name | translate }}

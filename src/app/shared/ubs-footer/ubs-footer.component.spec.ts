@@ -3,6 +3,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsFooterComponent } from './ubs-footer.component';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Injectable()
 class TranslationServiceStub {
@@ -30,6 +31,14 @@ class TranslationServiceStub {
   }
 }
 
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
+
 describe('UbsFooterComponent', () => {
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
@@ -41,8 +50,11 @@ describe('UbsFooterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsFooterComponent],
-      imports: [TranslateModule.forRoot()],
-      providers: [{ provide: TranslateService, useClass: TranslationServiceStub }],
+      imports: [TranslateModule.forRoot(), MatDialogModule],
+      providers: [
+        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: MatDialog, useClass: MatDialogMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

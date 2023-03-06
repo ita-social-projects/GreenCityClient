@@ -24,6 +24,7 @@ export class ModalTextComponent implements OnInit, OnDestroy {
   serviceName: string;
   action: string;
   serviceId: number;
+  tariffForServiceId: number;
   isService: boolean;
   isTariffForService: boolean;
   receivedData;
@@ -40,6 +41,8 @@ export class ModalTextComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isService = this.modalData.isService;
+    this.serviceId = this.modalData.serviceId;
+    this.tariffForServiceId = this.modalData.bagId;
     this.isTariffForService = this.modalData.isTariffForService;
     this.title = this.modalData.title;
     this.text = this.modalData.text;
@@ -50,12 +53,11 @@ export class ModalTextComponent implements OnInit, OnDestroy {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
-    this.serviceId = this.tariffsService.getServiceId();
   }
 
   deleteTariffForService() {
     this.tariffsService
-      .deleteTariffForService(this.serviceId)
+      .deleteTariffForService(this.tariffForServiceId)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close();

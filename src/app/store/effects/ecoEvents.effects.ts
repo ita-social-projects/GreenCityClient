@@ -32,21 +32,11 @@ export class EventsEffects {
   getEcoEventsByPage = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEcoEventsByPageAction),
-      mergeMap((actions: { currentPage: number; numberOfEvents: number }) => {
-        let eventsListState: EventPageResponceDto[];
-        this.store
-          .select((state: IAppState): IEcoEventsState => state.ecoEventsState)
-          .subscribe((res) => {
-            eventsListState = res.eventsList[actions.currentPage];
-          });
-        if (!eventsListState) {
-          return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents).pipe(
-            map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, currentPage: actions.currentPage })),
-            catchError((error) => of(ReceivedFailureAction(error)))
-          );
-        } else {
-          return of(GetEcoEventsByPageSuccessAction({ ecoEvents: false, currentPage: actions.currentPage }));
-        }
+      mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean }) => {
+        return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents).pipe(
+          map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, reset: actions.reset })),
+          catchError((error) => of(ReceivedFailureAction(error)))
+        );
       })
     );
   });

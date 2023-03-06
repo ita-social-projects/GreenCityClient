@@ -20,6 +20,8 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   stationNames: Array<string>;
   regionNames: Array<string>;
   locationNames: Array<string>;
+  isRestore: boolean;
+  isDeactivate: boolean;
 
   constructor(
     private localeStorageService: LocalStorageService,
@@ -29,6 +31,8 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isDeactivate = this.modalData.isDeactivate;
+    this.isRestore = this.modalData.isRestore;
     this.courierName = this.modalData.courierName ?? '';
     this.stationNames = this.modalData.stationNames ?? '';
     this.regionNames = this.modalData.regionName ?? '';

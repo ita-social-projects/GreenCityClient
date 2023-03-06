@@ -49,7 +49,7 @@
           >
             {{ 'profile.dashboard.habits-view-more' | translate }}
           </button>
-          <div class="no-data" *ngIf="!(habitAssignService.habitsInProgress.length || habitsAcquired)">
+          <div class="no-data" *ngIf="!(habitAssignService.habitsInProgress.length || habitsAcquired.length)">
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>
             <a [routerLink]="['/profile', userId, 'allhabits']">
