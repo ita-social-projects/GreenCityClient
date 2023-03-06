@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EcoNewsWidgetComponent } from './eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NewsListGalleryViewComponent } from '../../news-list/news-list-gallery-view/news-list-gallery-view.component';
+import { NewsListGalleryViewComponent } from 'src/app/shared/news-list-gallery-view/news-list-gallery-view.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

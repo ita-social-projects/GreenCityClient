@@ -115,11 +115,13 @@ describe('AllHabitsComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage',
     'getHabitsGalleryView',
-    'setHabitsGalleryView'
+    'setHabitsGalleryView',
+    'getUserId'
   ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.getUserId = () => 1;
 
   let assignHabitServiceMock: HabitAssignService;
   assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);

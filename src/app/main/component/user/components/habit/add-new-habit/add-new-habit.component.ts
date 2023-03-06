@@ -24,12 +24,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
+  public tags: string[];
+  public recommendedHabits: HabitResponseInterface;
+  public amountAcquired = 6;
   public userId: number;
   public newDuration: number;
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
-  public isAssigned = false;
+  public isEditing = false;
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
@@ -75,14 +78,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     });
   }
 
-  public initHabitData(data) {
+  public initHabitData(data): void {
     this.habitResponse = data;
+    this.tags = data.tags;
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
   }
 
-  public getDefaultItems() {
+  public getDefaultItems(): void {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
@@ -91,7 +95,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getCustomItems() {
+  public getCustomItems(): void {
     this.habitAssignService
       .getCustomHabit(this.habitId)
       .pipe(take(1))
@@ -100,7 +104,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getStars(complexity: number) {
+  public getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
       this.stars[this.star] = this.greenStar;
     }
@@ -114,27 +118,30 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.userId = this.localStorageService.getUserId();
   }
 
-  public getDuration(newDuration: number) {
+  public getDuration(newDuration: number): void {
     this.newDuration = newDuration;
   }
 
-  public getList(list: ShoppingList[]) {
+  public getList(list: ShoppingList[]): void {
     this.newList = list;
   }
 
-  public checkIfAssigned() {
+  public checkIfAssigned(): void {
     this.habitAssignService
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         for (const assigned of response) {
           if (assigned.habit.id === this.habitId) {
-            this.isAssigned = true;
+            this.isEditing = true;
             this.habit = assigned;
+            if (this.habit.habit.tags && this.habit.habit.tags.length) {
+              this.tags = this.habit.habit.tags;
+            }
             break;
           }
         }
-        this.isAssigned ? this.getCustomItems() : this.getDefaultItems();
+        this.isEditing ? this.getCustomItems() : this.getDefaultItems();
       });
   }
 
@@ -173,7 +180,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.router.navigate(['profile', this.userId]);
   }
 
-  public addHabit() {
+  public addHabit(): void {
     const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds)
@@ -184,7 +191,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateHabit() {
+  public updateHabit(): void {
     const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
     this.habitAssignService
       .updateHabit(this.habitId, this.newDuration, defailtItemsIds)
@@ -195,6 +202,16 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.router.navigate(['profile', this.userId]);
         this.snackBar.openSnackBar('habitUpdated');
+      });
+  }
+
+  public deleteHabit(): void {
+    this.habitAssignService
+      .deleteHabitById(this.habitId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.router.navigate(['profile', this.userId]);
+        this.snackBar.openSnackBar('habitDeleted');
       });
   }
 

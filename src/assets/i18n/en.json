@@ -666,8 +666,8 @@
         "add-new-habit": "Add new habit!"
       },
       "header": {
-        "tags": "Smart consuming",
-        "aquired": "Aquired by 134 users"
+        "aquired": "Aquired by ",
+        "difficulty": "Difficulty: "
       },
       "info": "Habit info",
       "progress-title": "Progress",
@@ -740,6 +740,10 @@
         "good-days": "days in a row. You're good!",
         "done": "Mark as done",
         "great": "Great! You've got a habit!"
+      },
+      "habit-widget": {
+        "title": "More habits from ",
+        "title-news": "Check out our useful links"
       }
     }
   },

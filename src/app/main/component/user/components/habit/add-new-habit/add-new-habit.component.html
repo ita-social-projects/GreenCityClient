@@ -6,12 +6,20 @@
   <div class="habit-container">
     <div class="habit-info">
       <div class="header">
-        <div class="tags">{{ 'user.habit.header.tags' | translate }}</div>
+        <div class="item">
+          <span *ngFor="let tag of tags; let last = last">
+            {{ tag }}
+            <ng-container *ngIf="!last">,&nbsp;</ng-container>
+          </span>
+        </div>
         <div class="line"></div>
-        <div class="aquired">{{ 'user.habit.header.aquired' | translate }}</div>
+        <div class="item">{{ 'user.habit.header.aquired' | translate }} {{ amountAcquired }}</div>
         <div class="line"></div>
-        <div class="stars">
-          <img *ngFor="let star of stars" alt="star" [src]="star" />
+        <div class="item">
+          <div>{{ 'user.habit.header.difficulty' | translate }}</div>
+          <div class="stars">
+            <img *ngFor="let star of stars" alt="star" [src]="star" />
+          </div>
         </div>
       </div>
       <div class="habit-title">
@@ -27,16 +35,16 @@
       <img class="img" [src]="habitResponse?.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
     </div>
   </div>
-  <div class="habit-edit">{{ 'user.habit.info' | translate }}</div>
+  <div class="habit-edit">
+    <h3>{{ 'user.habit.info' | translate }}</h3>
+    <div class="lock-icon"></div>
+  </div>
   <div class="divider"></div>
   <div class="container-habit-edit">
     <div class="habit-progress">
       <app-habit-progress [habit]="habit"></app-habit-progress>
     </div>
     <div class="habit-info-right-block">
-      <div class="invite-friends">
-        <app-habit-invite-friends></app-habit-invite-friends>
-      </div>
       <div class="duration-shoping">
         <div class="duration" *ngIf="habitResponse">
           <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
@@ -45,14 +53,17 @@
           <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
         </div>
       </div>
+      <div class="invite-friends">
+        <app-habit-invite-friends></app-habit-invite-friends>
+      </div>
     </div>
-    <div *ngIf="!isAssigned" class="add-habit-container">
+    <div *ngIf="!isEditing" class="add-habit-container">
       <button class="primary-global-button cancel-habit-button" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
       <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
-    <div *ngIf="isAssigned" class="add-habit-container">
+    <div *ngIf="isEditing" class="add-habit-container">
       <button class="primary-global-button delete-habit-button" type="submit" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
@@ -61,4 +72,6 @@
       </button>
     </div>
   </div>
+  <app-habits-widget *ngIf="tags" [tag]="tags[0]" [isHabit]="true"></app-habits-widget>
+  <app-habits-widget [isHabit]="false"></app-habits-widget>
 </div>
