@@ -1,5 +1,8 @@
-<div class="w-100">
+<div class="w-100" *ngIf="isCreate">
   <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.create_card_title' | translate }}</p>
+</div>
+<div class="w-100" *ngIf="isEdit">
+  <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit_card_title' | translate }}</p>
 </div>
 <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
 <ng-template #form>
@@ -120,7 +123,7 @@
         {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
       </button>
       <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid" *ngIf="isEdit" (click)="editCard()">
-        {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
+        {{ 'ubs-tariffs-add-location-pop-up.edit_button' | translate }}
       </button>
     </div>
     <span *ngIf="isCardExist" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>
