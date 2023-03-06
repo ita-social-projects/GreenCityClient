@@ -44,6 +44,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public hasNext = true;
   public remaining = 0;
   private eventsPerPage = 6;
+  public elementsArePresent = true;
   public selectedFilters = selectedFilters; // test data,should be deleted when back-end is ready
   public searchToggle = false;
   public bookmarkSelected = false;
@@ -54,7 +55,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public eventLocationList: OptionItem[] = tempLocationList;
   public allSelected = false;
   private optionsList: any;
-
+  public scroll: boolean;
   private dialog: MatDialog;
 
   constructor(
@@ -85,6 +86,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = this.eventsList.length < data.totalElements;
       }
     });
+  }
+
+  public dispatchStore(res: boolean): void {
+    if (this.hasNext && this.page !== undefined) {
+      this.store.dispatch(GetEcoEventsByPageAction({ currentPage: this.page, numberOfEvents: this.eventsPerPage, reset: res }));
+    }
   }
 
   public toggleAllSelection(optionsList: any): void {
