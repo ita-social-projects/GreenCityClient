@@ -23,6 +23,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public list: ShoppingList[] = [];
   public subscription: Subscription;
   public habitId: number;
+  public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
   public shoppingItemNameLimit = 20;
@@ -52,6 +53,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.habitId = +params.habitId;
     });
+    this.userId = this.localStorageService.getUserId();
     this.checkIfAssigned();
     this.subscription = this.shoppinglistService
       .getList()
@@ -86,7 +88,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   }
 
   public getCustomItems() {
-    this.shoppinglistService.getCustomItems(localStorage.getItem('userId'), this.habitId);
+    this.shoppinglistService.getCustomItems(this.userId, this.habitId);
   }
 
   private bindLang(lang: string): void {

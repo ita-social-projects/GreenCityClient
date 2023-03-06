@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -57,11 +58,14 @@ describe('AddNewHabitComponent', () => {
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', {
     getHabitById: of(mockHabitResponse)
   });
+
   fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
     getCurrentLanguage: () => 'ua'
   });
+  fakeLocalStorageService.getUserId = () => 2;
   fakeLocalStorageService.languageSubject = new Subject<string>();
   fakeLocalStorageService.languageSubject.next('ua');
+
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', {
     saveCustomItems: of([])
@@ -71,7 +75,14 @@ describe('AddNewHabitComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddNewHabitComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, NoopAnimationsModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule,
+        NoopAnimationsModule,
+        MatDialogModule
+      ],
       providers: [
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
@@ -143,9 +154,8 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('getUserId should set this.userId', () => {
-    localStorage.setItem('userId', '2');
     (component as any).getUserId();
-    expect(component.userId).toBe('2');
+    expect(component.userId).toBe(2);
   });
 
   it('getDuration should set this.newDuration', () => {
@@ -175,14 +185,14 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('cancel method should navigate', () => {
-    component.userId = '2';
+    component.userId = 2;
     spyOn((component as any).router, 'navigate').and.returnValue('test');
-    component.cancel();
+    component.cancelAdd();
     expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
   it('method addHabit should navigate and openSnackBar', () => {
-    component.userId = '2';
+    component.userId = 2;
     component.newList = [
       {
         selected: true,
@@ -199,7 +209,7 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('method updateHabit should navigate and openSnackBar', () => {
-    component.userId = '2';
+    component.userId = 2;
     component.newList = [
       {
         selected: true,
@@ -212,15 +222,6 @@ describe('AddNewHabitComponent', () => {
     spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
     component.updateHabit();
     expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitUpdated');
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
-  });
-
-  it('method deleteHabit should navigate and openSnackBar', () => {
-    component.userId = '2';
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
-    component.deleteHabit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitDeleted');
     expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 

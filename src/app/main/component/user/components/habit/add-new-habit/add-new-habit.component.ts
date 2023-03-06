@@ -11,6 +11,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -22,7 +24,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
-  public userId: string;
+  public userId: number;
   public newDuration: number;
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
@@ -32,10 +34,17 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
+  public popUpGiveUp = {
+    title: 'user.habit.add-new-habit.confirmation-modal-title',
+    subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
+    confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
+    cancel: 'user.habit.add-new-habit.confirmation-modal-no'
+  };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
@@ -102,7 +111,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   private getUserId() {
-    this.userId = localStorage.getItem('userId');
+    this.userId = this.localStorageService.getUserId();
   }
 
   public getDuration(newDuration: number) {
@@ -129,7 +138,38 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public cancel() {
+  giveUpHabit(): void {
+    const dialogRef = this.dialog.open(WarningPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'popup-dialog-container',
+      data: {
+        popupTitle: this.popUpGiveUp.title,
+        popupSubtitle: this.popUpGiveUp.subtitle,
+        popupConfirm: this.popUpGiveUp.confirm,
+        popupCancel: this.popUpGiveUp.cancel,
+        isHabit: true,
+        habitName: this.habitResponse.habitTranslation.name
+      }
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.habitAssignService
+            .deleteHabitById(this.habitId)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.router.navigate(['profile', this.userId]);
+              this.snackBar.openSnackBar('habitDeleted');
+            });
+        }
+      });
+  }
+
+  public cancelAdd(): void {
     this.router.navigate(['profile', this.userId]);
   }
 
@@ -155,16 +195,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.router.navigate(['profile', this.userId]);
         this.snackBar.openSnackBar('habitUpdated');
-      });
-  }
-
-  public deleteHabit() {
-    this.habitAssignService
-      .deleteHabitById(this.habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitDeleted');
       });
   }
 
