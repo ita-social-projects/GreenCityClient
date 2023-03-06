@@ -85,7 +85,8 @@ describe('EventDetailsComponent', () => {
     'languageBehaviourSubject',
     'setEditMode',
     'setEventForEdit',
-    'getCurrentLanguage'
+    'getCurrentLanguage',
+    'getPreviousPage'
   ]);
 
   LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -98,6 +99,7 @@ describe('EventDetailsComponent', () => {
       };
     }
   }
+  LocalStorageServiceMock.getPreviousPage = () => '/profile';
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {

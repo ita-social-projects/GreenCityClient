@@ -3,7 +3,7 @@
   <div *ngIf="event && !isPosting" class="event">
     <div class="event-nav">
       <div class="back-button">
-        <a [routerLink]="['/events']" class="button-link">
+        <a [routerLink]="routedFromProfile ? [backRoute, routedFromProfile && { tabId: 2 }] : [backRoute]" class="button-link">
           <div class="button-content">
             <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
             <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
