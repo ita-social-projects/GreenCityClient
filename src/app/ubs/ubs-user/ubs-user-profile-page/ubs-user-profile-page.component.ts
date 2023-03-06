@@ -551,7 +551,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        if ((res = 'Added')) {
+        if (res) {
           this.getUserData();
         }
       });
