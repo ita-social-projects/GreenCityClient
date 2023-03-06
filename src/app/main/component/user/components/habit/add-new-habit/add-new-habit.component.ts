@@ -108,10 +108,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getProgressValue(progress: number): void {
-    this.canAcquire = progress >= this.enoughToAcquire;
-  }
-
   public getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
       this.stars[this.star] = this.greenStar;
@@ -128,6 +124,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   public getDuration(newDuration: number): void {
     this.newDuration = newDuration;
+  }
+
+  public getProgressValue(progress: number): void {
+    this.canAcquire = progress >= this.enoughToAcquire;
   }
 
   public getList(list: ShoppingList[]): void {
