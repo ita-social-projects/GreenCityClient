@@ -1113,5 +1113,10 @@
         "li_2": "20 packages of 120 liters in the suburbs within 20 km of Kyiv"
       }
     }
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "This address has already been added"
+    }
   }
 }

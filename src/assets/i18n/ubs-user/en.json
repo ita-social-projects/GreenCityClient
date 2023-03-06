@@ -26,5 +26,10 @@
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "This address has already been added"
+    }
   }
 }
