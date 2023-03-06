@@ -198,25 +198,11 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    gap: 32px;
 
-    .add-habit-button,
-    .save-habit-button,
-    .delete-habit-button,
-    .cancel-habit-button {
-      width: 160px;
+    .btn {
       height: 48px;
-    }
-
-    .delete-habit-button,
-    .cancel-habit-button {
-      margin-right: 40px;
-      background-color: var(--primary-white);
-      color: var(--primary-green);
-    }
-
-    .delete-habit-button:hover,
-    .cancel-habit-button:hover {
-      border: 3px solid var(--primary-green);
+      width: 160px;
     }
   }
 }

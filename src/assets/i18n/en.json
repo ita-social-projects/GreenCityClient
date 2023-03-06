@@ -670,6 +670,7 @@
         "back-to-habit": "Back to my habits",
         "save": "Save",
         "give-up": "Give up",
+        "acquire": "Acquire",
         "add": "Add Habit",
         "cancel": "Cancel",
         "see-all": "See all",
@@ -738,6 +739,7 @@
         "btn-add": "Add habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
+        "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list"
       },
       "habit-trackers": {

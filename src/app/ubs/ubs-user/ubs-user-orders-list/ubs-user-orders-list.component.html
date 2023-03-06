@@ -5,7 +5,7 @@
   <div class="header header_list-status">{{ 'user-orders.order-status' | translate }}</div>
   <div class="header header_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
   <div class="header header_list-paymentAmount">{{ 'user-orders.payment-amount' | translate }}</div>
-  <div class="header header_list-paymentAmountDue">{{ 'user-orders.amount-due' | translate }}</div>
+  <div *ngIf="!isOrderDoneOrCancel(orders[0])" class="header header_list-paymentAmountDue">{{ 'user-orders.amount-due' | translate }}</div>
 
   <div class="empty-div"></div>
 </div>
@@ -46,7 +46,7 @@
           </mat-panel-description>
           <div class="mobile_list">
             <div class="mobile mobile_list-date">{{ 'user-orders.order-date' | translate }}</div>
-            <mat-panel-description class="order_list-paymentAmountDue table-data">
+            <mat-panel-description *ngIf="!isOrderDoneOrCancel(order)" class="order_list-paymentAmountDue table-data">
               {{ order.amountBeforePayment | currency | localizedCurrency }}
             </mat-panel-description>
           </div>
