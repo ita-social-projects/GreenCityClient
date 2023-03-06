@@ -562,7 +562,7 @@
     "edit": "Edit",
     "required-fields": "*Required fields",
     "name": "Name*",
-    "surname": "Surname*",
+    "surname": "Last name*",
     "phone-number": "Phone number*",
     "email": "Email",
     "position": "Position*",
