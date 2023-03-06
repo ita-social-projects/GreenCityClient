@@ -31,6 +31,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public token: string;
   public restoreDto: RestoreDto;
   public isUbs: boolean;
+  public isSignInPage: boolean;
 
   constructor(
     private router: Router,
@@ -96,6 +97,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
     if (this.confirmRestorePasswordForm) {
       this.passwordFieldValue = this.passwordField.value;
       this.passwordConfirmFieldValue = this.confirmPasswordField.value;
+      this.isSignInPage = true;
     }
   }
 
