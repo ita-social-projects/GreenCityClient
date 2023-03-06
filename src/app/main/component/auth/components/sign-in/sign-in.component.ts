@@ -89,6 +89,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public configDefaultErrorMessage(): void {
     this.generalError = null;
     if (this.signInForm) {
+      console.log('ssss');
       this.emailFieldValue = this.emailField.value;
       this.passwordFieldValueSignIn = this.passwordField.value;
     }
