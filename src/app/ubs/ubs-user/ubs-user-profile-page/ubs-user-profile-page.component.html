@@ -306,6 +306,18 @@
                     </select>
                   </div>
                 </div>
+                <div>
+                  <mat-checkbox
+                    class="check"
+                    type="checkbox"
+                    [disabled]="!isEditing"
+                    [checked]="defaultAddress"
+                    (change)="checkedCheckbox($event)"
+                    value="id1"
+                    id="defaultAddress"
+                    >Зробити адресою за замовчуванням</mat-checkbox
+                  >
+                </div>
               </div>
             </div>
           </div>
