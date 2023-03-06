@@ -61,6 +61,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
       this.currentPage = value.pageNumber;
       if (value.ecoNews) {
         this.elements = [...value.pages];
+        console.log('this.elements', this.elements);
         const data = value.ecoNews;
         this.hasNext = data.hasNext;
         this.remaining =

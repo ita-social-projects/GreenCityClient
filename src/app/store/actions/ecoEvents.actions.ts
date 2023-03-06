@@ -37,12 +37,12 @@ export const DeleteEcoEventSuccessAction = createAction(EventsActions.DeleteEcoE
 
 export const GetEcoEventsByPageAction = createAction(
   EventsActions.GetEcoEventsByPage,
-  props<{ currentPage: number; numberOfEvents: number }>()
+  props<{ currentPage: number; numberOfEvents: number; reset: boolean }>()
 );
 
 export const GetEcoEventsByPageSuccessAction = createAction(
   EventsActions.GetEcoEventsByPageSuccess,
-  props<{ ecoEvents: EventResponseDto | any; currentPage: number }>()
+  props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
 );
 
 export const RateEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number; grade: number }>());
