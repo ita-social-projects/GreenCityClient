@@ -58,7 +58,7 @@
     id="pass-err-msg"
     class="validation-password-error"
   >
-    <app-error [formElement]="passwordField" [passwordFieldValue]="passwordFieldValue" [controlName]="'password'"></app-error>
+    <app-error [formElement]="passwordField" [isSignInPassword]="isSignInPage" [controlName]="'password'"></app-error>
   </div>
   <div *ngIf="generalError" class="alert-general-error" tabindex="0">
     {{ generalError | translate }}
