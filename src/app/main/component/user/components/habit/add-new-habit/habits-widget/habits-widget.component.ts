@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { HabitService } from '@global-service/habit/habit.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { take } from 'rxjs/operators';
@@ -20,13 +20,14 @@ export class HabitsWidgetComponent implements AfterViewInit {
   private page: number;
   private size: number;
 
-  constructor(private habitService: HabitService, private newsSevise: EcoNewsService) {}
+  constructor(private habitService: HabitService, private newsSevise: EcoNewsService, private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.page = 1;
     this.size = 3;
     this.getRecommendedHabits(this.page, this.size, [this.tag]);
     this.getRecommendedNews(this.page, this.size);
+    this.cdr.detectChanges();
   }
 
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {
