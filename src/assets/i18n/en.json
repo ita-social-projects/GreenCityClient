@@ -108,9 +108,22 @@
     "events": {
       "title": "Events",
       "author": "by",
+      "create-title": "Create event",
       "delete-title": "Delete event",
       "delete-yes": "yes",
       "delete-no": "no",
+      "filter-title": "Sort By",
+      "filter-location": "Location",
+      "filter-location-аny-location": "(Select All)",
+      "filter-status": "Status",
+      "filter-status-аny-status": "Any status",
+      "filter-type": "Type",
+      "filter-аny-type": "All types",
+      "filter-reset-all": "Reset all",
+      "time": "Event time",
+      "time-any-time": "Any time",
+      "item-found-text": "",
+      "items-event-text": "Items found",
       "my-space": {
         "tag-title": "My Events"
       },

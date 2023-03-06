@@ -85,14 +85,25 @@ describe('EventsListComponent', () => {
   });
 
   it('should check weather resetAll works correctly', () => {
-    component.selectedFilters = ['one', 'two', 'three'];
+    component.selectedFilters = [
+      { nameEn: 'one', nameUa: 'один' },
+      { nameEn: 'two', nameUa: 'два' },
+      { nameEn: 'three', nameUa: 'три' }
+    ];
     component.resetAll();
     expect(component.selectedFilters.length).toEqual(0);
   });
 
   it('should check weather deleteOneFilter works correctly', () => {
-    component.selectedFilters = ['one', 'two', 'three'];
-    const filterRemoved = ['one', 'three'];
+    component.selectedFilters = [
+      { nameEn: 'one', nameUa: 'один' },
+      { nameEn: 'two', nameUa: 'два' },
+      { nameEn: 'three', nameUa: 'три' }
+    ];
+    const filterRemoved = [
+      { nameEn: 'one', nameUa: 'один' },
+      { nameEn: 'three', nameUa: 'три' }
+    ];
     component.deleteOneFilter(1);
     expect(component.selectedFilters).toEqual(filterRemoved);
   });
@@ -107,11 +118,5 @@ describe('EventsListComponent', () => {
     component.searchToggle = false;
     component.search();
     expect(component.searchToggle).toEqual(true);
-  });
-
-  it('should check weather toggleAllSelection works correctly', () => {
-    component.allSelected = false;
-    component.toggleAllSelection();
-    expect(component.selectedEventTime).toEqual(component.eventTimeList);
   });
 });
