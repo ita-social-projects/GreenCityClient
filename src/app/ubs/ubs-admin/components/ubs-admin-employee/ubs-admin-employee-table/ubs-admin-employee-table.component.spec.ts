@@ -204,7 +204,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'edit-dialog-container'
+      panelClass: 'admin-cabinet-dialog-container'
     });
   });
 
