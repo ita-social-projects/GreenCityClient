@@ -70,6 +70,14 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.pageOpen = !this.pageOpen;
   }
 
+  public isFormRequired(): boolean {
+    const isNotOpen = !this.pageOpen;
+    const isNotValid = !this.exportDetailsDto.valid;
+    const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
+
+    return isNotOpen && isNotValid && isNotCancelOrDone;
+  }
+
   showTimePickerClick(): void {
     this.showTimePicker = true;
     this.fromInput = this.exportDetailsDto.get('timeDeliveryFrom').value;

@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -76,7 +77,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private locations: Locations,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    public orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -168,7 +170,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        isKyiv: new FormControl(adres?.city === 'Київ' ? true : false)
+        isKyiv: new FormControl(adres?.city === 'Київ' ? true : false),
+        id: new FormControl(adres?.id)
       });
       addres.push(seperateAddress);
     });
@@ -200,6 +203,16 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
+
+  public deleteAddress(address) {
+    this.orderService
+      .deleteAddress(address.value)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((list: { addressList: Address[] }) => {
+        this.userProfile.addressDto = list.addressList;
+        this.getUserData();
+      });
   }
 
   setRegionValue(formGroupName: number, event: Event): void {
@@ -532,7 +545,16 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       edit: false,
       address: {}
     };
-    this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        if ((res = 'Added')) {
+          this.getUserData();
+        }
+      });
   }
 
   formatedPhoneNumber(num: string): string | void {

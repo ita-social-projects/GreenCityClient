@@ -56,6 +56,14 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
     return [];
   }
 
+  public isFormRequired(): boolean {
+    const isNotOpen = !this.pageOpen;
+    const isNotValid = !this.responsiblePersonsForm.valid;
+    const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
+
+    return isNotOpen && isNotValid && isNotCancelOrDone;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

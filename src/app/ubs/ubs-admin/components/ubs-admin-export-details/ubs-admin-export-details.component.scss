@@ -67,6 +67,13 @@
   font-size: 24px;
 }
 
+.alert-message {
+  line-height: 28px;
+  letter-spacing: 0.002em;
+  margin-left: 40px;
+  color: var(--ubs-error-base);
+}
+
 .title-comment {
   font-size: 16px;
 }
