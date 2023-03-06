@@ -223,16 +223,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteHabit(): void {
-    this.habitAssignService
-      .deleteHabitById(this.habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitDeleted');
-      });
-  }
-
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
   }
