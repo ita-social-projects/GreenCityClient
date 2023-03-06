@@ -730,6 +730,7 @@
         "btn-add": "Додати звичку",
         "new-habit-added": "Ви успішно додали звичку у свій список",
         "new-habit-updated": "Ви успішно оновили звичку",
+        "habit-did-not-give-up": "Ми раді, що ви передумали",
         "habit-was-deleted": "Ви успішно видалили звичку зі списку"
       },
       "habit-trackers": {
