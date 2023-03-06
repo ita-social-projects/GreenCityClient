@@ -34,6 +34,7 @@ export class HabitProgressComponent implements OnChanges {
   };
 
   @Output() nowAcquiredHabit = new EventEmitter();
+  @Output() progressValue = new EventEmitter<number>();
 
   constructor(private habitAssignService: HabitAssignService, public datePipe: DatePipe) {}
 
@@ -45,6 +46,7 @@ export class HabitProgressComponent implements OnChanges {
 
   public countProgressBar(): void {
     this.indicator = Math.round((this.habit.workingDays / this.habit.duration) * 100);
+    this.progressValue.emit(this.indicator);
   }
 
   public buildHabitDescription(): void {
