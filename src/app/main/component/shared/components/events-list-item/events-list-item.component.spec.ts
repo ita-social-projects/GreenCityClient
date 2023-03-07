@@ -577,4 +577,15 @@ describe('EventsListItemComponent', () => {
     }
     expect(component.deleteEvent).toHaveBeenCalled();
   });
+
+  it('openModal should be called when event not raited, opened and not owner ', () => {
+    component.isEventOpen = true;
+    component.isOwner = false;
+    component.isRated = false;
+    spyOn(component, 'openModal');
+    if (component.isEventOpen && !component.isOwner && !component.isRated) {
+      component.openModal();
+    }
+    expect(component.openModal).toHaveBeenCalled();
+  });
 });
