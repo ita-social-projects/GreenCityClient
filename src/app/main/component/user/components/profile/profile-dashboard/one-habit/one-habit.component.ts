@@ -27,7 +27,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   private descriptionType = {
     acquired: () => {
       this.setHabitValue(false);
-      this.habitMark = HabitMark.AQUIRED;
+      this.habitMark = HabitMark.ACQUIRED;
     },
     done: () => {
       this.setHabitValue(false);

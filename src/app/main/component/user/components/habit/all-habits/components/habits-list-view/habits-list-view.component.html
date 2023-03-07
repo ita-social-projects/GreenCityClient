@@ -10,8 +10,8 @@
           <div class="tags">
             <span *ngFor="let tag of habit.tags; let last = last"> {{ tag }}<ng-container *ngIf="!last">,&nbsp;</ng-container> </span>
           </div>
-          <div class="aquired">
-            <span>Aquired by 134 users</span>
+          <div class="acquired">
+            <span>Acquired by 134 users</span>
           </div>
           <div class="stars">
             <img *ngFor="let star of stars" [src]="star" alt="star" />

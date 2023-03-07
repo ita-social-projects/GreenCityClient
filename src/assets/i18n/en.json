@@ -680,7 +680,7 @@
         "add-new-habit": "Add new habit!"
       },
       "header": {
-        "aquired": "Aquired by ",
+        "accquired": "Acquired by ",
         "difficulty": "Difficulty: "
       },
       "info": "Habit info",
