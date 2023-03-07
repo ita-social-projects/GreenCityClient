@@ -2,19 +2,19 @@
   <h2 mat-dialog-title>{{ 'ubs-notifications.text-editing-popup.title' | translate }}&nbsp;{{ platform }}</h2>
 
   <div mat-dialog-content class="edit-notification-content">
-    <select (change)="addTextToLastFocused($event.target)">
-      <option *ngFor="let item of items" value="{{ item.name }}">{{ item.name }}</option>
-    </select>
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.ua' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
+          <select #selectUa (change)="addMention($event.target, 'textUa')">
+            <option disabled selected value="" hidden>Виберіть</option>
+            <option *ngFor="let item of items" value="{{ textDecorator(item) }}">{{ item }}</option>
+          </select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput #textUa formControlName="textUa" class="edit-text" (click)="saveCaretPosition()"></textarea>
-            <ul #list class="menu" role="listbox"></ul>
+            <textarea matInput #textUa formControlName="textUa" class="edit-text" [mentionConfig]="config"></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
@@ -23,9 +23,13 @@
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.en' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
+          <select #selectEn (change)="addMention($event.target, 'textEn')">
+            <option disabled selected value="" hidden>Select</option>
+            <option *ngFor="let item of items" value="{{ textDecorator(item) }}">{{ item }}</option>
+          </select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput #textEn formControlName="textEn" class="edit-text" (click)="saveCaretPosition()"></textarea>
+            <textarea matInput #textEn formControlName="textEn" class="edit-text" [mentionConfig]="config"></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>

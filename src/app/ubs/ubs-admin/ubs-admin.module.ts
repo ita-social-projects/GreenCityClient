@@ -94,6 +94,7 @@ import { UbsAdminNotificationEditFormComponent } from './components/ubs-admin-no
 import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-notification/ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { ConfirmationDialogComponent } from './components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/tariff-selector/tariff-selector.component';
+import { MentionModule } from 'angular-mentions';
 
 @NgModule({
   declarations: [
@@ -200,7 +201,8 @@ import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-adm
     MatChipsModule,
     MatSelectModule,
     MatExpansionModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MentionModule
   ],
   providers: [
     AdminCertificateService,
