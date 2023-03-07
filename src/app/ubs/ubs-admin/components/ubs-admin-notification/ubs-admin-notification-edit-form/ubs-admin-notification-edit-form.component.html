@@ -8,13 +8,25 @@
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.ua' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
-          <select #selectUa (change)="addMention($event.target, 'textUa')">
-            <option disabled selected value="" hidden>Виберіть</option>
-            <option *ngFor="let item of items" value="{{ textDecorator(item) }}">{{ item }}</option>
-          </select>
+          <mat-select
+            #selectUa
+            (selectionChange)="addMention($event.value, 'textUa')"
+            class="selector"
+            placeholder="{{ 'ubs-notifications.text-editing-popup.labels.select' | translate }}"
+          >
+            <mat-option *ngFor="let item of items" value="{{ textDecorator(item) }}" class="option">{{ item }} </mat-option>
+          </mat-select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput #textUa formControlName="textUa" class="edit-text" [mentionConfig]="config"></textarea>
+            <textarea
+              matInput
+              #textUa
+              formControlName="textUa"
+              placeholder="{{ 'ubs-notifications.text-editing-popup.placeholder' | translate }}"
+              required
+              class="edit-text"
+              [mentionConfig]="config"
+            ></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
@@ -23,13 +35,25 @@
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.en' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
-          <select #selectEn (change)="addMention($event.target, 'textEn')">
-            <option disabled selected value="" hidden>Select</option>
-            <option *ngFor="let item of items" value="{{ textDecorator(item) }}">{{ item }}</option>
-          </select>
+          <mat-select
+            #selectEn
+            (selectionChange)="addMention($event.value, 'textEn')"
+            placeholder="{{ 'ubs-notifications.text-editing-popup.labels.select' | translate }}"
+            class="selector"
+          >
+            <mat-option *ngFor="let item of items" value="{{ textDecorator(item) }}">{{ item }} </mat-option>
+          </mat-select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput #textEn formControlName="textEn" class="edit-text" [mentionConfig]="config"></textarea>
+            <textarea
+              matInput
+              #textEn
+              formControlName="textEn"
+              placeholder="{{ 'ubs-notifications.text-editing-popup.placeholder' | translate }}"
+              required
+              class="edit-text"
+              [mentionConfig]="config"
+            ></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>

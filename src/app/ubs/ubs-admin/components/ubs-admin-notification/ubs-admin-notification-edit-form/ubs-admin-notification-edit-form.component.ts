@@ -1,7 +1,8 @@
-import { Component, Inject, ViewChild, ElementRef, Input, HostListener, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, Inject, ViewChild, ElementRef, Input, HostListener, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MentionModule } from 'angular-mentions';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-ubs-admin-notification-edit-form',
@@ -25,7 +26,8 @@ export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
   constructor(
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: { platform: string; text: { en: string; ua: string } },
-    public dialogRef: MatDialogRef<UbsAdminNotificationEditFormComponent>
+    public dialogRef: MatDialogRef<UbsAdminNotificationEditFormComponent>,
+    private cdref: ChangeDetectorRef
   ) {
     this.platform = data.platform;
     this.form = this.fb.group({
@@ -37,16 +39,17 @@ export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
   @ViewChild('textUa', { static: false }) textUa: ElementRef<HTMLInputElement>;
   @ViewChild('textEn', { static: false }) textEn: ElementRef<HTMLInputElement>;
 
-  @ViewChild('selectEn', { static: false }) selectEn: ElementRef<HTMLSelectElement>;
-  @ViewChild('selectUa', { static: false }) selectUa: ElementRef<HTMLSelectElement>;
+  @ViewChild('selectEn', { static: false }) selectEn: MatSelect;
+  @ViewChild('selectUa', { static: false }) selectUa: MatSelect;
 
   ngAfterViewChecked(): void {
-    this.selectEn.nativeElement.selectedIndex = 0;
-    this.selectUa.nativeElement.selectedIndex = 0;
+    this.selectEn.value = 0;
+    this.selectUa.value = 0;
+    this.cdref.detectChanges();
   }
 
-  addMention(selectElement: HTMLSelectElement, ref: string) {
-    const textToAdd = selectElement.value;
+  addMention(selectElement: string, ref: string) {
+    const textToAdd = selectElement;
     const el = this[ref].nativeElement;
 
     const selectionStart = el.selectionStart;
