@@ -560,4 +560,10 @@ describe('EventsListItemComponent', () => {
     component.buttonAction();
     expect(component.dispatchStore).toHaveBeenCalledTimes(1);
   });
+
+  it(`should be add elements to current list if scroll`, () => {
+    spyOn(component, 'dispatchStore');
+    component.actionIsJoined(false);
+    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
+  });
 });
