@@ -1,6 +1,6 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
-  <a [routerLink]="routedFromProfile ? [backRoute, routedFromProfile && { tabId: 2 }] : [backRoute]">
+  <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]">
     <div class="button-arrow">
       <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
       <div class="edit-news">{{ 'create-event.back' | translate }}</div>
