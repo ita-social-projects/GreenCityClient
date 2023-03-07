@@ -60,7 +60,7 @@
         <label>{{ 'ubs-tariffs.region' | translate }}</label>
         <mat-select
           #regionSelect
-          formControlName="region"
+          formControlName="regionNameUk"
           class="form-control"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
           (selectionChange)="onRegionSelected($event)"
@@ -84,7 +84,7 @@
           formControlName="city"
           [placeholder]="cityPlaceholder"
           [matAutocomplete]="autoCity"
-          [attr.disabled]="CardForm.controls['region'].dirty ? null : true"
+          [attr.disabled]="CardForm.controls['regionNameUk'].dirty ? null : true"
           [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
           (blur)="onBlur($event)"
         />

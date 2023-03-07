@@ -25,11 +25,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     courierName: ['', Validators.required],
     courierNameEng: ['', Validators.required],
     station: ['', Validators.required],
-    stationEng: ['', Validators.required],
-    region: ['', Validators.required],
-    regionEng: ['', Validators.required],
-    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]],
-    cityEng: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
+    regionNameUk: ['', Validators.required],
+    regionNameEng: ['', Validators.required],
+    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -373,17 +371,20 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   fillFields(modalData) {
+    console.log('modal', modalData);
+    console.log('before', this.CardForm);
     if (modalData) {
-      const { courier, courierEnglishName, regionEnglishName, station, region, city } = this.modalData;
+      const { courierNameUk, courierEnglishName, regionEnglishName, station, regionNameUk, city } = this.modalData;
       this.CardForm.patchValue({
-        courierName: courier,
+        courierName: courierNameUk,
         courierNameEng: courierEnglishName,
+        regionNameUk,
+        regionNameEng: regionEnglishName,
         station,
-        region,
-        regionEng: regionEnglishName,
         city
       });
     }
+    console.log('after', this.CardForm);
   }
 
   public createCard(): void {
