@@ -7,6 +7,7 @@ export interface HabitInterface {
   image: string;
   isAssigned?: boolean;
   complexity?: number;
+  amountAcquiredUsers: number;
   shoppingListItems?: Array<ShoppingList>;
   tags: Array<string>;
 }

@@ -3,7 +3,7 @@
     <div class="arrow"></div>
     <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
   </div>
-  <div class="habit-container">
+  <div class="habit-container" *ngIf="habitResponse">
     <div class="habit-info">
       <div class="header">
         <div class="item">
@@ -13,7 +13,7 @@
           </span>
         </div>
         <div class="line"></div>
-        <div class="item">{{ 'user.habit.header.acquired' | translate }} {{ amountAcquired }}</div>
+        <div class="item">{{ 'user.habit.header.aсquired' | translate }} {{ habitResponse.amountAcquiredUsers }}</div>
         <div class="line"></div>
         <div class="item">
           <div>{{ 'user.habit.header.difficulty' | translate }}</div>
