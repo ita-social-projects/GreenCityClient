@@ -566,4 +566,15 @@ describe('EventsListItemComponent', () => {
     component.actionIsJoined(false);
     expect(component.dispatchStore).toHaveBeenCalledTimes(1);
   });
+
+  it('deleteEvent should be called when event not opened and owner ', () => {
+    component.isEventOpen = false;
+    component.isOwner = true;
+    spyOn(component, 'deleteEvent');
+
+    if (!component.isEventOpen && component.isOwner) {
+      component.deleteEvent();
+    }
+    expect(component.deleteEvent).toHaveBeenCalled();
+  });
 });
