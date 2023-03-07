@@ -27,6 +27,7 @@ describe('AddNewHabitComponent', () => {
   const mockHabitResponse: HabitResponseInterface = {
     complexity: 2,
     defaultDuration: 2,
+    amountAcquiredUsers: 1,
     habitTranslation: {
       description: 'test',
       habitItem: 'test',

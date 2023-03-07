@@ -7,6 +7,7 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-04'),
     habit: {
       defaultDuration: 12,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'habit, which will be useful for environment',
         habitItem: 'bags',
@@ -42,6 +43,7 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-07'),
     habit: {
       defaultDuration: 16,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'habit, which will be useful for forest',
         habitItem: 'buying eco brush',
@@ -77,6 +79,7 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-07'),
     habit: {
       defaultDuration: 16,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'habit, which will be useful for forest',
         habitItem: 'buying eco brush',
@@ -114,6 +117,7 @@ export const HABITSWITHTHESAMEHABITID: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-04'),
     habit: {
       defaultDuration: 12,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'habit, which will be useful for environment',
         habitItem: 'bags',
@@ -149,6 +153,7 @@ export const HABITSWITHTHESAMEHABITID: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-07'),
     habit: {
       defaultDuration: 16,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'habit, which will be useful for forest',
         habitItem: 'buying eco brush',
@@ -185,6 +190,7 @@ export const NEWHABIT: HabitAssignInterface = {
   createDateTime: new Date('2021-05-07'),
   habit: {
     defaultDuration: 12,
+    amountAcquiredUsers: 1,
     habitTranslation: {
       description: 'habit, which will be useful for environment',
       habitItem: 'buying eco clothes',
