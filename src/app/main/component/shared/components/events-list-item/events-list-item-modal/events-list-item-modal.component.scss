@@ -18,7 +18,9 @@
   background: url('src/assets/events-icons/background.png') no-repeat center;
 
   .modal-title {
-    width: max-content;
+    display: flex;
+    justify-content: center;
+    text-align: center;
     padding-top: 48px;
     font-weight: 700;
     font-size: 20px;
@@ -57,7 +59,7 @@
   padding-bottom: 48px;
 
   .modal-btn {
-    width: 82px;
+    // width: 82px;
     height: 40px;
   }
 

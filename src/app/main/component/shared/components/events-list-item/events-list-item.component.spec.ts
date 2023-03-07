@@ -554,4 +554,10 @@ describe('EventsListItemComponent', () => {
       expect(component.langChangeSub.closed).toBeTruthy();
     });
   });
+
+  it('should add elements to current list if scroll', () => {
+    spyOn(component, 'dispatchStore');
+    component.buttonAction();
+    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
+  });
 });

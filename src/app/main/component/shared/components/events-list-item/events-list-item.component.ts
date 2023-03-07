@@ -1,6 +1,7 @@
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
+  GetEcoEventsByPageAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
@@ -97,6 +98,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.author = this.event.organizer.name;
   }
 
+  public dispatchStore(res: boolean): void {
+    this.store.dispatch(GetEcoEventsByPageAction({ currentPage: 0, numberOfEvents: 6, reset: res }));
+  }
+
   public routeToEvent(): void {
     this.router.navigate(['/events', this.event.id]);
   }
@@ -174,6 +179,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public buttonAction(): void {
+    this.dispatchStore(true);
     switch (this.isRegistered) {
       case this.isEventOpen && !this.isFinished:
         if (this.isOwner) {
@@ -185,14 +191,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         }
         break;
 
-      case false:
-        if (this.isOwner) {
-          this.deleteEvent();
-        } else {
-          if (!this.isRated && this.isEventOpen) {
-            this.openModal();
-          }
-        }
+      case !this.isEventOpen && this.isOwner:
+        this.deleteEvent();
+        break;
+      case !this.isRated && this.isEventOpen && !this.isOwner:
+        this.openModal();
         break;
       default:
         this.openModal();
@@ -213,6 +216,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.isReadonly = !this.event.organizer.organizerRating ? false : true;
       this.isJoined = true;
     }
+    this.dispatchStore(false);
   }
 
   public openModal(): void {
@@ -242,8 +246,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
+          this.dispatchStore(true);
           this.store.dispatch(DeleteEcoEventAction({ id: this.event.id }));
           this.isPosting = true;
+          this.dispatchStore(false);
         }
       });
   }
