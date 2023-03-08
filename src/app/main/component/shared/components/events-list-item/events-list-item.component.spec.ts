@@ -231,6 +231,18 @@ describe('EventsListItemComponent', () => {
       expect(component.attendees).toEqual([]);
     });
 
+    it(`getAllAttendees should be called in ngOnInit`, () => {
+      spyOn(component, 'getAllAttendees');
+      component.ngOnInit();
+      expect(component.getAllAttendees).toHaveBeenCalled();
+    });
+
+    it(`filterTags should be called in ngOnInit`, () => {
+      spyOn(component, 'filterTags');
+      component.ngOnInit();
+      expect(component.filterTags).toHaveBeenCalled();
+    });
+
     it(`should check whether active tags are filtered properly`, () => {
       component.itemTags = fakeItemTags;
       component.filterTags(component.event.tags);
@@ -587,5 +599,15 @@ describe('EventsListItemComponent', () => {
       component.openModal();
     }
     expect(component.openModal).toHaveBeenCalled();
+  });
+
+  it('handleUserAuthorization should change text and style of btn', () => {
+    component.isLoggedIn = true;
+    component.isOwner = false;
+    component.isJoined = true;
+    spyOn(component, 'handleUserAuthorization');
+    expect(component.styleBtn).toBe('secondary-global-button');
+    expect(component.nameBtn).toBe('event.btn-delete');
+    expect(component.isJoinBtnHidden).toBe(false);
   });
 });
