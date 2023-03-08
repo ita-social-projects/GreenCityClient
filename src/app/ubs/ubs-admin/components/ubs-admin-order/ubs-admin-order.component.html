@@ -36,6 +36,8 @@
           (changeOverpayment)="changeOverpayment($event)"
           (checkMinOrder)="setMinOrder($event)"
           (changeCurrentPrice)="onChangeCurrentPrice($event)"
+          (changeUbsCourierPrice)="onChangeCourierPrice($event)"
+          (changeWriteoffAtStationSum)="onChangeWriteOffStation($event)"
         ></app-ubs-admin-order-details-form>
         <app-ubs-admin-order-payment
           [actualPrice]="currentOrderPrice"
