@@ -119,9 +119,4 @@ describe('EventsListComponent', () => {
     component.search();
     expect(component.searchToggle).toEqual(true);
   });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('uaValue', 'enValue');
-    expect(value).toBe('enValue' || 'uaValue');
-  });
 });

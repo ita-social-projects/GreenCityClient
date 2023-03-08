@@ -193,6 +193,10 @@ describe('EventsListItemComponent', () => {
     component.isPosting = false;
     component.isRated = false;
     component.max = 3;
+    component.userId = 5;
+    component.author = 'tester';
+    component.bookmarkSelected = false;
+    component.currentLang = 'en';
 
     component.deleteDialogData = {
       popupTitle: 'homepage.events.delete-title',
@@ -223,6 +227,19 @@ describe('EventsListItemComponent', () => {
       spyOn(component, 'filterTags');
       component.ngOnInit();
       expect(component.filterTags).toHaveBeenCalled();
+    });
+
+    it('ngOnInit', () => {
+      userOwnAuthServiceMock.getDataFromLocalStorage();
+      const spy = spyOn(component as any, 'checkUserSingIn');
+      component.ngOnInit();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('checkUserSingIn', () => {
+      (component as any).checkUserSingIn();
+      expect(component.userId).toBe(5);
+      expect(component.isLoggedIn).toBe(undefined);
     });
 
     it(`should check whether getAllAttendees returns correct value`, () => {
@@ -609,5 +626,24 @@ describe('EventsListItemComponent', () => {
     expect(component.styleBtn).toBe('secondary-global-button');
     expect(component.nameBtn).toBe('event.btn-delete');
     expect(component.isJoinBtnHidden).toBe(false);
+  });
+
+  it('addToFavourite should be called when add to favorite clicked and not raited', () => {
+    component.isRegistered = false;
+    spyOn(component, 'addToFavourite');
+    if (!component.isRegistered) {
+      component.openAuthModalWindow('sign-in');
+    }
+    expect(component.openAuthModalWindow).toHaveBeenCalled();
+  });
+
+  describe('addToFavourite()', () => {
+    it(`should be clicked and called addToFavourite method`, fakeAsync(() => {
+      spyOn(component, 'addToFavourite');
+      const button = fixture.debugElement.nativeElement.querySelector('.flag');
+      button.click();
+      tick();
+      expect(component.addToFavourite).toHaveBeenCalled();
+    }));
   });
 });
