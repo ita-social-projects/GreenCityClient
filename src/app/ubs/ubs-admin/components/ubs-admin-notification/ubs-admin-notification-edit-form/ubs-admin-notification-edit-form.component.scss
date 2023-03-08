@@ -35,50 +35,47 @@
     .cancel-button {
       width: 175px;
       height: 44px;
-      border: 2px solid #87bc1e;
+      border: 2px solid var(--ubs-secondary-light-green);
       border-radius: 15px;
-      background-color: #fff;
+      background-color: var(--primary-white);
     }
 
     .submit-button {
       width: 157px;
       height: 44px;
-      background: #87bc1e;
-      border: 2px solid #87bc1e;
+      background: var(--ubs-secondary-light-green);
+      border: 2px solid var(--ubs-secondary-light-green);
       border-radius: 15px;
-      color: #ffffff;
+      color: var(--primary-white);
 
       &:disabled {
-        background-color: #d4e7ae;
-        border: #d4e7ae;
+        background-color: var(--ubs-slightly-light-green);
+        border: var(--ubs-slightly-light-green);
       }
     }
   }
 }
 
-::ng-deep mention-list {
-  .dropdown-menu .dropdown-item {
-    color: #444e55 !important;
-    &:hover {
-      background-color: #eaffbd !important;
-      color: #444e55 !important;
-    }
+::ng-deep {
+  .mat-option:hover {
+    background-color: var(--ubs-liberty-green) !important;
+    color: var(--ubs-primary-grey) !important;
   }
 
   .active .dropdown-item {
     height: 32px;
-    background-color: #eaffbd !important;
-    color: #444e55 !important;
+    background-color: var(--ubs-liberty-green) !important;
+    color: var(--ubs-primary-grey) !important;
   }
-}
 
-/* ::ng-deep .mat-expanded{
-  border-bottom: 1px solid #D9D9D9 !important;
-}/**/
+  .dropdown-menu .dropdown-item {
+    color: var(--ubs-primary-grey) !important;
 
-::ng-deep .mat-option:hover {
-  background-color: #eaffbd !important;
-  color: #444e55 !important;
+    &:hover {
+      background-color: var(--ubs-liberty-green) !important;
+      color: var(--ubs-primary-grey) !important;
+    }
+  }
 }
 
 .menu {
@@ -111,6 +108,6 @@
 }
 
 .menu-item.selected {
-  background-color: slateGray;
-  color: white;
+  background-color: slategray;
+  color: var(--primary-white);
 }
