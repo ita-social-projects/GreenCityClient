@@ -79,7 +79,7 @@
 }
 
 .menu {
-  background-color: #f3f3f3;
+  background-color: var(--ubs-secondary-light-grey);
   position: absolute;
   cursor: pointer;
   list-style: none;
@@ -101,13 +101,4 @@
   :hover {
     border: none;
   }
-}
-
-.menu-item:hover:not(.selected) {
-  background-color: #fafafa;
-}
-
-.menu-item.selected {
-  background-color: slategray;
-  color: var(--primary-white);
 }

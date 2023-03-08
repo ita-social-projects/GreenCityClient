@@ -69,10 +69,9 @@ export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
 
     const newSelectionStart = selectionStart + textToAdd.length;
     const newSelectionEnd = selectionEnd + textToAdd.length;
+
     el.setSelectionRange(newSelectionStart, newSelectionEnd);
-
     el.focus();
-
     this.form.patchValue({ [ref]: el.value });
   }
 
