@@ -60,6 +60,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   isMinOrder = true;
   isSubmitted = false;
   private isFormResetted = false;
+  writeOffStationSum: number;
+  ubsCourierPrice: number;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
   isOrderDoneAfterBroughtHimself$: boolean;
@@ -97,17 +99,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, false);
-  }
-
-  public getOrderInfo(orderId: number, submitMode: boolean) {
     this.store
       .select((state: IAppState): boolean => state.orderStatus.isOrderDoneAfterBroughtHimself)
       .subscribe((value: boolean) => {
         this.isOrderDoneAfterBroughtHimself$ = value;
       });
+  }
 
+  public getOrderInfo(orderId: number, submitMode: boolean): void {
     this.orderService
-      .getOrderInfo(orderId, this.isOrderDoneAfterBroughtHimself$)
+      .getOrderInfo(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderInfo) => {
         this.orderInfo = data;
@@ -138,7 +139,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' ? bag.confirmed : 0;
+
+      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' && !this.isOrderDoneAfterBroughtHimself$ ? bag.confirmed : 0;
       bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
       return bag;
     });
@@ -322,6 +324,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.currentOrderPrice = sum;
   }
 
+  public onChangeWriteOffStation(sum: number) {
+    this.writeOffStationSum = sum;
+  }
+
+  public onChangeCourierPrice(sum: number) {
+    this.ubsCourierPrice = sum;
+  }
+
   public setMinOrder(flag) {
     this.isMinOrder = flag;
   }
@@ -399,6 +409,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         };
       }
     }
+    changedValues.ubsCourierPrice = this.ubsCourierPrice;
+    changedValues.writeOffStationSum = this.writeOffStationSum;
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];
