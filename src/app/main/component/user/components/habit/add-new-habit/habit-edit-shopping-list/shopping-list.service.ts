@@ -70,13 +70,13 @@ export class ShoppingListService {
     this.list$.next(this.list);
   }
   public saveCustomItems(habitId: number) {
-    const customShoppingListItemDto: ShoppingList[] = this.list.filter((item) => item.custom);
-    const userShoppingListItemDto: ShoppingList[] = this.list.filter((item) => !item.custom);
+    const customShoppingListItem: ShoppingList[] = this.list.filter((item) => item.custom);
+    const userShoppingListItem: ShoppingList[] = this.list.filter((item) => !item.custom);
     const currentLang = this.languageService.getCurrentLanguage();
 
     return this.http.put<Array<ShoppingList>>(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`, {
-      customShoppingListItemDto: customShoppingListItemDto,
-      userShoppingListItemDto: userShoppingListItemDto
+      customShoppingListItemDto: customShoppingListItem,
+      userShoppingListItemDto: userShoppingListItem
     });
   }
 
@@ -86,12 +86,12 @@ export class ShoppingListService {
       .get(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`)
       .pipe(
         map((res: any) => {
-          let customShoppingList = res.customShoppingListItemDto.map((item) => ({
+          const customShoppingList = res.customShoppingListItemDto.map((item) => ({
             ...item,
             custom: true,
             selected: item.status === 'INPROGRESS'
           }));
-          let userShoppingList = res.userShoppingListItemDto.map((item) => ({
+          const userShoppingList = res.userShoppingListItemDto.map((item) => ({
             ...item,
             selected: item.status === 'INPROGRESS'
           }));
