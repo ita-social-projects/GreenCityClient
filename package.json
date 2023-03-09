@@ -79,7 +79,7 @@
     "quill-mention": "^2.2.7",
     "rxjs": "~6.6.7",
     "sockjs-client": "^1.5.0",
-    "tslib": "^2.0.3",
+    "tslib": "^2.5.0",
     "xlsx": "^0.17.1",
     "zone.js": "~0.10.2"
   },
