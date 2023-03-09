@@ -19,12 +19,16 @@ describe('ClientProfileService', () => {
       {
         id: 2369,
         city: 'Kiev',
+        cityEn: 'Kiev',
         district: 'Печерський',
+        districtEn: 'Печерський',
         entranceNumber: '2',
         houseCorpus: '4',
         region: 'Kyiv',
+        regionEn: 'Kyiv',
         houseNumber: '25',
         street: 'вулиця Шота Руставелі',
+        streetEn: 'вулиця Шота Руставелі',
         coordinates: null,
         actual: false
       }

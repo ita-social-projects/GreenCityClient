@@ -34,8 +34,8 @@ export interface Page {
   image: string;
   lastName: string;
   phoneNumber: string;
-  receivingStations: ReceivingStations[];
   expanded?: boolean;
+  tariffs: Tariff[];
 }
 
 export interface EmployeePositions {
@@ -43,9 +43,61 @@ export interface EmployeePositions {
   name: string;
 }
 
+export interface Tariff {
+  id: number;
+  region: TariffItem;
+  locationsDtos: TariffItem[];
+  courier: TariffItem;
+}
+
+export interface TariffItem {
+  id: number;
+  nameEn: string;
+  nameUk: string;
+}
+
+export interface InitialData {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  imageURL: string;
+  employeePositionsIds: number[];
+}
+
 export interface ReceivingStations {
   id: number;
   name: string;
+}
+
+export interface TariffForEmployee {
+  id: number;
+  region: TariffForEmployeeItem;
+  location: TariffForEmployeeItem[];
+  courier: TariffForEmployeeItem;
+}
+export interface TariffForEmployeeItem {
+  en: string;
+  ua: string;
+}
+
+export interface EmployeeDataToSend {
+  employeeDto: EmployeeDto;
+  tariffId: number[];
+}
+
+export interface EmployeeDataResponse {
+  employeeDto: EmployeeDto;
+  tariffs: Tariff[];
+}
+
+export interface EmployeeDto {
+  firstName: string;
+  id?: number;
+  image: string;
+  lastName: string;
+  phoneNumber: string;
+  employeePositions: EmployeePositions[];
 }
 
 export interface IOrderInfo {
@@ -76,10 +128,8 @@ export interface IOrderInfo {
 
 export interface ICourierInfo {
   courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
-  maxAmountOfBigBags: number;
-  maxPriceOfOrder: number;
-  minAmountOfBigBags: number;
-  minPriceOfOrder: number;
+  min: number;
+  max: number;
 }
 
 export interface IOrderDetails {
@@ -147,12 +197,16 @@ export interface IUserInfo {
 export interface IAddressExportDetails {
   addressId: number;
   addressCity: string;
+  addressCityEng: string;
   addressDistrict: string;
+  addressDistrictEng: string;
   addressEntranceNumber: number;
   addressHouseCorpus: number;
   addressHouseNumber: number;
   addressRegion: string;
+  addressRegionEng: string;
   addressStreet: string;
+  addressStreetEng: string;
 }
 
 export interface IPaymentInfo {
@@ -249,17 +303,22 @@ export interface UserProfile {
 export interface Address {
   actual: boolean;
   city: string;
+  cityEn: string;
   coordinates: {
     latitude?: number;
     longitude?: number;
   };
   region: string;
+  regionEn: string;
   district: string;
+  districtEn: string;
   entranceNumber: string;
   houseCorpus: string;
   houseNumber: string;
+  isKyiv?: boolean;
   id: number;
   street: string;
+  streetEn: string;
 }
 
 export interface DialogData {
@@ -418,6 +477,11 @@ export interface IResponsiblePersonsData {
 export interface IDataForPopUp {
   arrayData: IColumnBelonging[];
   title: string;
+}
+
+export interface Location {
+  name: string;
+  key: number;
 }
 
 export enum ResponsibleEmployee {

@@ -125,7 +125,7 @@ describe('OrderService', () => {
       expect(ubsOrderServiseMock.orderDetails).toEqual(data);
       expect(data).toEqual(orderDetailsMock);
     });
-    httpTest('order-details', 'GET', orderDetailsMock);
+    httpTest('order-details-for-tariff&', 'GET', orderDetailsMock);
   });
 
   it('method getPersonalData should return personal data', () => {

@@ -129,6 +129,9 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificates.failed.push(
       cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED
     );
+    if (this.certificates.failed[this.certificates.failed.length - 1]) {
+      this.certificates.codes.splice(-1);
+    }
     this.certificateSum =
       this.certificates.failed[this.certificates.failed.length - 1] && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
     this.certificates.creationDates.push(this.certificateDateTreat(cert.creationDate));
@@ -395,6 +398,14 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       }
       this.clickOnNo = false;
     }
+  }
+  public showActivateCetificate(i: number): boolean {
+    const isCertificateExpired = !!this.certificates.expirationDates[i];
+    const isCertSize = !!this.certSize;
+    const isCertNotFailed = !this.certificates.failed[i];
+    const isShowTotal = this.certificateSum < this.showTotal;
+
+    return isCertificateExpired && isCertSize && isCertNotFailed && isShowTotal;
   }
 
   ngOnDestroy() {

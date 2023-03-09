@@ -31,9 +31,7 @@
               <input *ngIf="isEditing" type="text" class="form-control recipientName" id="recipientName" formControlName="recipientName" />
               <p *ngIf="!isEditing">{{ userProfile?.recipientName }}</p>
               <div *ngIf="getControl('recipientName').invalid && getControl('recipientName').touched">
-                <div class="error-message">
-                  {{ getErrorMessageKey(getControl('recipientName')) | translate }}
-                </div>
+                <app-ubs-input-error [formElement]="getControl('recipientName')"> </app-ubs-input-error>
               </div>
             </div>
             <div [ngClass]="{ inputMargin: isEditing }" class="form-group">
@@ -47,9 +45,7 @@
               />
               <p *ngIf="!isEditing">{{ userProfile?.recipientSurname }}</p>
               <div *ngIf="getControl('recipientSurname').invalid && getControl('recipientSurname').touched">
-                <div class="error-message">
-                  {{ getErrorMessageKey(getControl('recipientSurname')) | translate }}
-                </div>
+                <app-ubs-input-error [formElement]="getControl('recipientSurname')"> </app-ubs-input-error>
               </div>
             </div>
           </div>
@@ -87,9 +83,7 @@
                   aria-describedby="emailHelp"
                 />
                 <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
-                  <div class="error-message">
-                    {{ getErrorMessageKey(getControl('alternateEmail'), true) | translate }}
-                  </div>
+                  <app-ubs-input-error [formElement]="getControl('alternateEmail')"> </app-ubs-input-error>
                 </div>
               </div>
             </div>
@@ -111,9 +105,7 @@
               />
               <p *ngIf="!isEditing">{{ formatedPhoneNumber(userProfile?.recipientPhone) }}</p>
               <div *ngIf="getControl('recipientPhone').invalid && getControl('recipientPhone').touched">
-                <div class="error-message">
-                  {{ getErrorMessageKey(getControl('recipientPhone')) | translate }}
-                </div>
+                <app-ubs-input-error [formElement]="getControl('recipientPhone')"> </app-ubs-input-error>
               </div>
             </div>
             <div class="form-group col-sm-6">
@@ -147,74 +139,177 @@
 
           <div class="address" formArrayName="address" *ngFor="let address of userForm.controls.address['controls']; let i = index">
             <div formGroupName="{{ i }}" class="ubs-cliend-profile-group">
-              <h5 class="h5MarginTop">
-                {{ 'ubs-client-profile.address' | translate }}
-                <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
-              </h5>
-              <div class="inline">
-                <div class="form-group input-margin region">
-                  <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                  <select *ngIf="isEditing" formControlName="region" class="shadow-none form-control" id="region">
-                    <option *ngFor="let region of regions" [ngValue]="region.regionName">{{ region.regionName }}</option>
-                  </select>
-                  <p *ngIf="!isEditing">{{ address.value?.region }}</p>
+              <!-- Not editing -->
+              <div *ngIf="!isEditing">
+                <h5 class="h5MarginTop">
+                  {{ 'ubs-client-profile.address' | translate }}
+                  <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
+                </h5>
+                <div class="inline">
+                  <div class="form-group input-margin">
+                    <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
+                    <p>{{ getLangValue(address.value?.region, address.value?.regionEn) }}</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+                    <p>{{ getLangValue(address.value?.city, address.value?.cityEn) }}</p>
+                  </div>
                 </div>
-                <div class="form-group city">
-                  <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
-                  <select *ngIf="isEditing" formControlName="city" class="shadow-none form-control">
-                    <option *ngFor="let city of cities" [ngValue]="city.cityName">{{ city.cityName }}</option>
-                  </select>
-                  <p *ngIf="!isEditing">{{ address.value?.city }}</p>
+                <div class="inline">
+                  <div class="form-group input-margin">
+                    <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
+                    <p>{{ getLangValue(address.value?.street, address.value?.streetEn) }}</p>
+                  </div>
+                  <div class="form-group input-margin">
+                    <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                    <p>{{ address.value?.houseNumber }}</p>
+                  </div>
+                  <div class="form-group input-margin">
+                    <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                    <p>{{ address.value?.houseCorpus }}</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
+                    <p>{{ address.value?.entranceNumber }}</p>
+                  </div>
+                </div>
+                <div class="inline">
+                  <div class="form-group mrgbtn">
+                    <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+                    <p>{{ getLangValue(address.value?.district, address.value?.districtEn) }}</p>
+                  </div>
                 </div>
               </div>
-              <div class="inline">
-                <div class="form-group input-margin street">
-                  <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="street" formControlName="street" />
-                  <div class="validation" *ngIf="address.get('street').invalid && address.get('street').touched">
-                    <app-ubs-input-error [formElement]="address.get('street')" [controlName]="'street'"> </app-ubs-input-error>
+
+              <!-- Is editing -->
+              <div *ngIf="isEditing">
+                <h5 class="h5MarginTop">
+                  {{ 'ubs-client-profile.address' | translate }}
+                  <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
+                </h5>
+                <div class="inline">
+                  <div class="form-group input-margin region">
+                    <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
+                    <select
+                      [formControlName]="getLangValue('region', 'regionEn')"
+                      (change)="setRegionValue(i, $event)"
+                      class="shadow-none form-control"
+                      id="region"
+                    >
+                      <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
+                    </select>
                   </div>
-                  <p *ngIf="!isEditing">{{ address.value?.street }}</p>
-                </div>
-                <div class="form-group input-margin houseNumber">
-                  <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
-                  <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
-                    <app-ubs-input-error [formElement]="address.get('houseNumber')" [controlName]="'houseNumber'"> </app-ubs-input-error>
+                  <div class="form-group city">
+                    <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
+                    <input
+                      (keyup)="setPredictCities(i)"
+                      (click)="emptyPredictLists()"
+                      [formControlName]="getLangValue('city', 'cityEn')"
+                      class="shadow-none form-control"
+                      matInput
+                      [matAutocomplete]="autoCity"
+                    />
+                    <mat-autocomplete #autoCity="matAutocomplete">
+                      <mat-option
+                        class="autocomplete-dropdown"
+                        *ngFor="let cityName of cityPredictionList"
+                        [value]="cityName.description"
+                        (click)="onCitySelected(i, cityName)"
+                      >
+                        {{ cityName.description }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <div
+                      class="validation"
+                      *ngIf="address.get(getLangValue('city', 'cityEn')).invalid && address.get(getLangValue('city', 'cityEn')).touched"
+                    >
+                      <app-ubs-input-error [formElement]="address.get(getLangValue('city', 'cityEn'))"> </app-ubs-input-error>
+                    </div>
                   </div>
-                  <p *ngIf="!isEditing">{{ address.value?.houseNumber }}</p>
                 </div>
-                <div class="form-group input-margin houseCorpus">
-                  <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
-                  <div class="validation" *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
-                    <app-ubs-input-error [formElement]="address.get('houseCorpus')" [controlName]="'houseCorpus'"> </app-ubs-input-error>
+                <div class="inline">
+                  <div class="form-group input-margin street">
+                    <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
+                    <input
+                      (keyup)="setPredictStreets(i)"
+                      (click)="emptyPredictLists()"
+                      type="text"
+                      class="form-control"
+                      [formControlName]="getLangValue('street', 'streetEn')"
+                      matInput
+                      [matAutocomplete]="autoStreet"
+                    />
+                    <mat-autocomplete #autoStreet="matAutocomplete">
+                      <mat-option
+                        class="autocomplete-dropdown"
+                        *ngFor="let streetName of streetPredictionList"
+                        [value]="streetName.description"
+                        (click)="onStreetSelected(i, streetName)"
+                      >
+                        {{ streetName.description }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <div
+                      class="validation"
+                      *ngIf="
+                        address.get(getLangValue('street', 'streetEn')).invalid && address.get(getLangValue('street', 'streetEn')).touched
+                      "
+                    >
+                      <app-ubs-input-error [formElement]="address.get(getLangValue('street', 'streetEn'))"></app-ubs-input-error>
+                    </div>
                   </div>
-                  <p *ngIf="!isEditing">{{ address.value?.houseCorpus }}</p>
-                </div>
-                <div class="form-group entranceNumber">
-                  <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
-                  <input *ngIf="isEditing" type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
-                  <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
-                    <app-ubs-input-error
-                      [formElement]="address.get('entranceNumber')"
-                      [controlName]="'entranceNumber'"
-                    ></app-ubs-input-error>
+                  <div class="form-group input-margin houseNumber">
+                    <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
+                    <input type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+                    <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
+                      <app-ubs-input-error [formElement]="address.get('houseNumber')"> </app-ubs-input-error>
+                    </div>
                   </div>
-                  <p *ngIf="!isEditing">{{ address.value?.entranceNumber }}</p>
+                  <div class="form-group input-margin houseCorpus">
+                    <label for="houseCorpus " class="form-label">{{ 'ubs-client-profile.corpus' | translate }}</label>
+                    <input type="text" class="form-control" id="houseCorpus" formControlName="houseCorpus" />
+                    <div class="validation" *ngIf="address.get('houseCorpus').invalid && address.get('houseCorpus').touched">
+                      <app-ubs-input-error [formElement]="address.get('houseCorpus')"> </app-ubs-input-error>
+                    </div>
+                  </div>
+                  <div class="form-group entranceNumber">
+                    <label for="entranceNumber" class="form-label">{{ 'ubs-client-profile.entrance' | translate }}</label>
+                    <input type="text" class="form-control" id="entranceNumber" formControlName="entranceNumber" />
+                    <div class="validation" *ngIf="address.get('entranceNumber').invalid && address.get('entranceNumber').touched">
+                      <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
+                    </div>
+                  </div>
+                  <div class="delete-address" (click)="deleteAddress(address)">
+                    <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
+                  </div>
                 </div>
-              </div>
-              <div class="inline">
-                <div class="form-group mrgbtn district">
-                  <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
-                  <select *ngIf="isEditing" formControlName="district" class="shadow-none form-control">
-                    <option *ngFor="let district of districts" [ngValue]="district.name">{{ district.name }}</option>
-                  </select>
-                  <p *ngIf="!isEditing">{{ address.value?.district }}</p>
+                <div class="inline">
+                  <div class="form-group district">
+                    <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
+                    <select
+                      *ngIf="address.value?.isKyiv"
+                      [formControlName]="getLangValue('district', 'districtEn')"
+                      class="shadow-none form-control"
+                      (change)="onDistrictSelected(i, $event)"
+                    >
+                      <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
+                    </select>
+                    <select
+                      *ngIf="!address.value?.isKyiv"
+                      [formControlName]="getLangValue('district', 'districtEn')"
+                      class="shadow-none form-control district"
+                      (change)="onDistrictSelected(i, $event)"
+                    >
+                      <option *ngFor="let district of districts" [ngValue]="district.name">
+                        {{ district.name }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
           <ng-container *ngIf="!isEditing">
             <button tabindex="0" id="btnfocus" [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
               {{ 'ubs-client-profile.btn.edit' | translate }}

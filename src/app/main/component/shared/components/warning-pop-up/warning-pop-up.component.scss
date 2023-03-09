@@ -1,9 +1,10 @@
 .main-container {
   position: relative;
-  max-width: 568px;
-  height: 256px;
+  max-width: 600px;
+  max-height: 324px;
   padding: 56px;
   border-radius: 4px;
+  gap: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -98,6 +99,12 @@
 @media screen and (max-width: 319px) {
   .warning-text {
     text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .main-container .close {
+    top: 5px;
+    right: 5px;
   }
 
   .buttons-container {
@@ -107,5 +114,6 @@
   .secondary-global-button,
   .primary-global-button {
     height: auto;
+    margin-bottom: 5px;
   }
 }

@@ -68,7 +68,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
 
     const submitBtn = fixture.debugElement.query(By.css('.addButton'));
     submitBtn.nativeElement.click();
-    expect(employeeServiceMock.updatePermissions).toHaveBeenCalledWith(1, [
+    expect(employeeServiceMock.updatePermissions).toHaveBeenCalledWith(mockedEmployee.email, [
       'SEE_CLIENTS_PAGE',
       'REGISTER_A_NEW_EMPLOYEE',
       'SEE_BIG_ORDER_TABLE',

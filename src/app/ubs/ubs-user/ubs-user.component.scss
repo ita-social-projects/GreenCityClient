@@ -4,19 +4,23 @@
 
 .footer {
   display: flex;
-  margin-left: 242px;
+  margin-left: 228px;
+}
+
+@media (max-width: 1266px) {
+  .footer {
+    margin-left: 59px;
+  }
 }
 
 @media (max-width: 600px) {
   .footer {
-    margin-left: 60px;
+    margin-left: 59px;
   }
 }
 
 @media (max-width: 480px) {
   .footer {
-    margin-left: 0;
-    bottom: 60px;
-    z-index: 3;
+    display: none;
   }
 }

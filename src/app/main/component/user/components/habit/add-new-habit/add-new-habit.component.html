@@ -1,20 +1,28 @@
 <div class="wrapper">
-  <div class="backToMyHabits" (click)="onGoBack()">
+  <div class="back-to-my-habits" (click)="onGoBack()">
     <div class="arrow"></div>
     <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
   </div>
-  <div class="habitContainer">
-    <div class="habitInfo">
+  <div class="habit-container">
+    <div class="habit-info">
       <div class="header">
-        <div class="tags">{{ 'user.habit.header.tags' | translate }}</div>
+        <div class="item">
+          <span *ngFor="let tag of tags; let last = last">
+            {{ tag }}
+            <ng-container *ngIf="!last">,&nbsp;</ng-container>
+          </span>
+        </div>
         <div class="line"></div>
-        <div class="aquired">{{ 'user.habit.header.aquired' | translate }}</div>
+        <div class="item">{{ 'user.habit.header.aquired' | translate }} {{ amountAcquired }}</div>
         <div class="line"></div>
-        <div class="stars">
-          <img *ngFor="let star of stars" alt="star" [src]="star" />
+        <div class="item">
+          <div>{{ 'user.habit.header.difficulty' | translate }}</div>
+          <div class="stars">
+            <img *ngFor="let star of stars" alt="star" [src]="star" />
+          </div>
         </div>
       </div>
-      <div class="habitTitle">
+      <div class="habit-title">
         {{ habitResponse?.habitTranslation.name }}
       </div>
       <div class="description">
@@ -23,21 +31,21 @@
         </p>
       </div>
     </div>
-    <div class="habitImg">
-      <img class="img" [src]="habitResponse?.image" alt="" />
+    <div class="habit-img">
+      <img class="img" [src]="habitResponse?.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
     </div>
   </div>
-  <div class="habitEdit">{{ 'user.habit.info' | translate }}</div>
+  <div class="habit-edit">
+    <h3>{{ 'user.habit.info' | translate }}</h3>
+    <div class="lock-icon"></div>
+  </div>
   <div class="divider"></div>
-  <div class="containerHabitEdit">
-    <div class="habitProgress">
-      <app-habit-progress [habit]="habit"></app-habit-progress>
+  <div class="container-habit-edit">
+    <div class="habit-progress">
+      <app-habit-progress [habit]="habit" (progressValue)="getProgressValue($event)"></app-habit-progress>
     </div>
-    <div class="habitInfoRightBlock">
-      <div class="inviteFriends">
-        <app-habit-invite-friends></app-habit-invite-friends>
-      </div>
-      <div class="durationShoping">
+    <div class="habit-info-right-block">
+      <div class="duration-shoping">
         <div class="duration" *ngIf="habitResponse">
           <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>
@@ -45,20 +53,28 @@
           <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
         </div>
       </div>
+      <div class="invite-friends">
+        <app-habit-invite-friends></app-habit-invite-friends>
+      </div>
     </div>
-    <div *ngIf="!isAssigned" class="add-habit-container">
-      <button class="primary-global-button cancel-habit-button" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
-      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
+    <div *ngIf="!isEditing" class="add-habit-container">
+      <button class="tertiary-global-button btn" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="primary-global-button btn" type="submit" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
-    <div *ngIf="isAssigned" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
+    <div *ngIf="isEditing" class="add-habit-container">
+      <button class="tertiary-global-button btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
+      <button *ngIf="canAcquire" class="secondary-global-button btn" (click)="setHabitStatus()">
+        {{ 'user.habit.btn.acquire' | translate }}
+      </button>
+      <button class="primary-global-button btn" type="submit" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
       </button>
     </div>
   </div>
+  <app-habits-widget *ngIf="tags" [tag]="tags[0]" [isHabit]="true"></app-habits-widget>
+  <app-habits-widget [isHabit]="false"></app-habits-widget>
 </div>

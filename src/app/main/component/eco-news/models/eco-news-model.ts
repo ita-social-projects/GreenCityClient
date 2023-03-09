@@ -17,8 +17,3 @@ export interface EcoNewsModel {
   title: string;
   countOfEcoNews?: number;
 }
-export interface NewsTagInterface {
-  id: number;
-  name: string;
-  nameUa: string;
-}

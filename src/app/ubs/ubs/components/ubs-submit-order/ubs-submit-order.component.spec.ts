@@ -11,13 +11,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
   let fixture: ComponentFixture<UBSSubmitOrderComponent>;
   let mockedtakeOrderDetails;
   let router: Router;
-  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'setUserPagePayment']);
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'getCurrentLanguage',
+    'setUserPagePayment',
+    'setFinalSumOfOrder'
+  ]);
   fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
   fakeLocalStorageService.languageSubject = of('ua');
   const fakeOrderService = jasmine.createSpyObj('fakeOrderService', ['getOrderUrl']);
@@ -56,6 +61,11 @@ describe('UBSSubmitOrderComponent', () => {
     }
   }
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
@@ -63,7 +73,8 @@ describe('UBSSubmitOrderComponent', () => {
       providers: [
         { provide: UBSOrderFormService, useClass: FakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService }
+        { provide: LocalStorageService, useValue: fakeLocalStorageService },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -112,8 +123,8 @@ describe('UBSSubmitOrderComponent', () => {
     fixture.detectChanges();
     component.takeOrderDetails = mockedtakeOrderDetails;
     component.takeOrderDetails();
-    expect(component.orderDetails).toBe(mockedOrderDetails);
-    expect(component.personalData).toBe(mockedPersonalData);
+    expect(component.orderDetails).toEqual(mockedOrderDetails);
+    expect(component.personalData).toEqual(mockedPersonalData);
   });
 
   it('error from subscription should set loadingAnim to false', () => {
@@ -122,8 +133,16 @@ describe('UBSSubmitOrderComponent', () => {
       status: 404
     });
     fakeOrderService.getOrderUrl.and.returnValue(throwError(errorResponse));
+    component.isFinalSumZero = true;
     fixture.detectChanges();
     component.redirectToOrder();
     expect(component.loadingAnim).toBe(false);
+    expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(false);
+    expect(component.isLiqPay).toBeFalsy();
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });

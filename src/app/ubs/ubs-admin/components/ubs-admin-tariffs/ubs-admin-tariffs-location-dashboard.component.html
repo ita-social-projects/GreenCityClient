@@ -81,7 +81,6 @@
           (matChipInputTokenEnd)="addItem($event)"
         />
         <mat-autocomplete
-          #select
           #autoCity="matAutocomplete"
           (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
           autoActiveFirstOption
@@ -130,7 +129,7 @@
           formControlName="station"
           [matAutocomplete]="autoStation"
         />
-        <mat-autocomplete #select #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
+        <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
           <mat-option value="all">
             <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
             {{ 'ubs-tariffs.states.all' | translate }}
@@ -192,7 +191,7 @@
         </div>
       </td>
       <td>
-        {{ card.tariff | tariffStatus }}
+        {{ card.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
@@ -205,14 +204,11 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'">
+        <button mat-menu-item (click)="openTariffRestore(card, card.cardId)">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
-      </mat-menu>
+      </td>
     </tr>
   </tbody>
   <tbody *ngIf="!showAllTariff && !isLoading">
@@ -236,7 +232,7 @@
         </div>
       </td>
       <td>
-        {{ selectedCard.tariff | tariffStatus }}
+        {{ selectedCard.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="selectedCard.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />

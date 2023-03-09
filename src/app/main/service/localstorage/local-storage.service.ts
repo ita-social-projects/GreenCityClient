@@ -155,27 +155,49 @@ export class LocalStorageService {
   }
 
   public setLocationId(currentLocationId: number) {
-    localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
+    localStorage.setItem('currentLocationId', String(currentLocationId));
   }
 
   public setLocations(locations: any) {
     localStorage.setItem('locations', JSON.stringify(locations));
   }
 
-  public setUbsOrderId(orderId: string | number) {
-    localStorage.setItem('UbsLiqPayOrderId', JSON.stringify(orderId));
+  public setOrderWithoutPayment(value: boolean): void {
+    localStorage.setItem('saveOrderWithoutPayment', String(value));
+  }
+
+  public getOrderWithoutPayment(): any {
+    return localStorage.getItem('saveOrderWithoutPayment') === 'undefined'
+      ? false
+      : JSON.parse(localStorage.getItem('saveOrderWithoutPayment'));
+  }
+
+  public setUbsOrderId(orderId: string | number): void {
+    localStorage.setItem('UbsOrderId', String(orderId));
   }
 
   public getUbsOrderId(): any {
+    return localStorage.getItem('UbsOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsOrderId'));
+  }
+
+  public setUbsLiqPayOrderId(orderId: string | number): void {
+    localStorage.setItem('UbsLiqPayOrderId', String(orderId));
+  }
+
+  public getUbsLiqPayOrderId(): any {
     return localStorage.getItem('UbsLiqPayOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsLiqPayOrderId'));
   }
 
-  public removeUbsOrderId() {
+  public removeUbsLiqPayOrderId() {
     localStorage.removeItem('UbsLiqPayOrderId');
   }
 
+  public removeUbsOrderId() {
+    localStorage.removeItem('UbsOrderId');
+  }
+
   public setUbsFondyOrderId(orderId: string | number) {
-    localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
+    localStorage.setItem('UbsFondyOrderId', String(orderId));
   }
 
   public getUbsFondyOrderId(): any {
@@ -186,12 +208,16 @@ export class LocalStorageService {
     localStorage.removeItem('UbsFondyOrderId');
   }
 
+  public removeOrderWithoutPayment(): void {
+    localStorage.removeItem('saveOrderWithoutPayment');
+  }
+
   public removeUBSExistingOrderId() {
     localStorage.removeItem('UBSExistingOrderId');
   }
 
   public setUserPagePayment(state: boolean): unknown {
-    return localStorage.setItem('IsUserPagePayment', JSON.stringify(state));
+    return localStorage.setItem('IsUserPagePayment', String(state));
   }
 
   public getUserPagePayment(): string {
@@ -203,7 +229,7 @@ export class LocalStorageService {
   }
 
   public clearPaymentInfo(): void {
-    this.removeUbsOrderId();
+    this.removeUbsLiqPayOrderId();
     this.removeUbsFondyOrderId();
     this.removeUserPagePayment();
   }
@@ -305,5 +331,21 @@ export class LocalStorageService {
 
   public removeAdminOrderDateFilters(): void {
     window.localStorage.removeItem('UbsAdminOrdersDateFilters');
+  }
+
+  public setFinalSumOfOrder(value): void {
+    localStorage.setItem('finalSumOfOrder', JSON.stringify(value));
+  }
+
+  public getFinalSumOfOrder(): number {
+    return JSON.parse(localStorage.getItem('finalSumOfOrder'));
+  }
+
+  public setTariffId(currentTariffId: number): void {
+    localStorage.setItem('currentTariffId', String(currentTariffId));
+  }
+
+  public getTariffId(): number {
+    return JSON.parse(localStorage.getItem('currentTariffId'));
   }
 }

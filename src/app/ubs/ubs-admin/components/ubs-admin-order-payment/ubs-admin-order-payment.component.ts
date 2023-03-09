@@ -177,6 +177,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .pipe(take(1))
       .subscribe((extraPayment: IPaymentInfoDto | number | null) => {
         if (typeof extraPayment === 'number') {
+          this.recountUnpaidAmount(extraPayment);
           this.paymentsArray = this.paymentsArray.filter((payment) => {
             if (payment.id === extraPayment) {
               this.totalPaid -= payment.amount;
@@ -188,17 +189,16 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
         if (extraPayment !== null && typeof extraPayment === 'object') {
           this.preconditionChangePaymentData(extraPayment);
           this.setOverpayment(this.totalPaid - this.actualPrice);
-
-          this.orderService
-            .getOrderInfo(this.orderId)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((data: IOrderInfo) => {
-              this.paymentUpdate.emit(data.paymentTableInfoDto.paidAmount);
-              const newValue = data.generalOrderInfo.orderPaymentStatus;
-              this.postDataItem(this.orderId, newValue);
-              this.newPaymentStatus.emit(newValue);
-            });
         }
+        this.orderService
+          .getOrderInfo(this.orderId)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data: IOrderInfo) => {
+            this.paymentUpdate.emit(data.paymentTableInfoDto.paidAmount);
+            const newValue = data.generalOrderInfo.orderPaymentStatus;
+            this.postDataItem(this.orderId, newValue);
+            this.newPaymentStatus.emit(newValue);
+          });
       });
   }
 

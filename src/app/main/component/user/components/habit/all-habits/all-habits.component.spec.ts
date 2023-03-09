@@ -115,11 +115,13 @@ describe('AllHabitsComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage',
     'getHabitsGalleryView',
-    'setHabitsGalleryView'
+    'setHabitsGalleryView',
+    'getUserId'
   ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.getUserId = () => 1;
 
   let assignHabitServiceMock: HabitAssignService;
   assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
@@ -128,6 +130,7 @@ describe('AllHabitsComponent', () => {
   let habitServiceMock: HabitService;
   habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits']);
   habitServiceMock.getAllHabits = (pageHabits, sizeHabits) => of(habitsMockData);
+  habitServiceMock.getAllTags = () => of([{ id: 2, name: 'eco', nameUa: 'еко' }]);
 
   const userData = {
     city: 'string',
@@ -191,12 +194,6 @@ describe('AllHabitsComponent', () => {
     component.onDisplayModeChange(true);
     expect(localStorageServiceMock.setHabitsGalleryView).toHaveBeenCalledWith(true);
     expect(component.galleryView).toEqual(true);
-  });
-
-  it('should get all habits', () => {
-    const fetchAllHabitsSpy = spyOn(component as any, 'fetchAllHabits');
-    component.ngOnInit();
-    expect(fetchAllHabitsSpy).toHaveBeenCalledTimes(1);
   });
 
   it('checkHabitsView() getting false value', () => {

@@ -1,12 +1,12 @@
 import { of } from 'rxjs';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -21,6 +21,15 @@ describe('UbsConfirmPageComponent', () => {
     'getOrderStatus',
     'saveDataOnLocalStorage'
   ]);
+  const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
+    'getFinalSumOfOrder',
+    'clearPaymentInfo',
+    'getUbsOrderId',
+    'setUbsOrderId',
+    'getOrderWithoutPayment',
+    'removeOrderWithoutPayment',
+    'removeUbsOrderId'
+  ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
   beforeEach(async(() => {
@@ -30,7 +39,8 @@ describe('UbsConfirmPageComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: fakeSnackBar },
         { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
-        { provide: JwtService, useValue: fakeJwtService }
+        { provide: JwtService, useValue: fakeJwtService },
+        { provide: LocalStorageService, useValue: fakeLocalStorageService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -49,10 +59,30 @@ describe('UbsConfirmPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should remove order without payment and UBS order id from local storage on NavigationEnd event', () => {
+    fakeLocalStorageService.removeOrderWithoutPayment();
+    fakeLocalStorageService.removeUbsOrderId();
+    const event = new NavigationEnd(1, '/ubs/confirm', '/ubs/confirm');
+    component.removeOrderFromLocalStorage();
+
+    expect(component.localStorageService.removeOrderWithoutPayment).toHaveBeenCalled();
+    expect(component.localStorageService.removeUbsOrderId).toHaveBeenCalled();
+  });
+
+  it('shouldn`t remove order without payment and UBS order id from local storage on NavigationEnd event if url is /ubs/confirm', () => {
+    fakeLocalStorageService.removeOrderWithoutPayment();
+    fakeLocalStorageService.removeUbsOrderId();
+    const event = new NavigationEnd(1, '/ubs/confirm', '/ubs');
+    component.removeOrderFromLocalStorage();
+
+    expect(component.localStorageService.removeOrderWithoutPayment).toHaveBeenCalled();
+  });
+
   xit('ngOnInit should call renderView with oderID', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
     fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
+    fakeLocalStorageService.getOrderWithoutPayment.and.returnValue(of(false));
     const checkPaymentStatusMock = spyOn(component, 'checkPaymentStatus');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
@@ -82,6 +112,7 @@ describe('UbsConfirmPageComponent', () => {
   it('checkPaymentStatus should set true to orderPaymentError if response.code is payment_not_found', () => {
     const orderService = 'orderService';
     spyOn(component[orderService], 'getUbsOrderStatus').and.returnValue(of({ code: 'payment_not_found', order_id: '123_457' }));
+    fakeLocalStorageService.getFinalSumOfOrder.and.returnValue('999');
     component.checkPaymentStatus();
     expect(component.isSpinner).toBeFalsy();
     expect(component.orderPaymentError).toBeTruthy();
@@ -95,7 +126,7 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
   });
 
-  it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
+  it('in saveDataOnLocalStorage should removeUbsLiqPayOrderId and saveDataOnLocalStorage be called', () => {
     component.saveDataOnLocalStorage();
     expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
   });

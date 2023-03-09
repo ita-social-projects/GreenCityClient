@@ -3,7 +3,7 @@
   margin: -30px auto 30px auto;
   padding: 0 15px;
 
-  .backToMyHabits {
+  .back-to-my-habits {
     height: 30px;
     display: flex;
     flex-direction: row;
@@ -22,7 +22,6 @@
     }
 
     .text {
-      font-family: var(--primary-font);
       font-size: 16px;
       line-height: 22px;
       display: flex;
@@ -31,7 +30,7 @@
     }
   }
 
-  .habitContainer {
+  .habit-container {
     height: 360px;
     padding: 40px 0 0 0;
     margin-bottom: 24px;
@@ -39,7 +38,7 @@
     flex-direction: row;
     justify-content: space-between;
 
-    .habitInfo {
+    .habit-info {
       display: flex;
       flex-direction: column;
 
@@ -50,22 +49,25 @@
         color: var(--primary-green);
         margin-bottom: 8px;
 
-        .tags,
-        .aquired {
-          font-style: regular;
+        .item {
+          display: flex;
+          align-items: center;
+          font-style: normal;
+          gap: 8px;
           font-size: 14px;
           letter-spacing: 1px;
           text-transform: uppercase;
-          cursor: pointer;
         }
 
         .stars {
           display: flex;
-          width: 88px;
+          width: 60px;
+          padding-bottom: 5px;
           justify-content: space-between;
+          cursor: pointer;
 
           img {
-            cursor: pointer;
+            width: 16px;
           }
         }
 
@@ -77,7 +79,7 @@
         }
       }
 
-      .habitTitle {
+      .habit-title {
         margin-bottom: 16px;
         font-family: var(--secondary-font);
         font-size: 36px;
@@ -99,7 +101,7 @@
       }
     }
 
-    .habitImg {
+    .habit-img {
       width: 395px;
       align-self: flex-end;
       margin-left: 25px;
@@ -110,13 +112,26 @@
     }
   }
 
-  .habitEdit {
-    font-family: var(--secondary-font);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 35px;
+  .habit-edit {
+    display: flex;
+    align-items: center;
+    gap: 24px;
     color: var(--secondary-dark-grey);
+
+    h3 {
+      font-family: var(--secondary-font);
+      font-style: normal;
+      margin: 0;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 35px;
+    }
+
+    .lock-icon {
+      height: 24px;
+      width: 23px;
+      background: url('~/assets/icons/habits/lock-icon-closed.svg') center no-repeat;
+    }
   }
 
   .divider {
@@ -125,42 +140,43 @@
     background-color: var(--secondary-light-grey);
   }
 
-  .containerHabitEdit {
+  .container-habit-edit {
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
 
-    .habitProgress,
-    .habitInfoRightBlock {
+    .habit-progress,
+    .habit-info-right-block {
+      height: 468px;
       width: 554px;
     }
 
-    .habitProgress {
+    .habit-progress {
       padding: 36px 36px 36px 36px;
       background-color: var(--secondary-light-grey);
       border-radius: 8px;
       align-self: flex-start;
     }
 
-    .habitInfoRightBlock {
+    .habit-info-right-block {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
 
-      .inviteFriends {
+      .invite-friends {
+        display: flex;
         width: 554px;
-        height: 182px;
-        margin-bottom: 25px;
-        padding: 12px;
+        height: 172px;
+        padding: 24px;
         background: var(--secondary-light-grey);
         border-radius: 8px;
       }
 
-      .durationShoping {
+      .duration-shoping {
         display: flex;
-        flex-direction: row;
+        height: 268px;
         width: 554px;
         justify-content: space-between;
 
@@ -182,35 +198,21 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    gap: 32px;
 
-    .add-habit-button,
-    .save-habit-button,
-    .delete-habit-button,
-    .cancel-habit-button {
-      width: 160px;
+    .btn {
       height: 48px;
-    }
-
-    .delete-habit-button,
-    .cancel-habit-button {
-      margin-right: 40px;
-      background-color: var(--primary-white);
-      color: var(--primary-green);
-    }
-
-    .delete-habit-button:hover,
-    .cancel-habit-button:hover {
-      border: 3px solid var(--primary-green);
+      width: 160px;
     }
   }
 }
 
 @media screen and (max-width: 1200px) {
   .wrapper {
-    .containerHabitEdit {
+    .container-habit-edit {
       justify-content: center;
 
-      .habitInfoRightBlock .inviteFriends {
+      .habit-info-right-block .invite-friends {
         margin: 32px auto;
       }
 

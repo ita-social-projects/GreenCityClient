@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
-import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations } from '../models/tariffs.interface';
+import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
 
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -12,45 +12,12 @@ import { ajax } from 'rxjs/ajax';
 export class TariffsService {
   constructor(private http: HttpClient) {}
 
-  courierId: number;
-  locationId: number;
-  allTariffServices: any;
-  serviceId: number;
-
-  setServiceId(id: number) {
-    this.serviceId = id;
+  getAllTariffsForService(tariffId: number) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getTariffService`);
   }
 
-  getServiceId() {
-    return this.serviceId;
-  }
-
-  setCourierId(id: number) {
-    this.courierId = id;
-  }
-
-  getCourierId() {
-    return this.courierId;
-  }
-
-  setLocationId(id: number) {
-    this.locationId = id;
-  }
-
-  getLocationId() {
-    return this.locationId;
-  }
-
-  async setAllTariffsForService() {
-    this.allTariffServices = await this.getAllTariffsForService().toPromise();
-  }
-
-  getAllTariffsForService() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffService`);
-  }
-
-  createNewTariffForService(tariffService: Bag) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createTariffService`, tariffService);
+  createNewTariffForService(tariffService: Bag, tariffId: number) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/${tariffId}/createTariffService`, tariffService);
   }
 
   deleteTariffForService(id: number) {
@@ -65,15 +32,19 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffService/${id}`, body);
   }
 
-  createService(service: Service) {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/createService`, service);
+  createService(service: Service, tariffId: number) {
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/${tariffId}/createService`, service);
   }
 
-  getAllServices() {
-    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getService`);
+  getService(tariffId) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/${tariffId}/getService`);
   }
 
-  editService(id: number, service: Service) {
+  getTariffLimits(tariffId) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffLimits/${tariffId}`);
+  }
+
+  editService(service: Service, id: number) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editService/${id}`, service);
   }
 
@@ -93,18 +64,9 @@ export class TariffsService {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/editInfoAboutTariff`, info);
   }
 
-  setLimitDescription(description, courierId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitDescription/${courierId}`, description);
+  setTariffLimits(limits, tariffId: number) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/setTariffLimits/${tariffId}`, limits);
   }
-
-  setLimitsBySumOrder(info, tariffId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsBySumOfOrder/${tariffId}`, info);
-  }
-
-  setLimitsByAmountOfBags(info, tariffId) {
-    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/setLimitsByAmountOfBags/${tariffId}`, info);
-  }
-
   public getJSON(sourceText, lang, translateTo): Observable<any> {
     return ajax.getJSON(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)
@@ -153,5 +115,27 @@ export class TariffsService {
 
   public checkIfCardExist(card: CreateCard): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
+  }
+
+  deactivate(deactivateCardObj: DeactivateCard): Observable<object> {
+    const arr = [];
+    const requestObj = {
+      cities: `citiesId=${deactivateCardObj.cities}`,
+      courier: `courierId=${deactivateCardObj.courier}`,
+      regions: `regionsId=${deactivateCardObj.regions}`,
+      stations: `stationsId=${deactivateCardObj.stations}`
+    };
+
+    Object.keys(deactivateCardObj).forEach((key) => {
+      if (deactivateCardObj[key]) {
+        arr.push(requestObj[key]);
+      }
+    });
+    const query = `?${arr.join('&')}`;
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
+  }
+
+  switchTariffStatus(tariffId: number, status): Observable<object> {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/switchTariffStatus/${tariffId}?status=${status}`, null);
   }
 }

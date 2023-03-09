@@ -14,6 +14,7 @@ import { EcoNewsComponent } from '../../eco-news.component';
 import { Router } from '@angular/router';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
@@ -47,6 +48,11 @@ describe('NewsPreviewPageComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valEn;
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NewsPreviewPageComponent],
@@ -63,7 +69,8 @@ describe('NewsPreviewPageComponent', () => {
         { provide: ACTION_TOKEN, useValue: ACTION_CONFIG },
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   });
@@ -181,5 +188,10 @@ describe('NewsPreviewPageComponent', () => {
     createEcoNewsServiceMock.getNewsId.and.returnValue('');
     expect(component.attributes).toBeDefined();
     expect(component.onSubmit).toBeDefined();
+  });
+
+  it('should return en value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('enValue');
   });
 });

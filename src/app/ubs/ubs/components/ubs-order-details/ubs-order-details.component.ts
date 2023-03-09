@@ -12,6 +12,7 @@ import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface'
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -87,12 +88,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitByAmount: boolean;
   public courierLimitBySum: boolean;
   public courierLimitValidation: boolean;
-  public isOrderData: boolean;
 
   constructor(
     private fb: FormBuilder,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     public orderService: OrderService,
     public renderer: Renderer2,
     private route: ActivatedRoute,
@@ -128,7 +129,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
-      this.isOrderData = true;
     }
   }
 
@@ -147,10 +147,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public setLimitsValues(): void {
     this.checkCourierLimit();
     this.locations = this.localStorageService.getLocations();
-    this.minOrderValue = this.locations?.minPriceOfOrder;
-    this.maxOrderValue = this.locations?.maxPriceOfOrder;
-    this.minAmountOfBigBags = this.locations?.minAmountOfBigBags;
-    this.maxAmountOfBigBags = this.locations?.maxAmountOfBigBags;
+    this.minOrderValue = this.locations?.min;
+    this.maxOrderValue = this.locations?.max;
+    this.minAmountOfBigBags = this.locations?.min;
+    this.maxAmountOfBigBags = this.locations?.max;
     this.validateBags();
     this.validateSum();
   }
@@ -193,7 +193,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private setCurrentLocation(currentLanguage: string): void {
-    this.currentLocation = currentLanguage === 'en' ? this.locations?.regionDto.nameEn : this.locations?.regionDto.nameUk;
+    const currentLocationEn = `${this.locations?.locationsDtosList[0].nameEn}, ${this.locations?.regionDto.nameEn}`;
+    const currentLocationUk = `${this.locations?.locationsDtosList[0].nameUk}, ${this.locations?.regionDto.nameUk}`;
+    this.currentLocation = this.getLangValue(currentLocationUk, currentLocationEn);
   }
 
   getFormValues(): boolean {
@@ -202,12 +204,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      orderComment: new FormControl(''),
+      orderComment: new FormControl('', Validators.maxLength(255)),
       bonus: new FormControl('no'),
       shop: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required, Validators.min(500)])
+      orderSum: new FormControl(0, [Validators.required])
     });
   }
 
@@ -235,11 +237,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   checkTotalBigBags() {
+    this.totalOfBigBags = 0;
     this.bags.forEach((bag) => {
-      if (bag.capacity === 120) {
-        const q1 = this.orderDetailsForm.controls.quantity1;
-        const q2 = this.orderDetailsForm.controls.quantity2;
-        this.totalOfBigBags = +q1.value + +q2.value;
+      if (bag.limitedIncluded) {
+        const quantity = this.orderDetailsForm.controls[`quantity${bag.id}`];
+        this.totalOfBigBags += +quantity.value;
       }
     });
     this.validateBags();
@@ -287,7 +289,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.localStorageService.removeanotherClientData();
     }
     this.orderService
-      .getOrders(this.localStorageService.getLocationId())
+      .getOrders(this.localStorageService.getLocationId(), this.localStorageService.getTariffId())
       .pipe(takeUntil(this.destroy))
       .subscribe((orderData: OrderDetails) => {
         this.orders = this.shareFormService.orderDetails;
@@ -531,6 +533,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   redirectToZeroStep() {
     this.openLocationDialog();
+  }
+
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy() {

@@ -21,18 +21,12 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   };
 
   const fakeService: Service = {
-    capacity: 1,
     price: 1,
-    courierId: 1,
-    commission: 1,
-    serviceTranslationDtoList: [
-      {
-        description: 'fake',
-        descriptionEng: 'fake',
-        name: 'fake',
-        nameEng: 'fake'
-      }
-    ]
+    description: 'Ua',
+    descriptionEng: 'Eng',
+    name: 'Name',
+    nameEng: 'NameEng',
+    tariffId: 1
   };
 
   beforeEach(async(() => {
@@ -63,7 +57,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   it('should call addNewService correctly', () => {
     const addNewServiceSpy = spyOn(component, 'addNewService');
     component.addNewService();
-    fakeTariffService.createService(fakeService);
+    fakeTariffService.createService(fakeService, 1);
     expect(addNewServiceSpy).toHaveBeenCalled();
   });
 

@@ -7,6 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -24,7 +25,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
   @Output() changedOrderStatus = new EventEmitter<string>();
 
-  constructor(public orderService: OrderService, private dialog: MatDialog) {}
+  constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
@@ -171,6 +172,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED
     }
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

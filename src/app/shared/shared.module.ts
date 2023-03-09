@@ -36,6 +36,8 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
+import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
+import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
 
 @NgModule({
   declarations: [
@@ -62,11 +64,13 @@ import { CronPipe } from './cron-pipe/cron.pipe';
     DialogPopUpComponent,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
+    NewsListGalleryViewComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    CronPipe
+    CronPipe,
+    ResizableBottomSheetComponent
   ],
   imports: [
     CommonModule,
@@ -101,11 +105,13 @@ import { CronPipe } from './cron-pipe/cron.pipe';
     MaxImageNamePipe,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
+    NewsListGalleryViewComponent,
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
     RepeatPipe,
-    CronPipe
+    CronPipe,
+    ResizableBottomSheetComponent
   ]
 })
 export class SharedModule {}

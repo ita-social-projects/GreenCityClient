@@ -28,6 +28,16 @@ import { ImagesContainerComponent } from './components/images-container/images-c
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
+import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { EventScheduleOverlayComponent } from './components/event-details/event-schedule-overlay/event-schedule-overlay.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -37,9 +47,13 @@ import { RatingModule } from 'ngx-bootstrap/rating';
     EventDateTimePickerComponent,
     MapEventComponent,
     ImagesContainerComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    ImagesSliderComponent,
+    EventScheduleOverlayComponent,
+    EventScheduleComponent
   ],
   imports: [
+    MatDialogModule,
     RatingModule.forRoot(),
     ReactiveFormsModule,
     GooglePlaceModule,
@@ -69,11 +83,17 @@ import { RatingModule } from 'ngx-bootstrap/rating';
       },
       isolate: true
     }),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatMenuModule,
+    DragDropModule,
+    MatBottomSheetModule,
+    NgbDropdownModule,
+    MatIconModule,
+    MatDividerModule
   ],
   exports: [TranslateModule]
 })
-export class EventsModule { }
+export class EventsModule {}
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

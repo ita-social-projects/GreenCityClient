@@ -9,6 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 
 describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
@@ -32,7 +33,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   const fakeCouriers = [
     {
       courierId: 1,
-      courierStatus: 'fake1',
+      courierStatus: 'ACTIVE',
       nameUk: 'фейкКурєр1',
       nameEn: 'fakeCourier1',
       createDate: 'fakedate',
@@ -40,7 +41,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     },
     {
       courierId: 2,
-      courierStatus: 'fake2',
+      courierStatus: 'ACTIVE',
       nameUk: 'фейкКурєр2',
       nameEn: 'fakeCourier2',
       createDate: 'fakedate',
@@ -51,6 +52,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   const fakeStation = {
     id: 1,
     name: 'Фейк',
+    stationStatus: 'ACTIVE',
     createdBy: 'ФейкАдмін',
     createDate: '2022-05-28'
   };
@@ -161,6 +163,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       {
         createDate: 'date',
         createdBy: 'fakeAuthor',
+        stationStatus: 'ACTIVE',
         id: 0,
         name: 'Фейк1'
       }
@@ -170,7 +173,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
       nameUk: 'фейк',
       regionId: 0
     },
-    tariffStatus: 'fake'
+    tariffStatus: 'ACTIVE'
   };
 
   const fakeFilteredTariffCards = [
@@ -192,26 +195,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -231,26 +233,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -270,26 +271,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -309,26 +309,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     }
   ];
 
@@ -351,26 +350,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -390,26 +388,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -429,26 +426,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     },
     {
       cardId: 1,
@@ -468,26 +464,25 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         {
           createDate: 'date',
           createdBy: 'fakeAuthor',
+          stationStatus: 'ACTIVE',
           id: 0,
           name: 'Фейк1'
         }
       ],
       courierDto: {
         courierId: 2,
-        courierStatus: 'fake',
+        courierStatus: 'ACTIVE',
         nameUk: 'fake',
         nameEn: 'fake',
         createDate: 'fake',
         createdBy: 'fake'
       },
-      tariffStatus: 'fake',
+      tariffStatus: 'ACTIVE',
       creator: 'fake',
       createdAt: 'fake',
       courierLimit: 'fake',
-      minAmountOfBags: 1,
-      maxAmountOfBags: 2,
-      minPriceOfOrder: 10,
-      maxPriceOfOrder: 100
+      min: 1,
+      max: 100
     }
   ];
 
@@ -524,15 +519,20 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     'getCouriers',
     'getAllStations',
     'getActiveLocations',
-    'getCardInfo'
+    'getCardInfo',
+    'deactivate'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of(fakeCouriers));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.getActiveLocations.and.returnValue(of([fakeLocation]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
+  tariffsServiceMock.deactivate.and.returnValue(of());
 
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
@@ -1361,6 +1361,42 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(result).toEqual(['Фейк1']);
   });
 
+  it('method deactivateCard should create request line', () => {
+    component.selectedRegions.push(locationItem);
+    component.selectedStations.push(stationItem);
+    component.selectedCities.push(cityItem);
+    const result = {
+      cities: `0`,
+      courier: undefined,
+      regions: `0`,
+      stations: `0`
+    };
+    component.createDeactivateCardDto();
+    expect(component.deactivateCardObj).toEqual(result);
+  });
+
+  it('method deactivateCard should open pop up with data', () => {
+    component.selectedRegions.push(locationItem);
+    component.selectedStations.push(stationItem);
+    component.selectedCities.push(cityItem);
+    component.selectedCourier = { id: 0, name: 'фейкКурєр1' };
+    const spy = spyOn(component, 'createDeactivateCardDto');
+    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
+    component.deactivateCard();
+    expect(fakeMatDialogRef.close).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(TariffDeactivateConfirmationPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        courierName: 'фейкКурєр1',
+        stationNames: ['Фейк1'],
+        regionName: ['Фейк'],
+        locationNames: ['Фейк місто']
+      }
+    });
+  });
+
   it('method onNoClick should invoke destroyRef.close()', () => {
     component.selectedRegions.push(locationItem);
     component.selectedStations.push(stationItem);
@@ -1386,6 +1422,11 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedCities = [];
     component.onNoClick();
     expect(fakeMatDialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('Назва', 'Title');
+    expect(value).toBe('Назва');
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

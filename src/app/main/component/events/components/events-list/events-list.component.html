@@ -1,17 +1,99 @@
-<div class="wrapper">
-  <div class="event-header">
-    <h1 class="main-header">{{ 'homepage.events.title' | translate }}</h1>
-    <a class="create" [routerLink]="['create-event']" *ngIf="isLoggedIn">
-      <div class="secondary-global-button create-button">
-        <span class="create-button-text">Create</span>
+<div class="container">
+  <div class="wrapper">
+    <div class="event-header">
+      <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
+      <div class="create-container">
+        <div class="container-img">
+          <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }" (click)="search()"></span>
+        </div>
+        <div class="container-img">
+          <span class="bookmark-img" [ngClass]="{ 'bookmark-img-active': bookmarkSelected }" (click)="showFavourite()"></span>
+        </div>
+        <div class="container-img">
+          <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
+        </div>
+        <div class="create">
+          <div class="secondary-global-button create-button" (click)="isUserLoggedRedirect()">
+            <span class="create-button-text">{{ 'homepage.events.create-title' | translate }}</span>
+          </div>
+        </div>
       </div>
-    </a>
+    </div>
+    <div class="filter-container">
+      <p class="sort-by">{{ 'homepage.events.filter-title' | translate }}</p>
+      <div class="filter-list">
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
+          <mat-select #timeFilter [formControl]="timeFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(timeList)">
+              {{ 'homepage.events.time-any-time' | translate }}
+            </mat-option>
+            <mat-divider></mat-divider>
+            <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
+              {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
+          <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(locationList)">{{
+              'homepage.events.filter-location-аny-location' | translate
+            }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option [value]="location" *ngFor="let location of eventLocationList">
+              {{ getLangValue(location.nameUa, location.nameEn) }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
+          <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(statusesList)">{{
+              'homepage.events.filter-status-аny-status' | translate
+            }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option [value]="status" *ngFor="let status of statusList">
+              {{ getLangValue(status.nameUa, status.nameEn) }}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="dropdown">
+          <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
+          <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(typesList)">{{ 'homepage.events.filter-аny-type' | translate }}</mat-option>
+            <mat-divider></mat-divider>
+            <mat-option *ngFor="let type of typeList" [value]="type">
+              <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
+            </mat-option>
+          </mat-select>
+        </div>
+        <div>
+          <button class="reset" (click)="resetAll()">{{ 'homepage.events.filter-reset-all' | translate }}</button>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="active-filter-container">
+      <p>
+        {{ 'homepage.events.item-found-text' | translate }} {{ selectedFilters.length }}
+        {{ 'homepage.events.items-event-text' | translate }}
+      </p>
+      <div class="chips">
+        <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
+          {{ getLangValue(filter.nameUa, filter.nameEn) }}
+          <div class="cross-container" (click)="deleteOneFilter(i)">
+            <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="event-list">
+      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
+        <app-events-list-item [event]="eventItem"></app-events-list-item>
+      </mat-card>
+    </div>
+    <app-spinner *ngIf="elementsArePresent"></app-spinner>
+    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
-
-  <div class="event-list">
-    <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | paginate: pageConfig(items, page + 1, total)">
-      <app-events-list-item [event]="eventItem"></app-events-list-item>
-    </mat-card>
-  </div>
-  <pagination-controls *ngIf="checkPagination()" (pageChange)="setPage($event)"></pagination-controls>
 </div>

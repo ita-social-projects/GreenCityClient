@@ -68,15 +68,29 @@
   padding-left: 72px;
 }
 
-.ubs-courier {
-  border: 1px solid var(--ubs-primary-light-grey);
-  box-sizing: border-box;
+.ubs-courier-container {
+  width: 100px;
+  margin-right: 25px;
   border-radius: 4px;
-  padding: 7px;
-  height: 36px;
-  width: 90px;
-  font-size: 16px;
-  text-align: center;
+  border: 1px solid var(--ubs-quintynary-light-grey);
+
+  .ubs-courier {
+    border: none;
+    box-sizing: border-box;
+    font-size: 16px;
+    text-align: center;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      display: none;
+      margin: 0;
+    }
+  }
+
+  span {
+    height: 26px;
+  }
 }
 
 .shop-numbers {
@@ -159,7 +173,7 @@
 
 @media (min-width: 992px) {
   .comment {
-    width: 340px;
-    height: 92px;
+    width: 640px;
+    height: 135px;
   }
 }

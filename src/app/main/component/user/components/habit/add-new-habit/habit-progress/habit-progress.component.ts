@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -22,32 +23,30 @@ export class HabitProgressComponent implements OnChanges {
   public isHidden = false;
   private descriptionType = {
     acquired: () => {
-      this.daysCounter = this.habit.duration;
-      this.showPhoto = false;
       this.habitMark = HabitMark.AQUIRED;
     },
     done: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = false;
       this.habitMark = HabitMark.DONE;
     },
     undone: () => {
-      this.daysCounter = this.habit.workingDays;
-      this.showPhoto = true;
       this.habitMark = HabitMark.UNDONE;
     }
   };
 
   @Output() nowAcquiredHabit = new EventEmitter();
+  @Output() progressValue = new EventEmitter<number>();
 
-  constructor(private habitAssignService: HabitAssignService) {}
+  constructor(private habitAssignService: HabitAssignService, public datePipe: DatePipe) {}
 
   ngOnChanges() {
+    this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
+    this.buildHabitDescription();
     this.countProgressBar();
   }
 
   public countProgressBar(): void {
     this.indicator = Math.round((this.habit.workingDays / this.habit.duration) * 100);
+    this.progressValue.emit(this.indicator);
   }
 
   public buildHabitDescription(): void {
@@ -94,5 +93,9 @@ export class HabitProgressComponent implements OnChanges {
         this.buildHabitDescription();
         this.isRequest = false;
       });
+  }
+
+  public getDayName(): string {
+    return this.habit.habitStreak === 1 ? 'user.habit.one-habit.good-day' : 'user.habit.one-habit.good-days';
   }
 }

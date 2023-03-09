@@ -3,11 +3,11 @@
     <p>{{ 'user.habit.invite.title' | translate }}</p>
   </div>
   <div class="invite-content">
-    <div class="plus-circle">
-      <img src="assets/img/icon/plus-circle.png" alt="plus-circle" (click)="openInviteFriendsDialog()" />
+    <div *ngIf="!addedFriends.length" class="plus-circle">
+      <div class="icon-plus-grey" (click)="openInviteFriendsDialog()"></div>
     </div>
-    <div class="invite-friends">
-      <div *ngFor="let friend of addedFriends">
+    <div class="invite-friends-box">
+      <div *ngFor="let friend of addedFriends" class="invite-friends">
         <app-user-profile-image
           [imgPath]="friend.profilePicture"
           [firstName]="friend.name"
@@ -15,8 +15,10 @@
           [additionalImgClass]="'friend-user-profile'"
         >
         </app-user-profile-image>
-        <p class="friend-name">{{ friend.name }}</p>
       </div>
+    </div>
+    <div *ngIf="addedFriends.length" class="plus-circle">
+      <div class="icon-plus-green" (click)="openInviteFriendsDialog()"></div>
     </div>
   </div>
   <div class="invite-detail">

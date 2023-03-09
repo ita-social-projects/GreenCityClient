@@ -53,16 +53,6 @@
   .search-container {
     width: 100%;
   }
-
-  &::-webkit-scrollbar {
-    width: 3px;
-    background: var(--primary-white);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: var(--quintynary-light-grey);
-  }
 }
 
 .chat {

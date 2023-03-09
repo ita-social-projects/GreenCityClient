@@ -8,7 +8,7 @@
     <h5 class="title-text">{{ 'order-details.location.title' | translate }}</h5>
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
-    <mat-form-field>
+    <mat-form-field [style.width.%]="60">
       <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option
@@ -29,7 +29,7 @@
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>
   <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondaryButton secondary-global-button" mat-dialog-close>
+    <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button

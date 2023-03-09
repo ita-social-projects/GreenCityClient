@@ -28,6 +28,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog) {}
 
+  get recipientEmail() {
+    return this.userInfoDto.get('recipientEmail');
+  }
+
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
@@ -47,7 +51,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: 'admin-cabinet-dialog-container',
       data: {
         id: this.orderId,
         viewMode
@@ -65,7 +69,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       });
   }
 
-  getErrorMessage(abstractControl: AbstractControl): string {
+  getErrorMessage(abstractControl: AbstractControl, name?: string): string {
     if (abstractControl.errors.required) {
       return 'input-error.required';
     }
@@ -74,8 +78,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
       return 'input-error.max-length';
     }
 
-    if (abstractControl.errors.pattern) {
+    if (abstractControl.errors.pattern && !name) {
       return 'input-error.pattern';
+    }
+
+    if (abstractControl.errors.pattern && name === 'recipientPhoneNumber') {
+      return 'input-error.number-format';
     }
   }
 

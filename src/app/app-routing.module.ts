@@ -14,6 +14,15 @@ export const routes: Routes = [
     component: MainComponent,
     children: [
       {
+        path: 'ubs',
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'ubs'
+      },
+      {
         path: 'about',
         loadChildren: () => import('./main/component/about/about.module').then((mod) => mod.AboutModule)
       },
@@ -43,15 +52,10 @@ export const routes: Routes = [
         canActivate: [ConfirmRestorePasswordGuard]
       },
       {
-        path: '',
-        pathMatch: 'full',
+        path: 'greenCity',
         component: HomepageComponent
       }
     ]
-  },
-  {
-    path: 'ubs',
-    loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
   },
   {
     path: 'ubs-admin',

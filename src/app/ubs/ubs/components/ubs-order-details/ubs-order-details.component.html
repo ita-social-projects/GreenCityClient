@@ -4,22 +4,23 @@
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div class="user-location">
         <div>
-          <h5>{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
+          <h5 *ngIf="currentLocation">{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
+          <h5 *ngIf="!currentLocation" class="error-text">{{ 'order-details.title-without-location' | translate }}</h5>
           <button class="change-location" (click)="redirectToZeroStep()">
             {{ 'order-details.choose-location' | translate }}
           </button>
         </div>
       </div>
-      <div *ngIf="courierLimitBySum && displayMinOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitBySum && displayMinOrderMes" class="validMes">
         <small class="text-danger">{{ 'order-details.min-sum' | translate: { minOrderValue: minOrderValue } }}</small>
       </div>
-      <div *ngIf="courierLimitBySum && displayMaxOrderMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitBySum && displayMaxOrderMes" class="validMes">
         <small class="text-danger">{{ 'order-details.max-sum' | translate: { maxOrderValue: maxOrderValue } }}</small>
       </div>
-      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes" class="validMes">
         <small class="text-danger">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</small>
       </div>
-      <div *ngIf="courierLimitByAmount && displayMaxBigBagsMes && (orderDetailsForm.touched || isOrderData)" class="validMes">
+      <div *ngIf="courierLimitByAmount && displayMaxBigBagsMes" class="validMes">
         <small class="text-danger">{{ 'order-details.max-big-bags' | translate: { maxAmountOfBigBags: maxAmountOfBigBags } }}</small>
       </div>
     </div>
@@ -35,8 +36,7 @@
       <div class="main">
         <ul class="main-box">
           <li *ngFor="let bag of bags" class="main-list-item">
-            <span *ngIf="currentLanguage === 'ua'" class="bag-name">{{ bag.name }}</span>
-            <span *ngIf="currentLanguage === 'en'" class="bag-name">{{ bag.nameEng }}</span>
+            <span class="bag-name">{{ getLangValue(bag.name, bag.nameEng) }}</span>
             <span class="bag-name">{{ bag.capacity | volume }}</span>
             <span class="bag-name">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="bag-name form-group count">

@@ -1,12 +1,11 @@
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
@@ -15,7 +14,10 @@ import { UserOwnSignInService } from '@auth-service/user-own-sign-in.service';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { environment } from '@environment/environment';
+import { accounts } from 'google-one-tap';
 
+declare var google: any;
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -39,6 +41,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public nameFieldValue: string;
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
+  public isSignInPage: boolean;
   public currentLanguage: string;
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -56,10 +59,10 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnSignInService: UserOwnSignInService,
     private userOwnSignUpService: UserOwnSignUpService,
     private router: Router,
-    private authService: AuthService,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -101,15 +104,25 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public signUpWithGoogle(): void {
-    this.authService
-      .signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then((data) => {
-        this.googleService
-          .signIn(data.idToken, this.currentLanguage)
-          .pipe(takeUntil(this.destroy))
-          .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
-      })
-      .catch((errorData) => this.signUpWithGoogleError(errorData));
+    const gAccounts: accounts = google.accounts;
+    gAccounts.id.initialize({
+      client_id: environment.googleClientId,
+      ux_mode: 'popup',
+      cancel_on_tap_outside: true,
+      callback: this.handleGgOneTap.bind(this)
+    });
+    gAccounts.id.prompt();
+  }
+
+  public handleGgOneTap(resp): void {
+    try {
+      this.googleService
+        .signIn(resp.credential, this.currentLanguage)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((successData) => this.signUpWithGoogleSuccess(successData));
+    } catch (errorData) {
+      this.signUpWithGoogleError(errorData);
+    }
   }
 
   public setEmailBackendErr(): void {
@@ -119,6 +132,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
       this.nameFieldValue = this.firstNameControl.value;
       this.passwordFieldValue = this.passwordControl.value;
       this.passwordConfirmFieldValue = this.passwordControlConfirm.value;
+      this.isSignInPage = false;
     }
   }
 
@@ -158,6 +172,10 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.passwordControlConfirm = this.signUpForm.get('repeatPassword');
   }
 
+  public trimValue(control: AbstractControl): void {
+    control.setValue(control.value.trim());
+  }
+
   private setNullAllMessage(): void {
     this.firstNameErrorMessageBackEnd = null;
     this.emailErrorMessageBackEnd = null;
@@ -185,7 +203,9 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   private signUpWithGoogleSuccess(data: UserSuccessSignIn): void {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.closeSignUpWindow();
-    this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
+    this.zone.run(() => {
+      this.router.navigate(this.isUbs ? ['ubs'] : ['profile', data.userId]);
+    });
   }
 
   private signUpWithGoogleError(errors: HttpErrorResponse): void {

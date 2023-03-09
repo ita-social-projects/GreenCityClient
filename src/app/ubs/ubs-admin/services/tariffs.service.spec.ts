@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TariffsService } from './tariffs.service';
 import { mainUbsLink } from '../../../main/links';
-import { of } from 'rxjs';
 
 const service1 = {
   name: 'fake1',
-  capacity: 2,
+  nameEng: 'fake',
   price: 2,
-  commission: 2,
-  description: 'fake1'
+  description: 'fake1',
+  descriptionEng: 'fake1',
+  tariffId: 1
 };
 
 const tariff = {
@@ -111,11 +111,6 @@ describe('TariffsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get location id', () => {
-    service.locationId = 1;
-    expect(service.getLocationId()).toBe(1);
-  });
-
   it('should delete service ', () => {
     const id = 1;
     service.deleteService(id).subscribe((data) => {
@@ -125,19 +120,19 @@ describe('TariffsService', () => {
   });
 
   it('should get all tariffs', () => {
-    service.getAllTariffsForService().subscribe((data) => {
+    service.getAllTariffsForService(5).subscribe((data) => {
       expect(data).toBe(tariff);
     });
 
-    httpTest('/ubs/superAdmin/getTariffService', 'GET', tariff);
+    httpTest('/ubs/superAdmin/5/getTariffService', 'GET', tariff);
   });
 
   it('should create new tariff', () => {
-    service.createNewTariffForService(tariff).subscribe((data) => {
+    service.createNewTariffForService(tariff, 1).subscribe((data) => {
       expect(data).toBe(tariff);
     });
 
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createTariffService');
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/1/createTariffService');
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(tariff);
     request.flush(tariff);
@@ -159,26 +154,26 @@ describe('TariffsService', () => {
   });
 
   it('should crate new service', () => {
-    service.createService(service1).subscribe((data) => {
+    service.createService(service1, 1).subscribe((data) => {
       expect(data).toBe(service1);
     });
 
-    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/createService');
+    const request = httpMock.expectOne(mainUbsLink + '/ubs/superAdmin/1/createService');
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual(service1);
     request.flush(service1);
   });
 
   it('should get tariff for a service', () => {
-    service.getAllServices().subscribe((data) => {
+    service.getService(1).subscribe((data) => {
       expect(data).toBe(service1);
     });
 
-    httpTest('/ubs/superAdmin/getService', 'GET', service1);
+    httpTest(`/ubs/superAdmin/1/getService`, 'GET', service1);
   });
 
   it('should edit service', () => {
-    service.editService(1, service1).subscribe((data) => {
+    service.editService(service1, 1).subscribe((data) => {
       expect(data).toBe(service1);
     });
     httpTest('/ubs/superAdmin/editService/1', 'PUT', service1);
@@ -214,30 +209,6 @@ describe('TariffsService', () => {
     });
 
     httpTest('/ubs/superAdmin/editInfoAboutTariff', 'PATCH', info);
-  });
-
-  it('should set limit description', () => {
-    service.setLimitDescription('test', 1).subscribe((data) => {
-      expect(data).toBe('test');
-    });
-
-    httpTest('/ubs/superAdmin/setLimitDescription/1', 'PATCH', 'test');
-  });
-
-  it('should set limit by sum order', () => {
-    service.setLimitsBySumOrder('test', 1).subscribe((data) => {
-      expect(data).toBe('test');
-    });
-
-    httpTest('/ubs/superAdmin/setLimitsBySumOfOrder/1', 'PATCH', 'test');
-  });
-
-  it('should set limit by amount of bags', () => {
-    service.setLimitsByAmountOfBags('test', 1).subscribe((data) => {
-      expect(data).toBe('test');
-    });
-
-    httpTest('/ubs/superAdmin/setLimitsByAmountOfBags/1', 'PATCH', 'test');
   });
 
   it('should add location', () => {

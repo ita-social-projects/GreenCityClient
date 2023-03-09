@@ -26,5 +26,10 @@
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"
+  },
+  "snack-bar": {
+    "error": {
+      "exist-address": "Ця адреса вже додана"
+    }
   }
 }

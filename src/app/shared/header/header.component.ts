@@ -18,6 +18,7 @@ import { Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -90,7 +91,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.toggleHeader();
     this.setLangArr();
     this.updateArrayLang();
-
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
       this.focusDone();
     });
@@ -126,7 +126,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isUBS && !this.isAdmin) {
       return '/ubs';
     }
-    return '/';
+    return '/greenCity';
   }
 
   toggleHeader(): void {
@@ -261,6 +261,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  public openAboutServicePopUp(): void {
+    this.dialog.open(UbsPickUpServicePopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'background-transparent',
+      height: '640px'
+    });
+  }
+
   public openSettingDialog(): void {
     this.dropdownVisible = false;
     this.router.navigate(['/profile', this.userId, 'edit']);
@@ -268,7 +278,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.router.navigateByUrl(this.isUBS ? '/ubs' : '/').then((isRedirected: boolean) => {
+    this.router.navigateByUrl(!this.isUBS ? '/greenCity' : '/').then((isRedirected: boolean) => {
       if (isRedirected) {
         this.userOwnAuthService.isLoginUserSubject.next(false);
         this.localeStorageService.clear();

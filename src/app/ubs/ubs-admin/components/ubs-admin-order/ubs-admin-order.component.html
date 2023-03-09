@@ -2,11 +2,14 @@
 <app-search-popup></app-search-popup>
 <div class="container" [class.spin-padding]="!orderInfo">
   <div *ngIf="orderInfo; else spinner" class="order-edit-wrapper">
-    <div class="row">
-      <button class="back-button-top" (click)="goBack()">{{ 'order-edit.btn.back' | translate }}</button>
-    </div>
     <form [formGroup]="orderForm">
       <div class="box">
+        <div class="row">
+          <button class="back-button-top" (click)="goBack()">
+            <img class="arrow-left" [src]="arrowIcon" alt="arrow left" />
+            {{ 'order-edit.btn.back' | translate }}
+          </button>
+        </div>
         <app-ubs-admin-order-status
           [currentOrderPrice]="currentOrderPrice"
           [generalOrderInfo]="getFormGroup('generalOrderInfo')"
@@ -33,6 +36,8 @@
           (changeOverpayment)="changeOverpayment($event)"
           (checkMinOrder)="setMinOrder($event)"
           (changeCurrentPrice)="onChangeCurrentPrice($event)"
+          (changeUbsCourierPrice)="onChangeCourierPrice($event)"
+          (changeWriteoffAtStationSum)="onChangeWriteOffStation($event)"
         ></app-ubs-admin-order-details-form>
         <app-ubs-admin-order-payment
           [actualPrice]="currentOrderPrice"
@@ -42,14 +47,19 @@
           (newPaymentStatus)="onUpdatePaymentStatus($event)"
           (paymentUpdate)="onPaymentUpdate($event)"
         ></app-ubs-admin-order-payment>
-        <app-ubs-admin-export-details [exportDetailsDto]="getFormGroup('exportDetailsDto')" [exportInfo]="exportInfo">
+        <app-ubs-admin-export-details
+          [exportDetailsDto]="getFormGroup('exportDetailsDto')"
+          [exportInfo]="exportInfo"
+          [orderStatus]="currentOrderStatus"
+        >
         </app-ubs-admin-export-details>
         <app-ubs-admin-responsible-persons
           [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
           [responsiblePersonInfo]="responsiblePersonInfo"
+          [orderStatus]="currentOrderStatus"
         >
         </app-ubs-admin-responsible-persons>
-        <app-ubs-admin-order-history [orderId]="orderId"></app-ubs-admin-order-history>
+        <app-ubs-admin-order-history [orderInfo]="orderInfo"></app-ubs-admin-order-history>
       </div>
       <div class="row">
         <button class="back-button" (click)="goBack()">
@@ -66,7 +76,7 @@
           </button>
           <button type="submit" class="save-button" [disabled]="orderForm.pristine || !orderForm.valid || !isMinOrder" (click)="onSubmit()">
             {{ 'order-edit.btn.save' | translate }}
-            <span class="inform-window">
+            <span class="inform-window" *ngIf="!orderForm.valid">
               {{ 'information-window.message' | translate }}
               <ul>
                 <li>{{ 'export-details.export-date' | translate }}</li>

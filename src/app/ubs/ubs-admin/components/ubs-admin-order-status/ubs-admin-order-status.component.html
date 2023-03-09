@@ -17,6 +17,7 @@
                   {{ 'order-edit.status.order-label' | translate }}
                 </label>
                 <select
+                  id="order"
                   *ngIf="isOrderStatusSelected"
                   class="form-control"
                   formControlName="orderStatus"
@@ -27,7 +28,7 @@
                     [selected]="status?.key === generalInfo.orderStatus"
                     [value]="status?.key"
                   >
-                    {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
+                    {{ getLangValue(status?.ua, status?.eng) }}
                   </option>
                 </select>
               </div>
@@ -44,7 +45,7 @@
                     *ngFor="let status of generalInfo.orderPaymentStatusesDto"
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
                   >
-                    {{ this.currentLanguage === 'ua' ? status?.ua : status?.eng }}
+                    {{ getLangValue(status?.ua, status?.eng) }}
                   </option>
                 </select>
               </div>
@@ -52,18 +53,17 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-5 offdet-sm-0 offset-md-1">
+      <div class="col-6">
         <div class="form-group">
           <label for="comment" class="form__label">{{ 'order-edit.comment.label' | translate }}</label>
           <textarea
             class="form-control mw-100"
             id="comment"
-            rows="3"
             formControlName="adminComment"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
           <div class="validation" *ngIf="adminComment.invalid && adminComment.touched">
-            <app-ubs-input-error [formElement]="adminComment" [controlName]="'adminComment'"> </app-ubs-input-error>
+            <app-ubs-input-error [formElement]="adminComment"> </app-ubs-input-error>
           </div>
         </div>
       </div>

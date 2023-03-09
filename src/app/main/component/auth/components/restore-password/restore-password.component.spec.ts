@@ -2,7 +2,6 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
 import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { AuthService, LoginOpt, SocialUser } from 'angularx-social-login';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -22,25 +21,11 @@ describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
   let fixture: ComponentFixture<RestorePasswordComponent>;
   let localStorageServiceMock: LocalStorageService;
-  let authServiceMock: AuthService;
   let googleServiceMock: GoogleSignInService;
   let router: Router;
   let matDialogMock: MatDialogRef<RestorePasswordComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
-  let promiseSocialUser;
   let userSuccessSignIn;
-
-  promiseSocialUser = new Promise<SocialUser>((resolve) => {
-    const val = new SocialUser();
-    val.email = 'test@mail.com';
-    val.firstName = 'Name';
-    val.authorizationCode = '13';
-    val.id = '13';
-    val.name = 'Full Name';
-    val.photoUrl = 'photoUrl';
-    val.authToken = '13';
-    resolve(val);
-  });
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
@@ -59,9 +44,6 @@ describe('RestorePasswordComponent', () => {
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
 
-  authServiceMock = jasmine.createSpyObj('AuthService', ['signIn']);
-  authServiceMock.signIn = (providerId: string, opt?: LoginOpt) => promiseSocialUser;
-
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
 
@@ -79,7 +61,6 @@ describe('RestorePasswordComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogMock },
-        { provide: AuthService, useValue: authServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
@@ -150,13 +131,6 @@ describe('RestorePasswordComponent', () => {
         email: 'test@mail.com'
       };
     });
-
-    it('Should call sinIn method', inject([AuthService, GoogleSignInService], (service: AuthService) => {
-      const serviceSpy = spyOn(service, 'signIn').and.returnValue(promiseSocialUser);
-      component.signInWithGoogle();
-      fixture.detectChanges();
-      expect(serviceSpy).toHaveBeenCalled();
-    }));
 
     it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
       // @ts-ignore

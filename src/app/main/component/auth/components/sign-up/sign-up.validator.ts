@@ -7,6 +7,8 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
     const matchingControl = formGroup.controls[matchingControlName];
     if (matchingControl.value === '') {
       matchingControl.setErrors({ required: true });
+    } else if (!control.value && matchingControl.value.length) {
+      matchingControl.setErrors({ passwordIsEmpty: true });
     } else {
       if (control.value !== matchingControl.value) {
         matchingControl.setErrors({ passwordMismatch: true });
@@ -19,9 +21,9 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
 
 export function ValidatorRegExp(controlName: string) {
   return (formGroup: FormGroup) => {
-    const regexpName = Patterns.regexpName;
+    const namePattern = Patterns.NamePattern;
     const regexpPass = Patterns.regexpPass;
-    const regexp = controlName === 'firstName' ? regexpName : regexpPass;
+    const regexp = controlName === 'firstName' ? namePattern : regexpPass;
     const control = formGroup.controls[controlName];
     if (control.value === '') {
       control.setErrors({ required: true });

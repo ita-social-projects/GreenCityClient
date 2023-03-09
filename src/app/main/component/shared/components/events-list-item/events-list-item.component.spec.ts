@@ -1,5 +1,5 @@
 import { Language } from './../../../../i18n/Language';
-import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,6 +15,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
+import { TagObj } from '../../../events/models/events.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -42,12 +44,20 @@ class TranslationServiceStub {
   }
 }
 
+@Pipe({ name: 'dateLocalisation' })
+class DatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
+
 describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
 
   const eventMock = {
+    description: 'tralalalal',
     additionalImages: [],
     tags: [
       { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
@@ -77,12 +87,44 @@ describe('EventsListItemComponent', () => {
     open: true
   };
 
+  const fakeItemTags: TagObj[] = [
+    {
+      nameEn: 'Environmental',
+      nameUa: 'Екологічний',
+      isActive: true
+    },
+    {
+      nameEn: 'Social',
+      nameUa: 'Соціальний',
+      isActive: true
+    },
+    {
+      nameEn: 'eco',
+      nameUa: 'Соціальний',
+      isActive: false
+    }
+  ];
+
+  const fakeActiveTags: TagObj[] = [
+    {
+      nameEn: 'Environmental',
+      nameUa: 'Екологічний',
+      isActive: true
+    },
+    {
+      nameEn: 'Social',
+      nameUa: 'Соціальний',
+      isActive: true
+    }
+  ];
+
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
   EventsServiceMock.getEventById = () => of(eventMock);
+  EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
 
   let localStorageServiceMock: LocalStorageService;
@@ -95,6 +137,12 @@ describe('EventsListItemComponent', () => {
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
@@ -110,13 +158,14 @@ describe('EventsListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent],
+      declarations: [EventsListItemComponent, DatePipeMock],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
         { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
       ],
@@ -158,6 +207,11 @@ describe('EventsListItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
+  });
+
   describe('ngOnInit', () => {
     it('tags.length shoud be 3 in ngOnInit', () => {
       component.itemTags = [];
@@ -169,6 +223,18 @@ describe('EventsListItemComponent', () => {
       spyOn(component, 'filterTags');
       component.ngOnInit();
       expect(component.filterTags).toHaveBeenCalled();
+    });
+
+    it(`should check whether getAllAttendees returns correct value`, () => {
+      component.ngOnInit();
+      EventsServiceMock.getAllAttendees();
+      expect(component.attendees).toEqual([]);
+    });
+
+    it(`should check whether active tags are filtered properly`, () => {
+      component.itemTags = fakeItemTags;
+      component.filterTags(component.event.tags);
+      expect(component.activeTags).toEqual(fakeActiveTags);
     });
 
     it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
@@ -457,6 +523,28 @@ describe('EventsListItemComponent', () => {
       component.actionIsJoined(false);
       expect(component.isJoined).toBe(true);
     });
+  });
+
+  it('should check weather title which length is shorter than 40 characters cut correctly', () => {
+    component.event.title = 'title';
+    expect(component.cutTitle()).toEqual('title');
+  });
+
+  it('should check weather title which length is longer than 30 characters cut correctly', () => {
+    component.event.title = '40 characters long title has to be cut as it is to long';
+    const newTitle = component.event.title.slice(0, 30) + '...';
+    expect(component.cutTitle()).toEqual(newTitle);
+  });
+
+  it('should check weather description which length is shorter than 40 characters cut correctly', () => {
+    component.event.description = 'description';
+    expect(component.cutDescription()).toEqual('description');
+  });
+
+  it('should check weather description which length is longer than 90 characters cut correctly', () => {
+    component.event.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos exercitationem fugiat incidunt';
+    const newDescription = component.event.description.slice(0, 90) + '...';
+    expect(component.cutDescription()).toEqual(newDescription);
   });
 
   describe('ngOnDestroy', () => {

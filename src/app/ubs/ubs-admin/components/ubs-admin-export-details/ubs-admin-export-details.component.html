@@ -1,12 +1,25 @@
 <div class="container mb-3">
   <div class="form" [formGroup]="exportDetailsDto">
     <div class="empty_card" (click)="openDetails()">
-      <img *ngIf="!pageOpen && exportDetailsDto.valid" src="assets/img/ubs-admin-orders/arrow_up.svg" alt="arrow up" />
-      <img *ngIf="pageOpen && exportDetailsDto.valid" src="assets/img/ubs-admin-orders/arrow_down.svg" alt="arrow down" />
-      <img *ngIf="!exportDetailsDto.valid && pageOpen" src="assets/img/ubs-admin-orders/red_arrow_down.svg" alt="arrow down" />
-      <img *ngIf="!exportDetailsDto.valid && !pageOpen" src="assets/img/ubs-admin-orders/red_arrow_up.svg" alt="arrow up" />
+      <img
+        *ngIf="!pageOpen && (exportDetailsDto.valid || isOrderStatusCancelOrDone)"
+        src="assets/img/ubs-admin-orders/arrow_up.svg"
+        alt="arrow up"
+      />
+      <img
+        *ngIf="pageOpen && (exportDetailsDto.valid || isOrderStatusCancelOrDone)"
+        src="assets/img/ubs-admin-orders/arrow_down.svg"
+        alt="arrow down"
+      />
+      <img
+        *ngIf="pageOpen && !exportDetailsDto.valid && !isOrderStatusCancelOrDone"
+        src="assets/img/ubs-admin-orders/red_arrow_down.svg"
+        alt="arrow down"
+      />
+      <img *ngIf="isFormRequired()" src="assets/img/ubs-admin-orders/red_arrow_up.svg" alt="arrow up" />
 
       <h1 class="form__headline">{{ 'export-details.title' | translate }}</h1>
+      <div *ngIf="isFormRequired()" class="alert-message">{{ 'export-details.alert-message' | translate }}</div>
     </div>
     <div *ngIf="pageOpen" class="form-row">
       <div class="form-group export-date col-md-2">
@@ -15,7 +28,7 @@
       </div>
       <div class="form-group">
         <label for="export-time-from">{{ 'export-details.export-time' | translate }}</label>
-        <div class="time-picker-container">
+        <div class="time-picker-container" [ngClass]="{ 'ng-invalid': isTimeValid() }">
           <input
             autocomplete="off"
             placeholder="- -"
@@ -42,10 +55,19 @@
             {{ station }}
           </option>
         </select>
+        <button class="reset-button" (click)="resetValue()">
+          <img [src]="resetFieldImg" alt="reset field" />
+        </button>
       </div>
     </div>
     <hr />
   </div>
-  <app-time-picker *ngIf="showTimePicker" (timeOfExport)="setExportTime($event)" [setTimeFrom]="fromInput" [setTimeTo]="toInput">
+  <app-time-picker
+    *ngIf="showTimePicker"
+    (timeOfExport)="setExportTime($event)"
+    [setTimeFrom]="fromInput"
+    [setTimeTo]="toInput"
+    [exportDate]="getExportDate()"
+  >
   </app-time-picker>
 </div>

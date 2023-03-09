@@ -10,7 +10,7 @@ export class ErrorComponent implements OnChanges {
   @Input() public formElement: AbstractControl;
   @Input() public emailFieldValue: string;
   @Input() public nameFieldValue: string;
-  @Input() public passwordFieldValue: string;
+  @Input() public isSignInPassword: boolean;
   @Input() public passwordConfirmFieldValue: string;
 
   public errorMessage = '';
@@ -21,14 +21,17 @@ export class ErrorComponent implements OnChanges {
         return 'user.auth.sign-in.email-is-required';
       } else if (this.controlName === 'firstName') {
         return 'user.auth.sign-up.first-name-is-required';
+      } else if (this.controlName === 'password') {
+        return 'user.auth.sign-up.password-is-required';
       } else {
-        return 'user.auth.sign-in.password-is-required';
+        return 'user.auth.sign-up.password-confirm-is-required';
       }
     },
     email: () => (this.emailFieldValue ? 'user.auth.sign-in.this-is-not-email' : 'user.auth.sign-in.email-is-required'),
     passwordMismatch: () => 'user.auth.sign-up.password-match',
+    passwordIsEmpty: () => 'user.auth.sign-up.password-match-is-empty',
     minlength: () => 'user.auth.sign-in.password-must-be-at-least-8-characters-long',
-    maxlength: () => 'user.auth.sign-up.too-long-password',
+    maxlength: () => (this.isSignInPassword ? 'user.auth.sign-in.too-long-password' : 'user.auth.sign-up.too-long-password'),
     symbolInvalid: () => (this.controlName === 'password' ? 'user.auth.sign-up.password-symbols-error' : 'user.auth.sign-up.user-name-size')
   };
 

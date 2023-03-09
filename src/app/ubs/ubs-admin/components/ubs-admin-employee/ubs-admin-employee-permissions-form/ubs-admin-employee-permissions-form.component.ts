@@ -118,7 +118,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
       .filter(([, selected]) => selected)
       .map(([perm]) => perm);
 
-    this.employeeService.updatePermissions(this.employee.id, selectedPermissions).subscribe(
+    this.employeeService.updatePermissions(this.employee.email, selectedPermissions).subscribe(
       () => {
         this.isUpdating = false;
         this.dialogRef.close(true);

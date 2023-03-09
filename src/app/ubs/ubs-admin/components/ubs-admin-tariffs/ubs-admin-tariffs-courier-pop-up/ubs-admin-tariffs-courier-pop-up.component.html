@@ -13,14 +13,14 @@
           <input
             type="text"
             class="shadow-none form-control"
-            formControlName="name"
+            [formControlName]="checkLang('name', 'englishName')"
             #autocompleteTrigger="matAutocompleteTrigger"
-            [placeholder]="courierPlaceholder | translate"
+            [placeholder]="placeholder | translate"
             [matAutocomplete]="auto"
           />
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectCourier($event)">
             <ng-container *ngIf="data.edit">
-              <mat-option *ngFor="let name of couriersName" [value]="name">
+              <mat-option *ngFor="let name of checkLang(couriersName, couriersNameEng)" [value]="name">
                 {{ name }}
               </mat-option>
             </ng-container>
@@ -30,6 +30,7 @@
             *ngIf="data.edit"
             [src]="icons.arrowDown"
             class="arrowDown-img"
+            id="auto-img"
             alt="arrowDown"
             (click)="openAuto($event, autocompleteTrigger)"
           />
@@ -46,19 +47,20 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.courier' | translate }}</label>
+        <label>{{ 'ubs-tariffs-add-location-pop-up.courier-translation' | translate }}</label>
         <input
           type="text"
           class="shadow-none form-control"
-          formControlName="englishName"
+          [formControlName]="checkLang('englishName', 'name')"
           [matAutocomplete]="auto2"
           #autocompleteTrigger="matAutocompleteTrigger"
-          [placeholder]="courierPlaceholder | translate"
+          [placeholder]="placeholderTranslate | translate"
+          [attr.disabled]="courierForm.controls[checkLang('name', 'englishName')].dirty ? null : true"
         />
         <mat-autocomplete #auto2="matAutocomplete">
           <ng-container *ngIf="data.edit">
-            <mat-option *ngFor="let nameEng of couriersNameEng" [value]="nameEng">
-              {{ nameEng }}
+            <mat-option *ngFor="let nameTranslate of checkLang(couriersNameEng, couriersName)" [value]="nameTranslate">
+              {{ nameTranslate }}
             </mat-option>
           </ng-container>
         </mat-autocomplete>

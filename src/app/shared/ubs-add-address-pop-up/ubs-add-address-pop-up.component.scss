@@ -1,10 +1,5 @@
 ::ng-deep .pac-container {
   position: fixed !important;
-  top: 260px !important;
-}
-
-::ng-deep .pac-container:last-child {
-  top: 340px !important;
 }
 
 form {
@@ -116,11 +111,6 @@ select {
   margin: 0 15px 0 0;
 }
 
-.validation {
-  color: var(--error-red);
-  font-size: 10px;
-}
-
 .form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
 }
@@ -166,10 +156,5 @@ select {
 @media (max-width: 992px) {
   ::ng-deep .pac-container {
     position: fixed !important;
-    top: 220px !important;
-  }
-
-  ::ng-deep .pac-container:last-child {
-    top: 300px !important;
   }
 }

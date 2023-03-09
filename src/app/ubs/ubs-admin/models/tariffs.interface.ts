@@ -3,6 +3,7 @@ export interface Bag {
   nameEng?: string;
   capacity: number;
   price: number;
+  limitIncluded?: boolean;
   commission: number;
   description?: string;
   descriptionEng?: string;
@@ -15,42 +16,42 @@ export interface Bag {
   createdAt?: string;
   locationId?: number;
   createdBy?: string;
-  tariffTranslationDtoList?: [
-    {
-      name: string;
-      description: string;
-      descriptionEng: string;
-      nameEng: string;
-    }
-  ];
+  tariffTranslationDtoList?: {
+    name: string;
+    description: string;
+    descriptionEng: string;
+    nameEng: string;
+  };
+}
+
+export interface BagLimitDto {
+  id: number;
+  limitIncluded: boolean;
+}
+
+export interface ILimit {
+  bagLimitDtoList: BagLimitDto[];
+  courierLimit: string;
+  limitDescription: string;
+  min: number;
+  max: number;
 }
 
 export interface Service {
   price: number;
-  capacity?: number;
-  commission: number;
   description?: string;
   descriptionEng?: string;
   name?: string;
   nameEng?: string;
   languageCode?: string;
   id?: number;
-  fullPrice?: number;
-  locationId?: number;
-  courierId?: number;
-  serviceTranslationDtoList?: [
-    {
-      description: string;
-      descriptionEng: string;
-      nameEng: string;
-      name: string;
-    }
-  ];
+  tariffId?: number;
 }
 
 export interface Stations {
   id: number;
   name: string;
+  stationStatus: string;
   createdBy: string;
   createDate: string;
 }
@@ -81,6 +82,13 @@ export interface LocationDto {
   locationStatus: string;
   locationTranslationDtoList: Location[];
   longitude: number;
+}
+
+export interface DeactivateCard {
+  cities: string;
+  courier: number | undefined;
+  regions: string;
+  stations: string;
 }
 
 export interface CreateLocation {
@@ -120,13 +128,12 @@ export interface TariffCard {
   receivingStationDtos: Stations[];
   courierDto: Couriers;
   tariffStatus: string;
+  limitDescription?: string;
   creator: string;
   createdAt: string;
   courierLimit: string;
-  minAmountOfBags: number;
-  maxAmountOfBags: number;
-  minPriceOfOrder: number;
-  maxPriceOfOrder: number;
+  min: number;
+  max: number;
 }
 
 export interface RegionDto {

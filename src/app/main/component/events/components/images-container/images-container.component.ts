@@ -41,6 +41,7 @@ export class ImagesContainerComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent) {}
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
+
     this.initImages();
     if (this.editMode) {
       this.imageCount = this.imagesEditArr.length;

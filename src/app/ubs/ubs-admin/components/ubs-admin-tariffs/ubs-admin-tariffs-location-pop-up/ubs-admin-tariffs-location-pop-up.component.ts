@@ -23,6 +23,8 @@ import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 interface LocationItem {
   location: string;
@@ -88,6 +90,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   regionId;
   enCities;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  placeService: google.maps.places.PlacesService;
 
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -98,6 +101,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private tariffsService: TariffsService,
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
+    private langService: LanguageService,
+    private googleScript: GoogleScript,
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
@@ -127,6 +132,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   ngOnInit(): void {
+    this.currentLang = this.localeStorageService.getCurrentLanguage();
+    this.googleScript.load(this.currentLang);
     this.getLocations();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
@@ -181,12 +188,12 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
         )
       )
       .flat(2);
-    this.activeCities = this.currentLang === 'ua' ? this.cities : this.enCities;
+    this.activeCities = this.langService.getLangValue(this.cities, this.enCities) as any[];
   }
 
   translate(sourceText: string, input: any): void {
-    const lang = this.currentLang === 'ua' ? 'uk' : 'en';
-    const translateTo = this.currentLang === 'ua' ? 'en' : 'uk';
+    const lang = this.getLangValue('uk', 'en');
+    const translateTo = this.getLangValue('en', 'uk');
     this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
       input.setValue(data[0][0][0]);
     });
@@ -194,8 +201,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
-      const uaLocation = this.currentLang === 'ua' ? this.location.value : this.englishLocation.value;
-      const enLocation = this.currentLang === 'ua' ? this.englishLocation.value : this.location.value;
+      const uaLocation = this.getLangValue(this.location.value, this.englishLocation.value);
+      const enLocation = this.getLangValue(this.englishLocation.value, this.location.value);
       const tempItem: LocationItem = {
         location: uaLocation,
         englishLocation: enLocation,
@@ -258,8 +265,19 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   setValueOfRegion(event: any): void {
-    this.region.setValue(event.name);
-    this.translate(event.name, this.englishRegion);
+    this.setTranslation(event.place_id, this.region, this.getLangValue('uk', 'en'));
+    this.setTranslation(event.place_id, this.englishRegion, this.getLangValue('en', 'uk'));
+  }
+
+  setTranslation(id: string, abstractControl: any, lang: string): void {
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    const request = {
+      placeId: id,
+      language: lang
+    };
+    this.placeService.getDetails(request, (placeDetails) => {
+      abstractControl.setValue(placeDetails.name);
+    });
   }
 
   addEventToAutocomplete(): void {
@@ -323,8 +341,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   addLocation(): void {
-    const valueUa = this.currentLang === 'ua' ? this.locationForm.value.region : this.locationForm.value.englishRegion;
-    const valueEn = this.currentLang === 'ua' ? this.locationForm.value.englishRegion : this.locationForm.value.region;
+    const valueUa = this.getLangValue(this.locationForm.value.region, this.locationForm.value.englishRegion);
+    const valueEn = this.getLangValue(this.locationForm.value.englishRegion, this.locationForm.value.region);
     const enRegion = { languageCode: 'en', regionName: valueEn };
     const region = { languageCode: 'ua', regionName: valueUa };
 
@@ -387,6 +405,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     const newCityName = item.toLowerCase();
     const cityList = array.map((it) => it.toLowerCase());
     return cityList.includes(newCityName);
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngAfterViewChecked(): void {

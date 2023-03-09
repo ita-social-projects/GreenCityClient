@@ -1,10 +1,16 @@
 .invite-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
   p {
     font-family: var(--secondary-font);
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
     line-height: 16px;
+    margin: 0;
     color: var(--secondary-grey);
   }
 
@@ -17,23 +23,78 @@
 
   .invite-content {
     display: flex;
-
-    .invite-friends {
-      display: flex;
-      flex-wrap: wrap;
-      width: 400px;
-      max-height: 100px;
-      overflow-y: auto;
-    }
+    flex-wrap: nowrap;
+    gap: 32px;
 
     .plus-circle {
-      width: 100px;
-      margin: 0 10px;
+      display: flex;
+      align-items: center;
+      margin: 0;
 
-      img {
-        margin: 10px auto;
+      .icon-plus-grey {
+        background: url('~/assets/icons/habits/plus-circle-grey.svg') no-repeat center;
+        width: 56px;
+        height: 56px;
+        cursor: pointer;
+      }
+
+      .icon-plus-green {
+        background: url('~/assets/icons/habits/plus-circle-small-green.svg') no-repeat center;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+      }
+    }
+
+    .invite-friends-box {
+      display: flex;
+      width: 232px;
+      position: relative;
+
+      &:first-child {
+        z-index: 1;
+      }
+
+      .invite-friends {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
         width: 60px;
         height: 60px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        .friend-img {
+          border-radius: 50%;
+          border: 2px solid var(--secondary-light-grey);
+        }
+      }
+
+      .invite-friends:nth-child(1) {
+        left: 0;
+      }
+
+      .invite-friends:nth-child(2) {
+        left: 20%;
+      }
+
+      .invite-friends:nth-child(3) {
+        left: 40%;
+      }
+
+      .invite-friends:nth-child(4) {
+        left: 60%;
+      }
+
+      .invite-friends:nth-child(5) {
+        left: 80%;
+      }
+
+      .invite-friends:nth-child(n + 6) {
+        display: none;
       }
     }
   }
@@ -45,6 +106,6 @@
 
   .invite-detail {
     height: 15px;
-    margin: 5px 10px;
+    margin: 5px 0;
   }
 }

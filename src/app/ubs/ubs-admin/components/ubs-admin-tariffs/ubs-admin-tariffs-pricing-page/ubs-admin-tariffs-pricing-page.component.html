@@ -15,7 +15,7 @@
 <div class="container">
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.services' | translate }}</p>
-    <button class="tariffs-add-button" [disabled]="isLoadBar1" (click)="openAddServicePopup()">
+    <button class="tariffs-add-button" [disabled]="isLoadBar1 || service" (click)="openAddServicePopup()">
       <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_service' | translate }}
     </button>
@@ -26,28 +26,21 @@
     </div>
     <table aria-label="tariffsTable">
       <tr>
-        <th scope="row"></th>
+        <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.full_cost' | translate }}</th>
       </tr>
-      <tr *ngFor="let service of services">
+      <tr *ngIf="service">
         <td style="padding-left: 0">
           <div class="image-buttons">
             <img *ngIf="!isLoadBar1" [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(service)" />
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ service.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ service.nameEng }}</td>
-        <td>{{ service.capacity | volume }}</td>
-        <td>{{ service.description }}</td>
-        <td>{{ service.price | currency | localizedCurrency }}</td>
-        <td>{{ service.commission | currency | localizedCurrency }}</td>
-        <td>{{ service.fullPrice | currency | localizedCurrency }}</td>
+        <td>{{ getLangValue(service.name, service.nameEng) }}</td>
+        <td>{{ getLangValue(service.description, service.descriptionEng) }}</td>
+        <td>{{ service?.price | currency | localizedCurrency }}</td>
       </tr>
     </table>
   </div>
@@ -64,7 +57,7 @@
     </div>
     <table aria-label="tariffsTable1">
       <tr>
-        <th scope="row"></th>
+        <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
@@ -91,10 +84,9 @@
             />
           </div>
         </td>
-        <td *ngIf="currentLanguage === 'ua'">{{ bag.name }}</td>
-        <td *ngIf="currentLanguage === 'en'">{{ bag.nameEng }}</td>
+        <td>{{ getLangValue(bag.name, bag.nameEng) }}</td>
         <td>{{ bag.capacity | volume }}</td>
-        <td>{{ bag.description }}</td>
+        <td>{{ getLangValue(bag.description, bag.descriptionEng) }}</td>
         <td>{{ bag.price | currency | localizedCurrency }}</td>
         <td>{{ bag.commission | currency | localizedCurrency }}</td>
         <td>{{ bag.fullPrice | currency | localizedCurrency }}</td>
@@ -106,20 +98,49 @@
   </div>
   <div class="limits-form">
     <form [formGroup]="limitsForm">
-      <div class="d-flex">
+      <div class="d-flex justify-content-between">
+        <div class="order-limit-textarea">
+          <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
+          <textarea
+            (ngModelChange)="unClickSaveBTN($event)"
+            maxlength="170"
+            formControlName="limitDescription"
+            placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
+          ></textarea>
+        </div>
         <mat-radio-group formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
-            <mat-radio-button id="min-order-amount" name="courierLimit" value="LIMIT_BY_SUM_OF_ORDER" (click)="sumToggler()">
+            <mat-radio-button
+              id="min-order-amount"
+              name="courierLimit"
+              value="LIMIT_BY_SUM_OF_ORDER"
+              (click)="sumLimitStatus()"
+              [checked]="limitStatus === limitEnum.limitByPriceOfOrder"
+            >
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <fieldset [disabled]="!toggle">
+            <fieldset [disabled]="limitStatus === limitEnum.limitByAmountOfBag || limitStatus === null">
               <legend></legend>
-              <input class="input" type="number" id="from" formControlName="minPriceOfOrder" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minPriceOfOrder)"
+                id="from"
+                formControlName="minPriceOfOrder"
+              />
               <span class="line"></span>
-              <input class="input" type="number" id="to" formControlName="maxPriceOfOrder" />
-              <label for="to"></label>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxPriceOfOrder)"
+                id="to"
+                formControlName="maxPriceOfOrder"
+              />
+              <label id="label-limit" for="to"></label>
             </fieldset>
           </div>
           <div class="bags-input">
@@ -127,39 +148,44 @@
               id="min-packages"
               name="courierLimit"
               value="LIMIT_BY_AMOUNT_OF_BAG"
-              (click)="bagToggler()"
+              (click)="bagLimitStatus()"
+              [checked]="limitStatus === limitEnum.limitByAmountOfBag"
             ></mat-radio-button>
             <label for="min-packages">{{ 'ubs-tariffs.min_number_of_packages' | translate }}</label
             ><br />
-            <fieldset [disabled]="toggle">
+            <fieldset [disabled]="limitStatus === limitEnum.limitByPriceOfOrder || limitStatus === null">
               <legend></legend>
-              <input class="input" type="number" id="from-packages" formControlName="minAmountOfBigBags" />
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, minBigBags)"
+                id="from-packages"
+                formControlName="minAmountOfBigBags"
+              />
               <span class="line"></span>
-              <input class="input" type="number" id="to-packages" formControlName="maxAmountOfBigBags" />
-              <label for="to-packages"></label>
+              <input
+                class="input"
+                type="number"
+                min="0"
+                (keypress)="checkOnNumber($event, maxBigBags)"
+                id="to-packages"
+                formControlName="maxAmountOfBigBags"
+              />
+              <label id="label-limit" for="to-packages"></label>
             </fieldset>
           </div>
         </mat-radio-group>
         <div class="min-bags-number">
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
-          <div *ngIf="bags[0]">
-            <div *ngFor="let tariff of ourTariffs; let i = index">
-              <div *ngIf="bags[i]">
-                <mat-checkbox *ngIf="currentLanguage === 'ua'" class="example-margin">{{ tariff.name }}</mat-checkbox>
-                <mat-checkbox *ngIf="currentLanguage === 'en'" class="example-margin">{{ tariff.nameEng }}</mat-checkbox>
-              </div>
+          <div *ngFor="let bag of bags; let i = index">
+            <div>
+              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (change)="onChecked(bag.id, $event)">{{
+                getLangValue(bag.name, bag.nameEng)
+              }}</mat-checkbox>
             </div>
           </div>
         </div>
-      </div>
-      <div class="order-limit-textarea">
-        <h6>{{ 'ubs-tariffs.info_about_order_limits' | translate }}</h6>
-        <textarea
-          (ngModelChange)="unClickSaveBTN($event)"
-          maxlength="170"
-          formControlName="limitDescription"
-          placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
-        ></textarea>
       </div>
       <div class="submit-btn">
         <div>

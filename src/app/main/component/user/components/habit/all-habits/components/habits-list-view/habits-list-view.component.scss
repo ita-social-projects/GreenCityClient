@@ -62,6 +62,7 @@
 
   .aquired,
   .tags {
+    display: flex;
     padding: 0 12px;
     border-right: 1px solid var(--tertiary-light-grey);
   }

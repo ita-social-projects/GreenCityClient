@@ -10,6 +10,7 @@ import { Bag, OrderDetails, PersonalData } from '../../ubs/models/ubs.interface'
 import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 import { OrderService } from '../../ubs/services/order.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -31,6 +32,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
+    private langService: LanguageService,
     private router: Router,
     public ubsOrderService: UBSOrderFormService,
     public orderService: OrderService
@@ -61,12 +63,22 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return order.orderStatusEng === CheckOrderStatus.CANCELED;
   }
 
+  public isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
+    const isOrderDone = order.orderStatusEng === CheckOrderStatus.DONE;
+    const isOrderCancelled = order.orderStatusEng === CheckOrderStatus.CANCELED;
+    return isOrderDone || isOrderCancelled;
+  }
+
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
     return order.orderFullPrice > 0;
   }
 
   public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
-    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order));
+    return (
+      this.isOrderPriceGreaterThenZero(order) &&
+      (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) &&
+      !this.isOrderDoneOrCancel(order)
+    );
   }
 
   public canOrderBeCancel(order: IUserOrderInfo): boolean {
@@ -114,7 +126,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     let personalDataResponse: PersonalData;
 
     const orderDataRequest: Observable<OrderDetails> = this.orderService
-      .getOrders()
+      .getExistingOrder(order.id)
       .pipe(takeUntil(this.destroy$))
       .pipe(
         tap((orderData) => {
@@ -186,5 +198,9 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.orders.sort((a: IUserOrderInfo, b: IUserOrderInfo): number => {
       return a.dateForm < b.dateForm ? 1 : -1;
     });
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

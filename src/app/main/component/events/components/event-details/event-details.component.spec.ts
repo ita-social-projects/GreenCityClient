@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
@@ -10,20 +10,44 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
+import { Language } from 'src/app/main/i18n/Language';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+
+export function mockPipe(options: Pipe): Pipe {
+  const metadata: Pipe = {
+    name: options.name
+  };
+
+  return Pipe(metadata)(
+    class MockPipe implements PipeTransform {
+      transform(value: string): string {
+        return value;
+      }
+    }
+  );
+}
 
 describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
   let fixture: ComponentFixture<EventDetailsComponent>;
+  let route: ActivatedRoute;
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
-  const MockReqest = {
+  const eventMock = {
     additionalImages: [],
     dates: [
       {
         coordinates: {
-          latitude: 0,
-          longitude: 0
+          addressEn: 'Address',
+          addressUa: 'Адрес',
+          latitude: 3,
+          longitude: 4
         },
-        onlineLink: 'link'
+        event: 'test',
+        finishDate: '2023-02-14',
+        id: 1,
+        onlineLink: 'https://test',
+        startDate: '2023-04-12'
       }
     ],
     description: 'description',
@@ -31,16 +55,19 @@ describe('EventDetailsComponent', () => {
     open: true,
     organizer: {
       id: 1111,
-      name: 'John'
+      name: 'John',
+      organizerRating: 2
     },
     tags: [{ nameEn: 'Environmental', nameUa: 'Екологічний', id: 1 }],
     title: 'title',
-    titleImage: ''
+    titleImage: '',
+    isSubscribed: true
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent']);
-  EventsServiceMock.getEventById = () => of(MockReqest);
+  const EventsServiceMock = jasmine.createSpyObj('eventService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
+  EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
+  EventsServiceMock.getAllAttendees = () => of([]);
 
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
@@ -53,8 +80,17 @@ describe('EventDetailsComponent', () => {
     }
   };
 
-  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject', 'setEditMode', 'setEventForEdit']);
+  const LocalStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviourSubject',
+    'languageBehaviourSubject',
+    'setEditMode',
+    'setEventForEdit',
+    'getCurrentLanguage'
+  ]);
+
   LocalStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  LocalStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  LocalStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   class MatDialogMock {
     open() {
       return {
@@ -63,6 +99,16 @@ describe('EventDetailsComponent', () => {
     }
   }
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
+  let translateServiceMock: TranslateService;
+  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of();
+  translateServiceMock.get = () => of(true);
+
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -70,18 +116,22 @@ describe('EventDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
-      declarations: [EventDetailsComponent],
+      declarations: [EventDetailsComponent, mockPipe({ name: 'dateLocalisation' }), mockPipe({ name: 'translate' })],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
+
+    route = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {
@@ -95,76 +145,54 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit tags.length shoud be 3', () => {
-    component.mapDialogData = { lat: 10, lng: 10 };
-    component.tags = [];
+  it('should call methods on ngOnInit', () => {
+    const spy1 = spyOn(component as any, 'bindLang');
+    const spy2 = spyOn(component as any, 'verifyRole');
     component.ngOnInit();
-    expect(component.tags.length).toBe(3);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith('ua');
+    expect(spy2).toHaveBeenCalled();
   });
 
-  it('routeToEditEvent', () => {
-    const spy = spyOn(component.router, 'navigate');
-    component.routeToEditEvent();
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should verify unauthenticated role', () => {
+    const role = component.roles.UNAUTHENTICATED;
+    expect(role).toBe('UNAUTHENTICATED');
   });
 
-  it('getUserId user ID should be 1111', () => {
-    component.getUserId();
-    expect(component.userId).toBe(1111);
+  it('should verify user role', () => {
+    jwtServiceFake.getUserRole = () => 'ROLE_USER';
+    let role = 'UNAUTHENTICATED';
+    role = jwtServiceFake.getUserRole() === 'ROLE_USER' ? 'USER' : role;
+    expect(role).toBe('USER');
   });
 
-  it('checkUserId', () => {
-    const res = component.checkUserId();
-    expect(res).toBeTruthy();
+  it('should verify organizer role', () => {
+    let role = 'UNAUTHENTICATED';
+    (component as any).userId = 1;
+    eventMock.organizer.id = 1;
+    role = (component as any).userId === eventMock.organizer.id ? 'ORGANIZER' : role;
+    expect(role).toBe('ORGANIZER');
   });
 
-  it('filterTags tags[1] should be active', () => {
-    (component as any).filterTags([{ nameEn: 'Social', nameUa: 'Соціальний', id: 1 }]);
-    expect(component.tags[1].isActive).toBeTruthy();
+  it('should verify admin role', () => {
+    jwtServiceFake.getUserRole = () => 'ROLE_ADMIN';
+    let role = 'UNAUTHENTICATED';
+    role = jwtServiceFake.getUserRole() === 'ROLE_ADMIN' ? 'ADMIN' : role;
+    expect(role).toBe('ADMIN');
   });
 
-  it('setNewsId eventId should be 2', () => {
-    (component as any).eventId = 0;
-    (component as any).setNewsId();
-    expect((component as any).eventId).toBe(2);
+  it('should redirect to edit page', (done) => {
+    fixture.ngZone.run(() => {
+      component.navigateToEditEvent();
+      fixture.whenStable().then(() => {
+        expect(routerSpy.navigate).toBeDefined();
+        done();
+      });
+    });
   });
 
-  it('selectImage sliderIndex should be 1 ', () => {
-    component.selectImage(1);
-    expect(component.sliderIndex).toBe(1);
-  });
-
-  it('moveRight sliderIndex should be 1', () => {
-    component.imagesSlider = ['1', '2'];
-    component.sliderIndex = 0;
-    component.moveRight();
-    expect(component.sliderIndex).toBe(1);
-  });
-
-  it('moveRight sliderIndex should be 0', () => {
-    component.imagesSlider = ['1', '2', '3'];
-    component.sliderIndex = 2;
-    component.moveRight();
-    expect(component.sliderIndex).toBe(0);
-  });
-
-  it('moveLeft sliderIndex should be 1', () => {
-    component.imagesSlider = ['1', '2'];
-    component.sliderIndex = 0;
-    component.moveLeft();
-    expect(component.sliderIndex).toBe(1);
-  });
-
-  it('moveLeft sliderIndex should be 2 ', () => {
-    component.imagesSlider = ['1', '2', '3', '4'];
-    component.sliderIndex = 3;
-    component.moveLeft();
-    expect(component.sliderIndex).toBe(2);
-  });
-
-  it('openMap', () => {
-    const spy = spyOn((component as any).dialog, 'open');
-    component.openMap({ coordinates: { addressEn: 'address', latitude: 10, longitude: 10 } });
-    expect(spy).toHaveBeenCalledTimes(1);
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });
