@@ -637,9 +637,9 @@ describe('EventsListItemComponent', () => {
     expect(component.isJoinBtnHidden).toBe(false);
   });
 
-  it('addToFavourite should be called when add to favorite clicked and not raited', () => {
+  it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
     component.isRegistered = false;
-    spyOn(component, 'addToFavourite');
+    spyOn(component, 'openAuthModalWindow');
     if (!component.isRegistered) {
       component.openAuthModalWindow('sign-in');
     }
