@@ -17,6 +17,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Injectable()
 class TranslationServiceStub {
@@ -169,7 +170,15 @@ describe('EventsListItemComponent', () => {
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
       ],
-      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot(), ModalModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        RatingModule.forRoot(),
+        ModalModule.forRoot(),
+        BrowserAnimationsModule,
+        NoopAnimationsModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
