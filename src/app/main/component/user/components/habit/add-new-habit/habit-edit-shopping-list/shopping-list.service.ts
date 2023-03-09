@@ -4,6 +4,7 @@ import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
 import { map } from 'rxjs/operators';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ShoppingListService {
 
   private customList = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private languageService: LanguageService) {}
 
   public fillList(data: ShoppingList[]) {
     this.list = data;
@@ -28,7 +29,7 @@ export class ShoppingListService {
 
   public addItem(value: string) {
     const newItem = {
-      id: -1,
+      id: null,
       status: 'ACTIVE',
       text: value,
       selected: false,
@@ -56,6 +57,7 @@ export class ShoppingListService {
     this.list = this.list.map((element) => {
       if (element.text === item.text) {
         element.selected = !item.selected;
+        element.status = item.selected ? 'INPROGRESS' : 'ACTIVE';
       }
       return element;
     });
@@ -67,16 +69,21 @@ export class ShoppingListService {
     this.placeItemInOrder();
     this.list$.next(this.list);
   }
+  public saveCustomItems(habitId: number) {
+    const customShoppingListItemDto: ShoppingList[] = this.list.filter((item) => item.custom);
+    const userShoppingListItemDto: ShoppingList[] = this.list.filter((item) => !item.custom);
+    const currentLang = this.languageService.getCurrentLanguage();
 
-  public saveCustomItems(userId: string, habitId: number) {
-    return this.http.post<Array<ShoppingList>>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, {
-      customShoppingListItemSaveRequestDtoList: this.customList
+    return this.http.put<Array<ShoppingList>>(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`, {
+      customShoppingListItemDto: customShoppingListItemDto,
+      userShoppingListItemDto: userShoppingListItemDto
     });
   }
 
   public getCustomItems(habitId: number) {
+    const currentLang = this.languageService.getCurrentLanguage();
     this.http
-      .get(`${mainLink}habit/assign/allUserAndCustomList/${habitId}`)
+      .get(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`)
       .pipe(
         map((res: any) => {
           let customShoppingList = res.customShoppingListItemDto.map((item) => ({

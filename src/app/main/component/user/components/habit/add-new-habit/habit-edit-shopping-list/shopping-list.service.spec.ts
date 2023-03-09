@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ShoppingListService } from './shopping-list.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('ShoppingListService', () => {
   let service: ShoppingListService;
@@ -31,8 +32,8 @@ describe('ShoppingListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ShoppingListService],
-      imports: [HttpClientModule]
+      providers: [ShoppingListService, TranslateService],
+      imports: [HttpClientModule, TranslateModule.forRoot()]
     });
 
     service = TestBed.inject(ShoppingListService);

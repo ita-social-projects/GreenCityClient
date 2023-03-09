@@ -40,11 +40,9 @@ export class ProfileService {
   public getShoppingList(): Observable<ShoppingList[]> {
     const currentLang = this.languageService.getCurrentLanguage();
     this.setUserId();
+
     return this.http.get<ShoppingList[]>(
-      `${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}`
-      //   `
-      //   ${mainLink}user/shopping-list-items/${this.userId}/get-all-inprogress?lang=${currentLang}
-      // `
+      `${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?status=INPROGRESS`
     );
   }
 

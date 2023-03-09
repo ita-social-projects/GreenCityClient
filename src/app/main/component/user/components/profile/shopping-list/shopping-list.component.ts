@@ -15,6 +15,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
   public toggle: boolean;
+
   constructor(private profileService: ProfileService) {}
 
   get shoppingListLength(): number {
@@ -25,7 +26,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.getShoppingList();
     this.profileSubscription = this.profileService.shoppingList$
       .pipe(
         takeUntil(this.destroy$),
@@ -39,23 +39,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
         this.shoppingList = shoppingListArr;
       });
   }
-
-  // public getShoppingList(): void {
-  //   this.profileSubscription = this.profileService
-  //     .getShoppingList()
-  // .pipe(
-  //   takeUntil(this.destroy$),
-  //   finalize(() => {
-  //     if (!this.shoppingList) {
-  //       this.shoppingList = [];
-  //     }
-  //   })
-  // )
-  //     .subscribe(
-  //       (shoppingListArr: ShoppingList[]) => (this.shoppingList = shoppingListArr),
-  //       (error) => (this.shoppingList = [])
-  //     );
-  // }
 
   public openCloseList() {
     this.toggle = !this.toggle;

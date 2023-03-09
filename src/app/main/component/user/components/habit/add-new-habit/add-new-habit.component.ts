@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
@@ -145,17 +145,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   public updateHabit() {
-    const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
-    this.habitAssignService
-      .updateHabit(this.habitId, this.newDuration, defailtItemsIds)
-      .pipe(
-        take(1),
-        switchMap(() => this.shoppingListService.saveCustomItems(this.userId, this.habitId))
-      )
-      .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitUpdated');
-      });
+    this.shoppingListService.saveCustomItems(this.habitId).subscribe(() => {
+      this.router.navigate(['profile', this.userId]);
+      this.snackBar.openSnackBar('habitUpdated');
+    });
   }
 
   public deleteHabit() {

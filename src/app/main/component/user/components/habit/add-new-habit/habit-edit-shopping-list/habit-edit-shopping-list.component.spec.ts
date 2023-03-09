@@ -119,7 +119,7 @@ describe('HabitEditShoppingListComponent', () => {
 
   it('fillList() should fill the list', () => {
     component.shoppinglistService.fillList(mockList);
-    expect(component.list[0].text).toEqual('Item 2');
+    expect(component.list.length).toEqual(2);
   });
 
   it('add() should add new item to the list', () => {

@@ -18,7 +18,6 @@
 <div *ngIf="isEditing">
   <ul class="editing-list" [ngClass]="{ 'shopping-list-max': seeAllShopingList, 'shopping-list-min': !seeAllShopingList }">
     <li *ngFor="let item of list; index as i">
-      <!-- <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }"> -->
       <label [ngClass]="{ selected: item.selected, done: item.status === 'DONE' }">
         <input type="checkbox" [checked]="!item.selected" (change)="select(item)" />
         <span class="checkedmark"></span>
