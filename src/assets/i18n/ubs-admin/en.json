@@ -13,6 +13,7 @@
     "email": "Email",
     "alternative-email": "Alternative Email",
     "phone": "Phone",
+    "social-media-mess": "*The chosen messenger must be installed on your device/PC. Otherwise, you will not be able to connect to the service.",
     "address": "Address",
     "city": "City",
     "region": "Region",

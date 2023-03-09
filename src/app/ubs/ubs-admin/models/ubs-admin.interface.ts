@@ -298,6 +298,7 @@ export interface UserProfile {
   hasPassword: boolean;
   telegramIsChecked?: boolean;
   viberIsChecked?: boolean;
+  botList?: object;
 }
 
 export interface Address {

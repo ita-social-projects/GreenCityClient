@@ -56,8 +56,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
-  telegramBotURL = 'https://telegram.me/TrayingAgainDoSomthBot?start=1a3a3f0f-6e79-4be6-987a-b6ed82b7b272';
-  viberBotURL = 'viber://pa?chatURI=ubstestbot1&context=1a3a3f0f-6e79-4be6-987a-b6ed82b7b272';
+  telegramBotURL: string;
+  viberBotURL: string;
   alternativeEmailDisplay = false;
   phoneMask = Masks.phoneMask;
   maxAddressLength = 4;
@@ -106,6 +106,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       (res: UserProfile) => {
         this.userProfile = this.composeFormData(res);
         this.userInit();
+        this.setUrlToBot();
         this.isFetching = false;
       },
       (err: Error) => {
@@ -113,6 +114,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         this.snackBar.openSnackBar('ubs-client-profile.error-message');
       }
     );
+  }
+
+  setUrlToBot(): void {
+    this.telegramBotURL = this.userProfile.botList[0].link;
+    this.viberBotURL = this.userProfile.botList[1].link;
   }
 
   userInit(): void {
@@ -439,16 +445,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.isEditing = false;
   }
 
-  checkedCheckbox(event) {
-    if (event.source.id === 'telegramNotification') {
-      this.telegramNotification = event.checked;
-    }
-
-    if (event.source.id === 'viberNotification') {
-      this.viberNotification = event.checked;
-    }
-  }
-
   onSubmit(): void {
     if (this.userForm.valid) {
       this.isFetching = true;
@@ -460,8 +456,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
-        telegramIsChecked: this.telegramNotification,
-        viberIsChecked: this.viberNotification,
+        telegramIsChecked: this.userProfile.telegramIsChecked,
+        viberIsChecked: this.userProfile.viberIsChecked,
         hasPassword: this.userProfile.hasPassword
       };
 
@@ -500,7 +496,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         }
       );
       this.alternativeEmailDisplay = false;
-      this.redirectToMessengers();
     } else {
       this.isEditing = true;
     }
@@ -582,6 +577,22 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  onSwitchChanged(id: string, checked: boolean) {
+    if (id === 'telegramNotification') {
+      this.telegramNotification = checked;
+      this.userProfile.telegramIsChecked = !this.userProfile.telegramIsChecked;
+    }
+
+    if (id === 'viberNotification') {
+      this.viberNotification = checked;
+      this.userProfile.viberIsChecked = !this.userProfile.viberIsChecked;
+    }
+
+    if (this.userProfile.viberIsChecked || this.userProfile.telegramIsChecked) {
+      this.redirectToMessengers();
+    }
   }
 
   ngOnDestroy(): void {
