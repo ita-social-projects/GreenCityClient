@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';

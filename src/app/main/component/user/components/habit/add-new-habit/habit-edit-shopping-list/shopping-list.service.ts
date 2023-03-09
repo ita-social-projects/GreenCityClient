@@ -69,6 +69,7 @@ export class ShoppingListService {
     this.placeItemInOrder();
     this.list$.next(this.list);
   }
+
   public saveCustomItems(habitId: number) {
     const customShoppingListItem: ShoppingList[] = this.list.filter((item) => item.custom);
     const userShoppingListItem: ShoppingList[] = this.list.filter((item) => !item.custom);
