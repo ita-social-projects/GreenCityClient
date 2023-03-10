@@ -42,7 +42,7 @@
   <div class="divider"></div>
   <div class="container-habit-edit">
     <div class="habit-progress">
-      <app-habit-progress [habit]="habit"></app-habit-progress>
+      <app-habit-progress [habit]="habit" (progressValue)="getProgressValue($event)"></app-habit-progress>
     </div>
     <div class="habit-info-right-block">
       <div class="duration-shoping">
@@ -58,16 +58,19 @@
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
-      <button class="primary-global-button cancel-habit-button" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
-      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
+      <button class="tertiary-global-button btn" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="primary-global-button btn" type="submit" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
     <div *ngIf="isEditing" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="giveUpHabit()">
+      <button class="tertiary-global-button btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
+      <button *ngIf="canAcquire" class="secondary-global-button btn" (click)="setHabitStatus()">
+        {{ 'user.habit.btn.acquire' | translate }}
+      </button>
+      <button class="primary-global-button btn" type="submit" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
       </button>
     </div>

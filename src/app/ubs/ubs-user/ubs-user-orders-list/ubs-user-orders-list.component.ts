@@ -63,12 +63,22 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     return order.orderStatusEng === CheckOrderStatus.CANCELED;
   }
 
+  public isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
+    const isOrderDone = order.orderStatusEng === CheckOrderStatus.DONE;
+    const isOrderCancelled = order.orderStatusEng === CheckOrderStatus.CANCELED;
+    return isOrderDone || isOrderCancelled;
+  }
+
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
     return order.orderFullPrice > 0;
   }
 
   public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
-    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order));
+    return (
+      this.isOrderPriceGreaterThenZero(order) &&
+      (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) &&
+      !this.isOrderDoneOrCancel(order)
+    );
   }
 
   public canOrderBeCancel(order: IUserOrderInfo): boolean {

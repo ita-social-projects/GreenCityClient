@@ -108,9 +108,22 @@
     "events": {
       "title": "Events",
       "author": "by",
+      "create-title": "Create event",
       "delete-title": "Delete event",
       "delete-yes": "yes",
       "delete-no": "no",
+      "filter-title": "Sort By",
+      "filter-location": "Location",
+      "filter-location-аny-location": "(Select All)",
+      "filter-status": "Status",
+      "filter-status-аny-status": "Any status",
+      "filter-type": "Type",
+      "filter-аny-type": "All types",
+      "filter-reset-all": "Reset all",
+      "time": "Event time",
+      "time-any-time": "Any time",
+      "item-found-text": "",
+      "items-event-text": "Items found",
       "my-space": {
         "tag-title": "My Events"
       },
@@ -658,6 +671,7 @@
         "back-to-habit": "Back to my habits",
         "save": "Save",
         "give-up": "Give up",
+        "acquire": "Acquire",
         "add": "Add Habit",
         "cancel": "Cancel",
         "see-all": "See all",
@@ -726,6 +740,7 @@
         "btn-add": "Add habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
+        "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list"
       },
       "habit-trackers": {

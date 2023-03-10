@@ -41,6 +41,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public nameFieldValue: string;
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
+  public isSignInPage: boolean;
   public currentLanguage: string;
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -131,6 +132,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
       this.nameFieldValue = this.firstNameControl.value;
       this.passwordFieldValue = this.passwordControl.value;
       this.passwordConfirmFieldValue = this.passwordControlConfirm.value;
+      this.isSignInPage = false;
     }
   }
 

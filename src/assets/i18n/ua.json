@@ -108,9 +108,22 @@
     "events": {
       "title": "Події",
       "author": "автор",
+      "create-title": "Створити подію",
       "delete-title": "Видалити подію",
       "delete-yes": "так",
       "delete-no": "ні",
+      "filter-title": "Cортувати",
+      "filter-location": "Де?",
+      "filter-location-аny-location": "Обрати всі",
+      "filter-status": "Статус",
+      "filter-status-аny-status": "Будь-який статус",
+      "filter-type": "Тип події",
+      "filter-аny-type": "Всі типи",
+      "filter-reset-all": "Очистити",
+      "time": "Час події",
+      "time-any-time": "Будь-який",
+      "item-found-text": "Знайдено",
+      "items-event-text": "подій",
       "my-space": {
         "tag-title": "Мої події"
       },
@@ -663,6 +676,7 @@
         "back-to-habit": "Повернутись до моїх звичок",
         "save": "Зберегти",
         "give-up": "Здатися",
+        "acquire": "Набути звичку",
         "add": "Додати звичку",
         "cancel": "Відмінити",
         "see-all": "Показати всі",
@@ -731,6 +745,7 @@
         "btn-add": "Додати звичку",
         "new-habit-added": "Ви успішно додали звичку у свій список",
         "new-habit-updated": "Ви успішно оновили звичку",
+        "habit-acquired": "Ви успішно набули звичку",
         "habit-was-deleted": "Ви успішно видалили звичку зі списку"
       },
       "habit-trackers": {

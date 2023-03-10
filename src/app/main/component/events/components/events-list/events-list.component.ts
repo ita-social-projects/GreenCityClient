@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EventPageResponceDto } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
@@ -7,11 +7,14 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
+import { TagsArray, eventTimeList, eventStatusList, tempLocationList, selectedFilters, OptionItem } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { eventTimeList, TagsArray, eventStatusList, tempLocationList } from '../../models/event-consts';
+import { FormControl } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-events-list',
@@ -19,6 +22,16 @@ import { eventTimeList, TagsArray, eventStatusList, tempLocationList } from '../
   styleUrls: ['./events-list.component.scss']
 })
 export class EventsListComponent implements OnInit, OnDestroy {
+  @ViewChild('timeFilter') timeList: MatSelect;
+  @ViewChild('locationFilter') locationList: MatSelect;
+  @ViewChild('statusFilter') statusesList: MatSelect;
+  @ViewChild('typeFilter') typesList: MatSelect;
+
+  public timeFilterControl = new FormControl();
+  public locationFilterControl = new FormControl();
+  public statusFilterControl = new FormControl();
+  public typeFilterControl = new FormControl();
+
   public eventsList: EventPageResponceDto[] = [];
 
   public isLoggedIn: string;
@@ -32,15 +45,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
-  selectedFilters = ['Lviv', 'Kyiv', 'Odesa', 'Kharkiv', 'Donetsk']; // test data,should be deleted when back-end is ready
-  searchToggle = false;
-  bookmarkSelected = false;
-  selectedEventTime: any;
-  eventTimeList = eventTimeList;
-  typeList = TagsArray;
-  statusList = eventStatusList;
-  eventLocationList = tempLocationList;
-  allSelected = false;
+  public selectedFilters = selectedFilters; // test data,should be deleted when back-end is ready
+  public searchToggle = false;
+  public bookmarkSelected = false;
+  public selectedEventTime: any;
+  public eventTimeList: OptionItem[] = eventTimeList;
+  public typeList: OptionItem[] = TagsArray;
+  public statusList: OptionItem[] = eventStatusList;
+  public eventLocationList: OptionItem[] = tempLocationList;
+  public allSelected = false;
+  private optionsList: any;
   public scroll: boolean;
   private dialog: MatDialog;
 
@@ -80,24 +94,31 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleAllSelection(): void {
+  public toggleAllSelection(optionsList: any): void {
     this.allSelected = !this.allSelected;
-    this.selectedEventTime = this.allSelected ? this.eventTimeList : [];
+    this.isSelectedOptions(optionsList);
   }
 
-  search(): void {
+  public isSelectedOptions(optionsList: any): void {
+    this.optionsList = optionsList;
+    this.allSelected
+      ? this.optionsList.options.forEach((item: MatOption) => item.select())
+      : this.optionsList.options.forEach((item: MatOption) => item.deselect());
+  }
+
+  public search(): void {
     this.searchToggle = !this.searchToggle;
   }
 
-  showFavourite(): void {
+  public showFavourite(): void {
     this.bookmarkSelected = !this.bookmarkSelected;
   }
 
-  deleteOneFilter(index): void {
+  public deleteOneFilter(index): void {
     this.selectedFilters.splice(index, 1);
   }
 
-  resetAll(): void {
+  public resetAll(): void {
     this.selectedFilters.splice(0, this.selectedFilters.length);
   }
 

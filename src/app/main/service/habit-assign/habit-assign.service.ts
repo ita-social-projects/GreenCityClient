@@ -62,6 +62,11 @@ export class HabitAssignService implements OnDestroy {
     return this.http.get<Array<HabitsForDateInterface>>(query);
   }
 
+  setHabitStatus(habitId: number, status: string): Observable<HabitAssignInterface> {
+    const body = { status };
+    return this.http.patch<HabitAssignInterface>(`${habitAssignLink}/${habitId}`, body);
+  }
+
   deleteHabitById(id: number): Observable<HabitAssignService> {
     return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${id}`);
   }
