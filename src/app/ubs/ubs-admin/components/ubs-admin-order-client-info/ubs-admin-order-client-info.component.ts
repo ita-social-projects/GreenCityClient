@@ -85,6 +85,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
     if (abstractControl.errors.pattern && name === 'recipientPhoneNumber') {
       return 'input-error.number-format';
     }
+
+    if (abstractControl.errors.wrongNumber) {
+      return 'input-error.number-wrong';
+    }
   }
 
   ngOnDestroy(): void {
