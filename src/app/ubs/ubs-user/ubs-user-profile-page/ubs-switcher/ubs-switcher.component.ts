@@ -6,8 +6,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./ubs-switcher.component.scss']
 })
 export class UbsSwitcherComponent {
-  constructor() {}
-
   @Input() isChecked: boolean;
   @Input() isEditing: boolean;
 
