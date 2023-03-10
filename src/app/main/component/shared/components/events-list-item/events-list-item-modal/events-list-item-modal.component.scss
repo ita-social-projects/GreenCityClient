@@ -5,6 +5,12 @@
   }
 }
 
+.disabled {
+  pointer-events: none !important;
+  background-color: var(--primary-grey);
+}
+// [disabled]="!isEventRaited"
+
 .modal-inner {
   display: flex;
   width: 500px;

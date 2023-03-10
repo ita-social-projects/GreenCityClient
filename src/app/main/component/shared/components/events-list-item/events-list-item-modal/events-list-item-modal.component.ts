@@ -22,6 +22,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public isPosting: boolean;
   public text: string;
   public elementName: string;
+  public isEventRaited = false;
 
   private dialog: MatDialog;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -40,6 +41,10 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+  }
+
+  public starsHandler(index: number, value: number): void {
+    index > value ? (this.isEventRaited = true) : (this.isEventRaited = false);
   }
 
   public modalBtn(): void {
