@@ -25,7 +25,7 @@
   transition: 0.4s;
 }
 
-.slider ::before {
+.slider::before {
   content: '';
   position: absolute;
   width: 16px;
@@ -38,20 +38,17 @@
   transition: 0.4s;
 }
 
-input :checked + .slider {
+input:checked + .slider {
   background-color: #ccb7fa;
 }
 
-input :checked + .slider::before {
+input:checked + .slider::before {
   background-color: #9368f0;
-}
-
-input :focus + .slider {
-  box-shadow: 0 0 1px #ccb7fa;
-}
-
-input :checked + .slider ::before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ccb7fa;
 }
