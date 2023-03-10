@@ -15,13 +15,12 @@ import { EventsListItemModalComponent } from './events-list-item-modal/events-li
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subscription, of } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { of } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
