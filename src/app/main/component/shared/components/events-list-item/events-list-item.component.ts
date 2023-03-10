@@ -4,7 +4,7 @@ import {
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -21,6 +21,8 @@ import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { of } from 'rxjs';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -79,7 +81,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private eventService: EventsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit(): void {
@@ -212,6 +215,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.styleBtn = 'secondary-global-button';
       this.isReadonly = !this.event.organizer.organizerRating ? false : true;
       this.isJoined = true;
+      of(this.isJoined)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe(() => {
+          this.snackBar.openSnackBar('addedEvent');
+        });
     }
   }
 
@@ -304,6 +312,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+    this.destroyed$.unsubscribe();
     this.langChangeSub.unsubscribe();
   }
 }

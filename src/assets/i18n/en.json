@@ -341,7 +341,8 @@
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
-      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box."
+      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
+      "joined-event": "You have successfully joined the event"
     }
   },
   "user": {
