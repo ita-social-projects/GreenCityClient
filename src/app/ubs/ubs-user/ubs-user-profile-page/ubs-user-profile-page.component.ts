@@ -117,8 +117,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setUrlToBot(): void {
-    this.telegramBotURL = this.userProfile.botList[0].link;
-    this.viberBotURL = this.userProfile.botList[1].link;
+    this.telegramBotURL = this.userProfile.botList[0]?.link;
+    this.viberBotURL = this.userProfile.botList[1]?.link;
   }
 
   userInit(): void {

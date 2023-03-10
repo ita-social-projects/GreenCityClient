@@ -324,7 +324,7 @@ $inputwidth: 260px;
     max-width: 800px;
 
     .delete-address {
-      margin-left: 0p5x;
+      margin-left: 5px;
     }
   }
 }
@@ -357,7 +357,7 @@ $inputwidth: 260px;
   justify-content: space-between;
   margin-top: 10px;
 
-  app-ubs-switcher {
+  .ubs-switcher {
     margin-top: 5px;
   }
 }

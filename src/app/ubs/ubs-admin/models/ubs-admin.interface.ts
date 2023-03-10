@@ -298,7 +298,12 @@ export interface UserProfile {
   hasPassword: boolean;
   telegramIsChecked?: boolean;
   viberIsChecked?: boolean;
-  botList?: object;
+  botList?: SocialLink[];
+}
+
+export interface SocialLink {
+  link: string;
+  type: string;
 }
 
 export interface Address {
