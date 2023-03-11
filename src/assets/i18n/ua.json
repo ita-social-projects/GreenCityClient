@@ -108,9 +108,22 @@
     "events": {
       "title": "Події",
       "author": "автор",
+      "create-title": "Створити подію",
       "delete-title": "Видалити подію",
       "delete-yes": "так",
       "delete-no": "ні",
+      "filter-title": "Cортувати",
+      "filter-location": "Де?",
+      "filter-location-аny-location": "Обрати всі",
+      "filter-status": "Статус",
+      "filter-status-аny-status": "Будь-який статус",
+      "filter-type": "Тип події",
+      "filter-аny-type": "Всі типи",
+      "filter-reset-all": "Очистити",
+      "time": "Час події",
+      "time-any-time": "Будь-який",
+      "item-found-text": "Знайдено",
+      "items-event-text": "подій",
       "my-space": {
         "tag-title": "Мої події"
       },

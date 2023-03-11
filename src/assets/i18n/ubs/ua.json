@@ -392,6 +392,7 @@
         "password-is-required": "Будь ласка введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймні 8 символів без пробілів",
         "bad-email-or-password": "Введено невірний email або пароль",
+        "too-long-password": "Пароль не може містити більше 20 символів",
         "fill-all-red-fields": "Потрібно заповнити всі обов'язкові поля.",
         "sign-in": "Увійти",
         "sign-up": "Зареєструватись",
