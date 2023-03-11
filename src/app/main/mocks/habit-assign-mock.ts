@@ -43,7 +43,7 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-07'),
     habit: {
       defaultDuration: 16,
-      amountAcquiredUsers: 1,
+      amountAcquiredUsers: 2,
       habitTranslation: {
         description: 'habit, which will be useful for forest',
         habitItem: 'buying eco brush',
@@ -79,7 +79,7 @@ export const LISTOFHABITS: HabitAssignInterface[] = [
     createDateTime: new Date('2021-02-07'),
     habit: {
       defaultDuration: 16,
-      amountAcquiredUsers: 1,
+      amountAcquiredUsers: 3,
       habitTranslation: {
         description: 'habit, which will be useful for forest',
         habitItem: 'buying eco brush',
