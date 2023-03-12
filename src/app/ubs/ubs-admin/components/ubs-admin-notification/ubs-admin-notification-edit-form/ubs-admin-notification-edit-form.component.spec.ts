@@ -5,7 +5,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { MentionModule } from 'angular-mentions';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form.component';
 
 describe('UbsAdminNotificationEditFormComponent', () => {
@@ -23,12 +22,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminNotificationEditFormComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, MatExpansionModule, NoopAnimationsModule],
-      providers: [
-        FormBuilder,
-        MentionModule,
-        { provide: MAT_DIALOG_DATA, useValue: mockedData },
-        { provide: MatDialogRef, useValue: matDialogRefMock }
-      ]
+      providers: [FormBuilder, { provide: MAT_DIALOG_DATA, useValue: mockedData }, { provide: MatDialogRef, useValue: matDialogRefMock }]
     }).compileComponents();
   }));
 
