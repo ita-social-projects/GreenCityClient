@@ -8,7 +8,12 @@
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.ua' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
-          <mat-select #selectUa (selectionChange)="addMention($event.value, 'textUa')" class="selector">
+          <mat-select
+            #selectUa
+            (selectionChange)="addMention($event.value, 'textUa')"
+            placeholder="{{ 'ubs-notifications.text-editing-popup.labels.select' | translate }}"
+            class="selector"
+          >
             <mat-option *ngFor="let item of items" value="{{ textDecorator(item) }}" class="option">{{ item }} </mat-option>
           </mat-select>
           <mat-form-field appearance="outline">
@@ -32,14 +37,7 @@
           </mat-select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea
-              matInput
-              #textEn
-              formControlName="textEn"
-              placeholder="{{ 'ubs-notifications.text-editing-popup.placeholder' | translate }}"
-              required
-              class="edit-text"
-            ></textarea>
+            <textarea matInput #textEn formControlName="textEn" required class="edit-text"></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
