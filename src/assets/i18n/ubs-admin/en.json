@@ -980,7 +980,6 @@
         "text": "Notification text",
         "select": "select"
       },
-      "placeholder": "Press $ to select an option",
       "buttons": {
         "cancel": "Cancel",
         "change": "Change"
