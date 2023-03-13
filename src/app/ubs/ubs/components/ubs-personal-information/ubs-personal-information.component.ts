@@ -42,6 +42,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [Validators.required, Validators.maxLength(30), Validators.pattern(this.namePattern)];
+  private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -156,8 +157,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: ['', this.personalDataFormValidators],
-      anotherClientLastName: ['', this.personalDataFormValidators],
+      anotherClientFirstName: ['', this.anotherClientValidators],
+      anotherClientLastName: ['', this.anotherClientValidators],
       anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
