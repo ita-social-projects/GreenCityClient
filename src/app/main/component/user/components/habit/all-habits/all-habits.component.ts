@@ -68,7 +68,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private getAllHabits(page: number, size: number): void {
     this.habitService
       .getAllHabits(page, size)
-      .pipe<HabitListInterface>(map((data) => this.splitHabitItems(data)))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);
       });
