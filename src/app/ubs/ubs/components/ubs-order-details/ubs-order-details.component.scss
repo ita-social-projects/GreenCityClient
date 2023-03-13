@@ -551,6 +551,8 @@ h5 {
     border: 1px solid var(--ubs-quintynary-light-grey);
     padding: 0.5rem;
     background: var(--ubs-primary-white);
+    resize: none;
+    overflow: hidden;
 
     &::placeholder {
       @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);

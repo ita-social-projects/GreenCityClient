@@ -9,7 +9,7 @@
       <button class="{{ habitMark }}" (click)="unenroll()" [disabled]="isRequest"></button>
       <div>{{ habit.habitStreak }} {{ getDayName() | translate }}</div>
     </ng-template>
-    <ng-template ngSwitchDefault="aquired">
+    <ng-template ngSwitchDefault="acquired">
       <div class="{{ habitMark }}"></div>
       <div>{{ 'user.habit.one-habit.great' | translate }}</div>
     </ng-template>

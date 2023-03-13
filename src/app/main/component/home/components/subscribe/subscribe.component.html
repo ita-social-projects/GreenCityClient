@@ -6,25 +6,27 @@
     <div id="form-wrapper">
       <h2>{{ 'homepage.subscription.caption' | translate }}</h2>
       <p>{{ 'homepage.subscription.content' | translate }}</p>
-      <input
-        #subscriptionEmail
-        type="email"
-        [(ngModel)]="email"
-        (input)="validateEmail()"
-        placeholder="{{ 'homepage.subscription.placeholder' | translate }}"
-      />
-      <p id="validation-error" [ngClass]="{ hidden: !emailTouched || emailValid, visible: emailTouched && !emailValid }">
-        {{ 'homepage.subscription.validation-error' | translate }}
-      </p>
-      <p
-        id="subscription-error"
-        [ngClass]="{ hidden: subscriptionError.length < 1, visible: !emailTouched || subscriptionError.length > 0 }"
-      >
-        {{ 'homepage.subscription.subscription-error' | translate }}
-      </p>
-      <button class="primary-global-button" (click)="subscribe()">
-        {{ 'homepage.subscription.button-subscribe' | translate }}
-      </button>
+      <div class="form-input">
+        <input
+          #subscriptionEmail
+          type="email"
+          [(ngModel)]="email"
+          (input)="validateEmail()"
+          placeholder="{{ 'homepage.subscription.placeholder' | translate }}"
+        />
+        <p id="validation-error" [ngClass]="{ hidden: !emailTouched || emailValid, visible: emailTouched && !emailValid }">
+          {{ 'homepage.subscription.validation-error' | translate }}
+        </p>
+        <p
+          id="subscription-error"
+          [ngClass]="{ hidden: subscriptionError.length < 1, visible: !emailTouched || subscriptionError.length > 0 }"
+        >
+          {{ 'homepage.subscription.subscription-error' | translate }}
+        </p>
+        <button class="primary-global-button btn" (click)="subscribe()">
+          {{ 'homepage.subscription.button-subscribe' | translate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>

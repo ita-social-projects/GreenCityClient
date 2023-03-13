@@ -10,17 +10,15 @@
   vertical-align: top;
 }
 
-.button {
+.btn {
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
-  font-size: 18px;
-  font-stretch: normal;
-  font-weight: 400;
-  letter-spacing: normal;
-  line-height: 1.78;
-  min-height: 48px;
-  height: fit-content;
   margin-top: 26px;
   width: 292px;
+}
+
+.btn-link {
+  padding: 0;
+  text-align: start;
 }
 
 .stat-row-image .image-wrapper {
@@ -89,9 +87,9 @@
 }
 
 .stat-row-content .content-wrapper .location-row img {
-  height: auto;
   margin-top: 3px;
   margin-right: 10px;
+  height: 38px;
   width: 40px;
 }
 

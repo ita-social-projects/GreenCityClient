@@ -115,7 +115,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   onGoBack(): void {
-    this.location.back();
+    this.router.navigate(['/profile']);
   }
 
   private getUserId() {
@@ -180,6 +180,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
               this.router.navigate(['profile', this.userId]);
               this.snackBar.openSnackBar('habitDeleted');
             });
+        }
+        if (!confirm) {
+          this.snackBar.openSnackBar('habitDidNotGiveUp');
         }
       });
   }

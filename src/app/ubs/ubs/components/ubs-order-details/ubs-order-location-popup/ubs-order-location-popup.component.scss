@@ -22,6 +22,10 @@
     margin: 28px 36px;
     font-size: 20px;
 
+    .mat-form-field {
+      width: 60%;
+    }
+
     .select {
       height: 36px;
       width: 328px;
@@ -114,6 +118,14 @@
       justify-content: center;
       align-items: center;
       padding-bottom: 10em;
+    }
+  }
+
+  .dialog-container .form {
+    width: 100%;
+
+    .mat-form-field {
+      width: 100%;
     }
   }
 }

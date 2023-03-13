@@ -114,46 +114,8 @@ input:checked ~ .checkmark::after {
     justify-content: flex-end;
 
     button {
-      border: 1px solid var(--primary-green);
-      box-sizing: border-box;
-      border-radius: 5px;
-      font-family: var(--primary-font);
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      height: 48px;
-      line-height: 16px;
       margin: 32px 0 16px 24px;
       width: 132px;
-    }
-
-    button:first-child {
-      background: #fff;
-      color: var(--primary-green);
-    }
-
-    button:last-child {
-      background: var(--primary-green);
-      color: #fff;
-    }
-
-    button:first-child:hover {
-      border: 1px solid var(--secondary-dark-green);
-      color: var(--secondary-dark-green);
-    }
-
-    button:first-child:disabled {
-      border: 1px solid var(--primary-grey);
-      color: var(--primary-grey);
-    }
-
-    button:last-child:hover {
-      background: var(--secondary-dark-green);
-    }
-
-    button:last-child:disabled {
-      background: var(--primary-grey);
-      border: 1px solid var(--primary-grey);
     }
   }
 }

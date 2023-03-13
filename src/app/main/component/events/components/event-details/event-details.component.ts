@@ -84,6 +84,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
+  public backRoute: string;
+  public routedFromProfile: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private eventService: EventsService,
@@ -133,6 +136,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
+
+    this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
+    this.backRoute = this.localStorageService.getPreviousPage();
   }
 
   private bindLang(lang: string): void {

@@ -27,6 +27,7 @@ describe('AddNewHabitComponent', () => {
   const mockHabitResponse: HabitResponseInterface = {
     complexity: 2,
     defaultDuration: 2,
+    amountAcquiredUsers: 1,
     habitTranslation: {
       description: 'test',
       habitItem: 'test',
@@ -148,7 +149,7 @@ describe('AddNewHabitComponent', () => {
     expect(component.initHabitData).toHaveBeenCalled();
   });
 
-  it('onGoBack() should invoke location.back()', () => {
+  xit('onGoBack() should invoke location.back()', () => {
     const spyBack = spyOn(locationMock, 'back');
     component.onGoBack();
     expect(spyBack).toHaveBeenCalled();

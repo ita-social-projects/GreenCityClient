@@ -14,10 +14,10 @@
           {{ 'homepage.stats.bag-stat-after' | translate }}
         </h3>
         <p>{{ 'homepage.stats.bag-question' | translate }}</p>
-        <button class="button primary-global-button" (click)="startHabit()">{{ 'homepage.general.button-start-habit' | translate }}</button>
+        <button class="primary-global-button btn" (click)="startHabit()">{{ 'homepage.general.button-start-habit' | translate }}</button>
         <div class="location-row">
           <img [src]="locationImage" alt="location-image" aria-hidden="true" />
-          <a class="tertiary-global-button" routerLink="/places"> {{ 'homepage.stats.bag-link' | translate }}</a>
+          <a class="tertiary-global-button btn-link" routerLink="/places"> {{ 'homepage.stats.bag-link' | translate }}</a>
         </div>
       </div>
     </div>
@@ -31,12 +31,12 @@
           {{ 'homepage.stats.cup-stat-after' | translate }}
         </h3>
         <p>{{ 'homepage.stats.cup-question' | translate }}</p>
-        <button class="button primary-global-button" (click)="startHabit()">
+        <button class="primary-global-button btn" (click)="startHabit()">
           {{ 'homepage.general.button-start-habit' | translate }}
         </button>
         <div class="location-row">
           <img [src]="locationImage" alt="location-image" aria-hidden="true" />
-          <a class="tertiary-global-button" routerLink="/places"> {{ 'homepage.stats.cup-link' | translate }}</a>
+          <a class="tertiary-global-button btn-link" routerLink="/places"> {{ 'homepage.stats.cup-link' | translate }}</a>
         </div>
       </div>
     </div>

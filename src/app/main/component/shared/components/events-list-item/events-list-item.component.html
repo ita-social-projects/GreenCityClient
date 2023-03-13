@@ -53,10 +53,10 @@
     <div class="description" [innerHTML]="cutDescription()"></div>
   </div>
   <div class="btn-group">
-    <button class="secondary-global-button event-button" (click)="routeToEvent()">
+    <button class="secondary-global-button m-btn" (click)="routeToEvent()">
       {{ 'event.btn-top' | translate }}
     </button>
-    <button class="{{ styleBtn }} event-button" (click)="buttonAction()">{{ nameBtn | translate }}</button>
+    <button class="{{ styleBtn }} event-button m-btn" (click)="buttonAction()">{{ nameBtn | translate }}</button>
   </div>
   <div class="additional-info">
     <div class="date">
