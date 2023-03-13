@@ -73,7 +73,7 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="english-name">{{ regionEng }}</p>
+        <p class="english-name">{{ regionEnglishName }}</p>
       </div>
     </div>
     <div class="d-flex">
@@ -122,10 +122,16 @@
       <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid" *ngIf="isCreate" (click)="createCard()">
         {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
       </button>
-      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid" *ngIf="isEdit" (click)="editCard()">
+      <button
+        class="primary-global-button btn m-0"
+        [disabled]="CardForm.invalid || isLocationAlreadyUsed"
+        *ngIf="isEdit"
+        (click)="editCard()"
+      >
         {{ 'ubs-tariffs-add-location-pop-up.edit_button' | translate }}
       </button>
     </div>
+    <span *ngIf="isLocationAlreadyUsed" class="validation-message">{{ 'ubs-tariffs.location-already-used' | translate }}</span>
     <span *ngIf="isCardExist" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>
   </div>
 </ng-template>

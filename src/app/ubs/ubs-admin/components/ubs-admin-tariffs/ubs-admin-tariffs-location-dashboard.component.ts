@@ -584,11 +584,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   openEditPopUp(card): void {
-    console.log(card);
     const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
+        tariffId: card.cardId,
         title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
         courierNameUk: this.courierNameUk,
         courierEnglishName: this.courierNameEng,

@@ -644,6 +644,7 @@
     "info_about_order_limits": "Information about order limits",
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "card-already-exist": "According to these criteria, a tariff card already exists. Make changes to save.",
+    "location-already-used": "Selected location already used. Make changes to save.",
     "card-exist": "According to these criteria, a tariff card already exists.",
     "card-not-found": "Tariff card not found. Do you want to create a new one?",
     "btn": {
