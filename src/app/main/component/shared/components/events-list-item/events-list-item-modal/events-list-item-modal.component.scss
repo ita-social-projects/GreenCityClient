@@ -5,6 +5,11 @@
   }
 }
 
+.disabled {
+  pointer-events: none !important;
+  background-color: var(--primary-grey);
+}
+
 .modal-inner {
   display: flex;
   width: 500px;
