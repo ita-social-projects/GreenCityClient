@@ -119,7 +119,7 @@ describe('HabitProgressComponent', () => {
     it('makes expected calls if status is acquired', () => {
       habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitAcquired));
       component.enroll();
-      expect(component.habitMark).toBe('aquired');
+      expect(component.habitMark).toBe('acquired');
     });
 
     it('makes expected calls if status is not acquired', () => {

@@ -51,16 +51,21 @@
   }
 
   .calendar {
+    display: flex;
+    align-items: center;
     padding-right: 10px;
     border-right: 1px solid var(--tertiary-light-grey);
     white-space: nowrap;
+    height: 24px;
 
-    img {
+    .calendar-icon {
+      height: 24px;
+      width: 24px;
       margin-right: 12px;
     }
   }
 
-  .aquired,
+  .acquired,
   .tags {
     display: flex;
     padding: 0 12px;

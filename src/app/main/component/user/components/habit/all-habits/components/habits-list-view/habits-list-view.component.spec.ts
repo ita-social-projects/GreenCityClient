@@ -33,6 +33,7 @@ describe('HabitsListViewComponent', () => {
     component.habit = {
       complexity: 1,
       defaultDuration: 14,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'test',
         habitItem: 'test',

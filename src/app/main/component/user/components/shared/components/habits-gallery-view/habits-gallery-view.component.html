@@ -2,7 +2,7 @@
   <div class="habit__container">
     <div class="habit__header">
       <div class="calendar">
-        <img class="calendar__icon" src="assets/img/icon/Calendar_icon.png" alt="calendar" />
+        <img class="calendar-icon" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
         <span class="days">{{ habit.defaultDuration }} days</span>
       </div>
       <div class="stars">
@@ -19,8 +19,8 @@
       <div class="title">
         <h2>{{ habit.habitTranslation.name }}</h2>
       </div>
-      <div class="aquired">
-        <p>Aquired by 134 users</p>
+      <div class="acquired">
+        <p>{{ 'user.habit.header.aсquired' | translate }} {{ habit.amountAcquiredUsers }} {{ 'user.habit.header.users' | translate }}</p>
       </div>
     </div>
     <div class="habit__action-wrp">
