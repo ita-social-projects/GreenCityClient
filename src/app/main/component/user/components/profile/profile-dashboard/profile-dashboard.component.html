@@ -1,6 +1,6 @@
 <div class="main">
   <div class="menu">
-    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
       <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
         <div *ngIf="!loading; else spinner">
           <div *ngIf="habitAssignService.habitsInProgress.length || habitsAcquired.length">

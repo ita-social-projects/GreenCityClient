@@ -30,6 +30,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public backRoute: string;
+  public routedFromProfile: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,6 +48,7 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
     if (this.newsId) {
       this.getEcoNewsById(this.newsId);
     }
+    this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
     this.currentLang = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
