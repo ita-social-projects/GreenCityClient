@@ -23,11 +23,11 @@ import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff
 export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   CardForm = this.fb.group({
     courierName: ['', Validators.required],
-    courierNameEng: ['', Validators.required],
+    courierNameEng: [''],
     station: ['', Validators.required],
     regionNameUk: ['', Validators.required],
-    regionNameEng: ['', Validators.required],
-    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
+    regionNameEng: [''],
+    city: [{ value: '' }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -105,6 +105,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.currentRegion = this.modalData.regionName;
     this.currentCourierNameEng = this.modalData.courierEnglishName;
     this.regionEng = this.modalData.regionEnglishName;
+
+    console.log(this.modalData);
 
     if (this.isEdit) {
       this.fillFields(this.modalData);
@@ -362,17 +364,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public editCard(): void {
-    this.CardForm = this.fb.group({
-      courier: new FormControl({ value: this.currentCourierName }),
-      station: new FormControl({ value: this.currentStation }),
-      region: new FormControl({ value: this.currentRegion }),
-      city: new FormControl({ value: this.currentCity })
-    });
+    // this.CardForm.patchValue({
+    //   station: this.selectedStation.map((item) => item.name),
+    //   city: this.selectedCities.map((item) => item.location)
+    // });
+    console.log('cit', this.selectedCities);
+    console.log('st', this.selectedStation);
+    console.log('updated Form', this.CardForm);
   }
 
   fillFields(modalData) {
-    console.log('modal', modalData);
-    console.log('before', this.CardForm);
     if (modalData) {
       const { courierNameUk, courierEnglishName, regionEnglishName, station, regionNameUk, city } = this.modalData;
       this.CardForm.patchValue({
@@ -384,7 +385,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         city
       });
     }
-    console.log('after', this.CardForm);
+
+    console.log('init', this.CardForm);
   }
 
   public createCard(): void {
