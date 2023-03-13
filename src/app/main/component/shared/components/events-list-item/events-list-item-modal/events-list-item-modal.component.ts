@@ -44,7 +44,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   }
 
   public starsHandler(index: number, value: number): void {
-    index > value ? (this.isEventRaited = true) : (this.isEventRaited = false);
+    this.isEventRaited = index > value;
   }
 
   public modalBtn(): void {
