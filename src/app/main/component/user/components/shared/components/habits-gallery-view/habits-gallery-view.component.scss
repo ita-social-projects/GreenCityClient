@@ -47,12 +47,17 @@
 }
 
 .calendar {
+  display: flex;
+  align-items: center;
   text-transform: uppercase;
+  height: 24px;
   font-size: 14px;
   color: var(--primary-green);
 
   .calendar-icon {
-    margin-right: 15px;
+    height: 24px;
+    width: 24px;
+    margin-right: 12px;
   }
 }
 
@@ -87,7 +92,7 @@
     }
   }
 
-  .aquired {
+  .acquired {
     font-family: var(--secondary-font);
     font-style: normal;
     font-weight: 500;

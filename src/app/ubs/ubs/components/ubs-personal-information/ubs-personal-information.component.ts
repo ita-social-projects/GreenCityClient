@@ -30,7 +30,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = Patterns.NamePattern;
+  namePattern = Patterns.NameInfoPattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
   firstOrder = true;
@@ -156,8 +156,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: [''],
-      anotherClientLastName: [''],
+      anotherClientFirstName: ['', this.personalDataFormValidators],
+      anotherClientLastName: ['', this.personalDataFormValidators],
       anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],

@@ -10,10 +10,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { CreateEditEventsComponent } from './create-edit-events.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
   let fixture: ComponentFixture<CreateEditEventsComponent>;
+  let route: ActivatedRoute;
 
   const FormMock = {
     date: new Date(),
@@ -69,10 +71,16 @@ describe('CreateEditEventsComponent', () => {
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
 
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getEventForEdit', 'getEditMode', 'getUserId']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'getEventForEdit',
+    'getEditMode',
+    'getUserId',
+    'getPreviousPage'
+  ]);
   localStorageServiceMock.getEditMode = () => true;
   localStorageServiceMock.getEventForEdit = () => EditEventMock;
   localStorageServiceMock.getUserId = () => 137;
+  localStorageServiceMock.getPreviousPage = () => '/profile';
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
   EventsServiceMock.createEvent = () => of(EditEventMock);
@@ -96,6 +104,8 @@ describe('CreateEditEventsComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
+
+    route = TestBed.inject(ActivatedRoute);
   }));
 
   beforeEach(() => {

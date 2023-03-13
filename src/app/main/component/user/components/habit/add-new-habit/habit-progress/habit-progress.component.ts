@@ -23,7 +23,7 @@ export class HabitProgressComponent implements OnChanges {
   public isHidden = false;
   private descriptionType = {
     acquired: () => {
-      this.habitMark = HabitMark.AQUIRED;
+      this.habitMark = HabitMark.ACQUIRED;
     },
     done: () => {
       this.habitMark = HabitMark.DONE;

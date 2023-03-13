@@ -8,9 +8,17 @@
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.ua' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
+          <mat-select
+            #selectUa
+            (selectionChange)="addMention($event.value, 'textUa')"
+            placeholder="{{ 'ubs-notifications.text-editing-popup.labels.select' | translate }}"
+            class="selector"
+          >
+            <mat-option *ngFor="let item of items" value="{{ textDecorator(item) }}" class="option">{{ item }} </mat-option>
+          </mat-select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput formControlName="textUa" class="edit-text"></textarea>
+            <textarea matInput #textUa formControlName="textUa" required class="edit-text"></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
@@ -19,9 +27,17 @@
           <mat-panel-title> {{ 'ubs-notifications.text-editing-popup.labels.en' | translate }} </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="edit-notification">
+          <mat-select
+            #selectEn
+            (selectionChange)="addMention($event.value, 'textEn')"
+            placeholder="{{ 'ubs-notifications.text-editing-popup.labels.select' | translate }}"
+            class="selector"
+          >
+            <mat-option *ngFor="let item of items" value="{{ textDecorator(item) }}">{{ item }} </mat-option>
+          </mat-select>
           <mat-form-field appearance="outline">
             <mat-label>{{ 'ubs-notifications.text-editing-popup.labels.text' | translate }}</mat-label>
-            <textarea matInput formControlName="textEn" class="edit-text"></textarea>
+            <textarea matInput #textEn formControlName="textEn" required class="edit-text"></textarea>
           </mat-form-field>
         </div>
       </mat-expansion-panel>

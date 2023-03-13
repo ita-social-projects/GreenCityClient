@@ -75,7 +75,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
     this.dispatchStore(true);
-
+    this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.page = res.pageNumber;
       if (res.eventState) {

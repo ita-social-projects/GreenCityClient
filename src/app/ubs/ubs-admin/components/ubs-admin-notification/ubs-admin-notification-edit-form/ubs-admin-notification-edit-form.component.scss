@@ -25,36 +25,80 @@
     gap: 20px;
     justify-content: flex-end;
 
-    .cancel-button {
-      height: 36px;
-      font-family: var(--primary-font);
-      letter-spacing: 0.1px;
-      font-weight: 700;
+    button {
+      font-weight: 600;
       font-size: 14px;
-      line-height: 20px;
-      padding: 8px 24px;
-      color: var(--ubs-quaternary-dark-grey);
-      border-radius: 4px;
-      background-color: transparent;
-      border: 1px solid var(--ubs-quaternary-dark-grey);
+      line-height: 18px;
+      font-family: var(--secondary-font);
+    }
+
+    .cancel-button {
+      width: 175px;
+      height: 44px;
+      border: 2px solid var(--ubs-secondary-light-green);
+      border-radius: 15px;
+      background-color: var(--primary-white);
     }
 
     .submit-button {
-      height: 36px;
-      font-family: var(--primary-font);
-      letter-spacing: 0.1px;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-      padding: 8px 24px;
-      color: var(--ubs-quaternary-dark-grey);
-      border-radius: 4px;
-      background: var(--ubs-button-light-green);
-      border: 0;
+      width: 157px;
+      height: 44px;
+      background: var(--ubs-secondary-light-green);
+      border: 2px solid var(--ubs-secondary-light-green);
+      border-radius: 15px;
+      color: var(--primary-white);
 
       &:disabled {
-        background-color: var(--ubs-primary-light-grey);
+        background-color: var(--ubs-slightly-light-green);
+        border: var(--ubs-slightly-light-green);
       }
     }
+  }
+}
+
+::ng-deep {
+  .mat-option:hover {
+    background-color: var(--ubs-liberty-green) !important;
+    color: var(--ubs-primary-grey) !important;
+  }
+
+  .active .dropdown-item {
+    height: 32px;
+    background-color: var(--ubs-liberty-green) !important;
+    color: var(--ubs-primary-grey) !important;
+  }
+
+  .dropdown-menu .dropdown-item {
+    color: var(--ubs-primary-grey) !important;
+
+    &:hover {
+      background-color: var(--ubs-liberty-green) !important;
+      color: var(--ubs-primary-grey) !important;
+    }
+  }
+}
+
+.menu {
+  background-color: var(--ubs-secondary-light-grey);
+  position: absolute;
+  cursor: pointer;
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  padding: 1rem;
+}
+
+.selector {
+  width: 100px;
+  border: none;
+  margin-bottom: 15px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+
+  :hover {
+    border: none;
   }
 }
