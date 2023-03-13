@@ -74,10 +74,10 @@
           </ul>
         </div>
         <div class="buttons">
-          <button type="button" (click)="cancel()">
+          <button class="secondary-global-button" type="button" (click)="cancel()">
             {{ 'user.edit-profile.btn.cancel' | translate }}
           </button>
-          <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
+          <button class="primary-global-button" type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
             {{ 'user.edit-profile.btn.save' | translate }}
           </button>
         </div>

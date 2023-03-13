@@ -4,23 +4,11 @@
   justify-content: center;
   align-items: flex-start;
 
-  .edit-image-button {
-    margin-top: 8px;
-    color: var(--primary-green);
-    background-color: var(--primary-white);
-    border: 1px solid var(--primary-white);
-    padding: 8px 24px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
+  .tertiary-global-button {
+    margin-top: 16px;
     line-height: 20px;
+    font-weight: 500;
     width: 148px;
-
-    &:hover {
-      border: 1px solid var(--primary-green);
-    }
   }
 }
 

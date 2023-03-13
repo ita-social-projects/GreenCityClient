@@ -191,25 +191,8 @@ p {
   align-items: center;
 }
 
-.create {
-  height: 40px;
-
-  .create-button {
-    border-radius: 5px;
-    line-height: 16px;
-    min-width: 139px;
-    min-height: 40px;
-    padding: 8px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    span {
-      display: block;
-      height: 16px;
-      white-space: nowrap;
-    }
-  }
+.create .m-btn {
+  min-width: 139px;
 }
 
 .event-list {

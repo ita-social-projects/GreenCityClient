@@ -25,8 +25,12 @@
       </image-cropper>
     </div>
     <div class="cropper-buttons">
-      <button type="button" (click)="stopCropping()">{{ 'drag-and-drop.submit-changes-button' | translate }}</button>
-      <button type="button" (click)="cancelChanges()">{{ 'drag-and-drop.cancel-changes-button' | translate }}</button>
+      <button class="secondary-global-button" type="button" (click)="stopCropping()">
+        {{ 'drag-and-drop.submit-changes-button' | translate }}
+      </button>
+      <button class="secondary-global-button" type="button" (click)="cancelChanges()">
+        {{ 'drag-and-drop.cancel-changes-button' | translate }}
+      </button>
     </div>
   </div>
 </div>

@@ -37,8 +37,8 @@
     <app-time-picker-pop-up (timeOfWork)="getTimeOfWork($event)"></app-time-picker-pop-up>
   </form>
   <div class="btn-wrapper">
-    <button class="btn-cancel btn" (click)="cancel()">{{ 'places.btn.cancel' | translate }}</button>
-    <button class="btn-add btn" [disabled]="addPlaceForm.invalid || !workingTimeIsValid" (click)="addPlace()">
+    <button class="secondary-global-button" (click)="cancel()">{{ 'places.btn.cancel' | translate }}</button>
+    <button class="primary-global-button" [disabled]="addPlaceForm.invalid || !workingTimeIsValid" (click)="addPlace()">
       {{ 'places.btn.add' | translate }}
       <span class="message-details">
         {{ 'places.validation.information-message' | translate }}

@@ -47,7 +47,11 @@
     }
   }
 
-  .btn-add[disabled]:hover .message-details {
+  .primary-global-button {
+    position: relative;
+  }
+
+  .primary-global-button[disabled]:hover .message-details {
     visibility: visible;
     opacity: 1;
   }
@@ -58,6 +62,7 @@
   padding-top: 15px;
   display: flex;
   justify-content: flex-end;
+  gap: 18px;
 }
 
 .input {
@@ -80,40 +85,15 @@
   }
 }
 
-.btn {
-  padding: 8px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 4px;
+.btn-close {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  color: var(--ubs-quintynary-light-grey);
+  visibility: hidden;
 
-  &-add {
-    color: var(--ubs-grey-white);
-    background-color: var(--primary-green);
-    margin-left: 15px;
-    position: relative;
-
-    &:disabled {
-      background-color: var(--success-light-green);
-      opacity: 1;
-    }
-  }
-
-  &-cancel {
-    color: var(--primary-green);
-    background-color: transparent;
-    border: 1px solid var(--primary-green);
-  }
-
-  &-close {
-    position: absolute;
-    top: 24px;
-    right: 0;
-    color: var(--ubs-quintynary-light-grey);
-    visibility: hidden;
-
-    &:focus {
-      border: none;
-    }
+  &:focus {
+    border: none;
   }
 }
 

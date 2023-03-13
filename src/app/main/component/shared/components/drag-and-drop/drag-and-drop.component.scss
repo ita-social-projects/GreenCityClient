@@ -60,17 +60,11 @@ img {
 .cropper-buttons {
   display: flex;
   justify-content: center;
-  font-family: var(--primary-font);
+  margin-top: 8px;
+  gap: 20px;
 
-  button {
-    margin-left: 20px;
-    border: 1px solid var(--primary-green);
-    border-radius: 3px;
-    background-color: var(--primary-white);
+  .secondary-global-button {
     width: 154px;
-    height: 48px;
-    color: var(--primary-green);
-    font-weight: bold;
   }
 }
 

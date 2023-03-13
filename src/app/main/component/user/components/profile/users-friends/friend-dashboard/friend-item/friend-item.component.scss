@@ -9,23 +9,7 @@
   padding: 24px;
   border-radius: 8px;
   box-shadow: 0 0 7px var(--tertiary-light-grey);
-  // color: rgba(202, 207, 211, 0.5);
   margin: 7px 16px;
-}
-
-button {
-  font-weight: bold;
-  font-family: var(--primary-font);
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: 104px;
-  height: 40px;
-  color: var(--primary-green);
-  border: 1px solid var(--primary-green);
-  background: var(--primary-white);
 }
 
 .rate-with-photo {
@@ -92,6 +76,11 @@ button {
 
 .friend-btn {
   margin-bottom: 20px;
+
+  button {
+    line-height: 16px;
+    width: 124px;
+  }
 }
 
 .friend-img {
