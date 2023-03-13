@@ -36,7 +36,6 @@ describe('HabitsListViewComponent', () => {
       amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'test',
-        habitItem: 'test',
         languageCode: 'en',
         name: 'test'
       },
