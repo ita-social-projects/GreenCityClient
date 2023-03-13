@@ -135,5 +135,29 @@ describe('MatSnackBarComponent', () => {
 
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should call the function habitDeleted to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'habitDeleted').and.callThrough();
+      component.snackType[`habitDeleted`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function habitAdded to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'habitAdded').and.callThrough();
+      component.snackType[`habitAdded`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function habitUpdated to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'habitUpdated').and.callThrough();
+      component.snackType[`habitUpdated`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function habitDidNotGiveUp to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'habitDidNotGiveUp').and.callThrough();
+      component.snackType[`habitDidNotGiveUp`]();
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

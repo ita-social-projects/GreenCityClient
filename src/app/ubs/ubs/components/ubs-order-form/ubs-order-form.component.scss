@@ -44,7 +44,7 @@
 }
 
 .ubs-container {
-  min-height: 83%;
+  min-height: calc(100vh - 210px);
   display: flex;
   flex-direction: column;
   padding: 0;

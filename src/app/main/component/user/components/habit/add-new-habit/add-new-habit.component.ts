@@ -11,6 +11,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -22,20 +24,34 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public habit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
-  public userId: string;
+  public tags: string[];
+  public recommendedHabits: HabitResponseInterface;
+  public amountAcquired = 6;
+  public userId: number;
   public newDuration: number;
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
   public isAssigned = false;
+  public canAcquire = false;
+  private enoughToAcquire = 80;
+  public setStatus = 'ACQUIRED';
+  public isEditing = false;
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
   public star: number;
+  public popUpGiveUp = {
+    title: 'user.habit.add-new-habit.confirmation-modal-title',
+    subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
+    confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
+    cancel: 'user.habit.add-new-habit.confirmation-modal-no'
+  };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
@@ -66,14 +82,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     });
   }
 
-  public initHabitData(data) {
+  public initHabitData(data): void {
     this.habitResponse = data;
+    this.tags = data.tags;
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
   }
 
-  public getDefaultItems() {
+  public getDefaultItems(): void {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
@@ -82,7 +99,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getCustomItems() {
+  public getCustomItems(): void {
     this.habitAssignService
       .getCustomHabit(this.habitId)
       .pipe(take(1))
@@ -91,49 +108,90 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getStars(complexity: number) {
+  public getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
       this.stars[this.star] = this.greenStar;
     }
   }
 
   onGoBack(): void {
-    this.location.back();
+    this.router.navigate(['/profile']);
   }
 
   private getUserId() {
-    this.userId = localStorage.getItem('userId');
+    this.userId = this.localStorageService.getUserId();
   }
 
-  public getDuration(newDuration: number) {
+  public getDuration(newDuration: number): void {
     this.newDuration = newDuration;
   }
 
-  public getList(list: ShoppingList[]) {
+  public getProgressValue(progress: number): void {
+    this.canAcquire = progress >= this.enoughToAcquire;
+  }
+
+  public getList(list: ShoppingList[]): void {
     this.newList = list;
   }
 
-  public checkIfAssigned() {
+  public checkIfAssigned(): void {
     this.habitAssignService
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         for (const assigned of response) {
           if (assigned.habit.id === this.habitId) {
-            this.isAssigned = true;
+            this.isEditing = true;
             this.habit = assigned;
+            if (this.habit.habit.tags && this.habit.habit.tags.length) {
+              this.tags = this.habit.habit.tags;
+            }
             break;
           }
         }
-        this.isAssigned ? this.getCustomItems() : this.getDefaultItems();
+        this.isEditing ? this.getCustomItems() : this.getDefaultItems();
       });
   }
 
-  public cancel() {
+  giveUpHabit(): void {
+    const dialogRef = this.dialog.open(WarningPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'popup-dialog-container',
+      data: {
+        popupTitle: this.popUpGiveUp.title,
+        popupSubtitle: this.popUpGiveUp.subtitle,
+        popupConfirm: this.popUpGiveUp.confirm,
+        popupCancel: this.popUpGiveUp.cancel,
+        isHabit: true,
+        habitName: this.habitResponse.habitTranslation.name
+      }
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.habitAssignService
+            .deleteHabitById(this.habitId)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.router.navigate(['profile', this.userId]);
+              this.snackBar.openSnackBar('habitDeleted');
+            });
+        }
+        if (!confirm) {
+          this.snackBar.openSnackBar('habitDidNotGiveUp');
+        }
+      });
+  }
+
+  public cancelAdd(): void {
     this.router.navigate(['profile', this.userId]);
   }
 
-  public addHabit() {
+  public addHabit(): void {
     const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds)
@@ -144,7 +202,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateHabit() {
+  public updateHabit(): void {
     const defailtItemsIds = this.newList.filter((item) => item.selected === true).map((item) => item.id);
     this.habitAssignService
       .updateHabit(this.habitId, this.newDuration, defailtItemsIds)
@@ -158,13 +216,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteHabit() {
+  public setHabitStatus(): void {
     this.habitAssignService
-      .deleteHabitById(this.habitId)
+      .setHabitStatus(this.habitId, this.setStatus)
       .pipe(take(1))
       .subscribe(() => {
         this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitDeleted');
+        this.snackBar.openSnackBar('habitAcquired');
       });
   }
 

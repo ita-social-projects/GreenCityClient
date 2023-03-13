@@ -1,23 +1,21 @@
 <div class="modal-inner">
   <h3 class="modal-title">
-    {{ isRegistered ? 'Evaluate the event and the organizer' : 'You cannot add this event. First register on the site'
-    }}
+    {{ isRegistered ? 'Evaluate the event and the organizer' : 'You cannot add this event. First register on the site' }}
   </h3>
   <div class="modal-rating" [hidden]="!isRegistered">
-    <rating (onHover)="hoveringOver($event)" [(ngModel)]="rate" [customTemplate]="star" [max]="max"
-      [readonly]="isReadonly"> </rating>
+    <rating (onHover)="hoveringOver($event)" [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly"> </rating>
     <ng-template #star let-index="index" let-value="value">
-      <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
+      <span (click)="starsHandler(value, index)" class="star {{ index < value ? 'fill' : 'empty' }}"></span>
     </ng-template>
     <p class="modal-text">{{ text | translate }}</p>
   </div>
 
   <div class="modal-bnt-group">
-    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">{{'event.btn-close'
-      | translate}}</button>
-    <button (click)="modalBtn()" class="primary-global-button modal-btn">{{ isRegistered ? ('event.btn-save' |
-      translate
-      ):
-      ('event.btn-register' | translate)}}</button>
+    <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">
+      {{ 'event.btn-close' | translate }}
+    </button>
+    <button [ngClass]="{ disabled: !isEventRaited }" (click)="modalBtn()" class="primary-global-button modal-btn">
+      {{ isRegistered ? ('event.btn-save' | translate) : ('event.btn-register' | translate) }}
+    </button>
   </div>
 </div>

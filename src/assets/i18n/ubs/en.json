@@ -17,7 +17,6 @@
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed"
   },
   "snack-bar": {
-    "exist-address": "This address has already been added",
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
     "no-internet": "No internet connection",
     "error": {
@@ -25,7 +24,8 @@
       "cartificate-not-valid": "The certificate you have entered, has already been used",
       "default": "Oops, something went wrong. Please reload page or try again later.",
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
-      "no-internet": "No internet connection"
+      "no-internet": "No internet connection",
+      "exist-address": "This address has already been added"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -41,7 +41,7 @@
   },
   "order-details": {
     "location": {
-      "title": "Welcome to UBS! First choose location of waste disposal. Currently, we work only in the city of Kyiv and selected cities.",
+      "title": "Welcome to UBS! First, choose the location of waste disposal. Currently, we work in Kyiv and the suburbs.",
       "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
       "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
       "btn": {
@@ -131,7 +131,7 @@
     "polyfoam": "polyfoam (type of packaging - 120 l bag (we take no more than 1 bag for 1 shipment)).",
     "condition1": "Indicate in the comment that you plan to give free positions to the Courier, as well as indicate their volume and number.",
     "condition2": "Pack each type of package separately. A mix of these wastes in one bag/box will not be collected by UBS Courier. Tie up packages before handing them over.",
-    "button": "Of course"
+    "button": "OK"
   },
   "personal-info": {
     "address-city": "city",
@@ -170,7 +170,8 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
+    "default-address": "Make it the default address"
   },
   "submit-order": {
     "your-order": "Your order",
@@ -242,7 +243,7 @@
     "header": {
       "caption": "NO WASTE — NO STRESS!",
       "content": "You sort - we recycle!",
-      "btn-order-courier": "Order a courier"
+      "btn-order-courier": "Order"
     },
     "pick-up-service": {
       "caption": "About service",
@@ -400,6 +401,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
+        "too-long-password": "Password cannot exceed 20 characters.",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
         "sign-in-with-google": "Sign in with Google",

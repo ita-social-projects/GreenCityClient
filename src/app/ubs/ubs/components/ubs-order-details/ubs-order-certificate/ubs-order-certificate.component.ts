@@ -20,6 +20,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Input() defaultPoints: number;
   @Input() points: number;
   @Input() pointsUsed: number;
+  @Input() sumForActCertificate: number;
   @Output() newItemEvent = new EventEmitter<object>();
   fullCertificate: number;
 
@@ -129,6 +130,9 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     this.certificates.failed.push(
       cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED
     );
+    if (this.certificates.failed[this.certificates.failed.length - 1]) {
+      this.certificates.codes.splice(-1);
+    }
     this.certificateSum =
       this.certificates.failed[this.certificates.failed.length - 1] && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
     this.certificates.creationDates.push(this.certificateDateTreat(cert.creationDate));

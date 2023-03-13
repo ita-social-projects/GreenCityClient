@@ -5,7 +5,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form.component';
 
 describe('UbsAdminNotificationEditFormComponent', () => {

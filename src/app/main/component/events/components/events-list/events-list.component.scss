@@ -84,6 +84,13 @@
   line-height: 20px;
 }
 
+.filter-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min-content;
+}
+
 .filter {
   display: flex;
   justify-content: center;
@@ -94,6 +101,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 15px;
+  white-space: nowrap;
 }
 
 hr {
@@ -106,6 +115,7 @@ hr {
 .reset {
   border: none;
   background-color: var(--primary-white);
+  white-space: nowrap;
 }
 
 p {
@@ -118,7 +128,6 @@ p {
   margin-right: 20px;
   margin-top: 16px;
   height: 28px;
-  width: 75px;
   font-family: var(--primary-font);
   font-size: 20px;
   font-weight: 700;
@@ -220,4 +229,27 @@ p {
     background-color: var(--primary-white);
     box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   }
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: unset;
+}
+
+::ng-deep .mat-option-pseudo-checkbox.mat-pseudo-checkbox-checked {
+  background-color: var(--primary-green) !important;
+}
+
+.mat-option.mat-option:hover:not(.mat-option-disabled),
+.mat-option.mat-active:not(.mat-option-disabled) {
+  background: var(--ubs-primary-liberty-green);
+}
+
+.mat-option {
+  margin-top: 4px;
+}
+
+::ng-deep .mat-select-panel,
+::ng-deep .cdk-overlay-pane {
+  min-width: 165px !important;
+  transform: translateX(-35px) translateY(10px) !important;
 }

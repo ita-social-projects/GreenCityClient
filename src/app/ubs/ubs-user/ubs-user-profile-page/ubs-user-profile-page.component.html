@@ -279,6 +279,9 @@
                       <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
                     </div>
                   </div>
+                  <div class="delete-address" (click)="deleteAddress(address)">
+                    <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
+                  </div>
                 </div>
                 <div class="inline">
                   <div class="form-group district">
@@ -302,6 +305,9 @@
                       </option>
                     </select>
                   </div>
+                </div>
+                <div>
+                  <mat-checkbox class="check" type="checkbox">{{ 'personal-info.default-address' | translate }}</mat-checkbox>
                 </div>
               </div>
             </div>

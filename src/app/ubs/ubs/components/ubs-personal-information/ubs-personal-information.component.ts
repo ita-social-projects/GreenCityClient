@@ -22,7 +22,6 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
   styleUrls: ['./ubs-personal-information.component.scss']
 })
 export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy, OnChanges {
-  locationId = 1;
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
@@ -31,7 +30,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = Patterns.NamePattern;
+  namePattern = Patterns.NameInfoPattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
   firstOrder = true;
@@ -157,8 +156,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: [''],
-      anotherClientLastName: [''],
+      anotherClientFirstName: ['', this.personalDataFormValidators],
+      anotherClientLastName: ['', this.personalDataFormValidators],
       anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
@@ -244,7 +243,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientEmail.markAsUntouched();
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
-      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
+      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]);
       anotherClientPhoneNumber.setValue('+380');
       localStorage.setItem('anotherClient', JSON.stringify(true));
     } else {
@@ -350,7 +349,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.addressId,
       orderBags,
       this.shareFormService.orderDetails.certificates,
-      this.locationId,
+      this.currentLocationId,
       this.shareFormService.orderDetails.orderComment,
       this.personalData,
       this.shareFormService.orderDetails.pointsToUse,

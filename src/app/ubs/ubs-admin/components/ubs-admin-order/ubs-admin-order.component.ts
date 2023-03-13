@@ -5,10 +5,9 @@ import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { OrderService } from '../../services/order.service';
@@ -32,6 +31,7 @@ import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -61,8 +61,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   isMinOrder = true;
   isSubmitted = false;
   private isFormResetted = false;
+  writeOffStationSum: number;
+  ubsCourierPrice: number;
   additionalPayment: string;
   private matSnackBar: MatSnackBarComponent;
+  isOrderDoneAfterBroughtHimself$: boolean;
   private orderService: OrderService;
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   constructor(
@@ -97,6 +100,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, false);
+    this.store
+      .select((state: IAppState): boolean => state.orderStatus.isOrderDoneAfterBroughtHimself)
+      .subscribe((value: boolean) => {
+        this.isOrderDoneAfterBroughtHimself$ = value;
+      });
   }
 
   public getOrderInfo(orderId: number, submitMode: boolean): void {
@@ -132,7 +140,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
       bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' ? bag.confirmed : 0;
+
+      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' && !this.isOrderDoneAfterBroughtHimself$ ? bag.confirmed : 0;
       bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
       return bag;
     });
@@ -188,7 +197,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           this.userInfo.recipientSurName,
           [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
         ],
-        recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern(Patterns.adminPhone)]],
+        recipientPhoneNumber: [
+          this.userInfo.recipientPhoneNumber,
+          [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
+        ],
         recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
       }),
       addressExportDetailsDto: this.fb.group({
@@ -316,6 +328,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.currentOrderPrice = sum;
   }
 
+  public onChangeWriteOffStation(sum: number) {
+    this.writeOffStationSum = sum;
+  }
+
+  public onChangeCourierPrice(sum: number) {
+    this.ubsCourierPrice = sum;
+  }
+
   public setMinOrder(flag) {
     this.isMinOrder = flag;
   }
@@ -393,6 +413,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         };
       }
     }
+    changedValues.ubsCourierPrice = this.ubsCourierPrice;
+    changedValues.writeOffStationSum = this.writeOffStationSum;
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];

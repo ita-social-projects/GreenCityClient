@@ -7,6 +7,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
@@ -19,6 +20,9 @@ describe('HabitsGalleryViewComponent', () => {
   habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
   habitAssignServiceMock.assignHabit = () => new Observable();
 
+  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId']);
+  localStorageServiceMock.getUserId = () => 1;
+
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
@@ -28,7 +32,8 @@ describe('HabitsGalleryViewComponent', () => {
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatSnackBarModule, HttpClientTestingModule],
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: HabitAssignService, useValue: habitAssignServiceMock }
+        { provide: HabitAssignService, useValue: habitAssignServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -40,6 +45,7 @@ describe('HabitsGalleryViewComponent', () => {
     component.habit = {
       complexity: 1,
       defaultDuration: 14,
+      amountAcquiredUsers: 1,
       habitTranslation: {
         description: 'test',
         habitItem: 'test',
@@ -57,13 +63,16 @@ describe('HabitsGalleryViewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open snackbar if habit assigned', () => {
-    // @ts-ignore
-    const spy = spyOn(component.snackBar, 'openSnackBar');
-    component.addHabit();
-    // @ts-ignore
-    expect(component.requesting).toBeTruthy();
-    expect(spy).toBeDefined();
+  it('should call method getStars on onInit', () => {
+    const spy = spyOn(component, 'getStars');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set userId on onInit', () => {
+    (component as any).userId = 12;
+    component.ngOnInit();
+    expect((component as any).userId).toBe(1);
   });
 
   it('should navigate to habit-more page', () => {

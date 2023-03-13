@@ -15,6 +15,7 @@ describe('HabitService', () => {
     page: [
       {
         defaultDuration: 14,
+        amountAcquiredUsers: 1,
         habitTranslation: {
           description: 'Description',
           habitItem: 'Item',
@@ -34,6 +35,7 @@ describe('HabitService', () => {
   };
   const habitMock = {
     defaultDuration: 14,
+    amountAcquiredUsers: 1,
     habitTranslation: {
       description: 'Description',
       habitItem: 'Item',
@@ -89,6 +91,7 @@ describe('HabitService', () => {
     page: [
       {
         defaultDuration: 12,
+        amountAcquiredUsers: 1,
         habitTranslation: {
           description: 'habit, which will be useful for environment',
           habitItem: 'bags',

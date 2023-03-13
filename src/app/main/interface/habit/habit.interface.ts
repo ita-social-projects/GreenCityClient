@@ -5,10 +5,11 @@ export interface HabitInterface {
   habitTranslation: HabitTranslationInterface;
   id: number;
   image: string;
-  tags: Array<string>;
   isAssigned?: boolean;
   complexity?: number;
+  amountAcquiredUsers: number;
   shoppingListItems?: Array<ShoppingList>;
+  tags: Array<string>;
 }
 
 export interface HabitTranslationInterface {

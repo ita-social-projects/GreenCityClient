@@ -3,10 +3,15 @@ export enum ItemTime {
   END = '23 : 59'
 }
 
+export interface OptionItem {
+  nameEn: string;
+  nameUa: string;
+}
+
 export const TagsArray = [
-  { nameEn: 'Environmental', nameUa: 'Екологічний', isActive: false },
+  { nameEn: 'Economic', nameUa: 'Економічний', isActive: false },
   { nameEn: 'Social', nameUa: 'Соціальний', isActive: false },
-  { nameEn: 'Economic', nameUa: 'Економічний', isActive: false }
+  { nameEn: 'Environmental', nameUa: 'Екологічний', isActive: false }
 ];
 
 export const eventTimeList = [
@@ -15,8 +20,10 @@ export const eventTimeList = [
 ];
 
 export const eventStatusList = [
-  { nameEn: 'Open', nameUa: 'Відкритий' },
-  { nameEn: 'Closed', nameUa: 'Закритий' }
+  { nameEn: 'Open', nameUa: 'Відкритa' },
+  { nameEn: 'Closed', nameUa: 'Закритa' },
+  { nameEn: 'Joined', nameUa: 'Вже доєднані' },
+  { nameEn: 'Created', nameUa: 'Створенa' }
 ];
 
 // TODO remove when back-end is ready
@@ -27,6 +34,14 @@ export const tempLocationList = [
   { nameEn: 'Kyiv', nameUa: 'Київ' },
   { nameEn: 'Kharkiv', nameUa: 'Харків' },
   { nameEn: 'Sevastopol', nameUa: 'Севастополь' },
+  { nameEn: 'Donetsk', nameUa: 'Донецьк' }
+];
+
+export const selectedFilters = [
+  { nameEn: 'Lviv', nameUa: 'Львів' },
+  { nameEn: 'Kyiv', nameUa: 'Київ' },
+  { nameEn: 'Odesa', nameUa: 'Одеса' },
+  { nameEn: 'Kharkiv', nameUa: 'Харків' },
   { nameEn: 'Donetsk', nameUa: 'Донецьк' }
 ];
 

@@ -120,7 +120,7 @@ export class UbsAdminCustomerViolationsComponent implements OnInit, OnDestroy {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
-      panelClass: 'custom-dialog-container',
+      panelClass: 'admin-cabinet-dialog-container',
       data: {
         id: user.orderId,
         viewMode: true

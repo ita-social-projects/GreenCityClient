@@ -38,6 +38,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordFieldValue: string;
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  public isSignInPage: boolean;
 
   // generalError can contain:
   // 'user.auth.sign-in.fill-all-red-fields', or
@@ -91,6 +92,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     if (this.signInForm) {
       this.emailFieldValue = this.emailField.value;
       this.passwordFieldValue = this.passwordField.value;
+      this.isSignInPage = true;
     }
   }
 

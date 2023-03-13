@@ -55,6 +55,7 @@ describe('AllHabitsComponent', () => {
       duration: 14,
       habit: {
         defaultDuration: 14,
+        amountAcquiredUsers: 1,
         habitTranslation: {
           description: 'Test',
           habitItem: 'Test',
@@ -81,6 +82,7 @@ describe('AllHabitsComponent', () => {
     page: [
       {
         defaultDuration: 1,
+        amountAcquiredUsers: 1,
         habitTranslation: {
           description: 'test',
           habitItem: 'test, best',
@@ -93,6 +95,7 @@ describe('AllHabitsComponent', () => {
       },
       {
         defaultDuration: 1,
+        amountAcquiredUsers: 1,
         habitTranslation: {
           description: 'test2',
           habitItem: 'test2',
@@ -115,11 +118,13 @@ describe('AllHabitsComponent', () => {
     'languageBehaviourSubject',
     'getCurrentLanguage',
     'getHabitsGalleryView',
-    'setHabitsGalleryView'
+    'setHabitsGalleryView',
+    'getUserId'
   ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.getUserId = () => 1;
 
   let assignHabitServiceMock: HabitAssignService;
   assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
