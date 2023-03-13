@@ -402,8 +402,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         city
       });
     }
-
-    console.log('init', this.CardForm);
   }
 
   public createCard(): void {
