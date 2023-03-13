@@ -4,7 +4,7 @@ import {
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { EventsListItemModalComponent } from './events-list-item-modal/events-li
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
-import { ReplaySubject, Subscription, of } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
@@ -214,11 +214,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.styleBtn = 'secondary-global-button';
       this.isReadonly = !this.event.organizer.organizerRating ? false : true;
       this.isJoined = true;
-      of(this.isJoined)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe(() => {
-          this.snackBar.openSnackBar('addedEvent');
-        });
+      this.snackBar.openSnackBar('addedEvent');
     }
   }
 
