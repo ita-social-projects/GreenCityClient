@@ -170,9 +170,6 @@ describe('AllHabitsComponent', () => {
     fixture = TestBed.createComponent(AllHabitsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.allHabits = mockData;
-    component.resetSubject = () => true;
-    fixture.detectChanges();
   });
 
   afterEach(() => {

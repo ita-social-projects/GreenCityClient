@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -18,23 +18,20 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
   styleUrls: ['./all-habits.component.scss']
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
-  public allHabits = new BehaviorSubject<any>([]);
-  public filteredHabitsList: HabitInterface[] = [];
-  public totalHabits: number;
-  public totalHabitsCopy = 0;
+  public habitsList: HabitInterface[] = [];
+  public totalHabits = 0;
   public galleryView = true;
   public isFetching = true;
-  public elementsLeft = true;
   public tagList: TagInterface[] = [];
-  public tags = this.habitService.getAllTags();
-  public tagsList: Array<string> = [];
+  public selectedTagsList: Array<string> = [];
   public windowSize: number;
   private currentPage = 0;
+  private pageSize = 6;
+  private hasOnePage: boolean;
   private totalPages: number;
-  private masterSubscription: Subscription = new Subscription();
-  private habitsList: HabitInterface[] = [];
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
+
   private lang: string;
-  private batchSize = 6;
   public images = singleNewsImages;
 
   constructor(
@@ -49,36 +46,18 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.onResize();
     this.checkHabitsView();
 
-    const langChangeSub = this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
-      this.resetState();
-      this.resetSubject();
-      this.fetchAllHabits(0, this.batchSize);
       this.getAllHabitsTags();
     });
-
-    const habitServiceSub = this.allHabits.subscribe((data) => {
-      this.isFetching = false;
-      this.totalHabits = data.totalElements;
-      this.totalHabitsCopy = data.totalElements;
-      this.totalPages = data.totalPages;
-      this.currentPage = data.currentPage;
-      this.habitsList = data.page;
-      this.filteredHabitsList = data.page;
-
-      if (data.page) {
-        this.elementsLeft = data.totalElements !== this.habitsList.length;
-        this.checkIfAssigned();
-      }
-    });
-
-    this.masterSubscription.add(langChangeSub);
-    this.masterSubscription.add(habitServiceSub);
   }
 
   private getAllHabitsTags(): void {
-    this.tags.pipe(take(1)).subscribe((tagsArray: Array<TagInterface>) => (this.tagList = tagsArray));
+    this.habitService
+      .getAllTags()
+      .pipe(take(1))
+      .subscribe((tagsArray: Array<TagInterface>) => (this.tagList = tagsArray));
   }
 
   public checkHabitsView(): void {
@@ -86,20 +65,34 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.galleryView = galleryView ?? this.galleryView;
   }
 
-  private fetchAllHabits(page, size): void {
+  private getAllHabits(page: number, size: number): void {
     this.habitService
       .getAllHabits(page, size)
       .pipe<HabitListInterface>(map((data) => this.splitHabitItems(data)))
-      .subscribe((data) => {
-        const observableValue = this.allHabits.getValue();
-        const oldItems = observableValue.page ? observableValue.page : [];
-        data.page = [...oldItems, ...data.page];
-        this.allHabits.next(data);
+      .subscribe((res) => {
+        this.setHabitsList(page, res);
       });
   }
 
-  public resetSubject() {
-    this.allHabits.next([]);
+  private getHabitsByTags(page: number, size: number, tags: string[]): void {
+    this.habitService
+      .getHabitsByTagAndLang(page, size, tags)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((res) => {
+        this.setHabitsList(page, res);
+      });
+  }
+
+  private setHabitsList(page: number, res: HabitListInterface): void {
+    this.isFetching = false;
+    this.habitsList = page ? [...this.habitsList, ...res.page] : res.page;
+    this.totalHabits = res.totalElements;
+    this.totalPages = res.totalPages;
+    this.currentPage = res.currentPage;
+    this.hasOnePage = this.totalPages === 1;
+    if (this.totalHabits) {
+      this.checkIfAssigned();
+    }
   }
 
   private splitHabitItems(data) {
@@ -112,29 +105,15 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     return data;
   }
 
-  ngOnDestroy(): void {
-    this.masterSubscription.unsubscribe();
-  }
-
   public onDisplayModeChange(mode: boolean): void {
     this.galleryView = mode;
     this.localStorageService.setHabitsGalleryView(mode);
   }
 
-  public getFilterData(event: Array<string>): HabitInterface[] {
-    if (!event.length) {
-      this.totalHabitsCopy = this.totalHabits;
-      this.filteredHabitsList = this.habitsList;
-      this.currentPage = 1;
-      return this.filteredHabitsList;
-    }
-    if (this.filteredHabitsList.length > 0) {
-      this.filteredHabitsList = this.habitsList.filter((habit) => {
-        return event.some((tag) => habit.tags.includes(tag));
-      });
-      this.totalHabitsCopy = this.filteredHabitsList.length;
-      this.currentPage = this.totalPages;
-      return this.filteredHabitsList;
+  public getFilterData(tags: Array<string>): void {
+    if (this.tagList.length) {
+      this.selectedTagsList = tags;
+      tags.length ? this.getHabitsByTags(0, this.pageSize, this.selectedTagsList) : this.getAllHabits(0, this.pageSize);
     }
   }
 
@@ -143,34 +122,35 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.galleryView = this.windowSize >= 576 ? this.galleryView : true;
   }
 
-  public onScroll() {
-    if (this.totalPages === this.currentPage) {
+  public onScroll(): void {
+    if (this.hasOnePage || this.totalPages === this.currentPage) {
       this.isFetching = false;
-      return;
+    } else {
+      this.isFetching = true;
+      this.currentPage += 1;
+      this.selectedTagsList.length
+        ? this.getHabitsByTags(this.currentPage, this.pageSize, this.selectedTagsList)
+        : this.getAllHabits(this.currentPage, this.pageSize);
     }
-    this.isFetching = true;
-    this.currentPage += 1;
-    this.fetchAllHabits(this.currentPage, this.batchSize);
   }
 
-  private resetState() {
-    this.isFetching = true;
-    this.currentPage = 0;
-    this.elementsLeft = true;
-  }
-
-  public checkIfAssigned() {
+  public checkIfAssigned(): void {
     this.habitAssignService
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
         response.forEach((assigned) => {
-          this.filteredHabitsList.forEach((filtered) => {
+          this.habitsList.forEach((filtered) => {
             if (assigned.habit.id === filtered.id) {
               filtered.isAssigned = true;
             }
           });
         });
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }
