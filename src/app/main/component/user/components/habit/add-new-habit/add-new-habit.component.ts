@@ -181,6 +181,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
               this.snackBar.openSnackBar('habitDeleted');
             });
         }
+        if (!confirm) {
+          this.snackBar.openSnackBar('habitDidNotGiveUp');
+        }
       });
   }
 
