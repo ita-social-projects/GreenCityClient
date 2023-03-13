@@ -243,7 +243,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientEmail.markAsUntouched();
       anotherClientFirstName.setValidators(this.personalDataFormValidators);
       anotherClientLastName.setValidators(this.personalDataFormValidators);
-      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12)]);
+      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]);
       anotherClientPhoneNumber.setValue('+380');
       localStorage.setItem('anotherClient', JSON.stringify(true));
     } else {
