@@ -200,8 +200,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         Validators.minLength(12),
         PhoneNumberValidator('UA')
       ]),
-      telegramIsChecked: new FormControl(this.userProfile.telegramIsChecked),
-      viberIsChecked: new FormControl(this.userProfile.viberIsChecked)
+      telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify),
+      viberIsNotify: new FormControl(this.userProfile.viberIsNotify)
     });
     this.isFetching = false;
   }
@@ -456,8 +456,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
-        telegramIsChecked: this.userProfile.telegramIsChecked,
-        viberIsChecked: this.userProfile.viberIsChecked,
+        telegramIsNotify: this.userProfile.telegramIsNotify,
+        viberIsNotify: this.userProfile.viberIsNotify,
         hasPassword: this.userProfile.hasPassword
       };
 
@@ -487,8 +487,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           this.userProfile = this.composeFormData(res);
           this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
           this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
-          this.userProfile.telegramIsChecked = this.userForm.value.telegramIsChecked;
-          this.userProfile.viberIsChecked = this.userForm.value.viberIsChecked;
+          this.userProfile.telegramIsNotify = this.userForm.value.telegramIsNotify;
+          this.userProfile.viberIsNotify = this.userForm.value.viberIsNotify;
         },
         (err: Error) => {
           this.isFetching = false;
@@ -582,15 +582,15 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   onSwitchChanged(id: string, checked: boolean) {
     if (id === 'telegramNotification') {
       this.telegramNotification = checked;
-      this.userProfile.telegramIsChecked = !this.userProfile.telegramIsChecked;
+      this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
     }
 
     if (id === 'viberNotification') {
       this.viberNotification = checked;
-      this.userProfile.viberIsChecked = !this.userProfile.viberIsChecked;
+      this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
     }
 
-    if (this.userProfile.viberIsChecked || this.userProfile.telegramIsChecked) {
+    if (this.userProfile.viberIsNotify || this.userProfile.telegramIsNotify) {
       this.redirectToMessengers();
     }
   }

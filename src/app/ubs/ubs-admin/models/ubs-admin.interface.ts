@@ -296,8 +296,8 @@ export interface UserProfile {
   recipientPhone: string;
   recipientSurname: string;
   hasPassword: boolean;
-  telegramIsChecked?: boolean;
-  viberIsChecked?: boolean;
+  telegramIsNotify?: boolean;
+  viberIsNotify?: boolean;
   botList?: SocialLink[];
 }
 
