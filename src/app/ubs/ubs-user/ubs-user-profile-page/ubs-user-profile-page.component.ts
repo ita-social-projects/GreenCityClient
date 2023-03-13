@@ -487,8 +487,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           this.userProfile = this.composeFormData(res);
           this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
           this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
-          this.userProfile.telegramIsNotify = this.userForm.value.telegramIsNotify;
-          this.userProfile.viberIsNotify = this.userForm.value.viberIsNotify;
         },
         (err: Error) => {
           this.isFetching = false;
