@@ -980,7 +980,8 @@
       "labels": {
         "ua": "Ukrainian",
         "en": "English",
-        "text": "Notification text"
+        "text": "Notification text",
+        "select": "select"
       },
       "buttons": {
         "cancel": "Cancel",
