@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -13,7 +13,7 @@ import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.se
   templateUrl: './ubs-admin-employee-permissions-form.component.html',
   styleUrls: ['./ubs-admin-employee-permissions-form.component.scss']
 })
-export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
+export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   employee: Page;
 
