@@ -263,7 +263,7 @@ describe('AllHabitsComponent', () => {
     expect(component.selectedTagsList).toEqual([]);
   });
 
-  it('should set selectedTagsList on getFilterData if tagsList array have tags', () => {
+  it('should set selectedTagsList on getFilterData if tagsList array contains tags', () => {
     component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
     const tags = ['Reusable'];
     component.getFilterData(tags);
