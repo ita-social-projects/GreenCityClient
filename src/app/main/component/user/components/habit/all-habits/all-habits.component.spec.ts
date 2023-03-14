@@ -78,7 +78,7 @@ describe('AllHabitsComponent', () => {
   ];
 
   const habitsMockData: HabitListInterface = {
-    currentPage: 1,
+    currentPage: 0,
     page: [
       {
         defaultDuration: 1,
@@ -234,13 +234,14 @@ describe('AllHabitsComponent', () => {
   });
 
   it('should set values on setHabitsList', () => {
-    (component as any).setHabitsList(0, habitsMockData);
+    const page = 0;
+    (component as any).setHabitsList(page, habitsMockData);
     expect(component.isFetching).toBeFalsy();
     expect(component.habitsList).toEqual(habitsMockData.page);
     expect(component.totalHabits).toEqual(habitsMockData.totalElements);
     expect((component as any).totalPages).toEqual(habitsMockData.totalPages);
     expect((component as any).currentPage).toEqual(habitsMockData.currentPage);
-    expect((component as any).hasOnePage).toBeTruthy();
+    expect((component as any).isAllPages).toBeTruthy();
   });
 
   it('should set Habits List on setHabitsList when page is 1', () => {
@@ -286,6 +287,37 @@ describe('AllHabitsComponent', () => {
     const spy2 = spyOn(component as any, 'getAllHabits');
     const tags = ['Reusable'];
     component.getFilterData(tags);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
+  });
+
+  it('should set isFatching false and dont call methods onScroll if isAllPages is true', () => {
+    (component as any).isAllPages = true;
+    const spy1 = spyOn(component as any, 'getAllHabits');
+    const spy2 = spyOn(component as any, 'getHabitsByTags');
+    component.onScroll();
+    expect(component.isFetching).toBeFalsy();
+    expect(spy1).not.toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
+  });
+
+  it('should set isFatching true and call method getAllHabits on onScroll', () => {
+    (component as any).isAllPages = false;
+    component.selectedTagsList = [];
+    const spy1 = spyOn(component as any, 'getAllHabits');
+    const spy2 = spyOn(component as any, 'getHabitsByTags');
+    component.onScroll();
+    expect(component.isFetching).toBeTruthy();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
+  });
+
+  it('should call method getHabitsByTags on onScroll', () => {
+    (component as any).isAllPages = false;
+    component.selectedTagsList = ['tags'];
+    const spy1 = spyOn(component as any, 'getHabitsByTags');
+    const spy2 = spyOn(component as any, 'getAllHabits');
+    component.onScroll();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).not.toHaveBeenCalled();
   });
