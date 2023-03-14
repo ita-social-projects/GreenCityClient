@@ -27,8 +27,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public windowSize: number;
   private currentPage = 0;
   private pageSize = 6;
-  private hasOnePage: boolean;
-  private hasNextPage: boolean;
+  private isAllPages: boolean;
   private totalPages: number;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -90,8 +89,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.totalHabits = res.totalElements;
     this.totalPages = res.totalPages;
     this.currentPage = res.currentPage;
-    this.hasOnePage = this.totalPages === 1;
-    this.hasNextPage = this.totalPages !== this.currentPage;
+    page += 1;
+    this.isAllPages = this.totalPages === page;
     if (this.totalHabits) {
       this.checkIfAssigned();
     }
@@ -116,7 +115,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   public onScroll(): void {
     this.isFetching = false;
-    if (!this.hasOnePage || this.hasNextPage) {
+    if (!this.isAllPages) {
       this.isFetching = true;
       this.currentPage += 1;
       this.selectedTagsList.length
