@@ -1,4 +1,6 @@
 ::ng-deep {
+  font-family: 'Lato', sans-serif;
+
   .mat-tab-label-content {
     font-size: 20px;
   }
@@ -29,7 +31,7 @@
 }
 
 .mat-expansion-panel-header {
-  height: 64px;
+  height: 80px;
   display: flex;
   flex-direction: row-reverse;
   padding: 0 17px;
@@ -77,10 +79,20 @@
   }
 }
 
+::ng-deep .mat-content {
+  align-items: center;
+}
+
 .mat-content-wrapper {
   display: grid;
   grid-template-columns: repeat(7, 109px);
   column-gap: 1.4vw;
+}
+
+button {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .btn-space {
@@ -105,8 +117,6 @@
       width: 114px;
       border: none;
       padding: 8px 24px;
-      font-size: 14px;
-      line-height: 20px;
       text-align: center;
       color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-button-light-green);
@@ -116,10 +126,9 @@
     .btn_cancel {
       height: 36px;
       width: 100px;
-      font-size: 14px;
       color: var(--ubs-quaternary-dark-grey);
       background: var(--ubs-primary-white);
-      border: 1px solid var(--ubs-primary-green);
+      border: 1px solid var(--ubs-primary-black);
       border-radius: 4px;
     }
 
@@ -142,9 +151,14 @@
   }
 }
 
+.mobile_list .mobile {
+  display: none;
+}
+
 .mat-expansion-panel {
   margin: 10px 0 10px 0;
-  box-shadow: none;
+  background: var(--primary-white);
+  box-shadow: 0 2px 6px rgba(100, 114, 125, 0.15);
 }
 
 .mat-expansion-panel-header-title {
@@ -199,16 +213,21 @@
   }
 }
 
-@media (max-width: 1100px) {
+@media (min-width: 769px) and (max-width: 1100px) {
   :host ::ng-deep {
     .mat-content {
       display: flex;
       flex-direction: column !important;
+      align-items: flex-start;
     }
   }
 
+  .mobile_list {
+    height: 25px;
+  }
+
   .mat-expansion-panel-header {
-    height: 100px !important;
+    height: 100px;
   }
 
   .btns_group {
@@ -231,94 +250,92 @@
   }
 }
 
-@media (max-width: 920px) {
-  .header_list {
-    font-size: 12px;
-    font-weight: 500;
+@media (max-width: 768px) {
+  ::ng-deep {
+    .mat-tab-labels {
+      .mat-tab-label-content {
+        color: #979797;
+      }
 
-    .header_list-date,
-    .header_list-status {
+      .mat-tab-label-active .mat-tab-label-content {
+        color: var(--ubs-button-light-green);
+        font-size: 16px;
+      }
+    }
+
+    .mat-expansion-indicator {
       display: none;
     }
+
+    .mat-ink-bar {
+      background-color: var(--ubs-button-light-green) !important;
+    }
+  }
+
+  .mat-expansion-panel-header {
+    height: fit-content;
+    padding: 20px 12px;
+
+    ::ng-deep .mat-content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  .header_list {
+    display: none;
   }
 
   .mat-content-wrapper {
-    grid-template-columns: repeat(5, 90px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .order_list-date,
-  .order_list-status {
-    display: none;
-  }
-}
+  .mobile_list {
+    display: flex;
+    flex-direction: row;
+    gap: 23px;
 
-@media (width: 820px) {
-  .header_list-date,
-  .header_list-status {
-    display: none;
-  }
-
-  .order_list-date,
-  .order_list-status {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .header_list {
-    .header_list-paymentAmount,
-    .header_list-paymentStatus {
-      display: none;
+    .mobile_list-date {
+      width: 100%;
     }
-  }
 
-  .order_list-paymentAmountDue,
-  .order_list-paymentStatus {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  :host ::ng-deep {
-    .mat-content {
+    .mobile {
       display: flex;
-      flex-direction: column !important;
+      width: 100%;
+      font-weight: 700;
+      font-size: 14px;
     }
 
-    .mat-tab-body {
-      &.mat-tab-body-active {
-        max-width: 700px;
+    .table-data {
+      width: 100%;
+      flex: auto;
+    }
+  }
+
+  .btns_group {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    margin-top: 20px;
+    gap: 10px;
+
+    .btn_grid_cancel,
+    .btn_grid_pay {
+      width: 100%;
+      margin: 0 !important;
+
+      .btn_cancel,
+      .btn_pay {
+        max-width: none;
         width: 100%;
       }
     }
   }
 
-  .empty-div {
+  .order_list-paymentDate,
+  .order_list-paymentAmount {
     display: none;
-  }
-}
-
-@media (max-width: 375px) {
-  .description {
-    overflow-x: auto;
-  }
-
-  .btns_group {
-    margin: 10px 0 0 30px;
-  }
-
-  .mat-expansion-panel-header {
-    padding-left: 10px;
-  }
-
-  .mat-content-wrapper {
-    grid-template-columns: repeat(3, 82px);
-    column-gap: unset;
-  }
-
-  .header_list {
-    div {
-      width: 72px;
-    }
   }
 }

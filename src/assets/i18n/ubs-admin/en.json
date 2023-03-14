@@ -422,6 +422,7 @@
     "order-date": "Order date",
     "order-payment-status": "Payment status",
     "amount-due": "Amount-due",
+    "info-title": "By clicking on the order card, you get all the additional information on the order.",
     "btn": {
       "cancel": "Cancel",
       "pay": "Pay",

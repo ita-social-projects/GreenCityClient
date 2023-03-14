@@ -14,8 +14,7 @@ export class UbsFooterComponent {
   public currentYear = new Date().getFullYear();
   public ubsNavLinks = [
     { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/yak-sortyvaty-na-karantuni/', url: true },
-    { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
-    { name: 'Green City', route: '/#/greenCity', url: false }
+    { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true }
   ];
 
   constructor(private dialog: MatDialog) {}
