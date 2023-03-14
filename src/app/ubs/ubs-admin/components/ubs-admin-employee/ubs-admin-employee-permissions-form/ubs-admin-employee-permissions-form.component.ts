@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
-import { take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 
@@ -79,6 +80,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
   };
 
   isUpdating = false;
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -109,6 +111,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
           });
         });
       });
+    this.dialogRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => this.dialogRef.close(true));
   }
 
   savePermissions() {
@@ -128,5 +134,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit {
         this.dialogRef.close(false);
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 }
