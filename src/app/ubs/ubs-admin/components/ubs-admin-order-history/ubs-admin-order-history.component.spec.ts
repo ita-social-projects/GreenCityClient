@@ -230,7 +230,6 @@ describe('UbsAdminOrderHistoryComponent', () => {
   it('cancellationReason  dialog.open should been called', () => {
     spyOn(component, 'showPopup');
     component.cancellationReason();
-    matDialogMock.open;
     expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
       hasBackdrop: true
     });
