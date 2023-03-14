@@ -95,16 +95,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private splitHabitItems(data) {
-    data.page.forEach((el) => {
-      const newArr = el.habitTranslation.habitItem.split(',').map((str) => str.trim().toLowerCase());
-      el.habitTranslation.habitItem = newArr;
-      return el.habitTranslation.habitItem;
-    });
-
-    return data;
-  }
-
   public onDisplayModeChange(mode: boolean): void {
     this.galleryView = mode;
     this.localStorageService.setHabitsGalleryView(mode);

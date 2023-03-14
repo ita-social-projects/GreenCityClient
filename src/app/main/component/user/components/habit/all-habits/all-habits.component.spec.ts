@@ -131,8 +131,9 @@ describe('AllHabitsComponent', () => {
   assignHabitServiceMock.getAssignedHabits = () => of(assignedHabitsMock);
 
   let habitServiceMock: HabitService;
-  habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits']);
-  habitServiceMock.getAllHabits = (pageHabits, sizeHabits) => of(habitsMockData);
+  habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits', 'getHabitsByTagAndLang']);
+  habitServiceMock.getAllHabits = () => of(habitsMockData);
+  habitServiceMock.getHabitsByTagAndLang = () => of(habitsMockData);
   habitServiceMock.getAllTags = () => of([{ id: 2, name: 'eco', nameUa: 'еко' }]);
 
   const userData = {
@@ -180,9 +181,21 @@ describe('AllHabitsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  //   it('should get userId', () => {
-  //     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
-  //   });
+  it('should call methods OnInit', () => {
+    const spy1 = spyOn(component, 'onResize');
+    const spy2 = spyOn(component, 'checkHabitsView');
+    const spy3 = spyOn(component as any, 'getAllHabitsTags');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
+  });
+
+  it('should get Habits tags list on getAllHabitsTags', () => {
+    component.tagList = [];
+    (component as any).getAllHabitsTags();
+    expect(component.tagList).toEqual([{ id: 2, name: 'eco', nameUa: 'еко' }]);
+  });
 
   it('onDisplayModeChange() setting false value', () => {
     component.onDisplayModeChange(false);
@@ -206,5 +219,48 @@ describe('AllHabitsComponent', () => {
     localStorageServiceMock.getHabitsGalleryView = () => true;
     component.checkHabitsView();
     expect(component.galleryView).toEqual(true);
+  });
+
+  it('should call method setHabitsList on getAllHabits', () => {
+    const spy = spyOn(component as any, 'setHabitsList');
+    (component as any).getAllHabits(0, 6);
+    expect(spy).toHaveBeenCalledWith(0, habitsMockData);
+  });
+
+  it('should call method setHabitsList on getHabitsByTags', () => {
+    const spy = spyOn(component as any, 'setHabitsList');
+    (component as any).getHabitsByTags(0, 6, ['tag']);
+    expect(spy).toHaveBeenCalledWith(0, habitsMockData);
+  });
+
+  it('should set values on setHabitsList', () => {
+    (component as any).setHabitsList(0, habitsMockData);
+    expect(component.isFetching).toBeFalsy();
+    expect(component.habitsList).toEqual(habitsMockData.page);
+    expect(component.totalHabits).toEqual(habitsMockData.totalElements);
+    expect((component as any).totalPages).toEqual(habitsMockData.totalPages);
+    expect((component as any).currentPage).toEqual(habitsMockData.currentPage);
+    expect((component as any).hasOnePage).toBeTruthy();
+  });
+
+  it('should set Habits List on setHabitsList when page is 1', () => {
+    component.habitsList = habitsMockData.page;
+    const result = [...component.habitsList, ...habitsMockData.page];
+    (component as any).setHabitsList(1, habitsMockData);
+    expect(component.habitsList).toEqual(result);
+  });
+
+  it('should call method checkIfAssigned on setHabitsList', () => {
+    const spy = spyOn(component, 'checkIfAssigned');
+    (component as any).setHabitsList(0, habitsMockData);
+    component.totalHabits = 12;
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call method checkIfAssigned on setHabitsList if totalElements is zero', () => {
+    habitsMockData.totalElements = 0;
+    const spy = spyOn(component, 'checkIfAssigned');
+    (component as any).setHabitsList(0, habitsMockData);
+    expect(spy).not.toHaveBeenCalled();
   });
 });
