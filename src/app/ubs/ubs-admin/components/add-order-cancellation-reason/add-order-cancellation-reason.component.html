@@ -4,38 +4,61 @@
       <img src="{{ closeButton }}" alt="close" />
     </button>
   </div>
-  <label class="title" id="addReason">{{ 'order-cancel.title' | translate }}</label>
-  <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
-    <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}"> {{ option.translation | translate }}</mat-radio-button>
-  </mat-radio-group>
-  <form [formGroup]="commentForm">
-    <textarea
-      *ngIf="cancellationReason === 'OTHER'"
-      formControlName="cancellationComment"
-      placeholder="{{ 'order-cancel.placeholder' | translate }}"
-      cols="50"
-      rows="6"
-    ></textarea>
-    <div
-      class="error-message"
-      *ngIf="
-        commentForm.get('cancellationComment').value && commentForm.invalid && commentForm.touched && this.cancellationReason === 'OTHER'
-      "
-    >
-      <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
+  <!-- isHistory false -->
+  <div *ngIf="!isHistory">
+    <label class="title" id="addReason">{{ 'order-cancel.title' | translate }}</label>
+    <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
+      <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}">
+        {{ option.translation | translate }}</mat-radio-button
+      >
+    </mat-radio-group>
+    <form [formGroup]="commentForm">
+      <textarea
+        *ngIf="cancellationReason === 'OTHER'"
+        formControlName="cancellationComment"
+        placeholder="{{ 'order-cancel.placeholder' | translate }}"
+        cols="50"
+        rows="6"
+      ></textarea>
+      <div
+        class="error-message"
+        *ngIf="
+          commentForm.get('cancellationComment').value && commentForm.invalid && commentForm.touched && this.cancellationReason === 'OTHER'
+        "
+      >
+        <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
+      </div>
+      <div
+        class="error-message"
+        *ngIf="cancellationReason === 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
+      >
+        <div>{{ 'order-cancel.reason.comment-empty-message' | translate }}</div>
+      </div>
+    </form>
+    <div class="btn-container">
+      <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
+      <button type="submit" class="agree btn" [disabled]="disableButton()" (click)="save()">
+        {{ 'order-cancel.btn.add' | translate }}
+      </button>
     </div>
-    <div
-      class="error-message"
-      *ngIf="cancellationReason === 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
-    >
-      <div>{{ 'order-cancel.reason.comment-empty-message' | translate }}</div>
-    </div>
-  </form>
-  <div class="btn-container">
-    <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
-    <button type="submit" class="agree btn" [disabled]="disableButton()" (click)="save()">
-      {{ 'order-cancel.btn.add' | translate }}
-    </button>
+  </div>
+  <!-- isHistory true -->
+  <div *ngIf="isHistory">
+    <label class="title" id="addReason">{{ 'order-cancel.cancel-reason' | translate }} №1082</label>
+    <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
+      <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}" checked="true">
+        {{ option.translation | translate }}</mat-radio-button
+      >
+    </mat-radio-group>
+    <form [formGroup]="commentForm">
+      <textarea
+        *ngIf="cancellationReason === 'OTHER'"
+        formControlName="cancellationComment"
+        placeholder="{{ 'order-cancel.placeholder' | translate }}"
+        cols="50"
+        rows="6"
+      ></textarea>
+    </form>
   </div>
   <span class="date">{{ 'order-cancel.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
   <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>

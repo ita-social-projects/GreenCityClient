@@ -5,6 +5,7 @@ div {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 20px;
+  min-width: 160px !important;
 }
 
 .readonly_date {

@@ -193,6 +193,7 @@
   },
   "order-cancel": {
     "title": "Add reason to cancel order",
+    "cancel-reason": "The reason for canceling the order",
     "reason": {
       "delivered-himself": "Delivered to the station itself",
       "moving-out": "Moving",
