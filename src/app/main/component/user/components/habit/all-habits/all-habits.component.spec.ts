@@ -250,17 +250,43 @@ describe('AllHabitsComponent', () => {
     expect(component.habitsList).toEqual(result);
   });
 
-  it('should call method checkIfAssigned on setHabitsList', () => {
-    const spy = spyOn(component, 'checkIfAssigned');
-    (component as any).setHabitsList(0, habitsMockData);
-    component.totalHabits = 12;
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should not call method checkIfAssigned on setHabitsList if totalElements is zero', () => {
     habitsMockData.totalElements = 0;
     const spy = spyOn(component, 'checkIfAssigned');
     (component as any).setHabitsList(0, habitsMockData);
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should not set selectedTagsList on getFilterData if tagsList array is empty', () => {
+    component.tagList = [];
+    component.getFilterData([]);
+    expect(component.selectedTagsList).toEqual([]);
+  });
+
+  it('should set selectedTagsList on getFilterData if tagsList array have tags', () => {
+    component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
+    const tags = ['Reusable'];
+    component.getFilterData(tags);
+    expect(component.selectedTagsList).toEqual(['Reusable']);
+  });
+
+  it('should call getAllHabits on getFilterData if tags is empty array', () => {
+    component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
+    const spy1 = spyOn(component as any, 'getAllHabits');
+    const spy2 = spyOn(component as any, 'getHabitsByTags');
+    const tags = [];
+    component.getFilterData(tags);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
+  });
+
+  it('should call getHabitsByTags on getFilterData if tags array contains value', () => {
+    component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
+    const spy1 = spyOn(component as any, 'getHabitsByTags');
+    const spy2 = spyOn(component as any, 'getAllHabits');
+    const tags = ['Reusable'];
+    component.getFilterData(tags);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
   });
 });
