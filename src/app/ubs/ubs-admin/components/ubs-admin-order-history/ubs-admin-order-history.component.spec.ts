@@ -3,15 +3,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IOrderInfo, IEmployee } from '../../models/ubs-admin.interface';
+import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 describe('UbsAdminOrderHistoryComponent', () => {
   let component: UbsAdminOrderHistoryComponent;
   let fixture: ComponentFixture<UbsAdminOrderHistoryComponent>;
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 
   const OrderInfoMock: IOrderInfo = {
@@ -164,9 +166,12 @@ describe('UbsAdminOrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UbsAdminOrderHistoryComponent],
-      providers: [{ provide: OrderService, useValue: orderServiceMock }]
+      providers: [
+        { provide: OrderService, useValue: orderServiceMock },
+        { provide: MatDialog, useValue: matDialogMock }
+      ]
     }).compileComponents();
   }));
 
@@ -218,5 +223,16 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.openDetails();
 
     expect(component.pageOpen).toBe(false);
+  });
+  it('showPopup should call cancellationReason', () => {
+    spyOn(component, 'cancellationReason');
+  });
+  it('cancellationReason  dialog.open should been called', () => {
+    spyOn(component, 'showPopup');
+    component.cancellationReason();
+    matDialogMock.open;
+    expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
+      hasBackdrop: true
+    });
   });
 });

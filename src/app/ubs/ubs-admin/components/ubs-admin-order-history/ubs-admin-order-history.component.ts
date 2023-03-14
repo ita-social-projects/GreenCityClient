@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { IOrderHistory, IOrderInfo } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 
 @Component({
   selector: 'app-ubs-admin-order-history',
@@ -17,7 +19,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.orderInfo) {
@@ -29,10 +31,14 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  showPopup(element: any, popup: any) {
-    if (element.target.offsetWidth < element.target.scrollWidth) {
-      popup.toggle();
+  showPopup() {
+    if (this.orderInfo.generalOrderInfo.orderStatus === 'CANCELED') {
+      this.cancellationReason();
     }
+  }
+
+  cancellationReason() {
+    this.dialog.open(AddOrderCancellationReasonComponent, { hasBackdrop: true });
   }
 
   getOrderHistory(orderId: number) {

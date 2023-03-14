@@ -16,6 +16,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   public commentForm: FormGroup;
   public cancellationReason: string;
   public cancellationComment: string;
+  public isHistory: boolean = true;
   reasonList: any[] = [
     {
       value: 'DELIVERED_HIMSELF',
