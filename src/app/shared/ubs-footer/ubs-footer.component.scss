@@ -83,11 +83,6 @@
         li {
           list-style-type: none;
 
-          // hide GreenCity link for prod-branch
-          &:last-child {
-            display: none;
-          }
-
           a {
             display: flex;
             font-weight: 700;
