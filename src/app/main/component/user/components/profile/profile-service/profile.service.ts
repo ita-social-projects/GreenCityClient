@@ -38,7 +38,6 @@ export class ProfileService {
   }
 
   public getShoppingList(): Observable<ShoppingList[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
     this.setUserId();
 
     return this.http.get<ShoppingList[]>(
