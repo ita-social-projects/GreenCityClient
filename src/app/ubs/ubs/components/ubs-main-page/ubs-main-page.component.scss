@@ -16,6 +16,12 @@
   flex-direction: column;
   font-size: 22px;
 
+  a {
+    color: var(--ubs-secondary-light-green);
+    text-decoration: underline;
+    line-height: 1.3;
+  }
+
   header {
     margin: 0 50px;
     height: 706px;
@@ -603,12 +609,6 @@ section .main-container {
         color: var(--ubs-primary-black);
         margin-left: 40px;
         width: 617px;
-
-        a {
-          color: var(--ubs-secondary-light-green);
-          text-decoration: underline;
-          line-height: 1.3;
-        }
       }
     }
 
