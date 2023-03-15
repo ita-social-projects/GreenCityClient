@@ -20,6 +20,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   @Input() defaultPoints: number;
   @Input() points: number;
   @Input() pointsUsed: number;
+  @Input() sumForActCertificate: number;
   @Output() newItemEvent = new EventEmitter<object>();
   fullCertificate: number;
 

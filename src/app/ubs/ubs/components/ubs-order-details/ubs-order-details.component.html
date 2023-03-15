@@ -104,6 +104,7 @@
             [points]="points"
             [pointsUsed]="pointsUsed"
             (newItemEvent)="setNewValue($event)"
+            [sumForActCertificate]="finalSum"
           >
           </app-ubs-order-certificate>
         </div>
@@ -158,6 +159,7 @@
             rows="7"
             placeholder="{{ 'order-details.any-details' | translate }}"
             [pattern]="commentPattern"
+            maxlength="256"
           >
           </textarea>
         </div>
