@@ -36,6 +36,8 @@
         id="amount"
         class="date"
         type="number"
+        step="1"
+        (input)="newFormat($event)"
         min="0"
         placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
       />

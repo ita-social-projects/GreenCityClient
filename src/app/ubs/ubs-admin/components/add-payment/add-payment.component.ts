@@ -298,4 +298,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       this.dialogRef.close();
     }
   }
+  public newFormat(event: any): void {
+    event.target.value = parseFloat(event.target.value).toFixed(2);
+  }
 }
