@@ -325,7 +325,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     const searchItem = language === this.languages.en ? 'district' : 'район';
     const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
     if (getDistrict) {
-      const currentDistrict = getDistrict.long_name;
+      const currentDistrict = getDistrict.long_name.replace('District', 'district');
       abstractControl.setValue(currentDistrict);
     }
   }
