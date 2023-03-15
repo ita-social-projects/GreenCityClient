@@ -113,27 +113,26 @@
                 'ubs-client-profile.get-notification-in' | translate
               }}</label>
               <div role="checkbox" class="checkbox-wrapper">
-                <mat-checkbox
-                  class="check"
-                  type="checkbox"
-                  [disabled]="!isEditing"
-                  [checked]="telegramNotification"
-                  (change)="checkedCheckbox($event)"
+                <div class="social-media">Telegram</div>
+                <app-ubs-switcher
+                  class="ubs-switcher"
+                  [isChecked]="userProfile.telegramIsNotify"
+                  [isEditing]="!isEditing"
                   value="id1"
                   id="telegramNotification"
-                  >Telegram</mat-checkbox
-                >
-                <mat-checkbox
-                  class="check"
-                  type="checkbox"
-                  [disabled]="!isEditing"
-                  [checked]="viberNotification"
-                  (change)="checkedCheckbox($event)"
-                  value="id1"
-                  id="viberNotification"
-                  >Viber</mat-checkbox
-                >
+                  (switchChanged)="onSwitchChanged('telegramNotification', $event)"
+                ></app-ubs-switcher>
+                <div class="social-media">Viber</div>
+                <app-ubs-switcher
+                  class="ubs-switcher"
+                  [isChecked]="userProfile.viberIsNotify"
+                  [isEditing]="!isEditing"
+                  value="id2"
+                  id="telegramNotification"
+                  (switchChanged)="onSwitchChanged('viberNotification', $event)"
+                ></app-ubs-switcher>
               </div>
+              <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>
             </div>
           </div>
 
@@ -305,6 +304,9 @@
                       </option>
                     </select>
                   </div>
+                </div>
+                <div>
+                  <mat-checkbox class="check" type="checkbox">{{ 'personal-info.default-address' | translate }}</mat-checkbox>
                 </div>
               </div>
             </div>

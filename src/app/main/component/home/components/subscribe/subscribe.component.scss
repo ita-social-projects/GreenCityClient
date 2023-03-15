@@ -66,8 +66,7 @@
   font-weight: normal;
   line-height: 1;
   letter-spacing: normal;
-  height: 48px;
-  margin-top: 24px;
+  height: 44px;
   padding-left: 20px;
   padding-right: 20px;
   width: 364px;
@@ -82,14 +81,15 @@
   position: absolute;
 }
 
-#form-wrapper button {
+.form-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 42px;
+}
+
+.btn {
   box-shadow: 0 13px 20px 0 rgba(118, 196, 125, 0.41);
-  font-size: 18px;
-  font-stretch: normal;
-  font-weight: 400;
-  letter-spacing: normal;
-  line-height: 1.78;
-  height: 48px;
   margin-left: 24px;
   width: 267px;
 }
@@ -141,15 +141,16 @@
   #form-wrapper h2 {
     line-height: 1;
   }
-
-  #form-wrapper button {
-    margin: 30px auto 0;
-  }
 }
 
 @media screen and (max-width: 680px) {
   #form-wrapper #validation-error {
     bottom: 125px;
+  }
+
+  .form-input {
+    flex-direction: column;
+    gap: 30px;
   }
 }
 
@@ -181,8 +182,8 @@
     width: 100%;
   }
 
-  #form-wrapper button {
-    margin: 30px auto 0;
+  .btn {
+    margin: 0;
     width: 100%;
   }
 }

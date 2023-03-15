@@ -1,5 +1,5 @@
 export enum HabitMark {
-    UNDONE = 'undone',
-    DONE = 'done',
-    AQUIRED = 'aquired'
+  UNDONE = 'undone',
+  DONE = 'done',
+  ACQUIRED = 'acquired'
 }

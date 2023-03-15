@@ -680,7 +680,8 @@
         "add-new-habit": "Add new habit!"
       },
       "header": {
-        "aquired": "Aquired by ",
+        "aсquired": "Acquired by ",
+        "users": " users",
         "difficulty": "Difficulty: "
       },
       "info": "Habit info",
@@ -739,6 +740,7 @@
         "btn-add": "Add habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
+        "habit-did-not-give-up": "We glad that you change your mind",
         "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list"
       },
@@ -1030,7 +1032,7 @@
     "event-type": "Event type",
     "open": "Open",
     "close": "Close",
-    "cansel": "Cansel",
+    "cancel": "Cancel",
     "preview": "Preview",
     "publish": "Publish",
     "invite": "Invite",

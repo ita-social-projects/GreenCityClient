@@ -419,7 +419,7 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should be a Cancel button on the page', () => {
-    const button = fixture.debugElement.query(By.css('.cancel'));
+    const button = fixture.debugElement.query(By.css('.tertiary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.cancel-button');
   });
 
@@ -430,12 +430,12 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should be a Preview button on the page', () => {
-    const button = fixture.debugElement.query(By.css('.preview'));
+    const button = fixture.debugElement.query(By.css('.secondary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.preview-button');
   });
 
   it('should be a Publish button on the page', () => {
-    const button = fixture.debugElement.query(By.css('.submit'));
+    const button = fixture.debugElement.query(By.css('.primary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.publish-button');
   });
 

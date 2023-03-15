@@ -15,6 +15,7 @@ import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/e
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ProfileService } from '../profile-service/profile.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -27,6 +28,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   numberOfHabitsOnView = 3;
   habitsAcquired: Array<HabitAssignInterface> = [];
   habitsAcquiredToView: Array<HabitAssignInterface> = [];
+  public selectedIndex = 0;
   public tabs = {
     habits: true,
     news: false,
@@ -54,13 +56,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     public habitAssignService: HabitAssignService,
     private store: Store,
     private eventService: EventsService,
-    public profileService: ProfileService
+    public profileService: ProfileService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
     this.getUserId();
-    this.dispatchNews(false);
 
     this.authorNews$.subscribe((val: IEcoNewsState) => {
       this.currentPage = val.authorNewsPage;
@@ -72,7 +74,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.initGetUserEvents();
+    this.dispatchNews(false);
+
     this.localStorageService.setCurentPage('previousPage', '/profile');
+
+    this.route.params.subscribe((params) => {
+      const tabId = +params?.tabId;
+
+      if (!isNaN(tabId)) {
+        this.selectedIndex = tabId;
+      }
+    });
   }
 
   initGetUserEvents(): void {

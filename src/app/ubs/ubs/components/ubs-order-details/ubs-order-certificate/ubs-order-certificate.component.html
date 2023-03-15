@@ -85,7 +85,7 @@
 
   <button
     type="button"
-    *ngIf="addCert && finalSum > 0 && !certificates.failed[certificates.failed.length - 1]"
+    *ngIf="addCert && sumForActCertificate > 0 && !certificates.failed[certificates.failed.length - 1]"
     class="addCertificateBtn"
     [hidden]="certificates.codes.length > 4"
     [disabled]="

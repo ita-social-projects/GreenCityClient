@@ -1,6 +1,6 @@
 <div class="main">
   <div class="menu">
-    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
       <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
         <div *ngIf="!loading; else spinner">
           <div *ngIf="habitAssignService.habitsInProgress.length || habitsAcquired.length">
@@ -11,7 +11,7 @@
                 </app-set-count>
               </p>
               <a [routerLink]="['/profile', userId, 'allhabits']">
-                <div id="create-button" class="secondary-global-button">
+                <div id="create-button" class="secondary-global-button s-btn">
                   <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
                 </div>
               </a>
@@ -53,7 +53,7 @@
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>
             <a [routerLink]="['/profile', userId, 'allhabits']">
-              <div id="create-button" class="secondary-global-button">
+              <div id="create-button" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
               </div>
             </a>
@@ -70,7 +70,7 @@
               </app-set-count>
             </p>
             <a [routerLink]="['/news/create-news']">
-              <div id="create-button" class="secondary-global-button">
+              <div id="create-button" class="secondary-global-button s-btn">
                 <span>{{ 'profile.dashboard.add-news' | translate }}</span>
               </div>
             </a>
@@ -117,7 +117,7 @@
           <div class="no-data" *ngIf="!this.eventsTotal">
             <app-no-data [title]="'profile.dashboard.no-events'" [text]="'profile.dashboard.no-events-advice'"> </app-no-data>
             <a [routerLink]="['/events']">
-              <div id="create-button" class="secondary-global-button">
+              <div id="create-button" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.join-event' | translate }}</span>
               </div>
             </a>

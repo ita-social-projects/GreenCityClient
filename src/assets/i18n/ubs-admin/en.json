@@ -13,6 +13,7 @@
     "email": "Email",
     "alternative-email": "Alternative Email",
     "phone": "Phone",
+    "social-media-mess": "*The chosen messenger must be installed on your device/PC. Otherwise, you will not be able to connect to the service.",
     "address": "Address",
     "city": "City",
     "region": "Region",
@@ -561,8 +562,8 @@
     "employee": "Employee",
     "edit": "Edit",
     "required-fields": "*Required fields",
-    "name": "Name*",
-    "surname": "Surname*",
+    "name": "First name*",
+    "surname": "Last name*",
     "phone-number": "Phone number*",
     "email": "Email",
     "position": "Position*",
@@ -980,7 +981,8 @@
       "labels": {
         "ua": "Ukrainian",
         "en": "English",
-        "text": "Notification text"
+        "text": "Notification text",
+        "select": "select"
       },
       "buttons": {
         "cancel": "Cancel",

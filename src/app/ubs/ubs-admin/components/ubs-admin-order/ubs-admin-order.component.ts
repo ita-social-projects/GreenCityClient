@@ -31,6 +31,7 @@ import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
 import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-admin-order-payment.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -196,7 +197,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           this.userInfo.recipientSurName,
           [Validators.required, Validators.maxLength(30), Validators.pattern(Patterns.NamePattern)]
         ],
-        recipientPhoneNumber: [this.userInfo.recipientPhoneNumber, [Validators.required, Validators.pattern(Patterns.adminPhone)]],
+        recipientPhoneNumber: [
+          this.userInfo.recipientPhoneNumber,
+          [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
+        ],
         recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
       }),
       addressExportDetailsDto: this.fb.group({

@@ -21,6 +21,7 @@ describe('HabitsWidgetComponent', () => {
     page: [
       {
         defaultDuration: 14,
+        amountAcquiredUsers: 1,
         habitTranslation: {
           description: 'test',
           habitItem: 'test',

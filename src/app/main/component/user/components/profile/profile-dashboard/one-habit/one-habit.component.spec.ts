@@ -121,12 +121,12 @@ describe('OneHabitComponent', () => {
   });
 
   describe('buildHabitDescription', () => {
-    it('makes expected calls if status is AQUIRED', () => {
+    it('makes expected calls if status is ACQUIRED', () => {
       component.currentDate = '2022-02-19';
       component.buildHabitDescription();
       expect(component.daysCounter).toBe(4);
       expect(component.showPhoto).toBeFalsy();
-      expect(component.habitMark).toBe('aquired');
+      expect(component.habitMark).toBe('acquired');
     });
 
     it('makes expected calls if status is INPROGRESS and a habit has the current date is equal to the registration date', () => {
@@ -156,7 +156,7 @@ describe('OneHabitComponent', () => {
   });
 
   describe('enroll', () => {
-    it('makes expected calls if status is AQUIRED', () => {
+    it('makes expected calls if status is ACQUIRED', () => {
       habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitAssign));
       const setGreenCircleInCalendarSpy = spyOn(component, 'setGreenCircleInCalendar');
       component.enroll();
@@ -164,10 +164,10 @@ describe('OneHabitComponent', () => {
       expect(setGreenCircleInCalendarSpy).toHaveBeenCalledWith(true);
       expect(component.daysCounter).toBe(4);
       expect(component.showPhoto).toBeFalsy();
-      expect(component.habitMark).toBe('aquired');
+      expect(component.habitMark).toBe('acquired');
     });
 
-    it('makes expected calls if status is not AQUIRED', () => {
+    it('makes expected calls if status is not ACQUIRED', () => {
       habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabit));
       const setGreenCircleInCalendarSpy = spyOn(component, 'setGreenCircleInCalendar');
       const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');

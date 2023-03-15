@@ -57,6 +57,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
 
+  public backRoute: string;
+  public routedFromProfile: boolean;
+
   constructor(
     public router: Router,
     private localStorageService: LocalStorageService,
@@ -92,6 +95,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     }
 
     this.dates = [{ ...DateObj }];
+
+    this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
+    this.backRoute = this.localStorageService.getPreviousPage();
   }
 
   get titleForm() {

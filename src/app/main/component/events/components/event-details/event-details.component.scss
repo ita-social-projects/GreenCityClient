@@ -46,43 +46,6 @@
           color: var(--quaternary-dark-grey);
         }
       }
-
-      .edit-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        // cursor: pointer;
-        @media (max-width: 575px) {
-          width: 100%;
-        }
-
-        .delete-button {
-          border: none;
-          padding: 8px 24px;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 24px;
-
-          @media (max-width: 575px) {
-            width: 100%;
-          }
-        }
-
-        .edit-button {
-          padding: 8px 24px;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 24px;
-          color: var(--primary-green);
-          border: 1px solid var(--primary-green);
-          border-radius: 5px;
-          cursor: pointer;
-
-          @media (max-width: 575px) {
-            width: 100%;
-          }
-        }
-      }
     }
 
     .event-header {
@@ -357,25 +320,6 @@
           display: flex;
           justify-content: flex-end;
           gap: 24px;
-          font-size: 18px;
-          line-height: 28px;
-          font-weight: 700;
-
-          .save-event {
-            padding: 8px 24px;
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            border-radius: 5px;
-            background-color: transparent;
-          }
-
-          .join-event {
-            padding: 8px 24px;
-            color: var(--primary-white);
-            background-color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            border-radius: 5px;
-          }
         }
 
         .event-tags-status {
@@ -464,5 +408,18 @@
         }
       }
     }
+  }
+}
+
+.edit-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+@media screen and (max-width: 575px) {
+  .edit-buttons,
+  .m-btn {
+    width: 100%;
   }
 }

@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Injectable()
 class TranslationServiceStub {
@@ -64,7 +65,7 @@ describe('EventsListItemModalComponent', () => {
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
-      imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot()]
+      imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot(), BrowserAnimationsModule]
     }).compileComponents();
   }));
 
