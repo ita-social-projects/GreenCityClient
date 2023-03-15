@@ -42,9 +42,10 @@
             <a href="https://nowaste.com.ua/sort-station/" class="link-to-site" target="_blank" rel="noopener">{{
               preparingContent[1] | translate
             }}</a>
+            {{ preparingContent[2] | translate }}
           </div>
         </div>
-        <div class="box-item" *ngFor="let box of preparingContent | slice: 2; let i = index">
+        <div class="box-item" *ngFor="let box of preparingContent | slice: 3; let i = index">
           <div class="box-number">0{{ i + 2 }}</div>
           <div class="box-text">{{ box | translate }}</div>
         </div>
@@ -75,10 +76,10 @@
               {{ bonuses[1] | translate }}
             </div>
             <div class="rule">
-              {{ bonuses[2] | translate }}
               <a href="https://nowaste.com.ua/nwu_services/courier/" class="link" target="_blank" rel="noopener">{{
-                bonuses[3] | translate
+                bonuses[2] | translate
               }}</a>
+              {{ bonuses[3] | translate }}
             </div>
           </div>
         </div>
