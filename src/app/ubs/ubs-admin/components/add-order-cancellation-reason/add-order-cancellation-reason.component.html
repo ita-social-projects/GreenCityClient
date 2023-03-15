@@ -41,10 +41,14 @@
         {{ 'order-cancel.btn.add' | translate }}
       </button>
     </div>
+    <span class="date">{{ 'order-cancel.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
+    <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
   </div>
   <!-- isHistory true -->
   <div *ngIf="isHistory">
-    <label class="title" id="addReason">{{ 'order-cancel.cancel-reason' | translate }} №1082</label>
+    <label class="title" id="addReason"
+      >{{ 'order-cancel.cancel-reason' | translate }} №{{ orderInfo.orderInfo.generalOrderInfo.id }}</label
+    >
     <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
       <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}" checked="true">
         {{ option.translation | translate }}</mat-radio-button
@@ -59,7 +63,9 @@
         rows="6"
       ></textarea>
     </form>
+    <span class="date"
+      >{{ 'order-cancel.date' | translate }}: {{ orderInfo.orderInfo.generalOrderInfo.dateFormed | date: 'dd.MM.y' }}
+    </span>
+    <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
   </div>
-  <span class="date">{{ 'order-cancel.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
-  <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
 </div>

@@ -29,6 +29,9 @@ describe('UbsAdminOrderStatusComponent', () => {
       return of({ action: false, reason: 'OTHER', comment: 'coment' });
     }
   };
+  const data = {
+    isHistory: false
+  };
 
   const FormGroupMock = new FormGroup({
     orderStatus: new FormControl(''),
@@ -118,7 +121,8 @@ describe('UbsAdminOrderStatusComponent', () => {
     matDialogMock.open.and.returnValue(dialogRefStubOther as any);
     component.openPopup();
     expect((component as any).dialog.open).toHaveBeenCalledWith(AddOrderCancellationReasonComponent, {
-      hasBackdrop: true
+      hasBackdrop: true,
+      data
     });
   });
 

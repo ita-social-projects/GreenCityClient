@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
+export interface UsersData {
+  name: string;
+  id: number;
+}
 @Component({
   selector: 'app-add-order-cancellation-reason',
   templateUrl: './add-order-cancellation-reason.component.html',
@@ -16,7 +20,8 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   public commentForm: FormGroup;
   public cancellationReason: string;
   public cancellationComment: string;
-  public isHistory = true;
+  orderInfo: any;
+  public isHistory: boolean;
   reasonList: any[] = [
     {
       value: 'DELIVERED_HIMSELF',
@@ -45,8 +50,12 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
-    public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>
-  ) {}
+    public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData
+  ) {
+    this.orderInfo = { ...data };
+    this.isHistory = this.orderInfo.isHistory;
+  }
 
   ngOnInit(): void {
     this.initForm();

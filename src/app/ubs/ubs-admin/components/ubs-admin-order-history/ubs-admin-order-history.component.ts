@@ -18,6 +18,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
+  public isHistory = true;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -38,7 +39,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   }
 
   cancellationReason() {
-    this.dialog.open(AddOrderCancellationReasonComponent, { hasBackdrop: true });
+    this.dialog.open(AddOrderCancellationReasonComponent, {
+      hasBackdrop: true,
+      data: { orderInfo: this.orderInfo, isHistory: this.isHistory }
+    });
   }
 
   getOrderHistory(orderId: number) {
