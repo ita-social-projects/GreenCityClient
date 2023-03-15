@@ -5,6 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { Location } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -30,7 +31,12 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     uk: 'uk'
   };
 
-  constructor(private localStorageService: LocalStorageService, private locations: Locations, private langService: LanguageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private locations: Locations,
+    private langService: LanguageService,
+    private convertCapLetterServ: ToFirstCapitalLetterService
+  ) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   get addressRegion() {
@@ -246,7 +252,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
     const searchItem = language === this.languages.en ? 'district' : 'район';
     const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
     if (getDistrict) {
-      const currentDistrict = getDistrict.long_name.replace('District', 'district');
+      const currentDistrict = this.convertCapLetterServ.convFirstLetterToCapital(getDistrict.long_name);
       abstractControl.setValue(currentDistrict);
       abstractControl.markAsDirty();
     }
