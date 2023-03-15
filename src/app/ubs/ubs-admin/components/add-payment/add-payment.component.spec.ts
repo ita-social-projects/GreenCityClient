@@ -209,4 +209,12 @@ describe('AddPaymentComponent', () => {
       expect(orderServiceMock.deleteManualPayment).toHaveBeenCalledWith(7);
     });
   });
+
+  it('newFormat should format the input value to have two decimal places', () => {
+    const sumPayment = {
+      target: { value: '123.4567' }
+    };
+    component.newFormat(sumPayment);
+    expect(sumPayment.target.value).toEqual('123.46');
+  });
 });
