@@ -37,18 +37,6 @@ export class ProfileService {
     return this.http.get<EditProfileModel>(`${mainUserLink}user/${this.userId}/profile/`);
   }
 
-  public getShoppingList(): Observable<ShoppingList[]> {
-    this.setUserId();
-
-    return this.http.get<ShoppingList[]>(
-      `${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?status=INPROGRESS`
-    );
-  }
-
-  public updateShoppingList(list: ShoppingList[]): any {
-    this.shoppingList.next(list);
-  }
-
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
     this.setUserId();
     return this.http.get<ProfileStatistics>(`${mainUserLink}user/${this.userId}/profileStatistics/`);
@@ -63,12 +51,29 @@ export class ProfileService {
     return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
   }
 
-  public toggleStatusOfShoppingItem(item): Observable<object[]> {
+  public getShoppingList(userId: number): Observable<ShoppingList[]> {
+    return this.http.get<ShoppingList[]>(`${mainLink}user/shopping-list-items/${userId}/get-all-inprogress?lang=en`);
+  }
+
+  public getCustomShoppingList(userId: number): Observable<ShoppingList[]> {
+    return this.http.get<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${userId}/custom-shopping-list-items`);
+  }
+
+  public updateStatusShopItem(item: ShoppingList): Observable<object[]> {
     const currentLang = this.languageService.getCurrentLanguage();
-    this.setUserId();
     const body = {};
-    const { status: prevStatus } = item;
-    const newStatus = prevStatus === 'DONE' ? 'INPROGRESS' : 'DONE';
+    const newStatus = item.status === 'DONE' ? 'INPROGRESS' : 'DONE';
     return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
+  }
+
+  public updateStatusCustomShopItem(item: ShoppingList): Observable<object[]> {
+    const currentLang = this.languageService.getCurrentLanguage();
+    const body = {};
+    const newStatus = item.status === 'DONE' ? 'INPROGRESS' : 'DONE';
+    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
+  }
+
+  public updateShoppingList(list: ShoppingList[]): any {
+    this.shoppingList.next(list);
   }
 }

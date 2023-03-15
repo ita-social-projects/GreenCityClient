@@ -15,7 +15,7 @@ import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/e
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ProfileService } from '../profile-service/profile.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-dashboard',

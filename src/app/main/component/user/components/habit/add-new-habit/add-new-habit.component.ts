@@ -202,7 +202,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateHabit() {
+  public updateHabit(): void {
     this.shoppingListService.saveCustomItems(this.habitId).subscribe(() => {
       this.router.navigate(['profile', this.userId]);
       this.snackBar.openSnackBar('habitUpdated');

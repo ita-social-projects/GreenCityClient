@@ -1,9 +1,11 @@
-import { finalize, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 
 import { ProfileService } from './../profile-service/profile.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -15,28 +17,28 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public profileSubscription: Subscription;
   private destroy$ = new Subject<void>();
   public toggle: boolean;
+  private userId: number;
 
-  constructor(private profileService: ProfileService) {}
-
-  get shoppingListLength(): number {
-    if (!this.shoppingList) {
-      return 0;
-    }
-    return this.shoppingList.length;
-  }
+  constructor(private profileService: ProfileService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    this.profileSubscription = this.profileService.shoppingList$
-      .pipe(
-        takeUntil(this.destroy$),
-        finalize(() => {
-          if (!this.shoppingList) {
-            this.shoppingList = [];
-          }
-        })
-      )
-      .subscribe((shoppingListArr: ShoppingList[]) => {
-        this.shoppingList = shoppingListArr;
+    this.userId = this.localStorageService.getUserId();
+    this.profileService
+      .getCustomShoppingList(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ShoppingList[]) => {
+        res.forEach((el) => (el.custom = true));
+        this.shoppingList = res;
+        this.getShoppingList();
+      });
+  }
+
+  private getShoppingList(): void {
+    this.profileService
+      .getShoppingList(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: ShoppingList[]) => {
+        this.shoppingList = [...this.shoppingList, ...res];
       });
   }
 
@@ -44,11 +46,26 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.toggle = !this.toggle;
   }
 
-  public toggleDone(item): void {
+  public toggleDone(item: ShoppingList): void {
+    item.custom ? this.updateStatusCustomItem(item) : this.updateStatusItem(item);
+  }
+
+  private updateStatusItem(item: ShoppingList): void {
     this.profileService
-      .toggleStatusOfShoppingItem(item)
+      .updateStatusShopItem(item)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((success) => this.updateDataOnUi(item));
+      .subscribe(() => {
+        this.updateDataOnUi(item);
+      });
+  }
+
+  private updateStatusCustomItem(item: ShoppingList): void {
+    this.profileService
+      .updateStatusCustomShopItem(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.updateDataOnUi(item);
+      });
   }
 
   private updateDataOnUi(item): any {

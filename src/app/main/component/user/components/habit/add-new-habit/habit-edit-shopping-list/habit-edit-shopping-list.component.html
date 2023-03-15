@@ -1,4 +1,4 @@
-<div class="title">{{ 'user.habit.shopping' | translate }}</div>
+<div class="title">{{ 'user.habit.to-do-list' | translate }}</div>
 <div *ngIf="!isEditing">
   <ul class="checkbox-list" [ngClass]="{ 'shopping-list-max': seeAllShopingList, 'shopping-list-min': !seeAllShopingList }">
     <li *ngFor="let item of list; index as i">
