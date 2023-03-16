@@ -5,6 +5,9 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IMaskModule } from 'angular-imask';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+
+const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
 describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let component: UbsAdminCertificateAddCertificatePopUpComponent;
@@ -15,7 +18,7 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
       imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],
-      providers: [FormBuilder, { provide: MatDialogRef, useValue: {} }],
+      providers: [FormBuilder, { provide: MatDialogRef, useValue: {} }, { provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

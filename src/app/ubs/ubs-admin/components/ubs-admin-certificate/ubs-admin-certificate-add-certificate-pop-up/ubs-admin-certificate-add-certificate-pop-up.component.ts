@@ -6,6 +6,8 @@ import { AdminCertificateService } from '../../../services/admin-certificate.ser
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ubs-admin-certificate-add-certificate-pop-up',
@@ -26,6 +28,8 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
     private fb: FormBuilder,
     private adminCertificateService: AdminCertificateService,
     public dialog: MatDialog,
+    private snackBar: MatSnackBarComponent,
+    private translate: TranslateService,
     public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>
   ) {}
 
@@ -36,7 +40,7 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   private initForm(): void {
     this.addCertificateForm = this.fb.group({
       code: new FormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
-      monthCount: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateMonthCount)]),
+      monthCount: new FormControl('', [Validators.required, Validators.pattern(Patterns.sertificateMonthCount), Validators.max(12)]),
       initialPointsValue: new FormControl('', [
         Validators.required,
         Validators.pattern(Patterns.sertificateInitialValue),
@@ -48,6 +52,9 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
 
   valueChangeMonthCount(newValue: string) {
     this.monthCountDisabled = /^0+$/.test(newValue);
+    if (Number(newValue) > 12) {
+      this.snackBar.openSnackBar('SertificateDuration');
+    }
   }
 
   valueChangePointsValue(newValue: string) {
