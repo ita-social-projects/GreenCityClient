@@ -33,12 +33,14 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   }
 
   showPopup() {
-    if (this.orderInfo.generalOrderInfo.orderStatus === 'CANCELED') {
-      this.cancellationReason();
+    const selection = getSelection();
+    const charClicked = (selection.focusNode as any).data;
+    if (charClicked.includes('Статус Замовлення - Скасовано')) {
+      this.openCancelReason();
     }
   }
 
-  cancellationReason() {
+  openCancelReason() {
     this.dialog.open(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
       data: { orderInfo: this.orderInfo, isHistory: this.isHistory }
