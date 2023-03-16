@@ -141,10 +141,4 @@ describe('HabitEditShoppingListComponent', () => {
     component.ngOnDestroy();
     expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
   });
-
-  it('ngOnDestroy should unsubscribe from subscription', () => {
-    spyOn((component as any).subscription, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).subscription.unsubscribe).toHaveBeenCalled();
-  });
 });

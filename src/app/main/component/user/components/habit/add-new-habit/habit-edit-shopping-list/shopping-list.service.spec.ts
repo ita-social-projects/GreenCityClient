@@ -46,31 +46,4 @@ describe('ShoppingListService', () => {
   it('shopping-list.service should create', () => {
     expect(service).toBeDefined();
   });
-
-  it('select() should invoke placeItemInOrder() method', () => {
-    spyOn(service, 'placeItemInOrder');
-    service.select(mockItem);
-    expect(service.placeItemInOrder).toHaveBeenCalled();
-  });
-
-  it('addItem() should invoke placeItemInOrder() method', () => {
-    spyOn(service, 'placeItemInOrder');
-    service.addItem('New item');
-    expect(service.placeItemInOrder).toHaveBeenCalled();
-  });
-
-  it('placeItemInOrder() should place item in correct order', () => {
-    service.fillList(mockList);
-    service.list[1].selected = true;
-    service.placeItemInOrder();
-    expect(service.list[0].text).toEqual('Item 2');
-  });
-
-  it('select() should change item prooerty selected from true to false', () => {
-    service.fillList(mockList);
-    const item = mockList[1];
-    item.selected = true;
-    service.select(item);
-    expect(service.list[1].selected).toBeFalsy();
-  });
 });

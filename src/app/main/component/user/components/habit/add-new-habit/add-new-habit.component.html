@@ -42,7 +42,7 @@
   <div class="divider"></div>
   <div class="container-habit-edit">
     <div class="habit-progress">
-      <app-habit-progress [habit]="habit" (progressValue)="getProgressValue($event)"></app-habit-progress>
+      <app-habit-progress [habit]="assignedHabit" (progressValue)="getProgressValue($event)"></app-habit-progress>
     </div>
     <div class="habit-info-right-block">
       <div class="duration-shoping">
@@ -62,7 +62,7 @@
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
-      <button class="tertiary-global-button btn" type="button" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="tertiary-global-button btn" type="button" (click)="goToProfile()">{{ 'user.habit.btn.cancel' | translate }}</button>
       <button class="primary-global-button btn" type="button" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>

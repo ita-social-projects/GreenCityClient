@@ -23,7 +23,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userId = this.localStorageService.getUserId();
     this.shopListService
-      .getCustomShoppingList(this.userId)
+      .getCustomShopList(this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ShoppingList[]) => {
         res.forEach((el) => (el.custom = true));
@@ -34,7 +34,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   private getShoppingList(): void {
     this.shopListService
-      .getShoppingList(this.userId)
+      .getShopList(this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ShoppingList[]) => {
         this.shoppingList = [...this.shoppingList, ...res];

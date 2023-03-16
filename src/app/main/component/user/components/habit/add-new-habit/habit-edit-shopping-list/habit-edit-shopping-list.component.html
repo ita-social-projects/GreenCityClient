@@ -2,7 +2,7 @@
 <div *ngIf="isAcquited && shopList">
   <ul class="checkbox-list" [ngClass]="{ 'shopping-list-max': seeAllShopingList, 'shopping-list-min': !seeAllShopingList }">
     <li *ngFor="let item of shopList; index as i">
-      <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
+      <label [ngClass]="{ selected: item.selected, done: item.status === 'DONE' }">
         <input type="checkbox" />
         <span class="checkmark"></span>
         <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" container="body">

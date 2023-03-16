@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './habit-edit-shopping-list.component.html',
   styleUrls: ['./habit-edit-shopping-list.component.scss']
 })
-export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
+export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() shopList: ShoppingList[] = [];
   @Input() isAcquited: boolean;
 
@@ -40,7 +40,8 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
     public shoppinglistService: ShoppingListService,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -49,6 +50,13 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       this.habitId = +params.habitId;
     });
     this.userId = this.localStorageService.getUserId();
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.shopList && this.shopList.length) {
+      this.shopList.forEach((el) => (el.selected = el.status === 'INPROGRESS'));
+    }
+    this.cdr.detectChanges();
   }
 
   get item(): AbstractControl {
@@ -88,7 +96,6 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
     this.shopList = [newItem, ...this.shopList];
     this.item.setValue('');
     this.placeItemInOrder();
-    // this.customList = this.customList.filter((elem) => elem.text !== item.text);
   }
 
   public selectItem(item: ShoppingList) {
@@ -116,7 +123,6 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
 
   public deleteItem(id: number): void {
     this.shopList = this.shopList.filter((elem) => elem.id !== id);
-    // this.customList = this.customList.filter((elem) => elem.text !== item.text);
     this.newList.emit(this.shopList);
   }
 

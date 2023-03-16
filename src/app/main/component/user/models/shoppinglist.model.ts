@@ -5,3 +5,12 @@ export interface ShoppingList {
   selected?: boolean;
   custom?: boolean;
 }
+
+export interface AllShoppingLists {
+  userShoppingListItemDto: ShoppingList[];
+  customShoppingListItemDto: ShoppingList[];
+}
+
+export interface CustomShoppingItem {
+  text: string;
+}
