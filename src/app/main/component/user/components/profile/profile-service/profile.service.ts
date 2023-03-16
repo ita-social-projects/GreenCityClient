@@ -50,30 +50,4 @@ export class ProfileService {
     this.setUserId();
     return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
   }
-
-  public getShoppingList(userId: number): Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(`${mainLink}user/shopping-list-items/${userId}/get-all-inprogress?lang=en`);
-  }
-
-  public getCustomShoppingList(userId: number): Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${userId}/custom-shopping-list-items`);
-  }
-
-  public updateStatusShopItem(item: ShoppingList): Observable<object[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    const body = {};
-    const newStatus = item.status === 'DONE' ? 'INPROGRESS' : 'DONE';
-    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
-  }
-
-  public updateStatusCustomShopItem(item: ShoppingList): Observable<object[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    const body = {};
-    const newStatus = item.status === 'DONE' ? 'INPROGRESS' : 'DONE';
-    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
-  }
-
-  public updateShoppingList(list: ShoppingList[]): any {
-    this.shoppingList.next(list);
-  }
 }

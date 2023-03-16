@@ -32,7 +32,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
-  public isAssigned = false;
+  public isAcquited = false;
   public canAcquire = false;
   private enoughToAcquire = 80;
   public setStatus = 'ACQUIRED';
@@ -55,10 +55,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
-    private shoppingListService: ShoppingListService,
+    private shopListService: ShoppingListService,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService,
-    private location: Location
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -88,6 +87,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
+    this.isAcquited = data.habitAssignStatus === 'ACQUIRED';
+    if (this.isEditing) {
+      this.getCustomShopItems();
+    }
   }
 
   public getDefaultItems(): void {
@@ -132,6 +135,16 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   public getList(list: ShoppingList[]): void {
     this.newList = list;
+  }
+
+  private getCustomShopItems(): void {
+    this.shopListService
+      .getHabitCustomShoppingList(this.userId, this.habitId)
+      .pipe(take(1))
+      .subscribe((res) => {
+        res.forEach((item) => (item.custom = true));
+        this.initialShoppingList = [...res, ...this.initialShoppingList];
+      });
   }
 
   public checkIfAssigned(): void {
@@ -203,7 +216,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   public updateHabit(): void {
-    this.shoppingListService.saveCustomItems(this.habitId).subscribe(() => {
+    this.shopListService.saveCustomItems(this.habitId, this.newList).subscribe(() => {
       this.router.navigate(['profile', this.userId]);
       this.snackBar.openSnackBar('habitUpdated');
     });

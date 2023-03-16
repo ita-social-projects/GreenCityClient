@@ -16,6 +16,7 @@ import { EventsService } from 'src/app/main/component/events/services/events.ser
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ProfileService } from '../profile-service/profile.service';
 import { ActivatedRoute } from '@angular/router';
+import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -56,7 +57,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     public habitAssignService: HabitAssignService,
     private store: Store,
     private eventService: EventsService,
-    public profileService: ProfileService,
+    public shoppingService: ShoppingListService,
     private route: ActivatedRoute
   ) {}
 
@@ -143,17 +144,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.setHabitsForView();
         this.loading = false;
-
-        let shoppingListArr: ShoppingList[] = [];
-
-        this.habitAssignService.habitsInProgress.forEach((habit) => {
-          shoppingListArr = [
-            ...shoppingListArr,
-            ...habit.habit.shoppingListItems.filter((item) => item.status === 'INPROGRESS' || item.status === 'DONE')
-          ];
-        });
-
-        this.profileService.updateShoppingList(shoppingListArr);
       });
   }
 

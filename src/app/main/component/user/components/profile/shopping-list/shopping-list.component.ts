@@ -2,7 +2,6 @@ import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 
-import { ProfileService } from './../profile-service/profile.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -19,11 +18,11 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public toggle: boolean;
   private userId: number;
 
-  constructor(private profileService: ProfileService, private localStorageService: LocalStorageService) {}
+  constructor(private localStorageService: LocalStorageService, private shopListService: ShoppingListService) {}
 
   ngOnInit() {
     this.userId = this.localStorageService.getUserId();
-    this.profileService
+    this.shopListService
       .getCustomShoppingList(this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ShoppingList[]) => {
@@ -34,7 +33,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   private getShoppingList(): void {
-    this.profileService
+    this.shopListService
       .getShoppingList(this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ShoppingList[]) => {
@@ -42,7 +41,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openCloseList() {
+  public openCloseList(): void {
     this.toggle = !this.toggle;
   }
 
@@ -51,7 +50,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   private updateStatusItem(item: ShoppingList): void {
-    this.profileService
+    this.shopListService
       .updateStatusShopItem(item)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -60,7 +59,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   private updateStatusCustomItem(item: ShoppingList): void {
-    this.profileService
+    this.shopListService
       .updateStatusCustomShopItem(item)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
