@@ -49,12 +49,12 @@ export class ShoppingListService {
     return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
   }
 
-  public updateHabitShopList(habitId: number, customShopList: ShoppingList[], standartShopList: ShoppingList[]): any {
+  public updateHabitShopList(habitId: number, customShopList: ShoppingList[], standartShopList: ShoppingList[]) {
     const currentLang = this.languageService.getCurrentLanguage();
     const body = {
       customShoppingListItemDto: customShopList,
       userShoppingListItemDto: standartShopList
     };
-    return this.http.put<any>(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`, body);
+    return this.http.put(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`, body);
   }
 }

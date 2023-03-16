@@ -62,25 +62,6 @@ describe('HabitEditShoppingListComponent', () => {
     expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
   });
 
-  // it('getListItems should invoke getDefaultItems method', () => {
-  //   const spy = spyOn(component, 'getDefaultItems');
-  //   (component as any).getListItems();
-  //   expect(spy).toHaveBeenCalled();
-  // });
-
-  // it('getListItems should invoke getAllShopItems() method', () => {
-  //   component.isEditing = true;
-  //   const spy = spyOn(component, 'getAllShopItems').and.returnValue();
-  //   (component as any).getListItems();
-  //   expect(spy).toHaveBeenCalled();
-  // });
-
-  // it('getAllShopItems should invoke shoppinglistService.fillList method', () => {
-  //   const spy = spyOn(component.shoppinglistService, 'fillList');
-  //   component.getAllShopItems();
-  //   expect(spy).toHaveBeenCalled();
-  // });
-
   it('truncateShoppingItemName should return shortened string', () => {
     const name = component.truncateShoppingItemName('Very long name of shopping list item');
     expect(name).toBe('Very long name of sh...');
@@ -108,33 +89,6 @@ describe('HabitEditShoppingListComponent', () => {
     component.openCloseList();
     expect(component.seeAllShopingList).toBe(true);
   });
-
-  // it('select() should change status of shopping list item', () => {
-  //   const item = mockItem;
-  //   component.shoppinglistService.fillList(mockList);
-  //   component.selectItem(item);
-  //   expect(component.shopList[0].selected).toBeTruthy();
-  // });
-
-  // it('fillList() should fill the list', () => {
-  //   component.shoppinglistService.fillList(mockList);
-  //   expect(component.shopList.length).toEqual(2);
-  // });
-
-  // it('add() should add new item to the list', () => {
-  //   component.shoppinglistService.fillList(mockList);
-  //   component.addItem('New Item');
-  //   expect(component.shopList.length).toEqual(3);
-  // });
-
-  // it('deleteItem() should delete item from the list', () => {
-  //   const item = {
-  //     text: 'Item 1'
-  //   };
-  //   component.shoppinglistService.fillList(mockList);
-  //   component.delete(item);
-  //   expect(component.shopList[0].text).not.toBe('Item 1');
-  // });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
     spyOn((component as any).langChangeSub, 'unsubscribe');

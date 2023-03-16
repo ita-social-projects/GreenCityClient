@@ -253,8 +253,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       this.shopListService
         .updateHabitShopList(this.habitId, this.customShopList, this.standartShopList)
         .pipe(take(1))
-        .subscribe((res) => {
-          console.log(res);
+        .subscribe(() => {
           this.goToProfile();
           this.snackBar.openSnackBar('habitUpdated');
         });
