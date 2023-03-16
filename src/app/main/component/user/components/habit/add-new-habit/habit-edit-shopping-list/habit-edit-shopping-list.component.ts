@@ -63,7 +63,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     return this.itemForm.get('item');
   }
 
-  public truncateShoppingItemName(name: string) {
+  public truncateShoppingItemName(name: string): string {
     if (name.length >= this.shoppingItemNameLimit) {
       return name.slice(0, this.shoppingItemNameLimit) + '...';
     }
@@ -98,7 +98,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.placeItemInOrder();
   }
 
-  public selectItem(item: ShoppingList) {
+  public selectItem(item: ShoppingList): void {
     this.shopList = this.shopList.map((element) => {
       if (element.text === item.text) {
         element.selected = !item.selected;
@@ -126,7 +126,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.newList.emit(this.shopList);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
     this.destroySub.complete();
