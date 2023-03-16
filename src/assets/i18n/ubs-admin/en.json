@@ -888,7 +888,8 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
+    "default-address": "Make it the default address"
   },
   "input-error": {
     "required": "This field is required",
