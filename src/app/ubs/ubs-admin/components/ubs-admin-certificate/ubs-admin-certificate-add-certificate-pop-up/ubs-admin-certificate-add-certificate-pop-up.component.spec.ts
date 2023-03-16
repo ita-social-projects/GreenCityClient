@@ -6,8 +6,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IMaskModule } from 'angular-imask';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+
+const translateServiceMock = jasmine.createSpyObj('translate', ['setDefaultLang']);
 
 describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let component: UbsAdminCertificateAddCertificatePopUpComponent;
@@ -17,8 +21,13 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
-      imports: [MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],
-      providers: [FormBuilder, { provide: MatDialogRef, useValue: {} }, { provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
+      imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],
+      providers: [
+        FormBuilder,
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: TranslateService, useValue: translateServiceMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
