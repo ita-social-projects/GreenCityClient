@@ -43,7 +43,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
       .getCustomShopList(this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ShoppingList[]) => {
-        this.shoppingList = res.filter((el) => el.status === 'INPROGRESS'); //will be removed after add new GET on backend
+        this.shoppingList = res.filter((el) => el.status === 'INPROGRESS');
+        //will be removed after add new GET controller on backend ^
         this.shoppingList.forEach((el) => (el.custom = true));
         this.getShoppingList();
       });
