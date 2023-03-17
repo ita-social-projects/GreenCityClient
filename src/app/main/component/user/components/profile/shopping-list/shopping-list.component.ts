@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subscription } from 'stompjs';
 
 @Component({
   selector: 'app-shopping-list',
@@ -16,6 +17,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public toggle: boolean;
   private userId: number;
   private currentLang: string;
+  public profileSubscription: Subscription;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(

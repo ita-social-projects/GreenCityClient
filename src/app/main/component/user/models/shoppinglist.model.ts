@@ -14,3 +14,10 @@ export interface AllShoppingLists {
 export interface CustomShoppingItem {
   text: string;
 }
+
+export interface HabitUpdateShopList {
+  habitId: number;
+  standartShopList: ShoppingList[];
+  customShopList: ShoppingList[];
+  lang: string;
+}

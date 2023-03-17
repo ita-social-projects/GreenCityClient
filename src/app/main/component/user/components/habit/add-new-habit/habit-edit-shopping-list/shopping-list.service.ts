@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AllShoppingLists, CustomShoppingItem, ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingListService {
-  constructor(private http: HttpClient, private languageService: LanguageService) {}
+  constructor(private http: HttpClient) {}
 
   public getShopList(userId: number, lang: string): Observable<ShoppingList[]> {
     return this.http.get<ShoppingList[]>(`${mainLink}user/shopping-list-items/${userId}/get-all-inprogress?lang=${lang}`);
@@ -23,9 +22,8 @@ export class ShoppingListService {
     return this.http.get<ShoppingList[]>(`${mainLink}habit/${habitId}/shopping-list`);
   }
 
-  public getHabitAllShopLists(habitId: number): Observable<AllShoppingLists> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    return this.http.get<AllShoppingLists>(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`);
+  public getHabitAllShopLists(habitId: number, lang: string): Observable<AllShoppingLists> {
+    return this.http.get<AllShoppingLists>(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${lang}`);
   }
 
   public addHabitCustomShopList(userId: number, habitId: number, customShopList: CustomShoppingItem[]): Observable<ShoppingList[]> {
@@ -48,12 +46,11 @@ export class ShoppingListService {
     );
   }
 
-  public updateHabitShopList(habitId: number, customShopList: ShoppingList[], standartShopList: ShoppingList[]) {
-    const currentLang = this.languageService.getCurrentLanguage();
+  public updateHabitShopList(habitShopList: HabitUpdateShopList) {
     const body = {
-      customShoppingListItemDto: customShopList,
-      userShoppingListItemDto: standartShopList
+      customShoppingListItemDto: habitShopList.customShopList,
+      userShoppingListItemDto: habitShopList.standartShopList
     };
-    return this.http.put(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${currentLang}`, body);
+    return this.http.put(`${mainLink}habit/assign/${habitShopList.habitId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
   }
 }

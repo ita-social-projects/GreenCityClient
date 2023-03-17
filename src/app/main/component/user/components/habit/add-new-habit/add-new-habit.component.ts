@@ -4,7 +4,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
-import { AllShoppingLists, CustomShoppingItem, ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,6 +27,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public recommendedHabits: HabitResponseInterface;
   public amountAcquired = 6;
   public userId: number;
+  private currentLang: string;
   public newDuration: number;
   public initialDuration: number;
   public initialShoppingList: ShoppingList[];
@@ -76,6 +77,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
+      this.currentLang = lang;
       this.bindLang(lang);
       this.checkIfAssigned();
     });
@@ -146,7 +148,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getCustomShopList(): void {
     this.shopListService
-      .getHabitAllShopLists(this.habitId)
+      .getHabitAllShopLists(this.habitId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
         res.customShoppingListItemDto.forEach((item) => (item.custom = true));
@@ -250,8 +252,9 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public updateHabit(): void {
     if (this.customShopList || this.standartShopList) {
       this.convertShopLists();
+      const habitShopListUpdate = this.setHabitListForUpdate();
       this.shopListService
-        .updateHabitShopList(this.habitId, this.customShopList, this.standartShopList)
+        .updateHabitShopList(habitShopListUpdate)
         .pipe(take(1))
         .subscribe(() => {
           this.goToProfile();
@@ -269,6 +272,16 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       delete el.custom;
       delete el.selected;
     });
+  }
+
+  private setHabitListForUpdate(): HabitUpdateShopList {
+    const shopListUpdate: HabitUpdateShopList = {
+      habitId: this.habitId,
+      customShopList: this.customShopList,
+      standartShopList: this.standartShopList,
+      lang: this.currentLang
+    };
+    return shopListUpdate;
   }
 
   public setHabitStatus(): void {
