@@ -246,10 +246,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.dispatchStore(true);
           this.store.dispatch(DeleteEcoEventAction({ id: this.event.id }));
           this.isPosting = true;
-          this.dispatchStore(false);
         }
       });
   }

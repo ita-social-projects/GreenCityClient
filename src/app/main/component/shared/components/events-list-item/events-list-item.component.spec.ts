@@ -226,6 +226,12 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('ngOnInit should be called', () => {
+      const spyOnInit = spyOn(component, 'ngOnInit');
+      component.ngOnInit();
+      expect(spyOnInit).toHaveBeenCalled();
+    });
+
     it('tags.length shoud be 3 in ngOnInit', () => {
       component.itemTags = [];
       component.ngOnInit();
