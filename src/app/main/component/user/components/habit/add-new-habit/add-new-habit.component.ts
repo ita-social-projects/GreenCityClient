@@ -33,6 +33,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public initialShoppingList: ShoppingList[];
   public newList: ShoppingList[];
   public isAssigned = false;
+  public isAcquited = false;
   public canAcquire = false;
   private enoughToAcquire = 80;
   public setStatus = 'ACQUIRED';
@@ -88,6 +89,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.getStars(data.complexity);
     this.initialDuration = data.defaultDuration;
     this.initialShoppingList = data.shoppingListItems;
+    this.isAcquited = data.habitAssignStatus === 'ACQUIRED';
   }
 
   public getDefaultItems(): void {
