@@ -1,11 +1,10 @@
 import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-shopping-list',
@@ -14,11 +13,10 @@ import { Language } from 'src/app/main/i18n/Language';
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   public shoppingList: ShoppingList[] = [];
-  public profileSubscription: Subscription;
-  private destroy$ = new Subject<void>();
   public toggle: boolean;
   private userId: number;
   private currentLang: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -92,7 +90,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }
