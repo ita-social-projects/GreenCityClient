@@ -88,12 +88,6 @@ describe('MatSnackBarComponent', () => {
     });
 
     it('should call the function to get type of snackBar', () => {
-      const spy = spyOn(component.snackType, 'SertificateDuration').and.callThrough();
-      component.snackType[`SertificateDuration`]();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'existAddress').and.callThrough();
       component.snackType[`existAddress`]();
       expect(spy).toHaveBeenCalled();

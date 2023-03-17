@@ -1,22 +1,57 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IMaskModule } from 'angular-imask';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { BehaviorSubject, of, Subject } from 'rxjs';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from 'src/app/main/i18n/Language';
 
-const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-MatSnackBarMock.openSnackBar = (type: string) => {};
-
-const translateServiceMock = jasmine.createSpyObj('translate', ['setDefaultLang']);
+@Injectable()
+class TranslationServiceStub {
+  public onLangChange = new EventEmitter<any>();
+  public onTranslationChange = new EventEmitter<any>();
+  public onDefaultLangChange = new EventEmitter<any>();
+  public addLangs(langs: string[]) {}
+  public getLangs() {
+    return 'en-us';
+  }
+  public getBrowserLang() {
+    return '';
+  }
+  public getBrowserCultureLang() {
+    return '';
+  }
+  public use(lang: string) {
+    return '';
+  }
+  public get(key: any): any {
+    return of(key);
+  }
+  public setDefaultLang() {
+    return true;
+  }
+}
 
 describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   let component: UbsAdminCertificateAddCertificatePopUpComponent;
   let fixture: ComponentFixture<UbsAdminCertificateAddCertificatePopUpComponent>;
   let httpMock: HttpTestingController;
+  const mockLang = 'ua';
+
+  let translateServiceMock: TranslateService;
+  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of();
+  translateServiceMock.get = () => of(true);
+  let localStorageServiceMock: LocalStorageService;
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.languageSubject = new Subject();
+  localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,8 +60,8 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
       providers: [
         FormBuilder,
         { provide: MatDialogRef, useValue: {} },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: TranslateService, useValue: translateServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: TranslateService, useClass: TranslationServiceStub }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -45,10 +80,22 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('ngOnInit should be called', () => {
+    const spyOnInit = spyOn(component, 'ngOnInit');
+    component.ngOnInit();
+    expect(spyOnInit).toHaveBeenCalled();
+  });
+
   it(`initForm should be called in ngOnInit`, () => {
     spyOn(component as any, 'initForm');
     component.ngOnInit();
     expect(component.initForm).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should called subscribeToLangChange method one time', () => {
+    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
   });
 
   it('component should initialize from with correct parameters', () => {
@@ -96,5 +143,41 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     const newValue = '10';
     component.valueChangePointsValue(newValue);
     expect(component.pointsValueDisabled).toBeFalsy();
+  });
+
+  afterEach(() => {
+    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
+    fixture.destroy();
+  });
+
+  it('method getErrorMessage should return correct error message key - required', () => {
+    const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
+    const result = component.getErrorMessage(formControlMock);
+
+    expect(result).toBe('add-new-certificate.field-not-empty');
+  });
+
+  it('method getErrorMessage Key should return correct error message key - pattern', () => {
+    const formControlMock = { errors: { pattern: true } } as unknown as AbstractControl;
+    const nameMock = 'code';
+    const result = component.getErrorMessage(formControlMock, nameMock);
+
+    expect(result).toBe('add-new-certificate.сertificate-field-format');
+  });
+
+  it('method getErrorMessage Key should return correct error message key - max', () => {
+    const formControlMock = { errors: { max: true } } as unknown as AbstractControl;
+    const nameMock = 'monthCount';
+    const result = component.getErrorMessage(formControlMock, nameMock);
+
+    expect(result).toBe('add-new-certificate.duration-field-format');
+  });
+
+  it('method getErrorMessage Key should return correct error message key - min', () => {
+    const formControlMock = { errors: { min: true } } as unknown as AbstractControl;
+    const nameMock = 'monthCount';
+    const result = component.getErrorMessage(formControlMock, nameMock);
+
+    expect(result).toBe('add-new-certificate.duration-field-format');
   });
 });

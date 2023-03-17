@@ -123,10 +123,6 @@ export class MatSnackBarComponent {
     CartValidation: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.cartificate-not-valid');
-    },
-    SertificateDuration: () => {
-      this.className = 'error-snackbar';
-      this.getSnackBarMessage('snack-bar.error.certificate-duration');
     }
   };
 
