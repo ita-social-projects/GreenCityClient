@@ -1,19 +1,21 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { Location } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { IOrderInfo } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
   templateUrl: './ubs-admin-address-details.component.html',
   styleUrls: ['./ubs-admin-address-details.component.scss']
 })
-export class UbsAdminAddressDetailsComponent implements OnDestroy {
+export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() addressComment: string;
   @Input() addressExportDetailsDto: FormGroup;
+  @Input() orderInfo: IOrderInfo;
   pageOpen: boolean;
   autocompleteService: google.maps.places.AutocompleteService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
@@ -24,6 +26,7 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
   districts: Location[];
   districtsKyiv: Location[];
   isDistrict: boolean;
+  isStatus = false;
 
   languages = {
     en: 'en',
@@ -32,6 +35,10 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
 
   constructor(private localStorageService: LocalStorageService, private locations: Locations, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  ngOnInit(): void {
+    this.onDefineOrderStatus();
+  }
 
   get addressRegion() {
     return this.addressExportDetailsDto.get('addressRegion');
@@ -82,6 +89,12 @@ export class UbsAdminAddressDetailsComponent implements OnDestroy {
 
     if (this.pageOpen) {
       this.loadData();
+    }
+  }
+
+  public onDefineOrderStatus() {
+    if (this.orderInfo?.generalOrderInfo.orderStatus === 'CANCELED') {
+      this.isStatus = true;
     }
   }
 
