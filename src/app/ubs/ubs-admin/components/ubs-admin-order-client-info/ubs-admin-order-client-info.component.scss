@@ -107,6 +107,10 @@ input {
   padding: 10px;
 }
 
+.disables-input {
+  pointer-events: none;
+}
+
 .ng-invalid:not(div) {
   border: 1px solid var(--error-ligh-red);
 }

@@ -47,7 +47,12 @@
                 {{ 'customer-info.recipient.surname-label' | translate }}
               </label>
               <div>
-                <input class="name-input form-control" type="text" id="recipient-name" formControlName="recipientName" />
+                <input
+                  [ngClass]="{ 'name-input': true, 'form-control': true, 'disables-input': isStatus }"
+                  type="text"
+                  id="recipient-name"
+                  formControlName="recipientName"
+                />
                 <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
                   <div class="error-message">
                     {{ getErrorMessage(userInfoDto.controls['recipientName']) | translate }}
@@ -55,7 +60,12 @@
                 </div>
               </div>
               <div>
-                <input class="name-input form-control" type="text" id="recipient-surname" formControlName="recipientSurName" />
+                <input
+                  [ngClass]="{ 'name-input': true, 'form-control': true, 'disables-input': isStatus }"
+                  type="text"
+                  id="recipient-surname"
+                  formControlName="recipientSurName"
+                />
                 <div *ngIf="userInfoDto.controls['recipientSurName'].invalid && userInfoDto.controls['recipientSurName'].touched">
                   <div class="error-message">
                     {{ getErrorMessage(userInfoDto.controls['recipientSurName']) | translate }}
@@ -69,7 +79,7 @@
               {{ 'customer-info.recipient.tel-label' | translate }}
             </label>
             <input
-              class="form-control"
+              [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
@@ -88,7 +98,7 @@
               {{ 'customer-info.recipient.email-label' | translate }}
             </label>
             <input
-              class="form-control"
+              [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
