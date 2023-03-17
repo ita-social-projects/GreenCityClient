@@ -73,11 +73,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
+    this.currentLang = lang;
   }
 
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
-      this.currentLang = lang;
       this.bindLang(lang);
       this.checkIfAssigned();
     });
