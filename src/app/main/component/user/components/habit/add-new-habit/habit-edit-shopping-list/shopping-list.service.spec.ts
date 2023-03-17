@@ -6,7 +6,7 @@ import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '@environment/environment.js';
 
-fdescribe('ShoppingListService', () => {
+describe('ShoppingListService', () => {
   let service: ShoppingListService;
   let httpMock: HttpTestingController;
 
