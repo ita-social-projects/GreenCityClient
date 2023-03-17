@@ -53,9 +53,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
+    public shoppingService: ShoppingListService,
     private store: Store,
     private eventService: EventsService,
-    public shoppingService: ShoppingListService,
     private route: ActivatedRoute
   ) {}
 
