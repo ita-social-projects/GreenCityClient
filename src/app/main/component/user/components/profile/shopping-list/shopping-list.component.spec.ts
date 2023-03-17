@@ -37,6 +37,19 @@ describe('ShoppingListComponent', () => {
     }
   ];
 
+  const mockAllShopList: ShoppingList[] = [
+    {
+      id: 1,
+      status: 'INPROGRESS',
+      text: 'some to-do'
+    },
+    {
+      id: 2,
+      status: 'DONE',
+      text: 'some to-do 2'
+    }
+  ];
+
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'languageBehaviourSubject',
     'getCurrentLanguage',
@@ -96,6 +109,11 @@ describe('ShoppingListComponent', () => {
     const spy = spyOn(component as any, 'getShoppingList');
     (component as any).getCustomShopList();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set shop item with status INPROGRESS after getCustomShopList', () => {
+    component.shoppingList = mockAllShopList.filter((el) => el.status === 'INPROGRESS');
+    expect(component.shoppingList).toEqual(mockShopList);
   });
 
   it('should set custom true after getCustomShopList', () => {

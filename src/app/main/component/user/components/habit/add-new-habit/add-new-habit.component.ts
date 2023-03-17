@@ -89,7 +89,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((data) => {
         this.initHabitData(data);
-        this.initialShoppingList = data.shoppingListItems;
       });
   }
 
