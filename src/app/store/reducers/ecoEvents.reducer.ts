@@ -56,7 +56,7 @@ export const EcoEventsReducer = createReducer(
     }
   ),
   on(DeleteEcoEventSuccessAction, (state, action) => {
-    let prevList = state.eventsList;
+    const prevList = state.eventsList;
     const newState = prevList.filter((event) => event.id !== action.id);
     return {
       ...state,
