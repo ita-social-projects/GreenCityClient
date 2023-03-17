@@ -84,10 +84,63 @@ describe('HabitEditShoppingListComponent', () => {
     expect(result).not.toBe(name);
   });
 
-  it('openCloseList should change toggle status', () => {
+  it('openCloseList should change toggle status to false', () => {
+    component.seeAllShopingList = true;
+    component.openCloseList();
+    expect(component.seeAllShopingList).toBeFalsy();
+  });
+
+  it('openCloseList should change toggle status to true', () => {
     component.seeAllShopingList = false;
     component.openCloseList();
-    expect(component.seeAllShopingList).toBe(true);
+    expect(component.seeAllShopingList).toBeTruthy();
+  });
+
+  it('should call placeItemInOrder on additem', () => {
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    component.addItem('test');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should add item to shop list on additem', () => {
+    const newList = [
+      {
+        id: null,
+        status: 'ACTIVE',
+        text: 'test',
+        selected: false,
+        custom: true
+      }
+    ];
+    component.shopList = [];
+    component.addItem('test');
+    expect(component.shopList).toEqual(newList);
+  });
+
+  it('should setValue empty string on additem', () => {
+    component.item.setValue('test');
+    component.addItem('test');
+    expect(component.item.value).toBe('');
+  });
+
+  it('should call placeItemInOrder on selectItem', () => {
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    component.selectItem(mockItem);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('shoulddelete item from shopList on deleteItem', () => {
+    const newList = [
+      {
+        id: 2,
+        status: 'ACTIVE',
+        text: 'Item 2',
+        selected: false
+      }
+    ];
+    component.shopList = mockList;
+    component.deleteItem(1);
+    expect(component.shopList).toEqual(newList);
   });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
