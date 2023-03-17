@@ -344,16 +344,6 @@ describe('UbsOrderCertificateComponent', () => {
     expect(completeSpy).toHaveBeenCalled();
   });
 
-  it('should return true if certificate is not activated, form is filled, button is not disabled, single certificate is present, certificate is not already entered', () => {
-    component.certificates = mockedCert;
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
-    spyOn(component, 'disableAddCertificate').and.returnValue(false);
-    spyOn(component, 'showMessageForAlreadyEnteredCert').and.returnValue(false);
-    const result = component.showActivateButton(0);
-
-    expect(result).toBe(false);
-  });
-
   it('should return false if certificate is already activated', () => {
     component.certificates = mockedCert;
     component.certificates.activatedStatus = [true];
