@@ -13,14 +13,11 @@
     <div *ngIf="shoppingList.length">
       <div class="shopping-list-content">
         <ul class="shopping-list" [ngClass]="{ 'shopping-list-max': toggle, 'shopping-list-min': !toggle }">
-          <li
-            [ngClass]="shoppingItem.status === 'DONE' || checkbox.checked ? 'item-striked' : 'item'"
-            *ngFor="let shoppingItem of shoppingList"
-          >
+          <li [ngClass]="checkbox.checked ? 'item-striked' : 'item'" *ngFor="let shoppingItem of shoppingList">
             <span ngbPopover="{{ shoppingItem.text }}" triggers="mouseenter:mouseleave" placement="right">{{ shoppingItem.text }}</span>
             <mat-checkbox
               #checkbox
-              [checked]="shoppingItem.status === 'DONE'"
+              [(ngModel)]="shoppingItem.selected"
               class="checkbox"
               color="primary"
               (click)="toggleDone(shoppingItem)"

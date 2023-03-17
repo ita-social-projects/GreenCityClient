@@ -5,6 +5,7 @@ import { Subscription, Subject } from 'rxjs';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-shopping-list',
@@ -17,6 +18,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public toggle: boolean;
   private userId: number;
+  private currentLang: string;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -24,8 +26,19 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userId = this.localStorageService.getUserId();
+    this.subscribeToLangChange();
+  }
+
+  private subscribeToLangChange(): void {
+    this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.getCustomShopList();
+    });
+  }
+
+  private getCustomShopList(): void {
     this.shopListService
       .getCustomShopList(this.userId)
       .pipe(takeUntil(this.destroy$))
@@ -38,10 +51,11 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   private getShoppingList(): void {
     this.shopListService
-      .getShopList(this.userId)
+      .getShopList(this.userId, this.currentLang)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: ShoppingList[]) => {
         this.shoppingList = [...this.shoppingList, ...res];
+        this.shoppingList = this.shoppingList.map((el) => (el.status === 'DONE' ? { ...el, selected: true } : el));
       });
   }
 
@@ -56,16 +70,16 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   private updateStatusItem(item: ShoppingList): void {
     this.shopListService
-      .updateStatusShopItem(item)
+      .updateStandardShopItemStatus(item, this.currentLang)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
+      .subscribe(() => {
         this.updateShopList(item);
       });
   }
 
   private updateStatusCustomItem(item: ShoppingList): void {
     this.shopListService
-      .updateStatusCustomShopItem(this.userId, item)
+      .updateCustomShopItemStatus(this.userId, item)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.updateShopList(item);

@@ -11,8 +11,8 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 export class ShoppingListService {
   constructor(private http: HttpClient, private languageService: LanguageService) {}
 
-  public getShopList(userId: number): Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(`${mainLink}user/shopping-list-items/${userId}/get-all-inprogress?lang=en`);
+  public getShopList(userId: number, lang: string): Observable<ShoppingList[]> {
+    return this.http.get<ShoppingList[]>(`${mainLink}user/shopping-list-items/${userId}/get-all-inprogress?lang=${lang}`);
   }
 
   public getCustomShopList(userId: number): Observable<ShoppingList[]> {
@@ -35,16 +35,12 @@ export class ShoppingListService {
     return this.http.post<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, body);
   }
 
-  public updateStatusShopItem(item: ShoppingList): Observable<ShoppingList[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
+  public updateStandardShopItemStatus(item: ShoppingList, lang: string): Observable<ShoppingList[]> {
     const body = {};
-    return this.http.patch<ShoppingList[]>(
-      `${mainLink}user/shopping-list-items/${item.id}/status/${item.status}?lang=${currentLang}`,
-      body
-    );
+    return this.http.patch<ShoppingList[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${item.status}?lang=${lang}`, body);
   }
 
-  public updateStatusCustomShopItem(userId: number, item: ShoppingList): Observable<ShoppingList> {
+  public updateCustomShopItemStatus(userId: number, item: ShoppingList): Observable<ShoppingList> {
     const body = {};
     return this.http.patch<ShoppingList>(
       `${mainLink}custom/shopping-list-items/${userId}/custom-shopping-list-items?itemId=${item.id}&status=${item.status}`,
