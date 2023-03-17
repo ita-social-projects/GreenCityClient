@@ -6,7 +6,6 @@ import { AdminCertificateService } from '../../../services/admin-certificate.ser
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
@@ -91,16 +90,13 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   }
 
   getErrorMessage(abstractControl: AbstractControl, name?: string): string {
-    const errorPattern = !!abstractControl.errors.pattern;
-    const errorMax = !!abstractControl.errors.max;
-    const errorMin = !!abstractControl.errors.min;
     const controlInvalid = !!abstractControl.errors.pattern || !!abstractControl.errors.max || !!abstractControl.errors.min;
 
     if (abstractControl.errors.required) {
       return 'add-new-certificate.field-not-empty';
     }
 
-    if (errorPattern && name === 'code') {
+    if (!!abstractControl.errors.pattern && name === 'code') {
       return 'add-new-certificate.сertificate-field-format';
     }
 

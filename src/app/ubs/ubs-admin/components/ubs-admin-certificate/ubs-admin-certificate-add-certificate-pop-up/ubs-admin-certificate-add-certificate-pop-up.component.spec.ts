@@ -180,4 +180,20 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
 
     expect(result).toBe('add-new-certificate.duration-field-format');
   });
+
+  it('method getErrorMessage Key should return correct error message key - min', () => {
+    const formControlMock = { errors: { min: true } } as unknown as AbstractControl;
+    const nameMock = 'initialPointsValue';
+    const result = component.getErrorMessage(formControlMock, nameMock);
+
+    expect(result).toBe('add-new-certificate.discount-field-format');
+  });
+
+  it('method getErrorMessage Key should return correct error message key - min', () => {
+    const formControlMock = { errors: { max: true } } as unknown as AbstractControl;
+    const nameMock = 'initialPointsValue';
+    const result = component.getErrorMessage(formControlMock, nameMock);
+
+    expect(result).toBe('add-new-certificate.discount-field-format');
+  });
 });
