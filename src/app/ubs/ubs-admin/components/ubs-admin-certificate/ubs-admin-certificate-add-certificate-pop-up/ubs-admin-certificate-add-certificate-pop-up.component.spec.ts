@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -7,9 +7,9 @@ import { IMaskModule } from 'angular-imask';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
 
 const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+MatSnackBarMock.openSnackBar = (type: string) => {};
 
 const translateServiceMock = jasmine.createSpyObj('translate', ['setDefaultLang']);
 
@@ -37,10 +37,25 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
+    component.monthCountDisabled = false;
+    component.pointsValueDisabled = false;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it(`initForm should be called in ngOnInit`, () => {
+    spyOn(component as any, 'initForm');
+    component.ngOnInit();
+    expect(component.initForm).toHaveBeenCalled();
+  });
+
+  it('component should initialize from with correct parameters', () => {
+    component.initForm();
+    expect(component.addCertificateForm.get('code').value).toEqual('');
+    expect(component.addCertificateForm.get('monthCount').value).toEqual('');
+    expect(component.addCertificateForm.get('initialPointsValue').value).toEqual('');
   });
 
   it('valueChangeMonthCount should be call', () => {
