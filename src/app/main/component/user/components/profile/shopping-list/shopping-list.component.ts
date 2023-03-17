@@ -1,5 +1,5 @@
 import { takeUntil } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
@@ -18,7 +18,11 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   public toggle: boolean;
   private userId: number;
 
-  constructor(private localStorageService: LocalStorageService, private shopListService: ShoppingListService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private shopListService: ShoppingListService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.userId = this.localStorageService.getUserId();
@@ -46,6 +50,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   public toggleDone(item: ShoppingList): void {
+    item.status = item.status === 'INPROGRESS' ? 'DONE' : 'INPROGRESS';
     item.custom ? this.updateStatusCustomItem(item) : this.updateStatusItem(item);
   }
 
@@ -53,25 +58,23 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.shopListService
       .updateStatusShopItem(item)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.updateDataOnUi(item);
+      .subscribe((res) => {
+        this.updateShopList(item);
       });
   }
 
   private updateStatusCustomItem(item: ShoppingList): void {
     this.shopListService
-      .updateStatusCustomShopItem(item)
+      .updateStatusCustomShopItem(this.userId, item)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.updateDataOnUi(item);
+        this.updateShopList(item);
       });
   }
 
-  private updateDataOnUi(item): any {
-    const { status: prevItemStatus } = item;
-    const newItemStatus = prevItemStatus === 'ACTIVE' ? 'DONE' : 'ACTIVE';
-    item.status = newItemStatus;
-    return item.status;
+  private updateShopList(item: ShoppingList): void {
+    this.shoppingList = this.shoppingList.map((el) => (el.id === item.id ? { ...el, status: item.status } : el));
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {

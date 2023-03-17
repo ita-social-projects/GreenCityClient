@@ -35,18 +35,21 @@ export class ShoppingListService {
     return this.http.post<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, body);
   }
 
-  public updateStatusShopItem(item: ShoppingList): Observable<object[]> {
+  public updateStatusShopItem(item: ShoppingList): Observable<ShoppingList[]> {
     const currentLang = this.languageService.getCurrentLanguage();
     const body = {};
-    const newStatus = item.status === 'DONE' ? 'INPROGRESS' : 'DONE';
-    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
+    return this.http.patch<ShoppingList[]>(
+      `${mainLink}user/shopping-list-items/${item.id}/status/${item.status}?lang=${currentLang}`,
+      body
+    );
   }
 
-  public updateStatusCustomShopItem(item: ShoppingList): Observable<object[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
+  public updateStatusCustomShopItem(userId: number, item: ShoppingList): Observable<ShoppingList> {
     const body = {};
-    const newStatus = item.status === 'DONE' ? 'INPROGRESS' : 'DONE';
-    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
+    return this.http.patch<ShoppingList>(
+      `${mainLink}custom/shopping-list-items/${userId}/custom-shopping-list-items?itemId=${item.id}&status=${item.status}`,
+      body
+    );
   }
 
   public updateHabitShopList(habitId: number, customShopList: ShoppingList[], standartShopList: ShoppingList[]) {
