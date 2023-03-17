@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
-import { IUserInfo } from '../../models/ubs-admin.interface';
+import { IUserInfo, IOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -19,12 +19,15 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
 
   @Input() orderId: number;
 
+  @Input() orderInfo: IOrderInfo;
+
   phoneMask = Masks.phoneMask;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
   public totalUserViolations: number;
+  isStatus = false;
 
   constructor(private dialog: MatDialog) {}
 
@@ -35,6 +38,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
+    this.onDefineOrderStatus();
   }
 
   openDetails(): void {
@@ -44,6 +48,12 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   public setViolationData(): void {
     this.totalUserViolations = this.userInfo.totalUserViolations;
     this.userViolationForCurrentOrder = this.userInfo.userViolationForCurrentOrder;
+  }
+
+  public onDefineOrderStatus() {
+    if (this.orderInfo?.generalOrderInfo.orderStatus === 'CANCELED') {
+      this.isStatus = true;
+    }
   }
 
   openModal(viewMode: boolean): void {

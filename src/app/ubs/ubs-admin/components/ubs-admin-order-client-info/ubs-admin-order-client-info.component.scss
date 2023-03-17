@@ -111,6 +111,10 @@ input {
   border: 1px solid var(--error-ligh-red);
 }
 
+.disables-input {
+  pointer-events: none;
+}
+
 .error-message {
   font-size: 10px;
   line-height: 12px;

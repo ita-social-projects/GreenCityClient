@@ -69,6 +69,12 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     expect(component.userViolationForCurrentOrder).toBe(2);
   });
 
+  it('method onDefineOrderStatus', () => {
+    const spy = spyOn(component, 'onDefineOrderStatus');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('method getErrorMessageKey should return correct error message key - required', () => {
     const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
     const result = component.getErrorMessage(formControlMock);
