@@ -411,6 +411,12 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
+  it('method onDefineOrderStatus', () => {
+    const spy = spyOn(component, 'onDefineOrderStatus');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
     component.addressRegionEng.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
