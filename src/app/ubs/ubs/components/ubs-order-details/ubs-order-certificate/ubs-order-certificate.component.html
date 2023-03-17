@@ -51,9 +51,14 @@
         {{ 'order-details.failed-certificate' | translate }}
       </small>
       <small class="text-danger" *ngIf="showMessageForAlreadyUsedCert(i)">
-        {{ 'order-details.already-used' | translate: { certDate: certificates.dateOfUses[i] } }}
+        {{
+          'order-details.already-used'
+            | translate
+              : {
+                  certDate: certificates.dateOfUses[i]
+                }
+        }}
       </small>
-
       <small class="text-danger" *ngIf="showMessageForAlreadyEnteredCert(i)">
         {{
           'order-details.already-used'
@@ -63,7 +68,6 @@
                 }
         }}
       </small>
-
       <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
         {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
       </small>
@@ -97,7 +101,14 @@
           !certificates.failed[i]
         "
       >
-        {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certificates.expirationDates[i] } }}
+        {{
+          'order-details.activated'
+            | translate
+              : {
+                  certificateSum: certificateSum,
+                  certDate: certificates.expirationDates[i]
+                }
+        }}
       </small>
     </div>
   </div>
