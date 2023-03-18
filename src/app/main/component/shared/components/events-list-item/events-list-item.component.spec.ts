@@ -120,19 +120,6 @@ describe('EventsListItemComponent', () => {
     }
   ];
 
-  const buttonActionString = {
-    edit: 'event.btn-edit',
-    delete: 'event.btn-delete',
-    rate: 'event.btn-rate',
-    cancel: 'event.btn-cancel',
-    join: 'event.btn-join'
-  };
-
-  const buttonStyleString = {
-    secondary: 'secondary-global-button',
-    primary: 'primary-global-button'
-  };
-
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
