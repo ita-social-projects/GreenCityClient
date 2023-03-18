@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { Location } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { IOrderInfo } from '../../models/ubs-admin.interface';
+import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -15,7 +15,7 @@ import { IOrderInfo } from '../../models/ubs-admin.interface';
 export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() addressComment: string;
   @Input() addressExportDetailsDto: FormGroup;
-  @Input() orderInfo: IOrderInfo;
+  @Input() generalInfo: IGeneralOrderInfo;
   pageOpen: boolean;
   autocompleteService: google.maps.places.AutocompleteService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
@@ -93,7 +93,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   public onDefineOrderStatus() {
-    if (this.orderInfo?.generalOrderInfo.orderStatus === 'CANCELED') {
+    if (this.generalInfo.orderStatus === 'CANCELED') {
       this.isStatus = true;
     }
   }

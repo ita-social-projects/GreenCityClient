@@ -130,7 +130,7 @@
             </p>
           </div>
         </div>
-        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1" type="button" (click)="openModal(false)">
+        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1 || isStatus" type="button" (click)="openModal(false)">
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>

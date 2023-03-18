@@ -26,6 +26,18 @@ describe('UbsAdminAddressDetailsComponent', () => {
     addressDistrictEng: new FormControl(`Holosiivs'kyi district`)
   });
 
+  const GeneralInfoFake = {
+    orderStatus: 'DONE',
+    adminComment: 'Admin',
+    orderPaymentStatus: 'PAID',
+    orderStatusesDtos: [
+      { ableActualChange: false, key: 'DONE', translation: 'Formed' },
+      { ableActualChange: false, key: 'ADJUSTMENT', translation: 'Adjustment' },
+      { ableActualChange: false, key: 'BROUGHT_IT_HIMSELF', translation: 'Brought by himself' },
+      { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
+    ]
+  };
+
   const status = 'OK';
 
   const fakeRegions = [
@@ -301,6 +313,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminAddressDetailsComponent);
     component = fixture.componentInstance;
+    component.generalInfo = GeneralInfoFake as any;
     component.addressExportDetailsDto = FormGroupMock;
     const spy = spyOn(component as any, 'initGoogleAutocompleteServices');
     fixture.detectChanges();

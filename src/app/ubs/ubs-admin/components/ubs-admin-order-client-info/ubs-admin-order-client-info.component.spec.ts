@@ -30,6 +30,18 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     recipientEmail: new FormControl()
   });
 
+  const GeneralInfoFake = {
+    orderStatus: 'DONE',
+    adminComment: 'Admin',
+    orderPaymentStatus: 'PAID',
+    orderStatusesDtos: [
+      { ableActualChange: false, key: 'DONE', translation: 'Formed' },
+      { ableActualChange: false, key: 'ADJUSTMENT', translation: 'Adjustment' },
+      { ableActualChange: false, key: 'BROUGHT_IT_HIMSELF', translation: 'Brought by himself' },
+      { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
+    ]
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MatDialogModule, NoopAnimationsModule, TranslateModule.forRoot()],
@@ -41,6 +53,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
+    component.generalInfo = GeneralInfoFake as any;
     component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;

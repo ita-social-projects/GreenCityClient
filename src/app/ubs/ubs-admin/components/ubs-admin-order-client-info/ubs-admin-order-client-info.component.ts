@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
-import { IUserInfo, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IUserInfo, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -19,7 +19,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
 
   @Input() orderId: number;
 
-  @Input() orderInfo: IOrderInfo;
+  @Input() generalInfo: IGeneralOrderInfo;
 
   phoneMask = Masks.phoneMask;
 
@@ -51,7 +51,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   }
 
   public onDefineOrderStatus() {
-    if (this.orderInfo?.generalOrderInfo.orderStatus === 'CANCELED') {
+    if (this.generalInfo.orderStatus === 'CANCELED') {
       this.isStatus = true;
     }
   }

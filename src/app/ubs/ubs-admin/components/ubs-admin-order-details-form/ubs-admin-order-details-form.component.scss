@@ -42,6 +42,11 @@
   border: 1px solid var(--ubs-primary-light-grey);
 }
 
+.disables-input {
+  pointer-events: none;
+  background-color: #e9ecef;
+}
+
 .send__btn {
   font-size: 14px;
   color: var(--ubs-primary-green);
