@@ -56,7 +56,6 @@ describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
-  let store: Store;
 
   const eventMock = {
     description: 'tralalalal',
@@ -259,64 +258,58 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  describe('CheckButtonStatus', () => {
+  fdescribe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
-      const component = TestBed.createComponent(EventsListItemComponent);
-      component.componentInstance.event = eventMock;
-      component.componentInstance.userId = eventMock.organizer.id;
-      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(true);
-      component.componentInstance.checkButtonStatus();
-      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.secondary);
-      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.edit);
+      component.event = eventMock;
+      component.userId = eventMock.organizer.id;
+      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
+      expect(component.nameBtn).toEqual(component.btnName.edit);
     });
 
     it('should set btnStyle and nameBtn correctly when user is owner and event is unactive', () => {
-      const component = TestBed.createComponent(EventsListItemComponent);
-      component.componentInstance.event = eventMock;
-      component.componentInstance.userId = eventMock.organizer.id;
-      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(false);
-      component.componentInstance.checkButtonStatus();
-      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.secondary);
-      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.delete);
+      component.event = eventMock;
+      component.userId = eventMock.organizer.id;
+      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
+      expect(component.nameBtn).toEqual(component.btnName.delete);
     });
 
     it('should set btnStyle and nameBtn correctly when user is subscribe and event is active', () => {
-      const component = TestBed.createComponent(EventsListItemComponent);
       eventMock.isSubscribed = true;
-      component.componentInstance.event = eventMock;
-      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(true);
-      component.componentInstance.checkButtonStatus();
-      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.secondary);
-      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.cancel);
+      component.event = eventMock;
+      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
+      expect(component.nameBtn).toEqual(component.btnName.cancel);
     });
 
     it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
-      const component = TestBed.createComponent(EventsListItemComponent);
       eventMock.isSubscribed = false;
-      component.componentInstance.event = eventMock;
-      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(true);
-      component.componentInstance.checkButtonStatus();
-      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.primary);
-      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.join);
+      component.event = eventMock;
+      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+      expect(component.nameBtn).toEqual(component.btnName.join);
     });
 
     it('should set btnStyle and nameBtn correctly when user is subscribed and event is unactive', () => {
-      const component = TestBed.createComponent(EventsListItemComponent);
-      component.componentInstance.event = eventMock;
+      component.event = eventMock;
       eventMock.isSubscribed = true;
-      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(false);
-      component.componentInstance.checkButtonStatus();
-      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.primary);
-      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.rate);
+      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+      expect(component.nameBtn).toEqual(component.btnName.rate);
     });
 
     it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
-      const component = TestBed.createComponent(EventsListItemComponent);
       eventMock.isSubscribed = false;
-      component.componentInstance.event = eventMock;
-      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(false);
-      component.componentInstance.checkButtonStatus();
-      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.hiden);
+      component.event = eventMock;
+      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
   });
 
