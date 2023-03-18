@@ -125,7 +125,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      (this.isLoggedIn = data && data.userId), (this.userId = data.userId);
+      this.isLoggedIn = data && data.userId;
+      this.userId = data.userId;
     });
   }
 
