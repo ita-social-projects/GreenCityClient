@@ -17,6 +17,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 
 @Injectable()
 class TranslationServiceStub {
@@ -55,6 +56,7 @@ describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
+  let store: Store;
 
   const eventMock = {
     description: 'tralalalal',
@@ -118,6 +120,19 @@ describe('EventsListItemComponent', () => {
     }
   ];
 
+  const buttonActionString = {
+    edit: 'event.btn-edit',
+    delete: 'event.btn-delete',
+    rate: 'event.btn-rate',
+    cancel: 'event.btn-cancel',
+    join: 'event.btn-join'
+  };
+
+  const buttonStyleString = {
+    secondary: 'secondary-global-button',
+    primary: 'primary-global-button'
+  };
+
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
@@ -180,15 +195,10 @@ describe('EventsListItemComponent', () => {
     component = fixture.componentInstance;
     component.event = eventMock as any;
     component.itemTags = TagsArray;
-    component.styleBtn = 'string';
+    component.btnStyle = 'string';
     component.nameBtn = 'string';
-    component.isJoinBtnHidden = false;
     component.rate = 3;
-    component.isJoined = false;
-    component.isEventOpen = false;
-    component.isOwner = false;
     component.isRegistered = false;
-    component.isFinished = false;
     component.isReadonly = false;
     component.isPosting = false;
     component.isRated = false;
@@ -249,23 +259,6 @@ describe('EventsListItemComponent', () => {
       expect(component.rate).toBe(3);
     });
 
-    it('getUserId user ID should be 5', () => {
-      component.getUserId();
-      expect(component.userId).toBe(5);
-    });
-
-    it('getUserId should be called in ngOnInit', () => {
-      spyOn(component, 'getUserId');
-      component.ngOnInit();
-      expect(component.getUserId).toHaveBeenCalled();
-    });
-
-    it(`checkAllStatusesOfEvent should be called in ngOnInit`, () => {
-      spyOn(component, 'checkAllStatusesOfEvent');
-      component.ngOnInit();
-      expect(component.checkAllStatusesOfEvent).toHaveBeenCalled();
-    });
-
     it(`subscribeToLangChange should be called in ngOnInit`, () => {
       spyOn(component, 'subscribeToLangChange');
       component.ngOnInit();
@@ -276,6 +269,98 @@ describe('EventsListItemComponent', () => {
       spyOn(component, 'bindLang');
       component.ngOnInit();
       expect(component.bindLang).toHaveBeenCalled();
+    });
+  });
+
+  describe('CheckButtonStatus', () => {
+    it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
+      const component = TestBed.createComponent(EventsListItemComponent);
+      component.componentInstance.event = eventMock;
+      component.componentInstance.userId = eventMock.organizer.id;
+      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(true);
+      component.componentInstance.checkButtonStatus();
+      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.secondary);
+      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.edit);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is owner and event is unactive', () => {
+      const component = TestBed.createComponent(EventsListItemComponent);
+      component.componentInstance.event = eventMock;
+      component.componentInstance.userId = eventMock.organizer.id;
+      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(false);
+      component.componentInstance.checkButtonStatus();
+      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.secondary);
+      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.delete);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is subscribe and event is active', () => {
+      const component = TestBed.createComponent(EventsListItemComponent);
+      eventMock.isSubscribed = true;
+      component.componentInstance.event = eventMock;
+      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(true);
+      component.componentInstance.checkButtonStatus();
+      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.secondary);
+      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.cancel);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
+      const component = TestBed.createComponent(EventsListItemComponent);
+      eventMock.isSubscribed = false;
+      component.componentInstance.event = eventMock;
+      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(true);
+      component.componentInstance.checkButtonStatus();
+      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.primary);
+      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.join);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is subscribed and event is unactive', () => {
+      const component = TestBed.createComponent(EventsListItemComponent);
+      component.componentInstance.event = eventMock;
+      eventMock.isSubscribed = true;
+      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(false);
+      component.componentInstance.checkButtonStatus();
+      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.primary);
+      expect(component.componentInstance.nameBtn).toEqual(component.componentInstance.btnName.rate);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
+      const component = TestBed.createComponent(EventsListItemComponent);
+      eventMock.isSubscribed = false;
+      component.componentInstance.event = eventMock;
+      spyOn(component.componentInstance, 'checkIsActive').and.returnValue(false);
+      component.componentInstance.checkButtonStatus();
+      expect(component.componentInstance.btnStyle).toEqual(component.componentInstance.styleBtn.hiden);
+    });
+  });
+
+  describe('ButtonAction', () => {
+    it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
+      component.buttonAction(component.btnName.cancel);
+      expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
+    });
+
+    it('should dispatch AddAttenderEcoEventsByIdAction when join button is clicked', () => {
+      component.buttonAction(component.btnName.join);
+      expect(storeMock.dispatch).toHaveBeenCalledWith(AddAttenderEcoEventsByIdAction({ id: component.event.id }));
+    });
+
+    it('should call openModal method when rate button is clicked', () => {
+      spyOn(component, 'openModal');
+      component.buttonAction(component.btnName.rate);
+      expect(component.openModal).toHaveBeenCalled();
+    });
+
+    it('should call deleteEvent method when delete button is clicked', () => {
+      spyOn(component, 'deleteEvent');
+      component.buttonAction(component.btnName.delete);
+      expect(component.deleteEvent).toHaveBeenCalled();
+    });
+
+    it('should set edit mode and navigate to create event page when edit button is clicked', () => {
+      component.buttonAction(component.btnName.edit);
+      expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
+      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
+      expect(component.router.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
     });
   });
 
@@ -298,230 +383,6 @@ describe('EventsListItemComponent', () => {
     it('filterTags tags[1] should be active', () => {
       (component as any).filterTags([{ nameEn: 'Social', nameUa: 'Соціальний', id: 1 }]);
       expect(component.itemTags[1].isActive).toBeTruthy();
-    });
-  });
-
-  describe('Initializing all statuses of even', () => {
-    it(`should be initialized if user subscribed to the event`, () => {
-      component.isJoined = component.event.isSubscribed ? true : false;
-      expect(component.isJoined).toBe(true);
-    });
-
-    it(`should be initialized if event opened`, () => {
-      component.isEventOpen = component.event.open;
-      expect(component.isEventOpen).toBe(true);
-    });
-
-    it(`should be initialized if user is owner of the event`, () => {
-      component.isOwner = Number(localStorageServiceMock.userIdBehaviourSubject) === Number(component.event.organizer.id);
-      expect(component.isOwner).toBe(false);
-    });
-
-    it(`should be initialized if user is registered of the event`, () => {
-      component.isRegistered = localStorageServiceMock.userIdBehaviourSubject ? true : false;
-      expect(component.isOwner).toBe(true);
-    });
-
-    it(`should be initialized the event finished`, () => {
-      component.isFinished = Date.parse(component.event.dates[0].finishDate) < Date.parse(new Date().toString());
-      expect(component.isFinished).toBe(true);
-    });
-
-    it(`should be initialized the event rated is rated`, () => {
-      component.isRated = component.rate ? true : false;
-      expect(component.isRated).toBe(true);
-    });
-  });
-
-  describe('Checking all statuses of event', () => {
-    it('checkIsOwner should be called when event opened and not closed ', () => {
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      spyOn(component, 'checkIsOwner');
-      if (component.isEventOpen && !component.isFinished) {
-        component.checkIsOwner(component.isOwner);
-      } else {
-        if (component.isOwner) {
-          component.nameBtn = 'event.btn-delete';
-          component.styleBtn = 'secondary-global-button';
-        } else {
-          component.checkIsRate(component.isRated);
-        }
-      }
-      expect(component.checkIsOwner).toHaveBeenCalled();
-    });
-
-    beforeEach(() => {
-      component.isEventOpen = false;
-      component.isFinished = true;
-      component.isOwner = true;
-
-      if (component.isEventOpen && !component.isFinished) {
-        component.checkIsOwner(component.isOwner);
-      } else {
-        if (component.isOwner) {
-          component.nameBtn = 'event.btn-delete';
-          component.styleBtn = 'secondary-global-button';
-        } else {
-          component.checkIsRate(component.isRated);
-        }
-      }
-    });
-
-    it('should be changed name of button when event not opened and closed', () => {
-      expect(component.nameBtn).toBe('event.btn-delete');
-    });
-
-    it('should be changed style of button when event not opened and closed ', () => {
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it('checkIsOwner should be called when event not opened and closed and not owner ', () => {
-      component.isEventOpen = false;
-      component.isFinished = true;
-      component.isOwner = false;
-      spyOn(component, 'checkIsRate');
-
-      if (component.isEventOpen && !component.isFinished) {
-        component.checkIsOwner(component.isOwner);
-      } else {
-        if (component.isOwner) {
-          component.nameBtn = 'event.btn-delete';
-          component.styleBtn = 'secondary-global-button';
-        } else {
-          component.checkIsRate(component.isRated);
-        }
-      }
-      expect(component.checkIsRate).toHaveBeenCalled();
-    });
-  });
-
-  describe('checkIsOwner', () => {
-    it(`should be checked name of button if is the owner`, () => {
-      component.checkIsOwner(true);
-      expect(component.nameBtn).toBe('event.btn-edit');
-    });
-
-    it(`should be checked style of button if is the owner`, () => {
-      component.checkIsOwner(true);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be checked name of button if is not the owner`, () => {
-      component.checkIsOwner(false);
-      expect(component.nameBtn).toBe('event.btn-cancel');
-    });
-
-    it(`should be checked style of button if is not the owner`, () => {
-      component.checkIsOwner(false);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-  });
-
-  describe('checkIsRate', () => {
-    it(`should be checked name of button if is rated`, () => {
-      component.checkIsRate(true);
-      expect(component.nameBtn).toBe('event.btn-see');
-    });
-
-    it(`should be checked style of button if is rated`, () => {
-      component.checkIsRate(true);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be checked name of button if is not rated`, () => {
-      component.checkIsRate(false);
-      expect(component.nameBtn).toBe('event.btn-rate');
-    });
-
-    it(`should be checked style of button if is not rated`, () => {
-      component.checkIsRate(false);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be checked of button if is not rated`, () => {
-      component.checkIsRate(false);
-      expect(component.isJoinBtnHidden).toBe(true);
-    });
-  });
-
-  describe('buttonAction', () => {
-    it(`should be clicked and called buttonAction method`, fakeAsync(() => {
-      spyOn(component, 'buttonAction');
-      const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-      button.click();
-      tick();
-      expect(component.buttonAction).toHaveBeenCalled();
-    }));
-
-    it(`should be set mode for editing`, () => {
-      component.isRegistered = true;
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      component.buttonAction();
-      expect(localStorageServiceMock.setEditMode).toHaveBeenCalled();
-    });
-
-    it(`should be set event for editing`, () => {
-      component.isRegistered = true;
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      component.buttonAction();
-      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalled();
-    });
-
-    it(`should navigate to create-event`, () => {
-      component.isRegistered = true;
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      component.buttonAction();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
-    });
-  });
-
-  describe('actionIsJoined', () => {
-    it(`should be changed name of button if user is joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.nameBtn).toBe('event.btn-join');
-    });
-
-    it(`should be changed style of button if user is joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.styleBtn).toBe('primary-global-button');
-    });
-
-    it(`should be changed isReadonly if user is  joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.isReadonly).toBe(true);
-    });
-
-    it(`should be changed isJoined if user is joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.isJoined).toBe(false);
-    });
-
-    it(`should be changed name of button if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.nameBtn).toBe('event.btn-cancel');
-    });
-
-    it(`should be changed style of button if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be changed isReadonly if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.isReadonly).toBe(true);
-    });
-
-    it(`should be changed isJoined if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.isJoined).toBe(true);
     });
   });
 

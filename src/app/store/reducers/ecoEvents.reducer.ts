@@ -1,3 +1,5 @@
+import { map } from 'rxjs/operators';
+import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
 import {
   AddAttenderEventsByIdSuccessAction,
@@ -40,22 +42,28 @@ export const EcoEventsReducer = createReducer(
     };
   }),
 
-  on(
-    DeleteEcoEventSuccessAction,
-    CreateEcoEventSuccessAction,
-    AddAttenderEventsByIdSuccessAction,
-    RemoveAttenderEventsByIdSuccessAction,
-    RateEcoEventsByIdSuccessAction,
-    (state) => {
-      return {
-        ...state,
-        eventsList: [],
-        pageNumber: 0,
-        visitedPages: [],
-        totalPages: 0
-      };
-    }
-  ),
+  on(DeleteEcoEventSuccessAction, CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => {
+    return {
+      ...state,
+      eventsList: [],
+      pageNumber: 0,
+      visitedPages: [],
+      totalPages: 0
+    };
+  }),
+
+  on(AddAttenderEventsByIdSuccessAction, RemoveAttenderEventsByIdSuccessAction, (state, action) => {
+    const newState = state.eventsList.map((val) => {
+      if (action.id === val.id) {
+        return val.isSubscribed ? { ...val, isSubscribed: false } : { ...val, isSubscribed: true };
+      }
+      return val;
+    });
+    return {
+      ...state,
+      eventsList: newState
+    };
+  }),
 
   on(ReceivedFailureAction, (state, action) => ({
     ...state,

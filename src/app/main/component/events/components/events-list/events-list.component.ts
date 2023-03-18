@@ -56,6 +56,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public allSelected = false;
   private optionsList: any;
   public scroll: boolean;
+  public userId: number;
   private dialog: MatDialog;
 
   constructor(
@@ -123,7 +124,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
+      (this.isLoggedIn = data && data.userId), (this.userId = data.userId);
+    });
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
