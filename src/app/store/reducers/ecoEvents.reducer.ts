@@ -1,5 +1,3 @@
-import { map } from 'rxjs/operators';
-import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
 import {
   AddAttenderEventsByIdSuccessAction,

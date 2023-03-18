@@ -258,7 +258,7 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  fdescribe('CheckButtonStatus', () => {
+  describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
       component.event = eventMock;
       component.userId = eventMock.organizer.id;
