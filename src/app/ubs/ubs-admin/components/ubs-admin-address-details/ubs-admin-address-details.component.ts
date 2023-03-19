@@ -3,9 +3,8 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
-import { Location } from '../../models/ubs-admin.interface';
+import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
