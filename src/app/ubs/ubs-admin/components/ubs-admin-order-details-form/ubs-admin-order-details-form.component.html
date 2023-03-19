@@ -38,13 +38,14 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isVisible ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
+                disabled
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
               <input
                 class="shadow-none form-control input p-2"
+                [attr.disabled]="isStatus ? true : null"
                 type="number"
                 min="0"
                 max="999"
@@ -93,16 +94,10 @@
           >
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
-              <div [ngClass]="{ 'd-flex': true, 'align-items-baseline': true, 'ubs-courier-container': true, 'disables-input': isStatus }">
+              <div class="d-flex align-items-baseline ubs-courier-container disables-input">
                 <input
-                  [ngClass]="{
-                    'shadow-none': true,
-                    'form-control': true,
-                    input: true,
-                    'ubs-courier': true,
-                    'p-2': true,
-                    'disables-input': isStatus
-                  }"
+                  class="shadow-none form-control input ubs-courier p-2"
+                  [disabled]="isStatus"
                   type="number"
                   min="0"
                   [value]="courierPrice | currency"

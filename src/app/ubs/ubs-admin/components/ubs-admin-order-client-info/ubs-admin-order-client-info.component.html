@@ -48,7 +48,8 @@
               </label>
               <div>
                 <input
-                  [ngClass]="{ 'name-input': true, 'form-control': true, 'disables-input': isStatus }"
+                  class="form-control name-input"
+                  [readonly]="isStatus"
                   type="text"
                   id="recipient-name"
                   formControlName="recipientName"
@@ -61,7 +62,8 @@
               </div>
               <div>
                 <input
-                  [ngClass]="{ 'name-input': true, 'form-control': true, 'disables-input': isStatus }"
+                  class="form-control name-input"
+                  [readonly]="isStatus"
                   type="text"
                   id="recipient-surname"
                   formControlName="recipientSurName"
@@ -79,7 +81,8 @@
               {{ 'customer-info.recipient.tel-label' | translate }}
             </label>
             <input
-              [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+              class="form-control"
+              [readonly]="isStatus"
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
@@ -98,7 +101,8 @@
               {{ 'customer-info.recipient.email-label' | translate }}
             </label>
             <input
-              [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+              class="form-control"
+              [readonly]="isStatus"
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"

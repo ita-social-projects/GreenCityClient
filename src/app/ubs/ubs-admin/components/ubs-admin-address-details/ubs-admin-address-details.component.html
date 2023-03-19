@@ -13,8 +13,9 @@
             <select
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
               (change)="setRegionValue($event)"
-              [ngClass]="{ 'shadow-none': true, 'form-control': true, 'placeholder-positioning': true, 'disables-input': isStatus }"
+              class="form-control shadow-none"
               id="region"
+              [attr.disabled]="isStatus ? true : null"
             >
               <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
             </select>
@@ -25,7 +26,8 @@
               type="text"
               (keyup)="setPredictCities()"
               [formControlName]="getLangValue('addressCity', 'addressCityEng')"
-              [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+              class="form-control"
+              [readonly]="isStatus"
               id="settlement"
               matInput
               [matAutocomplete]="autoCity"
@@ -55,7 +57,8 @@
             <input
               (keyup)="setPredictStreets()"
               type="text"
-              [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+              class="form-control"
+              [readonly]="isStatus"
               id="street"
               [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
               matInput
@@ -83,7 +86,8 @@
               <label for="building">{{ 'address-details.building' | translate }}</label>
               <input
                 type="text"
-                [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+                class="form-control"
+                [attr.disabled]="isStatus ? true : null"
                 id="building"
                 formControlName="addressHouseNumber"
               />
@@ -95,7 +99,8 @@
               <label for="corpus">{{ 'address-details.corpus' | translate }}</label>
               <input
                 type="text"
-                [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+                class="form-control"
+                [attr.disabled]="isStatus ? true : null"
                 id="corpus"
                 formControlName="addressHouseCorpus"
               />
@@ -108,7 +113,8 @@
               <input
                 formControlName="addressEntranceNumber"
                 type="text"
-                [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+                class="form-control"
+                [attr.disabled]="isStatus ? true : null"
                 id="entrance"
               />
               <div class="validation" *ngIf="addressEntranceNumber.invalid && addressEntranceNumber.touched">
@@ -120,7 +126,8 @@
         <div class="form-group district">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
-            [ngClass]="{ 'form-control': true, 'placeholder-positioning': true, 'disables-input': isStatus }"
+            class="form-control placeholder-positioning"
+            [attr.disabled]="isStatus ? true : null"
             *ngIf="isDistrict"
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
@@ -132,7 +139,8 @@
             *ngIf="!isDistrict"
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            [ngClass]="{ 'form-control': true, 'disables-input': isStatus }"
+            class="form-control"
+            [attr.disabled]="isStatus ? true : null"
             (change)="onDistrictSelected($event)"
           >
             <option *ngFor="let district of districts" [ngValue]="district.name">

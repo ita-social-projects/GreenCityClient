@@ -68,11 +68,6 @@ label {
   max-width: 408px;
 }
 
-.disables-input {
-  pointer-events: none;
-  background-color: #e9ecef;
-}
-
 .form-control.ng-invalid.ng-touched {
   border: 1px solid var(--ubs-error-ligh-red);
 }

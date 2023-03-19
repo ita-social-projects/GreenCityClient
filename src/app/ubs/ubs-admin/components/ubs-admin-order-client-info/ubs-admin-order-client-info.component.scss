@@ -111,11 +111,6 @@ input {
   border: 1px solid var(--error-ligh-red);
 }
 
-.disables-input {
-  pointer-events: none;
-  background-color: #e9ecef;
-}
-
 .error-message {
   font-size: 10px;
   line-height: 12px;
