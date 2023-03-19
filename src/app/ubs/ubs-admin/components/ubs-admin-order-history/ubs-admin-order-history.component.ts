@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { IOrderHistory, IOrderInfo } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 @Component({
   selector: 'app-ubs-admin-order-history',
@@ -17,7 +19,15 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+
+  parseEventName(eventName: string, index: number) {
+    const parts = eventName.split('-').map((part) => part.trim());
+    const [status, result] = parts;
+
+    this.orderHistory[index].status = status;
+    this.orderHistory[index].result = result;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.orderInfo) {
@@ -29,10 +39,23 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  showPopup(element: any, popup: any) {
-    if (element.target.offsetWidth < element.target.scrollWidth) {
-      popup.toggle();
-    }
+  showPopup(orderHistoryId) {
+    this.orderHistory.forEach((order) => {
+      if (order.id === orderHistoryId && order.eventName.includes('Не вивезли')) {
+        this.openNotTakenOutReason(orderHistoryId);
+      }
+    });
+  }
+
+  openNotTakenOutReason(orderHistoryId) {
+    this.dialog.open(AddOrderNotTakenOutReasonComponent, {
+      hasBackdrop: true,
+      data: {
+        id: orderHistoryId,
+        isFromHistory: true,
+        orderID: this.orderInfo.generalOrderInfo.id
+      }
+    });
   }
 
   getOrderHistory(orderId: number) {
@@ -41,6 +64,9 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
         this.orderHistory = data;
+        this.orderHistory.map((item, index) => {
+          this.parseEventName(item.eventName, index);
+        });
       });
   }
 

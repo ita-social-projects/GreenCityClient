@@ -30,6 +30,8 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   public date = new Date();
   public images: NotTakenOutReasonImage[] = [];
   public imagesToDelete: string[] | null = [];
+  public isOpendFromHistory = false;
+  public orderID: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -43,6 +45,10 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.data.isFromHistory) {
+      this.isOpendFromHistory = this.data.isFromHistory;
+      this.orderID = this.data.orderID;
+    }
     this.initForm();
     this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((firstName) => {
       this.adminName = firstName;

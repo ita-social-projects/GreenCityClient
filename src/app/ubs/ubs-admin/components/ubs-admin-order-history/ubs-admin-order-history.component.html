@@ -31,9 +31,13 @@
           matTooltipClass="popup"
           (mouseenter)="$event.stopImmediatePropagation()"
           (mouseleave)="$event.stopImmediatePropagation()"
-          (click)="showPopup($event, popup)"
+          (click)="showPopup(historyAction.id)"
         >
-          {{ historyAction.eventName }}
+          <span>{{ historyAction.status }} </span>
+          <span *ngIf="historyAction.result"> -</span>
+          <span [ngClass]="{ result: historyAction.result === 'Не вивезли' }" *ngIf="historyAction.result">
+            {{ historyAction.result }}</span
+          >
         </td>
         <td>{{ historyAction.authorName }}</td>
       </tr>
