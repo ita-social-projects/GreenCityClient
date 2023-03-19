@@ -206,4 +206,8 @@ export class OrderService {
         return ResponsibleEmployee.Navigator;
     }
   }
+
+  public getOrderCancelReason(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/get-order-cancellation-reason/${orderId}`);
+  }
 }

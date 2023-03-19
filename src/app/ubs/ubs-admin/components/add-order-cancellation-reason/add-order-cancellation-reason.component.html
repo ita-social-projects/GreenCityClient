@@ -19,6 +19,7 @@
         placeholder="{{ 'order-cancel.placeholder' | translate }}"
         cols="50"
         rows="6"
+        [(ngModel)]="cancellationComment"
       ></textarea>
       <div
         class="error-message"
@@ -50,9 +51,9 @@
       >{{ 'order-cancel.cancel-reason' | translate }} №{{ orderInfo.orderInfo.generalOrderInfo.id }}</label
     >
     <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
-      <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}" checked="true">
-        {{ option.translation | translate }}</mat-radio-button
-      >
+      <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}" checked="option === cancellationReason">
+        {{ option.translation | translate }}
+      </mat-radio-button>
     </mat-radio-group>
     <form [formGroup]="commentForm">
       <textarea
@@ -61,6 +62,8 @@
         placeholder="{{ 'order-cancel.placeholder' | translate }}"
         cols="50"
         rows="6"
+        [(ngModel)]="cancellationComment"
+        disabled
       ></textarea>
     </form>
     <span class="date"

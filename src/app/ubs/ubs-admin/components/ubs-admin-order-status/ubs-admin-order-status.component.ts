@@ -23,6 +23,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() currentLanguage: string;
   @Input() additionalPayment: string;
   @Output() changedOrderStatus = new EventEmitter<string>();
+  @Output() cancelReason = new EventEmitter<string>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -94,6 +95,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
           this.generalOrderInfo.get('cancellationComment').setValue(res.comment);
           this.generalOrderInfo.get('cancellationComment').markAsDirty();
         }
+        this.cancelReason.emit(res);
       });
   }
 

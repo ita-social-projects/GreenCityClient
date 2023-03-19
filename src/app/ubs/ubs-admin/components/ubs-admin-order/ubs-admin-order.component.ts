@@ -58,6 +58,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderPrice: number;
   currentOrderStatus: string;
   overpayment: number;
+  cancelComment: string;
+  cancelReason: string;
   isMinOrder = true;
   isSubmitted = false;
   private isFormResetted = false;
@@ -336,6 +338,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.ubsCourierPrice = sum;
   }
 
+  public onCancelReason(message) {
+    this.cancelReason = message.reason;
+    this.cancelComment = message.comment;
+  }
+
   public setMinOrder(flag) {
     this.isMinOrder = flag;
   }
@@ -415,6 +422,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
     changedValues.ubsCourierPrice = this.ubsCourierPrice;
     changedValues.writeOffStationSum = this.writeOffStationSum;
+    changedValues.cancellationComment = this.cancelComment;
+    changedValues.cancellationReason = this.cancelReason;
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];

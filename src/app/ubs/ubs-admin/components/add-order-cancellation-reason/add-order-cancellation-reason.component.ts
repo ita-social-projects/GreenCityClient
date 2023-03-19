@@ -55,6 +55,8 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   ) {
     this.orderInfo = { ...data };
     this.isHistory = this.orderInfo.isHistory;
+    this.cancellationReason = this.orderInfo.isCancellationReason;
+    this.cancellationComment = this.orderInfo.cancellationComment;
   }
 
   ngOnInit(): void {
