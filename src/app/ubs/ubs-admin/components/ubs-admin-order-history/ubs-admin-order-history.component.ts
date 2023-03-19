@@ -64,7 +64,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
         this.orderHistory = data;
-        this.orderHistory.map((item, index) => {
+        this.orderHistory.forEach((item, index) => {
           this.parseEventName(item.eventName, index);
         });
       });

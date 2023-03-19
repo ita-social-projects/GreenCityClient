@@ -3,16 +3,28 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IOrderInfo, IEmployee } from '../../models/ubs-admin.interface';
+import { of } from 'rxjs';
+
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
 
 describe('UbsAdminOrderHistoryComponent', () => {
   let component: UbsAdminOrderHistoryComponent;
   let fixture: ComponentFixture<UbsAdminOrderHistoryComponent>;
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
+  const MatDialogRefMock = {
+    close: () => {}
+  };
 
   const OrderInfoMock: IOrderInfo = {
     generalOrderInfo: {
@@ -164,9 +176,13 @@ describe('UbsAdminOrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UbsAdminOrderHistoryComponent],
-      providers: [{ provide: OrderService, useValue: orderServiceMock }]
+      providers: [
+        { provide: OrderService, useValue: orderServiceMock },
+        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: MAT_DIALOG_DATA, useValue: MatDialogRefMock }
+      ]
     }).compileComponents();
   }));
 
