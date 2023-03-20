@@ -133,36 +133,54 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     if (isOwner && isActive) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.edit;
-    } else if (isOwner && !isActive) {
+      return;
+    }
+    if (isOwner && !isActive) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.delete;
-    } else if (isSubscribe && isActive) {
+      return;
+    }
+    if (isSubscribe && isActive) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.cancel;
-    } else if (!isSubscribe && isActive) {
+      return;
+    }
+    if (!isSubscribe && isActive) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.join;
-    } else if (isSubscribe && !isActive) {
+      return;
+    }
+    if (isSubscribe && !isActive) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.rate;
-    } else if (!isSubscribe && !isActive) {
+      return;
+    }
+    if (!isSubscribe && !isActive) {
       this.btnStyle = this.styleBtn.hiden;
     }
   }
 
   public buttonAction(buttonName: string): void {
-    if (buttonName === this.btnName.cancel) {
-      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-    } else if (buttonName === this.btnName.join) {
-      this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-    } else if (buttonName === this.btnName.rate) {
-      this.openModal();
-    } else if (buttonName === this.btnName.delete) {
-      this.deleteEvent();
-    } else if (buttonName === this.btnName.edit) {
-      this.localStorageService.setEditMode('canUserEdit', true);
-      this.localStorageService.setEventForEdit('editEvent', this.event);
-      this.router.navigate(['events/', 'create-event']);
+    switch (buttonName) {
+      case this.btnName.cancel:
+        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        break;
+      case this.btnName.join:
+        this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+        break;
+      case this.btnName.rate:
+        this.openModal();
+        break;
+      case this.btnName.delete:
+        this.deleteEvent();
+        break;
+      case this.btnName.edit:
+        this.localStorageService.setEditMode('canUserEdit', true);
+        this.localStorageService.setEventForEdit('editEvent', this.event);
+        this.router.navigate(['events/', 'create-event']);
+        break;
+      default:
+        break;
     }
   }
 
