@@ -16,7 +16,12 @@
       cols="50"
       rows="6"
     ></textarea>
-    <div class="error-message" *ngIf="commentForm.get('cancellationComment').value && commentForm.invalid && commentForm.touched">
+    <div
+      class="error-message"
+      *ngIf="
+        commentForm.get('cancellationComment').value && commentForm.invalid && commentForm.touched && this.cancellationReason === 'OTHER'
+      "
+    >
       <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
     </div>
     <div
