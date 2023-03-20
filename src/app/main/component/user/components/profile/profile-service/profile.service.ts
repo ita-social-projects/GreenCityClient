@@ -1,8 +1,7 @@
 import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
-import { ShoppingList } from '@user-models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
@@ -16,9 +15,6 @@ import { mainLink, mainUserLink } from '../../../../../links';
 })
 export class ProfileService {
   public userId: number;
-
-  private shoppingList = new Subject<ShoppingList[]>();
-  public shoppingList$ = this.shoppingList.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
 
