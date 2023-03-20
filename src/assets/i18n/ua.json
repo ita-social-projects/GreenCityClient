@@ -137,7 +137,9 @@
         "join-btn": "Приєднатися до події",
         "edit": "Редагувати",
         "delete": "Видалити"
-      }
+      },
+      "modal-rating-title-can-evaluate": "Оцініть подію та організатора",
+      "modal-rating-title-can`t-evaluate": "Ви не можете додати цю подію. Спочатку зареєструйтесь на сайті"
     },
     "eco-advices": {
       "caption": "Еко поради"

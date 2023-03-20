@@ -138,6 +138,8 @@ p {
 }
 
 .active-filter-container {
+  font-family: var(--ubs-quaternary-font);
+  font-size: 14px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -157,7 +159,7 @@ p {
   font-family: var(--primary-font);
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 16px;
 }
 

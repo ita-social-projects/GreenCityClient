@@ -137,7 +137,9 @@
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
-      }
+      },
+      "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
+      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site"
     },
     "subscription": {
       "caption": "Receive interesting news",
