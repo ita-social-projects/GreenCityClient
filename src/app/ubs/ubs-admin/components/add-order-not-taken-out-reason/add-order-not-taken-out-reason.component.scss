@@ -3,7 +3,8 @@
   max-width: 573px;
   padding: 0 45px;
   overflow-y: auto;
-  height: calc(100vh - 48px);
+  max-height: 880px;
+  height: 90vh;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -80,6 +81,7 @@ textarea {
   align-items: center;
   width: 100%;
   height: 141px;
+  resize: none;
 }
 
 textarea::placeholder {

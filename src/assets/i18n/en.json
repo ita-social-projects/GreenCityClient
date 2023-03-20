@@ -343,7 +343,8 @@
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection",
       "unauthorised-user": "You need to be authorized to edit an event",
-      "exist-address": "This address has already been added"
+      "exist-address": "This address has already been added",
+      "certificate-duration": "The duration of the certificate cant be more than 12 months"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -354,7 +355,8 @@
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
-      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box."
+      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
+      "joined-event": "You have successfully joined the event"
     }
   },
   "user": {

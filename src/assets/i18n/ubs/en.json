@@ -170,8 +170,7 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
-    "default-address": "Make it the default address"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
   },
   "submit-order": {
     "your-order": "Your order",
@@ -309,12 +308,13 @@
       "preparing": {
         "caption": "How to prepare?",
         "content": {
-          "li_1": "Check out the list of what we accept",
-          "li_1.1": "link",
+          "li_1": "Check out",
+          "li_1.1": "the list",
+          "li_1.2": "of what we accept",
           "li_2": "Collect a mix of clean and dry waste in bags.",
           "li_3": "Collect textile waste in a separate bag.",
           "li_4": "Order and pay for the service",
-          "li_5": "Wait for a meeting with us."
+          "li_5": "Wait for feedback and a meeting with the courier."
         }
       },
       "rules": {
@@ -373,7 +373,7 @@
         },
         "content": {
           "pre_1": "Get free products shipping",
-          "link": "NOWASTE Shop."
+          "link": "NOWASTE SHOP."
         },
         "button": "Order"
       }

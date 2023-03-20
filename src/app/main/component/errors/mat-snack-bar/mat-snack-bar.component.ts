@@ -123,6 +123,10 @@ export class MatSnackBarComponent {
     CartValidation: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.cartificate-not-valid');
+    },
+    addedEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.joined-event');
     }
   };
 

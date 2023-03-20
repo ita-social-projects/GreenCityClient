@@ -5,14 +5,14 @@
 .dialog-container {
   width: 450px;
   height: 300px;
-  padding: 20px;
+  padding: 10px;
   font-family: var(--secondary-font);
 }
 
 .mat-dialog-actions {
-  width: 410px;
+  width: 100%;
   display: flex;
-  margin-top: 85px;
+  margin-top: 65px;
   justify-content: space-between;
 }
 
@@ -40,4 +40,21 @@
 
 input.ng-touched.ng-invalid {
   border: 1px solid var(--ubs-error-ligh-red);
+}
+
+.close-btn {
+  width: 18px;
+  height: 18px;
+}
+
+.close-wrapper {
+  display: flex;
+  justify-content: end;
+}
+
+.error-message {
+  color: var(--ubs-error-ligh-red);
+  font-size: 8px;
+  line-height: 10px;
+  padding-top: 3px;
 }

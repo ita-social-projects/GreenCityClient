@@ -21,7 +21,7 @@ export const Patterns = {
 
   paymantAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   sertificateMonthCount: '^[0-9]{1,2}$',
-  sertificateInitialValue: '^[0-9]{2,4}$',
+  sertificateInitialValue: '^[0-9]{1,4}$',
 
   ubsPrice: '[0-9]{1,3}',
   ubsServicePrice: /^\d*[.,]?\d{0,2}$/,

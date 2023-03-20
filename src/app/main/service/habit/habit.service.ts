@@ -40,8 +40,9 @@ export class HabitService implements OnDestroy {
   }
 
   getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, sort: string = 'asc'): Observable<HabitListInterface> {
-    return this.http.get<HabitListInterface>(`${habitLink}/tags/search?lang=${this.language}
-                                              &page=${page}&size=${size}&sort=${sort}&tags=${tags}`);
+    return this.http.get<HabitListInterface>(
+      `${habitLink}/tags/search?lang=${this.language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
+    );
   }
 
   ngOnDestroy(): void {

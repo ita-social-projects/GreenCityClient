@@ -11,6 +11,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -61,7 +62,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private listOflocations: Locations,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    private convertCapLetterServ: ToFirstCapitalLetterService
   ) {}
 
   get region() {
@@ -325,7 +327,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     const searchItem = language === this.languages.en ? 'district' : 'район';
     const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
     if (getDistrict) {
-      const currentDistrict = getDistrict.long_name;
+      const currentDistrict = this.convertCapLetterServ.convFirstLetterToCapital(getDistrict.long_name);
       abstractControl.setValue(currentDistrict);
     }
   }

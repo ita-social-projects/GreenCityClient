@@ -88,6 +88,18 @@ describe('MatSnackBarComponent', () => {
     });
 
     it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'existAddress').and.callThrough();
+      component.snackType[`existAddress`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'successConfirmEmail').and.callThrough();
+      component.snackType[`successConfirmEmail`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'successConfirmPassword').and.callThrough();
       component.snackType[`successConfirmPassword`]();
       expect(spy).toHaveBeenCalled();
@@ -96,12 +108,6 @@ describe('MatSnackBarComponent', () => {
     it('should call the function to get type of snackBar', () => {
       const spy = spyOn(component.snackType, 'signUp').and.callThrough();
       component.snackType[`signUp`]();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should call the successConfirmEmail to close the dialog', () => {
-      const spy = spyOn(component.snackType, 'successConfirmEmail').and.callThrough();
-      component.snackType[`successConfirmEmail`]();
       expect(spy).toHaveBeenCalled();
     });
 
