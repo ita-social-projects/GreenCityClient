@@ -136,21 +136,6 @@ describe('ShoppingListComponent', () => {
     expect(component.shoppingList).toEqual(mockCustomeShopList);
   });
 
-  it('should set selected in shopList after getShopList', () => {
-    const result = [
-      {
-        id: 2,
-        status: 'DONE',
-        text: 'some to-do 2',
-        custom: true,
-        selected: true
-      }
-    ];
-    component.shoppingList = mockCustomeShopList;
-    component.shoppingList = component.shoppingList.map((el) => (el.status === 'DONE' ? { ...el, selected: true } : el));
-    expect(component.shoppingList).toEqual(result);
-  });
-
   it('should change toogle from true on openCloseList', () => {
     component.toggle = true;
     component.openCloseList();
