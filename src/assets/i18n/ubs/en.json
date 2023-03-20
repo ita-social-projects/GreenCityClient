@@ -397,7 +397,7 @@
         "email-is-required": "Email is required",
         "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "this-is-not-email": "Please check if the email is written correctly",
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",

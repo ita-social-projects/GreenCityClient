@@ -388,7 +388,7 @@
         "email-is-required": "Введіть пошту",
         "field-is-required": "Це поле є обов'язковим",
         "email-must-be-at-least-1-characters-long": "Пошта повинна містити принаймі 1 символ",
-        "this-is-not-email": "Перевірте, чи правильно вказано вашу адресу електронної пошти",
+        "this-is-not-email": "Перевірте коректність введеної електронної адреси",
         "password": "Пароль",
         "password-is-required": "Будь ласка введіть пароль",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймні 8 символів без пробілів",
