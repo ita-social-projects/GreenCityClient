@@ -343,4 +343,63 @@ describe('UbsOrderCertificateComponent', () => {
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
   });
+
+  it('should return false if certificate is already activated', () => {
+    component.certificates = mockedCert;
+    component.certificates.activatedStatus = [true];
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if form is not filled', () => {
+    component.formArrayCertificates.push(new FormControl(''));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if button is disabled', () => {
+    spyOn(component, 'disableAddCertificate').and.returnValue(true);
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if multiple certificates are present', () => {
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new FormControl('1111-2222'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if certificate is already entered', () => {
+    spyOn(component, 'showMessageForAlreadyEnteredCert').and.returnValue(true);
+    component.certificates = mockedCert;
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if certificate is not already entered', () => {
+    component.certificates = mockedCert;
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.alreadyEnteredCert = [];
+    const result = component.showMessageForAlreadyEnteredCert(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if there are multiple certificates already entered', () => {
+    component.certificates = mockedCert;
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.alreadyEnteredCert = ['1111-1111', '1111-1122'];
+    const result = component.showMessageForAlreadyEnteredCert(0);
+
+    expect(result).toBe(false);
+  });
 });

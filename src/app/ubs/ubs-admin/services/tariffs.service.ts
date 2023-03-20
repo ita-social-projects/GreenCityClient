@@ -117,6 +117,10 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/check-if-tariff-exists`, card);
   }
 
+  public editTariffInfo(body, tariffId) {
+    return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffInfo/${tariffId}`, body);
+  }
+
   deactivate(deactivateCardObj: DeactivateCard): Observable<object> {
     const arr = [];
     const requestObj = {

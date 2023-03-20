@@ -58,6 +58,8 @@ describe('EventsListItemComponent', () => {
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
 
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+
   const eventMock = {
     description: 'tralalalal',
     additionalImages: [],
@@ -169,7 +171,8 @@ describe('EventsListItemComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
       imports: [
         RouterTestingModule,

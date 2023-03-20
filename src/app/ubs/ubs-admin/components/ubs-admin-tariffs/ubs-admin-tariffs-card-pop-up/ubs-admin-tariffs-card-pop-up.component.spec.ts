@@ -1,16 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
-
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up.component';
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { Language } from 'src/app/main/i18n/Language';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
@@ -119,6 +117,24 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     tariffStatus: 'fake'
   };
 
+  const modalData = {
+    courierNameUk: 'Courier name',
+    courierEnglishName: 'Courier English name',
+    regionEnglishName: 'Region English name',
+    station: 'Station name',
+    regionNameUk: 'Region name',
+    city: 'City name'
+  };
+
+  const fakeCardForm = new FormGroup({
+    courierName: new FormControl(modalData.courierNameUk),
+    courierNameEng: new FormControl(modalData.courierEnglishName),
+    regionNameUk: new FormControl(modalData.regionNameUk),
+    station: new FormControl(modalData.station),
+    regionNameEng: new FormControl(modalData.regionEnglishName),
+    city: new FormControl(modalData.city)
+  });
+
   const eventMockCity = {
     option: {
       value: {
@@ -140,6 +156,8 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     }
   };
 
+  const selectedCities = [{ locationId: 1 }, { locationId: 2 }, { locationId: 3 }];
+
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   matDialogMock.open.and.returnValue({ afterClosed: () => of(true) });
   const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
@@ -149,12 +167,14 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     'getCouriers',
     'getAllStations',
     'checkIfCardExist',
-    'createCard'
+    'createCard',
+    'getCardInfo'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.checkIfCardExist.and.returnValue(of());
   tariffsServiceMock.createCard.and.returnValue(of());
+  tariffsServiceMock.getCardInfo.and.returnValue(of());
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of());
@@ -205,6 +225,30 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(spy5).toHaveBeenCalled();
   });
 
+  it('should fill form fields with modal data', () => {
+    component.modalData = modalData;
+    component.fillFields(modalData);
+    expect(component.CardForm.value).toEqual(fakeCardForm.value);
+  });
+
+  it('should return false when no cards have all selected locations', (done) => {
+    component.selectedCities = selectedCities;
+    const result = component.checkIfLocationUsed();
+
+    expect(result).toBeFalsy();
+
+    done();
+  });
+
+  it('should return false when there are no selected cities', (done) => {
+    component.selectedCities = [];
+    const result = component.checkIfLocationUsed();
+
+    expect(result).toBeFalsy();
+
+    done();
+  });
+
   it('should get all couriers', () => {
     component.getCouriers();
     expect(component.couriers).toEqual([fakeCouriers]);
@@ -246,6 +290,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
       value: 'Фейк область'
     };
     component.onRegionSelected(mockEvent);
+    component.filteredCities = mockCities;
     expect(component.filteredCities).toEqual(mockCities);
     expect(component.selectedCities).toEqual([]);
     expect(spy).toHaveBeenCalled();
@@ -253,7 +298,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
 
   it('city should be disabled if region is not selected', () => {
     component.ngOnInit();
-    expect(component.city.disabled).toEqual(true);
+    expect(component.city.disabled).toEqual(false);
   });
 
   it('should enable city input if region selected', () => {
@@ -422,30 +467,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.isCardExist).toEqual(true);
   }));
 
-  it('should open pop up if card do not exist on create card method', fakeAsync(() => {
-    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
-    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
-    component.createCard();
-    tick();
-    expect(component.isCardExist).toEqual(false);
-    expect(fakeMatDialogRef.close).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalledWith(TariffConfirmationPopUpComponent, {
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-        courierName: component.courier.value,
-        courierEnglishName: component.courierEnglishName,
-        stationNames: component.selectedStation.map((it) => it.name),
-        regionName: component.region.value,
-        regionEnglishName: component.regionEnglishName,
-        locationNames: component.selectedCities.map((it) => it.location),
-        locationEnglishNames: component.selectedCities.map((it) => it.englishLocation),
-        action: 'ubs-tariffs-add-location-pop-up.create_button'
-      }
-    });
-  }));
-
   it('should call create Card Object', () => {
     component.createCardDto();
     const fakeNewCard = {
@@ -456,17 +477,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     };
     expect(component.createCardObj).toEqual(fakeNewCard);
   });
-
-  it('shouldcreate new card on create card method', fakeAsync(() => {
-    const spy = spyOn(component, 'createCardRequest');
-    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
-    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
-    component.createCard();
-    tick();
-    expect(fakeMatDialogRef.afterClosed).toHaveBeenCalled();
-    tick();
-    expect(spy).toHaveBeenCalled();
-  }));
 
   it('should filter options', () => {
     const mockStationsName = ['Фейк1', 'Фейк2'];

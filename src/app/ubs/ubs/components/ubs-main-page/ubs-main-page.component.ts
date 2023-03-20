@@ -71,6 +71,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   preparingContent = [
     'ubs-homepage.ubs-courier.preparing.content.li_1',
     'ubs-homepage.ubs-courier.preparing.content.li_1.1',
+    'ubs-homepage.ubs-courier.preparing.content.li_1.2',
     'ubs-homepage.ubs-courier.preparing.content.li_2',
     'ubs-homepage.ubs-courier.preparing.content.li_3',
     'ubs-homepage.ubs-courier.preparing.content.li_4',

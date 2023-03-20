@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotTakenOutReasonImage } from '../../models/not-taken-out-reason.model';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AddOrderNotTakenOutReasonComponent', () => {
   let component: AddOrderNotTakenOutReasonComponent;
@@ -50,7 +51,8 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
         ReactiveFormsModule,
         SharedModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        RouterTestingModule
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefStub },

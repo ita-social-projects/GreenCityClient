@@ -189,8 +189,7 @@ describe('HabitService', () => {
       expect(data).toEqual(habitListMock);
     });
 
-    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en
-                                              &page=1&size=1&sort=asc&tags=test`);
+    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
     expect(req.request.method).toBe('GET');
     req.flush(habitListMock);
   });
