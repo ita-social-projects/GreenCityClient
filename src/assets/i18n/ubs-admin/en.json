@@ -124,7 +124,7 @@
     "order": "Order №",
     "description": "Add confirmation of payment in one or more of the available ways",
     "payment-date": " Payment date",
-    "payment-amount": "Payment amount (UAH)",
+    "payment-amount": "Payment amount",
     "amount-placeholder": "0 UAH",
     "date-placeholder": "DD/MM/YYYY",
     "payment-id": "Payment ID",

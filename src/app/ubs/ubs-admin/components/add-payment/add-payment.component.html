@@ -30,15 +30,15 @@
       />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
-      <label class="label" for="amount">{{ 'add-payment.payment-amount' | translate }}</label>
+      <label class="label" for="amount">{{ 'add-payment.payment-amount' | translate }} ({{ '' | localizedCurrency }} )</label>
       <input
         formControlName="amount"
         id="amount"
         class="date"
         type="number"
-        step="1"
-        (input)="newFormat($event)"
+        value="paymentSum"
         min="0"
+        (change)="newFormat($event)"
         placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
       />
       <label class="label" for="payment-id">{{ 'add-payment.payment-id' | translate }}</label>
