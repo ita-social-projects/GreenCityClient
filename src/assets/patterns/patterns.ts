@@ -19,7 +19,7 @@ export const Patterns = {
 
   ubsMailPattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 
-  paymantAmountPattern: '^[0-9]+$',
+  paymantAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   sertificateMonthCount: '^[0-9]{1,2}$',
   sertificateInitialValue: '^[0-9]{2,4}$',
 

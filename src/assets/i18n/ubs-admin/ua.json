@@ -124,7 +124,7 @@
     "order": "Замовлення №",
     "description": "Додайте підтвердження про оплату одним або кількома з доступних способів",
     "payment-date": "Дата оплати",
-    "payment-amount": "Сума оплати (грн)",
+    "payment-amount": "Сума оплати",
     "amount-placeholder": "0 грн",
     "date-placeholder": "ДД.ММ.РРРР",
     "payment-id": "ID платежу",
