@@ -408,7 +408,7 @@
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "this-is-not-email": "Please check if the email is written correctly",
         "the-user-already-exists-by-this-email": "The user with this email already exists",
         "password": "Password",
         "password-is-required": "Password is required",
