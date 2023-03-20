@@ -146,8 +146,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public onScroll(): void {
+    const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
     this.scroll = true;
-    this.dispatchStore(false);
+    this.dispatchStore(isRemovedEvents);
   }
 
   ngOnDestroy(): void {

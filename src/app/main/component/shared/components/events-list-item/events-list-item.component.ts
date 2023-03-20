@@ -179,7 +179,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public buttonAction(): void {
-    this.dispatchStore(true);
     switch (this.isRegistered) {
       case this.isEventOpen && !this.isFinished:
         if (this.isOwner) {
@@ -216,7 +215,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       this.isReadonly = !this.event.organizer.organizerRating ? false : true;
       this.isJoined = true;
     }
-    this.dispatchStore(false);
+    this.dispatchStore(true);
   }
 
   public openModal(): void {

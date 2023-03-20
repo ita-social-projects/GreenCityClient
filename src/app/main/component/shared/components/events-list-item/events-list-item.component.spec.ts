@@ -18,6 +18,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -599,15 +600,9 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  it('should add elements to current list if scroll', () => {
-    spyOn(component, 'dispatchStore');
-    component.buttonAction();
-    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
-  });
-
   it(`should be add elements to current list if scroll`, () => {
     spyOn(component, 'dispatchStore');
-    component.actionIsJoined(false);
+    component.actionIsJoined(true);
     expect(component.dispatchStore).toHaveBeenCalledTimes(1);
   });
 
