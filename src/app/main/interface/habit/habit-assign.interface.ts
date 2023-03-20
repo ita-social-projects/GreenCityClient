@@ -22,6 +22,7 @@ export interface HabitResponseInterface {
   complexity: number;
   defaultDuration: number;
   amountAcquiredUsers: number;
+  habitAssignStatus?: string;
   habitTranslation: HabitTranslationInterface;
   id: number;
   image: string;
