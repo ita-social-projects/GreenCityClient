@@ -33,6 +33,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public initialShoppingList: ShoppingList[];
   public standartShopList: ShoppingList[];
   public customShopList: ShoppingList[];
+  public isAssigned = false;
   public isAcquited = false;
   public canAcquire = false;
   private enoughToAcquire = 80;
@@ -83,7 +84,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getDefaultHabit(): void {
+  public getDefaultHabit(): void {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
