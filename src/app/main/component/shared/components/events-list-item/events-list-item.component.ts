@@ -120,8 +120,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public checkIsActive(): boolean {
-    const carentDate = new Date();
-    const eventDates = this.event.dates.find((date) => carentDate <= new Date(date.finishDate));
+    const curentDate = new Date();
+    const eventDates = this.event.dates.find((date) => curentDate <= new Date(date.finishDate));
     return !!eventDates;
   }
 
