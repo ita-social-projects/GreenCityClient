@@ -131,7 +131,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       .subscribe((response: Array<HabitAssignInterface>) => {
         response.forEach((assigned) => {
           this.habitsList.forEach((filtered) => {
-            if (assigned.habit.id === filtered.id) {
+            if (assigned.habit.id === filtered.id && assigned.status === 'INPROGRESS') {
               filtered.isAssigned = true;
             }
           });
