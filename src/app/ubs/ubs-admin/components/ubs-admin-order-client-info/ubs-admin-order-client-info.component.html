@@ -49,9 +49,9 @@
               <div>
                 <input
                   class="form-control name-input"
-                  [readonly]="isStatus"
                   type="text"
                   id="recipient-name"
+                  [readonly]="isStatus"
                   formControlName="recipientName"
                 />
                 <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">

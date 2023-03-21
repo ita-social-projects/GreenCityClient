@@ -45,7 +45,7 @@
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
               <input
                 class="shadow-none form-control input p-2"
-                [attr.disabled]="isStatus ? true : null"
+                [readonly]="isStatus"
                 type="number"
                 min="0"
                 max="999"
@@ -94,7 +94,7 @@
           >
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
-              <div class="d-flex align-items-baseline ubs-courier-container" ngClass="{'disables-input': isStatus}">
+              <div class="d-flex align-items-baseline ubs-courier-container" [ngClass]="{ 'disables-input': isStatus }">
                 <input
                   class="shadow-none form-control input ubs-courier p-2"
                   [disabled]="isStatus"
