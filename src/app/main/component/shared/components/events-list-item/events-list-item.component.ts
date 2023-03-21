@@ -1,6 +1,7 @@
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
+  GetEcoEventsByPageAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
@@ -21,6 +22,7 @@ import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-events-list-item',
@@ -89,7 +91,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private eventService: EventsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit(): void {
@@ -100,7 +103,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.initAllStatusesOfEvent();
     if (!!this.userId) {
       this.checkButtonStatus();
     }
@@ -182,6 +184,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       default:
         break;
     }
+    this.dispatchStore(true);
   }
 
   public openModal(): void {
@@ -273,6 +276,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+    this.destroyed$.unsubscribe();
     this.langChangeSub.unsubscribe();
   }
 }

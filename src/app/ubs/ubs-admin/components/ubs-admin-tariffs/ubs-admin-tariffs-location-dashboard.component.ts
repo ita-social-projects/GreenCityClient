@@ -44,13 +44,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   @Input() selectedCard;
 
   locations: Locations[];
-  regionEnglishName;
-  regionId;
+  regionEnglishName: string[];
+  regionNameUk: string;
+  regionId: number;
   stations: Stations[];
   stationName: Array<string> = [];
   couriers: Couriers[];
   couriersName: Array<string>;
-  courierEnglishName;
+  courierNameEng: string;
+  courierNameUk: string;
   courierId;
   searchForm: FormGroup;
   reset = true;
@@ -384,7 +386,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         const searchingFilter = this.getLangValue(ob.nameUk, ob.nameEn);
         return searchingFilter === event.value;
       });
-      this.courierEnglishName = selectedValue.nameEn;
+      this.courierNameEng = selectedValue.nameEn;
       this.courierId = selectedValue.courierId;
       Object.assign(this.filterData, { courier: this.courierId });
     }
@@ -483,6 +485,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
             regionId: el.regionDto.regionId,
             cardId: el.cardId
           };
+          this.courierNameEng = el.courierDto.nameEn;
+          this.courierNameUk = el.courierDto.nameUk;
+          this.regionEnglishName = el.regionDto.nameEn;
+          this.regionNameUk = el.regionDto.nameUk;
           this.cardsUk.push(cardObjUk);
           this.cardsEn.push(cardObjEn);
         });
@@ -549,7 +555,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         title: 'ubs-tariffs-add-location-pop-up.create_card_title',
         courierName: this.courier.value,
         selectedStation: this.selectedStation,
-        courierEnglishName: this.courierEnglishName,
+        courierEnglishName: this.courierNameEng,
         stationNames: this.selectedStation.map((it) => it.name),
         regionName: this.region.value,
         regionEnglishName: this.regionEnglishName,
@@ -575,6 +581,28 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         this.isCardExist = false;
       }
     });
+  }
+
+  openEditPopUp(card): void {
+    const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        tariffId: card.cardId,
+        title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
+        courierNameUk: this.courierNameUk,
+        courierEnglishName: this.courierNameEng,
+        station: card.station,
+        regionNameUk: this.regionNameUk,
+        regionEnglishName: this.regionEnglishName,
+        city: card.city,
+        action: 'ubs-tariffs-add-location-pop-up.edit_button',
+        edit: true,
+        button: 'edit'
+      }
+    });
+
+    matDialogRef.afterClosed().subscribe((res) => {});
   }
 
   public createCardRequest(card): void {
@@ -708,7 +736,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        headerText: 'createCard'
+        headerText: 'createCard',
+        create: true
       }
     });
   }

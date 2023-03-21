@@ -18,6 +18,8 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -56,6 +58,8 @@ describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
+
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const eventMock = {
     description: 'tralalalal',
@@ -168,9 +172,18 @@ describe('EventsListItemComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
-      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot(), ModalModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        RatingModule.forRoot(),
+        ModalModule.forRoot(),
+        BrowserAnimationsModule,
+        NoopAnimationsModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -189,6 +202,10 @@ describe('EventsListItemComponent', () => {
     component.isPosting = false;
     component.isRated = false;
     component.max = 3;
+    component.userId = 5;
+    component.author = 'tester';
+    component.bookmarkSelected = false;
+    component.currentLang = 'en';
 
     component.deleteDialogData = {
       popupTitle: 'homepage.events.delete-title',
@@ -209,6 +226,12 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('ngOnInit should be called', () => {
+      const spyOnInit = spyOn(component, 'ngOnInit');
+      component.ngOnInit();
+      expect(spyOnInit).toHaveBeenCalled();
+    });
+
     it('tags.length shoud be 3 in ngOnInit', () => {
       component.itemTags = [];
       component.ngOnInit();
@@ -221,10 +244,35 @@ describe('EventsListItemComponent', () => {
       expect(component.filterTags).toHaveBeenCalled();
     });
 
+    it('ngOnInit', () => {
+      userOwnAuthServiceMock.getDataFromLocalStorage();
+      const spy = spyOn(component as any, 'checkUserSingIn');
+      component.ngOnInit();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('checkUserSingIn', () => {
+      (component as any).checkUserSingIn();
+      expect(component.userId).toBe(5);
+      expect(component.isLoggedIn).toBe(undefined);
+    });
+
     it(`should check whether getAllAttendees returns correct value`, () => {
       component.ngOnInit();
       EventsServiceMock.getAllAttendees();
       expect(component.attendees).toEqual([]);
+    });
+
+    it(`getAllAttendees should be called in ngOnInit`, () => {
+      spyOn(component, 'getAllAttendees');
+      component.ngOnInit();
+      expect(component.getAllAttendees).toHaveBeenCalled();
+    });
+
+    it(`filterTags should be called in ngOnInit`, () => {
+      spyOn(component, 'filterTags');
+      component.ngOnInit();
+      expect(component.filterTags).toHaveBeenCalled();
     });
 
     it(`should check whether active tags are filtered properly`, () => {
@@ -394,5 +442,62 @@ describe('EventsListItemComponent', () => {
       component.ngOnDestroy();
       expect(component.langChangeSub.closed).toBeTruthy();
     });
+  });
+
+  it(`should be add elements to current list if scroll`, () => {
+    spyOn(component, 'dispatchStore');
+    component.actionIsJoined(true);
+    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
+  });
+
+  it('deleteEvent should be called when event not opened and owner ', () => {
+    component.isEventOpen = false;
+    component.isOwner = true;
+    spyOn(component, 'deleteEvent');
+
+    if (!component.isEventOpen && component.isOwner) {
+      component.deleteEvent();
+    }
+    expect(component.deleteEvent).toHaveBeenCalled();
+  });
+
+  it('openModal should be called when event not raited, opened and not owner ', () => {
+    component.isEventOpen = true;
+    component.isOwner = false;
+    component.isRated = false;
+    spyOn(component, 'openModal');
+    if (component.isEventOpen && !component.isOwner && !component.isRated) {
+      component.openModal();
+    }
+    expect(component.openModal).toHaveBeenCalled();
+  });
+
+  it('handleUserAuthorization should change text and style of btn', () => {
+    component.isLoggedIn = true;
+    component.isOwner = false;
+    component.isJoined = true;
+    spyOn(component, 'handleUserAuthorization');
+    expect(component.styleBtn).toBe('secondary-global-button');
+    expect(component.nameBtn).toBe('event.btn-delete');
+    expect(component.isJoinBtnHidden).toBe(false);
+  });
+
+  it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
+    component.isRegistered = false;
+    spyOn(component, 'openAuthModalWindow');
+    if (!component.isRegistered) {
+      component.openAuthModalWindow('sign-in');
+    }
+    expect(component.openAuthModalWindow).toHaveBeenCalled();
+  });
+
+  describe('addToFavourite()', () => {
+    it(`should be clicked and called addToFavourite method`, fakeAsync(() => {
+      spyOn(component, 'addToFavourite');
+      const button = fixture.debugElement.nativeElement.querySelector('.flag');
+      button.click();
+      tick();
+      expect(component.addToFavourite).toHaveBeenCalled();
+    }));
   });
 });

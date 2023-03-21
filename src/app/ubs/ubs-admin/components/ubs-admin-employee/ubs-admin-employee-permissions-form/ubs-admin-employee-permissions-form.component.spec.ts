@@ -23,6 +23,13 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
     updatePermissions: jasmine.createSpy('updatePermissions')
   };
 
+  const dialogRefStub = {
+    backdropClick() {
+      return of();
+    },
+    close() {}
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminEmployeePermissionsFormComponent],
@@ -30,7 +37,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: mockedEmployee },
         { provide: UbsAdminEmployeeService, useValue: employeeServiceMock },
-        { provide: MatDialogRef, useValue: { close: () => {} } },
+        { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ]

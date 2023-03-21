@@ -16,6 +16,7 @@ import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -302,6 +303,9 @@ describe('UBSAddAddressPopUpComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
+  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
+  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue(streetPlaceResultUk.address_components[1].long_name);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -320,7 +324,8 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: MatSnackBarComponent, useValue: {} },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: Locations, useValue: fakeLocationsMockUk },
-        { provide: GoogleScript, useValue: fakeGoogleScript }
+        { provide: GoogleScript, useValue: fakeGoogleScript },
+        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -606,8 +611,8 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.district.value).toEqual(result);
   });
 
-  it('method setDistrictAuto should set district value in uk', () => {
-    const result = streetPlaceResultEn.address_components[1].long_name;
+  it('method setDistrictAuto should set district value in en', () => {
+    const result = streetPlaceResultUk.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultEn, component.districtEn, component.languages.en);
     expect(component.districtEn.value).toEqual(result);
   });

@@ -137,7 +137,9 @@
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
-      }
+      },
+      "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
+      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site"
     },
     "subscription": {
       "caption": "Receive interesting news",
@@ -343,7 +345,8 @@
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection",
       "unauthorised-user": "You need to be authorized to edit an event",
-      "exist-address": "This address has already been added"
+      "exist-address": "This address has already been added",
+      "certificate-duration": "The duration of the certificate cant be more than 12 months"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -354,7 +357,8 @@
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
-      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box."
+      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
+      "joined-event": "You have successfully joined the event"
     }
   },
   "user": {
@@ -398,7 +402,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
+        "user-name-size": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -406,7 +410,7 @@
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "this-is-not-email": "Please check if the email is written correctly",
         "the-user-already-exists-by-this-email": "The user with this email already exists",
         "password": "Password",
         "password-is-required": "Password is required",
