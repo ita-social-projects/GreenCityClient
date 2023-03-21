@@ -46,9 +46,9 @@ export class AdminTableService {
     return this.http.get(`${this.url}tableParams`);
   }
 
-  postData(orderId: number[], columnName: string, newValue: string) {
+  postData(orderIdsList: number[], columnName: string, newValue: string) {
     return this.http.put(`${this.url}changingOrder`, {
-      orderId,
+      orderIdsList,
       columnName,
       newValue
     });
