@@ -7,7 +7,8 @@ import {
   PaymentDetails,
   IPaymentInfoDto,
   FormFieldsName,
-  ResponsibleEmployee
+  ResponsibleEmployee,
+  notTakenOutReason
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
@@ -125,6 +126,10 @@ export class OrderService {
 
   public getOrderHistory(orderId: number): Observable<IOrderHistory[]> {
     return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}`);
+  }
+
+  public getNotTakenOutReason(historyId: number): Observable<notTakenOutReason> {
+    return this.http.get<notTakenOutReason>(`${this.backend}/management/get-not-taken-order-reason/${historyId}`);
   }
 
   public updateRecipientsData(postData: any) {

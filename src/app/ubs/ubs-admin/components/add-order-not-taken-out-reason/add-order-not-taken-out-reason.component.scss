@@ -248,3 +248,16 @@ textarea::placeholder {
 .history-description:focus {
   outline: 0;
 }
+
+.reason-images-container {
+  height: 215px;
+  background: var(--pre-secondary-light-grey);
+  border: 1px solid var(--ubs-primary-light-grey);
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+
+.image-container-reason {
+  margin: 1px;
+}

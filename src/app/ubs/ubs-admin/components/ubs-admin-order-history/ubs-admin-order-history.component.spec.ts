@@ -1,21 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IOrderInfo, IEmployee } from '../../models/ubs-admin.interface';
-import { of } from 'rxjs';
-
-class MatDialogMock {
-  open() {
-    return {
-      afterClosed: () => of(true)
-    };
-  }
-}
+import { IOrderInfo, IEmployee, notTakenOutReason } from '../../models/ubs-admin.interface';
+import { of, Subject } from 'rxjs';
+import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 describe('UbsAdminOrderHistoryComponent', () => {
   let component: UbsAdminOrderHistoryComponent;
@@ -24,6 +17,11 @@ describe('UbsAdminOrderHistoryComponent', () => {
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
   const MatDialogRefMock = {
     close: () => {}
+  };
+
+  const orderNotTakenOutReasonMock: notTakenOutReason = {
+    description: 'string',
+    images: ['string']
   };
 
   const OrderInfoMock: IOrderInfo = {
@@ -174,13 +172,26 @@ describe('UbsAdminOrderHistoryComponent', () => {
     }
   };
 
+  const dialogStub = {
+    afterClosed() {
+      return of(true);
+    }
+  };
+
+  const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
+  matDialogMock.open.and.returnValue(dialogStub);
+
+  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
       declarations: [UbsAdminOrderHistoryComponent],
       providers: [
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialogRef, useValue: dialogStub },
         { provide: MAT_DIALOG_DATA, useValue: MatDialogRefMock }
       ]
     }).compileComponents();
@@ -190,6 +201,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderHistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    const orderServiceMock = jasmine.createSpyObj('orderService', { getOrderHistory: OrderInfoMock });
   });
 
   it('should create', () => {
@@ -198,6 +210,23 @@ describe('UbsAdminOrderHistoryComponent', () => {
 
   it('should call getOrderHistory when orderInfo changes', () => {
     const spy = spyOn(component, 'getOrderHistory');
+    component.orderInfo = OrderInfoMock;
+
+    const changes = {
+      orderInfo: {
+        currentValue: true,
+        firstChange: true,
+        isFirstChange: () => true,
+        previousValue: undefined
+      }
+    };
+    component.ngOnChanges(changes);
+
+    expect(spy).toHaveBeenCalledWith(1);
+  });
+
+  it('should call getNotTakenOutReason when orderInfo changes', () => {
+    const spy = spyOn(component, 'getNotTakenOutReason');
     component.orderInfo = OrderInfoMock;
 
     const changes = {
@@ -222,6 +251,15 @@ describe('UbsAdminOrderHistoryComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('should not call getNotTakenOutReason when orderInfo does not change', () => {
+    const spy = spyOn(component, 'getNotTakenOutReason');
+    component.orderInfo = OrderInfoMock;
+    const changes = {};
+    component.ngOnChanges(changes);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should set pageOpen to true when initially false', () => {
     component.pageOpen = false;
     component.openDetails();
@@ -234,5 +272,19 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.openDetails();
 
     expect(component.pageOpen).toBe(false);
+  });
+
+  it('destroy Subject should be closed after ngOnDestroy()', () => {
+    (component as any).destroy$ = new Subject<boolean>();
+    spyOn((component as any).destroy$, 'complete');
+    component.ngOnDestroy();
+    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
+  });
+
+  it('destroy Subject should be closed after ngOnDestroy()', () => {
+    (component as any).destroy$ = new Subject<boolean>();
+    spyOn((component as any).destroy$, 'next');
+    component.ngOnDestroy();
+    expect((component as any).destroy$.next).toHaveBeenCalledTimes(1);
   });
 });

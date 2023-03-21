@@ -277,6 +277,11 @@ export interface IOrderHistory {
   result?: string;
 }
 
+export interface notTakenOutReason {
+  description: 'string';
+  images: ['string'];
+}
+
 export interface IOrderStatusInfo {
   key: string;
   ableActualChange: boolean;
@@ -507,4 +512,11 @@ export enum FormFieldsName {
   TimeDeliveryFrom = 'timeDeliveryFrom',
   TimeDeliveryTo = 'timeDeliveryTo',
   ReceivingStation = 'receivingStation'
+}
+
+export enum ordersStutuses {
+  NotTakenOutUA = 'Не вивезли',
+  NotTakenOutEN = 'Not taken out',
+  CanselUA = 'Скасовано',
+  CanselEN = 'Canseled'
 }

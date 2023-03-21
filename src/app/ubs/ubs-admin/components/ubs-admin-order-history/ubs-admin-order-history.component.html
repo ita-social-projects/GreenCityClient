@@ -35,7 +35,7 @@
         >
           <span>{{ historyAction.status }} </span>
           <span *ngIf="historyAction.result"> -</span>
-          <span [ngClass]="{ result: historyAction.result === 'Не вивезли' }" *ngIf="historyAction.result">
+          <span [ngClass]="{ result: historyAction.result === coloredStutus }" *ngIf="historyAction.result">
             {{ historyAction.result }}</span
           >
         </td>

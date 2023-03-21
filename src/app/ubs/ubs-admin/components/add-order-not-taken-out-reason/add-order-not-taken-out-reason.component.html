@@ -20,7 +20,7 @@
       cols="50"
       rows="6"
       formControlName="notTakenOutReason"
-      [(ngModel)]="notTakenOutReason"
+      [(ngModel)]="isOpendFromHistory ? reasonDescription : notTakenOutReason"
     ></textarea>
     <div
       class="error-message"
@@ -83,11 +83,10 @@
       </div>
     </div>
     <ng-template #photoContainerHistory>
-      <div class="row images">
-        <div class="image-container" *ngFor="let img of images">
-          <img class="image-preview" [src]="img.src" alt="image-of-not-taken-out-bag" (click)="openImage(img)" />
+      <div class="reason-images-container">
+        <div class="image-container-reason" *ngFor="let reasonImg of reasonImages">
+          <img class="image-preview" [src]="reasonImg.src" alt="image-of-not-taken-out-bag" (click)="openImage(reasonImg)" />
         </div>
-        <div class="image-container" *ngFor="let placeholder of maxNumberOfImgs - images.length | repeat; index as idx"></div>
       </div>
     </ng-template>
     <div class="bottom-container">
