@@ -6,7 +6,7 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IOrderInfo, IEmployee, NotTakenOutReason } from '../../models/ubs-admin.interface';
+import { IOrderInfo, IEmployee, INotTakenOutReason } from '../../models/ubs-admin.interface';
 import { of, Subject } from 'rxjs';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
@@ -19,7 +19,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
     close: () => {}
   };
 
-  const orderNotTakenOutReasonMock: NotTakenOutReason = {
+  const orderNotTakenOutReasonMock: INotTakenOutReason = {
     description: 'string',
     images: ['string']
   };
@@ -201,7 +201,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderHistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    const orderServiceMock = jasmine.createSpyObj('orderService', { getOrderHistory: OrderInfoMock });
+    jasmine.createSpyObj('orderService', { getOrderHistory: OrderInfoMock });
   });
 
   it('should create', () => {

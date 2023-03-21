@@ -277,7 +277,7 @@ export interface IOrderHistory {
   result?: string;
 }
 
-export interface NotTakenOutReason {
+export interface INotTakenOutReason {
   description: 'string';
   images: ['string'];
 }
