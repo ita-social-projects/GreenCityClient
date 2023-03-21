@@ -135,7 +135,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        const sortedHabits = this.sortHabitsAsc(response);
+        const sortedHabits = this.sortHabitsData(response);
         this.habitAssignService.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.setHabitsForView();
@@ -164,13 +164,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsAsc(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
+  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
-      if (firstHabit.habit.id > secondHabit.habit.id) {
-        return 1;
-      }
-      if (secondHabit.habit.id > firstHabit.habit.id) {
+      if (firstHabit.createDateTime > secondHabit.createDateTime) {
         return -1;
+      }
+      if (secondHabit.createDateTime > firstHabit.createDateTime) {
+        return 1;
       }
       return 0;
     });
