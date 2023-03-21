@@ -39,9 +39,11 @@ export class HabitProgressComponent implements OnChanges {
   constructor(private habitAssignService: HabitAssignService, public datePipe: DatePipe) {}
 
   ngOnChanges() {
-    this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
-    this.buildHabitDescription();
-    this.countProgressBar();
+    if (this.habit) {
+      this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
+      this.buildHabitDescription();
+      this.countProgressBar();
+    }
   }
 
   public countProgressBar(): void {

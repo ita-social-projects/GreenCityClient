@@ -6,8 +6,11 @@
         <div>{{ 'user.habit.all-habits.back-button' | translate }}</div>
       </div>
     </a>
-    <div>
+    <div class="habit-header">
       <h1 class="main-header">{{ 'user.habit.all-habits.title' | translate }}</h1>
+      <button class="secondary-global-button s-btn" (click)="goToCreateHabit()">
+        {{ 'user.habit.all-habits.btn-crate-habit' | translate }}
+      </button>
     </div>
     <app-tag-filter
       class="border_bottom"

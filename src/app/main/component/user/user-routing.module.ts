@@ -11,6 +11,7 @@ import { RecommendedFriendsComponent } from './components/profile/users-friends/
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
+import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';
 
 export const userRoutes: Routes = [
   {
@@ -21,6 +22,7 @@ export const userRoutes: Routes = [
       { path: ':id', component: ProfileComponent },
       { path: ':id/edit', component: EditProfileComponent, canDeactivate: [PendingChangesGuard] },
       { path: ':id/allhabits', component: AllHabitsComponent },
+      { path: ':id/create-habit', component: AddEditCustomHabitComponent },
       { path: ':id/allhabits/addhabit/:habitId', component: AddNewHabitComponent },
       { path: '', component: ProfileComponent },
       {

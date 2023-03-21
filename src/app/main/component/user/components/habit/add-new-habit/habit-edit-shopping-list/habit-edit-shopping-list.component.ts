@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
@@ -20,7 +20,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
-  public list: ShoppingList[] = [];
+  @Input() list: ShoppingList[] = [];
   public subscription: Subscription;
   public habitId: number;
   public userId: number;
@@ -54,14 +54,15 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       this.habitId = +params.habitId;
     });
     this.userId = this.localStorageService.getUserId();
-    this.checkIfAssigned();
-    this.subscription = this.shoppinglistService
-      .getList()
-      .pipe(takeUntil(this.destroySub))
-      .subscribe((data) => {
-        this.list = data;
-        this.newList.emit(this.list);
-      });
+    this.isEditing = true;
+    // this.checkIfAssigned();
+    // this.subscription = this.shoppinglistService
+    //   .getList()
+    //   .pipe(takeUntil(this.destroySub))
+    //   .subscribe((data) => {
+    //     this.list = data;
+    //     this.newList.emit(this.list);
+    //   });
   }
 
   getListItems(isAssigned: boolean) {
@@ -118,6 +119,7 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public add(value: string) {
     this.shoppinglistService.addItem(value);
     this.itemForm.setValue({ item: '' });
+    this.newList.emit(this.list);
   }
 
   public delete(item) {
