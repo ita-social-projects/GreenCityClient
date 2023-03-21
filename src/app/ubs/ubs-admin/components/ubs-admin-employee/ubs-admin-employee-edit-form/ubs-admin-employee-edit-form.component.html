@@ -133,6 +133,9 @@
           <img [src]="imageURL" alt="Your photo" (click)="openImg()" />
         </div>
       </ng-template>
+      <div class="row error-message" *ngIf="isImageError">
+        <p>{{ 'ubs-employee.image-error' | translate }}</p>
+      </div>
     </div>
     <div class="button-row">
       <button mat-dialog-close="true" class="cancelButton">{{ 'ubs-employee.cancel' | translate }}</button>
