@@ -1,7 +1,6 @@
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
-  GetEcoEventsByPageAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
@@ -103,6 +102,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.initAllStatusesOfEvent();
     if (!!this.userId) {
       this.checkButtonStatus();
     }
@@ -184,7 +184,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       default:
         break;
     }
-    this.dispatchStore(true);
   }
 
   public openModal(): void {

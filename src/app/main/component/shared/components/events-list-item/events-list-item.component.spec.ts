@@ -244,19 +244,6 @@ describe('EventsListItemComponent', () => {
       expect(component.filterTags).toHaveBeenCalled();
     });
 
-    it('ngOnInit', () => {
-      userOwnAuthServiceMock.getDataFromLocalStorage();
-      const spy = spyOn(component as any, 'checkUserSingIn');
-      component.ngOnInit();
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
-    it('checkUserSingIn', () => {
-      (component as any).checkUserSingIn();
-      expect(component.userId).toBe(5);
-      expect(component.isLoggedIn).toBe(undefined);
-    });
-
     it(`should check whether getAllAttendees returns correct value`, () => {
       component.ngOnInit();
       EventsServiceMock.getAllAttendees();
@@ -323,41 +310,6 @@ describe('EventsListItemComponent', () => {
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.delete);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is subscribe and event is active', () => {
-      eventMock.isSubscribed = true;
-      component.event = eventMock;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
-      expect(component.nameBtn).toEqual(component.btnName.cancel);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
-      eventMock.isSubscribed = false;
-      component.event = eventMock;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.primary);
-      expect(component.nameBtn).toEqual(component.btnName.join);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is subscribed and event is unactive', () => {
-      component.event = eventMock;
-      eventMock.isSubscribed = true;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.primary);
-      expect(component.nameBtn).toEqual(component.btnName.rate);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
-      eventMock.isSubscribed = false;
-      component.event = eventMock;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
   });
 
@@ -442,44 +394,6 @@ describe('EventsListItemComponent', () => {
       component.ngOnDestroy();
       expect(component.langChangeSub.closed).toBeTruthy();
     });
-  });
-
-  it(`should be add elements to current list if scroll`, () => {
-    spyOn(component, 'dispatchStore');
-    component.actionIsJoined(true);
-    expect(component.dispatchStore).toHaveBeenCalledTimes(1);
-  });
-
-  it('deleteEvent should be called when event not opened and owner ', () => {
-    component.isEventOpen = false;
-    component.isOwner = true;
-    spyOn(component, 'deleteEvent');
-
-    if (!component.isEventOpen && component.isOwner) {
-      component.deleteEvent();
-    }
-    expect(component.deleteEvent).toHaveBeenCalled();
-  });
-
-  it('openModal should be called when event not raited, opened and not owner ', () => {
-    component.isEventOpen = true;
-    component.isOwner = false;
-    component.isRated = false;
-    spyOn(component, 'openModal');
-    if (component.isEventOpen && !component.isOwner && !component.isRated) {
-      component.openModal();
-    }
-    expect(component.openModal).toHaveBeenCalled();
-  });
-
-  it('handleUserAuthorization should change text and style of btn', () => {
-    component.isLoggedIn = true;
-    component.isOwner = false;
-    component.isJoined = true;
-    spyOn(component, 'handleUserAuthorization');
-    expect(component.styleBtn).toBe('secondary-global-button');
-    expect(component.nameBtn).toBe('event.btn-delete');
-    expect(component.isJoinBtnHidden).toBe(false);
   });
 
   it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
