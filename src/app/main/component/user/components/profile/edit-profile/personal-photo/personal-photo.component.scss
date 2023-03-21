@@ -3,18 +3,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
+  max-width: 120px;
+  max-height: 120px;
 
-  .tertiary-global-button {
-    margin-top: 16px;
-    line-height: 20px;
-    font-weight: 500;
-    width: 148px;
+  a {
+    position: absolute;
+    bottom: 0;
+    left: 76px;
   }
 }
 
 @media screen and (max-width: 320px) {
   .details-img {
-    margin-top: 24px;
-    align-items: center;
+    margin: 24px auto 0 auto;
   }
 }
