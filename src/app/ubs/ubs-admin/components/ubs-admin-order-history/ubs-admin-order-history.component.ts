@@ -1,7 +1,7 @@
 import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { IOrderHistory, IOrderInfo, notTakenOutReason, ordersStutuses } from '../../models/ubs-admin.interface';
+import { IOrderHistory, IOrderInfo, NotTakenOutReason, ordersStutuses } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
@@ -18,7 +18,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
-  orderNotTakenOutReason: notTakenOutReason;
+  orderNotTakenOutReason: NotTakenOutReason;
   coloredStutus = ordersStutuses.NotTakenOutUA || ordersStutuses.CanselUA;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
