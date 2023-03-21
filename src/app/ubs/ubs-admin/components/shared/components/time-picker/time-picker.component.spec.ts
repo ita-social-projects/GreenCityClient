@@ -22,7 +22,7 @@ describe('TimePickerComponent', () => {
   } as unknown as FormGroup;
 
   const fakeExportDate = {
-    dateExport: { value: '2022-12-15' }
+    dateExport: { value: '2025-12-15' }
   };
   const fakeTimeSelectFrom = [
     '08:00',

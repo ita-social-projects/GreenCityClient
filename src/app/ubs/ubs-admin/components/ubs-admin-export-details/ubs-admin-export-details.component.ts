@@ -85,7 +85,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   getExportDate(): string {
-    return this.exportDetailsDto.get('dateExport').value;
+    return this.exportDetailsDto.controls.dateExport.value !== '' ? this.exportDetailsDto.get('dateExport').value : this.current;
   }
 
   setExportTime(data: any): void {
