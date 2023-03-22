@@ -13,7 +13,8 @@ import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions'
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -52,6 +53,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
+    public shoppingService: ShoppingListService,
     private store: Store,
     private eventService: EventsService,
     private route: ActivatedRoute
