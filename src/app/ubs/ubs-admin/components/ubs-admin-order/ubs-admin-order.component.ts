@@ -60,7 +60,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   overpayment: number;
   isMinOrder = true;
   isSubmitted = false;
-  isFormResetted = false;
+  private isFormResetted = false;
   writeOffStationSum: number;
   ubsCourierPrice: number;
   additionalPayment: string;

@@ -117,7 +117,7 @@ describe('UbsAdminCabinetComponent', () => {
     expect(component.orderForm.get('responsiblePersonsForm.name2').validator).toBeNull();
     expect(component.orderForm.get('exportDetailsDto').value).toEqual({ field1: null, field2: null });
     expect(component.orderForm.get('responsiblePersonsForm').value).toEqual({ name1: null, name2: null });
-    expect(component.isFormResetted).toBeTruthy();
+    expect((component as any).isFormResetted).toBeTruthy();
   });
 
   it('should return the order status info for the given status name', () => {
@@ -156,48 +156,23 @@ describe('UbsAdminCabinetComponent', () => {
     expect(employee).toEqual('');
   });
 
-  xit('should update currentOrderStatus when onChangedOrderStatus is called', () => {
-    const status = 'ON_THE_ROUTE';
-    component.onChangedOrderStatus(status);
-    expect(component.currentOrderStatus).toEqual(status);
+  it('onUpdatePaymentStatus should update additionalPayment and mark orderForm as dirty', () => {
+    const newPaymentStatus = 'paid';
+    component.onUpdatePaymentStatus(newPaymentStatus);
+    expect(component.additionalPayment).toEqual(newPaymentStatus);
+    expect(component.orderForm.dirty).toBeTruthy();
   });
 
-  xit('should update orderStatusInfo when onChangedOrderStatus is called', () => {
-    const status = 'ON_THE_ROUTE';
-    component.onChangedOrderStatus(status);
-    expect(component.orderStatusInfo).toEqual((component as any).getOrderStatusInfo(status));
+  it('onPaymentUpdate should update totalPaid', () => {
+    const sum = 100;
+    component.onPaymentUpdate(sum);
+    expect(component.totalPaid).toEqual(sum);
   });
 
-  xit('should call notRequiredFieldsStatuses when onChangedOrderStatus is called', () => {
-    spyOn(component, 'notRequiredFieldsStatuses');
-    const status = 'ON_THE_ROUTE';
-    component.onChangedOrderStatus(status);
-    expect(component.notRequiredFieldsStatuses).toHaveBeenCalled();
-  });
-
-  describe('onUpdatePaymentStatus', () => {
-    it('should update additionalPayment and mark orderForm as dirty', () => {
-      const newPaymentStatus = 'paid';
-      component.onUpdatePaymentStatus(newPaymentStatus);
-      expect(component.additionalPayment).toEqual(newPaymentStatus);
-      expect(component.orderForm.dirty).toBeTruthy();
-    });
-  });
-
-  describe('onPaymentUpdate', () => {
-    it('should update totalPaid', () => {
-      const sum = 100;
-      component.onPaymentUpdate(sum);
-      expect(component.totalPaid).toEqual(sum);
-    });
-  });
-
-  describe('changeOverpayment', () => {
-    it('should update overpayment', () => {
-      const sum = 50;
-      component.changeOverpayment(sum);
-      expect(component.overpayment).toEqual(sum);
-    });
+  it('changeOverpayment should update overpayment', () => {
+    const sum = 50;
+    component.changeOverpayment(sum);
+    expect(component.overpayment).toEqual(sum);
   });
 
   it('onChangeCurrentPrice should update currentOrderPrice', () => {
