@@ -41,7 +41,6 @@ export const EcoEventsReducer = createReducer(
   }),
 
   on(
-    DeleteEcoEventSuccessAction,
     CreateEcoEventSuccessAction,
     AddAttenderEventsByIdSuccessAction,
     RemoveAttenderEventsByIdSuccessAction,
@@ -56,6 +55,14 @@ export const EcoEventsReducer = createReducer(
       };
     }
   ),
+  on(DeleteEcoEventSuccessAction, (state, action) => {
+    const prevList = state.eventsList;
+    const newState = prevList.filter((event) => event.id !== action.id);
+    return {
+      ...state,
+      eventsList: newState
+    };
+  }),
 
   on(ReceivedFailureAction, (state, action) => ({
     ...state,
