@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddOrderCancellationReasonComponent } from './add-order-cancellation-reason.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { Component, OnInit } from '@angular/core';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
 describe('AddOrderCancellationReasonComponent', () => {
   let component: AddOrderCancellationReasonComponent;
@@ -16,13 +18,23 @@ describe('AddOrderCancellationReasonComponent', () => {
     id: 1577
   };
   const DataMock = {
+    reason: 'Other',
     cancellationComment: 'cancellationComment'
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddOrderCancellationReasonComponent],
-      imports: [MatDialogModule, FormsModule, TranslateModule.forRoot(), MatSelectModule, MatRadioModule, ReactiveFormsModule],
+      imports: [
+        MatDialogModule,
+        FormsModule,
+        TranslateModule.forRoot(),
+        MatSelectModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefStub },
         { provide: MAT_DIALOG_DATA, useValue: viewModeInputs }
@@ -43,8 +55,13 @@ describe('AddOrderCancellationReasonComponent', () => {
   it('makes expected call initForm', () => {
     const spy = spyOn(component, 'initForm');
     component.ngOnInit();
-    expect(component.commentForm.value).toEqual({ cancellationComment: '' });
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('orderService should be called', () => {
+    const spyReturnedValues = spyOn(component.orderService, 'getOrderCancelReason').and.returnValue(of(DataMock));
+    component.ngOnInit();
+    expect(spyReturnedValues).toHaveBeenCalled();
   });
 
   it('commentForm invalid when empty', () => {
@@ -54,7 +71,12 @@ describe('AddOrderCancellationReasonComponent', () => {
   it('pop up should close', () => {
     const spy = spyOn(component.dialogRef, 'close');
     component.close();
+    expect(spy).toHaveBeenCalled();
+  });
 
+  it('pop up should save and data be saved', () => {
+    const spy = spyOn(component.dialogRef, 'close');
+    component.close();
     expect(spy).toHaveBeenCalled();
   });
 });

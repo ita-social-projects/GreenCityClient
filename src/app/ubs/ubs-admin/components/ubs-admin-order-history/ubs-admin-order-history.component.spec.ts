@@ -235,4 +235,10 @@ describe('UbsAdminOrderHistoryComponent', () => {
 
     expect(component.pageOpen).toBe(false);
   });
+
+  it('should call showPopup when user click on special status', () => {
+    const spy = spyOn(component, 'showPopup');
+    component.showPopup(1);
+    expect(spy).toHaveBeenCalled();
+  });
 });

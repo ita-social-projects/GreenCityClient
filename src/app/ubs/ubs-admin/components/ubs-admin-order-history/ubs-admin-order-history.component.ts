@@ -19,8 +19,6 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
   public isHistory = true;
-  public cancellationReason: string;
-  public cancellationComment: string;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -34,29 +32,20 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  showPopup() {
-    const selection = getSelection();
-    const charClicked = (selection.focusNode as any).data;
-    if (charClicked.includes('Скасовано')) {
-      this.openCancelReason();
-    }
+  showPopup(orderHistoryId) {
+    this.orderHistory.forEach((order) => {
+      if (order.id === orderHistoryId && order.eventName.includes('Скасовано')) {
+        this.openCancelReason();
+      }
+    });
   }
 
   openCancelReason() {
-    this.orderService
-      .getOrderCancelReason(this.orderInfo.generalOrderInfo.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((message) => {
-        this.cancellationReason = message.cancellationReason;
-        this.cancellationComment = message.cancellationComment;
-      });
     this.dialog.open(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
       data: {
-        orderInfo: this.orderInfo,
         isHistory: this.isHistory,
-        isCancellationReason: this.cancellationReason,
-        cancellationComment: this.cancellationComment
+        orderID: this.orderInfo.generalOrderInfo.id
       }
     });
   }

@@ -273,6 +273,8 @@ export interface IOrderHistory {
   eventDate: string;
   eventName: string;
   id: number;
+  status?: string;
+  result?: string;
 }
 
 export interface IOrderStatusInfo {

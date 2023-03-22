@@ -4,9 +4,11 @@
       <img src="{{ closeButton }}" alt="close" />
     </button>
   </div>
-  <!-- isHistory false -->
-  <div *ngIf="!isHistory">
-    <label class="title" id="addReason">{{ 'order-cancel.title' | translate }}</label>
+  <div>
+    <label class="title" id="addReason"
+      >{{ isHistory ? ('order-cancel.cancel-reason' | translate) : ('order-cancel.title' | translate) }}
+      <span *ngIf="isHistory"> № {{ orderID }}</span></label
+    >
     <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
       <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}">
         {{ option.translation | translate }}</mat-radio-button
@@ -37,38 +39,12 @@
       </div>
     </form>
     <div class="btn-container">
-      <button type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
-      <button type="submit" class="agree btn" [disabled]="disableButton()" (click)="save()">
+      <button *ngIf="!isHistory" type="reset" class="disagree btn" (click)="close()">{{ 'order-cancel.btn.cancel' | translate }}</button>
+      <button *ngIf="!isHistory" type="submit" class="agree btn" [disabled]="disableButton()" (click)="save()">
         {{ 'order-cancel.btn.add' | translate }}
       </button>
     </div>
     <span class="date">{{ 'order-cancel.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
-    <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
-  </div>
-  <!-- isHistory true -->
-  <div *ngIf="isHistory">
-    <label class="title" id="addReason"
-      >{{ 'order-cancel.cancel-reason' | translate }} №{{ orderInfo.orderInfo.generalOrderInfo.id }}</label
-    >
-    <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
-      <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}" checked="option === cancellationReason">
-        {{ option.translation | translate }}
-      </mat-radio-button>
-    </mat-radio-group>
-    <form [formGroup]="commentForm">
-      <textarea
-        *ngIf="cancellationReason === 'OTHER'"
-        formControlName="cancellationComment"
-        placeholder="{{ 'order-cancel.placeholder' | translate }}"
-        cols="50"
-        rows="6"
-        [(ngModel)]="cancellationComment"
-        disabled
-      ></textarea>
-    </form>
-    <span class="date"
-      >{{ 'order-cancel.date' | translate }}: {{ orderInfo.orderInfo.generalOrderInfo.dateFormed | date: 'dd.MM.y' }}
-    </span>
     <span>{{ 'order-cancel.added' | translate }}: {{ adminName }}</span>
   </div>
 </div>
