@@ -131,33 +131,32 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     const isSubscribe = this.event.isSubscribed;
     const isOwner = +this.userId === this.event.organizer.id;
     const isActive = this.checkIsActive();
-
-    if (isOwner && isActive) {
+    if (isOwner && isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.edit;
       return;
     }
-    if (isOwner && !isActive) {
+    if (isOwner && !isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.delete;
       return;
     }
-    if (isSubscribe && isActive) {
+    if (isSubscribe && isActive && !isOwner) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.cancel;
       return;
     }
-    if (!isSubscribe && isActive) {
+    if (!isSubscribe && isActive && !isOwner) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.join;
       return;
     }
-    if (isSubscribe && !isActive) {
+    if (isSubscribe && !isActive && !isOwner) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.rate;
       return;
     }
-    if (!isSubscribe && !isActive) {
+    if (!isSubscribe && !isActive && !isOwner) {
       this.btnStyle = this.styleBtn.hiden;
     }
   }

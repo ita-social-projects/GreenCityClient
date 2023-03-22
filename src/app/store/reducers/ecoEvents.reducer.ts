@@ -40,13 +40,21 @@ export const EcoEventsReducer = createReducer(
     };
   }),
 
-  on(DeleteEcoEventSuccessAction, CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => {
+  on(CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => {
     return {
       ...state,
       eventsList: [],
       pageNumber: 0,
       visitedPages: [],
       totalPages: 0
+    };
+  }),
+  on(DeleteEcoEventSuccessAction, (state, action) => {
+    const prevList = state.eventsList;
+    const newState = prevList.filter((event) => event.id !== action.id);
+    return {
+      ...state,
+      eventsList: newState
     };
   }),
 
