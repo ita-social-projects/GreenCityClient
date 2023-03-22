@@ -32,7 +32,7 @@ export class HabitAssignService implements OnDestroy {
   }
 
   getHabitByAssignId(habitAssignId: number): Observable<HabitAssignInterface> {
-    return this.http.get<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}`);
+    return this.http.get<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}?lang=${this.language}`);
   }
 
   assignHabit(habitId: number): Observable<ResponseInterface> {
@@ -67,8 +67,8 @@ export class HabitAssignService implements OnDestroy {
     return this.http.patch<HabitAssignInterface>(`${habitAssignLink}/${habitId}`, body);
   }
 
-  deleteHabitById(id: number): Observable<HabitAssignService> {
-    return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${id}`);
+  deleteHabitById(habitAssignid: number): Observable<HabitAssignService> {
+    return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${habitAssignid}`);
   }
 
   ngOnDestroy(): void {

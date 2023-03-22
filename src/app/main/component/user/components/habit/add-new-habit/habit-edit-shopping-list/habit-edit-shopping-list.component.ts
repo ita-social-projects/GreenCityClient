@@ -3,7 +3,6 @@ import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from './shopping-list.service';
-import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 

@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -60,7 +61,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     private shopListService: ShoppingListService,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -132,8 +134,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  onGoBack(): void {
-    this.router.navigate(['/profile']);
+  goBack(): void {
+    this.location.back();
   }
 
   private getUserId() {
@@ -193,7 +195,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe((confirm) => {
         if (confirm) {
           this.habitAssignService
-            .deleteHabitById(this.habitId)
+            .deleteHabitById(this.habitAssignId)
             .pipe(take(1))
             .subscribe(() => {
               this.goToProfile();

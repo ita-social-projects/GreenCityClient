@@ -38,8 +38,10 @@ export class HabitsGalleryViewComponent implements OnInit {
     }
   }
 
-  public goHabitMore() {
-    this.router.navigate([`/profile/${this.userId}/allhabits/addhabit`, this.habit.id], { relativeTo: this.route });
+  public goHabitMore(): void {
+    this.habit.isAssigned
+      ? this.router.navigate([`/profile/${this.userId}/allhabits/edithabit`, this.habit.assignId], { relativeTo: this.route })
+      : this.router.navigate([`/profile/${this.userId}/allhabits/addhabit`, this.habit.id], { relativeTo: this.route });
   }
 
   public addHabit() {
