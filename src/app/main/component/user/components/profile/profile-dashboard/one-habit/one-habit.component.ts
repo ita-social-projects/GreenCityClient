@@ -53,9 +53,9 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     this.buildHabitDescription();
   }
 
-  public goToHabitProfile() {
+  public goToHabitProfile(): void {
     const userId = localStorage.getItem('userId');
-    this.router.navigate([`profile/${userId}/allhabits/addhabit/${this.habit.habit.id}`]);
+    this.router.navigate([`profile/${userId}/allhabits/edithabit/${this.habit.id}`]);
   }
 
   public buildHabitDescription(): void {

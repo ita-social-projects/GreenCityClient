@@ -20,7 +20,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
   public subscription: Subscription;
-  public habitId: number;
   public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
@@ -38,7 +37,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   constructor(
     public shoppinglistService: ShoppingListService,
-    private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef
@@ -46,9 +44,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   ngOnInit() {
     this.subscribeToLangChange();
-    this.route.params.subscribe((params) => {
-      this.habitId = +params.habitId;
-    });
     this.userId = this.localStorageService.getUserId();
   }
 

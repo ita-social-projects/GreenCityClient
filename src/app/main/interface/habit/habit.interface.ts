@@ -6,6 +6,7 @@ export interface HabitInterface {
   id: number;
   image: string;
   isAssigned?: boolean;
+  assignId?: number;
   complexity?: number;
   amountAcquiredUsers: number;
   habitAssignStatus?: string;
