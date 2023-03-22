@@ -1,6 +1,5 @@
 .filter-btn {
-  width: 155px;
-  margin: 0 5px;
+  width: 145px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
   border-radius: 4px !important;
 }
@@ -16,6 +15,12 @@ input[type='date'] {
 
 .positioing {
   margin-left: 10px;
+}
+
+.hidden {
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
 }
 
 .input-group {
