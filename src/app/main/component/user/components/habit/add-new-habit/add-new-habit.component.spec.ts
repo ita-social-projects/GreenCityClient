@@ -28,6 +28,7 @@ describe('AddNewHabitComponent', () => {
     complexity: 2,
     defaultDuration: 2,
     amountAcquiredUsers: 1,
+    habitAssignStatus: 'ACQUIRED',
     habitTranslation: {
       description: 'test',
       habitItem: 'test',
@@ -69,9 +70,18 @@ describe('AddNewHabitComponent', () => {
   fakeLocalStorageService.languageSubject.next('ua');
 
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', {
-    saveCustomItems: of([])
-  });
+
+  fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', [
+    'getHabitAllShopLists',
+    'getHabitShopList',
+    'addHabitCustomShopList',
+    'updateHabitShopList'
+  ]);
+  fakeShoppingListService.getHabitAllShopLists = () => of();
+  fakeShoppingListService.getHabitShopList = () => of();
+  fakeShoppingListService.addHabitCustomShopList = () => of();
+  fakeShoppingListService.updateHabitShopList = () => of();
+
   matSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(async(() => {
@@ -128,25 +138,30 @@ describe('AddNewHabitComponent', () => {
     fakeLocalStorageService.languageSubject.next('en');
   });
 
-  it('initHabitData() should set values and invoke getStars()', () => {
-    spyOn(component, 'getStars').and.returnValue();
-    component.initHabitData(mockHabitResponse);
+  it('should call getStars on initHabitData', () => {
+    const spy = spyOn(component, 'getStars');
+    (component as any).initHabitData(mockHabitResponse);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set data on initHabitData', () => {
+    (component as any).initHabitData(mockHabitResponse);
     expect(component.habitResponse).toEqual(mockHabitResponse);
+    expect(component.tags).toEqual(mockHabitResponse.tags);
     expect(component.initialDuration).toEqual(mockHabitResponse.defaultDuration);
-    expect(component.initialShoppingList).toEqual(mockHabitResponse.shoppingListItems);
-    expect(component.getStars).toHaveBeenCalled();
+    expect(component.isAcquited).toBeTruthy();
   });
 
-  it('getDefaultItems should invoke inHabitData method', () => {
-    spyOn(component, 'initHabitData').and.returnValue();
-    component.getDefaultItems();
-    expect(component.initHabitData).toHaveBeenCalled();
+  it('getDefaultHabit should invoke inHabitData method', () => {
+    const spy = spyOn(component as any, 'initHabitData');
+    (component as any).getDefaultHabit();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('getCustomItems should invoke inHabitData method', () => {
-    spyOn(component, 'initHabitData').and.returnValue();
-    component.getCustomItems();
-    expect(component.initHabitData).toHaveBeenCalled();
+  it('getCustomHabit should invoke inHabitData method', () => {
+    const spy = spyOn(component as any, 'initHabitData');
+    (component as any).getCustomHabit();
+    expect(spy).toHaveBeenCalled();
   });
 
   xit('onGoBack() should invoke location.back()', () => {
@@ -175,65 +190,30 @@ describe('AddNewHabitComponent', () => {
     expect(component.canAcquire).toBeTruthy();
   });
 
-  it('getList should set this.newList', () => {
-    component.getList([]);
-    expect(component.newList).toEqual([]);
-  });
-
-  it('checkIfAssigned method should invoke getCustomItems', () => {
+  it('checkIfAssigned method should invoke getCustomHabit', () => {
     component.habitId = 2;
     component.isEditing = false;
-    spyOn(component, 'getCustomItems').and.returnValue();
+    const spy1 = spyOn(component as any, 'getCustomHabit');
+    const spy2 = spyOn(component as any, 'getCustomShopList');
     component.checkIfAssigned();
-    expect(component.getCustomItems).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
-  it('checkIfAssigned method should invoke getDefaultItems', () => {
+  it('checkIfAssigned method should invoke getDefaultHabit', () => {
     component.habitId = 3;
     component.isEditing = false;
-    spyOn(component, 'getDefaultItems').and.returnValue();
+    const spy1 = spyOn(component as any, 'getDefaultHabit');
+    const spy2 = spyOn(component as any, 'getStandartShopList');
     component.checkIfAssigned();
-    expect(component.getDefaultItems).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
-  it('cancel method should navigate', () => {
+  it('goToProfile method should navigate to user profile page', () => {
     component.userId = 2;
     spyOn((component as any).router, 'navigate').and.returnValue('test');
-    component.cancelAdd();
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
-  });
-
-  it('method addHabit should navigate and openSnackBar', () => {
-    component.userId = 2;
-    component.newList = [
-      {
-        selected: true,
-        id: 2,
-        status: 'test',
-        text: 'test'
-      }
-    ];
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
-    component.addHabit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitAdded');
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
-  });
-
-  it('method updateHabit should navigate and openSnackBar', () => {
-    component.userId = 2;
-    component.newList = [
-      {
-        selected: true,
-        id: 2,
-        status: 'test',
-        text: 'test'
-      }
-    ];
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
-    component.updateHabit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitUpdated');
+    component.goToProfile();
     expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
   });
 
