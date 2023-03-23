@@ -1,6 +1,6 @@
 <header role="banner" aria-label="Welcome to header" [ngClass]="{ 'burger-modal_open': toggleBurgerMenu, header_ubs: isUBS }">
   <div [ngClass]="isUBS ? 'container-fluid' : 'container'">
-    <div class="header_container">
+    <div [ngClass]="isAdmin ? 'admin-container-fluid' : 'header_container'">
       <a
         class="header_logo"
         role="none"
@@ -11,7 +11,7 @@
       >
         <img [src]="imageLogo" role="link" alt="{{ imgAlt }}" />
       </a>
-      <div [ngClass]="isUBS ? 'header_navigation-menu-ubs' : 'header_navigation-menu'">
+      <div [ngClass]="isUBS ? (isAdmin ? 'header-for-admin' : 'header_navigation-menu-ubs') : 'header_navigation-menu'">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist">
             <a *ngIf="isUBS" class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
@@ -168,13 +168,14 @@
                   'd-none': toggleBurgerMenu,
                   'add-shadow': dropdownVisible,
                   'item-list-margin': dropdownVisible && isUBS,
-                  'ubs-user-cabinet': isUBS
+                  'ubs-user-cabinet': isUBS,
+                  'ubs-admin-cabinet': isAdmin
                 }"
                 (click)="toggleDropdown()"
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
               >
-                <li class="list-item" role="listitem">
+                <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
                   <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
                     <span>{{ name }}</span>
                     <img

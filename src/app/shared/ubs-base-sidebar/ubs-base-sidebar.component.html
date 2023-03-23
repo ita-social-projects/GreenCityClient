@@ -1,5 +1,5 @@
 <div class="main">
-  <div class="sidebar-icons" #sideBarIcons>
+  <div [ngClass]="{ 'admin-sidebar-icons': isAdmin, 'sidebar-icons': true }" #sideBarIcons>
     <ul class="sidebar-list">
       <li class="toggle-arrow">
         <button mat-icon-button aria-label="Sidebar menu" (click)="toggleSideBar()">
@@ -18,7 +18,14 @@
   </div>
 
   <mat-drawer-container class="sidebar" autosize>
-    <mat-drawer #drawer class="sidebar-slider" mode="side" opened="true" disableClose="true" autoFocus="false">
+    <mat-drawer
+      #drawer
+      [ngClass]="isAdmin ? 'admin-sidebar-slider' : 'sidebar-slider'"
+      mode="side"
+      opened="true"
+      disableClose="true"
+      autoFocus="false"
+    >
       <ul class="sidebar-list">
         <li class="toggle-arrow">
           <button mat-icon-button aria-label="Sidebar menu" (click)="toggleSideBar()">
@@ -40,7 +47,7 @@
       </ul>
     </mat-drawer>
 
-    <mat-drawer-content class="main-content">
+    <mat-drawer-content [ngClass]="isAdmin ? 'admin-main-content' : 'main-content'">
       <div class="sidebar-container" #sidebarContainer>
         <ng-content></ng-content>
       </div>
