@@ -231,3 +231,27 @@
   line-height: 20px;
   font-size: 14px;
 }
+
+.primary-global-input {
+  height: 44px;
+  line-height: 28px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--quintynary-light-grey);
+
+  &:focus {
+    padding: 10px 11px;
+    border: 2px solid var(--primary-green);
+    outline: 0;
+  }
+
+  &::placeholder {
+    color: var(--primary-light-grey);
+  }
+}
+
+.warning-input {
+  border: 1px solid var(--error-red);
+}

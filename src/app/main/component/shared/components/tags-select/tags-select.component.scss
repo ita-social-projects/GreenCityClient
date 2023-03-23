@@ -1,0 +1,9 @@
+.list {
+  display: flex;
+  list-style: none;
+  margin-bottom: 2px;
+
+  .text {
+    white-space: nowrap;
+  }
+}

@@ -724,9 +724,19 @@
       "add-new-habit": {
         "create-habit": "Create habit",
         "create-habit-subtitle": "Please provide as many details as you can - choose thematic sections and the duration of the habit, add a to-do list, etc. You can come back and update habit anytime after publishing.",
+        "habit-title": "Habit title",
+        "habit-title-placeholder": "Enter name for the habit",
+        "pick-tags": "Pick tags for habit",
+        "tags-limits": "Only 3 tags can be added",
+        "difficulty": {
+          "name": "Difficulty",
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        },
         "textarea-title": "Habit description",
         "description-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
-        "description-placeholder": "e.g. Short description of habit",
+        "description-placeholder": "Describe the habit",
         "modal-caption": "New habit",
         "already-chosen-caption": "Already chosen",
         "available-to-chose-caption": "Habits, yet available to be added",
@@ -1048,5 +1058,13 @@
     "invite": "Invite",
     "all": "All",
     "friends": "Friends"
+  },
+  "input-error": {
+    "required": "This field is required",
+    "min-length-short": "The field contains insufficient characters",
+    "max-length-title": "The field should contain maximum 70 symbols",
+    "min-length-description": "The field should contain minimum 20 symbols",
+    "max-length-description": "The field should contain maximum 63 206 symbols",
+    "max-length": "The field should contain less characters"
   }
 }

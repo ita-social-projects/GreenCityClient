@@ -14,7 +14,7 @@ $primary-font: var(--secondary-font);
   list-style-type: none;
   padding: 0;
   margin: 0;
-  overflow-y: hidden;
+  overflow-y: scroll;
 
   li {
     padding: 0;
@@ -83,7 +83,7 @@ $primary-font: var(--secondary-font);
   list-style-type: none;
   padding: 0 0 19px 0;
   margin: 0;
-  overflow-y: hidden;
+  overflow-y: scroll;
 
   li {
     padding: 0;
@@ -203,12 +203,8 @@ form {
   text-decoration: line-through;
 }
 
-.shopping-list-min {
+.shopping-list {
   height: 100px;
-}
-
-.shopping-list-max {
-  height: max-content;
 }
 
 .item-operation-buttons {

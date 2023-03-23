@@ -14,7 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() shopList: ShoppingList[] = [];
-  @Input() isAcquited: boolean;
+  @Input() isAcquired: boolean = false;
+  @Input() isEditing: boolean = false;
 
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
@@ -90,9 +91,12 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       id: null,
       status: 'ACTIVE',
       text: value,
-      selected: false,
-      custom: true
+      selected: true
     };
+    if (this.isEditing) {
+      newItem.selected = false;
+      newItem['custom'] = true;
+    }
     this.shopList = [newItem, ...this.shopList];
     this.item.setValue('');
     this.placeItemInOrder();

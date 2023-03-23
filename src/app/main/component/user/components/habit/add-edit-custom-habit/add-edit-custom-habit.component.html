@@ -1,42 +1,65 @@
 <div class="wrapper">
   <div class="create-habit-header">
-    <h2>{{ 'user.habit.add-new-habit.create-habit' | translate }}</h2>
+    <h1 class="header-title">{{ 'user.habit.add-new-habit.create-habit' | translate }}</h1>
     <p>{{ 'user.habit.add-new-habit.create-habit-subtitle' | translate }}</p>
   </div>
   <div class="create-habit-main">
     <form [formGroup]="habitForm" class="habit-form">
-      <div class="container-habit-edit first">
-        <div class="habit-block-width habit-column-block">
-          <div class="habit-title habit-block">
-            <div>
-              <label class="label">Title</label>
-              <input formControlName="title" />
+      <div class="container-habit-edit first-block">
+        <div class="block-width text-section">
+          <div class="inputs-block">
+            <div class="title-box">
+              <div class="title-labels">
+                <label class="label">{{ 'user.habit.add-new-habit.habit-title' | translate }}</label>
+                <span class="habit-tooltip"> {{ getControl('title').value.length }}/70 </span>
+              </div>
+              <input
+                formControlName="title"
+                class="primary-global-input"
+                [ngClass]="{ 'warning-input': getControl('title').touched && getControl('title').invalid }"
+                [placeholder]="'user.habit.add-new-habit.habit-title-placeholder' | translate"
+              />
+              <div *ngIf="getControl('title').touched && getControl('title').invalid">
+                <app-input-error [formElement]="getControl('title')"></app-input-error>
+              </div>
             </div>
-            <div>
-              <label class="label">Difficulty</label>
-              <input formControlName="complexity" />
+            <div class="difficulty-box">
+              <label class="label">{{ 'user.habit.add-new-habit.difficulty.name' | translate }}</label>
+              <div class="difficulty-input">
+                <li *ngFor="let item of complexityList" class="list">
+                  <span ngbPopover="{{ item.name | translate }}" triggers="mouseenter:mouseleave" placement="bottom" container="body">
+                    <label>
+                      <input type="radio" name="complexity" [value]="item.value" formControlName="complexity" />
+                      <img [src]="getStars(item.value, getControl('complexity').value)" />
+                    </label>
+                  </span>
+                </li>
+              </div>
             </div>
           </div>
-          <div class="habit-block">
-            <div class="textarea-wrapper">
-              <h3 class="label">{{ 'user.habit.add-new-habit.textarea-title' | translate }}</h3>
-              <quill-editor
-                class="editor"
-                ngDefaultControl
-                formControlName="description"
-                [modules]="quillModules"
-                [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
-              ></quill-editor>
-              <p class="habit-tooltip" [ngClass]="{ warning: description?.touched && description?.invalid }">
-                {{ 'user.habit.add-new-habit.description-tooltip' | translate }}
-              </p>
+          <div class="tags-section">
+            <label class="label">{{ 'user.habit.add-new-habit.pick-tags' | translate }}</label>
+            <span class="habit-tooltip">{{ 'user.habit.add-new-habit.tags-limits' | translate }}</span>
+            <app-tags-select [tagsList]="tagsList" (selectTags)="getTagsList($event)" class="tags-block"></app-tags-select>
+          </div>
+          <div class="textarea-wrapper">
+            <h3 class="label">{{ 'user.habit.add-new-habit.textarea-title' | translate }}</h3>
+            <quill-editor
+              class="editor"
+              ngDefaultControl
+              formControlName="description"
+              [modules]="quillModules"
+              [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
+            ></quill-editor>
+            <div *ngIf="getControl('description').touched && getControl('description').invalid">
+              <app-input-error [formElement]="getControl('description')"></app-input-error>
             </div>
           </div>
         </div>
-        <div class="habit-block-width image-block">
-          <div class="habit-title habit-block">
+        <div class="block-width image-block">
+          <div class="habit-block">
             <div>
-              <h3>{{ 'create-news.picture-title' | translate }}</h3>
+              <label class="label">{{ 'create-news.picture-title' | translate }}</label>
               <!-- <app-drag-and-drop [formData]="form"></app-drag-and-drop> -->
             </div>
           </div>
@@ -53,7 +76,11 @@
               <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
             </div>
             <div class="shopping">
-              <app-habit-edit-shopping-list (newList)="getList($event)" [list]="todoList"></app-habit-edit-shopping-list>
+              <app-habit-edit-shopping-list
+                (newList)="getShopList($event)"
+                [shopList]="shopList"
+                [isEditing]="isEditing"
+              ></app-habit-edit-shopping-list>
             </div>
           </div>
           <div class="invite-friends">
@@ -62,7 +89,7 @@
         </div>
         <div class="add-habit-container">
           <button class="tertiary-global-button btn" (click)="goToAllHabits()">{{ 'user.habit.btn.cancel' | translate }}</button>
-          <button class="primary-global-button btn" type="submit" (click)="addHabit()">
+          <button class="primary-global-button btn" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
             {{ 'user.habit.btn.add' | translate }}
           </button>
         </div>

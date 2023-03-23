@@ -8,6 +8,10 @@
     flex-direction: column;
     align-items: flex-start;
     margin: 60px 0 4px 0;
+
+    .header-title {
+      font-family: var(--secondary-font);
+    }
   }
 
   .create-habit-main {
@@ -28,13 +32,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
 
-  .habit-block-width {
+  .block-width {
     width: 554px;
-
-    .habit-title {
-      display: flex;
-      justify-content: space-between;
-    }
   }
 
   .habit-progress,
@@ -82,8 +81,81 @@
   }
 }
 
-.first {
+.first-block {
+  border-radius: 8px;
   background-color: var(--secondary-light-grey);
+
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    padding: 36px;
+    gap: 42px;
+
+    .inputs-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .title-box,
+      .difficulty-box {
+        display: flex;
+        flex-direction: column;
+
+        .title-labels {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: 4px;
+
+          .habit-tooltip {
+            padding: 0;
+          }
+        }
+
+        .difficulty-input {
+          display: flex;
+          margin-top: 10px;
+          gap: 18px;
+
+          .list {
+            list-style: none;
+          }
+        }
+      }
+
+      .title-box {
+        width: 70%;
+      }
+    }
+
+    .tags-section {
+      display: flex;
+      flex-direction: column;
+
+      .tags-block {
+        display: flex;
+        overflow-x: scroll;
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type='radio'] + img {
+  cursor: pointer;
+}
+
+.habit-tooltip {
+  margin: 0;
+  font-size: 12px;
+  color: var(--secondary-grey);
 }
 
 .image-block {
@@ -107,18 +179,14 @@
 .textarea-wrapper {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .label {
+  margin: 0;
   font-family: var(--secondary-font);
   font-weight: 600;
   font-size: 18px;
-}
-
-.habit-tooltip {
-  font-size: 12px;
-  margin: 0;
-  margin-top: 8px;
 }
 
 .editor {

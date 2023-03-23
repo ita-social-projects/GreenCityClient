@@ -53,7 +53,8 @@
           <app-habit-edit-shopping-list
             (newList)="getList($event)"
             [shopList]="initialShoppingList"
-            [isAcquited]="isAcquited"
+            [isAcquired]="isAcquired"
+            [isEditing]="isEditing"
           ></app-habit-edit-shopping-list>
         </div>
       </div>
@@ -67,7 +68,7 @@
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
-    <div *ngIf="isEditing && !isAcquited" class="add-habit-container">
+    <div *ngIf="isEditing && !isAcquired" class="add-habit-container">
       <button class="tertiary-global-button btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
