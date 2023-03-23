@@ -252,10 +252,16 @@ describe('UbsAdminOrderHistoryComponent', () => {
         id: orderHistoryId
       }
     ];
-
     const spy = spyOn(component, 'openCancelReason');
     component.orderHistory = orderHistoryMock;
     component.showPopup(orderHistoryId);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('openCancelReason should call dialog.open once', () => {
+    spyOn((component as any).dialog, 'open');
+    component.orderInfo = OrderInfoMock;
+    component.openCancelReason();
+    expect((component as any).dialog.open).toHaveBeenCalled();
   });
 });
