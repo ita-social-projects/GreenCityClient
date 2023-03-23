@@ -9,7 +9,7 @@
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
     <mat-form-field>
-      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" class="shadow-none form-control" />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option
           *ngFor="let city of filteredOptions | async"
