@@ -26,15 +26,63 @@ describe('UbsAdminAddressDetailsComponent', () => {
     addressDistrictEng: new FormControl(`Holosiivs'kyi district`)
   });
 
-  const GeneralInfoFake = {
-    orderStatus: 'DONE',
-    adminComment: 'Admin',
-    orderPaymentStatus: 'PAID',
+  const generalOrderInfoMock = {
+    id: 1,
+    dateFormed: '2022-02-08T15:21:44.85458',
+    adminComment: null,
+    orderStatus: 'FORMED',
+    orderStatusName: 'Сформовано',
+    orderStatusNameEng: 'Formed',
     orderStatusesDtos: [
-      { ableActualChange: false, key: 'DONE', translation: 'Formed' },
-      { ableActualChange: false, key: 'ADJUSTMENT', translation: 'Adjustment' },
-      { ableActualChange: false, key: 'BROUGHT_IT_HIMSELF', translation: 'Brought by himself' },
-      { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
+      {
+        ableActualChange: false,
+        key: 'FORMED',
+        translation: 'Сформовано'
+      },
+      {
+        ableActualChange: false,
+        key: 'ADJUSTMENT',
+        translation: 'Узгодження'
+      },
+      {
+        ableActualChange: false,
+        key: 'BROUGHT_IT_HIMSELF',
+        translation: 'Привезе сам'
+      },
+      {
+        ableActualChange: false,
+        key: 'CONFIRMED',
+        translation: 'Підтверджено'
+      },
+      {
+        ableActualChange: false,
+        key: 'ON_THE_ROUTE',
+        translation: 'На маршруті'
+      },
+      {
+        ableActualChange: true,
+        key: 'DONE',
+        translation: 'Виконано'
+      },
+      {
+        ableActualChange: false,
+        key: 'NOT_TAKEN_OUT',
+        translation: 'Не вивезли'
+      },
+      {
+        ableActualChange: true,
+        key: 'CANCELED',
+        translation: 'Скасовано'
+      }
+    ],
+    orderPaymentStatus: 'PAID',
+    orderPaymentStatusName: 'Оплачено',
+    orderPaymentStatusNameEng: 'Paid',
+    orderPaymentStatusesDto: [
+      {
+        key: 'PAID',
+        translation: 'Оплачено'
+      }
     ]
   };
 
@@ -313,7 +361,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminAddressDetailsComponent);
     component = fixture.componentInstance;
-    component.generalInfo = GeneralInfoFake as any;
+    component.generalInfo = generalOrderInfoMock as any;
     component.addressExportDetailsDto = FormGroupMock;
     const spy = spyOn(component as any, 'initGoogleAutocompleteServices');
     fixture.detectChanges();
@@ -428,6 +476,20 @@ describe('UbsAdminAddressDetailsComponent', () => {
     const spy = spyOn(component, 'onDefineOrderStatus');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
+    component.generalInfo = generalOrderInfoMock;
+    generalOrderInfoMock.orderStatus = 'CANCELED';
+    component.onDefineOrderStatus();
+    expect(component.isStatus).toBeTruthy();
+  });
+
+  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
+    component.generalInfo = generalOrderInfoMock;
+    generalOrderInfoMock.orderStatus = 'DONE';
+    component.onDefineOrderStatus();
+    expect(component.isStatus).toBeFalsy();
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
@@ -579,6 +641,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
     component.setValueOfStreet(streetPredictionKyivRegion[0], component.addressStreet, component.languages.uk);
+    component.setValueOfStreet(streetPredictionKyivRegion[0], component.addressStreetEng, component.languages.en);
     expect(component.placeService.getDetails).toHaveBeenCalled();
   });
 
