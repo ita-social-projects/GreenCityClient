@@ -47,7 +47,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private fb: FormBuilder,
+    public fb: FormBuilder,
     public orderService: OrderService,
     private localeStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>,

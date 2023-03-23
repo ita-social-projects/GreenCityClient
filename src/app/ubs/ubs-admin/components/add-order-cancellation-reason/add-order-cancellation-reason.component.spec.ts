@@ -18,7 +18,7 @@ describe('AddOrderCancellationReasonComponent', () => {
     id: 1577
   };
   const DataMock = {
-    reason: 'Other',
+    cancellationReason: 'Other',
     cancellationComment: 'cancellationComment'
   };
 
@@ -66,6 +66,12 @@ describe('AddOrderCancellationReasonComponent', () => {
 
   it('commentForm invalid when empty', () => {
     expect(component.commentForm.valid).toBeFalsy();
+  });
+
+  it('should initialize the form correctly', () => {
+    const spy = spyOn(component.fb, 'group');
+    component.initForm();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('pop up should close', () => {
