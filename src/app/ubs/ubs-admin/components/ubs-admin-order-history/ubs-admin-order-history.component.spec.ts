@@ -241,4 +241,21 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.showPopup(1);
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should call openCancelReason when order history event name is "Скасовано"', () => {
+    const orderHistoryId = 1;
+    const orderHistoryMock = [
+      {
+        authorName: 'Kateryna',
+        eventDate: '2022-09-11',
+        eventName: 'Скасовано',
+        id: orderHistoryId
+      }
+    ];
+
+    const spy = spyOn(component, 'openCancelReason');
+    component.orderHistory = orderHistoryMock;
+    component.showPopup(orderHistoryId);
+    expect(spy).toHaveBeenCalled();
+  });
 });
