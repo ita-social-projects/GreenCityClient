@@ -119,6 +119,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  public getHeaderClass(): string {
+    if (this.isUBS) {
+      return this.isAdmin ? 'header-for-admin' : 'header_navigation-menu-ubs';
+    } else {
+      return 'header_navigation-menu';
+    }
+  }
+
   public getRouterLink(): string {
     if (this.isUBS && this.isAdmin) {
       return '/ubs-admin/orders';

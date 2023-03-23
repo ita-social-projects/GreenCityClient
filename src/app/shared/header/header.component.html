@@ -11,7 +11,7 @@
       >
         <img [src]="imageLogo" role="link" alt="{{ imgAlt }}" />
       </a>
-      <div [ngClass]="isUBS ? (isAdmin ? 'header-for-admin' : 'header_navigation-menu-ubs') : 'header_navigation-menu'">
+      <div [ngClass]="getHeaderClass()">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist">
             <a *ngIf="isUBS" class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
