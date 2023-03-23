@@ -21,9 +21,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
   let component: UbsAdminOrderHistoryComponent;
   let fixture: ComponentFixture<UbsAdminOrderHistoryComponent>;
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
-  const MatDialogRefMock = {
-    close: () => {}
-  };
+  const MatDialogRefMock = { close: () => {} };
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 
   const OrderInfoMock: IOrderInfo = {
@@ -256,6 +254,12 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.orderHistory = orderHistoryMock;
     component.showPopup(orderHistoryId);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('openDialog should be called', () => {
+    const spyOpenDialog = spyOn(MatDialogMock.prototype, 'open');
+    MatDialogMock.prototype.open();
+    expect(spyOpenDialog).toHaveBeenCalled();
   });
 
   it('openCancelReason should call dialog.open once', () => {
