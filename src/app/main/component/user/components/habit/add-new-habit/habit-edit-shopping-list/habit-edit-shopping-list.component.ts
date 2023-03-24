@@ -16,7 +16,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() shopList: ShoppingList[] = [];
   @Input() isAcquired: boolean = false;
   @Input() isEditing: boolean = false;
-  @Input() isCustomHabit: boolean = false;
 
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
@@ -31,9 +30,11 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   public minNumberOfItems = 3;
 
   public img = {
-    emptyCheck: 'assets/icons/habits/lined-green-circle.svg',
-    plusCheck: 'assets/icons/habits/lined-green-circle.svg',
-    markedIcon: 'assets/icons/habits/lined-green-circle.svg'
+    doneCheck: 'assets/icons/habits/filled-check-circle.svg',
+    inprogressCheck: 'assets/icons/habits/lined-green-circle.svg',
+    plusCheck: 'assets/icons/habits/doted-plus-green-circle.svg',
+    minusCheck: 'assets/icons/habits/doted-minus-green-circle.svg',
+    disableCheck: 'assets/icons/habits/circle-grey.svg'
   };
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
@@ -55,7 +56,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   ngAfterViewChecked(): void {
-    if (this.shopList && this.shopList.length) {
+    if (this.shopList && this.isEditing) {
       this.shopList.forEach((el) => (el.selected = el.status === 'INPROGRESS'));
     }
     this.cdr.detectChanges();
@@ -73,12 +74,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     return name;
   }
 
-  public getCheckImage(): string {
-    if (this.isCustomHabit || this.isAcquired) {
-      return this.img.emptyCheck;
-    }
-  }
-
   private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
@@ -89,8 +84,14 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     });
   }
 
-  public openCloseList(): void {
-    this.seeAllShopingList = !this.seeAllShopingList;
+  public getCheckIcon(item: ShoppingList): string {
+    if (this.isAcquired) {
+      return this.img.disableCheck;
+    }
+    if (item.status === 'DONE') {
+      return this.img.doneCheck;
+    }
+    return item.selected ? this.img.inprogressCheck : this.img.plusCheck;
   }
 
   public addItem(value: string): void {
@@ -99,11 +100,8 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       status: 'ACTIVE',
       text: value,
       custom: true,
-      selected: false
+      selected: true
     };
-    if (this.isCustomHabit && !this.isEditing) {
-      newItem.selected = true;
-    }
     this.shopList = [newItem, ...this.shopList];
     this.item.setValue('');
     this.placeItemInOrder();
@@ -126,9 +124,10 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   private placeItemInOrder(): void {
-    const selectedItems = this.shopList.filter((element) => element.selected);
+    const customSelectedItems = this.shopList.filter((element) => element.custom && element.selected);
+    const selectedItems = this.shopList.filter((element) => !element.custom && element.selected);
     const unselectedItems = this.shopList.filter((element) => !element.selected);
-    this.shopList = [...selectedItems, ...unselectedItems];
+    this.shopList = [...customSelectedItems, ...selectedItems, ...unselectedItems];
     this.newList.emit(this.shopList);
   }
 

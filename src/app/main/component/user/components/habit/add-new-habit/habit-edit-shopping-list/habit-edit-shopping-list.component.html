@@ -4,12 +4,15 @@
     <ul *ngIf="shopList.length" class="shop-list">
       <li *ngFor="let item of shopList; index as i" class="list-item">
         <div class="item-box">
-          <button class="check-btn" [disabled]="isCustomHabit && (!isEditing || isAcquired)">
-            <img class="check-icon" [src]="getCheckImage()" />
+          <button *ngIf="!isEditing" class="check-btn" (click)="item.custom ? deleteItem(item.text) : selectItem(item)">
+            <img [src]="item.selected ? img.minusCheck : img.plusCheck" />
+          </button>
+          <button *ngIf="isEditing" class="check-btn" [disabled]="isAcquired" (click)="selectItem(item)">
+            <img [src]="getCheckIcon(item)" />
           </button>
           <span
             class="item-text"
-            [ngClass]="{ selected: item.selected, done: item.status === 'DONE' }"
+            [ngClass]="{ unselected: isAcquired || (!item.selected && !isEditing) }"
             ngbPopover="{{ item.text }}"
             triggers="mouseenter:mouseleave"
             placement="top"
@@ -18,7 +21,7 @@
             {{ truncateShoppingItemName(item.text) }}
           </span>
         </div>
-        <button class="del-btn" type="button" (click)="deleteItem(item.text)"></button>
+        <button *ngIf="item.custom && !isAcquired" class="del-btn" type="button" (click)="deleteItem(item.text)"></button>
       </li>
     </ul>
     <div *ngIf="!shopList.length" class="no-item">
@@ -26,7 +29,7 @@
     </div>
     <form *ngIf="!isAcquired" [formGroup]="itemForm">
       <input
-        class="primary-global-input add-field"
+        class="add-field"
         type="text"
         formControlName="item"
         [placeholder]="'user.habit.add-custom-item' | translate"

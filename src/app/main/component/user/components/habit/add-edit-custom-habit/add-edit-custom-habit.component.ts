@@ -73,6 +73,7 @@ export class AddEditCustomHabitComponent implements OnInit {
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
       duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
       tags: new FormControl(null, Validators.required),
+      image: new FormControl(''),
       shopList: new FormControl([])
     });
   }
@@ -131,9 +132,11 @@ export class AddEditCustomHabitComponent implements OnInit {
   }
 
   public addHabit(): void {
-    console.log(this.habitForm.value);
-    // this.habitService.addCustomHabit(this.habitForm.value, this.currentLang).pipe(take(1)).subscribe((res) => {
-    //   console.log(res);
-    // });
+    this.habitService
+      .addCustomHabit(this.habitForm.value, this.currentLang)
+      .pipe(take(1))
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 }

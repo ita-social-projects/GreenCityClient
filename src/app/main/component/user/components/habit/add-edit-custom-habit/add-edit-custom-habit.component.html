@@ -60,7 +60,7 @@
           <div class="habit-block">
             <div>
               <label class="label">{{ 'create-news.picture-title' | translate }}</label>
-              <!-- <app-drag-and-drop [formData]="form"></app-drag-and-drop> -->
+              <app-drag-and-drop [formData]="habitForm"></app-drag-and-drop>
             </div>
           </div>
         </div>
@@ -79,7 +79,6 @@
               <app-habit-edit-shopping-list
                 (newList)="getShopList($event)"
                 [shopList]="shopList"
-                [isCustomHabit]="true"
                 [isEditing]="isEditing"
               ></app-habit-edit-shopping-list>
             </div>

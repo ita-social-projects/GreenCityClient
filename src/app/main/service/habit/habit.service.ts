@@ -46,7 +46,7 @@ export class HabitService implements OnDestroy {
     );
   }
 
-  addCustomHabit(habit: any, lang): Observable<object> {
+  addCustomHabit(habit: any, lang: string): Observable<object> {
     const body = {
       habitTranslations: [
         {
