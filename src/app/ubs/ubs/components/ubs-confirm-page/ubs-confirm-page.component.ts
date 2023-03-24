@@ -20,8 +20,6 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderStatusDone: boolean;
   isSpinner = true;
   pageReloaded = false;
-  orderPaymentError = false;
-  finalSumOfOrder: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -46,12 +44,14 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const orderIdWithoutPayment = this.localStorageService.getUbsOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
-      if (!oderID && this.localStorageService.getUbsLiqPayOrderId()) {
-        oderID = this.localStorageService.getUbsLiqPayOrderId();
+      if (!oderID) {
+        oderID = this.localStorageService.getUbsOrderId();
         this.pageReloaded = true;
       }
       if (oderID || orderIdWithoutPayment) {
         this.orderId = oderID || this.localStorageService.getUbsOrderId();
+        console.log('2', this.orderId);
+
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
         this.checkPaymentStatus();
@@ -92,17 +92,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     const isOrderSavedWithoutPayment = this.localStorageService.getOrderWithoutPayment();
     if (isOrderSavedWithoutPayment) {
       this.localStorageService.setUbsOrderId(this.orderId);
-      this.isSpinner = false;
-    } else {
-      this.orderService
-        .getUbsOrderStatus()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((response) => {
-          this.finalSumOfOrder = this.localStorageService.getFinalSumOfOrder();
-          this.orderPaymentError = this.finalSumOfOrder ? response?.code === 'payment_not_found' : false;
-          this.isSpinner = false;
-        });
     }
+    this.isSpinner = false;
   }
 
   public isUserPageOrderPayment(): boolean {
