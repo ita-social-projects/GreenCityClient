@@ -3,33 +3,17 @@
 }
 
 .dialog-container {
-  width: 522px;
-  height: 316px;
-  padding: 0 30px;
-  font-family: var(--ubs-quaternary-font);
-}
-
-.title {
-  display: flex;
-  justify-content: flex-start;
-  font-weight: 700;
-  font-size: 24px;
-  letter-spacing: 0.002em;
-  padding: 0 20px;
-  margin-bottom: 0;
-}
-
-.form-label {
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--quaternary-dark-grey);
+  width: 450px;
+  height: 300px;
+  padding: 10px;
+  font-family: var(--secondary-font);
 }
 
 .mat-dialog-actions {
   width: 100%;
   display: flex;
-  margin-top: 50px;
-  justify-content: flex-end;
+  margin-top: 65px;
+  justify-content: space-between;
 }
 
 .row3 {
@@ -43,20 +27,13 @@
   justify-content: center;
   align-items: center;
   padding: 0 8px 0 0;
-  margin-top: 32px;
+  margin-top: 35px;
 
   input {
     background: var(--ubs-primary-white);
-    border: 1px solid var(--quintynary-light-grey);
-    border-radius: 4px;
-    height: 40px;
-    width: 110px;
-  }
-
-  input:active,
-  input:focus {
-    outline: none;
-    border-color: var(--ubs-button-light-green);
+    border: 1px solid var(--ubs-grey-blue);
+    height: 36px;
+    width: 95px;
   }
 }
 
@@ -65,12 +42,8 @@ input.ng-touched.ng-invalid {
 }
 
 .close-btn {
-  width: 11px;
-  height: 11px;
-  color: var(--ubs-primary-grey);
-  top: -5px;
-  left: 32px;
-  position: relative;
+  width: 18px;
+  height: 18px;
 }
 
 .btn-success,
@@ -105,17 +78,11 @@ input.ng-touched.ng-invalid {
 .close-wrapper {
   display: flex;
   justify-content: end;
-  margin-bottom: 20px;
 }
 
 .error-message {
-  color: var(--ubs-primary-red);
-  font-size: 10px;
+  color: var(--ubs-error-ligh-red);
+  font-size: 8px;
   line-height: 10px;
   padding-top: 3px;
-  justify-content: flex-start;
-  padding-left: 29px;
-  width: 130px;
-  display: flex;
-  text-align: left;
 }

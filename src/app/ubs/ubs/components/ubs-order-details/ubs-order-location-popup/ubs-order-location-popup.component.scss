@@ -40,16 +40,13 @@
     background-color: var(--white);
   }
 
-  .mat-input-element {
-    padding: 7px;
-    height: 50px;
-  }
-
   .mat-input-element.mat-autocomplete-trigger.ng-invalid.ng-touched {
     border: 1px solid var(--blue) !important;
   }
 
   .mat-input-element {
+    padding: 7px;
+    height: 50px;
     border: 1px solid var(--ubs-quintynary-light-grey) !important;
     border-radius: 0.25rem !important;
     caret-color: var(--ubs-primary-black) !important;
