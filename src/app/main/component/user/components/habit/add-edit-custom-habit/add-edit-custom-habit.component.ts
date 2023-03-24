@@ -97,8 +97,14 @@ export class AddEditCustomHabitComponent implements OnInit {
   }
 
   public getShopList(list: ShoppingList[]): void {
-    list.forEach((item) => delete item.selected);
-    this.getControl('shopList').setValue(list);
+    this.newList = list.map((item) => {
+      return {
+        id: item.id,
+        status: item.status,
+        text: item.text
+      };
+    });
+    this.getControl('shopList').setValue(this.newList);
   }
 
   public getTagsList(list: TagInterface[]): void {

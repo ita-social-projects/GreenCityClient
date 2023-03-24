@@ -33,7 +33,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public initialShoppingList: ShoppingList[];
   public standartShopList: ShoppingList[];
   public customShopList: ShoppingList[];
-  public isAssigned = false;
   public isAcquired = false;
   public canAcquire = false;
   private enoughToAcquire = 80;

@@ -1,197 +1,112 @@
 $primary-color: var(--primary-green);
 $primary-font: var(--secondary-font);
 
-.title {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-  height: 20px;
-  margin-bottom: 20px;
-}
+.shop-list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-.checkbox-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  overflow-y: scroll;
-
-  li {
-    padding: 0;
-    margin: 0 0 10px 0;
-    height: 30px;
-
-    .text {
-      height: 17px;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 17px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    label {
-      padding: 0;
-      margin: 0 0 20px 0;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      position: relative;
-
-      input[type='checkbox'] {
-        display: block;
-        height: 0;
-        opacity: 0;
-        width: 0;
-      }
-
-      .checkmark {
-        border: 1px solid var(--primary-green);
-        border-radius: 1px;
-        height: 12px;
-        width: 12px;
-        margin-right: 8px;
-      }
-
-      .checkmark::after {
-        border: solid var(--primary-white);
-        border-width: 0 1px 1px 0;
-        content: '';
-        width: 4px;
-        height: 7px;
-        left: 4px;
-        top: 4px;
-        position: absolute;
-        transform: rotate(45deg);
-        display: none;
-      }
-
-      input:checked ~ .checkmark {
-        background-color: var(--primary-green);
-      }
-
-      input:checked ~ .checkmark::after {
-        display: block;
-      }
-    }
+  .title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    height: 20px;
+    margin-bottom: 26px;
   }
 }
 
-.editing-list {
-  list-style-type: none;
-  padding: 0 0 19px 0;
-  margin: 0;
-  overflow-y: scroll;
+.list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-  li {
+  .shop-list {
+    display: flex;
+    flex-direction: column;
+    height: 112px;
     padding: 0;
-    margin: 0 0 10px 0;
-    height: 30px;
+    margin: 0;
+    gap: 16px;
+    list-style-type: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-    .text {
-      height: 17px;
-      width: 180px;
-      padding-left: 22px;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 14px;
-      line-height: 17px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    label {
-      padding: 0;
-      margin: 0 0 20px 0;
+    .list-item {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      position: relative;
 
-      input[type='checkbox'] {
-        display: block;
-        height: 0;
-        opacity: 0;
-        width: 0;
-      }
+      .item-box {
+        display: flex;
+        align-items: center;
+        width: 168px;
+        height: 25px;
 
-      .checkedmark {
-        height: 14px;
-        width: 14px;
-        border: solid #000;
-        border-width: 1px 0 0 0;
-        top: 8px;
-        position: absolute;
-      }
+        .check-btn {
+          border: 0;
+          padding: 0;
+        }
 
-      .checkedmark::after {
-        border: solid var(--quintynary-light-grey);
-        border-width: 0 0 0 2px;
-        content: '';
-        height: 14px;
-        left: 6px;
-        top: -8px;
-        position: absolute;
-        display: none;
-      }
-
-      input:checked ~ .checkedmark {
-        border: solid var(--quintynary-light-grey);
-        height: 14px;
-        width: 14px;
-        border-width: 2px 0 0 0;
-        top: 8px;
-        position: absolute;
-      }
-
-      input:checked ~ .checkedmark::after {
-        display: block;
-      }
-
-      #del-btn {
-        height: 12px;
-        width: 12px;
-        background-image: url('src/assets/img/icon/cross.svg');
-        background-color: none;
-        border: none;
-        position: absolute;
-        left: 90%;
+        .item-text {
+          height: 17px;
+          margin-left: 12px;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 17px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+        }
       }
     }
   }
+
+  .no-item {
+    height: 112px;
+  }
+}
+
+.del-btn {
+  height: 12px;
+  width: 12px;
+  background-image: url('src/assets/img/icon/cross.svg');
+  background-color: none;
+  border: none;
+  margin-right: 6px;
 }
 
 form {
   margin-top: 25px;
 
-  #add-field {
+  .add-field {
     width: 80%;
     height: 26px;
     font-size: 14px;
-    padding: 8px;
-    border: 1px solid var(--quintynary-light-grey);
-    border-radius: 4px;
+    padding-left: 8px;
+
+    &:focus {
+      padding-left: 7px;
+    }
   }
 
-  #add-btn {
-    width: 25px;
-    height: 25px;
+  .add-btn {
+    width: 26px;
+    height: 26px;
     padding: 0;
     border: none;
     border-radius: 50%;
     background: var(--primary-green);
     color: var(--primary-white);
     margin-left: 10px;
-  }
+    cursor: pointer;
 
-  .add-custom-item {
-    font-family: var(--primary-font);
-    color: var(--primary-green);
-    font-size: 12px;
-    line-height: 20px;
+    &:disabled {
+      background: var(--primary-light-green);
+      cursor: default;
+    }
   }
 }
 
@@ -201,47 +116,4 @@ form {
 
 .done {
   text-decoration: line-through;
-}
-
-.shopping-list {
-  height: 100px;
-}
-
-.item-operation-buttons {
-  padding-top: 20px;
-  margin: 0 -8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.item-operation-buttons button {
-  border: 0;
-  background: none;
-  font-family: var(--primary-font);
-  color: var(--primary-green);
-  font-size: 12px;
-  line-height: 20px;
-
-  .btn-img {
-    margin-top: -4px;
-    min-width: 14px;
-    max-height: 14px;
-  }
-}
-
-@media (min-width: 520px) {
-  .checkbox-list p {
-    position: absolute;
-    left: 60%;
-    top: 1260px;
-  }
-}
-
-@media (min-width: 1180px) {
-  .checkbox-list p {
-    position: absolute;
-    top: 760px;
-    left: 80%;
-  }
 }

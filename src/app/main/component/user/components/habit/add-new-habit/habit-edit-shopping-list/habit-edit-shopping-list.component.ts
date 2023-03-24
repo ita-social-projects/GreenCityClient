@@ -16,6 +16,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() shopList: ShoppingList[] = [];
   @Input() isAcquired: boolean = false;
   @Input() isEditing: boolean = false;
+  @Input() isCustomHabit: boolean = false;
 
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
@@ -30,9 +31,9 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   public minNumberOfItems = 3;
 
   public img = {
-    arrowDown: 'assets/img/comments/arrow_down.png',
-    arrowUp: 'assets/img/comments/arrow_up.png',
-    back: 'assets/img/comments/reply.png'
+    emptyCheck: 'assets/icons/habits/lined-green-circle.svg',
+    plusCheck: 'assets/icons/habits/lined-green-circle.svg',
+    markedIcon: 'assets/icons/habits/lined-green-circle.svg'
   };
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
@@ -72,6 +73,12 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     return name;
   }
 
+  public getCheckImage(): string {
+    if (this.isCustomHabit || this.isAcquired) {
+      return this.img.emptyCheck;
+    }
+  }
+
   private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
@@ -91,11 +98,11 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       id: null,
       status: 'ACTIVE',
       text: value,
-      selected: true
+      custom: true,
+      selected: false
     };
-    if (this.isEditing) {
-      newItem.selected = false;
-      newItem['custom'] = true;
+    if (this.isCustomHabit && !this.isEditing) {
+      newItem.selected = true;
     }
     this.shopList = [newItem, ...this.shopList];
     this.item.setValue('');
@@ -125,8 +132,8 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.newList.emit(this.shopList);
   }
 
-  public deleteItem(id: number): void {
-    this.shopList = this.shopList.filter((elem) => elem.id !== id);
+  public deleteItem(text: string): void {
+    this.shopList = this.shopList.filter((elem) => elem.text !== text);
     this.newList.emit(this.shopList);
   }
 
