@@ -32,6 +32,7 @@
   input {
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-grey-blue);
+    border-radius: 4px;
     height: 36px;
     width: 95px;
   }
@@ -44,35 +45,6 @@ input.ng-touched.ng-invalid {
 .close-btn {
   width: 18px;
   height: 18px;
-}
-
-.btn-success,
-.btn-cancel {
-  height: 40px;
-  color: var(--freinacht-black);
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.1px;
-}
-
-.btn-success {
-  width: 194px;
-  background-color: var(--ubs-button-light-green);
-  border-color: var(--ubs-button-light-green);
-  margin-left: 15px;
-  margin-right: 24px;
-}
-
-.btn-cancel {
-  width: 125px;
-  background-color: var(--ubs-primary-white);
-  border: none;
-}
-
-.btn-cancel:active {
-  background-color: var(--ubs-button-light-green);
-  border-color: var(--ubs-button-light-green);
-  border-radius: 4px;
 }
 
 .close-wrapper {
