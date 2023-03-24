@@ -166,13 +166,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
-      if (firstHabit.createDateTime > secondHabit.createDateTime) {
-        return -1;
-      }
-      if (secondHabit.createDateTime > firstHabit.createDateTime) {
-        return 1;
-      }
-      return 0;
+      return firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1;
     });
   }
 
