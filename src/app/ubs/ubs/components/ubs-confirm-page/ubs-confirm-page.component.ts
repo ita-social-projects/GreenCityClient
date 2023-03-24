@@ -45,13 +45,10 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     const orderIdWithoutPayment = this.localStorageService.getUbsOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
       if (!oderID) {
-        oderID = this.localStorageService.getUbsOrderId();
         this.pageReloaded = true;
       }
       if (oderID || orderIdWithoutPayment) {
         this.orderId = oderID || this.localStorageService.getUbsOrderId();
-        console.log('2', this.orderId);
-
         this.orderResponseError = !this.pageReloaded ? this.ubsOrderFormService.getOrderResponseErrorStatus() : !this.pageReloaded;
         this.orderStatusDone = !this.pageReloaded ? this.ubsOrderFormService.getOrderStatus() : this.pageReloaded;
         this.checkPaymentStatus();
