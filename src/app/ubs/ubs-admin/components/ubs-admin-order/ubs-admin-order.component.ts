@@ -549,7 +549,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   statusCanceledOrDone(): void {
     const exportDetails = this.orderForm.get('exportDetailsDto').value;
-    const allFieldsHaveValue = Object.keys(exportDetails).every((key) => exportDetails[key] != null && exportDetails[key] !== '');
+    const allFieldsHaveValue = Object.keys(exportDetails).every((key) => exportDetails[key]);
     const isStatusDoneAndFormFilled = this.currentOrderStatus === 'DONE' && allFieldsHaveValue;
 
     if (this.currentOrderStatus === 'CANCELED' || isStatusDoneAndFormFilled) {
