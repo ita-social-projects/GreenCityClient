@@ -44,7 +44,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const orderIdWithoutPayment = this.localStorageService.getUbsOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
-      if (!oderID) {
+      if (!oderID && this.localStorageService.getUbsBonusesOrderId()) {
+        oderID = this.localStorageService.getUbsBonusesOrderId();
         this.pageReloaded = true;
       }
       if (oderID || orderIdWithoutPayment) {

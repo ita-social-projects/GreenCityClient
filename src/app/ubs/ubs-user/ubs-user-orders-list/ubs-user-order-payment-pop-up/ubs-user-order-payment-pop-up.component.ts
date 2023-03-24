@@ -7,7 +7,6 @@ import { OrderClientDto } from '../models/OrderClientDto';
 import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
 import { ICertificate, ICertificatePayment, ICertificateResponse } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IOrderData } from '../models/IOrderData.interface';

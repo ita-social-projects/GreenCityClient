@@ -340,6 +340,20 @@ describe('LocalStorageService', () => {
     expect(localStorage.getItem('firstSignIn')).toEqual('false');
   });
 
+  describe('Test for setUbsBonusesOrderId and getUbsBonusesOrderId functions', () => {
+    it('should set and retrieve the correct order ID', () => {
+      const orderId = '122';
+      service.setUbsBonusesOrderId(orderId);
+      expect(localStorage.getItem('UbsBonusesOrderId')).toEqual(String(orderId));
+    });
+
+    it('should return the stored value if UbsBonusesOrderId is defined', () => {
+      const orderId = '12345';
+      localStorage.setItem('UbsBonusesOrderId', JSON.stringify(orderId));
+      expect(service.getUbsBonusesOrderId()).toEqual(JSON.parse(localStorage.getItem('UbsBonusesOrderId')));
+    });
+  });
+
   it('should remove the UbsOrderId from local storage', () => {
     localStorage.setItem('UbsOrderId', '123');
     service.removeUbsOrderId();

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -232,6 +232,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);
             this.ubsOrderFormService.setOrderStatus(true);
+            this.localStorageService.setUbsBonusesOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
             this.localStorageService.setUbsFondyOrderId(orderId);

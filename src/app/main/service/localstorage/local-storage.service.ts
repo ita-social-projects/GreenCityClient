@@ -188,6 +188,14 @@ export class LocalStorageService {
     localStorage.setItem('UbsFondyOrderId', String(orderId));
   }
 
+  public setUbsBonusesOrderId(orderId: string | number) {
+    localStorage.setItem('UbsBonusesOrderId', String(orderId));
+  }
+
+  public getUbsBonusesOrderId(): any {
+    return localStorage.getItem('UbsBonusesOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsBonusesOrderId'));
+  }
+
   public getUbsFondyOrderId(): any {
     return localStorage.getItem('UbsFondyOrderId') === 'undefined' ? false : JSON.parse(localStorage.getItem('UbsFondyOrderId'));
   }
