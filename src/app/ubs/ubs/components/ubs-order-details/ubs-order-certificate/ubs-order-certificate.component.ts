@@ -233,9 +233,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
             (error) => {
               this.cancelCertBtn = false;
               if (error.status === 404) {
-                if (error.error.message.includes('Certificate does not exist')) {
-                  this.isNotExistCertificate = true;
-                }
+                this.isNotExistCertificate = true;
                 this.certificates.codes.splice(index, 1);
                 this.certificates.activatedStatus.splice(index, 1);
                 this.certificates.creationDates.splice(index, 1);
