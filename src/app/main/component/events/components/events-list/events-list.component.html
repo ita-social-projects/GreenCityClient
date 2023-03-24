@@ -29,7 +29,11 @@
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
+            <mat-option
+              [value]="eventTime"
+              *ngFor="let eventTime of eventTimeList"
+              (onSelectionChange)="updateSelectedFilters(eventTime, $event)"
+            >
               {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
             </mat-option>
           </mat-select>
@@ -41,7 +45,11 @@
               'homepage.events.filter-location-аny-location' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="location" *ngFor="let location of eventLocationList">
+            <mat-option
+              [value]="location"
+              *ngFor="let location of eventLocationList"
+              (onSelectionChange)="updateSelectedFilters(location, $event)"
+            >
               {{ getLangValue(location.nameUa, location.nameEn) }}
             </mat-option>
           </mat-select>
@@ -53,7 +61,7 @@
               'homepage.events.filter-status-аny-status' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="status" *ngFor="let status of statusList">
+            <mat-option [value]="status" *ngFor="let status of statusList" (onSelectionChange)="updateSelectedFilters(status, $event)">
               {{ getLangValue(status.nameUa, status.nameEn) }}
             </mat-option>
           </mat-select>
@@ -63,7 +71,7 @@
           <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(typesList)">{{ 'homepage.events.filter-аny-type' | translate }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option *ngFor="let type of typeList" [value]="type">
+            <mat-option *ngFor="let type of typeList" [value]="type" (onSelectionChange)="updateSelectedFilters(type, $event)">
               <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
             </mat-option>
           </mat-select>

@@ -45,7 +45,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
-  public selectedFilters = selectedFilters; // test data,should be deleted when back-end is ready
+  public selectedFilters = []; // test data,should be deleted when back-end is ready
   public searchToggle = false;
   public bookmarkSelected = false;
   public selectedEventTime: any;
@@ -70,6 +70,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.subscribeOnFormControlsChanges();
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -88,6 +89,36 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateSelectedFilters(value: any, event): void {
+    const existingFilterIndex = this.selectedFilters.findIndex((filter) => filter.value === value);
+
+    if (event.isUserInput) {
+      // перевіряємо, чи дія користувача викликала зміну
+      if (!event.source.selected) {
+        // якщо елемент уже є у масиві і був де-вибраний, видаляємо його
+        this.selectedFilters.splice(existingFilterIndex, 1);
+      } else if (existingFilterIndex === -1 && event.source.selected) {
+        // якщо елементу немає у масиві і був обраний, додаємо його
+        this.selectedFilters.push(value);
+      }
+    }
+  }
+
+  subscribeOnFormControlsChanges() {
+    const formControls = [
+      { control: this.timeFilterControl },
+      { control: this.locationFilterControl },
+      { control: this.statusFilterControl },
+      { control: this.typeFilterControl }
+    ];
+
+    formControls.forEach((formControl) => {
+      formControl.control.valueChanges.subscribe((value) => {
+        this.updateSelectedFilters(value, event);
+      });
+    });
+  }
+
   public dispatchStore(res: boolean): void {
     if (this.hasNext && this.page !== undefined) {
       this.store.dispatch(GetEcoEventsByPageAction({ currentPage: this.page, numberOfEvents: this.eventsPerPage, reset: res }));
@@ -101,9 +132,19 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public isSelectedOptions(optionsList: any): void {
     this.optionsList = optionsList;
-    this.allSelected
-      ? this.optionsList.options.forEach((item: MatOption) => item.select())
-      : this.optionsList.options.forEach((item: MatOption) => item.deselect());
+    console.log(optionsList);
+    if (this.allSelected) {
+      this.optionsList.options.forEach((item: MatOption) => {
+        item.select();
+        this.selectedFilters.push(item.value);
+      });
+      this.selectedFilters.shift();
+    } else {
+      this.optionsList.options.forEach((item: MatOption) => {
+        item.deselect();
+        this.selectedFilters = [];
+      });
+    }
   }
 
   public search(): void {
