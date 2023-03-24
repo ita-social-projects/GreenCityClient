@@ -43,7 +43,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  showPopup(orderHistoryId) {
+  showPopup(orderHistoryId: number): void {
     this.orderHistory.forEach((order) => {
       if (order.id === orderHistoryId && order.result === ordersStutuses.NotTakenOutUA) {
         this.openNotTakenOutReason(orderHistoryId);
@@ -51,8 +51,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     });
   }
 
-  openNotTakenOutReason(orderHistoryId) {
-    console.log('this.orderNotTakenOutReason', this.orderNotTakenOutReason);
+  openNotTakenOutReason(orderHistoryId: number): void {
     this.dialog.open(AddOrderNotTakenOutReasonComponent, {
       hasBackdrop: true,
       data: {
@@ -75,13 +74,12 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
       });
   }
 
-  getOrderHistory(orderId: number) {
+  getOrderHistory(orderId: number): void {
     this.orderService
       .getOrderHistory(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
         this.orderHistory = data;
-        console.log(this.orderHistory, 'this.orderHistory');
         this.orderHistory.forEach((item, index) => {
           this.parseEventName(item.eventName, index);
         });
