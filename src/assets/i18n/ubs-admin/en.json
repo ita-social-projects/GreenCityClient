@@ -650,6 +650,7 @@
     "info_about_order_limits": "Information about order limits",
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "card-already-exist": "According to these criteria, a tariff card already exists. Make changes to save.",
+    "location-already-used": "Selected location already used. Make changes to save.",
     "card-exist": "According to these criteria, a tariff card already exists.",
     "card-not-found": "Tariff card not found. Do you want to create a new one?",
     "btn": {
@@ -713,12 +714,14 @@
     "cancel_button": "Cancel",
     "save_button": "Save",
     "create_button": "Create",
+    "edit_button": "Edit",
     "error_message": "Area not found. Enter again",
     "city_error_message": "City not found. Enter again",
     "city_exist": "The city already exists in the system. Change it",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
     "create_card_title": "Create card",
+    "edit_card_title": "Edit card",
     "courier_edit_title": "Edit courier",
     "station_edit_title": "Edit receiving station",
     "courier_edit_text": "Choose courier and edit",
@@ -894,7 +897,8 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
+    "default-address": "Make it the default address"
   },
   "input-error": {
     "required": "This field is required",
@@ -1127,5 +1131,17 @@
     "error": {
       "exist-address": "This address has already been added"
     }
+  },
+  "add-new-certificate": {
+    "title": "Add sertificate",
+    "сertificate-field": "Certificate.№",
+    "duration-months-field": "Duration,mo.",
+    "discount-field": "Discount,UAH",
+    "cancel-button": "Cancel",
+    "add-button": "Add certificate",
+    "field-not-empty": "The field can’t be empty",
+    "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
+    "duration-field-format": "The field can contain only numbers from 1 to 12",
+    "discount-field-format": "The field can contain only numbers in format from 1 to 999"
   }
 }

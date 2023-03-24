@@ -1,13 +1,9 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from './shopping-list.service';
 import { ActivatedRoute } from '@angular/router';
-import { HabitService } from '@global-service/habit/habit.service';
-import { take, takeUntil } from 'rxjs/operators';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,11 +12,13 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './habit-edit-shopping-list.component.html',
   styleUrls: ['./habit-edit-shopping-list.component.scss']
 })
-export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
+export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
+  @Input() shopList: ShoppingList[] = [];
+  @Input() isAcquited: boolean;
+
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
-  public list: ShoppingList[] = [];
   public subscription: Subscription;
   public habitId: number;
   public userId: number;
@@ -29,7 +27,6 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   public shoppingItemNameLimit = 20;
   public seeAllShopingList: boolean;
   public minNumberOfItems = 3;
-  public isEditing: boolean;
 
   public img = {
     arrowDown: 'assets/img/comments/arrow_down.png',
@@ -42,10 +39,9 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   constructor(
     public shoppinglistService: ShoppingListService,
     private route: ActivatedRoute,
-    private habitService: HabitService,
-    private habitAssignService: HabitAssignService,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -54,41 +50,25 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
       this.habitId = +params.habitId;
     });
     this.userId = this.localStorageService.getUserId();
-    this.checkIfAssigned();
-    this.subscription = this.shoppinglistService
-      .getList()
-      .pipe(takeUntil(this.destroySub))
-      .subscribe((data) => {
-        this.list = data;
-        this.newList.emit(this.list);
-      });
   }
 
-  getListItems(isAssigned: boolean) {
-    isAssigned ? this.getCustomItems() : this.getDefaultItems();
-    this.getDefaultItems();
-    this.isEditing = isAssigned;
+  ngAfterViewChecked(): void {
+    if (this.shopList && this.shopList.length) {
+      this.shopList.forEach((el) => (el.selected = el.status === 'INPROGRESS'));
+    }
+    this.cdr.detectChanges();
   }
 
-  public truncateShoppingItemName(name: string) {
+  get item(): AbstractControl {
+    return this.itemForm.get('item');
+  }
+
+  public truncateShoppingItemName(name: string): string {
     if (name.length >= this.shoppingItemNameLimit) {
       return name.slice(0, this.shoppingItemNameLimit) + '...';
     }
 
     return name;
-  }
-
-  public getDefaultItems() {
-    this.habitService
-      .getHabitById(this.habitId)
-      .pipe(take(1))
-      .subscribe((habit) => {
-        this.shoppinglistService.fillList(habit.shoppingListItems);
-      });
-  }
-
-  public getCustomItems() {
-    this.shoppinglistService.getCustomItems(this.userId, this.habitId);
   }
 
   private bindLang(lang: string): void {
@@ -98,38 +78,55 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
       this.bindLang(lang);
-      this.checkIfAssigned();
     });
   }
 
-  public openCloseList() {
+  public openCloseList(): void {
     this.seeAllShopingList = !this.seeAllShopingList;
   }
 
-  public checkIfAssigned() {
-    this.habitAssignService
-      .getAssignedHabits()
-      .pipe(take(1))
-      .subscribe((response: Array<HabitAssignInterface>) => {
-        response.some((assigned) => assigned.habit.id === this.habitId) ? this.getListItems(true) : this.getListItems(false);
-      });
+  public addItem(value: string): void {
+    const newItem = {
+      id: null,
+      status: 'ACTIVE',
+      text: value,
+      selected: false,
+      custom: true
+    };
+    this.shopList = [newItem, ...this.shopList];
+    this.item.setValue('');
+    this.placeItemInOrder();
   }
 
-  public add(value: string) {
-    this.shoppinglistService.addItem(value);
-    this.itemForm.setValue({ item: '' });
+  public selectItem(item: ShoppingList): void {
+    this.shopList = this.shopList.map((element) => {
+      if (element.text === item.text) {
+        element.selected = !item.selected;
+        element.status = item.selected ? 'INPROGRESS' : 'ACTIVE';
+      }
+      return element;
+    });
+    if (item.selected) {
+      const index = this.shopList.indexOf(item);
+      this.shopList.splice(index, 1);
+      this.shopList = [item, ...this.shopList];
+    }
+    this.placeItemInOrder();
   }
 
-  public delete(item) {
-    this.shoppinglistService.deleteItem(item);
+  private placeItemInOrder(): void {
+    const selectedItems = this.shopList.filter((element) => element.selected);
+    const unselectedItems = this.shopList.filter((element) => !element.selected);
+    this.shopList = [...selectedItems, ...unselectedItems];
+    this.newList.emit(this.shopList);
   }
 
-  public select(item) {
-    this.shoppinglistService.select(item);
+  public deleteItem(id: number): void {
+    this.shopList = this.shopList.filter((elem) => elem.id !== id);
+    this.newList.emit(this.shopList);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
     this.destroySub.complete();

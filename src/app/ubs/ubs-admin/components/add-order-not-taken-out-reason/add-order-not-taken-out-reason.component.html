@@ -17,15 +17,13 @@
       [ngClass]="{ 'history-description': isOpendFromHistory }"
       [readonly]="isOpendFromHistory"
       placeholder="{{ 'order-not-taken-out.placeholder' | translate }}"
+      maxlength="256"
       cols="50"
       rows="6"
       formControlName="notTakenOutReason"
       [(ngModel)]="isOpendFromHistory ? reasonDescription : notTakenOutReason"
     ></textarea>
-    <div
-      class="error-message"
-      *ngIf="addNotTakenOutForm.invalid && addNotTakenOutForm.get('notTakenOutReason').touched && !isOpendFromHistory"
-    >
+    <div class="error-message" *ngIf="addNotTakenOutForm.invalid && addNotTakenOutForm.get('notTakenOutReason').dirty && !isOpendFromHistory">
       <p>{{ 'order-not-taken-out.reason-error-message' | translate }}</p>
     </div>
   </form>
