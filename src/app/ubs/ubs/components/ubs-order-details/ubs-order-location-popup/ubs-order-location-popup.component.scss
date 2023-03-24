@@ -22,7 +22,7 @@
     margin: 28px 36px;
     font-size: 20px;
 
-    .mat-form-field {
+    .city-container {
       width: 60%;
     }
 
@@ -45,40 +45,21 @@
     height: 50px;
   }
 
-  ::ng-deep .mat-form-field-infix {
-    border: none;
-  }
-
-  ::ng-deep .mat-input-element.mat-form-field-autofill-control.mat-autocomplete-trigger.ng-invalid.ng-touched {
+  .mat-input-element.mat-autocomplete-trigger.ng-invalid.ng-touched {
     border: 1px solid var(--blue) !important;
   }
 
-  ::ng-deep .mat-input-element {
-    border: 1px solid var(--ubs-quintynary-light-grey);
-    border-radius: 0.25rem;
-    caret-color: var(--ubs-primary-black);
+  .mat-input-element {
+    border: 1px solid var(--ubs-quintynary-light-grey) !important;
+    border-radius: 0.25rem !important;
+    caret-color: var(--ubs-primary-black) !important;
   }
 
-  ::ng-deep .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
-    color: unset;
+  .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+    color: unset !important;
   }
 
-  ::ng-deep .mat-form-field.mat-focused {
-    .mat-form-field-ripple {
-      background-color: var(--white);
-    }
-  }
-
-  ::ng-deep .mat-form-field-underline,
-  ::ng-deep .mat-form-field-subscript-wrapper {
-    height: 0;
-  }
-
-  ::ng-deep .mat-form-field-appearance-legacy.mat-form-field-invalid:not(.mat-focused) .mat-form-field-ripple {
-    background: none;
-  }
-
-  ::ng-deep .mat-autocomplete-panel .mat-autocomplete-visible {
+  .mat-autocomplete-panel .mat-autocomplete-visible {
     border-radius: 0.25rem;
   }
 

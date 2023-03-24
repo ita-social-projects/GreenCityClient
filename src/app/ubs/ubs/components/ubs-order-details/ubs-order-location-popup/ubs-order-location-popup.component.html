@@ -8,7 +8,7 @@
     <h5 class="title-text">{{ 'order-details.location.title' | translate }}</h5>
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
-    <mat-form-field>
+    <div class="city-container">
       <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" class="shadow-none form-control" />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option
@@ -19,7 +19,7 @@
           {{ city.locationName }}
         </mat-option>
       </mat-autocomplete>
-    </mat-form-field>
+    </div>
   </form>
   <div class="info" *ngIf="!isFetching">
     <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>
