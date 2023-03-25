@@ -27,7 +27,8 @@ export class ErrorComponent implements OnChanges {
         return 'user.auth.sign-up.password-confirm-is-required';
       }
     },
-    email: () => (this.emailFieldValue ? 'user.auth.sign-in.this-is-not-email' : 'user.auth.sign-in.email-is-required'),
+    email: () => (this.emailFieldValue ? null : 'user.auth.sign-in.email-is-required'),
+    pattern: () => 'user.auth.sign-in.this-is-not-email',
     passwordMismatch: () => 'user.auth.sign-up.password-match',
     passwordIsEmpty: () => 'user.auth.sign-up.password-match-is-empty',
     minlength: () => 'user.auth.sign-in.password-must-be-at-least-8-characters-long',
