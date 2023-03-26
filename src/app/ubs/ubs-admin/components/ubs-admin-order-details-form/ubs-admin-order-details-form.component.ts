@@ -34,7 +34,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public writeoffAtStationSum: number;
   private isOrderCancelled = false;
   finalPrice: number;
-  isStatus: boolean;
+  isStatus = false;
   @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
   @Output() changeCurrentPrice = new EventEmitter<number>();

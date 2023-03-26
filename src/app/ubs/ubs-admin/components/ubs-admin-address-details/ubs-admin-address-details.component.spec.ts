@@ -478,18 +478,18 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
-    component.generalInfo = generalOrderInfoMock;
-    generalOrderInfoMock.orderStatus = 'CANCELED';
+  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'CANCELED';
+    component.isStatus = false;
     component.onDefineOrderStatus();
-    expect(component.isStatus).toBeTruthy();
+    expect(component.isStatus).toBe(true);
   });
 
-  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo = generalOrderInfoMock;
-    generalOrderInfoMock.orderStatus = 'DONE';
+  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'DONE';
+    component.isStatus = false;
     component.onDefineOrderStatus();
-    expect(component.isStatus).toBeFalsy();
+    expect(component.isStatus).toBe(false);
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {

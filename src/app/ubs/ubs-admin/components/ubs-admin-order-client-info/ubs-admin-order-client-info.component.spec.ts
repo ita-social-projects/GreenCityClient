@@ -30,16 +30,68 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     recipientEmail: new FormControl()
   });
 
-  const GeneralInfoFake = {
-    orderStatus: 'DONE',
-    adminComment: 'Admin',
-    orderPaymentStatus: 'PAID',
+  const generalOrderInfoMock = {
+    id: 1,
+    dateFormed: '2022-02-08T15:21:44.85458',
+    adminComment: null,
+    orderStatus: 'FORMED',
+    orderStatusName: 'Сформовано',
+    orderStatusNameEng: 'Formed',
     orderStatusesDtos: [
-      { ableActualChange: false, key: 'DONE', translation: 'Formed' },
-      { ableActualChange: false, key: 'ADJUSTMENT', translation: 'Adjustment' },
-      { ableActualChange: false, key: 'BROUGHT_IT_HIMSELF', translation: 'Brought by himself' },
-      { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
+      {
+        ableActualChange: false,
+        key: 'FORMED',
+        translation: 'Сформовано'
+      },
+      {
+        ableActualChange: false,
+        key: 'ADJUSTMENT',
+        translation: 'Узгодження'
+      },
+      {
+        ableActualChange: false,
+        key: 'BROUGHT_IT_HIMSELF',
+        translation: 'Привезе сам'
+      },
+      {
+        ableActualChange: false,
+        key: 'CONFIRMED',
+        translation: 'Підтверджено'
+      },
+      {
+        ableActualChange: false,
+        key: 'ON_THE_ROUTE',
+        translation: 'На маршруті'
+      },
+      {
+        ableActualChange: true,
+        key: 'DONE',
+        translation: 'Виконано'
+      },
+      {
+        ableActualChange: false,
+        key: 'NOT_TAKEN_OUT',
+        translation: 'Не вивезли'
+      },
+      {
+        ableActualChange: true,
+        key: 'CANCELED',
+        translation: 'Скасовано'
+      }
+    ],
+    orderPaymentStatus: 'PAID',
+    orderPaymentStatusName: 'Оплачено',
+    orderPaymentStatusNameEng: 'Paid',
+    orderPaymentStatusesDto: [
+      {
+        key: 'PAID',
+        translation: 'Оплачено'
+      }
     ]
+  };
+  const OrderStatusInfoFake = {
+    key: 'fakeKey',
+    ableActualChange: 'true'
   };
 
   beforeEach(async(() => {
@@ -53,7 +105,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
-    component.generalInfo = GeneralInfoFake as any;
+    component.generalInfo = generalOrderInfoMock as any;
     component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;
@@ -86,6 +138,20 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     const spy = spyOn(component, 'onDefineOrderStatus');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'CANCELED';
+    component.isStatus = false;
+    component.onDefineOrderStatus();
+    expect(component.isStatus).toBe(true);
+  });
+
+  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'DONE';
+    component.isStatus = false;
+    component.onDefineOrderStatus();
+    expect(component.isStatus).toBe(false);
   });
 
   it('method getErrorMessageKey should return correct error message key - required', () => {

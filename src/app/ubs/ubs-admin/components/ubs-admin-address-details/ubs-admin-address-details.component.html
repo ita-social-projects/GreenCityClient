@@ -120,7 +120,7 @@
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             (change)="onDistrictSelected($event)"
           >
-            <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
+            <option *ngFor="let district of districtsKyiv" [disabled]="isStatus" [ngValue]="district.name">{{ district.name }}</option>
           </select>
           <select
             class="form-control placeholder-positioning"
@@ -129,7 +129,7 @@
             (change)="onDistrictSelected($event)"
             disabled
           >
-            <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
+            <option *ngFor="let district of districtsKyiv" [disabled]="isStatus" [ngValue]="district.name">{{ district.name }}</option>
           </select>
           <select
             *ngIf="!isDistrict"
