@@ -1,8 +1,8 @@
-<div class="title">{{ 'user.habit.shopping' | translate }}</div>
-<div *ngIf="!isEditing">
+<div class="title">{{ 'user.habit.to-do-list' | translate }}</div>
+<div *ngIf="isAcquited && shopList">
   <ul class="checkbox-list" [ngClass]="{ 'shopping-list-max': seeAllShopingList, 'shopping-list-min': !seeAllShopingList }">
-    <li *ngFor="let item of list; index as i">
-      <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
+    <li *ngFor="let item of shopList; index as i">
+      <label [ngClass]="{ selected: item.selected, done: item.status === 'DONE' }">
         <input type="checkbox" />
         <span class="checkmark"></span>
         <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" container="body">
@@ -10,34 +10,34 @@
         </span>
       </label>
     </li>
-    <div *ngIf="!list.length">
+    <div *ngIf="!shopList.length">
       {{ 'user.habit.no-shopping-items' | translate }}
     </div>
   </ul>
 </div>
-<div *ngIf="isEditing">
+<div *ngIf="!isAcquited && shopList">
   <ul class="editing-list" [ngClass]="{ 'shopping-list-max': seeAllShopingList, 'shopping-list-min': !seeAllShopingList }">
-    <li *ngFor="let item of list; index as i">
-      <label [ngClass]="{ selected: item.status === 'INPROGRESS', done: item.status === 'DONE' }">
-        <input type="checkbox" checked (change)="select(item)" />
+    <li *ngFor="let item of shopList; index as i">
+      <label [ngClass]="{ selected: item.selected, done: item.status === 'DONE' }">
+        <input type="checkbox" [checked]="!item.selected" (change)="selectItem(item)" />
         <span class="checkedmark"></span>
         <span class="text" ngbPopover="{{ item.text }}" triggers="mouseenter:mouseleave" placement="top" container="body">
           {{ truncateShoppingItemName(item.text) }}
         </span>
-        <button *ngIf="item.custom" id="del-btn" (click)="delete(item)"></button>
+        <button *ngIf="item.custom" id="del-btn" (click)="deleteItem(item.id)"></button>
       </label>
     </li>
-    <div *ngIf="!list.length">
+    <div *ngIf="!shopList.length">
       {{ 'user.habit.no-shopping-items' | translate }}
     </div>
   </ul>
   <form [formGroup]="itemForm">
     <label class="add-custom-item">{{ 'user.habit.add-custom-item' | translate }}</label>
-    <input #newItem id="add-field" type="text" formControlName="item" autocomplete="off" />
-    <input #btn [disabled]="!itemForm.valid" id="add-btn" type="submit" value="+" (click)="add(newItem.value)" />
+    <input id="add-field" type="text" formControlName="item" autocomplete="off" />
+    <input #btn [disabled]="!itemForm.valid" id="add-btn" type="submit" value="+" (click)="addItem(item.value)" />
   </form>
 </div>
-<div *ngIf="list.length > minNumberOfItems" class="item-operation-buttons">
+<div *ngIf="shopList && shopList.length > minNumberOfItems" class="item-operation-buttons">
   <button class="see-all" (click)="openCloseList()">
     {{ (seeAllShopingList ? 'user.habit.btn.see-less' : 'user.habit.btn.see-all') | translate }}
     <img [src]="seeAllShopingList ? this.img.arrowUp : this.img.arrowDown" alt="arrow" />

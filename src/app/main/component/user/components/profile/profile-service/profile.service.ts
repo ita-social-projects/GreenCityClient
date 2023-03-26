@@ -2,7 +2,6 @@ import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
-import { ShoppingList } from '@user-models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
@@ -34,14 +33,6 @@ export class ProfileService {
     return this.http.get<EditProfileModel>(`${mainUserLink}user/${this.userId}/profile/`);
   }
 
-  public getShoppingList(): Observable<ShoppingList[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    this.setUserId();
-    return this.http.get<ShoppingList[]>(`
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}
-    `);
-  }
-
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
     this.setUserId();
     return this.http.get<ProfileStatistics>(`${mainUserLink}user/${this.userId}/profileStatistics/`);
@@ -54,14 +45,5 @@ export class ProfileService {
   public getUserFriends(): Observable<UserFriendsInterface> {
     this.setUserId();
     return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
-  }
-
-  public toggleStatusOfShoppingItem(item): Observable<object[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    this.setUserId();
-    const body = {};
-    const { status: prevStatus } = item;
-    const newStatus = prevStatus === 'DONE' ? 'INPROGRESS' : 'DONE';
-    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
   }
 }

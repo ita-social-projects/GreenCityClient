@@ -1,13 +1,13 @@
 <div class="card-wrapper">
   <div class="image-container">
     <img class="event-image" src="{{ event.titleImage }}" alt="event" />
-    <div class="event-stars" *ngIf="!isEventOpen">
+    <div class="event-stars" *ngIf="!event.open">
       <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
       <ng-template #star let-index="index" let-value="value">
         <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
       </ng-template>
     </div>
-    <div class="event-flags" *ngIf="isEventOpen">
+    <div class="event-flags" *ngIf="event.open">
       <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }" (click)="addToFavourite()"></span>
     </div>
     <div class="event-participants" *ngIf="attendees.length">
@@ -40,24 +40,26 @@
       <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
     </div>
     <div class="date-container">
-      <span class="lock-open" *ngIf="isEventOpen"></span>
-      <span class="lock-closed" *ngIf="!isEventOpen"></span>
-      <div *ngIf="isEventOpen">{{ 'homepage.events.open' | translate }}</div>
-      <div *ngIf="!isEventOpen">{{ 'homepage.events.completed' | translate }}</div>
-      <span class="time-divider" *ngIf="isEventOpen">|</span>
-      <div *ngIf="isRegistered && isEventOpen">{{ 'homepage.events.registered' | translate }}</div>
+      <span class="lock-open" *ngIf="event.open"></span>
+      <span class="lock-closed" *ngIf="!event.open"></span>
+      <div *ngIf="event.open">{{ 'homepage.events.open' | translate }}</div>
+      <div *ngIf="!event.open">{{ 'homepage.events.completed' | translate }}</div>
+      <span class="time-divider" *ngIf="event.open">|</span>
+      <div *ngIf="isRegistered && event.open">{{ 'homepage.events.registered' | translate }}</div>
     </div>
     <div class="event-title">
       <h3 [innerHTML]="cutTitle()"></h3>
     </div>
     <div class="description" [innerHTML]="cutDescription()"></div>
   </div>
+
   <div class="btn-group">
     <button class="secondary-global-button m-btn" (click)="routeToEvent()">
       {{ 'event.btn-top' | translate }}
     </button>
-    <button class="{{ styleBtn }} event-button m-btn" (click)="buttonAction()">{{ nameBtn | translate }}</button>
+    <button *ngIf="userId" class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
   </div>
+
   <div class="additional-info">
     <div class="date">
       <img src="assets/events-icons/date.png" class="date-image" alt="date" />
@@ -67,7 +69,7 @@
 
     <div class="author">
       <img src="assets/events-icons/author.png" class="author-image" alt="author" />
-      <p>{{ author }}</p>
+      <p>{{ event.organizer.name }}</p>
     </div>
     <div class="frame">
       <img src="assets/events-icons/frame.png" class="frame-image" alt="frame" />
