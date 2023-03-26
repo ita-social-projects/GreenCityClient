@@ -160,7 +160,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => item.nameUk);
+        this.couriersName = this.couriers.map((item) => (this.currentLanguage === 'ua' ? item.nameUk : item.nameEn));
       });
   }
 
@@ -203,7 +203,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       if (item) {
         this.locations = item;
         this.regions = this.locations
-          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .map((element) =>
+            element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName)
+          )
           .flat(2);
       }
     });
@@ -279,7 +281,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       const res = [];
       this.filteredCities.forEach((elem, index) => {
         elem.locationTranslationDtoList.forEach((el) => {
-          if (el.locationName.toLowerCase().includes(data) && el.languageCode === 'ua') {
+          if (el.locationName.toLowerCase().includes(data) && el.languageCode === this.currentLanguage) {
             res.push(this.filteredCities[index]);
           }
         });
