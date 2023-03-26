@@ -3,11 +3,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IOrderInfo, IEmployee } from '../../models/ubs-admin.interface';
 import { of } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
 
 class MatDialogMock {
   open() {
@@ -174,12 +176,21 @@ describe('UbsAdminOrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        NoopAnimationsModule,
+        MatDialogModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot()
+      ],
       declarations: [UbsAdminOrderHistoryComponent],
       providers: [
         { provide: OrderService, useValue: orderServiceMock },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: MAT_DIALOG_DATA, useValue: MatDialogRefMock }
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        FormBuilder
       ]
     }).compileComponents();
   }));
@@ -256,16 +267,48 @@ describe('UbsAdminOrderHistoryComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should  NOT to call openCancelReason when order history event name isnt "Скасовано"', () => {
+    const orderHistoryId = 1;
+    const orderHistoryMock = [
+      {
+        authorName: 'Kateryna',
+        eventDate: '2022-09-11',
+        eventName: 'На маршуті',
+        id: orderHistoryId
+      }
+    ];
+    const spy = spyOn(component, 'openCancelReason');
+    component.orderHistory = orderHistoryMock;
+    component.showPopup(orderHistoryId);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should  NOT to call openCancelReason when order history id doesn"t match orderHistoryMock', () => {
+    const orderHistoryId = 1;
+    const orderHistoryMock = [
+      {
+        authorName: 'Kateryna',
+        eventDate: '2022-09-11',
+        eventName: 'Скасовано',
+        id: 3
+      }
+    ];
+    const spy = spyOn(component, 'openCancelReason');
+    component.orderHistory = orderHistoryMock;
+    component.showPopup(orderHistoryId);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('openDialog should be called', () => {
-    const spyOpenDialog = spyOn(MatDialogMock.prototype, 'open');
+    const spy = spyOn(MatDialogMock.prototype, 'open');
     MatDialogMock.prototype.open();
-    expect(spyOpenDialog).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('openCancelReason should call dialog.open once', () => {
-    spyOn((component as any).dialog, 'open');
+    const spy = spyOn((component as any).dialog, 'open');
     component.orderInfo = OrderInfoMock;
     component.openCancelReason();
-    expect((component as any).dialog.open).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });
