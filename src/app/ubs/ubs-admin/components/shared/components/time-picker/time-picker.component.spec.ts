@@ -166,15 +166,15 @@ describe('TimePickerComponent', () => {
   xit('should set list of time "delivery to" started with time "delivery from" plus 30 minutes', () => {
     const selector = fixture.debugElement.query(By.css('#timeFrom')).nativeElement;
     selector.dispatchEvent(new Event('change'));
-    fakeTimeToChange = component.compareTime();
+    fakeTimeToChange = component.compareFromTime();
     fixture.detectChanges();
     if (component.fromSelect[0] !== undefined) {
-      expect(component.fromSelect).toEqual(component.compareTime());
+      expect(component.fromSelect).toEqual(component.compareFromTime());
     }
   });
 
   it('should check whether "compareTime" works correctly', () => {
-    const filteredArr = component.compareTime();
+    const filteredArr = component.compareFromTime();
     if (component.currentDate >= component.exportDate) {
       expect(filteredArr[0]).toEqual(component.fromSelect[0]);
     } else {
