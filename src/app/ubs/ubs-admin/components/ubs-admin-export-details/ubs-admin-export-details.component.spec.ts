@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('UbsAdminExportDetailsComponent', () => {
   let component: UbsAdminExportDetailsComponent;
   let fixture: ComponentFixture<UbsAdminExportDetailsComponent>;
-  let mockDate = '2022-01-01';
+  const mockDate = '2022-01-01';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
