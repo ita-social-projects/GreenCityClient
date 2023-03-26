@@ -34,7 +34,7 @@ export class TimePickerComponent implements OnInit {
     this.initDate();
 
     if (this.currentDate >= this.exportDate) {
-      this.fromSelect = this.compareTime();
+      this.fromSelect = this.compareFromTime();
       this.toSelect = this.compareToTime();
     }
   }
@@ -67,24 +67,12 @@ export class TimePickerComponent implements OnInit {
     return `${hours}:${minutes}`;
   }
 
-  compareTime(): string[] {
-    const arr = [];
-    this.fromSelect.forEach((val, index) => {
-      if (this.currentHour < this.fromSelect[index]) {
-        arr.push(this.fromSelect[index]);
-      }
-    });
-    return arr;
+  compareFromTime(): string[] {
+    return this.fromSelect.filter((item) => item > this.currentHour);
   }
 
   compareToTime(): string[] {
-    const arr = [];
-    this.toSelect.forEach((val, index) => {
-      if (this.currentHour < this.toSelect[index]) {
-        arr.push(this.toSelect[index + 1]);
-      }
-    });
-    return arr;
+    return this.toSelect.filter((item) => item > this.currentHour).splice(1);
   }
 
   initDate(): void {
