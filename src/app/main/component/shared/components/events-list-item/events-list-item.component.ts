@@ -1,7 +1,6 @@
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
-  GetEcoEventsByPageAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
@@ -31,25 +30,22 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
+  @Input() userId: number;
+
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
 
-  public nameBtn: string;
-  public styleBtn: string;
-  public isJoinBtnHidden = false;
   public rate: number;
-  public userId: number;
   public author: string;
 
-  public isJoined: boolean;
-  public isEventOpen: boolean;
-  public isOwner: boolean;
+  public isRated: boolean;
+
   public isRegistered: boolean;
-  public isFinished: boolean;
   public isReadonly = false;
   public isPosting: boolean;
-  public isRated: boolean;
+  public btnStyle: string;
+  public nameBtn: string;
 
   public max = 3;
 
@@ -63,7 +59,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   attendees = [];
   attendeesAvatars = [];
-
   deleteDialogData = {
     popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
@@ -71,6 +66,20 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   };
 
   @Output() public isLoggedIn: boolean;
+
+  public styleBtn = {
+    secondary: 'secondary-global-button',
+    primary: 'primary-global-button',
+    hiden: 'event-button-hiden'
+  };
+
+  public btnName = {
+    edit: 'event.btn-edit',
+    delete: 'event.btn-delete',
+    rate: 'event.btn-rate',
+    cancel: 'event.btn-cancel',
+    join: 'event.btn-join'
+  };
 
   constructor(
     public router: Router,
@@ -89,19 +98,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
-    this.getUserId();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.checkUserSingIn();
-    this.initAllStatusesOfEvent();
-    this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.author = this.event.organizer.name;
-  }
-
-  public dispatchStore(res: boolean): void {
-    this.store.dispatch(GetEcoEventsByPageAction({ currentPage: 0, numberOfEvents: 6, reset: res }));
+    this.initAllStatusesOfEvent();
+    if (!!this.userId) {
+      this.checkButtonStatus();
+    }
   }
 
   public routeToEvent(): void {
@@ -112,113 +116,73 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
     this.activeTags = this.itemTags.filter((val) => val.isActive);
   }
-
   public initAllStatusesOfEvent(): void {
-    this.isJoined = this.event.isSubscribed;
-    this.isEventOpen = this.event.open;
-    this.isOwner = this.userId === this.event.organizer.id;
     this.isRegistered = !!this.userId;
-    this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
     this.isRated = !!this.rate;
   }
 
-  public getUserId(): void {
-    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
+  public checkIsActive(): boolean {
+    const curentDate = new Date();
+    const eventDates = this.event.dates.find((date) => curentDate <= new Date(date.finishDate));
+    return !!eventDates;
   }
 
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      this.isLoggedIn = data && data.userId;
-      this.userId = data.userId;
-      this.handleUserAuthorization();
-    });
-  }
-
-  public handleUserAuthorization(): void {
-    if (this.isLoggedIn) {
-      if (this.isOwner) {
-        return;
-      }
-      this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
-      this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
+  public checkButtonStatus(): void {
+    const isSubscribe = this.event.isSubscribed;
+    const isOwner = +this.userId === this.event.organizer.id;
+    const isActive = this.checkIsActive();
+    if (isOwner && isActive && !isSubscribe) {
+      this.btnStyle = this.styleBtn.secondary;
+      this.nameBtn = this.btnName.edit;
       return;
     }
-    this.isJoinBtnHidden = true;
-  }
-
-  public checkAllStatusesOfEvent(): void {
-    if (this.isEventOpen && !this.isFinished) {
-      this.checkIsOwner(this.isOwner);
-    } else {
-      if (this.isOwner) {
-        this.nameBtn = 'event.btn-delete';
-        this.styleBtn = 'secondary-global-button';
-      } else {
-        this.checkIsRate(this.isRated);
-      }
+    if (isOwner && !isActive && !isSubscribe) {
+      this.btnStyle = this.styleBtn.secondary;
+      this.nameBtn = this.btnName.delete;
+      return;
+    }
+    if (isSubscribe && isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.secondary;
+      this.nameBtn = this.btnName.cancel;
+      return;
+    }
+    if (!isSubscribe && isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.primary;
+      this.nameBtn = this.btnName.join;
+      return;
+    }
+    if (isSubscribe && !isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.primary;
+      this.nameBtn = this.btnName.rate;
+      return;
+    }
+    if (!isSubscribe && !isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.hiden;
     }
   }
 
-  public checkIsOwner(isOwner: boolean): void {
-    if (isOwner) {
-      this.nameBtn = 'event.btn-edit';
-      this.styleBtn = 'secondary-global-button';
-    } else {
-      this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
-      this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
-    }
-  }
-
-  public checkIsRate(isRated: boolean): void {
-    if (isRated) {
-      this.nameBtn = 'event.btn-see';
-      this.styleBtn = 'secondary-global-button';
-    } else {
-      this.isJoinBtnHidden = this.isJoined && !this.isLoggedIn;
-      this.nameBtn = !this.isEventOpen && this.isJoined ? 'event.btn-see' : 'event.btn-rate';
-      this.styleBtn = !this.isRated ? 'primary-global-button' : 'secondary-global-button';
-    }
-  }
-
-  public buttonAction(): void {
-    switch (this.isRegistered) {
-      case this.isEventOpen && !this.isFinished:
-        if (this.isOwner) {
-          this.localStorageService.setEditMode('canUserEdit', true);
-          this.localStorageService.setEventForEdit('editEvent', this.event);
-          this.router.navigate(['events/', 'create-event']);
-        } else {
-          this.actionIsJoined(this.isJoined);
-        }
+  public buttonAction(buttonName: string): void {
+    switch (buttonName) {
+      case this.btnName.cancel:
+        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
         break;
-
-      case !this.isEventOpen && this.isOwner:
+      case this.btnName.join:
+        this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+        break;
+      case this.btnName.rate:
+        this.openModal();
+        break;
+      case this.btnName.delete:
         this.deleteEvent();
         break;
-      case !this.isRated && this.isEventOpen && !this.isOwner:
-        this.openModal();
+      case this.btnName.edit:
+        this.localStorageService.setEditMode('canUserEdit', true);
+        this.localStorageService.setEventForEdit('editEvent', this.event);
+        this.router.navigate(['events/', 'create-event']);
         break;
       default:
-        this.openModal();
+        break;
     }
-  }
-
-  public actionIsJoined(isJoined: boolean) {
-    if (isJoined) {
-      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.nameBtn = 'event.btn-join';
-      this.styleBtn = 'primary-global-button';
-      this.isReadonly = true;
-      this.isJoined = false;
-    } else {
-      this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.nameBtn = 'event.btn-cancel';
-      this.styleBtn = 'secondary-global-button';
-      this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-      this.isJoined = true;
-      this.snackBar.openSnackBar('addedEvent');
-    }
-    this.dispatchStore(true);
   }
 
   public openModal(): void {
