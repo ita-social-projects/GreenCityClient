@@ -25,7 +25,7 @@
       <div class="form-group export-date col-md-2">
         <label for="export-date">{{ 'export-details.export-date' | translate }}</label>
         <input
-          [min]="current"
+          [min]="currentDate"
           (change)="checkDate($event)"
           type="date"
           class="form-control"

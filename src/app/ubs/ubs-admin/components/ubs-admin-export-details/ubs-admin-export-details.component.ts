@@ -25,7 +25,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public to: string;
   public currentHour: string;
   public allReceivingStations: string[];
-  public current: string;
+  public currentDate: string;
   public isOrderStatusCancelOrDone = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
@@ -62,7 +62,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   ngOnInit(): void {
     this.initTime();
     this.allReceivingStations = this.exportInfo.allReceivingStations.map((e) => e.name);
-    this.current = new Date().toISOString().split('T')[0];
+    this.currentDate = new Date().toISOString().split('T')[0];
   }
 
   public resetValue(): void {
@@ -88,7 +88,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   checkDate(event: any): void {
-    if (this.current === event.target.value && this.currentHour > this.exportDetailsDto.value.timeDeliveryFrom) {
+    if (this.currentDate === event.target.value && this.currentHour > this.exportDetailsDto.value.timeDeliveryFrom) {
       this.exportDetailsDto.get('timeDeliveryFrom').setValue('');
       this.exportDetailsDto.get('timeDeliveryTo').setValue('');
     }

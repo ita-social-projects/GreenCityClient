@@ -34,6 +34,7 @@ export class TimePickerComponent implements OnInit {
     this.initDate();
 
     if (this.currentDate >= this.exportDate) {
+      this.toSelect = toSelect;
       this.fromSelect = this.compareFromTime();
       this.toSelect = this.compareToTime();
     }

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('UbsAdminExportDetailsComponent', () => {
   let component: UbsAdminExportDetailsComponent;
   let fixture: ComponentFixture<UbsAdminExportDetailsComponent>;
-  const mockDate = '2022-01-01';
+  let mockDate = '2022-01-01';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,10 +53,10 @@ describe('UbsAdminExportDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should set formatted date to current', () => {
+  it('ngOnInit should set formatted date to currentDate', () => {
     component.ngOnInit();
 
-    expect(component.current).toBe(mockDate);
+    expect(component.currentDate).toBe(mockDate);
   });
 
   it('openDetails should set pageOpen to opposite', () => {
@@ -66,7 +66,7 @@ describe('UbsAdminExportDetailsComponent', () => {
     expect(component.pageOpen).toBe(true);
   });
 
-  it('component should set current date to min attribute in html', () => {
+  it('component should set currentDate date to min attribute in html', () => {
     component.pageOpen = true;
     fixture.detectChanges();
     const inputElem = fixture.debugElement.nativeElement.querySelector('#export-date');
