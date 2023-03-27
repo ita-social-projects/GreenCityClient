@@ -298,8 +298,9 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       this.dialogRef.close();
     }
   }
-  newFormat(event: any) {
-    this.paymentSum = parseFloat(event.target.value).toFixed(2);
-    event.target.value = this.paymentSum;
+  newFormat(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.paymentSum = parseFloat(target.value).toFixed(2);
+    target.value = this.paymentSum;
   }
 }
