@@ -1094,5 +1094,17 @@
     "error": {
       "exist-address": "This address has already been added"
     }
+  },
+  "add-new-certificate": {
+    "title": "Add sertificate",
+    "сertificate-field": "Certificate. №",
+    "duration-months-field": "Duration, mo.",
+    "discount-field": "Discount, UAH",
+    "cancel-button": "Cancel",
+    "add-button": "Add certificate",
+    "field-not-empty": "The field can’t be empty",
+    "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
+    "duration-field-format": "The field can contain only numbers from 1 to 12",
+    "discount-field-format": "The field can contain only numbers in format from 1 to 999"
   }
 }
