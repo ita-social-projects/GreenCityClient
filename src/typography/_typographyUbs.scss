@@ -1,2 +1,133 @@
 @import 'colorsUbs';
 @import 'fontsUbs';
+
+.ubs-primary-global-button,
+.ubs-secondary-global-button,
+.ubs-danger-global-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 44px;
+  line-height: 28px;
+  font-size: 18px;
+  padding: 8px 24px;
+  font-family: var(--primary-font);
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+
+.ubs-primary-global-button {
+  color: var(--ubs-quaternary-dark-grey);
+  background: var(--ubs-button-light-green);
+
+  &:hover,
+  &:active {
+    background: var(--ubs-button-dark-green);
+  }
+
+  &:focus {
+    background: var(--ubs-primary-light-green);
+    border: 1px solid var(--ubs-button-dark-green);
+  }
+
+  &:disabled {
+    color: var(--ubs-secondary-grey);
+    background-color: var(--ubs-quaternary-light-grey);
+  }
+}
+
+.ubs-secondary-global-button {
+  color: var(--ubs-freinacht-black);
+  background: transparent;
+  border: 1px solid var(--ubs-freinacht-black);
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: var(--ubs-button-light-grey);
+  }
+
+  &:disabled {
+    color: var(--ubs-quintynary-light-grey);
+    border: 1px solid var(--ubs-quintynary-light-grey);
+  }
+}
+
+.ubs-danger-global-button {
+  color: var(--ubs-primary-red);
+  background: transparent;
+
+  &:hover,
+  &:active {
+    color: var(--ubs-dark-red);
+  }
+
+  &:disabled {
+    color: var(--ubs-error-light-button-red);
+  }
+}
+
+.ubs-link-global-button {
+  padding: 0;
+  font-family: var(--primary-font);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  border: 0;
+  outline: 0;
+  color: var(--ubs-dark-purple);
+  background-color: transparent;
+
+  &:hover,
+  &:active {
+    color: var(--ubs-accent-purple);
+  }
+
+  &:disabled {
+    color: var(--ubs-quintynary-light-grey);
+  }
+}
+
+.ubs-primary-global-button:disabled,
+.ubs-secondary-global-button:disabled,
+.ubs-danger-global-button:disabled,
+.ubs-link-global-button:disabled {
+  cursor: default;
+}
+
+.ubs-primary-global-button:focus,
+.ubs-secondary-global-button:focus {
+  outline: 0;
+  box-shadow: 2px 6px 10px var(--ubs-button-shadow);
+}
+
+.ubs-danger-global-button:focus,
+.ubs-link-global-button:focus {
+  outline: 0;
+  text-decoration-line: underline;
+  text-shadow: 2px 6px 10px var(--ubs-button-shadow);
+}
+
+.m-btn {
+  height: 40px;
+  line-height: 24px;
+  font-size: 16px;
+}
+
+.s-btn {
+  height: 36px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.s-link {
+  font-size: 14px;
+}

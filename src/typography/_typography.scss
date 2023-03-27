@@ -106,7 +106,6 @@
   letter-spacing: 0.1px;
 }
 
-.ubs-primary-global-button,
 .primary-global-button,
 .secondary-global-button,
 .tertiary-global-button {
@@ -126,26 +125,6 @@
   outline: none;
   background: none;
   cursor: pointer;
-}
-
-.ubs-primary-global-button {
-  color: var(--ubs-quaternary-dark-grey);
-  background: var(--ubs-button-light-green);
-
-  &:hover,
-  &:active {
-    background: var(--ubs-button-dark-green);
-  }
-
-  &:focus {
-    background: var(--ubs-primary-light-green);
-    border: 2px solid var(--ubs-button-dark-green);
-  }
-
-  &:disabled {
-    color: var(--ubs-secondary-grey);
-    background-color: var(--ubs-quaternary-light-grey);
-  }
 }
 
 .primary-global-button {
