@@ -166,7 +166,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getCustomShopList(): void {
     this.shopListService
-      .getHabitAllShopLists(this.habitId, this.currentLang)
+      .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
         res.customShoppingListItemDto.forEach((item) => (item.custom = true));
