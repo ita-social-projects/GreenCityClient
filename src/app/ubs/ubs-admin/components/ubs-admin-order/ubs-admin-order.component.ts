@@ -174,6 +174,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   initForm() {
+    console.log(' this.userInfo.recipientPhoneNumber', this.userInfo.recipientPhoneNumber);
     const currentEmployees = this.responsiblePersonInfo.currentPositionEmployees;
     this.orderForm = this.fb.group({
       generalOrderInfo: this.fb.group({
@@ -283,6 +284,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   getFormGroup(name: string): FormGroup {
+    // console.log('name',name);
+    // console.log('this.orderForm.get(name) as FormGroup;', this.orderForm.get('userInfoDto') as FormGroup)
     return this.orderForm.get(name) as FormGroup;
   }
 
@@ -430,6 +433,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
+    console.log('changedValues', changedValues);
 
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
