@@ -20,8 +20,6 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderStatusDone: boolean;
   isSpinner = true;
   pageReloaded = false;
-  orderPaymentError = false;
-  finalSumOfOrder: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -46,8 +44,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const orderIdWithoutPayment = this.localStorageService.getUbsOrderId();
     this.ubsOrderFormService.orderId.pipe(takeUntil(this.destroy$)).subscribe((oderID) => {
-      if (!oderID && this.localStorageService.getUbsLiqPayOrderId()) {
-        oderID = this.localStorageService.getUbsLiqPayOrderId();
+      if (!oderID && this.localStorageService.getUbsBonusesOrderId()) {
+        oderID = this.localStorageService.getUbsBonusesOrderId();
         this.pageReloaded = true;
       }
       if (oderID || orderIdWithoutPayment) {
@@ -92,17 +90,8 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     const isOrderSavedWithoutPayment = this.localStorageService.getOrderWithoutPayment();
     if (isOrderSavedWithoutPayment) {
       this.localStorageService.setUbsOrderId(this.orderId);
-      this.isSpinner = false;
-    } else {
-      this.orderService
-        .getUbsOrderStatus()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((response) => {
-          this.finalSumOfOrder = this.localStorageService.getFinalSumOfOrder();
-          this.orderPaymentError = this.finalSumOfOrder ? response?.code === 'payment_not_found' : false;
-          this.isSpinner = false;
-        });
     }
+    this.isSpinner = false;
   }
 
   public isUserPageOrderPayment(): boolean {

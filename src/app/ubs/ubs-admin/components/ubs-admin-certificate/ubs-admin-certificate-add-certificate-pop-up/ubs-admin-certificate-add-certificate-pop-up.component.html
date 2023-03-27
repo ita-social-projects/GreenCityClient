@@ -3,7 +3,7 @@
     <img mat-dialog-close class="close-btn" src=".\assets\img\auth\cross.svg" alt="close" />
   </div>
   <mat-dialog-content>
-    <p>{{ 'add-new-certificate.title' | translate }}</p>
+    <p class="title">{{ 'add-new-certificate.title' | translate }}</p>
   </mat-dialog-content>
   <form [formGroup]="addCertificateForm">
     <div class="row3">
@@ -37,7 +37,7 @@
     </div>
   </form>
   <mat-dialog-actions>
-    <button class="btn btn-outline-success" mat-dialog-close>{{ 'add-new-certificate.cancel-button' | translate }}</button>
+    <button class="btn-cancel" mat-dialog-close>{{ 'add-new-certificate.cancel-button' | translate }}</button>
     <button
       class="btn btn-success"
       [disabled]="addCertificateForm.invalid || monthCountDisabled || pointsValueDisabled"

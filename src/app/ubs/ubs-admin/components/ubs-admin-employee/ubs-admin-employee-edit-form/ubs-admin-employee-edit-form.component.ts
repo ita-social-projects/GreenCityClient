@@ -44,6 +44,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   public isInitialImageChanged = false;
   public isInitialPositionsChanged = false;
   public isInitialTariffsChanged = false;
+  public isImageError: boolean;
   public editMode: boolean;
   initialData: InitialData;
   imageURL: string;
@@ -72,8 +73,11 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.employeeForm = this.fb.group({
       firstName: [this.data?.firstName ?? '', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]],
       lastName: [this.data?.lastName ?? '', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]],
-      phoneNumber: [this.data?.phoneNumber ?? '', [Validators.required, PhoneNumberValidator('UA')]],
-      email: [this.data?.email ?? '', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]]
+      phoneNumber: [
+        this.data?.phoneNumber ?? '',
+        [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
+      ],
+      email: [this.data?.email ?? '', [Validators.pattern(Patterns.ubsMailPattern)]]
     });
     this.employeePositions = this.data?.employeePositions ?? [];
     this.imageURL = this.data?.image;
@@ -227,7 +231,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   private transferFile(imageFile: File): void {
     this.isWarning = this.showWarning(imageFile);
-
     if (!this.isWarning) {
       const reader: FileReader = new FileReader();
       this.selectedFile = imageFile;
@@ -244,7 +247,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   private showWarning(file: File): boolean {
-    return file.size > this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
+    this.isImageError = file.size >= this.maxImageSize || (file.type !== 'image/jpeg' && file.type !== 'image/png');
+    return this.isImageError;
   }
 
   removeImage() {

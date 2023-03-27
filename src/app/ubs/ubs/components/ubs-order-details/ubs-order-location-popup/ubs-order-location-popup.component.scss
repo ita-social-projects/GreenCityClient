@@ -22,7 +22,7 @@
     margin: 28px 36px;
     font-size: 20px;
 
-    .mat-form-field {
+    .city-container {
       width: 60%;
     }
 
@@ -34,6 +34,30 @@
       border-radius: 4px;
       outline: none;
     }
+  }
+
+  .form-control {
+    background-color: var(--white);
+  }
+
+  .mat-input-element.mat-autocomplete-trigger.ng-invalid.ng-touched {
+    border: 1px solid var(--blue) !important;
+  }
+
+  .mat-input-element {
+    padding: 7px;
+    height: 50px;
+    border: 1px solid var(--ubs-quintynary-light-grey) !important;
+    border-radius: 0.25rem !important;
+    caret-color: var(--ubs-primary-black) !important;
+  }
+
+  .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
+    color: unset !important;
+  }
+
+  .mat-autocomplete-panel .mat-autocomplete-visible {
+    border-radius: 0.25rem;
   }
 
   .info {
