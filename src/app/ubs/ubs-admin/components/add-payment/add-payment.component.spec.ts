@@ -214,8 +214,8 @@ describe('AddPaymentComponent', () => {
   it('newFormat should format the input value to have two decimal places', () => {
     const sumPayment = {
       target: { value: '444.888' }
-    };
+    } as unknown as Event;
     component.newFormat(sumPayment);
-    expect(sumPayment.target.value).toEqual('444.89');
+    expect(sumPayment.target as HTMLInputElement).toEqual('444.89');
   });
 });
