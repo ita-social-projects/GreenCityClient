@@ -457,9 +457,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         recipientName: this.userForm.value.recipientName,
         recipientPhone: this.userForm.value.recipientPhone,
         recipientSurname: this.userForm.value.recipientSurname,
-        telegramIsChecked: this.telegramNotification,
         telegramIsNotify: this.userProfile.telegramIsNotify,
-        viberIsNotify: this.userProfile.viberIsNotify
+        viberIsNotify: this.userProfile.viberIsNotify,
+        hasPassword: this.userProfile.hasPassword
       };
 
       if (!submitData.alternateEmail?.length) {
