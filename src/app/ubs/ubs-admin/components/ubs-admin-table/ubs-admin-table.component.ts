@@ -63,7 +63,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   currentPage = 0;
   currentDate: Date;
   currentDateStr: string;
-  FromDate: string;
   pageSize = 25;
   idsToChange: number[] = [];
   allChecked = false;
@@ -678,12 +677,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (suffix === 'From' || suffix === 'To') {
       const date = this.getControlValue(currentColumn, suffix);
       const value = this.adminTableService.setDateFormat(date);
-      if (suffix === 'From') {
-        this.FromDate = value;
-      }
       this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
       if (!checkControl || this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
         this.dateForm.get(`${currentColumn}To`).setValue(value);
+      } else if (!checkControl || this.getControlValue(currentColumn, 'To') < this.getControlValue(currentColumn, 'From')) {
+        this.dateForm.get(`${currentColumn}From`).setValue(value);
       }
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
