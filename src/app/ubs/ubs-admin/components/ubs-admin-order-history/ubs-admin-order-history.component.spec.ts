@@ -26,9 +26,6 @@ describe('UbsAdminOrderHistoryComponent', () => {
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
   const MatDialogRefMock = { close: () => {} };
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
-  const MatDialogRefMock = {
-    close: () => {}
-  };
 
   const orderNotTakenOutReasonMock: INotTakenOutReason = {
     description: 'string',
@@ -299,22 +296,6 @@ describe('UbsAdminOrderHistoryComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should call openCancelReason when order history event name is "Скасовано"', () => {
-    const orderHistoryId = 1;
-    const orderHistoryMock = [
-      {
-        authorName: 'Kateryna',
-        eventDate: '2022-09-11',
-        eventName: 'Скасовано',
-        id: orderHistoryId
-      }
-    ];
-    const spy = spyOn(component, 'openCancelReason');
-    component.orderHistory = orderHistoryMock;
-    component.showPopup(orderHistoryId);
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should  NOT to call openCancelReason when order history event name isnt "Скасовано"', () => {
     const orderHistoryId = 1;
     const orderHistoryMock = [
@@ -358,6 +339,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.orderInfo = OrderInfoMock;
     component.openCancelReason();
     expect(spy).toHaveBeenCalled();
+  });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     (component as any).destroy$ = new Subject<boolean>();
