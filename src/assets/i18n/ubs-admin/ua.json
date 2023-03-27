@@ -228,6 +228,12 @@
     "date": "Дaта",
     "added": "Додано"
   },
+
+  "order-not-taken-out-reason": {
+    "title": "Причина невивезеного замовлення № ",
+    "label-reason": "Коментар кур’єра"
+  },
+
   "address-details": {
     "title": "Адреса вивезення відходів",
     "district": "Район",

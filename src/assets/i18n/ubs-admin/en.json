@@ -232,6 +232,11 @@
     "added": "Added"
   },
 
+  "order-not-taken-out-reason": {
+    "title": "The reason for not taken out order N ",
+    "label-reason": "Courier's comment"
+  },
+
   "address-details": {
     "title": "Waste export address",
     "district": "District",
