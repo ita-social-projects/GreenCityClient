@@ -216,13 +216,6 @@ describe('OrderService', () => {
     httpTest('order/get-locations', 'POST', { status: 200, statusText: 'OK' });
   });
 
-  it('method processLiqPayOrder should makes POST request', () => {
-    service.processLiqPayOrder(orderMock).subscribe((data) => {
-      expect(data).toEqual(null);
-    });
-    httpTest('processLiqPayOrder', 'POST', null);
-  });
-
   it('method setOrder should call behaviorSubject.next(order)', () => {
     spyOn(behaviorSubjectMock, 'next');
     service.setOrder(orderMock);
@@ -243,12 +236,6 @@ describe('OrderService', () => {
     expect(subjectMock.next).toHaveBeenCalled();
   });
 
-  it('method getLiqPayForm should call method processLiqPayOrder', () => {
-    spyOn(service, 'processLiqPayOrder');
-    service.getLiqPayForm();
-    expect(service.processLiqPayOrder).toHaveBeenCalled();
-  });
-
   it('method processOrderFondyFromUserOrderList should retrieve Fondy order information from the API via POST', () => {
     const responceOrderFondyModel: ResponceOrderFondyModel = {
       orderId: 5,
@@ -259,22 +246,5 @@ describe('OrderService', () => {
     });
 
     httpTest('client/processOrderFondy', 'POST', responceOrderFondyModel);
-  });
-
-  it('method processOrderLiqPayFromUserOrderList should retrieve LiqPay order information from the API via POST', () => {
-    const action = 'https://www.liqpay.ua/api/3/checkout';
-    const inputHidden = '<input type=hidden name=data /><input type=hidden name=signature value=9JepF5OvUsOPnW+3rV6hZczjs5s= />';
-    const inputImg = '<input type=image src=//static.liqpay.ua/buttons/p1en.radius.png name=btn_text />';
-    const responceOrderLiqPayModel: ResponceOrderLiqPayModel = {
-      orderId: 7,
-      liqPayButton: `<form method=post action=${action} accept-charset=utf-8><input type=hidden name=data />${
-        inputHidden + inputImg
-      }</form>`
-    };
-    service.processOrderLiqPayFromUserOrderList(userOrderMock).subscribe((data) => {
-      expect(data).toEqual(responceOrderLiqPayModel);
-    });
-
-    httpTest('client/processOrderLiqpay', 'POST', responceOrderLiqPayModel);
   });
 });

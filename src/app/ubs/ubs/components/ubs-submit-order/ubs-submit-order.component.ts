@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
@@ -20,9 +20,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
   paymentForm: FormGroup = this.fb.group({});
-  liqPayButtonForm: SafeHtml;
-  liqPayButton: NodeListOf<HTMLElement>;
-  isLiqPay = false;
+  isPaymentWithMoney = false;
   shouldBePaid: boolean;
   order: Order;
   addressId: number;
@@ -184,12 +182,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     this.loadingAnim = true;
     this.localStorageService.setUserPagePayment(false);
     if (this.isFinalSumZero) {
-      this.isLiqPay = false;
+      this.isPaymentWithMoney = false;
     }
-    if (!this.isLiqPay) {
+    if (!this.isPaymentWithMoney) {
       localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
-    } else {
-      this.getLiqPayButton();
     }
   }
 
@@ -208,7 +204,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           console.log('RESPONSE ', response);
           const { orderId, link } = JSON.parse(response);
           this.shareFormService.orderUrl = '';
-          this.localStorageService.removeUbsLiqPayOrderId();
           this.localStorageService.removeUBSExistingOrderId();
           this.shareFormService.orderUrl = link.toString();
           this.localStorageService.setUbsFondyOrderId(orderId);
@@ -233,12 +228,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         (response) => {
           const { orderId, link } = JSON.parse(response);
           this.shareFormService.orderUrl = '';
-          this.localStorageService.removeUbsLiqPayOrderId();
           if (this.isFinalSumZero && !this.isTotalAmountZero) {
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);
             this.ubsOrderFormService.setOrderStatus(true);
-            this.localStorageService.setUbsLiqPayOrderId(orderId);
+            this.localStorageService.setUbsBonusesOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
             this.localStorageService.setUbsFondyOrderId(orderId);
@@ -255,42 +249,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     document.location.href = url;
   }
 
-  getLiqPayButton() {
-    this.loadingAnim = true;
-    this.orderService
-      .getLiqPayForm()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (res) => {
-          const { orderId, liqPayButton } = JSON.parse(res);
-          this.localStorageService.setUbsLiqPayOrderId(orderId);
-          this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(liqPayButton);
-          setTimeout(() => {
-            this.liqPayButton = document.getElementsByName('btn_text');
-            this.onNotSaveData();
-          }, 0);
-        },
-        (error) => {
-          this.router.navigate(['ubs', 'confirm']);
-        }
-      );
-  }
-
-  orderButton(event: any) {
-    this.selectedPayment = event.target.value;
-    if (this.selectedPayment === 'LiqPay') {
-      this.isLiqPay = true;
-    } else {
-      this.loadingAnim = false;
-      this.isLiqPay = false;
-    }
-  }
-
   onNotSaveData() {
     this.shareFormService.isDataSaved = true;
     this.localStorageService.removeUbsFondyOrderId();
     this.localStorageService.removeUBSExistingOrderId();
-    this.liqPayButton[0].click();
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

@@ -7,7 +7,7 @@
             {{ 'confirm-page.to-personal-account' | translate }}
           </button>
         </div>
-        <div class="error" *ngSwitchCase="orderResponseError || orderPaymentError">
+        <div class="error" *ngSwitchCase="orderResponseError">
           <button *ngIf="!isUserPageOrderPayment()" class="btn-back" (click)="returnToPayment('/ubs/order')">
             <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
             {{ 'confirm-page.return-to-payment' | translate }}
