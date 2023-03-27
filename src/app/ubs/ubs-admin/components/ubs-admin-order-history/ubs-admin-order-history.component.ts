@@ -1,8 +1,10 @@
 import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { IOrderHistory, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStutuses } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 @Component({
   selector: 'app-ubs-admin-order-history',
@@ -16,12 +18,24 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
+  orderNotTakenOutReason: INotTakenOutReason;
+  coloredStutus = ordersStutuses.NotTakenOutUA || ordersStutuses.CanselUA;
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+
+  parseEventName(eventName: string, index: number) {
+    const parts = eventName.split('-').map((part) => part.trim());
+    const [status, result] = parts;
+
+    this.orderHistory[index].status = status;
+    this.orderHistory[index].result = result;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
+    const orderID = this.orderInfo.generalOrderInfo.id;
     if (changes.orderInfo) {
-      this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
+      this.getOrderHistory(orderID);
+      this.getNotTakenOutReason(orderID);
     }
   }
 
@@ -29,18 +43,46 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  showPopup(element: any, popup: any) {
-    if (element.target.offsetWidth < element.target.scrollWidth) {
-      popup.toggle();
-    }
+  showPopup(orderHistoryId: number): void {
+    this.orderHistory.forEach((order) => {
+      if (order.id === orderHistoryId && order.result === ordersStutuses.NotTakenOutUA) {
+        this.openNotTakenOutReason(orderHistoryId);
+      }
+    });
   }
 
-  getOrderHistory(orderId: number) {
+  openNotTakenOutReason(orderHistoryId: number): void {
+    this.dialog.open(AddOrderNotTakenOutReasonComponent, {
+      hasBackdrop: true,
+      data: {
+        id: orderHistoryId,
+        isFromHistory: true,
+        orderID: this.orderInfo.generalOrderInfo.id,
+        description: this.orderNotTakenOutReason.description,
+        images: this.orderNotTakenOutReason.images
+      }
+    });
+  }
+
+  getNotTakenOutReason(orderId: number) {
+    this.orderService
+      .getNotTakenOutReason(orderId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log('data', data);
+        this.orderNotTakenOutReason = data;
+      });
+  }
+
+  getOrderHistory(orderId: number): void {
     this.orderService
       .getOrderHistory(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
         this.orderHistory = data;
+        this.orderHistory.forEach((item, index) => {
+          this.parseEventName(item.eventName, index);
+        });
       });
   }
 

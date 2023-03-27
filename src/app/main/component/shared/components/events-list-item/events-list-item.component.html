@@ -57,7 +57,7 @@
     <button class="secondary-global-button m-btn" (click)="routeToEvent()">
       {{ 'event.btn-top' | translate }}
     </button>
-    <button *ngIf="userId" class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
+    <button class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
   </div>
 
   <div class="additional-info">

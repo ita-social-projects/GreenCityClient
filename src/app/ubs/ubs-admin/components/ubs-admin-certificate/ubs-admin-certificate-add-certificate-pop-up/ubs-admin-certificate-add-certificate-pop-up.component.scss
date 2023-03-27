@@ -3,17 +3,33 @@
 }
 
 .dialog-container {
-  width: 450px;
-  height: 300px;
-  padding: 10px;
-  font-family: var(--secondary-font);
+  width: 522px;
+  height: 316px;
+  padding: 0 30px;
+  font-family: var(--ubs-quaternary-font);
+}
+
+.title {
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.002em;
+  padding: 0 20px;
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--quaternary-dark-grey);
 }
 
 .mat-dialog-actions {
   width: 100%;
   display: flex;
-  margin-top: 65px;
-  justify-content: space-between;
+  margin-top: 50px;
+  justify-content: flex-end;
 }
 
 .row3 {
@@ -27,14 +43,20 @@
   justify-content: center;
   align-items: center;
   padding: 0 8px 0 0;
-  margin-top: 35px;
+  margin-top: 32px;
 
   input {
     background: var(--ubs-primary-white);
-    border: 1px solid var(--ubs-grey-blue);
+    border: 1px solid var(--quintynary-light-grey);
     border-radius: 4px;
-    height: 36px;
-    width: 95px;
+    height: 40px;
+    width: 110px;
+  }
+
+  input:active,
+  input:focus {
+    outline: none;
+    border-color: var(--ubs-button-light-green);
   }
 }
 
@@ -43,18 +65,57 @@ input.ng-touched.ng-invalid {
 }
 
 .close-btn {
-  width: 18px;
-  height: 18px;
+  width: 11px;
+  height: 11px;
+  color: var(--ubs-primary-grey);
+  top: -5px;
+  left: 32px;
+  position: relative;
+}
+
+.btn-success,
+.btn-cancel {
+  height: 40px;
+  color: var(--freinacht-black);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.1px;
+}
+
+.btn-success {
+  width: 194px;
+  background-color: var(--ubs-button-light-green);
+  border-color: var(--ubs-button-light-green);
+  margin-left: 15px;
+  margin-right: 24px;
+}
+
+.btn-cancel {
+  width: 125px;
+  background-color: var(--ubs-primary-white);
+  border: none;
+}
+
+.btn-cancel:active {
+  background-color: var(--ubs-button-light-green);
+  border-color: var(--ubs-button-light-green);
+  border-radius: 4px;
 }
 
 .close-wrapper {
   display: flex;
   justify-content: end;
+  margin-bottom: 20px;
 }
 
 .error-message {
-  color: var(--ubs-error-ligh-red);
-  font-size: 8px;
+  color: var(--ubs-primary-red);
+  font-size: 10px;
   line-height: 10px;
   padding-top: 3px;
+  justify-content: flex-start;
+  padding-left: 29px;
+  width: 130px;
+  display: flex;
+  text-align: left;
 }
