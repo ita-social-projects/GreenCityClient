@@ -60,6 +60,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   overpayment: number;
   isMinOrder = true;
   isSubmitted = false;
+  isStatus = false;
   private isFormResetted = false;
   writeOffStationSum: number;
   ubsCourierPrice: number;
@@ -132,6 +133,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         if (submitMode && this.currentOrderStatus === 'CANCELED') {
           this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
         }
+        this.function();
+        this.initForm();
       });
   }
 
@@ -154,6 +157,18 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
+  }
+
+  public function(status: string = this.currentOrderStatus) {
+    status = this.currentOrderStatus;
+    this.onDefineOrderStatus(this.currentOrderStatus);
+  }
+
+  public onDefineOrderStatus(status) {
+    if (status === 'CANCELED') {
+      this.isStatus = true;
+    }
+    console.log(this.isStatus);
   }
 
   private setPreviousBagsIfEmpty(status) {
@@ -204,8 +219,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         recipientEmail: [this.userInfo.recipientEmail, [Validators.pattern(Patterns.ubsMailPattern)]]
       }),
       addressExportDetailsDto: this.fb.group({
-        addressRegion: [this.addressInfo.addressRegion, Validators.required],
-        addressRegionEng: [this.addressInfo.addressRegionEng, Validators.required],
+        addressRegion: [{ value: this.addressInfo.addressRegion, disabled: this.isStatus }, Validators.required],
+        addressRegionEng: [{ value: this.addressInfo.addressRegionEng, disabled: this.isStatus }, Validators.required],
         addressCity: [
           this.addressInfo.addressCity,
           [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
@@ -231,8 +246,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           this.addressInfo.addressEntranceNumber,
           [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
         ],
-        addressDistrict: [this.addressInfo.addressDistrict, Validators.required],
-        addressDistrictEng: [this.addressInfo.addressDistrictEng, Validators.required]
+        addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
+        addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }]
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],

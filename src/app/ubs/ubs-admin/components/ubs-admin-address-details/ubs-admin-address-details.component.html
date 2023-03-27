@@ -15,19 +15,8 @@
               (change)="setRegionValue($event)"
               class="form-control shadow-none placeholder-positioning"
               id="region"
-              *ngIf="!isStatus"
             >
-              <option *ngFor="let region of regions" [ngValue]="region.name" [disabled]="isStatus">{{ region.name }}</option>
-            </select>
-            <select
-              [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
-              (change)="setRegionValue($event)"
-              class="form-control shadow-none placeholder-positioning"
-              id="region"
-              *ngIf="isStatus"
-              disabled
-            >
-              <option *ngFor="let region of regions" [ngValue]="region.name" [disabled]="isStatus">{{ region.name }}</option>
+              <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
             </select>
           </div>
           <div class="form-group">
@@ -115,32 +104,12 @@
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
             class="form-control placeholder-positioning"
-            *ngIf="isDistrict && !isStatus"
+            *ngIf="isDistrict"
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             (change)="onDistrictSelected($event)"
           >
-            <option *ngFor="let district of districtsKyiv" [disabled]="isStatus" [ngValue]="district.name">{{ district.name }}</option>
-          </select>
-          <select
-            class="form-control placeholder-positioning"
-            *ngIf="isDistrict && isStatus"
-            id="district"
-            (change)="onDistrictSelected($event)"
-            disabled
-          >
-            <option *ngFor="let district of districtsKyiv" [disabled]="isStatus" [ngValue]="district.name">{{ district.name }}</option>
-          </select>
-          <select
-            *ngIf="!isDistrict"
-            id="district"
-            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="form-control"
-            (change)="onDistrictSelected($event)"
-          >
-            <option *ngFor="let district of districts" [ngValue]="district.name">
-              {{ district.name }}
-            </option>
+            <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
           </select>
           <div
             class="validation"
