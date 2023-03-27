@@ -10,7 +10,7 @@ export const Patterns = {
 
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
   ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/\,\\]+$/,
-  ubsEntrNumPattern: /^([1-9]\d*)?$/,
+  ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]+$/,
 
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
   ubsCommentPattern: /[\S\s]{0,255}/,

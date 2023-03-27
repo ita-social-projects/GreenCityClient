@@ -21,6 +21,7 @@
         type="button"
         class="primary-global-button btn"
         [disabled]="
+          showMessageForAlreadyEnteredCert(i) ||
           formArrayCertificates['controls'][i].invalid ||
           formArrayCertificates['controls'][i].pristine ||
           !certificate.value.length ||
@@ -49,14 +50,32 @@
       <small class="text-danger" *ngIf="certificates.error[i]">
         {{ 'order-details.failed-certificate' | translate }}
       </small>
-      <small class="text-danger" *ngIf="certificates.status[i] === 'USED' && certificates.failed[i]">
+      <small class="text-danger" *ngIf="showMessageForAlreadyUsedCert(i)">
         {{ 'order-details.already-used' | translate: { certDate: certificates.dateOfUses[i] } }}
       </small>
+
+      <small class="text-danger" *ngIf="showMessageForAlreadyEnteredCert(i)">
+        {{
+          'order-details.already-used'
+            | translate
+              : {
+                  certDate: formArrayCertificates.controls[i].value
+                }
+        }}
+      </small>
+
       <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
         {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
       </small>
       <small class="text-message" *ngIf="showActivateCetificate(i)">
-        {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
+        {{
+          'order-details.activated'
+            | translate
+              : {
+                  certificateSum: certificates.points[i],
+                  certDate: certificates.expirationDates[i]
+                }
+        }}
       </small>
       <small class="text-message" *ngIf="certSize && certificateSum > showTotal && i === certificates.codes.length - 1">
         {{

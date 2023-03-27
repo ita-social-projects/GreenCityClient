@@ -31,6 +31,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     UbsProfileChangePasswordPopUpComponent,
     UbsProfileDeletePopUpComponent,
     UbsUserOrderPaymentPopUpComponent,
-    UbsUserOrderCancelPopUpComponent
+    UbsUserOrderCancelPopUpComponent,
+    UbsSwitcherComponent
   ],
   imports: [
     CommonModule,
