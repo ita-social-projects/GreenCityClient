@@ -28,7 +28,8 @@ describe('UbsConfirmPageComponent', () => {
     'setUbsOrderId',
     'getOrderWithoutPayment',
     'removeOrderWithoutPayment',
-    'removeUbsOrderId'
+    'removeUbsOrderId',
+    'getUserPagePayment'
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
@@ -105,7 +106,7 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
   });
 
-  it('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
+  describe('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
     it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
       component.saveDataOnLocalStorage();
       expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();

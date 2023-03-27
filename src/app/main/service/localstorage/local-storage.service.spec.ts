@@ -59,7 +59,7 @@ describe('LocalStorageService', () => {
 
   describe('setUbsOrderId and getUbsOrderId', () => {
     it('should set the orderId to localStorage', () => {
-      const orderId = '12345';
+      const orderId = 12345;
       service.setUbsOrderId(orderId);
       expect(localStorage.getItem('UbsOrderId')).toEqual(String(orderId));
     });
@@ -256,7 +256,7 @@ describe('LocalStorageService', () => {
 
   describe('UbsFondyOrderId', () => {
     it('should set the UbsFondyOrderId in local storage', () => {
-      const orderId = '123';
+      const orderId = 123;
       service.setUbsFondyOrderId(orderId);
       expect(localStorage.getItem('UbsFondyOrderId')).toEqual(String(orderId));
     });
