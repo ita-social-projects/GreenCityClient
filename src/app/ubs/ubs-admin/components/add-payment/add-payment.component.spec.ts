@@ -216,6 +216,6 @@ describe('AddPaymentComponent', () => {
       target: { value: '444.888' }
     } as unknown as Event;
     component.newFormat(sumPayment);
-    expect(sumPayment.target as HTMLInputElement).toEqual('444.89');
+    expect((sumPayment.target as HTMLInputElement).value).toEqual('444.89');
   });
 });
