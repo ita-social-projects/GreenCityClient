@@ -135,8 +135,8 @@ export class AddEditCustomHabitComponent implements OnInit {
     this.habitService
       .addCustomHabit(this.habitForm.value, this.currentLang)
       .pipe(take(1))
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe(() => {
+        this.goToAllHabits();
       });
   }
 }
