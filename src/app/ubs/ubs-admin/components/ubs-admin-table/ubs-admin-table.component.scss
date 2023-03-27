@@ -125,7 +125,7 @@ input {
   border: thin solid var(--ubs-primary-light-grey);
   border-top: none;
   color: var(--ubs-primary-grey);
-  font-size: 14px;
+  font-size: 12px;
   font-family: var(--primary-font);
   width: 200px;
   min-width: 48px;
@@ -517,6 +517,9 @@ input {
 }
 
 .column_cell {
+  display: flex;
+  height: 100%;
+  align-items: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

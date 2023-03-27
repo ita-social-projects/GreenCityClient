@@ -19,10 +19,24 @@
       width: 228px;
       z-index: 3;
     }
+
+    .admin-sidebar-slider {
+      position: fixed;
+      top: 50px;
+      background-color: var(--ubs-primary-grey);
+      width: 200px;
+      z-index: 3;
+    }
   }
 
   .main-content {
     margin-top: 120px;
+    overflow-x: hidden;
+    min-height: 345px;
+  }
+
+  .admin-main-content {
+    margin-top: 50px;
     overflow-x: hidden;
     min-height: 345px;
   }
@@ -63,6 +77,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  .admin-sidebar-icons {
+    top: 50px;
   }
 
   .toggle-arrow {
