@@ -1,3 +1,4 @@
+import { Language } from 'src/app/main/i18n/Language';
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
@@ -160,7 +161,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => (this.currentLanguage === 'ua' ? item.nameUk : item.nameEn));
+        this.couriersName = this.couriers.map((item) => (this.currentLanguage === Language.UA ? item.nameUk : item.nameEn));
       });
   }
 
@@ -263,7 +264,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public onRegionSelected(event): void {
     const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.value));
     this.regionEnglishName = selectedValue
-      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
       .flat(2);
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
@@ -315,10 +316,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     let englishLocation;
     let locationId;
     event.option.value.locationTranslationDtoList.forEach((el) => {
-      if (el.languageCode === 'ua') {
+      if (el.languageCode === Language.UA) {
         location = el.locationName;
       }
-      if (el.languageCode === 'en') {
+      if (el.languageCode === Language.EN) {
         englishLocation = el.locationName;
       }
       locationId = event.option.value.locationId;
@@ -425,8 +426,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
               stationNames: this.selectedStation.map((it) => it.name),
               regionName: this.region.value,
               regionEnglishName: this.regionEnglishName,
-              locationNames: this.selectedCities.map((it) => it.location),
-              locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
+              locationNames: this.selectedCities.map((it) => (this.currentLanguage === Language.UA ? it.location : it.englishLocation)),
               action: 'ubs-tariffs-add-location-pop-up.create_button'
             }
           });

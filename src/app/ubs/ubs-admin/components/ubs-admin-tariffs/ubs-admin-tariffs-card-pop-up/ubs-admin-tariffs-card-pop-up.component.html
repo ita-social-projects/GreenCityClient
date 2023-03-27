@@ -110,7 +110,7 @@
       <div *ngFor="let item of selectedCities; let index = index" class="d-flex">
         <div class="itemList">{{ item.location }}</div>
         <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-        <div class="itemList">{{ item.englishLocation }}</div>
+        <div class="itemList">{{ item.location }}</div>
       </div>
     </div>
   </form>
