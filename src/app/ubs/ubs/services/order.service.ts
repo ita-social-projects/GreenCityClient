@@ -10,7 +10,6 @@ import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
-import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
 
 @Injectable({
   providedIn: 'root'
@@ -110,11 +109,7 @@ export class OrderService {
   }
 
   getUbsOrderStatus(): Observable<any> {
-    const liqPayOrderId = this.localStorageService.getUbsLiqPayOrderId();
     const fondyOrderId = this.localStorageService.getUbsFondyOrderId();
-    if (liqPayOrderId) {
-      return this.getLiqPayStatus(liqPayOrderId);
-    }
     if (fondyOrderId) {
       return this.getFondyStatus(fondyOrderId);
     }
@@ -123,10 +118,6 @@ export class OrderService {
 
   saveOrderData(): void {
     this.localStorageService.setOrderWithoutPayment(true);
-  }
-
-  getLiqPayStatus(orderId: string): Observable<any> {
-    return this.http.get(`${this.url}/getLiqPayStatus/${orderId}`);
   }
 
   getFondyStatus(orderId: string): Observable<any> {
@@ -150,24 +141,12 @@ export class OrderService {
     this.locationSubject.next(completed);
   }
 
-  processLiqPayOrder(order: Order): Observable<string> {
-    return this.http.post<string>(`${this.url}/processLiqPayOrder`, order, { responseType: 'text' as 'json' });
-  }
-
-  getLiqPayForm(): Observable<string> {
-    return this.processLiqPayOrder(this.orderSubject.getValue());
-  }
-
   getOrderFromNotification(orderId: number) {
     return this.http.get(`${this.url}/client/get-data-for-order-surcharge/${orderId}`);
   }
 
   processOrderFondyFromUserOrderList(order: OrderClientDto): Observable<ResponceOrderFondyModel> {
     return this.http.post<ResponceOrderFondyModel>(`${this.url}/client/processOrderFondy`, order);
-  }
-
-  processOrderLiqPayFromUserOrderList(order: OrderClientDto): Observable<ResponceOrderLiqPayModel> {
-    return this.http.post<ResponceOrderLiqPayModel>(`${this.url}/client/processOrderLiqpay`, order);
   }
 
   cancelUBSwithoutSaving(): void {

@@ -198,6 +198,7 @@
     "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
+    "to-pay": "Pay",
     "bags": "bags"
   },
   "confirmation": {
