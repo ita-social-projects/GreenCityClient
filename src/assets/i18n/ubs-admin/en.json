@@ -582,7 +582,8 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update",
+    "update": "Save",
+    "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
     "tariffs": "Tariffs",
     "tariffs-columns": {
       "region": "Region",
