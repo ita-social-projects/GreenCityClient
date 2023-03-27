@@ -277,6 +277,11 @@ export interface IOrderHistory {
   result?: string;
 }
 
+export interface INotTakenOutReason {
+  description: 'string';
+  images: ['string'];
+}
+
 export interface IOrderStatusInfo {
   key: string;
   ableActualChange: boolean;
@@ -298,8 +303,14 @@ export interface UserProfile {
   recipientPhone: string;
   recipientSurname: string;
   hasPassword: boolean;
-  telegramIsChecked?: boolean;
-  viberIsChecked?: boolean;
+  telegramIsNotify?: boolean;
+  viberIsNotify?: boolean;
+  botList?: SocialLink[];
+}
+
+export interface SocialLink {
+  link: string;
+  type: string;
 }
 
 export interface Address {
@@ -501,4 +512,11 @@ export enum FormFieldsName {
   TimeDeliveryFrom = 'timeDeliveryFrom',
   TimeDeliveryTo = 'timeDeliveryTo',
   ReceivingStation = 'receivingStation'
+}
+
+export enum ordersStutuses {
+  NotTakenOutUA = 'Не вивезли',
+  NotTakenOutEN = 'Not taken out',
+  CanselUA = 'Скасовано',
+  CanselEN = 'Canseled'
 }

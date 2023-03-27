@@ -33,7 +33,11 @@
           (mouseleave)="$event.stopImmediatePropagation()"
           (click)="showPopup(historyAction.id)"
         >
-          {{ historyAction.eventName }}
+          <span>{{ historyAction.status }} </span>
+          <span *ngIf="historyAction.result"> -</span>
+          <span [ngClass]="{ result: historyAction.result === coloredStutus }" *ngIf="historyAction.result">
+            {{ historyAction.result }}</span
+          >
         </td>
         <td>{{ historyAction.authorName }}</td>
       </tr>

@@ -345,6 +345,64 @@ header {
   }
 }
 
+.header-for-admin {
+  height: 50px;
+
+  .header_navigation-menu-left {
+    display: none;
+  }
+}
+
+.admin-container-fluid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+  .header_navigation-menu-right {
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    .header_navigation-menu-right-list {
+      justify-content: space-evenly;
+
+      .ubs-admin-cabinet {
+        display: none;
+        align-items: center;
+        font-family: var(--ubs-secondary-font);
+
+        .admin-list-item {
+          padding: 0;
+          text-align: center;
+
+          &:first-child span {
+            font-weight: 700 !important;
+            font-size: 14px;
+            line-height: 20px;
+            border: 2px solid var(--ubs-secondary-light-green);
+            border-radius: 15px;
+            width: 150px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+
+          .ubs-header_user-name {
+            display: flex;
+            justify-content: center;
+
+            span {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 #header_user-wrp {
   position: relative;
   margin: auto 0;
@@ -398,7 +456,6 @@ header {
 
     span {
       font-weight: normal;
-      display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
@@ -499,6 +556,7 @@ header {
   margin-bottom: auto;
   flex-direction: column;
   z-index: 1;
+  top: 0;
 }
 
 #header_user-wrp.ubs-user-cabinet.add-shadow {
@@ -507,7 +565,12 @@ header {
   top: 25px;
 }
 
+#header_user-wrp.ubs-admin-cabinet.add-shadow {
+  top: 0;
+}
+
 .ubs-lang-switcher-span {
+  top: 0;
   font-size: 18px;
   color: var(--ubs-main-page-primary-light-grey);
   font-weight: 800;

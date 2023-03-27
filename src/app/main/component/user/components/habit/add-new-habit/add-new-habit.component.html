@@ -42,7 +42,7 @@
   <div class="divider"></div>
   <div class="container-habit-edit">
     <div class="habit-progress">
-      <app-habit-progress [habit]="habit" (progressValue)="getProgressValue($event)"></app-habit-progress>
+      <app-habit-progress [habit]="assignedHabit" (progressValue)="getProgressValue($event)"></app-habit-progress>
     </div>
     <div class="habit-info-right-block">
       <div class="duration-shoping">
@@ -50,7 +50,11 @@
           <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
         </div>
         <div class="shopping">
-          <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
+          <app-habit-edit-shopping-list
+            (newList)="getList($event)"
+            [shopList]="initialShoppingList"
+            [isAcquited]="isAcquited"
+          ></app-habit-edit-shopping-list>
         </div>
       </div>
       <div class="invite-friends">
@@ -58,19 +62,19 @@
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
-      <button class="tertiary-global-button btn" (click)="cancelAdd()">{{ 'user.habit.btn.cancel' | translate }}</button>
-      <button class="primary-global-button btn" type="submit" (click)="addHabit()">
+      <button class="tertiary-global-button btn" type="button" (click)="goToProfile()">{{ 'user.habit.btn.cancel' | translate }}</button>
+      <button class="primary-global-button btn" type="button" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
-    <div *ngIf="isEditing" class="add-habit-container">
+    <div *ngIf="isEditing && !isAcquited" class="add-habit-container">
       <button class="tertiary-global-button btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button *ngIf="canAcquire" class="secondary-global-button btn" (click)="setHabitStatus()">
+      <button *ngIf="canAcquire" class="secondary-global-button btn" type="button" (click)="setHabitStatus()">
         {{ 'user.habit.btn.acquire' | translate }}
       </button>
-      <button class="primary-global-button btn" type="submit" (click)="updateHabit()">
+      <button class="primary-global-button btn" type="button" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
       </button>
     </div>

@@ -12,6 +12,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -33,7 +35,10 @@ describe('ProfileDashboardComponent', () => {
     userId: 10,
     duration: 20,
     workingDays: 2,
-    habitStreak: 10
+    habitStreak: 10,
+    habit: {
+      shoppingListItems: [{ id: 1, status: 'INPROGRESS', text: 'text', selected: true, custom: true }]
+    }
   };
 
   const MockResult: EventResponseDto = {
@@ -91,12 +96,20 @@ describe('ProfileDashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, InfiniteScrollModule, NgxPaginationModule],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        InfiniteScrollModule,
+        NgxPaginationModule,
+        BrowserAnimationsModule,
+        NoopAnimationsModule
+      ],
       providers: [
         { provide: HabitAssignService, useValue: HabitAssignServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
-        { provide: EventsService, useValue: EventsServiceMock }
+        { provide: EventsService, useValue: EventsServiceMock },
+        { provide: HttpClient, useValue: HttpClient }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -207,9 +220,13 @@ describe('ProfileDashboardComponent', () => {
     expect(res.join('')).toEqual('HABIT');
   });
 
-  it('sortHabitsAsc', () => {
-    const res = (component as any).sortHabitsAsc([{ habit: { id: 2 } }, { habit: { id: 4 } }, { habit: { id: 1 } }]);
-    expect(res[0].habit.id).toBe(1);
+  it('sortHabitsData', () => {
+    const res = (component as any).sortHabitsData([
+      { habit: { id: 2 }, createDateTime: '2023-03-20T04:00:00Z' },
+      { habit: { id: 4 }, createDateTime: '2023-03-22T04:00:00Z' }
+    ]);
+    expect(res[0].habit.id).toBe(4);
+    expect(res[1].habit.id).toBe(2);
   });
 
   it('tabChanged', () => {

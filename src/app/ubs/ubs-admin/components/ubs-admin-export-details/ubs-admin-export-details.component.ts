@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -22,8 +23,9 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public toInput: string;
   public from: string;
   public to: string;
+  public currentHour: string;
   public allReceivingStations: string[];
-  public current: string;
+  public currentDate: string;
   public isOrderStatusCancelOrDone = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
@@ -58,8 +60,9 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   ngOnInit(): void {
+    this.initTime();
     this.allReceivingStations = this.exportInfo.allReceivingStations.map((e) => e.name);
-    this.current = new Date().toISOString().split('T')[0];
+    this.currentDate = new Date().toISOString().split('T')[0];
   }
 
   public resetValue(): void {
@@ -84,6 +87,13 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
   }
 
+  checkDate(event: any): void {
+    if (this.currentDate === event.target.value && this.currentHour > this.exportDetailsDto.value.timeDeliveryFrom) {
+      this.exportDetailsDto.get('timeDeliveryFrom').setValue('');
+      this.exportDetailsDto.get('timeDeliveryTo').setValue('');
+    }
+  }
+
   getExportDate(): string {
     return this.exportDetailsDto.get('dateExport').value;
   }
@@ -94,6 +104,11 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     this.exportDetailsDto.get('timeDeliveryFrom').markAsDirty();
     this.exportDetailsDto.get('timeDeliveryTo').markAsDirty();
     this.showTimePicker = false;
+  }
+
+  initTime(): void {
+    this.currentHour = Date.now().toString();
+    this.currentHour = formatDate(this.currentHour, 'HH:mm', 'en-US');
   }
 
   isTimeValid(): boolean {

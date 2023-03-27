@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -7,9 +7,10 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angu
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IOrderInfo, IEmployee } from '../../models/ubs-admin.interface';
-import { of } from 'rxjs';
+import { IOrderInfo, IEmployee, INotTakenOutReason } from '../../models/ubs-admin.interface';
+import { of, Subject } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
+import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 class MatDialogMock {
   open() {
@@ -25,6 +26,14 @@ describe('UbsAdminOrderHistoryComponent', () => {
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
   const MatDialogRefMock = { close: () => {} };
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
+  const MatDialogRefMock = {
+    close: () => {}
+  };
+
+  const orderNotTakenOutReasonMock: INotTakenOutReason = {
+    description: 'string',
+    images: ['string']
+  };
 
   const OrderInfoMock: IOrderInfo = {
     generalOrderInfo: {
@@ -174,6 +183,18 @@ describe('UbsAdminOrderHistoryComponent', () => {
     }
   };
 
+  const dialogStub = {
+    afterClosed() {
+      return of(true);
+    }
+  };
+
+  const matDialogMock = jasmine.createSpyObj('dialog', ['open']);
+  matDialogMock.open.and.returnValue(dialogStub);
+
+  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -199,6 +220,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderHistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    jasmine.createSpyObj('orderService', { getOrderHistory: OrderInfoMock });
   });
 
   it('should create', () => {
@@ -222,8 +244,34 @@ describe('UbsAdminOrderHistoryComponent', () => {
     expect(spy).toHaveBeenCalledWith(1);
   });
 
+  it('should call getNotTakenOutReason when orderInfo changes', () => {
+    const spy = spyOn(component, 'getNotTakenOutReason');
+    component.orderInfo = OrderInfoMock;
+
+    const changes = {
+      orderInfo: {
+        currentValue: true,
+        firstChange: true,
+        isFirstChange: () => true,
+        previousValue: undefined
+      }
+    };
+    component.ngOnChanges(changes);
+
+    expect(spy).toHaveBeenCalledWith(1);
+  });
+
   it('should not call getOrderHistory when orderInfo does not change', () => {
     const spy = spyOn(component, 'getOrderHistory');
+    component.orderInfo = OrderInfoMock;
+    const changes = {};
+    component.ngOnChanges(changes);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should not call getNotTakenOutReason when orderInfo does not change', () => {
+    const spy = spyOn(component, 'getNotTakenOutReason');
     component.orderInfo = OrderInfoMock;
     const changes = {};
     component.ngOnChanges(changes);
@@ -310,5 +358,11 @@ describe('UbsAdminOrderHistoryComponent', () => {
     component.orderInfo = OrderInfoMock;
     component.openCancelReason();
     expect(spy).toHaveBeenCalled();
+
+  it('destroy Subject should be closed after ngOnDestroy()', () => {
+    (component as any).destroy$ = new Subject<boolean>();
+    spyOn((component as any).destroy$, 'next');
+    component.ngOnDestroy();
+    expect((component as any).destroy$.next).toHaveBeenCalledTimes(1);
   });
 });
