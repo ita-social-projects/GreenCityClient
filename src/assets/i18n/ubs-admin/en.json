@@ -232,6 +232,11 @@
     "added": "Added"
   },
 
+  "order-not-taken-out-reason": {
+    "title": "The reason for not taken out order N ",
+    "label-reason": "Courier's comment"
+  },
+
   "address-details": {
     "title": "Waste export address",
     "district": "District",
@@ -577,7 +582,8 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update",
+    "update": "Save",
+    "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
     "tariffs": "Tariffs",
     "tariffs-columns": {
       "region": "Region",
@@ -1129,9 +1135,9 @@
   },
   "add-new-certificate": {
     "title": "Add sertificate",
-    "сertificate-field": "Certificate.№",
-    "duration-months-field": "Duration,mo.",
-    "discount-field": "Discount,UAH",
+    "сertificate-field": "Certificate. №",
+    "duration-months-field": "Duration, mo.",
+    "discount-field": "Discount, UAH",
     "cancel-button": "Cancel",
     "add-button": "Add certificate",
     "field-not-empty": "The field can’t be empty",

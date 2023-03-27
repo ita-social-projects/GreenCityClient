@@ -228,6 +228,12 @@
     "date": "Дaта",
     "added": "Додано"
   },
+
+  "order-not-taken-out-reason": {
+    "title": "Причина невивезеного замовлення № ",
+    "label-reason": "Коментар кур’єра"
+  },
+
   "address-details": {
     "title": "Адреса вивезення відходів",
     "district": "Район",
@@ -572,7 +578,8 @@
     "add": "Додати",
     "apply": "Застосувати",
     "cancel": "Скасувати",
-    "update": "Оновити",
+    "update": "Зберегти",
+    "image-error": "Підтримувані формати фотографії: PNG і JPG. Максимальний розмір – 10 Мб",
     "tariffs": "Тарифи",
     "tariffs-columns": {
       "region": "Область",
@@ -1123,11 +1130,11 @@
   },
   "add-new-certificate": {
     "title": "Додати сертифікат",
-    "сertificate-field": "Сертифікат.№",
-    "duration-months-field": "Час дії,місяців",
-    "discount-field": "Знижка,грн",
-    "cancel-button": "Назад",
-    "add-button": "Додати",
+    "сertificate-field": "Сертифікат. №",
+    "duration-months-field": "Час дії, місяців",
+    "discount-field": "Знижка, грн",
+    "cancel-button": "Скасувати",
+    "add-button": "Додати сертифікат",
     "field-not-empty": "Поле не може бути пустим",
     "сertificate-field-format": "Поле може містити лише числа в форматі хххх-хххх",
     "duration-field-format": "Поле може містити лише числа в від 1 до 12",

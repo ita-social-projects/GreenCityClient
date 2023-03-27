@@ -231,4 +231,30 @@ describe('HeaderComponent', () => {
       expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
     }));
   });
+
+  describe('getHeaderClass', () => {
+    it('should return "header-for-admin" when isAdmin is true and isUBS is true', () => {
+      component.isAdmin = true;
+      component.isUBS = true;
+      const headerClass = component.getHeaderClass();
+
+      expect(headerClass).toEqual('header-for-admin');
+    });
+
+    it('should return "header_navigation-menu-ubs" when isAdmin is false and isUBS is true', () => {
+      component.isAdmin = false;
+      component.isUBS = true;
+      const headerClass = component.getHeaderClass();
+
+      expect(headerClass).toEqual('header_navigation-menu-ubs');
+    });
+
+    it('should return "header_navigation-menu" when isUBS is false', () => {
+      component.isAdmin = true;
+      component.isUBS = false;
+      const headerClass = component.getHeaderClass();
+
+      expect(headerClass).toEqual('header_navigation-menu');
+    });
+  });
 });

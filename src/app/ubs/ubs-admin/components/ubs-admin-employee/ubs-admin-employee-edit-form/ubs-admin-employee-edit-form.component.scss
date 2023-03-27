@@ -162,6 +162,15 @@ label {
   }
 }
 
+.error-message {
+  font-size: 14px;
+  color: var(--ubs-error-ligh-red);
+
+  p {
+    margin-left: 15px;
+  }
+}
+
 .current-image {
   background: var(--ubs-primary-white);
 

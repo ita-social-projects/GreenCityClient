@@ -40,24 +40,31 @@ export const EcoEventsReducer = createReducer(
     };
   }),
 
-  on(
-    CreateEcoEventSuccessAction,
-    AddAttenderEventsByIdSuccessAction,
-    RemoveAttenderEventsByIdSuccessAction,
-    RateEcoEventsByIdSuccessAction,
-    (state) => {
-      return {
-        ...state,
-        eventsList: [],
-        pageNumber: 0,
-        visitedPages: [],
-        totalPages: 0
-      };
-    }
-  ),
+  on(CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => {
+    return {
+      ...state,
+      eventsList: [],
+      pageNumber: 0,
+      visitedPages: [],
+      totalPages: 0
+    };
+  }),
   on(DeleteEcoEventSuccessAction, (state, action) => {
     const prevList = state.eventsList;
     const newState = prevList.filter((event) => event.id !== action.id);
+    return {
+      ...state,
+      eventsList: newState
+    };
+  }),
+
+  on(AddAttenderEventsByIdSuccessAction, RemoveAttenderEventsByIdSuccessAction, (state, action) => {
+    const newState = state.eventsList.map((val) => {
+      if (action.id === val.id) {
+        return val.isSubscribed ? { ...val, isSubscribed: false } : { ...val, isSubscribed: true };
+      }
+      return val;
+    });
     return {
       ...state,
       eventsList: newState
