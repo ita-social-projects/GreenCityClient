@@ -423,6 +423,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           });
         }
       });
+    this.statusCanceledOrDone();
   }
 
   private postDataItem(orderId: number[], columnName: string, newValue: string): void {
@@ -525,7 +526,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   statusCanceledOrDone(): void {
-    if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
+    const exportDetails = this.orderForm.get('exportDetailsDto').value;
+    const allFieldsHaveValue = Object.keys(exportDetails).every((key) => exportDetails[key]);
+
+    if (this.currentOrderStatus === 'CANCELED' || (this.currentOrderStatus === 'DONE' && allFieldsHaveValue)) {
       this.orderForm.get('exportDetailsDto').disable();
       this.orderForm.get('responsiblePersonsForm').disable();
     } else {
