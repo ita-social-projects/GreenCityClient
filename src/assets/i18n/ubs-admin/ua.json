@@ -1092,5 +1092,17 @@
     "error": {
       "exist-address": "Ця адреса вже додана"
     }
+  },
+  "add-new-certificate": {
+    "title": "Додати сертифікат",
+    "сertificate-field": "Сертифікат. №",
+    "duration-months-field": "Час дії, місяців",
+    "discount-field": "Знижка, грн",
+    "cancel-button": "Скасувати",
+    "add-button": "Додати сертифікат",
+    "field-not-empty": "Поле не може бути пустим",
+    "сertificate-field-format": "Поле може містити лише числа в форматі хххх-хххх",
+    "duration-field-format": "Поле може містити лише числа в від 1 до 12",
+    "discount-field-format": "Поле може містити лише числа в форматі від 1 до 999"
   }
 }
