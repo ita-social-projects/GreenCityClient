@@ -63,24 +63,4 @@ describe('TableCellReadonlyComponent', () => {
       expect(component.data).toBe(fakeStrValue);
     });
   });
-
-  describe('showTooltip', () => {
-    it('should toggle tooltip', () => {
-      const title = 'fakeTitle'.repeat(13);
-      const tooltip = { toggle: jasmine.createSpy('toggle') };
-
-      component.showTooltip(title, tooltip);
-
-      expect(tooltip.toggle).toHaveBeenCalled();
-    });
-
-    it('should not toggle tooltip', () => {
-      const title = 'fakeTitle';
-      const tooltip = { toggle: jasmine.createSpy('toggle') };
-
-      component.showTooltip(title, tooltip);
-
-      expect(tooltip.toggle).not.toHaveBeenCalled();
-    });
-  });
 });

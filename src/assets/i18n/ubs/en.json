@@ -75,6 +75,7 @@
     "activate": "Activate",
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
+    "certificate-not-exist": "The certificate was not accepted. Please try again",
     "not-found-certificate": "Certificate not found; check that the data is correct.",
     "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
     "activated": "The certificate for the amount of {{certificateSum}} UAH has been activated. The certificate is valid until {{certDate}}",
@@ -198,6 +199,7 @@
     "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
+    "to-pay": "Pay",
     "bags": "bags"
   },
   "confirmation": {

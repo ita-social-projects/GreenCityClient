@@ -103,9 +103,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initAllStatusesOfEvent();
-    if (!!this.userId) {
-      this.checkButtonStatus();
-    }
+    this.checkButtonStatus();
   }
 
   public routeToEvent(): void {
@@ -158,6 +156,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     }
     if (!isSubscribe && !isActive && !isOwner) {
       this.btnStyle = this.styleBtn.hiden;
+      return;
+    }
+    if (!!this.userId) {
+      this.btnStyle = this.styleBtn.primary;
+      this.nameBtn = this.btnName.join;
     }
   }
 
@@ -167,7 +170,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
         break;
       case this.btnName.join:
-        this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+        !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
         break;
       case this.btnName.rate:
         this.openModal();
