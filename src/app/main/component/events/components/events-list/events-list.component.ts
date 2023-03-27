@@ -7,7 +7,16 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import { TagsArray, eventTimeList, eventStatusList, tempLocationList, selectedFilters, OptionItem } from '../../models/event-consts';
+import {
+  TagsArray,
+  eventTimeList,
+  eventStatusList,
+  tempLocationList,
+  selectedFilters,
+  OptionItem,
+  allSelectedFlags,
+  AllSelectedFlags
+} from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -49,6 +58,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public searchToggle = false;
   public bookmarkSelected = false;
   public selectedEventTime: any;
+  public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[] = eventStatusList;
@@ -125,24 +135,26 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public toggleAllSelection(optionsList: any): void {
-    this.allSelected = !this.allSelected;
-    this.isSelectedOptions(optionsList);
+  public toggleAllSelection(optionsList: any, dropdownName: string): void {
+    this.allSelectedFlags[dropdownName] = !this.allSelectedFlags[dropdownName];
+    this.isSelectedOptions(optionsList, dropdownName);
   }
 
-  public isSelectedOptions(optionsList: any): void {
+  public isSelectedOptions(optionsList: any, dropdownName: string): void {
     this.optionsList = optionsList;
-    console.log(optionsList);
-    if (this.allSelected) {
+    if (this.allSelectedFlags[dropdownName]) {
       this.optionsList.options.forEach((item: MatOption) => {
+        if (item.value !== 0) {
+          this.selectedFilters.push(item.value);
+        }
         item.select();
-        this.selectedFilters.push(item.value);
+        this.allSelectedFlags[dropdownName] = true;
       });
-      this.selectedFilters.shift();
     } else {
       this.optionsList.options.forEach((item: MatOption) => {
         item.deselect();
-        this.selectedFilters = [];
+        this.allSelectedFlags[dropdownName] = false;
+        this.selectedFilters = this.selectedFilters.filter((value) => value !== item.value);
       });
     }
   }
@@ -160,6 +172,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public resetAll(): void {
+    [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
+      list.options.forEach((item: MatOption) => {
+        item.deselect();
+      });
+    });
     this.selectedFilters.splice(0, this.selectedFilters.length);
   }
 
