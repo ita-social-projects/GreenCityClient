@@ -1,12 +1,59 @@
 import { TestBed } from '@angular/core/testing';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
+import { Subject } from 'rxjs';
+import { EventPageResponceDto } from '../../component/events/models/events.interface';
 
 describe('LocalStorageService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: LocalStorageService;
+  const ACCESS_TOKEN = 'accessToken';
+
+  const mockEvent: EventPageResponceDto = {
+    additionalImages: ['image1.jpg', 'image2.jpg'],
+    dates: [
+      {
+        coordinates: {
+          addressEn: 'address',
+          addressUa: 'адреса',
+          latitude: 0,
+          longitude: 0
+        },
+        event: 'event',
+        finishDate: 'finishDate',
+        id: 3,
+        onlineLink: 'link',
+        startDate: '2022-02-01T00:00:00Z'
+      }
+    ],
+    description: 'Test event description',
+    id: 123,
+    open: true,
+    organizer: {
+      id: 456,
+      name: 'Test organizer',
+      organizerRating: 4.5
+    },
+    tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
+    title: 'Test event title',
+    titleImage: 'testImage.jpg',
+    isSubscribed: true
+  };
+
+  const fakeLanguageSubject: Subject<string> = new Subject<string>();
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()]
+    });
+    service = TestBed.inject(LocalStorageService);
+    service.languageSubject = fakeLanguageSubject;
+  });
+
+  afterEach(() => {
+    localStorage.clear();
+  });
 
   it('should be created', () => {
-    const service: LocalStorageService = TestBed.inject(LocalStorageService);
     expect(service).toBeTruthy();
   });
 
@@ -291,6 +338,20 @@ describe('LocalStorageService', () => {
   it('should unset the value of firstSignIn in local storage', () => {
     service.unsetFirstSignIn();
     expect(localStorage.getItem('firstSignIn')).toEqual('false');
+  });
+
+  describe('Test for setUbsBonusesOrderId and getUbsBonusesOrderId functions', () => {
+    it('should set and retrieve the correct order ID', () => {
+      const orderId = '122';
+      service.setUbsBonusesOrderId(orderId);
+      expect(localStorage.getItem('UbsBonusesOrderId')).toEqual(String(orderId));
+    });
+
+    it('should return the stored value if UbsBonusesOrderId is defined', () => {
+      const orderId = '12345';
+      localStorage.setItem('UbsBonusesOrderId', JSON.stringify(orderId));
+      expect(service.getUbsBonusesOrderId()).toEqual(JSON.parse(localStorage.getItem('UbsBonusesOrderId')));
+    });
   });
 
   it('should remove the UbsOrderId from local storage', () => {
