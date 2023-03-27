@@ -115,7 +115,6 @@ describe('UbsConfirmPageComponent', () => {
     fakeLocalStorageService.getFinalSumOfOrder.and.returnValue('999');
     component.checkPaymentStatus();
     expect(component.isSpinner).toBeFalsy();
-    expect(component.orderPaymentError).toBeTruthy();
   });
 
   it('in renderView should saveDataOnLocalStorage when no error occurred', () => {
@@ -126,7 +125,7 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
   });
 
-  it('in saveDataOnLocalStorage should removeUbsLiqPayOrderId and saveDataOnLocalStorage be called', () => {
+  it('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
     component.saveDataOnLocalStorage();
     expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
   });

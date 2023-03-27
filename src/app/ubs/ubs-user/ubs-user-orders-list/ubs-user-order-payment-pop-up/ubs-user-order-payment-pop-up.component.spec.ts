@@ -48,21 +48,13 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     orderId: 11,
     link: 'fakeLink'
   };
-  const fakeLiqPayResponse = {
-    orderId: 22,
-    liqPayButton: 'fakeLiqPayButton'
-  };
+
   const fakeElement = document.createElement('div') as SafeHtml;
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const sanitizerMock = jasmine.createSpyObj('sanitizer', ['bypassSecurityTrustHtml']);
   sanitizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
-  const orderServiceMock = jasmine.createSpyObj('orderService', [
-    'processCertificate',
-    'processOrderFondyFromUserOrderList',
-    'processOrderLiqPayFromUserOrderList'
-  ]);
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['processCertificate', 'processOrderFondyFromUserOrderList']);
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
-    'setUbsLiqPayOrderId',
     'setUbsFondyOrderId',
     'clearPaymentInfo',
     'setUserPagePayment'
@@ -96,10 +88,8 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     component.bonusInfo = { ...bonusInfoFake };
     component.userCertificate = JSON.parse(JSON.stringify(userCertificateFake));
     fakeFondyResponse.link = 'fakeLink';
-    fakeLiqPayResponse.liqPayButton = 'fakeLiqPayButton';
     orderServiceMock.processCertificate.and.returnValue(of(fakeCertificates));
     orderServiceMock.processOrderFondyFromUserOrderList.and.returnValue(of(fakeFondyResponse));
-    orderServiceMock.processOrderLiqPayFromUserOrderList.and.returnValue(of(fakeLiqPayResponse));
     fixture.detectChanges();
   });
 
@@ -117,9 +107,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       component.ngOnInit();
 
       expect(spyInitForm).toHaveBeenCalled();
-      expect(component.isLiqPayLink).toBeFalsy();
       expect(component.isUseBonuses).toBeFalsy();
-      expect(component.dataLoadingLiqPay).toBeFalsy();
       expect(component.certificateStatus).toEqual([true]);
     });
   });
@@ -292,7 +280,6 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
     it('makes expected calls for Fondy with error', () => {
       orderServiceMock.processOrderFondyFromUserOrderList.and.returnValue(throwError(new Error('oops!')));
-      component.dataLoadingLiqPay = true;
       const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
       component.orderDetailsForm.controls.paymentSystem.setValue('Fondy');
 
@@ -301,219 +288,175 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
       expect(fillOrderClientDtoSpy).toHaveBeenCalled();
       expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
       expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
-      expect(component.dataLoadingLiqPay).toBeFalsy();
     });
 
-    it('makes expected calls for LiqPay with liqPayButton', () => {
-      const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
-      const setTimeoutSpy = spyOn(global, 'setTimeout');
-      component.orderDetailsForm.controls.paymentSystem.setValue('LiqPay');
+    describe('bonusOption', () => {
+      it('makes expected calls if value is "yes" and sum is more than bonusValue', () => {
+        const event = { value: 'yes' } as any;
 
-      component.processOrder();
+        component.bonusOption(event);
 
-      expect(fillOrderClientDtoSpy).toHaveBeenCalled();
-      expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
-      expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
-      expect(setTimeoutSpy).toHaveBeenCalled();
-      expect(sanitizerMock.bypassSecurityTrustHtml).toHaveBeenCalledWith('fakeLiqPayButton');
+        expect(component.userOrder.sum).toBe(444);
+        expect(component.bonusInfo.used).toBe(333);
+        expect(component.orderClientDto.pointsToUse).toBe(333);
+      });
+
+      it('makes expected calls if value is "yes" and sum is not more than bonusValue', () => {
+        const event = { value: 'yes' } as any;
+        component.userOrder.bonusValue = 1000;
+
+        component.bonusOption(event);
+
+        expect(component.userOrder.sum).toBe(0);
+        expect(component.bonusInfo.used).toBe(777);
+        expect(component.orderClientDto.pointsToUse).toBe(777);
+        expect(component.bonusInfo.left).toBe(223);
+      });
+
+      it('makes expected calls if value is not "yes"', () => {
+        const event = { value: 'no' } as any;
+
+        component.bonusOption(event);
+
+        expect(component.userOrder.sum).toBe(777);
+        expect(component.bonusInfo.used).toBe(0);
+        expect(component.bonusInfo.left).toBe(0);
+        expect(component.isUseBonuses).toBeFalsy();
+      });
     });
 
-    it('makes expected calls for LiqPay without liqPayButton', () => {
-      fakeLiqPayResponse.liqPayButton = null;
-      const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
-      const redirectionToConfirmPageSpy = spyOn(component, 'redirectionToConfirmPage');
-      component.orderDetailsForm.controls.paymentSystem.setValue('LiqPay');
+    describe('deleteCertificate', () => {
+      it('makes expected calls if certificates are more than one', () => {
+        const certificate = { value: { certificateSum: 111 } };
+        const formArrayCertificatesFake = new FormArray([
+          new FormGroup({
+            certificateCode: new FormControl('fakeCode 1'),
+            certificateStatus: new FormControl('ACTIVE'),
+            certificateSum: new FormControl(0)
+          }),
+          new FormGroup({
+            certificateCode: new FormControl('fakeCode 2'),
+            certificateStatus: new FormControl('ACTIVE'),
+            certificateSum: new FormControl(100)
+          })
+        ]);
+        component.bonusInfo.used = 0;
+        component.userOrder.sum = 666;
+        component.formBonus.setValue('no');
+        component.userCertificate.certificates = formArrayCertificatesFake.value;
+        component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
+        component.certificateStatus = [true, true];
 
-      component.processOrder();
+        component.deleteCertificate(0, certificate as any);
 
-      expect(fillOrderClientDtoSpy).toHaveBeenCalled();
-      expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
-      expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
-      expect(redirectionToConfirmPageSpy).toHaveBeenCalled();
-      expect(matDialogRefMock.close).toHaveBeenCalled();
+        expect(component.userOrder.sum).toBe(777);
+        expect(component.bonusInfo.used).toBe(0);
+        expect(component.bonusInfo.left).toBe(0);
+        expect(component.overpayment).toBe(0);
+        expect(component.userCertificate.certificateStatusActive).toBeTruthy();
+        expect(component.userCertificate.certificateError).toBeFalsy();
+        expect(component.certificateStatus).toEqual([true]);
+        expect(component.formArrayCertificates.value).toEqual([
+          {
+            certificateCode: 'fakeCode 2',
+            certificateStatus: 'ACTIVE',
+            certificateSum: 100
+          }
+        ]);
+        expect(component.userCertificate.certificates).toEqual([
+          {
+            certificateCode: 'fakeCode 2',
+            certificateStatus: 'ACTIVE',
+            certificateSum: 100
+          }
+        ]);
+      });
+
+      it('makes expected calls if certificates are no more than one', () => {
+        const certificate = { value: { certificateSum: 111 } };
+        const formArrayCertificatesFake = new FormArray([
+          new FormGroup({
+            certificateCode: new FormControl('fakeCode 1'),
+            certificateStatus: new FormControl('ACTIVE'),
+            certificateSum: new FormControl(111)
+          })
+        ]);
+        component.formBonus.setValue('yes');
+        component.bonusInfo.left = 111;
+        component.userCertificate.certificates = formArrayCertificatesFake.value;
+        component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
+
+        component.deleteCertificate(0, certificate as any);
+
+        expect(component.userOrder.sum).toBe(777);
+        expect(component.bonusInfo.used).toBe(111);
+        expect(component.bonusInfo.left).toBe(0);
+        expect(component.overpayment).toBe(0);
+        expect(component.userCertificate.certificateStatusActive).toBeFalsy();
+        expect(component.userCertificate.certificateError).toBeFalsy();
+        expect(component.certificateStatus).toEqual([true]);
+        expect(component.formArrayCertificates.value).toEqual([
+          {
+            certificateCode: null,
+            certificateStatus: null,
+            certificateSum: null
+          }
+        ]);
+        expect(component.userCertificate.certificates).toEqual([]);
+      });
     });
 
-    it('makes expected calls for LiqPay with error', () => {
-      orderServiceMock.processOrderLiqPayFromUserOrderList.and.returnValue(throwError(new Error('oops!')));
-      component.dataLoadingLiqPay = true;
-      const fillOrderClientDtoSpy = spyOn(component, 'fillOrderClientDto');
-      component.orderDetailsForm.controls.paymentSystem.setValue('LiqPay');
+    describe('addNewCertificate', () => {
+      it('makes expected calls', () => {
+        const formArrayCertificatesFake = new FormArray([
+          new FormGroup({
+            certificateCode: new FormControl(''),
+            certificateStatus: new FormControl(''),
+            certificateSum: new FormControl(0)
+          })
+        ]);
+        component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
+        component.certificateStatus = [true];
 
-      component.processOrder();
+        component.addNewCertificate();
 
-      expect(fillOrderClientDtoSpy).toHaveBeenCalled();
-      expect(localStorageServiceMock.clearPaymentInfo).toHaveBeenCalled();
-      expect(localStorageServiceMock.setUserPagePayment).toHaveBeenCalledWith(true);
-      expect(component.dataLoadingLiqPay).toBeFalsy();
-    });
-  });
-
-  describe('bonusOption', () => {
-    it('makes expected calls if value is "yes" and sum is more than bonusValue', () => {
-      const event = { value: 'yes' } as any;
-
-      component.bonusOption(event);
-
-      expect(component.userOrder.sum).toBe(444);
-      expect(component.bonusInfo.used).toBe(333);
-      expect(component.orderClientDto.pointsToUse).toBe(333);
-    });
-
-    it('makes expected calls if value is "yes" and sum is not more than bonusValue', () => {
-      const event = { value: 'yes' } as any;
-      component.userOrder.bonusValue = 1000;
-
-      component.bonusOption(event);
-
-      expect(component.userOrder.sum).toBe(0);
-      expect(component.bonusInfo.used).toBe(777);
-      expect(component.orderClientDto.pointsToUse).toBe(777);
-      expect(component.bonusInfo.left).toBe(223);
+        expect(component.formArrayCertificates.value).toEqual([
+          {
+            certificateCode: '',
+            certificateStatus: '',
+            certificateSum: 0
+          },
+          {
+            certificateCode: null,
+            certificateStatus: null,
+            certificateSum: 0
+          }
+        ]);
+        expect(component.userCertificate.certificateStatusActive).toBeFalsy();
+        expect(component.certificateStatus).toEqual([true, true]);
+      });
     });
 
-    it('makes expected calls if value is not "yes"', () => {
-      const event = { value: 'no' } as any;
+    describe('fillOrderClientDto', () => {
+      it('makes expected calls if there is no certificate', () => {
+        component.userCertificate.certificates = [];
+        component.orderClientDto.certificates = ['fakeCertificate 1', 'fakeCertificate 2', 'fakeCertificate 3'];
 
-      component.bonusOption(event);
+        component.fillOrderClientDto();
 
-      expect(component.userOrder.sum).toBe(777);
-      expect(component.bonusInfo.used).toBe(0);
-      expect(component.bonusInfo.left).toBe(0);
-      expect(component.isUseBonuses).toBeFalsy();
-    });
-  });
+        expect(component.orderClientDto.orderId).toBe(123);
+        expect(component.orderClientDto.certificates.length).toBe(3);
+      });
 
-  describe('deleteCertificate', () => {
-    it('makes expected calls if certificates are more than one', () => {
-      const certificate = { value: { certificateSum: 111 } };
-      const formArrayCertificatesFake = new FormArray([
-        new FormGroup({
-          certificateCode: new FormControl('fakeCode 1'),
-          certificateStatus: new FormControl('ACTIVE'),
-          certificateSum: new FormControl(0)
-        }),
-        new FormGroup({
-          certificateCode: new FormControl('fakeCode 2'),
-          certificateStatus: new FormControl('ACTIVE'),
-          certificateSum: new FormControl(100)
-        })
-      ]);
-      component.bonusInfo.used = 0;
-      component.userOrder.sum = 666;
-      component.formBonus.setValue('no');
-      component.userCertificate.certificates = formArrayCertificatesFake.value;
-      component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
-      component.certificateStatus = [true, true];
+      it('makes expected calls if there are certificates', () => {
+        component.userCertificate.certificates = [{ certificateCode: '1' }, { certificateCode: '2' }] as any;
 
-      component.deleteCertificate(0, certificate as any);
+        component.fillOrderClientDto();
 
-      expect(component.userOrder.sum).toBe(777);
-      expect(component.bonusInfo.used).toBe(0);
-      expect(component.bonusInfo.left).toBe(0);
-      expect(component.overpayment).toBe(0);
-      expect(component.userCertificate.certificateStatusActive).toBeTruthy();
-      expect(component.userCertificate.certificateError).toBeFalsy();
-      expect(component.certificateStatus).toEqual([true]);
-      expect(component.formArrayCertificates.value).toEqual([
-        {
-          certificateCode: 'fakeCode 2',
-          certificateStatus: 'ACTIVE',
-          certificateSum: 100
-        }
-      ]);
-      expect(component.userCertificate.certificates).toEqual([
-        {
-          certificateCode: 'fakeCode 2',
-          certificateStatus: 'ACTIVE',
-          certificateSum: 100
-        }
-      ]);
-    });
-
-    it('makes expected calls if certificates are no more than one', () => {
-      const certificate = { value: { certificateSum: 111 } };
-      const formArrayCertificatesFake = new FormArray([
-        new FormGroup({
-          certificateCode: new FormControl('fakeCode 1'),
-          certificateStatus: new FormControl('ACTIVE'),
-          certificateSum: new FormControl(111)
-        })
-      ]);
-      component.formBonus.setValue('yes');
-      component.bonusInfo.left = 111;
-      component.userCertificate.certificates = formArrayCertificatesFake.value;
-      component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
-
-      component.deleteCertificate(0, certificate as any);
-
-      expect(component.userOrder.sum).toBe(777);
-      expect(component.bonusInfo.used).toBe(111);
-      expect(component.bonusInfo.left).toBe(0);
-      expect(component.overpayment).toBe(0);
-      expect(component.userCertificate.certificateStatusActive).toBeFalsy();
-      expect(component.userCertificate.certificateError).toBeFalsy();
-      expect(component.certificateStatus).toEqual([true]);
-      expect(component.formArrayCertificates.value).toEqual([
-        {
-          certificateCode: null,
-          certificateStatus: null,
-          certificateSum: null
-        }
-      ]);
-      expect(component.userCertificate.certificates).toEqual([]);
-    });
-  });
-
-  describe('addNewCertificate', () => {
-    it('makes expected calls', () => {
-      const formArrayCertificatesFake = new FormArray([
-        new FormGroup({
-          certificateCode: new FormControl(''),
-          certificateStatus: new FormControl(''),
-          certificateSum: new FormControl(0)
-        })
-      ]);
-      component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;
-      component.certificateStatus = [true];
-
-      component.addNewCertificate();
-
-      expect(component.formArrayCertificates.value).toEqual([
-        {
-          certificateCode: '',
-          certificateStatus: '',
-          certificateSum: 0
-        },
-        {
-          certificateCode: null,
-          certificateStatus: null,
-          certificateSum: 0
-        }
-      ]);
-      expect(component.userCertificate.certificateStatusActive).toBeFalsy();
-      expect(component.certificateStatus).toEqual([true, true]);
-    });
-  });
-
-  describe('fillOrderClientDto', () => {
-    it('makes expected calls if there is no certificate', () => {
-      component.userCertificate.certificates = [];
-      component.orderClientDto.certificates = ['fakeCertificate 1', 'fakeCertificate 2', 'fakeCertificate 3'];
-
-      component.fillOrderClientDto();
-
-      expect(component.orderClientDto.orderId).toBe(123);
-      expect(component.orderClientDto.certificates.length).toBe(3);
-    });
-
-    it('makes expected calls if there are certificates', () => {
-      component.userCertificate.certificates = [{ certificateCode: '1' }, { certificateCode: '2' }] as any;
-
-      component.fillOrderClientDto();
-
-      expect(component.orderClientDto.orderId).toBe(123);
-      expect(component.orderClientDto.certificates.length).toBe(2);
-      expect(component.orderClientDto.certificates).toEqual(['1', '2']);
+        expect(component.orderClientDto.orderId).toBe(123);
+        expect(component.orderClientDto.certificates.length).toBe(2);
+        expect(component.orderClientDto.certificates).toEqual(['1', '2']);
+      });
     });
   });
 });
