@@ -220,9 +220,13 @@ describe('ProfileDashboardComponent', () => {
     expect(res.join('')).toEqual('HABIT');
   });
 
-  it('sortHabitsAsc', () => {
-    const res = (component as any).sortHabitsAsc([{ habit: { id: 2 } }, { habit: { id: 4 } }, { habit: { id: 1 } }]);
-    expect(res[0].habit.id).toBe(1);
+  it('sortHabitsData', () => {
+    const res = (component as any).sortHabitsData([
+      { habit: { id: 2 }, createDateTime: '2023-03-20T04:00:00Z' },
+      { habit: { id: 4 }, createDateTime: '2023-03-22T04:00:00Z' }
+    ]);
+    expect(res[0].habit.id).toBe(4);
+    expect(res[1].habit.id).toBe(2);
   });
 
   it('tabChanged', () => {
