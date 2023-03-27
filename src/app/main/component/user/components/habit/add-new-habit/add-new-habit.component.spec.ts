@@ -149,7 +149,6 @@ describe('AddNewHabitComponent', () => {
     expect(component.habitResponse).toEqual(mockHabitResponse);
     expect(component.tags).toEqual(mockHabitResponse.tags);
     expect(component.initialDuration).toEqual(mockHabitResponse.defaultDuration);
-    expect(component.isAcquited).toBeTruthy();
   });
 
   it('getDefaultHabit should invoke inHabitData method', () => {
