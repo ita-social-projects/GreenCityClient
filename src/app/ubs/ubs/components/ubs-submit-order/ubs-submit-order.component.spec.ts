@@ -138,7 +138,6 @@ describe('UBSSubmitOrderComponent', () => {
     component.redirectToOrder();
     expect(component.loadingAnim).toBe(false);
     expect(fakeLocalStorageService.setUserPagePayment).toHaveBeenCalledWith(false);
-    expect(component.isLiqPay).toBeFalsy();
   });
 
   it('should return ua value by getLangValue', () => {

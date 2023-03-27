@@ -30,6 +30,10 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   public date = new Date();
   public images: NotTakenOutReasonImage[] = [];
   public imagesToDelete: string[] | null = [];
+  public isOpendFromHistory = false;
+  public orderID: number;
+  public reasonDescription: string;
+  public reasonImages: NotTakenOutReasonImage[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -43,6 +47,12 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.data.isFromHistory) {
+      this.isOpendFromHistory = this.data.isFromHistory;
+      this.orderID = this.data.orderID;
+      this.reasonDescription = this.data.description;
+      this.reasonImages = this.data.images.map((image) => ({ src: image, name: null }));
+    }
     this.initForm();
     this.localStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.onDestroy$)).subscribe((firstName) => {
       this.adminName = firstName;
@@ -92,12 +102,13 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   }
 
   public openImage(image: NotTakenOutReasonImage): void {
+    const imagesForView = this.isOpendFromHistory ? this.reasonImages : this.images;
     this.dialog.open(ShowImgsPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'custom-img-pop-up',
       data: {
-        imgIndex: this.images.indexOf(image),
-        images: this.images.map((img) => ({ src: img.src }))
+        imgIndex: imagesForView.indexOf(image),
+        images: imagesForView.map((img) => ({ src: img.src }))
       }
     });
   }
