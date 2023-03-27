@@ -1,11 +1,9 @@
 <div
   *ngIf="date !== 'orderDate' && date !== 'paymentDate' && date !== 'id'"
   #tooltip="matTooltip"
-  matTooltip="{{ title }}"
+  matTooltip="{{ title | serverTranslate: lang }}"
   matTooltipClass="my-custom-tooltip"
-  (mouseenter)="$event.stopImmediatePropagation()"
-  (mouseleave)="$event.stopImmediatePropagation()"
-  (click)="showTooltip(title, tooltip)"
+  [matTooltipDisabled]="!isTooltipEnabled(title | serverTranslate: lang)"
 >
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>

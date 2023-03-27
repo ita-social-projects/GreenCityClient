@@ -323,6 +323,10 @@ $inputwidth: 260px;
   .ubs_profile-container {
     max-width: 800px;
   }
+
+  .delete-address {
+    margin-left: 5px;
+  }
 }
 
 @media (max-width: 992px) {
@@ -330,6 +334,10 @@ $inputwidth: 260px;
     .footer-btns {
       padding-right: 26px;
     }
+  }
+
+  .delete-address {
+    margin-left: 30px;
   }
 }
 
@@ -343,19 +351,15 @@ $inputwidth: 260px;
   }
 }
 
-::ng-deep .mat-checkbox-checked .mat-checkbox-background,
-::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background,
-::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
-::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-  background-color: var(--ubs-quaternary-dark-grey) !important;
-}
-
 .checkbox-wrapper {
-  width: 180px;
+  width: 220px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
-  margin-top: 0;
+  margin-top: 10px;
+
+  .ubs-switcher {
+    margin-top: 5px;
+  }
 }
 
 .input-margin {
@@ -373,4 +377,16 @@ $inputwidth: 260px;
   display: inline-block;
   max-width: 260px;
   vertical-align: middle;
+}
+
+.social-media {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.alert-mess {
+  width: 325px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #444e55;
 }

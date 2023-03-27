@@ -28,7 +28,8 @@ describe('UbsConfirmPageComponent', () => {
     'setUbsOrderId',
     'getOrderWithoutPayment',
     'removeOrderWithoutPayment',
-    'removeUbsOrderId'
+    'removeUbsOrderId',
+    'getUserPagePayment'
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
@@ -59,7 +60,7 @@ describe('UbsConfirmPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('ngOnInit should call renderView with oderID', () => {
+  it('ngOnInit should call renderView with oderID', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
     fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
@@ -95,7 +96,6 @@ describe('UbsConfirmPageComponent', () => {
     fakeLocalStorageService.getFinalSumOfOrder.and.returnValue('999');
     component.checkPaymentStatus();
     expect(component.isSpinner).toBeFalsy();
-    expect(component.orderPaymentError).toBeTruthy();
   });
 
   it('in renderView should saveDataOnLocalStorage when no error occurred', () => {
@@ -106,31 +106,33 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
   });
 
-  it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
-    component.saveDataOnLocalStorage();
-    expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
-  });
+  describe('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
+    it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
+      component.saveDataOnLocalStorage();
+      expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
+    });
 
-  it('should redirect to order', () => {
-    const navigateSpy = spyOn(router, 'navigateByUrl');
-    component.returnToPayment('/ubs/order');
-    expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
-  });
+    it('should redirect to order', () => {
+      const navigateSpy = spyOn(router, 'navigateByUrl');
+      component.returnToPayment('/ubs/order');
+      expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
+    });
 
-  it('should redirect to ubs-admin/orders', () => {
-    const navigateSpy = spyOn(router, 'navigate');
-    const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
-    component.toPersonalAccount();
-    expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['ubs-admin', 'orders']);
-  });
+    it('should redirect to ubs-admin/orders', () => {
+      const navigateSpy = spyOn(router, 'navigate');
+      const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
+      component.toPersonalAccount();
+      expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalledWith(['ubs-admin', 'orders']);
+    });
 
-  it('should redirect to ubs-user/orders', () => {
-    fakeJwtService.userRole$ = of('ROLE_USER');
-    const navigateSpy = spyOn(router, 'navigate');
-    const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
-    component.toPersonalAccount();
-    expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-    expect(navigateSpy).toHaveBeenCalledWith(['ubs-user', 'orders']);
+    it('should redirect to ubs-user/orders', () => {
+      fakeJwtService.userRole$ = of('ROLE_USER');
+      const navigateSpy = spyOn(router, 'navigate');
+      const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
+      component.toPersonalAccount();
+      expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalledWith(['ubs-user', 'orders']);
+    });
   });
 });

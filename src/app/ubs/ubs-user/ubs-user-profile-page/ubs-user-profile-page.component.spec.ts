@@ -44,7 +44,17 @@ describe('UbsUserProfilePageComponent', () => {
     recipientName: 'Black',
     recipientPhone: '+380972333333',
     recipientSurname: 'Star',
-    hasPassword: true
+    hasPassword: true,
+    botList: [
+      {
+        link: 'ling to viber',
+        type: 'viber'
+      },
+      {
+        link: 'link to telegram',
+        type: 'telegram'
+      }
+    ]
   };
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
@@ -522,7 +532,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname,
-      hasPassword: true
+      hasPassword: true,
+      botList: [
+        {
+          link: 'ling to viber',
+          type: 'viber'
+        },
+        {
+          link: 'link to telegram',
+          type: 'telegram'
+        }
+      ]
     };
     expect(submitData).toEqual(userProfileDataMock);
   });
@@ -574,7 +594,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname,
-      hasPassword: true
+      hasPassword: true,
+      botList: [
+        {
+          link: 'ling to viber',
+          type: 'viber'
+        },
+        {
+          link: 'link to telegram',
+          type: 'telegram'
+        }
+      ]
     };
     userProfileDataMock.addressDto[0].houseCorpus = null;
     expect(submitData).toEqual(userProfileDataMock);
@@ -599,7 +629,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname,
-      hasPassword: true
+      hasPassword: true,
+      botList: [
+        {
+          link: 'ling to viber',
+          type: 'viber'
+        },
+        {
+          link: 'link to telegram',
+          type: 'telegram'
+        }
+      ]
     };
     userProfileDataMock.addressDto[0].entranceNumber = null;
     expect(submitData).toEqual(userProfileDataMock);

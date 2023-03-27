@@ -35,4 +35,10 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
       tooltip.toggle();
     }
   }
+
+  isTooltipEnabled(title: any, textContainerWidth: number = 112): boolean {
+    const textWidth = document.createElement('canvas').getContext('2d').measureText(title).width;
+
+    return textContainerWidth < textWidth;
+  }
 }

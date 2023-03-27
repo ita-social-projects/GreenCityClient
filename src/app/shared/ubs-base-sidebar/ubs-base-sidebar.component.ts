@@ -27,6 +27,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private sidebarChangeBreakpoint: number;
+  public isAdmin = false;
+
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: object[] = [];
   @Input() public listElementsMobile: object[] = [];
@@ -81,6 +83,8 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
           .subscribe((response) => {
             this.serviceUserMessages.countOfNoReadeMessages = response;
           });
+      } else {
+        this.isAdmin = true;
       }
     });
   }

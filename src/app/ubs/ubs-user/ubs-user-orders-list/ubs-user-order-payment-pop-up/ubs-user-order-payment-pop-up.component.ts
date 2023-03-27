@@ -285,28 +285,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
         }
       );
     }
-
-    if (this.formPaymentSystem.value === 'LiqPay') {
-      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(
-        (response: ResponceOrderLiqPayModel) => {
-          if (!response.liqPayButton) {
-            this.redirectionToConfirmPage();
-            this.dialogRef.close();
-          } else {
-            this.isLiqPayLink = true;
-            this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(response.liqPayButton);
-            setTimeout(() => {
-              this.liqPayButton = document.getElementsByName('btn_text');
-              this.localStorageService.setUbsLiqPayOrderId(this.orderClientDto.orderId);
-              this.liqPayButton[0].click();
-            }, 0);
-          }
-        },
-        () => {
-          this.dataLoadingLiqPay = false;
-        }
-      );
-    }
   }
 
   public orderOptionPayment(event: Event): void {
