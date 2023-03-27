@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
-
 @Component({
   selector: 'app-ubs-admin-order-history',
   templateUrl: './ubs-admin-order-history.component.html',
@@ -57,7 +56,6 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     });
   }
 
-
   openCancelReason() {
     this.dialog.open(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
@@ -66,6 +64,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
         orderID: this.orderInfo.generalOrderInfo.id
       }
     });
+  }
 
   openNotTakenOutReason(orderHistoryId: number): void {
     this.dialog.open(AddOrderNotTakenOutReasonComponent, {
@@ -88,7 +87,6 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
         console.log('data', data);
         this.orderNotTakenOutReason = data;
       });
-
   }
 
   getOrderHistory(orderId: number): void {
