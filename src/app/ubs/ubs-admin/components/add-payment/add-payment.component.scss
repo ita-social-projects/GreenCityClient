@@ -88,6 +88,11 @@
       padding-left: 10px;
     }
 
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+
     input.ng-touched.ng-invalid {
       border: 1px solid var(--ubs-error-ligh-red);
     }
@@ -97,11 +102,11 @@
     }
 
     .date {
-      min-width: 125px;
+      min-width: 170px;
     }
 
     .id {
-      min-width: 200px;
+      min-width: 170px;
     }
 
     .link {
