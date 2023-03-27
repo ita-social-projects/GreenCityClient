@@ -344,61 +344,61 @@ header {
             font-size: 14px;
           }
         }
+      }
+    }
+  }
+}
 
-        .header-for-admin {
-          height: 50px;
+.header-for-admin {
+  height: 50px;
 
-          .header_navigation-menu-left {
-            display: none;
-          }
-        }
+  .header_navigation-menu-left {
+    display: none;
+  }
+}
 
-        .admin-container-fluid {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          width: 100%;
+.admin-container-fluid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 
-          .header_navigation-menu-right {
+  .header_navigation-menu-right {
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    .header_navigation-menu-right-list {
+      justify-content: space-evenly;
+
+      .ubs-admin-cabinet {
+        display: none;
+        align-items: center;
+        font-family: var(--ubs-secondary-font);
+
+        .admin-list-item {
+          padding: 0;
+          text-align: center;
+
+          &:first-child span {
+            font-weight: 700 !important;
+            font-size: 14px;
+            line-height: 20px;
+            border: 2px solid var(--ubs-secondary-light-green);
+            border-radius: 15px;
+            width: 150px;
+            height: 40px;
             display: flex;
-            height: 100%;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+          }
 
-            .header_navigation-menu-right-list {
-              justify-content: space-evenly;
+          .ubs-header_user-name {
+            display: flex;
+            justify-content: center;
 
-              .ubs-admin-cabinet {
-                display: none;
-                align-items: center;
-                font-family: var(--ubs-secondary-font);
-
-                .admin-list-item {
-                  padding: 0;
-                  text-align: center;
-
-                  &:first-child span {
-                    font-weight: 700 !important;
-                    font-size: 14px;
-                    line-height: 20px;
-                    border: 2px solid var(--ubs-secondary-light-green);
-                    border-radius: 15px;
-                    width: 150px;
-                    height: 40px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                  }
-
-                  .ubs-header_user-name {
-                    display: flex;
-                    justify-content: center;
-
-                    span {
-                      display: flex;
-                    }
-                  }
-                }
-              }
+            span {
+              display: flex;
             }
           }
         }
@@ -460,7 +460,6 @@ header {
 
     span {
       font-weight: normal;
-      display: -webkit-box;
       -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       overflow: hidden;
