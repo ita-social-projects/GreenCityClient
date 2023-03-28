@@ -11,6 +11,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { eventStatusList, OptionItem, TagsArray, tempLocationList, eventTimeList } from '../../models/event-consts';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -84,14 +85,16 @@ describe('EventsListComponent', () => {
     expect(component.isLoggedIn).toBe(3 as any);
   });
 
-  it('should check weather resetAll works correctly', () => {
-    component.selectedFilters = [
-      { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'two', nameUa: 'два' },
-      { nameEn: 'three', nameUa: 'три' }
-    ];
+  it('should reset all filters', () => {
+    component.eventTimeList = eventTimeList;
+    component.typeList = TagsArray;
+    component.statusList = eventStatusList;
+    component.eventLocationList = tempLocationList;
+    const spy = spyOn(component, 'resetAll');
     component.resetAll();
-    expect(component.selectedFilters.length).toEqual(0);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.selectedFilters).toEqual([]);
   });
 
   it('should check weather deleteOneFilter works correctly', () => {
@@ -100,12 +103,22 @@ describe('EventsListComponent', () => {
       { nameEn: 'two', nameUa: 'два' },
       { nameEn: 'three', nameUa: 'три' }
     ];
-    const filterRemoved = [
+    const filterRemoved = [{ nameEn: 'three', nameUa: 'три' }];
+    const res = [
       { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'three', nameUa: 'три' }
+      { nameEn: 'two', nameUa: 'два' }
     ];
-    component.deleteOneFilter(1);
-    expect(component.selectedFilters).toEqual(filterRemoved);
+
+    component.eventTimeList = eventTimeList;
+    component.typeList = TagsArray;
+    component.statusList = eventStatusList;
+    component.eventLocationList = tempLocationList;
+
+    const spy = spyOn(component, 'deleteOneFilter');
+    component.deleteOneFilter(filterRemoved, 1);
+    component.selectedFilters.pop();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.selectedFilters).toEqual(res);
   });
 
   it('should check weather showFavourite works correctly', () => {

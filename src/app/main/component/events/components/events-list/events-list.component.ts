@@ -157,8 +157,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.bookmarkSelected = !this.bookmarkSelected;
   }
 
-  public deleteOneFilter(index): void {
-    this.selectedFilters.splice(index, 1);
+  public deleteOneFilter(filter, index): void {
+    [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
+      list.options.forEach((item: MatOption) => {
+        if (filter.nameEn === item.value.nameEn) {
+          this.selectedFilters.splice(index, 1);
+          item.deselect();
+        }
+      });
+    });
   }
 
   public resetAll(): void {
