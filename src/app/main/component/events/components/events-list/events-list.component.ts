@@ -12,7 +12,6 @@ import {
   eventTimeList,
   eventStatusList,
   tempLocationList,
-  selectedFilters,
   OptionItem,
   allSelectedFlags,
   AllSelectedFlags
@@ -47,8 +46,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
 
-  private visitedPagesArr: number[];
-
   public page = 0;
   public hasNext = true;
   public remaining = 0;
@@ -57,13 +54,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public selectedFilters = []; // test data,should be deleted when back-end is ready
   public searchToggle = false;
   public bookmarkSelected = false;
-  public selectedEventTime: any;
   public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[] = eventStatusList;
   public eventLocationList: OptionItem[] = tempLocationList;
-  public allSelected = false;
   private optionsList: any;
   public scroll: boolean;
   public userId: number;
@@ -101,21 +96,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedFilters(value: any, event): void {
-    const existingFilterIndex = this.selectedFilters.findIndex((filter) => filter.value === value);
-
-    if (event.isUserInput) {
-      // перевіряємо, чи дія користувача викликала зміну
-      if (!event.source.selected) {
-        // якщо елемент уже є у масиві і був де-вибраний, видаляємо його
-        this.selectedFilters.splice(existingFilterIndex, 1);
-      } else if (existingFilterIndex === -1 && event.source.selected) {
-        // якщо елементу немає у масиві і був обраний, додаємо його
-        this.selectedFilters.push(value);
-      }
+    const existingFilterIndex = this.selectedFilters.indexOf(value);
+    if (event.isUserInput && !event.source.selected && existingFilterIndex !== -1) {
+      this.selectedFilters.splice(existingFilterIndex, 1);
+    } else if (event.isUserInput && event.source.selected && existingFilterIndex === -1) {
+      this.selectedFilters.push(value);
     }
   }
 
-  subscribeOnFormControlsChanges() {
+  subscribeOnFormControlsChanges(): void {
     const formControls = [
       { control: this.timeFilterControl },
       { control: this.locationFilterControl },
