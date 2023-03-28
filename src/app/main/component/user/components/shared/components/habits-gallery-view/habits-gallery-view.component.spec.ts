@@ -24,8 +24,6 @@ describe('HabitsGalleryViewComponent', () => {
   const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId']);
   localStorageServiceMock.getUserId = () => 1;
 
-  const habitServiceMock = jasmine.createSpyObj('habitService', ['goToAddOrEditHabit']);
-
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
@@ -36,7 +34,6 @@ describe('HabitsGalleryViewComponent', () => {
       providers: [
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
-        { provide: HabitService, useValue: habitServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ]
     }).compileComponents();
@@ -77,10 +74,5 @@ describe('HabitsGalleryViewComponent', () => {
     (component as any).userId = 12;
     component.ngOnInit();
     expect((component as any).userId).toBe(1);
-  });
-
-  it('should call goToAddOrEditHabit on goHabitMore', () => {
-    component.goHabitMore();
-    expect(habitServiceMock.goToAddOrEditHabit).toHaveBeenCalled();
   });
 });

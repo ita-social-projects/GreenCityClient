@@ -5,7 +5,6 @@ import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '../../../../../../interface/habit/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({
   selector: 'app-habits-gallery-view',
