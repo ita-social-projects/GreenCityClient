@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -15,11 +15,11 @@ import { HabitsGalleryViewComponent } from '@global-user/components/shared/compo
 export class HabitsListViewComponent extends HabitsGalleryViewComponent {
   constructor(
     public router: Router,
+    public route: ActivatedRoute,
     public snackBar: MatSnackBarComponent,
     public localStorageService: LocalStorageService,
-    public habitAssignService: HabitAssignService,
-    public habitService: HabitService
+    public habitAssignService: HabitAssignService
   ) {
-    super(router, snackBar, localStorageService, habitAssignService, habitService);
+    super(router, route, snackBar, localStorageService, habitAssignService);
   }
 }

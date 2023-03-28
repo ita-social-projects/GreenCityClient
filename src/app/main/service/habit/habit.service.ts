@@ -20,12 +20,7 @@ export class HabitService {
   private tagsType = 'HABIT';
   private backEnd = environment.backendLink;
 
-  constructor(
-    private http: HttpClient,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 
@@ -49,12 +44,5 @@ export class HabitService {
     return this.http.get<HabitListInterface>(
       `${habitLink}/tags/search?lang=${this.language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
     );
-  }
-
-  goToAddOrEditHabit(habit: HabitInterface, userId: number): void {
-    const link = `/profile/${userId}/allhabits/`;
-    habit.assignId
-      ? this.router.navigate([`${link}edithabit`, habit.assignId], { relativeTo: this.route })
-      : this.router.navigate([`${link}addhabit`, habit.id], { relativeTo: this.route });
   }
 }
