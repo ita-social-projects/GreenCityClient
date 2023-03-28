@@ -27,9 +27,3 @@ export interface HabitListInterface {
   totalElements: number;
   totalPages: number;
 }
-
-export interface HabitNavigate {
-  id: number;
-  assignId?: number;
-  userId: number;
-}

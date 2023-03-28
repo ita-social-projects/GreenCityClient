@@ -1,11 +1,11 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-import { HabitInterface, HabitListInterface, HabitNavigate } from '../../interface/habit/habit.interface';
+import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.interface';
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
@@ -14,13 +14,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class HabitService implements OnDestroy {
+export class HabitService {
   language: string;
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private tagsType = 'HABIT';
   private backEnd = environment.backendLink;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
   }
 
@@ -46,15 +51,10 @@ export class HabitService implements OnDestroy {
     );
   }
 
-  goToAddOrEditHabit(habit: HabitNavigate, router: Router, route: ActivatedRoute): void {
-    const link = `/profile/${habit.userId}/allhabits/`;
+  goToAddOrEditHabit(habit: HabitInterface, userId: number): void {
+    const link = `/profile/${userId}/allhabits/`;
     habit.assignId
-      ? router.navigate([`${link}edithabit`, habit.assignId], { relativeTo: route })
-      : router.navigate([`${link}addhabit`, habit.id], { relativeTo: route });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+      ? this.router.navigate([`${link}edithabit`, habit.assignId], { relativeTo: this.route })
+      : this.router.navigate([`${link}addhabit`, habit.id], { relativeTo: this.route });
   }
 }

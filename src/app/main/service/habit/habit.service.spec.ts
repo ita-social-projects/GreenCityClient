@@ -4,6 +4,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment.js';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -114,7 +116,7 @@ describe('HabitService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [HabitService, { provide: LocalStorageService, useValue: localStorageServiceMock }]
     });
     habitService = TestBed.inject(HabitService);

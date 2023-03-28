@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -23,7 +23,6 @@ export class HabitsListViewComponent implements OnInit {
 
   constructor(
     public router: Router,
-    public route: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
     public habitAssignService: HabitAssignService,
     private habitService: HabitService,
@@ -42,12 +41,7 @@ export class HabitsListViewComponent implements OnInit {
   }
 
   public goHabitMore(): void {
-    const habit = {
-      id: this.habit.id,
-      assignId: this.habit.assignId,
-      userId: this.userId
-    };
-    this.habitService.goToAddOrEditHabit(habit, this.router, this.route);
+    this.habitService.goToAddOrEditHabit(this.habit, this.userId);
   }
 
   public addHabit() {
