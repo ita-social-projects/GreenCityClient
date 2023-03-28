@@ -47,6 +47,9 @@
       </small>
     </div>
     <div class="messages-container">
+      <small class="text-danger" *ngIf="isNotExistCertificate">
+        {{ 'order-details.certificate-not-exist' | translate }}
+      </small>
       <small class="text-danger" *ngIf="certificates.error[i]">
         {{ 'order-details.failed-certificate' | translate }}
       </small>
