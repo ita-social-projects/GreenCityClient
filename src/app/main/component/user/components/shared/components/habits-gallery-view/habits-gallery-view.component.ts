@@ -22,10 +22,10 @@ export class HabitsGalleryViewComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService,
+    public snackBar: MatSnackBarComponent,
+    public localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
-    private habitService: HabitService
+    public habitService: HabitService
   ) {}
 
   ngOnInit() {
