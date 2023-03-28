@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { of, BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { Language } from 'src/app/main/i18n/Language';
 
 describe('ShoppingListComponent', () => {
@@ -29,24 +29,16 @@ describe('ShoppingListComponent', () => {
     }
   ];
 
-  const mockCustomeShopList: ShoppingList[] = [
+  const mockShopLists: AllShoppingLists[] = [
     {
-      id: 2,
-      status: 'DONE',
-      text: 'some to-do 2'
-    }
-  ];
-
-  const mockAllShopList: ShoppingList[] = [
-    {
-      id: 1,
-      status: 'INPROGRESS',
-      text: 'some to-do'
-    },
-    {
-      id: 2,
-      status: 'DONE',
-      text: 'some to-do 2'
+      userShoppingListItemDto: [],
+      customShoppingListItemDto: [
+        {
+          id: 2,
+          status: 'DONE',
+          text: 'some to-do 2'
+        }
+      ]
     }
   ];
 
@@ -61,13 +53,11 @@ describe('ShoppingListComponent', () => {
   localStorageServiceMock.getUserId = () => 1;
 
   const shoppingListServiceMock: ShoppingListService = jasmine.createSpyObj('fakeShoppingListService', [
-    'getCustomShopList',
-    'getShopList',
+    'getUserShoppingLists',
     'updateStandardShopItemStatus',
     'updateCustomShopItemStatus'
   ]);
-  shoppingListServiceMock.getCustomShopList = () => of(mockCustomeShopList);
-  shoppingListServiceMock.getShopList = () => of(mockShopList);
+  shoppingListServiceMock.getUserShoppingLists = () => of(mockShopLists);
   shoppingListServiceMock.updateStandardShopItemStatus = () => of();
   shoppingListServiceMock.updateCustomShopItemStatus = () => of();
 
@@ -99,41 +89,30 @@ describe('ShoppingListComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should call getCustomShopList on subscribeToLangChange', () => {
-    const spy = spyOn(component as any, 'getCustomShopList');
+  it('should call getAllShopLists on subscribeToLangChange', () => {
+    const spy = spyOn(component as any, 'getAllShopLists');
     (component as any).subscribeToLangChange();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should call getShoppingList on getCustomShopList', () => {
-    const spy = spyOn(component as any, 'getShoppingList');
-    (component as any).getCustomShopList();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should set shop item with status INPROGRESS after getCustomShopList', () => {
-    component.shoppingList = mockAllShopList.filter((el) => el.status === 'INPROGRESS');
-    expect(component.shoppingList).toEqual(mockShopList);
-  });
-
-  it('should set custom true after getCustomShopList', () => {
+  it('should set custom true after getShopLists', () => {
     const result = [
       {
-        id: 2,
-        status: 'DONE',
-        text: 'some to-do 2',
+        id: 1,
+        status: 'INPROGRESS',
+        text: 'some to-do',
         custom: true
       }
     ];
-    mockCustomeShopList.forEach((el) => (el.custom = true));
-    component.shoppingList = mockCustomeShopList;
+    mockShopList.forEach((el) => (el.custom = true));
+    component.shoppingList = mockShopList;
     expect(component.shoppingList).toEqual(result);
   });
 
   it('should set shopList after getShopList', () => {
     component.shoppingList = [];
-    component.shoppingList = [...component.shoppingList, ...mockCustomeShopList];
-    expect(component.shoppingList).toEqual(mockCustomeShopList);
+    component.shoppingList = [...component.shoppingList, ...mockShopList];
+    expect(component.shoppingList).toEqual(mockShopList);
   });
 
   it('should change toogle from true on openCloseList', () => {

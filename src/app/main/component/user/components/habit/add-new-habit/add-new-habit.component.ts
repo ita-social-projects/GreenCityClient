@@ -242,38 +242,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   public updateHabit(): void {
-    if (this.customShopList || this.standartShopList) {
-      this.convertShopLists();
-      const habitShopListUpdate = this.setHabitListForUpdate();
-      this.shopListService
-        .updateHabitShopList(habitShopListUpdate)
-        .pipe(take(1))
-        .subscribe(() => {
-          this.goToProfile();
-          this.snackBar.openSnackBar('habitUpdated');
-        });
-    }
-  }
-
-  private convertShopLists(): void {
-    this.customShopList.forEach((el) => {
-      delete el.custom;
-      delete el.selected;
-    });
-    this.standartShopList.forEach((el) => {
-      delete el.custom;
-      delete el.selected;
-    });
-  }
-
-  private setHabitListForUpdate(): HabitUpdateShopList {
-    const shopListUpdate: HabitUpdateShopList = {
-      habitId: this.habitId,
-      customShopList: this.customShopList,
-      standartShopList: this.standartShopList,
-      lang: this.currentLang
-    };
-    return shopListUpdate;
+    this.habitAssignService
+      .updateHabit(this.habitAssignId, this.newDuration)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.goToProfile();
+        this.snackBar.openSnackBar('habitUpdated');
+      });
   }
 
   public setHabitStatus(): void {

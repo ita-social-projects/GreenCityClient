@@ -44,9 +44,8 @@ export class HabitAssignService implements OnDestroy {
     return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/custom`, body);
   }
 
-  updateHabit(habitId: number, duration: number, defaultShoppingListItems: Array<number>): Observable<HabitAssignInterface> {
-    const body = { defaultShoppingListItems, duration };
-    return this.http.put<HabitAssignInterface>(`${habitAssignLink}/${habitId}/update-user-shopping-item-list`, body);
+  updateHabit(habitAssignId: number, duration: number): Observable<HabitAssignInterface> {
+    return this.http.put<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`, {});
   }
 
   enrollByHabit(habitId: number, date: string): Observable<HabitAssignInterface> {
@@ -67,8 +66,8 @@ export class HabitAssignService implements OnDestroy {
     return this.http.patch<HabitAssignInterface>(`${habitAssignLink}/${habitId}`, body);
   }
 
-  deleteHabitById(habitAssignid: number): Observable<HabitAssignService> {
-    return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${habitAssignid}`);
+  deleteHabitById(habitAssignId: number): Observable<HabitAssignService> {
+    return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${habitAssignId}`);
   }
 
   ngOnDestroy(): void {
