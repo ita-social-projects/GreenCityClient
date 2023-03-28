@@ -450,6 +450,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
+
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))

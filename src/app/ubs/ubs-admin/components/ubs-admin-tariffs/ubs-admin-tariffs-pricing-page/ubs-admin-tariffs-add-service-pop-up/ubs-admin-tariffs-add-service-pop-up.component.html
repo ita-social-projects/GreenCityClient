@@ -26,7 +26,12 @@
           class="shadow-none form-control"
           id="nameEng"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+          maxlength="255"
+          required
         />
+        <div class="error-message" *ngIf="addServiceForm.get('nameEng').invalid && addServiceForm.get('nameEng').touched">
+          {{ 'ubs-tariffs-add-service.error_service_field_message' | translate }}
+        </div>
       </div>
     </div>
     <div class="basic-cost-input form-group">

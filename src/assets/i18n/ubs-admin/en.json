@@ -768,6 +768,7 @@
     "service_description": "Service description",
     "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
     "error_message": "Fill in the selected fields",
+    "error_service_field_message": "The field must contain between 1 and 255 characters",
     "btn": {
       "add": "Add",
       "cancel": "Cancel",

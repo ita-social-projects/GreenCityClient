@@ -58,7 +58,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   createService() {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(255)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl('', [Validators.required]),
       descriptionEng: new FormControl('', [Validators.required])
