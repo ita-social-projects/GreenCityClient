@@ -16,6 +16,7 @@ import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 declare var google: any;
 @Component({
@@ -73,7 +74,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
 
     // Initialization of reactive form
     this.signInForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
