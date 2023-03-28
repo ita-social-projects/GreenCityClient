@@ -9,7 +9,6 @@ export function PhoneNumberValidator(regionCode: string): ValidatorFn {
     try {
       const phoneNumber = phoneNumberUtil.parseAndKeepRawInput(control.value, regionCode);
       validNumber = phoneNumberUtil.isValidNumber(phoneNumber);
-      console.log('phoneNumber', phoneNumber);
     } catch (e) {}
 
     return validNumber ? null : { wrongNumber: { value: control.value } };
