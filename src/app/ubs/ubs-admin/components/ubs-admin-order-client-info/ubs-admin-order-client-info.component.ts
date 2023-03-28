@@ -38,7 +38,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
-    this.onDefineOrderStatus();
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   openDetails(): void {
@@ -48,12 +48,6 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   public setViolationData(): void {
     this.totalUserViolations = this.userInfo.totalUserViolations;
     this.userViolationForCurrentOrder = this.userInfo.userViolationForCurrentOrder;
-  }
-
-  public onDefineOrderStatus() {
-    if (this.generalInfo.orderStatus === 'CANCELED') {
-      this.isStatus = true;
-    }
   }
 
   openModal(viewMode: boolean): void {

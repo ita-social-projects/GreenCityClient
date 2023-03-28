@@ -80,17 +80,11 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       .subscribe((value: boolean) => {
         this.doneAfterBroughtHimself = value;
       });
-    this.onDefineOrderStatus();
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   public resetOrderDetails() {
     this.orderDetails = JSON.parse(JSON.stringify(this.orderDetailsOriginal));
-  }
-
-  public onDefineOrderStatus() {
-    if (this.generalInfo?.orderStatus === 'CANCELED') {
-      this.isStatus = true;
-    }
   }
 
   public recalculateSum() {

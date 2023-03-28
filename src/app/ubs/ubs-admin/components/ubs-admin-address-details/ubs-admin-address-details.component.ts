@@ -36,7 +36,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit(): void {
-    this.onDefineOrderStatus();
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   get addressRegion() {
@@ -88,12 +88,6 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
     if (this.pageOpen) {
       this.loadData();
-    }
-  }
-
-  public onDefineOrderStatus() {
-    if (this.generalInfo.orderStatus === 'CANCELED') {
-      this.isStatus = true;
     }
   }
 

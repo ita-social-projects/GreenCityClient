@@ -77,7 +77,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
   });
 
   it('method onDefineOrderStatus', () => {
-    const spy = spyOn(component, 'onDefineOrderStatus');
+    const spy = spyOn(component, 'ngOnInit');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
@@ -85,14 +85,14 @@ describe('UbsAdminOrderClientInfoComponent', () => {
   it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
     component.generalInfo.orderStatus = 'CANCELED';
     component.isStatus = false;
-    component.onDefineOrderStatus();
+    component.ngOnInit();
     expect(component.isStatus).toBe(true);
   });
 
   it('should set isStatus to true when orderStatus is "CANCELED"', () => {
     component.generalInfo.orderStatus = 'DONE';
     component.isStatus = false;
-    component.onDefineOrderStatus();
+    component.ngOnInit();
     expect(component.isStatus).toBe(false);
   });
 

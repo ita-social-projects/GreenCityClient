@@ -126,7 +126,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.overpayment = data.paymentTableInfoDto.overpayment;
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
-        this.function();
         this.initForm();
         if (submitMode && this.overpayment && this.generalInfo.orderStatus === 'DONE') {
           this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
@@ -156,17 +155,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-  }
-
-  public function() {
-    this.onDefineOrderStatus(this.currentOrderStatus);
-  }
-
-  public onDefineOrderStatus(status) {
-    if (status === 'CANCELED') {
-      this.isStatus = true;
-    }
-    console.log(this.isStatus);
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   private setPreviousBagsIfEmpty(status) {
