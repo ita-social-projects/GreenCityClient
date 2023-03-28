@@ -63,6 +63,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   clickOnYes = true;
   clickOnNo = true;
   public alreadyEnteredCert: string[] = [];
+  public isNotExistCertificate = false;
 
   constructor(
     private fb: FormBuilder,
@@ -234,6 +235,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
             (error) => {
               this.cancelCertBtn = false;
               if (error.status === 404) {
+                this.isNotExistCertificate = true;
                 this.certificates.codes.splice(index, 1);
                 this.certificates.activatedStatus.splice(index, 1);
                 this.certificates.creationDates.splice(index, 1);
@@ -296,6 +298,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.certificateReset();
     }
     this.calculateCertificates();
+    this.isNotExistCertificate = false;
   }
 
   showCancelButton(i: number): boolean {
@@ -304,7 +307,9 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     const hasMultipleCertificates = this.formArrayCertificates.controls.length > 1;
     const isCertAlreadyEntered = this.showMessageForAlreadyEnteredCert(i);
 
-    return (isCertActivated && isCertFilled) || (hasMultipleCertificates && !isCertFilled) || isCertAlreadyEntered;
+    return (
+      (isCertActivated && isCertFilled) || (hasMultipleCertificates && !isCertFilled) || isCertAlreadyEntered || this.isNotExistCertificate
+    );
   }
 
   certificateSubmit(index: number): void {
@@ -344,7 +349,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
     const isSingleCertificate = this.formArrayCertificates.controls.length === 1;
     const isAlreadyEnteredCert = !this.showMessageForAlreadyEnteredCert(i);
 
-    const shouldShowButton = isNotActivated && isFilled && isNotDisabledBtn;
+    const shouldShowButton = isNotActivated && isFilled && isNotDisabledBtn && !this.isNotExistCertificate;
     const isSingleCertificateAndEmpty = isSingleCertificate && !isFilled;
 
     return (shouldShowButton || isSingleCertificateAndEmpty) && isAlreadyEnteredCert;

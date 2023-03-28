@@ -62,6 +62,7 @@
       "choose-payment": "You can make a payment in one of the selected methods below.",
       "question-certificate": "Do you want to use the certificate?",
       "failed-certificate": "Certificate not accepted, please try again",
+      "certificate-not-exist": "The certificate was not accepted. Please try again",
       "certificate-duplication": "You alredy entered this certificate ",
       "already-used": "Certificate has already been used {{certDate}}",
       "expired": "Certificate is invalid. Certificate validity is up to {{certDate}}",
