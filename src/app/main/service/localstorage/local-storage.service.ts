@@ -343,4 +343,12 @@ export class LocalStorageService {
   public getTariffId(): number {
     return JSON.parse(localStorage.getItem('currentTariffId'));
   }
+
+  public setServiceName(serviceName: string): void {
+    localStorage.setItem('serviceName', serviceName);
+  }
+
+  public setServiceDescription(serviceDescription: string): void {
+    localStorage.setItem('serviceDescription', serviceDescription);
+  }
 }
