@@ -158,8 +158,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  public function(status: string = this.currentOrderStatus) {
-    status = this.currentOrderStatus;
+  public function() {
     this.onDefineOrderStatus(this.currentOrderStatus);
   }
 
