@@ -1,10 +1,3 @@
-/*  facebookIcon: 'assets/admin-header/face-icon.svg',
-  instagramIcon: 'assets/admin-header/insta-icon.svg',
-  telegramIcon: 'assets/admin-header/telegram-icon.svg',
-  youTubeIcon: 'assets/admin-header/you-tube-icon.svg',
-  tikTokIcon: 'assets/admin-header/tik-tok-icon.svg',
-  patreonIcon: 'assets/admin-header/patreon-icon.svg'/** */
-
 export const ubsNavLinks = [
   { name: 'user.lower-nav-bar.sorting-rules', route: 'https://nowaste.com.ua/sort-station/', url: true },
   { name: 'user.lower-nav-bar.eco-shop', route: 'https://shop.nowaste.com.ua/', url: true },
