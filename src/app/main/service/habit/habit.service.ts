@@ -5,10 +5,11 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.interface';
+import { HabitInterface, HabitListInterface, HabitNavigate } from '../../interface/habit/habit.interface';
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,13 @@ export class HabitService implements OnDestroy {
     return this.http.get<HabitListInterface>(
       `${habitLink}/tags/search?lang=${this.language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
     );
+  }
+
+  goToAddOrEditHabit(habit: HabitNavigate, router: Router, route: ActivatedRoute): void {
+    const link = `/profile/${habit.userId}/allhabits/`;
+    habit.assignId
+      ? router.navigate([`${link}edithabit`, habit.assignId], { relativeTo: route })
+      : router.navigate([`${link}addhabit`, habit.id], { relativeTo: route });
   }
 
   ngOnDestroy(): void {

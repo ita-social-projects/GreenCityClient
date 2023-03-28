@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '../../../../../../interface/habit/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -24,7 +25,8 @@ export class HabitsGalleryViewComponent implements OnInit {
     public route: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
-    public habitAssignService: HabitAssignService
+    public habitAssignService: HabitAssignService,
+    private habitService: HabitService
   ) {}
 
   ngOnInit() {
@@ -39,9 +41,12 @@ export class HabitsGalleryViewComponent implements OnInit {
   }
 
   public goHabitMore(): void {
-    this.habit.isAssigned
-      ? this.router.navigate([`/profile/${this.userId}/allhabits/edithabit`, this.habit.assignId], { relativeTo: this.route })
-      : this.router.navigate([`/profile/${this.userId}/allhabits/addhabit`, this.habit.id], { relativeTo: this.route });
+    const habit = {
+      id: this.habit.id,
+      assignId: this.habit.assignId,
+      userId: this.userId
+    };
+    this.habitService.goToAddOrEditHabit(habit, this.router, this.route);
   }
 
   public addHabit() {

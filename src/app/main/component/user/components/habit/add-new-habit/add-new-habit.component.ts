@@ -4,7 +4,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -102,6 +102,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquited = this.assignedHabit.status === 'ACQUIRED';
+          this.initialDuration = res.duration;
           this.initHabitData(res.habit);
           this.getCustomShopList();
         });
@@ -118,6 +119,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((data) => {
         this.initHabitData(data);
+        this.initialDuration = data.defaultDuration;
       });
   }
 
@@ -125,7 +127,6 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.habitResponse = habit;
     this.tags = habit.tags;
     this.getStars(habit.complexity);
-    this.initialDuration = habit.defaultDuration;
   }
 
   public getStars(complexity: number): void {

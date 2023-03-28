@@ -6,6 +6,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitInterface } from '../../../../../../../interface/habit/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitService } from '@global-service/habit/habit.service';
 
 @Component({
   selector: 'app-habits-list-view',
@@ -25,6 +26,7 @@ export class HabitsListViewComponent implements OnInit {
     public route: ActivatedRoute,
     private snackBar: MatSnackBarComponent,
     public habitAssignService: HabitAssignService,
+    private habitService: HabitService,
     public localStorage: LocalStorageService
   ) {}
 
@@ -40,9 +42,12 @@ export class HabitsListViewComponent implements OnInit {
   }
 
   public goHabitMore(): void {
-    this.habit.isAssigned
-      ? this.router.navigate([`/profile/${this.userId}/allhabits/edithabit`, this.habit.assignId], { relativeTo: this.route })
-      : this.router.navigate([`/profile/${this.userId}/allhabits/addhabit`, this.habit.id], { relativeTo: this.route });
+    const habit = {
+      id: this.habit.id,
+      assignId: this.habit.assignId,
+      userId: this.userId
+    };
+    this.habitService.goToAddOrEditHabit(habit, this.router, this.route);
   }
 
   public addHabit() {

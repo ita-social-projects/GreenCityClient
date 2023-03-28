@@ -12,7 +12,7 @@ import { Subscription } from 'stompjs';
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.scss']
 })
-export class ShoppingListComponent implements OnInit, OnDestroy {
+export class ShoppingListComponent implements OnInit {
   public shoppingList: ShoppingList[] = [];
   public toggle: boolean;
   private userId: number;
@@ -47,7 +47,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
         const standardShopList = this.convertShopList(list, 'standard');
         customShopList.forEach((el) => (el.custom = true));
         this.shoppingList = [...customShopList, ...standardShopList];
-        console.log(this.shoppingList);
       });
   }
 
@@ -87,10 +86,5 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   private updateShopList(item: ShoppingList): void {
     this.shoppingList = this.shoppingList.map((el) => (el.id === item.id ? { ...el, status: item.status } : el));
     this.cdr.detectChanges();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }
