@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { generalOrderInfoMock } from '../../services/orderInfoMock';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -25,66 +26,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     addressDistrict: new FormControl('Голосіївський район'),
     addressDistrictEng: new FormControl(`Holosiivs'kyi district`)
   });
-
-  const generalOrderInfoMock = {
-    id: 1,
-    dateFormed: '2022-02-08T15:21:44.85458',
-    adminComment: null,
-    orderStatus: 'FORMED',
-    orderStatusName: 'Сформовано',
-    orderStatusNameEng: 'Formed',
-    orderStatusesDtos: [
-      {
-        ableActualChange: false,
-        key: 'FORMED',
-        translation: 'Сформовано'
-      },
-      {
-        ableActualChange: false,
-        key: 'ADJUSTMENT',
-        translation: 'Узгодження'
-      },
-      {
-        ableActualChange: false,
-        key: 'BROUGHT_IT_HIMSELF',
-        translation: 'Привезе сам'
-      },
-      {
-        ableActualChange: false,
-        key: 'CONFIRMED',
-        translation: 'Підтверджено'
-      },
-      {
-        ableActualChange: false,
-        key: 'ON_THE_ROUTE',
-        translation: 'На маршруті'
-      },
-      {
-        ableActualChange: true,
-        key: 'DONE',
-        translation: 'Виконано'
-      },
-      {
-        ableActualChange: false,
-        key: 'NOT_TAKEN_OUT',
-        translation: 'Не вивезли'
-      },
-      {
-        ableActualChange: true,
-        key: 'CANCELED',
-        translation: 'Скасовано'
-      }
-    ],
-    orderPaymentStatus: 'PAID',
-    orderPaymentStatusName: 'Оплачено',
-    orderPaymentStatusNameEng: 'Paid',
-    orderPaymentStatusesDto: [
-      {
-        key: 'PAID',
-        translation: 'Оплачено'
-      }
-    ]
-  };
 
   const status = 'OK';
 
