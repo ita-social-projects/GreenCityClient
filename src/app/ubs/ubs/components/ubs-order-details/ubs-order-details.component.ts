@@ -217,20 +217,22 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.isDialogOpen = true;
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
-      disableClose: true
+      disableClose: false
     });
 
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        if (res.data) {
+        if (res && res.data) {
           this.locations = res.data;
           this.selectedLocationId = res.locationId;
           this.setCurrentLocation(res.currentLanguage);
           this.setLimitsValues();
           this.orderDetailsForm.markAllAsTouched();
           this.takeOrderData();
+        } else {
+          this.router.navigate(['/ubs']);
         }
         this.isDialogOpen = false;
       });
