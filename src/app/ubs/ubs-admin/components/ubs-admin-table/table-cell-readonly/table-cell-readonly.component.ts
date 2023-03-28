@@ -28,11 +28,9 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         : this.title;
   }
 
-  showTooltip(title: any, tooltip: any) {
-    const maxWidthTitle = 112;
-    const width = document.createElement('canvas').getContext('2d').measureText(title).width;
-    if (width > maxWidthTitle) {
-      tooltip.toggle();
-    }
+  isTooltipEnabled(title: any, textContainerWidth: number = 112): boolean {
+    const textWidth = document.createElement('canvas').getContext('2d').measureText(title).width;
+
+    return textContainerWidth < textWidth;
   }
 }

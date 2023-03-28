@@ -10,7 +10,7 @@ export const Patterns = {
   profileCityPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’')(! ]*$/,
 
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
-  ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\.\-\/\,\\]+$/,
+  ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]+$/,
   ubsEntrNumPattern: /^([1-9]\d*)?$/,
 
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
@@ -19,7 +19,7 @@ export const Patterns = {
 
   ubsMailPattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 
-  paymantAmountPattern: '^[0-9]+$',
+  paymantAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   sertificateMonthCount: '^[0-9]{1,2}$',
   sertificateInitialValue: '^[0-9]{1,4}$',
 

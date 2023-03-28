@@ -124,7 +124,7 @@
     "order": "Order №",
     "description": "Add confirmation of payment in one or more of the available ways",
     "payment-date": " Payment date",
-    "payment-amount": "Payment amount",
+    "payment-amount": "Payment amount (UAH)",
     "amount-placeholder": "0 UAH",
     "date-placeholder": "DD/MM/YYYY",
     "payment-id": "Payment ID",
@@ -194,6 +194,7 @@
   },
   "order-cancel": {
     "title": "Add reason to cancel order",
+    "cancel-reason": "The reason for canceling the order",
     "reason": {
       "delivered-himself": "Delivered to the station itself",
       "moving-out": "Moving",
@@ -230,6 +231,11 @@
     },
     "date": "Date",
     "added": "Added"
+  },
+
+  "order-not-taken-out-reason": {
+    "title": "The reason for not taken out order N ",
+    "label-reason": "Courier's comment"
   },
 
   "address-details": {
@@ -577,7 +583,8 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update",
+    "update": "Save",
+    "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
     "tariffs": "Tariffs",
     "tariffs-columns": {
       "region": "Region",
@@ -1129,9 +1136,9 @@
   },
   "add-new-certificate": {
     "title": "Add sertificate",
-    "сertificate-field": "Certificate.№",
-    "duration-months-field": "Duration,mo.",
-    "discount-field": "Discount,UAH",
+    "сertificate-field": "Certificate. №",
+    "duration-months-field": "Duration, mo.",
+    "discount-field": "Discount, UAH",
     "cancel-button": "Cancel",
     "add-button": "Add certificate",
     "field-not-empty": "The field can’t be empty",

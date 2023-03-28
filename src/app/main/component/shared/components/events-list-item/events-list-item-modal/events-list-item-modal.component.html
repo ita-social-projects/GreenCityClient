@@ -1,6 +1,10 @@
 <div class="modal-inner">
   <h3 class="modal-title">
-    {{ isRegistered ? 'Evaluate the event and the organizer' : 'You cannot add this event. First register on the site' }}
+    {{
+      isRegistered
+        ? ('homepage.events.modal-rating-title-can-evaluate' | translate)
+        : ('homepage.events.modal-rating-title-can`t-evaluate' | translate)
+    }}
   </h3>
   <div class="modal-rating" [hidden]="!isRegistered">
     <rating (onHover)="hoveringOver($event)" [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="isReadonly"> </rating>

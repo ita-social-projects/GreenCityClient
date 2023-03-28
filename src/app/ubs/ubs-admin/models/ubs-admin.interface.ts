@@ -273,6 +273,13 @@ export interface IOrderHistory {
   eventDate: string;
   eventName: string;
   id: number;
+  status?: string;
+  result?: string;
+}
+
+export interface INotTakenOutReason {
+  description: 'string';
+  images: ['string'];
 }
 
 export interface IOrderStatusInfo {
@@ -505,4 +512,11 @@ export enum FormFieldsName {
   TimeDeliveryFrom = 'timeDeliveryFrom',
   TimeDeliveryTo = 'timeDeliveryTo',
   ReceivingStation = 'receivingStation'
+}
+
+export enum ordersStatuses {
+  NotTakenOutUA = 'Не вивезли',
+  NotTakenOutEN = 'Not taken out',
+  CanselUA = 'Скасовано',
+  CanselEN = 'Canseled'
 }

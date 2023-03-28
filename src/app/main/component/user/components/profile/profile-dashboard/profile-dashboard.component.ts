@@ -13,7 +13,8 @@ import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions'
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -52,6 +53,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
+    public shoppingService: ShoppingListService,
     private store: Store,
     private eventService: EventsService,
     private route: ActivatedRoute
@@ -135,7 +137,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        const sortedHabits = this.sortHabitsAsc(response);
+        const sortedHabits = this.sortHabitsData(response);
         this.habitAssignService.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.setHabitsForView();
@@ -164,15 +166,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsAsc(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
+  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
-      if (firstHabit.habit.id > secondHabit.habit.id) {
-        return 1;
-      }
-      if (secondHabit.habit.id > firstHabit.habit.id) {
-        return -1;
-      }
-      return 0;
+      return firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1;
     });
   }
 
