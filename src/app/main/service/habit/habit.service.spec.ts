@@ -1,17 +1,18 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment.js';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HabitInterface } from '../../interface/habit/habit.interface';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
   const backendLink = environment.backendLink;
   let habitService: HabitService;
   let httpMock: HttpTestingController;
+
   let langMock = null;
   const habitsMock = {
     page: [
@@ -35,7 +36,7 @@ describe('HabitService', () => {
     currentPage: 1,
     totalPages: 31
   };
-  const habitMock = {
+  const habitMock: HabitInterface = {
     defaultDuration: 14,
     amountAcquiredUsers: 1,
     habitTranslation: {
@@ -110,14 +111,26 @@ describe('HabitService', () => {
     totalPages: 1
   };
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
+  const activatedRouteMock = {
+    queryParams: of({
+      query: 'test'
+    })
+  };
+
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+
+  const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [HabitService, { provide: LocalStorageService, useValue: localStorageServiceMock }]
+      imports: [HttpClientTestingModule],
+      providers: [
+        HabitService,
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: Router, useValue: routerMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
+      ]
     });
     habitService = TestBed.inject(HabitService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -194,5 +207,10 @@ describe('HabitService', () => {
     const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
     expect(req.request.method).toBe('GET');
     req.flush(habitListMock);
+  });
+
+  it('should call router navigate on goTOAddOrEditHabit', () => {
+    habitService.goToAddOrEditHabit(habitMock, 2);
+    expect(routerMock.navigate).toHaveBeenCalled();
   });
 });

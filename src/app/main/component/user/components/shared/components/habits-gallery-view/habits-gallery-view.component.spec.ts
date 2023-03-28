@@ -78,4 +78,9 @@ describe('HabitsGalleryViewComponent', () => {
     component.ngOnInit();
     expect((component as any).userId).toBe(1);
   });
+
+  it('should call goToAddOrEditHabit on goHabitMore', () => {
+    component.goHabitMore();
+    expect(habitServiceMock.goToAddOrEditHabit).toHaveBeenCalled();
+  });
 });
