@@ -19,6 +19,7 @@
           [currentLanguage]="currentLanguage"
           [additionalPayment]="additionalPayment"
           (changedOrderStatus)="onChangedOrderStatus($event)"
+          (cancelReason)="onCancelReason($event)"
         >
         </app-ubs-admin-order-status>
         <app-ubs-admin-order-client-info [userInfoDto]="getFormGroup('userInfoDto')" [userInfo]="userInfo" [orderId]="orderId">
@@ -59,7 +60,7 @@
           [orderStatus]="currentOrderStatus"
         >
         </app-ubs-admin-responsible-persons>
-        <app-ubs-admin-order-history [orderInfo]="orderInfo"></app-ubs-admin-order-history>
+        <app-ubs-admin-order-history [orderInfo]="orderInfo" (cancelReason)="onCancelReason($event)"></app-ubs-admin-order-history>
       </div>
       <div class="row">
         <button class="back-button" (click)="goBack()">
