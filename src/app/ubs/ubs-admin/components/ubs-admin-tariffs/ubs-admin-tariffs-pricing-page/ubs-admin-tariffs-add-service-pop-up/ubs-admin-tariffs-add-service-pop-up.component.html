@@ -52,6 +52,9 @@
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
         >
         </textarea>
+        <div class="validation" *ngIf="getControl('description').invalid && getControl('description').touched">
+          <app-ubs-input-error [formElement]="getControl('description')"> </app-ubs-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label for="descriptionEng">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
@@ -63,6 +66,9 @@
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
         >
         </textarea>
+        <div class="validation" *ngIf="getControl('descriptionEng').invalid && getControl('descriptionEng').touched">
+          <app-ubs-input-error [formElement]="getControl('descriptionEng')"> </app-ubs-input-error>
+        </div>
       </div>
     </div>
     <div class="buttons d-flex justify-content-end">

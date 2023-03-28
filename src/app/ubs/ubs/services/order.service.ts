@@ -10,7 +10,6 @@ import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
-import { serializeNodes } from '@angular/compiler/src/i18n/digest';
 
 @Injectable({
   providedIn: 'root'
@@ -157,13 +156,5 @@ export class OrderService {
 
   saveOrderData(): void {
     this.localStorageService.setOrderWithoutPayment(true);
-  }
-
-  saveServiceName(serviceName: string): void {
-    this.localStorageService.setServiceName(serviceName);
-  }
-
-  saveServiceDescription(serviceDescription: string): void {
-    this.localStorageService.setServiceDescription(serviceDescription);
   }
 }

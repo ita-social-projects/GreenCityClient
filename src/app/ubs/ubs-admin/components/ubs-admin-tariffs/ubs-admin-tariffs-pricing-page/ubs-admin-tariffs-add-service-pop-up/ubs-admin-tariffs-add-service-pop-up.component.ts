@@ -128,6 +128,10 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     this.loadingAnim = false;
   }
 
+  getControl(control: string) {
+    return this.addServiceForm.get(control);
+  }
+
   onCancel(): void {
     const matDialogRef = this.dialog.open(ModalTextComponent, {
       hasBackdrop: true,
