@@ -9,7 +9,6 @@ import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
