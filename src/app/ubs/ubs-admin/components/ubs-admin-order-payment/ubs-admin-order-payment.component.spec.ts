@@ -5,7 +5,7 @@ import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/lo
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
-
+import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
 
 describe('UbsAdminOrderPaymentComponent', () => {
@@ -26,210 +26,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
   fakeAmountOfBagsConfirmed.set('2', 2);
   fakeAmountOfBagsConfirmed.set('3', 1);
 
-  const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
-  fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
-  fakeAllPositionsEmployees.set('PositionDto(id=2, name=Менеджер обдзвону)', []);
-  fakeAllPositionsEmployees.set('PositionDto(id=3, name=Логіст)', []);
-  fakeAllPositionsEmployees.set('PositionDto(id=4, name=Штурман)', []);
-  fakeAllPositionsEmployees.set('PositionDto(id=5, name=Водій)', []);
-
-  const fakeOrderInfo: IOrderInfo = {
-    generalOrderInfo: {
-      id: 23,
-      dateFormed: '2022-02-08T15:21:44.85458',
-      adminComment: null,
-      orderStatus: 'FORMED',
-      orderStatusName: 'Сформовано',
-      orderStatusNameEng: 'Formed',
-      orderStatusesDtos: [
-        {
-          ableActualChange: false,
-          key: 'FORMED',
-          translation: 'Сформовано'
-        },
-        {
-          ableActualChange: false,
-          key: 'ADJUSTMENT',
-          translation: 'Узгодження'
-        },
-        {
-          ableActualChange: false,
-          key: 'BROUGHT_IT_HIMSELF',
-          translation: 'Привезе сам'
-        },
-        {
-          ableActualChange: false,
-          key: 'CONFIRMED',
-          translation: 'Підтверджено'
-        },
-        {
-          ableActualChange: false,
-          key: 'ON_THE_ROUTE',
-          translation: 'На маршруті'
-        },
-        {
-          ableActualChange: true,
-          key: 'DONE',
-          translation: 'Виконано'
-        },
-        {
-          ableActualChange: false,
-          key: 'NOT_TAKEN_OUT',
-          translation: 'Не вивезли'
-        },
-        {
-          ableActualChange: true,
-          key: 'CANCELED',
-          translation: 'Скасовано'
-        }
-      ],
-      orderPaymentStatus: 'UNPAID',
-      orderPaymentStatusName: 'Не оплачено',
-      orderPaymentStatusNameEng: 'Unpaid',
-      orderPaymentStatusesDto: [
-        {
-          key: 'PAID',
-          translation: 'Оплачено'
-        },
-        {
-          key: 'UNPAID',
-          translation: 'Не оплачено'
-        },
-        {
-          key: 'HALF_PAID',
-          translation: 'Частково оплачено'
-        },
-        {
-          key: 'PAYMENT_REFUNDED',
-          translation: 'Оплату повернуто'
-        }
-      ]
-    },
-    userInfoDto: {
-      recipientId: 37,
-      customerEmail: 'greencitytest@gmail.com',
-      customerName: 'test',
-      customerPhoneNumber: '380964521167',
-      customerSurName: 'test',
-      recipientEmail: 'test@gmail.com',
-      recipientName: 'test',
-      recipientPhoneNumber: '380964523467',
-      recipientSurName: 'test',
-      totalUserViolations: 0,
-      userViolationForCurrentOrder: 0
-    },
-    addressExportDetailsDto: {
-      addressId: 32,
-      addressCity: 'Київ',
-      addressCityEng: 'Київ',
-      addressDistrict: 'Шевченківський',
-      addressDistrictEng: 'Шевченківський',
-      addressEntranceNumber: 1,
-      addressHouseCorpus: 3,
-      addressHouseNumber: 42,
-      addressRegion: 'Київська область',
-      addressRegionEng: 'Київська область',
-      addressStreet: 'Січових Стрільців вул',
-      addressStreetEng: 'Січових Стрільців вул'
-    },
-    addressComment: '',
-    amountOfBagsConfirmed: fakeAmountOfBagsConfirmed,
-    amountOfBagsExported: new Map(),
-    amountOfBagsOrdered: fakeAmountOfBagsConfirmed,
-    bags: [
-      {
-        actual: 0,
-        capacity: 120,
-        confirmed: 1,
-        id: 1,
-        name: 'Безпечні відходи',
-        planned: 1,
-        price: 250
-      },
-      {
-        actual: 0,
-        capacity: 120,
-        confirmed: 2,
-        id: 2,
-        name: 'Текстильні відходи',
-        planned: 2,
-        price: 300
-      },
-      {
-        actual: 0,
-        capacity: 20,
-        confirmed: 1,
-        id: 3,
-        name: 'Текстильні відходи',
-        planned: 1,
-        price: 50
-      }
-    ],
-    courierPricePerPackage: 65,
-    courierInfo: {
-      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      max: 99,
-      min: 2
-    },
-    orderBonusDiscount: 0,
-    orderCertificateTotalDiscount: 0,
-    orderDiscountedPrice: 900,
-    orderExportedDiscountedPrice: 0,
-    orderExportedPrice: 0,
-    orderFullPrice: 900,
-    certificates: [],
-    numbersFromShop: [],
-    comment: '',
-    paymentTableInfoDto: {
-      overpayment: 480,
-      paidAmount: 250,
-      paymentInfoDtos: [
-        {
-          amount: 200,
-          comment: null,
-          id: 40,
-          imagePath: null,
-          paymentId: '436436436',
-          receiptLink: '',
-          settlementdate: '2022-02-01',
-          currentDate: '2022-02-09'
-        },
-        {
-          amount: 100,
-          comment: null,
-          id: 44,
-          imagePath: null,
-          paymentId: '435643643',
-          receiptLink: '',
-          settlementdate: '2022-08-22',
-          currentDate: '2022-02-09'
-        },
-        {
-          amount: -350,
-          comment: null,
-          id: 45,
-          imagePath: null,
-          paymentId: '3253532',
-          receiptLink: '',
-          settlementdate: '2020-02-18',
-          currentDate: '2022-02-09'
-        }
-      ],
-      unPaidAmount: 650
-    },
-    exportDetailsDto: {
-      allReceivingStations: [],
-      dateExport: null,
-      receivingStationId: null,
-      timeDeliveryFrom: null,
-      timeDeliveryTo: null
-    },
-    employeePositionDtoRequest: {
-      allPositionsEmployees: fakeAllPositionsEmployees,
-      currentPositionEmployees: new Map(),
-      orderId: 23
-    }
-  };
+  const fakeOrderInfo = OrderInfoMockedData;
 
   beforeEach(async(() => {
     storeMock = {
@@ -264,7 +61,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
   it('life cycle hook ngOnInit', () => {
     component.ngOnInit();
-    expect(component.orderId).toBe(23);
+    expect(component.orderId).toBe(1);
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
     expect(component.paymentsArray).toBe(fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos);
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);

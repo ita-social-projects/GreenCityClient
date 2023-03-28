@@ -70,7 +70,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no'
   };
-
+  public paymentSum: string;
   constructor(
     private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
@@ -297,5 +297,10 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     } else {
       this.dialogRef.close();
     }
+  }
+  newFormat(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.paymentSum = parseFloat(target.value).toFixed(2);
+    target.value = this.paymentSum;
   }
 }

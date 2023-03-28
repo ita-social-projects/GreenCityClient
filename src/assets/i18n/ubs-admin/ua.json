@@ -124,7 +124,7 @@
     "order": "Замовлення №",
     "description": "Додайте підтвердження про оплату одним або кількома з доступних способів",
     "payment-date": "Дата оплати",
-    "payment-amount": "Сума оплати",
+    "payment-amount": "Сума оплати (грн)",
     "amount-placeholder": "0 грн",
     "date-placeholder": "ДД.ММ.РРРР",
     "payment-id": "ID платежу",
@@ -192,6 +192,7 @@
   },
   "order-cancel": {
     "title": "Додати причину скасування замовлення",
+    "cancel-reason": "Причина скасування замовлення",
     "reason": {
       "delivered-himself": "Привезено на станцію самостійно",
       "moving-out": "Переїзд",
