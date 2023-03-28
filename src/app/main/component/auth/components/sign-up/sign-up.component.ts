@@ -1,3 +1,4 @@
+import { Patterns } from './../../../../../../assets/patterns/patterns';
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
@@ -154,7 +155,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   private onFormInit(): void {
     this.signUpForm = this.formBuilder.group(
       {
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]],
         firstName: ['', []],
         password: ['', []],
         repeatPassword: ['', []]
