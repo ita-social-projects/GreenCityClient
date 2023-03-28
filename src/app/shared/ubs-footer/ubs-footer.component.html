@@ -1,52 +1,35 @@
 <footer role="contentinfo" class="footer" (window:resize)="onResize()">
   <div class="container-fluid">
-    <div class="menu-left">
+    <div class="footer-menu">
       <div class="footer-logo">
         <a [routerLink]="['/ubs']" role="button">
-          <img [src]="footerPicture.ubsLogoFooter" class="logo" alt="Footer picture" />
+          <img [src]="footerPicture.ubsLogoFooter" alt="Footer logo" />
         </a>
       </div>
-      <ul *ngIf="screenWidth >= 1024" class="footer-menu">
-        <a class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
-        <li *ngFor="let link of ubsNavLinks" tabindex="0" role="listitem">
-          <a [href]="link.route" target="_blank" rel="noopener noreferrer">
-            {{ link.name | translate }}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="menu-right">
-      <div class="social-networks">
-        <a target="_blank" href="https://www.facebook.com/NowasteUkraine/" rel="noopener">
-          <img [src]="footerPicture.facebookIcon" class="icon" alt="facebook picture" />
-        </a>
-        <a target="_blank" href="https://www.instagram.com/nowasteukraine/" rel="noopener">
-          <img [src]="footerPicture.instagramIcon" class="icon" alt="instagram picture" />
-        </a>
-        <a target="_blank" href="https://t.me/nowasteukraine" rel="noopener">
-          <img [src]="footerPicture.telegramIcon" class="icon" alt="telefram picture" />
-        </a>
-        <a target="_blank" href="https://www.youtube.com/channel/UChFVBZ_HcaQYiF-GcMHiCNA" rel="noopener">
-          <img [src]="footerPicture.youTubeIcon" class="icon" alt="youtube picture" />
-        </a>
+      <div class="footer-menu_main">
+        <ul class="footer-menu_links">
+          <a class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
+          <li *ngFor="let link of ubsNavLinks" tabindex="0" role="listitem">
+            <a [href]="link.route" target="_blank" rel="noopener" class="route-link">
+              {{ link.name | translate }}
+            </a>
+          </li>
+        </ul>
+        <div class="footer-menu_social-media">
+          <div *ngFor="let link of socialLinks">
+            <a target="_blank" [href]="link.url" rel="noopener">
+              <img [src]="link.icon" class="icon" [alt]="link.name + ' icon'" />
+            </a>
+          </div>
+        </div>
       </div>
-      <div *ngIf="screenWidth >= 1024" class="footer-bottom-part">
-        <p class="par">Copyright © {{ currentYear }} · All Rights Reserved</p>
-      </div>
-    </div>
-  </div>
-  <div class="footer-container-mobile" *ngIf="screenWidth < 1024">
-    <div class="footer-menu-mobile">
-      <ul class="footer-menu">
-        <a class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
-        <li *ngFor="let link of ubsNavLinks" tabindex="0" role="listitem">
-          <a [href]="link.route" target="_blank" rel="noopener noreferrer">
-            {{ link.name | translate }}
-          </a>
-        </li>
-      </ul>
     </div>
     <div class="footer-bottom-part">
+      <div class="footer-logo_mobile">
+        <a [routerLink]="['/ubs']" role="button">
+          <img [src]="footerPicture.ubsLogoFooter" alt="Footer picture" />
+        </a>
+      </div>
       <p class="par">Copyright © {{ currentYear }} · All Rights Reserved</p>
     </div>
   </div>
