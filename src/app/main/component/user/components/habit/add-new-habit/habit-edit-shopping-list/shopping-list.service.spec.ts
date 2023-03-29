@@ -55,7 +55,7 @@ describe('ShoppingListService', () => {
   };
 
   const mockUpdateHabitList: HabitUpdateShopList = {
-    habitId: 2,
+    habitAssignId: 2,
     standartShopList: [
       {
         id: 1,
@@ -91,37 +91,26 @@ describe('ShoppingListService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return shopList by userId and lang on gethopList', () => {
-    service.getShopList(1, 'ua').subscribe((data) => {
-      expect(data).toBe(mockList);
-    });
-
-    const req = httpMock.expectOne(`${mainLink}user/shopping-list-items/1/get-all-inprogress?lang=ua`);
-    expect(req.request.responseType).toEqual('json');
-    expect(req.request.method).toBe('GET');
-    req.flush(mockList);
-  });
-
-  it('should return shopList by userId on getCustomShopList', () => {
-    service.getCustomShopList(1).subscribe((data) => {
-      expect(data).toBe(mockList);
-    });
-
-    const req = httpMock.expectOne(`${mainLink}custom/shopping-list-items/1/custom-shopping-list-items`);
-    expect(req.request.responseType).toEqual('json');
-    expect(req.request.method).toBe('GET');
-    req.flush(mockList);
-  });
-
   it('should return allShopList by habitId on getHabitAllShopLists', () => {
     service.getHabitAllShopLists(2, 'en').subscribe((data) => {
-      expect(data).toBe(mockAllShopList);
+      expect(data).toEqual(mockAllShopList);
     });
 
     const req = httpMock.expectOne(`${mainLink}habit/assign/2/allUserAndCustomList?lang=en`);
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
     req.flush(mockAllShopList);
+  });
+
+  it('should return all user shopList by lang on getUserShoppingLists', () => {
+    service.getUserShoppingLists('ua').subscribe((data) => {
+      expect(data).toEqual([mockAllShopList]);
+    });
+
+    const req = httpMock.expectOne(`${mainLink}habit/assign/allUserAndCustomShoppingListsInprogress?lang=ua`);
+    expect(req.request.responseType).toEqual('json');
+    expect(req.request.method).toBe('GET');
+    req.flush([mockAllShopList]);
   });
 
   it('should add Habit Custom Shop List', () => {

@@ -4,7 +4,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -23,6 +24,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public assignedHabit: HabitAssignInterface;
   public habitResponse: HabitResponseInterface;
   public habitId: number;
+  private habitAssignId: number;
   public tags: string[];
   public recommendedHabits: HabitResponseInterface;
   public amountAcquired = 6;
@@ -59,7 +61,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private habitAssignService: HabitAssignService,
     private shopListService: ShoppingListService,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -67,7 +70,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
-      this.habitId = +params.habitId;
+      if (this.router.url.includes('add')) {
+        this.habitId = +params.habitId;
+      }
+      if (this.router.url.includes('edit')) {
+        this.isEditing = true;
+        this.habitAssignId = +params.habitAssignId;
+      }
     });
     this.checkIfAssigned();
   }
@@ -84,30 +93,40 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     });
   }
 
+  public checkIfAssigned(): void {
+    if (this.isEditing) {
+      this.habitAssignService
+        .getHabitByAssignId(this.habitAssignId)
+        .pipe(take(1))
+        .subscribe((res) => {
+          this.assignedHabit = res;
+          this.habitId = this.assignedHabit.habit.id;
+          this.isAcquited = this.assignedHabit.status === 'ACQUIRED';
+          this.initialDuration = res.duration;
+          this.initHabitData(res.habit);
+          this.getCustomShopList();
+        });
+    }
+    if (!this.isEditing) {
+      this.getDefaultHabit();
+      this.getStandartShopList();
+    }
+  }
+
   public getDefaultHabit(): void {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
       .subscribe((data) => {
         this.initHabitData(data);
+        this.initialDuration = data.defaultDuration;
       });
   }
 
-  private getCustomHabit(): void {
-    this.habitAssignService
-      .getCustomHabit(this.habitId)
-      .pipe(take(1))
-      .subscribe((data) => {
-        this.initHabitData(data);
-      });
-  }
-
-  private initHabitData(data): void {
-    this.habitResponse = data;
-    this.tags = data.tags;
-    this.getStars(data.complexity);
-    this.initialDuration = data.defaultDuration;
-    this.isAcquited = data.habitAssignStatus === 'ACQUIRED';
+  private initHabitData(habit): void {
+    this.habitResponse = habit;
+    this.tags = habit.tags;
+    this.getStars(habit.complexity);
   }
 
   public getStars(complexity: number): void {
@@ -116,8 +135,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  onGoBack(): void {
-    this.router.navigate(['/profile']);
+  goBack(): void {
+    this.location.back();
   }
 
   private getUserId() {
@@ -148,37 +167,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private getCustomShopList(): void {
     this.shopListService
-      .getHabitAllShopLists(this.habitId, this.currentLang)
+      .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
         res.customShoppingListItemDto.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
-      });
-  }
-
-  public checkIfAssigned(): void {
-    this.habitAssignService
-      .getAssignedHabits()
-      .pipe(take(1))
-      .subscribe((response: Array<HabitAssignInterface>) => {
-        for (const assigned of response) {
-          if (assigned.habit.id === this.habitId) {
-            this.isEditing = true;
-            this.assignedHabit = assigned;
-            if (this.assignedHabit.habit.tags && this.assignedHabit.habit.tags.length) {
-              this.tags = this.assignedHabit.habit.tags;
-            }
-            break;
-          }
-        }
-        if (this.isEditing) {
-          this.getCustomHabit();
-          this.getCustomShopList();
-        }
-        if (!this.isEditing) {
-          this.getDefaultHabit();
-          this.getStandartShopList();
-        }
       });
   }
 
@@ -203,7 +196,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .subscribe((confirm) => {
         if (confirm) {
           this.habitAssignService
-            .deleteHabitById(this.habitId)
+            .deleteHabitById(this.habitAssignId)
             .pipe(take(1))
             .subscribe(() => {
               this.goToProfile();
@@ -250,38 +243,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   public updateHabit(): void {
-    if (this.customShopList || this.standartShopList) {
-      this.convertShopLists();
-      const habitShopListUpdate = this.setHabitListForUpdate();
-      this.shopListService
-        .updateHabitShopList(habitShopListUpdate)
-        .pipe(take(1))
-        .subscribe(() => {
-          this.goToProfile();
-          this.snackBar.openSnackBar('habitUpdated');
-        });
-    }
-  }
-
-  private convertShopLists(): void {
-    this.customShopList.forEach((el) => {
-      delete el.custom;
-      delete el.selected;
-    });
-    this.standartShopList.forEach((el) => {
-      delete el.custom;
-      delete el.selected;
-    });
-  }
-
-  private setHabitListForUpdate(): HabitUpdateShopList {
-    const shopListUpdate: HabitUpdateShopList = {
-      habitId: this.habitId,
-      customShopList: this.customShopList,
-      standartShopList: this.standartShopList,
-      lang: this.currentLang
-    };
-    return shopListUpdate;
+    this.habitAssignService
+      .updateHabit(this.habitAssignId, this.newDuration)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.goToProfile();
+        this.snackBar.openSnackBar('habitUpdated');
+      });
   }
 
   public setHabitStatus(): void {

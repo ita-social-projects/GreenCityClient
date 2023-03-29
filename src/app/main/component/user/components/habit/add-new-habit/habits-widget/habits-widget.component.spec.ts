@@ -96,6 +96,7 @@ describe('HabitsWidgetComponent', () => {
   });
 
   it('should call two methods on ngAfterViewInit', () => {
+    component.tag = 'test';
     const spy1 = spyOn(component as any, 'getRecommendedHabits');
     const spy2 = spyOn(component as any, 'getRecommendedNews');
     component.ngAfterViewInit();

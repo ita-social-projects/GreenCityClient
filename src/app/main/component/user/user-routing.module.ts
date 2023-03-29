@@ -22,6 +22,7 @@ export const userRoutes: Routes = [
       { path: ':id/edit', component: EditProfileComponent, canDeactivate: [PendingChangesGuard] },
       { path: ':id/allhabits', component: AllHabitsComponent },
       { path: ':id/allhabits/addhabit/:habitId', component: AddNewHabitComponent },
+      { path: ':id/allhabits/edithabit/:habitAssignId', component: AddNewHabitComponent },
       { path: '', component: ProfileComponent },
       {
         path: ':id/friends',
