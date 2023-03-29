@@ -64,16 +64,15 @@
     width: 288px;
     height: 128px;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 0;
-  }
+    gap: 24px;
 
-  .secondary-global-button {
-    margin-bottom: 32px;
+    button {
+      width: 200px;
+    }
   }
 }
 
-@media screen and (max-width: 319px) {
+@media screen and (max-width: 320px) {
   .warning-text {
     text-align: center;
     margin-bottom: 15px;
@@ -84,13 +83,11 @@
     right: 5px;
   }
 
-  .buttons-container {
-    width: auto;
-  }
-
   .secondary-global-button,
   .primary-global-button {
-    height: auto;
+    height: 36px;
+    line-height: 20px;
+    font-size: 14px;
     margin-bottom: 5px;
   }
 }

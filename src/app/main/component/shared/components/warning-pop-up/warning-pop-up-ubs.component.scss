@@ -36,40 +36,6 @@
       display: flex;
       justify-content: flex-end;
     }
-
-    .primary-global-button,
-    .secondary-global-button {
-      font-family: var(--ubs-quaternary-font);
-    }
-
-    .primary-global-button {
-      width: 110px;
-      color: var(--ubs-quaternary-dark-grey);
-      border-color: var(--ubs-button-light-green);
-      background: var(--ubs-button-light-green);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-
-      &:disabled {
-        background: var(--ubs-quaternary-light-grey);
-        border-color: var(--ubs-quaternary-light-grey);
-        color: var(--ubs-secondary-grey);
-      }
-    }
-
-    .secondary-global-button {
-      background-color: #fff;
-      color: var(--ubs-quaternary-dark-grey);
-      border-color: var(--ubs-quaternary-dark-grey);
-      margin-right: 25px;
-      width: 120px;
-    }
-
-    .submit-cancel,
-    .submit-confirm {
-      width: 120px;
-    }
   }
 
   @media screen and (max-width: 767px) {
@@ -99,19 +65,12 @@
 
     .buttons-container {
       flex-direction: column;
-      justify-content: space-between;
       align-items: center;
-    }
+      gap: 24px;
 
-    .secondary-global-button,
-    .primary-global-button {
-      height: 44px !important;
-      width: 200px !important;
-    }
-
-    .secondary-global-button {
-      margin-right: 0 !important;
-      margin-bottom: 32px;
+      button {
+        width: 200px;
+      }
     }
 
     .close {
@@ -121,9 +80,17 @@
     }
   }
 
-  @media screen and (max-width: 319px) {
+  @media screen and (max-width: 320px) {
     .warning-text {
       text-align: center;
+    }
+
+    .ubs-secondary-global-button,
+    .ubs-primary-global-button {
+      height: 36px;
+      line-height: 20px;
+      font-size: 14px;
+      margin-bottom: 5px;
     }
   }
 }
