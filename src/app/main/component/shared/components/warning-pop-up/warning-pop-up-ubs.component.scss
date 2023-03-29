@@ -1,40 +1,25 @@
 ::ng-deep .custom-ubs-style {
   .main-container {
-    position: relative;
     max-width: 509px;
     height: 167px;
     border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     padding: 36px 20px 20px 20px;
     margin: -24px;
 
     .close {
-      position: absolute;
       margin-top: -20px;
       margin-right: -10px;
       top: 0;
       right: 0;
-      border: none;
-      background-color: transparent;
-      outline: none;
     }
 
     .warning-text {
-      display: flex;
-      flex-direction: column;
       font-family: var(--ubs-quaternary-font);
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       line-height: 24px;
       color: var(--ubs-primary-grey);
-    }
-
-    .buttons-container {
-      display: flex;
-      justify-content: flex-end;
     }
   }
 
@@ -61,16 +46,6 @@
     .warning-text {
       max-width: 288px;
       margin-bottom: 89px;
-    }
-
-    .buttons-container {
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-
-      button {
-        width: 200px;
-      }
     }
 
     .close {
