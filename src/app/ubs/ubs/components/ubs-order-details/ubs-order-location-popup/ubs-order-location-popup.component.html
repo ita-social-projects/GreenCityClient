@@ -28,12 +28,12 @@
   <ng-template #spinner>
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>
-  <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
+  <mat-dialog-actions class="footer-btns">
+    <button class="ubs-secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button
-      class="btn primaryButton primary-global-button"
+      class="ubs-primary-global-button"
       [disabled]="isFetching || !currentLocation || myControl.invalid"
       cdkFocusInitial
       (click)="saveLocation()"

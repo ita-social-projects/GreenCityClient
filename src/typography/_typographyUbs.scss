@@ -1,6 +1,25 @@
 @import 'colorsUbs';
 @import 'fontsUbs';
 
+.address-matDialog-styles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .mat-dialog-container {
+    width: 80%;
+    max-height: 90vh;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .address-matDialog-styles .mat-dialog-container {
+    width: 100%;
+  }
+}
+
 .ubs-primary-global-button,
 .ubs-secondary-global-button,
 .ubs-danger-global-button {
@@ -74,16 +93,27 @@
 }
 
 .ubs-link-global-button {
+  color: var(--ubs-dark-purple);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.ubs-back-link-global-button {
+  color: var(--ubs-primary-grey);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ubs-link-global-button,
+.ubs-back-link-global-button {
   padding: 0;
   font-family: var(--ubs-quaternary-font);
-  font-weight: 400;
   font-style: normal;
-  font-size: 16px;
+  text-align: left;
   line-height: 20px;
   letter-spacing: 0.1px;
   border: 0;
   outline: 0;
-  color: var(--ubs-dark-purple);
   background-color: transparent;
 
   &:hover,
@@ -114,6 +144,15 @@
   outline: 0;
   text-decoration-line: underline;
   text-shadow: 2px 6px 10px var(--ubs-button-shadow);
+}
+
+.link-underline {
+  border-bottom: 1px solid var(--ubs-primary-grey);
+
+  &:hover,
+  &:active {
+    border-bottom: 1px solid var(--ubs-accent-purple);
+  }
 }
 
 .m-btn {

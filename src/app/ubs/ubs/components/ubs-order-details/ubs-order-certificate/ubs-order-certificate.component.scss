@@ -8,12 +8,10 @@ p {
   font-size: 12px;
 }
 
-.addCertificate {
+.add-certificate {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
-  width: 44%;
 
   button {
     margin: 0;
@@ -24,6 +22,8 @@ p {
   }
 
   .input-border {
+    max-width: 215px;
+    margin-right: 16px;
     background: var(--ubs-primary-white);
     border: 1px solid var(--ubs-quintynary-light-grey);
 
@@ -65,47 +65,12 @@ small.text-message.ng-star-inserted {
 }
 
 .primary-global-button {
-  padding: 8px 14px;
   margin: 16px 0 0;
-  border-radius: 4px;
-  font-size: 14px;
   width: 8rem;
-  height: 2.25rem;
-  color: var(--ubs-quaternary-dark-grey);
-  border-color: var(--ubs-button-light-green);
-  background: var(--ubs-button-light-green);
 }
 
-.btn:nth-child(1) {
-  color: var(--ubs-quaternary-dark-grey);
-}
-
-.buttons {
-  margin-top: 46px;
-
-  & .btn:nth-child(1) {
-    margin-right: 1rem;
-    width: 136px;
-  }
-
-  & .btn:nth-child(2) {
-    width: 88px;
-  }
-}
-
-.addCertificateBtn {
+.s-link {
   width: 180px;
-  padding: 0;
-  text-align: left;
-  background: none;
-  color: var(--ubs-electric-violet);
-  outline: none;
-  font-size: 14px;
-  border: none;
-
-  &:hover {
-    background: none;
-  }
 }
 
 .radio-btn {
@@ -189,25 +154,28 @@ small.text-message.ng-star-inserted {
 }
 
 @media screen and (max-width: 575px) {
-  .addOrderBtn {
-    color: var(--ubs-button-light-grey);
-    border: 1px solid;
-    border-radius: 3px;
-    font-style: normal;
-    font-weight: bold;
-    padding: 0.5em 1em;
-    margin: 1em 0;
+  .certificate-container,
+  .add-certificate {
+    flex-direction: column;
+    width: 100%;
+
+    .input-border {
+      max-width: 240px;
+    }
+
+    .input-border {
+      text-align: center;
+      width: 240px;
+      padding: 0.7rem 1.7rem;
+      margin: 0;
+    }
+  }
+
+  .s-link {
     text-align: center;
   }
 
-  .certificate-container,
-  .addCertificate {
-    flex-direction: column;
-    width: auto;
-
-    input {
-      padding: 0.7rem 1.7rem;
-      max-width: 128px;
-    }
+  .s-btn {
+    width: 240px;
   }
 }
