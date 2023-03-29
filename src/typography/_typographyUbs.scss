@@ -14,12 +14,6 @@
   }
 }
 
-@media screen and (max-width: 620px) {
-  .address-matDialog-styles .mat-dialog-container {
-    width: 100%;
-  }
-}
-
 .ubs-primary-global-button,
 .ubs-secondary-global-button,
 .ubs-danger-global-button {
@@ -169,4 +163,10 @@
 
 .s-link {
   font-size: 14px;
+}
+
+@media (max-width: 620px) {
+  .address-matDialog-styles .mat-dialog-container {
+    width: 100%;
+  }
 }

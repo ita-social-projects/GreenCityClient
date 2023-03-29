@@ -153,18 +153,15 @@ small.text-message.ng-star-inserted {
   }
 }
 
-@media screen and (max-width: 575px) {
+@media (max-width: 575px) {
   .certificate-container,
   .add-certificate {
     flex-direction: column;
     width: 100%;
 
     .input-border {
-      max-width: 240px;
-    }
-
-    .input-border {
       text-align: center;
+      max-width: 240px;
       width: 240px;
       padding: 0.7rem 1.7rem;
       margin: 0;

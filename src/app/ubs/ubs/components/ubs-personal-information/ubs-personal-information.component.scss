@@ -197,7 +197,7 @@ label,
   accent-color: var(--ubs-freinacht-black);
 }
 
-@media screen and (max-width: 767px) {
+@media (max-width: 767px) {
   h3 {
     font-size: 1.3rem;
   }
@@ -215,26 +215,28 @@ label,
   }
 }
 
-@media screen and (max-width: 480px) {
+@media (max-width: 480px) {
   .buttons {
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    width: 100%;
-    margin-bottom: 24px;
     padding: 0;
 
     button {
       font-size: 16px;
     }
-  }
 
-  .btn-canc-sub {
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    gap: 16px;
+    .btn-canc-sub {
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding: 0;
 
-    button {
-      width: 42%;
+      button {
+        width: 42%;
+      }
     }
   }
 }
