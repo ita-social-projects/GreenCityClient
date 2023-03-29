@@ -22,14 +22,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() generalInfo: IGeneralOrderInfo;
   @Input() currentLanguage: string;
   @Input() additionalPayment: string;
-
   @Output() changedOrderStatus = new EventEmitter<string>();
+  @Output() cancelReason = new EventEmitter<string>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
   public isOrderStatusSelected = true;
+  public isHistory = false;
 
   get adminComment() {
     return this.generalOrderInfo.get('adminComment');
@@ -77,7 +78,8 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   openPopup() {
     this.dialog
       .open(AddOrderCancellationReasonComponent, {
-        hasBackdrop: true
+        hasBackdrop: true,
+        data: { isHistory: this.isHistory }
       })
       .afterClosed()
       .pipe(take(1))
@@ -93,6 +95,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
           this.generalOrderInfo.get('cancellationComment').setValue(res.comment);
           this.generalOrderInfo.get('cancellationComment').markAsDirty();
         }
+        this.cancelReason.emit(res);
       });
   }
 

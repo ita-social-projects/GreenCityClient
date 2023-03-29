@@ -1,9 +1,10 @@
 import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStutuses } from '../../models/ubs-admin.interface';
+import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStatuses } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 @Component({
@@ -18,8 +19,9 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
+  public isHistory = true;
   orderNotTakenOutReason: INotTakenOutReason;
-  coloredStutus = ordersStutuses.NotTakenOutUA || ordersStutuses.CanselUA;
+  coloredStatus = ordersStatuses.NotTakenOutUA && ordersStatuses.CanselUA;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -43,10 +45,23 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.pageOpen = !this.pageOpen;
   }
 
-  showPopup(orderHistoryId: number): void {
+  showPopup(orderHistoryId) {
     this.orderHistory.forEach((order) => {
-      if (order.id === orderHistoryId && order.result === ordersStutuses.NotTakenOutUA) {
+      if (order.id === orderHistoryId && order.result === ordersStatuses.CanselUA) {
+        this.openCancelReason();
+      }
+      if (order.id === orderHistoryId && order.result === ordersStatuses.NotTakenOutUA) {
         this.openNotTakenOutReason(orderHistoryId);
+      }
+    });
+  }
+
+  openCancelReason() {
+    this.dialog.open(AddOrderCancellationReasonComponent, {
+      hasBackdrop: true,
+      data: {
+        isHistory: this.isHistory,
+        orderID: this.orderInfo.generalOrderInfo.id
       }
     });
   }

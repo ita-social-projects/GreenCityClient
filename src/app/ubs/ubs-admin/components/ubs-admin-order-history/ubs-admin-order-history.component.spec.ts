@@ -3,22 +3,30 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { IOrderInfo, IEmployee, INotTakenOutReason } from '../../models/ubs-admin.interface';
 import { of, Subject } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
+
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
 
 describe('UbsAdminOrderHistoryComponent', () => {
   let component: UbsAdminOrderHistoryComponent;
   let fixture: ComponentFixture<UbsAdminOrderHistoryComponent>;
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOrderHistory']);
+  const MatDialogRefMock = { close: () => {} };
   const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
-  const MatDialogRefMock = {
-    close: () => {}
-  };
 
   const orderNotTakenOutReasonMock: INotTakenOutReason = {
     description: 'string',
@@ -41,13 +49,21 @@ describe('UbsAdminOrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, NoopAnimationsModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        NoopAnimationsModule,
+        MatDialogModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot()
+      ],
       declarations: [UbsAdminOrderHistoryComponent],
       providers: [
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: MatDialog, useValue: matDialogMock },
-        { provide: MatDialogRef, useValue: dialogStub },
-        { provide: MAT_DIALOG_DATA, useValue: MatDialogRefMock }
+        { provide: MatDialog, useClass: MatDialogMock },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        FormBuilder
       ]
     }).compileComponents();
   }));
@@ -129,11 +145,55 @@ describe('UbsAdminOrderHistoryComponent', () => {
     expect(component.pageOpen).toBe(false);
   });
 
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    (component as any).destroy$ = new Subject<boolean>();
-    spyOn((component as any).destroy$, 'complete');
-    component.ngOnDestroy();
-    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
+  it('should call showPopup when user click on special status', () => {
+    const spy = spyOn(component, 'showPopup');
+    component.showPopup(1);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should  NOT to call openCancelReason when order history event name isnt "Скасовано"', () => {
+    const orderHistoryId = 1;
+    const orderHistoryMock = [
+      {
+        authorName: 'Kateryna',
+        eventDate: '2022-09-11',
+        eventName: 'На маршуті',
+        id: orderHistoryId
+      }
+    ];
+    const spy = spyOn(component, 'openCancelReason');
+    component.orderHistory = orderHistoryMock;
+    component.showPopup(orderHistoryId);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should  NOT to call openCancelReason when order history id doesn"t match orderHistoryMock', () => {
+    const orderHistoryId = 1;
+    const orderHistoryMock = [
+      {
+        authorName: 'Kateryna',
+        eventDate: '2022-09-11',
+        eventName: 'Скасовано',
+        id: 3
+      }
+    ];
+    const spy = spyOn(component, 'openCancelReason');
+    component.orderHistory = orderHistoryMock;
+    component.showPopup(orderHistoryId);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('openDialog should be called', () => {
+    const spy = spyOn(MatDialogMock.prototype, 'open');
+    MatDialogMock.prototype.open();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('openCancelReason should call dialog.open once', () => {
+    const spy = spyOn((component as any).dialog, 'open');
+    component.orderInfo = OrderInfoMock;
+    component.openCancelReason();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

@@ -385,7 +385,7 @@ export interface IBigOrderTableOrderInfo {
   senderEmail: string;
   violationsAmount: number;
   region: string;
-  settlement: string;
+  city: string;
   district: string;
   address: string;
   commentToAddressForClient: string;
@@ -514,7 +514,7 @@ export enum FormFieldsName {
   ReceivingStation = 'receivingStation'
 }
 
-export enum ordersStutuses {
+export enum ordersStatuses {
   NotTakenOutUA = 'Не вивезли',
   NotTakenOutEN = 'Not taken out',
   CanselUA = 'Скасовано',
