@@ -21,6 +21,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
+  photoArrays: string[] = [];
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
   private destroy$ = new Subject<void>();
@@ -51,6 +52,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
     this.buildHabitDescription();
+    this.fillArray();
   }
 
   public goToHabitProfile() {
@@ -69,6 +71,14 @@ export class OneHabitComponent implements OnInit, OnDestroy {
         this.descriptionType.undone();
       }
     }
+  }
+
+  fillArray(): string {
+    this.photoArrays.push(this.firstFriend, this.secondFriend);
+    this.photoArrays.forEach((el) => {
+      return this.photoArrays[el];
+    });
+    return '';
   }
 
   setGreenCircleInCalendar(isSetCircle: boolean) {
