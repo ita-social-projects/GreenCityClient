@@ -1,8 +1,8 @@
 import { takeUntil } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
@@ -12,7 +12,7 @@ import { Subscription } from 'stompjs';
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.scss']
 })
-export class ShoppingListComponent implements OnInit, OnDestroy {
+export class ShoppingListComponent implements OnInit {
   public shoppingList: ShoppingList[] = [];
   public toggle: boolean;
   private userId: number;
@@ -34,29 +34,26 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   private subscribeToLangChange(): void {
     this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
       this.currentLang = lang;
-      this.getCustomShopList();
+      this.getAllShopLists();
     });
   }
 
-  private getCustomShopList(): void {
+  private getAllShopLists(): void {
     this.shopListService
-      .getCustomShopList(this.userId)
+      .getUserShoppingLists(this.currentLang)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ShoppingList[]) => {
-        this.shoppingList = res.filter((el) => el.status === 'INPROGRESS'); // will be removed after add new GET controller on backend
-        this.shoppingList.forEach((el) => (el.custom = true));
-        this.getShoppingList();
+      .subscribe((list) => {
+        const customShopList = this.convertShopList(list, 'custom');
+        const standardShopList = this.convertShopList(list, 'standard');
+        customShopList.forEach((el) => (el.custom = true));
+        this.shoppingList = [...customShopList, ...standardShopList];
       });
   }
 
-  private getShoppingList(): void {
-    this.shopListService
-      .getShopList(this.userId, this.currentLang)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((res: ShoppingList[]) => {
-        this.shoppingList = [...this.shoppingList, ...res];
-        this.shoppingList = this.shoppingList.map((el) => (el.status === 'DONE' ? { ...el, selected: true } : el));
-      });
+  public convertShopList(list: AllShoppingLists[], type: string): ShoppingList[] {
+    return list.reduce((acc, obj) => {
+      return acc.concat(type === 'custom' ? obj.customShoppingListItemDto : obj.userShoppingListItemDto);
+    }, []);
   }
 
   public openCloseList(): void {
@@ -89,10 +86,5 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   private updateShopList(item: ShoppingList): void {
     this.shoppingList = this.shoppingList.map((el) => (el.id === item.id ? { ...el, status: item.status } : el));
     this.cdr.detectChanges();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }
