@@ -68,6 +68,12 @@ header {
   }
 }
 
+.primary-global-button:focus,
+.secondary-global-button:focus,
+.tertiary-global-button:focus {
+  border: unset !important;
+}
+
 .header_sign-in-link {
   font-size: 12px;
   font-weight: 600;
