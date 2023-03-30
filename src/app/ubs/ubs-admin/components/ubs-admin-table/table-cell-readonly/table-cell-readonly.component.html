@@ -3,7 +3,8 @@
   #tooltip="matTooltip"
   matTooltip="{{ title | serverTranslate: lang }}"
   matTooltipClass="my-custom-tooltip"
-  [matTooltipDisabled]="!isTooltipEnabled(title | serverTranslate: lang)"
+  (mouseenter)="showTooltip($event, tooltip)"
+  (mouseleave)="tooltip.hide()"
 >
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>
