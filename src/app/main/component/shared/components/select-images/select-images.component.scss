@@ -1,0 +1,15 @@
+.images-container {
+  height: 94px;
+  width: 158px;
+  border: 1px solid var(--quintynary-light-grey);
+  border-radius: 4px;
+  background: var(--primary-white);
+
+  &:hover {
+    border: 2px solid var(--primary-green);
+  }
+
+  .image {
+    height: 80px;
+  }
+}

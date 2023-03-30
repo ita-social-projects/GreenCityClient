@@ -61,6 +61,7 @@
             <div>
               <label class="label">{{ 'create-news.picture-title' | translate }}</label>
               <app-drag-and-drop [formData]="habitForm"></app-drag-and-drop>
+              <app-select-images [images]="habitImages" class="select-image"></app-select-images>
             </div>
           </div>
         </div>
@@ -88,8 +89,8 @@
           </div>
         </div>
         <div class="add-habit-container">
-          <button class="tertiary-global-button btn" (click)="goToAllHabits()">{{ 'user.habit.btn.cancel' | translate }}</button>
-          <button class="primary-global-button btn" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
+          <button class="tertiary-global-button" (click)="goToAllHabits()">{{ 'user.habit.btn.cancel' | translate }}</button>
+          <button class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
             {{ 'user.habit.btn.add' | translate }}
           </button>
         </div>

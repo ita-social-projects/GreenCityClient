@@ -20,26 +20,31 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./add-edit-custom-habit.component.scss']
 })
 export class AddEditCustomHabitComponent implements OnInit {
-  public habitForm: FormGroup;
-  public habit: any;
-  public complexityList = [
+  habitForm: FormGroup;
+  habit: any;
+  complexityList = [
     { value: 1, name: 'user.habit.add-new-habit.difficulty.easy' },
     { value: 2, name: 'user.habit.add-new-habit.difficulty.medium' },
     { value: 3, name: 'user.habit.add-new-habit.difficulty.hard' }
   ];
-  public lineStar = 'assets/img/icon/star-2.png';
-  public greenStar = 'assets/img/icon/star-1.png';
-  public initialDuration = 7;
-  public shopList: ShoppingList[] = [];
-  public newList: ShoppingList[] = [];
-  public tagsList: TagInterface[];
-  public selectedTagsList: string[];
+  habitImages = [
+    { src: 'assets/img/habits/habit-1.png', alt: 'Man with papers around on green background' },
+    { src: 'assets/img/habits/habit-2.png', alt: 'Man with cup of cofee on green background' },
+    { src: 'assets/img/habits/habit-3.png', alt: 'Woman on green background' }
+  ];
+  lineStar = 'assets/img/icon/star-2.png';
+  greenStar = 'assets/img/icon/star-1.png';
+  initialDuration = 7;
+  shopList: ShoppingList[] = [];
+  newList: ShoppingList[] = [];
+  tagsList: TagInterface[];
+  selectedTagsList: string[];
 
-  public quillModules = {};
-  public isEditing = false;
+  quillModules = {};
+  isEditing = false;
+
   private userId: number;
   private currentLang: string;
-
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(

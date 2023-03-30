@@ -207,6 +207,11 @@ input[type='radio'] + img {
   }
 }
 
+.select-image {
+  display: flex;
+  justify-content: space-between;
+}
+
 .add-habit-container {
   margin: 32px 0;
   width: 100%;
@@ -215,7 +220,7 @@ input[type='radio'] + img {
   justify-content: flex-end;
   gap: 32px;
 
-  .btn {
+  button {
     width: 180px;
   }
 }

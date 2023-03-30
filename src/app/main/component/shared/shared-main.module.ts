@@ -34,6 +34,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { TagsSelectComponent } from './components/tags-select/tags-select.component';
 import { InputErrorComponent } from './components/input-error/input-error.component';
+import { SelectImagesComponent } from './components/select-images/select-images.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -55,7 +56,8 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
-    InputErrorComponent
+    InputErrorComponent,
+    SelectImagesComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -105,7 +107,8 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemComponent,
     EventsListItemModalComponent,
     TagsSelectComponent,
-    InputErrorComponent
+    InputErrorComponent,
+    SelectImagesComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
