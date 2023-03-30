@@ -170,6 +170,9 @@ header {
 }
 
 .header_logo {
+  display: flex;
+  justify-content: center;
+  align-content: center;
   margin-right: 24px;
   margin-left: 20px;
 }
