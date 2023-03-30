@@ -213,7 +213,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.restoredFilters.forEach((filter) => {
           if (Object.keys(filter).length < 2) {
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
-            const isLocation = column == 'city' || column == 'district';
+            const isLocation = column === 'city' || column === 'district';
             const value = String(Object.values(filter)[0]);
             const options: IFilteredColumnValue = isLocation ? { en: value, filtered: true } : { key: value, filtered: true };
             this.changeFilters(true, column, options);

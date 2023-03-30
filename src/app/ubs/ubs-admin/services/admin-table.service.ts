@@ -142,8 +142,8 @@ export class AdminTableService {
 
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
-    let columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
-    const isLocation = columnName == 'citiesEn' || columnName == 'districtsEn';
+    const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const isLocation = columnName === 'citiesEn' || columnName === 'districtsEn';
     this.columnsForFiltering.find((column) => {
       if (column.key === currentColumn) {
         column.values.find((value) => {
