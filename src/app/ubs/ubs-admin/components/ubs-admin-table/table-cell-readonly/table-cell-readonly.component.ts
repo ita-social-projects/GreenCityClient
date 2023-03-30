@@ -29,16 +29,10 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         : this.title;
   }
 
-  isTooltipEnabled(title: any, textContainerWidth: number = 112): boolean {
-    const textWidth = document.createElement('canvas').getContext('2d').measureText(title).width;
-
-    return textContainerWidth < textWidth;
-  }
-
   showTooltip(event, tooltip) {
     event.stopImmediatePropagation();
 
-    const lengthStr = event.toElement.innerText.split('').length;
+    const lengthStr = event.toElement?.innerText.split('').length;
     if (lengthStr > 50) {
       tooltip.toggle();
     }
@@ -50,10 +44,10 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     const textContainerWidth = event.toElement.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    context.font = '14.8px Lato, sans-serif';
+    context.font = '12px Lato, sans-serif';
     const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
 
-    if (textContainerWidth < textWidth) {
+    if (textContainerWidth < textWidth || Math.abs(textContainerWidth - textWidth) < 40) {
       tooltip.show();
     }
   }
