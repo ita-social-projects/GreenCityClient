@@ -13,7 +13,6 @@ import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { CustomHabitInterface } from 'src/app/main/interface/habit/custom-habit.interface';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -78,7 +77,7 @@ export class AddEditCustomHabitComponent implements OnInit {
     });
   }
 
-  public getControl(control: string): AbstractControl {
+  getControl(control: string): AbstractControl {
     return this.habitForm.get(control);
   }
 
@@ -89,15 +88,15 @@ export class AddEditCustomHabitComponent implements OnInit {
     });
   }
 
-  public getStars(value: number, complexity: number): string {
+  getStars(value: number, complexity: number): string {
     return value <= complexity ? this.greenStar : this.lineStar;
   }
 
-  public getDuration(newDuration: number): void {
+  getDuration(newDuration: number): void {
     this.getControl('duration').setValue(newDuration);
   }
 
-  public getShopList(list: ShoppingList[]): void {
+  getShopList(list: ShoppingList[]): void {
     this.newList = list.map((item) => {
       return {
         id: item.id,
@@ -108,12 +107,12 @@ export class AddEditCustomHabitComponent implements OnInit {
     this.getControl('shopList').setValue(this.newList);
   }
 
-  public getTagsList(list: TagInterface[]): void {
+  getTagsList(list: TagInterface[]): void {
     this.selectedTagsList = list.map((el) => this.getLangValue(el.nameUa, el.name));
     this.getControl('tags').setValue(this.selectedTagsList);
   }
 
-  public goToAllHabits(): void {
+  goToAllHabits(): void {
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
   }
 
@@ -131,7 +130,7 @@ export class AddEditCustomHabitComponent implements OnInit {
     return this.langService.getLangValue(valUa, valEn) as string;
   }
 
-  public addHabit(): void {
+  addHabit(): void {
     this.habitService
       .addCustomHabit(this.habitForm.value, this.currentLang)
       .pipe(take(1))

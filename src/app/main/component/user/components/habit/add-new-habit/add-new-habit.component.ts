@@ -93,7 +93,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     });
   }
 
-  public checkIfAssigned(): void {
+  private checkIfAssigned(): void {
     if (this.isEditing) {
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId)
@@ -112,7 +112,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getDefaultHabit(): void {
+  private getDefaultHabit(): void {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
@@ -128,7 +128,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.getStars(habit.complexity);
   }
 
-  public getStars(complexity: number): void {
+  private getStars(complexity: number): void {
     for (this.star = 0; this.star < complexity; this.star++) {
       this.stars[this.star] = this.greenStar;
     }
@@ -142,15 +142,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.userId = this.localStorageService.getUserId();
   }
 
-  public getDuration(newDuration: number): void {
+  getDuration(newDuration: number): void {
     this.newDuration = newDuration;
   }
 
-  public getProgressValue(progress: number): void {
+  getProgressValue(progress: number): void {
     this.canAcquire = progress >= this.enoughToAcquire;
   }
 
-  public getList(list: ShoppingList[]): void {
+  getList(list: ShoppingList[]): void {
     this.standartShopList = list.filter((item) => !item.custom);
     this.customShopList = list.filter((item) => item.custom);
   }
@@ -174,7 +174,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public giveUpHabit(): void {
+  giveUpHabit(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -208,11 +208,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public goToProfile(): void {
+  goToProfile(): void {
     this.router.navigate(['profile', this.userId]);
   }
 
-  public addHabit(): void {
+  addHabit(): void {
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds)
@@ -241,7 +241,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateHabit(): void {
+  updateHabit(): void {
     this.habitAssignService
       .updateHabit(this.habitAssignId, this.newDuration)
       .pipe(take(1))
@@ -251,7 +251,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       });
   }
 
-  public setHabitStatus(): void {
+  setHabitStatus(): void {
     this.habitAssignService
       .setHabitStatus(this.habitId, this.setStatus)
       .pipe(take(1))

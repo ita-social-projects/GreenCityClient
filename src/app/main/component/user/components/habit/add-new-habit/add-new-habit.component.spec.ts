@@ -132,17 +132,17 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('changing of fakeLocalStorageService.languageSubject should invoke methods', () => {
-    spyOn(component, 'checkIfAssigned').and.returnValue();
+    const spy = spyOn(component as any, 'checkIfAssigned');
     spyOn(component as any, 'bindLang').and.returnValue('test');
     fakeLocalStorageService.languageSubject.subscribe((lang) => {
       expect((component as any).bindLang).toHaveBeenCalledWith(lang);
-      expect(component.checkIfAssigned).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
     fakeLocalStorageService.languageSubject.next('en');
   });
 
   it('should call getStars on initHabitData', () => {
-    const spy = spyOn(component, 'getStars');
+    const spy = spyOn(component as any, 'getStars');
     (component as any).initHabitData(mockHabitResponse);
     expect(spy).toHaveBeenCalled();
   });
@@ -190,7 +190,7 @@ describe('AddNewHabitComponent', () => {
     (component as any).habitAssignId = 2;
     component.isEditing = true;
     const spy = spyOn(component as any, 'getCustomShopList');
-    component.checkIfAssigned();
+    (component as any).checkIfAssigned();
     expect(spy).toHaveBeenCalled();
   });
 
@@ -199,7 +199,7 @@ describe('AddNewHabitComponent', () => {
     component.isEditing = false;
     const spy1 = spyOn(component as any, 'getDefaultHabit');
     const spy2 = spyOn(component as any, 'getStandartShopList');
-    component.checkIfAssigned();
+    (component as any).checkIfAssigned();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
