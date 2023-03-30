@@ -12,7 +12,7 @@ import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
 import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
 import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -48,6 +48,7 @@ export class PlacesComponent implements OnInit {
 
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
+  private langChangeSub: Subscription;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -89,6 +90,7 @@ export class PlacesComponent implements OnInit {
     this.favoritePlaceService.updateFavoritePlaces();
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.subscribeToLangChange();
   }
 
   public onMapIdle(): void {
@@ -153,8 +155,12 @@ export class PlacesComponent implements OnInit {
     }
   }
 
-  private bindLang(lang: string): void {
+  public bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
+  }
+
+  private subscribeToLangChange(): void {
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
   }
 
   public selectPlace(place: Place): void {

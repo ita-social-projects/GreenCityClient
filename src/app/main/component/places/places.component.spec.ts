@@ -16,12 +16,18 @@ import { Location } from '@angular-material-extensions/google-maps-autocomplete/
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
   let fixture: ComponentFixture<PlacesComponent>;
+
   const tagsArray = [
     { id: 1, name: 'Events', nameUa: 'Події' },
     { id: 2, name: 'Education', nameUa: 'Освіта' }
   ];
 
-  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'languageSubject'
+  ]);
+
+  localStorageServiceMock.languageSubject = new Subject();
 
   const locationAddressAndGeoDtoMock: any = {
     locationAddressAndGeoDto: {
@@ -104,6 +110,18 @@ describe('PlacesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('ngOnInit should called subscribeToLangChange method one time', () => {
+    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it(`bindLang should be called in ngOnInit`, () => {
+    spyOn(component, 'bindLang');
+    component.ngOnInit();
+    expect(component.bindLang).toHaveBeenCalled();
   });
 
   it('should initialize with correct parameters', () => {

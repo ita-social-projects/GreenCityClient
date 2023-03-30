@@ -472,6 +472,8 @@
       }
     },
     "map": {
+      "choose-location": "Choose location",
+      "add-place": "Add place",
       "filter-by": "Filter By",
       "searching-for-a-place": "Searching for a place",
       "places": "Places",
