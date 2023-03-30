@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
-import { HabitAssignInterface, HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { AllShoppingLists, CustomShoppingItem, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -13,6 +13,8 @@ import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.se
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
+import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
+import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -22,11 +24,11 @@ import { Location } from '@angular/common';
 export class AddNewHabitComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
   public assignedHabit: HabitAssignInterface;
-  public habitResponse: HabitResponseInterface;
+  public habitResponse: HabitInterface;
   public habitId: number;
   private habitAssignId: number;
   public tags: string[];
-  public recommendedHabits: HabitResponseInterface;
+  public recommendedHabits: HabitInterface;
   public amountAcquired = 6;
   public userId: number;
   private currentLang: string;
@@ -70,11 +72,10 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.route.params.subscribe((params) => {
       if (this.router.url.includes('add')) {
-        this.habitId = +params.habitId;
-      }
-      if (this.router.url.includes('edit')) {
+        this.habitId = Number(params.habitId);
+      } else {
         this.isEditing = true;
-        this.habitAssignId = +params.habitAssignId;
+        this.habitAssignId = Number(params.habitAssignId);
       }
     });
     this.checkIfAssigned();
@@ -97,16 +98,15 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId)
         .pipe(take(1))
-        .subscribe((res) => {
+        .subscribe((res: HabitAssignInterface) => {
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
-          this.isAcquited = this.assignedHabit.status === 'ACQUIRED';
+          this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
           this.initialDuration = res.duration;
           this.initHabitData(res.habit);
           this.getCustomShopList();
         });
-    }
-    if (!this.isEditing) {
+    } else {
       this.getDefaultHabit();
       this.getStandartShopList();
     }
@@ -116,13 +116,13 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     this.habitService
       .getHabitById(this.habitId)
       .pipe(take(1))
-      .subscribe((data) => {
+      .subscribe((data: HabitInterface) => {
         this.initHabitData(data);
         this.initialDuration = data.defaultDuration;
       });
   }
 
-  private initHabitData(habit): void {
+  private initHabitData(habit: HabitInterface): void {
     this.habitResponse = habit;
     this.tags = habit.tags;
     this.getStars(habit.complexity);

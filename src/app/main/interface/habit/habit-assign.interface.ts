@@ -18,18 +18,6 @@ export interface HabitAssignInterface {
   shoppingListItems: Array<ShoppingList>;
 }
 
-export interface HabitResponseInterface {
-  complexity: number;
-  defaultDuration: number;
-  amountAcquiredUsers: number;
-  habitAssignStatus?: string;
-  habitTranslation: HabitTranslationInterface;
-  id: number;
-  image: string;
-  shoppingListItems: Array<ShoppingList>;
-  tags: Array<string>;
-}
-
 export interface HabitStatusCalendarListInterface {
   enrollDate: string;
   id: number;

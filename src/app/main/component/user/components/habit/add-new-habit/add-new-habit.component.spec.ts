@@ -11,11 +11,11 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NEWHABIT } from 'src/app/main/mocks/habit-assign-mock';
+import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -26,7 +26,7 @@ describe('AddNewHabitComponent', () => {
   let fakeHabitService: HabitService;
   let fakeLocalStorageService: LocalStorageService;
 
-  const mockHabitResponse: HabitResponseInterface = {
+  const mockHabitResponse: HabitInterface = {
     complexity: 2,
     defaultDuration: 2,
     amountAcquiredUsers: 1,
