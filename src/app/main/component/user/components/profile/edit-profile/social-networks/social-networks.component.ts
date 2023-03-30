@@ -22,7 +22,11 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg',
-    defaultIcon: './assets/img/profile/icons/default_social.svg'
+    defaultIcon: './assets/img/profile/icons/default_social.svg',
+    facebook: './assets/img/icon/facebook-icon.svg',
+    linkedin: './assets/img/icon/linked-icon.svg',
+    instagram: './assets/img/icon/instagram-icon.svg',
+    twitter: './assets/img/icon/twitter-icon.svg'
   };
 
   public urlValidationRegex = Patterns.linkPattern;
@@ -127,14 +131,31 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   public onAddLink(link?) {
     this.onChange(link);
     const value = link || this.inputTextValue;
-
+    let imgPath = '';
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
-      this.socialNetworks.push({
-        url: value,
-        socialNetworkImage: {
-          imagePath: this.icons.defaultIcon
+      for (let key in this.icons) {
+        if (value.toLowerCase().includes(key)) {
+          imgPath = key;
+          break;
         }
-      });
+      }
+
+      if (imgPath !== '') {
+        this.socialNetworks.push({
+          url: value,
+          socialNetworkImage: {
+            imagePath: this.icons[imgPath]
+          }
+        });
+      } else {
+        this.socialNetworks.push({
+          url: value,
+          socialNetworkImage: {
+            imagePath: this.icons.defaultIcon
+          }
+        });
+      }
+
       this.onEmitSocialNetworksChange();
       this.editedSocialLink = false;
       this.onCloseForm();
@@ -142,6 +163,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
       // set error to input if user have same link added
       return this.socialLink.control.setErrors({ 'non-unique': true });
     }
+    console.log(this.socialNetworks);
   }
 
   public replaceHttp(str: string) {
@@ -165,4 +187,6 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     Object.values(arr).forEach((el) => result.push(el.url));
     return result;
   }
+
+  addImgSrc(): void {}
 }
