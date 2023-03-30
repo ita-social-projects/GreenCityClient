@@ -213,8 +213,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.restoredFilters.forEach((filter) => {
           if (Object.keys(filter).length < 2) {
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
+            const isLocation = column == 'city' || column == 'district';
             const value = String(Object.values(filter)[0]);
-            const options: IFilteredColumnValue = { key: value, filtered: false };
+            const options: IFilteredColumnValue = isLocation ? { en: value, filtered: true } : { key: value, filtered: true };
             this.changeFilters(true, column, options);
             this.applyFilters();
           } else {
@@ -887,14 +888,25 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return column.values.some((item) => item.filtered);
   }
 
-  checkIfFilteredBy(columnKey): boolean {
+  checkIfFilteredBy(columnKey: string): boolean {
     let key: string;
-    if (columnKey === 'paymentDate') {
-      key = 'paymentDateFrom';
-    } else {
-      key = columnKey === 'orderDate' ? 'orderDateFrom' : columnKey;
+    switch (columnKey) {
+      case 'paymentDate':
+        key = 'paymentDateFrom';
+        break;
+      case 'orderDate':
+        key = 'orderDateFrom';
+        break;
+      case 'city':
+        key = 'citiesEn';
+        break;
+      case 'district':
+        key = 'districtsEn';
+        break;
+      default:
+        key = columnKey;
+        break;
     }
-
     return this.adminTableService.filters ? this.adminTableService.filters.some((obj) => Object.keys(obj)[0] === key) : false;
   }
 
