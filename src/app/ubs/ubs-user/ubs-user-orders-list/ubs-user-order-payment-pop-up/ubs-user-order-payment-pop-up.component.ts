@@ -7,7 +7,6 @@ import { OrderClientDto } from '../models/OrderClientDto';
 import { IOrderDetailsUser } from '../models/IOrderDetailsUser.interface';
 import { ICertificate, ICertificatePayment, ICertificateResponse } from '../models/ICertificate.interface';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ResponceOrderLiqPayModel } from '../models/ResponceOrderLiqPayModel';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IOrderData } from '../models/IOrderData.interface';
@@ -278,28 +277,6 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
           } else {
             this.redirectionToConfirmPage();
             this.dialogRef.close();
-          }
-        },
-        () => {
-          this.dataLoadingLiqPay = false;
-        }
-      );
-    }
-
-    if (this.formPaymentSystem.value === 'LiqPay') {
-      this.orderService.processOrderLiqPayFromUserOrderList(this.orderClientDto).subscribe(
-        (response: ResponceOrderLiqPayModel) => {
-          if (!response.liqPayButton) {
-            this.redirectionToConfirmPage();
-            this.dialogRef.close();
-          } else {
-            this.isLiqPayLink = true;
-            this.liqPayButtonForm = this.sanitizer.bypassSecurityTrustHtml(response.liqPayButton);
-            setTimeout(() => {
-              this.liqPayButton = document.getElementsByName('btn_text');
-              this.localStorageService.setUbsLiqPayOrderId(this.orderClientDto.orderId);
-              this.liqPayButton[0].click();
-            }, 0);
           }
         },
         () => {

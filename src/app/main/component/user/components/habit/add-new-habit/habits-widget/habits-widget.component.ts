@@ -25,7 +25,9 @@ export class HabitsWidgetComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.page = 1;
     this.size = 3;
-    this.getRecommendedHabits(this.page, this.size, [this.tag]);
+    if (this.tag) {
+      this.getRecommendedHabits(this.page, this.size, [this.tag]);
+    }
     this.getRecommendedNews(this.page, this.size);
     this.cdr.detectChanges();
   }

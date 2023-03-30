@@ -24,6 +24,7 @@ export const userRoutes: Routes = [
       { path: ':id/allhabits', component: AllHabitsComponent },
       { path: ':id/create-habit', component: AddEditCustomHabitComponent },
       { path: ':id/allhabits/addhabit/:habitId', component: AddNewHabitComponent },
+      { path: ':id/allhabits/edithabit/:habitAssignId', component: AddNewHabitComponent },
       { path: '', component: ProfileComponent },
       {
         path: ':id/friends',

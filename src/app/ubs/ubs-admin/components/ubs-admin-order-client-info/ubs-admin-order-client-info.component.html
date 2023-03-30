@@ -7,7 +7,7 @@
     </div>
     <div *ngIf="pageOpen">
       <div class="form__wrapper row d-flex">
-        <div class="form__block col-md-4 col-sm-6">
+        <div class="form__block">
           <div class="form-group">
             <p class="form__subtitle">
               {{ 'customer-info.customer.title' | translate }}
@@ -36,7 +36,7 @@
             <input class="form-control" type="email" id="customer-email" placeholder="{{ userInfo.customerEmail }}" disabled />
           </div>
         </div>
-        <div class="form__block col-md-4 col-sm-6">
+        <div class="form__block">
           <div class="form-group">
             <p class="form__subtitle">{{ 'customer-info.recipient.title' | translate }}</p>
             <div class="person-name">
