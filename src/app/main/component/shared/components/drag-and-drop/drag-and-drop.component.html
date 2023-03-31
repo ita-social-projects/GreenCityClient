@@ -23,15 +23,16 @@
         [imageChangedEvent]="imageChangedEvent"
         [imageFile]="file.file"
         (imageCropped)="imageCropped($event)"
+        class="cropper"
       >
       </image-cropper>
     </div>
     <div class="cropper-buttons">
-      <button class="secondary-global-button" type="button" (click)="stopCropping()">
-        {{ 'drag-and-drop.submit-changes-button' | translate }}
-      </button>
-      <button class="secondary-global-button" type="button" (click)="cancelChanges()">
+      <button class="secondary-global-button s-btn" type="button" (click)="cancelChanges()">
         {{ 'drag-and-drop.cancel-changes-button' | translate }}
+      </button>
+      <button class="primary-global-button s-btn" type="button" (click)="stopCropping()">
+        {{ 'drag-and-drop.submit-changes-button' | translate }}
       </button>
     </div>
   </div>
