@@ -46,12 +46,7 @@ export class InputErrorComponent implements OnInit {
   }
 
   getMinlengthErrorMessage(minlength: number): string {
-    switch (minlength) {
-      case 20:
-        return this.validationErrors.minlengthDescription;
-      default:
-        return this.validationErrors.minlength;
-    }
+    return minlength === 20 ? this.validationErrors.minlengthDescription : this.validationErrors.minlength;
   }
 
   getMaxlengthErrorMessage(maxlength: number): string {

@@ -5,10 +5,10 @@
       <li *ngFor="let item of shopList; index as i" class="list-item">
         <div class="item-box">
           <button *ngIf="!isEditing" class="check-btn" (click)="item.custom ? deleteItem(item.text) : selectItem(item)">
-            <img [src]="item.selected ? img.minusCheck : img.plusCheck" />
+            <img [src]="item.selected ? img.minusCheck : img.plusCheck" alt="Delete to-do item" />
           </button>
           <button *ngIf="isEditing" class="check-btn" [disabled]="isAcquired" (click)="selectItem(item)">
-            <img [src]="getCheckIcon(item)" />
+            <img [src]="getCheckIcon(item)" alt="Check to-do item" />
           </button>
           <span
             class="item-text"

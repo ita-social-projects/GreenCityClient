@@ -25,16 +25,16 @@
             </div>
             <div class="difficulty-box">
               <label class="label">{{ 'user.habit.add-new-habit.difficulty.name' | translate }}</label>
-              <div class="difficulty-input">
-                <li *ngFor="let item of complexityList" class="list">
+              <ul class="difficulty-input">
+                <li *ngFor="let item of complexityList" class="star-button">
                   <span ngbPopover="{{ item.name | translate }}" triggers="mouseenter:mouseleave" placement="bottom" container="body">
                     <label>
                       <input type="radio" name="complexity" [value]="item.value" formControlName="complexity" />
-                      <img [src]="getStars(item.value, getControl('complexity').value)" />
+                      <img [src]="getStars(item.value, getControl('complexity').value)" [alt]="item.alt" />
                     </label>
                   </span>
                 </li>
-              </div>
+              </ul>
             </div>
           </div>
           <div class="tags-section">

@@ -7,12 +7,12 @@ import { takeUntil, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
-import { quillConfig } from './quillEditorFunc';
 import ImageResize from 'quill-image-resize-module';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -23,9 +23,9 @@ export class AddEditCustomHabitComponent implements OnInit {
   habitForm: FormGroup;
   habit: any;
   complexityList = [
-    { value: 1, name: 'user.habit.add-new-habit.difficulty.easy' },
-    { value: 2, name: 'user.habit.add-new-habit.difficulty.medium' },
-    { value: 3, name: 'user.habit.add-new-habit.difficulty.hard' }
+    { value: 1, name: 'user.habit.add-new-habit.difficulty.easy', alt: 'Easy difficulty' },
+    { value: 2, name: 'user.habit.add-new-habit.difficulty.medium', alt: 'Medium difficulty' },
+    { value: 3, name: 'user.habit.add-new-habit.difficulty.hard', alt: 'Hard difficulty' }
   ];
   habitImages = [
     { src: 'assets/img/habits/habit-1.png', alt: 'Man with papers around on green background' },

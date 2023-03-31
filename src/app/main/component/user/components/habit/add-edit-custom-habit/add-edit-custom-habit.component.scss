@@ -110,11 +110,16 @@
 
         .difficulty-input {
           display: flex;
+          list-style-type: none;
           margin-top: 10px;
+          padding: 0;
           gap: 18px;
 
-          .list {
-            list-style: none;
+          .star-button {
+            border: 0;
+            outline: 0;
+            background: none;
+            padding: 0;
           }
         }
       }
