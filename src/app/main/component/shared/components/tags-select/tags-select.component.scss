@@ -1,6 +1,9 @@
-.list {
+.tag-list {
+  border: 0;
+  background: none;
   display: flex;
   list-style: none;
+  padding: 0;
   margin-bottom: 2px;
 
   .text {
