@@ -46,7 +46,7 @@ export class HabitService {
     );
   }
 
-  addCustomHabit(habit: any, lang: string): Observable<object> {
+  addCustomHabit(habit: any, lang: string): Observable<CustomHabitInterface> {
     const body = {
       habitTranslations: [
         {
@@ -62,6 +62,6 @@ export class HabitService {
       tags: habit.tags,
       customShoppingListItemDto: habit.shopList
     };
-    return this.http.post<object>(`${habitLink}/custom`, body);
+    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
   }
 }

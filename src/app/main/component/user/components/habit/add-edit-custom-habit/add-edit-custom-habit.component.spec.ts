@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 
-fdescribe('AddEditCustomHabitComponent', () => {
+describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
 
