@@ -96,8 +96,8 @@ describe('HabitEditShoppingListComponent', () => {
         id: null,
         status: 'ACTIVE',
         text: 'test',
-        selected: false,
-        custom: true
+        custom: true,
+        selected: true
       }
     ];
     component.shopList = [];
@@ -117,19 +117,11 @@ describe('HabitEditShoppingListComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  // it('shoulddelete item from shopList on deleteItem', () => {
-  //   const newList = [
-  //     {
-  //       id: 2,
-  //       status: 'ACTIVE',
-  //       text: 'Item 2',
-  //       selected: false
-  //     }
-  //   ];
-  //   component.shopList = mockList;
-  //   component.deleteItem(1);
-  //   expect(component.shopList).toEqual(newList);
-  // });
+  it('shoulddelete item from shopList on deleteItem', () => {
+    component.shopList = mockList;
+    component.deleteItem('Item 1');
+    expect(component.shopList).toEqual([mockList[1]]);
+  });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
     spyOn((component as any).langChangeSub, 'unsubscribe');

@@ -38,6 +38,7 @@ export class AddEditCustomHabitComponent implements OnInit {
   shopList: ShoppingList[] = [];
   newList: ShoppingList[] = [];
   tagsList: TagInterface[];
+  tagType: string = 'habits';
   selectedTagsList: string[];
 
   quillModules = {};

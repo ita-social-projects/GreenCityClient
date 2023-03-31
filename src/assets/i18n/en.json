@@ -727,7 +727,7 @@
         "habit-title": "Habit title",
         "habit-title-placeholder": "Enter name for the habit",
         "pick-tags": "Pick tags for habit",
-        "tags-limits": "Only 3 tags can be added",
+        "tags-limits": "Select one tag",
         "difficulty": {
           "name": "Difficulty",
           "easy": "Easy",

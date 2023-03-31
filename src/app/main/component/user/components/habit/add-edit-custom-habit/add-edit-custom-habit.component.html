@@ -40,7 +40,12 @@
           <div class="tags-section">
             <label class="label">{{ 'user.habit.add-new-habit.pick-tags' | translate }}</label>
             <span class="habit-tooltip">{{ 'user.habit.add-new-habit.tags-limits' | translate }}</span>
-            <app-tags-select [tagsList]="tagsList" (selectTags)="getTagsList($event)" class="tags-block"></app-tags-select>
+            <app-tags-select
+              [tagsList]="tagsList"
+              [tagType]="tagType"
+              (selectTags)="getTagsList($event)"
+              class="tags-block"
+            ></app-tags-select>
           </div>
           <div class="textarea-wrapper">
             <h3 class="label">{{ 'user.habit.add-new-habit.textarea-title' | translate }}</h3>

@@ -36,7 +36,7 @@ export class HabitService {
     return this.http.get<Array<ShoppingList>>(`${habitLink}/${id}/shopping-list?lang=${this.language}`);
   }
 
-  public getAllTags(): Observable<Array<TagInterface>> {
+  getAllTags(): Observable<Array<TagInterface>> {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 

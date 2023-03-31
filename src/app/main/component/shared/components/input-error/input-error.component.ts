@@ -21,14 +21,14 @@ export class InputErrorComponent implements OnInit {
     pattern: 'input-error.pattern'
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getType();
     this.formElement.valueChanges.pipe().subscribe(() => {
       this.getType();
     });
   }
 
-  getType() {
+  getType(): void {
     Object.values(errorType).forEach((err) => {
       if (this.formElement.errors?.[err]) {
         switch (err) {
