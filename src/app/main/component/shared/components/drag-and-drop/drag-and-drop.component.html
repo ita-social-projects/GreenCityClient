@@ -12,7 +12,9 @@
 </div>
 <div *ngFor="let file of files">
   <div *ngIf="!isWarning; else elseBlock">
-    <img *ngIf="!isCropper" [src]="file.url" appDragAndDrop (files)="filesDropped($event)" alt="image-cropper" />
+    <div *ngIf="!isCropper" class="image-preview">
+      <img [src]="file.url" appDragAndDrop (files)="filesDropped($event)" alt="image-cropper" />
+    </div>
     <div *ngIf="isCropper" class="cropper-block">
       <image-cropper
         [maintainAspectRatio]="true"

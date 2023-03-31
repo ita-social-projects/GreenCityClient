@@ -52,9 +52,13 @@
   line-height: 16px;
 }
 
-img {
-  width: 426px;
-  height: 231px;
+.image-preview {
+  display: flex;
+  width: 100%;
+
+  img {
+    max-width: 100%;
+  }
 }
 
 .cropper-buttons {
