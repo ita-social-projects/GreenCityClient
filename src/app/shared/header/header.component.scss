@@ -14,7 +14,7 @@ $ubs-header-height: 116px;
 }
 
 .active-link {
-  color: var(--primary-green);
+  color: var(--primary-green) !important;
 
   &:focus {
     color: var(--primary-green);
