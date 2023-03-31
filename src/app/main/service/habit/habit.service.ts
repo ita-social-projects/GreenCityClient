@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { environment } from '@environment/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class HabitService implements OnDestroy {
+export class HabitService {
   language: string;
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private tagsType = 'HABIT';
@@ -43,10 +43,5 @@ export class HabitService implements OnDestroy {
     return this.http.get<HabitListInterface>(
       `${habitLink}/tags/search?lang=${this.language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
     );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }

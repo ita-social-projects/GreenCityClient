@@ -133,7 +133,7 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     const value = link || this.inputTextValue;
     let imgPath = '';
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
-      for (let key in this.icons) {
+      for (const key in this.icons) {
         if (value.toLowerCase().includes(key)) {
           imgPath = key;
           break;
@@ -163,7 +163,6 @@ export class SocialNetworksComponent implements ControlValueAccessor {
       // set error to input if user have same link added
       return this.socialLink.control.setErrors({ 'non-unique': true });
     }
-    console.log(this.socialNetworks);
   }
 
   public replaceHttp(str: string) {

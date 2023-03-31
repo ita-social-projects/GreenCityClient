@@ -385,7 +385,7 @@ export interface IBigOrderTableOrderInfo {
   senderEmail: string;
   violationsAmount: number;
   region: string;
-  settlement: string;
+  city: string;
   district: string;
   address: string;
   commentToAddressForClient: string;
