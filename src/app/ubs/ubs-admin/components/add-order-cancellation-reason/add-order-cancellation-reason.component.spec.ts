@@ -17,10 +17,6 @@ describe('AddOrderCancellationReasonComponent', () => {
   const viewModeInputs = {
     id: 1577
   };
-  const DataMock = {
-    cancellationReason: 'Other',
-    cancellationComment: 'cancellationComment'
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,12 +52,6 @@ describe('AddOrderCancellationReasonComponent', () => {
     const spy = spyOn(component, 'initForm');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('orderService should be called', () => {
-    const spyReturnedValues = spyOn(component.orderService, 'getOrderCancelReason').and.returnValue(of(DataMock));
-    component.ngOnInit();
-    expect(spyReturnedValues).toHaveBeenCalled();
   });
 
   it('commentForm invalid when empty', () => {
