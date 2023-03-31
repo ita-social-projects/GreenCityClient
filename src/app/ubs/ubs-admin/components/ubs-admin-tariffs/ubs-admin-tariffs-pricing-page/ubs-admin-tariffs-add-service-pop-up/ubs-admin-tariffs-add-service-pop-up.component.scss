@@ -1,12 +1,13 @@
 @import '../../ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 
 .description-input {
-  width: 220px;
-  height: 80px;
+  width: 228px;
+  height: 196px;
   padding: 8px;
   font-size: 14px;
   line-height: 20px;
   display: block;
+  resize: none;
 }
 
 .courier-input,

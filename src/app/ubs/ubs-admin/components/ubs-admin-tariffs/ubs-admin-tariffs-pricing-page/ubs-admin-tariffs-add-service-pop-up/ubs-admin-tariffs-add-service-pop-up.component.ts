@@ -57,21 +57,27 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   createService() {
     return this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(255)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(255)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(255)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
-      description: new FormControl('', [Validators.required]),
-      descriptionEng: new FormControl('', [Validators.required])
+      description: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+      descriptionEng: new FormControl('', [Validators.required, Validators.maxLength(255)])
     });
   }
 
   editForm(): void {
     this.addServiceForm = this.fb.group({
-      name: new FormControl({ value: this.receivedData.serviceData.name }),
-      nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }),
+      name: new FormControl({ value: this.receivedData.serviceData.name }, [
+        Validators.pattern(Patterns.TarifNamePattern),
+        Validators.maxLength(255)
+      ]),
+      nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }, [
+        Validators.pattern(Patterns.TarifNamePattern),
+        Validators.maxLength(255)
+      ]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
-      description: new FormControl({ value: this.receivedData.serviceData.description }),
-      descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng)
+      description: new FormControl({ value: this.receivedData.serviceData.description }, [Validators.maxLength(255)]),
+      descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255)])
     });
   }
 
