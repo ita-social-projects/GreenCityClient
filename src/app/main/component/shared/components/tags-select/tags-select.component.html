@@ -1,4 +1,4 @@
-<li *ngFor="let tag of tagsList" class="list">
+<button *ngFor="let tag of tagsList" class="list">
   <a
     role="button"
     [attr.aria-pressed]="tag.isActive"
@@ -10,4 +10,4 @@
     <span class="text">{{ getLangValue(tag.nameUa, tag.name) }}</span>
     <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
   </a>
-</li>
+</button>

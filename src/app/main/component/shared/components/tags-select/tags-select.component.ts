@@ -23,7 +23,6 @@ export class TagsSelectComponent {
     tag.isActive = !tag.isActive;
     this.selectedList = this.tagsList.filter((item) => item.isActive);
     this.selectTags.emit(this.selectedList);
-    console.log(this.selectedList);
   }
 
   getLangValue(valUa: string, valEn: string): string {

@@ -1,5 +1,5 @@
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { HabitInterface, HabitTranslationInterface } from './habit.interface';
+import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {
   id: number;
