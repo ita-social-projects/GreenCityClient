@@ -518,5 +518,5 @@ export enum ordersStatuses {
   NotTakenOutUA = 'Не вивезли',
   NotTakenOutEN = 'Not taken out',
   CanselUA = 'Скасовано',
-  CanselEN = 'Canseled'
+  CanselEN = 'Canceled'
 }
