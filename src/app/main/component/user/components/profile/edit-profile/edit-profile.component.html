@@ -3,13 +3,7 @@
     <div class="edit_prof-wrap">
       <h2>{{ 'user.edit-profile.edit-profile' | translate }}</h2>
       <app-personal-photo></app-personal-photo>
-      <form
-        #formEditProf
-        [formGroup]="editProfileForm"
-        (ngSubmit)="onSubmit()"
-        (keydown.enter)="$event.preventDefault()"
-        style="margin-top: 70px"
-      >
+      <form #formEditProf [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
         <div class="wrapper">
           <p>{{ 'user.edit-profile.info' | translate }}</p>
           <div class="input-block">

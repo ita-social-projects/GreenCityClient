@@ -131,30 +131,20 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   public onAddLink(link?) {
     this.onChange(link);
     const value = link || this.inputTextValue;
-    let imgPath = '';
+    let imgPath = this.icons.defaultIcon;
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
-      for (const key in this.icons) {
-        if (value.toLowerCase().includes(key)) {
-          imgPath = key;
-          break;
+      Object.keys(this.icons).forEach((icon) => {
+        if (value.toLowerCase().includes(icon)) {
+          imgPath = this.icons[icon];
         }
-      }
+      });
 
-      if (imgPath !== '') {
-        this.socialNetworks.push({
-          url: value,
-          socialNetworkImage: {
-            imagePath: this.icons[imgPath]
-          }
-        });
-      } else {
-        this.socialNetworks.push({
-          url: value,
-          socialNetworkImage: {
-            imagePath: this.icons.defaultIcon
-          }
-        });
-      }
+      this.socialNetworks.push({
+        url: value,
+        socialNetworkImage: {
+          imagePath: imgPath
+        }
+      });
 
       this.onEmitSocialNetworksChange();
       this.editedSocialLink = false;
@@ -186,6 +176,4 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     Object.values(arr).forEach((el) => result.push(el.url));
     return result;
   }
-
-  addImgSrc(): void {}
 }
