@@ -45,6 +45,10 @@ input:checked ~ .checkmark::after {
   max-width: 554px;
   box-sizing: content-box;
 
+  form {
+    margin: 70px 0 0 0;
+  }
+
   .wrapper {
     border-bottom: 1px solid #e1e5e3;
     margin-top: 40px;
