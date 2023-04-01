@@ -136,7 +136,8 @@ describe('EventsListComponent', () => {
   });
 
   it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {
-    component.allSelectedFlags['dropdown1'] = true;
+    const key = 'dropdown1';
+    component.allSelectedFlags[key] = true;
 
     const options = fixture.debugElement.queryAll(By.directive(MatOption));
     options.forEach((option) => {
@@ -151,7 +152,8 @@ describe('EventsListComponent', () => {
   });
 
   it('should deselect all options and remove them from selectedFilters when allSelectedFlags is false', () => {
-    component.allSelectedFlags['dropdown1'] = false;
+    const key = 'dropdown1';
+    component.allSelectedFlags[key] = false;
 
     const options = fixture.debugElement.queryAll(By.directive(MatOption));
     options.forEach((option) => {
