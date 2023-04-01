@@ -114,7 +114,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     formControls.forEach((formControl) => {
       formControl.control.valueChanges.subscribe((value) => {
-        this.updateSelectedFilters(value, event);
+        this.updateSelectedFilters(value, Event);
       });
     });
   }
