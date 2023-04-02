@@ -23,7 +23,7 @@ import { AddPlaceComponent } from './components/add-place/add-place.component';
   templateUrl: './places.component.html',
   styleUrls: ['./places.component.scss']
 })
-export class PlacesComponent implements OnInit {
+export class PlacesComponent implements OnInit, OnDestroy {
   public position: any = {};
   public zoom = 13;
   public tagList: NewsTagInterface[];
