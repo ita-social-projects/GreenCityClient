@@ -29,25 +29,27 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         : this.title;
   }
 
-  showTooltip(event, tooltip) {
+  showTooltip(event: any, tooltip: any): void {
     event.stopImmediatePropagation();
-
+    console.log(event, tooltip);
     const lengthStr = event.toElement?.innerText.split('').length;
-    if (lengthStr > 50) {
+    const maxLength = 50;
+    if (lengthStr > maxLength) {
       tooltip.toggle();
     }
 
     event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip) : tooltip.hide();
   }
 
-  calculateTextWidth(event, tooltip): void {
+  calculateTextWidth(event: any, tooltip: any): void {
     const textContainerWidth = event.toElement.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = '12px Lato, sans-serif';
     const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
+    const maxLength = 40;
 
-    if (textContainerWidth < textWidth || Math.abs(textContainerWidth - textWidth) < 40) {
+    if (textContainerWidth < textWidth || Math.abs(textContainerWidth - textWidth) < maxLength) {
       tooltip.show();
     }
   }
