@@ -677,11 +677,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     if (suffix === 'From' || suffix === 'To') {
       const date = this.getControlValue(currentColumn, suffix);
       const value = this.adminTableService.setDateFormat(date);
-      const biggerTo = !checkControl || this.getControlValue(currentColumn, 'To') < this.getControlValue(currentColumn, 'From');
-      //const smallerFrom = !checkControl || this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To');
-      console.log(biggerTo);
-      let isSuffix = biggerTo ? 'To' : 'From';
-      //isSuffix = smallerFrom ? "To" : "From";
+      this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
+      console.log(date, value);
+      const biggerFrom = this.getControlValue(currentColumn, 'From') >= this.getControlValue(currentColumn, 'To');
+      let isSuffix;
+      if (suffix === 'From' && biggerFrom) {
+        isSuffix = 'To';
+      }
+      if (suffix === 'To' && biggerFrom) {
+        isSuffix = 'From';
+      }
       this.dateForm.get(`${currentColumn}${isSuffix}`).setValue(value);
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
