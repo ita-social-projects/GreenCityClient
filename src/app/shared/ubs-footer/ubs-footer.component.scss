@@ -69,7 +69,7 @@
       font-weight: 400;
       font-size: 12px;
       line-height: 15px;
-      color: #8c8c8c;
+      color: var(--ubs-primary-dark-grey);
     }
   }
 
@@ -95,10 +95,8 @@
     &-menu {
       margin: 0;
 
-      .pick-up-service {
-        display: flex;
-        font-size: 16px;
-        line-height: 20px;
+      &_main {
+        margin-left: 40px;
       }
 
       &_social-media {
@@ -121,13 +119,13 @@
           line-height: 10px;
         }
       }
+    }
 
-      &-bottom-part {
-        margin: 16px 0 0 0;
+    &-bottom-part {
+      margin: 16px 0 0 0 !important;
 
-        .par {
-          font-size: 9px;
-        }
+      .par {
+        font-size: 9px;
       }
     }
   }
@@ -190,7 +188,7 @@
     &-logo_mobile {
       display: block;
 
-      img {
+      .footer-logo-bottom {
         width: 50px;
       }
     }
