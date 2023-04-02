@@ -119,9 +119,9 @@ describe('PlacesComponent', () => {
   });
 
   it(`bindLang should be called in ngOnInit`, () => {
-    spyOn(component, 'bindLang');
+    const bindLangSpy = spyOn(component as any, 'bindLang');
     component.ngOnInit();
-    expect(component.bindLang).toHaveBeenCalled();
+    expect(bindLangSpy).toHaveBeenCalled();
   });
 
   it('should initialize with correct parameters', () => {
@@ -135,5 +135,10 @@ describe('PlacesComponent', () => {
     component.openTimePickerPopUp();
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(fakeLocation);
+  });
+
+  afterEach(() => {
+    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
+    fixture.destroy();
   });
 });

@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
@@ -155,7 +155,7 @@ export class PlacesComponent implements OnInit {
     }
   }
 
-  public bindLang(lang: string): void {
+  private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 
@@ -311,5 +311,9 @@ export class PlacesComponent implements OnInit {
           });
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.langChangeSub.unsubscribe();
   }
 }
