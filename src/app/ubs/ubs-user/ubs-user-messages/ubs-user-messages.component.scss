@@ -300,3 +300,38 @@
     background-color: var(--after-primary-light-grey);
   }
 }
+
+@media (max-width: 420px) {
+  .theme {
+    margin-left: 40px;
+  }
+
+  .id {
+    margin-left: -50px;
+  }
+
+  .time {
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 300px) {
+  .header-list {
+    div {
+      font-size: 12px;
+    }
+  }
+
+  .panel-description {
+    font-size: 12px;
+  }
+
+  .date {
+    font-size: 12px;
+  }
+
+  .panel-title {
+    font-size: 12px;
+    margin-left: -15px;
+  }
+}
