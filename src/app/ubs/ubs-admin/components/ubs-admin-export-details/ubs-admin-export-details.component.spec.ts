@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminExportDetailsComponent', () => {
   let component: UbsAdminExportDetailsComponent;
@@ -11,7 +12,7 @@ describe('UbsAdminExportDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminExportDetailsComponent],
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot(), BrowserAnimationsModule]
     }).compileComponents();
   }));
 
@@ -52,10 +53,10 @@ describe('UbsAdminExportDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should set formatted date to current', () => {
+  it('ngOnInit should set formatted date to currentDate', () => {
     component.ngOnInit();
 
-    expect(component.current).toBe(mockDate);
+    expect(component.currentDate).toBe(mockDate);
   });
 
   it('openDetails should set pageOpen to opposite', () => {
@@ -65,7 +66,7 @@ describe('UbsAdminExportDetailsComponent', () => {
     expect(component.pageOpen).toBe(true);
   });
 
-  it('component should set current date to min attribute in html', () => {
+  it('component should set currentDate date to min attribute in html', () => {
     component.pageOpen = true;
     fixture.detectChanges();
     const inputElem = fixture.debugElement.nativeElement.querySelector('#export-date');

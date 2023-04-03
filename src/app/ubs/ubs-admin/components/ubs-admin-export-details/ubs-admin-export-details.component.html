@@ -24,7 +24,14 @@
     <div *ngIf="pageOpen" class="form-row">
       <div class="form-group export-date col-md-2">
         <label for="export-date">{{ 'export-details.export-date' | translate }}</label>
-        <input [min]="current" type="date" class="form-control" id="export-date" formControlName="dateExport" />
+        <input
+          [min]="currentDate"
+          (change)="checkDate($event)"
+          type="date"
+          class="form-control"
+          id="export-date"
+          formControlName="dateExport"
+        />
       </div>
       <div class="form-group">
         <label for="export-time-from">{{ 'export-details.export-time' | translate }}</label>
