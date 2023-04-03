@@ -43,10 +43,11 @@ export class ShoppingListService {
   }
 
   public updateHabitShopList(habitShopList: HabitUpdateShopList) {
+    const assignId = habitShopList.habitAssignId;
     const body = {
       customShoppingListItemDto: habitShopList.customShopList,
       userShoppingListItemDto: habitShopList.standartShopList
     };
-    return this.http.put(`${mainLink}habit/assign/${habitShopList.habitAssignId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
+    return this.http.put(`${mainLink}habit/assign/${assignId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
   }
 }

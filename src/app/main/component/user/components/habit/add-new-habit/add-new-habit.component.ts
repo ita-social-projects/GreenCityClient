@@ -4,7 +4,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
-import { AllShoppingLists, CustomShoppingItem, ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -246,9 +246,41 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       .updateHabit(this.habitAssignId, this.newDuration)
       .pipe(take(1))
       .subscribe(() => {
+        if (this.customShopList || this.standartShopList) {
+          this.convertShopLists();
+          const habitShopListUpdate = this.setHabitListForUpdate();
+          this.shopListService
+            .updateHabitShopList(habitShopListUpdate)
+            .pipe(take(1))
+            .subscribe(() => {
+              this.goToProfile();
+              this.snackBar.openSnackBar('habitUpdated');
+            });
+        }
         this.goToProfile();
         this.snackBar.openSnackBar('habitUpdated');
       });
+  }
+
+  private convertShopLists(): void {
+    this.customShopList.forEach((el) => {
+      delete el.custom;
+      delete el.selected;
+    });
+    this.standartShopList.forEach((el) => {
+      delete el.custom;
+      delete el.selected;
+    });
+  }
+
+  private setHabitListForUpdate(): HabitUpdateShopList {
+    const shopListUpdate: HabitUpdateShopList = {
+      habitAssignId: this.habitAssignId,
+      customShopList: this.customShopList,
+      standartShopList: this.standartShopList,
+      lang: this.currentLang
+    };
+    return shopListUpdate;
   }
 
   setHabitStatus(): void {
