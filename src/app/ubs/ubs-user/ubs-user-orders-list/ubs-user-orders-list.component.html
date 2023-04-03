@@ -26,9 +26,12 @@
               {{ order.dateForm | date: 'dd.MM.y' }}
             </mat-panel-description>
           </div>
-          <mat-panel-description class="order_list-paymentDate table-data">
-            {{ order.datePaid | date: 'dd.MM.y' }}
-          </mat-panel-description>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-paymentDate">{{ 'user-orders.payment-date' | translate }}</div>
+            <mat-panel-description class="order_list-paymentDate table-data">
+              {{ order.datePaid | date: 'dd.MM.y' }}
+            </mat-panel-description>
+          </div>
           <div class="mobile_list">
             <div class="mobile mobile_list-status">{{ 'user-orders.order-status' | translate }}</div>
             <mat-panel-description class="order_list-status table-data">
@@ -41,11 +44,14 @@
               {{ getLangValue(order.paymentStatus, order.paymentStatusEng) }}
             </mat-panel-description>
           </div>
-          <mat-panel-description class="order_list-paymentAmount table-data">
-            {{ order.orderFullPrice | currency | localizedCurrency }}
-          </mat-panel-description>
           <div class="mobile_list">
-            <div class="mobile mobile_list-date">{{ 'user-orders.order-date' | translate }}</div>
+            <div class="mobile mobile_list-paymentAmount">{{ 'user-orders.payment-amount' | translate }}</div>
+            <mat-panel-description class="order_list-paymentAmount table-data">
+              {{ order.orderFullPrice | currency | localizedCurrency }}
+            </mat-panel-description>
+          </div>
+          <div class="mobile_list">
+            <div class="mobile mobile_list-amountDue">{{ 'user-orders.amount-due' | translate }}</div>
             <mat-panel-description *ngIf="!isOrderDoneOrCancel(order)" class="order_list-paymentAmountDue table-data">
               {{ order.amountBeforePayment | currency | localizedCurrency }}
             </mat-panel-description>
