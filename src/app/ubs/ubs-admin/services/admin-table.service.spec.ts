@@ -1,5 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -109,7 +109,9 @@ describe('AdminTableService', () => {
       'responsibleNavigatorId',
       'responsibleCallerId',
       'responsibleLogicManId',
-      'orderStatus'
+      'orderStatus',
+      'citiesEn',
+      'districtsEn'
     ];
     const mockedColumns = [
       'dateOfExport',
@@ -117,7 +119,9 @@ describe('AdminTableService', () => {
       'responsibleNavigator',
       'responsibleCaller',
       'responsibleLogicMan',
-      'orderStatus'
+      'orderStatus',
+      'city',
+      'district'
     ];
 
     columns.forEach((column) => {
@@ -133,7 +137,9 @@ describe('AdminTableService', () => {
       'responsibleNavigator',
       'responsibleCaller',
       'responsibleLogicMan',
-      'orderStatus'
+      'orderStatus',
+      'city',
+      'district'
     ];
     const mockedColumns = [
       'deliveryDate',
@@ -141,7 +147,9 @@ describe('AdminTableService', () => {
       'responsibleNavigatorId',
       'responsibleCallerId',
       'responsibleLogicManId',
-      'orderStatus'
+      'orderStatus',
+      'citiesEn',
+      'districtsEn'
     ];
 
     columns.forEach((column) => {
@@ -177,6 +185,18 @@ describe('AdminTableService', () => {
     option = { key: 'FORMED', ua: 'Сформовано', en: 'Formed', filtered: false };
     service.changeFilters(true, 'orderStatus', option);
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
+  });
+
+  it('should set isLocation', () => {
+    let currentColumn = 'orderStatus';
+    let isLocation = currentColumn === 'citiesEn';
+    expect(isLocation).toBeFalsy();
+    currentColumn = 'citiesEn';
+    isLocation = currentColumn === 'citiesEn';
+    expect(isLocation).toBeTruthy();
+    currentColumn = 'districtsEn';
+    isLocation = currentColumn === 'districtsEn';
+    expect(isLocation).toBeTruthy();
   });
 
   it('should call changeDateFilters', () => {

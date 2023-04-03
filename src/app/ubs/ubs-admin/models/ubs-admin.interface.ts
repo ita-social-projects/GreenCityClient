@@ -356,7 +356,7 @@ export interface IFilteredColumnValue {
   key?: string;
   en?: string;
   ua?: string;
-  filtered: boolean;
+  filtered?: boolean;
 }
 
 export interface IDateFilters {
