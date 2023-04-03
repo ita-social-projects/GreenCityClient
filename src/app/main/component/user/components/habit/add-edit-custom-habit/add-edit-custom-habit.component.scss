@@ -1,0 +1,233 @@
+.wrapper {
+  max-width: 1170px;
+  margin: -30px auto 30px auto;
+  padding: 0 15px;
+
+  .create-habit-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 60px 0 4px 0;
+
+    .header-title {
+      font-family: var(--secondary-font);
+    }
+  }
+
+  .create-habit-main {
+    display: flex;
+
+    .habit-form {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+  }
+}
+
+.container-habit-edit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .block-width {
+    width: 554px;
+  }
+
+  .habit-progress,
+  .habit-info-right-block {
+    height: 468px;
+    width: 554px;
+  }
+
+  .habit-progress {
+    padding: 36px 36px 36px 36px;
+    background-color: var(--secondary-light-grey);
+    border-radius: 8px;
+    align-self: flex-start;
+  }
+
+  .habit-info-right-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .invite-friends {
+      display: flex;
+      width: 554px;
+      height: 172px;
+      padding: 24px;
+      background: var(--secondary-light-grey);
+      border-radius: 8px;
+    }
+
+    .duration-shoping {
+      display: flex;
+      height: 268px;
+      width: 554px;
+      justify-content: space-between;
+
+      .duration,
+      .shopping {
+        width: 261px;
+        background: var(--secondary-light-grey);
+        border-radius: 8px;
+        padding: 24px;
+        font-family: var(--secondary-font);
+      }
+    }
+  }
+}
+
+.first-block {
+  border-radius: 8px;
+  background-color: var(--secondary-light-grey);
+
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    padding: 36px;
+    gap: 42px;
+
+    .inputs-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .title-box,
+      .difficulty-box {
+        display: flex;
+        flex-direction: column;
+
+        .title-labels {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: 4px;
+        }
+
+        .difficulty-input {
+          display: flex;
+          list-style-type: none;
+          margin-top: 10px;
+          padding: 0;
+          gap: 18px;
+
+          .star-button {
+            border: 0;
+            outline: 0;
+            background: none;
+            padding: 0;
+          }
+        }
+      }
+
+      .title-box {
+        width: 70%;
+      }
+    }
+
+    .tags-section {
+      display: flex;
+      flex-direction: column;
+
+      .tags-block {
+        display: flex;
+        overflow-x: scroll;
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type='radio'] + img {
+  cursor: pointer;
+}
+
+.habit-tooltip {
+  margin: 0;
+  font-size: 12px;
+  font-family: var(--primary-font);
+  color: var(--secondary-grey);
+}
+
+.image-block {
+  display: flex;
+  height: 100%;
+}
+
+.habit-column-block {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.habit-block {
+  width: 100%;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: var(--secondary-light-grey);
+}
+
+.textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--secondary-font);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-white);
+  z-index: 2;
+}
+
+:host ::ng-deep {
+  .ql-toolbar {
+    border-radius: 4px 4px 0 0;
+  }
+
+  .ql-container {
+    height: 120px;
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+.select-image {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.add-habit-container {
+  margin: 32px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 32px;
+
+  button {
+    width: 180px;
+  }
+}
+
+.warning {
+  color: var(--error-red);
+}

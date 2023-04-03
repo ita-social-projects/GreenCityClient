@@ -4,45 +4,65 @@
   display: flex;
   background-color: var(--ubs-secondary-dark-green);
 
-  a {
-    margin-left: 20px;
+  &-logo img {
+    width: 90px;
   }
 
-  .footer-menu {
+  &-menu {
     display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 150px;
 
-    .pick-up-service {
+    &_main {
       display: flex;
-      font-weight: 700;
-      font-size: 12px;
-      line-height: 12px;
-      color: var(--ubs-primary-white);
+      flex-direction: row;
+      width: 90%;
+      justify-content: space-between;
+      margin-left: 75px;
     }
 
-    li {
-      list-style-type: none;
+    &_social-media {
+      display: flex;
 
       a {
+        margin-left: 15px;
+      }
+    }
+
+    &_links {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+
+      .pick-up-service,
+      .route-link {
         display: flex;
         font-weight: 700;
-        font-size: 12px;
+        font-size: 14px;
         line-height: 12px;
         color: var(--ubs-primary-white);
+      }
+
+      li {
+        list-style-type: none;
       }
     }
   }
 
-  .footer-bottom-part {
-    margin: 29px 0 22px 0;
-    font-size: 9px;
-    font-weight: 400;
-    line-height: 11px;
-    color: var(--ubs-primary-dark-grey);
+  .container-fluid {
+    margin: auto;
+  }
+
+  &-bottom-part {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 22px 150px 0 0;
 
     .par {
       margin: 0;
@@ -53,118 +73,144 @@
     }
   }
 
-  .container-fluid {
-    margin-right: 50px;
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
+  &-logo_mobile {
+    display: none;
+  }
+}
 
-    .menu-left {
-      display: flex;
-      width: 55%;
-      height: 100%;
-      align-items: center;
+@media (min-width: 768px) and (max-width: 1024px) {
+  .footer {
+    &-menu {
+      margin: 0;
+    }
 
-      .footer-menu {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        padding: 0;
+    &-bottom-part {
+      margin: 22px 0 0 0;
+    }
+  }
+}
 
-        .pick-up-service {
-          display: flex;
-          font-size: 16px;
-          line-height: 20px;
-        }
+@media (min-width: 576px) and (max-width: 768px) {
+  .footer {
+    &-menu {
+      margin: 0;
 
-        li {
-          list-style-type: none;
+      &_main {
+        margin-left: 40px;
+      }
 
-          a {
-            display: flex;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 20px;
-            color: var(--ubs-primary-white);
+      &_social-media {
+        a {
+          margin-left: 10px;
+
+          img {
+            width: 34px;
           }
         }
       }
+
+      &_links {
+        .pick-up-service {
+          font-size: 10px;
+        }
+
+        li .route-link {
+          font-size: 10px;
+          line-height: 10px;
+        }
+      }
     }
 
-    .menu-right {
+    &-bottom-part {
+      margin: 16px 0 0 0;
+
+      .par {
+        font-size: 9px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .footer {
+    .container-fluid {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-
-      .footer-bottom-part {
-        margin-top: 25px;
-
-        .par {
-          font-weight: 400;
-          font-size: 12px;
-          line-height: 15px;
-          color: var(--ubs-main-page-primary-light-grey);
-        }
-      }
+      gap: 23px;
     }
-  }
-}
 
-.footer-container-mobile {
-  width: 100%;
-  padding: 0 16px;
-
-  .footer-menu-mobile {
-    display: flex;
-    width: 100%;
-    align-items: center;
-  }
-}
-
-@media (max-width: 1024px) {
-  .footer {
-    height: 157px;
-    flex-direction: column;
-
-    .container-fluid {
+    &-menu {
       margin: 0;
-      padding: 28px 16px 23px 16px;
 
-      .menu-left {
-        width: auto;
-      }
-
-      .menu-right {
-        width: 100%;
+      &_social-media {
+        width: 90%;
+        justify-content: space-around;
 
         a {
-          margin: 0;
-        }
+          margin-left: 8px;
 
-        .social-networks {
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
+          img {
+            width: 30px;
+          }
         }
       }
 
-      img {
-        height: 32px;
+      &_links {
+        gap: 12px;
+        width: 100%;
+        justify-content: space-around;
+
+        li .route-link {
+          max-width: 75px;
+        }
+
+        .pick-up-service {
+          max-width: 60px;
+        }
+      }
+
+      &_main {
+        margin: 0;
+        width: 100%;
+      }
+    }
+
+    &-logo {
+      display: none;
+    }
+
+    &-bottom-part {
+      margin: 0;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-logo_mobile {
+      display: block;
+
+      .footer-logo-bottom {
+        width: 50px;
       }
     }
   }
 }
 
-@media (min-width: 320px) and (max-width: 768px) {
-  .footer-container-mobile {
-    .footer-menu-mobile .footer-menu {
-      justify-content: space-between;
-      gap: 0;
+@media (min-width: 320px) and (max-width: 480px) {
+  .footer {
+    height: 176px;
+
+    &-menu_main {
+      flex-direction: column-reverse;
+      align-items: center;
+      gap: 30px;
     }
 
-    .footer-bottom-part {
-      margin-bottom: 0;
+    &-menu_social-media {
+      a {
+        img {
+          width: 34px;
+        }
+      }
     }
   }
 }

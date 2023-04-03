@@ -2,6 +2,7 @@
   height: 231px;
   width: 100%;
   display: table;
+  background-color: var(--primary-white);
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   margin-bottom: 8px;
 }
@@ -47,14 +48,23 @@
 
 .warning {
   font-family: var(--primary-font);
-  font-size: 14px;
+  font-size: 12px;
   color: var(--secondary-grey);
   line-height: 16px;
 }
 
-img {
-  width: 426px;
-  height: 231px;
+.image-preview {
+  display: flex;
+  width: 100%;
+  background-color: var(--primary-white);
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.cropper-block .cropper {
+  max-height: 231px;
 }
 
 .cropper-buttons {
@@ -63,7 +73,7 @@ img {
   margin-top: 8px;
   gap: 20px;
 
-  .secondary-global-button {
+  .s-btn {
     width: 154px;
   }
 }

@@ -11,6 +11,7 @@ import { singleNewsImages } from '../../../../../image-pathes/single-news-images
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-habits',
@@ -39,7 +40,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     public profileService: ProfileService,
-    public habitAssignService: HabitAssignService
+    public habitAssignService: HabitAssignService,
+    public router: Router
   ) {}
 
   ngOnInit() {
@@ -138,6 +140,11 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
           });
         });
       });
+  }
+
+  public goToCreateHabit(): void {
+    const userId = localStorage.getItem('userId');
+    this.router.navigate([`profile/${userId}/create-habit`]);
   }
 
   ngOnDestroy(): void {

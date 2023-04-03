@@ -9,6 +9,7 @@ import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
+import { CustomHabitInterface } from '../../interface/habit/custom-habit.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class HabitService {
     return this.http.get<Array<ShoppingList>>(`${habitLink}/${id}/shopping-list?lang=${this.language}`);
   }
 
-  public getAllTags(): Observable<Array<TagInterface>> {
+  getAllTags(): Observable<Array<TagInterface>> {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
@@ -43,5 +44,24 @@ export class HabitService {
     return this.http.get<HabitListInterface>(
       `${habitLink}/tags/search?lang=${this.language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
     );
+  }
+
+  addCustomHabit(habit: any, lang: string): Observable<CustomHabitInterface> {
+    const body = {
+      habitTranslations: [
+        {
+          name: habit.title,
+          description: habit.description,
+          habitItem: '',
+          languageCode: lang
+        }
+      ],
+      complexity: habit.complexity,
+      defaultDuration: habit.duration,
+      image: habit.image,
+      tags: habit.tags,
+      customShoppingListItemDto: habit.shopList
+    };
+    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
   }
 }

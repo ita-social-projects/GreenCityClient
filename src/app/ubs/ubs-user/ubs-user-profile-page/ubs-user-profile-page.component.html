@@ -145,7 +145,7 @@
                   <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
                 </h5>
                 <div class="inline">
-                  <div class="form-group input-margin">
+                  <div class="form-group input-margin localization">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                     <p>{{ getLangValue(address.value?.region, address.value?.regionEn) }}</p>
                   </div>
@@ -155,7 +155,7 @@
                   </div>
                 </div>
                 <div class="inline">
-                  <div class="form-group input-margin">
+                  <div class="form-group input-margin localization">
                     <label for="street" class="form-label">{{ 'ubs-client-profile.street' | translate }}</label>
                     <p>{{ getLangValue(address.value?.street, address.value?.streetEn) }}</p>
                   </div>
@@ -173,7 +173,7 @@
                   </div>
                 </div>
                 <div class="inline">
-                  <div class="form-group mrgbtn">
+                  <div class="form-group mrgbtn localization">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                     <p>{{ getLangValue(address.value?.district, address.value?.districtEn) }}</p>
                   </div>

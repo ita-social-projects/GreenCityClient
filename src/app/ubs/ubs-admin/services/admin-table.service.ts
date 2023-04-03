@@ -96,6 +96,12 @@ export class AdminTableService {
       case 'responsibleLogicMan':
         endPointColumnName = 'responsibleLogicManId';
         break;
+      case 'city':
+        endPointColumnName = 'citiesEn';
+        break;
+      case 'district':
+        endPointColumnName = 'districtsEn';
+        break;
       default:
         endPointColumnName = column;
         break;
@@ -121,6 +127,12 @@ export class AdminTableService {
       case 'responsibleLogicManId':
         tableColumnName = 'responsibleLogicMan';
         break;
+      case 'citiesEn':
+        tableColumnName = 'city';
+        break;
+      case 'districtsEn':
+        tableColumnName = 'district';
+        break;
       default:
         tableColumnName = column;
         break;
@@ -131,10 +143,11 @@ export class AdminTableService {
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const isLocation = columnName === 'citiesEn' || columnName === 'districtsEn';
     this.columnsForFiltering.find((column) => {
       if (column.key === currentColumn) {
         column.values.find((value) => {
-          if (value.key === option.key) {
+          if (value.key === option.key || value.en === option.en) {
             value.filtered = checked;
           }
         });
@@ -142,10 +155,10 @@ export class AdminTableService {
     });
     this.setColumnsForFiltering(this.columnsForFiltering);
     if (checked) {
-      elem[columnName] = option.key;
+      elem[columnName] = isLocation ? option.en : option.key;
       this.filters = [...this.filters, elem];
     } else {
-      this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
+      this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== (isLocation ? option.en : option.key));
     }
     this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
   }

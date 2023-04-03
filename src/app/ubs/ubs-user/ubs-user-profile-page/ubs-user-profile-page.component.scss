@@ -71,6 +71,10 @@ $inputwidth: 260px;
     margin: 28px 0 14px 0;
   }
 
+  .localization {
+    width: 210px;
+  }
+
   h5 {
     font-weight: bold;
     margin: 10px 0 18px 0;
@@ -100,6 +104,7 @@ $inputwidth: 260px;
       padding: 0 13px 0 0;
       color: var(--ubs-quaternary-dark-grey);
       font-size: 16px;
+      margin-bottom: 1px;
     }
   }
 
@@ -151,7 +156,7 @@ $inputwidth: 260px;
     }
 
     label {
-      margin-bottom: 0;
+      margin-bottom: 10px;
       padding: 0;
       color: var(--ubs-secondary-grey);
       font-family: var(--primary-font);
@@ -199,8 +204,9 @@ $inputwidth: 260px;
 .delete-address {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-left: 180px;
+  margin-left: auto;
+  order: 2;
+  margin-right: 60px;
 }
 
 @media (max-width: 1439px) {
@@ -208,7 +214,9 @@ $inputwidth: 260px;
     max-width: 800px;
 
     .delete-address {
-      margin-left: 5px;
+      margin-left: auto;
+      order: 2;
+      margin-right: 20px;
     }
   }
 }
@@ -221,7 +229,9 @@ $inputwidth: 260px;
   }
 
   .delete-address {
-    margin-left: 30px;
+    margin-left: auto;
+    order: 2;
+    margin-right: 15px;
   }
 }
 

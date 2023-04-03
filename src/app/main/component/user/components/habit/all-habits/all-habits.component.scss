@@ -23,6 +23,11 @@ h1 {
   row-gap: 20px;
   margin: 20px 0 3.125rem 0;
 
+  .habit-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   a {
     justify-self: center;
 

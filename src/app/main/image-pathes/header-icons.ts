@@ -12,9 +12,5 @@ export const ubsHeaderIcons = {
   search: 'assets/img/search.svg',
   searchIcon: 'assets/admin-header/search.svg',
   arrowDown: 'assets/img/filled_arrow_down.svg',
-  ubsLogoFooter: 'assets/admin-header/logo-footer.svg',
-  facebookIcon: 'assets/admin-header/face-icon.svg',
-  instagramIcon: 'assets/admin-header/insta-icon.svg',
-  telegramIcon: 'assets/admin-header/telegram-icon.svg',
-  youTubeIcon: 'assets/admin-header/you-tube-icon.svg'
+  ubsLogoFooter: 'assets/admin-header/logo-footer.svg'
 };
