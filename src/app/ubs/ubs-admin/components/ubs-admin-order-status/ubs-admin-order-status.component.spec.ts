@@ -4,11 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Subject } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { OrderService } from '../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -41,17 +42,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     cancellationComment: new FormControl('')
   });
 
-  const GeneralInfoFake = {
-    orderStatus: 'DONE',
-    adminComment: 'Admin',
-    orderPaymentStatus: 'PAID',
-    orderStatusesDtos: [
-      { ableActualChange: false, key: 'DONE', translation: 'Formed' },
-      { ableActualChange: false, key: 'ADJUSTMENT', translation: 'Adjustment' },
-      { ableActualChange: false, key: 'BROUGHT_IT_HIMSELF', translation: 'Brought by himself' },
-      { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
-    ]
-  };
+  const GeneralInfoFake = GeneralInfoMock;
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue('value');
@@ -104,7 +95,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     spyOn(component, 'openPopup');
     spyOn(component.changedOrderStatus, 'emit');
 
-    component.onChangedOrderStatus('CANCELED');
+    component.onChangedOrderStatus(OrderStatus.CANCELED);
     expect(component.changedOrderStatus.emit).toHaveBeenCalled();
     expect(component.openPopup).toHaveBeenCalledTimes(1);
   });

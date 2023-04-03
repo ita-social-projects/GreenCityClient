@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pipe.pipe';
 import { ResizeColumnDirective } from 'src/app/ubs/ubs-admin/derictives/resize-table-columns.directive';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminCustomerOrdersComponent } from './ubs-admin-customer-orders.component';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { of } from 'rxjs';
@@ -30,8 +30,8 @@ describe('UbsAdminCustomerOrdersComponent', () => {
       key: 'ddd',
       username: 'John',
       userOrdersList: [
-        { id: 232, orderDate: '21/02/2022', orderStatus: 'FORMED', orderPaymentStatus: 'PAID', amount: 0 },
-        { id: 305, orderDate: '23/02/2022', orderStatus: 'DONE', orderPaymentStatus: 'PAID', amount: null }
+        { id: 232, orderDate: '21/02/2022', orderStatus: OrderStatus.FORMED, orderPaymentStatus: 'PAID', amount: 0 },
+        { id: 305, orderDate: '23/02/2022', orderStatus: OrderStatus.DONE, orderPaymentStatus: 'PAID', amount: null }
       ]
     })
   );

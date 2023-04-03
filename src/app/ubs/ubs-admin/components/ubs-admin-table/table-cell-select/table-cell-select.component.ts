@@ -6,7 +6,7 @@ import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.se
 import { IDataForPopUp } from '../../../models/ubs-admin.interface';
 import { OrderService } from '../../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../../add-order-cancellation-reason/add-order-cancellation-reason.component';
-
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminSeveralOrdersPopUpComponent } from '../../ubs-admin-several-orders-pop-up/ubs-admin-several-orders-pop-up.component';
 
 @Component({
@@ -57,7 +57,7 @@ export class TableCellSelectComponent implements OnInit {
   }
   // The condition of pickup details for required fields
   private filterStatusesForPopUp(): boolean {
-    const statuses = ['ADJUSTMENT', 'CONFIRMED', 'ON_THE_ROUTE', 'DONE'];
+    const statuses = [OrderStatus.ADJUSTMENT, OrderStatus.CONFIRMED, OrderStatus.ON_THE_ROUTE, OrderStatus.DONE];
     const key = this.optional[this.findKeyForNewOption()].key;
     return statuses.includes(key);
   }

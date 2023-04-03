@@ -34,6 +34,7 @@ import {
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -83,7 +84,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isStoreEmpty: boolean;
   isPostData = false;
   dataForPopUp = [];
-  uneditableStatuses = ['CANCELED', 'DONE'];
+  uneditableStatuses = [OrderStatus.CANCELED, OrderStatus.DONE];
   stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;

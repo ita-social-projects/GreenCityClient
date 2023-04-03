@@ -104,7 +104,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
   it('method isOverpaymentReturnAvailable', () => {
     expect(component.isOverpaymentReturnAvailable()).toBeFalsy();
-    component.currentOrderStatus = 'CANCELED';
+    component.currentOrderStatus = OrderStatus.CANCELED;
     expect(component.isOverpaymentReturnAvailable()).toBeTruthy();
   });
 

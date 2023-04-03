@@ -15,6 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { GeneralInfoMock } from '../../services/orderInfoMock';
 
 describe('UbsAdminCabinetComponent', () => {
   let component: UbsAdminOrderComponent;
@@ -81,7 +83,7 @@ describe('UbsAdminCabinetComponent', () => {
   });
 
   it('should disable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is CANCELED', () => {
-    component.currentOrderStatus = 'CANCELED';
+    component.currentOrderStatus = OrderStatus.CANCELED;
     component.orderForm.get('exportDetailsDto').setValue({ field1: 'value1', field2: 'value2' });
     component.statusCanceledOrDone();
 
@@ -90,7 +92,7 @@ describe('UbsAdminCabinetComponent', () => {
   });
 
   it('should disable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is DONE and all fields have values', () => {
-    component.currentOrderStatus = 'DONE';
+    component.currentOrderStatus = OrderStatus.DONE;
     component.orderForm.get('exportDetailsDto').setValue({ field1: 'value1', field2: 'value2' });
     component.statusCanceledOrDone();
 
@@ -99,7 +101,7 @@ describe('UbsAdminCabinetComponent', () => {
   });
 
   it('should enable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is DONE but not all fields have values', () => {
-    component.currentOrderStatus = 'DONE';
+    component.currentOrderStatus = OrderStatus.DONE;
     component.orderForm.get('exportDetailsDto').setValue({ field1: 'value1', field2: null });
     component.statusCanceledOrDone();
 
@@ -108,7 +110,7 @@ describe('UbsAdminCabinetComponent', () => {
   });
 
   it('should clear validators, reset values, and set isFormResetted to true when currentOrderStatus is in statuses', () => {
-    component.currentOrderStatus = 'BROUGHT_IT_HIMSELF';
+    component.currentOrderStatus = OrderStatus.BROUGHT_IT_HIMSELF;
     component.notRequiredFieldsStatuses();
 
     expect(component.orderForm.get('exportDetailsDto.field1').validator).toBeNull();
@@ -121,19 +123,11 @@ describe('UbsAdminCabinetComponent', () => {
   });
 
   it('should return the order status info for the given status name', () => {
-    const GeneralInfoFake = {
-      orderStatus: 'DONE',
-      orderStatusesDtos: [
-        { ableActualChange: false, key: 'DONE', translation: 'Formed' },
-        { ableActualChange: false, key: 'ADJUSTMENT', translation: 'Adjustment' },
-        { ableActualChange: false, key: 'BROUGHT_IT_HIMSELF', translation: 'Brought by himself' },
-        { ableActualChange: true, key: 'CANCELED', translation: 'Canceled' }
-      ]
-    };
+    const GeneralInfoFake = GeneralInfoMock;
     component.generalInfo = GeneralInfoFake as any;
-    const result = (component as any).getOrderStatusInfo('DONE');
+    const result = (component as any).getOrderStatusInfo(OrderStatus.DONE);
 
-    expect(result).toEqual({ ableActualChange: false, key: 'DONE', translation: 'Formed' });
+    expect(result).toEqual({ ableActualChange: false, key: OrderStatus.DONE, translation: 'Done' });
   });
 
   it('should return an empty string if the map is empty', () => {

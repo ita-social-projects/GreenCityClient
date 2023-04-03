@@ -5,6 +5,7 @@ import { environment } from '@environment/environment.js';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { OrderStatus } from '../../ubs/order-status.enum';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
@@ -166,9 +167,9 @@ describe('AdminTableService', () => {
         key: 'orderStatus',
         ua: 'Статус замовлення',
         values: [
-          { en: 'Formed', filtered: false, key: 'FORMED', ua: 'Сформовано' },
-          { en: 'Canceled', filtered: false, key: 'CANCELED', ua: 'Скасовано' },
-          { en: 'Completed', filtered: false, key: 'COMPLETED', ua: 'Завершено' }
+          { en: 'Formed', filtered: false, key: OrderStatus.FORMED, ua: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: OrderStatus.CANCELED, ua: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: OrderStatus.COMPLETED, ua: 'Завершено' }
         ]
       }
     ];
@@ -182,7 +183,7 @@ describe('AdminTableService', () => {
 
   it('method changeFilters should set value to localStorageService', () => {
     let option: IFilteredColumnValue;
-    option = { key: 'FORMED', ua: 'Сформовано', en: 'Formed', filtered: false };
+    option = { key: OrderStatus.FORMED, ua: 'Сформовано', en: 'Formed', filtered: false };
     service.changeFilters(true, 'orderStatus', option);
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });

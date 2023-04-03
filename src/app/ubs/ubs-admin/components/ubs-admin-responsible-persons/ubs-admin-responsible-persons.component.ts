@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IEmployee, IResponsiblePersons } from '../../models/ubs-admin.interface';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-responsible-persons',
@@ -22,7 +23,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.orderStatus?.currentValue === 'CANCELED' || changes.orderStatus?.currentValue === 'DONE') {
+    if (changes.orderStatus?.currentValue === OrderStatus.CANCELED || changes.orderStatus?.currentValue === OrderStatus.DONE) {
       this.isOrderStatusCancelOrDone = true;
     }
   }

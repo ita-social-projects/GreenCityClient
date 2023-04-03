@@ -3,6 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminExportDetailsComponent', () => {
   let component: UbsAdminExportDetailsComponent;
@@ -100,11 +101,11 @@ describe('UbsAdminExportDetailsComponent', () => {
   });
 
   it('should set isOrderStatusCancelOrDone to true if orderStatus is CANCELED or DONE', () => {
-    component.orderStatus = 'CANCELED';
+    component.orderStatus = OrderStatus.CANCELED;
     component.ngAfterViewChecked();
     expect(component.isOrderStatusCancelOrDone).toBe(true);
 
-    component.orderStatus = 'DONE';
+    component.orderStatus = OrderStatus.DONE;
     component.ngAfterViewChecked();
     expect(component.isOrderStatusCancelOrDone).toBe(true);
   });

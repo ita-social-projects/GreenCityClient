@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -67,10 +68,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
   public onChangedOrderStatus(statusName: string) {
     this.changedOrderStatus.emit(statusName);
-    if (statusName === 'CANCELED') {
+    if (statusName === OrderStatus.CANCELED) {
       this.openPopup();
     }
-    if (statusName === 'NOT_TAKEN_OUT') {
+    if (statusName === OrderStatus.NOT_TAKEN_OUT) {
       this.notTakenOutOpenPop(this.generalInfo.id);
     }
   }
