@@ -3,6 +3,7 @@
 }
 
 .form__wrapper {
+  padding: 0 15px;
   margin-bottom: 22px;
 }
 
@@ -31,6 +32,7 @@
 }
 
 .form-group {
+  margin-right: 30px;
   margin-bottom: 10px;
 }
 
@@ -103,7 +105,8 @@ input {
 }
 
 .name-input {
-  max-width: 165px;
+  margin: 0 20px 0 0;
+  max-width: 160px;
   padding: 10px;
 }
 
