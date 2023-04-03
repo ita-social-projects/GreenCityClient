@@ -58,6 +58,12 @@
 
 .event-input {
   width: 484px;
+
+  .error-title {
+    position: relative;
+    top: 12px;
+    left: -10px;
+  }
 }
 
 .date-item {

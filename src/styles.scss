@@ -156,7 +156,7 @@ body {
   text-transform: capitalize;
   font-family: var(--primary-font);
   color: var(--tertiary-grey);
-  background: none;
+  background: var(--primary-white);
   border: 1px solid var(--tertiary-grey);
   border-radius: 25px;
   margin-right: 8px;
@@ -192,6 +192,7 @@ body {
 }
 
 ::-webkit-scrollbar {
+  height: 8px;
   width: 8px;
 }
 

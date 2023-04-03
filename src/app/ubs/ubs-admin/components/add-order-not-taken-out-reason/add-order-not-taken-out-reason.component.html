@@ -23,7 +23,10 @@
       formControlName="notTakenOutReason"
       [(ngModel)]="isOpendFromHistory ? reasonDescription : notTakenOutReason"
     ></textarea>
-    <div class="error-message" *ngIf="addNotTakenOutForm.invalid && addNotTakenOutForm.get('notTakenOutReason').dirty && !isOpendFromHistory">
+    <div
+      class="error-message"
+      *ngIf="addNotTakenOutForm.invalid && addNotTakenOutForm.get('notTakenOutReason').dirty && !isOpendFromHistory"
+    >
       <p>{{ 'order-not-taken-out.reason-error-message' | translate }}</p>
     </div>
   </form>

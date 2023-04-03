@@ -19,11 +19,14 @@
         <div class="title-input">
           <div class="title-wrapper">
             <mat-label>{{ 'create-event.event-name' | translate }}</mat-label>
-            <mat-label>{{ eventFormGroup.get('titleForm').value.length }}/70</mat-label>
+            <mat-label>{{ titleForm?.value.length }}/70</mat-label>
           </div>
           <mat-form-field appearance="outline" class="event-input">
             <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
             <input matInput placeholder="title" formControlName="titleForm" />
+            <div *ngIf="titleForm?.touched && titleForm?.invalid" class="error-title">
+              <app-input-error [formElement]="titleForm"></app-input-error>
+            </div>
           </mat-form-field>
         </div>
 
@@ -73,7 +76,9 @@
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
           ></quill-editor>
         </div>
-        <p class="textarea-description">{{ 'create-news.content-tooltip' | translate }}</p>
+        <div *ngIf="eventFormGroup.get('description').touched && eventFormGroup.get('description').invalid">
+          <app-input-error [formElement]="eventFormGroup.get('description')"></app-input-error>
+        </div>
       </div>
     </mat-card>
     <mat-card class="event-main-block right">

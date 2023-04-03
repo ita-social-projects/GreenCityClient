@@ -84,6 +84,8 @@ import { FriendProfileDashboardComponent } from './components/profile/users-frie
 import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-widget/habits-widget.component';
+import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -148,7 +150,8 @@ import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-w
     FriendProfilePageComponent,
     FriendProfileDashboardComponent,
     SetCountComponent,
-    HabitsWidgetComponent
+    HabitsWidgetComponent,
+    AddEditCustomHabitComponent
   ],
   imports: [
     NgbModule,
@@ -178,7 +181,8 @@ import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-w
     InfiniteScrollModule,
     UserSharedModule,
     MatTabsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    QuillModule.forRoot()
   ],
   providers: [EditProfileFormBuilder]
 })

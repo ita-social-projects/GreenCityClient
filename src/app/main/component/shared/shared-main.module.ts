@@ -32,6 +32,9 @@ import { EventsListItemComponent } from './components/events-list-item/events-li
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { TagsSelectComponent } from './components/tags-select/tags-select.component';
+import { InputErrorComponent } from './components/input-error/input-error.component';
+import { SelectImagesComponent } from './components/select-images/select-images.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -51,7 +54,10 @@ registerLocaleData(ukLocale, 'ua');
     FormBaseComponent,
     HabitsPopupComponent,
     EventsListItemComponent,
-    EventsListItemModalComponent
+    EventsListItemModalComponent,
+    TagsSelectComponent,
+    InputErrorComponent,
+    SelectImagesComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -99,7 +105,10 @@ registerLocaleData(ukLocale, 'ua');
     WarningPopUpComponent,
     FormBaseComponent,
     EventsListItemComponent,
-    EventsListItemModalComponent
+    EventsListItemModalComponent,
+    TagsSelectComponent,
+    InputErrorComponent,
+    SelectImagesComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
