@@ -51,7 +51,7 @@
             </mat-panel-description>
           </div>
           <div class="mobile_list">
-            <div class="mobile mobile_list-date">{{ 'user-orders.amount-due' | translate }}</div>
+            <div class="mobile mobile_list-amountDue">{{ 'user-orders.amount-due' | translate }}</div>
             <mat-panel-description *ngIf="!isOrderDoneOrCancel(order)" class="order_list-paymentAmountDue table-data">
               {{ order.amountBeforePayment | currency | localizedCurrency }}
             </mat-panel-description>
