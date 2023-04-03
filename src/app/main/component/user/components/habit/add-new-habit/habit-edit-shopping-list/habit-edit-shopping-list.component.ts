@@ -121,8 +121,9 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   private placeItemInOrder(): void {
     const statusOrder = { DONE: 1, INPROGRESS: 2, ACTIVE: 3 };
     this.shopList.sort((a, b) => {
-      const difference = statusOrder[a.status] - statusOrder[b.status];
-      return difference ? difference : a.custom && !b.custom ? -1 : 1;
+      const statusDifference = statusOrder[a.status] - statusOrder[b.status];
+      const orderCustom = a.custom && !b.custom ? -1 : 1;
+      return statusDifference ? statusDifference : orderCustom;
     });
     this.newList.emit(this.shopList);
   }
