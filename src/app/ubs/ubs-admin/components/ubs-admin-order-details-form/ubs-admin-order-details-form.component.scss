@@ -97,6 +97,10 @@
   }
 }
 
+.invalid-courier-price {
+  border: 1px solid var(--error-ligh-red);
+}
+
 .shop-numbers {
   position: relative;
 

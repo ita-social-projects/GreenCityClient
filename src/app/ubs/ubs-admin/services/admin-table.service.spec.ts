@@ -169,7 +169,7 @@ describe('AdminTableService', () => {
         values: [
           { en: 'Formed', filtered: false, key: OrderStatus.FORMED, ua: 'Сформовано' },
           { en: 'Canceled', filtered: false, key: OrderStatus.CANCELED, ua: 'Скасовано' },
-          { en: 'Completed', filtered: false, key: OrderStatus.COMPLETED, ua: 'Завершено' }
+          { en: 'Completed', filtered: false, key: OrderStatus.DONE, ua: 'Завершено' }
         ]
       }
     ];

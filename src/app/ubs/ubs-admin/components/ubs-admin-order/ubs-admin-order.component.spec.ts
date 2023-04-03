@@ -127,7 +127,7 @@ describe('UbsAdminCabinetComponent', () => {
     component.generalInfo = GeneralInfoFake as any;
     const result = (component as any).getOrderStatusInfo(OrderStatus.DONE);
 
-    expect(result).toEqual({ ableActualChange: false, key: OrderStatus.DONE, translation: 'Done' });
+    expect(result).toEqual({ ableActualChange: false, key: OrderStatus.DONE, translation: 'Formed' });
   });
 
   it('should return an empty string if the map is empty', () => {

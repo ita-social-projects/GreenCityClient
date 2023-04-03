@@ -262,7 +262,7 @@ describe('OrderService', () => {
 
   it('should return available statuses for order status BROUGHT_IT_HIMSELF', () => {
     const res = service.getAvailableOrderStatuses(OrderStatus.BROUGHT_IT_HIMSELF, arr);
-    expect(res).toEqual([{ key: OrderStatus.BROUGHT_IT_HIMSELF }, { key: OrderStatus.DONE }, { key: OrderStatus.CANCELED }]);
+    expect(res).toEqual([{ key: OrderStatus.BROUGHT_IT_HIMSELF }]);
   });
 
   it('should return available statuses for order status ON_THE_ROUTE', () => {

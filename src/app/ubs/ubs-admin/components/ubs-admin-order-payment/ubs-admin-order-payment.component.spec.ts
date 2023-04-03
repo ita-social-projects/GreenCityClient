@@ -7,6 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
