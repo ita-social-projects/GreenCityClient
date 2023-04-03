@@ -190,7 +190,14 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.changeAddressInPersonalData();
   }
 
+  isOneAdress() {
+    if (this.addresses.length === 1) {
+      this.addresses[0].actual = true;
+    }
+  }
+
   changeAddressInPersonalData() {
+    this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
     this.personalData.cityEn = activeAddress.cityEn;
@@ -268,6 +275,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   activeAddressId() {
+    this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
     this.addressId = activeAddress.id;
   }
@@ -360,6 +368,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAddressComment() {
+    this.isOneAdress();
     this.addresses.forEach((address) => {
       if (address.actual) {
         address.addressComment = this.personalDataForm.controls.addressComment.value;
