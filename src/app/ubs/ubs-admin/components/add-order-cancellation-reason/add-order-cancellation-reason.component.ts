@@ -56,6 +56,8 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   ) {
     this.isHistory = this.data.isHistory;
     this.orderID = this.data.orderID;
+    this.cancellationReason = this.data.reason;
+    this.cancellationComment = this.data.comment;
   }
 
   ngOnInit(): void {
@@ -63,13 +65,6 @@ export class AddOrderCancellationReasonComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
-    this.orderService
-      .getOrderCancelReason(this.orderID)
-      .pipe(takeUntil(this.destroySub))
-      .subscribe((message) => {
-        this.cancellationReason = message.cancellationReason;
-        this.cancellationComment = message.cancellationComment;
-      });
   }
 
   public initForm(): void {

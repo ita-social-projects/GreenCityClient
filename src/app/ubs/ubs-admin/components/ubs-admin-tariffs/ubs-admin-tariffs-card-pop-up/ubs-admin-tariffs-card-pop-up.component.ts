@@ -86,13 +86,13 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   ) {}
 
   get courier() {
-    return this.CardForm.get('courier');
+    return this.CardForm.get('courierName');
   }
   get station() {
     return this.CardForm.get('station');
   }
   get region() {
-    return this.CardForm.get('region');
+    return this.CardForm.get('regionNameUk');
   }
   get city() {
     return this.CardForm.get('city');

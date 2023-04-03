@@ -8,6 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitService } from '@global-service/habit/habit.service';
 
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
@@ -73,11 +74,5 @@ describe('HabitsGalleryViewComponent', () => {
     (component as any).userId = 12;
     component.ngOnInit();
     expect((component as any).userId).toBe(1);
-  });
-
-  it('should navigate to habit-more page', () => {
-    const spy = spyOn(component.router, 'navigate');
-    component.goHabitMore();
-    expect(spy).toHaveBeenCalled();
   });
 });

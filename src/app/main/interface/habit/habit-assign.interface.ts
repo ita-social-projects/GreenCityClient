@@ -1,5 +1,5 @@
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { HabitInterface, HabitTranslationInterface } from './habit.interface';
+import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {
   id: number;
@@ -16,18 +16,6 @@ export interface HabitAssignInterface {
   lastEnrollmentDate: Date;
   habitStatusCalendarDtoList: Array<HabitStatusCalendarListInterface>;
   shoppingListItems: Array<ShoppingList>;
-}
-
-export interface HabitResponseInterface {
-  complexity: number;
-  defaultDuration: number;
-  amountAcquiredUsers: number;
-  habitAssignStatus?: string;
-  habitTranslation: HabitTranslationInterface;
-  id: number;
-  image: string;
-  shoppingListItems: Array<ShoppingList>;
-  tags: Array<string>;
 }
 
 export interface HabitStatusCalendarListInterface {

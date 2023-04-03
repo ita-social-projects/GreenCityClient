@@ -22,7 +22,7 @@
               <ng-template #routerLink>
                 <a
                   [routerLink]="link.route"
-                  [routerLinkActive]="!isUBS ? 'active-link' : ''"
+                  [routerLinkActive]="[!isUBS ? 'active-link' : '']"
                   [routerLinkActiveOptions]="{ exact: true }"
                   class="url-name"
                 >

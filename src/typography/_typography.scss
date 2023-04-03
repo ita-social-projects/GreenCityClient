@@ -106,7 +106,6 @@
   letter-spacing: 0.1px;
 }
 
-.ubs-primary-global-button,
 .primary-global-button,
 .secondary-global-button,
 .tertiary-global-button {
@@ -126,26 +125,6 @@
   outline: none;
   background: none;
   cursor: pointer;
-}
-
-.ubs-primary-global-button {
-  color: var(--ubs-quaternary-dark-grey);
-  background: var(--ubs-button-light-green);
-
-  &:hover,
-  &:active {
-    background: var(--ubs-button-dark-green);
-  }
-
-  &:focus {
-    background: var(--ubs-primary-light-green);
-    border: 2px solid var(--ubs-button-dark-green);
-  }
-
-  &:disabled {
-    color: var(--ubs-secondary-grey);
-    background-color: var(--ubs-quaternary-light-grey);
-  }
 }
 
 .primary-global-button {
@@ -230,4 +209,28 @@
   height: 36px;
   line-height: 20px;
   font-size: 14px;
+}
+
+.primary-global-input {
+  height: 44px;
+  line-height: 28px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--quintynary-light-grey);
+
+  &:focus {
+    padding: 10px 11px;
+    border: 2px solid var(--primary-green);
+    outline: 0;
+  }
+
+  &::placeholder {
+    color: var(--primary-light-grey);
+  }
+}
+
+.warning-input {
+  border: 1px solid var(--error-red);
 }

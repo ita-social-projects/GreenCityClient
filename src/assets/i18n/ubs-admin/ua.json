@@ -426,6 +426,7 @@
     "order-number": "№ замовлення",
     "order-status": "Статус замовлення",
     "order-date": "Дата замовлення",
+    "payment-date": "Дата оплати",
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума замовлення",
     "amount-due": "Сума до оплати",

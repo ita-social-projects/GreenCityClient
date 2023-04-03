@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,11 +9,12 @@ import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.
 import { ShoppingList } from '../../component/user/models/shoppinglist.model';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
+import { CustomHabitInterface } from '../../interface/habit/custom-habit.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HabitService implements OnDestroy {
+export class HabitService {
   language: string;
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private tagsType = 'HABIT';
@@ -35,7 +36,7 @@ export class HabitService implements OnDestroy {
     return this.http.get<Array<ShoppingList>>(`${habitLink}/${id}/shopping-list?lang=${this.language}`);
   }
 
-  public getAllTags(): Observable<Array<TagInterface>> {
+  getAllTags(): Observable<Array<TagInterface>> {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
@@ -45,8 +46,22 @@ export class HabitService implements OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+  addCustomHabit(habit: any, lang: string): Observable<CustomHabitInterface> {
+    const body = {
+      habitTranslations: [
+        {
+          name: habit.title,
+          description: habit.description,
+          habitItem: '',
+          languageCode: lang
+        }
+      ],
+      complexity: habit.complexity,
+      defaultDuration: habit.duration,
+      image: habit.image,
+      tags: habit.tags,
+      customShoppingListItemDto: habit.shopList
+    };
+    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
   }
 }

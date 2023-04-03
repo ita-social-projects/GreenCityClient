@@ -22,7 +22,11 @@ export class SocialNetworksComponent implements ControlValueAccessor {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg',
-    defaultIcon: './assets/img/profile/icons/default_social.svg'
+    defaultIcon: './assets/img/profile/icons/default_social.svg',
+    facebook: './assets/img/icon/facebook-icon.svg',
+    linkedin: './assets/img/icon/linked-icon.svg',
+    instagram: './assets/img/icon/instagram-icon.svg',
+    twitter: './assets/img/icon/twitter-icon.svg'
   };
 
   public urlValidationRegex = Patterns.linkPattern;
@@ -127,14 +131,21 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   public onAddLink(link?) {
     this.onChange(link);
     const value = link || this.inputTextValue;
-
+    let imgPath = this.icons.defaultIcon;
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
+      Object.keys(this.icons).forEach((icon) => {
+        if (value.toLowerCase().includes(icon)) {
+          imgPath = this.icons[icon];
+        }
+      });
+
       this.socialNetworks.push({
         url: value,
         socialNetworkImage: {
-          imagePath: this.icons.defaultIcon
+          imagePath: imgPath
         }
       });
+
       this.onEmitSocialNetworksChange();
       this.editedSocialLink = false;
       this.onCloseForm();

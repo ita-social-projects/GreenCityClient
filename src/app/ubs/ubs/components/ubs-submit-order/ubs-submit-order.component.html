@@ -130,19 +130,14 @@
 </div>
 
 <div class="w-100 buttons" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
-  <button *ngIf="!isNotification" class="secondary-global-button btn btn-back" matStepperPrevious>
-    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="underline">{{ 'submit-order.back' | translate }}</span>
+  <button *ngIf="!isNotification" class="ubs-back-link-global-button" matStepperPrevious>
+    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="link-underline">{{ 'submit-order.back' | translate }}</span>
   </button>
   <div class="btn-canc-sub">
-    <button class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS(true)">
+    <button class="ubs-secondary-global-button" (click)="cancelUBS(true)">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button
-      [disabled]="isTotalAmountZero || loadingAnim"
-      (click)="redirectToOrder()"
-      type="submit"
-      class="primary-global-button btn submit-button"
-    >
+    <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="ubs-primary-global-button">
       <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ isFinalSumZero ? ('submit-order.to-order' | translate) : ('submit-order.to-pay' | translate) }}
     </button>

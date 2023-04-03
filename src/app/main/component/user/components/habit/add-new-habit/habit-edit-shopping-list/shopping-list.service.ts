@@ -10,20 +10,16 @@ import { mainLink } from '../../../../../../links';
 export class ShoppingListService {
   constructor(private http: HttpClient) {}
 
-  public getShopList(userId: number, lang: string): Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(`${mainLink}user/shopping-list-items/${userId}/get-all-inprogress?lang=${lang}`);
-  }
-
-  public getCustomShopList(userId: number): Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${userId}/custom-shopping-list-items`);
-  }
-
   public getHabitShopList(habitId: number): Observable<ShoppingList[]> {
     return this.http.get<ShoppingList[]>(`${mainLink}habit/${habitId}/shopping-list`);
   }
 
-  public getHabitAllShopLists(habitId: number, lang: string): Observable<AllShoppingLists> {
-    return this.http.get<AllShoppingLists>(`${mainLink}habit/assign/${habitId}/allUserAndCustomList?lang=${lang}`);
+  public getHabitAllShopLists(habitAssignId: number, lang: string): Observable<AllShoppingLists> {
+    return this.http.get<AllShoppingLists>(`${mainLink}habit/assign/${habitAssignId}/allUserAndCustomList?lang=${lang}`);
+  }
+
+  public getUserShoppingLists(lang: string): Observable<AllShoppingLists[]> {
+    return this.http.get<AllShoppingLists[]>(`${mainLink}habit/assign/allUserAndCustomShoppingListsInprogress?lang=${lang}`);
   }
 
   public addHabitCustomShopList(userId: number, habitId: number, customShopList: CustomShoppingItem[]): Observable<ShoppingList[]> {
@@ -51,6 +47,6 @@ export class ShoppingListService {
       customShoppingListItemDto: habitShopList.customShopList,
       userShoppingListItemDto: habitShopList.standartShopList
     };
-    return this.http.put(`${mainLink}habit/assign/${habitShopList.habitId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
+    return this.http.put(`${mainLink}habit/assign/${habitShopList.habitAssignId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
   }
 }

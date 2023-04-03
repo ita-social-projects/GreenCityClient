@@ -6,7 +6,7 @@
       <form #formEditProf [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
         <div class="wrapper">
           <p>{{ 'user.edit-profile.info' | translate }}</p>
-          <div class="input-block" [ngStyle]="{ 'margin-bottom': '41px' }">
+          <div class="input-block">
             <label for="name">{{ 'user.edit-profile.name' | translate }}</label>
             <input
               type="text"
@@ -15,9 +15,9 @@
               [pattern]="namePattern"
               id="name"
             />
-            <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
+            <span *ngIf="editProfileForm.get('name').invalid">{{ 'user.edit-profile.name-warning' | translate }}</span>
           </div>
-          <div class="input-block" [ngStyle]="{ 'margin-bottom': '53px' }">
+          <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
             <input
               type="text"
@@ -30,12 +30,12 @@
               [pattern]="cityPattern"
               id="city"
             />
-            <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
+            <span *ngIf="editProfileForm.get('city').invalid">{{ 'user.edit-profile.city-warning' | translate }}</span>
           </div>
           <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
-            <textarea placeholder="{{ userInfo.userCredo }}" formControlName="credo" id="credo"></textarea>
-            <span>{{ 'user.edit-profile.title-warning' | translate }}</span>
+            <textarea placeholder="{{ userInfo.userCredo }}" formControlName="credo" id="credo" maxlength="171"></textarea>
+            <span *ngIf="editProfileForm.get('credo').invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
           </div>
         </div>
         <div class="wrapper">

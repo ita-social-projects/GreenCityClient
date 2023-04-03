@@ -356,7 +356,7 @@ export interface IFilteredColumnValue {
   key?: string;
   en?: string;
   ua?: string;
-  filtered: boolean;
+  filtered?: boolean;
 }
 
 export interface IDateFilters {
@@ -385,7 +385,7 @@ export interface IBigOrderTableOrderInfo {
   senderEmail: string;
   violationsAmount: number;
   region: string;
-  settlement: string;
+  city: string;
   district: string;
   address: string;
   commentToAddressForClient: string;
@@ -518,5 +518,5 @@ export enum ordersStatuses {
   NotTakenOutUA = 'Не вивезли',
   NotTakenOutEN = 'Not taken out',
   CanselUA = 'Скасовано',
-  CanselEN = 'Canseled'
+  CanselEN = 'Canceled'
 }

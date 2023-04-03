@@ -472,6 +472,8 @@
       }
     },
     "map": {
+      "choose-location": "Choose location",
+      "add-place": "Add place",
       "filter-by": "Filter By",
       "searching-for-a-place": "Searching for a place",
       "places": "Places",
@@ -609,8 +611,8 @@
       "title": "Credo",
       "title-warning": "Should contain maximum 170 symbols",
       "links": "Linked social networks",
-      "add-link": "add social network",
-      "privacy": "profile privacy",
+      "add-link": "Add social network",
+      "privacy": "Profile privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shopping-list": "Show my shopping list",
@@ -706,7 +708,7 @@
       },
       "to-do-list": "To-do list",
       "no-shopping-items": "No items to recommend",
-      "add-custom-item": "Add custom iitem",
+      "add-custom-item": "Add custom item",
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",
@@ -722,6 +724,21 @@
         "not-have-habit": "You haven't saved any packages or glasses this month, but you still have a chance to make this world a better place! Get started now! Denote the number of packages and glasses you didn't take today! Or start forming a habit of your own choice!"
       },
       "add-new-habit": {
+        "create-habit": "Create habit",
+        "create-habit-subtitle": "Please provide as many details as you can - choose thematic sections and the duration of the habit, add a to-do list, etc. You can come back and update habit anytime after publishing.",
+        "habit-title": "Habit title",
+        "habit-title-placeholder": "Enter name for the habit",
+        "pick-tags": "Pick tag for habit",
+        "tags-limits": "Select one tag",
+        "difficulty": {
+          "name": "Difficulty",
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        },
+        "textarea-title": "Habit description",
+        "description-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+        "description-placeholder": "Describe the habit",
         "modal-caption": "New habit",
         "already-chosen-caption": "Already chosen",
         "available-to-chose-caption": "Habits, yet available to be added",
@@ -740,6 +757,7 @@
         "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
+        "btn-crate-habit": "Create habit",
         "btn-more": "More",
         "btn-add": "Add habit",
         "new-habit-added": "You have successfully added a new habit to your list",
@@ -1042,5 +1060,13 @@
     "invite": "Invite",
     "all": "All",
     "friends": "Friends"
+  },
+  "input-error": {
+    "required": "This field is required",
+    "min-length-short": "The field contains insufficient characters",
+    "max-length-title": "The field should contain maximum 70 symbols",
+    "min-length-description": "The field should contain minimum 20 symbols",
+    "max-length-description": "The field should contain maximum 63 206 symbols",
+    "max-length": "The field should contain less characters"
   }
 }

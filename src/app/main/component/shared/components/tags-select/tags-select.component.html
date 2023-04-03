@@ -1,0 +1,13 @@
+<button *ngFor="let tag of tagsList" class="tag-list">
+  <a
+    role="button"
+    [attr.aria-pressed]="tag.isActive"
+    class="global-tag"
+    [ngClass]="{ 'global-tag-clicked': tag.isActive }"
+    tabindex="0"
+    (click)="checkTab(tag)"
+  >
+    <span class="text">{{ getLangValue(tag.nameUa, tag.name) }}</span>
+    <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
+  </a>
+</button>

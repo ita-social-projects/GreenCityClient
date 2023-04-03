@@ -3,7 +3,6 @@ import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from './shopping-list.service';
-import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -14,13 +13,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() shopList: ShoppingList[] = [];
-  @Input() isAcquited: boolean;
+  @Input() isAcquired = false;
+  @Input() isEditing = false;
 
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
   public subscription: Subscription;
-  public habitId: number;
   public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
@@ -29,16 +28,17 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   public minNumberOfItems = 3;
 
   public img = {
-    arrowDown: 'assets/img/comments/arrow_down.png',
-    arrowUp: 'assets/img/comments/arrow_up.png',
-    back: 'assets/img/comments/reply.png'
+    doneCheck: 'assets/icons/habits/filled-check-circle.svg',
+    inprogressCheck: 'assets/icons/habits/lined-green-circle.svg',
+    plusCheck: 'assets/icons/habits/doted-plus-green-circle.svg',
+    minusCheck: 'assets/icons/habits/doted-minus-green-circle.svg',
+    disableCheck: 'assets/icons/habits/circle-grey.svg'
   };
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
 
   constructor(
     public shoppinglistService: ShoppingListService,
-    private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef
@@ -46,14 +46,11 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   ngOnInit() {
     this.subscribeToLangChange();
-    this.route.params.subscribe((params) => {
-      this.habitId = +params.habitId;
-    });
     this.userId = this.localStorageService.getUserId();
   }
 
   ngAfterViewChecked(): void {
-    if (this.shopList && this.shopList.length) {
+    if (this.shopList && this.isEditing) {
       this.shopList.forEach((el) => (el.selected = el.status === 'INPROGRESS'));
     }
     this.cdr.detectChanges();
@@ -81,8 +78,14 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     });
   }
 
-  public openCloseList(): void {
-    this.seeAllShopingList = !this.seeAllShopingList;
+  public getCheckIcon(item: ShoppingList): string {
+    if (this.isAcquired) {
+      return this.img.disableCheck;
+    }
+    if (item.status === 'DONE') {
+      return this.img.doneCheck;
+    }
+    return item.selected ? this.img.inprogressCheck : this.img.plusCheck;
   }
 
   public addItem(value: string): void {
@@ -90,8 +93,8 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       id: null,
       status: 'ACTIVE',
       text: value,
-      selected: false,
-      custom: true
+      custom: true,
+      selected: true
     };
     this.shopList = [newItem, ...this.shopList];
     this.item.setValue('');
@@ -115,14 +118,15 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   private placeItemInOrder(): void {
-    const selectedItems = this.shopList.filter((element) => element.selected);
+    const customSelectedItems = this.shopList.filter((element) => element.custom && element.selected);
+    const selectedItems = this.shopList.filter((element) => !element.custom && element.selected);
     const unselectedItems = this.shopList.filter((element) => !element.selected);
-    this.shopList = [...selectedItems, ...unselectedItems];
+    this.shopList = [...customSelectedItems, ...selectedItems, ...unselectedItems];
     this.newList.emit(this.shopList);
   }
 
-  public deleteItem(id: number): void {
-    this.shopList = this.shopList.filter((elem) => elem.id !== id);
+  public deleteItem(text: string): void {
+    this.shopList = this.shopList.filter((elem) => elem.text !== text);
     this.newList.emit(this.shopList);
   }
 

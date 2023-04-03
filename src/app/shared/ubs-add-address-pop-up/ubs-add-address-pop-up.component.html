@@ -150,16 +150,16 @@
     </div>
   </div>
 </form>
-<div class="d-flex justify-content-end buttons" mat-dialog-actions>
-  <button *ngIf="data.edit" class="delete-employee" (click)="deleteAddress()" [disabled]="isDisabled">
+<div class="buttons" mat-dialog-actions>
+  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn" (click)="deleteAddress()" [disabled]="isDisabled">
     <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
     <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'personal-info.pop-up-delete' | translate }}
   </button>
-  <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+  <button class="ubs-secondary-global-button m-btn" (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
-  <button class="primary-global-button btn m-0" (click)="addAdress()" [disabled]="!addAddressForm.valid || isDisabled">
+  <button class="ubs-primary-global-button m-btn" (click)="addAdress()" [disabled]="!addAddressForm.valid || isDisabled">
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>
