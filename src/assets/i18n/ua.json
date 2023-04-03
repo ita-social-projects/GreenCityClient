@@ -477,6 +477,8 @@
       }
     },
     "map": {
+      "add-place": "Додати місце",
+      "choose-location": "Оберіть місце",
       "filter-by": "Фільтр",
       "searching-for-a-place": "Пошук місця",
       "places": "Місця",

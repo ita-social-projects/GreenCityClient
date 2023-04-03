@@ -170,6 +170,9 @@ header {
 }
 
 .header_logo {
+  display: flex;
+  justify-content: center;
+  align-content: center;
   margin-right: 24px;
   margin-left: 20px;
 }
@@ -446,6 +449,7 @@ header {
   .header_user-name {
     span {
       color: var(--primary-green);
+      max-width: 120px;
     }
   }
 
@@ -667,6 +671,7 @@ header {
 @media (min-width: 320px) and (max-width: 480px) {
   .header_navigation-menu-right-list li {
     padding: 10px 0;
+    margin-right: 5px;
   }
 
   .header_navigation-menu-ubs .header_navigation-menu-right {
