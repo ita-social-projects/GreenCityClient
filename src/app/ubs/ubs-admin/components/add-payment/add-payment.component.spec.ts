@@ -212,9 +212,9 @@ describe('AddPaymentComponent', () => {
 
   it('newFormat should format the input value to have two decimal places', () => {
     const sumPayment = {
-      target: { value: '123.4567' }
+      target: { value: '444.888' }
     };
     component.newFormat(sumPayment);
-    expect(sumPayment.target.value).toEqual('123.46');
+    expect(sumPayment.target.value).toEqual('444.89');
   });
 });
