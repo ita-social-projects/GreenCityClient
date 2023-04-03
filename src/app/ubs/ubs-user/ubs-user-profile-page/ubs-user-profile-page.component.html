@@ -11,10 +11,10 @@
           </div>
           <div class="header-buttons">
             <ng-container *ngIf="!isEditing">
-              <button tabindex="0" class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+              <button tabindex="0" class="ubs-secondary-global-button s-btn" (click)="openChangePasswordDialog()">
                 {{ 'ubs-client-profile.btn.change-password' | translate }}
               </button>
-              <button tabindex="0" class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+              <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteProfileDialog()">
                 {{ 'ubs-client-profile.btn.delete-profile' | translate }}
               </button>
             </ng-container>
@@ -24,7 +24,7 @@
 
       <div role="form" tabindex="0" id="form" class="input-group input-group-sm">
         <form *ngIf="!isFetching; else spinner" [formGroup]="userForm">
-          <h5 [ngClass]="{ h5MarginTop: isEditing }">{{ 'ubs-client-profile.personal' | translate }}</h5>
+          <h5 class="h5-margin-bottom">{{ 'ubs-client-profile.personal' | translate }}</h5>
           <div class="personal inline">
             <div class="form-group input-margin">
               <label for="recipientName">{{ 'ubs-client-profile.name' | translate }}</label>
@@ -50,7 +50,7 @@
             </div>
           </div>
 
-          <h5 [ngClass]="{ h5MarginTop: isEditing }" class="profile-contacts-h5-style">{{ 'ubs-client-profile.contacts' | translate }}</h5>
+          <h5>{{ 'ubs-client-profile.contacts' | translate }}</h5>
           <div class="contacts inline">
             <div class="form-group col-sm-6">
               <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.email' | translate }}</label>
@@ -67,7 +67,7 @@
             </div>
             <div *ngIf="isEditing">
               <div class="wrapper-btn">
-                <button aria-label="Add alternative email" class="btn-alternative-email" (click)="toggleAlternativeEmail()">
+                <button aria-label="Add alternative email" class="ubs-link-global-button s-link" (click)="toggleAlternativeEmail()">
                   {{ 'ubs-client-profile.btn.alternative-email' | translate }}
                 </button>
               </div>
@@ -140,7 +140,7 @@
             <div formGroupName="{{ i }}" class="ubs-cliend-profile-group">
               <!-- Not editing -->
               <div *ngIf="!isEditing">
-                <h5 class="h5MarginTop">
+                <h5 class="h5-margin-top">
                   {{ 'ubs-client-profile.address' | translate }}
                   <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
                 </h5>
@@ -182,7 +182,7 @@
 
               <!-- Is editing -->
               <div *ngIf="isEditing">
-                <h5 class="h5MarginTop">
+                <h5 class="h5-margin-top">
                   {{ 'ubs-client-profile.address' | translate }}
                   <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
                 </h5>
@@ -313,22 +313,22 @@
           </div>
 
           <ng-container *ngIf="!isEditing">
-            <button tabindex="0" id="btnfocus" [ngClass]="{ margbtn: !isEditing }" class="btn btn-outline-success edit" (click)="onEdit()">
+            <button tabindex="0" class="ubs-primary-global-button s-btn marg-btn" (click)="onEdit()">
               {{ 'ubs-client-profile.btn.edit' | translate }}
             </button>
           </ng-container>
           <div *ngIf="isEditing && userProfile.addressDto.length < maxAddressLength">
             <div class="wrapper-btn">
-              <button aria-label="Add adrress" class="btn-alternative-email" (click)="openAddAdressDialog()">
+              <button aria-label="Add adrress" class="ubs-link-global-button s-link" (click)="openAddAdressDialog()">
                 {{ 'ubs-client-profile.btn.add-address' | translate }}
               </button>
             </div>
           </div>
           <div class="submit-btns" *ngIf="isEditing">
-            <button class="btn btn-success save" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
+            <button class="ubs-primary-global-button s-btn" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
               {{ 'ubs-client-profile.btn.save' | translate }}
             </button>
-            <button class="btn btn-outline-success cancel" type="submit" (click)="onCancel()">
+            <button class="ubs-secondary-global-button s-btn" type="submit" (click)="onCancel()">
               {{ 'ubs-client-profile.btn.cancel' | translate }}
             </button>
           </div>

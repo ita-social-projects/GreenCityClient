@@ -58,14 +58,14 @@
           </div>
         </div>
 
-        <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
-          <div *ngIf="canOrderBeCancel(order)" class="btn_grid_cancel">
-            <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
+        <div *ngIf="isOrderPaymentAccess(order)" class="btns-group">
+          <div *ngIf="canOrderBeCancel(order)" class="btn-box">
+            <button class="ubs-secondary-global-button s-btn" (click)="openOrderCancelDialog(order)">
               {{ 'user-orders.btn.cancel' | translate }}
             </button>
           </div>
-          <div *ngIf="!isOrderCanceled(order)" class="btn_grid_pay">
-            <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+          <div *ngIf="!isOrderCanceled(order)" class="btn-box">
+            <button class="ubs-primary-global-button s-btn" (click)="openOrderPaymentDialog(order)">
               {{ 'user-orders.btn.pay' | translate }}
             </button>
           </div>

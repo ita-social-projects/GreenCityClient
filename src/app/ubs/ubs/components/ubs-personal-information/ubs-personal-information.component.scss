@@ -5,37 +5,6 @@
   color: $color;
 }
 
-::ng-deep .address-matDialog-styles {
-  .mat-dialog-container {
-    margin: auto !important;
-    width: 80% !important;
-    max-height: 100vh;
-  }
-
-  .pac-container {
-    .pac-item {
-      padding: 0 0 0 10px;
-      height: 32px;
-
-      .pac-item-query {
-        color: var(--ubs-primary-grey);
-      }
-
-      &:hover {
-        background-color: var(--ubs-primary-green);
-
-        .pac-item-query {
-          color: var(----ubs-primary-white);
-        }
-      }
-    }
-
-    .pac-icon {
-      display: none;
-    }
-  }
-}
-
 form {
   box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
   padding: 10px 25px 40px;
@@ -146,22 +115,6 @@ label,
   }
 }
 
-.primary-global-button {
-  border-radius: 4px;
-  color: var(--ubs-quaternary-dark-grey);
-  border-color: var(--ubs-button-light-green);
-  background: var(--ubs-button-light-green);
-
-  &:disabled {
-    background: var(--ubs-quaternary-light-grey);
-    border-color: var(--ubs-quaternary-light-grey);
-  }
-
-  &:hover {
-    background-color: var(--ubs-button-dark-green);
-  }
-}
-
 .address-comment {
   padding: 0 15px;
 }
@@ -182,16 +135,8 @@ label,
   }
 }
 
-.add-address {
-  margin: 0 0 0 15px;
-  padding: 0;
-  text-align: center;
-  font-size: 14px;
-  color: var(--ubs-electric-violet);
-
-  p {
-    text-decoration: underline;
-  }
+.s-link {
+  margin: 12px 0 0 28px;
 }
 
 .edit-address {
@@ -213,109 +158,21 @@ label,
   font-size: 0.8rem;
 }
 
-.btn {
-  padding: 12px 32px;
-  line-height: 20px;
-  border-radius: 4px;
-}
-
 .buttons {
   margin-top: 46px;
+  padding-left: 40px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
 
-  button {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-  }
-}
-
-.btn-canc-sub {
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
-  width: auto;
-  gap: 1rem;
-}
-
-.cancel-button {
-  border: 1px solid var(--ubs-quaternary-dark-grey);
-  color: var(--ubs-quaternary-dark-grey);
-
-  &:hover {
-    background: var(--ubs-quaternary-light-grey);
-  }
-}
-
-.btn-back {
-  border: 0;
-  color: var(--ubs-quaternary-dark-grey);
-
-  .underline {
-    border-bottom: 1px solid var(--ubs-quaternary-dark-grey);
-  }
-}
-
-@media (min-width: 481px) and (max-width: 767px) {
-  h3 {
-    font-size: 1.3rem;
-  }
-
-  h5 {
-    font-size: 1.1rem;
-  }
-
-  p,
-  a,
-  textarea,
-  small,
-  input {
-    font-size: 0.8rem;
-  }
-}
-
-@media (min-width: 320px) and (max-width: 480px) {
-  h3 {
-    font-size: 1.3rem;
-  }
-
-  h5 {
-    font-size: 1.1rem;
-  }
-
-  button,
-  .btn {
-    font-size: 0.8rem;
-  }
-
-  p,
-  a,
-  textarea,
-  small,
-  input {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 440px) {
-  .buttons {
-    justify-content: center;
-    width: 100%;
-  }
-
   .btn-canc-sub {
-    width: 100%;
+    display: flex;
+    justify-content: flex-end;
     flex-direction: row;
-    justify-content: center;
-    gap: 16px;
-
-    .btn {
-      width: 100%;
-    }
+    width: auto;
+    gap: 1rem;
   }
 }
 
@@ -338,4 +195,48 @@ label,
 
 .custom-radio input[name='address'] {
   accent-color: var(--ubs-freinacht-black);
+}
+
+@media (max-width: 767px) {
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+    button {
+      font-size: 16px;
+    }
+
+    .btn-canc-sub {
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding: 0;
+
+      button {
+        width: 42%;
+      }
+    }
+  }
 }

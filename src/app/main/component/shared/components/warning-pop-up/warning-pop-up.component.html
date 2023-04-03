@@ -11,10 +11,15 @@
     </div>
   </div>
   <div class="buttons-container">
-    <button class="secondary-global-button m-btn" [class.submit-cancel]="isUbsOrderSubmit" (click)="userReply(null)">
+    <button [ngClass]="isUBS ? 'ubs-secondary-global-button' : 'secondary-global-button'" class="m-btn" (click)="userReply(null)">
       {{ popupCancel | translate }}
     </button>
-    <button class="primary-global-button m-btn" [class.submit-confirm]="isUbsOrderSubmit" [disabled]="isLoading" (click)="userReply(true)">
+    <button
+      [ngClass]="isUBS ? 'ubs-primary-global-button' : 'primary-global-button'"
+      class="m-btn"
+      [disabled]="isLoading"
+      (click)="userReply(true)"
+    >
       <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
       {{ popupConfirm | translate }}
     </button>

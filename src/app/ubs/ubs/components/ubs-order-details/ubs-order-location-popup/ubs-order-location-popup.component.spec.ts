@@ -70,7 +70,7 @@ describe('UbsOrderLocationPopupComponent', () => {
 
   it('method saveLocation should call by click save button', fakeAsync(() => {
     const spy = spyOn(component, 'saveLocation');
-    const btn = fixture.debugElement.query(By.css('.primary-global-button'));
+    const btn = fixture.debugElement.query(By.css('.footer-btns .ubs-primary-global-button'));
     btn.triggerEventHandler('click', null);
     tick();
     fixture.detectChanges();

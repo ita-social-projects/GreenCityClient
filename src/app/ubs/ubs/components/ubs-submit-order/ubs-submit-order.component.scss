@@ -11,54 +11,21 @@ h3 {
   font-size: 0.8rem;
 }
 
-.btn {
-  line-height: 20px;
-  border-radius: 4px;
-}
-
 .buttons {
   margin-top: 46px;
+  padding-left: 40px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 1rem;
 
-  button {
-    width: 8rem;
-    height: 2.75rem;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-  }
-}
-
-.btn-canc-sub {
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
-  width: auto;
-  gap: 1rem;
-}
-
-.cancel-button {
-  border: 1px solid var(--ubs-quaternary-dark-grey);
-  color: var(--ubs-quaternary-dark-grey);
-
-  &:hover {
-    background: var(--ubs-quaternary-light-grey);
-  }
-}
-
-.btn-back {
-  border: 0;
-  color: var(--ubs-quaternary-dark-grey);
-  padding-left: 10px;
-  line-height: 28px;
-  letter-spacing: 0.2px;
-
-  .underline {
-    border-bottom: 1px solid var(--ubs-quaternary-dark-grey);
+  .btn-canc-sub {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    width: auto;
+    gap: 1rem;
   }
 }
 
@@ -123,25 +90,6 @@ label {
 
   .label-total {
     text-align: center;
-  }
-}
-
-.primary-global-button {
-  padding: 8px 4px;
-  border-radius: 4px;
-  color: var(--ubs-quaternary-dark-grey);
-  border-color: var(--ubs-button-light-green);
-  background: var(--ubs-button-light-green);
-  display: flex;
-  justify-content: space-around;
-
-  &:disabled {
-    background: var(--ubs-quaternary-light-grey);
-    border-color: var(--ubs-quaternary-light-grey);
-  }
-
-  &:hover {
-    background-color: var(--ubs-button-dark-green);
   }
 }
 
@@ -272,25 +220,6 @@ label {
   .bottom_comment_payment {
     margin-top: 2rem;
   }
-
-  .btn:nth-child(1) {
-    margin: 0 24px 0 0;
-    border: 1px solid var(--ubs-button-light-green);
-    background: none;
-    color: var(--ubs-button-light-green);
-  }
-
-  .btn-main {
-    width: 120px;
-    height: 3rem;
-    border-radius: 0;
-    border: none;
-
-    &:hover {
-      background: var(--ubs-button-light-green);
-      color: var(--ubs-primary-white);
-    }
-  }
 }
 
 .comment {
@@ -298,13 +227,38 @@ label {
   padding-bottom: 40px;
 }
 
-@media (min-width: 992px) {
+.order-comment-width {
+  white-space: pre-wrap;
+  width: 800px;
+  text-align: justify;
+}
+
+.load-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+:host ::ng-deep .custom-spinner circle {
+  stroke: #e2e2e2;
+}
+
+:host ::ng-deep .mat-progress-bar-fill::after {
+  background: #e2e2e2;
+}
+
+:host ::ng-deep .mat-progress-bar-buffer {
+  background: #bfbfbf;
+}
+
+@media screen and (min-width: 992px) {
   .col-3.label.m-0.text-center {
     margin-left: 3.5% !important;
   }
 }
 
-@media (min-width: 481px) and (max-width: 767px) {
+@media screen and (max-width: 767px) {
   .container {
     padding: 16px;
   }
@@ -399,14 +353,6 @@ label {
     font-size: 1rem;
   }
 
-  button {
-    font-size: 0.7rem;
-  }
-
-  .btn:nth-child(1) {
-    margin-bottom: 16px;
-  }
-
   .order-header {
     font-size: 0.8rem;
   }
@@ -426,21 +372,28 @@ label {
   .choose-payment-chooser {
     font-size: 0.65rem;
   }
-}
 
-@media (max-width: 440px) {
   .buttons {
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-  }
+    padding: 0;
 
-  .btn-canc-sub {
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    gap: 16px;
+    button {
+      font-size: 16px;
+    }
 
-    .btn {
+    .btn-canc-sub {
       width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding: 0;
+
+      button {
+        width: 42%;
+      }
     }
   }
 
@@ -449,34 +402,9 @@ label {
   }
 }
 
-.load-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-}
-
-:host ::ng-deep .custom-spinner circle {
-  stroke: #e2e2e2;
-}
-
-::ng-deep .mat-progress-bar-fill::after {
-  background: #e2e2e2;
-}
-
-::ng-deep .mat-progress-bar-buffer {
-  background: #bfbfbf;
-}
-
 @media (max-width: 360px) {
   .label,
   .bag-name {
     font-size: 10px;
   }
-}
-
-.order-comment-width {
-  white-space: pre-wrap;
-  width: 800px;
-  text-align: justify;
 }
