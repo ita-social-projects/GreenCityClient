@@ -38,6 +38,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isOrderCancelled = false;
   isOrderPaid = false;
   isCourierPriceInvalid = false;
+  pageOpen: boolean;
 
   @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
@@ -46,7 +47,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Output() changeWriteoffAtStationSum = new EventEmitter<number>();
   @Output() orderStatusChanged = new EventEmitter<boolean>();
 
-  pageOpen: boolean;
   @Input() orderDetailsOriginal: IOrderDetails;
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
