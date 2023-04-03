@@ -47,7 +47,6 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     const context = canvas.getContext('2d');
     context.font = this.font;
     const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
-    console.log(textContainerWidth, textWidth);
 
     if (textContainerWidth < textWidth || Math.abs(textContainerWidth - textWidth) < maxLength) {
       tooltip.show();
