@@ -60,6 +60,49 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('ngOnInit should be called', () => {
+    const spyOnInit = spyOn(component, 'ngOnInit');
+    component.ngOnInit();
+    expect(spyOnInit).toHaveBeenCalled();
+  });
+
+  it(`initForm should be called in ngOnInit`, () => {
+    const initFormSpy = spyOn(component as any, 'initForm');
+    component.ngOnInit();
+    expect(initFormSpy).toHaveBeenCalled();
+  });
+
+  it(`fillFields should be called in ngOnInit`, () => {
+    const fillFieldsSpy = spyOn(component as any, 'fillFields');
+    component.ngOnInit();
+    expect(fillFieldsSpy).toHaveBeenCalled();
+  });
+
+  it(`editForm should be called in initForm`, () => {
+    component.receivedData.bagData = fakeBag;
+    const editFormSpy = spyOn(component as any, 'editForm');
+    (component as any).initForm();
+    expect(editFormSpy).toHaveBeenCalled();
+  });
+
+  it(`addForm should be called in initForm`, () => {
+    component.receivedData.bagData = !fakeBag;
+    const addFormSpy = spyOn(component as any, 'addForm');
+    (component as any).initForm();
+    expect(addFormSpy).toHaveBeenCalled();
+  });
+
+  it('component should initialize createTariffService form from with correct parameters', () => {
+    (component as any).createTariffService();
+    expect(component.addTariffServiceForm.get('name').value).toEqual('');
+    expect(component.addTariffServiceForm.get('nameEng').value).toEqual('');
+    expect(component.addTariffServiceForm.get('price').value).toEqual('');
+    expect(component.addTariffServiceForm.get('description').value).toEqual('');
+    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual('');
+    expect(component.addTariffServiceForm.get('capacity').value).toEqual('');
+    expect(component.addTariffServiceForm.get('commission').value).toEqual('');
+  });
+
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
 
   it('Check whether method onCancel called with proper args', () => {
