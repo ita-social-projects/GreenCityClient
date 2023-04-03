@@ -26,14 +26,18 @@
       <div
         class="error-message"
         *ngIf="
-          commentForm.get('cancellationComment').value && commentForm.invalid && commentForm.touched && this.cancellationReason === 'OTHER'
+          !isHistory &&
+          commentForm.get('cancellationComment').value &&
+          commentForm.invalid &&
+          commentForm.touched &&
+          this.cancellationReason === 'OTHER'
         "
       >
         <div>{{ 'order-cancel.comment-error-message' | translate }}</div>
       </div>
       <div
         class="error-message"
-        *ngIf="cancellationReason === 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
+        *ngIf="!isHistory && cancellationReason === 'OTHER' && commentForm.touched && !commentForm.get('cancellationComment').value"
       >
         <div>{{ 'order-cancel.reason.comment-empty-message' | translate }}</div>
       </div>
