@@ -316,13 +316,13 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     return arr.controls;
   }
 
-  public checkMaxOrdersFromShop() {
+  public checkMaxOrdersFromShop(): boolean {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     const currentAmountOfNumbersFromShop = arr.controls.length;
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
   }
 
-  addOrderNumberFromShop() {
+  addOrderNumberFromShop(): void {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     arr.push(new FormControl('', [Validators.required, Validators.pattern(Patterns.ordersPattern)]));
   }
@@ -332,13 +332,13 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     arr.removeAt(index);
   }
 
-  public changeWriteOffSum(e) {
+  public changeWriteOffSum(e): void {
     this.writeoffAtStationSum = +e.target.value;
     this.emitSumForStation(this.writeoffAtStationSum);
     this.calculateFinalSum();
   }
 
-  public changeUbsCourierSum(e) {
+  public changeUbsCourierSum(e): void {
     this.courierPrice = +e.target.value;
     this.isCourierPriceInvalid = this.courierPrice > this.orderDetailsForm.value.orderFullPrice;
     this.emitUbsPrice(this.courierPrice);
