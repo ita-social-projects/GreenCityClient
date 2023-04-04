@@ -28,14 +28,32 @@
 
 @media (min-width: 576px) {
   .profile-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .left-column {
+      order: 1;
+    }
+
     .habits-dashboard {
       margin: 0 14px;
+      order: 3;
+    }
+
+    .right-column {
+      display: block;
+      order: 2;
+
+      .app-profile-cards {
+        display: none;
+      }
     }
   }
 }
 
 @media (min-width: 768px) {
   .profile-wrapper {
+    display: grid;
     grid-template-columns: 225px 483px;
     grid-template-rows: 156px 1fr;
     grid-gap: 32px;
