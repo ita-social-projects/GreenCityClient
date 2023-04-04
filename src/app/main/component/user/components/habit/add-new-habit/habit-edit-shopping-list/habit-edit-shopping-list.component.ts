@@ -5,6 +5,7 @@ import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from './shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TodoStatus } from '@global-user/models/todo-status.enum';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',
@@ -51,7 +52,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   ngAfterViewChecked(): void {
     if (this.shopList && this.isEditing) {
-      this.shopList.forEach((el) => (el.selected = el.status === 'INPROGRESS'));
+      this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress));
     }
     this.cdr.detectChanges();
   }
@@ -82,7 +83,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     if (this.isAcquired) {
       return this.img.disableCheck;
     }
-    if (item.status === 'DONE') {
+    if (item.status === TodoStatus.done) {
       return this.img.doneCheck;
     }
     return item.selected ? this.img.inprogressCheck : this.img.plusCheck;
@@ -91,7 +92,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   public addItem(value: string): void {
     const newItem = {
       id: null,
-      status: 'ACTIVE',
+      status: TodoStatus.active,
       text: value,
       custom: true,
       selected: true
@@ -105,7 +106,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.shopList = this.shopList.map((element) => {
       if (element.text === item.text) {
         element.selected = !item.selected;
-        element.status = item.selected ? 'INPROGRESS' : 'ACTIVE';
+        element.status = item.selected ? TodoStatus.inprogress : TodoStatus.active;
       }
       return element;
     });
@@ -118,10 +119,12 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   private placeItemInOrder(): void {
-    const customSelectedItems = this.shopList.filter((element) => element.custom && element.selected);
-    const selectedItems = this.shopList.filter((element) => !element.custom && element.selected);
-    const unselectedItems = this.shopList.filter((element) => !element.selected);
-    this.shopList = [...customSelectedItems, ...selectedItems, ...unselectedItems];
+    const statusOrder = { DONE: 1, INPROGRESS: 2, ACTIVE: 3 };
+    this.shopList.sort((a, b) => {
+      const statusDifference = statusOrder[a.status] - statusOrder[b.status];
+      const orderCustom = a.custom && !b.custom ? -1 : 1;
+      return statusDifference ? statusDifference : orderCustom;
+    });
     this.newList.emit(this.shopList);
   }
 
