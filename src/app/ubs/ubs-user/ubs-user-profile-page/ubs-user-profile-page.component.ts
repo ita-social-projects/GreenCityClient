@@ -33,6 +33,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   userProfile: UserProfile;
   viberNotification = false;
   telegramNotification = false;
+  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   defaultAddress: Address = {
     actual: true,
     city: '',
@@ -219,6 +220,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         this.userProfile.addressDto = list.addressList;
         this.getUserData();
       });
+  }
+
+  public resetValue(): void {
+    this.userForm.get('alternateEmail').setValue(null);
   }
 
   setRegionValue(formGroupName: number, event: Event): void {
