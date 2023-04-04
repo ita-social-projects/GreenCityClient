@@ -335,7 +335,7 @@ describe('UbsUserProfilePageComponent', () => {
   fakeGoogleScript.load.and.returnValue(of());
 
   const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
-  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue(streetPlaceResultUk.address_components[1].long_name);
+  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue('Troeshchina');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -1004,7 +1004,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
-    const result = streetPlaceResultUk.address_components[1].long_name;
+    const result = userProfileDataMock.addressDto[0].districtEn;
     component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
     expect(district.value).toEqual(result);
   });
@@ -1012,7 +1012,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in en', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const districtEn = currentFormGroup.get('districtEn');
-    const result = streetPlaceResultUk.address_components[1].long_name;
+    const result = userProfileDataMock.addressDto[0].districtEn;
     component.setDistrictAuto(streetPlaceResultEn, districtEn, component.languages.en);
     expect(districtEn.value).toEqual(result);
   });
