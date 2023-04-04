@@ -14,6 +14,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
   let fixture: ComponentFixture<UbsProfileChangePasswordPopUpComponent>;
+  const currentPassword = 'currentPassword';
   const password = 'password';
   const confirmPassword = 'confirmPassword';
 
@@ -58,6 +59,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   it('initForm should create', () => {
     component.hasPassword = true;
     const initFormFake = {
+      currentPassword: '',
       password: '',
       confirmPassword: ''
     };
@@ -73,6 +75,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
 
   it('submitting a form', () => {
     expect(component.formConfig.valid).toBeFalsy();
+    component.formConfig.controls[currentPassword].setValue('Qwerty132!');
     component.formConfig.controls[password].setValue('Test!2334');
     component.formConfig.controls[confirmPassword].setValue('Test!2334');
     expect(component.formConfig.valid).toBeTruthy();
@@ -80,6 +83,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     const updatePasswordDto: UpdatePasswordDto = component.formConfig.value;
 
     component.onSubmit();
+    expect(updatePasswordDto.currentPassword).toBe('Qwerty132!');
     expect(updatePasswordDto.password).toBe('Test!2334');
     expect(updatePasswordDto.confirmPassword).toBe('Test!2334');
   });

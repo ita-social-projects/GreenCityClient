@@ -36,6 +36,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   public initForm(): void {
     this.formConfig = this.fb.group({
+      currentPassword: ['', [Validators.required]],
       password: ['', [Validators.required, this.checkPasswordPattern.bind(this)]],
       confirmPassword: ['', [Validators.required]]
     });
@@ -57,6 +58,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    this.updatePasswordDto.confirmPassword = this.formConfig.value.currentPassword;
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
     of(true)
