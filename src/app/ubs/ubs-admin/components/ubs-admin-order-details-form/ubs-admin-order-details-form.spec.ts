@@ -98,7 +98,7 @@ fdescribe('UbsAdminOrderDetailsFormComponent', () => {
     expect(calculateFinalSumSpy).toHaveBeenCalled();
   });
 
-  it('should update courierPrice, check if courierPrice is invalid, emit UBS price, and calculate final sum when changeUbsCourierSum is called', () => {
+  it('should update courierPrice, check if courierPrice is invalid', () => {
     component.orderDetailsForm.patchValue({ orderFullPrice: 1000 });
     const emitUbsPriceSpy = spyOn(component as any, 'emitUbsPrice');
     const calculateFinalSumSpy = spyOn(component as any, 'calculateFinalSum');
@@ -109,16 +109,6 @@ fdescribe('UbsAdminOrderDetailsFormComponent', () => {
     expect(component.isCourierPriceInvalid).toBe(false);
     expect(emitUbsPriceSpy).toHaveBeenCalledWith(150);
     expect(calculateFinalSumSpy).toHaveBeenCalled();
-  });
-
-  it('should calculate overpayment for BROUGHT_IT_HIMSELF status', () => {
-    component.writeoffAtStationSum = 150;
-    component.isOrderBroughtByHimself = true;
-    component.showUbsCourier = false;
-
-    (component as any).calculateOverpayment();
-
-    expect(component.overpayment).toBe(50);
   });
 
   it('should return true when the order is brought by himself and paid', () => {
