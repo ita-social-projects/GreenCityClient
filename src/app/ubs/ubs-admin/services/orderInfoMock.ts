@@ -1,5 +1,5 @@
 import { IOrderInfo, IEmployee } from '../models/ubs-admin.interface';
-import { OrderStatus } from '../../ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
@@ -58,12 +58,12 @@ export const OrderInfoMockedData: IOrderInfo = {
         translation: 'Скасовано'
       }
     ],
-    orderPaymentStatus: 'PAID',
+    orderPaymentStatus: PaymnetStatus.PAID,
     orderPaymentStatusName: 'Оплачено',
     orderPaymentStatusNameEng: 'Paid',
     orderPaymentStatusesDto: [
       {
-        key: 'PAID',
+        key: PaymnetStatus.PAID,
         translation: 'Оплачено'
       }
     ]
@@ -159,7 +159,7 @@ export const OrderInfoMockedData: IOrderInfo = {
 export const GeneralInfoMock = {
   orderStatus: OrderStatus.DONE,
   adminComment: 'Admin',
-  orderPaymentStatus: 'PAID',
+  orderPaymentStatus: PaymnetStatus.PAID,
   orderStatusesDtos: [
     { ableActualChange: false, key: OrderStatus.DONE, translation: 'Formed' },
     { ableActualChange: false, key: OrderStatus.ADJUSTMENT, translation: 'Adjustment' },

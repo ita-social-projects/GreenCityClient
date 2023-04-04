@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { environment } from '@environment/environment.js';
-import { OrderStatus } from '../../ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 
 describe('OrderService', () => {
   let httpMock: HttpTestingController;
@@ -154,7 +154,7 @@ describe('OrderService', () => {
   it('should return order details status', () => {
     service.getOrderDetailStatus(2500).subscribe((data) => {
       expect(data.orderStatus).toBe(OrderStatus.FORMED);
-      expect(data.paymentStatus).toBe('UNPAID');
+      expect(data.paymentStatus).toBe(PaymnetStatus.UNPAID);
     });
     const req = httpMock.expectOne(`${urlMock}/management/read-order-detail-status/2500`);
     expect(req.request.method).toBe('GET');

@@ -9,7 +9,7 @@ import { OrderService } from '../../services/order.service';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { UbsAdminOrderStatusComponent } from './ubs-admin-order-status.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminOrderStatusComponent', () => {
   let component: UbsAdminOrderStatusComponent;
@@ -123,7 +123,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 0;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
   });
 
   it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status UNPAID when unpaid amount is', () => {
@@ -132,7 +132,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 0;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
   });
 
   it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status HALF_PAID', () => {
@@ -141,7 +141,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 1;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('HALF_PAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.HALF_PAID);
   });
 
   it('setOrderPaymentStatus orderState shold be "confirmed" and should return orderPayment status PAID when paid sum is', () => {
@@ -150,7 +150,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 1;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
   });
 
   it('setOrderPaymentStatus orderState "confirmed" and should return orderPayment status PAID when paid sum equal order price', () => {
@@ -159,7 +159,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 1;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
   });
 
   it('setOrderPaymentStatus orderState should be "confirmed" and should return orderPayment status PAID when all sum are 0', () => {
@@ -168,7 +168,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 0;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
   });
 
   it('setOrderPaymentStatus orderState shold be "actual" and should return orderPayment status UNPAID', () => {
@@ -177,7 +177,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 0;
     component.unPaidAmount = 1;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('UNPAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.UNPAID);
   });
 
   it('setOrderPaymentStatus orderState shold be "actual" and should return orderPayment status PAID', () => {
@@ -186,7 +186,7 @@ describe('UbsAdminOrderStatusComponent', () => {
     component.totalPaid = 1;
     component.unPaidAmount = 0;
     component.setOrderPaymentStatus();
-    expect(GeneralInfoFake.orderPaymentStatus).toBe('PAID');
+    expect(GeneralInfoFake.orderPaymentStatus).toBe(PaymnetStatus.PAID);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

@@ -11,6 +11,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminCustomerOrdersComponent } from './ubs-admin-customer-orders.component';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { of } from 'rxjs';
+import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminCustomerOrdersComponent', () => {
   let component: UbsAdminCustomerOrdersComponent;
@@ -30,8 +31,8 @@ describe('UbsAdminCustomerOrdersComponent', () => {
       key: 'ddd',
       username: 'John',
       userOrdersList: [
-        { id: 232, orderDate: '21/02/2022', orderStatus: OrderStatus.FORMED, orderPaymentStatus: 'PAID', amount: 0 },
-        { id: 305, orderDate: '23/02/2022', orderStatus: OrderStatus.DONE, orderPaymentStatus: 'PAID', amount: null }
+        { id: 232, orderDate: '21/02/2022', orderStatus: OrderStatus.FORMED, orderPaymentStatus: PaymnetStatus.PAID, amount: 0 },
+        { id: 305, orderDate: '23/02/2022', orderStatus: OrderStatus.DONE, orderPaymentStatus: PaymnetStatus.PAID, amount: null }
       ]
     })
   );

@@ -8,3 +8,9 @@ export enum OrderStatus {
   DONE = 'DONE',
   ADJUSTMENT = 'ADJUSTMENT'
 }
+
+export enum PaymnetStatus {
+  PAID = 'PAID',
+  HALF_PAID = 'HALF_PAID',
+  UNPAID = 'UNPAID'
+}
