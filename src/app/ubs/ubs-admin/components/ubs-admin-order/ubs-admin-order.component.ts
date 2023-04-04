@@ -109,8 +109,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   public onCancelOrder(): void {
     this.isOrderStatusChanged = true;
-    console.log('this.isOrderStatusChange', this.isOrderStatusChanged);
-
     this.setOrderDetails();
     this.initForm();
   }
@@ -147,11 +145,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
+
       const confirmedValue = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
       bag.confirmed = this.isOrderStatusChanged ? 0 : confirmedValue;
 
       const setAmountOfBagsExported = this.currentOrderStatus === OrderStatus.DONE ? bag.confirmed : 0;
       bag.actual = this.isOrderStatusChanged ? 0 : this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
+
       return bag;
     });
     this.orderDetails = {
