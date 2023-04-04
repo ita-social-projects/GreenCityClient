@@ -68,9 +68,13 @@ a {
   overflow: hidden;
 }
 
-::ng-deep {
+:host ::ng-deep {
   .mat-tab-header {
     margin-bottom: 24px;
+
+    .mat-tab-label-container {
+      width: 100%;
+    }
   }
 
   .mat-tab-header,
@@ -83,11 +87,16 @@ a {
     display: none;
   }
 
-  .mat-tab-labels .mat-tab-label {
-    height: 40px;
-    min-width: auto;
-    border-bottom: 1px solid var(--quintynary-light-grey);
-    opacity: 1;
+  .mat-tab-labels {
+    width: 100%;
+
+    .mat-tab-label {
+      height: 40px;
+      min-width: auto;
+      flex: 0 0 25%;
+      border-bottom: 1px solid var(--quintynary-light-grey);
+      opacity: 1;
+    }
   }
 
   .mat-tab-label-content {
