@@ -61,6 +61,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allElements: number;
   totalPages: number;
   currentPage = 0;
+  currentDate: Date;
+  currentDateStr: string;
   pageSize = 25;
   idsToChange: number[] = [];
   allChecked = false;
@@ -128,6 +130,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.formatTableData();
       }
     });
+
+    this.currentDate = new Date();
+    this.currentDateStr = this.adminTableService.setDateFormat(this.currentDate);
 
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
@@ -674,8 +679,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       const date = this.getControlValue(currentColumn, suffix);
       const value = this.adminTableService.setDateFormat(date);
       this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
-      if (!checkControl || this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
+      const biggerFrom = this.getControlValue(currentColumn, 'From') >= this.getControlValue(currentColumn, 'To');
+      if (suffix === 'From' && biggerFrom) {
         this.dateForm.get(`${currentColumn}To`).setValue(value);
+      }
+      if (suffix === 'To' && biggerFrom) {
+        this.dateForm.get(`${currentColumn}From`).setValue(value);
       }
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
