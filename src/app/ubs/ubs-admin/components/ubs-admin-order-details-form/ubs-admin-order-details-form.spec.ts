@@ -10,7 +10,7 @@ import { UbsAdminOrderDetailsFormComponent } from './ubs-admin-order-details-for
 import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
-fdescribe('UbsAdminOrderDetailsFormComponent', () => {
+describe('UbsAdminOrderDetailsFormComponent', () => {
   let component: UbsAdminOrderDetailsFormComponent;
   let fixture: ComponentFixture<UbsAdminOrderDetailsFormComponent>;
   const orderStatusMock = {
