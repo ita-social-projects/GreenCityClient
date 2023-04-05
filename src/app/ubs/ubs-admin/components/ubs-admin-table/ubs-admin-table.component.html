@@ -58,6 +58,7 @@
                               [placeholder]="'ubs-tables.date-placeholder' | translate"
                               formControlName="{{ column.key }}From"
                               (dateChange)="changeInputDate($event.checked, column.key, 'From')"
+                              [max]="currentDate"
                             />
                             <button matSuffix class="calendar-btn">
                               <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
@@ -76,6 +77,7 @@
                               [placeholder]="'ubs-tables.date-placeholder' | translate"
                               formControlName="{{ column.key }}To"
                               (dateChange)="changeInputDate($event.checked, column.key, 'To')"
+                              [max]="currentDate"
                             />
                             <button matSuffix class="calendar-btn">
                               <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />

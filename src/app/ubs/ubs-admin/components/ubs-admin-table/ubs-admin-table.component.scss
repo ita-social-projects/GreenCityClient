@@ -248,7 +248,7 @@ input {
 
 @media only screen and (min-width: 250px) and (max-width: 376px) {
   .filter-table-btn {
-    margin-left: 7px;
+    margin-left: 15px;
     margin-right: 7px;
     width: 100px;
   }
@@ -260,15 +260,19 @@ input {
   }
 
   .search {
-    margin-left: 20px;
+    margin: 2%;
   }
 
   .view-table-btn {
     width: 100px;
+    margin-left: 7px;
+    margin-right: 7px;
   }
 
   .export-excel-btn {
     width: 110px;
+    margin-left: 7px;
+    margin-right: 7px;
   }
 }
 
@@ -286,7 +290,7 @@ input {
   }
 
   .search {
-    margin-left: 10px;
+    margin: 2%;
   }
 
   .view-table-btn {

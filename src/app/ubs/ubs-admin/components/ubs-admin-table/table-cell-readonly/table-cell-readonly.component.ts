@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
+import { MouseEvents } from 'src/app/shared/mouse-events';
 
 @Component({
   selector: 'app-table-cell-readonly',
@@ -14,6 +15,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   @Input() key: string;
   public dataObj: IColumnBelonging = null;
   public data: string | number | { ua: string; en: string } | null;
+  private font = '12px Lato, sans-serif';
 
   ngOnInit(): void {
     if (this.optional?.length) {
@@ -28,17 +30,26 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         : this.title;
   }
 
-  showTooltip(title: any, tooltip: any) {
-    const maxWidthTitle = 112;
-    const width = document.createElement('canvas').getContext('2d').measureText(title).width;
-    if (width > maxWidthTitle) {
+  showTooltip(event: any, tooltip: any, maxLength: number = 50): void {
+    event.stopImmediatePropagation();
+    console.log(event, tooltip);
+    const lengthStr = event.toElement?.innerText.split('').length;
+    if (lengthStr > maxLength) {
       tooltip.toggle();
     }
+
+    event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip) : tooltip.hide();
   }
 
-  isTooltipEnabled(title: any, textContainerWidth: number = 112): boolean {
-    const textWidth = document.createElement('canvas').getContext('2d').measureText(title).width;
+  calculateTextWidth(event: any, tooltip: any, maxLength: number = 40): void {
+    const textContainerWidth = event.toElement.offsetWidth;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = this.font;
+    const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
 
-    return textContainerWidth < textWidth;
+    if (textContainerWidth < textWidth || Math.abs(textContainerWidth - textWidth) < maxLength) {
+      tooltip.show();
+    }
   }
 }
