@@ -120,7 +120,8 @@ form {
   width: 154px;
 }
 
-.tags-box {
+.tags-box,
+.tags-block {
   display: flex;
 }
 
@@ -176,17 +177,6 @@ textarea.ng-invalid.ng-dirty + p {
   justify-content: flex-end;
   margin-top: 26px;
   margin-bottom: 8px;
-}
-
-.tags .filters-color {
-  color: var(--primary-white);
-  background-color: var(--primary-green);
-  border: none;
-
-  &:hover {
-    color: var(--primary-white);
-    border: none;
-  }
 }
 
 .warning {

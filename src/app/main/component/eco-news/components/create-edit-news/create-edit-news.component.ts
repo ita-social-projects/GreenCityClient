@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { FormArray, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
@@ -25,6 +25,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/store/actions/ecoNews.actions';
 import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-create-edit-news',
@@ -38,6 +39,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     public router: Router,
     public dialog: MatDialog,
     private injector: Injector,
+    private langService: LanguageService,
+    private fb: FormBuilder,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
@@ -65,6 +68,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public author: string = localStorage.getItem('name');
   public attributes: ActionInterface;
   public filters: FilterModel[] = [];
+  public tagMaxLength = 3;
   public newsId: number;
   public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -112,10 +116,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
       this.currentLang = lang;
     });
     this.getAllTags();
-  }
-
-  private filterArr(item: FilterModel, index: number) {
-    return [...this.filters.slice(0, index), item, ...this.filters.slice(index + 1)];
   }
 
   public setInitialValues(): void {
@@ -340,37 +340,15 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     return this.form.controls.tags as FormArray;
   }
 
-  public addFilters(filterObj: FilterModel): void {
-    if (!filterObj.isActive) {
-      this.toggleIsActive(filterObj, true);
-      this.tags().push(new FormControl(filterObj.name));
-      this.filtersValidation(filterObj);
-    } else {
-      this.removeFilters(filterObj);
-    }
+  getTagsList(list: FilterModel[]): void {
+    const selectedTagsList = list.map((el) => this.langService.getLangValue(el.nameUa, el.name) as string);
+    this.form.setControl('tags', this.fb.array(selectedTagsList));
+    this.createEcoNewsService.setTags(list);
   }
 
-  public removeFilters(filterObj: FilterModel): void {
-    const tagsArray = this.form.value.tags;
-    const index = tagsArray.findIndex((tag) => tag === filterObj.name);
-    this.tags().removeAt(index);
-    this.toggleIsActive(filterObj, false);
-  }
-
-  public filtersValidation(filterObj: FilterModel): void {
-    if (this.form.value.tags.length > 3) {
-      this.isFilterValidation = true;
-      setTimeout(() => (this.isFilterValidation = false), 3000);
-      this.tags().removeAt(3);
-      this.toggleIsActive(filterObj, false);
-    }
-  }
-
-  public toggleIsActive(filterObj: FilterModel, newValue: boolean): void {
-    const index = this.filters.findIndex((item: FilterModel) => item.name === filterObj.name || item.nameUa === filterObj.nameUa);
-    const changedTags = this.filterArr({ name: filterObj.name, nameUa: filterObj.nameUa, isActive: newValue }, index);
-    this.filters = changedTags;
-    this.createEcoNewsService.setTags(changedTags);
+  getTagsLimitStatus(isMaxLength: boolean): void {
+    this.isFilterValidation = isMaxLength;
+    setTimeout(() => (this.isFilterValidation = false), 3000);
   }
 
   public goToPreview(): void {
