@@ -54,6 +54,7 @@
               ngDefaultControl
               formControlName="description"
               [modules]="quillModules"
+              (dragover)="(false)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
             ></quill-editor>
             <div *ngIf="getControl('description').touched && getControl('description').invalid">
