@@ -5,6 +5,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 enum errorType {
   email = 'email',
   pattern = 'pattern',
+  wrongNumber = 'wrongNumber',
   minlength = 'minlength',
   maxlength = 'maxlength',
   required = 'required'
@@ -53,6 +54,9 @@ export class UBSInputErrorComponent implements OnInit {
             break;
           case errorType.maxlength:
             this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength);
+            break;
+          case errorType.wrongNumber:
+            this.errorMessage = this.validationErrors.wrongNumber;
             break;
           default:
             this.errorMessage = this.validationErrors[err];
