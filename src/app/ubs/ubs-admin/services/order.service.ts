@@ -7,7 +7,8 @@ import {
   PaymentDetails,
   IPaymentInfoDto,
   FormFieldsName,
-  ResponsibleEmployee
+  ResponsibleEmployee,
+  INotTakenOutReason
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
@@ -127,6 +128,10 @@ export class OrderService {
     return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}`);
   }
 
+  public getNotTakenOutReason(historyId: number): Observable<INotTakenOutReason> {
+    return this.http.get<INotTakenOutReason>(`${this.backend}/management/get-not-taken-order-reason/${historyId}`);
+  }
+
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
   }
@@ -205,5 +210,9 @@ export class OrderService {
       case FormFieldsName.Navigator:
         return ResponsibleEmployee.Navigator;
     }
+  }
+
+  public getOrderCancelReason(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/management/get-order-cancellation-reason/${orderId}`);
   }
 }

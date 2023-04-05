@@ -59,6 +59,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderPrice: number;
   currentOrderStatus: string;
   overpayment: number;
+  cancelComment: string;
+  cancelReason: string;
   isMinOrder = true;
   isSubmitted = false;
   private isFormResetted = false;
@@ -335,6 +337,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
+  public onCancelReason(message) {
+    this.cancelReason = message.reason;
+    this.cancelComment = message.comment;
+  }
+
   public addIdForUserAndAdress(order: FormGroup): void {
     const addressId = 'addressId';
     const recipientId = 'recipientId';
@@ -387,6 +394,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       changedValues.exportDetailsDto = this.validateExportDetails();
       this.formatExporteValue(changedValues.exportDetailsDto);
     }
+
+    changedValues.cancellationComment = this.cancelComment;
+    changedValues.cancellationReason = this.cancelReason;
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
