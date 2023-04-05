@@ -273,9 +273,10 @@ describe('AdminTableService', () => {
     spyOn(service, 'saveDateFilters');
     service.changeInputDateFilters(value, currentColumn, suffix, false);
     const keyToChange = 'orderDateFrom';
-    service.filters = [{ orderDateFrom: '2022-10-08' }];
+    service.filters = [{ orderDateFrom: '2022-10-12' }];
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
-    expect(filterToChange).toEqual({ orderDateFrom: '2022-10-08' });
+    expect(filterToChange).toEqual({ orderDateFrom: '2022-10-12' });
+    service.saveDateFilters(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
     expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
   });
 
@@ -287,6 +288,7 @@ describe('AdminTableService', () => {
     const keyToChange = 'orderDateTo';
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
     expect(filterToChange).toEqual(undefined);
+    service.saveDateFilters(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
     expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
   });
 

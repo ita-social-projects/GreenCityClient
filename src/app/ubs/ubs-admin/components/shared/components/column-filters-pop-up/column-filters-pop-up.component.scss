@@ -1,13 +1,20 @@
 .filter-btn {
-  width: 155px;
-  margin: 0 5px;
+  width: 140px;
   border: 1px solid var(--ubs-quaternary-dark-grey);
   border-radius: 4px !important;
+}
+
+.positioning {
+  margin-left: 5px;
 }
 
 .bg-lime {
   border: none;
   background-color: var(--ubs-primary-lime-green);
+}
+
+.btn-group {
+  gap: 7px;
 }
 
 input[type='date'] {

@@ -95,6 +95,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   minColumnWidth = 100;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
+  currentDate: Date;
+  currentDateStr: string;
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
@@ -134,6 +136,9 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.tableData = [];
       this.getTable(model, 'id', 'DESC', true);
     });
+
+    this.currentDate = new Date();
+    this.currentDateStr = this.adminTableService.setDateFormat(this.currentDate);
 
     this.ordersViewParameters$.subscribe((items: IOrdersViewParameters) => {
       if (items) {
@@ -669,16 +674,26 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeInputDate(checked: boolean, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
     const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
-
     if (suffix === 'From' || suffix === 'To') {
       const date = this.getControlValue(currentColumn, suffix);
       const value = this.adminTableService.setDateFormat(date);
       this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
-      if (!checkControl || this.getControlValue(currentColumn, 'From') > this.getControlValue(currentColumn, 'To')) {
+      console.log(date, value);
+      const biggerFrom = this.getControlValue(currentColumn, 'From') >= this.getControlValue(currentColumn, 'To');
+      let isSuffix;
+      if (suffix === 'From' && biggerFrom) {
+        isSuffix = 'To';
         this.dateForm.get(`${currentColumn}To`).setValue(value);
       }
+      if (suffix === 'To' && biggerFrom) {
+        isSuffix = 'From';
+        this.dateForm.get(`${currentColumn}From`).setValue(value);
+      }
+      this.dateForm.get(`${currentColumn}${isSuffix}`).setValue(value);
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
+    }
+    if (suffix === 'Check') {
     } else if (suffix === 'Check') {
       this.dateForm.get(`${currentColumn}Check`).setValue(checked);
     }
