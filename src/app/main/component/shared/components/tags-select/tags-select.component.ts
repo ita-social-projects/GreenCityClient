@@ -9,16 +9,20 @@ import { TagInterface } from '../tag-filter/tag-filter.model';
 })
 export class TagsSelectComponent {
   @Input() tagsList: TagInterface[];
-  @Input() tagMaxLength = 0;
+  @Input() tagMaxLength: number;
   selectedList: TagInterface[];
+
+  @Output() isMaxLength = new EventEmitter<boolean>();
   @Output() selectTags = new EventEmitter<TagInterface[]>();
 
   constructor(private langService: LanguageService) {}
 
   checkTab(tag: TagInterface): void {
-    const isMaxLength = this.selectedList && this.tagMaxLength ? this.selectedList.length >= this.tagMaxLength : false;
+    const isCheckMaxLength = this.selectedList && this.tagMaxLength && !tag.isActive;
+    const isMaxLength = isCheckMaxLength ? this.selectedList.length >= this.tagMaxLength : false;
     tag.isActive = isMaxLength && !tag.isActive ? tag.isActive : !tag.isActive;
     this.selectedList = this.tagsList.filter((item) => item.isActive);
+    this.isMaxLength.emit(isMaxLength);
     this.selectTags.emit(this.selectedList);
   }
 
