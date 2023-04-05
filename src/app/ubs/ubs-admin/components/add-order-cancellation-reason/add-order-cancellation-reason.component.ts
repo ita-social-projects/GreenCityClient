@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-add-order-cancellation-reason',
@@ -16,6 +18,9 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   public commentForm: FormGroup;
   public cancellationReason: string;
   public cancellationComment: string;
+  public orderID: number;
+  orderInfo: any;
+  public isHistory: boolean;
   reasonList: any[] = [
     {
       value: 'DELIVERED_HIMSELF',
@@ -42,16 +47,29 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private fb: FormBuilder,
+    public fb: FormBuilder,
+    public orderService: OrderService,
     private localeStorageService: LocalStorageService,
-    public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>
-  ) {}
+    public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>,
+    public router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.isHistory = this.data.isHistory;
+    this.orderID = this.data.orderID;
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
+    this.orderService
+      .getOrderCancelReason(this.orderID)
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((message) => {
+        this.cancellationReason = message.cancellationReason;
+        this.cancellationComment = message.cancellationComment;
+      });
   }
 
   public initForm(): void {
