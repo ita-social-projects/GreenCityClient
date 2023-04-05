@@ -42,7 +42,7 @@
             <span class="habit-tooltip">{{ 'user.habit.add-new-habit.tags-limits' | translate }}</span>
             <app-tags-select
               [tagsList]="tagsList"
-              [tagType]="tagType"
+              [tagMaxLength]="tagMaxLength"
               (selectTags)="getTagsList($event)"
               class="tags-block"
             ></app-tags-select>
