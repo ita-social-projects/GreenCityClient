@@ -29,6 +29,15 @@ describe('TagsSelectComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should check tag', () => {
+    const tags = { id: 1, name: 'fakeTag', nameUa: 'Фейк тег', isActive: false };
+    component.selectedList = null;
+    component.tagsList = [tags];
+    component.checkTab(tags);
+    expect(tags.isActive).toBeTruthy();
+    expect(component.selectedList).toEqual([tags]);
+  });
+
   it('should get value by language', () => {
     const valueByLang = (component as any).getLangValue('fakeTag', 'fakeTagEn');
     expect(valueByLang).toBe('fakeTag');

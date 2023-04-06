@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
-import { FormArray, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
-import { Subscription, ReplaySubject, throwError, Observable } from 'rxjs';
+import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
