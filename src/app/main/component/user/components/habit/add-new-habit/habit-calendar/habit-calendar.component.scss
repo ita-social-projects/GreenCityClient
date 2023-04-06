@@ -1,7 +1,7 @@
 .calendar {
   display: flex;
   flex-direction: column;
-  width: 416px;
+  width: 100%;
   max-height: 316px;
   height: 316px;
   background-color: #fbfbfb;
@@ -37,8 +37,18 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .calendar .middle .calendar-grid .calendar-grid-day {
-    padding: 7px 1px 0 0;
+@media (max-width: 1240px) {
+  .calendar .middle .calendar-grid {
+    grid-column-gap: 12px;
+
+    .calendar-grid-day {
+      padding: 7px 1px 0 0;
+    }
+  }
+
+  .calendar .top .days {
+    grid-template-columns: repeat(7, 42px);
+    margin: 0 9px 0 22px;
+    padding: 7px 0 0 0;
   }
 }

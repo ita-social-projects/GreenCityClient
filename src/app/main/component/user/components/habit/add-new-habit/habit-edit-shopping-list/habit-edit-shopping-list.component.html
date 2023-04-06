@@ -27,7 +27,7 @@
     <div *ngIf="!shopList.length" class="no-item">
       {{ 'user.habit.no-shopping-items' | translate }}
     </div>
-    <form *ngIf="!isAcquired" [formGroup]="itemForm">
+    <form *ngIf="!isAcquired" [formGroup]="itemForm" class="add-item-form">
       <input
         class="add-field"
         type="text"

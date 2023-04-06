@@ -1,7 +1,9 @@
 .dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 231px;
   width: 100%;
-  display: table;
   background-color: var(--primary-white);
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   margin-bottom: 8px;
@@ -78,28 +80,24 @@
   }
 }
 
-@media screen and (max-width: 1439px) {
-  .text-wrapper {
-    width: 381px;
-  }
-
+@media (max-width: 1439px) {
   .warning {
     font-size: 12px;
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media (max-width: 1023px) {
   .dropzone {
-    width: 381px;
+    width: 482px;
   }
 }
 
-@media screen and (max-width: 575px) {
+@media (max-width: 640px) {
   .text-wrapper {
-    width: 288px;
+    width: 100%;
   }
 
   .dropzone {
-    width: 288px;
+    width: 100%;
   }
 }

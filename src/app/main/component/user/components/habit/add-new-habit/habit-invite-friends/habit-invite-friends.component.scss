@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  width: 100%;
 
   p {
     font-family: var(--secondary-font);
@@ -14,11 +15,15 @@
     color: var(--secondary-grey);
   }
 
-  .invite-title p {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 24px;
-    color: var(--primary-black);
+  .invite-title {
+    width: 100%;
+
+    p {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 24px;
+      color: var(--primary-black);
+    }
   }
 
   .invite-content {
@@ -107,5 +112,11 @@
   .invite-detail {
     height: 15px;
     margin: 5px 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .invite-container .invite-title p {
+    font-size: 16px;
   }
 }
