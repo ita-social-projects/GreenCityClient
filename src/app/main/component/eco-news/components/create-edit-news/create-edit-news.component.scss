@@ -120,9 +120,14 @@ form {
   width: 154px;
 }
 
-.tags-box,
-.tags-block {
+.tags-box {
   display: flex;
+
+  .tags-block {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
 }
 
 form .textarea-wrapper textarea {
