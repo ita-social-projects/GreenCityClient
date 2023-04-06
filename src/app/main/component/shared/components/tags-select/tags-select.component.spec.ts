@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TagsSelectComponent } from './tags-select.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { FIRSTTAGITEM, TAGLIST } from 'src/app/main/mocks/tags-list-mock';
 
 describe('TagsSelectComponent', () => {
   let component: TagsSelectComponent;
@@ -30,12 +31,29 @@ describe('TagsSelectComponent', () => {
   });
 
   it('should check tag', () => {
-    const tags = { id: 1, name: 'fakeTag', nameUa: 'Фейк тег', isActive: false };
+    const tags = { id: 1, name: 'Reusable', nameUa: 'Багаторазове використання', isActive: true };
     component.selectedList = null;
     component.tagsList = [tags];
-    component.checkTab(tags);
+    component.checkTab(FIRSTTAGITEM);
     expect(tags.isActive).toBeTruthy();
     expect(component.selectedList).toEqual([tags]);
+  });
+
+  it('should check maxLength of tags', () => {
+    component.selectedList = null;
+    let check = component.checkMaxLength(true);
+    expect(check).toBeFalsy();
+    component.selectedList = TAGLIST;
+    component.tagMaxLength = null;
+    check = component.checkMaxLength(true);
+    expect(check).toBeFalsy();
+    component.selectedList = TAGLIST;
+    component.tagMaxLength = 3;
+    check = component.checkMaxLength(true);
+    expect(check).toBeFalsy();
+    component.tagMaxLength = 1;
+    check = component.checkMaxLength(false);
+    expect(check).toBeTruthy();
   });
 
   it('should get value by language', () => {

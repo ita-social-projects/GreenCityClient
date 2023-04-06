@@ -18,12 +18,16 @@ export class TagsSelectComponent {
   constructor(private langService: LanguageService) {}
 
   checkTab(tag: TagInterface): void {
-    const isCheckMaxLength = this.selectedList && this.tagMaxLength && !tag.isActive;
-    const isMaxLength = isCheckMaxLength ? this.selectedList.length >= this.tagMaxLength : false;
+    const isMaxLength = this.checkMaxLength(tag.isActive);
     tag.isActive = isMaxLength && !tag.isActive ? tag.isActive : !tag.isActive;
     this.selectedList = this.tagsList.filter((item) => item.isActive);
     this.isMaxLength.emit(isMaxLength);
     this.selectTags.emit(this.selectedList);
+  }
+
+  checkMaxLength(isActive: boolean): boolean {
+    const isCheckMaxLength = this.selectedList && this.tagMaxLength && !isActive;
+    return isCheckMaxLength ? this.selectedList.length >= this.tagMaxLength : false;
   }
 
   getLangValue(valUa: string, valEn: string): string {
