@@ -27,7 +27,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     station: ['', Validators.required],
     regionNameUk: ['', Validators.required],
     regionNameEng: [''],
-    city: [{ value: '' }, [Validators.maxLength(40), Validators.required]]
+    city: [{ value: '', disabled: false }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
