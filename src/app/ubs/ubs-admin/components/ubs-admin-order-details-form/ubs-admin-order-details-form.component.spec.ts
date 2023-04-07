@@ -7,7 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
-import { generalOrderInfoMock } from '../../services/orderInfoMock';
+import { OrderInfoMockedData } from '../../services/orderInfoMock';
 
 describe('UbsAdminOrderDetailsFormComponent', () => {
   let component: UbsAdminOrderDetailsFormComponent;
@@ -38,7 +38,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminOrderDetailsFormComponent);
     component = fixture.componentInstance;
-    component.generalInfo = generalOrderInfoMock as any;
+    component.generalInfo = OrderInfoMockedData as any;
     component.orderStatusInfo = OrderStatusInfoFake as any;
   });
 

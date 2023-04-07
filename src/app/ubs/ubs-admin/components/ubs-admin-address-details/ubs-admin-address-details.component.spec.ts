@@ -6,7 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { generalOrderInfoMock } from '../../services/orderInfoMock';
+import { OrderInfoMockedData } from '../../services/orderInfoMock';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -302,7 +302,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminAddressDetailsComponent);
     component = fixture.componentInstance;
-    component.generalInfo = generalOrderInfoMock as any;
+    component.generalInfo = OrderInfoMockedData as any;
     component.addressExportDetailsDto = FormGroupMock;
     const spy = spyOn(component as any, 'initGoogleAutocompleteServices');
     fixture.detectChanges();

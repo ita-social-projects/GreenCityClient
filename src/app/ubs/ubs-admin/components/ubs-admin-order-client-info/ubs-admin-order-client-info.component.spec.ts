@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { generalOrderInfoMock } from '../../services/orderInfoMock';
+import { OrderInfoMockedData } from '../../services/orderInfoMock';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
@@ -47,7 +47,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
-    component.generalInfo = generalOrderInfoMock as any;
+    component.generalInfo = OrderInfoMockedData as any;
     component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;
