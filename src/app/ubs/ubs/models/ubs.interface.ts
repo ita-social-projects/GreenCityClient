@@ -155,6 +155,7 @@ export interface AddressData {
   regionEn: string;
   region: string;
   searchAddress: string;
+  placeId: string;
 }
 
 export interface Locations {

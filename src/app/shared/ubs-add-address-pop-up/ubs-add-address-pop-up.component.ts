@@ -38,6 +38,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   bigRegions: Region[];
   regionsKyiv: Location[];
   regions: Location[];
+  placeId: string;
 
   languages = {
     en: 'en',
@@ -290,6 +291,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
       if (lang === this.languages.en) {
         this.formattedAddress = placeDetails.formatted_address;
+        this.setPlaceId();
       }
       if (lang === this.languages.en && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.districtEn, lang);
@@ -332,6 +334,20 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     }
   }
 
+  setPlaceId(): void {
+    if (this.formattedAddress && this.houseNumber.value) {
+      const searchAddress = [...this.formattedAddress.split(',')];
+      searchAddress.splice(1, 0, ' ' + this.houseNumber.value);
+      this.addAddressForm.get('searchAddress').setValue(searchAddress.join(','));
+      const request = {
+        query: this.addAddressForm.value.searchAddress
+      };
+      this.placeService.textSearch(request, (address) => {
+        this.placeId = address[0].place_id;
+      });
+    }
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -350,11 +366,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   }
 
   addAdress(): void {
-    const searchAddress = this.formattedAddress ? [...this.formattedAddress.split(',')] : null;
-    if (searchAddress) {
-      searchAddress.splice(1, 0, ' ' + this.houseNumber.value);
-    }
-    this.addAddressForm.value.searchAddress = searchAddress?.join(',');
     this.addAddressForm.value.region = this.region.value;
     this.addAddressForm.value.regionEn = this.regionEn.value;
     this.isDisabled = true;
@@ -368,7 +379,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       houseNumber: this.houseNumber.value,
       regionEn: this.addAddressForm.value.regionEn,
       region: this.addAddressForm.value.region,
-      searchAddress: this.addAddressForm.value.searchAddress
+      searchAddress: this.addAddressForm.value.searchAddress,
+      placeId: this.placeId
     };
 
     of(true)
