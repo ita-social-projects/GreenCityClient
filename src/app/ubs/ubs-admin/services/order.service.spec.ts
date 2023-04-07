@@ -2,6 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { environment } from '@environment/environment.js';
+import { OrderStatus } from '../../order-status.enum';
 
 describe('OrderService', () => {
   let httpMock: HttpTestingController;
@@ -245,8 +246,8 @@ describe('OrderService', () => {
   });
 
   it('should return available statuses for order status BROUGHT_IT_HIMSELF', () => {
-    const res = service.getAvailableOrderStatuses('BROUGHT_IT_HIMSELF', arr);
-    expect(res).toEqual([{ key: 'BROUGHT_IT_HIMSELF' }, { key: 'DONE' }, { key: 'CANCELED' }]);
+    const res = service.getAvailableOrderStatuses(OrderStatus.BROUGHT_IT_HIMSELF, arr);
+    expect(res).toEqual([{ key: OrderStatus.BROUGHT_IT_HIMSELF }]);
   });
 
   it('should return available statuses for order status ON_THE_ROUTE', () => {
