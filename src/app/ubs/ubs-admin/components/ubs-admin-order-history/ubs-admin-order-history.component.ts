@@ -19,9 +19,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
-  public isHistory = true;
   orderNotTakenOutReason: INotTakenOutReason;
-  coloredStatus = ordersStatuses.NotTakenOutUA && ordersStatuses.CanselUA;
+  cancellationReason: string;
+  cancellationComment: string;
+  coloredStatus = ordersStatuses.NotTakenOutUA && ordersStatuses.CancelUA;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -38,6 +39,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     if (changes.orderInfo) {
       this.getOrderHistory(orderID);
       this.getNotTakenOutReason(orderID);
+      this.getOrderCancelReason(orderID);
     }
   }
 
@@ -47,7 +49,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
 
   showPopup(orderHistoryId) {
     this.orderHistory.forEach((order) => {
-      if (order.id === orderHistoryId && order.result === ordersStatuses.CanselUA) {
+      if (order.id === orderHistoryId && order.result === ordersStatuses.CancelUA) {
         this.openCancelReason();
       }
       if (order.id === orderHistoryId && order.result === ordersStatuses.NotTakenOutUA) {
@@ -60,8 +62,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
     this.dialog.open(AddOrderCancellationReasonComponent, {
       hasBackdrop: true,
       data: {
-        isHistory: this.isHistory,
-        orderID: this.orderInfo.generalOrderInfo.id
+        isHistory: true,
+        orderID: this.orderInfo.generalOrderInfo.id,
+        reason: this.cancellationReason,
+        comment: this.cancellationComment
       }
     });
   }
@@ -84,8 +88,17 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
       .getNotTakenOutReason(orderId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        console.log('data', data);
         this.orderNotTakenOutReason = data;
+      });
+  }
+
+  getOrderCancelReason(orderId: number) {
+    this.orderService
+      .getOrderCancelReason(orderId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message) => {
+        this.cancellationReason = message.cancellationReason;
+        this.cancellationComment = message.cancellationComment;
       });
   }
 
