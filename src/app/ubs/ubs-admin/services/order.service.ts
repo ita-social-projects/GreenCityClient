@@ -12,7 +12,7 @@ import {
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
-import { OrderStatus } from '../../ubs/order-status.enum';
+import { OrderStatus } from 'src/app/ubs/order-status.enum';
 
 @Injectable({
   providedIn: 'root'
