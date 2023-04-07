@@ -62,6 +62,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   public locations: Locations[];
   clickOnYes = true;
   clickOnNo = true;
+  public alreadyEnteredCert: string[] = [];
+  public isNotExistCertificate = false;
 
   constructor(
     private fb: FormBuilder,
@@ -231,6 +233,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
             (error) => {
               this.cancelCertBtn = false;
               if (error.status === 404) {
+                this.isNotExistCertificate = true;
                 this.certificates.codes.splice(index, 1);
                 this.certificates.activatedStatus.splice(index, 1);
                 this.certificates.creationDates.splice(index, 1);
@@ -293,12 +296,17 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.certificateReset();
     }
     this.calculateCertificates();
+    this.isNotExistCertificate = false;
   }
 
-  showCancelButton(i: number) {
+  showCancelButton(i: number): boolean {
+    const isCertActivated = this.certificates.activatedStatus[i];
+    const isCertFilled = this.formArrayCertificates.controls[i].value.length > 0;
+    const hasMultipleCertificates = this.formArrayCertificates.controls.length > 1;
+    const isCertAlreadyEntered = this.showMessageForAlreadyEnteredCert(i);
+
     return (
-      (this.certificates.activatedStatus[i] && this.formArrayCertificates.controls[i].value) ||
-      (this.formArrayCertificates.controls.length > 1 && !this.formArrayCertificates.controls[i].value.length)
+      (isCertActivated && isCertFilled) || (hasMultipleCertificates && !isCertFilled) || isCertAlreadyEntered || this.isNotExistCertificate
     );
   }
 
@@ -310,14 +318,39 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.certificates.activatedStatus.push(true);
       this.certificates.error.push(false);
       this.calculateCertificates();
+      this.alreadyEnteredCert.splice(0, this.alreadyEnteredCert.length);
+    } else {
+      this.alreadyEnteredCert.push(this.formArrayCertificates.value[index]);
     }
   }
 
-  showActivateButton(i: number) {
-    return (
-      (!this.certificates.activatedStatus[i] && this.formArrayCertificates.controls[i].value && !this.disableAddCertificate()) ||
-      (this.formArrayCertificates.controls.length === 1 && !this.formArrayCertificates.controls[i].value.length)
-    );
+  showMessageForAlreadyEnteredCert(i: number): boolean {
+    const isCertificateExists = this.certificates.codes.includes(this.formArrayCertificates.value[i]);
+    const isAlreadyEnteredCert = this.alreadyEnteredCert.length === 1;
+
+    return isCertificateExists && isAlreadyEnteredCert && !this.showActivateCetificate(i);
+  }
+
+  showMessageForAlreadyUsedCert(i: number): boolean {
+    const isUsed = this.certificates.status[i] === 'USED';
+    const hasFailed = !!this.certificates.failed[i];
+    const isAlreadyEntered = this.showMessageForAlreadyEnteredCert(i);
+    const isNotInclude = !this.certificates.codes.includes(this.formArrayCertificates.value[i]);
+
+    return isUsed && hasFailed && !isAlreadyEntered && isNotInclude;
+  }
+
+  showActivateButton(i: number): boolean {
+    const isNotActivated = !this.certificates.activatedStatus[i];
+    const isFilled = this.formArrayCertificates.controls[i].value;
+    const isNotDisabledBtn = !this.disableAddCertificate();
+    const isSingleCertificate = this.formArrayCertificates.controls.length === 1;
+    const isAlreadyEnteredCert = !this.showMessageForAlreadyEnteredCert(i);
+
+    const shouldShowButton = isNotActivated && isFilled && isNotDisabledBtn && !this.isNotExistCertificate;
+    const isSingleCertificateAndEmpty = isSingleCertificate && !isFilled;
+
+    return (shouldShowButton || isSingleCertificateAndEmpty) && isAlreadyEnteredCert;
   }
 
   public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
@@ -400,6 +433,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
       this.clickOnNo = false;
     }
   }
+
   public showActivateCetificate(i: number): boolean {
     const isCertificateExpired = !!this.certificates.expirationDates[i];
     const isCertSize = !!this.certSize;

@@ -81,7 +81,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
-      description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
 

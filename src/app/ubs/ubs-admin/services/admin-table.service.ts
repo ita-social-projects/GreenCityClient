@@ -46,9 +46,9 @@ export class AdminTableService {
     return this.http.get(`${this.url}tableParams`);
   }
 
-  postData(orderId: number[], columnName: string, newValue: string) {
+  postData(orderIdsList: number[], columnName: string, newValue: string) {
     return this.http.put(`${this.url}changingOrder`, {
-      orderId,
+      orderIdsList,
       columnName,
       newValue
     });
@@ -96,6 +96,12 @@ export class AdminTableService {
       case 'responsibleLogicMan':
         endPointColumnName = 'responsibleLogicManId';
         break;
+      case 'city':
+        endPointColumnName = 'citiesEn';
+        break;
+      case 'district':
+        endPointColumnName = 'districtsEn';
+        break;
       default:
         endPointColumnName = column;
         break;
@@ -121,6 +127,12 @@ export class AdminTableService {
       case 'responsibleLogicManId':
         tableColumnName = 'responsibleLogicMan';
         break;
+      case 'citiesEn':
+        tableColumnName = 'city';
+        break;
+      case 'districtsEn':
+        tableColumnName = 'district';
+        break;
       default:
         tableColumnName = column;
         break;
@@ -131,10 +143,11 @@ export class AdminTableService {
   changeFilters(checked: boolean, currentColumn: string, option: IFilteredColumnValue): void {
     const elem = {};
     const columnName = this.changeColumnNameEqualToEndPoint(currentColumn);
+    const isLocation = columnName === 'citiesEn' || columnName === 'districtsEn';
     this.columnsForFiltering.find((column) => {
       if (column.key === currentColumn) {
         column.values.find((value) => {
-          if (value.key === option.key) {
+          if (value.key === option.key || value.en === option.en) {
             value.filtered = checked;
           }
         });
@@ -142,10 +155,10 @@ export class AdminTableService {
     });
     this.setColumnsForFiltering(this.columnsForFiltering);
     if (checked) {
-      elem[columnName] = option.key;
+      elem[columnName] = isLocation ? option.en : option.key;
       this.filters = [...this.filters, elem];
     } else {
-      this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== option.key);
+      this.filters = this.filters.filter((filteredElem) => filteredElem[columnName] !== (isLocation ? option.en : option.key));
     }
     this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
   }
@@ -192,8 +205,11 @@ export class AdminTableService {
 
     if (filterToChange) {
       filterToChange[keyToChange] = value;
-      if (!check || Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
+      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`]) && suffix === 'From') {
         filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
+      }
+      if (Date.parse(filterToChange[`${columnName}To`]) < Date.parse(filterToChange[`${columnName}From`]) && suffix === 'To') {
+        filterToChange[`${columnName}From`] = filterToChange[`${columnName}To`];
       }
       const element = { ...filterToChange };
       this.saveDateFilters(true, columnName, element);

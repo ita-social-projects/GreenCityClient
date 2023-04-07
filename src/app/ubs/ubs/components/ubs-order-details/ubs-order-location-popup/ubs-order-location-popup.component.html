@@ -8,8 +8,8 @@
     <h5 class="title-text">{{ 'order-details.location.title' | translate }}</h5>
   </div>
   <form *ngIf="!isFetching; else spinner" class="form">
-    <mat-form-field>
-      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+    <div class="city-container">
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" class="shadow-none form-control" />
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         <mat-option
           *ngFor="let city of filteredOptions | async"
@@ -19,7 +19,7 @@
           {{ city.locationName }}
         </mat-option>
       </mat-autocomplete>
-    </mat-form-field>
+    </div>
   </form>
   <div class="info" *ngIf="!isFetching">
     <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>
@@ -28,12 +28,12 @@
   <ng-template #spinner>
     <app-spinner class="mx-auto"></app-spinner>
   </ng-template>
-  <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
+  <mat-dialog-actions class="footer-btns">
+    <button class="ubs-secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button
-      class="btn primaryButton primary-global-button"
+      class="ubs-primary-global-button"
       [disabled]="isFetching || !currentLocation || myControl.invalid"
       cdkFocusInitial
       (click)="saveLocation()"

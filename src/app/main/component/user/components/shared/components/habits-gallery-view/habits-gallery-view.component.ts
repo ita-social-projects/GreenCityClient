@@ -22,8 +22,8 @@ export class HabitsGalleryViewComponent implements OnInit {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    private snackBar: MatSnackBarComponent,
-    private localStorageService: LocalStorageService,
+    public snackBar: MatSnackBarComponent,
+    public localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService
   ) {}
 
@@ -38,8 +38,11 @@ export class HabitsGalleryViewComponent implements OnInit {
     }
   }
 
-  public goHabitMore() {
-    this.router.navigate([`/profile/${this.userId}/allhabits/addhabit`, this.habit.id], { relativeTo: this.route });
+  public goHabitMore(): void {
+    const link = `/profile/${this.userId}/allhabits/`;
+    this.habit.assignId
+      ? this.router.navigate([`${link}edithabit`, this.habit.assignId], { relativeTo: this.route })
+      : this.router.navigate([`${link}addhabit`, this.habit.id], { relativeTo: this.route });
   }
 
   public addHabit() {

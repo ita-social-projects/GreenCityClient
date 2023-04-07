@@ -6,7 +6,7 @@
         <div>
           <h5 *ngIf="currentLocation">{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
           <h5 *ngIf="!currentLocation" class="error-text">{{ 'order-details.title-without-location' | translate }}</h5>
-          <button class="change-location" (click)="redirectToZeroStep()">
+          <button class="ubs-link-global-button s-link add-order-btn" (click)="redirectToZeroStep()">
             {{ 'order-details.choose-location' | translate }}
           </button>
         </div>
@@ -112,37 +112,47 @@
       <div class="bottom">
         <h3>{{ 'order-details.eco-shop' | translate }}</h3>
         <h5 class="shop-order-question">{{ 'order-details.shop-order-question' | translate }}</h5>
-        <div class="form-group shop_submit">
-          <div class="bottom-text">
-            <p>{{ 'order-details.cant-found-order' | translate }}</p>
-          </div>
-          <div
-            formArrayName="additionalOrders"
-            *ngFor="let order of additionalOrders.controls; let i = index"
-            class="form-group eco-store"
-            [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
-          >
-            <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
-            <input
-              id="index{{ i }}"
-              tabindex="{{ isDisabled() }}"
-              [formControlName]="i"
-              class="shadow-none form-control my-1 border-input p-2 eco-store-input"
-              type="text"
-              placeholder="xxxxx-xxxxx"
-              [unmask]="false"
-              [imask]="{ mask: ecoStoreMask }"
-              [pattern]="additionalOrdersPattern"
-              (click)="changeShopRadioBtn()"
-              (ngModelChange)="ecoStoreValidation()"
-            />
-            <span input-close-button tabindex="{{ isDisabled() }}" (click)="deleteOrder(i)" (keyup)="removeOrder($event, i)">&times;</span>
+        <div class="form-group shop-submit">
+          <div class="shop-submit-box">
+            <div class="inputs-box">
+              <div
+                formArrayName="additionalOrders"
+                *ngFor="let order of additionalOrders.controls; let i = index"
+                class="eco-store"
+                [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
+              >
+                <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
+                <input
+                  id="index{{ i }}"
+                  tabindex="{{ isDisabled() }}"
+                  [formControlName]="i"
+                  class="shadow-none form-control my-1 border-input p-2 eco-store-input"
+                  type="text"
+                  placeholder="xxxxx-xxxxx"
+                  [unmask]="false"
+                  [imask]="{ mask: ecoStoreMask }"
+                  [pattern]="additionalOrdersPattern"
+                  (click)="changeShopRadioBtn()"
+                  (ngModelChange)="ecoStoreValidation()"
+                />
+                <span input-close-button tabindex="{{ isDisabled() }}" (click)="deleteOrder(i)" (keyup)="removeOrder($event, i)"
+                  >&times;</span
+                >
+              </div>
+            </div>
+            <div class="bottom-text">
+              <p class="p-text">{{ 'order-details.cant-found-order' | translate }}</p>
+            </div>
           </div>
           <div *ngIf="canAddEcoShopOrderNumber()" class="order-notification">
             <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
               {{ 'order-details.order-error' | translate }}
             </small>
-            <button [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn" class="addOrderBtn" (click)="addOrder()">
+            <button
+              [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn"
+              class="ubs-link-global-button s-link add-order-btn"
+              (click)="addOrder()"
+            >
               {{ 'order-details.additional-orders' | translate }}
             </button>
           </div>
@@ -152,7 +162,7 @@
         <div class="form-group comment">
           <h3>{{ 'order-details.comment' | translate }}</h3>
           <h5>{{ 'order-details.comment-subtitle' | translate }}</h5>
-          <p class="link" (click)="openExtraPackages()">{{ 'order-details.link' | translate }}</p>
+          <p class="ubs-link-global-button s-link" (click)="openExtraPackages()">{{ 'order-details.link' | translate }}</p>
           <textarea
             formControlName="orderComment"
             class="shadow-none form-control textarea"
@@ -175,15 +185,10 @@
 </div>
 
 <div class="buttons">
-  <button type="button" class="secondary-global-button btn cancel-button btn-main" (click)="cancelUBS()">
+  <button type="button" class="ubs-secondary-global-button" (click)="cancelUBS()">
     {{ 'order-details.cancel' | translate }}
   </button>
-  <button
-    [disabled]="courierLimitValidation || orderComment.invalid"
-    type="submit"
-    class="primary-global-button btn btn-main"
-    matStepperNext
-  >
+  <button [disabled]="courierLimitValidation || orderComment.invalid" type="submit" class="ubs-primary-global-button" matStepperNext>
     {{ 'order-details.next' | translate }}
   </button>
 </div>

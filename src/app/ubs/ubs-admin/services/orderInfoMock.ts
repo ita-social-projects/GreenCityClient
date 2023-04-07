@@ -1,4 +1,4 @@
-import { IOrderInfo, IEmployee, IGeneralOrderInfo } from '../models/ubs-admin.interface';
+import { IOrderInfo, IEmployee } from '../models/ubs-admin.interface';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);

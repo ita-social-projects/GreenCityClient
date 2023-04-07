@@ -111,7 +111,7 @@ describe('OneHabitComponent', () => {
   it('goToHabitProfile', () => {
     spyOn(localStorage, 'getItem').and.returnValue('777');
     component.goToHabitProfile();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['profile/777/allhabits/addhabit/123']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['profile/777/allhabits/edithabit/123']);
   });
 
   it('should call setHabitValue', () => {

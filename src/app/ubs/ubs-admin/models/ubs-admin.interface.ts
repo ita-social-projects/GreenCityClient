@@ -273,6 +273,13 @@ export interface IOrderHistory {
   eventDate: string;
   eventName: string;
   id: number;
+  status?: string;
+  result?: string;
+}
+
+export interface INotTakenOutReason {
+  description: 'string';
+  images: ['string'];
 }
 
 export interface IOrderStatusInfo {
@@ -296,8 +303,14 @@ export interface UserProfile {
   recipientPhone: string;
   recipientSurname: string;
   hasPassword: boolean;
-  telegramIsChecked?: boolean;
-  viberIsChecked?: boolean;
+  telegramIsNotify?: boolean;
+  viberIsNotify?: boolean;
+  botList?: SocialLink[];
+}
+
+export interface SocialLink {
+  link: string;
+  type: string;
 }
 
 export interface Address {
@@ -343,7 +356,7 @@ export interface IFilteredColumnValue {
   key?: string;
   en?: string;
   ua?: string;
-  filtered: boolean;
+  filtered?: boolean;
 }
 
 export interface IDateFilters {
@@ -372,7 +385,7 @@ export interface IBigOrderTableOrderInfo {
   senderEmail: string;
   violationsAmount: number;
   region: string;
-  settlement: string;
+  city: string;
   district: string;
   address: string;
   commentToAddressForClient: string;
@@ -499,4 +512,11 @@ export enum FormFieldsName {
   TimeDeliveryFrom = 'timeDeliveryFrom',
   TimeDeliveryTo = 'timeDeliveryTo',
   ReceivingStation = 'receivingStation'
+}
+
+export enum ordersStatuses {
+  NotTakenOutUA = 'Не вивезли',
+  NotTakenOutEN = 'Not taken out',
+  CanselUA = 'Скасовано',
+  CanselEN = 'Canceled'
 }

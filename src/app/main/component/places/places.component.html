@@ -20,10 +20,10 @@
             country="ua"
             class="choose-location-input"
             (onLocationSelected)="onLocationSelected($event)"
-            placeholder="Choose location"
+            placeholder="{{ 'user.map.choose-location' | translate }}"
           />
         </div>
-        <button class="secondary-global-button m-btn" (click)="openTimePickerPopUp()">Add place</button>
+        <button class="secondary-global-button m-btn" (click)="openTimePickerPopUp()">{{ 'user.map.add-place' | translate }}</button>
       </div>
       <div class="filter">
         <app-tag-filter

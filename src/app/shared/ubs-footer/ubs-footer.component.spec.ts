@@ -4,6 +4,7 @@ import { UbsFooterComponent } from './ubs-footer.component';
 import { of } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UbsPickUpServicePopUpComponent } from 'src/app/ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -67,5 +68,26 @@ describe('UbsFooterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set ubsNavLinks correctly', () => {
+    expect(component.ubsNavLinks).toBeDefined();
+    expect(component.ubsNavLinks.length).toBeGreaterThan(0);
+  });
+
+  it('should set socialLinks correctly', () => {
+    expect(component.socialLinks).toBeDefined();
+    expect(component.socialLinks.length).toBeGreaterThan(0);
+  });
+
+  it('should set screenWidth on resize', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1024
+    });
+
+    window.dispatchEvent(new Event('resize'));
+    expect(component.screenWidth).toEqual(1024);
   });
 });

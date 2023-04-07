@@ -3,6 +3,8 @@
 
 .modal-wrapper {
   padding: 24px 40px 40px 16px;
+  max-height: 90vh;
+  overflow-y: scroll;
 }
 
 .popup-title {

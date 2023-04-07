@@ -7,6 +7,7 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { OrderService } from '../../services/order.service';
 
 import { AddPaymentComponent } from './add-payment.component';
@@ -52,7 +53,7 @@ describe('AddPaymentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddPaymentComponent],
+      declarations: [AddPaymentComponent, LocalizedCurrencyPipe],
       imports: [HttpClientTestingModule, ReactiveFormsModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
@@ -208,5 +209,13 @@ describe('AddPaymentComponent', () => {
       component.deletePayment();
       expect(orderServiceMock.deleteManualPayment).toHaveBeenCalledWith(7);
     });
+  });
+
+  it('newFormat should format the input value to have two decimal places', () => {
+    const sumPayment = {
+      target: { value: '444.888' }
+    } as unknown as Event;
+    component.newFormat(sumPayment);
+    expect((sumPayment.target as HTMLInputElement).value).toEqual('444.89');
   });
 });

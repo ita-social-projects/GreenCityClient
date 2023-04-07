@@ -137,7 +137,9 @@
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
-      }
+      },
+      "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
+      "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site"
     },
     "subscription": {
       "caption": "Receive interesting news",
@@ -343,7 +345,8 @@
       "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
       "no-internet": "No internet connection",
       "unauthorised-user": "You need to be authorized to edit an event",
-      "exist-address": "This address has already been added"
+      "exist-address": "This address has already been added",
+      "certificate-duration": "The duration of the certificate cant be more than 12 months"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
@@ -354,7 +357,8 @@
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
-      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box."
+      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
+      "joined-event": "You have successfully joined the event"
     }
   },
   "user": {
@@ -398,7 +402,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
+        "user-name-size": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -406,7 +410,7 @@
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "this-is-not-email": "Please check if the email is written correctly",
         "the-user-already-exists-by-this-email": "The user with this email already exists",
         "password": "Password",
         "password-is-required": "Password is required",
@@ -468,6 +472,8 @@
       }
     },
     "map": {
+      "choose-location": "Choose location",
+      "add-place": "Add place",
       "filter-by": "Filter By",
       "searching-for-a-place": "Searching for a place",
       "places": "Places",
@@ -605,8 +611,8 @@
       "title": "Credo",
       "title-warning": "Should contain maximum 170 symbols",
       "links": "Linked social networks",
-      "add-link": "add social network",
-      "privacy": "profile privacy",
+      "add-link": "Add social network",
+      "privacy": "Profile privacy",
       "location": "Show my location",
       "eco-place": "Show my eco places",
       "shopping-list": "Show my shopping list",
@@ -700,9 +706,9 @@
         "text": "This duration of habit formation is recommended. You can change it at will",
         "day": "d"
       },
-      "shopping": "Shopping list",
+      "to-do-list": "To-do list",
       "no-shopping-items": "No items to recommend",
-      "add-custom-item": "Add custom iitem",
+      "add-custom-item": "Add custom item",
       "user-log": {
         "day": "Day",
         "calendar-habit": "Calendar of eco habits",
@@ -718,6 +724,21 @@
         "not-have-habit": "You haven't saved any packages or glasses this month, but you still have a chance to make this world a better place! Get started now! Denote the number of packages and glasses you didn't take today! Or start forming a habit of your own choice!"
       },
       "add-new-habit": {
+        "create-habit": "Create habit",
+        "create-habit-subtitle": "Please provide as many details as you can - choose thematic sections and the duration of the habit, add a to-do list, etc. You can come back and update habit anytime after publishing.",
+        "habit-title": "Habit title",
+        "habit-title-placeholder": "Enter name for the habit",
+        "pick-tags": "Pick tag for habit",
+        "tags-limits": "Select one tag",
+        "difficulty": {
+          "name": "Difficulty",
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        },
+        "textarea-title": "Habit description",
+        "description-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+        "description-placeholder": "Describe the habit",
         "modal-caption": "New habit",
         "already-chosen-caption": "Already chosen",
         "available-to-chose-caption": "Habits, yet available to be added",
@@ -736,6 +757,7 @@
         "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
+        "btn-crate-habit": "Create habit",
         "btn-more": "More",
         "btn-add": "Add habit",
         "new-habit-added": "You have successfully added a new habit to your list",
@@ -1038,5 +1060,13 @@
     "invite": "Invite",
     "all": "All",
     "friends": "Friends"
+  },
+  "input-error": {
+    "required": "This field is required",
+    "min-length-short": "The field contains insufficient characters",
+    "max-length-title": "The field should contain maximum 70 symbols",
+    "min-length-description": "The field should contain minimum 20 symbols",
+    "max-length-description": "The field should contain maximum 63 206 symbols",
+    "max-length": "The field should contain less characters"
   }
 }

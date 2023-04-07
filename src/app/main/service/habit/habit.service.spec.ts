@@ -1,15 +1,17 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment.js';
+import { HabitInterface } from '../../interface/habit/habit.interface';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
   const backendLink = environment.backendLink;
   let habitService: HabitService;
   let httpMock: HttpTestingController;
+
   let langMock = null;
   const habitsMock = {
     page: [
@@ -33,7 +35,7 @@ describe('HabitService', () => {
     currentPage: 1,
     totalPages: 31
   };
-  const habitMock = {
+  const habitMock: HabitInterface = {
     defaultDuration: 14,
     amountAcquiredUsers: 1,
     habitTranslation: {
@@ -108,8 +110,7 @@ describe('HabitService', () => {
     totalPages: 1
   };
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
   beforeEach(() => {
@@ -189,8 +190,7 @@ describe('HabitService', () => {
       expect(data).toEqual(habitListMock);
     });
 
-    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en
-                                              &page=1&size=1&sort=asc&tags=test`);
+    const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
     expect(req.request.method).toBe('GET');
     req.flush(habitListMock);
   });

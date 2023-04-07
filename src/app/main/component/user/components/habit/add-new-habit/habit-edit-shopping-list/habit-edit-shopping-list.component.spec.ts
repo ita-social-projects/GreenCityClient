@@ -49,7 +49,7 @@ describe('HabitEditShoppingListComponent', () => {
     fixture = TestBed.createComponent(HabitEditShoppingListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.list = [];
+    component.shopList = [];
   });
 
   it('should create', () => {
@@ -60,26 +60,6 @@ describe('HabitEditShoppingListComponent', () => {
     spyOn((component as any).translate, 'setDefaultLang').and.returnValue('test');
     (component as any).bindLang('en');
     expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
-  });
-
-  it('getListItems should invoke getDefaultItems method', () => {
-    const isAssigned = false;
-    spyOn(component, 'getDefaultItems').and.returnValue();
-    component.getListItems(isAssigned);
-    expect(component.getDefaultItems).toHaveBeenCalled();
-  });
-
-  it('getListItems should invoke getCustomItems() method', () => {
-    const isAssigned = true;
-    spyOn(component, 'getCustomItems').and.returnValue();
-    component.getListItems(isAssigned);
-    expect(component.getCustomItems).toHaveBeenCalled();
-  });
-
-  it('getCustomItems should invoke shoppinglistService.getCustomItems method', () => {
-    spyOn(component.shoppinglistService, 'getCustomItems');
-    component.getCustomItems();
-    expect(component.shoppinglistService.getCustomItems).toHaveBeenCalled();
   });
 
   it('truncateShoppingItemName should return shortened string', () => {
@@ -104,48 +84,48 @@ describe('HabitEditShoppingListComponent', () => {
     expect(result).not.toBe(name);
   });
 
-  it('openCloseList should change toggle status', () => {
-    component.seeAllShopingList = false;
-    component.openCloseList();
-    expect(component.seeAllShopingList).toBe(true);
+  it('should call placeItemInOrder on additem', () => {
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    component.addItem('test');
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('select() should change status of shopping list item', () => {
-    const item = mockItem;
-    component.shoppinglistService.fillList(mockList);
-    component.select(item);
-    expect(component.list[0].selected).toBeTruthy();
+  it('should add item to shop list on additem', () => {
+    const newList = [
+      {
+        id: null,
+        status: 'ACTIVE',
+        text: 'test',
+        custom: true,
+        selected: true
+      }
+    ];
+    component.shopList = [];
+    component.addItem('test');
+    expect(component.shopList).toEqual(newList);
   });
 
-  it('fillList() should fill the list', () => {
-    component.shoppinglistService.fillList(mockList);
-    expect(component.list[0].text).toEqual('Item 1');
+  it('should setValue empty string on additem', () => {
+    component.item.setValue('test');
+    component.addItem('test');
+    expect(component.item.value).toBe('');
   });
 
-  it('add() should add new item to the list', () => {
-    component.shoppinglistService.fillList(mockList);
-    component.add('New Item');
-    expect(component.list.length).toEqual(3);
+  it('should call placeItemInOrder on selectItem', () => {
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    component.selectItem(mockItem);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('deleteItem() should delete item from the list', () => {
-    const item = {
-      text: 'Item 1'
-    };
-    component.shoppinglistService.fillList(mockList);
-    component.delete(item);
-    expect(component.list[0].text).not.toBe('Item 1');
+  it('shoulddelete item from shopList on deleteItem', () => {
+    component.shopList = mockList;
+    component.deleteItem('Item 1');
+    expect(component.shopList).toEqual([mockList[1]]);
   });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
     spyOn((component as any).langChangeSub, 'unsubscribe');
     component.ngOnDestroy();
     expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
-  });
-
-  it('ngOnDestroy should unsubscribe from subscription', () => {
-    spyOn((component as any).subscription, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).subscription.unsubscribe).toHaveBeenCalled();
   });
 });

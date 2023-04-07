@@ -71,6 +71,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   preparingContent = [
     'ubs-homepage.ubs-courier.preparing.content.li_1',
     'ubs-homepage.ubs-courier.preparing.content.li_1.1',
+    'ubs-homepage.ubs-courier.preparing.content.li_1.2',
     'ubs-homepage.ubs-courier.preparing.content.li_2',
     'ubs-homepage.ubs-courier.preparing.content.li_3',
     'ubs-homepage.ubs-courier.preparing.content.li_4',
@@ -113,14 +114,14 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ) {}
 
   ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
+    this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
     this.isAdmin = this.checkIsAdmin();
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
   }
 
   ngAfterViewChecked(): void {
-    this.screenWidth = window.innerWidth;
+    this.screenWidth = document.documentElement.clientWidth;
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
     this.calcLineSize();
     this.adjustMarqueText();

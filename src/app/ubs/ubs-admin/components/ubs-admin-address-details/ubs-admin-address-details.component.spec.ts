@@ -7,6 +7,7 @@ import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
+import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -287,6 +288,9 @@ describe('UbsAdminAddressDetailsComponent', () => {
     return valUa;
   };
 
+  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
+  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue(streetPlaceResultUk.address_components[1].long_name);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminAddressDetailsComponent],
@@ -294,7 +298,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: Locations, useValue: fakeLocationsMockUk },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
       ]
     }).compileComponents();
   }));
@@ -617,7 +622,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method setDistrictAuto should set district value in en', () => {
-    const result = streetPlaceResultEn.address_components[1].long_name;
+    const result = streetPlaceResultUk.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultEn, component.addressDistrictEng, component.languages.en);
     expect(component.addressDistrictEng.value).toEqual(result);
   });

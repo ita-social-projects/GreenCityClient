@@ -16,7 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -44,7 +44,17 @@ describe('UbsUserProfilePageComponent', () => {
     recipientName: 'Black',
     recipientPhone: '+380972333333',
     recipientSurname: 'Star',
-    hasPassword: true
+    hasPassword: true,
+    botList: [
+      {
+        link: 'ling to viber',
+        type: 'viber'
+      },
+      {
+        link: 'link to telegram',
+        type: 'telegram'
+      }
+    ]
   };
   let component: UbsUserProfilePageComponent;
   let fixture: ComponentFixture<UbsUserProfilePageComponent>;
@@ -413,29 +423,32 @@ describe('UbsUserProfilePageComponent', () => {
     component.isEditing = true;
     fixture.detectChanges();
     spyOn(component, 'onCancel');
-    const cancelButton = fixture.debugElement.query(By.css('.cancel')).nativeElement;
+    const cancelButton = fixture.debugElement.query(By.css('.submit-btns .ubs-secondary-global-button')).nativeElement;
     cancelButton.click();
     tick();
     expect(component.onCancel).toHaveBeenCalled();
   }));
 
-  it('method onEdit should be calls by clicking edit button', fakeAsync(() => {
-    component.isEditing = false;
-    fixture.detectChanges();
-    spyOn(component, 'onEdit');
-    const editButton = fixture.debugElement.query(By.css('.edit')).nativeElement;
-    editButton.click();
-    tick();
-    expect(component.onEdit).toHaveBeenCalled();
-  }));
-
   it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
     spyOn(component, 'openDeleteProfileDialog');
-    const deleteButton = fixture.debugElement.query(By.css('.delete')).nativeElement;
+    const deleteButton = fixture.debugElement.query(By.css('.header-buttons .ubs-danger-global-button')).nativeElement;
     deleteButton.click();
     tick();
     expect(component.openDeleteProfileDialog).toHaveBeenCalled();
   }));
+
+  it('method onCancel should call userInit method', () => {
+    component.isEditing = true;
+    const spy = spyOn(component, 'userInit');
+    component.onCancel();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method onCancel should set isEditing false', () => {
+    component.isEditing = true;
+    component.onCancel();
+    expect(component.isEditing).toBeFalsy();
+  });
 
   it('method openDeleteProfileDialog has to open popup', () => {
     spyOn(dialogMock, 'open').and.callFake(() => {});
@@ -445,11 +458,17 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
     spyOn(component, 'openChangePasswordDialog');
-    const openButton = fixture.debugElement.query(By.css('.open')).nativeElement;
+    const openButton = fixture.debugElement.query(By.css('.header-buttons .ubs-secondary-global-button')).nativeElement;
     openButton.click();
     tick();
     expect(component.openChangePasswordDialog).toHaveBeenCalled();
   }));
+
+  it('method openChangePasswordDialog has to open popup', () => {
+    spyOn(dialogMock, 'open').and.callFake(() => {});
+    component.openChangePasswordDialog();
+    expect(dialogMock.open).toHaveBeenCalled();
+  });
 
   it('spiner has to be defined if (isFetching === true)', () => {
     component.isFetching = true;
@@ -457,17 +476,6 @@ describe('UbsUserProfilePageComponent', () => {
     const spiner = fixture.debugElement.query(By.css('app-spinner')).nativeElement;
     expect(spiner).toBeDefined();
   });
-
-  it('Form should be defined by clicking on the edit button', fakeAsync(() => {
-    const editButton = fixture.debugElement.query(By.css('.edit')).nativeElement;
-    const spy = spyOn(component, 'focusOnFirst');
-    editButton.click();
-    tick();
-    fixture.detectChanges();
-    const formElement = fixture.debugElement.nativeElement.querySelector('form');
-    const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(9);
-  }));
 
   it('method onEdit should get data and invoke methods', fakeAsync(() => {
     component.isEditing = false;
@@ -498,7 +506,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.isEditing = true;
     fixture.detectChanges();
     spyOn(component, 'onSubmit');
-    const deleteButton = fixture.debugElement.query(By.css('.btn-success')).nativeElement;
+    const deleteButton = fixture.debugElement.query(By.css('.submit-btns .ubs-primary-global-button')).nativeElement;
     deleteButton.click();
     tick();
     expect(component.onSubmit).toHaveBeenCalled();
@@ -522,7 +530,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname,
-      hasPassword: true
+      hasPassword: true,
+      botList: [
+        {
+          link: 'ling to viber',
+          type: 'viber'
+        },
+        {
+          link: 'link to telegram',
+          type: 'telegram'
+        }
+      ]
     };
     expect(submitData).toEqual(userProfileDataMock);
   });
@@ -574,7 +592,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname,
-      hasPassword: true
+      hasPassword: true,
+      botList: [
+        {
+          link: 'ling to viber',
+          type: 'viber'
+        },
+        {
+          link: 'link to telegram',
+          type: 'telegram'
+        }
+      ]
     };
     userProfileDataMock.addressDto[0].houseCorpus = null;
     expect(submitData).toEqual(userProfileDataMock);
@@ -599,7 +627,17 @@ describe('UbsUserProfilePageComponent', () => {
       recipientName: component.userForm.value.recipientName,
       recipientPhone: component.userForm.value.recipientPhone,
       recipientSurname: component.userForm.value.recipientSurname,
-      hasPassword: true
+      hasPassword: true,
+      botList: [
+        {
+          link: 'ling to viber',
+          type: 'viber'
+        },
+        {
+          link: 'link to telegram',
+          type: 'telegram'
+        }
+      ]
     };
     userProfileDataMock.addressDto[0].entranceNumber = null;
     expect(submitData).toEqual(userProfileDataMock);

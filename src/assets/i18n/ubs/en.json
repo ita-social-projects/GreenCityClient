@@ -75,6 +75,7 @@
     "activate": "Activate",
     "cancel": "Cancel",
     "failed-certificate": "Certificate not accepted, please try again",
+    "certificate-not-exist": "The certificate was not accepted. Please try again",
     "not-found-certificate": "Certificate not found; check that the data is correct.",
     "activated-oversum": "A certificate for {{certificateSum}}.00 UAH is activated in excess of the amount of your order. The balance of {{certificateLeft}}.00 UAH does not return. The certificate is valid until {{ certDate}} ",
     "activated": "The certificate for the amount of {{certificateSum}} UAH has been activated. The certificate is valid until {{certDate}}",
@@ -170,8 +171,7 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
-    "default-address": "Make it the default address"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
   },
   "submit-order": {
     "your-order": "Your order",
@@ -199,6 +199,7 @@
     "liqpay-card": "By card via LiqPay",
     "back": "Back",
     "to-order": "Order",
+    "to-pay": "Pay",
     "bags": "bags"
   },
   "confirmation": {
@@ -309,12 +310,13 @@
       "preparing": {
         "caption": "How to prepare?",
         "content": {
-          "li_1": "Check out the list of what we accept",
-          "li_1.1": "link",
+          "li_1": "Check out",
+          "li_1.1": "the list",
+          "li_1.2": "of what we accept",
           "li_2": "Collect a mix of clean and dry waste in bags.",
           "li_3": "Collect textile waste in a separate bag.",
           "li_4": "Order and pay for the service",
-          "li_5": "Wait for a meeting with us."
+          "li_5": "Wait for feedback and a meeting with the courier."
         }
       },
       "rules": {
@@ -373,7 +375,7 @@
         },
         "content": {
           "pre_1": "Get free products shipping",
-          "link": "NOWASTE Shop."
+          "link": "NOWASTE SHOP."
         },
         "button": "Order"
       }
@@ -397,7 +399,7 @@
         "email-is-required": "Email is required",
         "field-is-required": "This field is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "this-is-not-email": "Please check if the email is written correctly",
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
@@ -419,7 +421,7 @@
         "first-name-is-required": "User name is required",
         "user-name-error": "User name is required",
         "invalid-user-name": "Username must not contains a dot at the beginning, few dots in a row, special characters, Cyrillic letters",
-        "user-name-size": "The name must contain 6-30 characters and can contain letters(a-z), numbers(0-9) and a dot(.)",
+        "user-name-size": "The user name must contain 1-30 characters and can contain letters, numbers and a dot. Dot at the start, at the end and consecutive dot is forbidden",
         "first-name-must-be-at-least-1-characters-long": "User name must be at least 1 characters long",
         "last-name": "Last name",
         "last-name-is-required": "Last name is required",
@@ -427,7 +429,7 @@
         "email": "Email",
         "email-is-required": "Email is required",
         "email-must-be-at-least-1-characters-long": "Email must be at least 1 characters long",
-        "this-is-not-email": "Please check that your e-mail address is indicated correctly",
+        "this-is-not-email": "Please check if the email is written correctly",
         "the-user-already-exists-by-this-email": "The user with this email already exists",
         "password": "Password",
         "password-is-required": "Password is required",

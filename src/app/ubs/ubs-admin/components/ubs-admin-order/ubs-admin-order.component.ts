@@ -58,6 +58,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   currentOrderPrice: number;
   currentOrderStatus: string;
   overpayment: number;
+  cancelComment: string;
+  cancelReason: string;
   isMinOrder = true;
   isSubmitted = false;
   isStatus = false;
@@ -338,6 +340,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.ubsCourierPrice = sum;
   }
 
+  public onCancelReason(message) {
+    this.cancelReason = message.reason;
+    this.cancelComment = message.comment;
+  }
+
   public setMinOrder(flag) {
     this.isMinOrder = flag;
   }
@@ -417,6 +424,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
     changedValues.ubsCourierPrice = this.ubsCourierPrice;
     changedValues.writeOffStationSum = this.writeOffStationSum;
+    changedValues.cancellationComment = this.cancelComment;
+    changedValues.cancellationReason = this.cancelReason;
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];
@@ -432,7 +441,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
-
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
@@ -447,6 +455,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           });
         }
       });
+    this.statusCanceledOrDone();
   }
 
   private postDataItem(orderId: number[], columnName: string, newValue: string): void {
@@ -549,7 +558,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   statusCanceledOrDone(): void {
-    if (this.currentOrderStatus === 'CANCELED' || this.currentOrderStatus === 'DONE') {
+    const exportDetails = this.orderForm.get('exportDetailsDto').value;
+    const allFieldsHaveValue = Object.keys(exportDetails).every((key) => exportDetails[key]);
+    const isStatusDoneAndFormFilled = this.currentOrderStatus === 'DONE' && allFieldsHaveValue;
+
+    if (this.currentOrderStatus === 'CANCELED' || isStatusDoneAndFormFilled) {
       this.orderForm.get('exportDetailsDto').disable();
       this.orderForm.get('responsiblePersonsForm').disable();
     } else {

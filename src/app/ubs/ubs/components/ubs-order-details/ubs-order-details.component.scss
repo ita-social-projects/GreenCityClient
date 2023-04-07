@@ -120,11 +120,6 @@ input[type='number'] {
 
 .form-group {
   padding: 0;
-
-  p.link {
-    color: var(--ubs-electric-violet);
-    cursor: pointer;
-  }
 }
 
 .form-control {
@@ -134,13 +129,6 @@ input[type='number'] {
   border: none;
   display: flex;
   font-size: 14px;
-}
-
-button {
-  padding: 12px 32px;
-  line-height: 20px;
-  border-radius: 0;
-  border: none;
 }
 
 .quantity-input-wrapper {
@@ -160,6 +148,7 @@ button {
     height: 100%;
     text-align: center;
     padding: 0;
+    border: 0;
 
     .mat-icon {
       height: 100%;
@@ -186,26 +175,9 @@ button {
   color: var(--ubs-primary-light-grey);
 }
 
-.addOrderBtn {
-  width: 250px;
+.add-order-btn {
   padding: 0;
-  text-align: left;
-  background: none;
-  color: var(--ubs-electric-violet);
-  font-size: 14px;
-  outline: none;
-
-  &:disabled {
-    color: var(--ubs-quintynary-light-grey);
-  }
-
-  &:hover {
-    background: none;
-  }
-
-  &:focus {
-    text-decoration: underline;
-  }
+  width: 250px;
 }
 
 .radio-btn {
@@ -299,20 +271,6 @@ button {
   position: relative;
   margin: 20px auto;
 
-  .change-location {
-    width: auto;
-    padding: 0;
-    text-align: left;
-    background: none;
-    color: var(--ubs-electric-violet);
-    outline: none;
-    font-size: 14px;
-
-    &:hover {
-      background: none;
-    }
-  }
-
   .list-locations {
     position: absolute;
     top: 15px;
@@ -396,7 +354,9 @@ button {
   }
 
   .eco-store {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 215px;
 
     ::placeholder {
       color: var(--ubs-primary-light-grey);
@@ -486,6 +446,7 @@ button {
 .order-notification {
   display: flex;
   flex-flow: column wrap;
+  align-items: flex-start;
 }
 
 h5 {
@@ -522,21 +483,23 @@ h5 {
   font-size: 18px;
 }
 
-.shop_submit {
-  position: relative;
-  width: 85%;
+.shop-submit {
+  display: flex;
+  flex-direction: column;
   margin-top: 1rem;
 
-  .form-group {
-    width: 39%;
+  .shop-submit-box {
+    display: flex;
+
+    .eco-store {
+      width: 215px;
+    }
   }
 }
 
 .bottom-text {
-  position: absolute;
-  right: 0;
-  width: 60%;
-  padding: 1.5rem 0 0 0.5rem;
+  width: 360px;
+  padding: 26px 0 0 16px;
 }
 
 .comment {
@@ -596,10 +559,6 @@ li {
     padding: 0;
   }
 
-  .form-group {
-    width: 65% !important;
-  }
-
   .container {
     padding: 14px;
   }
@@ -614,9 +573,10 @@ li {
     margin: 2em 0 1em;
     justify-content: center;
     flex-direction: row;
+    width: 100%;
 
-    .btn {
-      width: 100%;
+    button {
+      width: 42%;
     }
   }
 
@@ -626,15 +586,20 @@ li {
     }
   }
 
-  .addOrderBtn {
-    color: var(--ubs-button-light-grey);
-    border: 1px solid;
-    border-radius: 3px;
-    font-style: normal;
-    font-weight: bold;
-    padding: 0.5em 1em;
-    margin: 1em 0;
+  .order-notification {
+    align-items: center;
+  }
+
+  .add-order-btn {
+    height: 40px;
+    width: 240px;
+    margin: 16px 0;
     text-align: center;
+    font-weight: 700;
+    color: var(--ubs-freinacht-black);
+    background: transparent;
+    border: 1px solid var(--ubs-freinacht-black);
+    border-radius: 4px;
   }
 
   .bottom_comment {
@@ -667,16 +632,6 @@ li {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .change-location {
-      color: var(--ubs-button-light-grey);
-      border: 1px solid;
-      border-radius: 3px;
-      font-style: normal;
-      font-weight: bold;
-      padding: 0.5em 1em;
-      margin: 1em 0;
-    }
 
     .list-locations {
       position: static;
@@ -743,17 +698,40 @@ li {
     }
   }
 
-  .shop_submit {
+  .shop-submit {
     display: flex;
-    flex-direction: column;
     align-items: center;
     width: 100%;
+
+    .shop-submit-box {
+      flex-direction: column-reverse;
+      align-items: center;
+
+      .eco-store {
+        width: 240px;
+      }
+
+      .inputs-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .eco-store-input {
+          width: 240px;
+          text-align: center;
+        }
+      }
+    }
   }
 
   .bottom-text {
     position: static;
     width: 100%;
     padding: 0;
+
+    .p-text {
+      width: 400px;
+    }
   }
 
   .bag-name .quantity-input-wrapper button {

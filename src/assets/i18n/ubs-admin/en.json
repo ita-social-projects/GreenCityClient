@@ -13,6 +13,7 @@
     "email": "Email",
     "alternative-email": "Alternative Email",
     "phone": "Phone",
+    "social-media-mess": "*The chosen messenger must be installed on your device/PC. Otherwise, you will not be able to connect to the service.",
     "address": "Address",
     "city": "City",
     "region": "Region",
@@ -123,7 +124,7 @@
     "order": "Order №",
     "description": "Add confirmation of payment in one or more of the available ways",
     "payment-date": " Payment date",
-    "payment-amount": "Payment amount",
+    "payment-amount": "Payment amount (UAH)",
     "amount-placeholder": "0 UAH",
     "date-placeholder": "DD/MM/YYYY",
     "payment-id": "Payment ID",
@@ -193,6 +194,7 @@
   },
   "order-cancel": {
     "title": "Add reason to cancel order",
+    "cancel-reason": "The reason for canceling the order",
     "reason": {
       "delivered-himself": "Delivered to the station itself",
       "moving-out": "Moving",
@@ -229,6 +231,11 @@
     },
     "date": "Date",
     "added": "Added"
+  },
+
+  "order-not-taken-out-reason": {
+    "title": "The reason for not taken out order N ",
+    "label-reason": "Courier's comment"
   },
 
   "address-details": {
@@ -423,6 +430,7 @@
     "order-status": "Order status",
     "payment-amount": "Payment amount",
     "order-date": "Order date",
+    "payment-date": "Payment date",
     "order-payment-status": "Payment status",
     "amount-due": "Amount-due",
     "info-title": "By clicking on the order card, you get all the additional information on the order.",
@@ -576,7 +584,8 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update",
+    "update": "Save",
+    "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
     "tariffs": "Tariffs",
     "tariffs-columns": {
       "region": "Region",
@@ -644,6 +653,7 @@
     "info_about_order_limits": "Information about order limits",
     "placeholder_order_limits_info": "Information about order limits, which will be displayed in the order form",
     "card-already-exist": "According to these criteria, a tariff card already exists. Make changes to save.",
+    "location-already-used": "Selected location already used. Make changes to save.",
     "card-exist": "According to these criteria, a tariff card already exists.",
     "card-not-found": "Tariff card not found. Do you want to create a new one?",
     "btn": {
@@ -707,12 +717,14 @@
     "cancel_button": "Cancel",
     "save_button": "Save",
     "create_button": "Create",
+    "edit_button": "Edit",
     "error_message": "Area not found. Enter again",
     "city_error_message": "City not found. Enter again",
     "city_exist": "The city already exists in the system. Change it",
     "courier_title": "Add courier",
     "station_title": "Add receiving station",
     "create_card_title": "Create card",
+    "edit_card_title": "Edit card",
     "courier_edit_title": "Edit courier",
     "station_edit_title": "Edit receiving station",
     "courier_edit_text": "Choose courier and edit",
@@ -888,7 +900,8 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
+    "default-address": "Make it the default address"
   },
   "input-error": {
     "required": "This field is required",
@@ -1121,5 +1134,17 @@
     "error": {
       "exist-address": "This address has already been added"
     }
+  },
+  "add-new-certificate": {
+    "title": "Add sertificate",
+    "сertificate-field": "Certificate. №",
+    "duration-months-field": "Duration, mo.",
+    "discount-field": "Discount, UAH",
+    "cancel-button": "Cancel",
+    "add-button": "Add certificate",
+    "field-not-empty": "The field can’t be empty",
+    "сertificate-field-format": "The field can contain only numbers in format хххх-хххх",
+    "duration-field-format": "The field can contain only numbers from 1 to 12",
+    "discount-field-format": "The field can contain only numbers in format from 1 to 999"
   }
 }

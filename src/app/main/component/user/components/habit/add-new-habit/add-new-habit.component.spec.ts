@@ -10,11 +10,12 @@ import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.se
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { of, Subject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { HabitResponseInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NEWHABIT } from 'src/app/main/mocks/habit-assign-mock';
+import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -24,10 +25,12 @@ describe('AddNewHabitComponent', () => {
   let fakeShoppingListService: ShoppingListService;
   let fakeHabitService: HabitService;
   let fakeLocalStorageService: LocalStorageService;
-  const mockHabitResponse: HabitResponseInterface = {
+
+  const mockHabitResponse: HabitInterface = {
     complexity: 2,
     defaultDuration: 2,
     amountAcquiredUsers: 1,
+    habitAssignStatus: 'ACQUIRED',
     habitTranslation: {
       description: 'test',
       habitItem: 'test',
@@ -44,19 +47,17 @@ describe('AddNewHabitComponent', () => {
   };
   const locationMock = { back: () => {} };
 
-  fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', {
-    getAssignedHabits: of([
-      {
-        habit: {
-          id: 2
-        }
-      }
-    ]),
-    deleteHabitById: of('test'),
-    getCustomHabit: of(mockHabitResponse),
-    updateHabit: of('test'),
-    assignCustomHabit: of('test')
-  });
+  fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', [
+    'getHabitByAssignId',
+    'deleteHabitById',
+    'assignCustomHabit',
+    'setHabitStatus'
+  ]);
+  fakeHabitAssignService.getHabitByAssignId = () => of(NEWHABIT);
+  fakeHabitAssignService.deleteHabitById = () => of();
+  fakeHabitAssignService.assignCustomHabit = () => of(NEWHABIT);
+  fakeHabitAssignService.setHabitStatus = () => of(NEWHABIT);
+
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', {
     getHabitById: of(mockHabitResponse)
   });
@@ -69,10 +70,21 @@ describe('AddNewHabitComponent', () => {
   fakeLocalStorageService.languageSubject.next('ua');
 
   matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', {
-    saveCustomItems: of([])
-  });
+
+  fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', [
+    'getHabitAllShopLists',
+    'getHabitShopList',
+    'addHabitCustomShopList',
+    'updateHabitShopList'
+  ]);
+  fakeShoppingListService.getHabitAllShopLists = () => of();
+  fakeShoppingListService.getHabitShopList = () => of();
+  fakeShoppingListService.addHabitCustomShopList = () => of();
+  fakeShoppingListService.updateHabitShopList = () => of();
+
   matSnackBarMock.openSnackBar = (type: string) => {};
+
+  const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -92,7 +104,8 @@ describe('AddNewHabitComponent', () => {
         { provide: ShoppingListService, useValue: fakeShoppingListService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: Location, useValue: locationMock }
+        { provide: Location, useValue: locationMock },
+        { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -119,40 +132,38 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('changing of fakeLocalStorageService.languageSubject should invoke methods', () => {
-    spyOn(component, 'checkIfAssigned').and.returnValue();
+    const spy = spyOn(component as any, 'checkIfAssigned');
     spyOn(component as any, 'bindLang').and.returnValue('test');
     fakeLocalStorageService.languageSubject.subscribe((lang) => {
       expect((component as any).bindLang).toHaveBeenCalledWith(lang);
-      expect(component.checkIfAssigned).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
     fakeLocalStorageService.languageSubject.next('en');
   });
 
-  it('initHabitData() should set values and invoke getStars()', () => {
-    spyOn(component, 'getStars').and.returnValue();
-    component.initHabitData(mockHabitResponse);
+  it('should call getStars on initHabitData', () => {
+    const spy = spyOn(component as any, 'getStars');
+    (component as any).initHabitData(mockHabitResponse);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set data on initHabitData', () => {
+    (component as any).initHabitData(mockHabitResponse);
     expect(component.habitResponse).toEqual(mockHabitResponse);
+    expect(component.tags).toEqual(mockHabitResponse.tags);
     expect(component.initialDuration).toEqual(mockHabitResponse.defaultDuration);
-    expect(component.initialShoppingList).toEqual(mockHabitResponse.shoppingListItems);
-    expect(component.getStars).toHaveBeenCalled();
   });
 
-  it('getDefaultItems should invoke inHabitData method', () => {
-    spyOn(component, 'initHabitData').and.returnValue();
-    component.getDefaultItems();
-    expect(component.initHabitData).toHaveBeenCalled();
+  it('getDefaultHabit should invoke inHabitData method', () => {
+    const spy = spyOn(component as any, 'initHabitData');
+    (component as any).getDefaultHabit();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('getCustomItems should invoke inHabitData method', () => {
-    spyOn(component, 'initHabitData').and.returnValue();
-    component.getCustomItems();
-    expect(component.initHabitData).toHaveBeenCalled();
-  });
-
-  xit('onGoBack() should invoke location.back()', () => {
-    const spyBack = spyOn(locationMock, 'back');
-    component.onGoBack();
-    expect(spyBack).toHaveBeenCalled();
+  it('should navigate back on goBack', () => {
+    const spy = spyOn(locationMock, 'back');
+    component.goBack();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('getUserId should set this.userId', () => {
@@ -175,66 +186,28 @@ describe('AddNewHabitComponent', () => {
     expect(component.canAcquire).toBeTruthy();
   });
 
-  it('getList should set this.newList', () => {
-    component.getList([]);
-    expect(component.newList).toEqual([]);
+  it('checkIfAssigned method should call getCustomShopList', () => {
+    (component as any).habitAssignId = 2;
+    component.isEditing = true;
+    const spy = spyOn(component as any, 'getCustomShopList');
+    (component as any).checkIfAssigned();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('checkIfAssigned method should invoke getCustomItems', () => {
-    component.habitId = 2;
-    component.isEditing = false;
-    spyOn(component, 'getCustomItems').and.returnValue();
-    component.checkIfAssigned();
-    expect(component.getCustomItems).toHaveBeenCalled();
-  });
-
-  it('checkIfAssigned method should invoke getDefaultItems', () => {
+  it('checkIfAssigned method should invoke getDefaultHabit', () => {
     component.habitId = 3;
     component.isEditing = false;
-    spyOn(component, 'getDefaultItems').and.returnValue();
-    component.checkIfAssigned();
-    expect(component.getDefaultItems).toHaveBeenCalled();
+    const spy1 = spyOn(component as any, 'getDefaultHabit');
+    const spy2 = spyOn(component as any, 'getStandartShopList');
+    (component as any).checkIfAssigned();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
-  it('cancel method should navigate', () => {
+  it('goToProfile method should navigate to user profile page', () => {
     component.userId = 2;
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    component.cancelAdd();
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
-  });
-
-  it('method addHabit should navigate and openSnackBar', () => {
-    component.userId = 2;
-    component.newList = [
-      {
-        selected: true,
-        id: 2,
-        status: 'test',
-        text: 'test'
-      }
-    ];
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
-    component.addHabit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitAdded');
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
-  });
-
-  it('method updateHabit should navigate and openSnackBar', () => {
-    component.userId = 2;
-    component.newList = [
-      {
-        selected: true,
-        id: 2,
-        status: 'test',
-        text: 'test'
-      }
-    ];
-    spyOn((component as any).router, 'navigate').and.returnValue('test');
-    spyOn((component as any).snackBar, 'openSnackBar').and.returnValue('test');
-    component.updateHabit();
-    expect((component as any).snackBar.openSnackBar).toHaveBeenCalledWith('habitUpdated');
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['profile', component.userId]);
+    component.goToProfile();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
   });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
