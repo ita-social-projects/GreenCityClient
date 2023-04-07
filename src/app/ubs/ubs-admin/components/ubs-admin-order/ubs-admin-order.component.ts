@@ -462,7 +462,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
     if (formItem instanceof FormControl) {
-      if (name?.includes('confirmedQuantity')) {
+      if (name?.includes('confirmedQuantity') || name?.includes('actualQuantity')) {
         formItem.markAsDirty();
       }
       if (name && formItem.dirty) {
