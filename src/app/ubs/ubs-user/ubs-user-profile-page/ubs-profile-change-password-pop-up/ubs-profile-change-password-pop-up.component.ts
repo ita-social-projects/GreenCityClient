@@ -58,7 +58,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.updatePasswordDto.confirmPassword = this.formConfig.value.currentPassword;
+    this.updatePasswordDto.currentPassword = this.formConfig.value.currentPassword;
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
     of(true)
