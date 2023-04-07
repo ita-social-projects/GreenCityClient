@@ -57,6 +57,7 @@
                               [matDatepicker]="picker1"
                               [placeholder]="'ubs-tables.date-placeholder' | translate"
                               formControlName="{{ column.key }}From"
+                              [max]="currentDate"
                               (dateChange)="changeInputDate($event.checked, column.key, 'From')"
                             />
                             <button matSuffix class="calendar-btn">
@@ -73,6 +74,7 @@
                               class="date-input"
                               type="text"
                               [matDatepicker]="picker2"
+                              [max]="currentDate"
                               [placeholder]="'ubs-tables.date-placeholder' | translate"
                               formControlName="{{ column.key }}To"
                               (dateChange)="changeInputDate($event.checked, column.key, 'To')"
