@@ -5,10 +5,9 @@ import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
 import { UbsAdminGoBackModalComponent } from '../ubs-admin-go-back-modal/ubs-admin-go-back-modal.component';
 import { OrderService } from '../../services/order.service';
@@ -33,6 +32,7 @@ import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-ad
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { OrderStatus } from 'src/app/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -64,9 +64,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   isMinOrder = true;
   isSubmitted = false;
   private isFormResetted = false;
+  writeOffStationSum: number;
+  ubsCourierPrice: number;
   additionalPayment: string;
+  isOrderStatusChanged: boolean;
   private matSnackBar: MatSnackBarComponent;
   private orderService: OrderService;
+  private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   constructor(
     private translate: TranslateService,
@@ -102,6 +106,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.getOrderInfo(this.orderId, false);
   }
 
+  public onCancelOrder(): void {
+    this.isOrderStatusChanged = true;
+    this.setOrderDetails();
+    this.initForm();
+  }
+
   public getOrderInfo(orderId: number, submitMode: boolean): void {
     this.orderService
       .getOrderInfo(orderId)
@@ -121,10 +131,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.currentOrderPrice = data.orderFullPrice;
         this.setOrderDetails();
         this.initForm();
-        if (submitMode && this.overpayment && this.generalInfo.orderStatus === 'DONE') {
+        if (submitMode && this.overpayment && this.generalInfo.orderStatus === OrderStatus.DONE) {
           this.orderPaymentComponent.enrollToBonusAccount(this.overpayment);
         }
-        if (submitMode && this.currentOrderStatus === 'CANCELED') {
+        if (submitMode && this.currentOrderStatus === OrderStatus.CANCELED) {
           this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
         }
       });
@@ -134,9 +144,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      const setAmountOfBagsExported = this.currentOrderStatus === 'DONE' ? bag.confirmed : 0;
-      bag.actual = this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
+
+      const confirmedValue = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
+      bag.confirmed = this.isOrderStatusChanged ? 0 : confirmedValue;
+
+      const setAmountOfBagsExported = this.currentOrderStatus === OrderStatus.DONE ? bag.confirmed : 0;
+      bag.actual = this.isOrderStatusChanged ? 0 : this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
+
       return bag;
     });
     this.orderDetails = {
@@ -174,7 +188,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         orderStatus: [
           {
             value: this.generalInfo.orderStatus,
-            disabled: this.generalInfo.orderStatus === 'CANCELED' || this.generalInfo.orderStatus === 'DONE'
+            disabled:
+              this.generalInfo.orderStatus === OrderStatus.CANCELED ||
+              this.generalInfo.orderStatus === OrderStatus.DONE ||
+              this.generalInfo.orderStatus === OrderStatus.BROUGHT_IT_HIMSELF
           }
         ],
         paymentStatus: this.generalInfo.orderPaymentStatus,
@@ -322,6 +339,19 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.currentOrderPrice = sum;
   }
 
+  public onChangeWriteOffStation(sum: number) {
+    this.writeOffStationSum = sum;
+  }
+
+  public onChangeCourierPrice(sum: number) {
+    this.ubsCourierPrice = sum;
+  }
+
+  public onCancelReason(message) {
+    this.cancelReason = message.reason;
+    this.cancelComment = message.comment;
+  }
+
   public setMinOrder(flag) {
     this.isMinOrder = flag;
   }
@@ -335,11 +365,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.initForm();
     this.currentOrderStatus = this.generalInfo.orderStatus;
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-  }
-
-  public onCancelReason(message) {
-    this.cancelReason = message.reason;
-    this.cancelComment = message.comment;
   }
 
   public addIdForUserAndAdress(order: FormGroup): void {
@@ -395,9 +420,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.formatExporteValue(changedValues.exportDetailsDto);
     }
 
-    changedValues.cancellationComment = this.cancelComment;
-    changedValues.cancellationReason = this.cancelReason;
-
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
       if (changedValues.orderDetailsForm.storeOrderNumbers) {
@@ -407,6 +429,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         };
       }
     }
+    changedValues.ubsCourierPrice = this.ubsCourierPrice;
+    changedValues.writeOffStationSum = this.writeOffStationSum;
+    changedValues.cancellationComment = this.cancelComment;
+    changedValues.cancellationReason = this.cancelReason;
 
     if (changedValues.responsiblePersonsForm) {
       const arrEmployees: IUpdateResponsibleEmployee[] = [];
@@ -422,7 +448,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
-
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))
@@ -542,8 +567,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   statusCanceledOrDone(): void {
     const exportDetails = this.orderForm.get('exportDetailsDto').value;
     const allFieldsHaveValue = Object.keys(exportDetails).every((key) => exportDetails[key]);
+    const isStatusDoneAndFormFilled = this.currentOrderStatus === OrderStatus.DONE && allFieldsHaveValue;
 
-    if (this.currentOrderStatus === 'CANCELED' || (this.currentOrderStatus === 'DONE' && allFieldsHaveValue)) {
+    if (this.currentOrderStatus === OrderStatus.CANCELED || isStatusDoneAndFormFilled) {
       this.orderForm.get('exportDetailsDto').disable();
       this.orderForm.get('responsiblePersonsForm').disable();
     } else {
@@ -557,9 +583,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const responsiblePersons = this.orderForm.get('responsiblePersonsForm');
     const exportDetaisFields = Object.keys(this.orderForm.get('exportDetailsDto').value);
     const responsiblePersonNames = Object.keys(this.orderForm.get('responsiblePersonsForm').value);
-    const statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
 
-    if (statuses.includes(this.currentOrderStatus)) {
+    const isStatusIncluded = this.orderService.isStatusInArray(this.currentOrderStatus, this.statuses);
+    if (isStatusIncluded) {
       exportDetaisFields.forEach((el) => exportDetails.get(el).clearValidators());
       responsiblePersonNames.forEach((el) => responsiblePersons.get(el).clearValidators());
       exportDetails.reset();
