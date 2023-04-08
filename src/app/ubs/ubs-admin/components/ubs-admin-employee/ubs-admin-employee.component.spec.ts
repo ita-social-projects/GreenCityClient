@@ -5,16 +5,30 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsAdminEmployeeComponent } from './ubs-admin-employee.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeComponent>;
   let dialog: MatDialog;
+  const initialState = {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminEmployeeComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
+      declarations: [UbsAdminEmployeeComponent, MatAutocomplete],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatAutocompleteModule,
+        BrowserAnimationsModule
+      ],
+      providers: [provideMockStore({ initialState })],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

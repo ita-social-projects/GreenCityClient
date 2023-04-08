@@ -70,6 +70,10 @@
         outline: none;
       }
 
+      ::ng-deep.main-employee-container .input-wrapper input {
+        font-size: 14px;
+      }
+
       .icon-style {
         color: var(--ubs-primary-light-grey);
         margin: 8px;
@@ -265,10 +269,6 @@
 
 ::ng-deep.custom-chip {
   padding-right: 9px !important;
-}
-
-::ng-deep.main-employee-container .input-wrapper input {
-  font-size: 14px;
 }
 
 input::placeholder {
