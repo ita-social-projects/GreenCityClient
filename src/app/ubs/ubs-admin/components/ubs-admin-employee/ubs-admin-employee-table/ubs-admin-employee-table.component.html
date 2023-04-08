@@ -41,6 +41,7 @@
   <mat-accordion class="employees-cards" *ngIf="!isLoading">
     <div *ngFor="let employee of employees; let i = index">
       <mat-expansion-panel
+        #panel
         (opened)="employee.expanded = true"
         (closed)="employee.expanded = false"
         [class.expanded]="employee.expanded"
@@ -57,8 +58,8 @@
               <div class="positions">
                 <ng-container *ngFor="let position of employee.employeePositions; let i = index">
                   <ng-container *ngIf="!employee.expanded; else allPositions">
-                    <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 1">
-                      {{ i < 1 ? position.name : position.name + '...' }}
+                    <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 2">
+                      {{ i < 2 ? position.name : position.name + '...' }}
                     </span>
                     <span class="link" *ngIf="employee.employeePositions.length <= 2">
                       {{ position.name }}
@@ -132,6 +133,7 @@
             >
               <img [src]="icons.crumbs" alt="options" />
             </span>
+            <div [ngClass]="employee.expanded ? 'toggle-icon-down' : 'toggle-icon-up'"></div>
             <mat-menu class="menu" #crumbs="matMenu">
               <button class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
                 <span class="menu-item-content">
