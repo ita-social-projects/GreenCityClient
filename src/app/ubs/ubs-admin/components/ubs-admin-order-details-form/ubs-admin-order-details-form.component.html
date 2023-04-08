@@ -38,6 +38,7 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
+                [disabled]="isVisible ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
                 disabled
               />

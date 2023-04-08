@@ -221,19 +221,20 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     priceWithoutCertificate = Math.max(priceWithoutCertificate, 0);
 
     const baseSumOfOrder = this.orderDetails.bonuses + this.orderDetails.paidAmount + this.orderDetails.certificateDiscount;
-    let finalPrice = 0;
 
     if (this.isOrderBroughtByHimself) {
-      finalPrice = baseSumOfOrder - this.writeoffAtStationSum;
+      this.overpayment = baseSumOfOrder - this.writeoffAtStationSum;
     } else if (this.showUbsCourier) {
-      finalPrice = baseSumOfOrder - this.courierPrice;
+      this.overpayment = baseSumOfOrder - this.courierPrice;
     } else {
-      finalPrice = this.orderDetails.bonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
+      this.overpayment = this.orderDetails.bonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
     }
 
-    this.overpayment = Math.abs(finalPrice);
     this.changeOverpayment.emit(this.overpayment);
-    this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
+    if (this.overpayment) {
+      this.overpaymentMessage = this.orderService.getOverpaymentMsg(this.overpayment);
+      this.overpayment = Math.abs(this.overpayment);
+    }
   }
 
   private updateOverpayment(sum: number): void {
