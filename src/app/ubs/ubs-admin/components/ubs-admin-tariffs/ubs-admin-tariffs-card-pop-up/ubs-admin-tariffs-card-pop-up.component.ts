@@ -431,7 +431,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
               stationNames: this.selectedStation.map((it) => it.name),
               regionName: this.region.value,
               regionEnglishName: this.regionEnglishName,
-              locationNames: this.selectedCities.map((it) => this.languageService.getLangValue(it.location, it.englishLocation)),
+              locationNames: this.selectedCities.map((it) => it.location),
+              locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
               action: 'ubs-tariffs-add-location-pop-up.create_button'
             }
           });
