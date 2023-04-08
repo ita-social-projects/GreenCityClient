@@ -135,12 +135,12 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   calcLineSize() {
-    if (this.screenWidth >= 1024) {
+    if (this.screenWidth >= 576) {
       const quantity = 4;
       const circleSize = 36;
       const circleMargin = 10;
       const sumOfIndents = quantity * (circleSize + 2 * circleMargin);
-      this.lineSize[0] = (this.boxWidth - sumOfIndents) / (quantity * 2);
+      this.lineSize[0] = (this.boxWidth - sumOfIndents) / (quantity * 2) - 3;
     } else {
       const boxes = document.getElementsByClassName('content-box');
       const halfCircleHeight = 11;

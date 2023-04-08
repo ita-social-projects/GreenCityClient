@@ -1,5 +1,5 @@
 <div class="ubsHomepage">
-  <div *ngIf="screenWidth <= 768" class="marquee-section">
+  <div *ngIf="screenWidth < 576" class="marquee-section">
     <div class="marquee-w">
       <div class="marquee">
         <span></span>
@@ -23,7 +23,7 @@
     </div>
   </header>
   <!-- Marque text (generated in ts file) -->
-  <div *ngIf="screenWidth > 768" class="marquee-section">
+  <div *ngIf="screenWidth >= 576" class="marquee-section">
     <div class="marquee-w">
       <div class="marquee">
         <span></span>
@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <section>
+  <section id="first-section">
     <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>
     <div class="how-to-prepare">
       <div class="main-content-left">
@@ -107,7 +107,8 @@
   <section class="pick-up-service">
     <div class="main-container">
       <h2>{{ stepsOrderTitle | translate }}</h2>
-      <div *ngIf="screenWidth >= 1024" class="box">
+
+      <div *ngIf="screenWidth >= 576" class="box">
         <div
           class="step-order"
           id="step-order-{{ i }}"
@@ -134,7 +135,8 @@
           <div class="content-box-filler"></div>
         </div>
       </div>
-      <div *ngIf="screenWidth < 1024" class="box-mobile">
+
+      <div *ngIf="screenWidth < 576" class="box-mobile">
         <div class="step-order" id="step-order-{{ i }}" *ngFor="let step of stepsOrder; let i = index">
           <div class="base-line">
             <hr [ngStyle]="{ height: lineSize[i] + 'px' }" />

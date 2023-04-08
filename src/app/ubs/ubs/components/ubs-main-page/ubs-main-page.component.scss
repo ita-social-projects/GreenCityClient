@@ -4,18 +4,6 @@
 }
 
 .ubsHomepage {
-  vertical-align: top;
-  width: 100%;
-  max-width: 1920px;
-  color: var(--ubs-main-page-text-grey);
-  font-family: var(--secondary-font);
-  font-style: normal;
-  font-weight: normal;
-  padding: 253px 0 0 0;
-  display: flex;
-  flex-direction: column;
-  font-size: 22px;
-
   a {
     color: var(--ubs-secondary-light-green);
     text-decoration: underline;
@@ -24,7 +12,7 @@
 
   header {
     margin: 0 50px;
-    height: 706px;
+    // height: 706px;
 
     .ubs-image {
       display: block;
@@ -65,6 +53,10 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+
+      button {
+        border-radius: 15px;
+      }
 
       .main-caption {
         margin-top: 38px;
@@ -249,7 +241,7 @@
   .box-card {
     display: flex;
     height: 264px;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     #price-frame {
       height: 100%;
@@ -303,8 +295,8 @@
   justify-content: space-between;
 
   .main-content-left {
-    width: 50%;
-    height: 700px;
+    // width: 50%;
+    // height: 700px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -316,25 +308,21 @@
       border-radius: 14px;
       display: flex;
       flex-direction: row;
-      justify-content: baseline;
+      align-items: center;
 
       .box-number {
         display: flex;
-        justify-content: center;
-        align-items: center;
         font-weight: 800;
         font-size: 75px;
         color: var(--ubs-secondary-light-green);
-        width: 150px;
       }
 
       .box-text {
-        width: 100%;
         color: var(--ubs-main-page-text-grey);
         max-width: 350px;
-        max-height: 81px;
+        // max-height: 81px;
         margin: auto 0;
-        line-height: 1.3;
+        // line-height: 1.3;
 
         .link-to-site {
           color: var(--ubs-secondary-light-green);
@@ -345,7 +333,7 @@
   }
 
   .main-content-right {
-    height: 700px;
+    // height: 700px;
     width: 47.5%;
     display: flex;
     flex-direction: column;
@@ -357,21 +345,23 @@
       border-radius: 14px;
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
-      height: 333px;
+      // justify-content: space-between;
+      // height: 333px;
       padding-right: 10%;
 
       .caption {
         text-align: center;
+        text-transform: uppercase;
         display: flex;
         justify-content: center;
-        width: 135px;
+        // width: 135px;
         align-items: center;
 
         .col {
           width: 100%;
           display: flex;
           justify-content: center;
+          align-items: center;
         }
 
         h2 {
@@ -389,14 +379,13 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: space-between;
 
         .rule {
           line-height: 27px;
 
           .lifehack {
             margin: 0;
-            padding-top: 10px;
             color: var(--ubs-main-page-primary-light-grey);
             font-size: 20px;
           }
@@ -649,252 +638,1143 @@ section .main-container {
   }
 }
 
-@media screen and (min-width: 1920px) {
-  .ubsHomepage {
+// @media screen and (min-width: 1920px) {
+//   .ubsHomepage {
+//     margin: 0 auto;
+//   }
+
+//   section {
+//     width: 1920px;
+//   }
+// }
+
+// 1440
+
+.ubsHomepage {
+  margin: 0 auto;
+  padding: 64px 0 0 0;
+  font-size: 16px;
+  max-width: 1440px;
+
+  h2 {
     margin: 0 auto;
+    padding: 0;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 59px;
   }
 
-  section {
-    width: 1920px;
-  }
-}
+  header {
+    margin: 106px 150px 123px 150px;
+    padding: 0;
 
-@media (min-width: 1024px) and (max-width: 1740px) {
-  .main-container .box .step-order .content-box {
-    width: 100% !important;
-  }
-}
+    .header-left {
+      padding: 0;
+      width: 699px;
+      height: 121px;
 
-@media (min-width: 1024px) and (max-width: 1440px) {
-  .main-container .box .step-order .content-box {
-    padding: 10px;
-
-    .step-order-header {
-      font-size: 22px;
+      img {
+        padding: 0;
+        margin: 0;
+      }
     }
 
-    .step-order-content {
+    .spinner {
+      width: 330px;
+      height: 343px;
+      top: 190px;
+      right: 212px;
+    }
+
+    .main-content {
+      margin-top: 70px;
+      margin-left: 0;
+      max-width: 50%;
+
+      button {
+        margin: 0;
+        width: 281px;
+        height: 48px;
+        font-size: 18px;
+        line-height: 22px;
+      }
+
+      .main-caption {
+        width: 300px;
+        margin-top: 32px;
+        font-size: 16px;
+        line-height: 20px;
+
+        p {
+          margin-bottom: 9px;
+        }
+      }
+    }
+  }
+
+  .marquee-section {
+    height: 43px;
+
+    span {
+      padding-top: 5px;
+      height: 90%;
       font-size: 14px;
     }
   }
 
-  #how-works .box-how-works #main-content .time-frame .header-how-works {
-    line-height: 40px;
-    text-align: start;
+  section {
+    margin: 0;
+    padding: 0;
+
+    .price-section,
+    .pick-up-service .main-container {
+      margin: 0;
+      padding: 110px 150px;
+    }
+  }
+
+  #first-section {
+    padding: 110px 150px;
+
+    h2 {
+      margin-bottom: 73px;
+    }
+
+    .how-to-prepare {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+
+      .main-content-left,
+      .main-content-right {
+        width: 555px;
+      }
+
+      .main-content-left {
+        .box-item {
+          margin-bottom: 16px;
+          padding: 18px 40px;
+          height: 100%;
+
+          .box-number {
+            font-size: 55px;
+            line-height: 67px;
+            padding-right: 65px;
+          }
+
+          .box-text {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            line-height: 20px;
+          }
+        }
+
+        .box-item:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .main-content-right {
+        .conditions {
+          margin-bottom: 24px;
+        }
+
+        .conditions,
+        .bonuses {
+          padding: 24px 60px;
+
+          .caption {
+            padding-right: 46px;
+
+            .col {
+              padding: 0;
+            }
+
+            h2 {
+              margin-bottom: 0;
+              font-size: 38px;
+              line-height: 46px;
+            }
+          }
+
+          .rules {
+            justify-content: space-around;
+
+            .rule {
+              margin-bottom: 24px;
+              font-size: 16px;
+              line-height: 20px;
+            }
+
+            .rule:last-child {
+              margin-bottom: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  section .price-section {
+    height: 100%;
+
+    .box-card {
+      margin-top: 71px;
+      height: 100%;
+
+      #price-frame {
+        width: 358px;
+        height: 229px;
+        font-size: 18px;
+
+        .content-price {
+          margin: 0;
+          padding: 0px 40px;
+          width: 100%;
+          line-height: 20px !important;
+          align-items: center;
+        }
+
+        .header-price {
+          flex-direction: column-reverse;
+          height: 100px;
+
+          .price {
+            font-size: 28px;
+            line-height: 34px;
+          }
+        }
+      }
+    }
+  }
+
+  section.pick-up-service {
+    h2 {
+      margin-top: 117px;
+    }
+
+    .main-container {
+      height: 100%;
+      margin: 0;
+      padding: 0 150px 117px 150px;
+
+      .box {
+        margin-top: 92px;
+        padding: 0;
+        overflow: hidden;
+
+        .step-order {
+          .content-box {
+            width: 240px;
+            padding: 32px 16px;
+
+            h1 {
+              font-size: 20px;
+            }
+
+            p {
+              font-size: 14px;
+              line-height: 17px;
+            }
+          }
+
+          .base-line {
+            hr {
+              width: 120px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  section#how-works {
+    padding: 110px 150px 95px 150px;
+    height: 100%;
+
+    .box-how-works {
+      margin: 0;
+      padding: 0;
+
+      #main-content {
+        margin: 0;
+
+        .time-frame {
+          justify-content: space-between;
+          padding: 32px 38px;
+          width: 552px;
+          height: 139px;
+
+          h2 {
+            margin: 0 0 20px 0;
+            padding: 0;
+            font-size: 30px;
+            line-height: 37px;
+            text-align: left;
+          }
+
+          p {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            line-height: 22px;
+          }
+        }
+      }
+
+      #how-works-content {
+        margin-top: 53px;
+        height: 100%;
+
+        button {
+          margin: 0;
+          width: 325px;
+          height: 59px;
+          font-size: 22px;
+          line-height: 27px;
+        }
+
+        .link-to-shop {
+          margin-left: 4%;
+          width: 451px;
+          font-size: 24px;
+          line-height: 29px;
+        }
+      }
+    }
   }
 }
 
-@media (min-width: 890px) and (max-width: 1024px) {
+@media (min-width: 1023px) and (max-width: 1439px) {
   .ubsHomepage {
-    margin: 0 auto;
-    font-size: 18px;
+    padding: 64px 0 0 0;
+    font-size: 16px;
+
+    h2 {
+      margin: 0 auto 0 auto;
+      padding: 0;
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 59px;
+    }
 
     header {
+      margin: 85px 51px 97px 33px;
+      padding: 0;
+
+      .header-left {
+        padding: 0;
+        width: 53%;
+        min-width: 629px;
+        max-width: 699px;
+        height: 10%;
+        min-height: 109px;
+        max-height: 121px;
+
+        img {
+          padding: 0;
+          margin: 0;
+        }
+      }
+
       .spinner {
-        width: 400px;
+        width: 26%;
+        max-width: 273px;
+        min-width: 330px;
+        height: 27%;
+        max-height: 343px;
+        min-height: 330px;
+        top: 190px;
         right: 50px;
       }
 
       .main-content {
+        margin-top: 67px;
+        margin-left: 0;
         max-width: 50%;
+
+        button {
+          margin: 0;
+          width: 281px;
+          height: 48px;
+          font-size: 16px;
+          line-height: 20px;
+        }
+
+        .main-caption {
+          width: 300px;
+          margin-top: 32px;
+          font-size: 16px;
+          line-height: 20px;
+
+          p {
+            margin-bottom: 9px;
+          }
+        }
       }
     }
-  }
-
-  .box-number {
-    font-size: 47px !important;
-  }
-
-  #price-frame {
-    @include height-and-width(236px, 436px);
-  }
-
-  .time-frame .header-how-works {
-    font-size: 28px !important;
-    text-align: start;
-  }
-
-  #how-works-content .link-to-shop {
-    font-size: 24px !important;
-  }
-
-  .how-to-prepare .rules .rule .lifehack {
-    font-size: 16px !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 890px) {
-  .ubsHomepage {
-    font-size: 14px;
-
-    header .spinner {
-      width: 300px;
-    }
-
-    h2 {
-      font-size: 48px;
-    }
-
-    #how-works .box-how-works {
-      #main-content .time-frame .header-how-works {
-        font-size: 24px;
-        text-align: left;
-        line-height: 1;
-      }
-
-      #how-works-content .link-to-shop {
-        font-size: 20px;
-      }
-    }
-
-    .how-to-prepare .main-content-left .box-item .box-number {
-      font-size: 48px;
-    }
-
-    .how-to-prepare .rules .rule .lifehack {
-      font-size: 16px !important;
-    }
-  }
-}
-
-@media (min-width: 320px) and (max-width: 1023px) {
-  .main-container {
-    padding: 0 5%;
-    margin: 0 !important;
-
-    h2 {
-      font-size: 28px;
-      line-height: 24.75px;
-    }
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .main-container {
-    .box-mobile .step-order .content-box {
-      .step-order-content {
-        font-size: 18px;
-        line-height: 18px;
-      }
-
-      .step-order-header {
-        font-size: 22px;
-        line-height: 22px;
-      }
-    }
-  }
-}
-
-@media (min-width: 576px) and (max-width: 768px) {
-  .ubsHomepage {
-    font-size: 18px;
-    padding: 120px 0 0 0;
 
     .marquee-section {
-      height: 20px;
+      height: 43px;
+
+      span {
+        padding-top: 5px;
+        height: 90%;
+        font-size: 14px;
+      }
+    }
+
+    section {
+      margin: 0;
+      padding: 0;
+
+      .price-section,
+      .pick-up-service .main-container {
+        margin: 0;
+        padding: 110px 33px;
+      }
+    }
+
+    #first-section {
+      padding: 110px 33px;
+
+      h2 {
+        margin-bottom: 73px;
+      }
+
+      .how-to-prepare {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+        .main-content-left,
+        .main-content-right {
+          width: 45%;
+          max-width: 555px;
+          min-width: 464px;
+        }
+
+        .main-content-left {
+          .box-item {
+            margin-bottom: 16px;
+            padding: 18px 32px;
+            height: 100%;
+
+            .box-number {
+              font-size: 50px;
+              line-height: 61px;
+              padding-right: 30px;
+            }
+
+            .box-text {
+              margin: 0;
+              padding: 0;
+              font-size: 16px;
+              line-height: 20px;
+            }
+          }
+
+          .box-item:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        .main-content-right {
+          .conditions {
+            margin-bottom: 24px;
+          }
+
+          .conditions,
+          .bonuses {
+            padding: 21px 30px;
+
+            .caption {
+              padding-right: 16px;
+
+              .col {
+                padding: 0;
+              }
+
+              h2 {
+                margin-bottom: 0;
+                font-size: 36px;
+                line-height: 44px;
+              }
+            }
+
+            .rules {
+              justify-content: space-around;
+
+              .rule {
+                margin-bottom: 24px;
+                font-size: 16px;
+                line-height: 20px;
+              }
+
+              .rule:last-child {
+                margin-bottom: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section .price-section {
+      height: 100%;
+
+      .box-card {
+        margin-top: 71px;
+        height: 100%;
+
+        #price-frame {
+          width: 298px;
+          height: 229px;
+          font-size: 16px;
+
+          .content-price {
+            margin: 0;
+            padding: 33px 30px 0 24px;
+            width: 100%;
+            line-height: 20px !important;
+          }
+
+          .header-price {
+            flex-direction: column-reverse;
+            height: 100px;
+
+            .price {
+              font-size: 28px;
+              line-height: 34px;
+            }
+          }
+        }
+      }
+    }
+
+    section.pick-up-service {
+      h2 {
+        margin-top: 117px;
+      }
+
+      .main-container {
+        height: 100%;
+        margin: 0;
+        padding: 0 33px 117px 33px;
+
+        .box {
+          margin-top: 92px;
+          padding: 0;
+          overflow: hidden;
+
+          .step-order {
+            .content-box {
+              width: 210px;
+              padding: 16px 4px;
+
+              h1 {
+                font-size: 20px;
+              }
+
+              p {
+                height: 100%;
+                font-size: 14px;
+                line-height: 17px;
+              }
+            }
+
+            .base-line {
+              hr {
+                width: 65px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section#how-works {
+      padding: 110px 32px 95px 32px;
+      height: 100%;
+
+      .box-how-works {
+        margin: 0;
+        padding: 0;
+
+        #main-content {
+          margin: 0;
+
+          .time-frame {
+            justify-content: space-between;
+            padding: 32px 38px;
+            min-width: 464px;
+            max-width: 552px;
+            height: 139px;
+
+            h2 {
+              margin: 0 0 20px 0;
+              padding: 0;
+              font-size: 30px;
+              line-height: 37px;
+              text-align: left;
+            }
+
+            p {
+              margin: 0;
+              padding: 0;
+              font-size: 18px;
+              line-height: 22px;
+            }
+          }
+        }
+
+        #how-works-content {
+          margin-top: 45px;
+          height: 100%;
+
+          button {
+            margin: 0;
+            width: 325px;
+            height: 59px;
+            font-size: 22px;
+            line-height: 27px;
+          }
+
+          .link-to-shop {
+            margin-left: 4%;
+            width: 451px;
+            font-size: 24px;
+            line-height: 29px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 767px) and (max-width: 1023px) {
+  .ubsHomepage {
+    padding: 66px 0 0 0;
+    font-size: 16px;
+
+    h2 {
+      margin: 0 auto 0 auto;
+      padding: 0;
+      font-weight: 800;
+      font-size: 40px;
+      line-height: 49px;
+    }
+
+    header {
+      margin: 60px 80px 71px 27px;
+      padding: 0;
+
+      .header-left {
+        padding: 0;
+        width: 58%;
+        min-width: 450px;
+        max-width: 629px;
+        height: 10%;
+        min-height: 78px;
+        max-height: 108px;
+
+        img {
+          padding: 0;
+          margin: 0;
+        }
+      }
+
+      .spinner {
+        width: 25%;
+        max-width: 273px;
+        min-width: 196px;
+        height: 26%;
+        max-height: 283px;
+        min-height: 202px;
+        top: 148px;
+        right: 80px;
+      }
+
+      .main-content {
+        margin-top: 40px;
+        margin-left: 0;
+        max-width: 50%;
+
+        button {
+          margin: 0;
+          width: 247px;
+          height: 46px;
+          font-size: 16px;
+          line-height: 20px;
+        }
+
+        .main-caption {
+          width: 300px;
+          margin-top: 25px;
+          font-size: 14px;
+          line-height: 17px;
+
+          p {
+            margin-bottom: 9px;
+          }
+        }
+      }
+    }
+
+    .marquee-section {
+      height: 31px;
+
+      span {
+        height: 80%;
+        font-size: 10px;
+      }
+    }
+
+    section {
+      margin: 0;
+      padding: 0;
+
+      .price-section,
+      .pick-up-service .main-container {
+        margin: 0;
+        padding: 90px 24px;
+      }
+    }
+
+    #first-section {
+      padding: 90px 24px;
+
+      h2 {
+        margin-bottom: 50px;
+      }
+
+      .how-to-prepare {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+        .main-content-left,
+        .main-content-right {
+          width: 47%;
+          max-width: 464px;
+          min-width: 344px;
+
+          h2 {
+            font-size: 36px;
+            line-height: 44px;
+          }
+        }
+
+        .main-content-left {
+          .box-item {
+            margin-bottom: 12px;
+            padding: 12px;
+            height: 100%;
+
+            .box-number {
+              font-size: 32px !important;
+              line-height: 39px;
+              padding-right: 16px;
+            }
+
+            .box-text {
+              margin: 0;
+              padding: 0;
+              font-size: 12px;
+              line-height: 15px;
+            }
+          }
+
+          .box-item:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        .main-content-right {
+          .conditions {
+            margin-bottom: 16px;
+          }
+
+          .conditions,
+          .bonuses {
+            padding: 24px 16px;
+
+            .caption {
+              padding-right: 16px;
+
+              .col {
+                padding: 0;
+              }
+
+              h2 {
+                margin-bottom: 0;
+                font-size: 22px;
+                line-height: 117.9%;
+              }
+            }
+
+            .rules {
+              justify-content: space-around;
+
+              .rule {
+                margin-bottom: 17px;
+                font-size: 12px;
+                line-height: 15px;
+              }
+
+              .rule:last-child {
+                margin-bottom: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section .price-section {
+      height: 100%;
+
+      .box-card {
+        margin-top: 50px;
+        height: 100%;
+
+        #price-frame {
+          width: 218px;
+          height: 229px;
+          font-size: 16px;
+
+          .content-price {
+            margin: 0;
+            padding: 33px 16px 0 16px;
+            width: 100%;
+            line-height: 20px !important;
+          }
+
+          .header-price {
+            flex-direction: column-reverse;
+            height: 100px;
+
+            .price {
+              font-size: 24px;
+              line-height: 29px;
+            }
+          }
+        }
+      }
+    }
+
+    section.pick-up-service {
+      h2 {
+        margin-top: 90px;
+      }
+
+      .main-container {
+        height: 100%;
+        margin: 0;
+        padding: 0 24px 90px 24px;
+
+        .box {
+          margin-top: 50px;
+          padding: 0;
+          overflow: hidden;
+
+          .step-order {
+            .content-box {
+              width: 160px;
+              padding: 16px 4px;
+
+              h1 {
+                font-size: 18px;
+              }
+
+              p {
+                height: 100%;
+                font-size: 12px;
+                line-height: 15px;
+              }
+            }
+
+            .base-line {
+              hr {
+                width: 65px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section#how-works {
+      padding: 90px 24px 75px 24px;
+      height: 100%;
+
+      .box-how-works {
+        margin: 0;
+        padding: 0;
+
+        #main-content {
+          margin: 0;
+
+          .time-frame {
+            padding: 24px 8px 8px 24px;
+            width: 48%;
+            min-width: 344px;
+            max-width: 464px;
+            height: 105px;
+
+            h2 {
+              margin: 0;
+              padding: 0;
+              font-size: 20px;
+              line-height: 24px;
+              text-align: left;
+            }
+
+            p {
+              margin: 0;
+              padding: 0;
+              font-size: 14px;
+              line-height: 17px;
+            }
+          }
+        }
+
+        #how-works-content {
+          margin-top: 40px 0 0 0;
+          height: 100%;
+
+          button {
+            margin: 0;
+            width: 281px;
+            height: 53px;
+            font-size: 20px;
+            line-height: 24px;
+          }
+
+          .link-to-shop {
+            margin-left: 5%;
+            width: 351px;
+            font-size: 18px;
+            line-height: 22px;
+          }
+        }
+      }
+    }
+  }
+
+  // #price-frame {
+  //   @include height-and-width(236px, 436px);
+  // }
+
+  // .how-to-prepare .rules .rule .lifehack {
+  //   font-size: 12px !important;
+  // }
+}
+
+.how-to-prepare .rules .rule .lifehack {
+  font-size: 11px !important;
+}
+
+@media (min-width: 575px) and (max-width: 767px) {
+  .ubsHomepage {
+    font-size: 18px;
+    padding: 60px 0 0 0;
+
+    .marquee-section {
+      height: 26px;
 
       .marquee-w {
-        top: calc(50% - 6px);
+        top: calc(50% - 3px);
 
         span {
+          height: 18px;
           font-size: 8px;
+          font-weight: 700;
         }
       }
     }
 
     header {
-      margin: 50px 16px 0 16px;
+      margin: 62px 16px 42px 16px;
+      height: 100%;
 
       .header-left {
-        width: 100%;
+        width: 65%;
+        min-width: 358px;
+
+        .ubs-image {
+          margin-top: 0;
+          margin-bottom: 0;
+          padding-top: 0;
+        }
       }
 
       .spinner {
-        width: 200px;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-        top: 675px;
+        width: 137px;
+        height: 142px;
+        top: 125px;
+        right: 40px;
       }
 
       .main-content {
-        width: 100%;
-        justify-content: center;
+        margin-top: 45px;
+        width: 245px;
+        justify-content: left;
 
         .button {
-          width: 100%;
+          margin: 0;
+          width: 38%;
+          min-width: 205px;
+          height: 37px;
+          font-size: 14px;
         }
 
         .main-caption {
+          margin-top: 16px;
           width: 100%;
+          font-size: 13px;
+          line-height: 16px;
+
+          p {
+            margin-bottom: 9px;
+          }
         }
       }
     }
 
     section {
-      height: 1200px;
-      margin-top: 100px;
+      height: 100%;
+      margin-top: 60px;
 
       h2 {
-        font-size: 40px;
-        line-height: 1;
+        font-size: 26px;
+        line-height: 32px;
+        margin-bottom: 0;
       }
 
       .how-to-prepare {
-        height: 100%;
-        margin-top: 50px;
+        margin-top: 40px;
         flex-direction: column;
         justify-content: normal;
-        gap: 50px;
+        gap: 24px;
 
         .main-content-left {
-          width: 100%;
-          height: 500px;
-        }
+          margin-right: auto;
+          margin-left: auto;
 
-        .box-item {
-          height: 80px;
+          .box-item {
+            margin-bottom: 16px;
+            width: 349px;
+            height: 62px;
+            border-radius: 6px;
 
-          .box-number {
-            font-size: 48px;
-            width: 100px;
+            .box-number {
+              font-size: 22px;
+              line-height: 27px;
+              padding: 0 16px 0 24px;
+            }
+
+            .box-text {
+              font-size: 12px;
+              line-height: 15px;
+            }
           }
         }
 
         .main-content-right {
           width: 100%;
-          height: 500px;
           justify-content: normal;
           gap: 30px;
 
           .conditions,
           .bonuses {
-            height: 230px;
+            margin-right: auto;
+            margin-left: auto;
+            padding-right: 0;
+            border-radius: 6px;
+            width: 350px;
+
+            .caption {
+              width: 72px;
+            }
 
             .caption h2 {
-              font-size: 30px;
+              margin: 0 16px 0 24px;
+              width: 32px;
+              font-size: 22px;
+              line-height: 117.9%;
+            }
+          }
+
+          .conditions .rules {
+            margin: 24px 24px 7px 0;
+
+            .rule {
+              margin-bottom: 17px;
+              font-size: 12px;
+              line-height: 15px;
+            }
+          }
+
+          .bonuses .rules {
+            margin: 24px 24px 7px 0;
+
+            .rule {
+              margin-bottom: 12px;
+              font-size: 12px;
+              line-height: 15px;
             }
           }
         }
       }
 
+      .how-to-prepare .rules .rule .lifehack {
+        font-size: 12px !important;
+      }
+
       .price-section {
         height: 100%;
+        padding-bottom: 60px;
+
+        h2 {
+          padding-top: 60px;
+          padding-bottom: 40px;
+        }
 
         .box-card {
           flex-direction: column;
-          height: 800px;
+          height: 100%;
           justify-content: normal;
-          gap: 50px;
-          margin: 0 50px;
+          gap: 19px;
 
           #price-frame {
-            width: 100%;
-            height: 200px;
+            margin: 0 auto;
+            width: 287px;
+            border-radius: 6px;
+
+            .content-price {
+              font-size: 12px;
+              line-height: 15px;
+              padding: 0;
+              width: 190px;
+              height: 69px;
+
+              div {
+                width: 100%;
+                align-items: center;
+              }
+            }
 
             .header-price {
-              height: 100px;
+              border-radius: 6px;
+              height: 57px;
+              font-size: 11px;
+            }
+
+            .header-price .price {
+              font-size: 16px;
+              line-height: 20px;
             }
           }
         }
@@ -902,41 +1782,112 @@ section .main-container {
     }
 
     #how-works {
-      height: 700px;
+      height: 100%;
 
       .box-how-works {
-        margin-top: 50px;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        padding: 0 16px 0 16px;
 
         #main-content {
-          flex-direction: column;
+          flex-direction: row;
+          justify-content: space-between;
           margin: 0;
-          gap: 30px;
 
           .time-frame {
-            width: 100%;
-            height: 120px;
+            padding: 16px;
+            width: 44%;
+            min-width: 254px;
+            height: 73px;
+            border-radius: 10px;
+            text-align: left;
 
             .header-how-works {
-              font-size: 28px;
+              margin: 0;
+              font-size: 16px;
+              line-height: 20px;
+
+              h2 {
+                text-align: left;
+              }
+            }
+
+            .content-time {
+              margin: 0;
+              font-weight: 600;
+              font-size: 11px;
+              line-height: 13px;
             }
           }
         }
 
         #how-works-content {
-          flex-direction: column;
-          justify-content: center;
-          margin: 50px 0 0 0;
-          gap: 30px;
+          margin: 0 0 0 0;
+          flex-direction: row;
 
           .primary-global-button {
-            width: 100%;
+            width: 206px;
+            height: 31px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 17px;
           }
 
           .link-to-shop {
-            margin: 0;
-            width: inherit;
-            font-size: 28px;
+            margin: 0 0 0 32px;
+            width: 234px;
+            font-weight: 800;
+            font-size: 12px;
+            line-height: 15px;
           }
+        }
+      }
+    }
+  }
+
+  .ubsHomepage .pick-up-service {
+    margin: 60px 0;
+    padding: 0;
+    width: 100%;
+    min-width: 576px;
+    height: 100%;
+
+    .main-container {
+      margin: 0;
+      height: 100%;
+    }
+
+    .box {
+      margin: 40px 0 0 0;
+      padding: 0 16px;
+      min-width: 576px;
+
+      .step-order {
+        .content-box {
+          margin: 0 0;
+          padding: 5px;
+          width: 80%;
+          text-align: center;
+          font-size: 11px;
+          line-height: 13px;
+          font-variant: small-caps;
+
+          h1 {
+            font-size: 15px;
+            line-height: 13px;
+          }
+        }
+      }
+
+      .step-order:nth-child(3) {
+        .content-box {
+          padding: 0;
+          width: 140px;
+        }
+
+        hr {
+          width: 44px !important;
         }
       }
     }
@@ -945,32 +1896,29 @@ section .main-container {
   #main-content .time-frame .header-how-works h2 {
     align-items: flex-start;
   }
-
-  .ubsHomepage .pick-up-service {
-    height: 800px;
-  }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 575px) {
   .ubsHomepage {
     font-size: 12px;
     padding: 65px 0 0 0;
 
     .marquee-section {
-      height: 20px;
+      height: 22px;
 
       .marquee-w {
-        top: calc(50% - 1px);
+        top: calc(50%);
 
         span {
           font-size: 8px;
+          height: 90%;
         }
       }
     }
 
     header {
-      margin: 50px 16px 70px 16px;
-      height: 400px;
+      margin: 24px 16px 47px 16px;
+      height: 370px;
 
       .header-left {
         width: 100%;
@@ -978,16 +1926,17 @@ section .main-container {
 
       .spinner {
         width: 80px;
+        height: 80px;
         left: 0;
         right: 0;
         margin-left: auto;
         margin-right: auto;
-        top: 500px;
+        top: 406px;
       }
 
       .main-content {
         width: 100%;
-        margin-top: 45px;
+        margin-top: 13px;
         justify-content: center;
 
         .button {
@@ -998,8 +1947,14 @@ section .main-container {
         }
 
         .main-caption {
+          margin-top: 25px;
           width: 100%;
           font-size: 12px;
+          line-height: 15px;
+
+          p {
+            margin-bottom: 35px;
+          }
         }
       }
     }
@@ -1015,6 +1970,7 @@ section .main-container {
       .price-section {
         h2 {
           padding: 60px 16px 50px 16px;
+          margin-bottom: 0px;
         }
 
         .box-card {
@@ -1050,7 +2006,8 @@ section .main-container {
 
       .how-to-prepare {
         height: 100%;
-        margin: 50px 16px 0 16px;
+        margin: 47px 16px 0 16px;
+        padding-bottom: 64px;
         flex-direction: column;
         justify-content: normal;
         gap: 50px;
@@ -1061,27 +2018,40 @@ section .main-container {
         }
 
         .box-item {
-          height: 56px;
+          height: 62px;
+
+          .box-text {
+            padding-right: 16px;
+          }
 
           .box-number {
             font-size: 20px;
-            width: 100px;
+            width: 53px;
           }
         }
 
         .main-content-right {
           width: 100%;
-          height: 500px;
+          height: 100%;
           justify-content: normal;
           gap: 30px;
 
           .conditions,
           .bonuses {
+            padding-right: 16px;
             height: 176px;
+
+            .caption {
+              width: 56px;
+            }
 
             .caption h2 {
               font-size: 20px;
             }
+          }
+
+          .rules {
+            justify-content: space-around;
           }
 
           .rules .rule {
@@ -1096,11 +2066,13 @@ section .main-container {
     }
 
     .pick-up-service {
-      margin-top: 60px;
+      margin-top: 64px;
+      margin-bottom: 64px;
     }
 
     #how-works {
-      height: 470px;
+      height: 100%;
+      padding: 0 0 64px 0;
 
       .box-how-works {
         margin-top: 64px;
@@ -1116,6 +2088,7 @@ section .main-container {
           .time-frame {
             width: 100%;
             height: 77px;
+            padding-left: 16px;
 
             .header-how-works {
               font-size: 18px;
@@ -1129,8 +2102,8 @@ section .main-container {
           width: 100%;
           flex-direction: column;
           justify-content: center;
-          margin: 30px 0 0 0;
-          gap: 30px;
+          margin: 7px 0 0 0;
+          gap: 16px;
 
           .primary-global-button {
             width: 100%;
@@ -1152,7 +2125,7 @@ section .main-container {
   }
 
   .pick-up-service .main-container {
-    max-height: 750px;
+    height: 100%;
   }
 
   #main-content .time-frame .header-how-works h2 {
