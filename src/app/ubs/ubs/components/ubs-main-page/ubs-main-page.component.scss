@@ -713,7 +713,47 @@ section .main-container {
       }
     }
 
-    #first-section {
+    section.pick-up-service {
+      .main-container h2 {
+        margin-top: 117px;
+      }
+
+      .main-container {
+        height: 100%;
+        margin: 0;
+        padding: 0 150px 117px 150px;
+
+        .box {
+          margin-top: 92px;
+          padding: 0;
+          overflow: hidden;
+
+          .step-order {
+            .content-box {
+              width: 240px;
+              padding: 32px 16px;
+
+              h1 {
+                font-size: 20px;
+              }
+
+              p {
+                font-size: 14px;
+                line-height: 17px;
+              }
+            }
+
+            .base-line {
+              hr {
+                width: 120px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section#first-section {
       padding: 110px 150px;
 
       h2 {
@@ -823,46 +863,6 @@ section .main-container {
             .price {
               font-size: 28px;
               line-height: 34px;
-            }
-          }
-        }
-      }
-    }
-
-    section.pick-up-service {
-      .main-container h2 {
-        margin-top: 117px;
-      }
-
-      .main-container {
-        height: 100%;
-        margin: 0;
-        padding: 0 150px 117px 150px;
-
-        .box {
-          margin-top: 92px;
-          padding: 0;
-          overflow: hidden;
-
-          .step-order {
-            .content-box {
-              width: 240px;
-              padding: 32px 16px;
-
-              h1 {
-                font-size: 20px;
-              }
-
-              p {
-                font-size: 14px;
-                line-height: 17px;
-              }
-            }
-
-            .base-line {
-              hr {
-                width: 120px !important;
-              }
             }
           }
         }
@@ -1017,6 +1017,47 @@ section .main-container {
       }
     }
 
+    section.pick-up-service {
+      .main-container h2 {
+        margin-top: 117px;
+      }
+
+      .main-container {
+        height: 100%;
+        margin: 0;
+        padding: 0 33px 117px 33px;
+
+        .box {
+          margin-top: 92px;
+          padding: 0;
+          overflow: hidden;
+
+          .step-order {
+            .content-box {
+              width: 210px;
+              padding: 16px 4px;
+
+              h1 {
+                font-size: 20px;
+              }
+
+              p {
+                height: 100%;
+                font-size: 14px;
+                line-height: 17px;
+              }
+            }
+
+            .base-line {
+              hr {
+                width: 65px;
+              }
+            }
+          }
+        }
+      }
+    }
+
     #first-section {
       padding: 110px 33px;
 
@@ -1128,47 +1169,6 @@ section .main-container {
             .price {
               font-size: 28px;
               line-height: 34px;
-            }
-          }
-        }
-      }
-    }
-
-    section.pick-up-service {
-      .main-container h2 {
-        margin-top: 117px;
-      }
-
-      .main-container {
-        height: 100%;
-        margin: 0;
-        padding: 0 33px 117px 33px;
-
-        .box {
-          margin-top: 92px;
-          padding: 0;
-          overflow: hidden;
-
-          .step-order {
-            .content-box {
-              width: 210px;
-              padding: 16px 4px;
-
-              h1 {
-                font-size: 20px;
-              }
-
-              p {
-                height: 100%;
-                font-size: 14px;
-                line-height: 17px;
-              }
-            }
-
-            .base-line {
-              hr {
-                width: 65px;
-              }
             }
           }
         }
@@ -1323,6 +1323,47 @@ section .main-container {
       }
     }
 
+    section.pick-up-service {
+      .main-container h2 {
+        margin-top: 90px;
+      }
+
+      .main-container {
+        height: 100%;
+        margin: 0;
+        padding: 0 24px 90px 24px;
+
+        .box {
+          margin-top: 50px;
+          padding: 0;
+          overflow: hidden;
+
+          .step-order {
+            .content-box {
+              width: 160px;
+              padding: 16px 4px;
+
+              h1 {
+                font-size: 18px;
+              }
+
+              p {
+                height: 100%;
+                font-size: 12px;
+                line-height: 15px;
+              }
+            }
+
+            .base-line {
+              hr {
+                width: 65px;
+              }
+            }
+          }
+        }
+      }
+    }
+
     #first-section {
       padding: 90px 24px;
 
@@ -1439,47 +1480,6 @@ section .main-container {
             .price {
               font-size: 24px;
               line-height: 29px;
-            }
-          }
-        }
-      }
-    }
-
-    section.pick-up-service {
-      .main-container h2 {
-        margin-top: 90px;
-      }
-
-      .main-container {
-        height: 100%;
-        margin: 0;
-        padding: 0 24px 90px 24px;
-
-        .box {
-          margin-top: 50px;
-          padding: 0;
-          overflow: hidden;
-
-          .step-order {
-            .content-box {
-              width: 160px;
-              padding: 16px 4px;
-
-              h1 {
-                font-size: 18px;
-              }
-
-              p {
-                height: 100%;
-                font-size: 12px;
-                line-height: 15px;
-              }
-            }
-
-            .base-line {
-              hr {
-                width: 65px;
-              }
             }
           }
         }
@@ -1622,6 +1622,53 @@ section .main-container {
         margin-bottom: 0;
       }
 
+      .price-section {
+        height: 100%;
+        padding-bottom: 60px;
+
+        h2 {
+          padding-top: 60px;
+          padding-bottom: 40px;
+        }
+
+        .box-card {
+          flex-direction: column;
+          height: 100%;
+          justify-content: normal;
+          gap: 19px;
+
+          #price-frame {
+            margin: 0 auto;
+            width: 287px;
+            border-radius: 6px;
+
+            .content-price {
+              font-size: 12px;
+              line-height: 15px;
+              padding: 0;
+              width: 190px;
+              height: 69px;
+
+              div {
+                width: 100%;
+                align-items: center;
+              }
+            }
+
+            .header-price {
+              border-radius: 6px;
+              height: 57px;
+              font-size: 11px;
+            }
+
+            .header-price .price {
+              font-size: 16px;
+              line-height: 20px;
+            }
+          }
+        }
+      }
+
       .how-to-prepare {
         margin-top: 40px;
         flex-direction: column;
@@ -1701,53 +1748,10 @@ section .main-container {
       .how-to-prepare .rules .rule .lifehack {
         font-size: 12px !important;
       }
+    }
 
-      .price-section {
-        height: 100%;
-        padding-bottom: 60px;
-
-        h2 {
-          padding-top: 60px;
-          padding-bottom: 40px;
-        }
-
-        .box-card {
-          flex-direction: column;
-          height: 100%;
-          justify-content: normal;
-          gap: 19px;
-
-          #price-frame {
-            margin: 0 auto;
-            width: 287px;
-            border-radius: 6px;
-
-            .content-price {
-              font-size: 12px;
-              line-height: 15px;
-              padding: 0;
-              width: 190px;
-              height: 69px;
-
-              div {
-                width: 100%;
-                align-items: center;
-              }
-            }
-
-            .header-price {
-              border-radius: 6px;
-              height: 57px;
-              font-size: 11px;
-            }
-
-            .header-price .price {
-              font-size: 16px;
-              line-height: 20px;
-            }
-          }
-        }
-      }
+    #main-content .time-frame .header-how-works h2 {
+      align-items: flex-start;
     }
 
     #how-works {
@@ -1861,10 +1865,6 @@ section .main-container {
       }
     }
   }
-
-  #main-content .time-frame .header-how-works h2 {
-    align-items: flex-start;
-  }
 }
 
 @media (max-width: 575px) {
@@ -1939,7 +1939,7 @@ section .main-container {
       .price-section {
         h2 {
           padding: 60px 16px 50px 16px;
-          margin-bottom: 0px;
+          margin-bottom: 0;
         }
 
         .box-card {
