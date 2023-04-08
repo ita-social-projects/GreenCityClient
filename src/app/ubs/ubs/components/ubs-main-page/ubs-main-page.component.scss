@@ -12,7 +12,6 @@
 
   header {
     margin: 0 50px;
-    // height: 706px;
 
     .ubs-image {
       display: block;
@@ -295,8 +294,6 @@
   justify-content: space-between;
 
   .main-content-left {
-    // width: 50%;
-    // height: 700px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -320,9 +317,7 @@
       .box-text {
         color: var(--ubs-main-page-text-grey);
         max-width: 350px;
-        // max-height: 81px;
         margin: auto 0;
-        // line-height: 1.3;
 
         .link-to-site {
           color: var(--ubs-secondary-light-green);
@@ -333,7 +328,6 @@
   }
 
   .main-content-right {
-    // height: 700px;
     width: 47.5%;
     display: flex;
     flex-direction: column;
@@ -345,8 +339,6 @@
       border-radius: 14px;
       display: flex;
       flex-direction: row;
-      // justify-content: space-between;
-      // height: 333px;
       padding-right: 10%;
 
       .caption {
@@ -354,7 +346,6 @@
         text-transform: uppercase;
         display: flex;
         justify-content: center;
-        // width: 135px;
         align-items: center;
 
         .col {
@@ -638,308 +629,298 @@ section .main-container {
   }
 }
 
-// @media screen and (min-width: 1920px) {
-//   .ubsHomepage {
-//     margin: 0 auto;
-//   }
-
-//   section {
-//     width: 1920px;
-//   }
-// }
-
-// 1440
-
-.ubsHomepage {
-  margin: 0 auto;
-  padding: 64px 0 0 0;
-  font-size: 16px;
-  max-width: 1440px;
-
-  h2 {
+@media (min-width: 1439px) {
+  .ubsHomepage {
     margin: 0 auto;
-    padding: 0;
-    font-weight: 800;
-    font-size: 48px;
-    line-height: 59px;
-  }
-
-  header {
-    margin: 106px 150px 123px 150px;
-    padding: 0;
-
-    .header-left {
-      padding: 0;
-      width: 699px;
-      height: 121px;
-
-      img {
-        padding: 0;
-        margin: 0;
-      }
-    }
-
-    .spinner {
-      width: 330px;
-      height: 343px;
-      top: 190px;
-      right: 212px;
-    }
-
-    .main-content {
-      margin-top: 70px;
-      margin-left: 0;
-      max-width: 50%;
-
-      button {
-        margin: 0;
-        width: 281px;
-        height: 48px;
-        font-size: 18px;
-        line-height: 22px;
-      }
-
-      .main-caption {
-        width: 300px;
-        margin-top: 32px;
-        font-size: 16px;
-        line-height: 20px;
-
-        p {
-          margin-bottom: 9px;
-        }
-      }
-    }
-  }
-
-  .marquee-section {
-    height: 43px;
-
-    span {
-      padding-top: 5px;
-      height: 90%;
-      font-size: 14px;
-    }
-  }
-
-  section {
-    margin: 0;
-    padding: 0;
-
-    .price-section,
-    .pick-up-service .main-container {
-      margin: 0;
-      padding: 110px 150px;
-    }
-  }
-
-  #first-section {
-    padding: 110px 150px;
+    padding: 64px 0 0 0;
+    font-size: 16px;
+    max-width: 1440px;
 
     h2 {
-      margin-bottom: 73px;
-    }
-
-    .how-to-prepare {
-      margin: 0;
+      margin: 0 auto;
       padding: 0;
-      height: 100%;
-
-      .main-content-left,
-      .main-content-right {
-        width: 555px;
-      }
-
-      .main-content-left {
-        .box-item {
-          margin-bottom: 16px;
-          padding: 18px 40px;
-          height: 100%;
-
-          .box-number {
-            font-size: 55px;
-            line-height: 67px;
-            padding-right: 65px;
-          }
-
-          .box-text {
-            margin: 0;
-            padding: 0;
-            font-size: 16px;
-            line-height: 20px;
-          }
-        }
-
-        .box-item:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      .main-content-right {
-        .conditions {
-          margin-bottom: 24px;
-        }
-
-        .conditions,
-        .bonuses {
-          padding: 24px 60px;
-
-          .caption {
-            padding-right: 46px;
-
-            .col {
-              padding: 0;
-            }
-
-            h2 {
-              margin-bottom: 0;
-              font-size: 38px;
-              line-height: 46px;
-            }
-          }
-
-          .rules {
-            justify-content: space-around;
-
-            .rule {
-              margin-bottom: 24px;
-              font-size: 16px;
-              line-height: 20px;
-            }
-
-            .rule:last-child {
-              margin-bottom: 0px;
-            }
-          }
-        }
-      }
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 59px;
     }
-  }
 
-  section .price-section {
-    height: 100%;
+    header {
+      margin: 106px 150px 123px 150px;
+      padding: 0;
 
-    .box-card {
-      margin-top: 71px;
-      height: 100%;
+      .header-left {
+        padding: 0;
+        width: 699px;
+        height: 121px;
 
-      #price-frame {
-        width: 358px;
-        height: 229px;
-        font-size: 18px;
-
-        .content-price {
+        img {
+          padding: 0;
           margin: 0;
-          padding: 0px 40px;
-          width: 100%;
-          line-height: 20px !important;
-          align-items: center;
-        }
-
-        .header-price {
-          flex-direction: column-reverse;
-          height: 100px;
-
-          .price {
-            font-size: 28px;
-            line-height: 34px;
-          }
-        }
-      }
-    }
-  }
-
-  section.pick-up-service {
-    h2 {
-      margin-top: 117px;
-    }
-
-    .main-container {
-      height: 100%;
-      margin: 0;
-      padding: 0 150px 117px 150px;
-
-      .box {
-        margin-top: 92px;
-        padding: 0;
-        overflow: hidden;
-
-        .step-order {
-          .content-box {
-            width: 240px;
-            padding: 32px 16px;
-
-            h1 {
-              font-size: 20px;
-            }
-
-            p {
-              font-size: 14px;
-              line-height: 17px;
-            }
-          }
-
-          .base-line {
-            hr {
-              width: 120px !important;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  section#how-works {
-    padding: 110px 150px 95px 150px;
-    height: 100%;
-
-    .box-how-works {
-      margin: 0;
-      padding: 0;
-
-      #main-content {
-        margin: 0;
-
-        .time-frame {
-          justify-content: space-between;
-          padding: 32px 38px;
-          width: 552px;
-          height: 139px;
-
-          h2 {
-            margin: 0 0 20px 0;
-            padding: 0;
-            font-size: 30px;
-            line-height: 37px;
-            text-align: left;
-          }
-
-          p {
-            margin: 0;
-            padding: 0;
-            font-size: 18px;
-            line-height: 22px;
-          }
         }
       }
 
-      #how-works-content {
-        margin-top: 53px;
-        height: 100%;
+      .spinner {
+        width: 330px;
+        height: 343px;
+        top: 190px;
+        right: 212px;
+      }
+
+      .main-content {
+        margin-top: 70px;
+        margin-left: 0;
+        max-width: 50%;
 
         button {
           margin: 0;
-          width: 325px;
-          height: 59px;
-          font-size: 22px;
-          line-height: 27px;
+          width: 281px;
+          height: 48px;
+          font-size: 18px;
+          line-height: 22px;
         }
 
-        .link-to-shop {
-          margin-left: 4%;
-          width: 451px;
-          font-size: 24px;
-          line-height: 29px;
+        .main-caption {
+          width: 300px;
+          margin-top: 32px;
+          font-size: 16px;
+          line-height: 20px;
+
+          p {
+            margin-bottom: 9px;
+          }
+        }
+      }
+    }
+
+    .marquee-section {
+      height: 43px;
+
+      span {
+        padding-top: 5px;
+        height: 90%;
+        font-size: 14px;
+      }
+    }
+
+    section {
+      margin: 0;
+      padding: 0;
+
+      .price-section,
+      .pick-up-service .main-container {
+        margin: 0;
+        padding: 110px 150px;
+      }
+    }
+
+    #first-section {
+      padding: 110px 150px;
+
+      h2 {
+        margin-bottom: 73px;
+      }
+
+      .how-to-prepare {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+        .main-content-left,
+        .main-content-right {
+          width: 555px;
+        }
+
+        .main-content-left {
+          .box-item {
+            margin-bottom: 16px;
+            padding: 18px 40px;
+            height: 100%;
+
+            .box-number {
+              font-size: 55px;
+              line-height: 67px;
+              padding-right: 65px;
+            }
+
+            .box-text {
+              margin: 0;
+              padding: 0;
+              font-size: 16px;
+              line-height: 20px;
+            }
+          }
+
+          .box-item:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        .main-content-right {
+          .conditions {
+            margin-bottom: 24px;
+          }
+
+          .conditions,
+          .bonuses {
+            padding: 24px 60px;
+
+            .caption {
+              padding-right: 46px;
+
+              .col {
+                padding: 0;
+              }
+
+              h2 {
+                margin-bottom: 0;
+                font-size: 38px;
+                line-height: 46px;
+              }
+            }
+
+            .rules {
+              justify-content: space-around;
+
+              .rule {
+                margin-bottom: 24px;
+                font-size: 16px;
+                line-height: 20px;
+              }
+
+              .rule:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section .price-section {
+      height: 100%;
+
+      .box-card {
+        margin-top: 71px;
+        height: 100%;
+
+        #price-frame {
+          width: 358px;
+          height: 229px;
+          font-size: 18px;
+
+          .content-price {
+            margin: 0;
+            padding: 0 40px;
+            width: 100%;
+            line-height: 20px !important;
+            align-items: center;
+          }
+
+          .header-price {
+            flex-direction: column-reverse;
+            height: 100px;
+
+            .price {
+              font-size: 28px;
+              line-height: 34px;
+            }
+          }
+        }
+      }
+    }
+
+    section.pick-up-service {
+      .main-container h2 {
+        margin-top: 117px;
+      }
+
+      .main-container {
+        height: 100%;
+        margin: 0;
+        padding: 0 150px 117px 150px;
+
+        .box {
+          margin-top: 92px;
+          padding: 0;
+          overflow: hidden;
+
+          .step-order {
+            .content-box {
+              width: 240px;
+              padding: 32px 16px;
+
+              h1 {
+                font-size: 20px;
+              }
+
+              p {
+                font-size: 14px;
+                line-height: 17px;
+              }
+            }
+
+            .base-line {
+              hr {
+                width: 120px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section#how-works {
+      padding: 110px 150px 95px 150px;
+      height: 100%;
+
+      .box-how-works {
+        margin: 0;
+        padding: 0;
+
+        #main-content {
+          margin: 0;
+
+          .time-frame {
+            justify-content: space-between;
+            padding: 32px 38px;
+            width: 552px;
+            height: 139px;
+
+            h2 {
+              margin: 0 0 20px 0;
+              padding: 0;
+              font-size: 30px;
+              line-height: 37px;
+              text-align: left;
+            }
+
+            p {
+              margin: 0;
+              padding: 0;
+              font-size: 18px;
+              line-height: 22px;
+            }
+          }
+        }
+
+        #how-works-content {
+          margin-top: 53px;
+          height: 100%;
+
+          button {
+            margin: 0;
+            width: 325px;
+            height: 59px;
+            font-size: 22px;
+            line-height: 27px;
+          }
+
+          .link-to-shop {
+            margin-left: 4%;
+            width: 451px;
+            font-size: 24px;
+            line-height: 29px;
+          }
         }
       }
     }
@@ -1113,7 +1094,7 @@ section .main-container {
               }
 
               .rule:last-child {
-                margin-bottom: 0px;
+                margin-bottom: 0;
               }
             }
           }
@@ -1154,7 +1135,7 @@ section .main-container {
     }
 
     section.pick-up-service {
-      h2 {
+      .main-container h2 {
         margin-top: 117px;
       }
 
@@ -1424,7 +1405,7 @@ section .main-container {
               }
 
               .rule:last-child {
-                margin-bottom: 0px;
+                margin-bottom: 0;
               }
             }
           }
@@ -1465,7 +1446,7 @@ section .main-container {
     }
 
     section.pick-up-service {
-      h2 {
+      .main-container h2 {
         margin-top: 90px;
       }
 
@@ -1562,18 +1543,6 @@ section .main-container {
       }
     }
   }
-
-  // #price-frame {
-  //   @include height-and-width(236px, 436px);
-  // }
-
-  // .how-to-prepare .rules .rule .lifehack {
-  //   font-size: 12px !important;
-  // }
-}
-
-.how-to-prepare .rules .rule .lifehack {
-  font-size: 11px !important;
 }
 
 @media (min-width: 575px) and (max-width: 767px) {
