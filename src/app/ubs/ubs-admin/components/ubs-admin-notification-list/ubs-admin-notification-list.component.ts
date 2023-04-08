@@ -30,7 +30,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   filtersForm: FormGroup;
   itemsPerPage = 10;
   currentPage = 1;
-  totalItems = 0;
+  totalItems: number;
   currentLanguage: string;
 
   constructor(
@@ -78,8 +78,6 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
       .subscribe((data) => {
-        console.log(data.page);
-
         this.notifications = data.page;
         this.totalItems = data.totalElements;
       });
