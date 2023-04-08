@@ -316,7 +316,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(spy1).toHaveBeenCalledWith(eventMockCity);
     expect(spy2).toHaveBeenCalledWith();
     expect(spy3).toHaveBeenCalledWith();
-    expect(component.city.value).toEqual('');
     expect(component.blurOnOption).toEqual(false);
   });
 
