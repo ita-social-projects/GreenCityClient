@@ -15,6 +15,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-card-pop-up',
@@ -28,7 +29,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     station: ['', Validators.required],
     regionNameUk: ['', Validators.required],
     regionNameEng: [''],
-    city: [{ value: '' }, [Validators.maxLength(40), Validators.required]]
+    city: ['', [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -82,7 +83,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     private store: Store<IAppState>,
     private translate: TranslateService,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>
+    public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
+    public languageService: LanguageService
   ) {}
 
   get courier() {
@@ -121,11 +123,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
     this.setStationPlaceholder();
-    this.setCountOfSelectedCity();
+    // this.setCountOfSelectedCity();
     setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
+    this.setCountOfSelectedCity();
   }
 
   public ngOnDestroy(): void {
@@ -161,7 +164,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => (this.currentLanguage === Language.UA ? item.nameUk : item.nameEn));
+        this.couriersName = this.couriers.map((item) => this.languageService.getLangValue(item.nameUk, item.nameEn));
       });
   }
 
@@ -302,7 +305,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.city.updateValueAndValidity();
     this.selectCity(event);
     this.setCountOfSelectedCity();
-    this.city.setValue('');
+    this.city.setValue('' || []);
     this.city.setValidators(this.cityValidator());
     if (trigger) {
       requestAnimationFrame(() => {
@@ -346,7 +349,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.cityPlaceholder = this.selectedCityLength + ' вибрано';
     } else {
       this.citySelected = false;
-      this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
+      this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => {
+        this.cityPlaceholder = data;
+      });
     }
   }
 
@@ -426,7 +431,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
               stationNames: this.selectedStation.map((it) => it.name),
               regionName: this.region.value,
               regionEnglishName: this.regionEnglishName,
-              locationNames: this.selectedCities.map((it) => (this.currentLanguage === Language.UA ? it.location : it.englishLocation)),
+              locationNames: this.selectedCities.map((it) => this.languageService.getLangValue(it.location, it.englishLocation)),
               action: 'ubs-tariffs-add-location-pop-up.create_button'
             }
           });
