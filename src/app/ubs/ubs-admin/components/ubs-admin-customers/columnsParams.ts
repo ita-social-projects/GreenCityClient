@@ -155,7 +155,7 @@ export const columnsParamsCertificates = [
   {
     title: {
       key: 'certificateStatus',
-      ua: 'Ступінь порушення',
+      ua: 'Статус сертифіката',
       en: 'Sertificate status'
     },
     width: 164

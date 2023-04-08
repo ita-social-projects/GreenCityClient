@@ -351,7 +351,7 @@
     "filter": "Filter",
     "table-view": "Table view",
     "filters": "Filters",
-    "placeholder": "Search"
+    "placeholder": "Search by name or contacts"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -422,6 +422,7 @@
     "order-status": "Order status",
     "payment-amount": "Payment amount",
     "order-date": "Order date",
+    "payment-date": "Payment date",
     "order-payment-status": "Payment status",
     "amount-due": "Amount-due",
     "info-title": "By clicking on the order card, you get all the additional information on the order.",
@@ -474,7 +475,7 @@
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
-    "warning-title": "Are you sure you want to remove this employee from the system?",
+    "warning-title": "Are you sure you want to delete this employee?",
     "settings": "Set permissions",
     "edit": "Edit",
     "permissions": {
@@ -572,7 +573,22 @@
     "add": "Add",
     "apply": "Apply",
     "cancel": "Cancel",
-    "update": "Update"
+    "update": "Update",
+    "filter-reset-all": "Reset all",
+    "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
+    "tariffs": "Tariffs",
+    "tariffs-columns": {
+      "region": "Region",
+      "city": "City",
+      "station": "Station",
+      "courier": "Courier"
+    },
+    "tariffs-selector": {
+      "title": "Add tariffs",
+      "search": "Search",
+      "cancel": "Cancel",
+      "select": "Select"
+    }
   },
   "ubs-user": {
     "orders": "Orders",
