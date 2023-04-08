@@ -27,7 +27,6 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
   currentLanguage: string;
-  initialNotification = null;
   notification = null;
 
   constructor(
@@ -62,8 +61,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (notification: NotificationTemplate) => {
-          this.initialNotification = notification;
-          this.notification = JSON.parse(JSON.stringify(this.initialNotification));
+          this.notification = notification;
         },
         () => this.navigateToNotificationList()
       );
@@ -78,17 +76,25 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onEditNotificationText(platform: string): void {
+    const platformToUpdate = this.notification.platforms.find((pf) => pf.nameEng === platform);
     this.dialog
       .open(UbsAdminNotificationEditFormComponent, {
         hasBackdrop: true,
-        data: { platform, text: this.notification.platforms.find((pf) => pf.name === platform).body }
+        data: {
+          platform,
+          text: {
+            ua: platformToUpdate.body,
+            en: platformToUpdate.bodyEng
+          }
+        }
       })
       .afterClosed()
       .subscribe((updates: { text: { ua: string; en: string } }) => {
         if (!updates) {
           return;
         }
-        this.notification.platforms.find((pf) => pf.name === platform).body = updates.text;
+        platformToUpdate.body = updates.text.ua;
+        platformToUpdate.bodyEng = updates.text.en;
       });
   }
 
@@ -97,10 +103,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .open(UbsAdminNotificationSettingsComponent, {
         hasBackdrop: true,
         data: {
-          title: { en: this.notification.title.en, ua: this.notification.title.ua },
-          trigger: this.notification.trigger,
-          time: this.notification.time,
-          schedule: this.notification.schedule
+          title: { en: this.notification.notificationTemplateMainInfoDto.titleEng, ua: this.notification.title },
+          trigger: this.notification.notificationTemplateMainInfoDto.trigger,
+          time: this.notification.notificationTemplateMainInfoDto.time,
+          schedule: this.notification.notificationTemplateMainInfoDto.schedule
         }
       })
       .afterClosed()
@@ -116,11 +122,11 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onActivatePlatform(platform: string): void {
-    this.notification.platforms.find((pf) => pf.name === platform).status = 'ACTIVE';
+    this.notification.platforms.find((pf) => pf.nameEng === platform).status = 'ACTIVE';
   }
 
   onDeactivatePlatform(platform: string): void {
-    this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
+    this.notification.platforms.find((pf) => pf.nameEng === platform).status = 'INACTIVE';
   }
 
   onDeactivateNotification() {

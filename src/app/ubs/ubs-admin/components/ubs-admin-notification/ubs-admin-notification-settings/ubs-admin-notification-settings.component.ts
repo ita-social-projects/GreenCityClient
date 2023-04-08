@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { notificationTriggers, notificationTriggerTime } from '../../../services/notifications.service';
 
 @Component({
@@ -20,11 +19,9 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
 
   form: FormGroup;
   private destroy = new Subject<void>();
-
   triggers = notificationTriggers;
   times = notificationTriggerTime;
   lang = 'en';
-
   schedule: string | null = null;
 
   constructor(

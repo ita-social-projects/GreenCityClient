@@ -11,7 +11,6 @@ import { MatSelect } from '@angular/material/select';
 export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
   form: FormGroup;
   platform = '';
-
   items = ['name', 'email', 'id'];
 
   constructor(

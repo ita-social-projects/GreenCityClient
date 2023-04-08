@@ -936,12 +936,16 @@
       "trigger-placeholder": "Оберіть подію",
       "status-placeholder": "Оберіть стан"
     },
-    "columns": {
+    "columns-notification-list": {
       "topic": "Тема повідомлення",
       "trigger": "Подія для активації",
       "time": "Час",
       "period": "Повторення",
       "status": "Стан"
+    },
+    "columns-notification": {
+      "platform": "Платформа",
+      "text": "Текст"
     },
     "triggers": {
       "ORDER_NOT_PAID_FOR_3_DAYS": "Замовлення не оплачується протягом 3 днів після формування замовлення",

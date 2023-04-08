@@ -941,12 +941,16 @@
       "trigger-placeholder": "Select trigger",
       "status-placeholder": "Select status"
     },
-    "columns": {
+    "columns-notification-list": {
       "topic": "Notification topic",
       "trigger": "Trigger",
       "time": "Time",
       "period": "Repeat",
       "status": "Status"
+    },
+    "columns-notification": {
+      "platform": "Platform",
+      "text": "Text"
     },
     "triggers": {
       "ORDER_NOT_PAID_FOR_3_DAYS": "The order is not paid 3 days after order was formed",

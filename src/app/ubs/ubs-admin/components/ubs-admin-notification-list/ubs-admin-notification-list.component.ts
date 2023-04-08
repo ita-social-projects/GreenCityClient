@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import {
   NotificationsService,
   notificationTriggers,
@@ -23,32 +23,29 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     arrowDown: './assets/img/arrow-down.svg'
   };
   private destroy = new Subject<void>();
-
   statuses = ['ALL', ...notificationStatuses];
   triggers = notificationTriggers;
   time = notificationTriggerTime;
-
   notifications: any[] = [];
-
   filtersForm: FormGroup;
-
   itemsPerPage = 10;
   currentPage = 1;
   totalItems = 0;
-
-  lang = 'en';
+  currentLanguage: string;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private langService: LanguageService,
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
     private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
+    this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
-      this.lang = lang;
+      this.currentLanguage = lang;
     });
 
     this.loadPage(1);
@@ -78,12 +75,18 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
 
   loadPage(page, filters?): void {
     this.notificationsService
-      .getAllNotificationTemplates(page - 1, this.itemsPerPage, filters)
+      .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
       .subscribe((data) => {
+        console.log(data.page);
+
         this.notifications = data.page;
         this.totalItems = data.totalElements;
       });
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   navigateToNotification(id: number) {

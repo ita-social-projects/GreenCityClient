@@ -51,11 +51,11 @@
 <table class="table-notifications" aria-label="Notifications list">
   <thead>
     <tr>
-      <th class="col-topic">{{ 'ubs-notifications.columns.topic' | translate }}</th>
-      <th class="col-trigger">{{ 'ubs-notifications.columns.trigger' | translate }}</th>
-      <th class="col-time">{{ 'ubs-notifications.columns.time' | translate }}</th>
-      <th class="col-period">{{ 'ubs-notifications.columns.period' | translate }}</th>
-      <th class="col-status">{{ 'ubs-notifications.columns.status' | translate }}</th>
+      <th class="col-topic">{{ 'ubs-notifications.columns-notification-list.topic' | translate }}</th>
+      <th class="col-trigger">{{ 'ubs-notifications.columns-notification-list.trigger' | translate }}</th>
+      <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
+      <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
+      <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
     </tr>
   </thead>
   <tbody>
@@ -66,19 +66,29 @@
       (click)="navigateToNotification(notification.id)"
     >
       <td>
-        {{ lang === 'ua' ? notification.title.ua : notification.title.en }}
+        {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
       </td>
       <td>
-        {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
+        {{
+          getLangValue(
+            notification.notificationTemplateMainInfoDto.triggerDescription,
+            notification.notificationTemplateMainInfoDto.triggerDescriptionEng
+          )
+        }}
       </td>
       <td>
-        {{ 'ubs-notifications.time.' + notification.time | translate }}
+        {{
+          getLangValue(
+            notification.notificationTemplateMainInfoDto.timeDescription,
+            notification.notificationTemplateMainInfoDto.timeDescriptionEng
+          )
+        }}
       </td>
       <td>
-        {{ notification.schedule | cron: lang }}
+        {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
       </td>
       <td>
-        {{ 'ubs-notifications.statuses.' + notification.status | translate }}
+        {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
       </td>
     </tr>
   </tbody>
