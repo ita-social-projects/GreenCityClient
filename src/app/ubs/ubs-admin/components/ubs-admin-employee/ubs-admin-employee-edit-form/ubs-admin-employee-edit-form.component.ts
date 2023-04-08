@@ -72,7 +72,10 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.employeeForm = this.fb.group({
       firstName: [this.data?.firstName ?? '', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]],
       lastName: [this.data?.lastName ?? '', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]],
-      phoneNumber: [this.data?.phoneNumber ?? '', [Validators.required, PhoneNumberValidator('UA')]],
+      phoneNumber: [
+        this.data?.phoneNumber ?? '',
+        [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
+      ],
       email: [this.data?.email ?? '', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]]
     });
     this.employeePositions = this.data?.employeePositions ?? [];
