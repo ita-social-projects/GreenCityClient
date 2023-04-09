@@ -110,6 +110,7 @@
       "author": "by",
       "create-title": "Create event",
       "delete-title": "Delete event",
+      "delete-title-admin": "Event will be deleted. Do you want to continue?",
       "delete-yes": "yes",
       "delete-no": "no",
       "filter-title": "Sort By",

@@ -110,6 +110,7 @@
       "author": "автор",
       "create-title": "Створити подію",
       "delete-title": "Видалити подію",
+      "delete-title-admin": "Подію буде видалено. Ви хочете продовжити?",
       "delete-yes": "так",
       "delete-no": "ні",
       "filter-title": "Cортувати",
