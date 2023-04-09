@@ -1,32 +1,86 @@
 <div class="inner">
-  <h3 class="title">{{ 'extra-packages-pop-up.title' | translate }}</h3>
-  <div class="boxes">
-    <div class="box">
-      <p class="subtitle">
-        {{ 'extra-packages-pop-up.subtitle-start' | translate }}
-        {{ 'extra-packages-pop-up.subtitle-end' | translate }}
-        <strong>{{ 'extra-packages-pop-up.free' | translate }}</strong>
-      </p>
-      <ul class="simpleList">
-        <li>{{ 'extra-packages-pop-up.aluminum' | translate }}</li>
-        <li>{{ 'extra-packages-pop-up.metal' | translate }}</li>
-        <li>{{ 'extra-packages-pop-up.bottles' | translate }}</li>
-        <li>{{ 'extra-packages-pop-up.cardboard' | translate }}</li>
-        <li>{{ 'extra-packages-pop-up.polyfoam' | translate }}</li>
-      </ul>
+  <div class="header">
+    <div class="title">
+      <h3>{{ 'extra-packages-pop-up.title' | translate }}</h3>
     </div>
-    <div class="box">
-      <p class="subtitle">
-        {{ 'extra-packages-pop-up.subtitle-first' | translate }} <strong>{{ 'extra-packages-pop-up.unlimited' | translate }}</strong>
-        {{ 'extra-packages-pop-up.subtitle-second' | translate }}
-      </p>
-      <ol class="numList">
-        <li>{{ 'extra-packages-pop-up.condition1' | translate }}</li>
-        <li>{{ 'extra-packages-pop-up.condition2' | translate }}</li>
-      </ol>
+    <div class="img-close">
+      <img class="close-btn" src="assets/img/auth/cross.svg" alt="close botton" (click)="closeModal()" />
     </div>
   </div>
-  <div class="d-flex justify-content-end">
-    <button class="btn button" (click)="closeModal()">{{ 'extra-packages-pop-up.button' | translate }}</button>
+  <div class="boxes">
+    <div class="box first-box">
+      <div class="subtitle">
+        <p>
+          <strong>
+            {{ 'extra-packages-pop-up.subtitle-start' | translate }}
+            {{ 'extra-packages-pop-up.free' | translate }}
+          </strong>
+        </p>
+        <p>
+          {{ 'extra-packages-pop-up.subtitle-end' | translate }}
+        </p>
+      </div>
+      <div class="list">
+        <ul class="numList">
+          <li>
+            <span class="numberStyle">01</span>
+            {{ 'extra-packages-pop-up.aluminum' | translate }}
+            <p class="explaneToList"></p>
+          </li>
+
+          <li>
+            <span class="numberStyle">02</span>
+            {{ 'extra-packages-pop-up.metal' | translate }}
+            <p class="explaneToList"></p>
+          </li>
+
+          <li>
+            <span class="numberStyle">03</span>
+            {{ 'extra-packages-pop-up.bottles' | translate }}
+            <p class="explaneToList"></p>
+          </li>
+
+          <li>
+            <span class="numberStyle">04</span>
+            {{ 'extra-packages-pop-up.cardboard' | translate }}
+            <p class="explaneToList"></p>
+          </li>
+
+          <li>
+            <span class="numberStyle">05</span>
+            {{ 'extra-packages-pop-up.polyfoam' | translate }}
+            <p class="explaneToList"></p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="box second-box">
+      <div class="subtitle">
+        <p class="subtitle">
+          <strong>
+            {{ 'extra-packages-pop-up.subtitle-first' | translate }} {{ 'extra-packages-pop-up.unlimited' | translate }}
+            {{ 'extra-packages-pop-up.subtitle-second' | translate }}
+          </strong>
+        </p>
+      </div>
+      <div class="box-items">
+        <div class="item">
+          <div class="item-arrow">
+            <img src="assets/img/ubs/arrow_right_ubs_popup_list.svg" alt="Rigtt green arrow" />
+          </div>
+          <div class="item-contetn">
+            {{ 'extra-packages-pop-up.condition1' | translate }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-arrow">
+            <img src="assets/img/ubs/arrow_right_ubs_popup_list.svg" alt="Rigtt green arrow" />
+          </div>
+          <div class="item-contetn">
+            {{ 'extra-packages-pop-up.condition2' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

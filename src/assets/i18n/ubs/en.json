@@ -118,9 +118,9 @@
   },
   "extra-packages-pop-up": {
     "title": "Extrapositions",
-    "subtitle-start": "In addition to paid packages, UBS Courier can",
-    "free": "free of charge:",
-    "subtitle-end": "pick up some items of recyclable material for processing (provided that they are clean and do not require further sorting)",
+    "subtitle-start": "In addition to paid packages, UBS Courier can pick up some items of recyclable material for processing",
+    "free": "free of charge",
+    "subtitle-end": "provided that they are clean and do not require further sorting",
     "subtitle-first": "You can submit an",
     "unlimited": "unlimited",
     "subtitle-second": "the number of extrapositions of UBS Courier, necessarily fulfilling simple conditions:",
