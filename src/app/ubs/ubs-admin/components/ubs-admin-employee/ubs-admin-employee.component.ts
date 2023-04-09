@@ -189,7 +189,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
           })
           .flat(2);
         this.filteredRegions = regions;
-        console.log('this.filteredRegions', this.filteredRegions);
         this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(
           this.city,
