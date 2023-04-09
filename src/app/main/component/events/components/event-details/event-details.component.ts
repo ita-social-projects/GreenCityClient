@@ -71,7 +71,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public rate: number;
 
   deleteDialogData = {
-    popupTitle: this.roles.ADMIN ? 'homepage.events.delete-title-admin' : 'homepage.events.delete-title',
+    popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no'
   };
