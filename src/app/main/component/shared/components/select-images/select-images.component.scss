@@ -1,6 +1,9 @@
 .images-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 94px;
-  width: 158px;
+  width: 30%;
   border: 1px solid var(--quintynary-light-grey);
   border-radius: 4px;
   background: var(--primary-white);
@@ -10,6 +13,6 @@
   }
 
   .image {
-    height: 80px;
+    max-height: 90%;
   }
 }

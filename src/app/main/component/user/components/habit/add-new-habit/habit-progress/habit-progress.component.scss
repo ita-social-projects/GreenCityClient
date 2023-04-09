@@ -54,6 +54,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+
+  .calendar-container {
+    width: calc(100% - 66px);
+  }
+
+  .app-calendar-week {
+    display: none;
+  }
 
   .days-duration {
     position: relative;
@@ -65,11 +74,12 @@
     background: #e6ebea;
     border-radius: 4px;
 
-    .thumb-label {
+    .thumb-label,
+    .thumb-label-mobile {
       width: 80px;
       height: 50px;
       position: absolute;
-      background-image: url('../../../../../../../../assets/img/duration-thumb-label-progress.svg');
+      background-image: url('~/assets/img/duration-thumb-label-progress.svg');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -90,11 +100,72 @@
       }
     }
 
+    .indicator-mobile,
+    .thumb-label-mobile {
+      display: none;
+    }
+
     .start-line {
       width: 38px;
       height: 4px;
       background-color: rgba(215, 254, 60, 0.47);
       border-radius: 0 0 4px 4px;
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .progress-habit {
+    margin: 0;
+  }
+
+  .calendar {
+    flex-direction: column;
+    gap: 24px;
+
+    .calendar-container {
+      display: none;
+    }
+
+    .app-calendar-week {
+      display: flex;
+      width: 100%;
+    }
+
+    .days-duration {
+      width: 100%;
+      height: 38px;
+
+      .indicator {
+        display: none;
+      }
+
+      .start-line {
+        height: 38px;
+        width: 4px;
+      }
+
+      .indicator-mobile {
+        display: block;
+        background: linear-gradient(270deg, var(--primary-green), rgba(215, 254, 60, 0.47));
+        height: 38px;
+      }
+
+      .thumb-label-mobile {
+        display: block;
+      }
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .progress-habit {
+    .progress-text {
+      font-size: 16px;
+    }
+
+    .mark-done {
+      font-size: 12px;
     }
   }
 }
