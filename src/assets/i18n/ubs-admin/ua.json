@@ -956,7 +956,12 @@
       "ORDER_VIOLATION_ADDED": "Менеджер додає порушення до замовлення",
       "ORDER_VIOLATION_CANCELED": "Керівник скасував статус припису про порушення",
       "ORDER_VIOLATION_CHANGED": "Керівник змінив порушення в наказі",
-      "2_MONTHS_AFTER_LAST_ORDER": "2 місяці після останнього замовлення"
+      "2_MONTHS_AFTER_LAST_ORDER": "2 місяці після останнього замовлення",
+      "UNDERPAYMENT_WHEN_STATUS_DONE_OR_CANCELED": "Статус не оплаченого замовлення змінено на «Виконано» або «Скасовано»",
+      "HALF_PAID_ORDER_STATUS_BROUGHT_BY_HIMSELF": "Статус не повністю оплаченого замовлення змінено на «Привезе сам»",
+      "ORDER_STATUS_CHANGED_FROM_FORMED_TO_BROUGHT_BY_HIMSELF": "Статус замовлення змінений з «Сформовано» на «Привезе сам»",
+      "ORDER_WAS_CANCELED": "Повернення бонусів після скасування замовлення",
+      "TWO_MONTHS_AFTER_LAST_ORDER": "2 місяці після останнього замовлення"
     },
     "time": {
       "6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID": "Система перевіряє BD щодня о 18.00 і відправляє повідомлення, якщо замовлення було сформовано 3 дні тому і не було оплачено клієнтом.",
@@ -988,6 +993,7 @@
       },
       "placeholders": {
         "title": "Введіть тему",
+        "time": "Час активації",
         "trigger": "Оберіть подію",
         "schedule": "Оберіть розклад"
       },

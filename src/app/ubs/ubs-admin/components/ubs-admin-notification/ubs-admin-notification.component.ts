@@ -28,6 +28,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   };
   currentLanguage: string;
   notification = null;
+  notificationId: number;
 
   constructor(
     private notificationsService: NotificationsService,
@@ -45,8 +46,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       this.currentLanguage = lang;
     });
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
-      const id = Number(params.id);
-      this.loadNotification(id);
+      this.notificationId = Number(params.id);
+      this.loadNotification(this.notificationId);
     });
   }
 
@@ -103,7 +104,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .open(UbsAdminNotificationSettingsComponent, {
         hasBackdrop: true,
         data: {
-          title: { en: this.notification.notificationTemplateMainInfoDto.titleEng, ua: this.notification.title },
+          title: {
+            en: this.notification.notificationTemplateMainInfoDto.titleEng,
+            ua: this.notification.notificationTemplateMainInfoDto.title
+          },
           trigger: this.notification.notificationTemplateMainInfoDto.trigger,
           time: this.notification.notificationTemplateMainInfoDto.time,
           schedule: this.notification.notificationTemplateMainInfoDto.schedule
@@ -114,10 +118,11 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         if (!updates) {
           return;
         }
-        this.notification.title = updates.title;
-        this.notification.trigger = updates.trigger;
-        this.notification.schedule = updates.schedule;
-        this.notification.time = updates.time;
+        this.notification.notificationTemplateMainInfoDto.title = updates.title.ua;
+        this.notification.notificationTemplateMainInfoDto.titleEng = updates.title.en;
+        this.notification.notificationTemplateMainInfoDto.trigger = updates.trigger;
+        this.notification.notificationTemplateMainInfoDto.time = updates.time;
+        this.notification.notificationTemplateMainInfoDto.schedule = updates.schedule;
       });
   }
 
@@ -143,7 +148,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         if (!deactivate) {
           return;
         }
-        this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+
+        this.notificationsService.deactivateNotificationTemplate(this.notificationId);
         this.navigateToNotificationList();
       });
   }
@@ -153,7 +159,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onSaveChanges(): void {
-    this.notificationsService.updateNotificationTemplate(this.notification.id, this.notification);
+    this.notificationsService.updateNotificationTemplate(this.notificationId, this.notification);
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

@@ -14,7 +14,12 @@ export const notificationTriggers = [
   'ORDER_VIOLATION_ADDED',
   'ORDER_VIOLATION_CANCELED',
   'ORDER_VIOLATION_CHANGED',
-  '2_MONTHS_AFTER_LAST_ORDER'
+  '2_MONTHS_AFTER_LAST_ORDER',
+  'UNDERPAYMENT_WHEN_STATUS_DONE_OR_CANCELED',
+  'HALF_PAID_ORDER_STATUS_BROUGHT_BY_HIMSELF',
+  'ORDER_STATUS_CHANGED_FROM_FORMED_TO_BROUGHT_BY_HIMSELF',
+  'ORDER_WAS_CANCELED',
+  'TWO_MONTHS_AFTER_LAST_ORDER'
 ];
 
 export const notificationTriggerTime = ['6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID', 'IMMEDIATELY', '2_MONTHS_AFTER_LAST_ORDER'];
@@ -37,11 +42,8 @@ export class NotificationsService {
       .pipe(catchError(() => throwError(`No notification template with id ${id}!`)));
   }
 
-  updateNotificationTemplate(id: number, notification: NotificationTemplate): Observable<void> {
-    const { title, platforms, time, trigger } = notification;
-    const packet = { title, platforms, time, trigger };
-    console.log(id, packet);
-    return of();
+  updateNotificationTemplate(id: number, notification: NotificationTemplate) {
+    return this.http.put(`${ubsAdminNotificationLink}/update-template/${id}`, notification);
   }
 
   deactivateNotificationTemplate(id: number): Observable<void> {
