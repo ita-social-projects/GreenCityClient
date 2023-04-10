@@ -26,13 +26,13 @@ describe('HabitsPopupComponent', () => {
     {
       enrolled: false,
       habitDescription: 'Eating local food is good for air quality and reducing environmental emissions!',
-      habitId: 503,
+      habitAssignId: 503,
       habitName: 'Buy local products'
     },
     {
       enrolled: true,
       habitDescription: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia',
-      habitId: 506,
+      habitAssignId: 506,
       habitName: 'Use less transport'
     }
   ];
@@ -167,7 +167,7 @@ describe('HabitsPopupComponent', () => {
       const setHabitStreakSpy = spyOn(component, 'setHabitStreak');
       habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 } }];
       habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStatusCalendarDtoList: [] }];
-      component.setCircleFromPopUpToCards(1, undefined, true);
+      component.setCircleFromPopUpToCards(1, true);
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(true, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
@@ -187,7 +187,7 @@ describe('HabitsPopupComponent', () => {
           habitStatusCalendarDtoList: [{ enrollDate: '2022-02-20', id: null }]
         }
       ];
-      component.setCircleFromPopUpToCards(1, undefined, false);
+      component.setCircleFromPopUpToCards(1, false);
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(false, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
@@ -202,7 +202,7 @@ describe('HabitsPopupComponent', () => {
       const setHabitStreakSpy = spyOn(component, 'setHabitStreak');
       habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 } }];
       habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStatusCalendarDtoList: [] }];
-      component.setCircleFromPopUpToCards(1, undefined, false);
+      component.setCircleFromPopUpToCards(1, false);
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(false, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).not.toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
