@@ -92,7 +92,6 @@ export class OneHabitComponent implements OnInit, OnDestroy {
 
   public enroll() {
     this.isRequest = true;
-    console.log(this.habit.id);
     this.habitAssignService
       .enrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
