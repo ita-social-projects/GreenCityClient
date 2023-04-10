@@ -6,7 +6,7 @@
         class="habit-icon"
         [src]="habit.enrolled ? this.calendarIcons.checkCircle : this.calendarIcons.plusCircle"
         alt="habit-icon"
-        (click)="toggleEnrollHabit(habit.habitId)"
+        (click)="toggleEnrollHabit(habit.habitAssignId)"
       />
       {{ habit.habitName }}
     </li>

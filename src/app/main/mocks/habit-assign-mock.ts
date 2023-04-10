@@ -250,13 +250,13 @@ export const HABITSFORDATE: HabitsForDateInterface[] = [
       {
         enrolled: false,
         habitDescription: 'buying eco bags, to reduce amount of pollution in environment',
-        habitId: 2,
+        habitAssignId: 2,
         habitName: 'buying eco bags'
       },
       {
         enrolled: true,
         habitDescription: 'buying eco brush, to reduce amount of pollution in environment',
-        habitId: 3,
+        habitAssignId: 3,
         habitName: 'buying eco brush'
       }
     ]
@@ -267,13 +267,13 @@ export const HABITSFORDATE: HabitsForDateInterface[] = [
       {
         enrolled: false,
         habitDescription: 'buying eco clothes, to reduce amount of pollution in environment',
-        habitId: 2,
+        habitAssignId: 2,
         habitName: 'buying eco clothes'
       },
       {
         enrolled: true,
         habitDescription: 'buying healthy food, to reduce amount of pollution in environment',
-        habitId: 3,
+        habitAssignId: 3,
         habitName: 'buying healthy food'
       }
     ]

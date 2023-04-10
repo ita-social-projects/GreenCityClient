@@ -76,7 +76,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     const lastDayInMonth = this.datePipe.transform(lastDay, 'yyy-MM-dd');
     const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.currentDate);
     if (dataFromDashBoard) {
-      dataFromDashBoard.habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+      dataFromDashBoard.habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
     } else {
       this.habitAssignService
         .getAssignHabitsByPeriod(this.currentDate, lastDayInMonth)
@@ -85,7 +85,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
           this.habitAssignService.habitsFromDashBoard = res;
           this.habitAssignService.habitsFromDashBoard
             .find((item) => item.enrollDate === this.currentDate)
-            .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+            .habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
         });
     }
   }

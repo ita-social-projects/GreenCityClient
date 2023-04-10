@@ -76,8 +76,8 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   setWorkingDaysForVisibleHabit(enrolled: boolean, id) {
-    const valueHabitsInProgressToView = this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id);
-    const valueHabitsInProgress = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id);
+    const valueHabitsInProgressToView = this.habitAssignService.habitsInProgressToView.find((item) => item.id === id);
+    const valueHabitsInProgress = this.habitAssignService.habitsInProgress.find((item) => item.id === id);
     if (valueHabitsInProgressToView !== undefined) {
       enrolled ? valueHabitsInProgressToView.workingDays++ : valueHabitsInProgressToView.workingDays--;
       this.habitAssignService.habitsInProgressToView = this.habitAssignService.habitsInProgressToView.map((obj) => ({ ...obj }));
@@ -121,8 +121,8 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   updateHabitsCardsCircleAndStreak(id: number, isExistArray: any, value: any) {
     const ifValueNumber = Number.isInteger(value);
-    const visitableArray = this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id);
-    const invisibleArray = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id);
+    const visitableArray = this.habitAssignService.habitsInProgressToView.find((item) => item.id === id);
+    const invisibleArray = this.habitAssignService.habitsInProgress.find((item) => item.id === id);
     if (isExistArray !== undefined) {
       if (ifValueNumber) {
         visitableArray.habitStreak = value;
@@ -138,11 +138,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     }
   }
 
-  setCircleFromPopUpToCards(id: number, habitIndex: number, isEnrolled: boolean) {
+  setCircleFromPopUpToCards(id: number, isEnrolled: boolean) {
     const currentDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    const isExistArray = this.habitAssignService.habitsInProgressToView.find((item) => item.habit.id === id);
+    const isExistArray = this.habitAssignService.habitsInProgressToView.find((item) => item.id === id);
     this.setWorkingDaysForVisibleHabit(isEnrolled, id);
-    this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.habit.id === id).habitStatusCalendarDtoList;
+    this.arrayOfDate = this.habitAssignService.habitsInProgress.find((item) => item.id === id).habitStatusCalendarDtoList;
     if (this.habitsCalendarSelectedDate === this.today) {
       if (isEnrolled) {
         this.arrayOfDate.push({ enrollDate: currentDate, id: null });
@@ -155,9 +155,9 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   }
 
   toggleEnrollHabit(id: number) {
-    const habitIndex = this.popupHabits.findIndex((habit) => habit.habitId === id);
+    const habitIndex = this.popupHabits.findIndex((habit) => habit.habitAssignId === id);
     this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled;
-    this.setCircleFromPopUpToCards(id, habitIndex, this.popupHabits[habitIndex].enrolled);
+    this.setCircleFromPopUpToCards(id, this.popupHabits[habitIndex].enrolled);
   }
 
   showTooltip(habit) {

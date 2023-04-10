@@ -26,13 +26,13 @@ describe('HabitsPopupComponent', () => {
     {
       enrolled: false,
       habitDescription: 'Eating local food is good for air quality and reducing environmental emissions!',
-      habitId: 503,
+      habitAssignId: 503,
       habitName: 'Buy local products'
     },
     {
       enrolled: true,
       habitDescription: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia',
-      habitId: 506,
+      habitAssignId: 506,
       habitName: 'Use less transport'
     }
   ];
@@ -94,35 +94,35 @@ describe('HabitsPopupComponent', () => {
     component.popupHabits = JSON.parse(JSON.stringify(mockPopupHabits));
     const setCircleFromPopUpToCardsSpy = spyOn(component, 'setCircleFromPopUpToCards');
     component.toggleEnrollHabit(503);
-    expect(setCircleFromPopUpToCardsSpy).toHaveBeenCalledWith(503, 0, true);
+    expect(setCircleFromPopUpToCardsSpy).toHaveBeenCalledWith(503, true);
     expect(component.popupHabits[0].enrolled).toBeTruthy();
   });
 
   describe('setWorkingDaysForVisibleHabit', () => {
     it('makes expected calls when enrolled is true and id 1', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, workingDays: 5 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, workingDays: 3 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, workingDays: 5 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, workingDays: 3 }];
       component.setWorkingDaysForVisibleHabit(true, 1);
       expect(habitAssignServiceMock.habitsInProgress[0].workingDays).toBe(4);
     });
 
     it('makes expected calls when enrolled is false and id 1', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, workingDays: 5 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, workingDays: 3 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, workingDays: 5 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, workingDays: 3 }];
       component.setWorkingDaysForVisibleHabit(false, 1);
       expect(habitAssignServiceMock.habitsInProgress[0].workingDays).toBe(2);
     });
 
     it('makes expected calls when enrolled is true and id 2', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, workingDays: 5 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, workingDays: 3 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, workingDays: 5 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, workingDays: 3 }];
       component.setWorkingDaysForVisibleHabit(true, 2);
       expect(habitAssignServiceMock.habitsInProgressToView[0].workingDays).toBe(6);
     });
 
     it('makes expected calls when enrolled is false and id 2', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, workingDays: 5 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, workingDays: 3 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, workingDays: 5 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, workingDays: 3 }];
       component.setWorkingDaysForVisibleHabit(false, 2);
       expect(habitAssignServiceMock.habitsInProgressToView[0].workingDays).toBe(4);
     });
@@ -130,29 +130,29 @@ describe('HabitsPopupComponent', () => {
 
   describe('updateHabitsCardsCircleAndStreak', () => {
     it('makes expected calls when isExistArray and ifValueNumber are not undefined', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStreak: 8, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, habitStreak: 8, habitStatusCalendarDtoList: 4 }];
       component.updateHabitsCardsCircleAndStreak(2, mockPopupHabits, 3);
       expect(habitAssignServiceMock.habitsInProgressToView[0].habitStreak).toBe(3);
     });
 
     it('makes expected calls when isExistArray is not undefined and ifValueNumber is undefined', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStreak: 3, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, habitStreak: 3, habitStatusCalendarDtoList: 4 }];
       component.updateHabitsCardsCircleAndStreak(2, mockPopupHabits, undefined);
       expect(habitAssignServiceMock.habitsInProgressToView[0].habitStatusCalendarDtoList).toBe(undefined);
     });
 
     it('makes expected calls when isExistArray is undefined and ifValueNumber is not undefined', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStreak: 4, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, habitStreak: 4, habitStatusCalendarDtoList: 4 }];
       component.updateHabitsCardsCircleAndStreak(1, undefined, 3);
       expect(habitAssignServiceMock.habitsInProgress[0].habitStreak).toBe(3);
     });
 
     it('makes expected calls when isExistArray and ifValueNumber are undefined', () => {
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 }, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStreak: 3, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2, habitStreak: 5, habitStatusCalendarDtoList: 4 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, habitStreak: 3, habitStatusCalendarDtoList: 4 }];
       component.updateHabitsCardsCircleAndStreak(1, undefined, undefined);
       expect(habitAssignServiceMock.habitsInProgress[0].habitStatusCalendarDtoList).toBe(undefined);
     });
@@ -165,9 +165,9 @@ describe('HabitsPopupComponent', () => {
       const setWorkingDaysForVisibleHabitSpy = spyOn(component, 'setWorkingDaysForVisibleHabit');
       const updateHabitsCardsCircleAndStreakSpy = spyOn(component, 'updateHabitsCardsCircleAndStreak');
       const setHabitStreakSpy = spyOn(component, 'setHabitStreak');
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 } }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStatusCalendarDtoList: [] }];
-      component.setCircleFromPopUpToCards(1, undefined, true);
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, habitStatusCalendarDtoList: [] }];
+      component.setCircleFromPopUpToCards(1, true);
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(true, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
@@ -180,14 +180,14 @@ describe('HabitsPopupComponent', () => {
       const setWorkingDaysForVisibleHabitSpy = spyOn(component, 'setWorkingDaysForVisibleHabit');
       const updateHabitsCardsCircleAndStreakSpy = spyOn(component, 'updateHabitsCardsCircleAndStreak');
       const setHabitStreakSpy = spyOn(component, 'setHabitStreak');
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 } }];
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2 }];
       habitAssignServiceMock.habitsInProgress = [
         {
-          habit: { id: 1 },
+          id: 1,
           habitStatusCalendarDtoList: [{ enrollDate: '2022-02-20', id: null }]
         }
       ];
-      component.setCircleFromPopUpToCards(1, undefined, false);
+      component.setCircleFromPopUpToCards(1, false);
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(false, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
@@ -200,9 +200,9 @@ describe('HabitsPopupComponent', () => {
       const setWorkingDaysForVisibleHabitSpy = spyOn(component, 'setWorkingDaysForVisibleHabit');
       const updateHabitsCardsCircleAndStreakSpy = spyOn(component, 'updateHabitsCardsCircleAndStreak');
       const setHabitStreakSpy = spyOn(component, 'setHabitStreak');
-      habitAssignServiceMock.habitsInProgressToView = [{ habit: { id: 2 } }];
-      habitAssignServiceMock.habitsInProgress = [{ habit: { id: 1 }, habitStatusCalendarDtoList: [] }];
-      component.setCircleFromPopUpToCards(1, undefined, false);
+      habitAssignServiceMock.habitsInProgressToView = [{ id: 2 }];
+      habitAssignServiceMock.habitsInProgress = [{ id: 1, habitStatusCalendarDtoList: [] }];
+      component.setCircleFromPopUpToCards(1, false);
       expect(setWorkingDaysForVisibleHabitSpy).toHaveBeenCalledWith(false, 1);
       expect(updateHabitsCardsCircleAndStreakSpy).not.toHaveBeenCalled();
       expect(setHabitStreakSpy).toHaveBeenCalled();
