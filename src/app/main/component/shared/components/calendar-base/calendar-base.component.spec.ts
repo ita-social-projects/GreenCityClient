@@ -137,7 +137,7 @@ describe('CalendarBaseComponent', () => {
         {
           enrolled: true,
           habitDescription: 'test',
-          habitId: 0,
+          habitAssignId: 0,
           habitName: 'test'
         }
       ];
@@ -150,7 +150,7 @@ describe('CalendarBaseComponent', () => {
         {
           enrolled: false,
           habitDescription: 'test',
-          habitId: 0,
+          habitAssignId: 0,
           habitName: 'test'
         }
       ];
