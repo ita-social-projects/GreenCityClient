@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -34,6 +34,8 @@ import { QuillModule } from 'ngx-quill';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from '../../../../i18n/Language';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -101,6 +103,11 @@ describe('CreateEditNewsComponent', () => {
     { id: 2, name: 'Education', nameUa: 'Освіта' }
   ];
 
+  const selectedTags: FilterModel[] = [
+    { name: 'Events', nameUa: 'Події', isActive: true },
+    { name: 'Education', nameUa: 'Освіта', isActive: true }
+  ];
+
   createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
     'sendFormData',
     'editNews',
@@ -162,6 +169,11 @@ describe('CreateEditNewsComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -196,6 +208,7 @@ describe('CreateEditNewsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: LanguageService, useVale: languageServiceMock },
         MatSnackBarComponent,
         FormBuilder
       ],
@@ -215,6 +228,10 @@ describe('CreateEditNewsComponent', () => {
 
   afterEach(() => {
     http.verify();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   it('initPageForCreateOrEdit expect setDataForCreate should be call', () => {
@@ -251,16 +268,6 @@ describe('CreateEditNewsComponent', () => {
     expect(spy).toHaveBeenCalledWith('image');
   });
 
-  it('addFilters expect filtersValidation should be called', () => {
-    const spy = spyOn(component, 'filtersValidation');
-    component.addFilters({ name: 'string', nameUa: 'string', isActive: false });
-    expect(spy).toHaveBeenCalledWith({ name: 'string', nameUa: 'string', isActive: false });
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('ngOnInit', () => {
     const spy1 = spyOn(component, 'getNewsIdFromQueryParams');
     component.ngOnInit();
@@ -279,51 +286,6 @@ describe('CreateEditNewsComponent', () => {
     expect(component.form.value).toEqual(testForm);
   });
 
-  it('should addFilters', () => {
-    spyOn(component, 'toggleIsActive');
-    const filter = {
-      name: 'News',
-      nameUa: 'Новини',
-      isActive: false
-    };
-
-    component.toggleIsActive(filter, true);
-    expect(component.toggleIsActive).toHaveBeenCalled();
-  });
-
-  it('should call toggleIsActive with filter object', () => {
-    spyOn(component, 'toggleIsActive');
-    const filter = {
-      name: 'News',
-      nameUa: 'Новини',
-      isActive: false
-    };
-
-    component.toggleIsActive(filter, true);
-    expect(component.toggleIsActive).toHaveBeenCalledWith(filter, true);
-  });
-
-  it('should add not more 3 filters ', fakeAsync(() => {
-    const arr = [
-      { name: 'News', nameUa: 'Новини', isActive: false },
-      { name: 'Events', nameUa: 'Події', isActive: false },
-      { name: 'Education', nameUa: 'Освіта', isActive: false },
-      { name: 'Initiatives', nameUa: 'Ініціативи', isActive: false },
-      { name: 'Ads', nameUa: 'Реклама', isActive: false }
-    ];
-
-    component.ngOnInit();
-    expect(component.isFilterValidation).toBe(false);
-    component.addFilters(arr[0]);
-    component.addFilters(arr[1]);
-    component.addFilters(arr[2]);
-    component.addFilters(arr[3]);
-    tick(2000);
-    expect(component.isFilterValidation).toBe(true);
-    flush();
-    expect(component.tags().length).toBe(3);
-  }));
-
   function updateForm(news) {
     component.form.controls.title.setValue(news.title);
     component.form.controls.content.setValue(news.content);
@@ -336,17 +298,6 @@ describe('CreateEditNewsComponent', () => {
     updateForm(validNews);
     expect(component.form.valid).toBeTruthy();
   }));
-
-  it('should add filters', () => {
-    const activeFilter = { name: 'News', nameUa: 'Новини', isActive: false };
-    const notActiveFilter = { name: 'News', nameUa: 'Новини', isActive: true };
-    (component.form.controls.tags as FormArray).clear();
-    component.addFilters(activeFilter);
-    expect(component.tags().length).toBe(1);
-
-    component.removeFilters(notActiveFilter);
-    expect(component.tags().length).toBe(0);
-  });
 
   it('should create form with 5 controls', () => {
     expect(component.form.contains('title')).toBeTruthy();
@@ -419,14 +370,20 @@ describe('CreateEditNewsComponent', () => {
   });
 
   it('should be a Cancel button on the page', () => {
-    const button = fixture.debugElement.query(By.css('.tertiary-global-button'));
+    const button = fixture.debugElement.query(By.css('.submit-buttons .tertiary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.cancel-button');
   });
 
-  it('should be a Events button on the page', () => {
-    const buttons = fixture.debugElement.queryAll(By.css('button'));
-    const nativeButton: HTMLButtonElement = buttons[0].nativeElement;
-    expect(nativeButton.textContent.trim()).toBe('Events');
+  it('should getTagsList from child component', () => {
+    const selectedTagsList = ['Events', 'Education'];
+    component.getTagsList(selectedTags);
+    const newTags = component.form.controls.tags.value;
+    expect(newTags).toEqual(selectedTagsList);
+  });
+
+  it('should getTagsLimitStatus from child component', () => {
+    component.getTagsLimitStatus(true);
+    expect(component.isFilterValidation).toBeTruthy();
   });
 
   it('should be a Preview button on the page', () => {

@@ -728,8 +728,8 @@
         "create-habit-subtitle": "Please provide as many details as you can - choose thematic sections and the duration of the habit, add a to-do list, etc. You can come back and update habit anytime after publishing.",
         "habit-title": "Habit title",
         "habit-title-placeholder": "Enter name for the habit",
-        "pick-tags": "Pick tag for habit",
-        "tags-limits": "Select one tag",
+        "pick-tags": "Pick tags for habit",
+        "tags-limits": "Only 3 tags can be added",
         "difficulty": {
           "name": "Difficulty",
           "easy": "Easy",

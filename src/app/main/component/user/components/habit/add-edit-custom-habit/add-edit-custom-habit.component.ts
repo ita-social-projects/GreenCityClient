@@ -38,7 +38,8 @@ export class AddEditCustomHabitComponent implements OnInit {
   shopList: ShoppingList[] = [];
   newList: ShoppingList[] = [];
   tagsList: TagInterface[];
-  tagType = 'habits';
+  tagMaxLength = 3;
+  isMaxTagsLength = false;
   selectedTagsList: string[];
 
   quillModules = {};
@@ -116,6 +117,11 @@ export class AddEditCustomHabitComponent implements OnInit {
   getTagsList(list: TagInterface[]): void {
     this.selectedTagsList = list.map((el) => this.getLangValue(el.nameUa, el.name));
     this.getControl('tags').setValue(this.selectedTagsList);
+  }
+
+  getTagsLimitStatus(isMaxLength: boolean): void {
+    this.isMaxTagsLength = isMaxLength;
+    setTimeout(() => (this.isMaxTagsLength = false), 3000);
   }
 
   goToAllHabits(): void {
