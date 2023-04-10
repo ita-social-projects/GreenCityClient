@@ -57,6 +57,10 @@ body {
   opacity: 0;
 }
 
+.extra-packages .mat-dialog-container {
+  background-color: var(--ubs-main-page-secondary-light-grey);
+}
+
 .cdk-overlay-pane {
   &.extra-packages {
     overflow: auto;
