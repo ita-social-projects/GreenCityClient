@@ -51,6 +51,7 @@ describe('ProfileDashboardComponent', () => {
     page: [
       {
         additionalImages: [],
+        creationDate: '2022-05-31',
         dates: [
           {
             coordinates: {

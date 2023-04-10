@@ -231,7 +231,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
       this.currentLang = lang;
       this.datePipe = new DatePipe(this.currentLang);
-      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+      this.newDate = this.datePipe.transform(this.event.creationDate, 'MMM dd, yyyy');
     });
   }
 
