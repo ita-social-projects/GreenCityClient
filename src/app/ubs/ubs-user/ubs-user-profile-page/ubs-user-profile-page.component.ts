@@ -497,6 +497,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     } else {
       this.isEditing = true;
     }
+    this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
   redirectToMessengers() {
