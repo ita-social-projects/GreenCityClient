@@ -25,7 +25,7 @@
             </div>
             <div class="tags item-block" formArrayName="tags">
               <h3>{{ 'create-news.tags-title' | translate }}</h3>
-              <p [ngClass]="{ warning: isFilterValidation }">
+              <p>
                 {{ 'create-news.tags-tooltip' | translate }}
               </p>
               <div class="tags-box">
@@ -33,7 +33,6 @@
                   [tagsList]="filters"
                   [tagMaxLength]="tagMaxLength"
                   (selectTags)="getTagsList($event)"
-                  (isMaxLength)="getTagsLimitStatus($event)"
                   class="tags-block"
                 ></app-tags-select>
               </div>
