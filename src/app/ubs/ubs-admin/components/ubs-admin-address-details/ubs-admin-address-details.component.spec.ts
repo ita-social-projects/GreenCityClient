@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 
 describe('UbsAdminAddressDetailsComponent', () => {
@@ -306,6 +307,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminAddressDetailsComponent);
     component = fixture.componentInstance;
+    component.generalInfo = OrderInfoMockedData as any;
     component.addressExportDetailsDto = FormGroupMock;
     const spy = spyOn(component as any, 'initGoogleAutocompleteServices');
     fixture.detectChanges();
@@ -414,6 +416,26 @@ describe('UbsAdminAddressDetailsComponent', () => {
     const fakesearchAddress = `Kyiv, Kyiv`;
     component.inputCity(fakesearchAddress, component.languages.en);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
+  });
+
+  it('method onDefineOrderStatus', () => {
+    const spy = spyOn(component, 'ngOnInit');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'CANCELED';
+    component.isStatus = false;
+    component.ngOnInit();
+    expect(component.isStatus).toBe(true);
+  });
+
+  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'DONE';
+    component.isStatus = false;
+    component.ngOnInit();
+    expect(component.isStatus).toBe(false);
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv region', () => {
@@ -565,6 +587,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
     component.setValueOfStreet(streetPredictionKyivRegion[0], component.addressStreet, component.languages.uk);
+    component.setValueOfStreet(streetPredictionKyivRegion[0], component.addressStreetEng, component.languages.en);
     expect(component.placeService.getDetails).toHaveBeenCalled();
   });
 

@@ -47,7 +47,13 @@
                 {{ 'customer-info.recipient.surname-label' | translate }}
               </label>
               <div>
-                <input class="name-input form-control" type="text" id="recipient-name" formControlName="recipientName" />
+                <input
+                  class="form-control name-input"
+                  type="text"
+                  id="recipient-name"
+                  [readonly]="isStatus"
+                  formControlName="recipientName"
+                />
                 <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
                   <div class="error-message">
                     {{ getErrorMessage(userInfoDto.controls['recipientName']) | translate }}
@@ -55,7 +61,13 @@
                 </div>
               </div>
               <div>
-                <input class="name-input form-control" type="text" id="recipient-surname" formControlName="recipientSurName" />
+                <input
+                  class="form-control name-input"
+                  [readonly]="isStatus"
+                  type="text"
+                  id="recipient-surname"
+                  formControlName="recipientSurName"
+                />
                 <div *ngIf="userInfoDto.controls['recipientSurName'].invalid && userInfoDto.controls['recipientSurName'].touched">
                   <div class="error-message">
                     {{ getErrorMessage(userInfoDto.controls['recipientSurName']) | translate }}
@@ -70,6 +82,7 @@
             </label>
             <input
               class="form-control"
+              [readonly]="isStatus"
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
@@ -89,6 +102,7 @@
             </label>
             <input
               class="form-control"
+              [readonly]="isStatus"
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
@@ -120,7 +134,7 @@
             </p>
           </div>
         </div>
-        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1" type="button" (click)="openModal(false)">
+        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1 || isStatus" type="button" (click)="openModal(false)">
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>
