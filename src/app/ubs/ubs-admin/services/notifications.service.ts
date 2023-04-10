@@ -42,8 +42,47 @@ export class NotificationsService {
       .pipe(catchError(() => throwError(`No notification template with id ${id}!`)));
   }
 
-  updateNotificationTemplate(id: number, notification: NotificationTemplate) {
-    return this.http.put(`${ubsAdminNotificationLink}/update-template/${id}`, notification);
+  updateNotificationTemplate(id: number, notification) {
+    console.log('notification', notification);
+    notification = {
+      notificationStatus: 'ACTIVE',
+      platforms: [
+        {
+          body: 'Шановний Клієнте! Інформуємо Вас про необхідність оплати за послуги. Сума до сплати ${amountToPay}. грн.',
+          bodyEng: 'Dear client! We inform you about the necessity of paying for services. The sum is ${amountToPay}. UAH',
+          id: 37,
+          nameEng: 'Email',
+          receiverType: 'EMAIL',
+          status: 'ACTIVE'
+        },
+        {
+          body: 'Шановний Клієнте! Інформуємо Вас про необхідність оплати за послуги. Сума до сплати ${amountToPay}. грн.',
+          bodyEng: 'Dear client! We inform you about the necessity of paying for services. The sum is ${amountToPay}. UAH',
+          id: 37,
+          nameEng: 'Site',
+          receiverType: 'SITE',
+          status: 'ACTIVE'
+        },
+        {
+          body: 'Шановний Клієнте! Інформуємо Вас про необхідність оплати за послуги. Сума до сплати ${amountToPay}. грн.',
+          bodyEng: 'Dear client! We inform you about the necessity of paying for services. The sum is ${amountToPay}. UAH',
+          id: 37,
+          nameEng: 'Mobile',
+          receiverType: 'MOBILE',
+          status: 'ACTIVE'
+        }
+      ],
+      schedule: null,
+      time: 'IMMEDIATELY',
+      title: 'Неоплачене замовлення',
+      titleEng: 'Unpaid Order',
+      trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
+      type: 'UNPAID_ORDER'
+    };
+
+    this.http.put(`${ubsAdminNotificationLink}/update-template/${id}`, notification).subscribe((res) => {
+      console.log('res', res);
+    });
   }
 
   deactivateNotificationTemplate(id: number): Observable<void> {

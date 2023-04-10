@@ -4,6 +4,29 @@ export const PlatformsMock = [
   { name: 'viber', status: 'INACTIVE', body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' } }
 ];
 
+export const NotificationMock = {
+  notificationTemplateMainInfoDto: {
+    type: 'UNPAID_ORDER',
+    trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
+    triggerDescription: 'Замовлення не оплачується протягом 3 днів після формування замовлення',
+    triggerDescriptionEng: 'The order is not paid 3 days after order was formed',
+    time: 'AT_6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+    timeDescription:
+      'Система перевіряє BD щодня о 18.00 і відправляє повідомлення, якщо замовлення було сформовано 3 дні тому і не було оплачено клієнтом.',
+    timeDescriptionEng:
+      'System checks BD at 18.00 daily and sends messages in case the order was formed 3 days ago and wasn’t paid by the client.',
+    schedule: '0 0 18 * * ?',
+    title: 'Неоплачене замовлення',
+    titleEng: 'Unpaid order',
+    notificationStatus: 'ACTIVE'
+  },
+  platforms: [
+    { name: 'email', status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
+    { name: 'telegram', status: 'ACTIVE', body: { en: 'Unpaid order, text for Tg', ua: 'Неоплачене замовлення, текст для Tg' } },
+    { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
+  ]
+};
+
 export const NotificationTemplatesMock = [
   {
     id: 1,

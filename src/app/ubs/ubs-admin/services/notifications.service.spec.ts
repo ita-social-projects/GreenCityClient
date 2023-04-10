@@ -27,52 +27,35 @@ describe('NotificationsService', () => {
   it('should return all notification templates', () => {
     service.getAllNotificationTemplates(0).subscribe((data) => {
       expect(data).toBeDefined();
+      expect(data.currentPage).toEqual(0);
+      expect(data.totalElements).toEqual(9);
     });
   });
 
-  /*it('getAllNotificationTemplates should return all notifications on page 0 of size 10 by default', () => {
-    const a = service.getAllNotificationTemplates();
-    expect(a).toEqual({
-      page: notificationTemplates,
-      currentPage: 0,
-      totalElements: 9,
-      totalPages: 1
+  it('getAllNotificationTemplates should on specified page with specified size', () => {
+    service.getAllNotificationTemplates(2, 3).subscribe((data) => {
+      expect(data).toBeDefined();
+      expect(data.currentPage).toEqual(2);
+      expect(data.totalElements).toEqual(9);
+      expect(data.currentPage).toEqual(2);
     });
   });
 
-  xit('getAllNotificationTemplates should on specified page with specified size', () => {
-    expect(service.getAllNotificationTemplates(2, 3)).toEqual({
-      page: notificationTemplates.slice(6, 9),
-      currentPage: 2,
-      totalElements: 9,
-      totalPages: 3
+  it('getAllNotificationTemplates should return correct value if out of bounds', () => {
+    service.getAllNotificationTemplates(20, 3).subscribe((data) => {
+      expect(data).toBeDefined();
+      expect(data.currentPage).toEqual(20);
+      expect(data.totalElements).toEqual(9);
+      expect(data.currentPage).toEqual(3);
     });
   });
 
-  xit('getAllNotificationTemplates should return correct value if out of bounds', () => {
-    expect(service.getAllNotificationTemplates(20, 3)).toEqual({
-      page: [],
-      currentPage: 20,
-      totalElements: 9,
-      totalPages: 3
+  it('getNotificationTemplate should return correct value by id', () => {
+    service.getNotificationTemplate(1).subscribe((data) => {
+      expect(data).toBe(notificationTemplates[1]);
     });
+    const req = httpMock.expectOne(`${urlMock}/get-template/1`);
+    expect(req.request.method).toBe('GET');
+    req.flush(notificationTemplates[1]);
   });
-
-  xit('getAllNotificationTemplates should return correct value if out of bounds', () => {
-    expect(service.getAllNotificationTemplates(20, 3)).toEqual({
-      page: [],
-      currentPage: 20,
-      totalElements: 9,
-      totalPages: 3
-    });
-  });
-
-  xit('getNotificationTemplate should return correct value', () => {
-    expect(service.getNotificationTemplate(4)).toEqual(notificationTemplates.find((n) => n.id === 4));
-  });
-
-  xit('getNotificationTemplate should return an error if no notification with such id exist', () => {
-    expect(service.getNotificationTemplate(10000000));
-    catchError(() => throwError(`No notification template with id 10000000!`));
-  });/** */
 });
