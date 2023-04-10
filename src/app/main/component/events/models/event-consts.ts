@@ -23,7 +23,8 @@ export const eventStatusList = [
   { nameEn: 'Open', nameUa: 'Відкритa' },
   { nameEn: 'Closed', nameUa: 'Закритa' },
   { nameEn: 'Joined', nameUa: 'Вже доєднані' },
-  { nameEn: 'Created', nameUa: 'Створенa' }
+  { nameEn: 'Created', nameUa: 'Створенa' },
+  { nameEn: 'Saved', nameUa: 'Збережена' }
 ];
 
 // TODO remove when back-end is ready

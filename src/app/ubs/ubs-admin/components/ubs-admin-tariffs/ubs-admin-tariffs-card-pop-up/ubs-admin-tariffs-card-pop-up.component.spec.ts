@@ -122,8 +122,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     courierEnglishName: 'Courier English name',
     regionEnglishName: 'Region English name',
     station: 'Station name',
-    regionNameUk: 'Region name',
-    city: 'City name'
+    regionNameUk: 'Region name'
   };
 
   const fakeCardForm = new FormGroup({
@@ -131,8 +130,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     courierNameEng: new FormControl(modalData.courierEnglishName),
     regionNameUk: new FormControl(modalData.regionNameUk),
     station: new FormControl(modalData.station),
-    regionNameEng: new FormControl(modalData.regionEnglishName),
-    city: new FormControl(modalData.city)
+    regionNameEng: new FormControl(modalData.regionEnglishName)
   });
 
   const eventMockCity = {
@@ -296,7 +294,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
 
   it('city should be disabled if region is not selected', () => {
     component.ngOnInit();
-    expect(component.city.disabled).toEqual(false);
+    expect(component.city.disabled).toEqual(true);
   });
 
   it('should enable city input if region selected', () => {

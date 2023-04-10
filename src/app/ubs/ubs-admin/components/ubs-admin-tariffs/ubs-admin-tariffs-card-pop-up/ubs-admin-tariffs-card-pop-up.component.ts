@@ -29,7 +29,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     station: ['', Validators.required],
     regionNameUk: ['', Validators.required],
     regionNameEng: [''],
-    city: ['', [Validators.maxLength(40), Validators.required]]
+    city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
@@ -123,8 +123,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
     this.setStationPlaceholder();
-    // this.setCountOfSelectedCity();
-    setTimeout(() => this.city.disable());
+    this.setCountOfSelectedCity();
     this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
