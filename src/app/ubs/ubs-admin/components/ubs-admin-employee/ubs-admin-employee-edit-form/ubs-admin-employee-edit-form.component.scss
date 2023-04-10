@@ -233,3 +233,14 @@ label {
     }
   }
 }
+
+::-moz-scrollbar-thumb {
+  border-radius: 20px;
+}
+
+::-moz-scrollbar-button:vertical:start:decrement,
+::-moz-scrollbar-button:vertical:end:increment,
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment {
+  display: none;
+}
