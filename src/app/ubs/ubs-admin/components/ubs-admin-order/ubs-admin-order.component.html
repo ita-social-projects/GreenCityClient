@@ -22,17 +22,23 @@
           (cancelReason)="onCancelReason($event)"
         >
         </app-ubs-admin-order-status>
-        <app-ubs-admin-order-client-info [userInfoDto]="getFormGroup('userInfoDto')" [userInfo]="userInfo" [orderId]="orderId">
-        </app-ubs-admin-order-client-info>
+        <app-ubs-admin-order-client-info
+          [userInfoDto]="getFormGroup('userInfoDto')"
+          [userInfo]="userInfo"
+          [orderId]="orderId"
+          [generalInfo]="generalInfo"
+        ></app-ubs-admin-order-client-info>
         <app-ubs-admin-address-details
           [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
           [addressComment]="orderInfo.addressComment"
+          [generalInfo]="generalInfo"
         >
         </app-ubs-admin-address-details>
         <app-ubs-admin-order-details-form
           [orderDetailsForm]="getFormGroup('orderDetailsForm')"
           [orderDetailsOriginal]="orderDetails"
           [orderStatusInfo]="orderStatusInfo"
+          [generalInfo]="generalInfo"
           [totalPaid]="totalPaid"
           (changeOverpayment)="changeOverpayment($event)"
           (checkMinOrder)="setMinOrder($event)"

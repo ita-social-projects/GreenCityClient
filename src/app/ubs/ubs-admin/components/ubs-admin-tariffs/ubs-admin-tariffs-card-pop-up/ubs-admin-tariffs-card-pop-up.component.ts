@@ -95,7 +95,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.setStationPlaceholder();
     this.setCountOfSelectedCity();
-    setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
