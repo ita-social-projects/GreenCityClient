@@ -99,7 +99,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     const existingFilterIndex = this.selectedFilters.indexOf(value);
     if (event.isUserInput && !event.source.selected && existingFilterIndex !== -1) {
       this.selectedFilters.splice(existingFilterIndex, 1);
-    } else if (event.isUserInput && event.source.selected && existingFilterIndex === -1) {
+    }
+    if (event.isUserInput && event.source.selected && existingFilterIndex === -1) {
       this.selectedFilters.push(value);
     }
   }
@@ -159,12 +160,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public deleteOneFilter(filter, index): void {
     [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
-      list.options.forEach((item: MatOption) => {
-        if (filter.nameEn === item.value.nameEn) {
-          this.selectedFilters.splice(index, 1);
-          item.deselect();
-        }
-      });
+      const item = list.options.find((option: MatOption) => filter.nameEn === option.value.nameEn);
+      if (item) {
+        this.selectedFilters.splice(index, 1);
+        item.deselect();
+      }
     });
   }
 
