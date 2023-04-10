@@ -20,13 +20,13 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="settlement">{{ 'address-details.city' | translate }}</label>
+            <label for="city">{{ 'address-details.city' | translate }}</label>
             <input
               type="text"
               (keyup)="setPredictCities()"
               [formControlName]="getLangValue('addressCity', 'addressCityEng')"
               class="form-control"
-              id="settlement"
+              id="city"
               matInput
               [readonly]="isStatus"
               [matAutocomplete]="autoCity"
