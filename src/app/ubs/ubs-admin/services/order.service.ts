@@ -12,6 +12,7 @@ import {
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
+import { OrderStatus } from '../../ubs/order-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -44,29 +45,51 @@ export class OrderService {
 
   getAvailableOrderStatuses(currentOrderStatus: string, statuses: Array<any>) {
     switch (currentOrderStatus) {
-      case 'FORMED':
-        return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
+      case OrderStatus.FORMED:
+        return this.filterStatuses(statuses, [
+          OrderStatus.FORMED,
+          OrderStatus.ADJUSTMENT,
+          OrderStatus.BROUGHT_IT_HIMSELF,
+          OrderStatus.CANCELED
+        ]);
 
-      case 'ADJUSTMENT':
-        return this.filterStatuses(statuses, ['FORMED', 'ADJUSTMENT', 'CONFIRMED', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
+      case OrderStatus.ADJUSTMENT:
+        return this.filterStatuses(statuses, [
+          OrderStatus.FORMED,
+          OrderStatus.ADJUSTMENT,
+          OrderStatus.CONFIRMED,
+          OrderStatus.BROUGHT_IT_HIMSELF,
+          OrderStatus.CANCELED
+        ]);
 
-      case 'CONFIRMED':
-        return this.filterStatuses(statuses, ['FORMED', 'CONFIRMED', 'ON_THE_ROUTE', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
+      case OrderStatus.CONFIRMED:
+        return this.filterStatuses(statuses, [
+          OrderStatus.FORMED,
+          OrderStatus.CONFIRMED,
+          OrderStatus.ON_THE_ROUTE,
+          OrderStatus.BROUGHT_IT_HIMSELF,
+          OrderStatus.CANCELED
+        ]);
 
-      case 'BROUGHT_IT_HIMSELF':
-        return this.filterStatuses(statuses, ['BROUGHT_IT_HIMSELF', 'DONE', 'CANCELED']);
+      case OrderStatus.ON_THE_ROUTE:
+        return this.filterStatuses(statuses, [OrderStatus.ON_THE_ROUTE, OrderStatus.DONE, OrderStatus.NOT_TAKEN_OUT, OrderStatus.CANCELED]);
 
-      case 'ON_THE_ROUTE':
-        return this.filterStatuses(statuses, ['ON_THE_ROUTE', 'DONE', 'NOT_TAKEN_OUT', 'CANCELED']);
+      case OrderStatus.NOT_TAKEN_OUT:
+        return this.filterStatuses(statuses, [
+          OrderStatus.NOT_TAKEN_OUT,
+          OrderStatus.ADJUSTMENT,
+          OrderStatus.BROUGHT_IT_HIMSELF,
+          OrderStatus.CANCELED
+        ]);
 
-      case 'NOT_TAKEN_OUT':
-        return this.filterStatuses(statuses, ['NOT_TAKEN_OUT', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
+      case OrderStatus.DONE:
+        return this.filterStatuses(statuses, [OrderStatus.DONE]);
 
-      case 'DONE':
-        return this.filterStatuses(statuses, ['DONE']);
+      case OrderStatus.BROUGHT_IT_HIMSELF:
+        return this.filterStatuses(statuses, [OrderStatus.BROUGHT_IT_HIMSELF]);
 
-      case 'CANCELED':
-        return this.filterStatuses(statuses, ['CANCELED']);
+      case OrderStatus.CANCELED:
+        return this.filterStatuses(statuses, [OrderStatus.CANCELED]);
     }
   }
 
@@ -78,6 +101,10 @@ export class OrderService {
     return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data, {
       observe: 'response'
     });
+  }
+
+  public isStatusInArray(status: string, statusArray: Array<string>): boolean {
+    return statusArray.some((s) => s === status);
   }
 
   public getOrderDetails(orderId: number, lang: string): Observable<any> {

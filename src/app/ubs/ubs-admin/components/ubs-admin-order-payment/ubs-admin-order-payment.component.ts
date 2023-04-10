@@ -8,6 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -40,7 +41,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.currentOrderStatus = this.orderStatus;
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.overpayment = this.currentOrderStatus === 'CANCELED' ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
+    this.overpayment = this.currentOrderStatus === OrderStatus.CANCELED ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
@@ -58,7 +59,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
-      if (this.currentOrderStatus === 'CANCELED') {
+      if (this.currentOrderStatus === OrderStatus.CANCELED) {
         this.overpayment = this.totalPaid;
       }
     }
@@ -85,7 +86,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public isOverpaymentReturnAvailable(): boolean {
-    return this.overpayment && this.currentOrderStatus === 'CANCELED';
+    return this.overpayment && this.currentOrderStatus === OrderStatus.CANCELED;
   }
 
   public setOverpayment(overpayment: number): void {
@@ -98,7 +99,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public displayUnpaidAmount(): boolean {
-    return this.unPaidAmount && this.currentOrderStatus !== 'CANCELED';
+    return this.unPaidAmount && this.currentOrderStatus !== OrderStatus.CANCELED;
   }
 
   public setCancelOrderOverpayment(sum: number): void {

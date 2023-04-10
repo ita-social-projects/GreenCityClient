@@ -25,7 +25,9 @@ import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
 import { FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
+
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
@@ -120,7 +122,7 @@ describe('UsbAdminTableComponent', () => {
 
   beforeEach(() => {
     localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => {
-      return [{ orderStatus: 'FORMED' }];
+      return [{ orderStatus: OrderStatus.FORMED }];
     };
 
     localStorageServiceMock.getAdminOrdersDateFilter = () => {
@@ -356,7 +358,7 @@ describe('UsbAdminTableComponent', () => {
     const event: MatCheckboxChange = { source: {} as any, checked: true };
 
     component.tableData = [
-      { id: 1, orderStatus: 'DONE' },
+      { id: 1, orderStatus: OrderStatus.DONE },
       { id: 2, orderStatus: 'NEW' },
       { id: 3, orderStatus: 'NEW' }
     ];
@@ -383,7 +385,7 @@ describe('UsbAdminTableComponent', () => {
 
   it('checkboxLabel should return deselect all', () => {
     component.dataSource = { data: [{ id: 2 }] } as any;
-    component.tableData = [{ id: 2, orderStatus: 'DONE' }];
+    component.tableData = [{ id: 2, orderStatus: OrderStatus.DONE }];
     const Res = component.checkboxLabel();
 
     expect(Res).toBe('deselect all');
@@ -841,7 +843,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('checkStatusOfOrders', () => {
-    component.tableData = [{ id: 1, orderStatus: 'DONE' }];
+    component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE }];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
   });
@@ -878,12 +880,4 @@ describe('UsbAdminTableComponent', () => {
 
     expect(result).toBe(true);
   });
-
-  /*it('should add filters from localStorage', () => {
-    const mockedData = [{'orderStatus': 'FORMED'}, {'deliveryDateTo': '2022-05-01', 'deliveryDateFrom': '2021-05-01'}];
-
-    localStorageServiceMock.setUbsAdminOrdersTableTitleColumnFilter(mockedData);
-
-    //expect((component as any).adminTableService.setFilters).toHaveBeenCalledWith([{ orderStatus: 'done' }]);
-  });/** */
 });
