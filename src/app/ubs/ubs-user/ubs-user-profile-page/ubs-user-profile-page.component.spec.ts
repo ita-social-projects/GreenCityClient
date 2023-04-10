@@ -16,7 +16,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -333,6 +334,9 @@ describe('UbsUserProfilePageComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
+  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
+  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue('Troeshchina');
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserProfilePageComponent],
@@ -343,7 +347,8 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Locations, useValue: fakeLocationsMockUk },
-        { provide: GoogleScript, useValue: fakeGoogleScript }
+        { provide: GoogleScript, useValue: fakeGoogleScript },
+        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -1001,7 +1006,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
-    const result = streetPlaceResultUk.address_components[1].long_name;
+    const result = userProfileDataMock.addressDto[0].districtEn;
     component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
     expect(district.value).toEqual(result);
   });
@@ -1009,7 +1014,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in en', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const districtEn = currentFormGroup.get('districtEn');
-    const result = streetPlaceResultEn.address_components[1].long_name;
+    const result = userProfileDataMock.addressDto[0].districtEn;
     component.setDistrictAuto(streetPlaceResultEn, districtEn, component.languages.en);
     expect(districtEn.value).toEqual(result);
   });
