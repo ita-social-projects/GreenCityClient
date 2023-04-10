@@ -116,6 +116,22 @@ form {
   }
 }
 
+.add-item-form {
+  display: flex;
+  width: 100%;
+}
+
 .unselected {
   color: var(--quintynary-light-grey);
+}
+
+@media (max-width: 560px) {
+  .shop-list-container .title {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .list-container .no-item {
+    font-size: 12px;
+  }
 }

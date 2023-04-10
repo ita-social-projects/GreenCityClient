@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
+import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -33,6 +34,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   userProfile: UserProfile;
   viberNotification = false;
   telegramNotification = false;
+  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   defaultAddress: Address = {
     actual: true,
     city: '',
@@ -78,7 +80,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private langService: LanguageService,
     private locations: Locations,
     private googleScript: GoogleScript,
-    public orderService: OrderService
+    public orderService: OrderService,
+    private convertCapLetterServ: ToFirstCapitalLetterService
   ) {}
 
   ngOnInit(): void {
@@ -166,12 +169,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        district: new FormControl(adres?.district, [
+        district: new FormControl(this.convertDistrictName(adres?.district), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        districtEn: new FormControl(adres?.districtEn, [
+        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
@@ -219,6 +222,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         this.userProfile.addressDto = list.addressList;
         this.getUserData();
       });
+  }
+
+  public resetValue(): void {
+    this.userForm.get('alternateEmail').setValue(null);
   }
 
   setRegionValue(formGroupName: number, event: Event): void {
@@ -395,7 +402,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const searchItem = language === this.languages.en ? 'district' : 'район';
     const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
     if (getDistrict) {
-      const currentDistrict = getDistrict.long_name;
+      const currentDistrict = this.convertDistrictName(getDistrict.long_name);
       abstractControl.setValue(currentDistrict);
     }
   }
@@ -424,6 +431,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
     item.get('district').setValue(selectedDistrict.name);
     item.get('districtEn').setValue(selectedDistricEn.name);
+  }
+
+  private convertDistrictName(district: string): string {
+    return this.convertCapLetterServ.convFirstLetterToCapital(district);
   }
 
   onEdit(): void {

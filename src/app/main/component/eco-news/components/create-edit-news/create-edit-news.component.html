@@ -29,16 +29,13 @@
                 {{ 'create-news.tags-tooltip' | translate }}
               </p>
               <div class="tags-box">
-                <button
-                  *ngFor="let filter of filters"
-                  (click)="addFilters(filter)"
-                  type="button"
-                  [ngClass]="{ 'filters-color': filter.isActive }"
-                  class="custom-chip global-tag"
-                >
-                  {{ currentLang === 'en' ? filter.name : filter.nameUa }}
-                  <span [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></span>
-                </button>
+                <app-tags-select
+                  [tagsList]="filters"
+                  [tagMaxLength]="tagMaxLength"
+                  (selectTags)="getTagsList($event)"
+                  (isMaxLength)="getTagsLimitStatus($event)"
+                  class="tags-block"
+                ></app-tags-select>
               </div>
             </div>
             <div>

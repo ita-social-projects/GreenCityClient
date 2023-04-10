@@ -344,7 +344,7 @@ export class CalendarBaseComponent implements OnDestroy {
   sendEnrollRequest(changedList, date) {
     const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsList, date).habitAssigns;
     habitsForSelectedDay.forEach((habit: any) => {
-      const baseHabit: any = changedList.find((list: any) => list.habitId === habit.habitId);
+      const baseHabit: any = changedList.find((list: any) => list.habitAssignId === habit.habitAssignId);
       if (habit.enrolled !== baseHabit.enrolled) {
         habit.enrolled ? this.unEnrollHabit(habit, date) : this.enrollHabit(habit, date);
       }
@@ -354,7 +354,7 @@ export class CalendarBaseComponent implements OnDestroy {
   enrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService
-      .enrollByHabit(habit.habitId, date)
+      .enrollByHabit(habit.habitAssignId, date)
       .pipe(
         takeUntil(this.destroySub),
         finalize(() => (this.checkAnswer = false))
@@ -368,7 +368,7 @@ export class CalendarBaseComponent implements OnDestroy {
   unEnrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService
-      .unenrollByHabit(habit.habitId, date)
+      .unenrollByHabit(habit.habitAssignId, date)
       .pipe(
         takeUntil(this.destroySub),
         finalize(() => (this.checkAnswer = false))

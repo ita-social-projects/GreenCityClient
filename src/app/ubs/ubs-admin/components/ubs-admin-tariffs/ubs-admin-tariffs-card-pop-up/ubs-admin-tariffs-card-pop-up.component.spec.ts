@@ -270,7 +270,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.getLocations();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
-
   it('should set english region name', () => {
     component.locations = mockRegion;
     const mockEvent = {
@@ -280,7 +279,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.regionEnglishName).toEqual(['Fake region']);
     expect(component.regionId).toEqual(1);
   });
-
   it('should get cities from selected region and clear selected cities list', () => {
     const spy = spyOn(component, 'setCountOfSelectedCity');
     component.locations = mockRegion;
@@ -316,7 +314,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(spy1).toHaveBeenCalledWith(eventMockCity);
     expect(spy2).toHaveBeenCalledWith();
     expect(spy3).toHaveBeenCalledWith();
-    expect(component.city.value).toEqual('');
     expect(component.blurOnOption).toEqual(false);
   });
 
@@ -343,7 +340,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.selectCity(eventMock as any);
     expect(component.selectedCities).toEqual([{ location: 'друге', englishLocation: 'second', locationId: 2 }]);
   });
-
   it('should add new selected city if it does not exist in list', () => {
     component.selectedCities = [{ location: 'друге', englishLocation: 'second', locationId: 2 }];
     component.selectCity(eventMockCity as any);

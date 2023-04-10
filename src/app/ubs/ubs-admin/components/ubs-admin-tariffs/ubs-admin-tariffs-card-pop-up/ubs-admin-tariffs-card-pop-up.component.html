@@ -24,7 +24,7 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.courier-translate' | translate }}</label>
+        <label>{{ 'ubs-tariffs.courier' | translate }}</label>
         <p class="english-name">{{ currentCourierNameEng }}</p>
       </div>
     </div>
@@ -72,7 +72,7 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="regionSelect.open()" />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.region-translate' | translate }}</label>
+        <label>{{ 'ubs-tariffs.region' | translate }}</label>
         <p class="english-name">{{ regionEnglishName }}</p>
       </div>
     </div>
@@ -101,7 +101,7 @@
         />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.city-translate' | translate }}</label>
+        <label>{{ 'ubs-tariffs.city' | translate }}</label>
         <p *ngIf="citySelected" class="english-name">{{ selectedCityLength + ' selected' }}</p>
       </div>
     </div>
@@ -109,7 +109,7 @@
       <div *ngFor="let item of selectedCities; let index = index" class="d-flex">
         <div class="itemList">{{ item.location }}</div>
         <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-        <div class="itemList">{{ item.englishLocation }}</div>
+        <div class="itemList">{{ item.location }}</div>
       </div>
     </div>
   </form>

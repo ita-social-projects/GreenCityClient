@@ -93,7 +93,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   public enroll() {
     this.isRequest = true;
     this.habitAssignService
-      .enrollByHabit(this.habit.habit.id, this.currentDate)
+      .enrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
         this.setGreenCircleInCalendar(true);
@@ -113,7 +113,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   public unenroll() {
     this.isRequest = true;
     this.habitAssignService
-      .unenrollByHabit(this.habit.habit.id, this.currentDate)
+      .unenrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
         this.setGreenCircleInCalendar(false);

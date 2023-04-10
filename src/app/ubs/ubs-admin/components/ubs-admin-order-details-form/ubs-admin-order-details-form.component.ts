@@ -1,7 +1,7 @@
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { IOrderDetails } from '../../models/ubs-admin.interface';
+import { IOrderDetails, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -34,6 +34,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public writeoffAtStationSum: number;
   private isOrderCancelled = false;
   finalPrice: number;
+  isStatus = false;
   @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
   @Output() changeCurrentPrice = new EventEmitter<number>();
@@ -45,6 +46,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
   @Input() totalPaid: number;
+  @Input() generalInfo: IGeneralOrderInfo;
 
   constructor(private fb: FormBuilder, private orderService: OrderService, private store: Store<IAppState>) {}
 
@@ -78,6 +80,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       .subscribe((value: boolean) => {
         this.doneAfterBroughtHimself = value;
       });
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   public resetOrderDetails() {

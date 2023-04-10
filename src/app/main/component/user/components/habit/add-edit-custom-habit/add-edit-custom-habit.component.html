@@ -5,7 +5,7 @@
   </div>
   <div class="create-habit-main">
     <form [formGroup]="habitForm" class="habit-form">
-      <div class="container-habit-edit first-block">
+      <div class="container-top first-block">
         <div class="block-width text-section">
           <div class="inputs-block">
             <div class="title-box">
@@ -39,11 +39,14 @@
           </div>
           <div class="tags-section">
             <label class="label">{{ 'user.habit.add-new-habit.pick-tags' | translate }}</label>
-            <span class="habit-tooltip">{{ 'user.habit.add-new-habit.tags-limits' | translate }}</span>
+            <span class="habit-tooltip" [ngClass]="{ warning: isMaxTagsLength }">{{
+              'user.habit.add-new-habit.tags-limits' | translate
+            }}</span>
             <app-tags-select
               [tagsList]="tagsList"
-              [tagType]="tagType"
+              [tagMaxLength]="tagMaxLength"
               (selectTags)="getTagsList($event)"
+              (isMaxLength)="getTagsLimitStatus($event)"
               class="tags-block"
             ></app-tags-select>
           </div>
@@ -54,6 +57,7 @@
               ngDefaultControl
               formControlName="description"
               [modules]="quillModules"
+              (dragover)="(false)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
             ></quill-editor>
             <div *ngIf="getControl('description').touched && getControl('description').invalid">
@@ -65,32 +69,34 @@
           <div class="habit-block">
             <div>
               <label class="label">{{ 'create-news.picture-title' | translate }}</label>
-              <app-drag-and-drop [formData]="habitForm"></app-drag-and-drop>
+              <app-drag-and-drop [formData]="habitForm" class="image-drag-and-drop"></app-drag-and-drop>
               <app-select-images [images]="habitImages" class="select-image"></app-select-images>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="container-habit-edit">
-        <div class="habit-progress">
-          <app-habit-progress [habit]="habit"></app-habit-progress>
-        </div>
-        <div class="habit-info-right-block">
-          <div class="duration-shoping">
-            <div class="duration">
-              <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
-            </div>
-            <div class="shopping">
-              <app-habit-edit-shopping-list
-                (newList)="getShopList($event)"
-                [shopList]="shopList"
-                [isEditing]="isEditing"
-              ></app-habit-edit-shopping-list>
-            </div>
+      <div class="container-bottom">
+        <div class="habit-info-block">
+          <div class="habit-progress">
+            <app-habit-progress [habit]="habit" class="progress-container"></app-habit-progress>
           </div>
-          <div class="invite-friends">
-            <app-habit-invite-friends></app-habit-invite-friends>
+          <div class="habit-second-block">
+            <div class="duration-shoping">
+              <div class="duration">
+                <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
+              </div>
+              <div class="shopping">
+                <app-habit-edit-shopping-list
+                  (newList)="getShopList($event)"
+                  [shopList]="shopList"
+                  [isEditing]="isEditing"
+                ></app-habit-edit-shopping-list>
+              </div>
+            </div>
+            <div class="invite-friends">
+              <app-habit-invite-friends class="invite-friends-container"></app-habit-invite-friends>
+            </div>
           </div>
         </div>
         <div class="add-habit-container">
