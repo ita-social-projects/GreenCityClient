@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
@@ -30,6 +30,11 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     recipientEmail: new FormControl()
   });
 
+  const OrderStatusInfoFake = {
+    key: 'fakeKey',
+    ableActualChange: 'true'
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MatDialogModule, NoopAnimationsModule, TranslateModule.forRoot()],
@@ -41,6 +46,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
+    component.generalInfo = OrderInfoMockedData as any;
     component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;
@@ -67,6 +73,26 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     component.setViolationData();
     expect(component.totalUserViolations).toBe(5);
     expect(component.userViolationForCurrentOrder).toBe(2);
+  });
+
+  it('method onDefineOrderStatus', () => {
+    const spy = spyOn(component, 'ngOnInit');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'CANCELED';
+    component.isStatus = false;
+    component.ngOnInit();
+    expect(component.isStatus).toBe(true);
+  });
+
+  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
+    component.generalInfo.orderStatus = 'DONE';
+    component.isStatus = false;
+    component.ngOnInit();
+    expect(component.isStatus).toBe(false);
   });
 
   it('method getErrorMessageKey should return correct error message key - required', () => {

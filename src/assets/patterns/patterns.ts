@@ -22,7 +22,7 @@ export const Patterns = {
   sertificateMonthCount: '^[0-9]{1,2}$',
   sertificateInitialValue: /^\d*[.,]?\d{1,2}$/,
 
-  ubsPrice: '[0-9]{1,3}',
+  ubsPrice: /^\d*[.]?\d{0,2}$/,
   ubsServicePrice: /^\d*[.,]?\d{0,2}$/,
 
   ubsCityPattern: /^([a-zа-яїєґі ʼ'`ʹ-]){1,30}/iu,

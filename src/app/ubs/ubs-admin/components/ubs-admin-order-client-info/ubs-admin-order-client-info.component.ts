@@ -3,9 +3,8 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-
+import { IUserInfo, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
-import { IUserInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -16,7 +15,7 @@ import { Masks } from 'src/assets/patterns/patterns';
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
-
+  @Input() generalInfo: IGeneralOrderInfo;
   @Input() orderId: number;
 
   phoneMask = Masks.phoneMask;
@@ -25,6 +24,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
   public totalUserViolations: number;
+  isStatus = false;
 
   constructor(private dialog: MatDialog) {}
 
@@ -35,6 +35,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   openDetails(): void {
