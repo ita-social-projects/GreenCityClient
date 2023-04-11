@@ -6,7 +6,7 @@ import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
 import { HabitPopupInterface } from '../habit-popup-interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LanguageService } from '../../../../../../i18n/language.service';
-import { HabitStatusCalendarListInterface } from '../../../../../../interface/habit/habit-assign.interface';
+import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -93,7 +93,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     });
   }
 
-  setHabitStreak(array: any, id: number, isEnrolled: boolean, isExistArray: any) {
+  setHabitStreak(array: HabitStatusCalendarListInterface[], id: number, isEnrolled: boolean, isExistArray: HabitAssignInterface) {
     if (!this.habitAssignService.mapOfArrayOfAllDate.has(id)) {
       this.arrayOfDay = array.map((item) => new Date(item.enrollDate));
       this.habitAssignService.mapOfArrayOfAllDate.set(id, this.arrayOfDay);
