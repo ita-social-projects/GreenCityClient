@@ -31,9 +31,6 @@ describe('AddEditCustomHabitComponent', () => {
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue.and.returnValue('fakeTag');
-
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
@@ -43,7 +40,6 @@ describe('AddEditCustomHabitComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
         { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
@@ -120,8 +116,8 @@ describe('AddEditCustomHabitComponent', () => {
   it('should set TagList after get it from child component', () => {
     (component as any).initForm();
     component.getTagsList(tagsMock);
-    expect(component.selectedTagsList).toEqual(['fakeTag']);
-    expect(component.habitForm.get('tags').value).toEqual(['fakeTag']);
+    expect(component.selectedTagsList).toEqual([1]);
+    expect(component.habitForm.get('tags').value).toEqual([1]);
   });
 
   it('goToAllHabits should navigate to all habits page', () => {
@@ -133,11 +129,6 @@ describe('AddEditCustomHabitComponent', () => {
   it('should set tagsList on getHabitTags', () => {
     (component as any).getHabitTags();
     expect(component.tagsList).toEqual(tagsMock);
-  });
-
-  it('should get value by language', () => {
-    const valueByLang = (component as any).getLangValue('fakeTag', 'fakeTagEn');
-    expect(valueByLang).toBe('fakeTag');
   });
 
   it('should call goToAllHabits on addHabit', () => {
