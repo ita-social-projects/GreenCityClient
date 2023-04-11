@@ -9,7 +9,7 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 
-fdescribe('UbsAdminNotificationEditFormComponent', () => {
+describe('UbsAdminNotificationEditFormComponent', () => {
   let component: UbsAdminNotificationEditFormComponent;
   let fixture: ComponentFixture<UbsAdminNotificationEditFormComponent>;
 
