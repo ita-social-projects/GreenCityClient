@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
@@ -37,7 +37,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   public initForm(): void {
     this.formConfig = this.fb.group({
       currentPassword: ['', [Validators.required]],
-      password: ['', [Validators.required, this.checkPasswordPattern.bind(this)]],
+      password: ['', [Validators.required, Validators.pattern(Patterns.regexpPass)]],
       confirmPassword: ['', [Validators.required]]
     });
 
@@ -50,11 +50,6 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     const password = group.get('password').value?.trim();
     const confirmPassword = group.get('confirmPassword').value?.trim();
     return password === confirmPassword ? null : { confirmPasswordMistmatch: true };
-  }
-
-  checkPasswordPattern(input: FormControl): null | { [error: string]: boolean } {
-    const inputValue = input.value?.trim();
-    return this.passRegexp.test(inputValue) ? null : { pattern: true };
   }
 
   public onSubmit(): void {

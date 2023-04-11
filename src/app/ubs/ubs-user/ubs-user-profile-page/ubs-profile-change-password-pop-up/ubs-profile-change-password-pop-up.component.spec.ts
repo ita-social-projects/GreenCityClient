@@ -68,11 +68,6 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     expect(component.formConfig.value).toEqual(initFormFake);
   });
 
-  it('checkPasswordPattern()', () => {
-    const formControlMock = { value: 'Welcome@123' } as unknown as FormControl;
-    expect(component.checkPasswordPattern(formControlMock)).toEqual(null);
-  });
-
   it('submitting a form', () => {
     expect(component.formConfig.valid).toBeFalsy();
     component.formConfig.controls[currentPassword].setValue('Qwerty132!');
