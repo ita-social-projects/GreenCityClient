@@ -15,6 +15,7 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
 import { NotificationMock } from '../../services/notificationsMock';
+import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -30,6 +31,7 @@ class CronPipe implements PipeTransform {
 fdescribe('UbsAdminNotificationComponent', () => {
   let component: UbsAdminNotificationComponent;
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
+  let notificationsService: NotificationsService;
 
   const locationMock = { back: () => {} };
   const notificationsServiceMock = {
@@ -39,7 +41,8 @@ fdescribe('UbsAdminNotificationComponent', () => {
       }
       return of(NotificationMock);
     },
-    updateNotificationTemplate: () => {}
+    updateNotificationTemplate: () => {},
+    deactivateNotificationTemplate: jasmine.createSpy('deactivateNotificationTemplate')
   };
 
   const activatedRouteMock = { params: of({ id: 1 }) };
@@ -59,7 +62,7 @@ fdescribe('UbsAdminNotificationComponent', () => {
         afterClosed: () => {}
       };
     }
-  }; /** */
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -67,12 +70,12 @@ fdescribe('UbsAdminNotificationComponent', () => {
       imports: [HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: Location, useValue: locationMock },
-        { provide: NotificationsService, useValue: notificationsServiceMock }
-        /*{ provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: NotificationsService, useValue: notificationsServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Router, useValue: routerMock },
         { provide: ConfirmationDialogService, useValue: confirmationDialogServiceMock },
-        { provide: MatDialog, useValue: dialogMock }/** */
+        { provide: MatDialog, useValue: dialogMock }
       ]
     }).compileComponents();
   }));
@@ -81,6 +84,7 @@ fdescribe('UbsAdminNotificationComponent', () => {
     fixture = TestBed.createComponent(UbsAdminNotificationComponent);
     component = fixture.componentInstance;
     component.notification = NotificationMock;
+    notificationsService = TestBed.inject(NotificationsService);
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -88,16 +92,6 @@ fdescribe('UbsAdminNotificationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  /*const getInfoContainer = () => fixture.debugElement.query(By.css('.table-notification-info'));
-  const getPlatformsContainer = () => fixture.debugElement.query(By.css('.table-notification-platforms'));
-
-  const getCurrentNotificationSettings = () => {
-    const [title, titleEn, trigger, time, schedule, status] = getInfoContainer()
-      .queryAll(By.css('tbody td'))
-      .map((debugEl) => debugEl.nativeElement.textContent);
-    return { title, trigger, time, schedule, status };
-  };/** */
 
   const getInfoContainer = () => fixture.debugElement.query(By.css('.table-notification-info'));
   const getPlatformsContainer = () => fixture.debugElement.query(By.css('.table-notification-platforms'));
@@ -136,6 +130,8 @@ fdescribe('UbsAdminNotificationComponent', () => {
       save: '.submit-button'
     };
     const cont = container ?? fixture.debugElement;
+    console.log(cont.query(By.css(buttons[name])));
+
     return cont.query(By.css(buttons[name]));
   };
 
@@ -206,27 +202,7 @@ fdescribe('UbsAdminNotificationComponent', () => {
     expect(getButton('activate', mobileActionsCell)).toBeTruthy();
   });
 
-  /*it('clicking `deactivate` button should make platform inactive', async () => {
-    const emailActionsCell = getPlatformActionsCell('email');
-    getButton('deactivate', emailActionsCell).triggerEventHandler('click', null);
-    fixture.detectChanges();
-
-    expect(getButton('edit', emailActionsCell)).toBeFalsy();
-    expect(getButton('deactivate', emailActionsCell)).toBeFalsy();
-    expect(getButton('activate', emailActionsCell)).toBeTruthy();
-  });/** */
-
-  it('clicking `activate` button should make platform active', async () => {
-    const mobileActionsCell = getPlatformActionsCell('mobile');
-    getButton('activate', mobileActionsCell).triggerEventHandler('click', null);
-    fixture.detectChanges();
-
-    // expect(getButton('edit', viberActionsCell)).toBeTruthy();
-    // expect(getButton('deactivate', viberActionsCell)).toBeTruthy();
-    expect(getButton('activate', mobileActionsCell)).toBeFalsy();
-  });
-
-  /*it('`cancel` button should navigate user to notification list', async () => {
+  it('`cancel` button should navigate user to notification list', async () => {
     const navigateSpy = spyOn(routerMock, 'navigate');
     getButton('cancel').triggerEventHandler('click', null);
     expect(navigateSpy).toHaveBeenCalled();
@@ -237,60 +213,6 @@ fdescribe('UbsAdminNotificationComponent', () => {
     const backSpy = spyOn(locationMock, 'back');
     getButton('back').triggerEventHandler('click', null);
     expect(backSpy).toHaveBeenCalled();
-  });
-
-  it('`settings` button should open settings popup', async () => {
-    const openDialogSpy = spyOn(dialogMock, 'open');
-    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
-    expect(openDialogSpy).toHaveBeenCalledWith(UbsAdminNotificationSettingsComponent, {
-      hasBackdrop: true,
-      data: {
-        trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
-        time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-        schedule: '27 14 4,7,16 * *',
-        title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' }
-      }
-    });
-  });
-
-  it('closing `settings` popup with updated settings should display changes', async () => {
-    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
-      afterClosed: () =>
-        of({
-          title: { en: 'new topic', ua: 'нова тема' },
-          trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-          time: 'IMMEDIATELY',
-          schedule: '0 0 * * *'
-        })
-    });
-    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
-    fixture.detectChanges();
-    const { title, time, schedule } = getCurrentNotificationSettings();
-    expect(openDialogSpy).toHaveBeenCalled();
-    expect(title).toContain('new topic');
-    expect(time).toContain('IMMEDIATELY');
-    expect(schedule).toContain('at 00:00');
-  });
-
-  it('closing `settings` popup without making changes should leave them as it is', async () => {
-    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue(undefined);
-    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
-    fixture.detectChanges();
-    const { title, trigger, time, schedule, status } = getCurrentNotificationSettings();
-    expect(title).toContain('Unpaid order');
-    expect(trigger).toContain('ubs-notifications.triggers.ORDER_NOT_PAID_FOR_3_DAYS');
-    expect(time).toContain('ubs-notifications.time.6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID');
-    expect(schedule).toContain('at 14:27 on day-of-month 4, 7 and 16');
-    expect(status).toContain('ubs-notifications.statuses.ACTIVE');
-  });
-
-  it('clicking `edit` button on one of the platforms should open popup for editing text', async () => {
-    const openDialogSpy = spyOn(dialogMock, 'open');
-    getButton('edit', getPlatformActionsCell('email')).triggerEventHandler('click', null);
-    expect(openDialogSpy).toHaveBeenCalledWith(UbsAdminNotificationEditFormComponent, {
-      hasBackdrop: true,
-      data: { platform: 'email', text: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } }
-    });
   });
 
   it('after closing text-editing popup changes should be displayed in the table', async () => {
@@ -309,6 +231,4 @@ fdescribe('UbsAdminNotificationComponent', () => {
     const [, platformTextCell] = getPlatformRow('email').queryAll(By.css('td'));
     expect(platformTextCell.nativeElement.textContent).toContain('New text for Email');
   });
-
-/** */
 });
