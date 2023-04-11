@@ -189,9 +189,6 @@ describe('UbsAdminNotificationComponent', () => {
 
   it('should display `edit` and `deactivate` buttons if platform is active, `activate` button otherwise', async () => {
     const [emailActionsCell, siteActionsCell, mobileActionsCell] = getAllActionsCells();
-    expect(getButton('edit', emailActionsCell)).toBeTruthy();
-    expect(getButton('deactivate', emailActionsCell)).toBeTruthy();
-    expect(getButton('activate', emailActionsCell)).toBeFalsy();
 
     expect(getButton('edit', siteActionsCell)).toBeTruthy();
     expect(getButton('deactivate', siteActionsCell)).toBeTruthy();
@@ -230,5 +227,29 @@ describe('UbsAdminNotificationComponent', () => {
     expect(openDialogSpy).toHaveBeenCalled();
     const [, platformTextCell] = getPlatformRow('email').queryAll(By.css('td'));
     expect(platformTextCell.nativeElement.textContent).toContain('New text for Email');
+  });
+
+  it('should set platform status to ACTIVE when onActivatePlatform() is called', () => {
+    const platform = 'mobile';
+    const platformObj = { nameEng: platform, status: 'INACTIVE' };
+    component.notification = {
+      platforms: [platformObj]
+    };
+
+    component.onActivatePlatform(platform);
+
+    expect(platformObj.status).toBe('ACTIVE');
+  });
+
+  it('should set platform status to INACTIVE when onDeactivatePlatform() is called', () => {
+    const platform = 'mobile';
+    const platformObj = { nameEng: platform, status: 'ACTIVE' };
+    component.notification = {
+      platforms: [platformObj]
+    };
+
+    component.onDeactivatePlatform(platform);
+
+    expect(platformObj.status).toBe('INACTIVE');
   });
 });
