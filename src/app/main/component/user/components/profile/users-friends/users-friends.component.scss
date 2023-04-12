@@ -73,26 +73,23 @@ p {
   }
 
   .friends-error {
+    width: 213px;
+    border-top: 1px solid var(--light-green-grey-color);
+
     .text-title {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 17px;
-      color: var(--primary-dark-grey);
-      width: 213px;
-      border-top: 1px solid var(--light-green-grey-color);
-    }
+      padding: 24px 0;
 
-    p:first-child {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 15px;
-      color: var(--primary-dark-grey);
-    }
+      p {
+        height: 15px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--primary-dark-grey);
+      }
 
-    span {
-      color: var(--tertiary-light-grey);
+      span {
+        color: var(--tertiary-light-grey);
+      }
     }
 
     .body {
@@ -114,8 +111,8 @@ p {
     justify-content: center;
     align-items: center;
     margin-top: 15px;
-    width: 55.86px;
-    height: 55.86px;
+    width: 56px;
+    height: 56px;
     background: none;
     text-decoration: none;
     border: 2px dashed var(--primary-green);
@@ -131,8 +128,21 @@ p {
 }
 
 @media (min-width: 768px) and (max-width: 1439px) {
-  .outer .friends {
-    width: 184px;
-    margin: 0 auto;
+  .outer {
+    .friends {
+      width: 184px;
+      margin: 0 auto;
+    }
+
+    .friends-error {
+      width: 184px;
+      border-top: 1px solid var(--light-green-grey-color);
+      margin: 0 auto;
+
+      .add-friends {
+        width: 48px;
+        height: 48px;
+      }
+    }
   }
 }

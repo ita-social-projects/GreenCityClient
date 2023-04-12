@@ -29,7 +29,8 @@
   </div>
   <div class="friends-error" *ngIf="amountOfFriends === 0">
     <div class="text-title">
-      <p>{{ 'profile.my-eco-friends' | translate }} <span class="text-number"> 0 </span></p>
+      <p>{{ 'profile.my-eco-friends' | translate }}</p>
+      <span class="text-number">0 {{ 'profile.friends-quantity' | translate }}</span>
       <div class="error-message">
         <div class="add-friends">
           <a [routerLink]="['/profile', userId, 'friends', 'recommended']">+</a>
