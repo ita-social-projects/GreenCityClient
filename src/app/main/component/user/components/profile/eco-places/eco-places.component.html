@@ -1,9 +1,12 @@
 <div class="eco-places-content">
   <div class="header-position">
     <div class="header">
-      {{ 'profile.my-eco-places' | translate }}<span>{{ ecoPlaces?.length }}</span>
+      <p class="title">{{ 'profile.my-eco-places' | translate }}</p>
+      <a *ngIf="ecoPlaces?.length > 3" class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
     </div>
-    <a *ngIf="ecoPlaces?.length > 3" class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
+    <div class="favourites-quantity">
+      <span>{{ ecoPlaces?.length }} {{ 'profile.eco-places-quantity' | translate }}</span>
+    </div>
   </div>
   <div>
     <ul class="eco-place-list">

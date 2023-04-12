@@ -2,15 +2,15 @@
   <div class="friends" *ngIf="amountOfFriends != 0">
     <div class="friends-text">
       <div class="text-main-content">
-        <div class="text-title">
+        <p class="text-title">
           {{ 'profile.my-eco-friends' | translate }}
-          <span class="text-number"> {{ amountOfFriends }}</span>
-        </div>
-        <div class="text-more">
-          <a class="text-more" [routerLink]="['/profile', userId, 'friends']">
-            {{ 'profile.see-all' | translate }}
-          </a>
-        </div>
+        </p>
+        <a class="text-more" [routerLink]="['/profile', userId, 'friends']">
+          {{ 'profile.see-all' | translate }}
+        </a>
+      </div>
+      <div>
+        <span class="text-number"> {{ amountOfFriends }} {{ 'profile.friends-quantity' | translate }}</span>
       </div>
     </div>
     <div class="friends-images">
