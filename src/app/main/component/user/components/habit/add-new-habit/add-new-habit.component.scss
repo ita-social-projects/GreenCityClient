@@ -1,14 +1,14 @@
 .wrapper {
-  max-width: 1170px;
-  margin: -30px auto 30px auto;
-  padding: 0 15px;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0;
 
   .back-to-my-habits {
     height: 30px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin: 60px 0 4px 0;
+    margin: 28px 0 40px 0;
     padding: 4px 0 0 4px;
     color: var(--secondary-dark-green);
     cursor: pointer;
@@ -31,9 +31,8 @@
   }
 
   .habit-container {
-    height: 360px;
+    min-height: 360px;
     width: 100%;
-    padding: 40px 0 0 0;
     margin-bottom: 24px;
     display: flex;
     flex-direction: row;
@@ -43,7 +42,7 @@
     .habit-info {
       display: flex;
       flex-direction: column;
-      width: 70%;
+      width: 60%;
 
       .header {
         height: 24px;
@@ -60,6 +59,10 @@
           font-size: 14px;
           letter-spacing: 1px;
           text-transform: uppercase;
+        }
+
+        .acquired-by {
+          white-space: nowrap;
         }
 
         .stars {
@@ -93,14 +96,11 @@
         text-align: left;
       }
 
-      .description {
-        p {
-          font-family: var(--primary-font);
-          font-size: 16px;
-          line-height: 24px;
-          color: var(--primary-black);
-          max-width: 652px;
-        }
+      .description p {
+        font-family: var(--primary-font);
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--primary-black);
       }
     }
 
@@ -117,7 +117,7 @@
     }
   }
 
-  .habit-edit {
+  .habit-info-divider {
     display: flex;
     align-items: center;
     gap: 24px;
@@ -145,60 +145,70 @@
     background-color: var(--secondary-light-grey);
   }
 
-  .container-habit-edit {
+  .container-bottom {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
 
-    .habit-progress,
-    .habit-info-right-block {
-      height: 468px;
-      width: 554px;
-    }
-
-    .habit-progress {
-      padding: 36px 36px 36px 36px;
-      background-color: var(--secondary-light-grey);
-      border-radius: 8px;
-      align-self: flex-start;
-    }
-
-    .habit-info-right-block {
+    .habit-info-block {
       display: flex;
-      flex-direction: column;
       justify-content: space-between;
+      width: 100%;
 
-      .invite-friends {
-        display: flex;
-        width: 554px;
-        height: 172px;
-        padding: 24px;
-        background: var(--secondary-light-grey);
-        border-radius: 8px;
+      .habit-progress,
+      .habit-second-block {
+        width: calc(50% - 16px);
       }
 
-      .duration-shoping {
+      .habit-progress {
+        padding: 36px;
+        background-color: var(--secondary-light-grey);
+        border-radius: 8px;
+        align-self: flex-start;
+      }
+
+      .habit-second-block {
         display: flex;
-        height: 268px;
-        width: 554px;
+        flex-direction: column;
         justify-content: space-between;
 
-        .duration,
-        .shopping {
-          width: 261px;
+        .invite-friends {
+          display: flex;
+          width: 100%;
+          height: 172px;
+          padding: 24px;
           background: var(--secondary-light-grey);
           border-radius: 8px;
-          padding: 24px;
-          font-family: var(--secondary-font);
+
+          .invite-friends-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+          }
+        }
+
+        .duration-shoping {
+          display: flex;
+          height: 268px;
+          width: 100%;
+          justify-content: space-between;
+          gap: 32px;
+
+          .duration,
+          .shopping {
+            width: 50%;
+            background: var(--secondary-light-grey);
+            border-radius: 8px;
+            padding: 24px;
+            font-family: var(--secondary-font);
+          }
         }
       }
     }
   }
 
   .add-habit-container {
-    margin-top: 60px;
+    margin: 32px 0;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -207,35 +217,63 @@
 
     .btn {
       height: 48px;
-      width: 160px;
+      width: 180px;
     }
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1439px) {
   .wrapper {
     max-width: 960px;
-    padding: 0;
   }
 }
 
 @media (max-width: 1023px) {
   .wrapper {
-    max-width: calc(100% - 64px);
-    padding: 0;
+    max-width: 720px;
 
     .habit-container {
       flex-direction: column;
 
       .habit-info {
         width: 100%;
+
+        .header {
+          justify-content: center;
+        }
+
+        .habit-title {
+          text-align: center;
+          font-size: 32px;
+        }
+      }
+
+      .habit-img {
+        width: 100%;
+        height: 100%;
+        margin-left: 0;
+
+        .img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
-  }
 
-  .habits-reccommendations {
-    display: flex;
-    flex-wrap: wrap;
+    .container-bottom .habit-info-block {
+      flex-direction: column;
+      gap: 32px;
+
+      .habit-progress,
+      .habit-second-block {
+        width: 100%;
+      }
+
+      .habit-second-block {
+        gap: 32px;
+      }
+    }
   }
 
   .progress-container {
@@ -245,26 +283,82 @@
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 767px) {
+  .wrapper {
+    max-width: calc(100% - 36px);
+  }
+}
+
+@media (max-width: 575px) {
   .wrapper {
     max-width: calc(100% - 32px);
 
-    .container-habit-edit {
+    .back-to-my-habits {
+      margin: 24px 0;
+    }
+
+    .habit-container {
+      align-items: center;
+
+      .habit-info {
+        .header {
+          justify-content: space-between;
+          width: 100%;
+
+          .item {
+            gap: 8px;
+            font-size: 12px;
+            letter-spacing: 1px;
+          }
+        }
+
+        .habit-title {
+          font-size: 20px;
+          line-height: 24px;
+          margin: 8px 0 24px;
+        }
+
+        .description p {
+          font-size: 12px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    .habit-info-divider h3 {
+      font-size: 20px;
+    }
+
+    .container-bottom .habit-info-block {
       gap: 24px;
 
       .habit-progress {
         padding: 24px 16px;
       }
 
-      .habit-info-right-block .duration-shoping {
-        flex-direction: column;
-        height: auto;
+      .habit-second-block {
+        padding: 0;
         gap: 24px;
 
-        .duration,
-        .shopping {
-          width: 100%;
+        .duration-shoping {
+          flex-direction: column;
+          height: auto;
+          gap: 24px;
+
+          .duration,
+          .shopping {
+            width: 100%;
+          }
         }
+      }
+    }
+
+    .add-habit-container {
+      flex-direction: column;
+      gap: 24px;
+
+      .btn {
+        width: 100%;
       }
     }
   }

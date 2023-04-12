@@ -150,7 +150,6 @@ describe('AddNewHabitComponent', () => {
   it('should set data on initHabitData', () => {
     (component as any).initHabitData(mockHabitResponse);
     expect(component.habitResponse).toEqual(mockHabitResponse);
-    expect(component.tags).toEqual(mockHabitResponse.tags);
     expect(component.initialDuration).toEqual(mockHabitResponse.defaultDuration);
   });
 
@@ -168,7 +167,7 @@ describe('AddNewHabitComponent', () => {
 
   it('getUserId should set this.userId', () => {
     (component as any).getUserId();
-    expect(component.userId).toBe(2);
+    expect((component as any).userId).toBe(2);
   });
 
   it('getDuration should set this.newDuration', () => {
@@ -195,7 +194,7 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('checkIfAssigned method should invoke getDefaultHabit', () => {
-    component.habitId = 3;
+    (component as any).habitId = 3;
     component.isEditing = false;
     const spy1 = spyOn(component as any, 'getDefaultHabit');
     const spy2 = spyOn(component as any, 'getStandartShopList');
@@ -205,7 +204,7 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('goToProfile method should navigate to user profile page', () => {
-    component.userId = 2;
+    (component as any).userId = 2;
     component.goToProfile();
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
   });

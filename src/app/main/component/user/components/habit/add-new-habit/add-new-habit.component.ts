@@ -14,8 +14,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
+import { HabitInterface, HabitListInterface } from 'src/app/main/interface/habit/habit.interface';
 import { habitImages } from 'src/app/main/image-pathes/habits-images';
+import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -24,37 +27,45 @@ import { habitImages } from 'src/app/main/image-pathes/habits-images';
 })
 export class AddNewHabitComponent implements OnInit, OnDestroy {
   private langChangeSub: Subscription;
-  public assignedHabit: HabitAssignInterface;
-  public habitResponse: HabitInterface;
-  public habitId: number;
-  private habitAssignId: number;
-  public tags: string[];
-  public recommendedHabits: HabitInterface;
-  public amountAcquired = 6;
-  public userId: number;
-  private currentLang: string;
-  public newDuration: number;
-  public initialDuration: number;
-  public initialShoppingList: ShoppingList[];
-  public standartShopList: ShoppingList[];
-  public customShopList: ShoppingList[];
-  public isAcquired = false;
-  public canAcquire = false;
-  private enoughToAcquire = 80;
-  public setStatus = 'ACQUIRED';
-  public isEditing = false;
-  public whiteStar = 'assets/img/icon/star-2.png';
-  public greenStar = 'assets/img/icon/star-1.png';
-  public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+  assignedHabit: HabitAssignInterface;
+  habitResponse: HabitInterface;
+
+  recommendedHabits: HabitInterface[];
+  recommendedNews: EcoNewsModel[];
+
+  newDuration: number;
+  initialDuration: number;
+  initialShoppingList: ShoppingList[];
+  standartShopList: ShoppingList[];
+  customShopList: ShoppingList[];
+
+  isAcquired = false;
+  isEditing = false;
+  isCustom = false;
+  canAcquire = false;
+  setStatus = 'ACQUIRED';
+
+  whiteStar = 'assets/img/icon/star-2.png';
+  greenStar = 'assets/img/icon/star-1.png';
+  stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+
   habitImage: string;
   defaultImage = habitImages.defaultImage;
-  public star: number;
-  public popUpGiveUp = {
+  star: number;
+  popUpGiveUp = {
     title: 'user.habit.add-new-habit.confirmation-modal-title',
     subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
     confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
     cancel: 'user.habit.add-new-habit.confirmation-modal-no'
   };
+
+  private habitId: number;
+  private habitAssignId: number;
+  private userId: number;
+  private currentLang: string;
+  private enoughToAcquire = 80;
+  private page = 0;
+  private size = 3;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +74,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     private habitService: HabitService,
     private snackBar: MatSnackBarComponent,
     private habitAssignService: HabitAssignService,
+    private newsSevice: EcoNewsService,
     private shopListService: ShoppingListService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
@@ -82,6 +94,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
       }
     });
     this.checkIfAssigned();
+    this.getRecommendedNews(this.page, this.size);
   }
 
   private bindLang(lang: string): void {
@@ -99,7 +112,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   private checkIfAssigned(): void {
     if (this.isEditing) {
       this.habitAssignService
-        .getHabitByAssignId(this.habitAssignId)
+        .getHabitByAssignId(this.habitAssignId, this.currentLang)
         .pipe(take(1))
         .subscribe((res: HabitAssignInterface) => {
           this.assignedHabit = res;
@@ -115,6 +128,24 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
     }
   }
 
+  private getRecommendedHabits(page: number, size: number, tags: string[]): void {
+    this.habitService
+      .getHabitsByTagAndLang(page, size, tags, this.currentLang)
+      .pipe(take(1))
+      .subscribe((data: HabitListInterface) => {
+        this.recommendedHabits = data.page;
+      });
+  }
+
+  private getRecommendedNews(page: number, size: number): void {
+    this.newsSevice
+      .getEcoNewsListByPage(page, size)
+      .pipe(take(1))
+      .subscribe((res: EcoNewsDto) => {
+        this.recommendedNews = res.page;
+      });
+  }
+
   private getDefaultHabit(): void {
     this.habitService
       .getHabitById(this.habitId)
@@ -128,8 +159,11 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   private initHabitData(habit: HabitInterface): void {
     this.habitResponse = habit;
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
-    this.tags = habit.tags;
+    this.isCustom = habit.isCustomHabit;
     this.getStars(habit.complexity);
+    if (this.habitResponse.tags && this.habitResponse.tags.length) {
+      this.getRecommendedHabits(this.page, this.size, [this.habitResponse.tags[0]]);
+    }
   }
 
   private getStars(complexity: number): void {

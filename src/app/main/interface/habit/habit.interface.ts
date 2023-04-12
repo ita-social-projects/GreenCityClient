@@ -10,6 +10,7 @@ export interface HabitInterface {
   complexity?: number;
   amountAcquiredUsers: number;
   habitAssignStatus?: string;
+  isCustomHabit?: boolean;
   shoppingListItems?: Array<ShoppingList>;
   tags: Array<string>;
 }

@@ -7,13 +7,13 @@
     <div class="habit-info">
       <div class="header">
         <div class="item">
-          <span *ngFor="let tag of tags; let last = last">
+          <span *ngFor="let tag of habitResponse.tags; let last = last">
             {{ tag }}
             <ng-container *ngIf="!last">,&nbsp;</ng-container>
           </span>
         </div>
         <div class="line"></div>
-        <div class="item">{{ 'user.habit.header.aсquired' | translate }} {{ habitResponse.amountAcquiredUsers }}</div>
+        <div class="item acquired-by">{{ 'user.habit.header.aсquired' | translate }} {{ habitResponse.amountAcquiredUsers }}</div>
         <div class="line"></div>
         <div class="item">
           <div>{{ 'user.habit.header.difficulty' | translate }}</div>
@@ -35,31 +35,33 @@
       <img class="img" [src]="habitImage" (error)="habitImage = defaultImage" alt="habit picture" />
     </div>
   </div>
-  <div class="habit-edit">
+  <div class="habit-info-divider">
     <h3>{{ 'user.habit.info' | translate }}</h3>
     <div class="lock-icon"></div>
   </div>
   <div class="divider"></div>
-  <div class="container-habit-edit">
-    <div class="habit-progress">
-      <app-habit-progress [habit]="assignedHabit" (progressValue)="getProgressValue($event)"></app-habit-progress>
-    </div>
-    <div class="habit-info-right-block">
-      <div class="duration-shoping">
-        <div class="duration" *ngIf="habitResponse">
-          <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
-        </div>
-        <div class="shopping">
-          <app-habit-edit-shopping-list
-            (newList)="getList($event)"
-            [shopList]="initialShoppingList"
-            [isAcquired]="isAcquired"
-            [isEditing]="isEditing"
-          ></app-habit-edit-shopping-list>
-        </div>
+  <div class="container-bottom">
+    <div class="habit-info-block">
+      <div class="habit-progress">
+        <app-habit-progress [habit]="assignedHabit" class="progress-container"></app-habit-progress>
       </div>
-      <div class="invite-friends">
-        <app-habit-invite-friends></app-habit-invite-friends>
+      <div class="habit-second-block">
+        <div class="duration-shoping">
+          <div class="duration">
+            <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
+          </div>
+          <div class="shopping">
+            <app-habit-edit-shopping-list
+              (newList)="getList($event)"
+              [shopList]="initialShoppingList"
+              [isAcquired]="isAcquired"
+              [isEditing]="isEditing"
+            ></app-habit-edit-shopping-list>
+          </div>
+        </div>
+        <div class="invite-friends">
+          <app-habit-invite-friends class="invite-friends-container"></app-habit-invite-friends>
+        </div>
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
@@ -80,6 +82,14 @@
       </button>
     </div>
   </div>
-  <app-habits-widget *ngIf="tags" [tag]="tags[0]" [isHabit]="true" class="habits-reccommendations"></app-habits-widget>
-  <app-habits-widget [isHabit]="false"></app-habits-widget>
+  <app-habits-widget
+    *ngIf="recommendedHabits && recommendedHabits.length"
+    [isHabit]="true"
+    [recommendedHabits]="recommendedHabits"
+  ></app-habits-widget>
+  <app-habits-widget
+    *ngIf="recommendedNews && recommendedNews.length"
+    [isHabit]="false"
+    [recommendedNews]="recommendedNews"
+  ></app-habits-widget>
 </div>

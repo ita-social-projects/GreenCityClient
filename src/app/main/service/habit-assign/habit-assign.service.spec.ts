@@ -31,10 +31,10 @@ describe('HabitService', () => {
   });
 
   it('should get get Habit By Assign Id', () => {
-    service.getHabitByAssignId(1).subscribe((data) => {
+    service.getHabitByAssignId(1, 'ua').subscribe((data) => {
       expect(data).toEqual(NEWHABIT);
     });
-    const req = httpMock.expectOne(`${habitAssignLink}/1?lang=${service.language}`);
+    const req = httpMock.expectOne(`${habitAssignLink}/1?lang=ua`);
     expect(req.request.method).toBe('GET');
     req.flush(NEWHABIT);
   });

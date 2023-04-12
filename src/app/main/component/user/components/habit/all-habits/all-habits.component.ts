@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -78,7 +78,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   private getHabitsByTags(page: number, size: number, tags: string[]): void {
     this.habitService
-      .getHabitsByTagAndLang(page, size, tags)
+      .getHabitsByTagAndLang(page, size, tags, this.lang)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);
