@@ -66,13 +66,20 @@
 }
 
 .friend-user-profile {
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   margin: 0;
 }
 
 .center {
   margin: 0 auto;
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .friend-user-profile {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 @media (max-width: 320px) {

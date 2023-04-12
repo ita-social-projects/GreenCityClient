@@ -7,31 +7,43 @@ $bp-largest: 1440px;
 $grey: var(--tertiary-light-grey);
 
 .eco-places-content {
-  width: 100%;
-  padding: 20px;
+  width: 213px;
   margin: 0 auto;
-  font-family: var(--secondary-font);
+  font-family: var(--primary-font);
   font-style: normal;
   border-top: 1px solid var(--quaternary-light-grey);
   background-color: var(--primary-white);
 }
 
 .header-position {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  padding-top: 24px;
 }
 
 .header {
-  text-align: left;
-  font-weight: 600;
-  font-size: 12px;
-  padding-bottom: 8px;
+  height: 16px;
+  display: flex;
+  justify-content: space-between;
 
-  span {
-    color: var(--tertiary-light-grey);
-    margin-left: 10px;
+  .title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--primary-dark-grey);
   }
+
+  .btn-see-all {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--tertiary-light-grey);
+    line-height: 16px;
+  }
+}
+
+.favourites-quantity span {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--tertiary-light-grey);
 }
 
 .item {
@@ -53,12 +65,6 @@ $grey: var(--tertiary-light-grey);
   }
 }
 
-.btn-see-all {
-  text-decoration: none;
-  font-weight: normal;
-  font-size: 11px;
-}
-
 .loading {
   margin: 0 auto;
 }
@@ -69,19 +75,7 @@ $grey: var(--tertiary-light-grey);
 }
 
 @media only screen and (max-width: $bp-desktop) {
-  .header,
-  .text-number {
-    font-size: 12px;
-    line-height: 15px;
-  }
-
-  .text-more {
-    font-size: 11px;
-    line-height: 13px;
-  }
-
-  .item {
-    font-size: 11px;
-    line-height: 16px;
+  .eco-places-content {
+    width: 184px;
   }
 }

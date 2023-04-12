@@ -1,10 +1,10 @@
 <div class="outer">
-  <div class="shoppingList-block">
+  <div class="shopping-list-block">
     <div class="header-position shopping-list-content">
-      <h2 class="header">
+      <div class="header">
         {{ 'profile.to-do-list' | translate }}
-        <span class="items-count"><br />{{ shoppingList?.length }} {{ 'profile.elements' | translate }}</span>
-      </h2>
+        <div class="items-count"><br />{{ shoppingList?.length }} {{ 'profile.elements' | translate }}</div>
+      </div>
       <a *ngIf="shoppingList.length > 3" class="btn-see-all" (click)="openCloseList()">{{ 'profile.see-all' | translate }}</a>
     </div>
     <div *ngIf="!shoppingList">
