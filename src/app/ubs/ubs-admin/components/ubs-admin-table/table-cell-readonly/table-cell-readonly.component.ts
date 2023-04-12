@@ -32,7 +32,6 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
 
   showTooltip(event: any, tooltip: any, maxLength: number = 50): void {
     event.stopImmediatePropagation();
-    console.log(event, tooltip);
     const lengthStr = event.toElement?.innerText.split('').length;
     if (lengthStr > maxLength) {
       tooltip.toggle();
