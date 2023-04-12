@@ -75,7 +75,7 @@ export class AddEditCustomHabitComponent implements OnInit {
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
       duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
-      tags: new FormControl(null, Validators.required),
+      tagIds: new FormControl(null, Validators.required),
       image: new FormControl(''),
       shopList: new FormControl([])
     });
@@ -113,7 +113,7 @@ export class AddEditCustomHabitComponent implements OnInit {
 
   getTagsList(list: TagInterface[]): void {
     this.selectedTagsList = list.map((el) => el.id);
-    this.getControl('tags').setValue(this.selectedTagsList);
+    this.getControl('tagIds').setValue(this.selectedTagsList);
   }
 
   goToAllHabits(): void {

@@ -7,7 +7,7 @@ export interface CustomHabitInterface {
   complexity: number;
   defaultDuration: number;
   image: string;
-  tags: string;
+  tagIds: number[];
   customShoppingListItemDto?: ShoppingList[];
   userId?: number;
 }
