@@ -11,7 +11,6 @@ import ImageResize from 'quill-image-resize-module';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 
 @Component({
