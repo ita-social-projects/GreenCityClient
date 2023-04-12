@@ -117,7 +117,7 @@ describe('AddEditCustomHabitComponent', () => {
     (component as any).initForm();
     component.getTagsList(tagsMock);
     expect(component.selectedTagsList).toEqual([1]);
-    expect(component.habitForm.get('tags').value).toEqual([1]);
+    expect(component.habitForm.get('tagIds').value).toEqual([1]);
   });
 
   it('goToAllHabits should navigate to all habits page', () => {
