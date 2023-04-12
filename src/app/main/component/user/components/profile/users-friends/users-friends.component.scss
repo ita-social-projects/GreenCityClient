@@ -3,65 +3,49 @@ p {
 }
 
 .outer {
+  width: 213px;
+  margin: 0 auto;
   background-color: var(--primary-white);
   justify-content: center;
+  font-family: var(--primary-font);
 
   .friends {
-    padding-bottom: 24px;
-    width: 100%;
+    padding: 24px 0;
+    width: 213px;
     border-top: 1px solid var(--light-grey-blue-color);
     margin: 0;
   }
 
-  .text-title {
-    padding: 20px;
-
-    p {
-      font-size: 12px;
-    }
-  }
-
-  .text-number {
-    display: inline-block;
-    vertical-align: bottom;
-    color: var(--tertiary-light-grey);
-  }
-
-  .text-title,
-  .text-number {
-    font-family: var(--secondary-font);
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 17px;
-  }
-
   .friends-text {
-    display: flex;
-    justify-content: space-around;
+    padding-top: 7px;
   }
 
   .text-main-content {
+    height: 9px;
     display: flex;
-    justify-content: space-evenly;
-    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 
-    .text-number {
-      color: var(--tertiary-light-grey);
+    .text-title {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--primary-dark-grey);
     }
 
     .text-more {
-      font-family: var(--secondary-font);
-      font-style: normal;
-      font-weight: normal;
+      font-weight: 400;
       font-size: 12px;
-      line-height: 15px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      text-align: center;
-      color: var(--primary-dark-grey);
+      color: var(--tertiary-light-grey);
+      line-height: 16px;
     }
+  }
+
+  .text-number {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: var(--tertiary-light-grey);
   }
 
   .friends-images {
@@ -69,7 +53,7 @@ p {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    width: 85%;
+    width: 56px;
     box-sizing: border-box;
     padding: 0;
 
@@ -89,27 +73,23 @@ p {
   }
 
   .friends-error {
+    width: 213px;
+    border-top: 1px solid var(--light-green-grey-color);
+
     .text-title {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 17px;
-      color: var(--primary-dark-grey);
-      width: 213px;
-      border-top: 1px solid var(--light-green-grey-color);
-    }
+      padding: 24px 0;
 
-    p:first-child {
-      font-family: var(--secondary-font);
-      font-style: normal;
-      font-weight: 600;
-      font-size: 12px;
-      line-height: 15px;
-      color: var(--primary-dark-grey);
-    }
+      p {
+        height: 15px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--primary-dark-grey);
+      }
 
-    span {
-      color: var(--tertiary-light-grey);
+      span {
+        color: var(--tertiary-light-grey);
+      }
     }
 
     .body {
@@ -131,8 +111,8 @@ p {
     justify-content: center;
     align-items: center;
     margin-top: 15px;
-    width: 55.86px;
-    height: 55.86px;
+    width: 56px;
+    height: 56px;
     background: none;
     text-decoration: none;
     border: 2px dashed var(--primary-green);
@@ -143,6 +123,25 @@ p {
 
     a {
       color: var(--primary-green);
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .outer {
+    .friends {
+      width: 184px;
+      margin: 0 auto;
+    }
+    .friends-error {
+      width: 184px;
+      border-top: 1px solid var(--light-green-grey-color);
+      margin: 0 auto;
+
+      .add-friends {
+        width: 48px;
+        height: 48px;
+      }
     }
   }
 }
