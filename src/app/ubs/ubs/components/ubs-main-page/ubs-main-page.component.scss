@@ -634,7 +634,7 @@ section .main-container {
     margin: 0 auto;
     padding: 64px 0 0 0;
     font-size: 16px;
-    max-width: 1440px;
+    max-width: 1920px;
 
     h2 {
       margin: 0 auto;
@@ -645,8 +645,10 @@ section .main-container {
     }
 
     header {
-      margin: 106px 150px 123px 150px;
+      margin: 106px auto 123px auto;
+      max-width: 1140px;
       padding: 0;
+      position: relative;
 
       .header-left {
         padding: 0;
@@ -662,8 +664,9 @@ section .main-container {
       .spinner {
         width: 330px;
         height: 343px;
-        top: 190px;
-        right: 212px;
+        position: absolute;
+        bottom: -10px;
+        right: 65px;
       }
 
       .main-content {
@@ -720,11 +723,14 @@ section .main-container {
 
       .main-container {
         height: 100%;
-        margin: 0;
         padding: 0 150px 117px 150px;
 
         .box {
           margin-top: 92px;
+          margin-left: auto;
+          margin-right: auto;
+          // width: 100%;
+          width: 1140px;
           padding: 0;
           overflow: hidden;
 
@@ -761,9 +767,10 @@ section .main-container {
       }
 
       .how-to-prepare {
-        margin: 0;
         padding: 0;
         height: 100%;
+        margin: 0 auto;
+        max-width: 1140px;
 
         .main-content-left,
         .main-content-right {
@@ -825,6 +832,12 @@ section .main-container {
                 margin-bottom: 24px;
                 font-size: 16px;
                 line-height: 20px;
+
+                .lifehack {
+                  margin-top: 5px;
+                  font-size: 16px;
+                  line-height: 20px;
+                }
               }
 
               .rule:last-child {
@@ -841,6 +854,9 @@ section .main-container {
 
       .box-card {
         margin-top: 71px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1140px;
         height: 100%;
 
         #price-frame {
@@ -874,8 +890,9 @@ section .main-container {
       height: 100%;
 
       .box-how-works {
-        margin: 0;
+        margin: 0 auto;
         padding: 0;
+        max-width: 1140px;
 
         #main-content {
           margin: 0;
@@ -1132,6 +1149,12 @@ section .main-container {
                 margin-bottom: 24px;
                 font-size: 16px;
                 line-height: 20px;
+
+                .lifehack {
+                  margin-top: 5px;
+                  font-size: 16px;
+                  line-height: 20px;
+                }
               }
 
               .rule:last-child {
@@ -1443,6 +1466,12 @@ section .main-container {
                 margin-bottom: 17px;
                 font-size: 12px;
                 line-height: 15px;
+
+                .lifehack {
+                  margin-top: 5px;
+                  font-size: 12px;
+                  line-height: 15px;
+                }
               }
 
               .rule:last-child {
@@ -1758,9 +1787,9 @@ section .main-container {
       height: 100%;
 
       .box-how-works {
-        margin-top: 60px;
-        margin-bottom: 60px;
-        padding: 0 16px 0 16px;
+        // margin-top: 60px;
+        // margin-bottom: 60px;
+        padding: 60px 16px 60px 16px;
 
         #main-content {
           flex-direction: row;
@@ -1994,6 +2023,7 @@ section .main-container {
           }
 
           .box-number {
+            padding-left: 16px;
             font-size: 20px;
             width: 53px;
           }
@@ -2041,11 +2071,10 @@ section .main-container {
 
     #how-works {
       height: 100%;
-      padding: 0 0 64px 0;
+      padding: 0;
 
       .box-how-works {
-        margin-top: 64px;
-        padding: 0 16px;
+        padding: 64px 16px;
         align-items: center;
 
         #main-content {
