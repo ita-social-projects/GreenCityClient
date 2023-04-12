@@ -15,6 +15,7 @@ import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
+import { habitImages } from 'src/app/main/image-pathes/habits-images';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -45,6 +46,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   public whiteStar = 'assets/img/icon/star-2.png';
   public greenStar = 'assets/img/icon/star-1.png';
   public stars = [this.whiteStar, this.whiteStar, this.whiteStar];
+  habitImage: string;
+  defaultImage = habitImages.defaultImage;
   public star: number;
   public popUpGiveUp = {
     title: 'user.habit.add-new-habit.confirmation-modal-title',
@@ -124,6 +127,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
 
   private initHabitData(habit: HabitInterface): void {
     this.habitResponse = habit;
+    this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.tags = habit.tags;
     this.getStars(habit.complexity);
   }

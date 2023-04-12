@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="habit-img">
-      <img class="img" [src]="habitResponse?.image" onerror="this.src='assets/img/habits/man.svg'" alt="habit picture" />
+      <img class="img" [src]="habitImage" (error)="habitImage = defaultImage" alt="habit picture" />
     </div>
   </div>
   <div class="habit-edit">
@@ -80,6 +80,6 @@
       </button>
     </div>
   </div>
-  <app-habits-widget *ngIf="tags" [tag]="tags[0]" [isHabit]="true"></app-habits-widget>
+  <app-habits-widget *ngIf="tags" [tag]="tags[0]" [isHabit]="true" class="habits-reccommendations"></app-habits-widget>
   <app-habits-widget [isHabit]="false"></app-habits-widget>
 </div>

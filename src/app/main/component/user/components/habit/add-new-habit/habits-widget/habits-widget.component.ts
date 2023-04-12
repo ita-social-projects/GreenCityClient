@@ -17,6 +17,7 @@ export class HabitsWidgetComponent implements AfterViewInit {
 
   public recommendedHabits: HabitInterface[];
   public recommendedNews: EcoNewsModel[];
+  totalElements = 0;
   private page: number;
   private size: number;
 
@@ -38,6 +39,7 @@ export class HabitsWidgetComponent implements AfterViewInit {
       .pipe(take(1))
       .subscribe((data: HabitListInterface) => {
         this.recommendedHabits = data.page;
+        this.totalElements = this.recommendedHabits.length;
       });
   }
 
@@ -47,6 +49,7 @@ export class HabitsWidgetComponent implements AfterViewInit {
       .pipe(take(1))
       .subscribe((res: EcoNewsDto) => {
         this.recommendedNews = res.page;
+        this.totalElements = this.recommendedNews.length;
       });
   }
 }

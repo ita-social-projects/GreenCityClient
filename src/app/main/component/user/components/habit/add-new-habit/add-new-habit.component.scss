@@ -32,15 +32,18 @@
 
   .habit-container {
     height: 360px;
+    width: 100%;
     padding: 40px 0 0 0;
     margin-bottom: 24px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-start;
 
     .habit-info {
       display: flex;
       flex-direction: column;
+      width: 70%;
 
       .header {
         height: 24px;
@@ -103,11 +106,13 @@
 
     .habit-img {
       width: 395px;
-      align-self: flex-end;
+      height: 320px;
       margin-left: 25px;
 
       .img {
-        width: 395px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
@@ -207,17 +212,59 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media (max-width: 1200px) {
   .wrapper {
-    .container-habit-edit {
-      justify-content: center;
+    max-width: 960px;
+    padding: 0;
+  }
+}
 
-      .habit-info-right-block .invite-friends {
-        margin: 32px auto;
+@media (max-width: 1023px) {
+  .wrapper {
+    max-width: calc(100% - 64px);
+    padding: 0;
+
+    .habit-container {
+      flex-direction: column;
+
+      .habit-info {
+        width: 100%;
+      }
+    }
+  }
+
+  .habits-reccommendations {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrapper {
+    max-width: calc(100% - 32px);
+
+    .container-habit-edit {
+      gap: 24px;
+
+      .habit-progress {
+        padding: 24px 16px;
       }
 
-      .add-habit-container {
-        width: 554px;
+      .habit-info-right-block .duration-shoping {
+        flex-direction: column;
+        height: auto;
+        gap: 24px;
+
+        .duration,
+        .shopping {
+          width: 100%;
+        }
       }
     }
   }

@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div *ngIf="totalElements" class="wrapper">
   <p>
     {{ (isHabit ? 'user.habit.habit-widget.title' : 'user.habit.habit-widget.title-news') | translate }}
     <span>{{ tag }}</span>
