@@ -922,7 +922,8 @@
     "number-length": "The field should contain 12 characters",
     "number-format": "Only 9 digits starting with: +380",
     "password-requirements": "Password must contain: minimum 8 symbols, 1 special symbol, 1 digit, 1 upper and lower cased characters. No spaces.",
-    "newPassword-MatchesOld": "Enter the new password!"
+    "newPassword-MatchesOld": "Enter the new password!",
+    "passwordMismatch": "Passwords do not match!"
   },
   "ubs-notifications": {
     "page-title": "Notifications",

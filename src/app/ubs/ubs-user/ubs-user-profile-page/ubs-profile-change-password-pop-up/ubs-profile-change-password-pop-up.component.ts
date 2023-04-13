@@ -42,7 +42,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     });
 
     if (this.hasPassword) {
-      this.formConfig.setValidators([this.checkConfirmPassword]);
+      // this.formConfig.setValidators([this.checkConfirmPassword]);
     }
   }
 
@@ -53,7 +53,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.updatePasswordDto.currentPassword = this.formConfig.value.currentPassword;
+    this.updatePasswordDto.currentPassword = this.formConfig.value.password;
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
     of(true)

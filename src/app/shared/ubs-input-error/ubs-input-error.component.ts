@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 
 enum errorType {
   email = 'email',
@@ -9,15 +10,17 @@ enum errorType {
   minlength = 'minlength',
   maxlength = 'maxlength',
   required = 'required',
-  newPasswordMatchesOld = 'newPasswordMatchesOld'
+  newPasswordMatchesOld = 'newPasswordMatchesOld',
+  passwordMismatch = 'passwordMismatch'
 }
 @Component({
   selector: 'app-ubs-input-error',
   templateUrl: './ubs-input-error.component.html',
   styleUrls: ['./ubs-input-error.component.scss']
 })
-export class UBSInputErrorComponent implements OnInit {
+export class UBSInputErrorComponent implements OnInit, OnChanges {
   @Input() public formElement: FormControl;
+  @Input() public formElement1: FormControl;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -38,7 +41,8 @@ export class UBSInputErrorComponent implements OnInit {
     wrongEntrance: 'input-error.entrance-wrong',
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
-    newPasswordMatchesOld: 'input-error.newPassword-MatchesOld'
+    newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
+    passwordMismatch: 'input-error.newPassword-MatchesOld'
   };
 
   ngOnInit() {
@@ -46,6 +50,11 @@ export class UBSInputErrorComponent implements OnInit {
     this.formElement.valueChanges.pipe().subscribe(() => {
       this.getType();
     });
+  }
+
+  ngOnChanges() {
+    console.log(this.formElement, 'ubs-input-error 1');
+    console.log(this.formElement1, 'ubs-input-error 3');
   }
 
   getType() {
@@ -63,6 +72,9 @@ export class UBSInputErrorComponent implements OnInit {
             break;
           case errorType.newPasswordMatchesOld:
             this.errorMessage = this.validationErrors.newPasswordMatchesOld;
+            break;
+          case errorType.passwordMismatch:
+            this.errorMessage = this.checkConfirmPassword();
             break;
           default:
             this.errorMessage = this.validationErrors[err];
@@ -106,6 +118,14 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.maxlengthComment;
       default:
         return this.validationErrors.maxlength;
+    }
+  }
+
+  checkConfirmPassword() {
+    const password = this.formElement.value?.trim();
+    const confirmPassword = this.formElement1.value?.trim();
+    if (!(password === confirmPassword)) {
+      return this.validationErrors.passwordMismatch;
     }
   }
 }
