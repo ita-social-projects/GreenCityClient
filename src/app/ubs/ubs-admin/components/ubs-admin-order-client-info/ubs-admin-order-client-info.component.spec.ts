@@ -8,7 +8,7 @@ import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
 
-fdescribe('UbsAdminOrderClientInfoComponent', () => {
+describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
   let fixture: ComponentFixture<UbsAdminOrderClientInfoComponent>;
   let changes: SimpleChanges;
