@@ -24,7 +24,6 @@ describe('UbsAdminNotificationSettingsComponent', () => {
   let component: UbsAdminNotificationSettingsComponent;
   let fixture: ComponentFixture<UbsAdminNotificationSettingsComponent>;
   let loader: HarnessLoader;
-  let langService: jasmine.SpyObj<LanguageService>;
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
   const langServiceSpy = jasmine.createSpyObj('LanguageService', ['getLangValue']);
 
