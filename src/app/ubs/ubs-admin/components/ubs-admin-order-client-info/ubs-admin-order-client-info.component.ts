@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
-import { IUserInfo, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
+import { IUserInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
