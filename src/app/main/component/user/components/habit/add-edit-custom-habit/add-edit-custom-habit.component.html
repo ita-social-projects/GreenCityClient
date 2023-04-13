@@ -39,14 +39,11 @@
           </div>
           <div class="tags-section">
             <label class="label">{{ 'user.habit.add-new-habit.pick-tags' | translate }}</label>
-            <span class="habit-tooltip" [ngClass]="{ warning: isMaxTagsLength }">{{
-              'user.habit.add-new-habit.tags-limits' | translate
-            }}</span>
+            <span class="habit-tooltip">{{ 'user.habit.add-new-habit.tags-limits' | translate }}</span>
             <app-tags-select
               [tagsList]="tagsList"
               [tagMaxLength]="tagMaxLength"
               (selectTags)="getTagsList($event)"
-              (isMaxLength)="getTagsLimitStatus($event)"
               class="tags-block"
             ></app-tags-select>
           </div>

@@ -381,11 +381,6 @@ describe('CreateEditNewsComponent', () => {
     expect(newTags).toEqual(selectedTagsList);
   });
 
-  it('should getTagsLimitStatus from child component', () => {
-    component.getTagsLimitStatus(true);
-    expect(component.isFilterValidation).toBeTruthy();
-  });
-
   it('should be a Preview button on the page', () => {
     const button = fixture.debugElement.query(By.css('.secondary-global-button'));
     expect(button.nativeElement.innerHTML.trim()).toBe('create-news.preview-button');

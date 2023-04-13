@@ -12,7 +12,6 @@ export class TagsSelectComponent {
   @Input() tagMaxLength: number;
   selectedList: TagInterface[];
 
-  @Output() isMaxLength = new EventEmitter<boolean>();
   @Output() selectTags = new EventEmitter<TagInterface[]>();
 
   constructor(private langService: LanguageService) {}
@@ -21,7 +20,6 @@ export class TagsSelectComponent {
     const isMaxLength = this.checkMaxLength(tag.isActive);
     tag.isActive = isMaxLength && !tag.isActive ? tag.isActive : !tag.isActive;
     this.selectedList = this.tagsList.filter((item) => item.isActive);
-    this.isMaxLength.emit(isMaxLength);
     this.selectTags.emit(this.selectedList);
   }
 

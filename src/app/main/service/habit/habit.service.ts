@@ -60,7 +60,7 @@ export class HabitService {
       complexity: habit.complexity,
       defaultDuration: habit.duration,
       image: habit.image,
-      tags: habit.tags,
+      tagIds: habit.tagIds,
       customShoppingListItemDto: habit.shopList
     };
     return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
