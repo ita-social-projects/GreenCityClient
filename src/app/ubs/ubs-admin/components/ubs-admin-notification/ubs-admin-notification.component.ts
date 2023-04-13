@@ -130,11 +130,16 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     const indexTrigger = this.notificationTriggers.findIndex((item) => item.trigger === updatedNotification.trigger);
     const indexTime = this.notificationTriggerTime.findIndex((item) => item.time === updatedNotification.time);
 
-    this.notification.notificationTemplateMainInfoDto.triggerDescription = this.notificationTriggers[indexTrigger].triggerDescription;
-    this.notification.notificationTemplateMainInfoDto.triggerDescriptionEng = this.notificationTriggers[indexTrigger].triggerDescriptionEng;
+    if (indexTrigger !== -1 && this.notification.notificationTemplateMainInfoDto) {
+      this.notification.notificationTemplateMainInfoDto.triggerDescription = this.notificationTriggers[indexTrigger]?.triggerDescription;
+      this.notification.notificationTemplateMainInfoDto.triggerDescriptionEng =
+        this.notificationTriggers[indexTrigger]?.triggerDescriptionEng;
+    }
 
-    this.notification.notificationTemplateMainInfoDto.timeDescription = this.notificationTriggerTime[indexTime].timeDescription;
-    this.notification.notificationTemplateMainInfoDto.timeDescriptionEng = this.notificationTriggerTime[indexTime].timeDescriptionEng;
+    if (indexTime !== -1 && this.notification.notificationTemplateMainInfoDto) {
+      this.notification.notificationTemplateMainInfoDto.timeDescription = this.notificationTriggerTime[indexTime]?.timeDescription;
+      this.notification.notificationTemplateMainInfoDto.timeDescriptionEng = this.notificationTriggerTime[indexTime]?.timeDescriptionEng;
+    }
   }
 
   onActivatePlatform(platform: string): void {

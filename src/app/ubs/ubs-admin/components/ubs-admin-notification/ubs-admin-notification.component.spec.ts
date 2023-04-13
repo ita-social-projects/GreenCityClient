@@ -35,10 +35,7 @@ describe('UbsAdminNotificationComponent', () => {
 
   const locationMock = { back: () => {} };
   const notificationsServiceMock = {
-    getNotificationTemplate: (id) => {
-      if (id !== 1) {
-        return throwError('Loading error');
-      }
+    getNotificationTemplate: () => {
       return of(NotificationMock);
     },
     updateNotificationTemplate: () => {},
