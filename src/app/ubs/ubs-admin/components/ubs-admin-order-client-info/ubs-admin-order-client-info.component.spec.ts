@@ -1,15 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SimpleChange, SimpleChanges } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
 
-describe('UbsAdminOrderClientInfoComponent', () => {
+fdescribe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
   let fixture: ComponentFixture<UbsAdminOrderClientInfoComponent>;
+  let changes: SimpleChanges;
+
   const fakeUserInfo = {
     customerEmail: 'nazar@gmail.com',
     customerName: 'Ivan',
@@ -47,10 +50,12 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
-    component.generalInfo = OrderInfoMockedData as any;
     component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;
+    changes = {
+      orderStatus: new SimpleChange(null, OrderStatus.DONE, true)
+    };
     fixture.detectChanges();
   });
 
@@ -82,20 +87,6 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'CANCELED';
-    component.isStatus = false;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(true);
-  });
-
-  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'DONE';
-    component.isStatus = false;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(false);
-  });
-
   it('method getErrorMessageKey should return correct error message key - required', () => {
     const formControlMock = { errors: { required: true } } as unknown as AbstractControl;
     const result = component.getErrorMessage(formControlMock);
@@ -119,9 +110,45 @@ describe('UbsAdminOrderClientInfoComponent', () => {
 
   it('method getErrorMessageKey should return correct error message key - empty message key', () => {
     const formControlMock = { errors: {} } as unknown as AbstractControl;
-
     const result = component.getErrorMessage(formControlMock);
 
     expect(result).toBe(undefined);
+  });
+
+  it('should update isOrderDone if orderStatus is DONE', () => {
+    component.ngOnChanges(changes);
+    expect(component.isOrderDone).toBeTruthy();
+    expect(component.isOrderCanceled).toBeFalsy();
+    expect(component.isOrderNotTakenOut).toBeFalsy();
+  });
+
+  it('should update isOrderCanceled if orderStatus is CANCELED', () => {
+    changes.orderStatus.currentValue = OrderStatus.CANCELED;
+    changes.orderStatus.previousValue = OrderStatus.DONE;
+    changes.orderStatus.firstChange = false;
+    component.ngOnChanges(changes);
+    expect(component.isOrderDone).toBeFalsy();
+    expect(component.isOrderCanceled).toBeTruthy();
+    expect(component.isOrderNotTakenOut).toBeFalsy();
+  });
+
+  it('should update isOrderNotTakenOut if orderStatus is NOT_TAKEN_OUT', () => {
+    changes.orderStatus.currentValue = OrderStatus.NOT_TAKEN_OUT;
+    changes.orderStatus.previousValue = OrderStatus.CANCELED;
+    changes.orderStatus.firstChange = false;
+    component.ngOnChanges(changes);
+    expect(component.isOrderDone).toBeFalsy();
+    expect(component.isOrderCanceled).toBeFalsy();
+    expect(component.isOrderNotTakenOut).toBeTruthy();
+  });
+
+  it('statuses should be false if orderStatus is not defined', () => {
+    changes.orderStatus.currentValue = null;
+    changes.orderStatus.previousValue = OrderStatus.NOT_TAKEN_OUT;
+    changes.orderStatus.firstChange = false;
+    component.ngOnChanges(changes);
+    expect(component.isOrderDone).toBeFalsy();
+    expect(component.isOrderCanceled).toBeFalsy();
+    expect(component.isOrderNotTakenOut).toBeFalsy();
   });
 });
