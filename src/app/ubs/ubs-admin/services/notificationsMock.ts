@@ -10,11 +10,9 @@ export const NotificationMock = {
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
     triggerDescription: 'Замовлення не оплачується протягом 3 днів після формування замовлення',
     triggerDescriptionEng: 'The order is not paid 3 days after order was formed',
-    time: 'AT_6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    timeDescription:
-      'Система перевіряє BD щодня о 18.00 і відправляє повідомлення, якщо замовлення було сформовано 3 дні тому і не було оплачено клієнтом.',
-    timeDescriptionEng:
-      'System checks BD at 18.00 daily and sends messages in case the order was formed 3 days ago and wasn’t paid by the client.',
+    time: 'IMMEDIATELY',
+    timeDescription: 'Одразу',
+    timeDescriptionEng: 'Immediately',
     schedule: '0 0 18 * * ?',
     title: 'Неоплачене замовлення',
     titleEng: 'Unpaid order',

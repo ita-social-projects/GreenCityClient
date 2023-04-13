@@ -75,13 +75,6 @@ export const notificationTriggersMock = [
 
 export const notificationTriggerTimeMock = [
   { time: 'IMMEDIATELY', timeDescription: 'Одразу', timeDescriptionEng: 'Immediately' },
-  /*{
-    time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    timeDescription:
-      'Система перевіряє BD щодня о 18.00 і відправляє повідомлення, якщо замовлення було сформовано 3 дні тому і не було оплачено клієнтом.',
-    timeDescriptionEng:
-      'System checks BD at 18.00 daily and sends messages in case the order was formed 3 days ago and wasn’t paid by the client.'
-  },/** */
   {
     time: 'TWO_MONTHS_AFTER_LAST_ORDER',
     timeDescription: 'Система щодня перевіряє BD і надсилає повідомлення, якщо замовлення було зроблено 2 місяці тому',

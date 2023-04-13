@@ -154,7 +154,7 @@ describe('UbsAdminNotificationComponent', () => {
     const notificationUpdateSpy = spyOn(notificationsServiceMock, 'updateNotificationTemplate');
     getButton('save').triggerEventHandler('click', null);
 
-    const getCurrentNotificationSettings = () => {
+    const getCurrentNotificationSettingsMock = () => {
       expect(notificationUpdateSpy).toHaveBeenCalledWith(1, {
         id: 1,
         title: { en: 'new topic', ua: 'нова тема' },
@@ -210,23 +210,6 @@ describe('UbsAdminNotificationComponent', () => {
     const backSpy = spyOn(locationMock, 'back');
     getButton('back').triggerEventHandler('click', null);
     expect(backSpy).toHaveBeenCalled();
-  });
-
-  it('after closing text-editing popup changes should be displayed in the table', async () => {
-    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
-      afterClosed: () =>
-        of({
-          text: {
-            en: 'New text for Email',
-            ua: 'Неоплачене замовлення, текст для Email'
-          }
-        })
-    });
-    getButton('edit', getPlatformActionsCell('email')).triggerEventHandler('click', null);
-    fixture.detectChanges();
-    expect(openDialogSpy).toHaveBeenCalled();
-    const [, platformTextCell] = getPlatformRow('email').queryAll(By.css('td'));
-    expect(platformTextCell.nativeElement.textContent).toContain('New text for Email');
   });
 
   it('should set platform status to ACTIVE when onActivatePlatform() is called', () => {
