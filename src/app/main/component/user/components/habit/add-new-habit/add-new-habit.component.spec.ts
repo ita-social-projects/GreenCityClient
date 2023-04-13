@@ -16,6 +16,9 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { MatDialogModule } from '@angular/material/dialog';
 import { NEWHABIT } from 'src/app/main/mocks/habit-assign-mock';
 import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
+import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
+import { FIRSTECONEWS } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -84,6 +87,17 @@ describe('AddNewHabitComponent', () => {
 
   matSnackBarMock.openSnackBar = (type: string) => {};
 
+  const newsMock: EcoNewsDto = {
+    page: [FIRSTECONEWS],
+    totalElements: 1,
+    currentPage: 1,
+    totalPages: 1,
+    hasNext: false
+  };
+
+  const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsListByPage']);
+  ecoNewsServiceMock.getEcoNewsListByPage = () => of(newsMock);
+
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
@@ -101,6 +115,7 @@ describe('AddNewHabitComponent', () => {
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
         { provide: HabitAssignService, useValue: fakeHabitAssignService },
+        { provide: EcoNewsService, useValue: ecoNewsServiceMock },
         { provide: ShoppingListService, useValue: fakeShoppingListService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
@@ -207,11 +222,5 @@ describe('AddNewHabitComponent', () => {
     (component as any).userId = 2;
     component.goToProfile();
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
-  });
-
-  it('ngOnDestroy should unsubscribe from subscription', () => {
-    spyOn((component as any).langChangeSub, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
   });
 });

@@ -185,7 +185,7 @@ describe('HabitService', () => {
   });
 
   it('should return habits by tag and lang', () => {
-    habitService.getHabitsByTagAndLang(1, 1, ['test']).subscribe((data) => {
+    habitService.getHabitsByTagAndLang(1, 1, ['test'], 'en').subscribe((data) => {
       expect(data).not.toBeNull();
       expect(data).toEqual(habitListMock);
     });

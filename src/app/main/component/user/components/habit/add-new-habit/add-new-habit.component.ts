@@ -1,14 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
@@ -25,8 +25,7 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
   templateUrl: './add-new-habit.component.html',
   styleUrls: ['./add-new-habit.component.scss']
 })
-export class AddNewHabitComponent implements OnInit, OnDestroy {
-  private langChangeSub: Subscription;
+export class AddNewHabitComponent implements OnInit {
   assignedHabit: HabitAssignInterface;
   habitResponse: HabitInterface;
 
@@ -67,6 +66,8 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   private page = 0;
   private size = 3;
 
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -103,7 +104,7 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang: string) => {
       this.bindLang(lang);
       this.checkIfAssigned();
     });
@@ -329,9 +330,5 @@ export class AddNewHabitComponent implements OnInit, OnDestroy {
         this.goToProfile();
         this.snackBar.openSnackBar('habitAcquired');
       });
-  }
-
-  ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
   }
 }

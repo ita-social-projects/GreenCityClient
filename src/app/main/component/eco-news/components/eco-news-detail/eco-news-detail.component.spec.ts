@@ -3,7 +3,6 @@ import { EcoNewsDetailComponent } from './eco-news-detail.component';
 import { EcoNewsWidgetComponent } from './eco-news-widget/eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +16,7 @@ import { SafeHtmlPipe } from '@pipe/safe-html-pipe/safe-html.pipe';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Language } from '../../../../i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -32,27 +32,9 @@ describe('EcoNewsDetailComponent', () => {
   let route: ActivatedRoute;
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  const mockEcoNewsModel: EcoNewsModel = {
-    id: 3,
-    imagePath: defaultImagePath,
-    title: 'test title',
-    content: 'some description',
-    author: {
-      id: 777,
-      name: 'John Snow'
-    },
-    tags: ['Events', 'Education'],
-    tagsEn: ['Events', 'Education'],
-    tagsUa: ['Події', 'Освіта'],
-    creationDate: '2020-06-16T18:08:00.604Z',
-    likes: 0,
-    countComments: 2,
-    shortInfo: 'info',
-    source: null
-  };
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
-  storeMock.select = () => of({ pages: [mockEcoNewsModel], autorNews: [{ id: 4 }] });
+  storeMock.select = () => of({ pages: [FIRSTECONEWS], autorNews: [{ id: 4 }] });
   const sanitaizerMock = jasmine.createSpyObj('sanitaizer', ['bypassSecurityTrustHtml']);
   const fakeElement = document.createElement('div') as SafeHtml;
   sanitaizerMock.bypassSecurityTrustHtml.and.returnValue(fakeElement);
@@ -64,7 +46,7 @@ describe('EcoNewsDetailComponent', () => {
   backLink.languageSubject = of('ua');
 
   const ecoNewsServ = jasmine.createSpyObj('ecoNewsService', ['getEcoNewsById', 'postToggleLike', 'getIsLikedByUser']);
-  ecoNewsServ.getEcoNewsById.and.returnValue(of(mockEcoNewsModel));
+  ecoNewsServ.getEcoNewsById.and.returnValue(of(FIRSTECONEWS));
   ecoNewsServ.postToggleLike.and.returnValue(of({}));
   ecoNewsServ.getIsLikedByUser.and.returnValue(of(true));
 
@@ -95,7 +77,7 @@ describe('EcoNewsDetailComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.backRoute = '/news';
-    component.newsItem = mockEcoNewsModel;
+    component.newsItem = FIRSTECONEWS;
     (component as any).newsId = 3;
     (component as any).newsImage = ' ';
     component.tags = component.getAllTags();
@@ -147,7 +129,7 @@ describe('EcoNewsDetailComponent', () => {
   it('getEcoNewsById should get newsItem by id', () => {
     component.newsItem = null;
     component.getEcoNewsById((component as any).newsId);
-    expect(component.newsItem).toEqual(mockEcoNewsModel);
+    expect(component.newsItem).toEqual(FIRSTECONEWS);
   });
 
   it('should set backRoute', () => {
@@ -202,7 +184,7 @@ describe('EcoNewsDetailComponent', () => {
     const spy = spyOn(window, 'open');
     component.onSocialShareLinkClick('twitter');
     expect(spy).toHaveBeenCalledWith(
-      `https://twitter.com/share?url=${window.location.href}&text=${mockEcoNewsModel.title}&hashtags=${component.tags.join(',')}`,
+      `https://twitter.com/share?url=${window.location.href}&text=${FIRSTECONEWS.title}&hashtags=${component.tags.join(',')}`,
       '_blank'
     );
   });
