@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ubsAdminNotificationLink } from 'src/app/main/links';
 import { catchError } from 'rxjs/operators';
-import { NotificationFilterParams, NotificationTemplate, NotificationTemplatesPage } from '../models/notifications.model';
+import { NotificationTemplate, NotificationTemplatesPage } from '../models/notifications.model';
 
 export const notificationTriggersMock = [
   {
