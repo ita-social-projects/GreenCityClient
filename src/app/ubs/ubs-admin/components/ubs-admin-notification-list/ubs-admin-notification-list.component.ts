@@ -5,12 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import {
-  NotificationsService,
-  notificationTriggers,
-  notificationTriggerTime,
-  notificationStatuses
-} from '../../services/notifications.service';
+import { NotificationsService, notificationTriggersMock, notificationStatuses } from '../../services/notifications.service';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',
@@ -24,8 +19,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   };
   private destroy = new Subject<void>();
   statuses = ['ALL', ...notificationStatuses];
-  triggers = notificationTriggers;
-  time = notificationTriggerTime;
+  triggers = notificationTriggersMock;
   notifications: any[] = [];
   filtersForm: FormGroup;
   itemsPerPage = 10;

@@ -23,8 +23,8 @@
           [placeholder]="'ubs-notifications.filters.trigger-placeholder' | translate"
           multiple
         >
-          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger">
-            {{ 'ubs-notifications.triggers.' + trigger | translate }}
+          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger.trigger">
+            {{ getLangValue(trigger.triggerDescription, trigger.triggerDescriptionEng) }}
           </mat-option>
         </mat-select>
         <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />

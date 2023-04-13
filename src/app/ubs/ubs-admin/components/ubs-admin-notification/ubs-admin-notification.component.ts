@@ -11,6 +11,7 @@ import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-
 import { NotificationTemplate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -28,6 +29,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   };
   currentLanguage: string;
   notification = null;
+  notificationTriggerTime = notificationTriggerTimeMock;
+  notificationTriggers = notificationTriggersMock;
   notificationId: number;
 
   constructor(
@@ -49,11 +52,6 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       this.notificationId = Number(params.id);
       this.loadNotification(this.notificationId);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.complete();
   }
 
   loadNotification(id: number): void {
@@ -78,6 +76,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
 
   onEditNotificationText(platform: string): void {
     const platformToUpdate = this.notification.platforms.find((pf) => pf.nameEng === platform);
+
     this.dialog
       .open(UbsAdminNotificationEditFormComponent, {
         hasBackdrop: true,
@@ -118,12 +117,24 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         if (!updates) {
           return;
         }
+        this.findNewDescription(updates);
         this.notification.notificationTemplateMainInfoDto.title = updates.title.ua;
         this.notification.notificationTemplateMainInfoDto.titleEng = updates.title.en;
         this.notification.notificationTemplateMainInfoDto.trigger = updates.trigger;
         this.notification.notificationTemplateMainInfoDto.time = updates.time;
         this.notification.notificationTemplateMainInfoDto.schedule = updates.schedule;
       });
+  }
+
+  private findNewDescription(updatedNotification) {
+    const indexTrigger = this.notificationTriggers.findIndex((item) => item.trigger === updatedNotification.trigger);
+    const indexTime = this.notificationTriggerTime.findIndex((item) => item.time === updatedNotification.time);
+
+    this.notification.notificationTemplateMainInfoDto.triggerDescription = this.notificationTriggers[indexTrigger].triggerDescription;
+    this.notification.notificationTemplateMainInfoDto.triggerDescriptionEng = this.notificationTriggers[indexTrigger].triggerDescriptionEng;
+
+    this.notification.notificationTemplateMainInfoDto.timeDescription = this.notificationTriggerTime[indexTime].timeDescription;
+    this.notification.notificationTemplateMainInfoDto.timeDescriptionEng = this.notificationTriggerTime[indexTime].timeDescriptionEng;
   }
 
   onActivatePlatform(platform: string): void {
@@ -149,7 +160,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.notificationsService.deactivateNotificationTemplate(this.notificationId);
+        this.notificationsService.deactivateNotificationTemplate(this.notificationId).pipe(takeUntil(this.destroy)).subscribe();
         this.navigateToNotificationList();
       });
   }
@@ -159,10 +170,15 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onSaveChanges(): void {
-    this.notificationsService.updateNotificationTemplate(this.notificationId, this.notification);
+    this.notificationsService.updateNotificationTemplate(this.notificationId, this.notification).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }

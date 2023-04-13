@@ -106,8 +106,8 @@ export const NotificationTemplatesMock = [
   },
   {
     id: 9,
-    trigger: '2_MONTHS_AFTER_LAST_ORDER',
-    time: '2_MONTHS_AFTER_LAST_ORDER',
+    trigger: 'TWO_MONTHS_AFTER_LAST_ORDER',
+    time: 'TWO_MONTHS_AFTER_LAST_ORDER',
     schedule: null,
     title: { en: `Let's stay connected`, ua: `Давайте залишатися на зв'язку` },
     status: 'INACTIVE',
