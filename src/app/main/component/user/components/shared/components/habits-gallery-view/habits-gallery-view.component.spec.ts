@@ -8,7 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { HabitService } from '@global-service/habit/habit.service';
+import { DEFAULTHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
@@ -43,20 +43,7 @@ describe('HabitsGalleryViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HabitsGalleryViewComponent);
     component = fixture.componentInstance;
-    component.habit = {
-      complexity: 1,
-      defaultDuration: 14,
-      amountAcquiredUsers: 1,
-      habitTranslation: {
-        description: 'test',
-        habitItem: 'test',
-        languageCode: 'en',
-        name: 'test'
-      },
-      id: 503,
-      image: defaultImagePath,
-      tags: ['test1', 'test2']
-    };
+    component.habit = DEFAULTHABIT;
     fixture.detectChanges();
   });
 

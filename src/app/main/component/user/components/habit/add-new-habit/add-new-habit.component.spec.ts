@@ -14,11 +14,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NEWHABIT } from 'src/app/main/mocks/habit-assign-mock';
-import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
+import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { FIRSTECONEWS } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -29,22 +29,6 @@ describe('AddNewHabitComponent', () => {
   let fakeHabitService: HabitService;
   let fakeLocalStorageService: LocalStorageService;
 
-  const mockHabitResponse: HabitInterface = {
-    complexity: 2,
-    defaultDuration: 2,
-    amountAcquiredUsers: 1,
-    habitAssignStatus: 'ACQUIRED',
-    habitTranslation: {
-      description: 'test',
-      habitItem: 'test',
-      languageCode: 'test',
-      name: 'test'
-    },
-    id: 2,
-    image: 'test',
-    shoppingListItems: [],
-    tags: []
-  };
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
   };
@@ -56,13 +40,13 @@ describe('AddNewHabitComponent', () => {
     'assignCustomHabit',
     'setHabitStatus'
   ]);
-  fakeHabitAssignService.getHabitByAssignId = () => of(NEWHABIT);
+  fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
-  fakeHabitAssignService.assignCustomHabit = () => of(NEWHABIT);
-  fakeHabitAssignService.setHabitStatus = () => of(NEWHABIT);
+  fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
+  fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
 
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', {
-    getHabitById: of(mockHabitResponse)
+    getHabitById: of(DEFAULTHABIT)
   });
 
   fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
@@ -158,14 +142,14 @@ describe('AddNewHabitComponent', () => {
 
   it('should call getStars on initHabitData', () => {
     const spy = spyOn(component as any, 'getStars');
-    (component as any).initHabitData(mockHabitResponse);
+    (component as any).initHabitData(DEFAULTHABIT);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should set data on initHabitData', () => {
-    (component as any).initHabitData(mockHabitResponse);
-    expect(component.habitResponse).toEqual(mockHabitResponse);
-    expect(component.initialDuration).toEqual(mockHabitResponse.defaultDuration);
+    (component as any).initHabitData(DEFAULTHABIT);
+    expect(component.habitResponse).toEqual(DEFAULTHABIT);
+    expect(component.initialDuration).toEqual(DEFAULTHABIT.defaultDuration);
   });
 
   it('getDefaultHabit should invoke inHabitData method', () => {

@@ -1,5 +1,4 @@
 import { SharedMainModule } from '@shared/shared-main.module';
-import { HabitAssignInterface } from './../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from './../../../../../service/habit-assign/habit-assign.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -12,11 +11,13 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { AllHabitsComponent } from './all-habits.component';
 import { HabitService } from '../../../../../service/habit/habit.service';
-import { HabitListInterface } from '../../../../../interface/habit/habit.interface';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventEmitter, Injectable } from '@angular/core';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Language } from '../../../../../i18n/Language';
+import { HABITLIST } from '../mocks/habit-mock';
+import { CUSTOMHABIT, DEFAULTHABIT, HABITSASSIGNEDLIST } from '../mocks/habit-assigned-mock';
+import { FIRSTTAGITEM, SECONDTAGITEM, TAGLIST } from '../mocks/tags-list-mock';
 
 @Injectable()
 class TranslationServiceStub {
@@ -49,69 +50,7 @@ describe('AllHabitsComponent', () => {
   let fixture: ComponentFixture<AllHabitsComponent>;
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  const assignedHabitsMock: Array<HabitAssignInterface> = [
-    {
-      createDateTime: new Date('2021-06-19T16:35:18.048839Z'),
-      duration: 14,
-      habit: {
-        defaultDuration: 14,
-        amountAcquiredUsers: 1,
-        habitTranslation: {
-          description: 'Test',
-          habitItem: 'Test',
-          languageCode: 'en',
-          name: 'Test'
-        },
-        id: 506,
-        image: '',
-        tags: []
-      },
-      habitStatusCalendarDtoList: [],
-      habitStreak: 0,
-      id: 154,
-      lastEnrollmentDate: new Date('2021-06-19T16:35:18.04885Z'),
-      status: 'INPROGRESS',
-      userId: 7835,
-      workingDays: 0,
-      shoppingListItems: []
-    }
-  ];
 
-  const habitsMockData: HabitListInterface = {
-    currentPage: 0,
-    page: [
-      {
-        defaultDuration: 1,
-        amountAcquiredUsers: 1,
-        habitTranslation: {
-          description: 'test',
-          habitItem: 'test, best',
-          languageCode: 'en',
-          name: 'test'
-        },
-        id: 0,
-        image: defaultImagePath,
-        tags: ['test']
-      },
-      {
-        defaultDuration: 1,
-        amountAcquiredUsers: 1,
-        habitTranslation: {
-          description: 'test2',
-          habitItem: 'test2',
-          languageCode: 'en',
-          name: 'test2'
-        },
-        id: 1,
-        image: defaultImagePath,
-        tags: ['test2']
-      }
-    ],
-    totalElements: 2,
-    totalPages: 1
-  };
-
-  const mockData = new BehaviorSubject<any>(habitsMockData);
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
@@ -128,13 +67,13 @@ describe('AllHabitsComponent', () => {
 
   let assignHabitServiceMock: HabitAssignService;
   assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
-  assignHabitServiceMock.getAssignedHabits = () => of(assignedHabitsMock);
+  assignHabitServiceMock.getAssignedHabits = () => of(HABITSASSIGNEDLIST);
 
   let habitServiceMock: HabitService;
   habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits', 'getHabitsByTagAndLang']);
-  habitServiceMock.getAllHabits = () => of(habitsMockData);
-  habitServiceMock.getHabitsByTagAndLang = () => of(habitsMockData);
-  habitServiceMock.getAllTags = () => of([{ id: 2, name: 'eco', nameUa: 'еко' }]);
+  habitServiceMock.getAllHabits = () => of(HABITLIST);
+  habitServiceMock.getHabitsByTagAndLang = () => of(HABITLIST);
+  habitServiceMock.getAllTags = () => of(TAGLIST);
 
   const userData = {
     city: 'string',
@@ -194,7 +133,7 @@ describe('AllHabitsComponent', () => {
   it('should get Habits tags list on getAllHabitsTags', () => {
     component.tagList = [];
     (component as any).getAllHabitsTags();
-    expect(component.tagList).toEqual([{ id: 2, name: 'eco', nameUa: 'еко' }]);
+    expect(component.tagList).toEqual([FIRSTTAGITEM, SECONDTAGITEM]);
   });
 
   it('onDisplayModeChange() setting false value', () => {
@@ -224,37 +163,37 @@ describe('AllHabitsComponent', () => {
   it('should call method setHabitsList on getAllHabits', () => {
     const spy = spyOn(component as any, 'setHabitsList');
     (component as any).getAllHabits(0, 6);
-    expect(spy).toHaveBeenCalledWith(0, habitsMockData);
+    expect(spy).toHaveBeenCalledWith(0, HABITLIST);
   });
 
   it('should call method setHabitsList on getHabitsByTags', () => {
     const spy = spyOn(component as any, 'setHabitsList');
     (component as any).getHabitsByTags(0, 6, ['tag']);
-    expect(spy).toHaveBeenCalledWith(0, habitsMockData);
+    expect(spy).toHaveBeenCalledWith(0, HABITLIST);
   });
 
   it('should set values on setHabitsList', () => {
     const page = 0;
-    (component as any).setHabitsList(page, habitsMockData);
+    (component as any).setHabitsList(page, HABITLIST);
     expect(component.isFetching).toBeFalsy();
-    expect(component.habitsList).toEqual(habitsMockData.page);
-    expect(component.totalHabits).toEqual(habitsMockData.totalElements);
-    expect((component as any).totalPages).toEqual(habitsMockData.totalPages);
-    expect((component as any).currentPage).toEqual(habitsMockData.currentPage);
-    expect((component as any).isAllPages).toBeTruthy();
+    expect(component.habitsList).toEqual([DEFAULTHABIT, CUSTOMHABIT]);
+    expect(component.totalHabits).toEqual(31);
+    expect((component as any).totalPages).toEqual(2);
+    expect((component as any).currentPage).toEqual(1);
+    expect((component as any).isAllPages).toBeFalsy();
   });
 
   it('should set Habits List on setHabitsList when page is 1', () => {
-    component.habitsList = habitsMockData.page;
-    const result = [...component.habitsList, ...habitsMockData.page];
-    (component as any).setHabitsList(1, habitsMockData);
+    component.habitsList = HABITLIST.page;
+    const result = [...component.habitsList, ...HABITLIST.page];
+    (component as any).setHabitsList(1, HABITLIST);
     expect(component.habitsList).toEqual(result);
   });
 
   it('should not call method checkIfAssigned on setHabitsList if totalElements is zero', () => {
-    habitsMockData.totalElements = 0;
+    HABITLIST.totalElements = 0;
     const spy = spyOn(component, 'checkIfAssigned');
-    (component as any).setHabitsList(0, habitsMockData);
+    (component as any).setHabitsList(0, HABITLIST);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -265,14 +204,14 @@ describe('AllHabitsComponent', () => {
   });
 
   it('should set selectedTagsList on getFilterData if tagsList array contains tags', () => {
-    component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
+    component.tagList = TAGLIST;
     const tags = ['Reusable'];
     component.getFilterData(tags);
     expect(component.selectedTagsList).toEqual(['Reusable']);
   });
 
   it('should call getAllHabits on getFilterData if tags is empty array', () => {
-    component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
+    component.tagList = TAGLIST;
     const spy1 = spyOn(component as any, 'getAllHabits');
     const spy2 = spyOn(component as any, 'getHabitsByTags');
     const tags = [];
@@ -282,7 +221,7 @@ describe('AllHabitsComponent', () => {
   });
 
   it('should call getHabitsByTags on getFilterData if tags array contains value', () => {
-    component.tagList = [{ id: 2, name: 'name', nameUa: 'nameUa' }];
+    component.tagList = TAGLIST;
     const spy1 = spyOn(component as any, 'getHabitsByTags');
     const spy2 = spyOn(component as any, 'getAllHabits');
     const tags = ['Reusable'];
