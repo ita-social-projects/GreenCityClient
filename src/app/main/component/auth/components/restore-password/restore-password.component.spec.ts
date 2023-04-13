@@ -79,7 +79,6 @@ describe('RestorePasswordComponent', () => {
     fixture.detectChanges();
     router = fixture.debugElement.injector.get(Router);
     dialog = TestBed.inject(MatDialog);
-    spyOn(router.url, 'includes').and.returnValue(false);
   });
 
   describe('Basic tests', () => {
@@ -133,10 +132,11 @@ describe('RestorePasswordComponent', () => {
       };
     });
 
-    it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
+    it('signUpWithGoogleSuccess should navigate to homePage', () => {
+      const navigateSpy = spyOn(router, 'navigate');
       (component as any).onSignInWithGoogleSuccess(userSuccessSignIn);
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
-    }));
+      expect(navigateSpy).toHaveBeenCalledWith(['/']);
+    });
 
     it('Test sendEmailForRestore method', () => {
       const spy = (restorePasswordService.sendEmailForRestore = jasmine

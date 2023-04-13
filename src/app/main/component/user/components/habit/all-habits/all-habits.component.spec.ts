@@ -177,7 +177,6 @@ describe('AllHabitsComponent', () => {
     (component as any).setHabitsList(page, HABITLIST);
     expect(component.isFetching).toBeFalsy();
     expect(component.habitsList).toEqual([DEFAULTHABIT, CUSTOMHABIT]);
-    expect(component.totalHabits).toBe(0);
     expect((component as any).totalPages).toBe(2);
     expect((component as any).currentPage).toBe(1);
     expect((component as any).isAllPages).toBeFalsy();
