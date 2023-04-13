@@ -14,7 +14,7 @@
               <button tabindex="0" class="ubs-secondary-global-button s-btn" (click)="openChangePasswordDialog()">
                 {{ 'ubs-client-profile.btn.change-password' | translate }}
               </button>
-              <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteProfileDialog()">
+              <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteDialog()">
                 {{ 'ubs-client-profile.btn.delete-profile' | translate }}
               </button>
             </ng-container>
@@ -283,7 +283,7 @@
                       <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
                     </div>
                   </div>
-                  <div class="delete-address" (click)="deleteAddress(address)">
+                  <div class="delete-address" (click)="openDeleteDialog(address)">
                     <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
                   </div>
                 </div>

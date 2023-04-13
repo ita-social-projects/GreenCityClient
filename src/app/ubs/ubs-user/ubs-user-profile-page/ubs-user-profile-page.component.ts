@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile, Location } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -81,7 +81,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
-    private convertCapLetterServ: ToFirstCapitalLetterService
+    private convertCapLetterServ: ToFirstCapitalLetterService,
+    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>
   ) {}
 
   ngOnInit(): void {
@@ -215,6 +216,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   public deleteAddress(address) {
+    console.log(address);
+    console.log(this.userForm.value.address[0]);
+    console.log(this.userForm.controls.address);
     this.orderService
       .deleteAddress(address.value)
       .pipe(takeUntil(this.destroy))
@@ -527,10 +531,27 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     (window as any).open(this.viberBotURL, '_blank');
   }
 
-  openDeleteProfileDialog(): void {
-    this.dialog.open(UbsProfileDeletePopUpComponent, {
-      hasBackdrop: true
-    });
+  openDeleteDialog(isAddressDelete = false): void {
+    if (isAddressDelete) {
+      const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
+        hasBackdrop: true,
+        data: {
+          isAddressDelete: true
+        }
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.deleteAddress(isAddressDelete);
+        }
+      });
+    } else {
+      this.dialog.open(UbsProfileDeletePopUpComponent, {
+        hasBackdrop: true,
+        data: {
+          isAddressDelete: false
+        }
+      });
+    }
   }
 
   openChangePasswordDialog(): void {

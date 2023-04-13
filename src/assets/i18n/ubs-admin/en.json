@@ -33,6 +33,7 @@
     "password-error-confirm": "Passwords do not match!",
     "password-error-new": "Enter the new password!",
     "delete-title": "Delete profile",
+    "delete-address": "Are you sure you want to delete this address?",
     "delete-message": "If you delete your profile, your bonuses will burn out and your order information will be deleted without the possibility of recovery",
     "get-notification-in": "Get notification in",
     "error-change-pass": "Password is wrong",
