@@ -15,10 +15,10 @@ import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
-import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
-import { FIRSTECONEWS } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
+import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
+import { HABITLIST } from '../mocks/habit-mock';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -45,9 +45,9 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
 
-  fakeHabitService = jasmine.createSpyObj('fakeHabitService', {
-    getHabitById: of(DEFAULTHABIT)
-  });
+  fakeHabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
+  fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
+  fakeHabitService.getHabitsByTagAndLang = () => of(HABITLIST);
 
   fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
     getCurrentLanguage: () => 'ua'
@@ -71,16 +71,8 @@ describe('AddNewHabitComponent', () => {
 
   matSnackBarMock.openSnackBar = (type: string) => {};
 
-  const newsMock: EcoNewsDto = {
-    page: [FIRSTECONEWS],
-    totalElements: 1,
-    currentPage: 1,
-    totalPages: 1,
-    hasNext: false
-  };
-
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsListByPage']);
-  ecoNewsServiceMock.getEcoNewsListByPage = () => of(newsMock);
+  ecoNewsServiceMock.getEcoNewsListByPage = () => of(ECONEWSMOCK);
 
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
@@ -138,6 +130,16 @@ describe('AddNewHabitComponent', () => {
       expect(spy).toHaveBeenCalled();
     });
     fakeLocalStorageService.languageSubject.next('en');
+  });
+
+  it('should set recommended habits on getRecommendedHabits', () => {
+    (component as any).getRecommendedHabits(1, 3, ['tag']);
+    expect(component.recommendedHabits).toEqual(HABITLIST.page);
+  });
+
+  it('should set recommended news on getRecommendedNews', () => {
+    (component as any).getRecommendedNews(1, 3);
+    expect(component.recommendedNews).toEqual(ECONEWSMOCK.page);
   });
 
   it('should call getStars on initHabitData', () => {

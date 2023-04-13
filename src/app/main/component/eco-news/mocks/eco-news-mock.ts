@@ -1,3 +1,4 @@
+import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 
 export const FIRSTECONEWS: EcoNewsModel = {
@@ -14,4 +15,12 @@ export const FIRSTECONEWS: EcoNewsModel = {
   countComments: 2,
   shortInfo: 'info',
   source: null
+};
+
+export const ECONEWSMOCK: EcoNewsDto = {
+  page: [FIRSTECONEWS],
+  totalElements: 1,
+  currentPage: 1,
+  totalPages: 1,
+  hasNext: false
 };
