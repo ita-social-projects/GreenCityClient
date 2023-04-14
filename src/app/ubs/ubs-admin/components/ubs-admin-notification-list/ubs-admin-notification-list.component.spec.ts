@@ -102,26 +102,10 @@ describe('UbsAdminNotificationListComponent', () => {
     const data = {
       currentPage: 1,
       totalPages: 1,
-      page: [
-        {
-          id: 1,
-          type: 'UNPAID_ORDER',
-          title: 'Тест',
-          titleEng: 'Test',
-          schedule: '0 0 * * *',
-          trigger: 'TRIGGER',
-          triggerDescription: 'Опис',
-          triggerDescriptionEng: 'Desc',
-          time: 'TIME',
-          timeDescription: 'Опис',
-          timeDescriptionEng: 'Desc',
-          notificationStatus: 'STATUS',
-          platforms: []
-        }
-      ],
+      page: NotificationTemplatesMock,
       totalElements: 1
     };
-    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data));
+    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data as any));
 
     component.loadPage(1);
 
