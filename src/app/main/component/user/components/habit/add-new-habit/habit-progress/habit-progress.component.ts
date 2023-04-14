@@ -69,7 +69,7 @@ export class HabitProgressComponent implements OnChanges {
     this.habitAssignService
       .enrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe((response: any) => {
+      .subscribe((response: HabitAssignInterface) => {
         if (response.status === HabitStatus.ACQUIRED) {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);

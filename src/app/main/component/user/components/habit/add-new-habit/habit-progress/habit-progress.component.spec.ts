@@ -26,25 +26,7 @@ describe('HabitProgressComponent', () => {
     'unenrollByHabit'
   ]);
 
-  const fakeHabitStatusCalendarList = {
-    enrollDate: '2022-06-19',
-    id: 333
-  };
-
-  const fakeHabitAcquired = {
-    id: 333,
-    status: 'ACQUIRED',
-    habit: {
-      id: 333,
-      habitTranslation: {
-        name: 'fakeName'
-      }
-    },
-    duration: 44,
-    workingDays: 3,
-    habitStreak: 2,
-    habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
-  };
+  const fakeHabitAcquired = { ...DEFAULTFULLINFOHABIT, status: 'ACQUIRED' };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -76,15 +58,15 @@ describe('HabitProgressComponent', () => {
   });
 
   describe('buildHabitDescription', () => {
-    it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
-      component.currentDate = '2023-04-13';
+    it('should set habitMark done', () => {
+      component.currentDate = '2023-04-14';
       component.habit = DEFAULTFULLINFOHABIT as any;
       component.buildHabitDescription();
       expect(component.habitMark).toBe('done');
     });
 
-    it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
-      component.currentDate = '2022-02-19';
+    it('should set habitMark undone', () => {
+      component.currentDate = '2022-04-12';
       component.habit = DEFAULTFULLINFOHABIT as any;
       component.buildHabitDescription();
       expect(component.habitMark).toBe('undone');
@@ -103,7 +85,7 @@ describe('HabitProgressComponent', () => {
       const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
       component.enroll();
       expect(buildHabitDescriptionSpy).toHaveBeenCalled();
-      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
+      expect(component.habit.habitStatusCalendarDtoList).toEqual(DEFAULTFULLINFOHABIT.habitStatusCalendarDtoList);
       expect(component.isRequest).toBeFalsy();
     });
   });
@@ -114,8 +96,8 @@ describe('HabitProgressComponent', () => {
       const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
       component.unenroll();
       expect(buildHabitDescriptionSpy).toHaveBeenCalled();
-      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
-      expect(component.habit.workingDays).toBe(4);
+      expect(component.habit.habitStatusCalendarDtoList).toEqual(DEFAULTFULLINFOHABIT.habitStatusCalendarDtoList);
+      expect(component.habit.workingDays).toBe(6);
       expect(component.habit.habitStreak).toBe(5);
       expect(component.isRequest).toBeFalsy();
     });

@@ -52,8 +52,8 @@ export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
   habitStreak: 5,
   lastEnrollmentDate: new Date(2021, 5, 23),
   habitStatusCalendarDtoList: [
-    { enrollDate: 'monday', id: 2 },
-    { enrollDate: 'wednesday', id: 3 }
+    { enrollDate: '2023-04-14', id: 2 },
+    { enrollDate: '2023-04-10', id: 3 }
   ],
   shoppingListItems: [
     {
