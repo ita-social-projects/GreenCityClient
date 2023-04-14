@@ -196,10 +196,10 @@ export class AddNewHabitComponent implements OnInit {
 
   getProgressValue(progress: number): void {
     this.canAcquire = progress >= this.enoughToAcquire;
-    if (this.canAcquire && !this.assignedHabit.progressNotificationHasDisplayed) {
+    if (this.canAcquire && !this.assignedHabit.progressNotificationHasDisplayed && !this.isAcquired) {
       const dialogRef = this.getOpenDialog(HabitCongratulation, true);
       this.afterDialogClosed(dialogRef);
-      this.habitAssignService.progressNotificationHasDisplayed(this.habitAssignId);
+      this.habitAssignService.progressNotificationHasDisplayed(this.habitAssignId).pipe(take(1)).subscribe();
     }
   }
 
