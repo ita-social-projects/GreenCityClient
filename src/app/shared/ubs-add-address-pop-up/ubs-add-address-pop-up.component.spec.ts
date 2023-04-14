@@ -657,14 +657,4 @@ describe('UBSAddAddressPopUpComponent', () => {
     fixture.detectChanges();
     expect(component.updatedAddresses).toEqual(response.addressList);
   });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy, 'unsubscribe');
-    component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
-  });
 });

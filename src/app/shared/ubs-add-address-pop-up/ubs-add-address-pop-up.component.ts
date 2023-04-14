@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,13 +12,14 @@ import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
+import { AddHouseNumberToAddressService } from '../add-house-number-to-address/add-house-number-to-address';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
   templateUrl: './ubs-add-address-pop-up.component.html',
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
-export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   autocompleteService: google.maps.places.AutocompleteService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
   cityPredictionList: google.maps.places.AutocompletePrediction[];
@@ -64,7 +65,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     private langService: LanguageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript,
-    private convertCapLetterServ: ToFirstCapitalLetterService
+    private convertCapLetterServ: ToFirstCapitalLetterService,
+    private addNumToAddressService: AddHouseNumberToAddressService
   ) {}
 
   get region() {
@@ -154,6 +156,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         latitude: this.data.edit ? this.data.address.coordinates.latitude : '',
         longitude: this.data.edit ? this.data.address.coordinates.longitude : ''
       },
+      placeId: null,
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
@@ -336,11 +339,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   setPlaceId(): void {
     if (this.formattedAddress && this.houseNumber.value) {
-      const searchAddress = [...this.formattedAddress.split(',')];
-      searchAddress.splice(1, 0, ' ' + this.houseNumber.value);
-      this.addAddressForm.get('searchAddress').setValue(searchAddress.join(','));
+      const addressConverted = this.addNumToAddressService.addHouseNumToAddress(this.formattedAddress, this.houseNumber.value);
+      this.addAddressForm.get('searchAddress').setValue(addressConverted);
       const request = {
-        query: this.addAddressForm.value.searchAddress
+        query: addressConverted
       };
       this.placeService.textSearch(request, (address) => {
         this.placeId = address[0].place_id;
@@ -368,6 +370,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   addAdress(): void {
     this.addAddressForm.value.region = this.region.value;
     this.addAddressForm.value.regionEn = this.regionEn.value;
+    this.addAddressForm.value.placeId = this.placeId;
     this.isDisabled = true;
 
     const addressData = {
@@ -409,10 +412,5 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   public getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.unsubscribe();
   }
 }
