@@ -191,23 +191,35 @@ describe('AddNewHabitComponent', () => {
     expect(component.newDuration).toEqual(1);
   });
 
-  it('getProgressValue should set canAcquire false', () => {
+  it('should set canAcquire false on getProgressValue', () => {
     component.assignedHabit = DEFAULTFULLINFOHABIT;
     component.getProgressValue(60);
     expect(component.canAcquire).toBeFalsy();
   });
 
-  it('getProgressValue should set canAcquire true', () => {
+  it('should set canAcquire true on getProgressValue', () => {
     component.assignedHabit = DEFAULTFULLINFOHABIT;
     component.getProgressValue(80);
     expect(component.canAcquire).toBeTruthy();
   });
 
-  it('getProgressValue should acquire habit', () => {
+  it('should not call congratulation dialog on getProgressValue', () => {
+    const spyDialog = spyOn(component as any, 'getOpenDialog');
+    const spyRef = spyOn(component as any, 'afterDialogClosed');
+    component.getProgressValue(60);
+    expect(spyDialog).not.toHaveBeenCalled();
+    expect(spyRef).not.toHaveBeenCalled();
+  });
+
+  it('should call congratulation dialog on getProgressValue', () => {
     component.assignedHabit = DEFAULTFULLINFOHABIT;
-    component.assignedHabit.progressNotificationHasDisplayed = true;
+    component.isAcquired = false;
+    component.canAcquire = true;
+    const spyDialog = spyOn(component as any, 'getOpenDialog');
+    const spyRef = spyOn(component as any, 'afterDialogClosed');
     component.getProgressValue(80);
-    expect(fakeHabitAssignService.progressNotificationHasDisplayed).toHaveBeenCalled();
+    expect(spyDialog).toHaveBeenCalled();
+    expect(spyRef).toHaveBeenCalled();
   });
 
   it('checkIfAssigned method should call getCustomShopList', () => {
@@ -232,5 +244,13 @@ describe('AddNewHabitComponent', () => {
     (component as any).userId = 2;
     component.goToProfile();
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
+  });
+
+  it('should call go to profile and snackbar on afterHabitWasUpdated', () => {
+    const spyGoProfile = spyOn(component, 'goToProfile');
+    const spySnackBar = spyOn(matSnackBarMock, 'openSnackBar');
+    (component as any).afterHabitWasUpdated();
+    expect(spyGoProfile).toHaveBeenCalled();
+    expect(spySnackBar).toHaveBeenCalledWith('habitUpdated');
   });
 });

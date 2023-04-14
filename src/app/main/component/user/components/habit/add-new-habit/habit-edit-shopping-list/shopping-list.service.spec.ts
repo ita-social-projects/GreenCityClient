@@ -4,7 +4,14 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ShoppingListService } from './shopping-list.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { environment } from '@environment/environment.js';
-import { ALLUSERSHOPLISTS, CUSTOMSHOPITEM, SHOPLIST, SHOPLISTITEMONE, UPDATEHABITSHOPLIST } from '../../mocks/shopping-list-mock';
+import {
+  ALLUSERSHOPLISTS,
+  CUSTOMSHOPITEM,
+  SHOPLIST,
+  SHOPLISTITEMONE,
+  SHOPLISTITEMTWO,
+  UPDATEHABITSHOPLIST
+} from '../../mocks/shopping-list-mock';
 
 describe('ShoppingListService', () => {
   let service: ShoppingListService;
@@ -62,21 +69,21 @@ describe('ShoppingListService', () => {
   });
 
   it('should update Standard Shop Item Status', () => {
-    service.updateStandardShopItemStatus(SHOPLISTITEMONE, 'ua').subscribe((data) => {
-      expect(data).toEqual(SHOPLIST);
+    service.updateStandardShopItemStatus(SHOPLISTITEMTWO, 'ua').subscribe((data) => {
+      expect(data).toEqual([SHOPLISTITEMTWO]);
     });
-    const req = httpMock.expectOne(`${mainLink}user/shopping-list-items/1/status/INPROGRESS?lang=ua`);
+    const req = httpMock.expectOne(`${mainLink}user/shopping-list-items/2/status/INPROGRESS?lang=ua`);
     expect(req.request.method).toBe('PATCH');
-    req.flush(SHOPLIST);
+    req.flush([SHOPLISTITEMTWO]);
   });
 
   it('should update Custom Shop Item Status', () => {
-    service.updateCustomShopItemStatus(1, SHOPLISTITEMONE).subscribe((data) => {
-      expect(data).toEqual(SHOPLISTITEMONE);
+    service.updateCustomShopItemStatus(1, SHOPLISTITEMTWO).subscribe((data) => {
+      expect(data).toEqual(SHOPLISTITEMTWO);
     });
-    const req = httpMock.expectOne(`${mainLink}custom/shopping-list-items/1/custom-shopping-list-items?itemId=1&status=INPROGRESS`);
+    const req = httpMock.expectOne(`${mainLink}custom/shopping-list-items/1/custom-shopping-list-items?itemId=2&status=INPROGRESS`);
     expect(req.request.method).toBe('PATCH');
-    req.flush(SHOPLISTITEMONE);
+    req.flush(SHOPLISTITEMTWO);
   });
 
   it('should update Habit Shop List', () => {
