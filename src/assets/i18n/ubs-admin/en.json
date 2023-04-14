@@ -1006,6 +1006,14 @@
         "cancel": "Cancel",
         "confirm": "Deactivate"
       }
+    },
+    "activation-popup": {
+      "title": "Activate notification",
+      "text": "Are you sure you want to activate notification?",
+      "buttons": {
+        "cancel": "Cancel",
+        "confirm": "Activate"
+      }
     }
   },
   "cron-picker": {

@@ -11,6 +11,7 @@ import { NotificationTemplate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -39,7 +40,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit(): void {
@@ -164,8 +166,30 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.notificationsService.deactivateNotificationTemplate(this.notificationId).pipe(takeUntil(this.destroy)).subscribe();
+        this.notificationsService
+          .deactivateNotificationTemplate(this.notificationId, 'INACTIVATE')
+          .pipe(takeUntil(this.destroy))
+          .subscribe();
         this.navigateToNotificationList();
+      });
+  }
+
+  onActivateNotification() {
+    const translationKeys = {
+      title: 'ubs-notifications.activation-popup.title',
+      text: 'ubs-notifications.activation-popup.text',
+      confirm: 'ubs-notifications.activation-popup.buttons.confirm',
+      cancel: 'ubs-notifications.activation-popup.buttons.cancel'
+    };
+    this.dialog
+      .open(ConfirmationDialogComponent, { hasBackdrop: true, data: translationKeys })
+      .afterClosed()
+      .subscribe((activate) => {
+        if (!activate) {
+          return;
+        }
+
+        this.notificationsService.deactivateNotificationTemplate(this.notificationId, 'ACTIVATE').pipe(takeUntil(this.destroy)).subscribe();
       });
   }
 
@@ -174,7 +198,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onSaveChanges(): void {
-    this.notificationsService.updateNotificationTemplate(this.notificationId, this.notification).pipe(takeUntil(this.destroy)).subscribe();
+    this.notificationsService
+      .updateNotificationTemplate(this.notificationId, this.notification)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => this.snackBar.openSnackBar('updatedNotification'));
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

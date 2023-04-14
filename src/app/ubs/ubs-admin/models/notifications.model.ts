@@ -9,14 +9,17 @@ export interface Platform {
 
 export interface NotificationTemplate {
   id: number;
-  title: {
-    en: string;
-    ua: string;
-  };
+  type: string;
+  title: string;
+  titleEng: string;
   schedule: string | null;
   trigger: string;
+  triggerDescription: string;
+  triggerDescriptionEng: string;
   time: string;
-  status: string;
+  timeDescription: string;
+  timeDescriptionEng: string;
+  notificationStatus: string;
   platforms: Platform[];
 }
 

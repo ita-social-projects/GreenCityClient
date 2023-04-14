@@ -49,8 +49,19 @@
             <button class="action-button edit-button" (click)="onEditNotificationSettings()">
               <img [src]="icons.edit" alt="" />
             </button>
-            <button class="action-button deactivate-button" (click)="onDeactivateNotification()">
+            <button
+              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'ACTIVE'"
+              class="action-button deactivate-button"
+              (click)="onDeactivateNotification()"
+            >
               <img [src]="icons.delete" alt="" />
+            </button>
+            <button
+              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'INACTIVE'"
+              class="action-button deactivate-button"
+              (click)="onActivateNotification()"
+            >
+              <img [src]="icons.activate" alt="" />
             </button>
           </div>
         </td>
