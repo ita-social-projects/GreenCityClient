@@ -198,6 +198,7 @@
     font-size: 14px !important;
     font-family: var(--ubs-quaternary-font);
   }
+
   .mat-option:hover:not(.mat-option-disabled) {
     background-color: var(--ubs-primary-light-green) !important;
     font-family: var(--ubs-quaternary-font);
@@ -214,7 +215,7 @@
 }
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color: var(--ubs-primary-black) !important ;
+  background-color: var(--ubs-primary-black) !important;
 }
 
 ::ng-deep .mat-checkbox-ripple .mat-ripple-element {

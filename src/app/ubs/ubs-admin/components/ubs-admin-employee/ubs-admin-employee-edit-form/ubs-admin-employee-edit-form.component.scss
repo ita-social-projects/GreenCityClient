@@ -283,7 +283,7 @@ label {
   }
 }
 
-action-buttons {
+.action-buttons {
   width: 118px;
 }
 
@@ -322,12 +322,13 @@ action-buttons {
   }
 }
 
-::-moz-scrollbar-thum:horizontal {
+::-moz-scrollbar-thum {
   border-radius: 4px !important;
 }
 
+::-webkit-scrollbar-button:no-button:start:decrement,
 ::-moz-scrollbar-button:no-button:vertical:start:decrement,
-::-moz-scrollbar-button:no-button:vertical:end:increment ::-webkit-scrollbar-button:no-button:start:decrement,
-::-webkit-scrollbar-button:no-button:vertical:end:increment {
+::-webkit-scrollbar-button:no-button:vertical:end:increment,
+::-moz-scrollbar-button:no-button:vertical:end:increment {
   display: none !important;
 }

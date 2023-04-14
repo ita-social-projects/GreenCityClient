@@ -292,7 +292,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   checkRegionValue(): void {
     let currentRegion;
-    if (this.selectedRegions.length == 0) {
+    if (this.selectedRegions.length === 0) {
       currentRegion = this.locations;
     } else {
       currentRegion = this.selectedRegions;
@@ -340,46 +340,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
       });
     }
   }
-
-  //   toggleSelectAll(filterName): void {
-  //     switch (filterName) {
-  //       case filterOptions.position:
-  //         this.selectAllHendler(this.isPositionChecked, this.selectedPositions, this.employeePositions, this.transformPositionToSelectedPosition, filterOptions.position,'positionsPlaceholder');
-  //         break;
-  //       case filterOptions.city:
-  //         this.selectAllHendler(
-  //           this.isCityChecked,
-  //           this.selectedCities,
-  //           this.cities,
-  //           this.transformCityToSelectedCity,
-  //           filterOptions.city,
-  //           'cityPlaceholder');
-  //         break;
-  //       case filterOptions.courier:
-  //         this.selectAllHendler(
-  //           this.isCourierChecked,
-  //            this.selectedCouriers,
-  //             this.couriers,
-  //              this.transformCourierToSelectedCourier,
-  //               filterOptions.courier,
-  //               'courierPlaceholder');
-  //         break;
-  //   }
-  // }
-
-  //   selectAllHendler(checkFunction:Function,selectedFilters, filtersData, transformFunction:Function,
-  //       filterName, placeholderName): void {
-  //     if (!checkFunction(selectedFilters,filtersData)) {
-  //       selectedFilters.length = 0;
-  //       filtersData.forEach((filter) => {
-  //         const tempItem = transformFunction(filter, this.getLangValue, this.getSelectedCityName, this.languageService);
-  //         selectedFilters.push(tempItem);
-  //       });
-  //     } else {
-  //       selectedFilters.length = 0;
-  //     }
-  //     this.setCountOfCheckedFilters(selectedFilters, filterName, placeholderName);
-  //   }
 
   toggleSelectAllPositions(): void {
     if (!this.isPositionChecked()) {
@@ -601,7 +561,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return array.map((it) => it.name).includes(item);
   }
 
-  checkSelectedItemRegion(name: String): boolean {
+  checkSelectedItemRegion(name: string): boolean {
     return this.selectedRegions.some((it) => it.regionTranslationDtos.some((ob) => ob.regionName === name));
   }
 
