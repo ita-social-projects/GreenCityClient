@@ -584,7 +584,7 @@ describe('UBSAddAddressPopUpComponent', () => {
   it('method onStreetSelected should get details for selected street in en', () => {
     component.isDistrict = true;
     const spy = spyOn(component, 'setDistrictAuto');
-    component.placeService = { getDetails: () => {} } as any;
+    component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn, status as any);
     });
