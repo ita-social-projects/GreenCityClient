@@ -121,7 +121,6 @@ export class AddNewHabitComponent implements OnInit {
         });
     } else {
       this.getDefaultHabit();
-      this.getStandartShopList();
     }
   }
 
@@ -150,6 +149,12 @@ export class AddNewHabitComponent implements OnInit {
       .subscribe((data: HabitInterface) => {
         this.initHabitData(data);
         this.initialDuration = data.defaultDuration;
+        if (data.isCustomHabit) {
+          data.customShoppingListItems.forEach((item) => (item.custom = true));
+          this.initialShoppingList = data.customShoppingListItems;
+        } else {
+          this.getStandartShopList();
+        }
       });
   }
 

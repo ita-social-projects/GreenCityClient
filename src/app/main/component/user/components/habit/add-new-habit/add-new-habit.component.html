@@ -40,7 +40,6 @@
     <div class="habit-info-block">
       <div class="habit-progress">
         <app-habit-progress
-          *ngIf="assignedHabit"
           [habit]="assignedHabit"
           class="progress-container"
           (progressValue)="getProgressValue($event)"
