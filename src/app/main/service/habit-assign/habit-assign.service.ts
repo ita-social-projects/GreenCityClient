@@ -70,6 +70,10 @@ export class HabitAssignService implements OnDestroy {
     return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${habitAssignId}`);
   }
 
+  progressNotificationHasDisplayed(habitAssignId: number): Observable<object> {
+    return this.http.put<object>(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`, {});
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

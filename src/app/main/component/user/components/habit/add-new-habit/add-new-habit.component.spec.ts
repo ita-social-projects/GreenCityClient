@@ -13,7 +13,7 @@ import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -88,6 +88,7 @@ describe('AddNewHabitComponent', () => {
         MatDialogModule
       ],
       providers: [
+        MatDialog,
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
         { provide: HabitAssignService, useValue: fakeHabitAssignService },

@@ -16,6 +16,7 @@ export interface HabitAssignInterface {
   lastEnrollmentDate: Date;
   habitStatusCalendarDtoList: Array<HabitStatusCalendarListInterface>;
   shoppingListItems: Array<ShoppingList>;
+  progressNotificationHasDisplayed?: boolean;
 }
 
 export interface HabitStatusCalendarListInterface {

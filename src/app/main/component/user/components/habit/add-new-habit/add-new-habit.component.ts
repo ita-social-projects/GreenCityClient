@@ -10,7 +10,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
@@ -19,6 +19,7 @@ import { habitImages } from 'src/app/main/image-pathes/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp } from '@global-user/models/habit-warnings';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -51,12 +52,6 @@ export class AddNewHabitComponent implements OnInit {
   habitImage: string;
   defaultImage = habitImages.defaultImage;
   star: number;
-  popUpGiveUp = {
-    title: 'user.habit.add-new-habit.confirmation-modal-title',
-    subtitle: 'user.habit.add-new-habit.confirmation-modal-text',
-    confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
-    cancel: 'user.habit.add-new-habit.confirmation-modal-no'
-  };
 
   private habitId: number;
   private habitAssignId: number;
@@ -187,6 +182,24 @@ export class AddNewHabitComponent implements OnInit {
 
   getProgressValue(progress: number): void {
     this.canAcquire = progress >= this.enoughToAcquire;
+    if (this.canAcquire && !this.assignedHabit.progressNotificationHasDisplayed) {
+      const dialogRef = this.dialog.open(WarningPopUpComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        disableClose: true,
+        panelClass: 'popup-dialog-container',
+        data: {
+          popupTitle: HabitCongratulation.title,
+          popupSubtitle: HabitCongratulation.subtitle,
+          popupConfirm: HabitCongratulation.confirm,
+          popupCancel: HabitCongratulation.cancel,
+          isHabit: true,
+          habitName: this.habitResponse.habitTranslation.name
+        }
+      });
+      this.afterDialogClosed(dialogRef);
+      this.habitAssignService.progressNotificationHasDisplayed(this.habitAssignId);
+    }
   }
 
   getList(list: ShoppingList[]): void {
@@ -220,10 +233,10 @@ export class AddNewHabitComponent implements OnInit {
       disableClose: true,
       panelClass: 'popup-dialog-container',
       data: {
-        popupTitle: this.popUpGiveUp.title,
-        popupSubtitle: this.popUpGiveUp.subtitle,
-        popupConfirm: this.popUpGiveUp.confirm,
-        popupCancel: this.popUpGiveUp.cancel,
+        popupTitle: HabitGiveUp.title,
+        popupSubtitle: HabitGiveUp.subtitle,
+        popupConfirm: HabitGiveUp.confirm,
+        popupCancel: HabitGiveUp.cancel,
         isHabit: true,
         habitName: this.habitResponse.habitTranslation.name
       }
@@ -292,13 +305,16 @@ export class AddNewHabitComponent implements OnInit {
             .updateHabitShopList(habitShopListUpdate)
             .pipe(take(1))
             .subscribe(() => {
-              this.goToProfile();
-              this.snackBar.openSnackBar('habitUpdated');
+              this.afterHabitWasUpdated();
             });
         }
-        this.goToProfile();
-        this.snackBar.openSnackBar('habitUpdated');
+        this.afterHabitWasUpdated();
       });
+  }
+
+  afterHabitWasUpdated(): void {
+    this.goToProfile();
+    this.snackBar.openSnackBar('habitUpdated');
   }
 
   private convertShopLists(): void {
@@ -322,9 +338,41 @@ export class AddNewHabitComponent implements OnInit {
     return shopListUpdate;
   }
 
-  setHabitStatus(): void {
+  openAcquireConfirm(): void {
+    const dialogRef = this.dialog.open(WarningPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'popup-dialog-container',
+      data: {
+        popupTitle: HabitAcquireConfirm.title,
+        popupSubtitle: HabitAcquireConfirm.subtitle,
+        popupConfirm: HabitAcquireConfirm.confirm,
+        popupCancel: HabitAcquireConfirm.cancel,
+        isHabit: true,
+        habitName: this.habitResponse.habitTranslation.name
+      }
+    });
+    this.afterDialogClosed(dialogRef);
+  }
+
+  afterDialogClosed(dialogRef: MatDialogRef<WarningPopUpComponent>) {
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          this.acquireHabit();
+        }
+        if (!confirm) {
+          this.snackBar.openSnackBar('habitDidNotGiveUp');
+        }
+      });
+  }
+
+  acquireHabit(): void {
     this.habitAssignService
-      .setHabitStatus(this.habitId, this.setStatus)
+      .setHabitStatus(this.habitAssignId, this.setStatus)
       .pipe(take(1))
       .subscribe(() => {
         this.goToProfile();

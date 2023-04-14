@@ -39,7 +39,12 @@
   <div class="container-bottom">
     <div class="habit-info-block">
       <div class="habit-progress">
-        <app-habit-progress [habit]="assignedHabit" class="progress-container"></app-habit-progress>
+        <app-habit-progress
+          *ngIf="assignedHabit"
+          [habit]="assignedHabit"
+          class="progress-container"
+          (progressValue)="getProgressValue($event)"
+        ></app-habit-progress>
       </div>
       <div class="habit-second-block">
         <div class="duration-shoping">
@@ -75,7 +80,7 @@
       <button class="tertiary-global-button btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button *ngIf="canAcquire" class="secondary-global-button btn" type="button" (click)="setHabitStatus()">
+      <button *ngIf="canAcquire" class="secondary-global-button btn" type="button" (click)="openAcquireConfirm()">
         {{ 'user.habit.btn.acquire' | translate }}
       </button>
       <button class="primary-global-button btn" type="button" (click)="updateHabit()">

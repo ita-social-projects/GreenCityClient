@@ -4,14 +4,14 @@
   </button>
   <div class="warning-text">
     <div class="warning-title" *ngIf="popupTitle">
-      {{ popupTitle | translate }} <span *ngIf="isHabit"> "{{ habitName }}"? {{ popupSubtitle | translate }}</span>
+      {{ popupTitle | translate }} <span *ngIf="isHabit"> "{{ habitName }}" {{ popupSubtitle | translate }}</span>
     </div>
     <div class="warning-subtitle" *ngIf="popupSubtitle && !isHabit">
       {{ popupSubtitle | translate }}
     </div>
   </div>
   <div class="buttons-container">
-    <button [ngClass]="isUBS ? 'ubs-secondary-global-button' : 'secondary-global-button'" class="m-btn" (click)="userReply(null)">
+    <button [ngClass]="isUBS ? 'ubs-secondary-global-button' : 'secondary-global-button'" class="m-btn" (click)="userReply(false)">
       {{ popupCancel | translate }}
     </button>
     <button
