@@ -3,7 +3,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
@@ -15,6 +14,7 @@ import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/e
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { ActivatedRoute } from '@angular/router';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-profile-dashboard',

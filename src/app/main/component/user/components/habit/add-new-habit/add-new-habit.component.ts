@@ -3,8 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,12 +12,15 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { Location } from '@angular/common';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { HabitInterface, HabitListInterface } from 'src/app/main/interface/habit/habit.interface';
 import { habitImages } from 'src/app/main/image-pathes/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp } from '@global-user/models/habit-warnings';
+import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp } from '@global-user/components/habit/models/habit-warnings';
+import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
+import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
+import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../models/shoppinglist.model';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -183,20 +184,7 @@ export class AddNewHabitComponent implements OnInit {
   getProgressValue(progress: number): void {
     this.canAcquire = progress >= this.enoughToAcquire;
     if (this.canAcquire && !this.assignedHabit.progressNotificationHasDisplayed) {
-      const dialogRef = this.dialog.open(WarningPopUpComponent, {
-        hasBackdrop: true,
-        closeOnNavigation: true,
-        disableClose: true,
-        panelClass: 'popup-dialog-container',
-        data: {
-          popupTitle: HabitCongratulation.title,
-          popupSubtitle: HabitCongratulation.subtitle,
-          popupConfirm: HabitCongratulation.confirm,
-          popupCancel: HabitCongratulation.cancel,
-          isHabit: true,
-          habitName: this.habitResponse.habitTranslation.name
-        }
-      });
+      const dialogRef = this.getOpenDialog(HabitCongratulation);
       this.afterDialogClosed(dialogRef);
       this.habitAssignService.progressNotificationHasDisplayed(this.habitAssignId);
     }
@@ -227,20 +215,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   giveUpHabit(): void {
-    const dialogRef = this.dialog.open(WarningPopUpComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: 'popup-dialog-container',
-      data: {
-        popupTitle: HabitGiveUp.title,
-        popupSubtitle: HabitGiveUp.subtitle,
-        popupConfirm: HabitGiveUp.confirm,
-        popupCancel: HabitGiveUp.cancel,
-        isHabit: true,
-        habitName: this.habitResponse.habitTranslation.name
-      }
-    });
+    const dialogRef = this.getOpenDialog(HabitGiveUp);
     dialogRef
       .afterClosed()
       .pipe(take(1))
@@ -312,11 +287,6 @@ export class AddNewHabitComponent implements OnInit {
       });
   }
 
-  afterHabitWasUpdated(): void {
-    this.goToProfile();
-    this.snackBar.openSnackBar('habitUpdated');
-  }
-
   private convertShopLists(): void {
     this.customShopList.forEach((el) => {
       delete el.custom;
@@ -326,6 +296,11 @@ export class AddNewHabitComponent implements OnInit {
       delete el.custom;
       delete el.selected;
     });
+  }
+
+  private afterHabitWasUpdated(): void {
+    this.goToProfile();
+    this.snackBar.openSnackBar('habitUpdated');
   }
 
   private setHabitListForUpdate(): HabitUpdateShopList {
@@ -339,21 +314,25 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   openAcquireConfirm(): void {
-    const dialogRef = this.dialog.open(WarningPopUpComponent, {
+    const dialogRef = this.getOpenDialog(HabitAcquireConfirm);
+    this.afterDialogClosed(dialogRef);
+  }
+
+  getOpenDialog(dialogConfig: WarningDialog): MatDialogRef<WarningPopUpComponent> {
+    return this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
       panelClass: 'popup-dialog-container',
       data: {
-        popupTitle: HabitAcquireConfirm.title,
-        popupSubtitle: HabitAcquireConfirm.subtitle,
-        popupConfirm: HabitAcquireConfirm.confirm,
-        popupCancel: HabitAcquireConfirm.cancel,
+        popupTitle: dialogConfig.title,
+        popupSubtitle: dialogConfig.subtitle,
+        popupConfirm: dialogConfig.confirm,
+        popupCancel: dialogConfig.cancel,
         isHabit: true,
         habitName: this.habitResponse.habitTranslation.name
       }
     });
-    this.afterDialogClosed(dialogRef);
   }
 
   afterDialogClosed(dialogRef: MatDialogRef<WarningPopUpComponent>) {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../models/shoppinglist.model';
 
 @Injectable({
   providedIn: 'root'

@@ -80,6 +80,15 @@ describe('HabitService', () => {
     req.flush(HABITSFORDATE);
   });
 
+  it('should update progress Notification Has Displayed', () => {
+    service.progressNotificationHasDisplayed(1).subscribe((data) => {
+      expect(data).toEqual({});
+    });
+    const req = httpMock.expectOne(`${habitAssignLink}/1/updateProgressNotificationHasDisplayed`);
+    expect(req.request.method).toBe('PUT');
+    req.flush({});
+  });
+
   afterEach(() => {
     httpMock.verify();
   });

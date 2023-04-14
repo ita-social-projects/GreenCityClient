@@ -8,10 +8,10 @@ import { Subject } from 'rxjs';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
+import { ShoppingList } from '../models/shoppinglist.model';
 
 @Component({
   selector: 'app-add-edit-custom-habit',

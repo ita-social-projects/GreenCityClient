@@ -5,8 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
-import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { HabitAssignInterface, ResponseInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Injectable({
   providedIn: 'root'

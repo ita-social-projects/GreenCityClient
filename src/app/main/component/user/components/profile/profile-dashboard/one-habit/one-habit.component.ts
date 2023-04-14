@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { HabitAssignInterface } from '../../../../../../interface/habit/habit-assign.interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
-import { HabitMark } from '@global-user/models/HabitMark.enum';
+import { HabitMark } from '@global-user/components/habit/models/HabitMark.enum';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-one-habit',

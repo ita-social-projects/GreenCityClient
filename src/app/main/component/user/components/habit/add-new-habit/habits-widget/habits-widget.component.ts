@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
+import { HabitInterface } from '../../models/interfaces/habit.interface';
 
 @Component({
   selector: 'app-habits-widget',

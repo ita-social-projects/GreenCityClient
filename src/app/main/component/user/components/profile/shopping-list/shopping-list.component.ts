@@ -2,10 +2,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
+import { AllShoppingLists, ShoppingList } from '@global-user/components/habit/models/shoppinglist.model';
 
 @Component({
   selector: 'app-shopping-list',

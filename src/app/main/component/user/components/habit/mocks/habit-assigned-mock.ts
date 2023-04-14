@@ -1,5 +1,5 @@
-import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
-import { HabitAssignInterface, ResponseInterface } from '../../../../../interface/habit/habit-assign.interface';
+import { HabitInterface } from '../models/interfaces/habit.interface';
+import { HabitAssignInterface, ResponseInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 
 export const DEFAULTHABIT: HabitInterface = {

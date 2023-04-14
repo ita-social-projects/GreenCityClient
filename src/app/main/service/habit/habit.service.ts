@@ -5,11 +5,12 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.interface';
-import { ShoppingList } from '../../component/user/models/shoppinglist.model';
+
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import { CustomHabitInterface } from '../../interface/habit/custom-habit.interface';
+import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { ShoppingList } from '@global-user/components/habit/models/shoppinglist.model';
+import { CustomHabitInterface } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 @Injectable({
   providedIn: 'root'

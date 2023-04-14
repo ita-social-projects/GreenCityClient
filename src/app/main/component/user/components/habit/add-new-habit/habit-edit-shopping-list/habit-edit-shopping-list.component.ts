@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { ShoppingListService } from './shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TodoStatus } from '@global-user/models/todo-status.enum';
+import { ShoppingList } from '../../models/shoppinglist.model';
+import { TodoStatus } from '../../models/todo-status.enum';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',

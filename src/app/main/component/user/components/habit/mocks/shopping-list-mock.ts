@@ -1,4 +1,4 @@
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../models/shoppinglist.model';
 
 export const SHOPLISTITEMONE: ShoppingList = {
   id: 1,
@@ -13,3 +13,19 @@ export const SHOPLISTITEMTWO: ShoppingList = {
 };
 
 export const SHOPLIST: ShoppingList[] = [SHOPLISTITEMONE, SHOPLISTITEMTWO];
+
+export const ALLUSERSHOPLISTS: AllShoppingLists = {
+  userShoppingListItemDto: [SHOPLISTITEMONE],
+  customShoppingListItemDto: [SHOPLISTITEMTWO]
+};
+
+export const UPDATEHABITSHOPLIST: HabitUpdateShopList = {
+  habitAssignId: 2,
+  standartShopList: [SHOPLISTITEMONE],
+  customShopList: [SHOPLISTITEMTWO],
+  lang: 'ua'
+};
+
+export const CUSTOMSHOPITEM: CustomShoppingItem = {
+  text: 'New item'
+};
