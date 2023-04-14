@@ -19,7 +19,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@global-service/location/location.service';
 
-fdescribe('UbsUserProfilePageComponent', () => {
+describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
     addressDto: [
       {
