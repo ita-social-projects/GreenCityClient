@@ -9,7 +9,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { Language } from 'src/app/main/i18n/Language';
-import { SHOPLISTITEMONE } from '@global-user/components/habit/mocks/shopping-list-mock';
+import { SHOPLISTITEMONE, SHOPLISTITEMTWO } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { ALLUSERSHOPLISTS } from '@global-user/components/habit/mocks/shopping-list-mock';
 
@@ -72,12 +72,8 @@ describe('ShoppingListComponent', () => {
 
   it('should set custom true after getShopLists', () => {
     const result = [
-      {
-        id: 1,
-        status: 'INPROGRESS',
-        text: 'some to-do',
-        custom: true
-      }
+      { ...SHOPLISTITEMONE, custom: true },
+      { ...SHOPLISTITEMTWO, custom: true }
     ];
     SHOPLIST.forEach((el) => (el.custom = true));
     component.shoppingList = SHOPLIST;
