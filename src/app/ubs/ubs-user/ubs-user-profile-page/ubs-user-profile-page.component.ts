@@ -417,7 +417,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   private convertDistrictName(district: string): string {
-    return this.convertCapLetterServ.convFirstLetterToCapital(district);
+    return this.locationService.convFirstLetterToCapital(district);
   }
 
   onEdit(): void {
