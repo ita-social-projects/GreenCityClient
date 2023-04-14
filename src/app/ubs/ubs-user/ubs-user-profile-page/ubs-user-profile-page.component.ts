@@ -216,9 +216,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   public deleteAddress(address) {
-    console.log(address);
-    console.log(this.userForm.value.address[0]);
-    console.log(this.userForm.controls.address);
     this.orderService
       .deleteAddress(address.value)
       .pipe(takeUntil(this.destroy))

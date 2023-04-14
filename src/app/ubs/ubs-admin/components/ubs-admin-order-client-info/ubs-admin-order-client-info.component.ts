@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -38,7 +39,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
+    this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
   }
 
   openDetails(): void {

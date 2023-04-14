@@ -22,7 +22,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   orderNotTakenOutReason: INotTakenOutReason;
   cancellationReason: string;
   cancellationComment: string;
-  coloredStatus = ordersStatuses.NotTakenOutUA && ordersStatuses.CanselUA;
+  coloredStatus = ordersStatuses.NotTakenOutUA && ordersStatuses.CancelUA;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
@@ -49,7 +49,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
 
   showPopup(orderHistoryId) {
     this.orderHistory.forEach((order) => {
-      if (order.id === orderHistoryId && order.result === ordersStatuses.CanselUA) {
+      if (order.id === orderHistoryId && order.result === ordersStatuses.CancelUA) {
         this.openCancelReason();
       }
       if (order.id === orderHistoryId && order.result === ordersStatuses.NotTakenOutUA) {

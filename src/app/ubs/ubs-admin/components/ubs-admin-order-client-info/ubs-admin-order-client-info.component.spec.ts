@@ -6,6 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
@@ -83,7 +84,7 @@ describe('UbsAdminOrderClientInfoComponent', () => {
   });
 
   it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'CANCELED';
+    component.generalInfo.orderStatus = OrderStatus.CANCELED;
     component.isStatus = false;
     component.ngOnInit();
     expect(component.isStatus).toBe(true);

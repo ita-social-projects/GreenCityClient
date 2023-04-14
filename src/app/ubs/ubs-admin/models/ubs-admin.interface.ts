@@ -517,6 +517,6 @@ export enum FormFieldsName {
 export enum ordersStatuses {
   NotTakenOutUA = 'Не вивезли',
   NotTakenOutEN = 'Not taken out',
-  CanselUA = 'Скасовано',
-  CanselEN = 'Canceled'
+  CancelUA = 'Скасовано',
+  CancelEN = 'Canceled'
 }

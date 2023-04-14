@@ -6,6 +6,7 @@ import { Locations } from 'src/assets/locations/locations';
 import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -42,7 +43,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit(): void {
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
+    this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
   }
 
   get addressRegion() {
