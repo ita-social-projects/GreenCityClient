@@ -336,9 +336,14 @@ describe('UbsUserProfilePageComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
-  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
+    'getDistrictAuto',
+    'addHouseNumToAddress',
+    'convFirstLetterToCapital'
+  ]);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.addHouseNumToAddress = () => '';
+  fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
