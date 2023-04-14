@@ -1,4 +1,4 @@
-import { ShoppingList } from '../shoppinglist.model';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {

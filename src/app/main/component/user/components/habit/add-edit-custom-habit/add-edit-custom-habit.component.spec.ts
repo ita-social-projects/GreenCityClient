@@ -11,7 +11,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;

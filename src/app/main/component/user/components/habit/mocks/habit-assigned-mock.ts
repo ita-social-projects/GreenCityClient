@@ -43,7 +43,7 @@ export const CUSTOMHABIT: HabitInterface = {
 export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
   id: 1,
   status: 'INPROGRESS',
-  createDateTime: new Date('2021-05-07'),
+  createDateTime: new Date('2023-04-14'),
   habit: DEFAULTHABIT,
   enrolled: true,
   userId: 17,

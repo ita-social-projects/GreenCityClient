@@ -20,7 +20,7 @@ import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp, HabitLeavePage }
 import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 
 @Component({
   selector: 'app-add-new-habit',

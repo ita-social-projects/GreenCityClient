@@ -1,4 +1,4 @@
-import { ShoppingList } from '../shoppinglist.model';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
 
 export interface HabitInterface {
   defaultDuration: number;

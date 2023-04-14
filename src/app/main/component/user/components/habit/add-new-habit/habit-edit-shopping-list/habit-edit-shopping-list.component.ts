@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ShoppingListService } from './shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ShoppingList } from '../../models/shoppinglist.model';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
 
 @Component({

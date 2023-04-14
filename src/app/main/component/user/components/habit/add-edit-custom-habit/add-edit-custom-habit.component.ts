@@ -11,7 +11,7 @@ import ImageResize from 'quill-image-resize-module';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
-import { ShoppingList } from '../models/shoppinglist.model';
+import { ShoppingList } from '../../../models/shoppinglist.interface';
 
 @Component({
   selector: 'app-add-edit-custom-habit',

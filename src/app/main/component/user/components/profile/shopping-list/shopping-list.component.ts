@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
-import { AllShoppingLists, ShoppingList } from '@global-user/components/habit/models/shoppinglist.model';
+import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.interface';
 
 @Component({
   selector: 'app-shopping-list',

@@ -9,7 +9,7 @@ import { habitLink } from '../../links';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
-import { ShoppingList } from '@global-user/components/habit/models/shoppinglist.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { CustomHabitInterface } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 @Injectable({

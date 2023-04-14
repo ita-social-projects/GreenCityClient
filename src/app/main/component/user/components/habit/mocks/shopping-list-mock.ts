@@ -1,4 +1,4 @@
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../models/shoppinglist.model';
+import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 
 export const SHOPLISTITEMONE: ShoppingList = {
   id: 1,

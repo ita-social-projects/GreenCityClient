@@ -6,9 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { DEFAULTFULLINFOHABIT } from '../../mocks/habit-assigned-mock';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -46,30 +46,6 @@ describe('HabitProgressComponent', () => {
     habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
   };
 
-  const fakeHabitInProgress = {
-    id: 333,
-    status: 'INPROGRESS',
-    createDateTime: new Date('2021-06-19'),
-    duration: 10,
-    habit: {
-      id: 321,
-      defaultDuration: 14,
-      habitTranslation: {
-        name: 'fakeName',
-        description: 'Test',
-        habitItem: 'Test',
-        languageCode: 'en'
-      },
-      image: '',
-      tags: []
-    },
-    habitStreak: 5,
-    lastEnrollmentDate: new Date('2021-06-19'),
-    userId: 333,
-    workingDays: 4,
-    habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitProgressComponent],
@@ -101,15 +77,15 @@ describe('HabitProgressComponent', () => {
 
   describe('buildHabitDescription', () => {
     it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
-      component.currentDate = '2022-06-19';
-      component.habit = fakeHabitInProgress as any;
+      component.currentDate = '2023-04-13';
+      component.habit = DEFAULTFULLINFOHABIT as any;
       component.buildHabitDescription();
       expect(component.habitMark).toBe('done');
     });
 
     it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
       component.currentDate = '2022-02-19';
-      component.habit = fakeHabitInProgress as any;
+      component.habit = DEFAULTFULLINFOHABIT as any;
       component.buildHabitDescription();
       expect(component.habitMark).toBe('undone');
     });
@@ -123,7 +99,7 @@ describe('HabitProgressComponent', () => {
     });
 
     it('makes expected calls if status is not acquired', () => {
-      habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitInProgress));
+      habitAssignServiceMock.enrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
       const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
       component.enroll();
       expect(buildHabitDescriptionSpy).toHaveBeenCalled();
@@ -134,7 +110,7 @@ describe('HabitProgressComponent', () => {
 
   describe('unenroll', () => {
     it('makes expected calls', () => {
-      habitAssignServiceMock.unenrollByHabit.and.returnValue(of(fakeHabitInProgress));
+      habitAssignServiceMock.unenrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
       const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
       component.unenroll();
       expect(buildHabitDescriptionSpy).toHaveBeenCalled();
