@@ -25,20 +25,16 @@
             </div>
             <div class="tags item-block" formArrayName="tags">
               <h3>{{ 'create-news.tags-title' | translate }}</h3>
-              <p [ngClass]="{ warning: isFilterValidation }">
+              <p>
                 {{ 'create-news.tags-tooltip' | translate }}
               </p>
               <div class="tags-box">
-                <button
-                  *ngFor="let filter of filters"
-                  (click)="addFilters(filter)"
-                  type="button"
-                  [ngClass]="{ 'filters-color': filter.isActive }"
-                  class="custom-chip global-tag"
-                >
-                  {{ currentLang === 'en' ? filter.name : filter.nameUa }}
-                  <span [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></span>
-                </button>
+                <app-tags-select
+                  [tagsList]="filters"
+                  [tagMaxLength]="tagMaxLength"
+                  (selectTags)="getTagsList($event)"
+                  class="tags-block"
+                ></app-tags-select>
               </div>
             </div>
             <div>

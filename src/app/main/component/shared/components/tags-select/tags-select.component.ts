@@ -9,20 +9,23 @@ import { TagInterface } from '../tag-filter/tag-filter.model';
 })
 export class TagsSelectComponent {
   @Input() tagsList: TagInterface[];
-  @Input() tagType: string;
+  @Input() tagMaxLength: number;
   selectedList: TagInterface[];
+
   @Output() selectTags = new EventEmitter<TagInterface[]>();
 
   constructor(private langService: LanguageService) {}
 
   checkTab(tag: TagInterface): void {
-    const isSingleTagSelect = !tag.isActive && this.tagType && this.tagType === 'habits';
-    if (isSingleTagSelect) {
-      this.tagsList.forEach((el) => (el.isActive = false));
-    }
-    tag.isActive = !tag.isActive;
+    const isMaxLength = this.checkMaxLength(tag.isActive);
+    tag.isActive = isMaxLength && !tag.isActive ? tag.isActive : !tag.isActive;
     this.selectedList = this.tagsList.filter((item) => item.isActive);
     this.selectTags.emit(this.selectedList);
+  }
+
+  checkMaxLength(isActive: boolean): boolean {
+    const isCheckMaxLength = this.selectedList && this.tagMaxLength && !isActive;
+    return isCheckMaxLength ? this.selectedList.length >= this.tagMaxLength : false;
   }
 
   getLangValue(valUa: string, valEn: string): string {

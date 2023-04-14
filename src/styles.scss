@@ -57,6 +57,10 @@ body {
   opacity: 0;
 }
 
+.extra-packages .mat-dialog-container {
+  background-color: var(--ubs-main-page-secondary-light-grey);
+}
+
 .cdk-overlay-pane {
   &.extra-packages {
     overflow: auto;
@@ -162,8 +166,8 @@ body {
   margin-right: 8px;
 
   &:hover {
-    color: var(--secondary-dark-green);
-    border: 1px solid var(--secondary-dark-green);
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
   }
 }
 

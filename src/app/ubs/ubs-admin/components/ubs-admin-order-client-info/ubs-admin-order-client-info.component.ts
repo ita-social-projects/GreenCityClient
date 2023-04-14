@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
-import { IUserInfo } from '../../models/ubs-admin.interface';
+import { IUserInfo, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -19,12 +19,15 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
 
   @Input() orderId: number;
 
+  @Input() generalInfo: IGeneralOrderInfo;
+
   phoneMask = Masks.phoneMask;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
   public totalUserViolations: number;
+  isStatus = false;
 
   constructor(private dialog: MatDialog) {}
 
@@ -35,6 +38,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
+    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   openDetails(): void {

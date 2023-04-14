@@ -10,6 +10,7 @@ describe('LocalStorageService', () => {
 
   const mockEvent: EventPageResponceDto = {
     additionalImages: ['image1.jpg', 'image2.jpg'],
+    creationDate: '2022-05-31',
     dates: [
       {
         coordinates: {

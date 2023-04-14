@@ -11,7 +11,6 @@ import ImageResize from 'quill-image-resize-module';
 import { ShoppingList } from '@global-user/models/shoppinglist.model';
 import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 
 @Component({
@@ -38,8 +37,8 @@ export class AddEditCustomHabitComponent implements OnInit {
   shopList: ShoppingList[] = [];
   newList: ShoppingList[] = [];
   tagsList: TagInterface[];
-  tagType = 'habits';
-  selectedTagsList: string[];
+  tagMaxLength = 3;
+  selectedTagsList: number[];
 
   quillModules = {};
   isEditing = false;
@@ -53,8 +52,7 @@ export class AddEditCustomHabitComponent implements OnInit {
     private router: Router,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private habitService: HabitService,
-    private langService: LanguageService
+    private habitService: HabitService
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -77,7 +75,7 @@ export class AddEditCustomHabitComponent implements OnInit {
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
       duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
-      tags: new FormControl(null, Validators.required),
+      tagIds: new FormControl(null, Validators.required),
       image: new FormControl(''),
       shopList: new FormControl([])
     });
@@ -114,8 +112,8 @@ export class AddEditCustomHabitComponent implements OnInit {
   }
 
   getTagsList(list: TagInterface[]): void {
-    this.selectedTagsList = list.map((el) => this.getLangValue(el.nameUa, el.name));
-    this.getControl('tags').setValue(this.selectedTagsList);
+    this.selectedTagsList = list.map((el) => el.id);
+    this.getControl('tagIds').setValue(this.selectedTagsList);
   }
 
   goToAllHabits(): void {
@@ -130,10 +128,6 @@ export class AddEditCustomHabitComponent implements OnInit {
         this.tagsList = tags;
         this.tagsList.forEach((item) => (item.isActive = false));
       });
-  }
-
-  private getLangValue(valUa: string, valEn: string): string {
-    return this.langService.getLangValue(valUa, valEn) as string;
   }
 
   addHabit(): void {

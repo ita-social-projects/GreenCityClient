@@ -38,17 +38,19 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isVisible ? true : null"
+                [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
+                disabled
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
               <input
-                class="shadow-none form-control input p-1"
+                class="shadow-none form-control input p-2"
                 type="number"
                 min="0"
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
+                [attr.disabled]="isOrderCancelled && isOrderPaid ? true : null"
                 (change)="onQuantityChange('actual', bag.id)"
               />
             </div>
@@ -87,15 +89,12 @@
             <span class="col-sm-2 text-center">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
             <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
           </li>
-          <li
-            class="d-flex justify-content-between align-items-baseline py-2"
-            *ngIf="isVisible && showUbsCourier && !doneAfterBroughtHimself"
-          >
+          <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
-              <div class="d-flex align-items-baseline ubs-courier-container">
+              <div class="d-flex align-items-baseline ubs-courier-container" [ngClass]="{ 'invalid-courier-price': isCourierPriceInvalid }">
                 <input
-                  class="shadow-none form-control input p-2 ubs-courier"
+                  class="shadow-none form-control input ubs-courier p-2"
                   type="number"
                   min="0"
                   [value]="courierPrice | currency"
@@ -107,7 +106,7 @@
               </div>
             </div>
           </li>
-          <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="doneAfterBroughtHimself">
+          <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="showWriteOffStationField()">
             <span class="col-sm-2">{{ 'order-details.done-after-himself' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
               <div class="d-flex align-items-baseline ubs-courier-container">

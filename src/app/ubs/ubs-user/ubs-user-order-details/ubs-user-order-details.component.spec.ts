@@ -1,9 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { OrderStatus } from '../../ubs/order-status.enum';
 import { UbsUserOrderDetailsComponent } from './ubs-user-order-details.component';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -42,7 +41,7 @@ describe('UbsUserOrderDetailsComponent', () => {
     id: 1,
     orderComment: '',
     orderFullPrice: 1100,
-    orderStatus: 'Adjustment',
+    orderStatus: OrderStatus.ADJUSTMENT,
     paidAmount: 1100,
     paymentStatus: 'Paid',
     sender: {

@@ -335,7 +335,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
-
+  
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.addHouseNumToAddress = () => '';
@@ -1015,7 +1015,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in en', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const districtEn = currentFormGroup.get('districtEn');
-    const result = streetPlaceResultEn.address_components[1].long_name;
+    const result = userProfileDataMock.addressDto[0].districtEn;
     component.setDistrictAuto(streetPlaceResultEn, districtEn, component.languages.en);
     expect(districtEn.value).toEqual(result);
   });

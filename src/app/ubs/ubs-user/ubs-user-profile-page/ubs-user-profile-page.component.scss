@@ -209,6 +209,25 @@ $inputwidth: 260px;
   margin-right: 60px;
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 325px;
+
+  .reset-button {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    left: 290px;
+
+    img {
+      height: 12px;
+    }
+  }
+}
+
 @media (max-width: 1439px) {
   .ubs_profile-container {
     max-width: 800px;

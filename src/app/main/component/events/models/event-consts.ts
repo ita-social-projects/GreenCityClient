@@ -8,6 +8,20 @@ export interface OptionItem {
   nameUa: string;
 }
 
+export interface AllSelectedFlags {
+  typeList: boolean;
+  timeList: boolean;
+  statusList: boolean;
+  locationList: boolean;
+}
+
+export const allSelectedFlags = {
+  timeList: false,
+  statusList: false,
+  typeList: false,
+  locationList: false
+};
+
 export const TagsArray = [
   { nameEn: 'Economic', nameUa: 'Економічний', isActive: false },
   { nameEn: 'Social', nameUa: 'Соціальний', isActive: false },
@@ -23,7 +37,8 @@ export const eventStatusList = [
   { nameEn: 'Open', nameUa: 'Відкритa' },
   { nameEn: 'Closed', nameUa: 'Закритa' },
   { nameEn: 'Joined', nameUa: 'Вже доєднані' },
-  { nameEn: 'Created', nameUa: 'Створенa' }
+  { nameEn: 'Created', nameUa: 'Створенa' },
+  { nameEn: 'Saved', nameUa: 'Збережена' }
 ];
 
 // TODO remove when back-end is ready

@@ -7,6 +7,7 @@ import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
+import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
@@ -104,7 +105,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
   it('method isOverpaymentReturnAvailable', () => {
     expect(component.isOverpaymentReturnAvailable()).toBeFalsy();
-    component.currentOrderStatus = 'CANCELED';
+    component.currentOrderStatus = OrderStatus.CANCELED;
     expect(component.isOverpaymentReturnAvailable()).toBeTruthy();
   });
 
@@ -116,7 +117,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('method postDataItem', () => {
-    (component as any).postDataItem(250, 'PAID');
+    (component as any).postDataItem(250, PaymnetStatus.PAID);
 
     expect(storeMock.dispatch).toHaveBeenCalled();
   });

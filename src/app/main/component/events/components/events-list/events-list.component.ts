@@ -7,7 +7,15 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import { TagsArray, eventTimeList, eventStatusList, tempLocationList, selectedFilters, OptionItem } from '../../models/event-consts';
+import {
+  TagsArray,
+  eventTimeList,
+  eventStatusList,
+  tempLocationList,
+  OptionItem,
+  allSelectedFlags,
+  AllSelectedFlags
+} from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -38,22 +46,19 @@ export class EventsListComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
 
-  private visitedPagesArr: number[];
-
   public page = 0;
   public hasNext = true;
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
-  public selectedFilters = selectedFilters; // test data,should be deleted when back-end is ready
+  public selectedFilters = []; // test data,should be deleted when back-end is ready
   public searchToggle = false;
   public bookmarkSelected = false;
-  public selectedEventTime: any;
+  public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[] = eventStatusList;
   public eventLocationList: OptionItem[] = tempLocationList;
-  public allSelected = false;
   private optionsList: any;
   public scroll: boolean;
   public userId: number;
@@ -71,6 +76,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.subscribeOnFormControlsChanges();
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -89,22 +95,59 @@ export class EventsListComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateSelectedFilters(value: any, event): void {
+    const existingFilterIndex = this.selectedFilters.indexOf(value);
+    if (event.isUserInput && !event.source.selected && existingFilterIndex !== -1) {
+      this.selectedFilters.splice(existingFilterIndex, 1);
+    }
+    if (event.isUserInput && event.source.selected && existingFilterIndex === -1) {
+      this.selectedFilters.push(value);
+    }
+  }
+
+  subscribeOnFormControlsChanges(): void {
+    const formControls = [
+      { control: this.timeFilterControl },
+      { control: this.locationFilterControl },
+      { control: this.statusFilterControl },
+      { control: this.typeFilterControl }
+    ];
+
+    formControls.forEach((formControl) => {
+      formControl.control.valueChanges.subscribe((value) => {
+        this.updateSelectedFilters(value, Event);
+      });
+    });
+  }
+
   public dispatchStore(res: boolean): void {
     if (this.hasNext && this.page !== undefined) {
       this.store.dispatch(GetEcoEventsByPageAction({ currentPage: this.page, numberOfEvents: this.eventsPerPage, reset: res }));
     }
   }
 
-  public toggleAllSelection(optionsList: any): void {
-    this.allSelected = !this.allSelected;
-    this.isSelectedOptions(optionsList);
+  public toggleAllSelection(optionsList: any, dropdownName: string): void {
+    this.allSelectedFlags[dropdownName] = !this.allSelectedFlags[dropdownName];
+    this.isSelectedOptions(optionsList, dropdownName);
   }
 
-  public isSelectedOptions(optionsList: any): void {
+  public isSelectedOptions(optionsList: any, dropdownName: string): void {
     this.optionsList = optionsList;
-    this.allSelected
-      ? this.optionsList.options.forEach((item: MatOption) => item.select())
-      : this.optionsList.options.forEach((item: MatOption) => item.deselect());
+    if (this.allSelectedFlags[dropdownName]) {
+      this.optionsList.options.forEach((item: MatOption) => {
+        if (item.value !== 0) {
+          this.selectedFilters.push(item.value);
+        }
+        item.select();
+        this.allSelectedFlags[dropdownName] = true;
+      });
+    } else {
+      this.optionsList.options.forEach((item: MatOption) => {
+        item.deselect();
+        this.allSelectedFlags[dropdownName] = false;
+        this.selectedFilters = this.selectedFilters.filter((value) => value !== item.value);
+      });
+    }
   }
 
   public search(): void {
@@ -115,11 +158,22 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.bookmarkSelected = !this.bookmarkSelected;
   }
 
-  public deleteOneFilter(index): void {
-    this.selectedFilters.splice(index, 1);
+  public deleteOneFilter(filter, index): void {
+    [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
+      const item = list.options.find((option: MatOption) => filter.nameEn === option.value.nameEn);
+      if (item) {
+        this.selectedFilters.splice(index, 1);
+        item.deselect();
+      }
+    });
   }
 
   public resetAll(): void {
+    [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
+      list.options.forEach((item: MatOption) => {
+        item.deselect();
+      });
+    });
     this.selectedFilters.splice(0, this.selectedFilters.length);
   }
 

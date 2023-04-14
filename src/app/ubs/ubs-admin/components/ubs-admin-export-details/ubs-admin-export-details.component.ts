@@ -3,6 +3,8 @@ import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRe
 import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-ubs-admin-export-details',
@@ -28,13 +30,12 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public currentDate: string;
   public isOrderStatusCancelOrDone = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
-  private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
+  private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, public orderService: OrderService) {}
 
   ngAfterViewChecked(): void {
-    const isFormRequired = !this.statuses.includes(this.orderStatus);
-
+    const isFormRequired = !this.orderService.isStatusInArray(this.orderStatus, this.statuses);
     const everyFieldFilled = Object.keys(this.exportDetailsDto.controls).every((key) => !!this.exportDetailsDto.get(key).value);
     const someFieldFilled = Object.keys(this.exportDetailsDto.controls).some((key) => !!this.exportDetailsDto.get(key).value);
     const hasNotValidFields = (everyFieldFilled && !someFieldFilled) || (!everyFieldFilled && someFieldFilled);
@@ -52,7 +53,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
       this.exportDetailsDto.updateValueAndValidity();
     });
 
-    if (this.orderStatus === 'CANCELED' || this.orderStatus === 'DONE') {
+    if (this.orderStatus === OrderStatus.CANCELED || this.orderStatus === OrderStatus.DONE) {
       this.isOrderStatusCancelOrDone = true;
     }
 

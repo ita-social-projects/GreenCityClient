@@ -74,6 +74,7 @@ export interface EventResponseDto {
 export interface EventPageResponceDto {
   additionalImages: Array<string>;
   dates: Array<DateEventResponceDto>;
+  creationDate: string;
   description: any;
   id: number;
   open: boolean;

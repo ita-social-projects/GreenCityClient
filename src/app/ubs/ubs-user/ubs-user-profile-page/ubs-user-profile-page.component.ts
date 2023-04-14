@@ -34,6 +34,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   userProfile: UserProfile;
   viberNotification = false;
   telegramNotification = false;
+  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
 
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
@@ -149,12 +150,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        district: new FormControl(adres?.district, [
+        district: new FormControl(this.convertDistrictName(adres?.district), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        districtEn: new FormControl(adres?.districtEn, [
+        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
@@ -204,6 +205,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         this.userProfile.addressDto = list.addressList;
         this.getUserData();
       });
+  }
+
+  public resetValue(): void {
+    this.userForm.get('alternateEmail').setValue(null);
   }
 
   setRegionValue(formGroupName: number, event: Event): void {
@@ -409,6 +414,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
     item.get('district').setValue(selectedDistrict.name);
     item.get('districtEn').setValue(selectedDistricEn.name);
+  }
+
+  private convertDistrictName(district: string): string {
+    return this.convertCapLetterServ.convFirstLetterToCapital(district);
   }
 
   onEdit(): void {

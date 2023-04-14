@@ -42,6 +42,10 @@
   border: 1px solid var(--ubs-primary-light-grey);
 }
 
+.disables-input {
+  background-color: var(--ubs-ligth-grey);
+}
+
 .send__btn {
   font-size: 14px;
   color: var(--ubs-primary-green);
@@ -91,6 +95,10 @@
   span {
     height: 26px;
   }
+}
+
+.invalid-courier-price {
+  border: 1px solid var(--error-ligh-red);
 }
 
 .shop-numbers {

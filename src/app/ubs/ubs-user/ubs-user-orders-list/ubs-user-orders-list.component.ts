@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/UserOrder.interface';
+import { IUserOrderInfo, PaymentStatusEn, OrderStatusEn } from './models/UserOrder.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -52,20 +52,20 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public isOrderUnpaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEng === CheckPaymentStatus.UNPAID;
+    return order.paymentStatusEng === PaymentStatusEn.UNPAID;
   }
 
   public isOrderHalfPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEng === CheckPaymentStatus.HALFPAID;
+    return order.paymentStatusEng === PaymentStatusEn.HALFPAID;
   }
 
   public isOrderCanceled(order: IUserOrderInfo): boolean {
-    return order.orderStatusEng === CheckOrderStatus.CANCELED;
+    return order.orderStatusEng === OrderStatusEn.CANCELED;
   }
 
   public isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
-    const isOrderDone = order.orderStatusEng === CheckOrderStatus.DONE;
-    const isOrderCancelled = order.orderStatusEng === CheckOrderStatus.CANCELED;
+    const isOrderDone = order.orderStatusEng === OrderStatusEn.DONE;
+    const isOrderCancelled = order.orderStatusEng === OrderStatusEn.CANCELED;
     return isOrderDone || isOrderCancelled;
   }
 
@@ -83,11 +83,11 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public canOrderBeCancel(order: IUserOrderInfo): boolean {
     return (
-      order.paymentStatusEng !== CheckPaymentStatus.HALFPAID &&
-      order.orderStatusEng !== CheckOrderStatus.ADJUSTMENT &&
-      order.orderStatusEng !== CheckOrderStatus.BROUGHT_IT_HIMSELF &&
-      order.orderStatusEng !== CheckOrderStatus.NOT_TAKEN_OUT &&
-      order.orderStatusEng !== CheckOrderStatus.CANCELED
+      order.paymentStatusEng !== PaymentStatusEn.HALFPAID &&
+      order.orderStatusEng !== OrderStatusEn.ADJUSTMENT &&
+      order.orderStatusEng !== OrderStatusEn.BROUGHT_IT_HIMSELF &&
+      order.orderStatusEng !== OrderStatusEn.NOT_TAKEN_OUT &&
+      order.orderStatusEng !== OrderStatusEn.CANCELED
     );
   }
 

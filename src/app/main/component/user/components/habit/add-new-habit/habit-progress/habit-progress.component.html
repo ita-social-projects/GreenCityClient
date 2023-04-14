@@ -16,10 +16,13 @@
   </div>
 </div>
 <div class="calendar">
-  <app-habit-calendar></app-habit-calendar>
+  <app-habit-calendar class="calendar-container"></app-habit-calendar>
+  <app-calendar-week class="app-calendar-week"></app-calendar-week>
   <div class="days-duration">
-    <div class="thumb-label" [style.bottom.%]="indicator - heightThumbLabel" *ngIf="isHidden">{{ indicator }}%</div>
+    <div class="thumb-label" [style.bottom.%]="indicator - heightThumbLabel" *ngIf="isHidden && indicator">{{ indicator }}%</div>
     <div class="indicator" (mouseenter)="isHidden = !isHidden" (mouseleave)="isHidden = !isHidden" [style.height.%]="indicator"></div>
-    <div class="start-line"></div>
+    <div class="thumb-label-mobile" [style.left.%]="indicator - heightThumbLabel" *ngIf="indicator">{{ indicator }}%</div>
+    <div class="indicator-mobile" [style.width.%]="indicator" *ngIf="indicator"></div>
+    <div class="start-line" *ngIf="!indicator"></div>
   </div>
 </div>

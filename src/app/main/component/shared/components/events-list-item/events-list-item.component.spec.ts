@@ -77,6 +77,7 @@ describe('EventsListItemComponent', () => {
   const eventMock = {
     description: 'tralalalal',
     additionalImages: [],
+    creationDate: '2022-05-31',
     tags: [
       { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
       { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },

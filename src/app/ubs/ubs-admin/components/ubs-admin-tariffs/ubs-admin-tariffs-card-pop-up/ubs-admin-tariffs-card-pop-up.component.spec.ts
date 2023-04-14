@@ -122,8 +122,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     courierEnglishName: 'Courier English name',
     regionEnglishName: 'Region English name',
     station: 'Station name',
-    regionNameUk: 'Region name',
-    city: 'City name'
+    regionNameUk: 'Region name'
   };
 
   const fakeCardForm = new FormGroup({
@@ -131,8 +130,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     courierNameEng: new FormControl(modalData.courierEnglishName),
     regionNameUk: new FormControl(modalData.regionNameUk),
     station: new FormControl(modalData.station),
-    regionNameEng: new FormControl(modalData.regionEnglishName),
-    city: new FormControl(modalData.city)
+    regionNameEng: new FormControl(modalData.regionEnglishName)
   });
 
   const eventMockCity = {
@@ -272,7 +270,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.getLocations();
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
-
   it('should set english region name', () => {
     component.locations = mockRegion;
     const mockEvent = {
@@ -282,7 +279,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.regionEnglishName).toEqual(['Fake region']);
     expect(component.regionId).toEqual(1);
   });
-
   it('should get cities from selected region and clear selected cities list', () => {
     const spy = spyOn(component, 'setCountOfSelectedCity');
     component.locations = mockRegion;
@@ -298,7 +294,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
 
   it('city should be disabled if region is not selected', () => {
     component.ngOnInit();
-    expect(component.city.disabled).toEqual(false);
+    expect(component.city.disabled).toEqual(true);
   });
 
   it('should enable city input if region selected', () => {
@@ -318,7 +314,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(spy1).toHaveBeenCalledWith(eventMockCity);
     expect(spy2).toHaveBeenCalledWith();
     expect(spy3).toHaveBeenCalledWith();
-    expect(component.city.value).toEqual('');
     expect(component.blurOnOption).toEqual(false);
   });
 
@@ -345,7 +340,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     component.selectCity(eventMock as any);
     expect(component.selectedCities).toEqual([{ location: 'друге', englishLocation: 'second', locationId: 2 }]);
   });
-
   it('should add new selected city if it does not exist in list', () => {
     component.selectedCities = [{ location: 'друге', englishLocation: 'second', locationId: 2 }];
     component.selectCity(eventMockCity as any);

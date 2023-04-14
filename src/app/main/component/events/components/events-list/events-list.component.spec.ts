@@ -11,6 +11,10 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { eventStatusList, OptionItem, TagsArray, tempLocationList, eventTimeList } from '../../models/event-consts';
+import { By } from '@angular/platform-browser';
+import { MatOption } from '@angular/material/core';
+import { FormControl } from '@angular/forms';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -30,6 +34,11 @@ describe('EventsListComponent', () => {
 
     error: null
   };
+
+  const timeFilterControl = new FormControl();
+  const locationFilterControl = new FormControl();
+  const statusFilterControl = new FormControl();
+  const typeFilterControl = new FormControl();
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents']);
   EventsServiceMock.getEvents = () => of(MockReqest);
@@ -84,14 +93,16 @@ describe('EventsListComponent', () => {
     expect(component.isLoggedIn).toBe(3 as any);
   });
 
-  it('should check weather resetAll works correctly', () => {
-    component.selectedFilters = [
-      { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'two', nameUa: 'два' },
-      { nameEn: 'three', nameUa: 'три' }
-    ];
+  it('should reset all filters', () => {
+    component.eventTimeList = eventTimeList;
+    component.typeList = TagsArray;
+    component.statusList = eventStatusList;
+    component.eventLocationList = tempLocationList;
+    const spy = spyOn(component, 'resetAll');
     component.resetAll();
-    expect(component.selectedFilters.length).toEqual(0);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.selectedFilters).toEqual([]);
   });
 
   it('should check weather deleteOneFilter works correctly', () => {
@@ -100,18 +111,113 @@ describe('EventsListComponent', () => {
       { nameEn: 'two', nameUa: 'два' },
       { nameEn: 'three', nameUa: 'три' }
     ];
-    const filterRemoved = [
+    const filterRemoved = [{ nameEn: 'three', nameUa: 'три' }];
+    const res = [
       { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'three', nameUa: 'три' }
+      { nameEn: 'two', nameUa: 'два' }
     ];
-    component.deleteOneFilter(1);
-    expect(component.selectedFilters).toEqual(filterRemoved);
+
+    component.eventTimeList = eventTimeList;
+    component.typeList = TagsArray;
+    component.statusList = eventStatusList;
+    component.eventLocationList = tempLocationList;
+
+    const spy = spyOn(component, 'deleteOneFilter');
+    component.deleteOneFilter(filterRemoved, 1);
+    component.selectedFilters.pop();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.selectedFilters).toEqual(res);
   });
 
   it('should check weather showFavourite works correctly', () => {
     component.bookmarkSelected = false;
     component.showFavourite();
     expect(component.bookmarkSelected).toEqual(true);
+  });
+
+  it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {
+    const key = 'dropdown1';
+    component.allSelectedFlags[key] = true;
+
+    const options = fixture.debugElement.queryAll(By.directive(MatOption));
+    options.forEach((option) => {
+      spyOn(option.componentInstance, 'select');
+      spyOn(component.selectedFilters, 'push');
+
+      option.triggerEventHandler('click', null);
+
+      expect(option.componentInstance.select).toHaveBeenCalled();
+      expect(component.selectedFilters.push).toHaveBeenCalledWith(option.componentInstance.value);
+    });
+  });
+
+  it('should deselect all options and remove them from selectedFilters when allSelectedFlags is false', () => {
+    const key = 'dropdown1';
+    component.allSelectedFlags[key] = false;
+
+    const options = fixture.debugElement.queryAll(By.directive(MatOption));
+    options.forEach((option) => {
+      spyOn(option.componentInstance, 'deselect');
+      spyOn(component.selectedFilters, 'filter');
+
+      option.triggerEventHandler('click', null);
+
+      expect(option.componentInstance.deselect).toHaveBeenCalled();
+      expect(component.selectedFilters.filter).toHaveBeenCalledWith((value) => value !== option.componentInstance.value);
+    });
+  });
+
+  it('should subscribe to form control changes for all form controls', () => {
+    component.timeFilterControl = timeFilterControl;
+    component.locationFilterControl = locationFilterControl;
+    component.statusFilterControl = statusFilterControl;
+    component.typeFilterControl = typeFilterControl;
+
+    const spy = spyOn(component, 'updateSelectedFilters');
+
+    component.subscribeOnFormControlsChanges();
+
+    timeFilterControl.setValue('Some value');
+    locationFilterControl.setValue('Some value');
+    statusFilterControl.setValue('Some value');
+    typeFilterControl.setValue('Some value');
+
+    expect(spy).toHaveBeenCalledTimes(4);
+  });
+
+  it('should remove existing filter when deselected', () => {
+    component.selectedFilters = ['filter1', 'filter2'];
+    const mockEvent = { isUserInput: true, source: { selected: false } };
+    component.updateSelectedFilters('filter1', mockEvent);
+    expect(component.selectedFilters).toEqual(['filter2']);
+  });
+
+  it('should add new filter when selected', () => {
+    component.selectedFilters = ['filter1', 'filter2'];
+    const mockEvent = { isUserInput: true, source: { selected: true } };
+    component.updateSelectedFilters('filter3', mockEvent);
+    expect(component.selectedFilters).toEqual(['filter1', 'filter2', 'filter3']);
+  });
+
+  it('should not modify selectedFilters when no user input', () => {
+    component.selectedFilters = ['filter1', 'filter2'];
+    const mockEvent = { isUserInput: false, source: { selected: true } };
+    component.updateSelectedFilters('filter3', mockEvent);
+    expect(component.selectedFilters).toEqual(['filter1', 'filter2']);
+  });
+
+  it('should not modify selectedFilters when already deselected', () => {
+    component.selectedFilters = ['filter1', 'filter2'];
+    const mockEvent = { isUserInput: true, source: { selected: false } };
+    component.updateSelectedFilters('filter3', mockEvent);
+    expect(component.selectedFilters).toEqual(['filter1', 'filter2']);
+  });
+
+  it('should not modify selectedFilters when already selected', () => {
+    component.selectedFilters = ['filter1', 'filter2'];
+    const mockEvent = { isUserInput: true, source: { selected: true } };
+    component.updateSelectedFilters('filter2', mockEvent);
+    expect(component.selectedFilters).toEqual(['filter1', 'filter2']);
   });
 
   it('should check weather search works correctly', () => {

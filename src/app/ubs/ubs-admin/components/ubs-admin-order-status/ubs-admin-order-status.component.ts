@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -67,10 +68,10 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
 
   public onChangedOrderStatus(statusName: string) {
     this.changedOrderStatus.emit(statusName);
-    if (statusName === 'CANCELED') {
+    if (statusName === OrderStatus.CANCELED) {
       this.openPopup();
     }
-    if (statusName === 'NOT_TAKEN_OUT') {
+    if (statusName === OrderStatus.NOT_TAKEN_OUT) {
       this.notTakenOutOpenPop(this.generalInfo.id);
     }
   }
@@ -140,15 +141,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
       if (confirmedPaidCondition) {
-        this.generalInfo.orderPaymentStatus = 'PAID';
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.PAID;
       }
 
       if (confirmedUnpaidCondition) {
-        this.generalInfo.orderPaymentStatus = 'UNPAID';
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
       }
 
       if (confirmedHalfPaidCondition) {
-        this.generalInfo.orderPaymentStatus = 'HALF_PAID';
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.HALF_PAID;
       }
     } else if (orderState === 'actual') {
       const actualPaidCondition1 =
@@ -162,15 +163,15 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         this.unPaidAmount > 0 && this.unPaidAmount < this.currentOrderPrice && this.currentOrderPrice > this.totalPaid;
 
       if (actualPaidCondition) {
-        this.generalInfo.orderPaymentStatus = 'PAID';
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.PAID;
       }
 
       if (actualUnpaidCondition) {
-        this.generalInfo.orderPaymentStatus = 'UNPAID';
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
       }
 
       if (actualHalfPaidCondition) {
-        this.generalInfo.orderPaymentStatus = 'HALF_PAID';
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.HALF_PAID;
       }
 
       // TODO: ADD PAYMENT_REFUNDED CASE THEN IT WILL BE IMPLEMENTED

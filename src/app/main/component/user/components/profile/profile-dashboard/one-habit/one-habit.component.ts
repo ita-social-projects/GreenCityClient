@@ -76,7 +76,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
     const lastDayInMonth = this.datePipe.transform(lastDay, 'yyy-MM-dd');
     const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.currentDate);
     if (dataFromDashBoard) {
-      dataFromDashBoard.habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+      dataFromDashBoard.habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
     } else {
       this.habitAssignService
         .getAssignHabitsByPeriod(this.currentDate, lastDayInMonth)
@@ -85,7 +85,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
           this.habitAssignService.habitsFromDashBoard = res;
           this.habitAssignService.habitsFromDashBoard
             .find((item) => item.enrollDate === this.currentDate)
-            .habitAssigns.find((item) => item.habitId === this.habit.habit.id).enrolled = isSetCircle;
+            .habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
         });
     }
   }
@@ -93,7 +93,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   public enroll() {
     this.isRequest = true;
     this.habitAssignService
-      .enrollByHabit(this.habit.habit.id, this.currentDate)
+      .enrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
         this.setGreenCircleInCalendar(true);
@@ -113,7 +113,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   public unenroll() {
     this.isRequest = true;
     this.habitAssignService
-      .unenrollByHabit(this.habit.habit.id, this.currentDate)
+      .unenrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response) => {
         this.setGreenCircleInCalendar(false);

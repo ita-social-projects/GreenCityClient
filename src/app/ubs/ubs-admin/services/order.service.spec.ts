@@ -2,6 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { environment } from '@environment/environment.js';
+import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 
 describe('OrderService', () => {
   let httpMock: HttpTestingController;
@@ -41,14 +42,14 @@ describe('OrderService', () => {
   };
 
   const arr = [
-    { key: 'FORMED' },
-    { key: 'ADJUSTMENT' },
-    { key: 'BROUGHT_IT_HIMSELF' },
-    { key: 'CANCELED' },
-    { key: 'CONFIRMED' },
-    { key: 'ON_THE_ROUTE' },
-    { key: 'DONE' },
-    { key: 'NOT_TAKEN_OUT' }
+    { key: OrderStatus.FORMED },
+    { key: OrderStatus.ADJUSTMENT },
+    { key: OrderStatus.BROUGHT_IT_HIMSELF },
+    { key: OrderStatus.CANCELED },
+    { key: OrderStatus.CONFIRMED },
+    { key: OrderStatus.ON_THE_ROUTE },
+    { key: OrderStatus.DONE },
+    { key: OrderStatus.NOT_TAKEN_OUT }
   ];
 
   const exportMock = {
@@ -152,8 +153,8 @@ describe('OrderService', () => {
 
   it('should return order details status', () => {
     service.getOrderDetailStatus(2500).subscribe((data) => {
-      expect(data.orderStatus).toBe('FORMED');
-      expect(data.paymentStatus).toBe('UNPAID');
+      expect(data.orderStatus).toBe(OrderStatus.FORMED);
+      expect(data.paymentStatus).toBe(PaymnetStatus.UNPAID);
     });
     const req = httpMock.expectOne(`${urlMock}/management/read-order-detail-status/2500`);
     expect(req.request.method).toBe('GET');
@@ -213,54 +214,74 @@ describe('OrderService', () => {
   });
 
   it('should filter statuses', () => {
-    const res = service.filterStatuses(arr, ['FORMED', 'ADJUSTMENT', 'BROUGHT_IT_HIMSELF', 'CANCELED']);
-    expect(res).toEqual([{ key: 'FORMED' }, { key: 'ADJUSTMENT' }, { key: 'BROUGHT_IT_HIMSELF' }, { key: 'CANCELED' }]);
+    const res = service.filterStatuses(arr, [
+      OrderStatus.FORMED,
+      OrderStatus.ADJUSTMENT,
+      OrderStatus.BROUGHT_IT_HIMSELF,
+      OrderStatus.CANCELED
+    ]);
+    expect(res).toEqual([
+      { key: OrderStatus.FORMED },
+      { key: OrderStatus.ADJUSTMENT },
+      { key: OrderStatus.BROUGHT_IT_HIMSELF },
+      { key: OrderStatus.CANCELED }
+    ]);
   });
 
   it('should return available statuses for order status FORMED', () => {
-    const res = service.getAvailableOrderStatuses('FORMED', arr);
-    expect(res).toEqual([{ key: 'FORMED' }, { key: 'ADJUSTMENT' }, { key: 'BROUGHT_IT_HIMSELF' }, { key: 'CANCELED' }]);
+    const res = service.getAvailableOrderStatuses(OrderStatus.FORMED, arr);
+    expect(res).toEqual([
+      { key: OrderStatus.FORMED },
+      { key: OrderStatus.ADJUSTMENT },
+      { key: OrderStatus.BROUGHT_IT_HIMSELF },
+      { key: OrderStatus.CANCELED }
+    ]);
   });
 
   it('should return available statuses for order status ADJUSTMENT', () => {
-    const res = service.getAvailableOrderStatuses('ADJUSTMENT', arr);
+    const res = service.getAvailableOrderStatuses(OrderStatus.ADJUSTMENT, arr);
     expect(res).toEqual([
-      { key: 'FORMED' },
-      { key: 'ADJUSTMENT' },
-      { key: 'CONFIRMED' },
-      { key: 'BROUGHT_IT_HIMSELF' },
-      { key: 'CANCELED' }
+      { key: OrderStatus.FORMED },
+      { key: OrderStatus.ADJUSTMENT },
+      { key: OrderStatus.CONFIRMED },
+      { key: OrderStatus.BROUGHT_IT_HIMSELF },
+      { key: OrderStatus.CANCELED }
     ]);
   });
 
   it('should return available statuses for order status CONFIRMED', () => {
-    const res = service.getAvailableOrderStatuses('CONFIRMED', arr);
+    const res = service.getAvailableOrderStatuses(OrderStatus.CONFIRMED, arr);
     expect(res).toEqual([
-      { key: 'FORMED' },
-      { key: 'CONFIRMED' },
-      { key: 'ON_THE_ROUTE' },
-      { key: 'BROUGHT_IT_HIMSELF' },
-      { key: 'CANCELED' }
+      { key: OrderStatus.FORMED },
+      { key: OrderStatus.CONFIRMED },
+      { key: OrderStatus.ON_THE_ROUTE },
+      { key: OrderStatus.BROUGHT_IT_HIMSELF },
+      { key: OrderStatus.CANCELED }
     ]);
   });
 
   it('should return available statuses for order status BROUGHT_IT_HIMSELF', () => {
-    const res = service.getAvailableOrderStatuses('BROUGHT_IT_HIMSELF', arr);
-    expect(res).toEqual([{ key: 'BROUGHT_IT_HIMSELF' }, { key: 'DONE' }, { key: 'CANCELED' }]);
+    const res = service.getAvailableOrderStatuses(OrderStatus.BROUGHT_IT_HIMSELF, arr);
+    expect(res).toEqual([{ key: OrderStatus.BROUGHT_IT_HIMSELF }]);
   });
 
   it('should return available statuses for order status ON_THE_ROUTE', () => {
-    const res = service.getAvailableOrderStatuses('ON_THE_ROUTE', arr);
-    expect(res).toEqual([{ key: 'ON_THE_ROUTE' }, { key: 'DONE' }, { key: 'NOT_TAKEN_OUT' }, { key: 'CANCELED' }]);
+    const res = service.getAvailableOrderStatuses(OrderStatus.ON_THE_ROUTE, arr);
+    expect(res).toEqual([
+      { key: OrderStatus.ON_THE_ROUTE },
+      { key: OrderStatus.DONE },
+      { key: OrderStatus.NOT_TAKEN_OUT },
+      { key: OrderStatus.CANCELED }
+    ]);
   });
 
   it('should return available statuses for order status DONE', () => {
-    const res = service.getAvailableOrderStatuses('DONE', arr);
-    expect(res).toEqual([{ key: 'DONE' }]);
+    const res = service.getAvailableOrderStatuses(OrderStatus.DONE, arr);
+    expect(res).toEqual([{ key: OrderStatus.DONE }]);
   });
 
   it('should return available statuses for order status CANCELED', () => {
-    const res = service.getAvailableOrderStatuses('CANCELED', arr);
-    expect(res).toEqual([{ key: 'CANCELED' }]);
+    const res = service.getAvailableOrderStatuses(OrderStatus.CANCELED, arr);
+    expect(res).toEqual([{ key: OrderStatus.CANCELED }]);
   });
 });

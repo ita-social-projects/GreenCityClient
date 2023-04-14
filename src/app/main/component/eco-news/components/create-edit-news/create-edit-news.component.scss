@@ -122,6 +122,12 @@ form {
 
 .tags-box {
   display: flex;
+
+  .tags-block {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
 }
 
 form .textarea-wrapper textarea {
@@ -176,17 +182,6 @@ textarea.ng-invalid.ng-dirty + p {
   justify-content: flex-end;
   margin-top: 26px;
   margin-bottom: 8px;
-}
-
-.tags .filters-color {
-  color: var(--primary-white);
-  background-color: var(--primary-green);
-  border: none;
-
-  &:hover {
-    color: var(--primary-white);
-    border: none;
-  }
 }
 
 .warning {
