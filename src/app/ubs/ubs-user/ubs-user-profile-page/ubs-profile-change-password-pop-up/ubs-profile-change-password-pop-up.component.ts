@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnInit, OnChanges, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -36,13 +36,12 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   public initForm(): void {
     this.formConfig = this.fb.group({
-      currentPassword: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
+      currentPassword: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
       confirmPassword: ['', [Validators.required]]
     });
-
     if (this.hasPassword) {
-      this.formConfig.setValidators([this.checkConfirmPassword]);
+      this.formConfig.setValidators([this.checkConfirmPassword, this.checkPasswordMatch]);
     }
   }
 
@@ -50,6 +49,12 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     const password = group.get('password').value?.trim();
     const confirmPassword = group.get('confirmPassword').value?.trim();
     return password === confirmPassword ? null : { confirmPasswordMistmatch: true };
+  }
+
+  checkPasswordMatch(group: FormGroup): null | { [error: string]: boolean } {
+    const password = group.get('password').value?.trim();
+    const currentPassword = group.get('currentPassword').value?.trim();
+    return password === currentPassword ? { newPasswordMatchesOld: true } : null;
   }
 
   public onSubmit(): void {

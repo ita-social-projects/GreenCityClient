@@ -36,7 +36,7 @@
           <span>{{ historyAction.status }} </span>
           <span *ngIf="historyAction.result"> -</span>
           <span
-            [ngClass]="{ result: historyAction.result === coloredStatus1 || historyAction.result === coloredStatus2 }"
+            [ngClass]="{ result: historyAction.result === statusNotTakenOut || historyAction.result === statusCancel }"
             *ngIf="historyAction.result"
           >
             {{ historyAction.result }}</span

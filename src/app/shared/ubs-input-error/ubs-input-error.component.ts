@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 
 enum errorType {
   email = 'email',
@@ -18,7 +17,7 @@ enum errorType {
   templateUrl: './ubs-input-error.component.html',
   styleUrls: ['./ubs-input-error.component.scss']
 })
-export class UBSInputErrorComponent implements OnInit, OnChanges {
+export class UBSInputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
 
   public errorMessage: string | undefined;
@@ -49,10 +48,6 @@ export class UBSInputErrorComponent implements OnInit, OnChanges {
     this.formElement.valueChanges.pipe().subscribe(() => {
       this.getType();
     });
-  }
-
-  ngOnChanges() {
-    console.log(this.formElement, 'ubs-input-error 1');
   }
 
   getType() {
@@ -116,13 +111,6 @@ export class UBSInputErrorComponent implements OnInit, OnChanges {
         return this.validationErrors.maxlengthComment;
       default:
         return this.validationErrors.maxlength;
-    }
-  }
-
-  checkConfirmPassword() {
-    const password = this.formElement.value?.trim();
-    if (!password) {
-      return this.validationErrors.confirmPasswordMistmatch;
     }
   }
 }
