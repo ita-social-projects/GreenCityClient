@@ -61,7 +61,8 @@ export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
       status: 'ACTIVE',
       text: 'TEST'
     }
-  ]
+  ],
+  progressNotificationHasDisplayed: false
 };
 
 export const CUSTOMFULLINFOHABIT: HabitAssignInterface = {
@@ -85,7 +86,8 @@ export const CUSTOMFULLINFOHABIT: HabitAssignInterface = {
       status: 'ACTIVE',
       text: 'TEST'
     }
-  ]
+  ],
+  progressNotificationHasDisplayed: false
 };
 
 export const HABITSASSIGNEDLIST: HabitAssignInterface[] = [DEFAULTFULLINFOHABIT, CUSTOMFULLINFOHABIT];

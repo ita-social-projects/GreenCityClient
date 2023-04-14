@@ -71,19 +71,21 @@
       </div>
     </div>
     <div *ngIf="!isEditing" class="add-habit-container">
-      <button class="tertiary-global-button btn" type="button" (click)="goToProfile()">{{ 'user.habit.btn.cancel' | translate }}</button>
-      <button class="primary-global-button btn" type="button" (click)="addHabit()">
+      <button class="tertiary-global-button habit-btn" type="button" (click)="goToProfile()">
+        {{ 'user.habit.btn.cancel' | translate }}
+      </button>
+      <button class="primary-global-button habit-btn" type="button" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
     </div>
     <div *ngIf="isEditing && !isAcquired" class="add-habit-container">
-      <button class="tertiary-global-button btn" (click)="giveUpHabit()">
+      <button class="tertiary-global-button habit-btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button *ngIf="canAcquire" class="secondary-global-button btn" type="button" (click)="openAcquireConfirm()">
+      <button *ngIf="canAcquire" class="secondary-global-button habit-btn" type="button" (click)="openAcquireConfirm()">
         {{ 'user.habit.btn.acquire' | translate }}
       </button>
-      <button class="primary-global-button btn" type="button" (click)="updateHabit()">
+      <button class="primary-global-button habit-btn" type="button" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
       </button>
     </div>

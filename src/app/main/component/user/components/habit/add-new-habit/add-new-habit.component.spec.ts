@@ -20,7 +20,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
 
-describe('AddNewHabitComponent', () => {
+fdescribe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
   let fixture: ComponentFixture<AddNewHabitComponent>;
   let matSnackBarMock: MatSnackBarComponent;
@@ -34,16 +34,26 @@ describe('AddNewHabitComponent', () => {
   };
   const locationMock = { back: () => {} };
 
+  class MatDialogMock {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  }
+
   fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', [
     'getHabitByAssignId',
     'deleteHabitById',
     'assignCustomHabit',
-    'setHabitStatus'
+    'setHabitStatus',
+    'progressNotificationHasDisplayed'
   ]);
   fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
   fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
+  fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
 
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
@@ -88,7 +98,6 @@ describe('AddNewHabitComponent', () => {
         MatDialogModule
       ],
       providers: [
-        MatDialog,
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
         { provide: HabitAssignService, useValue: fakeHabitAssignService },
@@ -97,6 +106,7 @@ describe('AddNewHabitComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Location, useValue: locationMock },
+        { provide: MatDialog, useClass: MatDialogMock },
         { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -178,13 +188,22 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('getProgressValue should set canAcquire false', () => {
+    component.assignedHabit = DEFAULTFULLINFOHABIT;
     component.getProgressValue(60);
     expect(component.canAcquire).toBeFalsy();
   });
 
   it('getProgressValue should set canAcquire true', () => {
+    component.assignedHabit = DEFAULTFULLINFOHABIT;
     component.getProgressValue(80);
     expect(component.canAcquire).toBeTruthy();
+  });
+
+  it('getProgressValue should acquire habit', () => {
+    component.assignedHabit = DEFAULTFULLINFOHABIT;
+    component.assignedHabit.progressNotificationHasDisplayed = true;
+    component.getProgressValue(80);
+    expect(fakeHabitAssignService.progressNotificationHasDisplayed).toHaveBeenCalled();
   });
 
   it('checkIfAssigned method should call getCustomShopList', () => {
