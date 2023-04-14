@@ -20,7 +20,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
 
-fdescribe('AddNewHabitComponent', () => {
+describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
   let fixture: ComponentFixture<AddNewHabitComponent>;
   let matSnackBarMock: MatSnackBarComponent;
