@@ -11,8 +11,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
-import { AddHouseNumberToAddressService } from '../add-house-number-to-address/add-house-number-to-address';
+import { LocationService } from '@global-service/location/location.service';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -65,8 +64,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     private langService: LanguageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript,
-    private convertCapLetterServ: ToFirstCapitalLetterService,
-    private addNumToAddressService: AddHouseNumberToAddressService
+    private locationService: LocationService
   ) {}
 
   get region() {
@@ -329,17 +327,14 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
-    const searchItem = language === this.languages.en ? 'district' : 'район';
-    const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
-    if (getDistrict) {
-      const currentDistrict = this.convertCapLetterServ.convFirstLetterToCapital(getDistrict.long_name);
-      abstractControl.setValue(currentDistrict);
-    }
+    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    abstractControl.setValue(currentDistrict);
+    abstractControl.markAsDirty();
   }
 
   setPlaceId(): void {
     if (this.formattedAddress && this.houseNumber.value) {
-      const addressConverted = this.addNumToAddressService.addHouseNumToAddress(this.formattedAddress, this.houseNumber.value);
+      const addressConverted = this.locationService.addHouseNumToAddress(this.formattedAddress, this.houseNumber.value);
       this.addAddressForm.get('searchAddress').setValue(addressConverted);
       const request = {
         query: addressConverted

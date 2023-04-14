@@ -331,6 +331,7 @@ export interface Address {
   isKyiv?: boolean;
   id: number;
   placeId: string;
+  searchAddress?: string;
   street: string;
   streetEn: string;
 }

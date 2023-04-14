@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { AddHouseNumberToAddressService } from 'src/app/shared/add-house-number-to-address/add-house-number-to-address';
+import { LocationService } from '@global-service/location/location.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -61,7 +61,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
-    private addNumToAddressService: AddHouseNumberToAddressService
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -381,12 +381,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
-    const searchItem = language === this.languages.en ? 'district' : 'район';
-    const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
-    if (getDistrict) {
-      const currentDistrict = getDistrict.long_name;
-      abstractControl.setValue(currentDistrict);
-    }
+    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    abstractControl.setValue(currentDistrict);
   }
 
   onDistrictSelected(formGroupName: number, event: Event): void {
@@ -429,7 +425,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const searchAddress = item.get('searchAddress').value;
     const houseNumber = item.get('houseNumber').value;
     if (searchAddress && houseNumber) {
-      const addressConverted = this.addNumToAddressService.addHouseNumToAddress(searchAddress, houseNumber);
+      const addressConverted = this.locationService.addHouseNumToAddress(searchAddress, houseNumber);
       const request = {
         query: addressConverted
       };

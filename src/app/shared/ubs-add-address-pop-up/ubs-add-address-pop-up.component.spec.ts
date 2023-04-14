@@ -6,7 +6,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { DropdownModule } from 'angular-bootstrap-md';
 import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -16,7 +16,7 @@ import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -303,8 +303,9 @@ describe('UBSAddAddressPopUpComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
-  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
-  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue(streetPlaceResultUk.address_components[1].long_name);
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
+  fakeLocationServiceMock.getDistrictAuto = () => streetPlaceResultUk.address_components[1].long_name;
+  fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -325,7 +326,7 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
+        { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
