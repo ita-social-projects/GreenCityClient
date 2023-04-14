@@ -16,7 +16,7 @@ import { habitImages } from 'src/app/main/image-pathes/habits-images';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp } from '@global-user/components/habit/models/habit-warnings';
+import { HabitAcquireConfirm, HabitCongratulation, HabitGiveUp, HabitLeavePage } from '@global-user/components/habit/models/habit-warnings';
 import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
@@ -169,8 +169,21 @@ export class AddNewHabitComponent implements OnInit {
     }
   }
 
-  goBack(): void {
-    this.location.back();
+  onGoBack(): void {
+    const isHabitWasEdited = this.initialDuration !== this.newDuration || this.standartShopList || this.customShopList;
+    if (isHabitWasEdited) {
+      const dialogRef = this.getOpenDialog(HabitLeavePage, false);
+      dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.location.back();
+          }
+        });
+    } else {
+      this.location.back();
+    }
   }
 
   private getUserId() {
@@ -184,7 +197,7 @@ export class AddNewHabitComponent implements OnInit {
   getProgressValue(progress: number): void {
     this.canAcquire = progress >= this.enoughToAcquire;
     if (this.canAcquire && !this.assignedHabit.progressNotificationHasDisplayed) {
-      const dialogRef = this.getOpenDialog(HabitCongratulation);
+      const dialogRef = this.getOpenDialog(HabitCongratulation, true);
       this.afterDialogClosed(dialogRef);
       this.habitAssignService.progressNotificationHasDisplayed(this.habitAssignId);
     }
@@ -215,7 +228,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   giveUpHabit(): void {
-    const dialogRef = this.getOpenDialog(HabitGiveUp);
+    const dialogRef = this.getOpenDialog(HabitGiveUp, true);
     dialogRef
       .afterClosed()
       .pipe(take(1))
@@ -228,8 +241,7 @@ export class AddNewHabitComponent implements OnInit {
               this.goToProfile();
               this.snackBar.openSnackBar('habitDeleted');
             });
-        }
-        if (!confirm) {
+        } else {
           this.snackBar.openSnackBar('habitDidNotGiveUp');
         }
       });
@@ -314,11 +326,11 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   openAcquireConfirm(): void {
-    const dialogRef = this.getOpenDialog(HabitAcquireConfirm);
+    const dialogRef = this.getOpenDialog(HabitAcquireConfirm, true);
     this.afterDialogClosed(dialogRef);
   }
 
-  getOpenDialog(dialogConfig: WarningDialog): MatDialogRef<WarningPopUpComponent> {
+  getOpenDialog(dialogConfig: WarningDialog, isHabitNameNeeded: boolean): MatDialogRef<WarningPopUpComponent> {
     return this.dialog.open(WarningPopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -329,7 +341,7 @@ export class AddNewHabitComponent implements OnInit {
         popupSubtitle: dialogConfig.subtitle,
         popupConfirm: dialogConfig.confirm,
         popupCancel: dialogConfig.cancel,
-        isHabit: true,
+        isHabit: isHabitNameNeeded,
         habitName: this.habitResponse.habitTranslation.name
       }
     });
@@ -342,8 +354,7 @@ export class AddNewHabitComponent implements OnInit {
       .subscribe((confirm) => {
         if (confirm) {
           this.acquireHabit();
-        }
-        if (!confirm) {
+        } else {
           this.snackBar.openSnackBar('habitDidNotGiveUp');
         }
       });

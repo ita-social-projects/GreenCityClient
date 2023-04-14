@@ -20,3 +20,10 @@ export const HabitAcquireConfirm: WarningDialog = {
   confirm: 'user.habit.add-new-habit.congratulations-acquire',
   cancel: 'user.habit.add-new-habit.confirmation-modal-no'
 };
+
+export const HabitLeavePage: WarningDialog = {
+  title: 'user.habit.add-new-habit.leave-habit-page-title',
+  subtitle: 'user.habit.add-new-habit.leave-habit-page-text',
+  confirm: 'user.habit.add-new-habit.confirmation-modal-yes',
+  cancel: 'user.habit.add-new-habit.confirmation-modal-no'
+};

@@ -171,9 +171,13 @@ describe('AddNewHabitComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should navigate back on goBack', () => {
+  it('should navigate back on onGoBack without call dialog', () => {
+    component.initialDuration = 1;
+    component.newDuration = 1;
+    component.standartShopList = null;
+    component.customShopList = null;
     const spy = spyOn(locationMock, 'back');
-    component.goBack();
+    component.onGoBack();
     expect(spy).toHaveBeenCalled();
   });
 
