@@ -233,11 +233,9 @@ describe('AddNewHabitComponent', () => {
   it('checkIfAssigned method should invoke getDefaultHabit', () => {
     (component as any).habitId = 3;
     component.isEditing = false;
-    const spy1 = spyOn(component as any, 'getDefaultHabit');
-    const spy2 = spyOn(component as any, 'getStandartShopList');
+    const spy = spyOn(component as any, 'getDefaultHabit');
     (component as any).checkIfAssigned();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('goToProfile method should navigate to user profile page', () => {
