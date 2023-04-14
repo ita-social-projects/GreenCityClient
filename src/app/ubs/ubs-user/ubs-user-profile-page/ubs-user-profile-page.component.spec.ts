@@ -335,7 +335,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
-  
+
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.addHouseNumToAddress = () => '';
