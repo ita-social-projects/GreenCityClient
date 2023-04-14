@@ -16,6 +16,7 @@ import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-
 import { UbsAdminNotificationComponent } from './ubs-admin-notification.component';
 import { NotificationMock } from '../../services/notificationsMock';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -32,6 +33,7 @@ describe('UbsAdminNotificationComponent', () => {
   let component: UbsAdminNotificationComponent;
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
   let notificationsService: NotificationsService;
+  let MatSnackBarMock: MatSnackBarComponent;
 
   const locationMock = { back: () => {} };
   const notificationsServiceMock = {
@@ -42,6 +44,8 @@ describe('UbsAdminNotificationComponent', () => {
     deactivateNotificationTemplate: jasmine.createSpy('deactivateNotificationTemplate')
   };
 
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) => {};
   const activatedRouteMock = { params: of({ id: 1 }) };
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
@@ -72,7 +76,8 @@ describe('UbsAdminNotificationComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Router, useValue: routerMock },
         { provide: ConfirmationDialogService, useValue: confirmationDialogServiceMock },
-        { provide: MatDialog, useValue: dialogMock }
+        { provide: MatDialog, useValue: dialogMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ]
     }).compileComponents();
   }));

@@ -8,14 +8,13 @@ export interface Platform {
 }
 
 export interface NotificationTemplate {
-  id: number;
   type: string;
   title: string;
   titleEng: string;
   schedule: string | null;
   trigger: string;
-  triggerDescription: string;
-  triggerDescriptionEng: string;
+  triggerDescription?: string;
+  triggerDescriptionEng?: string;
   time: string;
   timeDescription: string;
   timeDescriptionEng: string;

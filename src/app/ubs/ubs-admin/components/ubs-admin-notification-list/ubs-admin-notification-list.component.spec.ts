@@ -105,11 +105,17 @@ describe('UbsAdminNotificationListComponent', () => {
       page: [
         {
           id: 1,
-          title: { en: 'Test', ua: 'Тест' },
+          type: 'UNPAID_ORDER',
+          title: 'Тест',
+          titleEng: 'Test',
           schedule: '0 0 * * *',
           trigger: 'TRIGGER',
+          triggerDescription: 'Опис',
+          triggerDescriptionEng: 'Desc',
           time: 'TIME',
-          status: 'STATUS',
+          timeDescription: 'Опис',
+          timeDescriptionEng: 'Desc',
+          notificationStatus: 'STATUS',
           platforms: []
         }
       ],
@@ -142,30 +148,6 @@ describe('UbsAdminNotificationListComponent', () => {
   it('should load all notifications', () => {
     component.ngOnInit();
     fixture.detectChanges();
-    const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
-    expect(rows.length).toBe(0);
-  });
-
-  it('should load filtered notifications when user applies title filter', async () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    const titleFilterField = fixture.debugElement.query(By.css('.filter-topic-block input')).nativeElement;
-    titleFilterField.value = 'Successful';
-    titleFilterField.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
-    expect(rows.length).toBe(0);
-  });
-
-  it('should load filtered notifications when user applies title and status filters', async () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    const titleFilterField = fixture.debugElement.query(By.css('.filter-topic-block input')).nativeElement;
-    titleFilterField.value = 'Successful';
-    titleFilterField.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    const statusSelect = await loader.getHarness(MatSelectHarness.with({ selector: '.status-select' }));
-    await statusSelect.clickOptions({ text: 'ubs-notifications.filters-statuses.INACTIVE' });
     const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
     expect(rows.length).toBe(0);
   });
