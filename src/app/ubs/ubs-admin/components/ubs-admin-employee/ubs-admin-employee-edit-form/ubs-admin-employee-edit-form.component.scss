@@ -1,8 +1,23 @@
 @import './././src/app/ubs/ubs-admin/components/ubs-admin-employee/dialogs';
 @import './././src/app/ubs/ubs-admin/ubs-admin.component';
 
+.add-edit {
+  width: 620px;
+  min-height: 620px;
+  padding: 40px 64px;
+}
+
 .popup-title {
   margin-bottom: 24px;
+}
+
+.close-popup-button {
+  font-size: 18px;
+  position: absolute;
+  top: 19px;
+  right: 19px;
+  cursor: pointer;
+  color: var(--ubs-primary-light-grey);
 }
 
 .edit-employee {
@@ -28,7 +43,11 @@ form {
   margin: 24px 0 0;
 
   .fields {
-    max-width: 328px;
+    .private-section {
+      max-width: 502px;
+      display: flex;
+      flex-direction: row;
+    }
   }
 }
 
@@ -37,6 +56,10 @@ form {
   line-height: 16px;
   color: var(--quaternary-dark-grey);
   font-weight: 400;
+}
+
+.odd {
+  margin-right: 24px;
 }
 
 .form-group {
@@ -50,7 +73,7 @@ form {
     outline: none;
     padding: 8px;
     border-radius: 3px;
-    width: 100%;
+    width: 234px;
   }
 }
 
@@ -82,6 +105,23 @@ form {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 5px;
+}
+
+.accordion {
+  width: 100%;
+}
+
+.accordion-role-body {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  max-height: 140px;
+}
+
+.role-item {
+  display: block;
+  width: 50%;
 }
 
 .checkbox-location,
@@ -241,4 +281,53 @@ label {
       padding: 16px;
     }
   }
+}
+
+action-buttons {
+  width: 118px;
+}
+
+::-moz-scrollbar-thumb {
+  border-radius: 20px;
+}
+
+.filters-block {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+
+  .filter-wrapper {
+    height: 36px;
+    width: 230px;
+    border: 1px solid var(--ubs-primary-light-grey);
+    border-radius: 4px;
+
+    input {
+      padding-left: 15px;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+    }
+  }
+
+  .icon-style {
+    position: absolute;
+    right: 320px;
+    bottom: 448px;
+    color: var(--ubs-primary-light-grey);
+    margin: 8px;
+  }
+}
+
+::-moz-scrollbar-thum:horizontal {
+  border-radius: 4px !important;
+}
+
+::-moz-scrollbar-button:no-button:vertical:start:decrement,
+::-moz-scrollbar-button:no-button:vertical:end:increment ::-webkit-scrollbar-button:no-button:start:decrement,
+::-webkit-scrollbar-button:no-button:vertical:end:increment {
+  display: none !important;
 }

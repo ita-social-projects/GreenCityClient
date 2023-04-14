@@ -18,6 +18,27 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page, ordersStatuses } from '../../models/ubs-admin.interface';
+import { functions } from 'firebase';
+
+enum selectOptions {
+  all = 'all'
+}
+
+enum filterOptions {
+  city = 'city',
+  courier = 'courier',
+  position = 'position',
+  region = 'region',
+  contact = 'contact'
+}
+
+enum filtersPlaceholderOptions {
+  city = 'employees.city',
+  courier = 'employees.courier',
+  position = 'employees.position',
+  region = 'employees.region',
+  contact = 'employees.contact'
+}
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -110,21 +131,21 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.selectedCities = [];
       this.selectedCouriers = [];
     });
-    this.setCountOfCheckedCity();
-    this.setCountOfCheckedPositions();
-    this.setCountOfCheckedCouriers();
-    this.setCountOfCheckedRegions();
+    this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
+    this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
+    this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
+    this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))
       .subscribe((i) => {
         this.getLocations();
-        this.translateSelectedCity();
-        this.setCountOfCheckedCity();
-        this.setCountOfCheckedPositions();
-        this.setCountOfCheckedCouriers();
-        this.setCountOfCheckedRegions();
         this.getCouriers();
+        this.translateSelectedCity();
+        this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
+        this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
+        this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
+        this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
       });
   }
 
@@ -189,7 +210,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
           })
           .flat(2);
         this.filteredRegions = regions;
-        console.log('this.filteredRegions', this.filteredRegions);
         this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(
           this.city,
@@ -250,37 +270,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
       });
   }
 
-  public setCountOfCheckedCity(): void {
-    if (this.selectedCities.length) {
-      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.cityPlaceholder = `${this.selectedCities.length} ${data}`));
+  public setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder): void {
+    if (selectedFilter.length) {
+      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this[placeholder] = `${selectedFilter.length} ${data}`));
     } else {
-      this.translate.get('employees.city').subscribe((data) => (this.cityPlaceholder = data));
-    }
-  }
-
-  public setCountOfCheckedPositions(): void {
-    if (this.selectedPositions.length) {
-      this.translate
-        .get('ubs-tariffs.selected')
-        .subscribe((data) => (this.positionsPlaceholder = `${this.selectedPositions.length} ${data}`));
-    } else {
-      this.translate.get('employees.position').subscribe((data) => (this.positionsPlaceholder = data));
-    }
-  }
-
-  public setCountOfCheckedRegions(): void {
-    if (this.selectedRegions.length) {
-      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.regionPlaceholder = `${this.selectedRegions.length} ${data}`));
-    } else {
-      this.translate.get('employees.region').subscribe((data) => (this.regionPlaceholder = data));
-    }
-  }
-
-  public setCountOfCheckedCouriers(): void {
-    if (this.selectedCouriers.length) {
-      this.translate.get('ubs-tariffs.selected').subscribe((data) => (this.courierPlaceholder = `${this.selectedCouriers.length} ${data}`));
-    } else {
-      this.translate.get('employees.courier').subscribe((data) => (this.courierPlaceholder = data));
+      this.translate.get(filtreName).subscribe((data) => {
+        this[placeholder] = data;
+      });
     }
   }
 
@@ -310,7 +306,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   public onSelectPosition(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
-    if (event.option.value === 'all') {
+    if (event.option.value === selectOptions.all) {
       this.toggleSelectAllPositions();
       const positionsId = this.employeePositions.map((position) => position.id);
       Object.assign(this.filterData, { position: positionsId });
@@ -328,7 +324,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   public onSelectCourier(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
-    if (event.option.value === 'all') {
+    if (event.option.value === selectOptions.all) {
       this.toggleSelectAllCourier();
       const couriersId = this.couriers.map((courier) => courier.courierId);
       Object.assign(this.filterData, { courier: couriersId });
@@ -345,17 +341,57 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
   }
 
+  //   toggleSelectAll(filterName): void {
+  //     switch (filterName) {
+  //       case filterOptions.position:
+  //         this.selectAllHendler(this.isPositionChecked, this.selectedPositions, this.employeePositions, this.transformPositionToSelectedPosition, filterOptions.position,'positionsPlaceholder');
+  //         break;
+  //       case filterOptions.city:
+  //         this.selectAllHendler(
+  //           this.isCityChecked,
+  //           this.selectedCities,
+  //           this.cities,
+  //           this.transformCityToSelectedCity,
+  //           filterOptions.city,
+  //           'cityPlaceholder');
+  //         break;
+  //       case filterOptions.courier:
+  //         this.selectAllHendler(
+  //           this.isCourierChecked,
+  //            this.selectedCouriers,
+  //             this.couriers,
+  //              this.transformCourierToSelectedCourier,
+  //               filterOptions.courier,
+  //               'courierPlaceholder');
+  //         break;
+  //   }
+  // }
+
+  //   selectAllHendler(checkFunction:Function,selectedFilters, filtersData, transformFunction:Function,
+  //       filterName, placeholderName): void {
+  //     if (!checkFunction(selectedFilters,filtersData)) {
+  //       selectedFilters.length = 0;
+  //       filtersData.forEach((filter) => {
+  //         const tempItem = transformFunction(filter, this.getLangValue, this.getSelectedCityName, this.languageService);
+  //         selectedFilters.push(tempItem);
+  //       });
+  //     } else {
+  //       selectedFilters.length = 0;
+  //     }
+  //     this.setCountOfCheckedFilters(selectedFilters, filterName, placeholderName);
+  //   }
+
   toggleSelectAllPositions(): void {
     if (!this.isPositionChecked()) {
       this.selectedPositions.length = 0;
       this.employeePositions.forEach((position) => {
         const tempItem = this.transformPositionToSelectedPosition(position);
         this.selectedPositions.push(tempItem);
-        this.setCountOfCheckedPositions();
+        this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
       });
     } else {
       this.selectedPositions.length = 0;
-      this.setCountOfCheckedPositions();
+      this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
     }
   }
 
@@ -366,7 +402,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     } else {
       this.selectedRegions.length = 0;
     }
-    this.setCountOfCheckedRegions();
+    this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
   }
 
   toggleSelectAllCity(): void {
@@ -379,6 +415,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     } else {
       this.selectedCities.length = 0;
     }
+    this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
   }
 
   toggleSelectAllCourier(): void {
@@ -391,24 +428,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
     } else {
       this.selectedCouriers.length = 0;
     }
-    this.setCountOfCheckedCouriers();
+    this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
   }
 
   transformPositionToSelectedPosition(position: any) {
     return {
       name: position.name,
       id: position.id
-    };
-  }
-
-  transformRegionToSelectedRegion(region: any) {
-    const selectedRegionName = this.getSelectedCityName(region, 'ua');
-    const selectedRegionEnglishName = this.getSelectedCityName(region, 'en');
-    return {
-      name: this.getLangValue(selectedRegionName, selectedRegionEnglishName),
-      id: region.id,
-      englishName: selectedRegionEnglishName,
-      ukrainianName: selectedRegionName
     };
   }
 
@@ -465,13 +491,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
   public resetRegionValue(): void {
     this.region.setValue('');
     this.selectedCities = [];
-    this.setCountOfCheckedCity();
+    this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
     Object.assign(this.filterData, { region: '', location: locationsId });
   }
 
   public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
-    if (event.option.value === 'all') {
+    if (event.option.value === selectOptions.all) {
       this.toggleSelectAllCity();
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
       Object.assign(this.filterData, { location: locationsId });
@@ -480,7 +506,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       const locationId = this.selectedCities.map((it) => it.id);
       Object.assign(this.filterData, { location: locationId });
     }
-    this.setCountOfCheckedCity();
+    this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
     this.city.setValue('');
     if (trigger) {
       requestAnimationFrame(() => {
@@ -507,7 +533,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     } else {
       this.selectedPositions.push(tempItem);
     }
-    this.setCountOfCheckedPositions();
+    this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
   }
 
   selectCitsy(event: MatAutocompleteSelectedEvent): void {
@@ -563,7 +589,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     } else {
       this.selectedCouriers.push(tempItem);
     }
-    this.setCountOfCheckedCouriers();
+    this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
   }
 
   openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
@@ -585,7 +611,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   regionSelectedSub(value) {
-    if (value === 'all') {
+    if (value === selectOptions.all) {
       this.toggleSelectAllRegion();
       Object.assign(this.filterData, { region: '' });
     } else if (value == null) {
@@ -594,9 +620,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     } else {
       const newValue = value;
 
-      const selectedValue = this.locations.filter(
-        (it) => it.regionTranslationDtos.find((ob) => ob.regionName === newValue) //event.option.value.toString())
-      );
+      const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === newValue));
       this.regionEnglishName = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
         .flat(2);
@@ -609,10 +633,10 @@ export class UbsAdminEmployeeComponent implements OnInit {
       }
       Object.assign(this.filterData, { region: this.regionId });
     }
-    this.setCountOfCheckedRegions();
+    this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
   }
 
-  getRegionName(region: Locations): String {
+  getRegionName(region: Locations): string {
     const selectedRegionName = this.getSelectedRegionName(region, 'ua');
     const selectedRegionEnglishName = this.getSelectedRegionName(region, 'en');
     return this.getLangValue(selectedRegionName, selectedRegionEnglishName);
@@ -622,13 +646,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      if (option === 'city') {
+      if (option === filterOptions.city) {
         this.selectedCities.push(value.trim());
-      } else if (option === 'courier') {
+      } else if (option === filterOptions.courier) {
         this.selectedCouriers.push(value.trim());
-      } else if (option === 'position') {
+      } else if (option === filterOptions.position) {
         this.selectedPositions.push(value.trim());
-      } else if (option === 'region') {
+      } else if (option === filterOptions.region) {
         this.selectedRegions.push(value.trim());
       }
     }
@@ -648,41 +672,41 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.searchForm.reset();
 
     this.selectedCouriers.length = 0;
-    this.setCountOfCheckedCouriers();
+    this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
 
     this.selectedPositions.length = 0;
-    this.setCountOfCheckedPositions();
+    this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
 
     this.selectedCities.length = 0;
-    this.setCountOfCheckedCity();
+    this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
 
     this.selectedRegions.length = 0;
-    this.setCountOfCheckedRegions();
+    this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
 
     this.selectedContact.length = 0;
   }
 
   removeItem(filterName: any, selectorType: string): void {
     switch (selectorType) {
-      case 'position':
+      case filterOptions.position:
         this.selectedPositions = this.selectedPositions.filter((item) => item.id !== filterName.id);
-        this.setCountOfCheckedPositions();
+        this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
         break;
-      case 'contact':
+      case filterOptions.contact:
         this.selectedContact = this.selectedContact.filter((item) => item !== filterName);
         this.contacts.setValue('');
         break;
-      case 'city':
+      case filterOptions.city:
         this.selectedCities = this.selectedCities.filter((item) => item.id !== filterName.id);
-        this.setCountOfCheckedCity();
+        this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
         break;
-      case 'courier':
+      case filterOptions.courier:
         this.selectedCouriers = this.selectedCouriers.filter((item) => item.id !== filterName.id);
-        this.setCountOfCheckedCouriers();
+        this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
         break;
-      case 'region':
+      case filterOptions.region:
         this.selectedRegions = this.selectedRegions.filter((item) => item.regionId !== filterName.regionId);
-        this.setCountOfCheckedRegions();
+        this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
         this.checkRegionValue();
         break;
     }

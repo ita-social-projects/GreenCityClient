@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import {
   Employees,
@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { TariffSelectorComponent } from './tariff-selector/tariff-selector.component';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
+import { TariffsService } from '../../../services/tariffs.service';
 
 @Component({
   selector: 'app-ubs-admin-employee-edit-form',
@@ -33,7 +34,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   roles: EmployeePositions[];
   employeeForm: FormGroup;
   employeePositions: EmployeePositions[];
-  tariffs: TariffForEmployee[] = [];
+  tariffs = [];
   employeeDataToSend: EmployeeDataToSend;
   phoneMask = Masks.phoneMask;
   private maxImageSize = 10485760;
@@ -51,14 +52,29 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   imageName = 'Your Avatar';
   selectedFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
+  search: FormControl;
+  filteredTariffs = [];
+  tariffsFromEditForm = [];
 
-  private mappers = {
+  private addMappers = {
+    tariffs: (tariffData) =>
+      tariffData.map((tariff) => ({
+        id: tariff.cardId,
+        courier: { en: tariff.courierDto.nameEn, ua: tariff.courierDto.nameUk },
+        region: { en: tariff.regionDto.nameEn, ua: tariff.regionDto.nameUk },
+        locations: tariff.locationInfoDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
+        selected: false
+      }))
+  };
+
+  private editMappers = {
     tariffs: (tariffData) =>
       tariffData.map((tariff) => ({
         id: tariff.id,
         courier: { en: tariff.courier.nameEn, ua: tariff.courier.nameUk },
         region: { en: tariff.region.nameEn, ua: tariff.region.nameUk },
-        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk }))
+        locations: tariff.locationsDtos.map((loc) => ({ en: loc.nameEn, ua: loc.nameUk })),
+        selected: true
       }))
   };
 
@@ -67,6 +83,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     private store: Store<IAppState>,
     public dialogRef: MatDialogRef<UbsAdminEmployeeEditFormComponent>,
     public fb: FormBuilder,
+    private tariffsService: TariffsService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
@@ -77,7 +94,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         this.data?.phoneNumber ?? '',
         [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
       ],
-      email: [this.data?.email ?? '', [Validators.pattern(Patterns.ubsMailPattern)]]
+      email: [this.data?.email ?? '', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]]
     });
     this.employeePositions = this.data?.employeePositions ?? [];
     this.imageURL = this.data?.image;
@@ -92,8 +109,18 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         imageURL: this.data?.image,
         employeePositionsIds: this.employeePositions.map((position) => position.id)
       };
-      this.tariffs = this.mappers.tariffs(this.data?.tariffs) ?? [];
+      this.tariffsFromEditForm = this.editMappers.tariffs(this.data?.tariffs) ?? [];
     }
+    this.search = this.fb.control(null);
+    this.search.valueChanges.subscribe((term) => {
+      this.filteredTariffs = this.tariffs.filter((tariff) => {
+        const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
+        const regionMatch = match(tariff.region.en, term) || match(tariff.region.ua, term);
+        const locationsMatch = tariff.locations.some((location) => match(location.en, term) || match(location.ua, term));
+        const courierMatch = match(tariff.courier.en, term) || match(tariff.courier.ua, term);
+        return [regionMatch, locationsMatch, courierMatch].some((cond) => cond);
+      });
+    });
   }
 
   ngOnInit() {
@@ -115,6 +142,20 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.isUploading = false;
       });
+
+    this.tariffsService.getFilteredCard({ status: 'ACTIVE' }).subscribe((data) => {
+      const tariffs = this.addMappers.tariffs(data);
+      this.tariffs = tariffs;
+      if (this.editMode) {
+        this.tariffsFromEditForm = this.tariffsFromEditForm.map((editItem) => editItem.id);
+        this.filteredTariffs = this.tariffs.map((tariffItem) => ({
+          ...tariffItem,
+          selected: this.tariffsFromEditForm.includes(tariffItem.id) ? (tariffItem.selected = true) : tariffItem.selected
+        }));
+      } else {
+        this.filteredTariffs = this.tariffs;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -157,6 +198,10 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  isTariffListChange(): void {
+    this.isInitialTariffsChanged = !this.isInitialTariffsChanged;
+  }
+
   doesIncludeRole(role) {
     return this.employeePositions.some((existingRole) => existingRole.id === role.id);
   }
@@ -170,12 +215,13 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   prepareEmployeeDataToSend(dto: string, image?: string): FormData {
     this.isUploading = true;
+    const selectedTarifs = this.filteredTariffs.filter((it) => it.selected);
     this.employeeDataToSend = {
       employeeDto: {
         ...this.employeeForm.value,
         employeePositions: this.employeePositions
       },
-      tariffId: this.tariffs.map((it) => it.id)
+      tariffId: selectedTarifs.map((it) => it.id)
     };
     if (this.isUpdatingEmployee) {
       this.employeeDataToSend.employeeDto.id = this.data.id;
@@ -269,33 +315,5 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         images: [{ src: this.imageURL }]
       }
     });
-  }
-
-  onAddTariff(): void {
-    this.dialog
-      .open(TariffSelectorComponent, {
-        hasBackdrop: true
-      })
-      .afterClosed()
-      .subscribe((updates) => {
-        if (!updates) {
-          return;
-        }
-        const newTariffs = this.tariffs;
-        const presentTariffsIds = newTariffs.map(({ id }) => id);
-        updates.forEach((tariff) => {
-          if (presentTariffsIds.includes(tariff.id)) {
-            return;
-          }
-          newTariffs.push(tariff);
-        });
-        this.tariffs = newTariffs;
-        this.isInitialTariffsChanged = true;
-      });
-  }
-
-  onRemoveTariff(tariffToRemove): void {
-    this.tariffs = this.tariffs.filter((tariff) => tariff !== tariffToRemove);
-    this.isInitialTariffsChanged = true;
   }
 }

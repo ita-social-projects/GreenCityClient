@@ -16,6 +16,7 @@ import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.se
 export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   employee: Page;
+  panelToggler = false;
 
   public groups = [
     { name: 'clients', permissions: ['SEE_CLIENTS_PAGE'] },
@@ -40,11 +41,16 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       permissions: [
         'SEE_TARIFFS',
         'CREATE_NEW_LOCATION',
+        'CREATE_NEW_COURIER',
+        'CREATE_NEW_STATION',
+        'EDIT_LOCANION_NAME',
         'EDIT_COURIER',
         'EDIT_DESTINATION_NAME', // ????????????
         'EDIT_LOCATION_CARD',
         'DELETE_LOCATION_CARD', // ????????????
         'SEE_PRICING_CARD',
+        'EDIT_DELETE_PRICE_CARD',
+        'DEACNIVATE_PRICING_CARD',
         'CONTROL_SERVICE'
       ]
     }
@@ -69,6 +75,9 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     SEE_TARIFFS: 'see-main-page',
     CREATE_NEW_LOCATION: 'create-location',
     CREATE_NEW_COURIER: 'create-courier',
+    CREATE_NEW_STATION: 'create-station',
+    EDIT_DELETE_PRICE_CARD: 'edit-delete-price-card',
+    EDIT_LOCANION_NAME: 'edit-location-name',
     EDIT_LOCATION: 'edit-location-name',
     EDIT_COURIER: 'edit-courier-name',
     EDIT_DESTINATION_NAME: 'edit-destination-name',
@@ -76,7 +85,8 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     DELETE_LOCATION_CARD: 'delete-location-card',
     SEE_PRICING_CARD: 'see-price-card',
     CONTROL_SERVICE: 'edit-service',
-    EDIT_PRICING_CARD: 'edit-price-card'
+    EDIT_PRICING_CARD: 'edit-price-card',
+    DEACNIVATE_PRICING_CARD: 'deactivate-price-card'
   };
 
   isUpdating = false;
@@ -115,6 +125,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       .backdropClick()
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => this.dialogRef.close(true));
+  }
+
+  isPanelOpen() {
+    this.panelToggler = !this.panelToggler;
   }
 
   savePermissions() {

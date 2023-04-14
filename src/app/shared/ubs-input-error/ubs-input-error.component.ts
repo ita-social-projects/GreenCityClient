@@ -10,6 +10,12 @@ enum errorType {
   maxlength = 'maxlength',
   required = 'required'
 }
+
+enum inputsType {
+  requiredEmailEmployee = 'requiredEmailEmployee',
+  requiredPhoneEmployee = 'requiredPhoneEmployee'
+}
+
 @Component({
   selector: 'app-ubs-input-error',
   templateUrl: './ubs-input-error.component.html',
@@ -17,10 +23,14 @@ enum errorType {
 })
 export class UBSInputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
+  @Input() public inputType: string;
+  @Input() public fromEmployee: boolean;
 
   public errorMessage: string | undefined;
   private validationErrors = {
     email: 'input-error.email-wrong',
+    emailEmployee: 'input-error.email-required-employee',
+    phoneEmployee: 'input-error.phone-required-employee',
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
@@ -49,6 +59,9 @@ export class UBSInputErrorComponent implements OnInit {
     Object.values(errorType).forEach((err) => {
       if (this.formElement.errors?.[err]) {
         switch (err) {
+          case errorType.required:
+            this.errorMessage = this.getRequiredErrorMessage(this.formElement.errors.required, this.inputType);
+            break;
           case errorType.pattern:
             this.errorMessage = this.getPatternErrorMessage(this.formElement.errors.pattern.requiredPattern);
             break;
@@ -63,6 +76,17 @@ export class UBSInputErrorComponent implements OnInit {
         }
       }
     });
+  }
+
+  getRequiredErrorMessage(required: boolean, inputType: string): string {
+    switch (required) {
+      case inputType === inputsType.requiredEmailEmployee:
+        return this.validationErrors.emailEmployee;
+      case inputType === inputsType.requiredPhoneEmployee:
+        return this.validationErrors.phoneEmployee;
+      default:
+        return this.validationErrors.required;
+    }
   }
 
   getPatternErrorMessage(pattern: string): string {

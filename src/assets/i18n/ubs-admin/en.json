@@ -492,19 +492,19 @@
     "permissions": {
       "clients": {
         "title": "Clients",
-        "see-main-page": "See the main page of the Client"
+        "see-main-page": "See the main page of the “Client”"
       },
       "employees": {
         "title": "Employees",
-        "see-main-page": "See the main page of the Employee",
+        "see-main-page": "See the main page of the “Employee”",
         "create-card": "Create a new employee card",
-        "edit-card": "Edit employee card",
+        "edit-card": "Edit an employee card",
         "delete-card": "Deactivate an employee",
         "edit-authority": "Edit an employee's authority"
       },
       "certificates": {
         "title": "Certificates",
-        "see-main-page": "See the main page of Certificates",
+        "see-main-page": "See the main page of “Certificates”",
         "create-card": "Create a new certificate",
         "edit-card": "Edit a certificate"
       },
@@ -514,25 +514,28 @@
         "edit-card": "Edit order card"
       },
       "messages": {
-        "title": "Messages",
-        "see-main-page": "See the main page of Messages",
-        "create-card": "Create a new message card",
-        "edit-card": "Edit message card",
-        "delete-card": "Delete message card"
+        "title": "Notification",
+        "see-main-page": "See the main page “Notifications”",
+        "create-card": "Create a new notification card",
+        "edit-card": "Edit a notification card",
+        "delete-card": "Delete a notification card"
       },
       "tariffs": {
         "title": "Tariffs",
-        "see-main-page": "See the main page of Tariffs",
-        "create-location": "Create location",
+        "see-main-page": "See the main page “Tariffs”",
+        "create-location": "Create a location",
         "create-courier": "Create a courier",
-        "edit-location-name": "Edit location name",
-        "edit-courier-name": "Edit courier name",
-        "edit-destination-name": "Edit destination name",
+        "create-station": "Create a receiving station",
+        "edit-location-name": "Edit the location name",
+        "edit-courier-name": "Edit the courier name",
+        "edit-destination-name": "Edit the receiving station name",
         "create-location-card": "Create a location map",
-        "delete-location-card": "Delete location card",
-        "see-price-card": "See the price card",
-        "edit-service": "Add/Edit/Delete service",
-        "edit-price-card": "Edit/Delete price card"
+        "delete-location-card": "Edit/Delete the location card",
+        "see-price-card": "See the pricing card",
+        "edit-delete-price-card": "Edit/Delete the pricing card",
+        "deactivate-price-card": "Deactivate the pricing card",
+        "edit-service": "Add/Edit/Delete a service",
+        "edit-price-card": "Edit/Delete the pricing card"
       }
     },
     "tooltip": {
@@ -542,7 +545,7 @@
     "actions": {
       "edit": "Edit employee data",
       "settings": "Set employee permissions",
-      "delete": "Deactivate employee"
+      "delete": "Delete employee"
     },
     "btn": {
       "cancel": "Cancel",
@@ -572,7 +575,7 @@
     "name": "First name*",
     "surname": "Last name*",
     "phone-number": "Phone number*",
-    "email": "Email",
+    "email": "Email*",
     "position": "Position*",
     "receiving-station": "Receiving station*",
     "image-input": "Image",
@@ -582,7 +585,7 @@
     "browse-2": "your device",
     "delete": "Remove",
     "add": "Add",
-    "apply": "Apply",
+    "apply": "Save",
     "cancel": "Cancel",
     "update": "Save",
     "filter-reset-all": "Reset all",
@@ -906,6 +909,8 @@
   },
   "input-error": {
     "required": "This field is required",
+    "email-required-employee": "Please enter Email",
+    "phone-required-employee": "Please enter phone number",
     "email-wrong": "Please enter the correct email",
     "number-wrong": "Enter the correct phone number",
     "name-wrong": "Only letters and hyphen, space, apostrophe are allowed",

@@ -3,8 +3,28 @@
   flex-direction: column;
   padding-left: 10px;
 
+  .input-wrapper input {
+    padding: 0 34px 0 15px;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--ubs-primary-light-grey);
+  }
+
+  .input-wrapper {
+    height: 36px;
+    border: 1px solid var(--ubs-primary-light-grey);
+    border-radius: 4px;
+    margin-right: 16px;
+    position: relative;
+  }
+
   .employee-header {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    margin-top: 32px;
 
     .employee-name {
       margin-bottom: 20px;
@@ -14,7 +34,7 @@
         font-weight: 700;
         font-size: 24px;
         line-height: 32px;
-        letter-spacing: 0.002em;
+        letter-spacing: 0.2%;
       }
     }
 
@@ -29,7 +49,7 @@
         max-width: 328px;
         width: 100%;
         height: 36px;
-        border: 1px solid var(--ubs-primary-light-grey);
+        border: 1px solid var(--quintynary-light-grey);
         border-radius: 4px;
       }
 
@@ -44,6 +64,7 @@
         background: transparent;
         border: none;
         outline: none;
+        font-size: 14px;
       }
 
       .icon-style {
@@ -59,7 +80,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 177px;
+          width: 184px;
           height: 36px;
           font-weight: 700;
           font-size: 14px;
@@ -67,27 +88,170 @@
           letter-spacing: 0.1px;
           border-radius: 4px;
 
-          &.filter-table-btn {
-            width: 125px;
-            gap: 8px;
-            border: 1px solid var(--ubs-quaternary-dark-grey);
-            background-color: transparent;
-          }
-
           &.button-name {
-            width: 177px;
+            width: 184px;
             font-family: var(--ubs-quaternary-font);
             color: var(--ubs-quaternary-dark-grey);
             background: var(--ubs-button-light-green);
+          }
+
+          &.button-name:active {
+            border: none;
           }
         }
       }
     }
   }
 
+  form {
+    box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+    padding: 10px 25px 40px;
+  }
+
+  .main-text {
+    font-style: normal;
+    font-weight: bold;
+    font-family: var(--primary-font);
+    margin-bottom: 32px;
+  }
+
+  .showing-block {
+    background: var(--ubs-primary-white);
+    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+    padding: 0 25px;
+    margin-bottom: 32px;
+    min-height: 120px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .d-flex {
+    margin-bottom: 18px;
+    margin-top: 24px;
+  }
+
+  .col-text {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--ubs-secondary-grey);
+    margin-top: 28px;
+    margin-bottom: 0;
+    margin-right: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .select-item {
+    border: 1px solid var(--ubs-primary-light-grey);
+    border-radius: 4px;
+    margin-right: 16px;
+    position: relative;
+  }
+
+  .input-wrapper input.region {
+    padding: 0 56px 0 15px;
+  }
+
+  .input-wrapper input.courier {
+    margin-bottom: 30px;
+  }
+
+  .courier-select {
+    padding: 5px 34px 0 15px;
+  }
+
+  .col-item {
+    width: 20%;
+  }
+
+  .arrowDown-img {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
   .employees {
     padding-bottom: 77px;
   }
+}
+
+.mat-menu-item:hover {
+  background-color: var(--ubs-primary-light-green);
+}
+
+.mat-menu-item-submenu-trigger::after {
+  display: none;
+}
+
+.add-button {
+  position: relative;
+}
+
+.option-wrapper {
+  .mat-option {
+    font-size: 14px !important;
+    font-family: var(--ubs-quaternary-font);
+  }
+  .mat-option:hover:not(.mat-option-disabled) {
+    background-color: var(--ubs-primary-light-green) !important;
+    font-family: var(--ubs-quaternary-font);
+    font-style: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ubs-primary-grey);
+  }
+}
+
+.mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background,
+.mdc-checkbox__ripple {
+  border-color: var(--ubs-primary-black) !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: var(--ubs-primary-black) !important ;
+}
+
+::ng-deep .mat-checkbox-ripple .mat-ripple-element {
+  background-color: var(--ubs-primary-light-green) !important;
+}
+
+.remove-item-btn {
+  width: 6px;
+  height: 6px;
+  margin-left: 1px;
+  margin-right: 5px;
+  background-image: url('src/assets/img/ubs-admin-employees/cross.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-top: 7px;
+}
+
+input::placeholder {
+  color: var(--ubs-primary-light-grey);
+  font-size: 14px;
+}
+
+.filtrs-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-content {
+  line-height: 20px;
+  font-size: 14px;
+  color: var(--ubs-dark-purple);
 }
 
 @media screen and (max-width: 1530px) {
@@ -139,4 +303,18 @@
       }
     }
   }
+}
+
+.reset-all-filters {
+  font-size: 14px;
+  color: var(--ubs-freinacht-black);
+  border: none;
+  background-color: var(--ubs-primary-white);
+}
+
+.button-wrapper {
+  position: absolute;
+  right: 62px;
+  display: flex;
+  top: 216px;
 }
