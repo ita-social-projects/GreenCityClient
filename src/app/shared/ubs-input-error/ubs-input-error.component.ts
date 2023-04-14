@@ -11,7 +11,7 @@ enum errorType {
   maxlength = 'maxlength',
   required = 'required',
   newPasswordMatchesOld = 'newPasswordMatchesOld',
-  passwordMismatch = 'passwordMismatch'
+  confirmPasswordMistmatch = 'confirmPasswordMistmatch'
 }
 @Component({
   selector: 'app-ubs-input-error',
@@ -20,7 +20,6 @@ enum errorType {
 })
 export class UBSInputErrorComponent implements OnInit, OnChanges {
   @Input() public formElement: FormControl;
-  @Input() public formElement1: FormControl;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -42,7 +41,7 @@ export class UBSInputErrorComponent implements OnInit, OnChanges {
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
-    passwordMismatch: 'input-error.newPassword-MatchesOld'
+    confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm'
   };
 
   ngOnInit() {
@@ -54,7 +53,6 @@ export class UBSInputErrorComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     console.log(this.formElement, 'ubs-input-error 1');
-    console.log(this.formElement1, 'ubs-input-error 3');
   }
 
   getType() {
@@ -73,8 +71,8 @@ export class UBSInputErrorComponent implements OnInit, OnChanges {
           case errorType.newPasswordMatchesOld:
             this.errorMessage = this.validationErrors.newPasswordMatchesOld;
             break;
-          case errorType.passwordMismatch:
-            this.errorMessage = this.checkConfirmPassword();
+          case errorType.confirmPasswordMistmatch:
+            this.errorMessage = this.validationErrors.confirmPasswordMistmatch;
             break;
           default:
             this.errorMessage = this.validationErrors[err];
@@ -123,9 +121,8 @@ export class UBSInputErrorComponent implements OnInit, OnChanges {
 
   checkConfirmPassword() {
     const password = this.formElement.value?.trim();
-    const confirmPassword = this.formElement1.value?.trim();
-    if (!(password === confirmPassword)) {
-      return this.validationErrors.passwordMismatch;
+    if (!password) {
+      return this.validationErrors.confirmPasswordMistmatch;
     }
   }
 }
