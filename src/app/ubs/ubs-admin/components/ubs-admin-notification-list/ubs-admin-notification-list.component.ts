@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NotificationsService, notificationTriggersMock, notificationStatuses } from '../../services/notifications.service';
-import { NotificationTemplate } from '../../models/notifications.model';
 
 @Component({
   selector: 'app-ubs-admin-notification-list',
