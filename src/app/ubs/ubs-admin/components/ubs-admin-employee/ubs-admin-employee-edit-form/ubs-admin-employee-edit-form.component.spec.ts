@@ -92,6 +92,12 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       }
     ]
   };
+  const mockFormData = {
+    firstName: 'fakeFirstName',
+    lastName: 'fakeLastName',
+    phoneNumber: 'fakePhoneNumber',
+    email: 'fakeEmail'
+  };
   const mockedInitialData = {
     firstName: 'fake',
     lastName: 'fake',
@@ -139,6 +145,35 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should cancel streams after ngOnDestroy', () => {
+    const destroy$ = 'destroyed$';
+    const nextSpy = spyOn(component[destroy$], 'next');
+    const completeSpy = spyOn(component[destroy$], 'complete');
+    component.ngOnDestroy();
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
+  });
+
+  it('should return firstName Control on get firstName', () => {
+    const firstName = component.firstName;
+    expect(firstName).toEqual(component.employeeForm.get('firstName'));
+  });
+
+  it('should return lastName Control on get lastName', () => {
+    const lastName = component.lastName;
+    expect(lastName).toEqual(component.employeeForm.get('lastName'));
+  });
+
+  it('should return phoneNumber Control on get phoneNumber', () => {
+    expect(component.employeeForm.get('phoneNumber')).toBeTruthy();
+    expect(component.employeeForm.get('phoneNumber').status).toEqual('INVALID');
+  });
+
+  it('should return email Control on get email', () => {
+    expect(component.employeeForm.get('email')).toBeTruthy();
+    expect(component.employeeForm.get('email').status).toEqual('INVALID');
   });
 
   it('employeeForm should receive data from MAT_DIALOG_DATA', () => {
