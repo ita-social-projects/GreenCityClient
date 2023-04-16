@@ -17,7 +17,6 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { Subject } from 'rxjs';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { TariffSelectorComponent } from './tariff-selector/tariff-selector.component';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { TariffsService } from '../../../services/tariffs.service';
 
@@ -34,7 +33,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   roles: EmployeePositions[];
   employeeForm: FormGroup;
   employeePositions: EmployeePositions[];
-  tariffs = [];
+  tariffs: TariffForEmployee[] = [];
   employeeDataToSend: EmployeeDataToSend;
   phoneMask = Masks.phoneMask;
   private maxImageSize = 10485760;

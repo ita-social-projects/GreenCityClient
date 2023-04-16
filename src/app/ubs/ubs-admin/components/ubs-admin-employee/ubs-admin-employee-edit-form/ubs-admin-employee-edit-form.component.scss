@@ -326,9 +326,7 @@ label {
   border-radius: 4px !important;
 }
 
-::-webkit-scrollbar-button:no-button:start:decrement,
-::-moz-scrollbar-button:no-button:vertical:start:decrement,
-::-webkit-scrollbar-button:no-button:vertical:end:increment,
-::-moz-scrollbar-button:no-button:vertical:end:increment {
+::-webkit-scrollbar-button,
+::-moz-scrollbar-button {
   display: none !important;
 }

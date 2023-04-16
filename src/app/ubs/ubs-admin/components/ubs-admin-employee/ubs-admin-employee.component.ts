@@ -17,8 +17,7 @@ import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
-import { EmployeePositions, Employees, Page, ordersStatuses } from '../../models/ubs-admin.interface';
-import { functions } from 'firebase';
+import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 
 enum selectOptions {
   all = 'all'

@@ -93,7 +93,6 @@
                 {{ 'ubs-tariffs.states.all' | translate }}</mat-option
               >
               <mat-option *ngFor="let region of filteredRegions" [value]="region">
-                <!-- (change)="toggleSelectAllRegion()" -->
                 <mat-checkbox class="mr-1" [checked]="checkSelectedItemRegion(region)"></mat-checkbox>
                 <span class="checkbox-text">{{ region | translate }}</span>
               </mat-option>
