@@ -750,9 +750,16 @@
         "button-save": "Save changes",
         "button-cancel": "Cancel",
         "confirmation-modal-title": "Are you sure you want to give up",
-        "confirmation-modal-text": "All your progress of habit's tracking will be lost",
+        "confirmation-modal-text": "? All your progress of habit's tracking will be lost",
         "confirmation-modal-yes": "Yes",
-        "confirmation-modal-no": "No"
+        "confirmation-modal-no": "No",
+        "congratulations-title": "Congratulations! Your habit ",
+        "congratulations-text": " has got more than 80% of successful tracking. It is enough for the habit to be considered acquired. Do you want to acquire the habit?",
+        "congratulations-acquire": "Acquire",
+        "acquire-confirm-title": "Are you sure you want to acquire habit",
+        "acquire-confirm-text": "? Once you acquire the habit, you can no longer edit it",
+        "leave-habit-page-title": "It looks like you have been editing something. If you leave before saving, your changes will be lost.",
+        "leave-habit-page-text": "Are you sure you want to leave this page?"
       },
       "all-habits": {
         "back-button": "Back to My habits",

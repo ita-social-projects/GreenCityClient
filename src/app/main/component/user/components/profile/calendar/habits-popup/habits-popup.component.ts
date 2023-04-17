@@ -6,8 +6,11 @@ import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
 import { HabitPopupInterface } from '../habit-popup-interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LanguageService } from '../../../../../../i18n/language.service';
-import { HabitAssignInterface, HabitStatusCalendarListInterface } from 'src/app/main/interface/habit/habit-assign.interface';
 import { DatePipe } from '@angular/common';
+import {
+  HabitAssignInterface,
+  HabitStatusCalendarListInterface
+} from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-habits-popup',

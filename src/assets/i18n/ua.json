@@ -755,9 +755,16 @@
         "button-save": "Зберегти",
         "button-cancel": "Скасувати",
         "confirmation-modal-title": "Ви впевнені, що хочете здатися",
-        "confirmation-modal-text": "Весь ваш прогрес у відстеженні звички буде втрачено",
+        "confirmation-modal-text": "? Весь ваш прогрес у відстеженні звички буде втрачено",
         "confirmation-modal-yes": "Так",
-        "confirmation-modal-no": "Ні"
+        "confirmation-modal-no": "Ні",
+        "congratulations-title": "Вітаємо! Ваша звичка ",
+        "congratulations-text": " отримала більше 80% прогресу. Цього достатньо, щоб звичка вважалася набутою. Ви бажаєте набути звичку?",
+        "congratulations-acquire": "Набути",
+        "acquire-confirm-title": "Ви впевнені, що хочете набути звичку",
+        "acquire-confirm-text": "? Набувши звичку, ви більше не зможете редагувати її",
+        "leave-habit-page-title": "Схоже, ви щось редагували. Якщо ви вийдете до збереження, ваші зміни буде втрачено.",
+        "leave-habit-page-text": "Ви впевнені, що бажаєте залишити цю сторінку?"
       },
       "all-habits": {
         "back-button": "Назад до Моїх звичок",

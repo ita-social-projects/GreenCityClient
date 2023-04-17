@@ -1,4 +1,4 @@
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { HabitTranslationInterface } from './habit.interface';
 
 export interface CustomHabitInterface {

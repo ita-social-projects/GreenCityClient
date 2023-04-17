@@ -13,9 +13,12 @@ import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
-import { NEWHABIT } from 'src/app/main/mocks/habit-assign-mock';
-import { HabitInterface } from 'src/app/main/interface/habit/habit.interface';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
+import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
+import { EcoNewsService } from '@eco-news-service/eco-news.service';
+import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
+import { HABITLIST } from '../mocks/habit-mock';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -26,41 +29,35 @@ describe('AddNewHabitComponent', () => {
   let fakeHabitService: HabitService;
   let fakeLocalStorageService: LocalStorageService;
 
-  const mockHabitResponse: HabitInterface = {
-    complexity: 2,
-    defaultDuration: 2,
-    amountAcquiredUsers: 1,
-    habitAssignStatus: 'ACQUIRED',
-    habitTranslation: {
-      description: 'test',
-      habitItem: 'test',
-      languageCode: 'test',
-      name: 'test'
-    },
-    id: 2,
-    image: 'test',
-    shoppingListItems: [],
-    tags: []
-  };
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
   };
   const locationMock = { back: () => {} };
 
+  class MatDialogMock {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  }
+
   fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', [
     'getHabitByAssignId',
     'deleteHabitById',
     'assignCustomHabit',
-    'setHabitStatus'
+    'setHabitStatus',
+    'progressNotificationHasDisplayed'
   ]);
-  fakeHabitAssignService.getHabitByAssignId = () => of(NEWHABIT);
+  fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
-  fakeHabitAssignService.assignCustomHabit = () => of(NEWHABIT);
-  fakeHabitAssignService.setHabitStatus = () => of(NEWHABIT);
+  fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
+  fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
+  fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
 
-  fakeHabitService = jasmine.createSpyObj('fakeHabitService', {
-    getHabitById: of(mockHabitResponse)
-  });
+  fakeHabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
+  fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
+  fakeHabitService.getHabitsByTagAndLang = () => of(HABITLIST);
 
   fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
     getCurrentLanguage: () => 'ua'
@@ -84,6 +81,9 @@ describe('AddNewHabitComponent', () => {
 
   matSnackBarMock.openSnackBar = (type: string) => {};
 
+  const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsListByPage']);
+  ecoNewsServiceMock.getEcoNewsListByPage = () => of(ECONEWSMOCK);
+
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
@@ -101,10 +101,12 @@ describe('AddNewHabitComponent', () => {
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
         { provide: HabitService, useValue: fakeHabitService },
         { provide: HabitAssignService, useValue: fakeHabitAssignService },
+        { provide: EcoNewsService, useValue: ecoNewsServiceMock },
         { provide: ShoppingListService, useValue: fakeShoppingListService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Location, useValue: locationMock },
+        { provide: MatDialog, useClass: MatDialogMock },
         { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -141,17 +143,26 @@ describe('AddNewHabitComponent', () => {
     fakeLocalStorageService.languageSubject.next('en');
   });
 
+  it('should set recommended habits on getRecommendedHabits', () => {
+    (component as any).getRecommendedHabits(1, 3, ['tag']);
+    expect(component.recommendedHabits).toEqual(HABITLIST.page);
+  });
+
+  it('should set recommended news on getRecommendedNews', () => {
+    (component as any).getRecommendedNews(1, 3);
+    expect(component.recommendedNews).toEqual(ECONEWSMOCK.page);
+  });
+
   it('should call getStars on initHabitData', () => {
     const spy = spyOn(component as any, 'getStars');
-    (component as any).initHabitData(mockHabitResponse);
+    (component as any).initHabitData(DEFAULTHABIT);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should set data on initHabitData', () => {
-    (component as any).initHabitData(mockHabitResponse);
-    expect(component.habitResponse).toEqual(mockHabitResponse);
-    expect(component.tags).toEqual(mockHabitResponse.tags);
-    expect(component.initialDuration).toEqual(mockHabitResponse.defaultDuration);
+    (component as any).initHabitData(DEFAULTHABIT);
+    expect(component.habitResponse).toEqual(DEFAULTHABIT);
+    expect(component.initialDuration).toEqual(DEFAULTHABIT.defaultDuration);
   });
 
   it('getDefaultHabit should invoke inHabitData method', () => {
@@ -160,15 +171,19 @@ describe('AddNewHabitComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should navigate back on goBack', () => {
+  it('should navigate back on onGoBack without call dialog', () => {
+    component.initialDuration = 1;
+    component.newDuration = 1;
+    component.standartShopList = null;
+    component.customShopList = null;
     const spy = spyOn(locationMock, 'back');
-    component.goBack();
+    component.onGoBack();
     expect(spy).toHaveBeenCalled();
   });
 
   it('getUserId should set this.userId', () => {
     (component as any).getUserId();
-    expect(component.userId).toBe(2);
+    expect((component as any).userId).toBe(2);
   });
 
   it('getDuration should set this.newDuration', () => {
@@ -176,14 +191,35 @@ describe('AddNewHabitComponent', () => {
     expect(component.newDuration).toEqual(1);
   });
 
-  it('getProgressValue should set canAcquire false', () => {
+  it('should set canAcquire false on getProgressValue', () => {
+    component.assignedHabit = DEFAULTFULLINFOHABIT;
     component.getProgressValue(60);
     expect(component.canAcquire).toBeFalsy();
   });
 
-  it('getProgressValue should set canAcquire true', () => {
+  it('should set canAcquire true on getProgressValue', () => {
+    component.assignedHabit = DEFAULTFULLINFOHABIT;
     component.getProgressValue(80);
     expect(component.canAcquire).toBeTruthy();
+  });
+
+  it('should not call congratulation dialog on getProgressValue', () => {
+    const spyDialog = spyOn(component as any, 'getOpenDialog');
+    const spyRef = spyOn(component as any, 'afterDialogClosed');
+    component.getProgressValue(60);
+    expect(spyDialog).not.toHaveBeenCalled();
+    expect(spyRef).not.toHaveBeenCalled();
+  });
+
+  it('should call congratulation dialog on getProgressValue', () => {
+    component.assignedHabit = DEFAULTFULLINFOHABIT;
+    component.isAcquired = false;
+    component.canAcquire = true;
+    const spyDialog = spyOn(component as any, 'getOpenDialog');
+    const spyRef = spyOn(component as any, 'afterDialogClosed');
+    component.getProgressValue(80);
+    expect(spyDialog).toHaveBeenCalled();
+    expect(spyRef).toHaveBeenCalled();
   });
 
   it('checkIfAssigned method should call getCustomShopList', () => {
@@ -195,24 +231,24 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('checkIfAssigned method should invoke getDefaultHabit', () => {
-    component.habitId = 3;
+    (component as any).habitId = 3;
     component.isEditing = false;
-    const spy1 = spyOn(component as any, 'getDefaultHabit');
-    const spy2 = spyOn(component as any, 'getStandartShopList');
+    const spy = spyOn(component as any, 'getDefaultHabit');
     (component as any).checkIfAssigned();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('goToProfile method should navigate to user profile page', () => {
-    component.userId = 2;
+    (component as any).userId = 2;
     component.goToProfile();
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
   });
 
-  it('ngOnDestroy should unsubscribe from subscription', () => {
-    spyOn((component as any).langChangeSub, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
+  it('should call go to profile and snackbar on afterHabitWasUpdated', () => {
+    const spyGoProfile = spyOn(component, 'goToProfile');
+    const spySnackBar = spyOn(matSnackBarMock, 'openSnackBar');
+    (component as any).afterHabitWasUpdated();
+    expect(spyGoProfile).toHaveBeenCalled();
+    expect(spySnackBar).toHaveBeenCalledWith('habitUpdated');
   });
 });

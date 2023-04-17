@@ -8,39 +8,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { of, BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
-import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.model';
 import { Language } from 'src/app/main/i18n/Language';
+import { SHOPLISTITEMONE, SHOPLISTITEMTWO } from '@global-user/components/habit/mocks/shopping-list-mock';
+import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
+import { ALLUSERSHOPLISTS } from '@global-user/components/habit/mocks/shopping-list-mock';
 
 describe('ShoppingListComponent', () => {
   let component: ShoppingListComponent;
   let fixture: ComponentFixture<ShoppingListComponent>;
-
-  const mockShopItem: ShoppingList = {
-    id: 4,
-    status: 'INPROGRESS',
-    text: 'some to-do task'
-  };
-
-  const mockShopList: ShoppingList[] = [
-    {
-      id: 1,
-      status: 'INPROGRESS',
-      text: 'some to-do'
-    }
-  ];
-
-  const mockShopLists: AllShoppingLists[] = [
-    {
-      userShoppingListItemDto: [],
-      customShoppingListItemDto: [
-        {
-          id: 2,
-          status: 'DONE',
-          text: 'some to-do 2'
-        }
-      ]
-    }
-  ];
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'languageBehaviourSubject',
@@ -57,7 +32,7 @@ describe('ShoppingListComponent', () => {
     'updateStandardShopItemStatus',
     'updateCustomShopItemStatus'
   ]);
-  shoppingListServiceMock.getUserShoppingLists = () => of(mockShopLists);
+  shoppingListServiceMock.getUserShoppingLists = () => of([ALLUSERSHOPLISTS]);
   shoppingListServiceMock.updateStandardShopItemStatus = () => of();
   shoppingListServiceMock.updateCustomShopItemStatus = () => of();
 
@@ -97,22 +72,18 @@ describe('ShoppingListComponent', () => {
 
   it('should set custom true after getShopLists', () => {
     const result = [
-      {
-        id: 1,
-        status: 'INPROGRESS',
-        text: 'some to-do',
-        custom: true
-      }
+      { ...SHOPLISTITEMONE, custom: true },
+      { ...SHOPLISTITEMTWO, custom: true }
     ];
-    mockShopList.forEach((el) => (el.custom = true));
-    component.shoppingList = mockShopList;
+    SHOPLIST.forEach((el) => (el.custom = true));
+    component.shoppingList = SHOPLIST;
     expect(component.shoppingList).toEqual(result);
   });
 
   it('should set shopList after getShopList', () => {
     component.shoppingList = [];
-    component.shoppingList = [...component.shoppingList, ...mockShopList];
-    expect(component.shoppingList).toEqual(mockShopList);
+    component.shoppingList = [...component.shoppingList, ...SHOPLIST];
+    expect(component.shoppingList).toEqual(SHOPLIST);
   });
 
   it('should change toogle from true on openCloseList', () => {
@@ -128,28 +99,28 @@ describe('ShoppingListComponent', () => {
   });
 
   it('should change item status on toggleDone', () => {
-    mockShopItem.status = 'INPROGRESS';
-    component.toggleDone(mockShopItem);
-    expect(mockShopItem.status).toBe('DONE');
+    SHOPLISTITEMONE.status = 'INPROGRESS';
+    component.toggleDone(SHOPLISTITEMONE);
+    expect(SHOPLISTITEMONE.status).toBe('DONE');
   });
 
   it('should call updateStatusItem on toggleDone', () => {
-    mockShopItem.custom = false;
+    SHOPLISTITEMONE.custom = false;
     const spy = spyOn(component as any, 'updateStatusItem');
-    component.toggleDone(mockShopItem);
+    component.toggleDone(SHOPLISTITEMONE);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should call updateStatusCustomItem on toggleDone', () => {
-    mockShopItem.custom = true;
+    SHOPLISTITEMONE.custom = true;
     const spy = spyOn(component as any, 'updateStatusCustomItem');
-    component.toggleDone(mockShopItem);
+    component.toggleDone(SHOPLISTITEMONE);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should call updateStatusCustomItem on updateStatusCustomItem', () => {
     const spy = spyOn(component as any, 'updateStatusCustomItem');
-    (component as any).updateStatusCustomItem(mockShopItem);
-    expect(spy).toHaveBeenCalledWith(mockShopItem);
+    (component as any).updateStatusCustomItem(SHOPLISTITEMONE);
+    expect(spy).toHaveBeenCalledWith(SHOPLISTITEMONE);
   });
 });

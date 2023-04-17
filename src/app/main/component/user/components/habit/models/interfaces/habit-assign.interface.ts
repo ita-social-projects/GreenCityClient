@@ -1,4 +1,4 @@
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { HabitInterface } from './habit.interface';
 
 export interface HabitAssignInterface {
@@ -16,6 +16,7 @@ export interface HabitAssignInterface {
   lastEnrollmentDate: Date;
   habitStatusCalendarDtoList: Array<HabitStatusCalendarListInterface>;
   shoppingListItems: Array<ShoppingList>;
+  progressNotificationHasDisplayed?: boolean;
 }
 
 export interface HabitStatusCalendarListInterface {

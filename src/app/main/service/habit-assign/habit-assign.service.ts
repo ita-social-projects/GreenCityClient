@@ -5,8 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
-import { HabitAssignInterface, ResponseInterface } from '../../interface/habit/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { HabitAssignInterface, ResponseInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,8 @@ export class HabitAssignService implements OnDestroy {
     return this.http.get<Array<HabitAssignInterface>>(`${habitAssignLink}/allForCurrentUser?lang=${this.language}`);
   }
 
-  getHabitByAssignId(habitAssignId: number): Observable<HabitAssignInterface> {
-    return this.http.get<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}?lang=${this.language}`);
+  getHabitByAssignId(habitAssignId: number, language: string): Observable<HabitAssignInterface> {
+    return this.http.get<HabitAssignInterface>(`${habitAssignLink}/${habitAssignId}?lang=${language}`);
   }
 
   assignHabit(habitId: number): Observable<ResponseInterface> {
@@ -68,6 +68,10 @@ export class HabitAssignService implements OnDestroy {
 
   deleteHabitById(habitAssignId: number): Observable<HabitAssignService> {
     return this.http.delete<HabitAssignService>(`${habitAssignLink}/delete/${habitAssignId}`);
+  }
+
+  progressNotificationHasDisplayed(habitAssignId: number): Observable<object> {
+    return this.http.put<object>(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`, {});
   }
 
   ngOnDestroy(): void {

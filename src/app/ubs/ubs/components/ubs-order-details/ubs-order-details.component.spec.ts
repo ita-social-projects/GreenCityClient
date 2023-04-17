@@ -5,7 +5,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { LocalizedCurrencyPipe } from '../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -97,6 +97,7 @@ describe('OrderDetailsFormComponent', () => {
         IMaskModule
       ],
       providers: [
+        MatDialog,
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
         { provide: LocalStorageService, useValue: localStorageService },
