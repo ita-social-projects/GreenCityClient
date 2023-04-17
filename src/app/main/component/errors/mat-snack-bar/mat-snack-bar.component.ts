@@ -135,6 +135,10 @@ export class MatSnackBarComponent {
     savedChangesToUserProfile: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.saved-changes');
+    },
+    updatedNotification: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.update-notification');
     }
   };
 
