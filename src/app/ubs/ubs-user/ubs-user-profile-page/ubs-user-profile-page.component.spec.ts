@@ -317,7 +317,11 @@ describe('UbsUserProfilePageComponent', () => {
       'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
   };
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'languageBehaviourSubject',
+    'setFirstName'
+  ]);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
