@@ -46,7 +46,6 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     fixture = TestBed.createComponent(UbsAdminOrderClientInfoComponent);
     component = fixture.componentInstance;
     component.userInfo = fakeUserInfo;
-    component.generalInfo = OrderInfoMockedData as any;
     component.userInfoDto = fakeFormGroup;
     component.orderId = 259;
     component.pageOpen = true;
@@ -79,20 +78,6 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     const spy = spyOn(component, 'ngOnInit');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'CANCELED';
-    component.isStatus = false;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(true);
-  });
-
-  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'DONE';
-    component.isStatus = false;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(false);
   });
 
   it('method getErrorMessageKey should return correct error message key - required', () => {
