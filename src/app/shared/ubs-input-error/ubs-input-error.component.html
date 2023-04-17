@@ -1,3 +1,3 @@
-<div class="validation">
+<div [ngClass]="fromEmployee ? 'employee-validation' : 'validation'">
   {{ errorMessage | translate }}
 </div>

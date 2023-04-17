@@ -75,6 +75,8 @@ export interface TariffForEmployee {
   region: TariffForEmployeeItem;
   location: TariffForEmployeeItem[];
   courier: TariffForEmployeeItem;
+  selected?: boolean;
+  locations: any[];
 }
 export interface TariffForEmployeeItem {
   en: string;

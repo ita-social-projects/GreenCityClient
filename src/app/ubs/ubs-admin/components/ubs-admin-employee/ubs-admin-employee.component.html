@@ -11,16 +11,178 @@
         <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
       </div>
       <div class="btn-group">
-        <button type="button" class="research-btn btn-default filter-table-btn">
-          <img [src]="icons.filter" alt="filter" />
-          {{ 'ubs-tables.filter' | translate }}
-        </button>
         <button class="research-btn btn primary-global-button button-name" (click)="openDialog()">
           {{ 'employees.btn.add-employee' | translate }}
         </button>
       </div>
     </div>
   </div>
+  <form class="showing-block" *ngIf="showAllEmployees" [formGroup]="searchForm" #form="ngForm">
+    <div class="d-flex">
+      <div class="col-item">
+        <div class="input-wrapper">
+          <input
+            class="position"
+            [placeholder]="positionsPlaceholder"
+            #autocompleteTriggerPosition="matAutocompleteTrigger"
+            formControlName="position"
+            [matAutocomplete]="autoposition"
+            (matChipInputTokenEnd)="addItem($event, 'position')"
+          />
+          <mat-autocomplete #autoposition="matAutocomplete" (optionSelected)="onSelectPosition($event, autocompleteTriggerPosition)">
+            <div class="option-wrapper">
+              <mat-option value="all">
+                <mat-checkbox [checked]="isPositionChecked()" (change)="toggleSelectAllPositions()" value="all"></mat-checkbox>
+                {{ 'ubs-tariffs.states.all' | translate }}</mat-option
+              >
+              <mat-option *ngFor="let position of positionName">
+                <mat-checkbox class="mr-1" [checked]="checkSelectedItem(position, selectedPositions)"></mat-checkbox>
+                <span class="checkbox-text">{{ position }}</span>
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerPosition)" />
+        </div>
+        <div class="filtrs-list">
+          <div *ngFor="let position of selectedPositions" class="filter-item">
+            <div class="remove-item-btn" (click)="removeItem(position, 'position')"></div>
+            <span class="filter-content">{{ position.name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-item">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            class="contacts"
+            placeholder="{{ 'employees.contacts' | translate }}"
+            matInput
+            #autocompleteTriggerContacts="matAutocompleteTrigger"
+            formControlName="contacts"
+            [matAutocomplete]="autoContacts"
+          />
+          <mat-autocomplete #autoContacts="matAutocomplete" (optionSelected)="contactSelected($event)">
+            <div class="option-wrapper">
+              <mat-option *ngFor="let contact of employeesContacts" [value]="contact">
+                {{ contact | translate }}
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerContacts)" />
+        </div>
+        <div class="filtrs-list">
+          <div class="filter-item" *ngFor="let contact of selectedContact">
+            <div class="remove-item-btn" (click)="removeItem(contact, 'contact')"></div>
+            <span class="filter-content"> {{ contact }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-item">
+        <div class="input-wrapper">
+          <input
+            [placeholder]="regionPlaceholder"
+            #autocompleteTriggerRegion="matAutocompleteTrigger"
+            formControlName="region"
+            [matAutocomplete]="autoRegion"
+            (matChipInputTokenEnd)="addItem($event, 'region')"
+          />
+          <mat-autocomplete #autoRegion="matAutocomplete">
+            <div class="option-wrapper">
+              <mat-option value="all">
+                <mat-checkbox [checked]="isRegionChecked()" value="all"></mat-checkbox>
+                {{ 'ubs-tariffs.states.all' | translate }}</mat-option
+              >
+              <mat-option *ngFor="let region of filteredRegions" [value]="region">
+                <mat-checkbox class="mr-1" [checked]="checkSelectedItemRegion(region)"></mat-checkbox>
+                <span class="checkbox-text">{{ region | translate }}</span>
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
+        </div>
+        <div class="filtrs-list">
+          <div *ngFor="let region of selectedRegions" class="filter-item">
+            <div class="remove-item-btn" (click)="removeItem(region, 'region')"></div>
+            <span class="filter-content">{{ getRegionName(region) }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-item">
+        <div class="input-wrapper">
+          <input
+            [placeholder]="cityPlaceholder"
+            #autocompleteTriggerCity="matAutocompleteTrigger"
+            formControlName="city"
+            [matAutocomplete]="autoCity"
+            (matChipInputTokenEnd)="addItem($event, 'city')"
+          />
+          <mat-autocomplete
+            #autoCity="matAutocomplete"
+            (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
+            autoActiveFirstOption
+          >
+            <div class="option-wrapper">
+              <mat-option value="all">
+                <mat-checkbox [checked]="isCityChecked()" (change)="toggleSelectAllCity()" value="all"></mat-checkbox>
+                {{ 'ubs-tariffs.states.all' | translate }}
+              </mat-option>
+              <mat-option *ngFor="let city of filteredCities | async">
+                <mat-checkbox class="mr-1" [checked]="checkSelectedItem(city, selectedCities)"></mat-checkbox>
+                <span class="checkbox-text">{{ city }}</span>
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
+        </div>
+        <div class="filtrs-list">
+          <div class="filter-item" *ngFor="let city of selectedCities">
+            <div class="remove-item-btn" (click)="removeItem(city, 'city')"></div>
+            <span class="filter-content">{{ city.name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-item">
+        <div class="input-wrapper">
+          <input
+            class="courier-select"
+            [placeholder]="courierPlaceholder"
+            #autocompleteTriggerCourier="matAutocompleteTrigger"
+            formControlName="courier"
+            [matAutocomplete]="autoCourier"
+            (matChipInputTokenEnd)="addItem($event, 'courier')"
+          />
+          <mat-autocomplete
+            #autoCourier="matAutocomplete"
+            (optionSelected)="onSelectCourier($event, autocompleteTriggerCourier)"
+            autoActiveFirstOption
+          >
+            <div class="option-wrapper">
+              <mat-option value="all">
+                <mat-checkbox [checked]="isCourierChecked()" (change)="(toggleSelectAllCourier)" value="all"></mat-checkbox>
+                {{ 'ubs-tariffs.states.all' | translate }}
+              </mat-option>
+              <mat-option *ngFor="let courier of couriersName">
+                <mat-checkbox class="mr-1" [checked]="checkSelectedItem(courier, selectedCouriers)"></mat-checkbox>
+                <span class="checkbox-text">{{ courier }}</span>
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCourier)" />
+        </div>
+        <div class="filtrs-list">
+          <div class="filter-item" *ngFor="let courier of selectedCouriers">
+            <div class="remove-item-btn" (click)="removeItem(courier, 'courier')"></div>
+            <span class="filter-content">{{ courier.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="getEnableResetAll" class="button-wrapper">
+      <button *ngIf="getEnableResetAll" class="reset-all-filters" (click)="resetAllFilters()">
+        {{ 'ubs-employee.filter-reset-all' | translate }}
+      </button>
+    </div>
+  </form>
   <div class="employees">
     <app-ubs-admin-employee-table></app-ubs-admin-employee-table>
   </div>
