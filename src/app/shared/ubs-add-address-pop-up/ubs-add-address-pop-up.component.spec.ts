@@ -22,6 +22,10 @@ describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
   let orderService: OrderService;
+  let MatSnackBarMock: MatSnackBarComponent;
+
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) => {};
 
   const fakeAddress = {
     id: 1,
@@ -324,6 +328,7 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: MatSnackBarComponent, useValue: {} },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
       ],
