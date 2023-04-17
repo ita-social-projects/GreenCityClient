@@ -12,6 +12,12 @@ enum errorType {
   newPasswordMatchesOld = 'newPasswordMatchesOld',
   confirmPasswordMistmatch = 'confirmPasswordMistmatch'
 }
+
+enum inputsName {
+  requiredEmailEmployee = 'requiredEmailEmployee',
+  requiredPhoneEmployee = 'requiredPhoneEmployee'
+}
+
 @Component({
   selector: 'app-ubs-input-error',
   templateUrl: './ubs-input-error.component.html',
@@ -19,10 +25,14 @@ enum errorType {
 })
 export class UBSInputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
+  @Input() public inputName: string;
+  @Input() public fromEmployee: boolean;
 
   public errorMessage: string | undefined;
   private validationErrors = {
     email: 'input-error.email-wrong',
+    emailEmployee: 'input-error.email-required-employee',
+    phoneEmployee: 'input-error.phone-required-employee',
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
@@ -54,6 +64,9 @@ export class UBSInputErrorComponent implements OnInit {
     Object.values(errorType).forEach((err) => {
       if (this.formElement.errors?.[err]) {
         switch (err) {
+          case errorType.required:
+            this.errorMessage = this.getRequiredErrorMessage(this.formElement.errors.required, this.inputName);
+            break;
           case errorType.pattern:
             this.errorMessage = this.getPatternErrorMessage(this.formElement.errors.pattern.requiredPattern);
             break;
@@ -74,6 +87,17 @@ export class UBSInputErrorComponent implements OnInit {
         }
       }
     });
+  }
+
+  getRequiredErrorMessage(required: boolean, inputName: string): string {
+    switch (required) {
+      case inputName === inputsName.requiredEmailEmployee:
+        return this.validationErrors.emailEmployee;
+      case inputName === inputsName.requiredPhoneEmployee:
+        return this.validationErrors.phoneEmployee;
+      default:
+        return this.validationErrors.required;
+    }
   }
 
   getPatternErrorMessage(pattern: string): string {
