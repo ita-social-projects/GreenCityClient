@@ -3,7 +3,7 @@
     "required": "This field is required",
     "email-wrong": "Please enter the correct email",
     "number-wrong": "Enter the correct phone number",
-    "name-wrong": "Only letters and hyphen, space, apostrophe are allowed",
+    "name-wrong": "Only letters, numbers and hyphen, space, apostrophe are allowed",
     "city-wrong": "Only letters, numbers and hyphen, space, apostrophe, dot, comma are allowed",
     "house-wrong": "Only letters, numbers and hyphen, slash are allowed",
     "corpus-wrong": "Only letters and numbers are allowed",

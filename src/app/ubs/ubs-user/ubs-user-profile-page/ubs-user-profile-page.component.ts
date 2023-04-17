@@ -31,6 +31,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   cityPredictionList: google.maps.places.AutocompletePrediction[];
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
+  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   userProfile: UserProfile;
   viberNotification = false;
   telegramNotification = false;
@@ -452,6 +453,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.isEditing = false;
   }
 
+  public resetValue(): void {
+    this.userForm.get('alternateEmail').setValue(null);
+  }
+
   onSubmit(): void {
     if (this.userForm.valid) {
       this.isFetching = true;
@@ -494,6 +499,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           this.userProfile = this.composeFormData(res);
           this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
           this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
+          this.localStorageService.setFirstName(this.userForm.value.recipientName);
         },
         (err: Error) => {
           this.isFetching = false;
