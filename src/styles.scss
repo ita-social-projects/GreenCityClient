@@ -92,6 +92,10 @@ body {
   }
 }
 
+.mat-option.mat-active {
+  background-color: var(--ubs-primary-light-green);
+}
+
 .popup-dialog-container {
   .mat-dialog-container {
     padding: 0;
