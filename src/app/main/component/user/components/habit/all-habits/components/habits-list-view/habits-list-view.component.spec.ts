@@ -6,6 +6,7 @@ import { HabitsListViewComponent } from './habits-list-view.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DEFAULTHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 
 describe('HabitsListViewComponent', () => {
   let component: HabitsListViewComponent;
@@ -30,20 +31,7 @@ describe('HabitsListViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HabitsListViewComponent);
     component = fixture.componentInstance;
-    component.habit = {
-      complexity: 1,
-      defaultDuration: 14,
-      amountAcquiredUsers: 1,
-      habitTranslation: {
-        description: 'test',
-        habitItem: 'test',
-        languageCode: 'en',
-        name: 'test'
-      },
-      id: 503,
-      image: defaultImagePath,
-      tags: ['test1', 'test2']
-    };
+    component.habit = DEFAULTHABIT;
     fixture.detectChanges();
   });
 

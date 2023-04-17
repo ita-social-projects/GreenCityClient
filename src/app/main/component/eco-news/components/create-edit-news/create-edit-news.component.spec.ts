@@ -15,7 +15,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ConfirmRestorePasswordComponent } from '@global-auth/confirm-restore-password/confirm-restore-password.component';
 import { DragAndDropComponent } from '@shared/components/drag-and-drop/drag-and-drop.component';
@@ -28,7 +27,6 @@ import { HomepageComponent } from 'src/app/main/component/home/components';
 import { SearchAllResultsComponent } from 'src/app/main/component/layout/components';
 import { MainComponent } from '../../../../main.component';
 import { UbsBaseSidebarComponent } from '../../../../../shared/ubs-base-sidebar/ubs-base-sidebar.component';
-import { environment } from '@environment/environment.js';
 import { Store, ActionsSubject } from '@ngrx/store';
 import { QuillModule } from 'ngx-quill';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -36,6 +34,7 @@ import { Language } from '../../../../i18n/Language';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
@@ -45,39 +44,8 @@ describe('CreateEditNewsComponent', () => {
   let createEditNewsFormBuilderMock: CreateEditNewsFormBuilder;
   let router: Router;
   let location: Location;
-  const url = environment.backendLink + `econews`;
-  const item: EcoNewsModel = {
-    author: { id: 1601, name: 'Hryshko' },
-    creationDate: '2020-10-26T16:43:29.336931Z',
-    id: 4705,
-    imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    tags: ['Events', 'Education'],
-    tagsEn: ['Events', 'Education'],
-    tagsUa: ['Події', 'Освіта'],
-    content: 'hellohellohellohellohellohellohellohellohellohello',
-    title: 'hello',
-    likes: 0,
-    countComments: 2,
-    shortInfo: 'info',
-    source: null
-  };
 
   let http: HttpTestingController;
-  const newsResponseMock: EcoNewsModel = {
-    id: 4705,
-    content: 'hellohellohellohellohellohellohellohellohellohello',
-    title: 'hello',
-    author: { id: 1601, name: 'Anton Hryshko' },
-    creationDate: '2020-10-26T16:43:29.336931Z',
-    imagePath: 'https://storage.cloud.google.com/staging.greencity-c5a3a.appspot.com/35fce8fe-7949-48b8-bf8c-0d9a768ecb42',
-    tags: ['Events', 'Education'],
-    tagsEn: ['Events', 'Education'],
-    tagsUa: ['Події', 'Освіта'],
-    countComments: 2,
-    likes: 3,
-    shortInfo: 'info',
-    source: null
-  };
 
   const validNews = {
     title: 'newstitle',
@@ -119,9 +87,9 @@ describe('CreateEditNewsComponent', () => {
     'getTags',
     'setTags'
   ]);
-  createEcoNewsServiceMock.sendFormData = (form) => of(newsResponseMock);
+  createEcoNewsServiceMock.sendFormData = (form) => of(FIRSTECONEWS);
   createEcoNewsServiceMock.getFormData = () => emptyForm();
-  createEcoNewsServiceMock.editNews = (form) => of(newsResponseMock);
+  createEcoNewsServiceMock.editNews = (form) => of(FIRSTECONEWS);
   createEcoNewsServiceMock.setForm = (form) => of();
   createEcoNewsServiceMock.getNewsId = () => 15;
   createEcoNewsServiceMock.isBackToEditing = false;
@@ -130,7 +98,7 @@ describe('CreateEditNewsComponent', () => {
 
   ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
   ecoNewsServiceMock.getEcoNewsById = (id) => {
-    return of(item);
+    return of(FIRSTECONEWS);
   };
   ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
 
@@ -379,11 +347,6 @@ describe('CreateEditNewsComponent', () => {
     component.getTagsList(selectedTags);
     const newTags = component.form.controls.tags.value;
     expect(newTags).toEqual(selectedTagsList);
-  });
-
-  it('should getTagsLimitStatus from child component', () => {
-    component.getTagsLimitStatus(true);
-    expect(component.isFilterValidation).toBeTruthy();
   });
 
   it('should be a Preview button on the page', () => {

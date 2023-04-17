@@ -5,88 +5,72 @@ p {
 }
 
 .outer {
+  width: 213px;
+  height: 140px;
+  margin: 0 auto;
   background: var(--primary-white);
   display: flex;
   justify-content: center;
+  font-family: var(--primary-font);
 
   .achievements {
-    width: 185px;
-    height: 129px;
+    width: 213px;
     border-top: 1px solid $additional-color;
 
     .header {
       height: 55px;
-      display: flex;
-      justify-content: space-between;
-      padding: 25px 0;
+      padding: 24px 0;
 
-      p:first-child {
-        font-family: var(--secondary-font);
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 15px;
-        color: var(--primary-dark-grey);
-      }
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-      a:nth-child(2) {
-        width: 30%;
-        font-family: var(--secondary-font);
-        font-style: normal;
-        font-weight: normal;
-        font-size: 11px;
-        line-height: 13px;
-        color: var(--primary-dark-grey);
-        text-align: end;
-        text-decoration: none;
-      }
+        p:first-child {
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 24px;
+          color: var(--primary-dark-grey);
+        }
 
-      span {
-        color: var(--tertiary-light-grey);
+        a:nth-child(2) {
+          font-weight: 400;
+          font-size: 12px;
+          color: var(--tertiary-light-grey);
+          line-height: 16px;
+        }
       }
+    }
+
+    .acheived-quantity {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+      color: var(--tertiary-light-grey);
     }
 
     .body {
-      height: 74px;
+      height: 80px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
 
       img {
-        width: 52px;
-        height: 52px;
+        height: 56px;
       }
     }
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1439px) {
   .outer {
+    height: 132px;
+
     .achievements {
-      width: 176px;
-      height: 125px;
-    }
-  }
-}
+      width: 184px;
 
-@media (min-width: 1440px) {
-  .outer {
-    .achievements {
-      width: 213px;
-      height: 149px;
-
-      .header {
-        height: 65px;
-
-        a:nth-child(2) {
-          width: auto;
-        }
-      }
-
-      .body {
-        img {
-          width: 60px;
-          height: 60px;
-        }
+      .body img {
+        height: 48px;
       }
     }
   }

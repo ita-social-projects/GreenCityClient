@@ -1,4 +1,4 @@
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
 
 export interface HabitInterface {
   defaultDuration: number;
@@ -10,7 +10,9 @@ export interface HabitInterface {
   complexity?: number;
   amountAcquiredUsers: number;
   habitAssignStatus?: string;
-  shoppingListItems?: Array<ShoppingList>;
+  isCustomHabit: boolean;
+  customShoppingListItems?: ShoppingList[];
+  shoppingListItems?: ShoppingList[];
   tags: Array<string>;
 }
 

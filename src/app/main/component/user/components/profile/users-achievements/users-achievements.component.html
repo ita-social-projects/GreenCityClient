@@ -1,11 +1,13 @@
 <div class="outer">
   <div class="achievements">
     <div class="header">
-      <p>
-        {{ 'profile.my-Achievements' | translate }}
-        <span>15</span>
-      </p>
-      <a href="">{{ 'profile.see-all' | translate }}</a>
+      <div>
+        <p>
+          {{ 'profile.my-achievements' | translate }}
+        </p>
+        <a href="">{{ 'profile.see-all' | translate }}</a>
+      </div>
+      <div class="acheived-quantity">15 {{ 'profile.achieved' | translate }}</div>
     </div>
     <div class="body">
       <img [src]="image" alt="achievement" *ngFor="let image of achievementsImages" />

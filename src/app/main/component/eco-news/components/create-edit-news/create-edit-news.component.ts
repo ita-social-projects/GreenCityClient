@@ -59,7 +59,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public textAreasHeight: TextAreasHeight;
   public isLinkOrEmpty = true;
   public newsItemSubscription: Subscription;
-  public isFilterValidation = false;
   public date = {
     day: new Date().getDate(),
     month: new Date().getMonth(),
@@ -344,11 +343,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     const selectedTagsList = list.map((el) => this.langService.getLangValue(el.nameUa, el.name) as string);
     this.form.setControl('tags', this.fb.array(selectedTagsList));
     this.createEcoNewsService.setTags(list);
-  }
-
-  getTagsLimitStatus(isMaxLength: boolean): void {
-    this.isFilterValidation = isMaxLength;
-    setTimeout(() => (this.isFilterValidation = false), 3000);
   }
 
   public goToPreview(): void {

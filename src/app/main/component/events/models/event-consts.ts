@@ -8,6 +8,20 @@ export interface OptionItem {
   nameUa: string;
 }
 
+export interface AllSelectedFlags {
+  typeList: boolean;
+  timeList: boolean;
+  statusList: boolean;
+  locationList: boolean;
+}
+
+export const allSelectedFlags = {
+  timeList: false,
+  statusList: false,
+  typeList: false,
+  locationList: false
+};
+
 export const TagsArray = [
   { nameEn: 'Economic', nameUa: 'Економічний', isActive: false },
   { nameEn: 'Social', nameUa: 'Соціальний', isActive: false },

@@ -61,7 +61,6 @@ form {
   height: 100%;
   background: transparent;
   border: none;
-  outline: none;
   color: var(--ubs-primary-light-grey);
 }
 
@@ -201,6 +200,7 @@ form {
 .setting-block {
   width: 36px;
   height: 36px;
+  border: none;
   background: var(--ubs-primary-white);
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
   display: flex;
@@ -226,10 +226,6 @@ form {
   padding-right: 40px;
   justify-content: flex-end;
   display: flex;
-}
-
-button {
-  outline: none;
 }
 
 .mat-menu-item:hover {

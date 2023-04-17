@@ -6,7 +6,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { NewsResponseDTO } from '@eco-news-models/create-news-interface';
-import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { ACTION_CONFIG, ACTION_TOKEN } from '../create-edit-news/action.constants';
 import { NewsPreviewPageComponent } from './news-preview-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -23,7 +22,6 @@ describe('NewsPreviewPageComponent', () => {
   let currentFormWithImageMock: FormGroup;
   let currentFormWithoutImageMock: FormGroup;
   let newsResponseMock: NewsResponseDTO;
-  let itemMock: EcoNewsModel;
   let router: Router;
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
@@ -109,22 +107,6 @@ describe('NewsPreviewPageComponent', () => {
       creationDate: '2020-10-26T16:43:29.336931Z',
       imagePath: 'assets/img/icon/econews/news-default-large.png',
       tags: ['Events', 'Education']
-    };
-
-    itemMock = {
-      author: { id: 1616, name: 'Hryshko' },
-      creationDate: '2020-10-26T16:43:29.336931Z',
-      id: 7777,
-      imagePath: 'assets/img/icon/econews/news-default-large.png',
-      tagsEn: ['Events', 'Education'],
-      tagsUa: ['Події', 'Освіта'],
-      tags: ['Events', 'Education'],
-      content: 'text for itemMock',
-      title: 'title for itemMock',
-      likes: 0,
-      countComments: 2,
-      shortInfo: 'info',
-      source: null
     };
 
     router = TestBed.inject(Router);
