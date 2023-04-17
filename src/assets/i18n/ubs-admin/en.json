@@ -920,7 +920,10 @@
     "max-length-comment": "Maximum 255 characters are allowed",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed",
     "number-length": "The field should contain 12 characters",
-    "number-format": "Only 9 digits starting with: +380"
+    "number-format": "Only 9 digits starting with: +380",
+    "password-requirements": "Password must contain: minimum 8 symbols, 1 special symbol, 1 digit, 1 upper and lower cased characters. No spaces.",
+    "newPassword-MatchesOld": "Enter the new password!",
+    "password-error-confirm": "Passwords do not match!"
   },
   "ubs-notifications": {
     "page-title": "Notifications",
