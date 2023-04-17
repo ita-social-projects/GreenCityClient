@@ -16,6 +16,25 @@ $inputwidth: 260px;
   line-height: 20px;
 }
 
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 325px;
+
+  .reset-button {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    left: 290px;
+
+    img {
+      height: 12px;
+    }
+  }
+}
+
 .ubs_profile-container {
   font-family: var(--primary-font);
   font-size: 0.9em;
