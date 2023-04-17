@@ -115,6 +115,14 @@ export class MatSnackBarComponent {
     CartValidation: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.cartificate-not-valid');
+    },
+    addedAddress: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.added-address');
+    },
+    savedChangesToUserProfile: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.saved-changes');
     }
   };
 

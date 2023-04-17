@@ -19,6 +19,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
   changePasswordServiceFake.changePassword.and.returnValue(of({}));
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const currentPassword = 'currentPassword';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -57,6 +58,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
   it('initForm should create', () => {
     component.hasPassword = true;
     const initFormFake = {
+      currentPassword: '',
       password: '',
       confirmPassword: ''
     };
@@ -65,13 +67,9 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     expect(component.formConfig.value).toEqual(initFormFake);
   });
 
-  it('checkPasswordPattern()', () => {
-    const formControlMock = { value: 'Welcome@123' } as unknown as FormControl;
-    expect(component.checkPasswordPattern(formControlMock)).toEqual(null);
-  });
-
   it('submitting a form', () => {
     expect(component.formConfig.valid).toBeFalsy();
+    component.formConfig.controls[currentPassword].setValue('Qwerty132!');
     component.formConfig.controls[password].setValue('Test!2334');
     component.formConfig.controls[confirmPassword].setValue('Test!2334');
     expect(component.formConfig.valid).toBeTruthy();
@@ -79,6 +77,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
     const updatePasswordDto: UpdatePasswordDto = component.formConfig.value;
 
     component.onSubmit();
+    expect(updatePasswordDto.currentPassword).toBe('Qwerty132!');
     expect(updatePasswordDto.password).toBe('Test!2334');
     expect(updatePasswordDto.confirmPassword).toBe('Test!2334');
   });

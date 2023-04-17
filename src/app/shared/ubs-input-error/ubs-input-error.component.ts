@@ -8,7 +8,9 @@ enum errorType {
   wrongNumber = 'wrongNumber',
   minlength = 'minlength',
   maxlength = 'maxlength',
-  required = 'required'
+  required = 'required',
+  newPasswordMatchesOld = 'newPasswordMatchesOld',
+  confirmPasswordMistmatch = 'confirmPasswordMistmatch'
 }
 @Component({
   selector: 'app-ubs-input-error',
@@ -35,7 +37,10 @@ export class UBSInputErrorComponent implements OnInit {
     wrongHouse: 'input-error.house-wrong',
     wrongCorpus: 'input-error.corpus-wrong',
     wrongEntrance: 'input-error.entrance-wrong',
-    numberLength: 'input-error.number-length'
+    numberLength: 'input-error.number-length',
+    passwordRequirements: 'input-error.password-requirements',
+    newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
+    confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm'
   };
 
   ngOnInit() {
@@ -57,6 +62,12 @@ export class UBSInputErrorComponent implements OnInit {
             break;
           case errorType.wrongNumber:
             this.errorMessage = this.validationErrors.wrongNumber;
+            break;
+          case errorType.newPasswordMatchesOld:
+            this.errorMessage = this.validationErrors.newPasswordMatchesOld;
+            break;
+          case errorType.confirmPasswordMistmatch:
+            this.errorMessage = this.validationErrors.confirmPasswordMistmatch;
             break;
           default:
             this.errorMessage = this.validationErrors[err];
@@ -81,6 +92,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.email;
       case Patterns.adminPhone.toString():
         return this.validationErrors.wrongNumber;
+      case Patterns.regexpPass.toString():
+        return this.validationErrors.passwordRequirements;
       default:
         return this.validationErrors.pattern;
     }
