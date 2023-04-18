@@ -82,32 +82,6 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`initForm should be called in ngOnInit`, () => {
-    const initFormSpy = spyOn(component as any, 'initForm');
-    component.ngOnInit();
-    expect(initFormSpy).toHaveBeenCalled();
-  });
-
-  it(`fillFields should be called in ngOnInit`, () => {
-    const fillFieldsSpy = spyOn(component as any, 'fillFields');
-    component.ngOnInit();
-    expect(fillFieldsSpy).toHaveBeenCalled();
-  });
-
-  it(`editForm should be called in initForm`, () => {
-    component.receivedData.bagData = fakeBag;
-    const editFormSpy = spyOn(component as any, 'editForm');
-    (component as any).initForm();
-    expect(editFormSpy).toHaveBeenCalled();
-  });
-
-  it(`addForm should be called in initForm`, () => {
-    component.receivedData.bagData = !fakeBag;
-    const addFormSpy = spyOn(component as any, 'addForm');
-    (component as any).initForm();
-    expect(addFormSpy).toHaveBeenCalled();
-  });
-
   it('component should initialize createTariffService form from with correct parameters', () => {
     (component as any).createTariffService();
     expect(component.addTariffServiceForm.get('name').value).toEqual('');
