@@ -1,9 +1,9 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  max-width: 1170px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0;
 
   .create-habit-header {
     display: flex;
@@ -253,17 +253,15 @@ input[type='radio'] + img {
   color: var(--error-red);
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1439px) {
   .wrapper {
     max-width: 960px;
-    padding: 0;
   }
 }
 
 @media (max-width: 1023px) {
   .wrapper {
     max-width: calc(100% - 64px);
-    padding: 0;
   }
 
   .container-top {
@@ -309,7 +307,7 @@ input[type='radio'] + img {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 575px) {
   .wrapper {
     max-width: calc(100% - 32px);
 
@@ -353,6 +351,17 @@ input[type='radio'] + img {
     .habit-second-block {
       padding: 0;
       gap: 24px;
+
+      .duration-shoping {
+        flex-direction: column;
+        height: auto;
+        gap: 24px;
+
+        .duration,
+        .shopping {
+          width: 100%;
+        }
+      }
     }
   }
 
@@ -365,17 +374,6 @@ input[type='radio'] + img {
     gap: 24px;
 
     button {
-      width: 100%;
-    }
-  }
-
-  .container-bottom .habit-info-block .habit-second-block .duration-shoping {
-    flex-direction: column;
-    height: auto;
-    gap: 24px;
-
-    .duration,
-    .shopping {
       width: 100%;
     }
   }

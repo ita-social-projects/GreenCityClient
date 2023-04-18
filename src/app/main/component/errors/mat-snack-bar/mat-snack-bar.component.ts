@@ -112,6 +112,10 @@ export class MatSnackBarComponent {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.exist-address');
     },
+    addedAddress: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.added-address');
+    },
     userUnauthorised: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.unauthorised-user');
@@ -127,6 +131,14 @@ export class MatSnackBarComponent {
     addedEvent: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.joined-event');
+    },
+    savedChangesToUserProfile: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.saved-changes');
+    },
+    updatedNotification: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.update-notification');
     }
   };
 

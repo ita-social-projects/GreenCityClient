@@ -3,7 +3,7 @@ import { RestorePasswordComponent } from './restore-password.component';
 import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -16,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
@@ -26,6 +27,7 @@ describe('RestorePasswordComponent', () => {
   let matDialogMock: MatDialogRef<RestorePasswordComponent>;
   let MatSnackBarMock: MatSnackBarComponent;
   let userSuccessSignIn;
+  let dialog: MatDialog;
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
@@ -47,6 +49,8 @@ describe('RestorePasswordComponent', () => {
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
 
+  const userOwnSignInServiceMock = jasmine.createSpyObj('userOwnSignInService', ['saveUserToLocalStorage']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [RestorePasswordComponent],
@@ -60,8 +64,10 @@ describe('RestorePasswordComponent', () => {
         MatSnackBarModule
       ],
       providers: [
+        MatDialog,
         { provide: MatDialogRef, useValue: matDialogMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: UserOwnSignInService, useValue: userOwnSignInServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -72,8 +78,7 @@ describe('RestorePasswordComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = fixture.debugElement.injector.get(Router);
-    spyOn(router.url, 'includes').and.returnValue(false);
-    spyOn(router, 'navigate');
+    dialog = TestBed.inject(MatDialog);
   });
 
   describe('Basic tests', () => {
@@ -89,11 +94,8 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('should call onBackToSignIn', () => {
-      // @ts-ignore
       spyOn(component.dialog, 'open');
-      // @ts-ignore
-      component.onBackToSignIn();
-      // @ts-ignore
+      component.onBackToSignIn(1);
       expect(component.dialog).toBeDefined();
     });
 
@@ -110,9 +112,7 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('should call onCloseRestoreWindow ', () => {
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
-      // @ts-ignore
+      const spy = spyOn(matDialogMock, 'close');
       component.onCloseRestoreWindow();
       expect(spy).toHaveBeenCalled();
     });
@@ -132,11 +132,11 @@ describe('RestorePasswordComponent', () => {
       };
     });
 
-    it('signUpWithGoogleSuccess should navigate to homePage', fakeAsync(() => {
-      // @ts-ignore
-      component.onSignInWithGoogleSuccess(userSuccessSignIn);
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
-    }));
+    it('signUpWithGoogleSuccess should navigate to homePage', () => {
+      const navigateSpy = spyOn(router, 'navigate');
+      (component as any).onSignInWithGoogleSuccess(userSuccessSignIn);
+      expect(navigateSpy).toHaveBeenCalledWith(['/']);
+    });
 
     it('Test sendEmailForRestore method', () => {
       const spy = (restorePasswordService.sendEmailForRestore = jasmine

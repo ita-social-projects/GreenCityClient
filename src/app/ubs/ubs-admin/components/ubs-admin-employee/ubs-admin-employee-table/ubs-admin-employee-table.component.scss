@@ -151,7 +151,7 @@
 
 .employees-column-names {
   display: grid;
-  grid-template-columns: 96px 1fr 1fr 1fr 1fr 1fr 62px;
+  grid-template-columns: 94px 1fr 1.5fr 1fr 1fr 1fr 98px;
   margin-bottom: 8px;
   height: 24px;
   border-bottom: 1px solid var(--ubs-primary-light-grey);
@@ -172,12 +172,14 @@
 
       .info-tooltip {
         opacity: 0;
-        max-width: 228px;
+        width: 218px;
         position: absolute;
         top: 12px;
         left: 10px;
         background-color: #fff;
         font-family: var(--primary-font);
+        font-size: 6px;
+        font-weight: 400;
         padding: 6px;
         transition: 0.2s;
         box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
@@ -186,7 +188,6 @@
         .tooltip-heading {
           font-weight: 400;
           font-size: 15px;
-          line-height: 12px;
         }
 
         .tooltip-text {
@@ -212,7 +213,7 @@
       font-size: 14px;
       line-height: 20px;
       letter-spacing: 0.1px;
-      color: var(--ubs-primary-grey);
+      color: var(--ubs-secondary-grey);
     }
   }
 
@@ -265,7 +266,7 @@
 
     .mat-expansion-panel-header {
       height: unset !important;
-      padding: 16px;
+      padding: 0 18px;
 
       &:hover {
         background-color: unset !important;
@@ -273,13 +274,14 @@
 
       ::ng-deep .mat-content {
         display: block !important;
+        margin: 16px 0 !important;
       }
 
       .mat-expansion-panel-header-title {
         width: 100%;
         font-family: var(--primary-font);
         display: grid;
-        grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr 46px;
+        grid-template-columns: 80px 1fr 1.5fr 1fr 1fr 1fr 46px 36px;
 
         .photo {
           flex: none;
@@ -304,24 +306,26 @@
               font-weight: 400;
               font-size: 14px;
               line-height: 20px;
+              color: var(--ubs-dark-purple);
+              margin-bottom: 4px;
             }
           }
 
           .name {
             font-weight: 700;
-            font-size: 20px;
-            line-height: 28px;
-            letter-spacing: 0.002em;
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: 0.001em;
             color: var(--ubs-freinacht-black);
+            margin-bottom: 4px;
           }
         }
 
         .description-item {
-          padding: 8px 0;
           display: flex;
           flex-direction: column;
           gap: 4px;
-          max-height: 64px;
+          max-height: 73px;
 
           .locations-list {
             display: flex;
@@ -333,6 +337,8 @@
             font-weight: 700;
             font-size: 14px;
             line-height: 20px;
+            letter-spacing: 0.1px;
+            margin-bottom: 4px;
           }
         }
       }
@@ -344,7 +350,6 @@
       .toggle-icon,
       .delete-icon {
         cursor: pointer;
-        padding: 14px;
       }
     }
 
@@ -438,4 +443,20 @@
       }
     }
   }
+}
+
+.toggle-icon-up,
+.toggle-icon-down {
+  width: 17px;
+  height: 17px;
+  margin-top: 7px;
+  background-repeat: no-repeat;
+}
+
+.toggle-icon-up {
+  background-image: url('src/assets/img/ubs-admin-employees/arrow-up.svg');
+}
+
+.toggle-icon-down {
+  background-image: url('src/assets/img/ubs-admin-employees/arrow-down.svg');
 }

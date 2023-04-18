@@ -102,3 +102,14 @@
   pointer-events: none;
   opacity: 0.7;
 }
+
+@media (max-width: 575px) {
+  .calendar-week .body .day-number-row {
+    font-size: 12px;
+
+    .day-number {
+      width: 34px;
+      height: 34px;
+    }
+  }
+}

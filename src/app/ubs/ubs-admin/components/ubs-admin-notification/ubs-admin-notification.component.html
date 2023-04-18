@@ -9,38 +9,59 @@
   <table class="table-notification-info" aria-label="Notification info">
     <thead>
       <tr>
-        <th class="col-topic">{{ 'ubs-notifications.columns.topic' | translate }}</th>
-        <th class="col-trigger">{{ 'ubs-notifications.columns.trigger' | translate }}</th>
-        <th class="col-time">{{ 'ubs-notifications.columns.time' | translate }}</th>
-        <th class="col-period">{{ 'ubs-notifications.columns.period' | translate }}</th>
-        <th class="col-status">{{ 'ubs-notifications.columns.status' | translate }}</th>
+        <th class="col-topic">{{ 'ubs-notifications.columns-notification-list.topic' | translate }}</th>
+        <th class="col-trigger">{{ 'ubs-notifications.columns-notification-list.trigger' | translate }}</th>
+        <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
+        <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
+        <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
         <th class="col-actions"></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>
-          {{ getLangValue(notification.title.ua, notification.title.en) }}
+          {{ getLangValue(notification.notificationTemplateMainInfoDto.title, notification.notificationTemplateMainInfoDto.titleEng) }}
         </td>
         <td>
-          {{ 'ubs-notifications.triggers.' + notification.trigger | translate }}
+          {{
+            getLangValue(
+              notification.notificationTemplateMainInfoDto.triggerDescription,
+              notification.notificationTemplateMainInfoDto.triggerDescriptionEng
+            )
+          }}
         </td>
         <td>
-          {{ 'ubs-notifications.time.' + notification.time | translate }}
+          {{
+            getLangValue(
+              notification.notificationTemplateMainInfoDto.timeDescription,
+              notification.notificationTemplateMainInfoDto.timeDescriptionEng
+            )
+          }}
         </td>
         <td>
-          {{ notification.schedule | cron: currentLanguage }}
+          {{ notification.notificationTemplateMainInfoDto.schedule | cron: currentLanguage }}
         </td>
         <td>
-          {{ 'ubs-notifications.statuses.' + notification.status | translate }}
+          {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
         </td>
         <td class="col-actions">
           <div>
             <button class="action-button edit-button" (click)="onEditNotificationSettings()">
               <img [src]="icons.edit" alt="" />
             </button>
-            <button class="action-button deactivate-button" (click)="onDeactivateNotification()">
+            <button
+              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'ACTIVE'"
+              class="action-button deactivate-button"
+              (click)="onDeactivateNotification()"
+            >
               <img [src]="icons.delete" alt="" />
+            </button>
+            <button
+              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'INACTIVE'"
+              class="action-button deactivate-button"
+              (click)="onActivateNotification()"
+            >
+              <img [src]="icons.activate" alt="" />
             </button>
           </div>
         </td>
@@ -50,28 +71,28 @@
 
   <table class="table-notification-platforms" aria-label="Notification text for platforms">
     <thead>
-      <th class="col-platform">Платформа</th>
-      <th class="col-text">Текст</th>
+      <th class="col-platform">{{ 'ubs-notifications.columns-notification.platform' | translate }}</th>
+      <th class="col-text">{{ 'ubs-notifications.columns-notification.text' | translate }}</th>
       <th class="col-action"></th>
     </thead>
     <tbody>
       <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
-        <td>{{ platform.name | titlecase }}</td>
+        <td>{{ platform.nameEng | titlecase }}</td>
         <td>
-          {{ getLangValue(platform.body.ua, platform.body.en) }}
+          {{ getLangValue(platform.body, platform.bodyEng) }}
         </td>
         <td class="col-action">
           <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
-            <button class="action-button edit-button" (click)="onEditNotificationText(platform.name)">
+            <button class="action-button edit-button" (click)="onEditNotificationText(platform.nameEng)">
               <img [src]="icons.edit" alt="" />
             </button>
-            <button class="action-button deactivate-button" (click)="onDeactivatePlatform(platform.name)">
+            <button class="action-button deactivate-button" (click)="onDeactivatePlatform(platform.nameEng)">
               <img [src]="icons.delete" alt="" />
             </button>
           </div>
           <ng-template #inactivePlatformActions>
             <div>
-              <button class="action-button activate-button" (click)="onActivatePlatform(platform.name)">
+              <button class="action-button activate-button" (click)="onActivatePlatform(platform.nameEng)">
                 <img [src]="icons.activate" alt="" />
               </button>
             </div>
@@ -83,6 +104,6 @@
 
   <div class="controls">
     <button class="cancel-button" (click)="onCancel()">{{ 'ubs-notifications.buttons.cancel' | translate }}</button>
-    <button class="submit-button" (click)="onSaveChanges()">{{ 'ubs-notifications.buttons.save' | translate }}</button>
+    <button class="submit-button" type="submit" (click)="onSaveChanges()">{{ 'ubs-notifications.buttons.save' | translate }}</button>
   </div>
 </div>

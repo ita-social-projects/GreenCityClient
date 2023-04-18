@@ -51,7 +51,7 @@
                   class="form-control name-input"
                   type="text"
                   id="recipient-name"
-                  [readonly]="isStatus"
+                  [readonly]="isOrderCanceled"
                   formControlName="recipientName"
                 />
                 <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
@@ -63,7 +63,7 @@
               <div>
                 <input
                   class="form-control name-input"
-                  [readonly]="isStatus"
+                  [readonly]="isOrderCanceled"
                   type="text"
                   id="recipient-surname"
                   formControlName="recipientSurName"
@@ -82,7 +82,7 @@
             </label>
             <input
               class="form-control"
-              [readonly]="isStatus"
+              [readonly]="isOrderCanceled"
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
@@ -102,7 +102,7 @@
             </label>
             <input
               class="form-control"
-              [readonly]="isStatus"
+              [readonly]="isOrderCanceled"
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
@@ -134,7 +134,13 @@
             </p>
           </div>
         </div>
-        <button class="btn" [disabled]="userViolationForCurrentOrder >= 1 || isStatus" type="button" (click)="openModal(false)">
+        <button
+          *ngIf="isViolationBtnShowed()"
+          class="btn"
+          [disabled]="userViolationForCurrentOrder >= 1"
+          type="button"
+          (click)="openModal(false)"
+        >
           {{ 'customer-info.violation.button' | translate }}
         </button>
       </div>

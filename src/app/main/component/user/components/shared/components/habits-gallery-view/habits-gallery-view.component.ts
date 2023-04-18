@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { HabitInterface } from '../../../../../../interface/habit/habit.interface';
+import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({

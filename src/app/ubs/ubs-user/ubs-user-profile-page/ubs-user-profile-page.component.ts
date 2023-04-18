@@ -188,12 +188,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
-        Validators.pattern(Patterns.NamePattern),
+        Validators.pattern(Patterns.NameInfoPattern),
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
         Validators.required,
-        Validators.pattern(Patterns.NamePattern),
+        Validators.pattern(Patterns.NameInfoPattern),
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
@@ -508,6 +508,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     } else {
       this.isEditing = true;
     }
+    this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
   redirectToMessengers() {

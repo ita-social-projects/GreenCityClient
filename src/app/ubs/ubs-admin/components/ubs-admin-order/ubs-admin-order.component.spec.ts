@@ -125,7 +125,7 @@ describe('UbsAdminCabinetComponent', () => {
   it('should return the order status info for the given status name', () => {
     const GeneralInfoFake = GeneralInfoMock;
     component.generalInfo = GeneralInfoFake as any;
-    const result = (component as any).getOrderStatusInfo(OrderStatus.DONE);
+    const result = (component as any).getOrderStatusInfo('DONE');
 
     expect(result).toEqual({ ableActualChange: false, key: OrderStatus.DONE, translation: 'Formed' });
   });

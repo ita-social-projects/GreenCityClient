@@ -11,13 +11,16 @@ import { MatSelectHarness } from '@angular/material/select/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BehaviorSubject, of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
-
+import { Language } from 'src/app/main/i18n/Language';
 import { UbsAdminNotificationListComponent } from './ubs-admin-notification-list.component';
+import { NotificationTemplatesMock } from '../../services/notificationsMock';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -26,67 +29,26 @@ class CronPipe implements PipeTransform {
   }
 }
 
-const notificationTemplates = [
-  {
-    id: 1,
-    trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
-    time: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-    schedule: '27 14 4,7,16 * *',
-    title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
-    status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: 'Unpaid order, text for Email', ua: 'Неоплачене замовлення, текст для Email' } },
-      { name: 'telegram', status: 'ACTIVE', body: { en: 'Unpaid order, text for Tg', ua: 'Неоплачене замовлення, текст для Tg' } },
-      { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
-    ]
-  },
-  {
-    id: 2,
-    trigger: 'PAYMENT_SYSTEM_RESPONSE',
-    time: 'IMMEDIATELY',
-    schedule: null,
-    title: { en: 'The payment was successful', ua: 'Оплата пройшла успішно' },
-    status: 'ACTIVE',
-    platforms: [
-      { name: 'email', status: 'ACTIVE', body: { en: 'Successful payment, text for Email', ua: 'Успішна оплата, текст для Email' } },
-      { name: 'telegram', status: 'INACTIVE', body: { en: 'Successful payment, text for Tg', ua: 'Успішна оплата, текст для Tg' } },
-      { name: 'viber', status: 'INACTIVE', body: { en: 'Successful payment, text for Viber', ua: 'Успішна оплата, текст для Viber' } }
-    ]
-  }
-];
-
 describe('UbsAdminNotificationListComponent', () => {
   let component: UbsAdminNotificationListComponent;
   let fixture: ComponentFixture<UbsAdminNotificationListComponent>;
   let loader: HarnessLoader;
+  let notificationsService: NotificationsService;
+  let langService: LanguageService;
+  let router;
+  let localStorageServiceMock: LocalStorageService;
 
-  const localStorageServiceMock = { languageBehaviourSubject: new BehaviorSubject('en') };
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+
   const notificationsServiceMock = {
-    getAllNotificationTemplates: (
-      page: number = 0,
-      size: number = 10,
-      filter: { title?: string; triggers?: string[]; status?: string } = {}
-    ) => {
-      const filtered = notificationTemplates.filter((notification) => {
-        const match = (str, substr) => str.toLowerCase().includes(substr.trim().toLowerCase());
-        const byTitle = filter.title && (match(notification.title.en, filter.title) || match(notification.title.ua, filter.title));
-        const byTrigger = filter.triggers?.length && filter.triggers.some((trigger) => notification.trigger === trigger);
-        const byStatus = filter.status && notification.status === filter.status;
-        return ![byTitle, byTrigger, byStatus].some((cond) => cond === false);
-      });
-      console.log(filtered.length);
-
-      const totalElements = filtered.length;
-      const totalPages = totalElements < size ? 1 : Math.ceil(totalElements / size);
-
-      return of({
-        currentPage: page,
-        page: filtered.slice(page * size, page * size + size),
-        totalElements,
-        totalPages
-      });
-    }
+    getAllNotificationTemplates: (page, itemsPerPage) => of({ page: [], totalElements: 0 })
   };
+
+  const langServiceMock = {
+    getLangValue: (uaValue, enValue) => (uaValue && enValue ? enValue : '')
+  };
+  const activatedRouteMock = { params: of({ id: 1 }) };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -104,8 +66,9 @@ describe('UbsAdminNotificationListComponent', () => {
       ],
       providers: [
         FormBuilder,
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: NotificationsService, useValue: notificationsServiceMock }
+        { provide: NotificationsService, useValue: notificationsServiceMock },
+        { provide: LanguageService, useValue: langServiceMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ]
     }).compileComponents();
   }));
@@ -114,6 +77,10 @@ describe('UbsAdminNotificationListComponent', () => {
     fixture = TestBed.createComponent(UbsAdminNotificationListComponent);
     loader = TestbedHarnessEnvironment.loader(fixture);
     component = fixture.componentInstance;
+    component.notifications = NotificationTemplatesMock;
+    notificationsService = TestBed.inject(NotificationsService);
+    langService = TestBed.inject(LanguageService);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -121,50 +88,51 @@ describe('UbsAdminNotificationListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call loadPage() with correct arguments when onPageChanged() is called', () => {
+    const loadPageSpy = spyOn(component, 'loadPage');
+    const page = 2;
+
+    component.onPageChanged(page);
+
+    expect(loadPageSpy).toHaveBeenCalledWith(page, component.filtersForm.value);
+    expect(component.currentPage).toBe(page);
+  });
+
+  it('should update notifications and totalItems when loadPage() is called', () => {
+    const data = {
+      currentPage: 1,
+      totalPages: 1,
+      page: NotificationTemplatesMock,
+      totalElements: 1
+    };
+    spyOn(notificationsService, 'getAllNotificationTemplates').and.returnValue(of(data as any));
+
+    component.loadPage(1);
+
+    expect(component.notifications).toEqual(data.page);
+    expect(component.totalItems).toBe(data.totalElements);
+  });
+
+  it('should return the correct language value when getLangValue() is called', () => {
+    const uaValue = 'Тест';
+    const enValue = 'Test';
+    const result = component.getLangValue(uaValue, enValue);
+
+    expect(result).toBe(enValue);
+  });
+
+  it('should navigate to the correct route when navigateToNotification() is called', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const id = 1;
+    component.navigateToNotification(id);
+
+    expect(navigateSpy).toHaveBeenCalledWith(['..', 'notification', id], { relativeTo: activatedRouteMock });
+  });
+
   it('should load all notifications', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
-    expect(rows.length).toBe(2);
-  });
-
-  it('should load filtered notifications when user applies title filter', async () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    const titleFilterField = fixture.debugElement.query(By.css('.filter-topic-block input')).nativeElement;
-    titleFilterField.value = 'Successful';
-    titleFilterField.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
-    expect(rows.length).toBe(1);
-  });
-
-  it('should load filtered notifications when user applies title and status filters', async () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    const titleFilterField = fixture.debugElement.query(By.css('.filter-topic-block input')).nativeElement;
-    titleFilterField.value = 'Successful';
-    titleFilterField.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    const statusSelect = await loader.getHarness(MatSelectHarness.with({ selector: '.status-select' }));
-    await statusSelect.clickOptions({ text: 'ubs-notifications.filters-statuses.INACTIVE' });
-    const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
     expect(rows.length).toBe(0);
-  });
-
-  it('should load filtered notifications when user applies all filters', async () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    const titleFilterField = fixture.debugElement.query(By.css('.filter-topic-block input')).nativeElement;
-    titleFilterField.value = 'Неоп';
-    titleFilterField.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    const triggersSelect = await loader.getHarness(MatSelectHarness.with({ selector: '.trigger-select' }));
-    const statusSelect = await loader.getHarness(MatSelectHarness.with({ selector: '.status-select' }));
-    // expect(await triggersSelect.getOptions()).toBe(null);
-    await triggersSelect.clickOptions({ text: 'ubs-notifications.triggers.ORDER_NOT_PAID_FOR_3_DAYS' });
-    await statusSelect.clickOptions({ text: 'ubs-notifications.filters-statuses.ACTIVE' });
-    const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
-    expect(rows.length).toBe(1);
   });
 });

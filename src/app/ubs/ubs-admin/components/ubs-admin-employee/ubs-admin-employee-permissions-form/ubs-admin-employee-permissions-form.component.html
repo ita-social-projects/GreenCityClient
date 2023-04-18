@@ -1,5 +1,8 @@
 <div class="modal-wrapper">
-  <h3 class="popup-title">{{ 'employees.actions.settings' | translate }}</h3>
+  <h3 [ngClass]="panelToggler ? 'expanded-popup-title' : 'popup-title'" class="popup-title">
+    {{ 'employees.actions.settings' | translate }}
+  </h3>
+  <img mat-dialog-close="true" class="close-popup-button" src="assets/img/ubs/cross.svg" alt="close-popup-button" />
 
   <form [formGroup]="form" (ngSubmit)="savePermissions()">
     <cdk-accordion class="permissions-accordion accordion" multi>
@@ -14,10 +17,14 @@
         [attr.aria-expanded]="accordionItem.expanded"
         [attr.aria-controls]="'accordion-body-' + i"
         [formGroupName]="group.name"
+        (click)="isPanelOpen()"
       >
-        <div class="accordion-item-header" (click)="accordionItem.toggle()">
+        <div
+          [ngClass]="accordionItem.expanded ? 'expanded-accordion-item-header' : 'accordion-item-header'"
+          (click)="accordionItem.toggle()"
+        >
           <span class="accordion-item-description">
-            <img src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
+            <img class="arrow-accordion-down" src="./assets/img/icon/arrows/arrow-accordion-down.svg" alt="arrow" />
           </span>
           {{ 'employees.permissions.' + group.name + '.title' | translate }}
         </div>

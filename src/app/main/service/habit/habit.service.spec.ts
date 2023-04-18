@@ -1,10 +1,13 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
 import { environment } from '@environment/environment.js';
-import { HabitInterface } from '../../interface/habit/habit.interface';
+import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
+import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
+import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
+import { TAGLIST } from '@global-user/components/habit/mocks/tags-list-mock';
 
 describe('HabitService', () => {
   const habitLink = `${environment.backendLink}habit`;
@@ -13,102 +16,6 @@ describe('HabitService', () => {
   let httpMock: HttpTestingController;
 
   let langMock = null;
-  const habitsMock = {
-    page: [
-      {
-        defaultDuration: 14,
-        amountAcquiredUsers: 1,
-        habitTranslation: {
-          description: 'Description',
-          habitItem: 'Item',
-          languageCode: 'en',
-          name: 'Use a reusable water bottle'
-        },
-        id: 2,
-        image: './assets/img/habit-circle-bg-shape.png',
-        complexity: 1,
-        tags: [],
-        shoppingListItems: null
-      }
-    ],
-    totalElements: 31,
-    currentPage: 1,
-    totalPages: 31
-  };
-  const habitMock: HabitInterface = {
-    defaultDuration: 14,
-    amountAcquiredUsers: 1,
-    habitTranslation: {
-      description: 'Description',
-      habitItem: 'Item',
-      languageCode: 'en',
-      name: 'Use a towel instead of paper towels and napkins'
-    },
-    id: 1,
-    image: './assets/img/habit-circle-bg-shape.png',
-    complexity: 1,
-    tags: [],
-    shoppingListItems: [
-      {
-        id: 1,
-        text: 'Swedish cellulose dish cloths',
-        status: 'ACTIVE'
-      },
-      {
-        id: 2,
-        text: 'Reusable bamboo paper towels',
-        status: 'ACTIVE'
-      },
-      {
-        id: 3,
-        text: 'Wowables reusable & biodegradable paper towel',
-        status: 'ACTIVE'
-      }
-    ]
-  };
-  const habitList = [
-    {
-      id: 11,
-      text: 'Reusable stainless steel water bottle',
-      status: 'ACTIVE'
-    },
-    {
-      id: 12,
-      text: 'Reusable glass water bottle',
-      status: 'ACTIVE'
-    },
-    {
-      id: 13,
-      text: 'Collapsible Silicone Water Bottle',
-      status: 'ACTIVE'
-    }
-  ];
-  const tagsMock = [
-    { id: 1, name: 'clothes', nameUa: 'одяг' },
-    { id: 2, name: 'eco', nameUa: 'еко' },
-    { id: 3, name: 'natural', nameUa: 'натуральний' }
-  ];
-  const habitListMock = {
-    currentPage: 1,
-    page: [
-      {
-        defaultDuration: 12,
-        amountAcquiredUsers: 1,
-        habitTranslation: {
-          description: 'habit, which will be useful for environment',
-          habitItem: 'bags',
-          languageCode: 'en',
-          name: 'habit for buying eco bags'
-        },
-        id: 1,
-        image: './assets/img/habit-circle-bg-shape.png',
-        tags: ['test'],
-        isAssigned: true
-      }
-    ],
-    totalElements: 1,
-    totalPages: 1
-  };
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('localStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
@@ -140,58 +47,58 @@ describe('HabitService', () => {
 
   it('should return all habits', () => {
     habitService.getAllHabits(1, 1).subscribe((data) => {
-      expect(data).toBe(habitsMock);
+      expect(data).toBe(HABITLIST);
     });
 
     const req = httpMock.expectOne(`${habitLink}?lang=en&page=1&size=1`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
-    req.flush(habitsMock);
+    req.flush(HABITLIST);
   });
 
   it('should return habit by id', () => {
     habitService.getHabitById(1).subscribe((data) => {
-      expect(data).toBe(habitMock);
+      expect(data).toBe(CUSTOMHABIT);
     });
 
     const req = httpMock.expectOne(`${habitLink}/1?lang=en`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
-    req.flush(habitMock);
+    req.flush(CUSTOMHABIT);
   });
 
   it('should return habit shopping list', () => {
     habitService.getHabitShoppingList(2).subscribe((data) => {
-      expect(data).toBe(habitList);
+      expect(data).toBe(SHOPLIST);
     });
 
     const req = httpMock.expectOne(`${habitLink}/2/shopping-list?lang=en`);
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     expect(req.request.method).toBe('GET');
-    req.flush(habitList);
+    req.flush(SHOPLIST);
   });
 
   it('should return habit tags', () => {
     habitService.getAllTags().subscribe((data) => {
       expect(data).not.toBeNull();
-      expect(data).toEqual(tagsMock);
+      expect(data).toEqual(TAGLIST);
     });
     const req = httpMock.expectOne(`${backendLink}tags/v2/search?type=HABIT`);
     expect(req.request.method).toBe('GET');
-    req.flush(tagsMock);
+    req.flush(TAGLIST);
   });
 
   it('should return habits by tag and lang', () => {
-    habitService.getHabitsByTagAndLang(1, 1, ['test']).subscribe((data) => {
+    habitService.getHabitsByTagAndLang(1, 1, ['test'], 'en').subscribe((data) => {
       expect(data).not.toBeNull();
-      expect(data).toEqual(habitListMock);
+      expect(data).toEqual(HABITLIST);
     });
 
     const req = httpMock.expectOne(`${habitLink}/tags/search?lang=en&page=1&size=1&sort=asc&tags=test`);
     expect(req.request.method).toBe('GET');
-    req.flush(habitListMock);
+    req.flush(HABITLIST);
   });
 });

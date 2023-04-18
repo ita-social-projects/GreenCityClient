@@ -104,11 +104,16 @@ button {
 }
 
 .request-btn {
+  height: 90px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-end;
   flex: 1;
+
+  :first-child {
+    margin-bottom: 10px;
+  }
 }
 
 .request-img {
@@ -122,8 +127,9 @@ button {
   }
 }
 
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 320px) {
   .request-item {
     justify-content: center;
+    align-items: center;
   }
 }

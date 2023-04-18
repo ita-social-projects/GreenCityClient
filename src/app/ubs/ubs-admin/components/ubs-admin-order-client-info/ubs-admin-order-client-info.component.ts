@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
-import { IUserInfo, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
+import { IUserInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -13,13 +13,11 @@ import { Masks } from 'src/assets/patterns/patterns';
   templateUrl: './ubs-admin-order-client-info.component.html',
   styleUrls: ['./ubs-admin-order-client-info.component.scss']
 })
-export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
+export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
-
   @Input() orderId: number;
-
-  @Input() generalInfo: IGeneralOrderInfo;
+  @Input() orderStatus: string;
 
   phoneMask = Masks.phoneMask;
 
@@ -27,7 +25,9 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
   pageOpen: boolean;
   public userViolationForCurrentOrder: number;
   public totalUserViolations: number;
-  isStatus = false;
+  isOrderDone = false;
+  isOrderNotTakenOut = false;
+  isOrderCanceled = false;
 
   constructor(private dialog: MatDialog) {}
 
@@ -35,10 +35,21 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnDestroy {
     return this.userInfoDto.get('recipientEmail');
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.orderStatus.currentValue) {
+      this.isOrderDone = changes.orderStatus.currentValue === OrderStatus.DONE;
+      this.isOrderCanceled = changes.orderStatus.currentValue === OrderStatus.CANCELED;
+      this.isOrderNotTakenOut = changes.orderStatus.currentValue === OrderStatus.NOT_TAKEN_OUT;
+    }
+  }
+
   ngOnInit(): void {
     this.pageOpen = true;
     this.setViolationData();
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
+  }
+
+  isViolationBtnShowed(): boolean {
+    return this.isOrderNotTakenOut || this.isOrderDone;
   }
 
   openDetails(): void {

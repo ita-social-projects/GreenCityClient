@@ -110,6 +110,7 @@
       "author": "by",
       "create-title": "Create event",
       "delete-title": "Delete event",
+      "delete-title-admin": "Event will be deleted. Do you want to continue?",
       "delete-yes": "yes",
       "delete-no": "no",
       "filter-title": "Sort By",
@@ -358,7 +359,10 @@
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
       "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
-      "joined-event": "You have successfully joined the event"
+      "joined-event": "You have successfully joined the event",
+      "saved-changes": "Your changes have been saved",
+      "added-address": "The address has been added",
+      "update-notification": "Notification was updated"
     }
   },
   "user": {
@@ -747,9 +751,16 @@
         "button-save": "Save changes",
         "button-cancel": "Cancel",
         "confirmation-modal-title": "Are you sure you want to give up",
-        "confirmation-modal-text": "All your progress of habit's tracking will be lost",
+        "confirmation-modal-text": "? All your progress of habit's tracking will be lost",
         "confirmation-modal-yes": "Yes",
-        "confirmation-modal-no": "No"
+        "confirmation-modal-no": "No",
+        "congratulations-title": "Congratulations! Your habit ",
+        "congratulations-text": " has got more than 80% of successful tracking. It is enough for the habit to be considered acquired. Do you want to acquire the habit?",
+        "congratulations-acquire": "Acquire",
+        "acquire-confirm-title": "Are you sure you want to acquire habit",
+        "acquire-confirm-text": "? Once you acquire the habit, you can no longer edit it",
+        "leave-habit-page-title": "It looks like you have been editing something. If you leave before saving, your changes will be lost.",
+        "leave-habit-page-text": "Are you sure you want to leave this page?"
       },
       "all-habits": {
         "back-button": "Back to My habits",
@@ -897,14 +908,17 @@
       "join-event": "Join Event"
     },
     "habits-in-progress": "in progress",
-    "my-Achievements": "My Achievements",
+    "my-achievements": "My Achievements",
+    "achieved": "achieved",
     "see-all": "See all",
-    "elements": "Items",
+    "elements": "items",
     "my-eco-friends": "My Friends",
+    "friends-quantity": "connections",
     "zero-friends": "You don't have any friends.",
     "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately, there are no new requests.",
-    "my-eco-places": "My eco places",
+    "my-eco-places": "My Eco Places",
+    "eco-places-quantity": "favourites",
     "to-do-list": "My To-do list",
     "empty-list": "No items added yet.\nPlease add a task with some items to see it on your list",
     "shoppingList-no-items-message": "You don't have any items in your Shopping List",

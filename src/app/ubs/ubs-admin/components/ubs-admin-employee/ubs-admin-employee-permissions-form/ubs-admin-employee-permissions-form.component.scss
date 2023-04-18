@@ -2,11 +2,70 @@
 @import './././src/app/ubs/ubs-admin/ubs-admin.component';
 
 .modal-wrapper {
-  padding: 24px 40px 40px 16px;
+  padding: 24px 18px 24px 28px;
   max-height: 90vh;
   overflow-y: scroll;
 }
 
 .popup-title {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.close-popup-button {
+  font-size: 18px;
+  position: absolute;
+  top: 19px;
+  right: 19px;
+  cursor: pointer;
+  color: var(--ubs-primary-light-grey);
+}
+
+.cancelButton {
+  margin-right: 20px;
+}
+
+.accordion .accordion-item .accordion-item-header {
+  font-size: 14px;
+  padding: 14px 0;
+}
+
+.expanded-accordion-item-header {
+  display: flex;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  background-color: var(--ubs-liberty-green);
+  height: 40px;
+  padding-top: 8px;
+}
+
+.button-row {
+  margin-top: 21px;
+}
+
+.arrow-accordion-down {
+  margin-right: 12px;
+}
+
+.accordion .accordion-item .accordion-item-body .mat-checkbox {
+  padding: 6px 0;
+}
+
+.mat-checkbox-inner-container {
+  border-radius: 3px;
+  border-color: var(--ubs-secondary-grey);
+}
+
+.expanded-popup-title {
+  color: var(--ubs-freinacht-black);
+}
+
+::-moz-scrollbar-thumb {
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-button,
+::-moz-scrollbar-button {
+  display: none;
 }

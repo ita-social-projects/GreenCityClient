@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +11,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -31,9 +30,6 @@ describe('AddEditCustomHabitComponent', () => {
   habitServiceMock.getAllTags = () => of(tagsMock);
   habitServiceMock.addCustomHabit = () => of(null);
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue.and.returnValue('fakeTag');
-
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
   beforeEach(async(() => {
@@ -43,7 +39,6 @@ describe('AddEditCustomHabitComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
         { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
@@ -120,8 +115,8 @@ describe('AddEditCustomHabitComponent', () => {
   it('should set TagList after get it from child component', () => {
     (component as any).initForm();
     component.getTagsList(tagsMock);
-    expect(component.selectedTagsList).toEqual(['fakeTag']);
-    expect(component.habitForm.get('tags').value).toEqual(['fakeTag']);
+    expect(component.selectedTagsList).toEqual([1]);
+    expect(component.habitForm.get('tagIds').value).toEqual([1]);
   });
 
   it('goToAllHabits should navigate to all habits page', () => {
@@ -133,11 +128,6 @@ describe('AddEditCustomHabitComponent', () => {
   it('should set tagsList on getHabitTags', () => {
     (component as any).getHabitTags();
     expect(component.tagsList).toEqual(tagsMock);
-  });
-
-  it('should get value by language', () => {
-    const valueByLang = (component as any).getLangValue('fakeTag', 'fakeTagEn');
-    expect(valueByLang).toBe('fakeTag');
   });
 
   it('should call goToAllHabits on addHabit', () => {
