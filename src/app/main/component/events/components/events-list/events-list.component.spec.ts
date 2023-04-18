@@ -11,10 +11,11 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { eventStatusList, OptionItem, TagsArray, tempLocationList, eventTimeList } from '../../models/event-consts';
+import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-consts';
 import { By } from '@angular/platform-browser';
 import { MatOption } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
+import { EventPageResponceDto } from '../../models/events.interface';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -24,6 +25,97 @@ describe('EventsListComponent', () => {
     page: [],
     totalElements: 4
   };
+
+  const eventsMock: EventPageResponceDto[] = [
+    {
+      id: 7,
+      title: 'TEst 2',
+      organizer: {
+        id: 3,
+        name: 'AdminGreenCity',
+        organizerRating: null
+      },
+      creationDate: '2023-04-10',
+      description: 'efds',
+      dates: [
+        {
+          id: null,
+          event: null,
+          startDate: '2023-04-11T21:00:00Z',
+          finishDate: '2023-04-12T20:59:00Z',
+          onlineLink: null,
+          coordinates: {
+            latitude: 50.454589,
+            longitude: 30.506723,
+            addressUa: 'Sakharova 23',
+            addressEn: 'Sakharova 23',
+            cityEn: 'Kyiv',
+            cityUa: 'Київ'
+          }
+        }
+      ],
+      tags: [
+        {
+          id: 12,
+          nameUa: 'Соціальний',
+          nameEn: 'Social'
+        },
+        {
+          id: 13,
+          nameUa: 'Екологічний',
+          nameEn: 'Environmental'
+        }
+      ],
+      titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
+      additionalImages: [],
+      isSubscribed: false,
+      open: true
+    },
+    {
+      id: 7,
+      title: 'TEst 2',
+      organizer: {
+        id: 3,
+        name: 'AdminGreenCity',
+        organizerRating: null
+      },
+      creationDate: '2023-04-10',
+      description: 'efds',
+      dates: [
+        {
+          id: null,
+          event: null,
+          startDate: '2023-04-11T21:00:00Z',
+          finishDate: '2023-04-12T20:59:00Z',
+          onlineLink: null,
+          coordinates: {
+            latitude: 50.454589,
+            longitude: 30.506723,
+            addressUa: 'Sakharova 23',
+            addressEn: 'Sakharova 23',
+            cityEn: 'Lviv',
+            cityUa: 'Львів'
+          }
+        }
+      ],
+      tags: [
+        {
+          id: 12,
+          nameUa: 'Соціальний',
+          nameEn: 'Social'
+        },
+        {
+          id: 13,
+          nameUa: 'Екологічний',
+          nameEn: 'Environmental'
+        }
+      ],
+      titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
+      additionalImages: [],
+      isSubscribed: false,
+      open: true
+    }
+  ];
 
   const MockData = {
     eventState: {},
@@ -97,7 +189,7 @@ describe('EventsListComponent', () => {
     component.eventTimeList = eventTimeList;
     component.typeList = TagsArray;
     component.statusList = eventStatusList;
-    component.eventLocationList = tempLocationList;
+    component.eventLocationList = [];
     const spy = spyOn(component, 'resetAll');
     component.resetAll();
 
@@ -120,13 +212,20 @@ describe('EventsListComponent', () => {
     component.eventTimeList = eventTimeList;
     component.typeList = TagsArray;
     component.statusList = eventStatusList;
-    component.eventLocationList = tempLocationList;
+    component.eventLocationList = [];
 
     const spy = spyOn(component, 'deleteOneFilter');
     component.deleteOneFilter(filterRemoved, 1);
     component.selectedFilters.pop();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.selectedFilters).toEqual(res);
+  });
+  it('should check weather getUniqueCities works correctly', () => {
+    const expected = [
+      { nameEn: 'Kyiv', nameUa: 'Київ' },
+      { nameEn: 'Lviv', nameUa: 'Львів' }
+    ];
+    expect(component.getUniqueCities(eventsMock)).toEqual(expected);
   });
 
   it('should check weather showFavourite works correctly', () => {
