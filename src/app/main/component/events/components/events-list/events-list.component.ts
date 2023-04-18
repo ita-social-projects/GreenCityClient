@@ -51,14 +51,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
-  public selectedFilters = []; // test data,should be deleted when back-end is ready
+  public selectedFilters = [];
   public searchToggle = false;
   public bookmarkSelected = false;
   public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[] = eventStatusList;
-  public eventLocationList: OptionItem[] = tempLocationList;
+  public eventLocationList: OptionItem[] = [];
   private optionsList: any;
   public scroll: boolean;
   public userId: number;
@@ -91,6 +91,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
+        this.eventLocationList = this.getUniqueCities(this.eventsList);
+        console.log(this.eventLocationList);
       }
     });
   }
@@ -124,6 +126,24 @@ export class EventsListComponent implements OnInit, OnDestroy {
     if (this.hasNext && this.page !== undefined) {
       this.store.dispatch(GetEcoEventsByPageAction({ currentPage: this.page, numberOfEvents: this.eventsPerPage, reset: res }));
     }
+  }
+
+  getUniqueCities(events: EventPageResponceDto[]): { nameEn: string; nameUa: string }[] {
+    const cities: { nameEn: string; nameUa: string }[] = [];
+
+    events.forEach((event) => {
+      const { cityEn, cityUa } = event.dates[0].coordinates;
+
+      const cityExists = cities.some((city) => {
+        return city.nameEn === cityEn && city.nameUa === cityUa;
+      });
+
+      if (!cityExists) {
+        cities.push({ nameEn: cityEn, nameUa: cityUa });
+      }
+    });
+
+    return cities;
   }
 
   public toggleAllSelection(optionsList: any, dropdownName: string): void {

@@ -97,6 +97,8 @@ export interface TagDto {
 export interface DateEventResponceDto {
   coordinates: {
     addressEn: string;
+    cityEn: string;
+    cityUa: string;
     addressUa: string;
     latitude: number;
     longitude: number;

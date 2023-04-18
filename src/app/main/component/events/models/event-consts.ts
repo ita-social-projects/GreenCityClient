@@ -52,14 +52,6 @@ export const tempLocationList = [
   { nameEn: 'Donetsk', nameUa: 'Донецьк' }
 ];
 
-export const selectedFilters = [
-  { nameEn: 'Lviv', nameUa: 'Львів' },
-  { nameEn: 'Kyiv', nameUa: 'Київ' },
-  { nameEn: 'Odesa', nameUa: 'Одеса' },
-  { nameEn: 'Kharkiv', nameUa: 'Харків' },
-  { nameEn: 'Donetsk', nameUa: 'Донецьк' }
-];
-
 export const DateObj = {
   date: null,
   startDate: '',
