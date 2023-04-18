@@ -17,7 +17,6 @@ export function HttpLoaderFactory() {
 describe('VolumePipe', () => {
   let translateMock: jasmine.SpyObj<TranslateService>;
   let httpClientMock: HttpTestingController;
-  let localStorageServiceMock: jasmine.SpyObj<LocalStorageService>;
   let languageService: LanguageService;
   let pipe: TranslateDatePipe;
 

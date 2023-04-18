@@ -35,20 +35,6 @@ describe('LanguageService', () => {
     expect(service).toBeTruthy();
   });
 
-  /* it('setDefaultLang should be called in setDefaultLanguage with parameter from getCurrentLanguage', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
-    service.setDefaultLanguage();
-    expect(setDefaultLangMock).toHaveBeenCalledWith('ua');
-  });/** */
-
-  /*it('setDefaultLang and setCurrentLanguage should be called in setDefaultLanguage with parameters', () => {
-    getCurrentLanguageMock.and.returnValue(null);
-    spyOn(LanguageService.prototype as any, 'getLanguageByString').and.returnValue('ua');
-    service.setDefaultLanguage();
-    expect(setDefaultLangMock).toHaveBeenCalledWith('ua');
-    expect(setCurrentLanguageMock).toHaveBeenCalledWith('ua');
-  });/** */
-
   it('getCurrentLanguage should return the value', () => {
     getCurrentLanguageMock.and.returnValue('ua');
     const spy = service.getCurrentLanguage();
