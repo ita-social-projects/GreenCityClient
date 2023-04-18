@@ -25,3 +25,20 @@
   color: var(--ubs-primary-red);
   font-size: 12px;
 }
+
+.header-text {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ubs-quaternary-dark-grey);
+}
+
+.form-group {
+  margin-bottom: 40px;
+}
+
+.btn {
+  width: 106px;
+  font-size: 16px;
+  padding: 8px, 24px, 8px, 24px;
+}

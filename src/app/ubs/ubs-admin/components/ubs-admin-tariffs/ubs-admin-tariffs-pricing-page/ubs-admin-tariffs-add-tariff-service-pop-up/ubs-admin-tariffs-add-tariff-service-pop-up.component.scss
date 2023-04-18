@@ -12,7 +12,7 @@
 
 .courier-input,
 .capacity-input {
-  width: 92px;
+  width: 95px;
   height: 2.25rem;
   font-size: 0.9rem;
   color: var(--ubs-quaternary-dark-grey);
@@ -24,4 +24,25 @@
 .error-message {
   color: var(--ubs-primary-red);
   font-size: 12px;
+}
+
+.header-text {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ubs-quaternary-dark-grey);
+}
+
+.description-input-wrapper {
+  border: 1px solid var(--ubs-primary-red);
+}
+
+.btn {
+  width: 106px;
+  font-size: 16px;
+  padding: 8px, 24px, 8px, 24px;
+}
+
+.form-group {
+  margin-bottom: 40px;
 }

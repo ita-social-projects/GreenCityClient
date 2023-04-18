@@ -30,7 +30,7 @@
           <div class="validation" *ngIf="phoneNumber.invalid && phoneNumber.touched">
             <app-ubs-input-error
               [formElement]="phoneNumber"
-              [inputType]="'requiredPhoneEmployee'"
+              [inputName]="'requiredPhoneEmployee'"
               [fromEmployee]="true"
             ></app-ubs-input-error>
           </div>
@@ -39,7 +39,7 @@
           <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
           <input formControlName="email" />
           <div class="validation" *ngIf="email.invalid && email.touched">
-            <app-ubs-input-error [formElement]="email" [inputType]="'requiredEmailEmployee'" [fromEmployee]="true"></app-ubs-input-error>
+            <app-ubs-input-error [formElement]="email" [inputName]="'requiredEmailEmployee'" [fromEmployee]="true"></app-ubs-input-error>
           </div>
         </div>
       </div>

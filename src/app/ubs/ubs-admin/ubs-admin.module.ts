@@ -184,6 +184,7 @@ import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-adm
     MatTableModule,
     MatDialogModule,
     GooglePlaceModule,
+    SharedMainModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,
       libraries: ['places']
