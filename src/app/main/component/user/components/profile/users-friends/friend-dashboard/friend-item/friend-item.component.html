@@ -22,7 +22,9 @@
   </div>
   <div class="buttons">
     <div class="friend-btn">
-      <button id="addButton" class="secondary-global-button m-btn">{{ 'profile.friends.add-new-friend' | translate }}</button>
+      <button id="addButton" class="secondary-global-button m-btn" (click)="friendEvent(friend.id)">
+        {{ 'profile.friends.delete-friend' | translate }}
+      </button>
     </div>
     <div class="friend-btn">
       <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton" class="secondary-global-button m-btn">
