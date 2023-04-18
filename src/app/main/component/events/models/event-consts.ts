@@ -41,17 +41,6 @@ export const eventStatusList = [
   { nameEn: 'Saved', nameUa: 'Збережена' }
 ];
 
-// TODO remove when back-end is ready
-
-export const tempLocationList = [
-  { nameEn: 'Lviv', nameUa: 'Львів' },
-  { nameEn: 'Odesa', nameUa: 'Одеса' },
-  { nameEn: 'Kyiv', nameUa: 'Київ' },
-  { nameEn: 'Kharkiv', nameUa: 'Харків' },
-  { nameEn: 'Sevastopol', nameUa: 'Севастополь' },
-  { nameEn: 'Donetsk', nameUa: 'Донецьк' }
-];
-
 export const DateObj = {
   date: null,
   startDate: '',
