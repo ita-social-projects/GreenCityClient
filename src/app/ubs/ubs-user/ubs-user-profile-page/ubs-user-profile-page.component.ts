@@ -119,6 +119,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     );
   }
 
+  checkedDefaultAddress(i): boolean {
+    return i === 0;
+  }
+
   setUrlToBot(): void {
     this.telegramBotURL = this.userProfile.botList[0]?.link;
     this.viberBotURL = this.userProfile.botList[1]?.link;
