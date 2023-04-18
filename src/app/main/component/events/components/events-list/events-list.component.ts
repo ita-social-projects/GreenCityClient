@@ -7,15 +7,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import {
-  TagsArray,
-  eventTimeList,
-  eventStatusList,
-  tempLocationList,
-  OptionItem,
-  allSelectedFlags,
-  AllSelectedFlags
-} from '../../models/event-consts';
+import { TagsArray, eventTimeList, eventStatusList, OptionItem, allSelectedFlags, AllSelectedFlags } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -92,7 +84,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
         this.eventLocationList = this.getUniqueCities(this.eventsList);
-        console.log(this.eventLocationList);
       }
     });
   }
@@ -128,8 +119,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUniqueCities(events: EventPageResponceDto[]): { nameEn: string; nameUa: string }[] {
-    const cities: { nameEn: string; nameUa: string }[] = [];
+  getUniqueCities(events: EventPageResponceDto[]): OptionItem[] {
+    const cities: OptionItem[] = [];
 
     events.forEach((event) => {
       const { cityEn, cityUa } = event.dates[0].coordinates;
