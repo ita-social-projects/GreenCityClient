@@ -634,7 +634,7 @@ section .main-container {
     margin: 0 auto;
     padding: 64px 0 0 0;
     font-size: 16px;
-    max-width: 1920px;
+    width: 100%;
 
     h2 {
       margin: 0 auto;
@@ -697,6 +697,10 @@ section .main-container {
 
     .marquee-section {
       height: 43px;
+
+      .marquee2 {
+        right: 0;
+      }
 
       span {
         padding-top: 5px;
@@ -1786,8 +1790,6 @@ section .main-container {
       height: 100%;
 
       .box-how-works {
-        // margin-top: 60px;
-        // margin-bottom: 60px;
         padding: 60px 16px 60px 16px;
 
         #main-content {
@@ -2021,7 +2023,7 @@ section .main-container {
           }
 
           .box-number {
-            padding-left: 16px;
+            padding: 0 14px;
             font-size: 20px;
             width: 53px;
           }
