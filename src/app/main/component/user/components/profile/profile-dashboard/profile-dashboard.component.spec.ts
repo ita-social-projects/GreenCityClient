@@ -56,6 +56,8 @@ describe('ProfileDashboardComponent', () => {
           {
             coordinates: {
               addressEn: 'first',
+              cityUa: 'city',
+              cityEn: 'cityEn',
               addressUa: 'second',
               latitude: 1,
               longitude: 1

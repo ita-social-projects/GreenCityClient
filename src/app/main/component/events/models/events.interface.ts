@@ -18,6 +18,8 @@ export interface Dates {
   startDate: string;
   finishDate: string;
   coordinates?: {
+    cityUa?: 'cityUa';
+    cityEn?: 'cityEn';
     addressEn?: string;
     addressUa?: string;
     latitude: number;
