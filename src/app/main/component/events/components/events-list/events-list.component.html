@@ -25,11 +25,15 @@
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
           <mat-select #timeFilter [formControl]="timeFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(timeList)">
+            <mat-option [value]="0" (click)="toggleAllSelection(timeList, 'timeList')">
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="eventTime" *ngFor="let eventTime of eventTimeList">
+            <mat-option
+              [value]="eventTime"
+              *ngFor="let eventTime of eventTimeList"
+              (onSelectionChange)="updateSelectedFilters(eventTime, $event)"
+            >
               {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
             </mat-option>
           </mat-select>
@@ -37,11 +41,15 @@
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(locationList)">{{
+            <mat-option [value]="0" (click)="toggleAllSelection(locationList, 'locationList')">{{
               'homepage.events.filter-location-аny-location' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="location" *ngFor="let location of eventLocationList">
+            <mat-option
+              [value]="location"
+              *ngFor="let location of eventLocationList"
+              (onSelectionChange)="updateSelectedFilters(location, $event)"
+            >
               {{ getLangValue(location.nameUa, location.nameEn) }}
             </mat-option>
           </mat-select>
@@ -49,11 +57,11 @@
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
           <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(statusesList)">{{
+            <mat-option [value]="0" (click)="toggleAllSelection(statusesList, 'statusList')">{{
               'homepage.events.filter-status-аny-status' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="status" *ngFor="let status of statusList">
+            <mat-option [value]="status" *ngFor="let status of statusList" (onSelectionChange)="updateSelectedFilters(status, $event)">
               {{ getLangValue(status.nameUa, status.nameEn) }}
             </mat-option>
           </mat-select>
@@ -61,9 +69,11 @@
         <div class="dropdown">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
           <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(typesList)">{{ 'homepage.events.filter-аny-type' | translate }}</mat-option>
+            <mat-option [value]="0" (click)="toggleAllSelection(typesList, 'typeList')">{{
+              'homepage.events.filter-аny-type' | translate
+            }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option *ngFor="let type of typeList" [value]="type">
+            <mat-option *ngFor="let type of typeList" [value]="type" (onSelectionChange)="updateSelectedFilters(type, $event)">
               <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
             </mat-option>
           </mat-select>
@@ -82,7 +92,7 @@
       <div class="chips">
         <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
           {{ getLangValue(filter.nameUa, filter.nameEn) }}
-          <div class="cross-container" (click)="deleteOneFilter(i)">
+          <div class="cross-container" (click)="deleteOneFilter(filter, i)">
             <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
           </div>
         </div>

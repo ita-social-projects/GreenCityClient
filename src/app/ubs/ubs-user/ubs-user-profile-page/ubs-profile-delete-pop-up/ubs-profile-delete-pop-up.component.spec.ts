@@ -17,6 +17,12 @@ describe('UbsProfileDeletePopUpComponent', () => {
     }
   }
 
+  class MatDialogMock {
+    open() {
+      return {};
+    }
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsProfileDeletePopUpComponent],

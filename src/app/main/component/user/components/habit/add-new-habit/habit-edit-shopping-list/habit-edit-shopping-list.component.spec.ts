@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 

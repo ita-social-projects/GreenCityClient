@@ -38,7 +38,7 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [disabled]="isVisible ? true : null"
+                [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
                 disabled
               />
@@ -50,7 +50,7 @@
                 min="0"
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
-                [disabled]="isOrderCancelled && isOrderPaid ? true : null"
+                [attr.disabled]="isOrderCancelled && isOrderPaid ? true : null"
                 (change)="onQuantityChange('actual', bag.id)"
               />
             </div>

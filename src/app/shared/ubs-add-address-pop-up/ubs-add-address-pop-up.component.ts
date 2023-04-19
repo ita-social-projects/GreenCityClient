@@ -393,6 +393,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
           return throwError(error);
         }
       );
+    this.snackBar.openSnackBar('addedAddress');
   }
 
   public getLangValue(uaValue, enValue): string {

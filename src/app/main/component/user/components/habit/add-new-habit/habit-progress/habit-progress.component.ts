@@ -2,9 +2,9 @@ import { DatePipe } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitMark } from '@global-user/models/HabitMark.enum';
+import { HabitMark } from '@global-user/components/habit/models/HabitMark.enum';
 import { take } from 'rxjs/operators';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { HabitAssignInterface } from '../../models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-habit-progress',
@@ -69,7 +69,7 @@ export class HabitProgressComponent implements OnChanges {
     this.habitAssignService
       .enrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe((response: any) => {
+      .subscribe((response: HabitAssignInterface) => {
         if (response.status === HabitStatus.ACQUIRED) {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);

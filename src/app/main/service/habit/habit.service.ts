@@ -5,11 +5,12 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-import { HabitInterface, HabitListInterface } from '../../interface/habit/habit.interface';
-import { ShoppingList } from '../../component/user/models/shoppinglist.model';
+
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
-import { CustomHabitInterface } from '../../interface/habit/custom-habit.interface';
+import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
+import { CustomHabitInterface } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -40,9 +41,10 @@ export class HabitService {
     return this.http.get<Array<TagInterface>>(`${this.backEnd}tags/v2/search?type=${this.tagsType}`);
   }
 
-  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, sort: string = 'asc'): Observable<HabitListInterface> {
+  getHabitsByTagAndLang(page: number, size: number, tags: Array<string>, language: string): Observable<HabitListInterface> {
+    const sort = 'asc';
     return this.http.get<HabitListInterface>(
-      `${habitLink}/tags/search?lang=${this.language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
+      `${habitLink}/tags/search?lang=${language}&page=${page}&size=${size}&sort=${sort}&tags=${tags}`
     );
   }
 
@@ -59,7 +61,7 @@ export class HabitService {
       complexity: habit.complexity,
       defaultDuration: habit.duration,
       image: habit.image,
-      tags: habit.tags,
+      tagIds: habit.tagIds,
       customShoppingListItemDto: habit.shopList
     };
     return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);

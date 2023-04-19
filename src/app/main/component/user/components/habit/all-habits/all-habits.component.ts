@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitService } from '@global-service/habit/habit.service';
-import { HabitInterface, HabitListInterface } from '../../../../../interface/habit/habit.interface';
+import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { singleNewsImages } from '../../../../../image-pathes/single-news-images';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { Router } from '@angular/router';
 
@@ -78,7 +78,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   private getHabitsByTags(page: number, size: number, tags: string[]): void {
     this.habitService
-      .getHabitsByTagAndLang(page, size, tags)
+      .getHabitsByTagAndLang(page, size, tags, this.lang)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);

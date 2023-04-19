@@ -41,8 +41,15 @@ describe('HabitsPopupComponent', () => {
     isHabitListEditable: true,
     habits: mockPopupHabits
   };
-  const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
+
+  const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit', 'mapOfArrayOfAllDate', 'habitDate']);
   habitAssignServiceMock.assignHabit = () => new Observable();
+  habitAssignServiceMock.habitDate = new Date('2023-04-11');
+  habitAssignServiceMock.habitDate.getDate = () => 11;
+  habitAssignServiceMock.mapOfArrayOfAllDate.has = () => true;
+  habitAssignServiceMock.mapOfArrayOfAllDate.get = () => ['Tue Apr 11 2023 12:00:00 GMT+0300 (за східноєвропейським літнім часом)'];
+  habitAssignServiceMock.mapOfArrayOfAllDate.set = () => '';
+
   const dialogRefMock = jasmine.createSpyObj('dialogRef', ['close', 'beforeClosed']);
   dialogRefMock.beforeClosed.and.returnValue(of(true));
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
@@ -68,6 +75,8 @@ describe('HabitsPopupComponent', () => {
     fixture = TestBed.createComponent(HabitsPopupComponent);
     component = fixture.componentInstance;
     component.data = mockData;
+    component.currentDate = new Date('2023-11-04');
+    component.currentDate.getDate = () => 11;
     fixture.detectChanges();
   });
 

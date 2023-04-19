@@ -22,7 +22,8 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   orderNotTakenOutReason: INotTakenOutReason;
   cancellationReason: string;
   cancellationComment: string;
-  coloredStatus = ordersStatuses.NotTakenOutUA && ordersStatuses.CancelUA;
+  statusNotTakenOut = ordersStatuses.NotTakenOutUA;
+  statusCancel = ordersStatuses.CancelUA;
 
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
