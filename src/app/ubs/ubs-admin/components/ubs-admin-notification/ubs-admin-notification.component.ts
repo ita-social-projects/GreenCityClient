@@ -167,7 +167,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         }
 
         this.notificationsService
-          .changeStatusOfNotificationTemplate(this.notificationId, 'INACTIVATE')
+          .changeStatusOfNotificationTemplate(this.notificationId, 'INACTIVE')
           .pipe(takeUntil(this.destroy))
           .subscribe();
         this.navigateToNotificationList();
@@ -190,9 +190,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         }
 
         this.notificationsService
-          .changeStatusOfNotificationTemplate(this.notificationId, 'ACTIVATE')
+          .changeStatusOfNotificationTemplate(this.notificationId, 'ACTIVE')
           .pipe(takeUntil(this.destroy))
           .subscribe();
+        this.notification.notificationTemplateMainInfoDto.notificationStatus = 'ACTIVE';
       });
   }
 
