@@ -41,7 +41,7 @@ describe('UbsAdminNotificationComponent', () => {
       return of(NotificationMock);
     },
     updateNotificationTemplate: () => {},
-    deactivateNotificationTemplate: jasmine.createSpy('deactivateNotificationTemplate')
+    changeStatusOfNotificationTemplate: jasmine.createSpy('changeStatusOfNotificationTemplate')
   };
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
