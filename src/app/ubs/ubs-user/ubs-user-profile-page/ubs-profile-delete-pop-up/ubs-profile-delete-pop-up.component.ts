@@ -9,6 +9,6 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 export class UbsProfileDeletePopUpComponent {
   isAddressDelete: boolean;
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.isAddressDelete = this.data.isAddressDelete;
+    this.isAddressDelete = this.data.defineButton;
   }
 }

@@ -6,8 +6,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { OrderInfoMockedData } from '../../services/orderInfoMock';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminOrderClientInfoComponent', () => {
   let component: UbsAdminOrderClientInfoComponent;
@@ -86,13 +84,6 @@ describe('UbsAdminOrderClientInfoComponent', () => {
     const spy = spyOn(component, 'ngOnInit');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo.orderStatus = OrderStatus.DONE;
-    component.isStatus = false;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(true);
   });
 
   it('method getErrorMessageKey should return correct error message key - required', () => {

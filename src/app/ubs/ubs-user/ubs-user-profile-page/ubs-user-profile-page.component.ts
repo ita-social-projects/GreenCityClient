@@ -530,23 +530,25 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openDeleteDialog(isAddressDelete = false): void {
+    let isButtonDelete = false;
     if (isAddressDelete) {
+      isButtonDelete = true;
       const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
         hasBackdrop: true,
         data: {
-          isAddressDelete: true
+          defineButton: isButtonDelete
         }
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          this.deleteAddress(isAddressDelete);
+          this.deleteAddress(isButtonDelete);
         }
       });
     } else {
       this.dialog.open(UbsProfileDeletePopUpComponent, {
         hasBackdrop: true,
         data: {
-          isAddressDelete: false
+          defineButton: isButtonDelete
         }
       });
     }
