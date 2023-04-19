@@ -14,7 +14,7 @@
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
               (change)="setRegionValue($event)"
               class="form-control shadow-none placeholder-positioning"
-              placeholder="Region"
+              placeholder="'address-details.region' | translate"
               id="region"
             >
               <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
@@ -29,7 +29,7 @@
               class="form-control"
               [readonly]="isStatus"
               id="city"
-              placeholder="City"
+              placeholder="{{ 'address-details.city' | translate }}"
               matInput
               [matAutocomplete]="autoCity"
             />
@@ -59,7 +59,7 @@
               (keyup)="setPredictStreets()"
               type="text"
               class="form-control"
-              placeholder="Street"
+              placeholder="{{ 'address-details.street' | translate }}"
               [readonly]="isStatus"
               id="street"
               [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
@@ -90,7 +90,7 @@
                 [readonly]="isStatus"
                 id="house"
                 formControlName="addressHouseNumber"
-                placeholder="House"
+                placeholder="{{ 'address-details.house' | translate }}"
               />
               <div class="validation" *ngIf="addressHouseNumber.invalid && addressHouseNumber.touched">
                 <app-ubs-input-error [formElement]="addressHouseNumber"></app-ubs-input-error>
@@ -104,7 +104,7 @@
                 [readonly]="isStatus"
                 id="building"
                 formControlName="addressHouseCorpus"
-                placeholder="Building"
+                placeholder="{{ 'address-details.building' | translate }}"
               />
               <div class="validation" *ngIf="addressHouseCorpus.invalid && addressHouseCorpus.touched">
                 <app-ubs-input-error [formElement]="addressHouseCorpus"></app-ubs-input-error>
@@ -118,7 +118,7 @@
                 class="form-control"
                 [readonly]="isStatus"
                 id="entrance"
-                placeholder="Entrance"
+                placeholder="{{ 'address-details.entrance' | translate }}"
               />
               <div class="validation" *ngIf="addressEntranceNumber.invalid && addressEntranceNumber.touched">
                 <app-ubs-input-error [formElement]="addressEntranceNumber"></app-ubs-input-error>
@@ -134,7 +134,7 @@
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             (change)="onDistrictSelected($event)"
-            placeholder="District"
+            placeholder="'address-details.district' | translate"
           >
             <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
           </select>

@@ -44,7 +44,6 @@ export class FriendItemComponent implements OnInit {
   }
 
   public friendEvent(id: number): void {
-    console.log(id, 'friend item');
     this.friendEventEmit.emit(id);
   }
 
