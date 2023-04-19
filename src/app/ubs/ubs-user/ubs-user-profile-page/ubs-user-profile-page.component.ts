@@ -63,7 +63,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private googleScript: GoogleScript,
     public orderService: OrderService,
     private convertCapLetterServ: ToFirstCapitalLetterService,
-    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>
+    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
     private locationService: LocationService
   ) {}
 
