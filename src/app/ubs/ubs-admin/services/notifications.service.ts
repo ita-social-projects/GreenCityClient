@@ -113,6 +113,6 @@ export class NotificationsService {
   }
 
   deactivateNotificationTemplate(id: number, status: string) {
-    return this.http.put(`${ubsAdminNotificationLink}/deactivate-template/${id}?status=${status}`, null);
+    return this.http.put(`${ubsAdminNotificationLink}/change-template-status/${id}?status=${status}`, null);
   }
 }
