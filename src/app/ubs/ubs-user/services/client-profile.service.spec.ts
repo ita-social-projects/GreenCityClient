@@ -30,7 +30,8 @@ describe('ClientProfileService', () => {
         street: 'вулиця Шота Руставелі',
         streetEn: 'вулиця Шота Руставелі',
         coordinates: null,
-        actual: false
+        actual: false,
+        placeId: '2tyR4'
       }
     ]
   };

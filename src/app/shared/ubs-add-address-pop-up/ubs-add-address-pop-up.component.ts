@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,14 +11,14 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
   templateUrl: './ubs-add-address-pop-up.component.html',
   styleUrls: ['./ubs-add-address-pop-up.component.scss']
 })
-export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   autocompleteService: google.maps.places.AutocompleteService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
   cityPredictionList: google.maps.places.AutocompletePrediction[];
@@ -38,6 +38,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   bigRegions: Region[];
   regionsKyiv: Location[];
   regions: Location[];
+  placeId: string;
 
   languages = {
     en: 'en',
@@ -63,7 +64,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
     private langService: LanguageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript,
-    private convertCapLetterServ: ToFirstCapitalLetterService
+    private locationService: LocationService
   ) {}
 
   get region() {
@@ -153,6 +154,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
         latitude: this.data.edit ? this.data.address.coordinates.latitude : '',
         longitude: this.data.edit ? this.data.address.coordinates.longitude : ''
       },
+      placeId: null,
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
@@ -290,6 +292,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
       if (lang === this.languages.en) {
         this.formattedAddress = placeDetails.formatted_address;
+        this.setPlaceId();
       }
       if (lang === this.languages.en && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.districtEn, lang);
@@ -324,11 +327,21 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   }
 
   setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
-    const searchItem = language === this.languages.en ? 'district' : 'район';
-    const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
-    if (getDistrict) {
-      const currentDistrict = this.convertCapLetterServ.convFirstLetterToCapital(getDistrict.long_name);
-      abstractControl.setValue(currentDistrict);
+    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    abstractControl.setValue(currentDistrict);
+    abstractControl.markAsDirty();
+  }
+
+  setPlaceId(): void {
+    if (this.formattedAddress && this.houseNumber.value) {
+      const addressConverted = this.locationService.addHouseNumToAddress(this.formattedAddress, this.houseNumber.value);
+      this.addAddressForm.get('searchAddress').setValue(addressConverted);
+      const request = {
+        query: addressConverted
+      };
+      this.placeService.textSearch(request, (address) => {
+        this.placeId = address[0].place_id;
+      });
     }
   }
 
@@ -350,13 +363,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
   }
 
   addAdress(): void {
-    const searchAddress = this.formattedAddress ? [...this.formattedAddress.split(',')] : null;
-    if (searchAddress) {
-      searchAddress.splice(1, 0, ' ' + this.houseNumber.value);
-    }
-    this.addAddressForm.value.searchAddress = searchAddress?.join(',');
     this.addAddressForm.value.region = this.region.value;
     this.addAddressForm.value.regionEn = this.regionEn.value;
+    this.addAddressForm.value.placeId = this.placeId;
     this.isDisabled = true;
 
     const addressData = {
@@ -368,7 +377,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
       houseNumber: this.houseNumber.value,
       regionEn: this.addAddressForm.value.regionEn,
       region: this.addAddressForm.value.region,
-      searchAddress: this.addAddressForm.value.searchAddress
+      searchAddress: this.addAddressForm.value.searchAddress,
+      placeId: this.placeId
     };
 
     of(true)
@@ -398,10 +408,5 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy, AfterView
 
   public getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.unsubscribe();
   }
 }
