@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { LocationService } from '@global-service/location/location.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -289,8 +290,9 @@ describe('UbsAdminAddressDetailsComponent', () => {
     return valUa;
   };
 
-  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
-  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue(streetPlaceResultUk.address_components[1].long_name);
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
+  fakeLocationServiceMock.getDistrictAuto = () => streetPlaceResultUk.address_components[1].long_name;
+  fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -300,7 +302,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
+        { provide: LocationService, useValue: fakeLocationServiceMock }
       ]
     }).compileComponents();
   }));

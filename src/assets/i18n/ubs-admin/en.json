@@ -360,7 +360,7 @@
     "filter": "Filter",
     "table-view": "Table view",
     "filters": "Filters",
-    "placeholder": "Search"
+    "placeholder": "Search by name or contacts"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -487,25 +487,25 @@
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
-    "warning-title": "Are you sure you want to deactivate this employee?",
+    "warning-title": "Are you sure you want to delete this employee?",
     "settings": "Set permissions",
     "edit": "Edit",
     "permissions": {
       "clients": {
         "title": "Clients",
-        "see-main-page": "See the main page of the Client"
+        "see-main-page": "See the main page of the “Client”"
       },
       "employees": {
         "title": "Employees",
-        "see-main-page": "See the main page of the Employee",
+        "see-main-page": "See the main page of the “Employee”",
         "create-card": "Create a new employee card",
-        "edit-card": "Edit employee card",
+        "edit-card": "Edit an employee card",
         "delete-card": "Deactivate an employee",
         "edit-authority": "Edit an employee's authority"
       },
       "certificates": {
         "title": "Certificates",
-        "see-main-page": "See the main page of Certificates",
+        "see-main-page": "See the main page of “Certificates”",
         "create-card": "Create a new certificate",
         "edit-card": "Edit a certificate"
       },
@@ -515,25 +515,28 @@
         "edit-card": "Edit order card"
       },
       "messages": {
-        "title": "Messages",
-        "see-main-page": "See the main page of Messages",
-        "create-card": "Create a new message card",
-        "edit-card": "Edit message card",
-        "delete-card": "Delete message card"
+        "title": "Notification",
+        "see-main-page": "See the main page “Notifications”",
+        "create-card": "Create a new notification card",
+        "edit-card": "Edit a notification card",
+        "delete-card": "Delete a notification card"
       },
       "tariffs": {
         "title": "Tariffs",
-        "see-main-page": "See the main page of Tariffs",
-        "create-location": "Create location",
+        "see-main-page": "See the main page “Tariffs”",
+        "create-location": "Create a location",
         "create-courier": "Create a courier",
-        "edit-location-name": "Edit location name",
-        "edit-courier-name": "Edit courier name",
-        "edit-destination-name": "Edit destination name",
+        "create-station": "Create a receiving station",
+        "edit-location-name": "Edit the location name",
+        "edit-courier-name": "Edit the courier name",
+        "edit-destination-name": "Edit the receiving station name",
         "create-location-card": "Create a location map",
-        "delete-location-card": "Delete location card",
-        "see-price-card": "See the price card",
-        "edit-service": "Add/Edit/Delete service",
-        "edit-price-card": "Edit/Delete price card"
+        "delete-location-card": "Edit/Delete the location card",
+        "see-price-card": "See the pricing card",
+        "edit-delete-price-card": "Edit/Delete the pricing card",
+        "deactivate-price-card": "Deactivate the pricing card",
+        "edit-service": "Add/Edit/Delete a service",
+        "edit-price-card": "Edit/Delete the pricing card"
       }
     },
     "tooltip": {
@@ -543,14 +546,14 @@
     "actions": {
       "edit": "Edit employee data",
       "settings": "Set employee permissions",
-      "delete": "Deactivate employee"
+      "delete": "Delete employee"
     },
     "btn": {
       "cancel": "Cancel",
       "add": "Add",
       "add-employee": "Add employee",
       "edit": "Edit",
-      "delete": "Deactivate",
+      "delete": "Delete",
       "no": "No",
       "yes": "Yes"
     }
@@ -573,7 +576,7 @@
     "name": "First name*",
     "surname": "Last name*",
     "phone-number": "Phone number*",
-    "email": "Email",
+    "email": "Email*",
     "position": "Position*",
     "receiving-station": "Receiving station*",
     "image-input": "Image",
@@ -583,9 +586,10 @@
     "browse-2": "your device",
     "delete": "Remove",
     "add": "Add",
-    "apply": "Apply",
+    "apply": "Save",
     "cancel": "Cancel",
     "update": "Save",
+    "filter-reset-all": "Reset all",
     "image-error": "The supported formats of the photo are PNG and JPG. Max size is 10MB",
     "tariffs": "Tariffs",
     "tariffs-columns": {
@@ -906,6 +910,8 @@
   },
   "input-error": {
     "required": "This field is required",
+    "email-required-employee": "Please enter Email",
+    "phone-required-employee": "Please enter phone number",
     "email-wrong": "Please enter the correct email",
     "number-wrong": "Enter the correct phone number",
     "name-wrong": "Only letters, numbers and hyphen, space, apostrophe are allowed",
@@ -936,28 +942,16 @@
       "trigger-placeholder": "Select trigger",
       "status-placeholder": "Select status"
     },
-    "columns": {
+    "columns-notification-list": {
       "topic": "Notification topic",
       "trigger": "Trigger",
       "time": "Time",
       "period": "Repeat",
       "status": "Status"
     },
-    "triggers": {
-      "ORDER_NOT_PAID_FOR_3_DAYS": "The order is not paid 3 days after order was formed",
-      "PAYMENT_SYSTEM_RESPONSE": "The system gets an answer from the payment system",
-      "ORDER_ADDED_TO_ITINERARY_STATUS_CONFIRMED": "The manager includes the order in the itinerary and changes order status to \"Confirmed\"",
-      "STATUS_PARTIALLY_PAID": "Payment status changes to \"Partially paid\"",
-      "OVERPAYMENT_WHEN_STATUS_DONE": "If the order has overpayment after changing order status to \"Done\"",
-      "ORDER_VIOLATION_ADDED": "Manager adds violation to order.",
-      "ORDER_VIOLATION_CANCELED": "Manager canceled the violation order status",
-      "ORDER_VIOLATION_CHANGED": "Manager changed the violation in the order",
-      "2_MONTHS_AFTER_LAST_ORDER": "2 months after last order"
-    },
-    "time": {
-      "6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID": "System checks BD at 18.00 daily and sends messages in case the order was formed 3 days ago and wasn’t paid by the client.",
-      "IMMEDIATELY": "Immediately",
-      "2_MONTHS_AFTER_LAST_ORDER": "System checks BD daily and sends messages in case the order was made 2 months ago"
+    "columns-notification": {
+      "platform": "Platform",
+      "text": "Text"
     },
     "filters-statuses": {
       "ALL": "All",
@@ -984,6 +978,7 @@
       },
       "placeholders": {
         "title": "Enter topic",
+        "time": "Time of activation",
         "trigger": "Select trigger",
         "schedule": "Select schedule"
       },
@@ -1011,6 +1006,14 @@
       "buttons": {
         "cancel": "Cancel",
         "confirm": "Deactivate"
+      }
+    },
+    "activation-popup": {
+      "title": "Activate notification",
+      "text": "Are you sure you want to activate notification?",
+      "buttons": {
+        "cancel": "Cancel",
+        "confirm": "Activate"
       }
     }
   },

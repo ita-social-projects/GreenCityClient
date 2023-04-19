@@ -75,6 +75,8 @@ export interface TariffForEmployee {
   region: TariffForEmployeeItem;
   location: TariffForEmployeeItem[];
   courier: TariffForEmployeeItem;
+  selected?: boolean;
+  locations: any[];
 }
 export interface TariffForEmployeeItem {
   en: string;
@@ -330,6 +332,8 @@ export interface Address {
   houseNumber: string;
   isKyiv?: boolean;
   id: number;
+  placeId: string;
+  searchAddress?: string;
   street: string;
   streetEn: string;
 }
