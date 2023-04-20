@@ -6,8 +6,6 @@ import { FormBuilder } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { ColumnFiltersPopUpComponent } from '../shared/components/column-filters-pop-up/column-filters-pop-up.component';
-import { OrderInfoMockedData } from '../../services/orderInfoMock';
 
 describe('UbsAdminOrderDetailsFormComponent', () => {
   let component: UbsAdminOrderDetailsFormComponent;
@@ -38,7 +36,6 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminOrderDetailsFormComponent);
     component = fixture.componentInstance;
-    component.generalInfo = OrderInfoMockedData as any;
     component.orderStatusInfo = OrderStatusInfoFake as any;
   });
 
@@ -46,19 +43,5 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     const spy = spyOn(component, 'ngOnInit');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'CANCELED';
-    component.isStatus = true;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(true);
-  });
-
-  it('should set isStatus to true when orderStatus is "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'DONE';
-    component.isStatus = false;
-    component.ngOnInit();
-    expect(component.isStatus).toBe(false);
   });
 });

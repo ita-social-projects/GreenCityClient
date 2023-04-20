@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { UbsAdminOrderClientInfoComponent } from './ubs-admin-order-client-info.component';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 

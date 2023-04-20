@@ -1,4 +1,5 @@
-import { IOrderInfo, IEmployee, IGeneralOrderInfo } from '../models/ubs-admin.interface';
+import { OrderStatus, PaymnetStatus } from '../../order-status.enum';
+import { IOrderInfo, IEmployee } from '../models/ubs-admin.interface';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
@@ -12,57 +13,57 @@ export const OrderInfoMockedData: IOrderInfo = {
     id: 1,
     dateFormed: '2022-02-08T15:21:44.85458',
     adminComment: null,
-    orderStatus: 'FORMED',
+    orderStatus: OrderStatus.FORMED,
     orderStatusName: 'Сформовано',
     orderStatusNameEng: 'Formed',
     orderStatusesDtos: [
       {
         ableActualChange: false,
-        key: 'FORMED',
+        key: OrderStatus.FORMED,
         translation: 'Сформовано'
       },
       {
         ableActualChange: false,
-        key: 'ADJUSTMENT',
+        key: OrderStatus.ADJUSTMENT,
         translation: 'Узгодження'
       },
       {
         ableActualChange: false,
-        key: 'BROUGHT_IT_HIMSELF',
+        key: OrderStatus.BROUGHT_IT_HIMSELF,
         translation: 'Привезе сам'
       },
       {
         ableActualChange: false,
-        key: 'CONFIRMED',
+        key: OrderStatus.CONFIRMED,
         translation: 'Підтверджено'
       },
       {
         ableActualChange: false,
-        key: 'ON_THE_ROUTE',
+        key: OrderStatus.ON_THE_ROUTE,
         translation: 'На маршруті'
       },
       {
         ableActualChange: true,
-        key: 'DONE',
+        key: OrderStatus.DONE,
         translation: 'Виконано'
       },
       {
         ableActualChange: false,
-        key: 'NOT_TAKEN_OUT',
+        key: OrderStatus.NOT_TAKEN_OUT,
         translation: 'Не вивезли'
       },
       {
         ableActualChange: true,
-        key: 'CANCELED',
+        key: OrderStatus.CANCELED,
         translation: 'Скасовано'
       }
     ],
-    orderPaymentStatus: 'PAID',
+    orderPaymentStatus: PaymnetStatus.PAID,
     orderPaymentStatusName: 'Оплачено',
     orderPaymentStatusNameEng: 'Paid',
     orderPaymentStatusesDto: [
       {
-        key: 'PAID',
+        key: PaymnetStatus.PAID,
         translation: 'Оплачено'
       }
     ]
@@ -153,4 +154,16 @@ export const OrderInfoMockedData: IOrderInfo = {
     currentPositionEmployees: new Map(),
     orderId: 1
   }
+};
+
+export const GeneralInfoMock = {
+  orderStatus: OrderStatus.DONE,
+  adminComment: 'Admin',
+  orderPaymentStatus: PaymnetStatus.PAID,
+  orderStatusesDtos: [
+    { ableActualChange: false, key: OrderStatus.DONE, translation: 'Formed' },
+    { ableActualChange: false, key: OrderStatus.ADJUSTMENT, translation: 'Adjustment' },
+    { ableActualChange: false, key: OrderStatus.BROUGHT_IT_HIMSELF, translation: 'Brought by himself' },
+    { ableActualChange: true, key: OrderStatus.CANCELED, translation: 'Canceled' }
+  ]
 };
