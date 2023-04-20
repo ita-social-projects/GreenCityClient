@@ -79,6 +79,7 @@
         type="text"
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
+        (change)="setPlaceId()"
       />
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
         <app-ubs-input-error [formElement]="houseNumber"></app-ubs-input-error>

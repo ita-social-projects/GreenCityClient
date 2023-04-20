@@ -143,6 +143,7 @@ export interface Address {
     longitude?: number;
   };
   display?: boolean;
+  placeId?: string;
 }
 
 export interface AddressData {
@@ -155,6 +156,7 @@ export interface AddressData {
   regionEn: string;
   region: string;
   searchAddress: string;
+  placeId: string;
 }
 
 export interface Locations {

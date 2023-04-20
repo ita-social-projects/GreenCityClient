@@ -17,7 +17,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -37,7 +37,9 @@ describe('UbsUserProfilePageComponent', () => {
         coordinates: { latitude: 0, longitude: 0 },
         isKyiv: false,
         street: 'Jhohn Lenon',
-        streetEn: 'Jhohn Lenon'
+        streetEn: 'Jhohn Lenon',
+        placeId: null,
+        searchAddress: null
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -338,8 +340,14 @@ describe('UbsUserProfilePageComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
-  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
-  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue('Troeshchina');
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
+    'getDistrictAuto',
+    'addHouseNumToAddress',
+    'convFirstLetterToCapital'
+  ]);
+  fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
+  fakeLocationServiceMock.addHouseNumToAddress = () => '';
+  fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -352,7 +360,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
+        { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -981,7 +989,7 @@ describe('UbsUserProfilePageComponent', () => {
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(true);
     const spy = spyOn(component, 'setDistrictAuto');
-    component.placeService = { getDetails: () => {} } as any;
+    component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn, status as any);
     });
@@ -1010,7 +1018,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
-    const result = userProfileDataMock.addressDto[0].districtEn;
+    const result = streetPlaceResultEn.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
     expect(district.value).toEqual(result);
   });
@@ -1018,7 +1026,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in en', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const districtEn = currentFormGroup.get('districtEn');
-    const result = userProfileDataMock.addressDto[0].districtEn;
+    const result = `Holosiivs'kyi district`;
     component.setDistrictAuto(streetPlaceResultEn, districtEn, component.languages.en);
     expect(districtEn.value).toEqual(result);
   });
