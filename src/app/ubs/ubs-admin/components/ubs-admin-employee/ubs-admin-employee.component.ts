@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
@@ -25,7 +25,7 @@ import { selectOptions, filterOptions, filtersPlaceholderOptions } from './ubs-a
   templateUrl: './ubs-admin-employee.component.html',
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
-export class UbsAdminEmployeeComponent implements OnInit {
+export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   @Input() locationCard: Locations;
 
   employeePositions: EmployeePositions[];
