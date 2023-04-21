@@ -773,8 +773,7 @@
       "placeholder-service": "Enter a name for the service",
       "service_description": "Service description",
       "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision"
-    },
-    "name-error": "Поле має містити від 1 до 30 символів"
+    }
   },
   "modal-text": {
     "cancel": "Скасувати",
