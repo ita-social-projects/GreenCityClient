@@ -17,6 +17,9 @@
           id="name"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
         />
+        <span class="validation" *ngIf="addServiceForm.controls['name'].errors">{{
+          'ubs-tariffs-add-service.name-error' | translate
+        }}</span>
       </div>
       <div class="form-group">
         <label for="nameEng">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
@@ -27,6 +30,9 @@
           id="nameEng"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
         />
+        <span class="validation" *ngIf="addServiceForm.controls['nameEng'].errors">{{
+          'ubs-tariffs-add-service.name-error' | translate
+        }}</span>
       </div>
     </div>
     <div class="basic-cost-input form-group">

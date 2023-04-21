@@ -778,7 +778,8 @@
       "placeholder-service": "Введіть назву послуги",
       "service_description": "Опис послуги",
       "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання"
-    }
+    },
+    "name-error": "The field must contain between 1 and 30 characters"
   },
   "modal-text": {
     "cancel": "Cancel",
