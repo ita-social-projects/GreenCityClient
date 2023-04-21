@@ -18,26 +18,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
-
-enum selectOptions {
-  all = 'all'
-}
-
-enum filterOptions {
-  city = 'city',
-  courier = 'courier',
-  position = 'position',
-  region = 'region',
-  contact = 'contact'
-}
-
-enum filtersPlaceholderOptions {
-  city = 'employees.city',
-  courier = 'employees.courier',
-  position = 'employees.position',
-  region = 'employees.region',
-  contact = 'employees.contact'
-}
+import { selectOptions, filterOptions, filtersPlaceholderOptions } from './ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -71,7 +52,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   cards = [];
   cardsUk = [];
   cardsEn = [];
-  filterData = { status: '' };
+  filterData = {};
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
@@ -134,6 +115,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
     this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
+    this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))
@@ -269,7 +251,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       });
   }
 
-  public setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder): void {
+  public setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder: string): void {
     if (selectedFilter.length) {
       this.translate.get('ubs-tariffs.selected').subscribe((data) => (this[placeholder] = `${selectedFilter.length} ${data}`));
     } else {
@@ -315,6 +297,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       Object.assign(this.filterData, { position: positionId });
     }
     this.position.setValue('');
+    this.getExistingCard(this.filterData);
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -332,6 +315,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       const courierId = this.selectedCouriers.map((it) => it.id);
       Object.assign(this.filterData, { courier: courierId });
     }
+    this.getExistingCard(this.filterData);
     this.courier.setValue('');
     if (trigger) {
       requestAnimationFrame(() => {
@@ -453,6 +437,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
     Object.assign(this.filterData, { region: '', location: locationsId });
+    this.getExistingCard(this.filterData);
   }
 
   public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -461,12 +446,13 @@ export class UbsAdminEmployeeComponent implements OnInit {
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
       Object.assign(this.filterData, { location: locationsId });
     } else {
-      this.selectCitsy(event);
+      this.selectCity(event);
       const locationId = this.selectedCities.map((it) => it.id);
       Object.assign(this.filterData, { location: locationId });
     }
     this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
     this.city.setValue('');
+    this.getExistingCard(this.filterData);
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -495,7 +481,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
   }
 
-  selectCitsy(event: MatAutocompleteSelectedEvent): void {
+  selectCity(event: MatAutocompleteSelectedEvent): void {
     const selectedLocation = this.locations.find((location) =>
       location.locationsDto.find((locationName) =>
         locationName.locationTranslationDtoList.find((name) => name.locationName === event.option.viewValue)
@@ -567,6 +553,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   contactSelected(event): void {
     this.selectedContact = this.employeesContacts.filter((contact) => contact === event.option.value.toString());
     Object.assign(this.filterData, { contact: this.selectedContact });
+    this.getExistingCard(this.filterData);
   }
 
   regionSelectedSub(value) {
@@ -578,7 +565,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
       Object.assign(this.filterData, { region: '' });
     } else {
       const newValue = value;
-
       const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === newValue));
       this.regionEnglishName = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
@@ -593,6 +579,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       Object.assign(this.filterData, { region: this.regionId });
     }
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
+    this.getExistingCard(this.filterData);
   }
 
   getRegionName(region: Locations): string {
@@ -615,10 +602,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.selectedRegions.push(value.trim());
       }
     }
-  }
-
-  addRegion(value): void {
-    this.selectedRegions.push(value);
   }
 
   getFilterData(tags: Array<string>): void {
@@ -683,5 +666,15 @@ export class UbsAdminEmployeeComponent implements OnInit {
       disableClose: true,
       panelClass: 'admin-cabinet-dialog-container'
     });
+  }
+
+  public getExistingCard(filterData) {
+    this.cardsUk.length = 0;
+    this.cardsEn.length = 0;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }
