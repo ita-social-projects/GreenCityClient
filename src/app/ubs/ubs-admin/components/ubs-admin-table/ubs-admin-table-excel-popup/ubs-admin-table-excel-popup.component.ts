@@ -101,26 +101,26 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
   }
 
-  getColumnValue(columnKey: string, itemKey: string, language: string) {
+  getColumnValue(columnKey: string, itemKey: string) {
     const column = this.dataForTranslation.find((column) => column.titleForSorting === columnKey);
     const item = column.checked.find((item) => item.key === itemKey);
-    return item ? item[language] : itemKey;
+    return item ? item[this.language] : itemKey;
   }
 
   getUpdatedRow(row) {
     return {
       ...row,
-      orderStatus: this.getColumnValue('orderStatus', row.orderStatus, this.language),
-      orderPaymentStatus: this.getColumnValue('orderPaymentStatus', row.orderPaymentStatus, this.language),
+      orderStatus: this.getColumnValue('orderStatus', row.orderStatus),
+      orderPaymentStatus: this.getColumnValue('orderPaymentStatus', row.orderPaymentStatus),
       address: row.address ? row.address[this.language] : row.address,
       city: row.city ? row.city[this.language] : row.city,
       region: row.region ? row.region[this.language] : row.region,
       district: row.district ? row.district[this.language] : row.district,
-      receivingStation: this.getColumnValue('receivingStation', row.receivingStation, this.language),
-      responsibleDriver: this.getColumnValue('responsibleDriver', row.responsibleDriver, this.language),
-      responsibleNavigator: this.getColumnValue('responsibleNavigator', row.responsibleNavigator, this.language),
-      responsibleCaller: this.getColumnValue('responsibleCaller', row.responsibleCaller, this.language),
-      responsibleLogicMan: this.getColumnValue('responsibleLogicMan', row.responsibleLogicMan, this.language)
+      receivingStation: this.getColumnValue('receivingStation', row.receivingStation),
+      responsibleDriver: this.getColumnValue('responsibleDriver', row.responsibleDriver),
+      responsibleNavigator: this.getColumnValue('responsibleNavigator', row.responsibleNavigator),
+      responsibleCaller: this.getColumnValue('responsibleCaller', row.responsibleCaller),
+      responsibleLogicMan: this.getColumnValue('responsibleLogicMan', row.responsibleLogicMan)
     };
   }
 
