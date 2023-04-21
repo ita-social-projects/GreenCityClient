@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
-import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminAddressDetailsComponent', () => {
