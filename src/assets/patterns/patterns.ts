@@ -16,6 +16,7 @@ export const Patterns = {
   serteficatePattern: /(?!0000)\d{4}-(?!0000)\d{4}/,
   ubsCommentPattern: /[\S\s]{0,255}/,
   ordersPattern: /^\d{10}$/,
+  orderEcoStorePattern: /^\d{0,8}$/,
 
   ubsMailPattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 
