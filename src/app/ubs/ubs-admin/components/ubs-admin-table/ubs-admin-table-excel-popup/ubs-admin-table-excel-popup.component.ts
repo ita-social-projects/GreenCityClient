@@ -102,8 +102,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   }
 
   getColumnValue(columnKey: string, itemKey: string) {
-    const column = this.dataForTranslation.find((column) => column.titleForSorting === columnKey);
-    const item = column.checked.find((item) => item.key === itemKey);
+    const column = this.dataForTranslation.find((columnItem) => columnItem.titleForSorting === columnKey);
+    const item = column.checked.find((status) => status.key === itemKey);
     return item ? item[this.language] : itemKey;
   }
 
