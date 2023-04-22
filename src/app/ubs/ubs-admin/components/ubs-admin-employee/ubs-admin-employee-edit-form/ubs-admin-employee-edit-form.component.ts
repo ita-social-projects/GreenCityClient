@@ -148,10 +148,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       if (this.editMode) {
         this.tariffsFromEditForm = this.tariffsFromEditForm.map((editItem) => editItem.id);
         this.filteredTariffs = this.tariffs.map((tariffItem) => {
-          let tariffIsChecked = tariffItem.selected;
           return {
             ...tariffItem,
-            selected: this.tariffsFromEditForm.includes(tariffItem.id) ? (tariffIsChecked = true) : tariffItem.selected
+            selected: this.tariffsFromEditForm.includes(tariffItem.id) ? true : false
           };
         });
       } else {
@@ -201,7 +200,9 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   isTariffListChange(): void {
-    this.isInitialTariffsChanged = !this.isInitialTariffsChanged;
+    if (!this.isInitialTariffsChanged) {
+      this.isInitialTariffsChanged = true;
+    }
   }
 
   doesIncludeRole(role) {
