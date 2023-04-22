@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
+import { filtersPlaceholderOptions } from './ubs-admin-employee-table/employee-models.enum';
 
 describe('UbsAdminEmployeeComponent', () => {
   let component: UbsAdminEmployeeComponent;
@@ -478,6 +479,67 @@ describe('UbsAdminEmployeeComponent', () => {
     const spy = spyOn(component, 'setCountOfCheckedFilters');
     component.resetAllFilters();
     expect(spy).toHaveBeenCalledTimes(5);
+  });
+
+  it('should setCountOfCheckedFilters() set Placeholder name', () => {
+    component.selectedPositions = [];
+    const placeholderName = 'positionsPlaceholder';
+    const filterOption = 'position';
+    const spy = spyOn(component as any, 'positionsPlaceholder');
+    component.setCountOfCheckedFilters(component.selectedPositions, filterOption, placeholderName);
+    expect((component as any).positionsPlaceholder).toBe('position');
+  });
+
+  it('should called setCountOfCheckedFilters() at toggleSelectAllCity', () => {
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllCity();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should called setCountOfCheckedFilters() at toggleSelectAllCourier', () => {
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllCourier();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should called setCountOfCheckedFilters() at toggleSelectAllRegion', () => {
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllRegion();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should called toggleSelectAllCity()', () => {
+    (component as any).toggleSelectAllCity();
+    (component as any).isCityChecked();
+    expect(component.selectedCities.length).toBe(0);
+  });
+
+  it('should called toggleSelectAllRegion()', () => {
+    (component as any).toggleSelectAllRegion();
+    (component as any).isRegionChecked();
+    expect(component.selectedRegions.length).toBe(1);
+  });
+
+  it('should called toggleSelectAllCourier', () => {
+    (component as any).toggleSelectAllCourier();
+    (component as any).isCourierChecked();
+    expect(component.selectedCouriers.length).toBe(1);
+  });
+
+  it('should called toggleSelectAllCity, toggleSelectAllCourier at onSelectCourier, onSelectCity', () => {
+    const eventMock = {
+      option: {
+        value: 'all'
+      }
+    };
+
+    const spy1 = spyOn(component, 'toggleSelectAllCity');
+    (component as any).onSelectCity(eventMock);
+    expect(spy1).toHaveBeenCalled();
+
+    const spy2 = spyOn(component, 'toggleSelectAllCourier');
+    (component as any).onSelectCourier(eventMock);
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should setCountOfCheckedFilters() when resetAllFilters called', () => {

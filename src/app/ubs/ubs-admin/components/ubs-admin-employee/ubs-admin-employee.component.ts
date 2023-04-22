@@ -330,12 +330,11 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       this.employeePositions.forEach((position) => {
         const tempItem = this.transformPositionToSelectedPosition(position);
         this.selectedPositions.push(tempItem);
-        this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
       });
     } else {
       this.selectedPositions.length = 0;
-      this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
     }
+    this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
   }
 
   toggleSelectAllRegion(): void {
