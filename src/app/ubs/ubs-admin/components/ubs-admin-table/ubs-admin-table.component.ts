@@ -889,7 +889,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
     this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
-    // console.log('this.columnsWidthPreference', this.columnsWidthPreference);
   }
 
   setColumnsForFiltering(columns): void {
