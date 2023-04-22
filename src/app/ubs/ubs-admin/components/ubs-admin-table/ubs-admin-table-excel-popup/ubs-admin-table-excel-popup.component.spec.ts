@@ -12,7 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import * as XLSX from 'xlsx';
 
-fdescribe('UbsAdminTableExcelPopupComponent', () => {
+describe('UbsAdminTableExcelPopupComponent', () => {
   let component: UbsAdminTableExcelPopupComponent;
   let fixture: ComponentFixture<UbsAdminTableExcelPopupComponent>;
 
