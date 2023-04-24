@@ -18,6 +18,8 @@ export interface Dates {
   startDate: string;
   finishDate: string;
   coordinates?: {
+    cityUa?: 'cityUa';
+    cityEn?: 'cityEn';
     addressEn?: string;
     addressUa?: string;
     latitude: number;
@@ -97,6 +99,8 @@ export interface TagDto {
 export interface DateEventResponceDto {
   coordinates: {
     addressEn: string;
+    cityEn: string;
+    cityUa: string;
     addressUa: string;
     latitude: number;
     longitude: number;

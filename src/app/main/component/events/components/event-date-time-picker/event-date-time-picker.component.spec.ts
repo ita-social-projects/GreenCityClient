@@ -14,6 +14,8 @@ describe('EventDateTimePickerComponent', () => {
 
   const editDateMock = {
     coordinates: {
+      cityUa: 'cityUa',
+      cityEn: 'cityEn',
       addressEn: 'address',
       addressUa: 'address',
       latitude: null,
