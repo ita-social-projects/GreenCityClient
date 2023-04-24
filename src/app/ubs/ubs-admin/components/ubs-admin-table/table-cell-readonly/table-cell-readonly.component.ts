@@ -32,8 +32,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
 
   showTooltip(event: any, tooltip: any, maxLength: number = 50): void {
     event.stopImmediatePropagation();
-    console.log(event, tooltip);
-    const lengthStr = event.toElement?.innerText.split('').length;
+    const lengthStr = event.target?.innerText.split('').length;
     if (lengthStr > maxLength) {
       tooltip.toggle();
     }
@@ -42,11 +41,11 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   }
 
   calculateTextWidth(event: any, tooltip: any, maxLength: number = 40): void {
-    const textContainerWidth = event.toElement.offsetWidth;
+    const textContainerWidth = event.target.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = this.font;
-    const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
+    const textWidth = Math.round(context.measureText(event.target.innerText).width);
 
     if (textContainerWidth < textWidth || Math.abs(textContainerWidth - textWidth) < maxLength) {
       tooltip.show();

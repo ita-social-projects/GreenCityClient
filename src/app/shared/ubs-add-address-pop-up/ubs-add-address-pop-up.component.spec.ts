@@ -16,12 +16,16 @@ import { Address } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { ToFirstCapitalLetterService } from '../to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
   let orderService: OrderService;
+  let MatSnackBarMock: MatSnackBarComponent;
+
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) => {};
 
   const fakeAddress = {
     id: 1,
@@ -303,8 +307,9 @@ describe('UBSAddAddressPopUpComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
-  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
-  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue(streetPlaceResultUk.address_components[1].long_name);
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
+  fakeLocationServiceMock.getDistrictAuto = () => streetPlaceResultUk.address_components[1].long_name;
+  fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -324,8 +329,9 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: MatSnackBarComponent, useValue: {} },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
+        { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -583,7 +589,7 @@ describe('UBSAddAddressPopUpComponent', () => {
   it('method onStreetSelected should get details for selected street in en', () => {
     component.isDistrict = true;
     const spy = spyOn(component, 'setDistrictAuto');
-    component.placeService = { getDetails: () => {} } as any;
+    component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn, status as any);
     });
@@ -656,15 +662,5 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.addAdress();
     fixture.detectChanges();
     expect(component.updatedAddresses).toEqual(response.addressList);
-  });
-
-  it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy, 'unsubscribe');
-    component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

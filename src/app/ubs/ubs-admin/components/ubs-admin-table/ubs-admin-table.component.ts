@@ -91,7 +91,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   cancellationReason: string;
   cancellationComment: string;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
-  defaultColumnWidth = 200; // In px
+  defaultColumnWidth = 120; // In px
   minColumnWidth = 100;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
@@ -472,6 +472,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;
     dialogRef.componentInstance.sortType = this.sortType;
     dialogRef.componentInstance.search = this.filterValue;
+    dialogRef.componentInstance.dataForTranslation = this.displayedColumnsView;
     dialogRef.componentInstance.name = 'Orders-Table.xlsx';
   }
 
@@ -893,6 +894,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
     this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
+    // console.log('this.columnsWidthPreference', this.columnsWidthPreference);
   }
 
   setColumnsForFiltering(columns): void {
