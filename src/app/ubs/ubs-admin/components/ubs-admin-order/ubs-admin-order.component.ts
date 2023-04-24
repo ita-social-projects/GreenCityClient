@@ -32,7 +32,7 @@ import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-ad
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { OrderStatus } from 'src/app/ubs/order-status.enum';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -163,7 +163,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
+    this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
   }
 
   private setPreviousBagsIfEmpty(status) {

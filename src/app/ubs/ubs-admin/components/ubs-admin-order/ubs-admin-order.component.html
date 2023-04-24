@@ -27,7 +27,8 @@
           [userInfo]="userInfo"
           [orderId]="orderId"
           [orderStatus]="currentOrderStatus"
-        ></app-ubs-admin-order-client-info>
+        >
+        </app-ubs-admin-order-client-info>
         <app-ubs-admin-address-details
           [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
           [addressComment]="orderInfo.addressComment"
@@ -43,9 +44,9 @@
           (changeOverpayment)="changeOverpayment($event)"
           (checkMinOrder)="setMinOrder($event)"
           (changeCurrentPrice)="onChangeCurrentPrice($event)"
-          (changeWriteoffAtStationSum)="onChangeWriteOffStation($event)"
           (changeUbsCourierPrice)="onChangeCourierPrice($event)"
-          (orderStatusChanged)="onCancelReason($event)"
+          (changeWriteoffAtStationSum)="onChangeWriteOffStation($event)"
+          (orderStatusChanged)="onCancelOrder()"
         ></app-ubs-admin-order-details-form>
         <app-ubs-admin-order-payment
           [actualPrice]="currentOrderPrice"

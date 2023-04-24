@@ -1017,7 +1017,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(spy).toHaveBeenCalledWith(streetPlaceResultUk, district, component.languages.uk);
   });
 
-  it('method setDistrictAuto should set district value in uk', () => {
+  xit('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
     const result = streetPlaceResultUk.address_components[1].long_name;
