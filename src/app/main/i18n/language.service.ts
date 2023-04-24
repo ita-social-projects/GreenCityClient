@@ -80,7 +80,7 @@ export class LanguageService {
     this.getUserLangValue()
       .pipe(
         tap((userLanguage) => {
-          if (userLanguage !== null) {
+          if (userLanguage) {
             this.translate.setDefaultLang(this.getLanguageByString(userLanguage));
             this.localStorageService.setCurrentLanguage(this.getLanguageByString(userLanguage));
           }
