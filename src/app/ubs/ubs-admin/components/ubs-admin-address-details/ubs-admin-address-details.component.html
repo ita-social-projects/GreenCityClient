@@ -14,9 +14,9 @@
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
               (change)="setRegionValue($event)"
               class="form-control shadow-none placeholder-positioning"
-              placeholder="'address-details.region' | translate"
               id="region"
             >
+              <option hidden value="" disabled selected>Region</option>
               <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
             </select>
           </div>
@@ -134,8 +134,8 @@
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             (change)="onDistrictSelected($event)"
-            placeholder="'address-details.district' | translate"
           >
+            <option hidden value="" disabled selected>District</option>
             <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
           </select>
           <div
