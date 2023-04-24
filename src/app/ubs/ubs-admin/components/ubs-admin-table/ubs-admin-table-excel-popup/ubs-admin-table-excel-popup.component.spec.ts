@@ -6,7 +6,7 @@ import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-certificate.service';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
-
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
@@ -17,12 +17,31 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   let fixture: ComponentFixture<UbsAdminTableExcelPopupComponent>;
 
   const FormGroupMock = new FormGroup({});
+  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('en');
 
   const AdminTableServiceFake = jasmine.createSpyObj('adminTableService', ['getTable']);
 
   const AdminCertificateServiceFake = jasmine.createSpyObj('adminCertificateService', ['getTable']);
 
   const AdminCustomerServiceFake = jasmine.createSpyObj('adminCustomerService', ['getCustomers']);
+
+  const dataForTranslation = [
+    {
+      titleForSorting: 'column1',
+      checked: [
+        { key: 'item1', en: 'value1', ua: 'valeur1' },
+        { key: 'item2', en: 'value2', ua: 'valeur2' }
+      ]
+    },
+    {
+      titleForSorting: 'column2',
+      checked: [
+        { key: 'item3', en: 'value3', ua: 'valeur3' },
+        { key: 'item4', en: 'value4', ua: 'valeur4' }
+      ]
+    }
+  ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,7 +51,8 @@ describe('UbsAdminTableExcelPopupComponent', () => {
         { provide: FormGroup, useValue: FormGroupMock },
         { provide: AdminTableService, useValue: AdminTableServiceFake },
         { provide: AdminCertificateService, useValue: AdminCertificateServiceFake },
-        { provide: AdminCustomersService, useValue: AdminCustomerServiceFake }
+        { provide: AdminCustomersService, useValue: AdminCustomerServiceFake },
+        { provide: LanguageService, useValue: languageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -41,6 +61,8 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTableExcelPopupComponent);
     component = fixture.componentInstance;
+    // component.language = 'en';
+    component.dataForTranslation = dataForTranslation;
     fixture.detectChanges();
   });
 
@@ -161,5 +183,14 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     expect(spy2).toHaveBeenCalledTimes(1);
     expect(spy3).toHaveBeenCalledTimes(1);
     expect(spy4).toHaveBeenCalledTimes(1);
+  });
+
+  it('should get column value', () => {
+    const columnKey = 'column1';
+    const itemKey = 'item1';
+    const expectedValue = 'value1';
+
+    const result = component.getColumnValue(columnKey, itemKey);
+    expect(result).toEqual(expectedValue);
   });
 });
