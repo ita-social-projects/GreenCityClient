@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
+import { FocusDetectionService } from './focus-detection.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { SwUpdate } from '@angular/service-worker';
 export class AppComponent implements OnInit {
   offline: boolean;
 
-  constructor(private updates: SwUpdate) {
+  constructor(private updates: SwUpdate, private focusDetectionService: FocusDetectionService) {
     updates.available.subscribe((event) => {
       updates.activateUpdate().then(() => document.location.reload());
     });
