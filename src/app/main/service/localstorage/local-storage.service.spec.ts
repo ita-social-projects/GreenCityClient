@@ -14,6 +14,8 @@ describe('LocalStorageService', () => {
     dates: [
       {
         coordinates: {
+          cityUa: 'cityUa',
+          cityEn: 'cityEn',
           addressEn: 'address',
           addressUa: 'адреса',
           latitude: 0,

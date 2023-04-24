@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -426,7 +427,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('should set isStatus to false when orderStatus is not "CANCELED"', () => {
-    component.generalInfo.orderStatus = 'CANCELED';
+    component.generalInfo.orderStatus = OrderStatus.CANCELED;
     component.isStatus = false;
     component.ngOnInit();
     expect(component.isStatus).toBe(true);

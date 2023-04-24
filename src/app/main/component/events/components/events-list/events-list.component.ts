@@ -7,15 +7,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import {
-  TagsArray,
-  eventTimeList,
-  eventStatusList,
-  tempLocationList,
-  OptionItem,
-  allSelectedFlags,
-  AllSelectedFlags
-} from '../../models/event-consts';
+import { TagsArray, eventTimeList, eventStatusList, OptionItem, allSelectedFlags, AllSelectedFlags } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -51,14 +43,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
-  public selectedFilters = []; // test data,should be deleted when back-end is ready
+  public selectedFilters = [];
   public searchToggle = false;
   public bookmarkSelected = false;
   public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[] = eventStatusList;
-  public eventLocationList: OptionItem[] = tempLocationList;
+  public eventLocationList: OptionItem[] = [];
   private optionsList: any;
   public scroll: boolean;
   public userId: number;
@@ -91,6 +83,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
+        console.log(this.eventsList);
+        this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
     });
   }
@@ -124,6 +118,24 @@ export class EventsListComponent implements OnInit, OnDestroy {
     if (this.hasNext && this.page !== undefined) {
       this.store.dispatch(GetEcoEventsByPageAction({ currentPage: this.page, numberOfEvents: this.eventsPerPage, reset: res }));
     }
+  }
+
+  getUniqueCities(events: EventPageResponceDto[]): OptionItem[] {
+    const cities: OptionItem[] = [];
+
+    events.forEach((event) => {
+      const { cityEn, cityUa } = event.dates[0].coordinates;
+
+      const cityExists = cities.some((city) => {
+        return city.nameEn === cityEn && city.nameUa === cityUa;
+      });
+
+      if (!cityExists) {
+        cities.push({ nameEn: cityEn, nameUa: cityUa });
+      }
+    });
+
+    return cities;
   }
 
   public toggleAllSelection(optionsList: any, dropdownName: string): void {

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
@@ -60,26 +60,43 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   createTariffService() {
     return this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      description: new FormControl('', [Validators.required]),
-      descriptionEng: new FormControl('', [Validators.required])
+      price: new FormControl('', [
+        Validators.required,
+        Validators.pattern(Patterns.ubsServicePrice),
+        Validators.min(1),
+        Validators.max(999999.99)
+      ]),
+      description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
+      descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
     });
   }
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
-      name: new FormControl({ value: this.receivedData.bagData.name }),
-      nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }),
+      name: new FormControl({ value: this.receivedData.bagData.name }, [Validators.required, Validators.maxLength(30)]),
+      nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }, [Validators.required, Validators.maxLength(30)]),
       capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [Validators.pattern(Patterns.ubsServicePrice)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      description: new FormControl({ value: this.receivedData.bagData.description }),
-      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng })
+      description: new FormControl({ value: this.receivedData.bagData.description }, [Validators.required, Validators.maxLength(255)]),
+      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng }, [Validators.required, Validators.maxLength(255)])
     });
+  }
+
+  getControl(control: string): AbstractControl {
+    return this.addTariffServiceForm.get(control);
+  }
+
+  get isDiscriptoinInvalid(): boolean {
+    return this.getControl('description').invalid && this.getControl('description').touched;
+  }
+
+  get isDiscriptoinEnInvalid(): boolean {
+    return this.getControl('descriptionEng').invalid && this.getControl('descriptionEng').touched;
   }
 
   addNewTariffForService() {

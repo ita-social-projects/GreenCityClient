@@ -16,10 +16,12 @@
           class="shadow-none form-control"
           id="name"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+          maxlength="31"
+          required
         />
-        <span *ngIf="addServiceForm.controls['name'].errors">
-          <app-input-error [formElement]="addServiceForm.controls['name']"></app-input-error>
-        </span>
+        <div class="error-message" *ngIf="getControl('name').invalid && getControl('name').touched">
+          <app-input-error [formElement]="getControl('name')"></app-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label for="nameEng">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
@@ -29,10 +31,12 @@
           class="shadow-none form-control"
           id="nameEng"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
+          maxlength="31"
+          required
         />
-        <span *ngIf="addServiceForm.controls['nameEng'].errors">
-          <app-input-error [formElement]="addServiceForm.controls['nameEng']"></app-input-error>
-        </span>
+        <div class="error-message" *ngIf="getControl('nameEng').invalid && getControl('nameEng').touched">
+          <app-input-error [formElement]="getControl('nameEng')"></app-input-error>
+        </div>
       </div>
     </div>
     <div class="basic-cost-input form-group">
@@ -50,25 +54,39 @@
     <div class="d-flex">
       <div class="form-group">
         <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
-        <textarea
-          class="description-input"
-          type="text"
-          formControlName="description"
-          id="description"
-          placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
-        >
-        </textarea>
+        <div [ngClass]="{ 'description-input-wrapper': isDiscriptoinInvalid }">
+          <textarea
+            class="description-input"
+            type="text"
+            formControlName="description"
+            id="description"
+            placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
+            maxlength="256"
+            required
+          >
+          </textarea>
+        </div>
+        <div class="error-message" *ngIf="isDiscriptoinInvalid">
+          <app-input-error [formElement]="getControl('description')"></app-input-error>
+        </div>
       </div>
       <div class="form-group">
         <label for="descriptionEng">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
-        <textarea
-          class="description-input"
-          type="text"
-          formControlName="descriptionEng"
-          id="descriptionEng"
-          placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
-        >
-        </textarea>
+        <div [ngClass]="{ 'description-input-wrapper': isDiscriptoinEnInvalid }">
+          <textarea
+            class="description-input"
+            type="text"
+            formControlName="descriptionEng"
+            id="descriptionEng"
+            placeholder="{{ 'ubs-tariffs-add-service.placeholder-text' | translate }}"
+            maxlength="256"
+            required
+          >
+          </textarea>
+        </div>
+        <div class="error-message" *ngIf="isDiscriptoinEnInvalid">
+          <app-input-error [formElement]="getControl('descriptionEng')"></app-input-error>
+        </div>
       </div>
     </div>
     <div class="buttons d-flex justify-content-end">

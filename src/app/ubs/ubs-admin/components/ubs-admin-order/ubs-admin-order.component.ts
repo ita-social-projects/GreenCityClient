@@ -163,7 +163,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       courierPricePerPackage: this.orderInfo.courierPricePerPackage
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
+    this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
   }
 
   private setPreviousBagsIfEmpty(status) {
@@ -450,6 +450,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
+
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
       .pipe(takeUntil(this.destroy$))

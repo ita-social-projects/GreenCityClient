@@ -50,6 +50,38 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('ngOnInit should be called', () => {
+    const spyOnInit = spyOn(component, 'ngOnInit');
+    component.ngOnInit();
+    expect(spyOnInit).toHaveBeenCalled();
+  });
+
+  it(`initForm should be called in ngOnInit`, () => {
+    const initFormSpy = spyOn(component as any, 'initForm');
+    component.ngOnInit();
+    expect(initFormSpy).toHaveBeenCalled();
+  });
+
+  it(`fillFields should be called in ngOnInit`, () => {
+    const fillFieldsSpy = spyOn(component as any, 'fillFields');
+    component.ngOnInit();
+    expect(fillFieldsSpy).toHaveBeenCalled();
+  });
+
+  it(`editForm should be called in initForm`, () => {
+    component.receivedData.serviceData = fakeService;
+    const editFormSpy = spyOn(component as any, 'editForm');
+    (component as any).initForm();
+    expect(editFormSpy).toHaveBeenCalled();
+  });
+
+  it(`addForm should be called in initForm`, () => {
+    component.receivedData.serviceData = !fakeService;
+    const addFormSpy = spyOn(component as any, 'addForm');
+    (component as any).initForm();
+    expect(addFormSpy).toHaveBeenCalled();
+  });
+
   it('should create service', () => {
     expect(fakeTariffService).toBeTruthy();
   });
@@ -59,6 +91,15 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     component.addNewService();
     fakeTariffService.createService(fakeService, 1);
     expect(addNewServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should cancel streams after ngOnDestroy', () => {
+    const nextSpy = spyOn((component as any).destroy, 'next');
+    const completeSpy = spyOn((component as any).destroy, 'unsubscribe');
+    component.ngOnDestroy();
+
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
   });
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);

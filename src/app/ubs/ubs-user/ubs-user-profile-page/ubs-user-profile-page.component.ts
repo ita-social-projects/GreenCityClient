@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile, Location } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -62,6 +62,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
+    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
     private locationService: LocationService
   ) {}
 
@@ -528,10 +529,29 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     (window as any).open(this.viberBotURL, '_blank');
   }
 
-  openDeleteProfileDialog(): void {
-    this.dialog.open(UbsProfileDeletePopUpComponent, {
-      hasBackdrop: true
-    });
+  openDeleteDialog(isAddressDelete = false): void {
+    let isButtonDelete = false;
+    if (isAddressDelete) {
+      isButtonDelete = true;
+      const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
+        hasBackdrop: true,
+        data: {
+          defineButton: isButtonDelete
+        }
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.deleteAddress(isButtonDelete);
+        }
+      });
+    } else {
+      this.dialog.open(UbsProfileDeletePopUpComponent, {
+        hasBackdrop: true,
+        data: {
+          defineButton: isButtonDelete
+        }
+      });
+    }
   }
 
   openChangePasswordDialog(): void {
