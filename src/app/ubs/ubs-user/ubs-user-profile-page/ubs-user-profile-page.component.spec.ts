@@ -361,6 +361,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: MatDialogRef, useValue: {} },
         { provide: GoogleScript, useValue: fakeGoogleScript },
+        { provide: MatDialogRef, useValue: {} },
         { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
@@ -457,7 +458,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.onEdit).toHaveBeenCalled();
   }));
 
-  it('method openDeleteDialog should be calls by clicking delete button', fakeAsync(() => {
+  it('method openDeleteDialog  should be calls by clicking delete button', fakeAsync(() => {
     spyOn(component, 'openDeleteDialog');
     const deleteButton = fixture.debugElement.query(By.css('.delete')).nativeElement;
     deleteButton.click();
@@ -465,7 +466,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.openDeleteDialog).toHaveBeenCalled();
   }));
 
-  it('method openDeleteDialog has to open popup', () => {
+  it('method openDeleteDialog  has to open popup', () => {
     spyOn(dialogMock, 'open').and.callFake(() => {});
     component.openDeleteDialog();
     expect(dialogMock.open).toHaveBeenCalled();
@@ -1019,7 +1020,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
-    const result = streetPlaceResultEn.address_components[1].long_name;
+    const result = streetPlaceResultUk.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
     expect(district.value).toEqual(result);
   });
