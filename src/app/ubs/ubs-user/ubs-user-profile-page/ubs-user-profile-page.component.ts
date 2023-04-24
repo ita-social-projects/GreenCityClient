@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -80,7 +80,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
-    private convertCapLetterServ: ToFirstCapitalLetterService,
+    private locationService: LocationService,
     public dialogRef: MatDialogRef<UbsUserProfilePageComponent>
   ) {}
 
@@ -431,7 +431,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   private convertDistrictName(district: string): string {
-    return this.convertCapLetterServ.convFirstLetterToCapital(district);
+    return this.locationService.convFirstLetterToCapital(district);
   }
 
   onEdit(): void {
