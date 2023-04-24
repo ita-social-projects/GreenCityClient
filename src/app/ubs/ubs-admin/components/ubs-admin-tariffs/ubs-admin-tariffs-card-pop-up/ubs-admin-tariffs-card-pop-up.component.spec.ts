@@ -10,6 +10,7 @@ import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-
 import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Language } from 'src/app/main/i18n/Language';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
@@ -185,7 +186,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsCardPopUpComponent],
-      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, HttpClientTestingModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },

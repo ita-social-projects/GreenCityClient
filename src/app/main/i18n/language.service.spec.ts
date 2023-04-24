@@ -3,6 +3,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageService } from './language.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LanguageService', () => {
   let service: LanguageService;
@@ -18,7 +19,7 @@ describe('LanguageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule]
     });
 
     service = TestBed.inject(LanguageService);
@@ -32,20 +33,6 @@ describe('LanguageService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('setDefaultLang should be called in setDefaultLanguage with parameter from getCurrentLanguage', () => {
-    getCurrentLanguageMock.and.returnValue('ua');
-    service.setDefaultLanguage();
-    expect(setDefaultLangMock).toHaveBeenCalledWith('ua');
-  });
-
-  it('setDefaultLang and setCurrentLanguage should be called in setDefaultLanguage with parameters', () => {
-    getCurrentLanguageMock.and.returnValue(null);
-    spyOn(LanguageService.prototype as any, 'getLanguageByString').and.returnValue('ua');
-    service.setDefaultLanguage();
-    expect(setDefaultLangMock).toHaveBeenCalledWith('ua');
-    expect(setCurrentLanguageMock).toHaveBeenCalledWith('ua');
   });
 
   it('getCurrentLanguage should return the value', () => {

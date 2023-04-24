@@ -5,6 +5,9 @@ import { Language } from './Language';
 import { LanguageId } from '../interface/language-id';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { langValue } from '../interface/langValue';
+import { tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { userLink } from '../links';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +23,7 @@ export class LanguageService {
     { id: 3, code: 'ru' }
   ];
 
-  constructor(private translate: TranslateService, private localStorageService: LocalStorageService) {
+  constructor(private translate: TranslateService, private http: HttpClient, private localStorageService: LocalStorageService) {
     this.langMap.set(Language.EN, ['en']);
     this.langMap.set(Language.UA, ['ua']);
     this.langMap.set(Language.RU, ['ru']);
@@ -69,14 +72,29 @@ export class LanguageService {
     ]);
   }
 
+  public getUserLangValue() {
+    return this.http.get(`${userLink}/lang`, { responseType: 'text' });
+  }
+
   public setDefaultLanguage() {
-    if (this.localStorageService.getCurrentLanguage() !== null) {
-      this.translate.setDefaultLang(this.localStorageService.getCurrentLanguage());
-    } else {
-      const language = navigator.language !== 'en' && navigator.language !== 'ru' ? 'ua' : navigator.language;
-      this.translate.setDefaultLang(this.getLanguageByString(language));
-      this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
-    }
+    this.getUserLangValue()
+      .pipe(
+        tap((userLanguage) => {
+          if (userLanguage) {
+            this.translate.setDefaultLang(this.getLanguageByString(userLanguage));
+            this.localStorageService.setCurrentLanguage(this.getLanguageByString(userLanguage));
+          }
+        })
+      )
+      .subscribe(
+        () => {},
+        (error) => {
+          console.error('There is no user`s language:', error);
+          const language = navigator.language !== 'en' && navigator.language !== 'ru' ? 'ua' : navigator.language;
+          this.translate.setDefaultLang(this.getLanguageByString(language));
+          this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
+        }
+      );
   }
 
   public getCurrentLanguage() {

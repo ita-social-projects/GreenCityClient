@@ -1,53 +1,6 @@
 <div class="d-flex justify-content-between">
   <p class="h5 page-title">{{ 'ubs-notifications.page-title' | translate }}</p>
-  <!--<button class="add-notification-button">
-    <img [src]="icons.plus" class="plus-icon" alt="" />
-    &nbsp; {{ 'ubs-notifications.buttons.add' | translate }}
-  </button>-->
 </div>
-
-<!--<form [formGroup]="filtersForm" class="filters-block">
-  <div class="d-flex justify-content-between">
-    <div class="filter-topic-block">
-      <p class="filter-label">{{ 'ubs-notifications.filters.topic' | translate }}</p>
-      <div class="filter-wrapper">
-        <input type="text" formControlName="title" [placeholder]="'ubs-notifications.filters.topic-placeholder' | translate" matInput />
-      </div>
-    </div>
-    <div class="filter-trigger-block">
-      <p class="filter-label">{{ 'ubs-notifications.filters.trigger' | translate }}</p>
-      <div class="filter-wrapper">
-        <mat-select
-          formControlName="triggers"
-          class="trigger-select"
-          [placeholder]="'ubs-notifications.filters.trigger-placeholder' | translate"
-          multiple
-        >
-          <mat-option class="option-trigger" *ngFor="let trigger of triggers" [value]="trigger.trigger">
-            {{ getLangValue(trigger.triggerDescription, trigger.triggerDescriptionEng) }}
-          </mat-option>
-        </mat-select>
-        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
-      </div>
-    </div>
-    <div class="filter-status-block">
-      <p class="filter-label">{{ 'ubs-notifications.filters.status' | translate }}</p>
-      <div class="filter-wrapper">
-        <mat-select
-          formControlName="status"
-          class="status-select"
-          [placeholder]="'ubs-notifications.filters.status-placeholder' | translate"
-        >
-          <mat-option class="option-status" *ngFor="let status of statuses" [value]="status">
-            {{ 'ubs-notifications.filters-statuses.' + status | translate }}
-          </mat-option>
-        </mat-select>
-        <img [src]="icons.arrowDown" class="arrow-down-icon" alt="" (click)="(null)" />
-      </div>
-    </div>
-  </div>
-</form>-->
-
 <table class="table-notifications" aria-label="Notifications list">
   <thead>
     <tr>

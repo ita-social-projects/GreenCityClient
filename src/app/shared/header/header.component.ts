@@ -87,16 +87,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isUBS = this.router.url.includes(this.ubsUrl);
     this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
     this.localeStorageService.setUbsRegistration(this.isUBS);
-    this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     this.toggleHeader();
-    this.setLangArr();
-    this.updateArrayLang();
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
       this.focusDone();
     });
 
     this.searchSearch.searchSubject.pipe(takeUntil(this.destroySub)).subscribe((signal) => this.openSearchSubscription(signal));
-
     this.searchSearch.allSearchSubject.pipe(takeUntil(this.destroySub)).subscribe((signal) => this.openAllSearchSubscription(signal));
 
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
@@ -113,6 +109,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.getDataFromLocalStorage();
 
     this.userOwnAuthService.isLoginUserSubject.pipe(takeUntil(this.destroySub)).subscribe((status) => (this.isLoggedIn = status));
+    this.updateArrayLang();
+    this.setCurrentLang();
 
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
@@ -135,6 +133,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return '/ubs';
     }
     return '/greenCity';
+  }
+
+  private setCurrentLang(): void {
+    if (this.isLoggedIn) {
+      this.languageService
+        .getUserLangValue()
+        .pipe(takeUntil(this.destroySub))
+        .subscribe(
+          (lang) => {
+            this.currentLanguage = lang;
+            this.setLangArr();
+          },
+          (error) => {
+            this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+          }
+        );
+    } else {
+      this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+    }
   }
 
   toggleHeader(): void {
@@ -170,6 +187,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.languageService.changeCurrentLanguage(Language.UA.toLowerCase() as Language);
       this.currentLanguage = this.localeStorageService.getCurrentLanguage();
     }
+
     this.arrayLang.forEach((item, i, arr) => {
       if (arr[i].lang.toLowerCase() === this.currentLanguage) {
         mainLang = item;
@@ -197,7 +215,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.langDropdownVisible = false;
     if (this.isLoggedIn) {
       const curLangId = this.languageService.getLanguageId(language.toLowerCase() as Language);
-      this.userService.updateUserLanguage(curLangId);
+      this.userService.updateUserLanguage(curLangId).pipe(takeUntil(this.destroySub)).subscribe();
     }
   }
 

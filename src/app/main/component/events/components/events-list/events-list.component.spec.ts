@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsListComponent } from './events-list.component';
 
 import { EventsService } from '../../services/events.service';
@@ -151,7 +151,7 @@ describe('EventsListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListComponent],
-      imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule, MatDialogModule],
+      imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
