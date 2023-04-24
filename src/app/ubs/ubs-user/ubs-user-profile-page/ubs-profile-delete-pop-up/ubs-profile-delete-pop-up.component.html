@@ -1,14 +1,16 @@
 <div class="dialog-container">
-  <h3 mat-dialog-title class="title">{{ 'ubs-client-profile.delete-title' | translate }}</h3>
+  <h3 mat-dialog-title class="title">
+    {{ isAddressDelete ? ('ubs-client-profile.delete-address' | translate) : ('ubs-client-profile.delete-title' | translate) }}
+  </h3>
   <mat-dialog-content>
-    <p class="message">{{ 'ubs-client-profile.delete-message' | translate }}</p>
+    <p class="message">{{ isAddressDelete ? '' : ('ubs-client-profile.delete-message' | translate) }}</p>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button class="btn btn-success delete" [mat-dialog-close]="true" cdkFocusInitial>
-      {{ 'ubs-client-profile.btn.delete-profile-save' | translate }}
+      {{ isAddressDelete ? ('ubs-client-profile.payment.yes' | translate) : ('ubs-client-profile.btn.delete-profile-save' | translate) }}
     </button>
     <button class="btn btn-outline-success cancel" mat-dialog-close>
-      {{ 'ubs-client-profile.btn.delete-profile-cancel' | translate }}
+      {{ isAddressDelete ? ('ubs-client-profile.payment.no' | translate) : ('ubs-client-profile.btn.delete-profile-cancel' | translate) }}
     </button>
   </mat-dialog-actions>
 </div>
