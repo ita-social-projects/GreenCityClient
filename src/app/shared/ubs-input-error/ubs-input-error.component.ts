@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { inputsName } from '@global-user/models/error-type.model';
 
 enum errorType {
   email = 'email',
@@ -13,11 +14,6 @@ enum errorType {
   confirmPasswordMistmatch = 'confirmPasswordMistmatch'
 }
 
-enum inputsType {
-  requiredEmailEmployee = 'requiredEmailEmployee',
-  requiredPhoneEmployee = 'requiredPhoneEmployee'
-}
-
 @Component({
   selector: 'app-ubs-input-error',
   templateUrl: './ubs-input-error.component.html',
@@ -25,7 +21,7 @@ enum inputsType {
 })
 export class UBSInputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
-  @Input() public inputType: string;
+  @Input() public inputName: string;
   @Input() public fromEmployee: boolean;
 
   public errorMessage: string | undefined;
@@ -65,7 +61,7 @@ export class UBSInputErrorComponent implements OnInit {
       if (this.formElement.errors?.[err]) {
         switch (err) {
           case errorType.required:
-            this.errorMessage = this.getRequiredErrorMessage(this.formElement.errors.required, this.inputType);
+            this.errorMessage = this.getRequiredErrorMessage(this.formElement.errors.required, this.inputName);
             break;
           case errorType.pattern:
             this.errorMessage = this.getPatternErrorMessage(this.formElement.errors.pattern.requiredPattern);
@@ -89,11 +85,11 @@ export class UBSInputErrorComponent implements OnInit {
     });
   }
 
-  getRequiredErrorMessage(required: boolean, inputType: string): string {
+  getRequiredErrorMessage(required: boolean, inputName: string): string {
     switch (required) {
-      case inputType === inputsType.requiredEmailEmployee:
+      case inputName === inputsName.requiredEmailEmployee:
         return this.validationErrors.emailEmployee;
-      case inputType === inputsType.requiredPhoneEmployee:
+      case inputName === inputsName.requiredPhoneEmployee:
         return this.validationErrors.phoneEmployee;
       default:
         return this.validationErrors.required;

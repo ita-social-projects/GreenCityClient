@@ -18,6 +18,8 @@ export class InputErrorComponent implements OnInit {
     maxlengthTitle: 'input-error.max-length-title',
     minlengthDescription: 'input-error.min-length-description',
     maxlengthDescription: 'input-error.max-length-description',
+    maxlengthService: 'ubs-tariffs-add-service.error_service_name_content',
+    maxlengthServiceDescription: 'ubs-tariffs-add-service.error_content',
     pattern: 'input-error.pattern'
   };
 
@@ -51,8 +53,12 @@ export class InputErrorComponent implements OnInit {
 
   getMaxlengthErrorMessage(maxlength: number): string {
     switch (maxlength) {
+      case 30:
+        return this.validationErrors.maxlengthService;
       case 70:
         return this.validationErrors.maxlengthTitle;
+      case 255:
+        return this.validationErrors.maxlengthServiceDescription;
       case 63206:
         return this.validationErrors.maxlengthDescription;
       default:
