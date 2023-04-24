@@ -5,7 +5,7 @@ import { HabitAssignService } from './../../../../../../service/habit-assign/hab
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
-
+import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-habit-calendar',
   templateUrl: './../../../profile/calendar/calendar.component.html',
@@ -16,9 +16,10 @@ export class HabitCalendarComponent extends CalendarBaseComponent implements OnI
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAsignService: HabitAssignService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public breakpointObserver: BreakpointObserver
   ) {
-    super(translate, languageService, habitAsignService, dialog);
+    super(translate, languageService, habitAsignService, dialog, breakpointObserver);
   }
 
   ngOnInit() {
