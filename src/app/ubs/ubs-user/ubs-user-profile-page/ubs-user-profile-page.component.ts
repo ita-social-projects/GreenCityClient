@@ -62,7 +62,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
-    private convertCapLetterServ: ToFirstCapitalLetterService,
     public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
     private locationService: LocationService
   ) {}
