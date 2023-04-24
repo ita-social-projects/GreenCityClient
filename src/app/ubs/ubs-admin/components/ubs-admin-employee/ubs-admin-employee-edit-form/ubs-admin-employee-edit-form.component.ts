@@ -150,7 +150,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         this.filteredTariffs = this.tariffs.map((tariffItem) => {
           return {
             ...tariffItem,
-            selected: this.tariffsFromEditForm.includes(tariffItem.id) ? true : false
+            selected: this.tariffsFromEditForm.includes(tariffItem.id)
           };
         });
       } else {

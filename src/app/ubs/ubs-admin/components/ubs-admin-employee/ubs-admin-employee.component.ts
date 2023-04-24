@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
@@ -25,7 +25,7 @@ import { selectOptions, filterOptions, filtersPlaceholderOptions } from './ubs-a
   templateUrl: './ubs-admin-employee.component.html',
   styleUrls: ['./ubs-admin-employee.component.scss']
 })
-export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
+export class UbsAdminEmployeeComponent implements OnInit {
   @Input() locationCard: Locations;
 
   employeePositions: EmployeePositions[];
@@ -115,7 +115,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
     this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
-    this.getExistingCard(this.filterData);
     this.languageService
       .getCurrentLangObs()
       .pipe(takeUntil(this.destroy))
@@ -297,7 +296,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       Object.assign(this.filterData, { position: positionId });
     }
     this.position.setValue('');
-    this.getExistingCard(this.filterData);
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -315,7 +313,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       const courierId = this.selectedCouriers.map((it) => it.id);
       Object.assign(this.filterData, { courier: courierId });
     }
-    this.getExistingCard(this.filterData);
     this.courier.setValue('');
     if (trigger) {
       requestAnimationFrame(() => {
@@ -436,7 +433,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
     Object.assign(this.filterData, { region: '', location: locationsId });
-    this.getExistingCard(this.filterData);
   }
 
   public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -451,7 +447,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
     }
     this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
     this.city.setValue('');
-    this.getExistingCard(this.filterData);
     if (trigger) {
       requestAnimationFrame(() => {
         trigger.openPanel();
@@ -552,7 +547,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
   contactSelected(event): void {
     this.selectedContact = this.employeesContacts.filter((contact) => contact === event.option.value.toString());
     Object.assign(this.filterData, { contact: this.selectedContact });
-    this.getExistingCard(this.filterData);
   }
 
   regionSelectedSub(value) {
@@ -578,7 +572,6 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       Object.assign(this.filterData, { region: this.regionId });
     }
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
-    this.getExistingCard(this.filterData);
   }
 
   getRegionName(region: Locations): string {
@@ -665,15 +658,5 @@ export class UbsAdminEmployeeComponent implements OnInit, OnDestroy {
       disableClose: true,
       panelClass: 'admin-cabinet-dialog-container'
     });
-  }
-
-  public getExistingCard(filterData) {
-    this.cardsUk.length = 0;
-    this.cardsEn.length = 0;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.complete();
   }
 }
