@@ -124,7 +124,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   ngOnInit() {
     this.firstPageLoad = true;
     this.initDateForm();
-    this.columnsWidthPreference = this.localStorageService.getUbsAdminOrdersTableColumnsWidthPreference();
+    this.adminTableService.getUbsAdminOrdersTableColumnsWidthPreference().subscribe((res) => {
+      const { ...columnsWidthPreferenceObject } = res;
+      this.columnsWidthPreference = new Map(Object.entries(columnsWidthPreferenceObject));
+
+      console.log('1 get', this.columnsWidthPreference);
+      console.log('columnsWidthPreferenceObject', columnsWidthPreferenceObject);
+    });
+
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
       if (this.tableData) {
@@ -888,7 +895,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
-    this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
+    this.adminTableService
+      .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
+      .pipe(takeUntil(this.destroy))
+      .subscribe();
+    //this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
   }
 
   setColumnsForFiltering(columns): void {
