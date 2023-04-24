@@ -49,7 +49,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   servicesMask = Masks.servicesMask;
   certificatePattern = Patterns.serteficatePattern;
   commentPattern = Patterns.ubsCommentPattern;
-  additionalOrdersPattern = Patterns.ordersPattern;
+  additionalOrdersPattern = Patterns.orderEcoStorePattern;
   displayOrderBtn = false;
   showCertificateUsed = 0;
   certificateLeft = 0;

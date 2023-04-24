@@ -12,7 +12,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -31,28 +31,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   cityPredictionList: google.maps.places.AutocompletePrediction[];
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
+  public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   userProfile: UserProfile;
   viberNotification = false;
   telegramNotification = false;
-  defaultAddress: Address = {
-    actual: true,
-    city: '',
-    cityEn: '',
-    coordinates: {
-      latitude: 1,
-      longitude: 1
-    },
-    region: '',
-    regionEn: '',
-    district: '',
-    districtEn: '',
-    entranceNumber: '',
-    houseCorpus: '',
-    houseNumber: '',
-    id: null,
-    street: '',
-    streetEn: ''
-  };
 
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
@@ -181,6 +163,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.maxLength(30)
         ]),
         isKyiv: new FormControl(adres?.city === 'Київ' ? true : false),
+        searchAddress: new FormControl(null),
+        placeId: new FormControl(null),
         id: new FormControl(adres?.id)
       });
       addres.push(seperateAddress);
@@ -189,12 +173,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
-        Validators.pattern(Patterns.NamePattern),
+        Validators.pattern(Patterns.NameInfoPattern),
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
         Validators.required,
-        Validators.pattern(Patterns.NamePattern),
+        Validators.pattern(Patterns.NameInfoPattern),
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
@@ -384,6 +368,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
+      if (request.language === this.languages.en) {
+        item.get('searchAddress').setValue(placeDetails.formatted_address);
+        this.setPlaceId(item);
+      }
+
       if (request.language === this.languages.en && isKyiv.value) {
         const districtEn = item.get('districtEn');
         this.setDistrictAuto(placeDetails, districtEn, request.language);
@@ -396,12 +385,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
-    const searchItem = language === this.languages.en ? 'district' : 'район';
-    const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
-    if (getDistrict) {
-      const currentDistrict = this.convertDistrictName(getDistrict.long_name);
-      abstractControl.setValue(currentDistrict);
-    }
+    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    abstractControl.setValue(currentDistrict);
   }
 
   onDistrictSelected(formGroupName: number, event: Event): void {
@@ -444,6 +429,20 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     setTimeout(() => this.focusOnFirst());
   }
 
+  setPlaceId(item: AbstractControl): void {
+    const searchAddress = item.get('searchAddress').value;
+    const houseNumber = item.get('houseNumber').value;
+    if (searchAddress && houseNumber) {
+      const addressConverted = this.locationService.addHouseNumToAddress(searchAddress, houseNumber);
+      const request = {
+        query: addressConverted
+      };
+      this.placeService.textSearch(request, (address) => {
+        item.get('placeId').setValue(address[0].place_id);
+      });
+    }
+  }
+
   focusOnFirst(): void {
     document.getElementById('recipientName').focus();
   }
@@ -451,6 +450,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   onCancel(): void {
     this.userInit();
     this.isEditing = false;
+  }
+
+  public resetValue(): void {
+    this.userForm.get('alternateEmail').setValue(null);
   }
 
   onSubmit(): void {
@@ -486,25 +489,31 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         if (!updatedAddres.entranceNumber) {
           delete updatedAddres.entranceNumber;
         }
+        delete updatedAddres.searchAddress;
         submitData.addressDto.push(updatedAddres);
       });
 
-      this.clientProfileService.postDataClientProfile(submitData).subscribe(
-        (res: UserProfile) => {
-          this.isFetching = false;
-          this.userProfile = this.composeFormData(res);
-          this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
-          this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
-        },
-        (err: Error) => {
-          this.isFetching = false;
-          this.snackBar.openSnackBar('ubs-client-profile.error-message');
-        }
-      );
+      this.clientProfileService
+        .postDataClientProfile(submitData)
+        .pipe(take(1))
+        .subscribe(
+          (res: UserProfile) => {
+            this.isFetching = false;
+            this.userProfile = this.composeFormData(res);
+            this.userProfile.recipientEmail = this.userForm.value.recipientEmail;
+            this.userProfile.alternateEmail = this.userForm.value.alternateEmail;
+            this.localStorageService.setFirstName(this.userForm.value.recipientName);
+          },
+          (err: Error) => {
+            this.isFetching = false;
+            this.snackBar.openSnackBar('ubs-client-profile.error-message');
+          }
+        );
       this.alternativeEmailDisplay = false;
     } else {
       this.isEditing = true;
     }
+    this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
   redirectToMessengers() {

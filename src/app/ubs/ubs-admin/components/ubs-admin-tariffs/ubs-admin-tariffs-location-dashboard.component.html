@@ -1,10 +1,10 @@
 <div class="d-flex justify-content-between">
   <ng-template [ngTemplateOutlet]="textBack"></ng-template>
-  <p *ngIf="showAllTariff" class="h5 main-text">{{ 'ubs-tariffs.tariffs' | translate }}</p>
+  <p *ngIf="showAllTariff" class="h5 main-text" tabindex="0">{{ 'ubs-tariffs.tariffs' | translate }}</p>
   <div class="mat-menu">
-    <div class="setting-block" [matMenuTriggerFor]="menu">
+    <button class="setting-block" [matMenuTriggerFor]="menu">
       <img [src]="icons.setting" class="tariff-img" alt="settings" />
-    </div>
+    </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [matMenuTriggerFor]="add" class="add-button">
         <span class="menu-item">{{ 'ubs-tariffs.btn.add' | translate }}</span>

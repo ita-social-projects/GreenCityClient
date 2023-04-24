@@ -73,15 +73,20 @@
               </div>
               <div *ngIf="alternativeEmailDisplay" class="form-group col-sm-6">
                 <label for="recipientEmail" class="form-label">{{ 'ubs-client-profile.alternative-email' | translate }}</label>
-                <input
-                  *ngIf="isEditing"
-                  type="email"
-                  class="form-control recipientEmail"
-                  id="alternateEmail"
-                  [readonly]="false"
-                  formControlName="alternateEmail"
-                  aria-describedby="emailHelp"
-                />
+                <div class="input-container">
+                  <input
+                    *ngIf="isEditing"
+                    type="email"
+                    class="form-control recipientEmail"
+                    id="alternateEmail"
+                    [readonly]="false"
+                    formControlName="alternateEmail"
+                    aria-describedby="emailHelp"
+                  />
+                  <button class="reset-button" (click)="resetValue()">
+                    <img [src]="resetFieldImg" alt="reset field" />
+                  </button>
+                </div>
                 <div *ngIf="getControl('alternateEmail').invalid && getControl('alternateEmail').touched">
                   <app-ubs-input-error [formElement]="getControl('alternateEmail')"> </app-ubs-input-error>
                 </div>
@@ -259,7 +264,13 @@
                   </div>
                   <div class="form-group input-margin houseNumber">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
-                    <input type="text" class="form-control" id="houseNumber" formControlName="houseNumber" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="houseNumber"
+                      formControlName="houseNumber"
+                      (change)="setPlaceId(userForm.controls.address.get(i.toString()))"
+                    />
                     <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
                       <app-ubs-input-error [formElement]="address.get('houseNumber')"> </app-ubs-input-error>
                     </div>

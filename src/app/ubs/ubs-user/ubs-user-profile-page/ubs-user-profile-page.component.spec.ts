@@ -17,7 +17,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -37,7 +37,9 @@ describe('UbsUserProfilePageComponent', () => {
         coordinates: { latitude: 0, longitude: 0 },
         isKyiv: false,
         street: 'Jhohn Lenon',
-        streetEn: 'Jhohn Lenon'
+        streetEn: 'Jhohn Lenon',
+        placeId: null,
+        searchAddress: null
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -317,7 +319,11 @@ describe('UbsUserProfilePageComponent', () => {
       'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
   };
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'languageBehaviourSubject',
+    'setFirstName'
+  ]);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
@@ -334,8 +340,14 @@ describe('UbsUserProfilePageComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
-  const fakeConvFirstLetterServ = jasmine.createSpyObj('ToFirstCapitalLetterService', ['convFirstLetterToCapital']);
-  fakeConvFirstLetterServ.convFirstLetterToCapital.and.returnValue('Troeshchina');
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
+    'getDistrictAuto',
+    'addHouseNumToAddress',
+    'convFirstLetterToCapital'
+  ]);
+  fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
+  fakeLocationServiceMock.addHouseNumToAddress = () => '';
+  fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -347,9 +359,10 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Locations, useValue: fakeLocationsMockUk },
+        { provide: MatDialogRef, useValue: {} },
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: MatDialogRef, useValue: {} },
-        { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
+        { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -978,7 +991,7 @@ describe('UbsUserProfilePageComponent', () => {
     const isKyiv = currentFormGroup.get('isKyiv');
     isKyiv.setValue(true);
     const spy = spyOn(component, 'setDistrictAuto');
-    component.placeService = { getDetails: () => {} } as any;
+    component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(streetPlaceResultEn, status as any);
     });

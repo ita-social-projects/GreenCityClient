@@ -20,7 +20,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isInputDisabled = false;
   public isVisible: boolean;
   isOrderBroughtByHimself = false;
-  isStatus = false;
   public bagsInfo;
   public orderDetails: IOrderDetails;
   public overpayment: number;
@@ -65,7 +64,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.isOrderNotTakenOut = curStatus?.key === OrderStatus.NOT_TAKEN_OUT;
     }
 
-    if (curStatus?.key === OrderStatus.CANCELED && prevStatus.key === OrderStatus.FORMED) {
+    if (curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) {
       this.isOrderCancelledAfterFormed = true;
       this.emitChangedStatus();
       this.courierPrice = 0;
@@ -86,7 +85,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
 
     this.recalculateSum();
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   ngOnInit(): void {

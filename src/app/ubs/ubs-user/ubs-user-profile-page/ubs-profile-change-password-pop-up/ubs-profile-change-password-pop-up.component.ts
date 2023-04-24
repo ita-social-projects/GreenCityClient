@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, OnChanges, Optional } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
@@ -36,12 +36,13 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
 
   public initForm(): void {
     this.formConfig = this.fb.group({
-      password: ['', [Validators.required, this.checkPasswordPattern.bind(this)]],
+      currentPassword: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(this.passRegexp)]],
       confirmPassword: ['', [Validators.required]]
     });
 
     if (this.hasPassword) {
-      this.formConfig.setValidators([this.checkConfirmPassword]);
+      this.formConfig.setValidators([this.checkConfirmPassword, this.checkPasswordMatch]);
     }
   }
 
@@ -51,12 +52,14 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     return password === confirmPassword ? null : { confirmPasswordMistmatch: true };
   }
 
-  checkPasswordPattern(input: FormControl): null | { [error: string]: boolean } {
-    const inputValue = input.value?.trim();
-    return this.passRegexp.test(inputValue) ? null : { pattern: true };
+  checkPasswordMatch(group: FormGroup): null | { [error: string]: boolean } {
+    const password = group.get('password').value?.trim();
+    const currentPassword = group.get('currentPassword').value?.trim();
+    return password === currentPassword ? { newPasswordMatchesOld: true } : null;
   }
 
   public onSubmit(): void {
+    this.updatePasswordDto.currentPassword = this.formConfig.value.password;
     this.updatePasswordDto.confirmPassword = this.formConfig.value.confirmPassword;
     this.updatePasswordDto.password = this.formConfig.value.password;
     of(true)

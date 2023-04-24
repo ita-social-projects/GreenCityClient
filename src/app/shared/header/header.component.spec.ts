@@ -6,9 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { HeaderComponent } from './header.component';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { UserService } from '@global-service/user/user.service';
 import { AchievementService } from '@global-service/achievement/achievement.service';
@@ -64,8 +63,10 @@ describe('HeaderComponent', () => {
   habitStatisticServiceMock.onLogout = () => true;
 
   let languageServiceMock: LanguageService;
-  languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
+  languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage', 'getUserLangValue']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
+  languageServiceMock.getUserLangValue = () => of(mockLang);
+
   languageServiceMock.changeCurrentLanguage = () => true;
   languageServiceMock.getLanguageId = () => mockLangId;
 
@@ -230,5 +231,18 @@ describe('HeaderComponent', () => {
       expect(spy).toHaveBeenCalled();
       expect(cancelUBSwithoutSavingSpy).toHaveBeenCalled();
     }));
+  });
+
+  it('should call getUserLangValue when isLoggedIn is true', () => {
+    const spy = spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
+    component.isLoggedIn = true;
+    (component as any).setCurrentLang();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set currentLanguage to localStorageService.getCurrentLanguage when isLoggedIn is false', () => {
+    component.isLoggedIn = false;
+    (component as any).setCurrentLang();
+    expect(component.currentLanguage).toEqual(mockLang);
   });
 });

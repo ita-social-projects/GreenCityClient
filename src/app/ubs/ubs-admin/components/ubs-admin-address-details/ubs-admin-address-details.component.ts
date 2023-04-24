@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Locations } from 'src/assets/locations/locations';
 import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { ToFirstCapitalLetterService } from 'src/app/shared/to-first-capital-letter/to-first-capital-letter.service';
+import { LocationService } from '@global-service/location/location.service';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -37,7 +37,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private locations: Locations,
     private langService: LanguageService,
-    private convertCapLetterServ: ToFirstCapitalLetterService
+    private locationService: LocationService
   ) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -255,13 +255,9 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
-    const searchItem = language === this.languages.en ? 'district' : 'район';
-    const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
-    if (getDistrict) {
-      const currentDistrict = this.convertCapLetterServ.convFirstLetterToCapital(getDistrict.long_name);
-      abstractControl.setValue(currentDistrict);
-      abstractControl.markAsDirty();
-    }
+    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    abstractControl.setValue(currentDistrict);
+    abstractControl.markAsDirty();
   }
 
   onDistrictSelected(event: Event): void {

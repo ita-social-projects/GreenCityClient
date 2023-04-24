@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-certificate.service';
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/main/i18n/Language';
+import { tableViewParameters, nameOfTable, notTranslatedRows } from '../../../models/admin-tables.model';
 import * as XLSX from 'xlsx';
+import { IBigOrderTableOrderInfo } from '../../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-table-excel-popup',
@@ -21,30 +25,35 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   name: string;
   allElements: number;
   filters: string;
+  dataForTranslation: any[];
+  language: Language;
 
   constructor(
     private adminTableService: AdminTableService,
     private adminCertificateService: AdminCertificateService,
-    private adminCustomerService: AdminCustomersService
+    private adminCustomerService: AdminCustomersService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit() {
-    this.tableView = 'wholeTable';
+    this.language = this.languageService.getCurrentLanguage();
+    this.tableView = tableViewParameters.wholeTable;
   }
 
   saveTable() {
     this.isLoading = true;
-    if (this.tableView === 'wholeTable') {
-      if (this.name === 'Orders-Table.xlsx') {
+    if (this.tableView === tableViewParameters.wholeTable) {
+      if (this.name === nameOfTable.ordersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'id')
           .then((res) => {
             this.tableData = res[`content`];
+            this.setTranslatedOrders();
           })
           .finally(() => {
             this.createXLSX();
           });
       }
-      if (this.name === 'Certificates-Table.xlsx') {
+      if (this.name === nameOfTable.certificatesTable) {
         this.getCertificatesTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'code')
           .then((res) => {
             this.tableData = res[`page`];
@@ -53,7 +62,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === 'Customers-Table.xlsx') {
+      if (this.name === nameOfTable.customersTable) {
         this.getCustomersTable(this.onePageForWholeTable, this.allElements, '', '', 'ASC', 'clientName')
           .then((res) => {
             this.tableData = res[`page`];
@@ -62,17 +71,18 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-    } else if (this.tableView === 'currentFilter') {
-      if (this.name === 'Orders-Table.xlsx') {
+    } else if (this.tableView === tableViewParameters.currentFilter) {
+      if (this.name === nameOfTable.ordersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`content`];
+            this.setTranslatedOrders();
           })
           .finally(() => {
             this.createXLSX();
           });
       }
-      if (this.name === 'Certificates-Table.xlsx') {
+      if (this.name === nameOfTable.certificatesTable) {
         this.getCertificatesTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
@@ -81,7 +91,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === 'Customers-Table.xlsx') {
+      if (this.name === nameOfTable.customersTable) {
         this.getCustomersTable(this.onePageForWholeTable, this.totalElements, this.filters, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
@@ -91,6 +101,33 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
           });
       }
     }
+  }
+
+  getColumnValue(columnKey: string, itemKey: string, language: string): string {
+    const column = this.dataForTranslation.find((columnItem) => columnItem.titleForSorting === columnKey);
+    const item = column.checked.find((status) => status.key === itemKey);
+    return item ? item[language] : itemKey;
+  }
+
+  getUpdatedRows(row): IBigOrderTableOrderInfo {
+    return {
+      ...row,
+      orderStatus: this.getColumnValue('orderStatus', row.orderStatus, this.language),
+      orderPaymentStatus: this.getColumnValue('orderPaymentStatus', row.orderPaymentStatus, this.language),
+      address: row.address ? row.address[this.language] : row.address,
+      city: row.city ? row.city[this.language] : row.city,
+      region: row.region ? row.region[this.language] : row.region,
+      district: row.district ? row.district[this.language] : row.district,
+      receivingStation: this.getColumnValue('receivingStation', row.receivingStation, this.language),
+      responsibleDriver: this.getColumnValue('responsibleDriver', row.responsibleDriver, this.language),
+      responsibleNavigator: this.getColumnValue('responsibleNavigator', row.responsibleNavigator, this.language),
+      responsibleCaller: this.getColumnValue('responsibleCaller', row.responsibleCaller, this.language),
+      responsibleLogicMan: this.getColumnValue('responsibleLogicMan', row.responsibleLogicMan, this.language)
+    };
+  }
+
+  setTranslatedOrders(): void {
+    this.tableData = this.tableData.map((row) => this.getUpdatedRows(row));
   }
 
   getOrdersTable(
