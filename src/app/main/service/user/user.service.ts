@@ -108,6 +108,6 @@ export class UserService {
 
   updateUserLanguage(languageId: number) {
     const body = {};
-    return this.http.put(`${userLink}/${this.userId}/language/${languageId}`, body);
+    return this.http.put(`${userLink}/language/${languageId}`, body);
   }
 }

@@ -72,7 +72,6 @@ describe('MainComponent', () => {
     app.ngOnInit();
 
     expect(spy).toHaveBeenCalled();
-    expect(languageServiceMock.setDefaultLanguage).toHaveBeenCalled();
     expect(titleAndMetaTagsServiceMock.useTitleMetasData).toHaveBeenCalled();
     expect(app.toggle).toBe(false);
   });

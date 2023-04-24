@@ -86,7 +86,6 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     }
 
     this.recalculateSum();
-    this.isStatus = this.generalInfo.orderStatus === 'CANCELED';
   }
 
   ngOnInit(): void {

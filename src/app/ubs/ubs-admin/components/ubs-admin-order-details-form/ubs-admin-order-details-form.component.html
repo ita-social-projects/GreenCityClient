@@ -48,7 +48,6 @@
                 type="number"
                 min="0"
                 max="999"
-                [readonly]="isStatus"
                 formControlName="actualQuantity{{ bag.id }}"
                 [attr.disabled]="isOrderCancelled && isOrderPaid ? true : null"
                 (change)="onQuantityChange('actual', bag.id)"
@@ -92,13 +91,9 @@
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
-              <div
-                class="d-flex align-items-baseline ubs-courier-container"
-                [ngClass]="{ 'invalid-courier-price': isCourierPriceInvalid, 'disables-input': isStatus }"
-              >
+              <div class="d-flex align-items-baseline ubs-courier-container" [ngClass]="{ 'invalid-courier-price': isCourierPriceInvalid }">
                 <input
                   class="shadow-none form-control input p-2 ubs-courier"
-                  [disabled]="isStatus"
                   type="number"
                   min="0"
                   [value]="courierPrice | currency"
