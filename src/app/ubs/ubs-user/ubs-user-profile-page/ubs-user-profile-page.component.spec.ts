@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -348,6 +348,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript },
+        { provide: MatDialogRef, useValue: {} },
         { provide: ToFirstCapitalLetterService, useValue: fakeConvFirstLetterServ }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
@@ -444,17 +445,17 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.onEdit).toHaveBeenCalled();
   }));
 
-  it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
-    spyOn(component, 'openDeleteProfileDialog');
+  it('method openDeleteDialog  should be calls by clicking delete button', fakeAsync(() => {
+    spyOn(component, 'openDeleteDialog');
     const deleteButton = fixture.debugElement.query(By.css('.delete')).nativeElement;
     deleteButton.click();
     tick();
-    expect(component.openDeleteProfileDialog).toHaveBeenCalled();
+    expect(component.openDeleteDialog).toHaveBeenCalled();
   }));
 
-  it('method openDeleteProfileDialog has to open popup', () => {
+  it('method openDeleteDialog  has to open popup', () => {
     spyOn(dialogMock, 'open').and.callFake(() => {});
-    component.openDeleteProfileDialog();
+    component.openDeleteDialog();
     expect(dialogMock.open).toHaveBeenCalled();
   });
 
