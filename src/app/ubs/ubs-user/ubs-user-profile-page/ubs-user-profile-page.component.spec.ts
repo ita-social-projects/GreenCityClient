@@ -1017,10 +1017,10 @@ describe('UbsUserProfilePageComponent', () => {
     expect(spy).toHaveBeenCalledWith(streetPlaceResultUk, district, component.languages.uk);
   });
 
-  xit('method setDistrictAuto should set district value in uk', () => {
+  it('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
-    const result = streetPlaceResultUk.address_components[1].long_name;
+    const result = streetPlaceResultEn.address_components[1].long_name;
     component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
     expect(district.value).toEqual(result);
   });

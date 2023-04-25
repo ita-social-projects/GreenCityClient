@@ -15,7 +15,7 @@ import { UiActionsService } from '@global-service/ui-actions/ui-actions.service'
 import { UserService } from '@global-service/user/user.service';
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 
-xdescribe('MainComponent', () => {
+describe('MainComponent', () => {
   const navigateToStartingPositionOnPage = 'navigateToStartingPositionOnPage';
 
   let fixture;
