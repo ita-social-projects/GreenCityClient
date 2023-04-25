@@ -17,6 +17,7 @@ import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LocationService } from '@global-service/location/location.service';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -300,7 +301,11 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   const fakeMatDialogRef = jasmine.createSpyObj(['close']);
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'languageBehaviourSubject',
+    'getUserId'
+  ]);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua' as Language;
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
@@ -331,7 +336,8 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: LocationService, useValue: fakeLocationServiceMock }
+        { provide: LocationService, useValue: fakeLocationServiceMock },
+        UserOwnAuthService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
