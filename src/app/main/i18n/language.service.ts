@@ -18,7 +18,7 @@ export class LanguageService {
   private monthMap = new Map<Language, string[]>();
   private languageSubj = new BehaviorSubject(Language.EN);
   private langMap = new Map();
-  public isLoggedIn: boolean;
+  public isLoggedIn = false;
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
@@ -90,6 +90,7 @@ export class LanguageService {
   }
 
   public setDefaultLanguage() {
+    this.checkLogin();
     if (this.isLoggedIn) {
       this.getUserLangValue()
         .pipe(
