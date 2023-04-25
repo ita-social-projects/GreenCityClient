@@ -156,7 +156,8 @@ describe('CreateEditNewsComponent', () => {
     'getPreviousPage',
     'removeTagsOfNews',
     'languageBehaviourSubject',
-    'getCurrentLanguage'
+    'getCurrentLanguage',
+    'getUserId'
   ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
