@@ -178,7 +178,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of());
 
-  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage']);
+  const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getCurrentLanguage', 'getUserId']);
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('user');
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
