@@ -38,7 +38,7 @@ describe('UbsAdminNotificationListComponent', () => {
   let router;
   let localStorageServiceMock: LocalStorageService;
 
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getUserId']);
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   const notificationsServiceMock = {

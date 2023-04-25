@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { of } from 'rxjs';
 
 export function HttpLoaderFactory() {
@@ -26,6 +27,9 @@ describe('VolumePipe', () => {
     const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
     localStorageServiceMock.getCurrentLanguage = () => 'en';
 
+    let userOwnAuthServiceMock: UserOwnAuthService;
+    userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['isLoginUserSubject']);
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
@@ -40,6 +44,7 @@ describe('VolumePipe', () => {
       providers: [
         { provide: TranslateService, useValue: translateMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         LanguageService
       ]
     });

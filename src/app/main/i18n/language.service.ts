@@ -8,6 +8,7 @@ import { langValue } from '../interface/langValue';
 import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { userLink } from '../links';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,19 @@ export class LanguageService {
   private monthMap = new Map<Language, string[]>();
   private languageSubj = new BehaviorSubject(Language.EN);
   private langMap = new Map();
+  public isLoggedIn: boolean;
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
     { id: 2, code: 'en' },
     { id: 3, code: 'ru' }
   ];
 
-  constructor(private translate: TranslateService, private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private translate: TranslateService,
+    private http: HttpClient,
+    private userOwnAuthService: UserOwnAuthService,
+    private localStorageService: LocalStorageService
+  ) {
     this.langMap.set(Language.EN, ['en']);
     this.langMap.set(Language.UA, ['ua']);
     this.langMap.set(Language.RU, ['ru']);
@@ -76,25 +83,38 @@ export class LanguageService {
     return this.http.get(`${userLink}/lang`, { responseType: 'text' });
   }
 
+  private checkLogin() {
+    this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+  }
+
   public setDefaultLanguage() {
-    this.getUserLangValue()
-      .pipe(
-        tap((userLanguage) => {
-          if (userLanguage) {
-            this.translate.setDefaultLang(this.getLanguageByString(userLanguage));
-            this.localStorageService.setCurrentLanguage(this.getLanguageByString(userLanguage));
+    if (this.isLoggedIn) {
+      this.getUserLangValue()
+        .pipe(
+          tap((userLanguage) => {
+            if (userLanguage) {
+              this.translate.setDefaultLang(this.getLanguageByString(userLanguage));
+              this.localStorageService.setCurrentLanguage(this.getLanguageByString(userLanguage));
+            }
+          })
+        )
+        .subscribe(
+          () => {},
+          (error) => {
+            this.setBrowserLang();
           }
-        })
-      )
-      .subscribe(
-        () => {},
-        (error) => {
-          console.error('There is no user`s language:', error);
-          const language = navigator.language !== 'en' && navigator.language !== 'ru' ? 'ua' : navigator.language;
-          this.translate.setDefaultLang(this.getLanguageByString(language));
-          this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
-        }
-      );
+        );
+    } else {
+      this.setBrowserLang();
+    }
+  }
+
+  setBrowserLang() {
+    const language = navigator.language !== 'en' && navigator.language !== 'ru' ? 'ua' : navigator.language;
+    this.translate.setDefaultLang(this.getLanguageByString(language));
+    this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
   }
 
   public getCurrentLanguage() {
