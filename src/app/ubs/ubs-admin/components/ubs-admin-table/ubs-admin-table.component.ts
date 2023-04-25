@@ -894,7 +894,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
       .pipe(takeUntil(this.destroy))
       .subscribe();
-    //this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
   }
 
   setColumnsForFiltering(columns): void {
