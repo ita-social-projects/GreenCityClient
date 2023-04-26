@@ -110,7 +110,6 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   public onCancelOrder(): void {
     this.isOrderStatusChanged = true;
     this.setOrderDetails();
-    this.initForm();
   }
 
   public getOrderInfo(orderId: number, submitMode: boolean): void {

@@ -46,6 +46,9 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     }
 
     if (changes.generalInfo) {
+      if (changes.generalInfo.currentValue.orderStatus === OrderStatus.CANCELED) {
+        this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
+      }
       this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
         changes.generalInfo.currentValue.orderStatus,
         changes.generalInfo.currentValue.orderStatusesDtos

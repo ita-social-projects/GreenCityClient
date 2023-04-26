@@ -36,7 +36,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.orderStatus.currentValue) {
+    if (changes.orderStatus?.currentValue) {
       this.isOrderDone = changes.orderStatus.currentValue === OrderStatus.DONE;
       this.isOrderCanceled = changes.orderStatus.currentValue === OrderStatus.CANCELED;
       this.isOrderNotTakenOut = changes.orderStatus.currentValue === OrderStatus.NOT_TAKEN_OUT;
