@@ -8,7 +8,9 @@
         <img class="first-photo" [src]="firstFriend" alt="First friend photo" />
         <img class="second-photo" [src]="secondFriend" alt="Second friend photo" />
       </div>
-      <div class="edit" (click)="goToHabitProfile()"></div>
+      <button class="edit {{ habitMark }}" (click)="goToHabitProfile()">
+        <img src="/assets/img/profile/icons/edit-line.svg" alt="edit habit progress" />
+      </button>
     </div>
     <div class="second-row">
       {{ habit.habit.habitTranslation.name }}

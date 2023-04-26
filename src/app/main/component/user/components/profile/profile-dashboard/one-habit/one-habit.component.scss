@@ -78,14 +78,14 @@ button {
     .edit {
       width: 20px;
       height: 20px;
-      background-color: var(--quaternary-dark-grey);
-      -webkit-mask-image: url('~/assets/img/profile/icons/edit-line.svg');
-      mask-image: url('~/assets/img/profile/icons/edit-line.svg');
+      background-color: var(--ubs-primary-white);
       margin-left: auto;
       cursor: pointer;
 
       &:hover {
         background-color: var(--primary-green);
+        -webkit-mask-image: url('~/assets/img/profile/icons/edit-line.svg');
+        mask-image: url('~/assets/img/profile/icons/edit-line.svg');
       }
     }
   }
