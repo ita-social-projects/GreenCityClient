@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public headerImageList;
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
+  @ViewChild('serviceref') serviceref: ElementRef;
   public elementName;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
@@ -259,7 +260,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public openAuthModalWindow(page: string): void {
     this.elementName = page;
-    this.dialog.open(AuthModalComponent, {
+    const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
@@ -267,16 +268,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
         popUpName: page
       }
     });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(() => {
+        this.focusDone();
+      });
+  }
+
+  public onPressEnterAboutService(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.openAboutServicePopUp();
   }
 
   public openAboutServicePopUp(): void {
-    this.dialog.open(UbsPickUpServicePopUpComponent, {
+    const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: 'custom-dialog-container',
       backdropClass: 'background-transparent',
       height: '640px'
     });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe(() => {
+        this.serviceref.nativeElement.focus();
+      });
   }
 
   public openSettingDialog(): void {
@@ -286,7 +306,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
-    this.router.navigateByUrl(!this.isUBS ? '/greenCity' : '/').then((isRedirected: boolean) => {
+    this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
       if (isRedirected) {
         this.userOwnAuthService.isLoginUserSubject.next(false);
         this.localeStorageService.clear();
@@ -297,6 +317,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.jwtService.userRole$.next('');
       }
     });
+  }
+
+  public toggleLangDropdown(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.langDropdownVisible = !this.langDropdownVisible;
+  }
+
+  onKeydownLangOption(event: KeyboardEvent, index: number) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.changeCurrentLanguage(this.arrayLang[index].lang, index);
+    }
   }
 
   public toggleScroll(): void {
