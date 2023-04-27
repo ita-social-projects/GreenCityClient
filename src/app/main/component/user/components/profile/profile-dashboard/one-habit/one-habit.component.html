@@ -5,8 +5,8 @@
       <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
       <p>{{ daysCounter }} / {{ habit.duration }}<span>I</span></p>
       <div *ngIf="showPhoto" class="friends-photo">
-        <img class="first-photo" [src]="firstFriend" alt="First friend photo" role="button" tabindex="0" />
-        <img class="second-photo" [src]="secondFriend" alt="Second friend photo" role="button" tabindex="0" />
+        <a href="#"><img class="first-photo" [src]="firstFriend" alt="First friend photo" /></a>
+        <a href="#"><img class="second-photo" [src]="secondFriend" alt="Second friend photo" /></a>
       </div>
       <button class="edit {{ habitMark }}" (click)="goToHabitProfile()">
         <img src="/assets/img/profile/icons/edit-line.svg" alt="edit habit progress" />
