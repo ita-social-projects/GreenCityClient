@@ -84,14 +84,12 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   public toggleMenu() {
     this.isExpanded = !this.isExpanded;
-    //this.setIndexToSidebarIcons();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (this.drawer) {
       this.isExpanded = event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint;
-      //this.setIndexToSidebarIcons();
     }
   }
 
@@ -113,7 +111,6 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   ngAfterViewInit(): void {
     this.sidebarChangeBreakpoint = 1266;
     if (window.innerWidth < this.sidebarChangeBreakpoint && this.drawer) {
-      //this.drawer.toggle();
       this.isExpanded = false;
     }
     setTimeout(() => {
