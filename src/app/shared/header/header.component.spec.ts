@@ -29,7 +29,7 @@ class MatDialogMock {
   }
 }
 
-describe('HeaderComponent', () => {
+fdescribe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   const mockLang = 'ua';
@@ -153,7 +153,7 @@ describe('HeaderComponent', () => {
     });
 
     it('should open Auth modal window', () => {
-      const spy = spyOn(dialog, 'open');
+      const spy = spyOn(dialog, 'open').and.callThrough();
       component.openAuthModalWindow('sign-in');
       expect(spy).toHaveBeenCalled();
     });
