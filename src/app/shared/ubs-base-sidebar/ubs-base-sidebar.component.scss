@@ -16,7 +16,6 @@
       position: fixed;
       top: 80px;
       background-color: var(--ubs-primary-grey);
-      width: 228px;
       z-index: 3;
     }
 
@@ -24,7 +23,7 @@
       position: fixed;
       top: 50px;
       background-color: var(--ubs-primary-grey);
-      width: 200px;
+      // width: 200px;
       z-index: 3;
     }
   }
@@ -55,6 +54,10 @@
       cursor: pointer;
       padding: 15px 39px 15px 15px;
       white-space: nowrap;
+    }
+
+    .sidebar-list-item__collapsed {
+      padding: 15px;
     }
   }
 
@@ -168,7 +171,7 @@
   }
 
   .sidebar {
-    .sidebar-container {
+    .margin-for-table {
       margin-left: 85px !important;
     }
   }
