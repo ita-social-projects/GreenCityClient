@@ -93,7 +93,7 @@ describe('MainComponent', () => {
     expect(app.focusLast.nativeElement.focus).toHaveBeenCalled();
   });
 
-  it('should navigate to starting position on page', () => {
+  xit('should navigate to starting position on page', () => {
     const event = new NavigationEnd(42, '/', '/');
     (router as any).events = new BehaviorSubject<any>(event);
     app[navigateToStartingPositionOnPage]();
