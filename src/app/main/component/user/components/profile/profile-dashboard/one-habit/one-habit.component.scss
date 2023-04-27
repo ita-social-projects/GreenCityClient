@@ -3,6 +3,12 @@ button {
   padding: 0;
 }
 
+img {
+  &:focus {
+    outline: 1.5px solid black;
+  }
+}
+
 .main {
   height: 192px;
   background-color: var(--primary-white);
