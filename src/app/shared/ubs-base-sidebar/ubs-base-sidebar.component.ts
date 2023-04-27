@@ -108,7 +108,6 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
     }
     setTimeout(() => {
       this.breakpointObserver.observe([this.CUSTOM_BREAKPOINTS.XSmall]).subscribe((result) => {
-        console.log(result);
         if (this.drawer) {
           this.drawer.mode = 'side';
           this.drawer.opened = !result.matches;
@@ -116,7 +115,6 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
       });
     }, 0);
     this.getCountOfUnreadNotification();
-    console.log(Breakpoints.Small, Breakpoints.XSmall);
   }
 
   ngAfterViewChecked(): void {
