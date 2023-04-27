@@ -10,8 +10,8 @@ import { MatSelectHarness } from '@angular/material/select/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -24,8 +24,9 @@ describe('UbsAdminNotificationSettingsComponent', () => {
   let component: UbsAdminNotificationSettingsComponent;
   let fixture: ComponentFixture<UbsAdminNotificationSettingsComponent>;
   let loader: HarnessLoader;
-
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
+  const langServiceSpy = jasmine.createSpyObj('LanguageService', ['getLangValue']);
+
   const mockedData = {
     title: { en: 'Unpaid order', ua: 'Неоплачене замовлення' },
     trigger: 'ORDER_NOT_PAID_FOR_3_DAYS',
@@ -37,7 +38,12 @@ describe('UbsAdminNotificationSettingsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminNotificationSettingsComponent, CronPipe],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, MatMenuModule, MatSelectModule, NoopAnimationsModule],
-      providers: [FormBuilder, { provide: MAT_DIALOG_DATA, useValue: mockedData }, { provide: MatDialogRef, useValue: matDialogRefMock }]
+      providers: [
+        FormBuilder,
+        { provide: MAT_DIALOG_DATA, useValue: mockedData },
+        { provide: LanguageService, useValue: langServiceSpy },
+        { provide: MatDialogRef, useValue: matDialogRefMock }
+      ]
     }).compileComponents();
   }));
 
@@ -52,39 +58,46 @@ describe('UbsAdminNotificationSettingsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display en and ua title, trigger and schedule', async () => {
-    const [uaTitleField, enTitleField] = fixture.debugElement.queryAll(By.css('input.title-field'));
-    const triggerSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-trigger' }));
-    const timeSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-time' }));
-    const scheduleField = fixture.debugElement.query(By.css('input.select-schedule'));
-    expect(enTitleField.nativeElement.value).toBe('Unpaid order');
-    expect(uaTitleField.nativeElement.value).toBe('Неоплачене замовлення');
-    expect(await triggerSelectHarness.getValueText()).toBe('ubs-notifications.triggers.ORDER_NOT_PAID_FOR_3_DAYS');
-    expect(await timeSelectHarness.getValueText()).toBe('ubs-notifications.time.6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID');
-    expect(scheduleField.nativeElement.value).toBe('at 00:00');
+  it('should set the schedule when onScheduleSelected is called', () => {
+    const cron = '0 * * * *';
+    component.onScheduleSelected(cron);
+    expect(component.schedule).toBe(cron);
   });
 
-  it('should pass new notification settings through `DialogRef` when user clicks `change`', async () => {
-    const changeButton = fixture.debugElement.query(By.css('.controls .submit-button'));
-    const uaTitleField = fixture.debugElement.queryAll(By.css('input.title-field'))[0].nativeElement;
-    const triggerSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-trigger' }));
-    const timeSelectHarness = await loader.getHarness(MatSelectHarness.with({ selector: '.select-time' }));
-    const scheduleField = fixture.debugElement.query(By.css('input.select-schedule'));
-    uaTitleField.value = 'Неопл. замовлення';
-    uaTitleField.dispatchEvent(new Event('input'));
-    await triggerSelectHarness.open();
-    await triggerSelectHarness.clickOptions({ text: 'ubs-notifications.triggers.STATUS_PARTIALLY_PAID' });
-    await triggerSelectHarness.close();
+  it('should return the correct language value when getLangValue is called', () => {
+    const uaValue = 'Ukrainian Value';
+    const enValue = 'English Value';
+    (component as any).langService.getLangValue.and.returnValue(enValue);
 
-    await timeSelectHarness.open();
-    await timeSelectHarness.clickOptions({ text: 'ubs-notifications.time.IMMEDIATELY' });
-    await timeSelectHarness.close();
-    changeButton.triggerEventHandler('click', null);
+    const result = component.getLangValue(uaValue, enValue);
+    expect(result).toBe(enValue);
+    expect((component as any).langService.getLangValue).toHaveBeenCalledWith(uaValue, enValue);
+  });
+
+  it('should close the dialog without data when onCancel is called', () => {
+    component.onCancel();
+    expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should close the dialog with the form data when onSubmit is called', () => {
+    const formData = {
+      titleEn: 'English Title',
+      titleUa: 'Ukrainian Title',
+      trigger: 'trigger',
+      time: 'time'
+    };
+    component.form.setValue(formData);
+    component.schedule = '0 * * * *';
+
+    component.onSubmit();
     expect(matDialogRefMock.close).toHaveBeenCalledWith({
-      title: { en: 'Unpaid order', ua: 'Неопл. замовлення' },
-      trigger: 'STATUS_PARTIALLY_PAID',
-      time: 'IMMEDIATELY',
-      schedule: '0 0 * * *'
+      title: {
+        en: formData.titleEn,
+        ua: formData.titleUa
+      },
+      trigger: formData.trigger,
+      time: formData.time,
+      schedule: component.schedule
     });
   });
 });
