@@ -28,8 +28,8 @@
           [ngClass]="{ 'sidebar-list-item__collapsed': !isExpanded }"
           role="listitem"
           [attr.aria-label]="listItem.name | translate"
-          (keydown.enter)="navigateToPage(listItem.routerLink)"
-          (keydown.space)="navigateToPage(listItem.routerLink)"
+          (keydown.enter)="navigateToPage($event, listItem.routerLink)"
+          (keydown.space)="navigateToPage($event, listItem.routerLink)"
         >
           <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="{{ listItem.name | translate }} icon" />
           <span *ngIf="isExpanded" class="sidebar-list-item-link">{{ listItem.name | translate }}</span>

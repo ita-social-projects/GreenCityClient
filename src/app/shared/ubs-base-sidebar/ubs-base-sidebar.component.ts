@@ -51,17 +51,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   public isExpanded = false;
 
-  public navigateToPage(routerLink: string): void {
+  public navigateToPage(event: Event, routerLink: string): void {
+    event.stopPropagation();
     const mainLink = this.isAdmin ? 'ubs-admin' : 'ubs-user';
-    console.log('el', this.listElements);
-    console.log('routerLink', routerLink);
-
-    const route = [mainLink];
-    const routes = routerLink.split('/');
-
-    route.push(...routes);
-
-    this.router.navigate(route);
+    this.router.navigate([mainLink, ...routerLink.split('/')]);
   }
 
   public setIndexToSidebarIcons(): void {
