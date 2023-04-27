@@ -84,9 +84,17 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-added');
     },
+    habitDidNotGiveUp: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.habit-did-not-give-up');
+    },
     habitUpdated: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('user.habit.all-habits.new-habit-updated');
+    },
+    habitAcquired: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('user.habit.all-habits.habit-acquired');
     },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
@@ -104,6 +112,10 @@ export class MatSnackBarComponent {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.exist-address');
     },
+    addedAddress: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.added-address');
+    },
     userUnauthorised: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.unauthorised-user');
@@ -116,13 +128,17 @@ export class MatSnackBarComponent {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.error.cartificate-not-valid');
     },
-    addedAddress: () => {
+    addedEvent: () => {
       this.className = 'success-snackbar';
-      this.getSnackBarMessage('snack-bar.success.added-address');
+      this.getSnackBarMessage('snack-bar.success.joined-event');
     },
     savedChangesToUserProfile: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.saved-changes');
+    },
+    updatedNotification: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.update-notification');
     }
   };
 
