@@ -43,23 +43,23 @@ export class FocusDetectionService {
     document.addEventListener('focusout', this.onFocusOut);
   }
 
-  private onMouseDown = (event: MouseEvent): void => {
+  private onMouseDown(event: MouseEvent): void {
     this.focusByKeyboard = false;
     this.updateOutline(event.target as HTMLElement, 'none');
-  };
+  }
 
-  private onKeyDown = (event: KeyboardEvent): void => {
+  private onKeyDown(event: KeyboardEvent): void {
     this.focusByKeyboard = NAVIGATION_KEYS.includes(event.key);
     this.updateOutline(event.target as HTMLElement, `${OUTLINE_STYLE_STRING} !important`);
-  };
+  }
 
-  private onFocusIn = (event: FocusEvent): void => {
+  private onFocusIn(event: FocusEvent): void {
     this.updateOutline(event.target as HTMLElement, this.focusByKeyboard ? `${OUTLINE_STYLE_STRING}` : 'none');
-  };
+  }
 
-  private onFocusOut = (event: FocusEvent): void => {
+  private onFocusOut(event: FocusEvent): void {
     this.updateOutline(event.target as HTMLElement, 'none');
-  };
+  }
 
   private updateOutline(target: HTMLElement, style: string): void {
     if (this.isTargetElement(target)) {
