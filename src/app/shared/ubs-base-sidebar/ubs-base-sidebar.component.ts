@@ -45,7 +45,7 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
     public serviceUserMessages: UserMessagesService,
     public breakpointObserver: BreakpointObserver,
     public jwtService: JwtService,
-    private router: Router,
+    private router?: Router,
     private cdr?: ChangeDetectorRef
   ) {}
 
