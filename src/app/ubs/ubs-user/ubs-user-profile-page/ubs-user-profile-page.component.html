@@ -336,7 +336,12 @@
             </div>
           </div>
           <div class="submit-btns" *ngIf="isEditing">
-            <button class="ubs-primary-global-button s-btn" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
+            <button
+              class="ubs-primary-global-button s-btn"
+              type="submit"
+              (click)="onSubmit()"
+              [disabled]="!userForm.valid || userForm.pristine"
+            >
               {{ 'ubs-client-profile.btn.save' | translate }}
             </button>
             <button class="ubs-secondary-global-button s-btn" type="submit" (click)="onCancel()">

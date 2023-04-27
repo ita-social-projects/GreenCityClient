@@ -21,6 +21,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   tariffs;
   tariffService: Bag;
   loadingAnim: boolean;
+  private isLangEn = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
@@ -45,6 +46,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.initForm();
     this.fillFields();
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      if (lang === 'en') {
+        this.isLangEn = true;
+      }
       const datePipe = new DatePipe(lang);
       this.newDate = datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
@@ -107,10 +111,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       capacity,
       price,
       commission,
-      name,
-      description,
-      descriptionEng,
-      nameEng
+      name: this.isLangEn ? nameEng : name,
+      description: this.isLangEn ? descriptionEng : description,
+      descriptionEng: this.isLangEn ? description : descriptionEng,
+      nameEng: this.isLangEn ? name : nameEng
     };
     this.loadingAnim = true;
     this.tariffsService

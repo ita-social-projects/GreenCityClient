@@ -22,6 +22,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   receivedData;
   loadingAnim: boolean;
   addServiceForm: FormGroup;
+  private isLangEn = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
@@ -43,6 +44,12 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
+      if (lang === 'en') {
+        this.isLangEn = true;
+      }
+    });
+
     this.initForm();
     this.fillFields(this.receivedData);
   }
@@ -57,8 +64,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   createService() {
     return this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(255)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(255)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
       descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
@@ -101,10 +108,10 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
       price,
-      description,
-      descriptionEng,
-      name,
-      nameEng
+      description: this.isLangEn ? descriptionEng : description,
+      descriptionEng: this.isLangEn ? description : descriptionEng,
+      name: this.isLangEn ? nameEng : name,
+      nameEng: this.isLangEn ? name : nameEng
     };
     this.loadingAnim = true;
     this.tariffsService

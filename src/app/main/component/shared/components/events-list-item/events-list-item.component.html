@@ -48,7 +48,7 @@
       <div *ngIf="isRegistered && event.open">{{ 'homepage.events.registered' | translate }}</div>
     </div>
     <div class="event-title">
-      <h3 [innerHTML]="cutTitle()"></h3>
+      <p class="event-name" [innerHTML]="cutTitle()"></p>
     </div>
     <div class="description" [innerHTML]="cutDescription()"></div>
   </div>
