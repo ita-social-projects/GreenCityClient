@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,12 +9,23 @@ import { ModalTextComponent } from '../../../shared/components/modal-text/modal-
 import { Service } from '../../../../models/tariffs.interface';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { DatePipe } from '@angular/common';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let component: UbsAdminTariffsAddServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddServicePopUpComponent>;
   let httpMock: HttpTestingController;
   let fakeTariffService: TariffsService;
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  const fakeMatDialogRef = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialogRef.afterClosed.and.returnValue(of(true));
+
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   const button = {
     add: 'add',
@@ -22,11 +33,11 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   };
 
   const fakeBagForm = new FormGroup({
-    name: new FormControl('fake'),
-    nameEng: new FormControl('fake'),
+    name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+    nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
     price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
-    description: new FormControl('fake'),
-    descriptionEng: new FormControl('fake')
+    description: new FormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)])),
+    descriptionEng: new FormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)]))
   });
 
   const fakeService: Service = {
@@ -41,8 +52,22 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsAddServicePopUpComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule],
-      providers: [{ provide: MAT_DIALOG_DATA, useValue: button }, FormBuilder, { provide: MatDialogRef, useValue: {} }],
+      imports: [
+        TranslateModule.forRoot(),
+        HttpClientTestingModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        NoopAnimationsModule
+      ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: button },
+        FormBuilder,
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialogRef, useValue: fakeMatDialogRef },
+        { provide: LanguageService, useValue: languageServiceMock }
+      ],
+
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -71,6 +96,32 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(initFormSpy).toHaveBeenCalled();
   });
 
+  it('component should initialize form with correct parameters', () => {
+    component.addForm();
+    expect(component.addServiceForm.get('price').value).toEqual('');
+    expect(component.addServiceForm.get('name').value).toEqual('');
+    expect(component.addServiceForm.get('nameEng').value).toEqual('');
+    expect(component.addServiceForm.get('description').value).toEqual('');
+    expect(component.addServiceForm.get('descriptionEng').value).toEqual('');
+  });
+
+  it('editForm() should invoke with correct parameters', () => {
+    component.receivedData = {
+      serviceData: {
+        name: 'MockNameUA',
+        nameEng: 'MockNameEng',
+        description: 'MockDescrUA',
+        descriptionEng: 'MockDescrEng'
+      }
+    };
+    component.editForm();
+    expect(component.addServiceForm.get('price').value).toEqual('');
+    expect(component.addServiceForm.get('name').value).toEqual({ value: component.receivedData.serviceData.name });
+    expect(component.addServiceForm.get('nameEng').value).toEqual({ value: component.receivedData.serviceData.nameEng });
+    expect(component.addServiceForm.get('description').value).toEqual({ value: component.receivedData.serviceData.description });
+    expect(component.addServiceForm.get('descriptionEng').value).toEqual(component.receivedData.serviceData.descriptionEng);
+  });
+
   it(`fillFields should be called in ngOnInit`, () => {
     const fillFieldsSpy = spyOn(component as any, 'fillFields');
     component.ngOnInit();
@@ -91,19 +142,70 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(addFormSpy).toHaveBeenCalled();
   });
 
+  it('should set date', () => {
+    component.setDate();
+    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+  });
+
+  it('should get current language', () => {
+    const result = languageServiceMock.getCurrentLanguage();
+    component.setDate();
+    expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
+    expect(result).toEqual('ua');
+  });
+
+  it('should transform date', () => {
+    const date = new Date(2022, 11, 10);
+    const result = component.datePipe.transform(date, 'MMM dd, yyyy');
+    expect(result).toEqual('груд. 10, 2022');
+  });
+
   it('should create service', () => {
     expect(fakeTariffService).toBeTruthy();
+  });
+
+  it('should be valid if form value is valid', () => {
+    component.addServiceForm.setValue({
+      price: 120,
+      name: 'Мок Назва',
+      nameEng: 'MockNameEng',
+      description: 'Мок опис',
+      descriptionEng: 'MockDescrEng'
+    });
+    expect(component.addServiceForm.valid).toEqual(true);
+  });
+
+  it('should be valid if form value is valid', () => {
+    component.addServiceForm.setValue({
+      price: 1,
+      description: 'Ua',
+      descriptionEng: 'Eng',
+      name: '',
+      nameEng: ''
+    });
+    expect(component.addServiceForm.valid).toEqual(false);
   });
 
   it('should return price Control on getControl', () => {
     (component as any).initForm();
     const price = component.getControl('price');
+    const name = component.getControl('name');
+    const nameEng = component.getControl('nameEng');
+    const description = component.getControl('description');
+    const descriptionEng = component.getControl('descriptionEng');
     expect(price).toEqual(component.addServiceForm.get('price'));
+    expect(name).toEqual(component.addServiceForm.get('name'));
+    expect(nameEng).toEqual(component.addServiceForm.get('nameEng'));
+    expect(description).toEqual(component.addServiceForm.get('description'));
+    expect(descriptionEng).toEqual(component.addServiceForm.get('descriptionEng'));
   });
 
   it('should fillFields correctly', () => {
-    component.addServiceForm.patchValue(fakeBagForm.value);
-    expect(component.addServiceForm.value).toEqual(fakeBagForm.value);
+    if (component.receivedData.serviceData) {
+      component.addServiceForm.patchValue(fakeBagForm.value);
+      expect(component.addServiceForm.value).toEqual(fakeBagForm.value);
+    }
   });
 
   it('should call addNewService correctly', () => {
@@ -115,7 +217,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should call editService correctly', () => {
     const id = 1;
-    const service = {
+    component.service = {
       name: 'Назва сервісу',
       nameEng: 'Service name',
       price: 200,
@@ -124,11 +226,10 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     };
     const editServiceSpy = spyOn(component, 'editService');
     component.editService();
-    fakeTariffService.editService(service, id);
+    fakeTariffService.editService(component.service, id);
     expect(editServiceSpy).toHaveBeenCalled();
   });
 
-  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   it('Check whether method onCancel called with proper args', () => {
     matDialogMock.open = jasmine.createSpy().withArgs(ModalTextComponent, {
       hasBackdrop: true,

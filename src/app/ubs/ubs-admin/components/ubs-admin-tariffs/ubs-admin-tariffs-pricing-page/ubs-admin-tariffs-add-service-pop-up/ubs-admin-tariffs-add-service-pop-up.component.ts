@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
@@ -26,8 +27,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  datePipe: DatePipe;
+  newDate: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -35,7 +36,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
     private fb: FormBuilder,
-    private localeStorageService: LocalStorageService
+    private localeStorageService: LocalStorageService,
+    private languageService: LanguageService
   ) {
     this.receivedData = data;
   }
@@ -44,14 +46,19 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
-      if (lang === 'en') {
-        this.isLangEn = true;
-      }
-    });
 
     this.initForm();
     this.fillFields(this.receivedData);
+    this.setDate();
+  }
+
+  setDate(): void {
+    const lang = this.languageService.getCurrentLanguage();
+    this.datePipe = new DatePipe(lang);
+    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+    if (lang === 'en') {
+      this.isLangEn = true;
+    }
   }
 
   private initForm() {

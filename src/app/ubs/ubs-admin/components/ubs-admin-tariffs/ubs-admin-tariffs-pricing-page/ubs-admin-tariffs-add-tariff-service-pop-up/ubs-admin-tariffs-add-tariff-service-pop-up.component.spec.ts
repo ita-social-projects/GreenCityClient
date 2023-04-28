@@ -13,18 +13,14 @@ import { Bag } from '../../../../models/tariffs.interface';
 import { Patterns } from '../../../../../../../assets/patterns/patterns';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-
-@Pipe({ name: 'datePipe' })
-class DatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
-}
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
   let fakeTariffService: TariffsService;
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   const fakeBagForm = new FormGroup({
     name: new FormControl('fake'),
@@ -67,7 +63,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UbsAdminTariffsAddTariffServicePopUpComponent, ServerTranslatePipe, ModalTextComponent, DatePipeMock],
+      declarations: [UbsAdminTariffsAddTariffServicePopUpComponent, ServerTranslatePipe, ModalTextComponent],
       imports: [
         TranslateModule.forRoot(),
         HttpClientTestingModule,
@@ -81,7 +77,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         FormBuilder,
         { provide: MatDialogRef, useValue: {} },
-        { provide: DatePipe, useClass: DatePipeMock }
+        { provide: LanguageService, useValue: languageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -98,6 +94,31 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it(`initForm should be called in ngOnInit`, () => {
+    const initFormSpy = spyOn(component as any, 'initForm');
+    component.ngOnInit();
+    expect(initFormSpy).toHaveBeenCalled();
+  });
+
+  it(`fillFields should be called in ngOnInit`, () => {
+    const fillFieldsSpy = spyOn(component as any, 'fillFields');
+    component.ngOnInit();
+    expect(fillFieldsSpy).toHaveBeenCalled();
+  });
+
+  it(`setDate should be called in ngOnInit`, () => {
+    const setDateSpy = spyOn(component as any, 'setDate');
+    component.ngOnInit();
+    expect(setDateSpy).toHaveBeenCalled();
+  });
+
+  it(`editForm should be called in initForm`, () => {
+    component.receivedData.bagData = fakeBag;
+    const editFormSpy = spyOn(component as any, 'editForm');
+    (component as any).initForm();
+    expect(editFormSpy).toHaveBeenCalled();
+  });
+
   it(`addForm should be called in initForm`, () => {
     component.receivedData.bagData = !fakeBag;
     const addFormSpy = spyOn(component as any, 'addForm');
@@ -105,10 +126,48 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(addFormSpy).toHaveBeenCalled();
   });
 
-  it('should return commission Control on getControl', () => {
+  it('should be valid if form value is valid', () => {
+    component.addTariffServiceForm.setValue({
+      price: 120,
+      name: 'Мок Назва',
+      nameEng: 'MockNameEng',
+      description: 'Мок опис',
+      descriptionEng: 'MockDescrEng',
+      capacity: 77,
+      commission: 89
+    });
+    expect(component.addTariffServiceForm.valid).toEqual(true);
+  });
+
+  it('should be valid if form value is valid', () => {
+    component.addTariffServiceForm.setValue({
+      price: 1,
+      description: 'Ua',
+      descriptionEng: 'Eng',
+      name: '',
+      nameEng: '',
+      capacity: 77,
+      commission: 89
+    });
+    expect(component.addTariffServiceForm.valid).toEqual(false);
+  });
+
+  it('should return input value Control on getControl', () => {
     (component as any).initForm();
+    const name = component.getControl('name');
+    const nameEng = component.getControl('nameEng');
     const commission = component.getControl('commission');
+    const capacity = component.getControl('capacity');
+    const description = component.getControl('description');
+    const descriptionEng = component.getControl('descriptionEng');
+    const price = component.getControl('price');
+    expect(name).toEqual(component.addTariffServiceForm.get('name'));
+    expect(nameEng).toEqual(component.addTariffServiceForm.get('nameEng'));
     expect(commission).toEqual(component.addTariffServiceForm.get('commission'));
+    expect(capacity).toEqual(component.addTariffServiceForm.get('capacity'));
+    expect(description).toEqual(component.addTariffServiceForm.get('description'));
+    expect(descriptionEng).toEqual(component.addTariffServiceForm.get('descriptionEng'));
+    expect(price).toEqual(component.addTariffServiceForm.get('price'));
   });
 
   it('component should initialize createTariffService form from with correct parameters', () => {
@@ -163,5 +222,43 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   it('should fillFields correctly', () => {
     component.addTariffServiceForm.patchValue(fakeBagForm.value);
     expect(component.addTariffServiceForm.value).toEqual(fakeBagForm.value);
+  });
+
+  it('should set date', () => {
+    component.setDate();
+    expect(component.datePipe).toEqual(new DatePipe('ua'));
+    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+  });
+
+  it('should get current language', () => {
+    const result = languageServiceMock.getCurrentLanguage();
+    component.setDate();
+    expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
+    expect(result).toEqual('ua');
+  });
+
+  it('should transform date', () => {
+    const date = new Date(2022, 11, 10);
+    const result = component.datePipe.transform(date, 'MMM dd, yyyy');
+    expect(result).toEqual('груд. 10, 2022');
+  });
+
+  it('editForm() should invoke with correct parameters', () => {
+    component.receivedData = {
+      bagData: {
+        name: 'MockNameUA',
+        nameEng: 'MockNameEng',
+        description: 'MockDescrUA',
+        descriptionEng: 'MockDescrEng'
+      }
+    };
+    component.editForm();
+    expect(component.addTariffServiceForm.get('price').value).toEqual('');
+    expect(component.addTariffServiceForm.get('name').value).toEqual({ value: component.receivedData.bagData.name });
+    expect(component.addTariffServiceForm.get('nameEng').value).toEqual({ value: component.receivedData.bagData.nameEng });
+    expect(component.addTariffServiceForm.get('description').value).toEqual({ value: component.receivedData.bagData.description });
+    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual({ value: component.receivedData.bagData.descriptionEng });
+    expect(component.addTariffServiceForm.get('capacity').value).toEqual({ value: component.receivedData.bagData.capacity });
+    expect(component.addTariffServiceForm.get('commission').value).toEqual('');
   });
 });
