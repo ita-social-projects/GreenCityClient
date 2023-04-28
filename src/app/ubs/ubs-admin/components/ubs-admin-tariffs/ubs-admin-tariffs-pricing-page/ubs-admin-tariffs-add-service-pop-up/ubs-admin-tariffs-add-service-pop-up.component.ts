@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
@@ -15,7 +15,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
   templateUrl: './ubs-admin-tariffs-add-service-pop-up.component.html',
   styleUrls: ['./ubs-admin-tariffs-add-service-pop-up.component.scss']
 })
-export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestroy {
+export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   service: Service;
   date: string;
   user: string;
@@ -171,10 +171,5 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
         this.dialogRef.close();
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy.next();
-    this.destroy.unsubscribe();
   }
 }

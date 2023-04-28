@@ -16,8 +16,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
-  transform(value: Date): string {
-    return '2022-02-20';
+  transform(value: string): string {
+    return value;
   }
 }
 
@@ -47,6 +47,22 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
       descriptionEng: 'asdssadads',
       nameEng: 'NameEng'
     }
+  };
+
+  const fakeReceivedData = {
+    bagData: {
+      capacity: 77,
+      commission: 89,
+      description: 'Тест опис',
+      descriptionEng: 'Test descr',
+      fullPrice: 989,
+      id: 20,
+      limitIncluded: false,
+      name: 'Пластик',
+      nameEng: 'Plastic',
+      price: 900
+    },
+    button: 'update'
   };
 
   beforeEach(async(() => {
@@ -82,6 +98,19 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it(`addForm should be called in initForm`, () => {
+    component.receivedData.bagData = !fakeBag;
+    const addFormSpy = spyOn(component as any, 'addForm');
+    (component as any).initForm();
+    expect(addFormSpy).toHaveBeenCalled();
+  });
+
+  it('should return commission Control on getControl', () => {
+    (component as any).initForm();
+    const commission = component.getControl('commission');
+    expect(commission).toEqual(component.addTariffServiceForm.get('commission'));
+  });
+
   it('component should initialize createTariffService form from with correct parameters', () => {
     (component as any).createTariffService();
     expect(component.addTariffServiceForm.get('name').value).toEqual('');
@@ -112,6 +141,23 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     component.addNewTariffForService();
     fakeTariffService.createNewTariffForService(fakeBag, 1);
     expect(addNewTariffForServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should call editTariffForService correctly', () => {
+    const tariffService = {
+      name: 'Назва тарифу',
+      nameEng: 'Tariff name',
+      capacity: 55,
+      price: 100,
+      commission: 20,
+      description: 'Опис тарифу',
+      descriptionEng: 'Tariff discr',
+      langCode: 'en'
+    };
+    const editTariffForServiceSpy = spyOn(component, 'editTariffForService');
+    component.editTariffForService(fakeReceivedData);
+    fakeTariffService.editTariffForService(fakeReceivedData.bagData.id, tariffService);
+    expect(editTariffForServiceSpy).toHaveBeenCalled();
   });
 
   it('should fillFields correctly', () => {

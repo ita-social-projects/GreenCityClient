@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up.component';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { Service } from '../../../../models/tariffs.interface';
 import { TariffsService } from '../../../../services/tariffs.service';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 describe('UbsAdminTariffsAddServicePopupComponent', () => {
   let component: UbsAdminTariffsAddServicePopUpComponent;
@@ -19,6 +20,14 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     add: 'add',
     update: 'update'
   };
+
+  const fakeBagForm = new FormGroup({
+    name: new FormControl('fake'),
+    nameEng: new FormControl('fake'),
+    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    description: new FormControl('fake'),
+    descriptionEng: new FormControl('fake')
+  });
 
   const fakeService: Service = {
     price: 1,
@@ -86,6 +95,17 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(fakeTariffService).toBeTruthy();
   });
 
+  it('should return price Control on getControl', () => {
+    (component as any).initForm();
+    const price = component.getControl('price');
+    expect(price).toEqual(component.addServiceForm.get('price'));
+  });
+
+  it('should fillFields correctly', () => {
+    component.addServiceForm.patchValue(fakeBagForm.value);
+    expect(component.addServiceForm.value).toEqual(fakeBagForm.value);
+  });
+
   it('should call addNewService correctly', () => {
     const addNewServiceSpy = spyOn(component, 'addNewService');
     component.addNewService();
@@ -93,13 +113,19 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(addNewServiceSpy).toHaveBeenCalled();
   });
 
-  it('should cancel streams after ngOnDestroy', () => {
-    const nextSpy = spyOn((component as any).destroy, 'next');
-    const completeSpy = spyOn((component as any).destroy, 'unsubscribe');
-    component.ngOnDestroy();
-
-    expect(nextSpy).toHaveBeenCalled();
-    expect(completeSpy).toHaveBeenCalled();
+  it('should call editService correctly', () => {
+    const id = 1;
+    const service = {
+      name: 'Назва сервісу',
+      nameEng: 'Service name',
+      price: 200,
+      description: 'Опис сервісу',
+      descriptionEng: 'Service discr'
+    };
+    const editServiceSpy = spyOn(component, 'editService');
+    component.editService();
+    fakeTariffService.editService(service, id);
+    expect(editServiceSpy).toHaveBeenCalled();
   });
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
