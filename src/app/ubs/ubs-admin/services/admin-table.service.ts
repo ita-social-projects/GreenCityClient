@@ -293,8 +293,6 @@ export class AdminTableService {
 
   setUbsAdminOrdersTableColumnsWidthPreference(preference: Map<string, number>) {
     const columnWidthDto = Object.fromEntries(preference.entries());
-    console.log('columnWidthDto', columnWidthDto);
-
     return this.http.put(`${this.url}orderTableColumnsWidth`, columnWidthDto);
   }
 
