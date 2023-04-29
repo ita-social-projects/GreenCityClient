@@ -336,4 +336,36 @@ describe('AdminTableService', () => {
     service.getDateChecked('dateColumn');
     expect(service.getDateChecked).toHaveBeenCalledWith('dateColumn');
   });
+
+  it('should set column width preferences', () => {
+    const preference = new Map<string, number>([
+      ['column1', 100],
+      ['column2', 200]
+    ]);
+    service.setUbsAdminOrdersTableColumnsWidthPreference(preference).subscribe((data) => {
+      expect(data).toBeDefined();
+    });
+
+    const req = httpMock.expectOne(`${urlMock}/orderTableColumnsWidth`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual({
+      column1: 100,
+      column2: 200
+    });
+  });
+
+  it('should get column width preferences', () => {
+    const preference = {
+      column1: 100,
+      column2: 200
+    };
+    service.getUbsAdminOrdersTableColumnsWidthPreference().subscribe((data) => {
+      expect(data).toBeDefined();
+      expect(data).toEqual(preference);
+    });
+
+    const req = httpMock.expectOne(`${urlMock}/orderTableColumnsWidth`);
+    expect(req.request.method).toBe('GET');
+    req.flush(preference);
+  });
 });
