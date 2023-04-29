@@ -109,13 +109,14 @@
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="showWriteOffStationField()">
             <span class="col-sm-2">{{ 'order-details.done-after-himself' | translate }}</span>
             <div class="col-sm-2 offset-sm-8 d-flex justify-content-center align-items-baseline form-group count">
-              <div class="d-flex align-items-baseline ubs-courier-container">
+              <div class="d-flex align-items-baseline ubs-courier-container" [ngClass]="{ 'disabled-field': isDisabledWriteOffStation }">
                 <input
                   class="shadow-none form-control input p-2 ubs-courier"
                   type="number"
                   step="0.01"
                   min="0"
                   value="0.00"
+                  [disabled]="isDisabledWriteOffStation"
                   (change)="changeWriteOffSum($event)"
                 />
                 <span>
