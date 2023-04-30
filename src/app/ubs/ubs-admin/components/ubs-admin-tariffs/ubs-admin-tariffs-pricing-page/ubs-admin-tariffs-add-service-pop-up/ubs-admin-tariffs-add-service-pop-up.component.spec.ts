@@ -11,7 +11,6 @@ import { TariffsService } from '../../../../services/tariffs.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DatePipe } from '@angular/common';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
@@ -96,6 +95,12 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(initFormSpy).toHaveBeenCalled();
   });
 
+  it(`setDate should be called in ngOnInit`, () => {
+    const setDateSpy = spyOn(component as any, 'setDate');
+    component.ngOnInit();
+    expect(setDateSpy).toHaveBeenCalled();
+  });
+
   it('component should initialize form with correct parameters', () => {
     component.addForm();
     expect(component.addServiceForm.get('price').value).toEqual('');
@@ -142,10 +147,28 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(addFormSpy).toHaveBeenCalled();
   });
 
+  it('should addNewService work correctly', () => {
+    (component as any).isLangEn = true;
+    component.addServiceForm.setValue({
+      price: 12,
+      name: 'Мок Назва',
+      nameEng: 'MockNameEng',
+      description: 'Мок опис',
+      descriptionEng: 'MockDescrEng'
+    });
+    component.addNewService();
+    expect(component.service).toEqual({
+      price: 12,
+      name: 'MockNameEng',
+      nameEng: 'Мок Назва',
+      description: 'MockDescrEng',
+      descriptionEng: 'Мок опис'
+    });
+  });
+
   it('should set date', () => {
     component.setDate();
-    expect(component.datePipe).toEqual(new DatePipe('ua'));
-    expect(component.newDate).toEqual(component.datePipe.transform(new Date(), 'MMM dd, yyyy'));
+    expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));
   });
 
   it('should get current language', () => {
@@ -153,12 +176,6 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     component.setDate();
     expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
     expect(result).toEqual('ua');
-  });
-
-  it('should transform date', () => {
-    const date = new Date(2022, 11, 10);
-    const result = component.datePipe.transform(date, 'MMM dd, yyyy');
-    expect(result).toEqual('груд. 10, 2022');
   });
 
   it('should create service', () => {
@@ -185,6 +202,12 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
       nameEng: ''
     });
     expect(component.addServiceForm.valid).toEqual(false);
+  });
+
+  it('should be name field valid', () => {
+    const nameControl = component.addServiceForm.get('name');
+    nameControl.setValue('asdfghjkloiuytrewquiopytrefghkt');
+    expect(nameControl.valid).toBe(false);
   });
 
   it('should return price Control on getControl', () => {

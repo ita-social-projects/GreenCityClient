@@ -27,7 +27,6 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe: DatePipe;
   newDate: string;
 
   constructor(
@@ -54,11 +53,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
 
   setDate(): void {
     const lang = this.languageService.getCurrentLanguage();
-    this.datePipe = new DatePipe(lang);
-    this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
-    if (lang === 'en') {
-      this.isLangEn = true;
-    }
+    this.newDate = this.tariffsService.setDate(lang);
+    this.isLangEn = lang === 'en';
   }
 
   private initForm() {
