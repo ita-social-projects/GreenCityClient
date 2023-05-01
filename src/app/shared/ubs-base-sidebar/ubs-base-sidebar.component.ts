@@ -7,10 +7,9 @@ import {
   OnDestroy,
   ViewChild,
   ChangeDetectorRef,
-  AfterViewChecked,
-  EventEmitter
+  AfterViewChecked
 } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
 import { Subject } from 'rxjs';
