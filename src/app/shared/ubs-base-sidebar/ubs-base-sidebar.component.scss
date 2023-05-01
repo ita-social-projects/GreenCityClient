@@ -36,13 +36,13 @@
   }
 
   .admin-main-content {
-    margin-top: 50px;
+    margin-top: 86px;
     overflow-x: hidden;
     min-height: 345px;
   }
 
   .sidebar-list {
-    margin: 0;
+    margin: 35px 0 0 0;
     padding: 0;
     list-style-type: none;
     text-align: center;
@@ -154,6 +154,12 @@
   }
 }
 
+@media (max-width: 767px) {
+  .main .admin-main-content {
+    margin-top: 52px;
+  }
+}
+
 @media (max-width: 1530px) {
   .sidebar {
     .sidebar-container {
@@ -165,6 +171,10 @@
 @media (max-width: 1266px) {
   .main-content {
     margin-left: 0 !important;
+  }
+
+  .sidebar-list {
+    margin-top: 25px;
   }
 
   .sidebar {

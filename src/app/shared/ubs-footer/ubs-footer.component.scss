@@ -3,6 +3,7 @@
   height: 166px;
   display: flex;
   background-color: var(--ubs-secondary-dark-green);
+  font-family: var(--ubs-secondary-font);
 
   &-logo img {
     width: 90px;
@@ -42,7 +43,7 @@
       .pick-up-service,
       .route-link {
         display: flex;
-        font-weight: 700;
+        font-weight: 600;
         font-size: 14px;
         line-height: 12px;
         color: var(--ubs-primary-white);
@@ -55,6 +56,7 @@
   }
 
   .container-fluid {
+    max-width: 1440px;
     margin: auto;
   }
 
