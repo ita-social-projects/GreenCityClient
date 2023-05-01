@@ -10,7 +10,7 @@
     <rating
       (onHover)="hoveringOver($event)"
       (mouseout)="hoveringOver(0)"
-      (click)="rateEvent()"
+      (click)="hoveringOver($event, true)"
       [(ngModel)]="rate"
       [customTemplate]="star"
       [max]="max"
