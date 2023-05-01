@@ -21,8 +21,10 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public isRegistered: boolean;
   public isPosting: boolean;
   public text: string;
+  public textByRate: string;
   public elementName: string;
   public isEventRaited = false;
+  public hover: boolean;
 
   private dialog: MatDialog;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -72,6 +74,15 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
 
   public hoveringOver(event: number): void {
     this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : ' ';
+    if (!event) {
+      this.hover = false;
+    } else {
+      this.hover = true;
+    }
+  }
+
+  public rateEvent(): void {
+    this.textByRate = this.text;
   }
 
   public onRateChange(): void {
