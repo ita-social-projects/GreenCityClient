@@ -5,7 +5,6 @@ import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { Patterns } from 'src/assets/patterns/patterns';
