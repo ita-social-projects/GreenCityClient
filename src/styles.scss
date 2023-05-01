@@ -136,6 +136,20 @@ body {
   }
 }
 
+.custom-radio-btn {
+  .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: var(--ubs-quaternary-dark-grey) !important;
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: var(--ubs-quaternary-dark-grey) !important;
+  }
+
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--ubs-quaternary-dark-grey) !important;
+  }
+}
+
 .custom-dialog-container {
   .mat-dialog-container {
     padding: 0;
