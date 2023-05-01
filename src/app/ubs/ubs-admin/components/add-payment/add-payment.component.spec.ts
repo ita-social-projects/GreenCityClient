@@ -221,38 +221,38 @@ fdescribe('AddPaymentComponent', () => {
 
   describe('onChoosePayment', () => {
     it('should set isPhotoContainerChoosen to true and isLinkToBillChoosed to false when event value is "photoBill"', () => {
-      const event: MatRadioChange = { value: 'photoBill', source: null };
-      component.onChoosePayment(event);
+      const eventBtn: MatRadioChange = { value: 'photoBill', source: null };
+      component.onChoosePayment(eventBtn);
       expect(component.isPhotoContainerChoosen).toBeTruthy();
       expect(component.isLinkToBillChoosed).toBeFalsy();
     });
 
     it('should set isLinkToBillChoosed to true and isPhotoContainerChoosen to false when event value is "linkToBill"', () => {
-      const event: MatRadioChange = { value: 'linkToBill', source: null };
-      component.onChoosePayment(event);
+      const eventBtn: MatRadioChange = { value: 'linkToBill', source: null };
+      component.onChoosePayment(eventBtn);
       expect(component.isLinkToBillChoosed).toBeTruthy();
       expect(component.isPhotoContainerChoosen).toBeFalsy();
     });
 
     it('should set Validators.required for receiptLink control when isLinkToBillChoosed is true', () => {
-      const event: MatRadioChange = { value: 'linkToBill', source: null };
-      component.onChoosePayment(event);
+      const eventBtn: MatRadioChange = { value: 'linkToBill', source: null };
+      component.onChoosePayment(eventBtn);
       const receiptLinkControl = component.addPaymentForm.get('receiptLink');
       expect(receiptLinkControl.validator({} as AbstractControl)).toEqual({ required: true });
     });
 
     it('should clear Validators for receiptLink control when isLinkToBillChoosed is false', () => {
-      const event: MatRadioChange = { value: 'photoBill', source: null };
-      component.onChoosePayment(event);
+      const eventBtn: MatRadioChange = { value: 'photoBill', source: null };
+      component.onChoosePayment(eventBtn);
       const receiptLinkControl = component.addPaymentForm.get('receiptLink');
       expect(receiptLinkControl.validator).toBeNull();
     });
 
     it('should call updateValueAndValidity for receiptLink control', () => {
-      const event: MatRadioChange = { value: 'photoBill', source: null };
+      const eventBtn: MatRadioChange = { value: 'photoBill', source: null };
       const receiptLinkControl = component.addPaymentForm.get('receiptLink');
       const spy = spyOn(receiptLinkControl, 'updateValueAndValidity');
-      component.onChoosePayment(event);
+      component.onChoosePayment(eventBtn);
       expect(spy).toHaveBeenCalled();
     });
   });
