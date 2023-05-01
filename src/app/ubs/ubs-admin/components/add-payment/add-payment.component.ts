@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -146,7 +146,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const receiptLinkControl = this.addPaymentForm.get('receiptLink');
     if (receiptLinkControl && this.isLinkToBillChoosed) {
       receiptLinkControl.setValidators([Validators.required]);
-    } else if (receiptLinkControl) {
+    } else {
       receiptLinkControl.clearValidators();
     }
     receiptLinkControl.updateValueAndValidity();
