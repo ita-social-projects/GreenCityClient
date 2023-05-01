@@ -12,7 +12,7 @@ import { OrderService } from '../../services/order.service';
 import { MatRadioChange } from '@angular/material/radio';
 import { AddPaymentComponent } from './add-payment.component';
 
-fdescribe('AddPaymentComponent', () => {
+describe('AddPaymentComponent', () => {
   let component: AddPaymentComponent;
   let fixture: ComponentFixture<AddPaymentComponent>;
   const matDialogRefMock = {

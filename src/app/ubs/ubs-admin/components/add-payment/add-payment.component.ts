@@ -59,7 +59,6 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isInitialDataChanged = false;
   isInitialImageChanged = false;
   dataSource = new MatTableDataSource();
-  isFileSelected: boolean;
   public date = new Date();
   public adminName: string;
   private maxImageSize = 10485760;
