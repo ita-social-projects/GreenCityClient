@@ -65,9 +65,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.isOrderNotTakenOut = curStatus?.key === OrderStatus.NOT_TAKEN_OUT;
     }
 
-    if (!prevStatus?.key && curStatus?.key === OrderStatus.BROUGHT_IT_HIMSELF) {
-      this.isDisabledWriteOffStation = true;
-    }
+    this.isDisabledWriteOffStation = !prevStatus?.key && curStatus?.key === OrderStatus.BROUGHT_IT_HIMSELF;
 
     if (curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) {
       this.isOrderCancelledAfterFormed = true;
