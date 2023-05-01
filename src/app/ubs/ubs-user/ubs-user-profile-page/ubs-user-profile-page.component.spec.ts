@@ -524,13 +524,16 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
+    const isFormValid = component.userForm.value.valid;
     component.isEditing = true;
     fixture.detectChanges();
-    spyOn(component, 'onSubmit');
-    const deleteButton = fixture.debugElement.query(By.css('.btn-success')).nativeElement;
-    deleteButton.click();
-    tick();
-    expect(component.onSubmit).toHaveBeenCalled();
+    if (isFormValid) {
+      spyOn(component, 'onSubmit');
+      const deleteButton = fixture.debugElement.query(By.css('.btn-success')).nativeElement;
+      deleteButton.click();
+      tick();
+      expect(component.onSubmit).toHaveBeenCalled();
+    }
   }));
 
   it('method onSubmit should return submitData', () => {

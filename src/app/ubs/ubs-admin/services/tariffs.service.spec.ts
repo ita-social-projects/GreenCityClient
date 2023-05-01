@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TariffsService } from './tariffs.service';
 import { mainUbsLink } from '../../../main/links';
+import { DatePipe } from '@angular/common';
 
 const service1 = {
   name: 'fake1',
@@ -130,6 +131,13 @@ describe('TariffsService', () => {
     });
 
     httpTest('/ubs/superAdmin/5/getTariffService', 'GET', tariff);
+  });
+
+  it('should transform date', () => {
+    const date = new Date(2022, 11, 10);
+    const datePipe = new DatePipe('ua');
+    const result = datePipe.transform(date, 'MMM dd, yyyy');
+    expect(result).toEqual('груд. 10, 2022');
   });
 
   it('should create new tariff', () => {
