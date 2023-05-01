@@ -28,7 +28,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   public boxWidth: number;
   public lineSize = Array(4).fill(0);
   public screenWidth: number;
-  public isMarqueShown = false;
   public selectedTariffId: number;
 
   priceCard = [
@@ -124,7 +123,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.screenWidth = document.documentElement.clientWidth;
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
     this.calcLineSize();
-    this.adjustMarqueText();
     this.cdref.detectChanges();
   }
 
@@ -150,34 +148,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       this.lineSize = Array.from(boxes, (box) => box.getBoundingClientRect().height / 2 - halfCircleHeight - circleIndent + boxesIndent);
     }
   }
-
-  public adjustMarqueText() {
-    if (this.isMarqueShown) {
-      return;
-    }
-
-    const text =
-      'NO WASTE — NO STRESS!<img src="assets/img/ubs/auto.svg" style="margin: 0 12px; height: 90%;">' +
-      'NO WASTE — NO STRESS!<img src="assets/img/ubs/bag.svg" style="margin: 0 12px; height: 90%;">';
-
-    const block = document.getElementsByClassName('marquee-w')[0];
-    const blockWidth = block.getBoundingClientRect().width;
-
-    const marque = document.getElementsByClassName('marquee')[0];
-    marque.getElementsByTagName('span')[0].innerHTML = text;
-
-    const marqueWidth = marque.getBoundingClientRect().width;
-    const repeatCount = Math.ceil(blockWidth / marqueWidth);
-
-    marque.getElementsByTagName('span')[0].innerHTML = text.repeat(repeatCount);
-
-    const span = marque.cloneNode(true);
-    document.querySelector('.marquee-w').appendChild(span);
-    document.getElementsByClassName('marquee')[1].classList.add('marquee2');
-
-    this.isMarqueShown = true;
-  }
-
   public onCheckToken(): void {
     this.subs.add(this.checkTokenservice.onCheckToken());
   }

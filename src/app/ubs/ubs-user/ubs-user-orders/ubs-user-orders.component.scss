@@ -1,6 +1,7 @@
 .wrapper {
   min-height: 100vh;
   width: 80vw;
+  margin-top: 20px;
   margin-left: -25px;
   padding: 0 25px;
   font-size: 16px;
@@ -83,6 +84,7 @@
     color: var(--ubs-primary-black);
     font-family: var(--primary-font);
     background-color: var(--after-primary-light-grey);
+    margin-top: 0;
     margin-bottom: 10px;
   }
 
