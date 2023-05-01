@@ -115,7 +115,6 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
     });
-    this.addPaymentForm.get('receiptLink').setValidators([Validators.compose([this.requiredIfLinkToBillValidator.bind(this)])]);
 
     this.imagePreview.src = this.payment?.imagePath;
     if (this.viewMode) {
@@ -171,10 +170,6 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     const isPaymentIdValid = paymentIdControl?.invalid && paymentIdControl?.touched;
 
     return isSettlementDateValid || isAmountValid || isPaymentIdValid;
-  }
-
-  private requiredIfLinkToBillValidator(control: AbstractControl) {
-    return this.isLinkToBillChoosed && !control.value ? { requiredIfLinkToBill: true } : null;
   }
 
   save() {
