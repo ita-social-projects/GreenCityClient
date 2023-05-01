@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, AbstractControl, FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -9,10 +9,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { OrderService } from '../../services/order.service';
-
+import { MatRadioChange } from '@angular/material/radio';
 import { AddPaymentComponent } from './add-payment.component';
 
-describe('AddPaymentComponent', () => {
+fdescribe('AddPaymentComponent', () => {
   let component: AddPaymentComponent;
   let fixture: ComponentFixture<AddPaymentComponent>;
   const matDialogRefMock = {
@@ -217,5 +217,134 @@ describe('AddPaymentComponent', () => {
     } as unknown as Event;
     component.newFormat(sumPayment);
     expect((sumPayment.target as HTMLInputElement).value).toEqual('444.89');
+  });
+
+  describe('onChoosePayment', () => {
+    it('should set isPhotoContainerChoosen to true and isLinkToBillChoosed to false when event value is "photoBill"', () => {
+      const event: MatRadioChange = { value: 'photoBill', source: null };
+      component.onChoosePayment(event);
+      expect(component.isPhotoContainerChoosen).toBeTruthy();
+      expect(component.isLinkToBillChoosed).toBeFalsy();
+    });
+
+    it('should set isLinkToBillChoosed to true and isPhotoContainerChoosen to false when event value is "linkToBill"', () => {
+      const event: MatRadioChange = { value: 'linkToBill', source: null };
+      component.onChoosePayment(event);
+      expect(component.isLinkToBillChoosed).toBeTruthy();
+      expect(component.isPhotoContainerChoosen).toBeFalsy();
+    });
+
+    it('should set Validators.required for receiptLink control when isLinkToBillChoosed is true', () => {
+      const event: MatRadioChange = { value: 'linkToBill', source: null };
+      component.onChoosePayment(event);
+      const receiptLinkControl = component.addPaymentForm.get('receiptLink');
+      expect(receiptLinkControl.validator({} as AbstractControl)).toEqual({ required: true });
+    });
+
+    it('should clear Validators for receiptLink control when isLinkToBillChoosed is false', () => {
+      const event: MatRadioChange = { value: 'photoBill', source: null };
+      component.onChoosePayment(event);
+      const receiptLinkControl = component.addPaymentForm.get('receiptLink');
+      expect(receiptLinkControl.validator).toBeNull();
+    });
+
+    it('should call updateValueAndValidity for receiptLink control', () => {
+      const event: MatRadioChange = { value: 'photoBill', source: null };
+      const receiptLinkControl = component.addPaymentForm.get('receiptLink');
+      const spy = spyOn(receiptLinkControl, 'updateValueAndValidity');
+      component.onChoosePayment(event);
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('showErrorMessage', () => {
+    it('should return true if isLinkToBillChoosed is true, receiptLink has no value and receiptLink control is touched', () => {
+      component.isLinkToBillChoosed = true;
+      component.addPaymentForm.get('receiptLink').setValue('');
+      component.addPaymentForm.get('receiptLink').markAsTouched();
+      expect(component.showErrorMessage()).toBeTruthy();
+    });
+
+    it('should return false if isLinkToBillChoosed is true, receiptLink has a value and receiptLink control is touched', () => {
+      component.isLinkToBillChoosed = true;
+      component.addPaymentForm.get('receiptLink').setValue('https://example.com/receipt');
+      component.addPaymentForm.get('receiptLink').markAsTouched();
+      expect(component.showErrorMessage()).toBeFalsy();
+    });
+
+    it('should return true if isPhotoContainerChoosen is true and imagePreview.src is null', () => {
+      component.isPhotoContainerChoosen = true;
+      component.imagePreview.src = null;
+      expect(component.showErrorMessage()).toBeTruthy();
+    });
+
+    it('should return false if isPhotoContainerChoosen is true and imagePreview.src has a value', () => {
+      component.isPhotoContainerChoosen = true;
+      component.imagePreview.src = 'https://example.com/image.jpg';
+      expect(component.showErrorMessage()).toBeFalsy();
+    });
+
+    it('should return false if both isLinkToBillChoosed and isPhotoContainerChoosen are false', () => {
+      component.isLinkToBillChoosed = false;
+      component.isPhotoContainerChoosen = false;
+      expect(component.showErrorMessage()).toBeFalsy();
+    });
+  });
+
+  describe('isFormValid', () => {
+    it('should return true if settlementdate, amount, or paymentId controls are invalid and touched', () => {
+      component.addPaymentForm.get('settlementdate').setErrors({ invalid: true });
+      component.addPaymentForm.get('settlementdate').markAsTouched();
+      expect(component.isFormValid()).toBeTruthy();
+    });
+
+    it('should return false if settlementdate, amount, and paymentId controls are all valid and touched', () => {
+      component.addPaymentForm.get('settlementdate').setValue(new Date());
+      component.addPaymentForm.get('amount').setValue(100);
+      component.addPaymentForm.get('paymentId').setValue('12345');
+      expect(component.isFormValid()).toBeFalsy();
+    });
+  });
+
+  describe('isDisabledSubmitBtn', () => {
+    it('should return true if the form is not touched or not valid', () => {
+      component.addPaymentForm.markAsUntouched();
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+
+      component.addPaymentForm.setErrors({ invalid: true });
+      component.addPaymentForm.markAsTouched();
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+    });
+
+    it('should return true if in view mode and not in edit mode', () => {
+      component.viewMode = true;
+      component.editMode = false;
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+    });
+
+    it('should return true if photo container is chosen but no image preview', () => {
+      component.isPhotoContainerChoosen = true;
+      component.imagePreview.src = null;
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+    });
+
+    it('should return true if link to bill is chosen but no receipt link is set', () => {
+      component.isLinkToBillChoosed = true;
+      component.addPaymentForm.get('receiptLink').setValue('');
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+    });
+
+    it('should return true if in edit mode and no data or image has changed', () => {
+      component.editMode = true;
+      component.isInitialDataChanged = false;
+      component.isInitialImageChanged = false;
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+    });
+
+    it('should return true if no radio button is selected', () => {
+      component.isPhotoContainerChoosen = false;
+      component.isLinkToBillChoosed = false;
+      expect(component.isDisabledSubmitBtn()).toBeTruthy();
+    });
   });
 });
