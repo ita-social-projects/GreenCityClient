@@ -275,16 +275,6 @@ export class LocalStorageService {
     localStorage.removeItem('currentCustomer');
   }
 
-  public setUbsAdminOrdersTableColumnsWidthPreference(preference: Map<string, number>): void {
-    const serialized = JSON.stringify(Object.fromEntries(preference));
-    window.localStorage.setItem('UBSAdminOrdersTableColumnsWidthPreference', serialized);
-  }
-
-  public getUbsAdminOrdersTableColumnsWidthPreference(): Map<string, number> {
-    const parsed = JSON.parse(window.localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference')) || {};
-    return new Map(Object.entries(parsed));
-  }
-
   public setOrderIdToRedirect(orderId: number): void {
     localStorage.setItem(this.ORDER_TO_REDIRECT, String(orderId));
     this.ubsRedirectionBehaviourSubject.next(orderId);

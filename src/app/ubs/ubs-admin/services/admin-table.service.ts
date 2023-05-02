@@ -292,4 +292,13 @@ export class AdminTableService {
     });
     this.filters = this.filters.filter((filteredElem) => !filteredElem[colName]);
   }
+
+  setUbsAdminOrdersTableColumnsWidthPreference(preference: Map<string, number>) {
+    const columnWidthDto = Object.fromEntries(preference.entries());
+    return this.http.put(`${this.url}orderTableColumnsWidth`, columnWidthDto);
+  }
+
+  public getUbsAdminOrdersTableColumnsWidthPreference() {
+    return this.http.get(`${this.url}orderTableColumnsWidth`);
+  }
 }

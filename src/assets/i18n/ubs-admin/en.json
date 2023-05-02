@@ -123,13 +123,15 @@
     "title-2": "A payment document",
     "edit": "Edit",
     "order": "Order №",
-    "description": "Add confirmation of payment in one or more of the available ways",
+    "required-fields": "*Required-fields",
+    "description": "Please, include a link or photo of the receipt",
     "payment-date": " Payment date",
     "payment-amount": "Payment amount (UAH)",
     "amount-placeholder": "0 UAH",
     "date-placeholder": "DD/MM/YYYY",
     "payment-id": "Payment ID",
     "id-placeholder": "№1234567890",
+    "confirm-payment": "Add proof of payment using one of the available methods",
     "link-to-bill": "Link to electronic bill",
     "link-placeholder": "Link to external source",
     "label-for-photo": "Photo or screenshot of the bill",
@@ -809,6 +811,9 @@
       "about-us": "About-us",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
+    },
+    "edit-profile": {
+      "profile-changes-saved": "Your changes have been saved"
     },
     "auth": {
       "sign-in": {

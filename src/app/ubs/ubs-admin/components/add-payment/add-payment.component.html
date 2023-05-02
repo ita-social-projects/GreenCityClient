@@ -16,7 +16,9 @@
     <span class="order-title">{{ 'add-payment.order' | translate }}</span>
     <span class="label">{{ orderId }}</span>
     <hr />
-    <span *ngIf="!viewMode" class="sub-title">{{ 'add-payment.description' | translate }}</span>
+    <span [ngClass]="isFormValid() || showErrorMessage() ? 'invalid-fields' : 'required-fields'">{{
+      'add-payment.required-fields' | translate
+    }}</span>
     <div class="form-container block">
       <label class="label" for="date">{{ 'add-payment.payment-date' | translate }}</label>
       <input
@@ -30,101 +32,117 @@
       />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
-      <label class="label" for="amount">{{ 'add-payment.payment-amount' | translate }} </label>
-      <input
-        formControlName="amount"
-        id="amount"
-        class="date"
-        type="number"
-        value="paymentSum"
-        min="0"
-        (change)="newFormat($event)"
-        placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
-      />
-      <label class="label" for="payment-id">{{ 'add-payment.payment-id' | translate }}</label>
-      <input formControlName="paymentId" id="payment-id" class="id" placeholder="{{ 'add-payment.id-placeholder' | translate }}" />
-      <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
-      <input formControlName="receiptLink" id="link" class="link" type="text" placeholder="{{ 'add-payment.link-to-bill' | translate }}" />
-    </div>
-    <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
-    <span *ngIf="!viewMode" class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
-    <div appDrag (files)="filesDropped($event)">
-      <div class="photo-container">
-        <div class="image-edit-head" *ngIf="imagePreview.src && (!viewMode || editMode)">
-          <span class="image-name">{{ imagePreview?.name }}</span>
-          <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
+      <div class="input-container">
+        <div>
+          <label class="label" for="amount">{{ 'add-payment.payment-amount' | translate }} </label>
+          <input
+            formControlName="amount"
+            id="amount"
+            class="amount"
+            type="number"
+            value="paymentSum"
+            min="0"
+            (change)="newFormat($event)"
+            placeholder="{{ 'add-payment.amount-placeholder' | translate }}"
+          />
         </div>
-        <img
-          *ngIf="imagePreview.src && !isPdf()"
-          id="image-preview"
-          [src]="imagePreview.src"
-          alt="image-of-payment"
-          (click)="enlargeImage()"
-        />
-        <pdf-viewer
-          *ngIf="imagePreview.src && isPdf()"
-          id="pdf-viewer"
-          [src]="imagePreview.src"
-          [page]="1"
-          [show-all]="false"
-          [render-text]="false"
-          [original-size]="false"
-          [zoom-scale]="'page-fit'"
-          alt="image-of-payment"
-          (click)="enlargeImage()"
-        >
-        </pdf-viewer>
-        <p *ngIf="!imagePreview.src && !(viewMode && !editMode)" class="requirement-drag label">
-          <span>
-            {{ 'add-payment.drag-photo' | translate }}
-          </span>
-          <label class="label custom-file-upload" for="file">{{ 'add-payment.drag-photo-link' | translate }}</label>
+        <div>
+          <label class="label" for="payment-id">{{ 'add-payment.payment-id' | translate }}</label>
+          <input formControlName="paymentId" id="payment-id" class="id" placeholder="{{ 'add-payment.id-placeholder' | translate }}" />
+        </div>
+      </div>
+      <mat-radio-group class="radio-group" (change)="onChoosePayment($event)">
+        <label class="add-confirmation">{{ 'add-payment.confirm-payment' | translate }}</label>
+        <div>
+          <div class="radio-btn-group">
+            <mat-radio-button name="linkToBill" value="linkToBill" [checked]="isLinkToBillChoosed"></mat-radio-button>
+            <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
+          </div>
+          <input
+            *ngIf="isLinkToBillChoosed"
+            formControlName="receiptLink"
+            id="link"
+            class="link"
+            type="text"
+            placeholder="{{ 'add-payment.link-to-bill' | translate }}"
+          />
+        </div>
+        <div>
+          <div class="radio-btn-group">
+            <mat-radio-button name="photoBill" value="photoBill" [checked]="isPhotoContainerChoosen"></mat-radio-button>
+            <span class="label">{{ 'add-payment.label-for-photo' | translate }}</span>
+          </div>
+          <div *ngIf="isPhotoContainerChoosen" appDrag (files)="filesDropped($event)">
+            <span *ngIf="!viewMode" class="photo-requirement">{{ 'add-payment.requirement' | translate }}</span>
+            <div class="photo-container">
+              <div class="image-edit-head" *ngIf="imagePreview.src && (!viewMode || editMode)">
+                <span class="image-name">{{ imagePreview?.name }}</span>
+                <img class="user-image" src="assets/img/ubs/cross.svg" alt="close" (click)="removeImage()" />
+              </div>
+              <img
+                *ngIf="imagePreview.src && !isPdf()"
+                id="image-preview"
+                [src]="imagePreview.src"
+                alt="image-of-payment"
+                (click)="enlargeImage()"
+              />
+              <pdf-viewer
+                *ngIf="imagePreview.src && isPdf()"
+                id="pdf-viewer"
+                [src]="imagePreview.src"
+                [page]="1"
+                [show-all]="false"
+                [render-text]="false"
+                [original-size]="false"
+                [zoom-scale]="'page-fit'"
+                alt="image-of-payment"
+                (click)="enlargeImage()"
+              >
+              </pdf-viewer>
+              <p *ngIf="!imagePreview.src && !(viewMode && !editMode)" class="requirement-drag label">
+                <span>
+                  {{ 'add-payment.drag-photo' | translate }}
+                </span>
+                <label class="label custom-file-upload" for="file">{{ 'add-payment.drag-photo-link' | translate }}</label>
+                <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
+              </p>
+            </div>
+          </div>
+          <label *ngIf="imagePreview.src && (!viewMode || editMode)" class="label custom-file-upload" for="file">{{
+            'add-payment.drag-other-photo-link' | translate
+          }}</label>
           <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
+          <span *ngIf="showErrorMessage()" class="validate-message">{{ 'add-payment.description' | translate }}</span>
+          <p *ngIf="isFileSizeWarning" class="warning_message">{{ 'add-payment.file-size-warning' | translate }}</p>
+          <p *ngIf="isFileTypeWarning" class="warning_message">{{ 'add-payment.file-type-warning' | translate }}</p>
+        </div>
+      </mat-radio-group>
+      <div class="btn-container block">
+        <button *ngIf="viewMode && !editMode" class="delete-payment" [disabled]="isDeleting" (click)="deletePayment()">
+          <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
+          <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+          {{ 'add-payment.btn.delete' | translate }}
+        </button>
+        <button type="reset" class="back label" (click)="verifyEditing()">{{ 'add-payment.btn.back' | translate }}</button>
+        <button type="submit" class="agree label" [disabled]="isDisabledSubmitBtn()" (click)="save()">
+          <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+          {{ (viewMode || editMode ? 'add-payment.btn.save' : 'add-payment.btn.confirm') | translate }}
+        </button>
+      </div>
+      <div class="add-info">
+        <p>
+          {{ 'add-payment.date' | translate }}:
+          <span class="bold">
+            {{ date | date: 'dd.MM.y' }}
+          </span>
+        </p>
+        <p>
+          {{ 'add-payment.added' | translate }}:
+          <span class="bold">
+            {{ adminName }}
+          </span>
         </p>
       </div>
     </div>
-    <label *ngIf="imagePreview.src && (!viewMode || editMode)" class="label custom-file-upload" for="file">{{
-      'add-payment.drag-other-photo-link' | translate
-    }}</label>
-    <input id="file" type="file" accept="application/pdf,image/png,image/jpeg" class="d-none" (change)="onFileSelect($event)" />
-    <p *ngIf="isFileSizeWarning" class="warning_message">{{ 'add-payment.file-size-warning' | translate }}</p>
-    <p *ngIf="isFileTypeWarning" class="warning_message">{{ 'add-payment.file-type-warning' | translate }}</p>
-  </div>
-  <div class="btn-container block">
-    <button *ngIf="viewMode && !editMode" class="delete-payment" [disabled]="isDeleting" (click)="deletePayment()">
-      <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
-      <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-      {{ 'add-payment.btn.delete' | translate }}
-    </button>
-    <button type="reset" class="back label" (click)="verifyEditing()">{{ 'add-payment.btn.back' | translate }}</button>
-    <button
-      type="submit"
-      class="agree label"
-      [disabled]="
-        !addPaymentForm.touched ||
-        !addPaymentForm.valid ||
-        isUploading ||
-        (editMode && !isInitialDataChanged && !isInitialImageChanged) ||
-        (viewMode && !editMode)
-      "
-      (click)="save()"
-    >
-      <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-      {{ (viewMode || editMode ? 'add-payment.btn.save' : 'add-payment.btn.confirm') | translate }}
-    </button>
-  </div>
-  <div class="add-info">
-    <p>
-      {{ 'add-payment.date' | translate }}:
-      <span class="bold">
-        {{ date | date: 'dd.MM.y' }}
-      </span>
-    </p>
-    <p>
-      {{ 'add-payment.added' | translate }}:
-      <span class="bold">
-        {{ adminName }}
-      </span>
-    </p>
   </div>
 </div>
