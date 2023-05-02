@@ -123,7 +123,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   ngOnInit() {
     this.firstPageLoad = true;
     this.initDateForm();
-    this.columnsWidthPreference = this.localStorageService.getUbsAdminOrdersTableColumnsWidthPreference();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
       this.currentLang = lang;
       if (this.tableData) {
@@ -171,8 +170,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         }
         this.totalPages = item[`totalPages`];
         this.formatTableData();
+        this.adminTableService.getUbsAdminOrdersTableColumnsWidthPreference().subscribe((res) => {
+          this.columnsWidthPreference = new Map(Object.entries(res));
+          setTimeout(() => this.applyColumnsWidthPreference(), 0);
+        });
         this.isLoading = false;
-        setTimeout(() => this.applyColumnsWidthPreference(), 0);
       }
     });
     this.bigOrderTableParams$.subscribe((columns: IBigOrderTableParams) => {
@@ -895,8 +897,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
-    this.localStorageService.setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference);
-    // console.log('this.columnsWidthPreference', this.columnsWidthPreference);
+    this.adminTableService
+      .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
+      .pipe(takeUntil(this.destroy))
+      .subscribe();
   }
 
   setColumnsForFiltering(columns): void {

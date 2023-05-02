@@ -477,30 +477,6 @@ describe('LocalStorageService', () => {
     });
   });
 
-  describe('UBSAdminOrdersTableColumnsWidthPreference', () => {
-    it('should set UBSAdminOrdersTableColumnsWidthPreference in local storage', () => {
-      const preference = new Map<string, number>([
-        ['column1', 100],
-        ['column2', 200]
-      ]);
-      service.setUbsAdminOrdersTableColumnsWidthPreference(preference);
-      expect(JSON.parse(localStorage.getItem('UBSAdminOrdersTableColumnsWidthPreference'))).toEqual({ column1: 100, column2: 200 });
-    });
-
-    it('should get UBSAdminOrdersTableColumnsWidthPreference from local storage', () => {
-      const preference = new Map<string, number>([
-        ['column1', 100],
-        ['column2', 200]
-      ]);
-      localStorage.setItem('UBSAdminOrdersTableColumnsWidthPreference', JSON.stringify({ column1: 100, column2: 200 }));
-      expect(service.getUbsAdminOrdersTableColumnsWidthPreference()).toEqual(preference);
-    });
-
-    it('should return an empty Map if UBSAdminOrdersTableColumnsWidthPreference is not in local storage', () => {
-      expect(service.getUbsAdminOrdersTableColumnsWidthPreference().size).toEqual(0);
-    });
-  });
-
   describe('setOrderIdToRedirect and getOrderIdToRedirect', () => {
     it('should set order id to redirect in local storage and emit event', () => {
       spyOn(service.ubsRedirectionBehaviourSubject, 'next').and.callThrough();
