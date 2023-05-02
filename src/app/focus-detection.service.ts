@@ -37,10 +37,10 @@ export class FocusDetectionService {
   }
 
   private setupFocusDetection(): void {
-    document.addEventListener('mousedown', this.onMouseDown);
-    document.addEventListener('keydown', this.onKeyDown);
-    document.addEventListener('focusin', this.onFocusIn);
-    document.addEventListener('focusout', this.onFocusOut);
+    document.addEventListener('mousedown', this.onMouseDown.bind(this));
+    document.addEventListener('keydown', this.onKeyDown.bind(this));
+    document.addEventListener('focusin', this.onFocusIn.bind(this));
+    document.addEventListener('focusout', this.onFocusOut.bind(this));
   }
 
   private onMouseDown(event: MouseEvent): void {
@@ -64,7 +64,6 @@ export class FocusDetectionService {
   private updateOutline(target: HTMLElement, style: string): void {
     if (this.isTargetElement(target)) {
       target.style.outline = style;
-      console.log('Update outline', target, this.focusByKeyboard);
     }
   }
 
