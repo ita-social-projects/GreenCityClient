@@ -136,6 +136,29 @@ body {
   }
 }
 
+.mat-accent .mat-slider-track-fill,
+.mat-accent .mat-slider-thumb,
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: var(--primary-green);
+}
+
+.custom-radio-btn {
+  .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: var(--ubs-quaternary-dark-grey) !important;
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: var(--ubs-quaternary-dark-grey) !important;
+  }
+
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: var(--ubs-quaternary-dark-grey) !important;
+  }
+}
+
 .custom-dialog-container {
   .mat-dialog-container {
     padding: 0;
@@ -276,15 +299,6 @@ body {
   .mat-button-wrapper {
     display: none;
   }
-}
-
-.mat-accent .mat-slider-track-fill,
-.mat-accent .mat-slider-thumb,
-.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
-.mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
-.mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color: var(--primary-green);
 }
 
 .disagree {
