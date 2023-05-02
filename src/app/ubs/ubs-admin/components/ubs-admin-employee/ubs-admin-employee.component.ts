@@ -18,26 +18,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
-
-enum selectOptions {
-  all = 'all'
-}
-
-enum filterOptions {
-  city = 'city',
-  courier = 'courier',
-  position = 'position',
-  region = 'region',
-  contact = 'contact'
-}
-
-enum filtersPlaceholderOptions {
-  city = 'employees.city',
-  courier = 'employees.courier',
-  position = 'employees.position',
-  region = 'employees.region',
-  contact = 'employees.contact'
-}
+import { selectOptions, filterOptions, filtersPlaceholderOptions } from './ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -71,7 +52,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   cards = [];
   cardsUk = [];
   cardsEn = [];
-  filterData = { status: '' };
+  filterData = {};
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
@@ -269,7 +250,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       });
   }
 
-  public setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder): void {
+  public setCountOfCheckedFilters(selectedFilter, filtreName: string, placeholder: string): void {
     if (selectedFilter.length) {
       this.translate.get('ubs-tariffs.selected').subscribe((data) => (this[placeholder] = `${selectedFilter.length} ${data}`));
     } else {
@@ -346,12 +327,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.employeePositions.forEach((position) => {
         const tempItem = this.transformPositionToSelectedPosition(position);
         this.selectedPositions.push(tempItem);
-        this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
       });
     } else {
       this.selectedPositions.length = 0;
-      this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
     }
+    this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
   }
 
   toggleSelectAllRegion(): void {
@@ -461,7 +441,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
       Object.assign(this.filterData, { location: locationsId });
     } else {
-      this.selectCitsy(event);
+      this.selectCity(event);
       const locationId = this.selectedCities.map((it) => it.id);
       Object.assign(this.filterData, { location: locationId });
     }
@@ -495,7 +475,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
   }
 
-  selectCitsy(event: MatAutocompleteSelectedEvent): void {
+  selectCity(event: MatAutocompleteSelectedEvent): void {
     const selectedLocation = this.locations.find((location) =>
       location.locationsDto.find((locationName) =>
         locationName.locationTranslationDtoList.find((name) => name.locationName === event.option.viewValue)
@@ -578,7 +558,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
       Object.assign(this.filterData, { region: '' });
     } else {
       const newValue = value;
-
       const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === newValue));
       this.regionEnglishName = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
@@ -615,10 +594,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.selectedRegions.push(value.trim());
       }
     }
-  }
-
-  addRegion(value): void {
-    this.selectedRegions.push(value);
   }
 
   getFilterData(tags: Array<string>): void {

@@ -58,11 +58,11 @@ export interface Stations {
 
 export interface Couriers {
   courierId: number;
-  courierStatus: string;
+  courierStatus?: string;
   nameUk: string;
   nameEn: string;
-  createDate: string;
-  createdBy: string;
+  createDate?: string;
+  createdBy?: string;
 }
 
 export interface Locations {
