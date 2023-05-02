@@ -805,6 +805,9 @@
       "sorting-rules": "Правила сортування",
       "eco-shop": "Екомагазин"
     },
+    "edit-profile": {
+      "profile-changes-saved": "Внесені зміни збережено"
+    },
     "auth": {
       "sign-in": {
         "title": "З поверненням!",

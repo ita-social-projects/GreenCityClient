@@ -117,7 +117,6 @@
     "date": "Date:",
     "info-about-date": "Added:"
   },
-
   "add-payment": {
     "title": "Add a payment document",
     "title-2": "A payment document",
@@ -809,6 +808,9 @@
       "about-us": "About-us",
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
+    },
+    "edit-profile": {
+      "profile-changes-saved": "Your changes have been saved"
     },
     "auth": {
       "sign-in": {
