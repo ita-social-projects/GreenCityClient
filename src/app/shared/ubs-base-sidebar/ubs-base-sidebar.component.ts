@@ -9,12 +9,13 @@ import {
   ChangeDetectorRef,
   AfterViewChecked
 } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-base-sidebar',
@@ -35,22 +36,24 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   @ViewChild('sideBarIcons') sideBarIcons: ElementRef;
   @ViewChild('sidebarContainer') sidebarContainer: ElementRef;
 
+  CUSTOM_BREAKPOINTS = {
+    XSmall: '(max-width: 480px)'
+  };
+
   constructor(
     public serviceUserMessages: UserMessagesService,
     public breakpointObserver: BreakpointObserver,
     public jwtService: JwtService,
+    private router?: Router,
     private cdr?: ChangeDetectorRef
   ) {}
 
-  public getIcon(listItem): string {
-    return listItem.link === this.bellsNoneNotification && this.serviceUserMessages.countOfNoReadeMessages
-      ? this.bellsNotification
-      : listItem.link;
-  }
+  public isExpanded = false;
 
-  public toggleSideBar(): void {
-    this.drawer.toggle();
-    this.setIndexToSidebarIcons();
+  public navigateToPage(event: Event, routerLink: string): void {
+    event.stopPropagation();
+    const mainLink = this.isAdmin ? 'ubs-admin' : 'ubs-user';
+    this.router.navigate([mainLink, ...routerLink.split('/')]);
   }
 
   public setIndexToSidebarIcons(): void {
@@ -65,11 +68,20 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
     }
   }
 
+  public getIcon(listItem): string {
+    return listItem.link === this.bellsNoneNotification && this.serviceUserMessages.countOfNoReadeMessages
+      ? this.bellsNotification
+      : listItem.link;
+  }
+
+  public toggleMenu() {
+    this.isExpanded = !this.isExpanded;
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (this.drawer) {
-      this.drawer.opened = event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint;
-      this.setIndexToSidebarIcons();
+      this.isExpanded = event.target.innerWidth > this.sidebarChangeBreakpoint || window.innerWidth > this.sidebarChangeBreakpoint;
     }
   }
 
@@ -91,12 +103,13 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   ngAfterViewInit(): void {
     this.sidebarChangeBreakpoint = 1266;
     if (window.innerWidth < this.sidebarChangeBreakpoint && this.drawer) {
-      this.drawer.toggle();
+      this.isExpanded = false;
     }
     setTimeout(() => {
-      this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((result) => {
+      this.breakpointObserver.observe([this.CUSTOM_BREAKPOINTS.XSmall]).subscribe((result) => {
         if (this.drawer) {
           this.drawer.mode = 'side';
+          this.drawer.opened = !result.matches;
         }
       });
     }, 0);
