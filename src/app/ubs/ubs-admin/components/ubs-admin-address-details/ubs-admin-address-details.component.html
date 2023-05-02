@@ -16,7 +16,6 @@
               class="form-control shadow-none placeholder-positioning"
               id="region"
             >
-              <option hidden value="" disabled selected>Region</option>
               <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
             </select>
           </div>
@@ -135,7 +134,6 @@
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             (change)="onDistrictSelected($event)"
           >
-            <option hidden value="" disabled selected>District</option>
             <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
           </select>
           <div
