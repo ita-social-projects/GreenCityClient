@@ -1,14 +1,16 @@
 @import './././src/app/ubs/ubs-admin/ubs-admin.component';
 
 .container {
-  height: 100%;
+  height: fit-content;
+  max-height: 90vh;
   overflow-y: auto;
-  width: 560px;
+  width: 590px;
   position: relative;
-  font-family: var(--primary-font);
+  font-family: var(--ubs-quaternary-font);
   color: var(--ubs-quaternary-dark-grey);
   background: var(--pre-secondary-light-grey);
   padding: 30px 56px;
+  top: 5%;
 
   .label {
     font-size: 15px;
@@ -20,6 +22,32 @@
   .block {
     margin-top: 25px;
     margin-bottom: 25px;
+  }
+
+  .required-fields {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--quaternary-grey);
+  }
+
+  .invalid-fields {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--error-red);
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+  }
+
+  .add-confirmation {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--quaternary-grey);
   }
 
   .sub-title {
@@ -101,12 +129,10 @@
       color: var(--ubs-primary-light-grey);
     }
 
+    .id,
+    .amount,
     .date {
-      min-width: 170px;
-    }
-
-    .id {
-      min-width: 170px;
+      min-width: 130px;
     }
 
     .link {
@@ -117,14 +143,10 @@
     .form-container.block {
       position: relative;
 
-      & #date {
-        width: 170px;
-      }
-
       & .mat-datepicker-toggle {
         position: absolute;
         top: 20px;
-        left: 130px;
+        left: 120px;
       }
     }
 
@@ -231,19 +253,20 @@
       background: none;
       border: none;
       margin-right: 35px;
+      color: var(--ubs-primary-green);
     }
 
     .agree {
       border: none;
-      color: var(--ubs-quaternary-dark-grey);
-      background-color: var(--ubs-button-light-green);
+      color: var(--ubs-primary-white);
+      background-color: var(--ubs-primary-green);
       border-radius: 4px;
       padding: 7px 20px 7px 20px;
 
       &:disabled {
-        background: var(--ubs-quaternary-light-grey);
-        border-color: var(--ubs-quaternary-light-grey);
-        color: var(--ubs-primary-light-grey);
+        background: var(--primary-light-green);
+        border-color: var(--primary-light-green);
+        color: var(--ubs-primary-white);
       }
     }
   }
@@ -251,6 +274,22 @@
   .disabled {
     opacity: 0.75;
     cursor: default;
+  }
+
+  .validate-message {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--ubs-error-ligh-red);
+  }
+
+  .radio-btn-group {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+
+    .label {
+      padding-bottom: 4px;
+    }
   }
 
   .add-info {
@@ -267,4 +306,17 @@
       color: var(--ubs-quaternary-dark-grey);
     }
   }
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: white;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: var(--ubs-quaternary-dark-grey);
+}
+
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  background-color: white;
+  border-color: var(--ubs-quaternary-dark-grey);
 }
