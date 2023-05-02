@@ -30,7 +30,6 @@
   font-style: normal;
   font-weight: 700;
   border: none;
-  outline: none;
   background: none;
   cursor: pointer;
 }
@@ -107,7 +106,6 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   border: 0;
-  outline: 0;
   background-color: transparent;
 
   &:hover,
@@ -129,13 +127,11 @@
 
 .ubs-primary-global-button:focus,
 .ubs-secondary-global-button:focus {
-  outline: 0;
   box-shadow: 2px 6px 10px var(--ubs-button-shadow);
 }
 
 .ubs-danger-global-button:focus,
 .ubs-link-global-button:focus {
-  outline: 0;
   text-decoration-line: underline;
   text-shadow: 2px 6px 10px var(--ubs-button-shadow);
 }

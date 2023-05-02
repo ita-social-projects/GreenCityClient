@@ -154,7 +154,7 @@ describe('HeaderComponent', () => {
     });
 
     it('should open Auth modal window', () => {
-      const spy = spyOn(dialog, 'open');
+      const spy = spyOn(dialog, 'open').and.callThrough();
       component.openAuthModalWindow('sign-in');
       expect(spy).toHaveBeenCalled();
     });

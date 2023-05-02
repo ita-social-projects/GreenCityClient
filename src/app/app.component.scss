@@ -10,3 +10,7 @@
   color: var(--error-red);
   z-index: 999;
 }
+
+::ng-deep .mat-select:focus-visible {
+  outline: 2px solid currentColor !important;
+}

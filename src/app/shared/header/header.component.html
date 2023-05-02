@@ -14,8 +14,16 @@
       <div [ngClass]="getHeaderClass()">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist">
-            <a *ngIf="isUBS" class="pick-up-service" (click)="openAboutServicePopUp()">{{ 'user.lower-nav-bar.about-us' | translate }}</a>
-            <li *ngFor="let link of navLinks" tabindex="0" role="listitem" class="nav-left-list">
+            <a
+              *ngIf="isUBS"
+              #serviceref
+              href
+              class="pick-up-service"
+              (click)="openAboutServicePopUp()"
+              (keydown.enter)="onPressEnterAboutService($event)"
+              >{{ 'user.lower-nav-bar.about-us' | translate }}</a
+            >
+            <li *ngFor="let link of navLinks" role="listitem" class="nav-left-list">
               <a *ngIf="link.url; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer" class="url-name">
                 {{ link.name | translate }}
               </a>
@@ -115,17 +123,19 @@
               appCloseDropdown
               aria-label="language switcher"
               role="menu"
-              tabindex="0"
+              tabindex="-1"
+              [attr.aria-expanded]="langDropdownVisible ? 'true' : 'false'"
               [ngClass]="{
                 'add-shadow': langDropdownVisible,
                 'header_lang-switcher-wrp header_navigation-menu-right-lang': true,
                 'ubs-lang-switcher': isUBS
               }"
               (click)="langDropdownVisible = !langDropdownVisible"
+              (keydown.enter)="toggleLangDropdown($event)"
+              (keydown.space)="toggleLangDropdown($event)"
               (clickOutSide)="autoCloseLangDropDown($event)"
-              (keyup.enter)="langDropdownVisible = !langDropdownVisible"
             >
-              <li role="option" aria-label="english" class="lang-option">
+              <li role="option" aria-label="english" class="lang-option" tabindex="0">
                 <span
                   [ngStyle]="{
                     'font-size': isUBS && '18px',
@@ -150,6 +160,7 @@
                     tabindex="0"
                     [attr.aria-label]="lang.lang"
                     (click)="changeCurrentLanguage(lang.lang, index)"
+                    (keydown)="onKeydownLangOption($event, index)"
                   >
                     <span [ngClass]="isUBS && 'ubs-lang-switcher-span'" aria-hidden="true">{{ lang.lang }}</span>
                   </li>
