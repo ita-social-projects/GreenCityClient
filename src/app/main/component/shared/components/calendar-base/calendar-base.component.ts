@@ -10,6 +10,7 @@ import { HabitsPopupComponent } from '@global-user/components/profile/calendar/h
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-calendar-base',
@@ -64,7 +65,8 @@ export class CalendarBaseComponent implements OnDestroy {
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnDestroy() {
@@ -308,6 +310,7 @@ export class CalendarBaseComponent implements OnDestroy {
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
     const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
+    let horisontalPositioning: string;
     if (dayItem.numberOfDate) {
       this.habitAssignService.habitDate = new Date(dateForHabitPopup);
     } else {
@@ -317,13 +320,16 @@ export class CalendarBaseComponent implements OnDestroy {
     const date = this.formatDate(isMonthCalendar, dayItem);
     const habits = this.getHabitsForDay(this.userHabitsList, date);
     const pos = event.target.getBoundingClientRect();
+    this.breakpointObserver.observe(['(max-width: 912px)']).subscribe((result: BreakpointState) => {
+      horisontalPositioning = result.matches ? '' : pos.left + '300px';
+    });
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.backdropClass = 'backdropBackground';
     dialogConfig.position = {
-      top: pos.y + 20 + 'px',
-      left: pos.x - 300 + 'px'
+      top: pos.top + '80px',
+      left: horisontalPositioning
     };
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
@@ -344,7 +350,7 @@ export class CalendarBaseComponent implements OnDestroy {
   sendEnrollRequest(changedList, date) {
     const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsList, date).habitAssigns;
     habitsForSelectedDay.forEach((habit: any) => {
-      const baseHabit: any = changedList.find((list: any) => list.habitId === habit.habitId);
+      const baseHabit: any = changedList.find((list: any) => list.habitAssignId === habit.habitAssignId);
       if (habit.enrolled !== baseHabit.enrolled) {
         habit.enrolled ? this.unEnrollHabit(habit, date) : this.enrollHabit(habit, date);
       }
@@ -354,7 +360,7 @@ export class CalendarBaseComponent implements OnDestroy {
   enrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService
-      .enrollByHabit(habit.habitId, date)
+      .enrollByHabit(habit.habitAssignId, date)
       .pipe(
         takeUntil(this.destroySub),
         finalize(() => (this.checkAnswer = false))
@@ -368,7 +374,7 @@ export class CalendarBaseComponent implements OnDestroy {
   unEnrollHabit(habit, date) {
     this.checkAnswer = true;
     this.habitAssignService
-      .unenrollByHabit(habit.habitId, date)
+      .unenrollByHabit(habit.habitAssignId, date)
       .pipe(
         takeUntil(this.destroySub),
         finalize(() => (this.checkAnswer = false))
