@@ -37,6 +37,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   pageOpen: boolean;
   public isOrderDone = false;
   public isOrderNotTakenOut = false;
+  isDisabledWriteOffStation = false;
 
   @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
@@ -63,6 +64,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
       this.isOrderDone = curStatus?.key === OrderStatus.DONE;
       this.isOrderNotTakenOut = curStatus?.key === OrderStatus.NOT_TAKEN_OUT;
     }
+
+    this.isDisabledWriteOffStation = !prevStatus?.key && curStatus?.key === OrderStatus.BROUGHT_IT_HIMSELF;
 
     if (curStatus?.key === OrderStatus.CANCELED && prevStatus?.key === OrderStatus.FORMED) {
       this.isOrderCancelledAfterFormed = true;
@@ -233,7 +236,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     if (this.isOrderBroughtByHimself) {
       this.overpayment = baseSumOfOrder - this.writeoffAtStationSum;
     } else if (this.showUbsCourier) {
-      this.overpayment = baseSumOfOrder - this.courierPrice;
+      this.overpayment = this.orderDetails.bonuses - priceWithoutCertificate - this.courierPrice;
     } else {
       this.overpayment = this.orderDetails.bonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
     }
