@@ -812,6 +812,9 @@
       "sorting-rules": "Sorting rules",
       "eco-shop": "Eco-Shop"
     },
+    "edit-profile": {
+      "profile-changes-saved": "Your changes have been saved"
+    },
     "auth": {
       "sign-in": {
         "title": "Welcome back!",
