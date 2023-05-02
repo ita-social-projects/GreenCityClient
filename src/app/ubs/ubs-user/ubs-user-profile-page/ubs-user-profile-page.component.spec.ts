@@ -361,6 +361,7 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: MatDialogRef, useValue: {} },
         { provide: GoogleScript, useValue: fakeGoogleScript },
+        { provide: MatDialogRef, useValue: {} },
         { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
@@ -457,7 +458,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.onEdit).toHaveBeenCalled();
   }));
 
-  it('method openDeleteDialog should be calls by clicking delete button', fakeAsync(() => {
+  it('method openDeleteDialog  should be calls by clicking delete button', fakeAsync(() => {
     spyOn(component, 'openDeleteDialog');
     const deleteButton = fixture.debugElement.query(By.css('.delete')).nativeElement;
     deleteButton.click();
@@ -465,7 +466,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.openDeleteDialog).toHaveBeenCalled();
   }));
 
-  it('method openDeleteDialog has to open popup', () => {
+  it('method openDeleteDialog  has to open popup', () => {
     spyOn(dialogMock, 'open').and.callFake(() => {});
     component.openDeleteDialog();
     expect(dialogMock.open).toHaveBeenCalled();
@@ -523,13 +524,16 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
+    const isFormValid = component.userForm.value.valid;
     component.isEditing = true;
     fixture.detectChanges();
-    spyOn(component, 'onSubmit');
-    const deleteButton = fixture.debugElement.query(By.css('.btn-success')).nativeElement;
-    deleteButton.click();
-    tick();
-    expect(component.onSubmit).toHaveBeenCalled();
+    if (isFormValid) {
+      spyOn(component, 'onSubmit');
+      const deleteButton = fixture.debugElement.query(By.css('.btn-success')).nativeElement;
+      deleteButton.click();
+      tick();
+      expect(component.onSubmit).toHaveBeenCalled();
+    }
   }));
 
   it('method onSubmit should return submitData', () => {

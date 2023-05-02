@@ -42,3 +42,4 @@ export const frontAuthLink = frontMailLink + 'auth/';
 // ubs-admin
 export const ubsAdminEmployeeLink = mainUbsLink + '/admin/ubs-employee';
 export const ubsAdminStationLink = mainUbsLink + '/ubs/superAdmin';
+export const ubsAdminNotificationLink = mainUbsLink + '/admin/notification';

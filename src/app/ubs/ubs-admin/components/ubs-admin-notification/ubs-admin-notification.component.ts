@@ -5,12 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { NotificationTemplate } from '../../models/notifications.model';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -27,8 +28,10 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     activate: './assets/img/ubs-admin-notifications/counterclockwise.svg'
   };
   currentLanguage: string;
-  initialNotification = null;
   notification = null;
+  notificationTriggerTime = notificationTriggerTimeMock;
+  notificationTriggers = notificationTriggersMock;
+  notificationId: number;
 
   constructor(
     private notificationsService: NotificationsService,
@@ -37,7 +40,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit(): void {
@@ -46,14 +50,9 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       this.currentLanguage = lang;
     });
     this.route.params.pipe(takeUntil(this.destroy)).subscribe((params) => {
-      const id = Number(params.id);
-      this.loadNotification(id);
+      this.notificationId = Number(params.id);
+      this.loadNotification(this.notificationId);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.complete();
   }
 
   loadNotification(id: number): void {
@@ -62,8 +61,7 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (notification: NotificationTemplate) => {
-          this.initialNotification = notification;
-          this.notification = JSON.parse(JSON.stringify(this.initialNotification));
+          this.notification = notification;
         },
         () => this.navigateToNotificationList()
       );
@@ -78,17 +76,26 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onEditNotificationText(platform: string): void {
+    const platformToUpdate = this.notification.platforms.find((pf) => pf.nameEng === platform);
+
     this.dialog
       .open(UbsAdminNotificationEditFormComponent, {
         hasBackdrop: true,
-        data: { platform, text: this.notification.platforms.find((pf) => pf.name === platform).body }
+        data: {
+          platform,
+          text: {
+            ua: platformToUpdate.body,
+            en: platformToUpdate.bodyEng
+          }
+        }
       })
       .afterClosed()
       .subscribe((updates: { text: { ua: string; en: string } }) => {
         if (!updates) {
           return;
         }
-        this.notification.platforms.find((pf) => pf.name === platform).body = updates.text;
+        platformToUpdate.body = updates.text.ua;
+        platformToUpdate.bodyEng = updates.text.en;
       });
   }
 
@@ -97,10 +104,13 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       .open(UbsAdminNotificationSettingsComponent, {
         hasBackdrop: true,
         data: {
-          title: { en: this.notification.title.en, ua: this.notification.title.ua },
-          trigger: this.notification.trigger,
-          time: this.notification.time,
-          schedule: this.notification.schedule
+          title: {
+            en: this.notification.notificationTemplateMainInfoDto.titleEng,
+            ua: this.notification.notificationTemplateMainInfoDto.title
+          },
+          trigger: this.notification.notificationTemplateMainInfoDto.trigger,
+          time: this.notification.notificationTemplateMainInfoDto.time,
+          schedule: this.notification.notificationTemplateMainInfoDto.schedule
         }
       })
       .afterClosed()
@@ -108,19 +118,37 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         if (!updates) {
           return;
         }
-        this.notification.title = updates.title;
-        this.notification.trigger = updates.trigger;
-        this.notification.schedule = updates.schedule;
-        this.notification.time = updates.time;
+        this.findNewDescription(updates);
+        this.notification.notificationTemplateMainInfoDto.title = updates.title.ua;
+        this.notification.notificationTemplateMainInfoDto.titleEng = updates.title.en;
+        this.notification.notificationTemplateMainInfoDto.trigger = updates.trigger;
+        this.notification.notificationTemplateMainInfoDto.time = updates.time;
+        this.notification.notificationTemplateMainInfoDto.schedule = updates.schedule;
       });
   }
 
+  private findNewDescription(updatedNotification) {
+    const indexTrigger = this.notificationTriggers.findIndex((item) => item.trigger === updatedNotification.trigger);
+    const indexTime = this.notificationTriggerTime.findIndex((item) => item.time === updatedNotification.time);
+
+    if (indexTrigger !== -1 && this.notification.notificationTemplateMainInfoDto) {
+      this.notification.notificationTemplateMainInfoDto.triggerDescription = this.notificationTriggers[indexTrigger]?.triggerDescription;
+      this.notification.notificationTemplateMainInfoDto.triggerDescriptionEng =
+        this.notificationTriggers[indexTrigger]?.triggerDescriptionEng;
+    }
+
+    if (indexTime !== -1 && this.notification.notificationTemplateMainInfoDto) {
+      this.notification.notificationTemplateMainInfoDto.timeDescription = this.notificationTriggerTime[indexTime]?.timeDescription;
+      this.notification.notificationTemplateMainInfoDto.timeDescriptionEng = this.notificationTriggerTime[indexTime]?.timeDescriptionEng;
+    }
+  }
+
   onActivatePlatform(platform: string): void {
-    this.notification.platforms.find((pf) => pf.name === platform).status = 'ACTIVE';
+    this.notification.platforms.find((pf) => pf.nameEng === platform).status = 'ACTIVE';
   }
 
   onDeactivatePlatform(platform: string): void {
-    this.notification.platforms.find((pf) => pf.name === platform).status = 'INACTIVE';
+    this.notification.platforms.find((pf) => pf.nameEng === platform).status = 'INACTIVE';
   }
 
   onDeactivateNotification() {
@@ -137,8 +165,35 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
         if (!deactivate) {
           return;
         }
-        this.notificationsService.deactivateNotificationTemplate(this.notification.id);
+
+        this.notificationsService
+          .changeStatusOfNotificationTemplate(this.notificationId, 'INACTIVE')
+          .pipe(takeUntil(this.destroy))
+          .subscribe();
         this.navigateToNotificationList();
+      });
+  }
+
+  onActivateNotification() {
+    const translationKeys = {
+      title: 'ubs-notifications.activation-popup.title',
+      text: 'ubs-notifications.activation-popup.text',
+      confirm: 'ubs-notifications.activation-popup.buttons.confirm',
+      cancel: 'ubs-notifications.activation-popup.buttons.cancel'
+    };
+    this.dialog
+      .open(ConfirmationDialogComponent, { hasBackdrop: true, data: translationKeys })
+      .afterClosed()
+      .subscribe((activate) => {
+        if (!activate) {
+          return;
+        }
+
+        this.notificationsService
+          .changeStatusOfNotificationTemplate(this.notificationId, 'ACTIVE')
+          .pipe(takeUntil(this.destroy))
+          .subscribe();
+        this.notification.notificationTemplateMainInfoDto.notificationStatus = 'ACTIVE';
       });
   }
 
@@ -147,10 +202,18 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   }
 
   onSaveChanges(): void {
-    this.notificationsService.updateNotificationTemplate(this.notification.id, this.notification);
+    this.notificationsService
+      .updateNotificationTemplate(this.notificationId, this.notification)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => this.snackBar.openSnackBar('updatedNotification'));
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }

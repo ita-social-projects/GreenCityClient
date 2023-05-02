@@ -69,7 +69,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
 
   public initForm(): void {
     this.commentForm = this.fb.group({
-      cancellationComment: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]]
+      cancellationComment: ['', [Validators.required, Validators.maxLength(255)]]
     });
   }
 
@@ -90,10 +90,11 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   }
 
   public disableButton(): boolean {
+    const isFormUntouched = this.commentForm.untouched && !this.cancellationReason;
     const isInvalidCommentForm = this.commentForm.invalid && this.commentForm.touched && this.cancellationReason === 'OTHER';
     const isOtherCancellationReasonInvalid = this.cancellationReason === 'OTHER' && !this.commentForm.get('cancellationComment').value;
 
-    if (isInvalidCommentForm || isOtherCancellationReasonInvalid) {
+    if (isInvalidCommentForm || isOtherCancellationReasonInvalid || isFormUntouched) {
       return true;
     }
     return false;

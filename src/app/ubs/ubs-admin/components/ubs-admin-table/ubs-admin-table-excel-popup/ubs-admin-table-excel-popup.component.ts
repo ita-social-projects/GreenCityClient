@@ -27,6 +27,9 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   filters: string;
   dataForTranslation: any[];
   language: Language;
+  columnTitles: string[] = [];
+  columnKeys: string[] = [];
+  columnToDisplay: string[] = [];
 
   constructor(
     private adminTableService: AdminTableService,
@@ -38,6 +41,13 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   ngOnInit() {
     this.language = this.languageService.getCurrentLanguage();
     this.tableView = tableViewParameters.wholeTable;
+
+    this.dataForTranslation.forEach((el) => {
+      if (el?.title?.key !== 'select') {
+        this.columnTitles.push(el?.title?.[this.language]);
+        this.columnKeys.push(el?.title?.key);
+      }
+    });
   }
 
   saveTable() {
@@ -77,6 +87,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
           .then((res) => {
             this.tableData = res[`content`];
             this.setTranslatedOrders();
+            this.filterDataForDeletedColumn();
           })
           .finally(() => {
             this.createXLSX();
@@ -107,6 +118,20 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     const column = this.dataForTranslation.find((columnItem) => columnItem.titleForSorting === columnKey);
     const item = column.checked.find((status) => status.key === itemKey);
     return item ? item[language] : itemKey;
+  }
+
+  filterDataForDeletedColumn() {
+    this.columnTitles = this.columnTitles.filter((title, index) => this.columnToDisplay.includes(this.columnKeys[index]));
+
+    this.columnKeys = this.columnKeys.filter((key) => this.columnToDisplay.includes(key));
+
+    this.tableData = this.tableData.map((row) => {
+      const filteredRow = {};
+      this.columnKeys.forEach((key) => {
+        filteredRow[key] = row[key];
+      });
+      return filteredRow;
+    });
   }
 
   getUpdatedRows(row): IBigOrderTableOrderInfo {
@@ -163,10 +188,14 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
 
   createXLSX() {
     this.isLoading = false;
+
     if (this.tableData) {
-      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData);
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData, { header: this.columnKeys });
+      const wst = XLSX.utils.sheet_add_aoa(ws, [this.columnTitles], { origin: 'A1' });
+
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      console.log(wst);
+      XLSX.utils.book_append_sheet(wb, wst, 'Sheet1');
       XLSX.writeFile(wb, this.name);
     } else {
       alert('Error. Please try again');

@@ -1,10 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IUserInfo } from '../../models/ubs-admin.interface';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
+import { IUserInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
 
 @Component({
@@ -15,8 +16,8 @@ import { Masks } from 'src/assets/patterns/patterns';
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userInfo: IUserInfo;
   @Input() userInfoDto: FormGroup;
-  @Input() orderStatus: string;
   @Input() orderId: number;
+  @Input() orderStatus: string;
 
   phoneMask = Masks.phoneMask;
 
@@ -35,10 +36,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.orderStatus.currentValue) {
-      this.isOrderDone = changes.orderStatus.currentValue === 'DONE';
-      this.isOrderCanceled = changes.orderStatus.currentValue === 'CANCELED';
-      this.isOrderNotTakenOut = changes.orderStatus.currentValue === 'NOT_TAKEN_OUT';
+    if (changes.orderStatus?.currentValue) {
+      this.isOrderDone = changes.orderStatus.currentValue === OrderStatus.DONE;
+      this.isOrderCanceled = changes.orderStatus.currentValue === OrderStatus.CANCELED;
+      this.isOrderNotTakenOut = changes.orderStatus.currentValue === OrderStatus.NOT_TAKEN_OUT;
     }
   }
 
