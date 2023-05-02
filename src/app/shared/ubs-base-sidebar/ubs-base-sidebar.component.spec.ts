@@ -81,11 +81,6 @@ describe('UbsBaseSidebarComponent', () => {
     expect(component.getIcon(listItem)).toBe(component.bellsNotification);
   });
 
-  it('should toggle sidebar menu state', () => {
-    component.toggleSideBar();
-    expect(component.toggleSideBar).toBeTruthy();
-  });
-
   it('should trigger onResize method when window is resized', () => {
     const spyOnResize = spyOn(component, 'onResize');
     window.dispatchEvent(new Event('resize'));
