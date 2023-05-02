@@ -57,8 +57,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   createService() {
     return this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(255)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(255)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(30)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(30)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
       descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
@@ -68,14 +68,14 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
   editForm(): void {
     this.addServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.serviceData.name }, [
-        Validators.pattern(Patterns.NamePattern),
-        Validators.maxLength(30),
-        Validators.required
+        Validators.required,
+        Validators.pattern(Patterns.TarifNamePattern),
+        Validators.maxLength(30)
       ]),
       nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }, [
-        Validators.pattern(Patterns.NamePattern),
-        Validators.maxLength(30),
-        Validators.required
+        Validators.required,
+        Validators.pattern(Patterns.TarifNamePattern),
+        Validators.maxLength(30)
       ]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl({ value: this.receivedData.serviceData.description }, [Validators.maxLength(255), Validators.required]),
