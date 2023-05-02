@@ -5,6 +5,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CalendarInterface } from './calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-calendar',
@@ -16,9 +17,10 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     public translate: TranslateService,
     public languageService: LanguageService,
     public habitAssignService: HabitAssignService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public breakpointObserver: BreakpointObserver
   ) {
-    super(translate, languageService, habitAssignService, dialog);
+    super(translate, languageService, habitAssignService, dialog, breakpointObserver);
   }
 
   ngOnInit() {

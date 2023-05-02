@@ -151,6 +151,7 @@
   line-height: 24px;
   letter-spacing: 0;
   text-align: left;
+  margin: 3% 0 15% 0;
 
   li {
     margin-right: 10px;
@@ -240,6 +241,10 @@
     background-color: var(--after-primary-light-grey);
   }
 
+  .my-pagination {
+    margin-top: 3%;
+  }
+
   .time {
     margin-left: -8px;
   }
@@ -289,6 +294,10 @@
     }
   }
 
+  .my-pagination {
+    margin-top: 3%;
+  }
+
   .wrapper {
     width: 100vw;
     position: relative;
@@ -313,6 +322,10 @@
   .time {
     margin-right: 50px;
   }
+
+  .my-pagination {
+    margin-top: 3%;
+  }
 }
 
 @media (max-width: 300px) {
@@ -333,5 +346,9 @@
   .panel-title {
     font-size: 12px;
     margin-left: -15px;
+  }
+
+  .my-pagination {
+    margin-top: 3%;
   }
 }

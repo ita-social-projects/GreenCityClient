@@ -62,8 +62,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
-    private locationService: LocationService,
-    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>
+    public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {

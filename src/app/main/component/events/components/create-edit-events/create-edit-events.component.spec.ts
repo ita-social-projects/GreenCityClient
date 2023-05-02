@@ -166,7 +166,7 @@ describe('CreateEditEventsComponent', () => {
     expect((component as any).imgArray.length).toBe(1);
   });
 
-  it('setCoordsOnlOff  expect latitude to be 2', () => {
+  it('setCoordsOnlOff expect latitude to be 2', () => {
     component.dates = [DateMock];
     component.setCoordsOnlOff({ latitude: 2, longitude: 3 }, 0);
     expect(component.dates[0].coordinatesDto.latitude).toBe(2);
