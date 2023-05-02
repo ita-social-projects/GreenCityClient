@@ -84,7 +84,7 @@ describe('TimePickerComponent', () => {
     '21:30',
     '22:00'
   ];
-  let fakeTimeToChange: string[] = [
+  const fakeTimeToChange: string[] = [
     '09:30',
     '10:00',
     '10:30',
