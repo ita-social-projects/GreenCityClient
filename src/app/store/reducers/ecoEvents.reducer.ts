@@ -29,11 +29,7 @@ export const EcoEventsReducer = createReducer(
   }),
 
   on(EditEcoEventSuccessAction, (state, action) => {
-    const newstate = state.eventsList.reduce((ac, cur, ind) => {
-      const newItem = cur.map((item) => (item.id === action.event.id ? action.event : item));
-      ac[ind] = newItem;
-      return ac;
-    }, []);
+    const newstate = state.eventsList.filter((it) => (it.id === action.event.id ? action.event : it));
     return {
       ...state,
       eventsList: newstate

@@ -7,7 +7,7 @@ import { StatRowComponent } from '../stat-row/stat-row.component';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { HomepageComponent } from './homepage.component';
 import { EcoEventsComponent, StatRowsComponent, SubscribeComponent } from '..';
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
@@ -47,7 +47,7 @@ describe('HomepageComponent', () => {
   verifyEmailServiceMock.onCheckToken = () => of(true);
 
   let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject', 'getUserId']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
@@ -96,7 +96,8 @@ describe('HomepageComponent', () => {
         { provide: UserService, useValue: userServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
+        UserOwnAuthService
       ]
     }).compileComponents();
   }));

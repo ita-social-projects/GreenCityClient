@@ -4,6 +4,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Language } from './Language';
 import { LanguageService } from './language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 
 describe('LanguageService', () => {
   let service: LanguageService;
@@ -17,9 +18,13 @@ describe('LanguageService', () => {
   const getLanguageByString = 'getLanguageByString';
   const defaultLanguage = 'defaultLanguage';
 
+  let userOwnAuthServiceMock: UserOwnAuthService;
+  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['isLoginUserSubject']);
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule]
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [{ provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }]
     });
 
     service = TestBed.inject(LanguageService);

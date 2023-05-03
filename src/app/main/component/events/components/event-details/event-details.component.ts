@@ -154,6 +154,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public navigateToEditEvent(): void {
+    this.localStorageService.setEditMode('canUserEdit', true);
+    this.localStorageService.setEventForEdit('editEvent', this.event);
     this.router.navigate(['/events', 'create-event']);
   }
 

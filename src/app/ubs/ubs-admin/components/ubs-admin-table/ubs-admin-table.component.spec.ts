@@ -58,8 +58,6 @@ describe('UsbAdminTableComponent', () => {
   };
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
-    'getUbsAdminOrdersTableColumnsWidthPreference',
-    'setUbsAdminOrdersTableColumnsWidthPreference',
     'setUbsAdminOrdersTableTitleColumnFilter',
     'getUbsAdminOrdersTableTitleColumnFilter',
     'languageBehaviourSubject',
@@ -73,7 +71,11 @@ describe('UsbAdminTableComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.languageSubject = of('ua');
 
-  const tableServiceMock = jasmine.createSpyObj('tableHeightService', ['setTableHeightToContainerHeight']);
+  const tableServiceMock = jasmine.createSpyObj('tableHeightService', [
+    'setTableHeightToContainerHeight',
+    'getUbsAdminOrdersTableColumnsWidthPreference',
+    'setUbsAdminOrdersTableColumnsWidthPreference'
+  ]);
 
   const FakeMatDialogConfig = jasmine.createSpyObj('dialog', ['open']);
 

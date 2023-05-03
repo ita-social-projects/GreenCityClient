@@ -14,6 +14,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { formatDate } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
 import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
+import { MatRadioChange } from '@angular/material/radio';
 import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 
 interface InputData {
@@ -48,6 +49,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isFileTypeWarning = false;
   payment: IPaymentInfoDto | null;
   addPaymentForm: FormGroup;
+  isPhotoContainerChoosen = false;
+  isLinkToBillChoosed = false;
   file: File;
   pdf = /.pdf$/;
   imagePreview = { src: null, name: null };
@@ -112,10 +115,14 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
       paymentId: [this.payment?.paymentId ?? '', [Validators.required]],
       receiptLink: [this.payment?.receiptLink ?? '']
     });
+
     this.imagePreview.src = this.payment?.imagePath;
     if (this.viewMode) {
       this.addPaymentForm.disable();
     }
+
+    this.isLinkToBillChoosed = !!this.payment?.receiptLink;
+    this.isPhotoContainerChoosen = !!this.payment?.imagePath;
   }
 
   convertDate(inputDate: string): string {
@@ -124,6 +131,45 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   close() {
     this.dialogRef.close(null);
+  }
+
+  onChoosePayment(event: MatRadioChange): void {
+    if (event.value === 'photoBill') {
+      this.isPhotoContainerChoosen = true;
+      this.isLinkToBillChoosed = false;
+    }
+    if (event.value === 'linkToBill') {
+      this.isLinkToBillChoosed = true;
+      this.isPhotoContainerChoosen = false;
+    }
+
+    const receiptLinkControl = this.addPaymentForm.get('receiptLink');
+    if (receiptLinkControl && this.isLinkToBillChoosed) {
+      receiptLinkControl.setValidators([Validators.required]);
+    } else {
+      receiptLinkControl.clearValidators();
+    }
+    receiptLinkControl.updateValueAndValidity();
+  }
+
+  showErrorMessage(): boolean {
+    const isLinkFieldInvalid =
+      this.isLinkToBillChoosed && !this.addPaymentForm.get('receiptLink').value && this.addPaymentForm.get('receiptLink').touched;
+    const isPhotoContainerInvalid = this.isPhotoContainerChoosen && !this.imagePreview.src;
+
+    return isPhotoContainerInvalid || isLinkFieldInvalid;
+  }
+
+  isFormValid(): boolean {
+    const settlementDateControl = this.addPaymentForm.get('settlementdate');
+    const amountControl = this.addPaymentForm.get('amount');
+    const paymentIdControl = this.addPaymentForm.get('paymentId');
+
+    const isSettlementDateValid = settlementDateControl?.invalid && settlementDateControl?.touched;
+    const isAmountValid = amountControl?.invalid && amountControl?.touched;
+    const isPaymentIdValid = paymentIdControl?.invalid && paymentIdControl?.touched;
+
+    return isSettlementDateValid || isAmountValid || isPaymentIdValid;
   }
 
   save() {
@@ -216,6 +262,26 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
 
   isPdf(): boolean {
     return this.imagePreview?.src.match(this.pdf) || this.file?.type === 'application/pdf';
+  }
+
+  isDisabledSubmitBtn(): boolean {
+    const formNotValid = !this.addPaymentForm.touched || !this.addPaymentForm.valid;
+    const isViewMode = this.viewMode && !this.editMode;
+    const noPhotoChosen = this.isPhotoContainerChoosen && !this.imagePreview.src;
+    const noLinkSetted = this.isLinkToBillChoosed && !this.addPaymentForm.get('receiptLink').value;
+    const isEditMode = this.editMode;
+    const noDataChangedInEditMode = !this.isInitialDataChanged && !this.isInitialImageChanged;
+    const noRadioBtnSelected = this.isPhotoContainerChoosen || this.isLinkToBillChoosed;
+
+    return (
+      formNotValid ||
+      this.isUploading ||
+      (isEditMode && noDataChangedInEditMode) ||
+      isViewMode ||
+      noPhotoChosen ||
+      noLinkSetted ||
+      !noRadioBtnSelected
+    );
   }
 
   openImg(): void {

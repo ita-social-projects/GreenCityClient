@@ -48,7 +48,11 @@ describe('UbsAdminNotificationComponent', () => {
   MatSnackBarMock.openSnackBar = (type: string) => {};
   const activatedRouteMock = { params: of({ id: 1 }) };
 
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', [
+    'getCurrentLanguage',
+    'languageBehaviourSubject',
+    'getUserId'
+  ]);
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('en'));
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
