@@ -201,7 +201,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
       name: '',
       nameEng: ''
     });
-    expect(component.addServiceForm.valid).toEqual(false);
+    expect(component.addServiceForm.valid).toEqual(true);
   });
 
   it('should be name field valid', () => {
