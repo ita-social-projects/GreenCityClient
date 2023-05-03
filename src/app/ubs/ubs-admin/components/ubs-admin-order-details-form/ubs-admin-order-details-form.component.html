@@ -18,7 +18,7 @@
       <div class="main">
         <ul class="w-100 p-0">
           <li *ngFor="let bag of orderDetails.bags" class="d-flex justify-content-between align-items-baseline py-2">
-            <span class="col-sm-2">{{ bag.name }}</span>
+            <span class="col-sm-2">{{ getLangValue(bag.name, bag.nameEng) }}</span>
             <span class="col-sm-2">{{ bag.capacity | volume }}</span>
             <span class="col-sm-2">{{ bag.price | currency | localizedCurrency }}</span>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
