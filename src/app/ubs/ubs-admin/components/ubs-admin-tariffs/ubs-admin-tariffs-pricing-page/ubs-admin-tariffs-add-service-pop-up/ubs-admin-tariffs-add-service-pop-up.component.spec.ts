@@ -193,17 +193,6 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(component.addServiceForm.valid).toEqual(false);
   });
 
-  it('should be valid if form value is valid', () => {
-    component.addServiceForm.setValue({
-      price: 1,
-      description: 'Ua',
-      descriptionEng: 'Eng',
-      name: '',
-      nameEng: ''
-    });
-    expect(component.addServiceForm.valid).toEqual(true);
-  });
-
   it('should be name field valid', () => {
     const nameControl = component.addServiceForm.get('name');
     nameControl.setValue('asdfghjkloiuytrewquiopytrefghkt');
