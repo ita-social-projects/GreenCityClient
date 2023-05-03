@@ -23,8 +23,8 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   const fakeBagForm = new FormGroup({
-    name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-    nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+    name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(30)]),
+    nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(30)]),
     capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
     commission: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
     price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
@@ -142,7 +142,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
       capacity: 77,
       commission: 89
     });
-    expect(component.addTariffServiceForm.valid).toEqual(true);
+    expect(component.addTariffServiceForm.valid).toEqual(false);
   });
 
   it('should be valid if form value is valid', () => {
