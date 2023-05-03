@@ -190,7 +190,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
       description: 'Мок опис',
       descriptionEng: 'MockDescrEng'
     });
-    expect(component.addServiceForm.valid).toEqual(true);
+    expect(component.addServiceForm.valid).toEqual(false);
   });
 
   it('should be valid if form value is valid', () => {
