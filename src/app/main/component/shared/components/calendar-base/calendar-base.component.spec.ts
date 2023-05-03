@@ -271,7 +271,7 @@ describe('CalendarBaseComponent', () => {
     });
   });
 
-  xit('yearData should be equal to currentYear and monthCalendar to months', () => {
+  it('yearData should be equal to currentYear and monthCalendar to months', () => {
     component.buildMonthCalendar(component.months);
     expect(component.yearData).toEqual(component.currentYear);
     expect(component.monthsCalendar).toEqual(component.months);
