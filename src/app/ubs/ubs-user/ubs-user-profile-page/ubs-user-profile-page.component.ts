@@ -35,7 +35,17 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   viberNotification = false;
   telegramNotification = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
-
+  dataDeleteAddress = {
+    popupTitle: 'ubs-client-profile.delete-address',
+    popupConfirm: 'ubs-client-profile.payment.yes',
+    popupCancel: 'ubs-client-profile.payment.no'
+  };
+  dataDeleteProfile = {
+    popupTitle: 'ubs-client-profile.delete-title',
+    popupSubtitle: 'ubs-client-profile.delete-message',
+    popupConfirm: 'ubs-client-profile.btn.delete-profile-save',
+    popupCancel: 'ubs-client-profile.btn.delete-profile-cancel'
+  };
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
   isFetching = false;
@@ -529,33 +539,31 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     (window as any).open(this.viberBotURL, '_blank');
   }
 
-  openDeleteDialog(isAddressDelete = false): void {
-    let isButtonDelete = false;
-    if (isAddressDelete) {
-      isButtonDelete = true;
-      const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
-        hasBackdrop: true,
-        data: {
-          defineButton: isButtonDelete
+  openDeleteProfileDialog(): void {
+    this.dialog.open(UbsProfileDeletePopUpComponent, {
+      data: this.dataDeleteProfile,
+      hasBackdrop: true
+    });
+  }
+
+  public openDeleteAddressDialog(address): void {
+    const matDialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
+      data: this.dataDeleteAddress,
+      hasBackdrop: true
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.deleteAddress(address);
         }
       });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.deleteAddress(isButtonDelete);
-        }
-      });
-    } else {
-      this.dialog.open(UbsProfileDeletePopUpComponent, {
-        hasBackdrop: true,
-        data: {
-          defineButton: isButtonDelete
-        }
-      });
-    }
   }
 
   openChangePasswordDialog(): void {
-    this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
+    this.dialog.open(UbsProfileDeletePopUpComponent, {
       hasBackdrop: true,
       data: {
         hasPassword: this.userProfile.hasPassword
