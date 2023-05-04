@@ -4,6 +4,194 @@
 }
 
 .ubsHomepage {
+  width: 100%;
+  max-width: 100%;
+  margin-right: 0;
+  margin-left: 0;
+  font-family: var(--ubs-secondary-font);
+
+  h2 {
+    font-weight: 800;
+    font-size: 60px;
+    text-align: center;
+    color: var(--ubs-primary-black);
+  }
+
+  .price-section {
+    height: 648px;
+
+    h2 {
+      padding: 140px 0 80px 0;
+    }
+
+    .box-card {
+      display: flex;
+      height: 264px;
+      justify-content: space-between;
+
+      #price-frame {
+        height: 100%;
+        width: 30%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--ubs-primary-white);
+        border: 1px solid var(--ubs-quaternary-dark-green);
+        border-radius: 7px;
+
+        .content-price {
+          font-weight: 600;
+          line-height: 24px;
+          text-align: center;
+          height: 135px;
+          width: 84%;
+          padding: 0 34px;
+          display: flex;
+          align-items: center;
+        }
+
+        .header-price {
+          width: inherit;
+          width: 100%;
+          height: 129px;
+          display: flex;
+          flex-direction: column;
+          background: var(--ubs-quaternary-dark-green);
+          border: 1px solid var(--ubs-quaternary-dark-green);
+          color: var(--ubs-primary-white);
+          border-radius: 7px;
+          text-align: center;
+          justify-content: center;
+
+          .price {
+            font-size: 35px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  .how-to-prepare {
+    display: flex;
+    flex-direction: row;
+    font-weight: 600;
+    margin: 60px 50px 0 50px;
+    justify-content: space-between;
+
+    .main-content-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .box-item {
+        height: 127px;
+        list-style-type: none;
+        border: 1px solid var(--ubs-main-page-primary-light-grey);
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .box-number {
+          display: flex;
+          font-weight: 800;
+          font-size: 75px;
+          color: var(--ubs-secondary-light-green);
+        }
+
+        .box-text {
+          color: var(--ubs-main-page-text-grey);
+          max-width: 350px;
+          margin: auto 0;
+
+          .link-to-site {
+            color: var(--ubs-secondary-light-green);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .main-content-right {
+      width: 47.5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .conditions,
+      .bonuses {
+        border: 1px solid var(--ubs-main-page-primary-light-grey);
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row;
+        padding-right: 10%;
+
+        .caption {
+          text-align: center;
+          text-transform: uppercase;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .col {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          h2 {
+            margin: 0;
+            font-size: 47px;
+            font-weight: 800;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 1px;
+            color: var(--ubs-secondary-light-green);
+          }
+        }
+
+        .rules {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .rule {
+            line-height: 27px;
+
+            .lifehack {
+              margin: 0;
+              color: var(--ubs-main-page-primary-light-grey);
+              font-size: 20px;
+            }
+          }
+
+          .link {
+            color: var(--ubs-secondary-light-green);
+          }
+        }
+      }
+    }
+  }
+
+  #first-section {
+    padding: 70px 0;
+    background-color: var(--ubs-main-page-secondary-light-grey);
+
+    .box-item,
+    .conditions,
+    .bonuses {
+      background-color: #fff;
+    }
+  }
+
+  .pick-up-service {
+    background-color: var(--ubs-main-page-secondary-light-grey);
+  }
+
   a {
     color: var(--ubs-secondary-light-green);
     text-decoration: underline;
@@ -54,7 +242,10 @@
       justify-content: flex-start;
 
       button {
-        border-radius: 15px;
+        font-family: var(--ubs-secondary-font);
+        border-radius: 6px;
+        font-weight: 700;
+        text-transform: lowercase;
       }
 
       .main-caption {
@@ -70,14 +261,7 @@
 
   section {
     max-height: 1140px;
-    margin-top: 140px;
-  }
-
-  h2 {
-    font-weight: 800;
-    font-size: 60px;
-    text-align: center;
-    color: var(--ubs-primary-black);
+    margin-top: 0;
   }
 
   .button {
@@ -86,7 +270,7 @@
     font-size: 28px;
     background-color: var(--ubs-secondary-light-green);
     border: 3.5px solid var(--ubs-secondary-light-green);
-    border-radius: 22px;
+    border-radius: 6px;
     color: var(--ubs-primary-white);
     font-weight: 700;
     line-height: 34px;
@@ -99,58 +283,6 @@
     &:hover {
       background-color: var(--ubs-tertiary-dark-green);
       border: 3.5px solid var(--ubs-tertiary-dark-green);
-    }
-  }
-
-  .marquee-section {
-    width: 100%;
-    background-color: var(--ubs-tertiary-dark-green);
-    height: 43px;
-  }
-
-  .marquee-w {
-    position: relative;
-    display: block;
-    height: 100%;
-    top: calc(50% + 2px);
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow: hidden;
-  }
-
-  .marquee {
-    position: absolute;
-    display: inline;
-    margin: auto auto;
-    white-space: nowrap;
-    overflow: hidden;
-    height: 100%;
-  }
-
-  .marquee span {
-    display: inline-block;
-    text-align: center;
-    color: white;
-    white-space: nowrap;
-    height: 100%;
-    line-height: 20px;
-    font-size: 16px;
-    font-weight: 700;
-    animation: marquee 90s linear infinite;
-    padding-left: 100%;
-  }
-
-  .marquee2 span {
-    animation-delay: 45s;
-  }
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(-100%);
-    }
-
-    100% {
-      transform: translateX(0);
     }
   }
 }
@@ -207,7 +339,7 @@
     gap: 16px;
     padding: 24px 16px;
     border: 1px solid var(--ubs-primary-dark-grey);
-    border-radius: 8px;
+    border-radius: 4px;
     color: var(--ubs-primary-black);
 
     h1.step-order-header {
@@ -225,167 +357,6 @@
       font-size: 12px;
       line-height: 16px;
       font-weight: 500;
-    }
-  }
-}
-
-.price-section {
-  height: 648px;
-  background-color: var(--ubs-main-page-secondary-light-grey);
-
-  h2 {
-    padding: 140px 0 80px 0;
-  }
-
-  .box-card {
-    display: flex;
-    height: 264px;
-    justify-content: space-between;
-
-    #price-frame {
-      height: 100%;
-      width: 30%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: var(--ubs-primary-white);
-      border: 1px solid var(--ubs-quaternary-dark-green);
-      border-radius: 23px;
-
-      .content-price {
-        font-weight: 600;
-        line-height: 24px;
-        text-align: center;
-        height: 135px;
-        width: 84%;
-        padding: 0 34px;
-        display: flex;
-        align-items: center;
-      }
-
-      .header-price {
-        width: inherit;
-        width: 100%;
-        height: 129px;
-        display: flex;
-        flex-direction: column;
-        background: var(--ubs-quaternary-dark-green);
-        border: 1px solid var(--ubs-quaternary-dark-green);
-        color: var(--ubs-primary-white);
-        border-radius: 23px;
-        text-align: center;
-        justify-content: center;
-
-        .price {
-          font-size: 35px;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-}
-
-.how-to-prepare {
-  display: flex;
-  flex-direction: row;
-  font-weight: 600;
-  margin: 60px 50px 0 50px;
-  justify-content: space-between;
-
-  .main-content-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .box-item {
-      height: 127px;
-      list-style-type: none;
-      border: 1px solid var(--ubs-main-page-primary-light-grey);
-      border-radius: 14px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .box-number {
-        display: flex;
-        font-weight: 800;
-        font-size: 75px;
-        color: var(--ubs-secondary-light-green);
-      }
-
-      .box-text {
-        color: var(--ubs-main-page-text-grey);
-        max-width: 350px;
-        margin: auto 0;
-
-        .link-to-site {
-          color: var(--ubs-secondary-light-green);
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
-  .main-content-right {
-    width: 47.5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .conditions,
-    .bonuses {
-      border: 1px solid var(--ubs-main-page-primary-light-grey);
-      border-radius: 14px;
-      display: flex;
-      flex-direction: row;
-      padding-right: 10%;
-
-      .caption {
-        text-align: center;
-        text-transform: uppercase;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .col {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        h2 {
-          margin: 0;
-          font-size: 47px;
-          font-weight: 800;
-          writing-mode: vertical-rl;
-          text-orientation: upright;
-          letter-spacing: 1px;
-          color: var(--ubs-secondary-light-green);
-        }
-      }
-
-      .rules {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .rule {
-          line-height: 27px;
-
-          .lifehack {
-            margin: 0;
-            color: var(--ubs-main-page-primary-light-grey);
-            font-size: 20px;
-          }
-        }
-
-        .link {
-          color: var(--ubs-secondary-light-green);
-        }
-      }
     }
   }
 }
@@ -441,12 +412,13 @@
 
   .content-box {
     width: calc(100% - 100px);
+    background-color: #fff;
     height: 194px;
     display: flex;
     justify-content: flex-start;
     padding: 36px;
     border: 1px solid var(--ubs-main-page-tertiary-light-grey);
-    border-radius: 8px;
+    border-radius: 4px;
     color: var(--ubs-primary-black);
 
     h1.step-order-header {
@@ -535,7 +507,7 @@ section .main-container {
       justify-content: flex-start;
       padding: 36px;
       border: 1px solid var(--ubs-main-page-tertiary-light-grey);
-      border-radius: 8px;
+      border-radius: 4px;
       color: var(--ubs-primary-black);
 
       h1.step-order-header {
@@ -568,7 +540,6 @@ section .main-container {
 #how-works {
   width: 100%;
   height: 566px;
-  background-color: var(--ubs-main-page-secondary-light-grey);
   margin: 0;
 
   .box-how-works {
@@ -604,7 +575,7 @@ section .main-container {
         max-width: 850px;
         background-color: var(--ubs-primary-white);
         border: 1px solid var(--ubs-quaternary-dark-green);
-        border-radius: 14px;
+        border-radius: 5px;
         font-weight: 600;
         line-height: 27px;
         display: flex;
@@ -629,12 +600,11 @@ section .main-container {
   }
 }
 
-@media (min-width: 1439px) {
+@media (min-width: 1440px) {
   .ubsHomepage {
     margin: 0 auto;
     padding: 64px 0 0 0;
     font-size: 16px;
-    max-width: 1920px;
 
     h2 {
       margin: 0 auto;
@@ -645,7 +615,7 @@ section .main-container {
     }
 
     header {
-      margin: 106px auto 123px auto;
+      margin: 122px auto 123px auto;
       max-width: 1140px;
       padding: 0;
       position: relative;
@@ -695,16 +665,6 @@ section .main-container {
       }
     }
 
-    .marquee-section {
-      height: 43px;
-
-      span {
-        padding-top: 5px;
-        height: 90%;
-        font-size: 14px;
-      }
-    }
-
     section {
       margin: 0;
       padding: 0;
@@ -717,9 +677,8 @@ section .main-container {
     }
 
     section.pick-up-service {
-      .main-container h2 {
-        margin-top: 117px;
-      }
+      padding-top: 117px;
+      background-color: var(--ubs-main-page-secondary-light-grey);
 
       .main-container {
         height: 100%;
@@ -759,7 +718,8 @@ section .main-container {
     }
 
     section#first-section {
-      padding: 110px 150px;
+      width: 100%;
+      padding: 110px 0;
 
       h2 {
         margin-bottom: 73px;
@@ -781,6 +741,7 @@ section .main-container {
             margin-bottom: 16px;
             padding: 18px 40px;
             height: 100%;
+            background-color: #fff;
 
             .box-number {
               font-size: 55px;
@@ -808,6 +769,7 @@ section .main-container {
 
           .conditions,
           .bonuses {
+            background-color: #fff;
             padding: 24px 60px;
 
             .caption {
@@ -957,13 +919,13 @@ section .main-container {
     }
 
     header {
-      margin: 85px 51px 97px 33px;
+      margin: 85px 33px 97px 33px;
       padding: 0;
 
       .header-left {
         padding: 0;
         width: 53%;
-        min-width: 629px;
+        min-width: 578px;
         max-width: 699px;
         height: 10%;
         min-height: 109px;
@@ -977,17 +939,17 @@ section .main-container {
 
       .spinner {
         width: 26%;
-        max-width: 273px;
-        min-width: 330px;
+        max-width: 280px;
+        min-width: 291px;
         height: 27%;
         max-height: 343px;
         min-height: 330px;
-        top: 190px;
-        right: 50px;
+        top: 166px;
+        right: 75px;
       }
 
       .main-content {
-        margin-top: 67px;
+        margin-top: 50px;
         margin-left: 0;
         max-width: 50%;
 
@@ -995,8 +957,8 @@ section .main-container {
           margin: 0;
           width: 281px;
           height: 48px;
-          font-size: 16px;
-          line-height: 20px;
+          font-size: 17px;
+          line-height: 21px;
         }
 
         .main-caption {
@@ -1012,16 +974,6 @@ section .main-container {
       }
     }
 
-    .marquee-section {
-      height: 43px;
-
-      span {
-        padding-top: 5px;
-        height: 90%;
-        font-size: 14px;
-      }
-    }
-
     section {
       margin: 0;
       padding: 0;
@@ -1034,9 +986,7 @@ section .main-container {
     }
 
     section.pick-up-service {
-      .main-container h2 {
-        margin-top: 117px;
-      }
+      padding-top: 117px;
 
       .main-container {
         height: 100%;
@@ -1325,15 +1275,6 @@ section .main-container {
       }
     }
 
-    .marquee-section {
-      height: 31px;
-
-      span {
-        height: 80%;
-        font-size: 10px;
-      }
-    }
-
     section {
       margin: 0;
       padding: 0;
@@ -1346,9 +1287,7 @@ section .main-container {
     }
 
     section.pick-up-service {
-      .main-container h2 {
-        margin-top: 90px;
-      }
+      padding-top: 90px;
 
       .main-container {
         height: 100%;
@@ -1578,20 +1517,6 @@ section .main-container {
     font-size: 18px;
     padding: 60px 0 0 0;
 
-    .marquee-section {
-      height: 26px;
-
-      .marquee-w {
-        top: calc(50% - 3px);
-
-        span {
-          height: 18px;
-          font-size: 8px;
-          font-weight: 700;
-        }
-      }
-    }
-
     header {
       margin: 62px 16px 42px 16px;
       height: 100%;
@@ -1642,7 +1567,7 @@ section .main-container {
 
     section {
       height: 100%;
-      margin-top: 60px;
+      padding-top: 0;
 
       h2 {
         font-size: 26px;
@@ -1786,8 +1711,6 @@ section .main-container {
       height: 100%;
 
       .box-how-works {
-        // margin-top: 60px;
-        // margin-bottom: 60px;
         padding: 60px 16px 60px 16px;
 
         #main-content {
@@ -1848,8 +1771,8 @@ section .main-container {
   }
 
   .ubsHomepage .pick-up-service {
-    margin: 60px 0;
-    padding: 0;
+    margin: 0;
+    padding: 60px 0;
     width: 100%;
     min-width: 576px;
     height: 100%;
@@ -1899,19 +1822,6 @@ section .main-container {
   .ubsHomepage {
     font-size: 12px;
     padding: 65px 0 0 0;
-
-    .marquee-section {
-      height: 22px;
-
-      .marquee-w {
-        top: calc(50%);
-
-        span {
-          font-size: 8px;
-          height: 90%;
-        }
-      }
-    }
 
     header {
       margin: 24px 16px 47px 16px;
@@ -2023,6 +1933,7 @@ section .main-container {
 
           .box-number {
             padding-left: 16px;
+            padding-right: 16px;
             font-size: 20px;
             width: 53px;
           }
@@ -2064,8 +1975,12 @@ section .main-container {
     }
 
     .pick-up-service {
-      margin-top: 64px;
-      margin-bottom: 64px;
+      padding-top: 64px;
+      padding-bottom: 64px;
+
+      .content-box {
+        background-color: #fff;
+      }
     }
 
     #how-works {
