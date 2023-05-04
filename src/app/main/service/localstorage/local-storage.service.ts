@@ -333,4 +333,12 @@ export class LocalStorageService {
   public getTariffId(): number {
     return JSON.parse(localStorage.getItem('currentTariffId'));
   }
+
+  public setAddressId(addressId: number): void {
+    JSON.parse(localStorage.getItem('addressId'));
+  }
+
+  public getAddressId(): number {
+    return JSON.parse(localStorage.getItem('addressId'));
+  }
 }

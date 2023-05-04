@@ -317,7 +317,17 @@
                   </div>
                 </div>
                 <div>
-                  <mat-checkbox class="check" type="checkbox">{{ 'personal-info.default-address' | translate }}</mat-checkbox>
+                  <div class="custom-radio d-flex">
+                    <input
+                      class="checkmark"
+                      name="address"
+                      type="radio"
+                      [value]="address.value?.id"
+                      [checked]="address.value?.actual"
+                      (click)="setActualAddress(address.value?.id)"
+                    />
+                    <span>{{ 'personal-info.default-address' | translate }}</span>
+                  </div>
                 </div>
               </div>
             </div>

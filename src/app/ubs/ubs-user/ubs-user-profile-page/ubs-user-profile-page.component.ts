@@ -174,7 +174,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         isKyiv: new FormControl(adres?.city === 'Київ' ? true : false),
         searchAddress: new FormControl(null),
         placeId: new FormControl(null),
-        id: new FormControl(adres?.id)
+        id: new FormControl(adres?.id),
+        actual: new FormControl(adres?.actual)
       });
       addres.push(seperateAddress);
     });
@@ -453,6 +454,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         item.get('placeId').setValue(address[0].place_id);
       });
     }
+  }
+
+  public setActualAddress(addressId): void {
+    this.orderService.setActualAddress(addressId).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   focusOnFirst(): void {
