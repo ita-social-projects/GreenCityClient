@@ -5,8 +5,9 @@ import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile, Location } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
-import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
@@ -35,15 +36,15 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   telegramNotification = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   dataDeleteAddress = {
-    popupTitle: 'ubs-client-profile.delete-address',
-    popupConfirm: 'ubs-client-profile.payment.yes',
-    popupCancel: 'ubs-client-profile.payment.no'
+    title: 'ubs-client-profile.delete-address',
+    confirm: 'ubs-client-profile.payment.yes',
+    cancel: 'ubs-client-profile.payment.no'
   };
   dataDeleteProfile = {
-    popupTitle: 'ubs-client-profile.delete-title',
-    popupSubtitle: 'ubs-client-profile.delete-message',
-    popupConfirm: 'ubs-client-profile.btn.delete-profile-save',
-    popupCancel: 'ubs-client-profile.btn.delete-profile-cancel'
+    title: 'ubs-client-profile.delete-title',
+    text: 'ubs-client-profile.delete-message',
+    confirm: 'ubs-client-profile.btn.delete-profile-save',
+    cancel: 'ubs-client-profile.btn.delete-profile-cancel'
   };
   googleIcon = SignInIcons.picGoogle;
   isEditing = false;
@@ -544,14 +545,14 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openDeleteProfileDialog(): void {
-    this.dialog.open(UbsProfileDeletePopUpComponent, {
+    this.dialog.open(ConfirmationDialogComponent, {
       data: this.dataDeleteProfile,
       hasBackdrop: true
     });
   }
 
   public openDeleteAddressDialog(address): void {
-    const matDialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
+    const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: this.dataDeleteAddress,
       hasBackdrop: true
     });
@@ -567,7 +568,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openChangePasswordDialog(): void {
-    this.dialog.open(UbsProfileDeletePopUpComponent, {
+    this.dialog.open(UbsProfileChangePasswordPopUpComponent, {
       hasBackdrop: true,
       data: {
         hasPassword: this.userProfile.hasPassword
