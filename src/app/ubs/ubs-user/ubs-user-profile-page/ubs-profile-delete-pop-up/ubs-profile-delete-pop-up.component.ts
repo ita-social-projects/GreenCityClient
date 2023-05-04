@@ -21,22 +21,10 @@ export class UbsProfileDeletePopUpComponent implements OnInit {
     this.setTitles();
 
     this.matDialogRef
-      .keydownEvents()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event) => {
-        if (event.key === 'Escape') {
-          this.userReply(false);
-        }
-        if (event.key === 'Enter') {
-          this.userReply(true);
-        }
-      });
-
-    this.matDialogRef
       .backdropClick()
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.userReply(false);
+        this.onClickBtn(false);
       });
   }
 
@@ -47,7 +35,7 @@ export class UbsProfileDeletePopUpComponent implements OnInit {
     this.popupCancel = this.data.popupCancel;
   }
 
-  public userReply(reply: boolean): void {
+  public onClickBtn(reply: boolean): void {
     this.matDialogRef.close(reply);
   }
 }

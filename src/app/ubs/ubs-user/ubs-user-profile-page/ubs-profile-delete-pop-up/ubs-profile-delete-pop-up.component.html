@@ -4,7 +4,7 @@
     <div class="warning-subtitle" *ngIf="popupSubtitle">{{ popupSubtitle | translate }}</div>
   </div>
   <div class="buttons-container">
-    <button class="btn delete" (click)="userReply(true)">{{ popupConfirm | translate }}</button>
-    <button class="btn cancel" (click)="userReply(false)">{{ popupCancel | translate }}</button>
+    <button class="btn delete" (click)="onClickBtn(true)">{{ popupConfirm | translate }}</button>
+    <button class="btn cancel" (click)="onClickBtn(false)">{{ popupCancel | translate }}</button>
   </div>
 </div>

@@ -54,12 +54,6 @@ describe('UbsProfileDeletePopUpComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should keydownEvents be called in ngOnInit', () => {
-    const spy = spyOn(component[matDialogRef], 'keydownEvents').and.returnValue(of());
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should backdropClick be called in ngOnInit', () => {
     const spy = spyOn(component[matDialogRef], 'backdropClick').and.returnValue(of());
     component.ngOnInit();
@@ -81,7 +75,7 @@ describe('UbsProfileDeletePopUpComponent', () => {
 
   it('should call close on matDialogRef', () => {
     const spy = spyOn(component[matDialogRef], 'close');
-    component.userReply(true);
+    component.onClickBtn(true);
     expect(spy).toHaveBeenCalledWith(true);
   });
 });
