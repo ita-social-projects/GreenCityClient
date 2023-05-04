@@ -211,11 +211,11 @@ $inputwidth: 260px;
 }
 
 .checkmark {
-  //position: absolute;
   top: 5px;
   left: 4px;
   height: 16px;
   width: 16px;
+  margin-right: 10px;
   background-color: var(--ubs-primary-white);
   border-radius: 50%;
   border: 1px solid var(--ubs-quaternary-dark-grey);
@@ -225,7 +225,11 @@ $inputwidth: 260px;
     position: absolute;
     display: none;
   }
-} /**/
+}
+
+.custom-radio {
+  align-items: center;
+}
 
 .custom-radio input[name='address'] {
   accent-color: var(--ubs-freinacht-black);
