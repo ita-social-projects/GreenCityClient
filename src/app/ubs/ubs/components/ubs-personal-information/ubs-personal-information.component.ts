@@ -87,13 +87,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.googleScript.load(lang);
     });
 
-    if (localStorage.getItem('anotherClient')) {
-      this.anotherClient = JSON.parse(localStorage.getItem('anotherClient'));
+    if (this.localService.getIsAnotherClient()) {
+      this.anotherClient = this.localService.getIsAnotherClient();
     }
     this.takeUserData();
-    if (localStorage.getItem('currentLocationId')) {
-      this.currentLocationId = JSON.parse(localStorage.getItem('currentLocationId'));
-      this.locations = JSON.parse(localStorage.getItem('locations'));
+    if (this.localService.getCurrentLocationId()) {
+      this.currentLocationId = this.localService.getCurrentLocationId();
+      this.locations = this.localService.getLocations();
 
       this.currentLocation = this.locations.locationsDtosList[0].nameEn;
     }
@@ -137,7 +137,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
         this.addresses = list.addressList;
-        localStorage.setItem('addresses', JSON.stringify(this.addresses));
+        this.localService.setAddresses(this.addresses);
         this.personalDataForm.patchValue({
           address: this.addresses
         });
@@ -182,7 +182,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   checkAddress(addressId) {
-    console.log('check');
     this.addresses.forEach((address) => {
       if (address.actual) {
         this.orderService.setCurrentAddress(address);
@@ -255,7 +254,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientLastName.setValidators(this.personalDataFormValidators);
       anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]);
       anotherClientPhoneNumber.setValue('+380');
-      localStorage.setItem('anotherClient', JSON.stringify(true));
+      this.localService.setIsAnotherClient(true);
     } else {
       anotherClientFirstName.setValue('');
       anotherClientFirstName.clearValidators();
@@ -264,7 +263,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientPhoneNumber.setValue('');
       anotherClientPhoneNumber.clearValidators();
       anotherClientEmail.setValue('');
-      localStorage.removeItem('anotherClient');
+      this.localService.removeIsAnotherClient();
     }
     anotherClientFirstName.updateValueAndValidity();
     anotherClientLastName.updateValueAndValidity();

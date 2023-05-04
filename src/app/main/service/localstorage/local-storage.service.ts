@@ -2,6 +2,7 @@ import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -259,10 +260,6 @@ export class LocalStorageService {
     return localStorage.getItem('UBSExistingOrderId');
   }
 
-  public getLocations(): any {
-    return JSON.parse(localStorage.getItem('locations'));
-  }
-
   public setCustomer(customer) {
     return localStorage.setItem('currentCustomer', JSON.stringify(customer));
   }
@@ -335,10 +332,34 @@ export class LocalStorageService {
   }
 
   public setAddressId(addressId: number): void {
-    JSON.parse(localStorage.getItem('addressId'));
+    localStorage.setItem('addressId', String(addressId));
   }
 
   public getAddressId(): number {
     return JSON.parse(localStorage.getItem('addressId'));
+  }
+
+  public setAddresses(addresses: Address[]) {
+    localStorage.setItem('addresses', String(addresses));
+  }
+
+  public getCurrentLocationId(): number {
+    return JSON.parse(localStorage.getItem('currentLocationId'));
+  }
+
+  public getLocations(): CourierLocations {
+    return JSON.parse(localStorage.getItem('locations'));
+  }
+
+  public getIsAnotherClient(): boolean {
+    return JSON.parse(localStorage.getItem('anotherClient'));
+  }
+
+  public setIsAnotherClient(value: boolean) {
+    localStorage.setItem('anotherClient', String(value));
+  }
+
+  public removeIsAnotherClient(): void {
+    localStorage.removeItem('anotherClient');
   }
 }
