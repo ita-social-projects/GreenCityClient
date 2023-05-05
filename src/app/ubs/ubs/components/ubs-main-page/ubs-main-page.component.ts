@@ -172,14 +172,19 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
           this.isFetching = false;
         })
       )
-      .subscribe((res: any) => {
-        if (res.orderIsPresent) {
-          this.saveLocation(res);
-          this.router.navigate(['ubs', 'order']);
-        } else {
-          this.openLocationDialog(res);
+      .subscribe(
+        (res: any) => {
+          if (res.orderIsPresent) {
+            this.saveLocation(res);
+            this.router.navigate(['ubs', 'order']);
+          } else {
+            this.openLocationDialog(res);
+          }
+        },
+        (e) => {
+          console.error(e);
         }
-      });
+      );
   }
 
   saveLocation(locationsData: AllLocationsDtos): void {
@@ -204,10 +209,15 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        if (res.data) {
-          this.router.navigate(['ubs', 'order']);
+      .subscribe(
+        (res) => {
+          if (res.data) {
+            this.router.navigate(['ubs', 'order']);
+          }
+        },
+        (e) => {
+          console.error(e);
         }
-      });
+      );
   }
 }
