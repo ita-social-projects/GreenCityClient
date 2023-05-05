@@ -695,7 +695,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
         this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.deactivated).subscribe(() => {
-          if (this.selectedCard) this.selectedCard.tariff = statusOfTariff.deactivated;
+          if (this.selectedCard) {
+            this.selectedCard.tariff = statusOfTariff.deactivated;
+          }
         });
       }
     });
@@ -719,7 +721,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
           .switchTariffStatus(card.cardId, statusOfTariff.active)
           .pipe(takeUntil(this.destroy))
           .subscribe(() => {
-            if (this.selectedCard) this.selectedCard.tariff = statusOfTariff.active;
+            if (this.selectedCard) {
+              this.selectedCard.tariff = statusOfTariff.active;
+            }
           });
       }
     });
