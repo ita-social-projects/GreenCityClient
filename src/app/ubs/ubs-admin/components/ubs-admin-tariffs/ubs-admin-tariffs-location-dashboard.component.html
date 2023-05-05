@@ -245,14 +245,11 @@
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="selectedCard.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+      <td class="last-col" *ngIf="selectedCard.tariff === 'DEACTIVATED'">
+        <button class="restore-tariff" (click)="openTariffRestore(selectedCard, selectedCard.cardId)">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
-      </mat-menu>
+      </td>
     </tr>
   </tbody>
 </table>
