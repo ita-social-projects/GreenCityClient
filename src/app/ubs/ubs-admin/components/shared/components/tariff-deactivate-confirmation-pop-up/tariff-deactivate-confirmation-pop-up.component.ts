@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',
@@ -13,17 +15,22 @@ import { ModalTextComponent } from '../modal-text/modal-text.component';
 })
 export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   public adminName: string;
-  public datePipe = new DatePipe('ua');
-  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  newDate: string;
   unsubscribe: Subject<any> = new Subject();
   courierName: string;
+  courierEnglishName: string;
   stationNames: Array<string>;
-  regionNames: Array<string>;
+  regionName: string;
+  regionEnglishName: string;
   locationNames: Array<string>;
+  locationEnglishNames: Array<string>;
   isRestore: boolean;
   isDeactivate: boolean;
+  isDeactivatePopup = true;
 
   constructor(
+    private tariffsService: TariffsService,
+    private languageService: LanguageService,
     private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     public dialog: MatDialog,
@@ -31,15 +38,24 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isDeactivate = this.modalData.isDeactivate;
-    this.isRestore = this.modalData.isRestore;
-    this.courierName = this.modalData.courierName ?? '';
+    this.courierName = this.modalData.courierNameUk ?? '';
+    this.courierEnglishName = this.modalData.courierEnglishName ?? '';
     this.stationNames = this.modalData.stationNames ?? '';
-    this.regionNames = this.modalData.regionName ?? '';
-    this.locationNames = this.modalData.locationNames ?? '';
+    this.regionName = this.modalData.regionNameUk ?? '';
+    this.regionEnglishName = this.modalData.regionEnglishName ?? '';
+    this.isDeactivate = this.modalData.isDeactivate;
+    this.locationNames = this.modalData.regionNameUk ?? '';
+    this.locationEnglishNames = this.modalData.regionEnglishName ?? '';
+    this.isRestore = this.modalData.isRestore;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.adminName = firstName;
     });
+    this.setDate();
+  }
+
+  setDate(): void {
+    const lang = this.languageService.getCurrentLanguage();
+    this.newDate = this.tariffsService.setDate(lang);
   }
 
   public onCancelClick(): void {

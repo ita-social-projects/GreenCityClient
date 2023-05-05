@@ -168,6 +168,10 @@ h4 {
     min-width: 140px;
     white-space: nowrap;
   }
+
+  .fields-wrapper {
+    margin-left: auto;
+  }
 }
 
 #label-limit {
@@ -271,6 +275,7 @@ button[disabled] {
   font-weight: bold;
   font-size: 14px;
   line-height: 20px;
+  width: 185px;
 }
 
 .primary-global-button {
@@ -282,6 +287,7 @@ button[disabled] {
   color: var(--ubs-quaternary-dark-grey);
   border-color: var(--ubs-button-light-green);
   background: var(--ubs-button-light-green);
+  width: 185px;
 
   &:disabled {
     background: var(--ubs-quaternary-light-grey);

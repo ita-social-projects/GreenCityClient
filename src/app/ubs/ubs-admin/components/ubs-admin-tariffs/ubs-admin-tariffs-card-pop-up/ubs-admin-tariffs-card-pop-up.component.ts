@@ -215,7 +215,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public onSelectCourier(event): void {
-    const selectedValue = this.couriers.find((ob) => ob.nameUk === event.value);
+    const lang = this.languageService.getCurrentLanguage();
+    let selectedValue;
+    lang === 'en'
+      ? (selectedValue = this.couriers.find((ob) => ob.nameEn === event.value))
+      : (selectedValue = this.couriers.find((ob) => ob.nameUk === event.value));
     this.courierEnglishName = selectedValue.nameEn;
     this.courierId = selectedValue.courierId;
   }

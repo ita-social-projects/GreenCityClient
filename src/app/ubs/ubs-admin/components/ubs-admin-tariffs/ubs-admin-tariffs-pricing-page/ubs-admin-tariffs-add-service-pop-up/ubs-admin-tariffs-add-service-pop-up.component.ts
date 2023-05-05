@@ -57,8 +57,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
 
   createService() {
     return this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(30)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.TarifNamePattern), Validators.maxLength(30)]),
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
       descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
@@ -69,12 +69,12 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     this.addServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.serviceData.name }, [
         Validators.required,
-        Validators.pattern(Patterns.TarifNamePattern),
+        Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
       nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }, [
         Validators.required,
-        Validators.pattern(Patterns.TarifNamePattern),
+        Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsPrice)]),

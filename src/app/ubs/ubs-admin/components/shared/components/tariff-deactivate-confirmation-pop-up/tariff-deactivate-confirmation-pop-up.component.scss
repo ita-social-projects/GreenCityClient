@@ -8,19 +8,19 @@
   letter-spacing: 0.002em;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 40px;
+  display: flex;
   font-family: var(--ubs-quaternary-font);
   margin-bottom: 24px;
 
-  .ua-part {
+  .ua-part,
+  .en-part {
     width: 246px;
-  }
-
-  .show-block {
-    display: none;
   }
 }
 

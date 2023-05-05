@@ -5,6 +5,7 @@ import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locatio
 
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -141,5 +142,9 @@ export class TariffsService {
 
   switchTariffStatus(tariffId: number, status): Observable<object> {
     return this.http.patch(`${mainUbsLink}/ubs/superAdmin/switchTariffStatus/${tariffId}?status=${status}`, null);
+  }
+
+  setDate(language): string {
+    return new DatePipe(language).transform(new Date(), 'MMM dd, yyyy');
   }
 }

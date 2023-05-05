@@ -29,9 +29,9 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   const fakeBagForm = new FormGroup({
     name: new FormControl('fake'),
     nameEng: new FormControl('fake'),
-    capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
     commission: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
-    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999999.99)]),
     description: new FormControl('fake'),
     descriptionEng: new FormControl('fake')
   });
