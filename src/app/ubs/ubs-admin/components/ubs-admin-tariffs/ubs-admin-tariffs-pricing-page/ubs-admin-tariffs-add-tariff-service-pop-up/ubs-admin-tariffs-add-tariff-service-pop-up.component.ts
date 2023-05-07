@@ -5,10 +5,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
 import { Subject } from 'rxjs';
-import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-tariff-service-pop-up',
@@ -21,11 +21,11 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   tariffs;
   tariffService: Bag;
   loadingAnim: boolean;
+  private isLangEn = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-
-  public newDate: string;
+  newDate: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -33,7 +33,8 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
     private fb: FormBuilder,
-    private localeStorageService: LocalStorageService
+    private localeStorageService: LocalStorageService,
+    private languageService: LanguageService
   ) {
     this.receivedData = data;
   }
@@ -44,10 +45,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     });
     this.initForm();
     this.fillFields();
-    this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((lang: string) => {
-      const datePipe = new DatePipe(lang);
-      this.newDate = datePipe.transform(new Date(), 'MMM dd, yyyy');
-    });
+    this.setDate();
+  }
+
+  setDate(): void {
+    const lang = this.languageService.getCurrentLanguage();
+    this.newDate = this.tariffsService.setDate(lang);
+    this.isLangEn = lang === 'en';
   }
 
   private initForm(): void {
@@ -107,10 +111,10 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       capacity,
       price,
       commission,
-      name,
-      description,
-      descriptionEng,
-      nameEng
+      name: this.isLangEn ? nameEng : name,
+      description: this.isLangEn ? descriptionEng : description,
+      descriptionEng: this.isLangEn ? description : descriptionEng,
+      nameEng: this.isLangEn ? name : nameEng
     };
     this.loadingAnim = true;
     this.tariffsService

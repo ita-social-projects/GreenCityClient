@@ -144,6 +144,13 @@
   }
 }
 
+.event-name {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
 .main-container {
   padding: 16px;
   display: flex;
@@ -236,6 +243,8 @@
 }
 
 .description {
+  font-size: 14px;
+  line-height: 20px;
   max-height: 100px;
   overflow: hidden;
 }
@@ -253,6 +262,10 @@
   display: block;
   width: 100%;
   height: 40px;
+}
+
+.m-btn {
+  font-size: 14px;
 }
 
 .event-button-hiden {

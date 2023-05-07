@@ -251,6 +251,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.isTableHeightSet = this.tableHeightService.setTableHeightToContainerHeight(table, tableContainer);
       if (!this.isTableHeightSet) {
         this.onScroll();
+        this.isUpdate = false;
       }
     }
     this.cdr.detectChanges();

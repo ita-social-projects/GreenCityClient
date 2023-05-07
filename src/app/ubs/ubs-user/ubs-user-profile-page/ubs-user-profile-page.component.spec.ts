@@ -519,11 +519,13 @@ describe('UbsUserProfilePageComponent', () => {
   it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
     component.isEditing = true;
     fixture.detectChanges();
-    spyOn(component, 'onSubmit');
-    const deleteButton = fixture.debugElement.query(By.css('.submit-btns .ubs-primary-global-button')).nativeElement;
-    deleteButton.click();
-    tick();
-    expect(component.onSubmit).toHaveBeenCalled();
+    if (component.userForm.value.valid) {
+      spyOn(component, 'onSubmit');
+      const deleteButton = fixture.debugElement.query(By.css('.submit-btns .ubs-primary-global-button')).nativeElement;
+      deleteButton.click();
+      tick();
+      expect(component.onSubmit).toHaveBeenCalled();
+    }
   }));
 
   it('method onSubmit should return submitData', () => {

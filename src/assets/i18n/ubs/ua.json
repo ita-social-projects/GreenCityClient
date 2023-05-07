@@ -427,7 +427,7 @@
         "this-is-not-email": "Перевірте коректність введеної електронної адреси",
         "the-user-already-exists-by-this-email": "Користувач з такою поштою вже існує",
         "password": "Пароль",
-        "password-is-required": "Введіть пароль",
+        "password-is-required": "Будь ласка введіть пароль.",
         "password-must-be-at-least-8-characters-long": "Пароль повинен містити принаймі 8 символів",
         "too-long-password": "Пароль повинен містити менше 20 символів без пробілів.",
         "password-spaces-error": "Пароль повинен містити принаймі 8 символів без пробілів",
