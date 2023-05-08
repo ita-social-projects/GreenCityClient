@@ -392,14 +392,21 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   getLocations(): void {
     this.store.dispatch(GetLocations({ reset: this.reset }));
 
-    this.locations$.pipe(skip(1)).subscribe((item: Locations[]) => {
+    this.locations$.pipe(skip(1), takeUntil(this.destroy)).subscribe((item: Locations[]) => {
       if (item) {
         this.locations = item;
-        const regions = this.locations
+        const regions = [];
+        this.locations
           .map((element) => {
             return element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLang).map((it) => it.regionName);
           })
-          .flat(2);
+          .flat(2)
+          .forEach((region) => {
+            if (!regions.includes(region)) {
+              regions.push(region);
+            }
+          });
+
         this.filteredRegions = this.filterOptions(this.region, regions);
         this.cities = this.mapCities(this.locations);
         this.filteredCities = this.filterOptions(

@@ -5,6 +5,7 @@ import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { TariffPlaceholderSelected } from '../ubs-tariffs.enum';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -215,16 +216,18 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public onSelectCourier(event): void {
-    const lang = this.languageService.getCurrentLanguage();
-    const selectedValue =
-      lang === 'en' ? this.couriers.find((ob) => ob.nameEn === event.value) : this.couriers.find((ob) => ob.nameUk === event.value);
+    const selectedValue = this.couriers.find((ob) => {
+      const name = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
+      return name === event.value;
+    });
     this.courierEnglishName = selectedValue.nameEn;
     this.courierId = selectedValue.courierId;
   }
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      this.stationPlaceholder = this.selectedStation.length + ' вибрано';
+      const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
+      this.stationPlaceholder = this.selectedStation.length.toString() + ' ' + selected;
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
