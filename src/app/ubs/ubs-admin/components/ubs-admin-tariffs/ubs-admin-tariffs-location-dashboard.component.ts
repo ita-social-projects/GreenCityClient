@@ -163,8 +163,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  // comment
-
   public checkisCardExist(): void {
     if (this.region.value && this.courier.value && this.selectedCities.length && this.selectedStation.length) {
       this.isFieldFilled = true;
