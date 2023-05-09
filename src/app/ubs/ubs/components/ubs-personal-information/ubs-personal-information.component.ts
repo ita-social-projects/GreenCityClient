@@ -30,7 +30,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   order: Order;
   addresses: Address[] = [];
   maxAddressLength = 4;
-  namePattern = Patterns.NamePattern;
+  namePattern = Patterns.NameInfoPattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
   firstOrder = true;
@@ -42,6 +42,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [Validators.required, Validators.maxLength(30), Validators.pattern(this.namePattern)];
+  private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -156,8 +157,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       lastName: ['', this.personalDataFormValidators],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: [''],
-      anotherClientLastName: [''],
+      anotherClientFirstName: ['', this.anotherClientValidators],
+      anotherClientLastName: ['', this.anotherClientValidators],
       anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       anotherClientPhoneNumber: [''],
       address: ['', Validators.required],
@@ -189,7 +190,14 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.changeAddressInPersonalData();
   }
 
+  isOneAdress() {
+    if (this.addresses.length === 1) {
+      this.addresses[0].actual = true;
+    }
+  }
+
   changeAddressInPersonalData() {
+    this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
     this.personalData.city = activeAddress.city;
     this.personalData.cityEn = activeAddress.cityEn;
@@ -267,6 +275,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   activeAddressId() {
+    this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
     this.addressId = activeAddress.id;
   }
@@ -359,6 +368,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAddressComment() {
+    this.isOneAdress();
     this.addresses.forEach((address) => {
       if (address.actual) {
         address.addressComment = this.personalDataForm.controls.addressComment.value;
