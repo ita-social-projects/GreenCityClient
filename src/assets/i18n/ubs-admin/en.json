@@ -760,14 +760,17 @@
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
+    "edit_tariff": "Edit tariff",
     "edit_service": "Edit service",
     "name_of_the_service": "Name of the service",
+    "name_of_the_tariff": "Name of the tariff",
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
     "basic_cost": "Basic cost",
     "commission": "Commission",
     "full_cost": "Full cost",
     "service_description": "Service description",
+    "tariff_description": "Tariff description",
     "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
     "error_message": "Fill in the selected fields",
     "error_content": "The field must contain between 1 and 255 characters",
@@ -778,9 +781,10 @@
       "save": "Save"
     },
     "lang": {
-      "name_of_the_service": "Найменування послуги",
+      "name_of_the_service": "Найменування сервісу",
       "placeholder-service": "Введіть назву послуги",
-      "service_description": "Опис послуги",
+      "service_description": "Опис сервісу",
+      "tariff_description": "Опис послуги",
       "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання"
     }
   },
