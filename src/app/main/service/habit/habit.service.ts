@@ -64,6 +64,29 @@ export class HabitService {
       tagIds: habit.tagIds,
       customShoppingListItemDto: habit.shopList
     };
+    const body1 = {
+      habitTranslations: [
+        {
+          description: 'string',
+          habitItem: 'string',
+          languageCode: 'string',
+          name: 'string'
+        }
+      ],
+      complexity: 1,
+      defaultDuration: 0,
+      image: '',
+      tagIds: [21],
+      customShoppingListItemDto: [
+        {
+          id: 0,
+          status: 'ACTIVE',
+          text: 'string'
+        }
+      ]
+      //id: 0,
+      //userId: 0
+    };
     return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
   }
 }
