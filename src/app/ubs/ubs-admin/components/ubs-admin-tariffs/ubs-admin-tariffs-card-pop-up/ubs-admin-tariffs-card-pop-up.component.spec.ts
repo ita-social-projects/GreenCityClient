@@ -377,7 +377,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should set station placeholder', () => {
     component.selectedStation = [stationItem];
     component.setStationPlaceholder();
-    expect(component.stationPlaceholder).toEqual('1 вибрано');
+    expect(component.stationPlaceholder).toEqual('1 обрано');
   });
 
   it('should set station placeholder', () => {
@@ -389,7 +389,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should set city placeholder', () => {
     component.selectedCities = [locationItem];
     component.setCountOfSelectedCity();
-    expect(component.cityPlaceholder).toEqual('1 вибрано');
+    expect(component.cityPlaceholder).toEqual('1 обрано');
   });
 
   it('should set city placeholder', () => {
