@@ -756,14 +756,17 @@
   },
   "ubs-tariffs-add-service": {
     "add_service": "Додати послугу",
-    "edit_service": "Редагувати послугу",
-    "name_of_the_service": "Найменування послуги",
+    "edit_tariff": "Редагувати послугу",
+    "edit_service": "Редагувати сервіс",
+    "name_of_the_service": "Найменування сервісу",
+    "name_of_the_tariff": "Найменування послуги",
     "placeholder-service": "Введіть назву послуги",
     "capacity": "Об'єм",
     "basic_cost": "Базова вартість",
     "commission": "Комісія",
     "full_cost": "Повна вартість",
-    "service_description": "Опис послуги",
+    "service_description": "Опис сервісу",
+    "tariff_description": "Опис послуги",
     "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання",
     "error_message": "Заповніть виділені поля",
     "error_content": "Поле має містити від 1 до 255 символів",
@@ -777,6 +780,7 @@
       "name_of_the_service": "Name of the service",
       "placeholder-service": "Enter a name for the service",
       "service_description": "Service description",
+      "tariff_description": "Tariff description",
       "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision"
     }
   },
