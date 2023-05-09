@@ -180,17 +180,17 @@
           {{ item }}
         </div>
       </td>
-      <td>
+      <td (click)="page(card.cardId)">
         <div>
           {{ card.courier }}
         </div>
       </td>
-      <td>
+      <td (click)="page(card.cardId)">
         <div *ngFor="let item of card.station">
           {{ item }}
         </div>
       </td>
-      <td>
+      <td (click)="page(card.cardId)">
         {{ card.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
