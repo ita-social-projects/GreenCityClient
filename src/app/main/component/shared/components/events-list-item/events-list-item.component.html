@@ -40,12 +40,11 @@
       <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
     </div>
     <div class="date-container">
-      <span class="lock-open" *ngIf="event.open"></span>
-      <span class="lock-closed" *ngIf="!event.open"></span>
-      <div *ngIf="event.open">{{ 'homepage.events.open' | translate }}</div>
-      <div *ngIf="!event.open">{{ 'homepage.events.completed' | translate }}</div>
-      <span class="time-divider" *ngIf="event.open">|</span>
-      <div *ngIf="isRegistered && event.open">{{ 'homepage.events.registered' | translate }}</div>
+      <span class="location"></span>
+      <div class="address d-flex flex-column">
+        {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
+        {{ address.houseNumber }}
+      </div>
     </div>
     <div class="event-title">
       <h3 [innerHTML]="cutTitle()"></h3>
