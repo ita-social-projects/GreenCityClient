@@ -1,5 +1,5 @@
 <header role="banner" aria-label="Welcome to header" [ngClass]="{ 'burger-modal_open': toggleBurgerMenu, header_ubs: isUBS }">
-  <div [ngClass]="isAdmin ? 'noWarning' : 'warning'">
+  <div class="noWarning">
     <div class="warning_massage">
       <span> {{ 'user.warning.massage' | translate }}</span>
       <button class="warning_button_comment" onclick="window.open('https://forms.gle/Kr862qodteHToRVg8', '_blank')">
