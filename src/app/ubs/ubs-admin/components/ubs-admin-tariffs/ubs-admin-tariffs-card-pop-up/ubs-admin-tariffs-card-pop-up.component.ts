@@ -347,10 +347,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public setCountOfSelectedCity(): void {
+    const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
       this.citySelected = true;
-      this.cityPlaceholder = this.selectedCityLength + ' вибрано';
+      this.cityPlaceholder = this.selectedCityLength.toString() + ' ' + selected;
     } else {
       this.citySelected = false;
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => {
