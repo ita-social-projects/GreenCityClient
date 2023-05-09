@@ -1,4 +1,4 @@
 export enum TariffPlaceholderSelected {
-  ua = 'вибрано',
+  ua = 'обрано',
   en = 'selected'
 }

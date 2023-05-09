@@ -6,6 +6,7 @@ import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, DeactivateCard } from '../../../models/tariffs.interface';
+import { TariffPlaceholderSelected } from '../ubs-tariffs.enum';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -263,8 +264,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public setStationPlaceholder(): void {
+    const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
     if (this.selectedStations.length) {
-      this.stationPlaceholder = this.selectedStations.length + ' вибрано';
+      this.stationPlaceholder = this.selectedStations.length + ' ' + selected;
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
@@ -381,9 +383,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public setRegionsPlaceholder(): void {
+    const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
     this.selectedRegionsLength = this.selectedRegions.length;
     if (this.selectedRegionsLength) {
-      this.regionPlaceholder = this.selectedRegionsLength + ' вибрано';
+      this.regionPlaceholder = this.selectedRegionsLength + ' ' + selected;
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-region').subscribe((data) => (this.regionPlaceholder = data));
     }
@@ -470,9 +473,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public setCityPlaceholder(): void {
+    const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
-      this.cityPlaceholder = this.selectedCityLength + ' вибрано';
+      this.cityPlaceholder = this.selectedCityLength + ' ' + selected;
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
     }
