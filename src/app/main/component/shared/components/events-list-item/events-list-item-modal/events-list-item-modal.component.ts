@@ -21,8 +21,10 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public isRegistered: boolean;
   public isPosting: boolean;
   public text: string;
+  public textByRate: string;
   public elementName: string;
   public isEventRaited = false;
+  public hover: boolean;
 
   private dialog: MatDialog;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -70,8 +72,10 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  public hoveringOver(event: number): void {
+  public hoveringOver(event: number, rated = false): void {
     this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : ' ';
+    this.hover = [1, 2, 3].includes(event) ? true : false;
+    this.textByRate = rated ? this.text : ' ';
   }
 
   public onRateChange(): void {

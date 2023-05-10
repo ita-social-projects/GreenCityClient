@@ -172,12 +172,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
         Validators.required,
-        Validators.pattern(Patterns.NameInfoPattern),
+        Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
       recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
         Validators.required,
-        Validators.pattern(Patterns.NameInfoPattern),
+        Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
       recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
