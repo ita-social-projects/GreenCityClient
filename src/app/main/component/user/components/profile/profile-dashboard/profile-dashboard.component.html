@@ -102,7 +102,7 @@
                 let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: eventsTotal }
               "
             >
-              <app-events-list-item [event]="eventItem"></app-events-list-item>
+              <app-events-list-item [event]="eventItem" [userId]="userId"></app-events-list-item>
             </li>
           </ul>
           <pagination-controls

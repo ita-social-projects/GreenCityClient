@@ -24,12 +24,7 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-
-export enum statusOfTariff {
-  active = 'ACTIVE',
-  deactivated = 'DEACTIVATED',
-  new = 'NEW'
-}
+import { statusOfTariff } from './tariff-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -705,6 +700,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
+
         this.tariffsService
           .switchTariffStatus(card.cardId, statusOfTariff.deactivated)
           .pipe(takeUntil(this.destroy))
@@ -732,7 +728,14 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res && this.checkTariffAvailability(tariffId)) {
-        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.active).subscribe();
+        this.tariffsService
+          .switchTariffStatus(card.cardId, statusOfTariff.active)
+          .pipe(takeUntil(this.destroy))
+          .subscribe(() => {
+            if (this.selectedCard) {
+              this.selectedCard.tariff = statusOfTariff.active;
+            }
+          });
       }
     });
   }

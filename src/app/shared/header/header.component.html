@@ -1,4 +1,12 @@
 <header role="banner" aria-label="Welcome to header" [ngClass]="{ 'burger-modal_open': toggleBurgerMenu, header_ubs: isUBS }">
+  <div class="noWarning">
+    <div class="warning_massage">
+      <span> {{ 'user.warning.massage' | translate }}</span>
+      <button class="warning_button_comment" onclick="window.open('https://forms.gle/Kr862qodteHToRVg8', '_blank')">
+        {{ 'user.warning.button' | translate }}
+      </button>
+    </div>
+  </div>
   <div [ngClass]="isUBS ? 'container-fluid' : 'container'">
     <div [ngClass]="isAdmin ? 'admin-container-fluid' : 'header_container'">
       <a
@@ -138,7 +146,7 @@
               <li role="option" aria-label="english" class="lang-option" tabindex="0">
                 <span
                   [ngStyle]="{
-                    'font-size': isUBS && '18px',
+                    'font-size': isUBS && '14px',
                     'font-weight': isUBS && '800',
                     color: isUBS && '#575757'
                   }"
@@ -188,14 +196,7 @@
               >
                 <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
                   <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
-                    <span>{{ name }}</span>
-                    <img
-                      *ngIf="!isUBS"
-                      alt="arrow down icon"
-                      aria-hidden="true"
-                      [ngClass]="dropdownVisible ? 'header_arrow reverse' : 'header_arrow'"
-                      [src]="headerImageList.arrowDown"
-                    />
+                    <img src="../assets/img/events/user.svg" alt="log-in user" />
                   </a>
                 </li>
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="settings" tabindex="0">
@@ -240,6 +241,13 @@
               >
                 {{ 'top-bar.sign-in' | translate }}
               </a>
+              <img
+                src="../assets/img/events/user.svg"
+                alt="sing in button"
+                [class.d-none]="toggleBurgerMenu"
+                [ngClass]="isUBS ? 'ubs-header-sing-in-img' : 'ubs-header-sing-in-img ubs-header-sing-in-img-greencity'"
+                (click)="openAuthModalWindow('sign-in')"
+              />
             </ng-container>
             <!-- SIGN UP LINK -->
             <li

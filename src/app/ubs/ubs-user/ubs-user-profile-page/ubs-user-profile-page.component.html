@@ -14,7 +14,7 @@
               <button tabindex="0" class="ubs-secondary-global-button s-btn" (click)="openChangePasswordDialog()">
                 {{ 'ubs-client-profile.btn.change-password' | translate }}
               </button>
-              <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteDialog()">
+              <button tabindex="0" class="ubs-danger-global-button s-btn" (click)="openDeleteProfileDialog()">
                 {{ 'ubs-client-profile.btn.delete-profile' | translate }}
               </button>
             </ng-container>
@@ -289,7 +289,7 @@
                       <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
                     </div>
                   </div>
-                  <div class="delete-address" (click)="openDeleteDialog(address)">
+                  <div class="delete-address" (click)="openDeleteAddressDialog(address)">
                     <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
                   </div>
                 </div>
@@ -317,7 +317,17 @@
                   </div>
                 </div>
                 <div>
-                  <mat-checkbox class="check" type="checkbox">{{ 'personal-info.default-address' | translate }}</mat-checkbox>
+                  <div class="custom-radio d-flex">
+                    <input
+                      class="checkmark"
+                      name="address"
+                      type="radio"
+                      [value]="address.value?.id"
+                      [checked]="address.value?.actual"
+                      (click)="setActualAddress(address.value?.id)"
+                    />
+                    <span>{{ 'personal-info.default-address' | translate }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -336,7 +346,12 @@
             </div>
           </div>
           <div class="submit-btns" *ngIf="isEditing">
-            <button class="ubs-primary-global-button s-btn" type="submit" (click)="onSubmit()" [disabled]="!userForm.valid">
+            <button
+              class="ubs-primary-global-button s-btn"
+              type="submit"
+              (click)="onSubmit()"
+              [disabled]="!userForm.valid || userForm.pristine"
+            >
               {{ 'ubs-client-profile.btn.save' | translate }}
             </button>
             <button class="ubs-secondary-global-button s-btn" type="submit" (click)="onCancel()">

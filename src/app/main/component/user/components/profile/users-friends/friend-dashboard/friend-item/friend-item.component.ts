@@ -43,7 +43,7 @@ export class FriendItemComponent implements OnInit {
     });
   }
 
-  private friendEvent(id: number): void {
+  public friendEvent(id: number): void {
     this.friendEventEmit.emit(id);
   }
 

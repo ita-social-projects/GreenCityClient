@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@ang
 import { IOrderDetails, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
@@ -52,7 +53,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() totalPaid: number;
   @Input() generalInfo: IGeneralOrderInfo;
 
-  constructor(private fb: FormBuilder, private orderService: OrderService) {}
+  constructor(private fb: FormBuilder, private orderService: OrderService, private langService: LanguageService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     const curStatus = changes.orderStatusInfo?.currentValue;
@@ -355,5 +356,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.isCourierPriceInvalid = this.courierPrice > this.orderDetailsForm.value.orderFullPrice;
     this.emitUbsPrice(this.courierPrice);
     this.calculateFinalSum();
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

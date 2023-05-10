@@ -1,25 +1,25 @@
 <div class="calendar">
   <div class="top">
     <div class="month-year">
-      <div (click)="monthView ? previousMonth() : previousYear()">
+      <button (click)="monthView ? previousMonth() : previousYear()">
         <img [src]="calendarImages.arrowPrevious" alt="arrow previous" class="arrow-previous" />
-      </div>
-      <span class="monthAndYear" (click)="toggleCalendarView()">
+      </button>
+      <button class="monthAndYear" (click)="toggleCalendarView()">
         {{ monthView ? monthAndYearName : yearData }}
-      </span>
-      <div (click)="monthView ? nextMonth() : nextYear()">
+      </button>
+      <button (click)="monthView ? nextMonth() : nextYear()">
         <img [src]="calendarImages.arrowNext" alt="arrow next" class="arrow-next" />
-      </div>
+      </button>
     </div>
     <div *ngIf="monthView" class="days">
-      <div class="days-name" *ngFor="let day of daysName" [ngClass]="{ 'current-day-name': day === currentDayName }">
+      <button class="days-name" *ngFor="let day of daysName" [ngClass]="{ 'current-day-name': day === currentDayName }">
         {{ day }}
-      </div>
+      </button>
     </div>
   </div>
   <div class="middle">
     <div *ngIf="monthView" class="calendar-grid" [ngClass]="{ disabled: checkAnswer }">
-      <div
+      <button
         *ngFor="let dayItem of calendarDay"
         class="calendar-grid-day"
         [ngClass]="chooseDisplayClass(dayItem)"
@@ -28,17 +28,17 @@
         <span>
           {{ dayItem.numberOfDate }}
         </span>
-      </div>
+      </button>
     </div>
     <div *ngIf="!monthView" class="calendar-grid-month">
       <div *ngFor="let month of monthsCalendar">
-        <div
+        <button
           class="calendar-grid-month-view"
           (click)="buildSelectedMonthCalendar(month)"
           [ngClass]="{ 'current-month': month === activeMonth && currentYear }"
         >
           {{ month }}
-        </div>
+        </button>
       </div>
     </div>
   </div>

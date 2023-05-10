@@ -210,6 +210,31 @@ $inputwidth: 260px;
   margin-right: 60px;
 }
 
+.checkmark {
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  margin-right: 10px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio {
+  align-items: center;
+}
+
+.custom-radio input[name='address'] {
+  accent-color: var(--ubs-freinacht-black);
+}
+
 .input-container {
   display: flex;
   flex-direction: column;

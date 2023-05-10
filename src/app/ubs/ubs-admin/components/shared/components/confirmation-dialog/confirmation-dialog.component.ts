@@ -17,7 +17,7 @@ export class ConfirmationDialogComponent {
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>
   ) {
     this.title = data?.title ?? this.title;
-    this.text = data?.text ?? this.text;
+    this.text = data?.text;
     this.confirm = data?.confirm ?? this.confirm;
     this.cancel = data?.cancel ?? this.cancel;
   }

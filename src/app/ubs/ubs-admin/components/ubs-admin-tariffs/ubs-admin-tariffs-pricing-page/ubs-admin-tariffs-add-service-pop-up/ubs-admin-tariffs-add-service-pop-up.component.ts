@@ -1,32 +1,32 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { DatePipe } from '@angular/common';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-service-pop-up',
   templateUrl: './ubs-admin-tariffs-add-service-pop-up.component.html',
   styleUrls: ['./ubs-admin-tariffs-add-service-pop-up.component.scss']
 })
-export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestroy {
+export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   service: Service;
   date: string;
   user: string;
   receivedData;
   loadingAnim: boolean;
   addServiceForm: FormGroup;
+  private isLangEn = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
   unsubscribe: Subject<any> = new Subject();
-  datePipe = new DatePipe('ua');
-  newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  newDate: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
@@ -34,7 +34,8 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
     private fb: FormBuilder,
-    private localeStorageService: LocalStorageService
+    private localeStorageService: LocalStorageService,
+    private languageService: LanguageService
   ) {
     this.receivedData = data;
   }
@@ -43,8 +44,16 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
+
     this.initForm();
     this.fillFields(this.receivedData);
+    this.setDate();
+  }
+
+  setDate(): void {
+    const lang = this.languageService.getCurrentLanguage();
+    this.newDate = this.tariffsService.setDate(lang);
+    this.isLangEn = lang === 'en';
   }
 
   private initForm() {
@@ -101,10 +110,10 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
     const { name, nameEng, price, description, descriptionEng } = this.addServiceForm.value;
     this.service = {
       price,
-      description,
-      descriptionEng,
-      name,
-      nameEng
+      description: this.isLangEn ? descriptionEng : description,
+      descriptionEng: this.isLangEn ? description : descriptionEng,
+      name: this.isLangEn ? nameEng : name,
+      nameEng: this.isLangEn ? name : nameEng
     };
     this.loadingAnim = true;
     this.tariffsService
@@ -164,10 +173,5 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit, OnDestro
         this.dialogRef.close();
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy.next();
-    this.destroy.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
 $hr-color: #e6e6e6;
 $header-height: 54px;
 $white-color: var(--ubs-primary-white);
-$ubs-header-height: 116px;
+$ubs-header-height: 86px;
 
 ::ng-deep .custom-dialog-container .mat-dialog-container {
   background-color: transparent;
@@ -21,13 +21,8 @@ $ubs-header-height: 116px;
   }
 }
 
-header {
-  width: 100vw;
-  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
-  position: fixed;
-  top: 0;
-  background: $white-color;
-  z-index: 5;
+.noWarning {
+  display: none;
 }
 
 .header_sign-up-btn {
@@ -41,24 +36,71 @@ header {
 
   span {
     padding: 0 24px;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 12px;
     font-weight: 600;
   }
 }
 
+header {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  background: $white-color;
+  z-index: 5;
+  text-transform: uppercase;
+  font-size: 14px;
+
+  .warning {
+    margin: 0 auto;
+    max-width: 100%;
+    background-color: #507900;
+
+    .warning_massage {
+      margin: 0 auto;
+      padding: 0 130px;
+      width: 1440px;
+      height: 51px;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+
+      span {
+        font-family: var(--ubs-secondary-font);
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+        color: #fcfcfc;
+      }
+
+      .warning_button_comment {
+        padding: 7px 25px;
+        border-radius: 5px;
+        font-family: var(--ubs-secondary-font);
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 13px;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
 .ubs-header_sign-up-btn {
-  width: 163px;
-  height: 44px;
+  width: 234px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 800;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 20px;
   background-color: var(--ubs-secondary-light-green);
   border: 2 solid var(--ubs-secondary-light-green);
-  border-radius: 15px;
+  border-radius: 6px;
   color: var(--ubs-primary-white);
 
   &:hover {
@@ -85,7 +127,7 @@ header {
   box-shadow: none;
 
   .header_sign-in-link {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 16px;
     width: fit-content;
     padding: 0 40px;
@@ -98,7 +140,7 @@ header {
   }
 
   .header_sign-up-btn {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 16px;
     height: 100%;
   }
@@ -107,12 +149,12 @@ header {
     width: fit-content;
     height: 48px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 16px;
 
     div span {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 16px;
     }
   }
@@ -123,6 +165,53 @@ header {
 
   a {
     color: var(--secondary-dark-green);
+  }
+}
+
+.ubs-header-sign-in {
+  display: flex;
+  width: 145px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+  color: var(--ubs-primary-black);
+  border: 2px solid #87bc1e;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+
+  &:hover {
+    color: var(--ubs-secondary-light-green);
+    text-decoration: none;
+  }
+}
+
+.header_logo {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 24px;
+}
+
+.header_navigation-menu-right-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  list-style-type: none;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  li {
+    height: 100%;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  li.header_sign-up-link {
+    padding-right: 0;
   }
 }
 
@@ -147,56 +236,6 @@ header {
       padding: 10px;
       width: 100%;
     }
-  }
-}
-
-.ubs-header-sign-in {
-  display: flex;
-  width: 163px;
-  height: 44px;
-  justify-content: center;
-  align-items: center;
-  color: var(--ubs-primary-black);
-  border: 2px solid #87bc1e;
-  border-radius: 15px;
-  font-weight: 800;
-  font-size: 16px;
-  line-height: 20px;
-
-  &:hover {
-    color: var(--ubs-secondary-light-green);
-    text-decoration: none;
-  }
-}
-
-.header_logo {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  margin-right: 24px;
-  margin-left: 20px;
-}
-
-.header_navigation-menu-right-list {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  list-style-type: none;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-
-  li {
-    height: 100%;
-    padding: 10px 12px;
-    display: flex;
-    align-items: center;
-  }
-
-  .ubs-header-sign-in,
-  .header_sign-in-link,
-  .header_sign-up-link {
-    display: none;
   }
 }
 
@@ -286,16 +325,6 @@ header {
   text-decoration-line: none;
 }
 
-.header_container {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-}
-
 .header-logo {
   display: flex;
   align-items: center;
@@ -305,18 +334,11 @@ header {
   }
 }
 
-.header_navigation-menu-ubs,
-.header_navigation-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--primary-font);
-}
-
 .header_navigation-menu {
   height: $header-height;
 
   .header_navigation-menu-right {
+    position: relative;
     height: 80%;
     right: 20px;
 
@@ -331,13 +353,6 @@ header {
       }
 
       .header_navigation-menu-right-lang {
-        padding-left: 0;
-        height: 88px;
-        cursor: pointer;
-        width: 60px;
-        display: flex;
-        justify-content: center;
-
         .lang-option {
           span {
             font-size: 14px;
@@ -348,73 +363,15 @@ header {
   }
 }
 
-.header-for-admin {
-  height: 50px;
-
-  .header_navigation-menu-left {
-    display: none;
-  }
-}
-
-.admin-container-fluid {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-
-  .header_navigation-menu-right {
-    display: flex;
-    height: 100%;
-    align-items: center;
-
-    .header_navigation-menu-right-list {
-      justify-content: space-evenly;
-
-      .ubs-admin-cabinet {
-        display: none;
-        align-items: center;
-        font-family: var(--ubs-secondary-font);
-
-        .admin-list-item {
-          padding: 0;
-          text-align: center;
-
-          &:first-child span {
-            font-weight: 700 !important;
-            font-size: 14px;
-            line-height: 20px;
-            border: 2px solid var(--ubs-secondary-light-green);
-            border-radius: 15px;
-            width: 150px;
-            height: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .ubs-header_user-name {
-            display: flex;
-            justify-content: center;
-
-            span {
-              display: flex;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 #header_user-wrp {
-  position: relative;
   margin: auto 0;
   padding: 0;
   height: fit-content;
   display: none;
   flex-direction: column;
   width: auto;
-  min-width: 126px;
+  position: relative;
+  min-width: 155px;
 
   li {
     height: 44px;
@@ -423,21 +380,36 @@ header {
     margin: 0;
     color: var(--primary-dark-grey);
 
-    &:first-child {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
     &.drop-down-item {
       display: flex;
       align-items: center;
+      margin-top: 10px;
 
       a {
         color: var(--primary-dark-grey);
         font-size: 14px;
         line-height: 16px;
-        font-family: var(--primary-font);
+        font-family: var(--ubs-secondary-font);
         font-weight: 400;
+      }
+    }
+
+    &:first-child {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+
+      a {
+        padding: 7px 17px;
+        border: 2px solid #87bc1e;
+        border-radius: 6px;
+        margin: 0;
+
+        &:hover {
+          border-color: var(--ubs-tertiary-dark-green);
+        }
       }
     }
 
@@ -466,132 +438,6 @@ header {
       word-break: break-all;
     }
   }
-}
-
-.header_navigation-menu-ubs {
-  height: $ubs-header-height;
-  width: 100%;
-  justify-content: flex-end;
-
-  .header_navigation-menu-left {
-    width: 50%;
-
-    .pick-up-service {
-      font-family: var(--ubs-secondary-font);
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 20px;
-      color: var(--ubs-main-page-text-grey);
-
-      &:hover {
-        text-decoration: underline;
-        text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
-        text-underline-offset: 7px;
-      }
-    }
-
-    ul .nav-left-list {
-      .url-name {
-        font-family: var(--ubs-secondary-font);
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 20px;
-        color: var(--ubs-main-page-text-grey);
-
-        &:hover {
-          text-decoration: underline;
-          text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
-          text-underline-offset: 7px;
-        }
-      }
-    }
-  }
-
-  .header_navigation-menu-right {
-    height: 80%;
-
-    .header_navigation-menu-right-list {
-      justify-content: space-evenly;
-
-      .header_lang-switcher-wrp.header_navigation-menu-right-lang {
-        padding-left: 0;
-        cursor: pointer;
-      }
-
-      #header_user-wrp.ubs-user-cabinet {
-        display: none;
-        align-items: center;
-        font-family: var(--ubs-secondary-font);
-
-        .list-item {
-          padding: 0;
-          text-align: center;
-
-          &:first-child span {
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 20px;
-            border: 2px solid var(--ubs-secondary-light-green);
-            border-radius: 15px;
-            width: 160px;
-            height: 45px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          .ubs-header_user-name {
-            display: flex;
-            justify-content: center;
-          }
-        }
-      }
-    }
-  }
-}
-
-.add-shadow {
-  padding-left: 0;
-  height: 88px;
-  background-color: $white-color;
-  box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
-  border-radius: 2px;
-  display: flex;
-  margin-bottom: auto;
-  flex-direction: column;
-  z-index: 1;
-  top: 0;
-}
-
-#header_user-wrp.ubs-user-cabinet.add-shadow {
-  border-radius: 20px;
-  max-width: 160px;
-  top: 25px;
-}
-
-#header_user-wrp.ubs-admin-cabinet.add-shadow {
-  top: 0;
-}
-
-.ubs-lang-switcher-span {
-  top: 0;
-  font-size: 18px;
-  color: var(--ubs-main-page-primary-light-grey);
-  font-weight: 800;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.header_arrow {
-  margin: 2px 0 0 5px;
-}
-
-.reverse {
-  transform: rotate(180deg);
-  transition: 0.4s ease-out;
-  transition-delay: 0.1s;
 }
 
 .header_burger-btn {
@@ -653,12 +499,187 @@ header {
       }
     }
   }
+}
 
-  .modal-open {
-    overflow: hidden !important;
-    position: relative;
-    text-align: center;
+.admin-container-fluid {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .header_navigation-menu-left {
+    display: none;
   }
+
+  .header_navigation-menu-right {
+    display: flex;
+    height: 50px;
+    align-items: center;
+
+    .header_burger-btn {
+      display: none;
+    }
+
+    .header_navigation-menu-right-list {
+      justify-content: space-evenly;
+
+      #header_user-wrp li:first-child {
+        height: fit-content;
+        padding: 0;
+        justify-content: flex-end;
+      }
+
+      .ubs-admin-cabinet,
+      .ubs-user-cabinet {
+        display: none;
+        align-items: center;
+        font-family: var(--ubs-secondary-font);
+      }
+    }
+  }
+
+  .header_logo {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.header_container {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1140px;
+  height: 100%;
+}
+
+.header_navigation-menu-ubs,
+.header_navigation-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--ubs-secondary-font);
+}
+
+.add-shadow {
+  background-color: #fff;
+  position: relative;
+  top: 20px;
+}
+
+.header-for-admin {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .header_navigation-menu-left {
+    margin-right: 72px;
+    width: 100%;
+  }
+
+  .add-shadow {
+    top: 21px;
+  }
+}
+
+.header_navigation-menu-ubs .header_navigation-menu-right-list #header_user-wrp.add-shadow {
+  top: 12px;
+}
+
+.header_navigation-menu-ubs {
+  height: $ubs-header-height;
+  width: 100%;
+  justify-content: flex-end;
+
+  .header_navigation-menu-left {
+    .pick-up-service {
+      font-family: var(--ubs-secondary-font);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ubs-main-page-text-grey);
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
+        text-underline-offset: 7px;
+      }
+    }
+
+    ul .nav-left-list {
+      .url-name {
+        font-family: var(--ubs-secondary-font);
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--ubs-main-page-text-grey);
+
+        &:hover {
+          text-decoration: underline;
+          text-decoration-style: 1px solid var(--ubs-main-page-text-grey);
+          text-underline-offset: 7px;
+        }
+      }
+    }
+  }
+
+  .header_navigation-menu-right {
+    height: 80%;
+
+    .header_navigation-menu-right-list {
+      .header_lang-switcher-wrp.header_navigation-menu-right-lang {
+        padding-left: 0;
+        cursor: pointer;
+      }
+
+      #header_user-wrp.ubs-user-cabinet {
+        display: block;
+        align-items: center;
+        font-family: var(--ubs-secondary-font);
+
+        .list-item {
+          padding: 0;
+          text-align: center;
+
+          .ubs-header_user-name {
+            display: flex;
+            justify-content: center;
+          }
+        }
+
+        .drop-down-item a {
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
+#header_user-wrp.ubs-user-cabinet.add-shadow {
+  max-width: 160px;
+}
+
+.ubs-lang-switcher-span {
+  top: 20px;
+  font-size: 14px;
+  color: var(--ubs-main-page-primary-light-grey);
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.header_arrow {
+  margin: 2px 0 0 5px;
+}
+
+.reverse {
+  transform: rotate(180deg);
+  transition: 0.4s ease-out;
+  transition-delay: 0.1s;
 }
 
 .header_line {
@@ -679,41 +700,21 @@ header {
   }
 }
 
-@media (min-width: 576px) {
-  .container {
-    padding: 0;
-    height: 52px;
-  }
-
-  .header_navigation-menu-right {
-    .ubs-header-sign-in,
-    .ubs-header_sign-up-btn,
-    .header_sign-in-link,
-    .header_sign-up-link {
-      display: flex;
-    }
-  }
-
-  #header_user-wrp {
-    display: flex;
-    max-width: 126px;
-  }
-
-  .ubs-user-cabinet.add-shadow {
-    max-width: 126px;
-  }
-
-  .ubs-user-cabinet {
-    display: flex !important;
-    justify-content: center;
-  }
-
-  .header_navigation-menu-ubs .header_navigation-menu-right {
-    width: 80%;
-  }
-}
-
 @media (min-width: 768px) {
+  .container,
+  .container-fluid {
+    padding: 0 24px;
+  }
+
+  .header_container .header_logo img {
+    width: 90px;
+  }
+
+  a.ubs-header-sign-in,
+  a.header_sign-in-link {
+    display: none;
+  }
+
   #header_user-wrp {
     max-width: 226px;
   }
@@ -735,16 +736,6 @@ header {
   .header_navigation-menu-left {
     display: block;
   }
-
-  .header_navigation-menu-right {
-    .header_sign-up-link {
-      padding-right: 0;
-    }
-
-    .header_burger-btn {
-      display: none !important;
-    }
-  }
 }
 
 @media (min-width: 1200px) {
@@ -753,6 +744,483 @@ header {
   }
 
   .header_navigation-menu-ubs .header_navigation-menu-right {
-    width: 30%;
+    width: 45%;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  header {
+    .warning {
+      .warning_massage {
+        padding: 0 150px;
+        width: 100%;
+        justify-content: center;
+
+        span {
+          margin-right: 30px;
+          width: auto;
+          min-width: 400px;
+          max-width: 485px;
+          text-align: center;
+          font-size: 12px;
+          line-height: 13px;
+        }
+
+        .warning_button_comment {
+          width: 165px;
+          padding: 7px 20px;
+          font-size: 11px;
+          line-height: 13px;
+        }
+      }
+    }
+  }
+
+  .header_container {
+    padding: 0 8px;
+    max-width: none;
+  }
+
+  .ubs-header_sign-up-btn {
+    width: 196px;
+    font-size: 12px;
+  }
+
+  .header_navigation-menu-right {
+    width: 45%;
+    max-width: 400px;
+    font-size: 12px;
+  }
+
+  .header_navigation-menu-right ul {
+    justify-content: flex-end;
+
+    &:nth-child(n + 1) {
+      padding-left: 16px;
+    }
+  }
+
+  .header_navigation-menu-ubs .header_navigation-menu-left ul .nav-left-list a.url-name,
+  .header_navigation-menu-ubs .header_navigation-menu-left .pick-up-service,
+  .header_navigation-menu-left ul li a {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 575px) {
+  .ubs-header-sing-in-img,
+  .header_sign-up-link .ubs-header_sign-up-btn,
+  .header_sign-up-link .header_sign-up-btn {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 1439px) {
+  nav.header_navigation-menu-left ul {
+    justify-content: space-around;
+    text-align: center;
+  }
+
+  a.ubs-header-sign-in,
+  a.header_sign-in-link {
+    display: none;
+  }
+
+  .ubs-header-sing-in-img-greencity.ubs-header-sing-in-img {
+    border: 1px solid var(--primary-green);
+    border-radius: 0;
+  }
+
+  img.ubs-header-sing-in-img {
+    margin: 0 10px;
+    padding: 6px 15px;
+    width: 54px;
+    height: 36px;
+    border: 2px solid #87bc1e;
+    border-radius: 5px;
+
+    &:hover {
+      border-color: var(--ubs-tertiary-dark-green);
+      cursor: pointer;
+    }
+  }
+}
+
+@media (min-width: 576px) and (max-width: 1023px) {
+  header .warning {
+    .warning_massage {
+      padding: 0 34px;
+      width: auto;
+      justify-content: center;
+      text-align: center;
+
+      span {
+        margin-right: 25px;
+        width: 60%;
+        min-width: 337px;
+        max-width: 400px;
+        font-size: 9px;
+        line-height: 11px;
+      }
+
+      .warning_button_comment {
+        width: 135px;
+        height: 25px;
+        padding: 0;
+        font-size: 9px;
+      }
+    }
+  }
+
+  .ubs-header-sing-in-img {
+    margin-right: 12px;
+    margin-left: 12px;
+  }
+
+  #header_user-wrp {
+    display: flex;
+    max-width: 126px;
+  }
+
+  .ubs-user-cabinet.add-shadow {
+    max-width: 126px;
+  }
+
+  .ubs-user-cabinet {
+    display: flex;
+    justify-content: center;
+  }
+
+  .header_navigation-menu-ubs {
+    max-height: 86px;
+  }
+
+  .header_navigation-menu-ubs .header_navigation-menu-right {
+    width: 80%;
+  }
+
+  .header_logo {
+    max-height: 42px;
+  }
+
+  .admin-container-fluid {
+    align-items: center;
+  }
+
+  .header_navigation-menu-right-lang {
+    padding-left: 0;
+  }
+
+  .header-for-admin .add-shadow {
+    top: 21px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .header_navigation-menu-ubs {
+    justify-content: flex-end;
+  }
+
+  .header_navigation-menu-ubs .header_navigation-menu-right .header_navigation-menu-right-list,
+  .header_navigation-menu {
+    justify-content: flex-end;
+  }
+
+  .admin-container-fluid {
+    align-items: center;
+
+    a {
+      margin-right: 11px;
+    }
+
+    .header-for-admin .header_navigation-menu-right .header_navigation-menu-right-list {
+      .header_lang-switcher-wrp,
+      .header_navigation-menu-right-lang,
+      .ubs-lang-switcher {
+        margin-right: 0;
+        margin-left: 0;
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+
+    ul#header_user-wrp {
+      display: flex;
+      margin-right: 0;
+      padding-right: 0;
+
+      li:first-child {
+        align-self: flex-end;
+      }
+
+      li a {
+        margin-right: 0;
+      }
+    }
+
+    #header_user-wrp.ubs-user-cabinet.add-shadow {
+      top: 6px;
+    }
+  }
+
+  .container-fluid,
+  .container {
+    .header_container {
+      height: 86px;
+    }
+
+    .header_navigation-menu-ubs {
+      height: 86px;
+    }
+  }
+
+  .header_navigation-menu-ubs .header_navigation-menu-right .header_navigation-menu-right-list #header_user-wrp.ubs-user-cabinet,
+  #header_user-wrp {
+    display: none;
+  }
+
+  .header_navigation-menu-left,
+  #header_user-wrp {
+    display: none;
+  }
+
+  .header_navigation-menu-right-list li.header_burger-btn {
+    padding-right: 0;
+  }
+
+  .header_burger-btn {
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .ubs-header_sign-up-btn,
+  .header_sign-up-btn {
+    width: 196px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .header_container .header_logo {
+    width: 68px;
+    height: 36px;
+
+    img {
+      width: 68px;
+      height: 36px;
+    }
+  }
+
+  img.ubs-header-sing-in-img {
+    padding: 8px 17px;
+    width: 54px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-container-fluid {
+    .header-for-admin {
+      .header_navigation-menu-right {
+        height: 27px;
+
+        ul#header_user-wrp.add-shadow {
+          top: 0;
+        }
+      }
+    }
+  }
+
+  .container-fluid,
+  .container {
+    .admin-container-fluid,
+    .header_container {
+      height: fit-content;
+    }
+
+    .header_navigation-menu-ubs {
+      height: 52px;
+    }
+  }
+
+  .header_container .header_logo {
+    width: 68px;
+    height: 27px;
+
+    img {
+      width: 54px;
+      height: 27px;
+    }
+  }
+
+  ul#header_user-wrp {
+    li a {
+      margin-right: 0;
+    }
+
+    li.admin-list-item {
+      a {
+        padding: 3px 14px;
+        width: 48px;
+        height: 27px;
+
+        img {
+          width: 16px;
+        }
+      }
+    }
+  }
+
+  .header-for-admin .add-shadow {
+    top: 20px;
+  }
+
+  .ubs-header_sign-up-btn,
+  .header_sign-up-btn {
+    width: 167px;
+    height: 27px;
+    font-size: 10px;
+  }
+
+  .header_navigation-menu-right-list li.header_sign-up-link {
+    padding-right: 12px;
+  }
+
+  img.ubs-header-sing-in-img {
+    padding: 3px 14px;
+    width: 48px;
+    height: 27px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 575px) {
+  header .warning {
+    height: 76px;
+
+    .warning_massage {
+      padding: 5px 0;
+      height: 100%;
+      flex-direction: column;
+      width: auto;
+      justify-content: space-around;
+
+      span {
+        width: auto;
+        min-width: 293px;
+        max-width: 337px;
+        text-align: center;
+        font-size: 8px;
+        line-height: 9px;
+      }
+
+      .warning_button_comment {
+        width: 132px;
+        height: 25px;
+        padding: 0 4px;
+        font-size: 9px;
+        float: 10px;
+      }
+    }
+  }
+
+  a.header_logo,
+  a.header_logo img {
+    max-height: 25px;
+  }
+
+  .header_lang-switcher-wrp,
+  .header_navigation-menu-right-lang,
+  .ubs-lang-switcher {
+    margin-right: 18px;
+  }
+
+  .admin-container-fluid {
+    align-items: center;
+
+    a {
+      margin-right: 11px;
+    }
+
+    .header-for-admin .header_navigation-menu-right .header_navigation-menu-right-list {
+      .header_lang-switcher-wrp,
+      .header_navigation-menu-right-lang,
+      .ubs-lang-switcher {
+        margin-right: 0;
+        margin-left: 0;
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+
+    ul#header_user-wrp {
+      display: flex;
+      margin-right: 0;
+      padding-right: 0;
+
+      li a {
+        margin-right: 0;
+      }
+
+      li.admin-list-item {
+        a {
+          padding: 4px 9px;
+          width: 39px;
+          height: 26px;
+
+          img {
+            width: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .add-shadow {
+    background-color: #fff;
+    top: 21px;
+  }
+
+  .header_navigation-menu-ubs {
+    height: 52px;
+  }
+
+  .ubs-header-sign-in,
+  .header_sign-in-link,
+  .header_navigation-menu-right-list li.header_sign-up-link {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  #header_user-wrp {
+    display: block;
+
+    li a {
+      margin: 0 auto;
+    }
+  }
+
+  #header_user-wrp.add-shadow {
+    top: 0;
+  }
+
+  .header_navigation-menu-right-list li.header_burger-btn {
+    display: none;
+  }
+
+  .header-for-admin .header_navigation-menu-right .header_navigation-menu-right-list #header_user-wrp.ubs-admin-cabinet.add-shadow {
+    top: 6px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .ubs-header-sing-in-img {
+    display: none;
+  }
+
+  .ubs-header-sign-in,
+  .header_sign-in-link,
+  a.header_sign-in-link,
+  .header_navigation-menu-right-list .ubs-header-sign-in {
+    display: flex;
   }
 }

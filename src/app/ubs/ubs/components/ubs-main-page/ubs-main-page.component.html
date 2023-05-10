@@ -1,12 +1,4 @@
 <div class="ubsHomepage">
-  <div *ngIf="screenWidth < 576" class="marquee-section">
-    <div class="marquee-w">
-      <div class="marquee">
-        <span></span>
-      </div>
-    </div>
-  </div>
-
   <header>
     <div class="header-left">
       <img [src]="ubsMainPageImages.ubsPickUpCity" class="ubs-image" alt="ubs-armored-track" aria-hidden="true" />
@@ -22,14 +14,6 @@
       </div>
     </div>
   </header>
-  <!-- Marque text (generated in ts file) -->
-  <div *ngIf="screenWidth >= 576" class="marquee-section">
-    <div class="marquee-w">
-      <div class="marquee">
-        <span></span>
-      </div>
-    </div>
-  </div>
 
   <section id="first-section">
     <h2>{{ 'ubs-homepage.ubs-courier.preparing.caption' | translate }}</h2>

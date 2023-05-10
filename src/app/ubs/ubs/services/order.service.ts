@@ -95,6 +95,10 @@ export class OrderService {
     this.orderSubject.next(order);
   }
 
+  setActualAddress(adressId: number): Observable<any> {
+    return this.http.patch(`${this.url}/makeAddressActual/${adressId}`, null);
+  }
+
   changeShouldBePaid(shouldBePaid: boolean) {
     const order = this.orderSubject.getValue();
     order.shouldBePaid = shouldBePaid;
