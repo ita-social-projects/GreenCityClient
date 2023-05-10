@@ -34,7 +34,9 @@ export class ShoppingListComponent implements OnInit {
   private subscribeToLangChange(): void {
     this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
       this.currentLang = lang;
-      this.getAllShopLists();
+      if (this.localStorageService.getUserId()) {
+        this.getAllShopLists();
+      }
     });
   }
 
