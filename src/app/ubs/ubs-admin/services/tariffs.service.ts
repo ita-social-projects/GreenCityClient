@@ -3,10 +3,8 @@ import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
-
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
