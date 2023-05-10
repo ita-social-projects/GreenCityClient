@@ -167,13 +167,15 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     'getAllStations',
     'checkIfCardExist',
     'createCard',
-    'getCardInfo'
+    'getCardInfo',
+    'getPlaceholderValue'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.checkIfCardExist.and.returnValue(of());
   tariffsServiceMock.createCard.and.returnValue(of());
   tariffsServiceMock.getCardInfo.and.returnValue(of());
+  tariffsServiceMock.getPlaceholderValue.and.callFake(() => '1 обрано');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of());

@@ -520,13 +520,15 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     'getAllStations',
     'getActiveLocations',
     'getCardInfo',
-    'deactivate'
+    'deactivate',
+    'getPlaceholderValue'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of(fakeCouriers));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.getActiveLocations.and.returnValue(of([fakeLocation]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
   tariffsServiceMock.deactivate.and.returnValue(of());
+  tariffsServiceMock.getPlaceholderValue.and.callFake(() => '1 обрано');
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
