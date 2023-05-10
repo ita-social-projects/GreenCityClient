@@ -167,13 +167,15 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     'getAllStations',
     'checkIfCardExist',
     'createCard',
-    'getCardInfo'
+    'getCardInfo',
+    'getPlaceholderValue'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.checkIfCardExist.and.returnValue(of());
   tariffsServiceMock.createCard.and.returnValue(of());
   tariffsServiceMock.getCardInfo.and.returnValue(of());
+  tariffsServiceMock.getPlaceholderValue.and.callFake(() => '1 обрано');
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of());
@@ -377,7 +379,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should set station placeholder', () => {
     component.selectedStation = [stationItem];
     component.setStationPlaceholder();
-    expect(component.stationPlaceholder).toEqual('1 вибрано');
+    expect(component.stationPlaceholder).toEqual('1 обрано');
   });
 
   it('should set station placeholder', () => {
@@ -389,7 +391,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   it('should set city placeholder', () => {
     component.selectedCities = [locationItem];
     component.setCountOfSelectedCity();
-    expect(component.cityPlaceholder).toEqual('1 вибрано');
+    expect(component.cityPlaceholder).toEqual('1 обрано');
   });
 
   it('should set city placeholder', () => {

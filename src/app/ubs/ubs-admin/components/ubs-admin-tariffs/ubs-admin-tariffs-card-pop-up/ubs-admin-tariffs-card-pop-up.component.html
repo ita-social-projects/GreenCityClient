@@ -4,7 +4,7 @@
 <div class="w-100" *ngIf="isEdit">
   <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit_card_title' | translate }}</p>
 </div>
-<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true" [hideTitle]="true"></app-dialog-tariff>
 <ng-template #form>
   <form [formGroup]="CardForm">
     <div class="d-flex first-row">
@@ -24,7 +24,7 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.courier' | translate }}</label>
+        <label>{{ 'ubs-tariffs.courier-translate' | translate }}</label>
         <p class="english-name">{{ currentCourierNameEng }}</p>
       </div>
     </div>
@@ -72,7 +72,7 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="regionSelect.open()" />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.region' | translate }}</label>
+        <label>{{ 'ubs-tariffs.region-translate' | translate }}</label>
         <p class="english-name">{{ regionEnglishName }}</p>
       </div>
     </div>
@@ -101,7 +101,7 @@
         />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.city' | translate }}</label>
+        <label>{{ 'ubs-tariffs.city-translate' | translate }}</label>
         <p *ngIf="citySelected" class="english-name">{{ selectedCityLength + ' selected' }}</p>
       </div>
     </div>

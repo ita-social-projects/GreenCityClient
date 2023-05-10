@@ -264,7 +264,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public setStationPlaceholder(): void {
     if (this.selectedStations.length) {
-      this.stationPlaceholder = this.selectedStations.length + ' вибрано';
+      this.stationPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedStations.length);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
@@ -383,7 +383,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public setRegionsPlaceholder(): void {
     this.selectedRegionsLength = this.selectedRegions.length;
     if (this.selectedRegionsLength) {
-      this.regionPlaceholder = this.selectedRegionsLength + ' вибрано';
+      this.regionPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedRegionsLength);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-region').subscribe((data) => (this.regionPlaceholder = data));
     }
@@ -472,7 +472,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public setCityPlaceholder(): void {
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
-      this.cityPlaceholder = this.selectedCityLength + ' вибрано';
+      this.cityPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedCityLength);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
     }

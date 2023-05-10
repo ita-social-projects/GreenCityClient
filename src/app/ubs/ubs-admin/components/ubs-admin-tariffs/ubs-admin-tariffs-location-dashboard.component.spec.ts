@@ -725,7 +725,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('navigate to pricing page', () => {
     const spy = spyOn(router, 'navigate');
-    component.page(1);
+    component.page('tariff', 1);
     expect(spy).toHaveBeenCalledWith([`ubs-admin/tariffs/location/1`]);
   });
 
