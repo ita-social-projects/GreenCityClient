@@ -162,6 +162,13 @@
       height: 25px;
     }
 
+    .location {
+      margin-right: 11px;
+      width: 25px;
+      height: 25px;
+      background: url('src/assets/img/events/location.svg') no-repeat center;
+    }
+
     .clock {
       margin-right: 15px;
       width: 12px;
@@ -181,13 +188,6 @@
       width: 16px;
       height: 16px;
       background: url('src/assets/events-icons/lock-closed.png') no-repeat center;
-    }
-
-    .location {
-      margin-right: 11px;
-      width: 16px;
-      height: 16px;
-      background: url('src/assets/img/events/location.svg') no-repeat center;
     }
   }
 }

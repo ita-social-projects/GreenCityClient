@@ -40,11 +40,11 @@
       <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
     </div>
     <div class="date-container">
-      <span class="location"></span>
-      <div class="address d-flex flex-column">
+      <p *ngIf="!isOnline">
         {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
         {{ address.houseNumber }}
-      </div>
+      </p>
+      <p *ngIf="!isOnline">{{ isOnline }}</p>
     </div>
     <div class="event-title">
       <h3 [innerHTML]="cutTitle()"></h3>
