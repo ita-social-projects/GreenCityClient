@@ -171,30 +171,32 @@
     </tr>
   </thead>
   <tbody *ngIf="showAllTariff">
-    <tr *ngFor="let card of cards" class="cursor-pointer">
-      <td (click)="page(card.cardId)">
+    <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page($event.target.className, card.cardId)">
+      <td>
         {{ card.region }}
       </td>
-      <td (click)="page(card.cardId)">
+      <td>
         <div *ngFor="let item of card.city">
           {{ item }}
         </div>
       </td>
-      <td (click)="page(card.cardId)">
+      <td>
         <div>
           {{ card.courier }}
         </div>
       </td>
-      <td (click)="page(card.cardId)">
+      <td>
         <div *ngFor="let item of card.station">
           {{ item }}
         </div>
       </td>
-      <td (click)="page(card.cardId)">
+      <td>
         {{ card.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
-        <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+        <button class="crumbs-btn">
+          <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+        </button>
       </td>
       <mat-menu #crumbs="matMenu">
         <button mat-menu-item (click)="openEditPopUp(card)">

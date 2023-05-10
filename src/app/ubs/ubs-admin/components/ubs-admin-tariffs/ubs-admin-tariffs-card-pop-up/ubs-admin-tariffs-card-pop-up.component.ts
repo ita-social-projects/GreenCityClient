@@ -5,7 +5,6 @@ import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { TariffPlaceholderSelected } from '../ubs-tariffs.enum';
 import { TariffsService } from '../../../services/tariffs.service';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
@@ -226,8 +225,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
-      this.stationPlaceholder = this.selectedStation.length.toString() + ' ' + selected;
+      this.stationPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedStation.length);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
@@ -347,11 +345,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public setCountOfSelectedCity(): void {
-    const selected = this.languageService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
       this.citySelected = true;
-      this.cityPlaceholder = this.selectedCityLength.toString() + ' ' + selected;
+      this.cityPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedCityLength);
     } else {
       this.citySelected = false;
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => {
