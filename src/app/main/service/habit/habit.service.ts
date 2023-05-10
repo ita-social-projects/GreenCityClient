@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -20,6 +20,12 @@ export class HabitService {
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private tagsType = 'HABIT';
   private backEnd = environment.backendLink;
+  private httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'my-auth-token',
+      'Content-Type': 'multipart/form-data; boundary="<calculated when request is sent>"'
+    })
+  };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
@@ -87,6 +93,6 @@ export class HabitService {
       //id: 0,
       //userId: 0
     };
-    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
+    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body, this.httpOptions);
   }
 }
