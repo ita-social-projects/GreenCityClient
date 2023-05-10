@@ -4,25 +4,49 @@
 <div class="w-100" *ngIf="isRestore">
   <p class="title">{{ 'ubs-tariffs.btn.restore-confirmation' | translate }}</p>
 </div>
-<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="adminName" [edit]="true"></app-dialog-tariff>
+<app-dialog-tariff
+  [deactivatePopup]="isDeactivatePopup"
+  [row]="form"
+  [newDate]="newDate"
+  [name]="adminName"
+  [edit]="true"
+></app-dialog-tariff>
 <ng-template #form>
   <div class="form">
     <div class="form-block">
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !courierName }">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
         <p class="text">{{ courierName }}</p>
       </div>
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !stationNames.length }">
+      <div class="en-part">
+        <label class="label">Courier</label>
+        <p class="text">{{ courierEnglishName }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.station' | translate }}</label>
         <p *ngFor="let stationName of stationNames" class="text">{{ stationName }}</p>
       </div>
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !regionNames.length }">
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p *ngFor="let regionName of regionNames" class="text">{{ regionName }}</p>
+        <p class="text">{{ regionName }}</p>
       </div>
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !locationNames.length }">
+      <div class="en-part">
+        <label class="label">Region</label>
+        <p class="text">{{ regionEnglishName }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
         <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
+      </div>
+      <div class="en-part">
+        <label class="label">City</label>
+        <p *ngFor="let locationEnglishName of locationEnglishNames" class="text">{{ locationEnglishName }}</p>
       </div>
     </div>
   </div>

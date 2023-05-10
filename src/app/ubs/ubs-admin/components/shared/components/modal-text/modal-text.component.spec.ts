@@ -5,25 +5,33 @@ import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { ModalTextComponent } from './modal-text.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TariffsService } from '../../../../services/tariffs.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ModalTextComponent', () => {
   let component: ModalTextComponent;
   let fixture: ComponentFixture<ModalTextComponent>;
+  let fakeTariffService: TariffsService;
   const fakeTitles = {
     title: 'popupTitle',
     text: 'fakeText1',
     text2: 'fakeText2',
     action: 'fake'
   };
+
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
 
   const localStorageServiceStub = () => ({
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
+
   const FAKE_SERVICE_ID = 12345;
-  const tariffsForServiceStub = {
+  const FAKE_DATE = 'Трав. 05, 2023';
+  const tariffsServiceMock = {
     deleteTariffForService: () => {
       return {
         pipe: () => of('fakeResult')
@@ -34,7 +42,8 @@ describe('ModalTextComponent', () => {
       return {
         pipe: () => of('fakeRes')
       };
-    }
+    },
+    setDate: () => FAKE_DATE
   };
 
   beforeEach(async(() => {
@@ -45,7 +54,8 @@ describe('ModalTextComponent', () => {
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: fakeTitles },
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
-        { provide: TariffsService, useValue: tariffsForServiceStub }
+        { provide: TariffsService, useValue: tariffsServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock }
       ]
     }).compileComponents();
   }));
@@ -54,6 +64,7 @@ describe('ModalTextComponent', () => {
     fixture = TestBed.createComponent(ModalTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    fakeTariffService = TestBed.inject(TariffsService);
   });
 
   it('should create', () => {
@@ -63,6 +74,17 @@ describe('ModalTextComponent', () => {
   it('should call close on cancel matDialogRef', () => {
     component.onNoClick();
     expect(matDialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it(`setDate should be called in ngOnInit`, () => {
+    const setDateSpy = spyOn(component as any, 'setDate');
+    component.ngOnInit();
+    expect(setDateSpy).toHaveBeenCalled();
+  });
+
+  it('should set date', () => {
+    component.setDate();
+    expect(component.newDate).toEqual(fakeTariffService.setDate('ua'));
   });
 
   it('should close all matDialogRef', () => {

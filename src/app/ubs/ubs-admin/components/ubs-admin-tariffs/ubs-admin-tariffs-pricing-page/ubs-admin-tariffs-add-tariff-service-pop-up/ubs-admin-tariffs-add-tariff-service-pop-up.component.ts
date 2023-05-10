@@ -66,7 +66,12 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-      capacity: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      capacity: new FormControl('', [
+        Validators.required,
+        Validators.pattern(Patterns.ubsServicePrice),
+        Validators.min(1),
+        Validators.max(999)
+      ]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       price: new FormControl('', [
         Validators.required,
@@ -83,8 +88,17 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     this.addTariffServiceForm = this.fb.group({
       name: new FormControl({ value: this.receivedData.bagData.name }, [Validators.required, Validators.maxLength(30)]),
       nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }, [Validators.required, Validators.maxLength(30)]),
-      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [Validators.pattern(Patterns.ubsServicePrice)]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [
+        Validators.pattern(Patterns.ubsServicePrice),
+        Validators.min(1),
+        Validators.max(999)
+      ]),
+      price: new FormControl('', [
+        Validators.required,
+        Validators.pattern(Patterns.ubsServicePrice),
+        Validators.min(1),
+        Validators.max(999999.99)
+      ]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }, [Validators.required, Validators.maxLength(255)]),
       descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng }, [Validators.required, Validators.maxLength(255)])

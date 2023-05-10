@@ -681,24 +681,35 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   openTariffDeactivatePopUp(card): void {
+    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
+    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierName: card.courier,
+        courierNameUk: ukCard.courier,
+        courierEnglishName: enCard.courier,
+        regionNameUk: ukCard.region.split(),
+        regionEnglishName: enCard.region.split(),
+        cityNameUk: ukCard.city,
+        cityNameEn: enCard.city,
         stationNames: card.station,
-        regionName: card.region.split(),
-        locationNames: card.city,
         isDeactivate: true
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService.switchTariffStatus(card.cardId, statusOfTariff.deactivated).subscribe(() => {
-          if (this.selectedCard) {
-            this.selectedCard.tariff = statusOfTariff.deactivated;
-          }
-        });
+
+        this.tariffsService
+          .switchTariffStatus(card.cardId, statusOfTariff.deactivated)
+          .pipe(takeUntil(this.destroy))
+          .subscribe(() => {
+            if (this.cards) {
+              card.tariff = statusOfTariff.deactivated;
+              this.cards = this.cards.filter((cardItem) => cardItem.tariff !== statusOfTariff.deactivated);
+            }
+          });
       }
     });
   }

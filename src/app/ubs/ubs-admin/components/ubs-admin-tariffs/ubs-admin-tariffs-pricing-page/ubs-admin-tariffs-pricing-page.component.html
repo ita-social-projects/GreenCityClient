@@ -121,7 +121,7 @@
             </mat-radio-button>
             <label for="min-order-amount">{{ 'ubs-tariffs.min_order_amount' | translate }}</label
             ><br />
-            <fieldset [disabled]="limitStatus === limitEnum.limitByAmountOfBag || limitStatus === null">
+            <fieldset class="fields-wrapper" [disabled]="limitStatus === limitEnum.limitByAmountOfBag || limitStatus === null">
               <legend></legend>
               <input
                 class="input"
@@ -180,28 +180,30 @@
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
           <div *ngFor="let bag of bags; let i = index">
             <div>
-              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (change)="onChecked(bag.id, $event)">{{
-                getLangValue(bag.name, bag.nameEng)
-              }}</mat-checkbox>
+              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (change)="onChecked(bag.id, $event)"
+                >{{ getLangValue(bag.name, bag.nameEng) }} {{ bag.capacity | volume }}</mat-checkbox
+              >
             </div>
           </div>
         </div>
       </div>
       <div class="submit-btn">
-        <div>
-          <button class="primary-global-button submit" id="saveBTN" type="submit" [disabled]="disableSaveButton()" (click)="saveChanges()">
-            {{ 'ubs-client-profile.btn.save' | translate }}
-          </button>
-        </div>
+        <div></div>
       </div>
     </form>
   </div>
   <div class="d-flex justify-content-end buttons">
-    <button class="secondary-global-button btn m-0 mr-2">
-      {{ 'ubs-tariffs.btn.delete_page' | translate }}
-    </button>
-    <button class="primary-global-button btn m-0" [disabled]="!disableSaveButton()">
+    <button class="primary-global-button btn mr-3" [disabled]="!disableSaveButton()">
       {{ 'ubs-tariffs.btn.duplicate_page' | translate }}
+    </button>
+    <button
+      class="primary-global-button submit btn m-0"
+      id="saveBTN"
+      type="submit"
+      [disabled]="disableSaveButton()"
+      (click)="saveChanges()"
+    >
+      {{ 'ubs-client-profile.btn.save' | translate }}
     </button>
   </div>
 </div>
