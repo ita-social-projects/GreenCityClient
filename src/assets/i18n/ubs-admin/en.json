@@ -248,8 +248,8 @@
     "street": "Street",
     "comment-label": "Comment to the address from the client",
     "comment-placeholder": "Any details you would like to report additionally regarding this order",
+    "house": "House",
     "building": "Building",
-    "corpus": "Corp",
     "entrance": "Entrance",
     "region": "Region"
   },
