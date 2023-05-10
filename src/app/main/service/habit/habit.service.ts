@@ -22,8 +22,7 @@ export class HabitService {
   private backEnd = environment.backendLink;
   private httpOptions = {
     headers: new HttpHeaders({
-      Authorization: 'my-auth-token',
-      'Content-Type': 'multipart/form-data; boundary="<calculated when request is sent>"'
+      Authorization: 'my-auth-token'
     })
   };
 
@@ -70,29 +69,14 @@ export class HabitService {
       tagIds: habit.tagIds,
       customShoppingListItemDto: habit.shopList
     };
-    const body1 = {
-      habitTranslations: [
-        {
-          description: 'string',
-          habitItem: 'string',
-          languageCode: 'string',
-          name: 'string'
-        }
-      ],
-      complexity: 1,
-      defaultDuration: 0,
-      image: '',
-      tagIds: [21],
-      customShoppingListItemDto: [
-        {
-          id: 0,
-          status: 'ACTIVE',
-          text: 'string'
-        }
-      ]
-      //id: 0,
-      //userId: 0
-    };
-    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body, this.httpOptions);
+
+    const formData = new FormData();
+    formData.append('request', JSON.stringify(body));
+
+    const accessToken = localStorage.getItem('accessToken');
+    this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
+    this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
+
+    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, formData, this.httpOptions);
   }
 }
