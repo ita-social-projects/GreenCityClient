@@ -23,7 +23,6 @@ import { MaterialModule } from '../../material.module';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page/ubs-user-profile-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-user-profile-page/ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
-import { UbsProfileDeletePopUpComponent } from './ubs-user-profile-page/ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-orders-list/ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,7 +44,6 @@ import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-s
     NotificationBodyComponent,
     UbsUserProfilePageComponent,
     UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
     UbsUserOrderPaymentPopUpComponent,
     UbsUserOrderCancelPopUpComponent,
     UbsSwitcherComponent
@@ -84,12 +82,7 @@ import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-s
       useValue: { hasBackdrop: true }
     }
   ],
-  entryComponents: [
-    UbsProfileChangePasswordPopUpComponent,
-    UbsProfileDeletePopUpComponent,
-    UbsUserOrderPaymentPopUpComponent,
-    UbsUserOrderCancelPopUpComponent
-  ]
+  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsUserOrderPaymentPopUpComponent, UbsUserOrderCancelPopUpComponent]
 })
 export class UbsUserModule {}
 
