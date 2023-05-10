@@ -23,11 +23,6 @@ describe('ModalTextComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
-  // const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['setDate','deleteTariffForService', 'deleteService']);
-  // tariffsServiceMock.setDate.and.returnValue('');
-  // tariffsServiceMock.deleteTariffForService.and.returnValue(of());
-  // tariffsServiceMock.deleteService.and.returnValue(of());
-
   const matDialogRefMock = jasmine.createSpyObj('matDialogRefMock', ['close']);
 
   const localStorageServiceStub = () => ({
