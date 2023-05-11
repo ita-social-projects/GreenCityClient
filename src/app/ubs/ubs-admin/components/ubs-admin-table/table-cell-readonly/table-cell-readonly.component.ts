@@ -24,10 +24,12 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.data =
-      this.key === 'bagsAmount' && this.lang === 'en'
-        ? (this.title as string).toLowerCase().replace(/л|шт/gi, (el) => (el === 'л' ? 'L' : 'p'))
-        : this.title;
+    if (this.key === 'bagsAmount' && this.lang === 'en') {
+      this.title = (this.title as string).toLowerCase().replace(/л|шт/gi, (el) => (el === 'л' ? 'L' : 'p'));
+      this.data = this.title;
+    } else {
+      this.data = this.title;
+    }
   }
 
   showTooltip(event: any, tooltip: any, maxLength: number = 50): void {
