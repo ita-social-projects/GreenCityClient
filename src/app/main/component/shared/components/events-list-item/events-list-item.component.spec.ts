@@ -86,12 +86,17 @@ describe('EventsListItemComponent', () => {
     dates: [
       {
         coordinates: {
-          addressEn: 'address',
-          cityUa: 'cityUa',
-          cityEn: 'cityEn',
-          addressUa: 'address',
           latitude: 0,
-          longitude: 0
+          longitude: 0,
+          cityEn: 'Lviv',
+          cityUa: 'Львів',
+          countryEn: 'Ukraine',
+          countryUa: 'Україна',
+          houseNumber: 55,
+          regionEn: 'Lvivska oblast',
+          regionUa: 'Львівська область',
+          streetEn: 'Svobody Ave',
+          streetUa: 'Свободи'
         },
         id: null,
         event: null,

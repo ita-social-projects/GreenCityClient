@@ -61,6 +61,19 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
+  createAdresses(coordinates, lenguage: string) {
+    const devider = `, `;
+    return (
+      coordinates[`country${lenguage}`] +
+      devider +
+      coordinates[`city${lenguage}`] +
+      devider +
+      coordinates[`street${lenguage}`] +
+      devider +
+      coordinates.houseNumber
+    );
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

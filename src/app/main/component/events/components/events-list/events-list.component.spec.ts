@@ -45,12 +45,17 @@ describe('EventsListComponent', () => {
           finishDate: '2023-04-12T20:59:00Z',
           onlineLink: null,
           coordinates: {
-            latitude: 50.454589,
-            longitude: 30.506723,
-            addressUa: 'Sakharova 23',
-            addressEn: 'Sakharova 23',
+            latitude: 0,
+            longitude: 0,
             cityEn: 'Kyiv',
-            cityUa: 'Київ'
+            cityUa: 'Київ',
+            countryEn: 'Ukraine',
+            countryUa: 'Україна',
+            houseNumber: 55,
+            regionEn: 'Lvivska oblast',
+            regionUa: 'Львівська область',
+            streetEn: 'Svobody Ave',
+            streetUa: 'Свободи'
           }
         }
       ],
@@ -91,10 +96,15 @@ describe('EventsListComponent', () => {
           coordinates: {
             latitude: 50.454589,
             longitude: 30.506723,
-            addressUa: 'Sakharova 23',
-            addressEn: 'Sakharova 23',
             cityEn: 'Lviv',
-            cityUa: 'Львів'
+            cityUa: 'Львів',
+            countryEn: 'Ukraine',
+            countryUa: 'Україна',
+            houseNumber: 55,
+            regionEn: 'Lvivska oblast',
+            regionUa: 'Львівська область',
+            streetEn: 'Svobody Ave',
+            streetUa: 'Свободи'
           }
         }
       ],
@@ -132,8 +142,8 @@ describe('EventsListComponent', () => {
   const statusFilterControl = new FormControl();
   const typeFilterControl = new FormControl();
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEvents']);
-  EventsServiceMock.getEvents = () => of(MockReqest);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAdresses']);
+  EventsServiceMock.createAdresses = () => of('');
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });

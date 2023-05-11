@@ -64,10 +64,11 @@ describe('EventDetailsComponent', () => {
     isSubscribed: true
   };
 
-  const EventsServiceMock = jasmine.createSpyObj('eventService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
+  const EventsServiceMock = jasmine.createSpyObj('eventService', ['getEventById ', 'deleteEvent', 'getAllAttendees', 'createAdresses']);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getAllAttendees = () => of([]);
+  EventsServiceMock.createAdresses = () => of('');
 
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
