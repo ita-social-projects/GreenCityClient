@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
-
+import { Component, OnDestroy, OnInit, Injector, Input } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
-
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -18,6 +16,8 @@ import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { DiscardEventChangesComponent } from './discard-event-changes/discard-event-changes.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -59,6 +59,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  @Input() cancelChanges: boolean;
 
   constructor(
     public router: Router,
@@ -66,7 +67,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private store: Store,
     private snackBar: MatSnackBarComponent,
-    private injector: Injector
+    private injector: Injector,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<DiscardEventChangesComponent>
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -133,6 +136,18 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public checkStatus(event: boolean, ind: number): void {
     this.dates[ind].valid = event;
+  }
+
+  public shouldDeleteEvent(): void {
+    const dialog = this.dialog.open(DiscardEventChangesComponent, {
+      hasBackdrop: true,
+      data: { isCancel: true }
+    });
+    dialog.afterClosed().subscribe((result) => {
+      if (result.data.isCancel) {
+        this.escapeFromCreateEvent();
+      }
+    });
   }
 
   public escapeFromCreateEvent(): void {
