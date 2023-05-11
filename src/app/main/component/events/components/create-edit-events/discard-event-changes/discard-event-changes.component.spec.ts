@@ -40,6 +40,6 @@ describe('DiscardEventChangesComponent', () => {
   it('should close popup', () => {
     const spy = spyOn(component, 'continueEditing');
     component.continueEditing(true);
-    expect(spy).toHaveBeenCalled;
+    expect(spy).toHaveBeenCalled();
   });
 });
