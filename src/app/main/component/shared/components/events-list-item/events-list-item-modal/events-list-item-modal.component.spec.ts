@@ -139,9 +139,24 @@ describe('EventsListItemModalComponent', () => {
       expect(component.hoveringOver).toHaveBeenCalledWith(1);
     });
 
-    it(`should be checked text by rating`, () => {
+    it(`should be called with parameter 0`, () => {
+      spyOn(component, 'hoveringOver');
+      component.hoveringOver(0);
+      expect(component.hoveringOver).toHaveBeenCalledWith(0);
+    });
+
+    it(`should be set text by rating equal 1`, () => {
       component.hoveringOver(1);
       expect(component.text).toBe('event.text-1');
+      expect(component.hover).toBe(true);
+      expect(component.textByRate).toBe(' ');
+    });
+
+    it(`should be set text by rating equal 0`, () => {
+      component.hoveringOver(0);
+      expect(component.text).toBe(' ');
+      expect(component.hover).toBe(false);
+      expect(component.textByRate).toBe(' ');
     });
   });
 
