@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 import { MouseEvents } from 'src/app/shared/mouse-events';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-table-cell-readonly',
@@ -24,12 +25,15 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.key === 'bagsAmount' && this.lang === 'en') {
-      this.title = (this.title as string).toLowerCase().replace(/л|шт/gi, (el) => (el === 'л' ? 'L' : 'p'));
-      this.data = this.title;
-    } else {
-      this.data = this.title;
+    if (this.key === 'generalDiscount') {
+      this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;
     }
+
+    if (this.key === 'bagsAmount' && this.lang === Language.EN) {
+      this.title = (this.title as string).toLowerCase().replace(/л|шт/gi, (el) => (el === 'л' ? 'L' : 'p'));
+    }
+
+    this.data = this.title;
   }
 
   showTooltip(event: any, tooltip: any, maxLength: number = 50): void {
