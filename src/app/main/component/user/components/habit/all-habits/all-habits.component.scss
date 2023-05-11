@@ -25,26 +25,32 @@ h1 {
 
   .habit-header {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+
+    .main-header {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .s-btn {
+      width: 100%;
+    }
   }
 
-  a {
-    justify-self: center;
+  a .back-button {
+    height: 30px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+    color: #494a49;
+    text-decoration-line: underline;
+    display: flex;
+    align-items: center;
+    padding: 20px 0 40px 0;
 
-    .back-button {
-      height: 30px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      line-height: 19px;
-      color: #494a49;
-      text-decoration-line: underline;
-      display: flex;
-      align-items: center;
-      padding: 20px 0 40px 0;
-
-      img {
-        margin-right: 6px;
-      }
+    img {
+      margin-right: 6px;
     }
   }
 
@@ -76,6 +82,19 @@ h1 {
 
 @media (min-width: 576px) {
   .habits_header-wrapper {
+    .habit-header {
+      flex-direction: row;
+
+      .main-header {
+        font-size: 40px;
+        margin: 0;
+      }
+
+      .s-btn {
+        width: auto;
+      }
+    }
+
     a {
       justify-self: start;
     }
