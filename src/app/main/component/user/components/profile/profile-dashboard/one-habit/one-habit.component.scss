@@ -3,6 +3,12 @@ button {
   padding: 0;
 }
 
+img {
+  &:focus {
+    outline: 2px solid black;
+  }
+}
+
 .main {
   height: 192px;
   background-color: var(--primary-white);
@@ -11,6 +17,7 @@ button {
   grid-template-rows: 1fr 60px;
   box-shadow: 1px 4px 8px var(--quintynary-dark-grey);
   border-radius: 4px;
+  margin-bottom: 16px;
 }
 
 .description {
@@ -27,10 +34,15 @@ button {
     margin-bottom: 4px;
 
     .calendar {
-      width: 12.5px;
-      height: 13.75px;
+      width: 20px;
+      height: 20px;
       margin-right: 7px;
-      background-image: url('~/assets/img/icon/calendar.svg') no-repeat;
+
+      .calendar-icon {
+        height: 24px;
+        width: 24px;
+        margin-right: 15px;
+      }
     }
 
     p {
@@ -72,8 +84,15 @@ button {
     .edit {
       width: 20px;
       height: 20px;
-      background-image: url('~/assets/img/profile/icons/edit-line.svg');
+      background-color: var(--ubs-primary-white);
       margin-left: auto;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--primary-green);
+        -webkit-mask-image: url('~/assets/img/profile/icons/edit-line.svg');
+        mask-image: url('~/assets/img/profile/icons/edit-line.svg');
+      }
     }
   }
 
@@ -138,7 +157,7 @@ button {
     background: url('~/assets/img/icon/plus-circle.png') no-repeat center;
   }
 
-  .aquired {
+  .acquired {
     background: url('~/assets/img/icon/star-circle.png') no-repeat center;
   }
 }
@@ -176,11 +195,6 @@ button {
     grid-area: 1 / 2 / 2 / 2;
 
     .first-row {
-      .calendar {
-        width: 14px;
-        height: 15px;
-      }
-
       p {
         font-size: 14px;
         line-height: 20px;

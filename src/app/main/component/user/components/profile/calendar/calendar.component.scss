@@ -199,3 +199,8 @@ $bp-largest: 1200px;
 .backdropBackground {
   background: none;
 }
+
+button {
+  border: none;
+  background-color: var(--ubs-primary-white);
+}
