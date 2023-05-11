@@ -35,6 +35,7 @@ import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { TableKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -221,7 +222,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         this.restoredFilters.forEach((filter) => {
           if (Object.keys(filter).length < 2) {
             const column = this.adminTableService.changeColumnNameEqualToTable(Object.keys(filter)[0]);
-            const isLocation = column === 'city' || column === 'district';
+            const isLocation = column === TableKeys.city || column === TableKeys.district;
             const value = String(Object.values(filter)[0]);
             const options: IFilteredColumnValue = isLocation ? { en: value } : { key: value };
             this.changeFilters(true, column, options);
@@ -430,7 +431,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     };
 
     this.tableData.forEach((row) => {
-      const priceKeys = ['amountDue', 'totalOrderSum', 'generalDiscount', 'totalPayment'];
+      const priceKeys = [TableKeys.amountDue, TableKeys.totalOrderSum, TableKeys.generalDiscount, TableKeys.totalPayment];
       for (const key of priceKeys) {
         row[key] = parseFloat(row[key]).toFixed(2) + ' ' + currency[this.currentLang];
       }
@@ -491,7 +492,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     }
   }
   editDetails(): void {
-    const keys = ['receivingStation', 'responsibleDriver', 'responsibleCaller', 'responsibleLogicMan', 'responsibleNavigator'];
+    const keys = [
+      TableKeys.receivingStation,
+      TableKeys.responsibleDriver,
+      TableKeys.responsibleCaller,
+      TableKeys.responsibleLogicMan,
+      TableKeys.responsibleNavigator
+    ];
     this.displayedColumnsView
       .filter((el) => keys.includes(el.title.key))
       .forEach((field) => this.dataForPopUp.push({ arrayData: field.checked, title: field.titleForSorting }));
@@ -499,13 +506,13 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   // checks if all required fields is filled in
   openPopUpRequires(orderId?: number): void {
     const keysForEditDetails = [
-      'responsibleDriver',
-      'responsibleCaller',
-      'responsibleLogicMan',
-      'responsibleNavigator',
-      'dateOfExport',
-      'timeOfExport',
-      'receivingStation'
+      TableKeys.responsibleDriver,
+      TableKeys.responsibleCaller,
+      TableKeys.responsibleLogicMan,
+      TableKeys.responsibleNavigator,
+      TableKeys.dateOfExport,
+      TableKeys.timeOfExport,
+      TableKeys.receivingStation
     ];
     if (this.idsToChange.length === 0) {
       this.idsToChange.push(orderId);
@@ -622,10 +629,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   private postData(orderId: number[], columnName: string, newValue: string): void {
     const orderData = [{ orderId, columnName, newValue }];
     if (this.cancellationReason) {
-      orderData.push({ orderId, columnName: 'cancellationReason', newValue: this.cancellationReason });
+      orderData.push({ orderId, columnName: TableKeys.cancellationReason, newValue: this.cancellationReason });
     }
     if (this.cancellationComment) {
-      orderData.push({ orderId, columnName: 'cancellationComment', newValue: this.cancellationComment });
+      orderData.push({ orderId, columnName: TableKeys.cancellationComment, newValue: this.cancellationComment });
     }
     this.store.dispatch(ChangingOrderData({ orderData }));
     this.isPostData = true;
@@ -914,17 +921,17 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   checkIfFilteredBy(columnKey: string): boolean {
     let key: string;
     switch (columnKey) {
-      case 'paymentDate':
-        key = 'paymentDateFrom';
+      case TableKeys.paymentDate:
+        key = TableKeys.paymentDateFrom;
         break;
-      case 'orderDate':
-        key = 'orderDateFrom';
+      case TableKeys.orderDate:
+        key = TableKeys.orderDateFrom;
         break;
-      case 'city':
-        key = 'citiesEn';
+      case TableKeys.city:
+        key = TableKeys.citiesEn;
         break;
-      case 'district':
-        key = 'districtsEn';
+      case TableKeys.district:
+        key = TableKeys.districtsEn;
         break;
       default:
         key = columnKey;
