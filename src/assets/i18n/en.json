@@ -983,7 +983,7 @@
   "event": {
     "btn-top": "More",
     "btn-edit": "Edit event",
-    "btn-cancel": "Cancel join event",
+    "btn-cancel": "Cancel request",
     "btn-join": "Join event",
     "btn-delete": "Delete",
     "btn-see": "See rating",
