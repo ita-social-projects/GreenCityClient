@@ -30,7 +30,7 @@
           class="shadow-none form-control"
           id="nameEng"
           placeholder="{{ 'ubs-tariffs-add-service.lang.placeholder-service' | translate }}"
-          maxlength="256"
+          maxlength="31"
         />
         <div class="error-message" *ngIf="getControl('nameEng').invalid && getControl('nameEng').touched">
           <app-input-error [formElement]="getControl('nameEng')"></app-input-error>

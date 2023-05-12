@@ -221,6 +221,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.courierEnglishName = selectedValue.nameEn;
     this.courierId = selectedValue.courierId;
+    this.isCardExist = false;
   }
 
   public setStationPlaceholder(): void {
@@ -254,6 +255,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         trigger.openPanel();
       });
     }
+    this.isCardExist = false;
   }
 
   public deleteStation(index): void {
@@ -299,6 +301,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     } else {
       this.city.disable();
     }
+    this.isCardExist = false;
   }
 
   public selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -342,6 +345,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public checkCity(item): boolean {
     return this.selectedCities.map((it) => it.location).includes(item);
+    this.isCardExist = false;
   }
 
   public setCountOfSelectedCity(): void {
