@@ -5,6 +5,14 @@ h1 {
 
 .habits_header-buttons {
   display: none;
+
+  span {
+    cursor: pointer;
+  }
+
+  .btn-tiles-active {
+    cursor: default;
+  }
 }
 
 .border_bottom {
