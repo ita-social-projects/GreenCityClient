@@ -344,8 +344,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public checkCity(item): boolean {
-    return this.selectedCities.map((it) => it.location).includes(item);
     this.isCardExist = false;
+    return this.selectedCities.map((it) => it.location).includes(item);
   }
 
   public setCountOfSelectedCity(): void {
