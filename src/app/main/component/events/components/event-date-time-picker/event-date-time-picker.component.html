@@ -38,6 +38,18 @@
       <mat-label>Event Offline place.</mat-label>
       <input matInput #placesRef matGoogleMapsAutocomplete formControlName="place" />
     </mat-form-field>
+    <div style="height: 604px; width: 410px" #map>
+      <agm-map
+        [style.width.%]="100"
+        [style.height.%]="100"
+        [latitude]="coordinates.latitude"
+        [longitude]="coordinates.longitude"
+        [zoom]="zoom"
+        (mapClick)="onChangePickerOnMap($event)"
+      >
+        <agm-marker [latitude]="coordinates.latitude" [longitude]="coordinates.longitude"></agm-marker>
+      </agm-map>
+    </div>
   </div>
 
   <div *ngIf="dateForm.get('onlineLink')" class="active">

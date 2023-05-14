@@ -1,5 +1,5 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,17 +11,20 @@ import { Patterns } from 'src/assets/patterns/patterns';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges {
+export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterViewInit {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
 
   public timeArr: Array<string> = [];
 
-  private coordinates: OfflineDto = {
-    latitude: null,
-    longitude: null
+  coordinates: OfflineDto = {
+    latitude: 50.43353,
+    longitude: 30.53789
   };
+  public zoom = 13;
+  private geoCoder;
+  address: string;
 
   public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
@@ -45,7 +48,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   public dateForm: FormGroup;
 
-  constructor(private mapsAPILoader: MapsAPILoader) {}
+  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     const curDay = new Date().getDate();
@@ -92,6 +95,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       setTimeout(() => this.setPlaceAutocomplete(), 0);
       this.coordinates.latitude = this.editDate.coordinates.latitude;
       this.coordinates.longitude = this.editDate.coordinates.longitude;
+      this.zoom = 8;
       this.coordOffline.emit(this.coordinates);
 
       this.dateForm.patchValue({
@@ -128,6 +132,17 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  ngAfterViewInit(): void {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.coordinates.latitude = position.coords.latitude;
+        this.coordinates.longitude = position.coords.longitude;
+        this.zoom = 15;
+        this.getAddress(position.coords.latitude, position.coords.longitude);
+      });
+    }
+  }
+
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
     this.checkOnlinePlace
@@ -153,6 +168,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   private setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
+      this.geoCoder = new google.maps.Geocoder();
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
 
       this.autocomplete.addListener('place_changed', () => {
@@ -167,6 +183,28 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
           place: locationName.formatted_address
         });
       });
+    });
+  }
+  onChangePickerOnMap(event): void {
+    this.coordinates.latitude = event.coords.lat;
+    this.coordinates.longitude = event.coords.lng;
+
+    this.getAddress(this.coordinates.latitude, this.coordinates.longitude);
+  }
+
+  getAddress(latitude, longitude) {
+    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          this.zoom = 12;
+          this.address = results[0].formatted_address;
+          this.dateForm.get('place').setValue(this.address);
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
     });
   }
 
