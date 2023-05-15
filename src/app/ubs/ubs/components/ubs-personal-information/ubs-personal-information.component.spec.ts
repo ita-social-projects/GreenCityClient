@@ -17,6 +17,7 @@ import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -103,15 +104,25 @@ describe('UBSPersonalInformationComponent', () => {
     minPriceOfOrder: 500
   };
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [
-    'findAllAddresses',
-    'getPersonalData',
-    'deleteAddress',
-    'setOrder',
-    'setCurrentAddress',
-    'setLocationData',
-    'addAdress'
+    'getLocationId',
+    'languageBehaviourSubject',
+    'getUserId',
+    'getIsAnotherClient',
+    'removeIsAnotherClient',
+    'setAddressId',
+    'getCurrentLanguage',
+    'setIsAnotherClient',
+    'setAddresses',
+    'getCurrentLocationId',
+    'getAddressId',
+    'setCurrentAddress'
   ]);
 
   beforeEach(async(() => {
@@ -133,7 +144,8 @@ describe('UBSPersonalInformationComponent', () => {
         { provide: OrderService, useValue: fakeOrderService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: APP_BASE_HREF, useValue: '/' }
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: LanguageService, useValue: languageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -141,7 +153,6 @@ describe('UBSPersonalInformationComponent', () => {
 
   beforeEach(() => {
     localStorage.setItem('locations', JSON.stringify(mockLocations));
-    localStorage.setItem('currentLocationId', JSON.stringify(1));
     fakeOrderService.locationSub = new Subject<any>();
     fakeOrderService.locationSubject = new Subject<any>();
     fakeOrderService.currentAddress = new Subject<any>();
@@ -159,11 +170,6 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('on ngOnInit should set currentLocationId', () => {
-    component.ngOnInit();
-    expect(component.currentLocationId).toEqual(1);
   });
 
   it('setDisabledCityForLocation function should redefine addresses', () => {

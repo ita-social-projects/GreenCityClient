@@ -458,18 +458,24 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.onEdit).toHaveBeenCalled();
   }));
 
-  it('method openDeleteDialog  should be calls by clicking delete button', fakeAsync(() => {
-    spyOn(component, 'openDeleteDialog');
+  it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
+    spyOn(component, 'openDeleteProfileDialog');
     const deleteButton = fixture.debugElement.query(By.css('.delete')).nativeElement;
     deleteButton.click();
     tick();
-    expect(component.openDeleteDialog).toHaveBeenCalled();
+    expect(component.openDeleteProfileDialog).toHaveBeenCalled();
   }));
 
-  it('method openDeleteDialog  has to open popup', () => {
-    spyOn(dialogMock, 'open').and.callFake(() => {});
-    component.openDeleteDialog();
+  it('method openDeleteAddressDialog has to open popup', () => {
+    const matDialogRefMock = {
+      afterClosed: () => of(null)
+    };
+    spyOn(dialogMock, 'open').and.returnValue(matDialogRefMock as any);
+    spyOn(matDialogRefMock, 'afterClosed').and.callThrough();
+    component.openDeleteAddressDialog(component.userForm.controls.address.get('0'));
+
     expect(dialogMock.open).toHaveBeenCalled();
+    expect(matDialogRefMock.afterClosed).toHaveBeenCalled();
   });
 
   it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
@@ -495,7 +501,7 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
     const formElement = fixture.debugElement.nativeElement.querySelector('form');
     const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(9);
+    expect(inputElements.length).toBe(10);
   }));
 
   it('method onEdit should get data and invoke methods', fakeAsync(() => {

@@ -98,6 +98,27 @@ $inputwidth: 260px;
     }
   }
 
+  .checkmark {
+    //position: absolute;
+    top: 5px;
+    left: 4px;
+    height: 16px;
+    width: 16px;
+    background-color: var(--ubs-primary-white);
+    border-radius: 50%;
+    border: 1px solid var(--ubs-quaternary-dark-grey);
+
+    &::after {
+      content: '';
+      position: absolute;
+      display: none;
+    }
+  } /**/
+
+  .custom-radio input[name='address'] {
+    accent-color: var(--ubs-freinacht-black);
+  }
+
   .alert-data-message {
     font-size: 16px;
     margin: 0 0 30px 30px;
@@ -402,6 +423,31 @@ $inputwidth: 260px;
 .social-media {
   font-size: 16px;
   line-height: 24px;
+}
+
+.checkmark {
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  margin-right: 10px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio {
+  align-items: center;
+}
+
+.custom-radio input[name='address'] {
+  accent-color: var(--ubs-freinacht-black);
 }
 
 .alert-mess {

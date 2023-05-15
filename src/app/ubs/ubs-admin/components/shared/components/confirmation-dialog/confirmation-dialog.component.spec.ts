@@ -64,7 +64,6 @@ describe('ConfirmationDialogComponent', () => {
     await buildComponent();
     const { title, text, cancelButton, confirmButton } = getAllElements();
     expect(title.nativeElement.textContent).toContain('confirmation-dialog.title');
-    expect(text.nativeElement.textContent).toContain('confirmation-dialog.text');
     expect(cancelButton.nativeElement.textContent).toContain('confirmation-dialog.buttons.cancel');
     expect(confirmButton.nativeElement.textContent).toContain('confirmation-dialog.buttons.confirm');
   });

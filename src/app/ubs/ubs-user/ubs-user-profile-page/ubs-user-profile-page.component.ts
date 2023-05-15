@@ -5,8 +5,6 @@ import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile, Location } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
-import { UbsProfileDeletePopUpComponent } from './ubs-profile-delete-pop-up/ubs-profile-delete-pop-up.component';
-import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -18,6 +16,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
+import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
+import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -51,6 +51,17 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   languages = {
     en: 'en',
     uk: 'uk'
+  };
+  dataDeleteAddress = {
+    title: 'ubs-client-profile.delete-address',
+    confirm: 'ubs-client-profile.payment.yes',
+    cancel: 'ubs-client-profile.payment.no'
+  };
+  dataDeleteProfile = {
+    title: 'ubs-client-profile.delete-title',
+    text: 'ubs-client-profile.delete-message',
+    confirm: 'ubs-client-profile.btn.delete-profile-save',
+    cancel: 'ubs-client-profile.btn.delete-profile-cancel'
   };
 
   constructor(
@@ -165,7 +176,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         isKyiv: new FormControl(adres?.city === 'Київ' ? true : false),
         searchAddress: new FormControl(null),
         placeId: new FormControl(null),
-        id: new FormControl(adres?.id)
+        id: new FormControl(adres?.id),
+        actual: new FormControl(adres?.actual)
       });
       addres.push(seperateAddress);
     });
@@ -533,29 +545,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     (window as any).open(this.viberBotURL, '_blank');
   }
 
-  openDeleteDialog(isAddressDelete = false): void {
-    let isButtonDelete = false;
-    if (isAddressDelete) {
-      isButtonDelete = true;
-      const dialogRef = this.dialog.open(UbsProfileDeletePopUpComponent, {
-        hasBackdrop: true,
-        data: {
-          defineButton: isButtonDelete
-        }
-      });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.deleteAddress(isButtonDelete);
-        }
-      });
-    } else {
-      this.dialog.open(UbsProfileDeletePopUpComponent, {
-        hasBackdrop: true,
-        data: {
-          defineButton: isButtonDelete
-        }
-      });
-    }
+  setActualAddress(addressId): void {
+    this.orderService.setActualAddress(addressId).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   openChangePasswordDialog(): void {
@@ -565,6 +556,29 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         hasPassword: this.userProfile.hasPassword
       }
     });
+  }
+
+  openDeleteProfileDialog(): void {
+    this.dialog.open(ConfirmationDialogComponent, {
+      data: this.dataDeleteProfile,
+      hasBackdrop: true
+    });
+  }
+
+  public openDeleteAddressDialog(address): void {
+    const matDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: this.dataDeleteAddress,
+      hasBackdrop: true
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.deleteAddress(address);
+        }
+      });
   }
 
   openAddAdressDialog(): void {

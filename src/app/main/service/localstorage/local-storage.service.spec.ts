@@ -3,6 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
@@ -449,7 +450,7 @@ describe('LocalStorageService', () => {
 
   describe('getLocations()', () => {
     it('should return a valid JSON object from local storage', () => {
-      const locations = { location1: 'New York', location2: 'London' };
+      const locations: CourierLocations = { location1: 'New York', location2: 'London' } as any;
       localStorage.setItem('locations', JSON.stringify(locations));
       expect(service.getLocations()).toEqual(locations);
     });
