@@ -78,6 +78,10 @@ export class OrderService {
     return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, adress);
   }
 
+  setActualAddress(adressId: number): Observable<any> {
+    return this.http.patch(`${this.url}/makeAddressActual/${adressId}`, null);
+  }
+
   updateAdress(adress: Address): Observable<any> {
     return this.http.put<{ addressList: Address[] }>(`${this.url}/update-order-address`, adress);
   }

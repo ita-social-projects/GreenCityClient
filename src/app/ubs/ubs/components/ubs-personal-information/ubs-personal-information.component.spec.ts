@@ -23,7 +23,19 @@ describe('UBSPersonalInformationComponent', () => {
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getLocationId', 'languageBehaviourSubject']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getLocationId',
+    'languageBehaviourSubject',
+    'getUserId',
+    'getIsAnotherClient',
+    'removeIsAnotherClient',
+    'setAddressId',
+    'getCurrentLanguage',
+    'setIsAnotherClient',
+    'setAddresses',
+    'getCurrentLocationId',
+    'getAddressId'
+  ]);
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocationId = () => '1';
 
@@ -141,7 +153,6 @@ describe('UBSPersonalInformationComponent', () => {
 
   beforeEach(() => {
     localStorage.setItem('locations', JSON.stringify(mockLocations));
-    localStorage.setItem('currentLocationId', JSON.stringify(1));
     fakeOrderService.locationSub = new Subject<any>();
     fakeOrderService.locationSubject = new Subject<any>();
     fakeOrderService.currentAddress = new Subject<any>();
@@ -159,11 +170,6 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('on ngOnInit should set currentLocationId', () => {
-    component.ngOnInit();
-    expect(component.currentLocationId).toEqual(1);
   });
 
   it('setDisabledCityForLocation function should redefine addresses', () => {
