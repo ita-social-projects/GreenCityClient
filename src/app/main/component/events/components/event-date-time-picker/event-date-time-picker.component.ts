@@ -5,6 +5,12 @@ import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/even
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { takeUntil } from 'rxjs/operators';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -47,8 +53,16 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
   @ViewChild('placesRef') placesRef: ElementRef;
 
   public dateForm: FormGroup;
+  public currentLang: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {}
+  constructor(
+    private mapsAPILoader: MapsAPILoader,
+    private langService: LanguageService,
+    private translate: TranslateService,
+    private localStorageService: LocalStorageService,
+    private eventsService: EventsService
+  ) {}
 
   ngOnInit(): void {
     const curDay = new Date().getDate();
@@ -73,6 +87,22 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
     if (this.editDate) {
       this.setEditData();
     }
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.bindLang(this.currentLang);
+      if (this.editDate) {
+        this.dateForm.patchValue({
+          place:
+            lang === 'ua'
+              ? this.eventsService.createAdresses(this.editDate.coordinates, 'Ua')
+              : this.eventsService.createAdresses(this.editDate.coordinates, 'En')
+        });
+      }
+    });
+  }
+
+  private bindLang(lang: string): void {
+    this.translate.setDefaultLang(lang);
   }
 
   private setEditData(): void {
@@ -99,7 +129,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
       this.coordOffline.emit(this.coordinates);
 
       this.dateForm.patchValue({
-        place: this.editDate.coordinates.addressEn
+        place: this.getLangValue(
+          this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
+          this.eventsService.createAdresses(this.editDate.coordinates, 'En')
+        )
       });
 
       this.coordinates.latitude = this.editDate.coordinates.latitude;
@@ -229,5 +262,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
       const checkTime = time.split(':');
       this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];
     }
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

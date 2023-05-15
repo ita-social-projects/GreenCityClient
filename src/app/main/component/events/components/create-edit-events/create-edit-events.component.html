@@ -36,9 +36,13 @@
           </div>
           <mat-form-field appearance="outline" class="date-item">
             <mat-label>{{ 'create-event.min-duration' | translate }}</mat-label>
-            <mat-select formControlName="eventDuration" ngDefaultControl (selectionChange)="setDateCount(+$event.value.split(' ')[0])">
+            <mat-select
+              formControlName="eventDuration"
+              ngDefaultControl
+              (selectionChange)="setDateCount(+$event.value.nameEn.split(' ')[0])"
+            >
               <mat-option *ngFor="let date of dateArrCount" [value]="date">
-                {{ date }}
+                {{ getLangValue(date.nameUa, date.nameEn) }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -50,7 +54,7 @@
 
       <div class="dateContainer">
         <div *ngFor="let date of dates; index as i" class="dateEvent">
-          <span class="date-day">{{ i + 1 }} day</span>
+          <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
           <div class="date-event-block">
             <app-event-date-time-picker
               (datesForm)="checkForm($event, i)"
@@ -66,7 +70,12 @@
       </div>
 
       <div class="textarea-wrapper">
-        <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
+        <div class="title-container">
+          <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
+          <p [ngClass]="isDescriptionInValid ? 'error' : 'textarea-description'">
+            {{ 'create-news.content-tooltip' | translate }}
+          </p>
+        </div>
         <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
           <quill-editor
             class="editor"
@@ -75,9 +84,6 @@
             [modules]="quillModules"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
           ></quill-editor>
-        </div>
-        <div *ngIf="eventFormGroup.get('description').touched && eventFormGroup.get('description').invalid">
-          <app-input-error [formElement]="eventFormGroup.get('description')"></app-input-error>
         </div>
       </div>
     </mat-card>
@@ -104,7 +110,7 @@
                 tabindex="0"
                 (click)="checkTab(tag)"
               >
-                <span class="text">{{ tag.nameEn }}</span>
+                <span class="text">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
                 <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
               </a>
             </li>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -20,6 +20,11 @@ export class HabitService {
   destroy$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private tagsType = 'HABIT';
   private backEnd = environment.backendLink;
+  private httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'my-auth-token'
+    })
+  };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((language) => (this.language = language));
@@ -64,6 +69,14 @@ export class HabitService {
       tagIds: habit.tagIds,
       customShoppingListItemDto: habit.shopList
     };
-    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, body);
+
+    const formData = new FormData();
+    formData.append('request', JSON.stringify(body));
+
+    const accessToken = localStorage.getItem('accessToken');
+    this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
+    this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
+
+    return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, formData, this.httpOptions);
   }
 }

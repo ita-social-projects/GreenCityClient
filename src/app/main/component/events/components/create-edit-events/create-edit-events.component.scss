@@ -154,3 +154,19 @@
     width: 154px;
   }
 }
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.error,
+.textarea-description {
+  font-size: 12px;
+  display: flex;
+  align-items: end;
+}
+
+.error {
+  color: var(--error-red);
+}
