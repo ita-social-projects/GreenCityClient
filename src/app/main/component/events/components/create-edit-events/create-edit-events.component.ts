@@ -16,8 +16,9 @@ import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
-import { DiscardEventChangesComponent } from './discard-event-changes/discard-event-changes.component';
+import { take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -56,6 +57,12 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
+  deleteDialogData = {
+    popupTitle: 'discard-changes.delete-message',
+    popupConfirm: 'discard-changes.btn.yes',
+    popupCancel: 'discard-changes.btn.no',
+    style: 'green'
+  };
 
   public backRoute: string;
   public routedFromProfile: boolean;
@@ -69,7 +76,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent,
     private injector: Injector,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<DiscardEventChangesComponent>
+    public dialogRef: MatDialogRef<DialogPopUpComponent>
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -139,15 +146,21 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public shouldDeleteEvent(): void {
-    const dialog = this.dialog.open(DiscardEventChangesComponent, {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
       hasBackdrop: true,
-      data: { isCancel: true }
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
     });
-    dialog.afterClosed().subscribe((result) => {
-      if (result.data.isCancel) {
-        this.escapeFromCreateEvent();
-      }
-    });
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.escapeFromCreateEvent();
+        }
+      });
   }
 
   public escapeFromCreateEvent(): void {

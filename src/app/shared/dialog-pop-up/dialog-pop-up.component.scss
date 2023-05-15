@@ -15,7 +15,7 @@
   flex-direction: column;
   font-family: var(--ubs-quaternary-font);
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 16px;
   line-height: 24px;
   color: var(--ubs-primary-grey);
@@ -27,7 +27,9 @@
 }
 
 .primary-global-button,
-.secondary-global-button {
+.secondary-global-button,
+.primary-global-button-green,
+.secondary-global-button-green {
   height: 36px;
   font-family: var(--ubs-quaternary-font);
   font-size: 14px;
@@ -36,6 +38,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.primary-global-button-green,
+.secondary-global-button-green {
+  border-radius: 6px;
+  border: var(--primary-green) solid 1px;
 }
 
 .primary-global-button {
@@ -47,6 +55,20 @@
   background-color: #fff;
   color: var(--ubs-dark-red);
   border-color: var(--ubs-dark-red);
+  margin-right: 16px;
+  min-width: 63px;
+}
+
+.primary-global-button-green {
+  min-width: 70px;
+  background-color: var(--primary-green);
+  color: #fff;
+}
+
+.secondary-global-button-green {
+  background-color: #fff;
+  color: var(--primary-green);
+  border-color: var(--primary-green);
   margin-right: 16px;
   min-width: 63px;
 }
@@ -88,15 +110,18 @@
     align-items: center;
   }
 
+  .primary-global-button,
   .secondary-global-button,
-  .primary-global-button {
+  .primary-global-button-green,
+  .secondary-global-button-green {
     height: 44px;
     width: 200px;
     margin: 0;
     padding: 0;
   }
 
-  .secondary-global-button {
+  .secondary-global-button,
+  .secondary-global-button-green {
     margin-bottom: 32px;
   }
 }

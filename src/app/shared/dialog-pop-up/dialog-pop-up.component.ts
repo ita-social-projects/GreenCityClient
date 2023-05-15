@@ -14,6 +14,8 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   popupSubtitle: string;
   popupConfirm: string;
   popupCancel: string;
+  setBtnStyleRed: boolean;
+  setBtnStyleGreen: boolean;
 
   constructor(private matDialogRef: MatDialogRef<DialogPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
@@ -43,6 +45,8 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.popupSubtitle = this.data.popupSubtitle;
     this.popupConfirm = this.data.popupConfirm;
     this.popupCancel = this.data.popupCancel;
+    this.setBtnStyleGreen = this.data.style === 'green';
+    this.setBtnStyleRed = this.data.style === 'red';
   }
 
   public userReply(reply: boolean): void {

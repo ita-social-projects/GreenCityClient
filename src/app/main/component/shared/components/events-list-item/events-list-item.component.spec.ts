@@ -226,7 +226,8 @@ describe('EventsListItemComponent', () => {
     component.deleteDialogData = {
       popupTitle: 'homepage.events.delete-title',
       popupConfirm: 'homepage.events.delete-yes',
-      popupCancel: 'homepage.events.delete-no'
+      popupCancel: 'homepage.events.delete-no',
+      style: 'red'
     };
 
     fixture.detectChanges();

@@ -4,7 +4,17 @@
     <div class="warning-subtitle" *ngIf="popupSubtitle">{{ popupSubtitle | translate }}</div>
   </div>
   <div class="buttons-container">
-    <button class="secondary-global-button" (click)="userReply(false)">{{ popupCancel | translate }}</button>
-    <button class="primary-global-button" (click)="userReply(true)">{{ popupConfirm | translate }}</button>
+    <button
+      [ngClass]="{ 'secondary-global-button': setBtnStyleRed, 'secondary-global-button-green': setBtnStyleGreen }"
+      (click)="userReply(false)"
+    >
+      {{ popupCancel | translate }}
+    </button>
+    <button
+      [ngClass]="{ 'primary-global-button': setBtnStyleRed, 'primary-global-button-green': setBtnStyleGreen }"
+      (click)="userReply(true)"
+    >
+      {{ popupConfirm | translate }}
+    </button>
   </div>
 </div>
