@@ -520,13 +520,15 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     'getAllStations',
     'getActiveLocations',
     'getCardInfo',
-    'deactivate'
+    'deactivate',
+    'getPlaceholderValue'
   ]);
   tariffsServiceMock.getCouriers.and.returnValue(of(fakeCouriers));
   tariffsServiceMock.getAllStations.and.returnValue(of([fakeStation]));
   tariffsServiceMock.getActiveLocations.and.returnValue(of([fakeLocation]));
   tariffsServiceMock.getCardInfo.and.returnValue(of([fakeTariffCard]));
   tariffsServiceMock.deactivate.and.returnValue(of());
+  tariffsServiceMock.getPlaceholderValue.and.callFake(() => '1 обрано');
 
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
@@ -717,7 +719,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   it('should set station placeholder when there is one selected station', () => {
     component.selectedStations = [stationItem];
     component.setStationPlaceholder();
-    expect(component.stationPlaceholder).toEqual('1 вибрано');
+    expect(component.stationPlaceholder).toEqual('1 обрано');
   });
 
   it('should set station placeholder when there is no selected station', () => {
@@ -894,7 +896,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   it('should set region placeholder when there is one selected region', () => {
     component.selectedRegions = [locationItem];
     component.setRegionsPlaceholder();
-    expect(component.regionPlaceholder).toEqual('1 вибрано');
+    expect(component.regionPlaceholder).toEqual('1 обрано');
   });
 
   it('should set region placeholder when there is no selected region', () => {
@@ -1038,7 +1040,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   it('should set city placeholder when there is one selected city', () => {
     component.selectedCities = [cityItem];
     component.setCityPlaceholder();
-    expect(component.cityPlaceholder).toEqual('1 вибрано');
+    expect(component.cityPlaceholder).toEqual('1 обрано');
   });
 
   it('should set city placeholder when there is no selected city', () => {

@@ -15,12 +15,17 @@ describe('LocalStorageService', () => {
     dates: [
       {
         coordinates: {
-          cityUa: 'cityUa',
-          cityEn: 'cityEn',
-          addressEn: 'address',
-          addressUa: 'адреса',
           latitude: 0,
-          longitude: 0
+          longitude: 0,
+          cityEn: 'cityUa',
+          cityUa: 'cityEn',
+          countryEn: 'Ukraine',
+          countryUa: 'Україна',
+          houseNumber: 55,
+          regionEn: 'Lvivska oblast',
+          regionUa: 'Львівська область',
+          streetEn: 'Svobody Ave',
+          streetUa: 'Свободи'
         },
         event: 'event',
         finishDate: 'finishDate',

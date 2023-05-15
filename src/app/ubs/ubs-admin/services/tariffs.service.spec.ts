@@ -3,6 +3,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TariffsService } from './tariffs.service';
 import { mainUbsLink } from '../../../main/links';
 import { DatePipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 const service1 = {
   name: 'fake1',
@@ -89,6 +91,8 @@ const card = {
   regionId: 2
 };
 
+const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue']);
+
 describe('TariffsService', () => {
   let service: TariffsService;
   let httpMock: HttpTestingController;
@@ -101,8 +105,8 @@ describe('TariffsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TariffsService],
-      imports: [HttpClientTestingModule]
+      providers: [TariffsService, { provide: LanguageService, useValue: languageServiceMock }],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()]
     });
     service = TestBed.inject(TariffsService);
     httpMock = TestBed.inject(HttpTestingController);

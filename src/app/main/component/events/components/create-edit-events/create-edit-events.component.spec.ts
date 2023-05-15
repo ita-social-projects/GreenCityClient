@@ -12,6 +12,7 @@ import { EventsService } from '../../services/events.service';
 import { CreateEditEventsComponent } from './create-edit-events.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
@@ -72,6 +73,9 @@ describe('CreateEditEventsComponent', () => {
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
+
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'getEventForEdit',
     'getEditMode',
@@ -97,6 +101,7 @@ describe('CreateEditEventsComponent', () => {
       imports: [TranslateModule.forRoot(), NgxPaginationModule, RouterTestingModule, FormsModule, ReactiveFormsModule],
       declarations: [CreateEditEventsComponent],
       providers: [
+        { provide: LanguageService, useValue: languageServiceMock },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: ActionsSubject, useValue: actionSub },

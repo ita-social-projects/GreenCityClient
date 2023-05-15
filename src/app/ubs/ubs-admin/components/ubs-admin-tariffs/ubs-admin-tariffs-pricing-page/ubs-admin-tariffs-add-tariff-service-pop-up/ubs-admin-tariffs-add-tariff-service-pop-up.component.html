@@ -3,13 +3,13 @@
     <p class="add-location-title">{{ 'ubs-tariffs.btn.add_service2' | translate }}</p>
   </div>
   <div *ngIf="data.button === 'update'">
-    <p class="add-location-title">{{ 'ubs-tariffs-add-service.edit_service' | translate }}</p>
+    <p class="add-location-title">{{ 'ubs-tariffs-add-service.edit_tariff' | translate }}</p>
   </div>
   <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="data.edit"></app-dialog-tariff>
   <ng-template #form>
     <div class="d-flex">
       <div class="form-group">
-        <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+        <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_tariff' | translate }}</label>
         <input
           type="text"
           formControlName="name"
@@ -23,14 +23,14 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="name">{{ 'ubs-tariffs-add-service.lang.name_of_the_service' | translate }}</label>
+        <label for="name">{{ 'ubs-tariffs-add-service.lang.tariff_description' | translate }}</label>
         <input
           type="text"
           formControlName="nameEng"
           class="shadow-none form-control"
           id="nameEng"
           placeholder="{{ 'ubs-tariffs-add-service.lang.placeholder-service' | translate }}"
-          maxlength="256"
+          maxlength="31"
         />
         <div class="error-message" *ngIf="getControl('nameEng').invalid && getControl('nameEng').touched">
           <app-input-error [formElement]="getControl('nameEng')"></app-input-error>
@@ -53,7 +53,7 @@
     </div>
     <div class="d-flex">
       <div class="form-group">
-        <label for="description">{{ 'ubs-tariffs-add-service.service_description' | translate }}</label>
+        <label for="description">{{ 'ubs-tariffs-add-service.tariff_description' | translate }}</label>
         <div [ngClass]="{ 'description-input-wrapper': isDiscriptoinInvalid }">
           <textarea
             maxlength="256"
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="description">{{ 'ubs-tariffs-add-service.lang.service_description' | translate }}</label>
+        <label for="description">{{ 'ubs-tariffs-add-service.lang.tariff_description' | translate }}</label>
         <div [ngClass]="{ 'description-input-wrapper': isDiscriptoinEnInvalid }">
           <textarea
             maxlength="256"

@@ -56,6 +56,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public datePipe;
   public newDate;
   bookmarkSelected = false;
+  public address;
+  public isOnline: string;
 
   attendees = [];
   attendeesAvatars = [];
@@ -105,6 +107,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initAllStatusesOfEvent();
     this.checkButtonStatus();
+    this.address = this.event.dates[0].coordinates;
+    this.isOnline = this.event.dates[0].onlineLink;
   }
 
   public routeToEvent(): void {

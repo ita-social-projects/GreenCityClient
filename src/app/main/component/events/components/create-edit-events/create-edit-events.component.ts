@@ -19,6 +19,7 @@ import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -76,7 +77,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent,
     private injector: Injector,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<DialogPopUpComponent>
+    public dialogRef: MatDialogRef<DialogPopUpComponent>,
+    private languageService: LanguageService
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -91,20 +93,20 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
-      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
 
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
       this.setEditValue();
+    } else {
+      this.dates = [{ ...DateObj }];
     }
 
     if (!this.checkUserSigned()) {
       this.snackBar.openSnackBar('userUnauthorised');
     }
-
-    this.dates = [{ ...DateObj }];
 
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
@@ -173,6 +175,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public changeToClose(): void {
     this.isOpen = false;
+  }
+
+  get isDescriptionInValid(): boolean {
+    return this.eventFormGroup.get('description').touched && this.eventFormGroup.get('description').invalid;
   }
 
   public setDateCount(value: number): void {
@@ -319,6 +325,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private checkFileExtensionAndSize(file: any): void {
     this.isImageSizeError = file.size >= 10485760;
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {

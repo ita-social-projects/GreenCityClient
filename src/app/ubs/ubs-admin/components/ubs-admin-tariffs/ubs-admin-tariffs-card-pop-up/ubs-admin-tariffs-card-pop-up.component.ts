@@ -215,16 +215,18 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public onSelectCourier(event): void {
-    const lang = this.languageService.getCurrentLanguage();
-    const selectedValue =
-      lang === 'en' ? this.couriers.find((ob) => ob.nameEn === event.value) : this.couriers.find((ob) => ob.nameUk === event.value);
+    const selectedValue = this.couriers.find((ob) => {
+      const name = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
+      return name === event.value;
+    });
     this.courierEnglishName = selectedValue.nameEn;
     this.courierId = selectedValue.courierId;
+    this.isCardExist = false;
   }
 
   public setStationPlaceholder(): void {
     if (this.selectedStation.length) {
-      this.stationPlaceholder = this.selectedStation.length + ' вибрано';
+      this.stationPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedStation.length);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
@@ -253,6 +255,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         trigger.openPanel();
       });
     }
+    this.isCardExist = false;
   }
 
   public deleteStation(index): void {
@@ -298,6 +301,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     } else {
       this.city.disable();
     }
+    this.isCardExist = false;
   }
 
   public selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -340,6 +344,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public checkCity(item): boolean {
+    this.isCardExist = false;
     return this.selectedCities.map((it) => it.location).includes(item);
   }
 
@@ -347,7 +352,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
       this.citySelected = true;
-      this.cityPlaceholder = this.selectedCityLength + ' вибрано';
+      this.cityPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedCityLength);
     } else {
       this.citySelected = false;
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => {

@@ -106,20 +106,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
-    this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
-      this.currentLang = lang;
-      this.bindLang(this.currentLang);
-      this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
-    });
-
-    this.localStorageService.setEditMode('canUserEdit', true);
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
       this.locationLink = this.event.dates[0].onlineLink;
-      this.addressUa = this.event.dates[0].coordinates.addressUa;
-      this.addressEn = this.event.dates[0].coordinates.addressEn;
+      this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
+      this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
       this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
@@ -130,6 +122,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
       this.role = this.verifyRole();
     });
+
+    this.currentLang = this.localStorageService.getCurrentLanguage();
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
+      this.currentLang = lang;
+      this.bindLang(this.currentLang);
+      this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
+    });
+
+    this.localStorageService.setEditMode('canUserEdit', true);
 
     this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
       this.attendees = attendees;

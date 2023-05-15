@@ -55,12 +55,17 @@ describe('ProfileDashboardComponent', () => {
         dates: [
           {
             coordinates: {
-              addressEn: 'first',
-              cityUa: 'city',
-              cityEn: 'cityEn',
-              addressUa: 'second',
               latitude: 1,
-              longitude: 1
+              longitude: 1,
+              cityEn: 'Lviv',
+              cityUa: 'Львів',
+              countryEn: 'Ukraine',
+              countryUa: 'Україна',
+              houseNumber: 55,
+              regionEn: 'Lvivska oblast',
+              regionUa: 'Львівська область',
+              streetEn: 'Svobody Ave',
+              streetUa: 'Свободи'
             },
             event: 'event',
             finishDate: '2022-06-29T04:00:00Z',

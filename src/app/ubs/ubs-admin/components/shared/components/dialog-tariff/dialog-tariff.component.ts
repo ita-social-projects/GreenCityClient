@@ -11,6 +11,7 @@ export class DialogTariffComponent implements OnInit {
   @Input() newDate;
   @Input() name: string;
   @Input() edit: boolean;
+  @Input() hideTitle = false;
 
   constructor() {}
 
