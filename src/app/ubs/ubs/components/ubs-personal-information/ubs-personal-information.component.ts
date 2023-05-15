@@ -114,13 +114,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       const newAddress = { ...address };
       const cityName = this.getLangValue(newAddress.city, newAddress.cityEn);
       const isCity = this.citiesForLocationId.some((city) => city.cityName === cityName);
+
       newAddress.display = isCity ? isCityAccess : !isCityAccess;
       return newAddress;
     });
-  }
-
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -309,6 +306,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   getControl(control: string) {
     return this.personalDataForm.get(control);
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {

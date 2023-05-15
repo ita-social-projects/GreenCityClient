@@ -17,14 +17,25 @@ import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
   let fixture: ComponentFixture<UBSPersonalInformationComponent>;
   let realTakeUserData;
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getLocationId', 'languageBehaviourSubject']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getLocationId',
+    'languageBehaviourSubject',
+    'getUserId',
+    'getIsAnotherClient',
+    'removeIsAnotherClient',
+    'setAddressId',
+    'getCurrentLanguage',
+    'setIsAnotherClient',
+    'setAddresses',
+    'getCurrentLocationId',
+    'getAddressId'
+  ]);
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocationId = () => '1';
 
@@ -104,25 +115,15 @@ describe('UBSPersonalInformationComponent', () => {
     minPriceOfOrder: 500
   };
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
-
   const fakeShareFormService = jasmine.createSpyObj('fakeShareFormService', ['changePersonalData']);
   const fakeOrderService = jasmine.createSpyObj('OrderService', [
-    'getLocationId',
-    'languageBehaviourSubject',
-    'getUserId',
-    'getIsAnotherClient',
-    'removeIsAnotherClient',
-    'setAddressId',
-    'getCurrentLanguage',
-    'setIsAnotherClient',
-    'setAddresses',
-    'getCurrentLocationId',
-    'getAddressId',
-    'setCurrentAddress'
+    'findAllAddresses',
+    'getPersonalData',
+    'deleteAddress',
+    'setOrder',
+    'setCurrentAddress',
+    'setLocationData',
+    'addAdress'
   ]);
 
   beforeEach(async(() => {
@@ -144,8 +145,7 @@ describe('UBSPersonalInformationComponent', () => {
         { provide: OrderService, useValue: fakeOrderService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: APP_BASE_HREF, useValue: '/' }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

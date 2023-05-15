@@ -32,6 +32,7 @@ describe('MainComponent', () => {
   const userServiceMock = jasmine.createSpyObj('UserService', ['updateLastTimeActivity']);
   const uiActionsServiceMock = jasmine.createSpyObj('UiActionsService', ['']);
   uiActionsServiceMock.stopScrollingSubject = of(false);
+  languageServiceMock.getUserLangValue = () => of('ua');
 
   const focusMock = {
     nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
@@ -72,6 +73,7 @@ describe('MainComponent', () => {
     app.ngOnInit();
 
     expect(spy).toHaveBeenCalled();
+    expect(languageServiceMock.setDefaultLanguage).toHaveBeenCalled();
     expect(titleAndMetaTagsServiceMock.useTitleMetasData).toHaveBeenCalled();
     expect(app.toggle).toBe(false);
   });
@@ -93,7 +95,7 @@ describe('MainComponent', () => {
     expect(app.focusLast.nativeElement.focus).toHaveBeenCalled();
   });
 
-  xit('should navigate to starting position on page', () => {
+  it('should navigate to starting position on page', () => {
     const event = new NavigationEnd(42, '/', '/');
     (router as any).events = new BehaviorSubject<any>(event);
     app[navigateToStartingPositionOnPage]();
