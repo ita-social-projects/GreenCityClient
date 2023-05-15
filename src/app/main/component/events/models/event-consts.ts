@@ -54,4 +54,12 @@ export const DateObj = {
   check: false
 };
 
-export const WeekArray = ['1 day', '2 days', '3 days', '4 days', '5 days', '6 days', '7 days'];
+export const WeekArray = [
+  { nameEn: '1 day', nameUa: '1 день' },
+  { nameEn: '2 days', nameUa: '2 дні' },
+  { nameEn: '3 days', nameUa: '3 дні' },
+  { nameEn: '4 days', nameUa: '4 дні' },
+  { nameEn: '5 days', nameUa: '5 днів' },
+  { nameEn: '6 days', nameUa: '6 днів' },
+  { nameEn: '7 days', nameUa: '7 днів' }
+];

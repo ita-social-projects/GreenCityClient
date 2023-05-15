@@ -5,7 +5,14 @@
     <div>
       <form name="searchForm" class="searchField" *ngIf="!hideInput">
         <img [src]="searchIcon" alt="search-friend" />
-        <input class="search" type="text" #search [placeholder]="'search.search-popup.placeholder' | translate" (input)="onInput(search)" />
+        <input
+          class="search"
+          type="text"
+          #search
+          [placeholder]="'search.search-popup.placeholder' | translate"
+          (input)="onInput(search)"
+          maxlength="30"
+        />
       </form>
 
       <span>

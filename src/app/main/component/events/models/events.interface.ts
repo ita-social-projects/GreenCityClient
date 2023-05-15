@@ -98,12 +98,17 @@ export interface TagDto {
 }
 export interface DateEventResponceDto {
   coordinates: {
-    addressEn: string;
     cityEn: string;
     cityUa: string;
-    addressUa: string;
     latitude: number;
     longitude: number;
+    countryEn: string;
+    countryUa: string;
+    houseNumber: number;
+    regionEn: string;
+    regionUa: string;
+    streetEn: string;
+    streetUa: string;
   };
   event: string;
   finishDate: string;

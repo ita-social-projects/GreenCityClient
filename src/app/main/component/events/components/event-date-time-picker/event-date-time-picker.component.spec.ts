@@ -5,21 +5,42 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { EventDateTimePickerComponent } from './event-date-time-picker.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from 'src/app/main/i18n/Language';
+import { BehaviorSubject, of } from 'rxjs';
 
 describe('EventDateTimePickerComponent', () => {
   let component: EventDateTimePickerComponent;
   let fixture: ComponentFixture<EventDateTimePickerComponent>;
 
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
+
+  const EventsServiceMock = jasmine.createSpyObj('eventService', ['createAdresses']);
+  EventsServiceMock.createAdresses = () => of('');
+
   const editDateMock = {
     coordinates: {
-      cityUa: 'cityUa',
-      cityEn: 'cityEn',
-      addressEn: 'address',
-      addressUa: 'address',
-      latitude: null,
-      longitude: null
+      latitude: 0,
+      longitude: 0,
+      cityEn: 'Lviv',
+      cityUa: 'Львів',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      houseNumber: 55,
+      regionEn: 'Lvivska oblast',
+      regionUa: 'Львівська область',
+      streetEn: 'Svobody Ave',
+      streetUa: 'Свободи'
     },
     event: 'event',
     finishDate: '2023-05-27T15:23:59+03:00',
@@ -37,8 +58,18 @@ describe('EventDateTimePickerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventDateTimePickerComponent],
-      imports: [TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule],
+      imports: [
+        TranslateModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        HttpClientTestingModule
+      ],
       providers: [
+        { provide: EventsService, useValue: EventsServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
         {
           provide: MapsAPILoader,
           useValue: {
