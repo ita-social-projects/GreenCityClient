@@ -7,9 +7,9 @@
 >
 </app-ubs-admin-tariffs-location-dashboard>
 <ng-template #back>
-  <div class="ml-2 d-flex cursor-pointer align-items-center">
+  <div class="ml-2 d-flex cursor-pointer align-items-center" (click)="navigateToBack()">
     <mat-icon>keyboard_arrow_left</mat-icon>
-    <span class="back" (click)="navigateToBack()">{{ 'ubs-tariffs.back' | translate }}</span>
+    <span class="back">{{ 'ubs-tariffs.back' | translate }}</span>
   </div>
 </ng-template>
 <div class="container">

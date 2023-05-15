@@ -115,7 +115,7 @@
       <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
         {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
       </button>
-      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid" (click)="createCard()">
+      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid || isCardExist" (click)="createCard()">
         {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
       </button>
     </div>
