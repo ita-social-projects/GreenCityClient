@@ -765,6 +765,7 @@
       "all-habits": {
         "back-button": "Back to My habits",
         "title": "All habits",
+        "found": "items found",
         "mutual": "Mutual habits",
         "no-habits": "Unfortunately, no more habits found",
         "no-habits-advice": "We couldn't find any more habits. Please change filters to get another result.",
