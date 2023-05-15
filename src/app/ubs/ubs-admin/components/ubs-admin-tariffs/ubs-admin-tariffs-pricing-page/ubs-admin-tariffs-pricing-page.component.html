@@ -7,15 +7,15 @@
 >
 </app-ubs-admin-tariffs-location-dashboard>
 <ng-template #back>
-  <div class="ml-2 d-flex cursor-pointer align-items-center">
+  <div class="ml-2 d-flex cursor-pointer align-items-center" (click)="navigateToBack()">
     <mat-icon>keyboard_arrow_left</mat-icon>
-    <span class="back" (click)="navigateToBack()">{{ 'ubs-tariffs.back' | translate }}</span>
+    <span class="back">{{ 'ubs-tariffs.back' | translate }}</span>
   </div>
 </ng-template>
 <div class="container">
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.services' | translate }}</p>
-      <button class="tariffs-add-button" [disabled]="isLoadBar1 || service" (click)="openAddServicePopup()">
+    <button class="tariffs-add-button" [disabled]="isLoadBar1 || service" (click)="openAddServicePopup()">
       <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_service' | translate }}
     </button>
