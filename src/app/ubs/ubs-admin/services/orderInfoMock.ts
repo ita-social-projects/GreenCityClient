@@ -153,7 +153,8 @@ export const OrderInfoMockedData: IOrderInfo = {
     allPositionsEmployees: fakeAllPositionsEmployees,
     currentPositionEmployees: new Map(),
     orderId: 1
-  }
+  },
+  writeOffStationSum: 0
 };
 
 export const GeneralInfoMock = {
