@@ -5,6 +5,7 @@ import { IOrderDetails, IGeneralOrderInfo } from '../../models/ubs-admin.interfa
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { IOrderInfo } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
@@ -51,7 +52,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
   @Input() totalPaid: number;
-  @Input() generalInfo: IGeneralOrderInfo;
+  @Input() orderInfo: IOrderInfo;
 
   constructor(private fb: FormBuilder, private orderService: OrderService, private langService: LanguageService) {}
 
@@ -111,7 +112,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   public recalculateSum() {
-    this.writeoffAtStationSum = 0;
+    this.writeoffAtStationSum = this.orderInfo.writeOffStationSum ? this.orderInfo.writeOffStationSum : 0;
     this.courierPrice = this.orderDetails.courierPricePerPackage;
     this.resetBagsInfo();
     this.setBagsInfo();
