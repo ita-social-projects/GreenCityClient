@@ -73,12 +73,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
         Validators.max(999)
       ]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      price: new FormControl('', [
-        Validators.required,
-        Validators.pattern(Patterns.ubsServicePrice),
-        Validators.min(1),
-        Validators.max(999999.99)
-      ]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
       descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
     });
@@ -93,12 +88,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
         Validators.min(1),
         Validators.max(999)
       ]),
-      price: new FormControl('', [
-        Validators.required,
-        Validators.pattern(Patterns.ubsServicePrice),
-        Validators.min(1),
-        Validators.max(999999.99)
-      ]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       description: new FormControl({ value: this.receivedData.bagData.description }, [Validators.required, Validators.maxLength(255)]),
       descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng }, [Validators.required, Validators.maxLength(255)])

@@ -27,6 +27,7 @@ export const Patterns = {
 
   ubsPrice: /^\d*[.]?\d{0,2}$/,
   ubsServicePrice: /^\d*[.,]?\d{0,2}$/,
+  ubsServiceBasicPrice: /^[0-9.,]{1,8}$/,
 
   ubsCityPattern: /^([a-zа-яїєґі ʼ'`ʹ-]){1,30}/iu,
   ubsWithDigitPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я0-9][іІєЄїЇёЁa-zA-Zа-яА-Я0-9\-,.ʼ'`ʹ)(! ]*$/iu,
