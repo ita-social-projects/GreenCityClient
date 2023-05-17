@@ -194,7 +194,6 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
       const wst = XLSX.utils.sheet_add_aoa(ws, [this.columnTitles], { origin: 'A1' });
 
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      console.log(wst);
       XLSX.utils.book_append_sheet(wb, wst, 'Sheet1');
       XLSX.writeFile(wb, this.name);
     } else {
