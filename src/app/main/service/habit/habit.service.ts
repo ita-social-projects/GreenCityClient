@@ -65,13 +65,15 @@ export class HabitService {
       ],
       complexity: habit.complexity,
       defaultDuration: habit.duration,
-      image: habit.image,
       tagIds: habit.tagIds,
       customShoppingListItemDto: habit.shopList
     };
 
     const formData = new FormData();
     formData.append('request', JSON.stringify(body));
+    if (habit.image) {
+      formData.append('image', habit.image);
+    }
 
     const accessToken = localStorage.getItem('accessToken');
     this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
