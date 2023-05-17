@@ -64,14 +64,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public isCardExist;
 
   currentCourierName: string;
-  currentCourierNameEng: string;
+  currentCourierNameEng;
   currentCity: string;
   currentStation: string;
+  currentRegionTranslated;
   regionEng: string;
   isEdit: boolean;
   isCreate: boolean;
   tariffId: number;
   isLocationAlreadyUsed: boolean;
+  cityPlaceholderTranslated: string;
 
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
@@ -163,7 +165,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => this.languageService.getLangValue(item.nameUk, item.nameEn));
+        this.couriersName = this.couriers.map((item) => this.getLangValue(item.nameUk, item.nameEn));
       });
   }
 
@@ -216,10 +218,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public onSelectCourier(event): void {
     const selectedValue = this.couriers.find((ob) => {
-      const name = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
+      const name = this.getLangValue(ob.nameUk, ob.nameEn);
       return name === event.value;
     });
     this.courierEnglishName = selectedValue.nameEn;
+    this.currentCourierNameEng = this.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
     this.courierId = selectedValue.courierId;
     this.isCardExist = false;
   }
@@ -273,6 +276,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.regionEnglishName = selectedValue
       .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
       .flat(2);
+
+    const oppositeLanguage = this.currentLanguage === Language.EN ? Language.UA : Language.EN;
+    this.currentRegionTranslated = selectedValue.flatMap((it) =>
+      it.regionTranslationDtos
+        .filter((ob) => ob.languageCode === this.currentLanguage)
+        .map(() => it.regionTranslationDtos.find((innerOb) => innerOb.languageCode === oppositeLanguage)?.regionName)
+    );
+
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
     if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
@@ -281,20 +292,18 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectedCities = [];
     this.setCountOfSelectedCity();
     this.filteredCities = currentRegion[0].locationsDto;
+
     this.city.valueChanges.subscribe((data) => {
       if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
       this.city.setValidators(this.cityValidator());
-      const res = [];
-      this.filteredCities.forEach((elem, index) => {
-        elem.locationTranslationDtoList.forEach((el) => {
-          if (el.locationName.toLowerCase().includes(data) && el.languageCode === this.currentLanguage) {
-            res.push(this.filteredCities[index]);
-          }
-        });
-      });
-      this.filteredCities = res;
+
+      this.filteredCities = this.filteredCities.filter((city) =>
+        city.locationTranslationDtoList.some(
+          (translation) => translation.languageCode === this.currentLanguage && translation.locationName.toLowerCase().includes(data)
+        )
+      );
     });
     if (event.value) {
       this.city.enable();
@@ -304,13 +313,17 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.isCardExist = false;
   }
 
+  getTranslatedLocationName(city): string {
+    return city.locationTranslationDtoList.find((t) => t.languageCode === this.currentLanguage).locationName;
+  }
+
   public selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
     this.blurOnOption = false;
     this.city.clearValidators();
     this.city.updateValueAndValidity();
     this.selectCity(event);
     this.setCountOfSelectedCity();
-    this.city.setValue('' || []);
+    this.city.setValue('');
     this.city.setValidators(this.cityValidator());
     if (trigger) {
       requestAnimationFrame(() => {
@@ -324,23 +337,25 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     let englishLocation;
     let locationId;
     event.option.value.locationTranslationDtoList.forEach((el) => {
-      if (el.languageCode === Language.UA) {
-        location = el.locationName;
-      }
-      if (el.languageCode === Language.EN) {
-        englishLocation = el.locationName;
-      }
+      el.languageCode === Language.UA ? (location = el.locationName) : (englishLocation = el.locationName);
       locationId = event.option.value.locationId;
     });
+
     const tempItem = { location, englishLocation, locationId };
     const newValue = event.option.viewValue;
-    if (this.selectedCities.find((it) => it.location.includes(newValue))) {
-      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue);
+
+    const existingCity = this.selectedCities.find((it) => it.location.includes(newValue) || it.englishLocation.includes(newValue));
+    if (existingCity) {
+      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue && item.englishLocation !== newValue);
       this.checkIfLocationUsed();
     } else {
       this.selectedCities.push(tempItem);
       this.checkIfLocationUsed();
     }
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   public checkCity(item): boolean {
@@ -353,6 +368,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (this.selectedCityLength) {
       this.citySelected = true;
       this.cityPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedCityLength);
+      this.cityPlaceholderTranslated = this.tariffsService.getPlaceholderValue(this.selectedCityLength, true);
     } else {
       this.citySelected = false;
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => {
