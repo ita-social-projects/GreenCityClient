@@ -22,6 +22,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   autocompleteService: google.maps.places.AutocompleteService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
   cityPredictionList: google.maps.places.AutocompletePrediction[];
+  housePredictionList: google.maps.places.AutocompletePrediction[];
   placeService: google.maps.places.PlacesService;
   address: Address;
   formattedAddress: string;
@@ -33,6 +34,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   entranceNumberPattern = Patterns.ubsEntrNumPattern;
   private destroy: Subject<boolean> = new Subject<boolean>();
   isDistrict = false;
+  isHouseSelected = false;
   currentLanguage: string;
   public isDeleting: boolean;
   bigRegions: Region[];
@@ -173,6 +175,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         this.streetEn.reset('');
         this.streetPredictionList = null;
         this.cityPredictionList = null;
+        this.housePredictionList = null;
+        this.placeId = null;
       });
 
     this.isDistrict = this.city.value === 'Київ' ? true : false;
@@ -278,6 +282,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onStreetSelected(street: google.maps.places.AutocompletePrediction): void {
+    this.houseNumber.reset('');
+    this.housePredictionList = null;
+    this.placeId = null;
     this.setValueOfStreet(street, this.street, this.languages.uk);
     this.setValueOfStreet(street, this.streetEn, this.languages.en);
   }
@@ -292,7 +299,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
       if (lang === this.languages.en) {
         this.formattedAddress = placeDetails.formatted_address;
-        this.setPlaceId();
       }
       if (lang === this.languages.en && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.districtEn, lang);
@@ -332,16 +338,50 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     abstractControl.markAsDirty();
   }
 
-  setPlaceId(): void {
-    if (this.formattedAddress && this.houseNumber.value) {
-      const addressConverted = this.locationService.addHouseNumToAddress(this.formattedAddress, this.houseNumber.value);
-      this.addAddressForm.get('searchAddress').setValue(addressConverted);
-      const request = {
-        query: addressConverted
+  setPredictHouseNumbers(): void {
+    this.housePredictionList = null;
+    this.isHouseSelected = false;
+    if (this.streetEn.value && this.houseNumber.value) {
+      const streetName = this.getLangValue(this.street.value, this.streetEn.value);
+      const cityName = this.getLangValue(this.city.value, this.cityEn.value);
+      const houseNum = this.houseNumber.value.toLowerCase();
+      const searchAddress = {
+        input: `${streetName}, ${houseNum}, ${cityName}`,
+        street: `${streetName}, ${houseNum}`,
+        city: `${cityName},`
       };
-      this.placeService.textSearch(request, (address) => {
-        this.placeId = address[0].place_id;
-      });
+      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+    }
+  }
+
+  inputHouse(searchAddress: { input: string; street: string; city: string }, lang: string): void {
+    const request = {
+      input: searchAddress.input,
+      language: lang,
+      types: ['address'],
+      componentRestrictions: { country: 'ua' }
+    };
+    this.autocompleteService.getPlacePredictions(request, (housePredictions) => {
+      const streetCheck = searchAddress.street;
+      const cityCheck = searchAddress.city;
+      this.housePredictionList = housePredictions?.filter(
+        (el) => el.description.includes(streetCheck) && el.description.includes(cityCheck)
+      );
+      this.housePredictionList.forEach(
+        (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
+      );
+    });
+  }
+
+  onHouseSelected(address: google.maps.places.AutocompletePrediction): void {
+    this.addAddressForm.get('searchAddress').setValue(address.description);
+    this.placeId = address.place_id;
+    this.isHouseSelected = true;
+  }
+
+  checkHouseInput(): void {
+    if (!this.isHouseSelected) {
+      this.houseNumber.setValue('');
     }
   }
 

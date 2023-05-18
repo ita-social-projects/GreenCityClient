@@ -79,8 +79,21 @@
         type="text"
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
-        (change)="setPlaceId()"
+        (keyup)="setPredictHouseNumbers()"
+        (focusout)="checkHouseInput()"
+        matInput
+        [matAutocomplete]="autoHouse"
       />
+      <mat-autocomplete #autoHouse="matAutocomplete">
+        <mat-option
+          class="autocomplete-dropdown"
+          *ngFor="let house of housePredictionList"
+          [value]="house.structured_formatting.main_text"
+          (click)="onHouseSelected(house)"
+        >
+          {{ house.structured_formatting.main_text }}
+        </mat-option>
+      </mat-autocomplete>
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
         <app-ubs-input-error [formElement]="houseNumber"></app-ubs-input-error>
       </div>
@@ -160,7 +173,11 @@
   <button class="ubs-secondary-global-button m-btn" (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
-  <button class="ubs-primary-global-button m-btn" (click)="addAdress()" [disabled]="!addAddressForm.valid || isDisabled">
+  <button
+    class="ubs-primary-global-button m-btn"
+    (click)="addAdress()"
+    [disabled]="!addAddressForm.valid || isDisabled || !isHouseSelected"
+  >
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>
