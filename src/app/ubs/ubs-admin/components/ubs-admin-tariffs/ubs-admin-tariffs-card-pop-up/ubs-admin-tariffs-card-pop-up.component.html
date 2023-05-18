@@ -25,7 +25,7 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p class="english-name">{{ currentCourierNameEng }}</p>
+        <p class="english-name">{{ currentCourierNameTranslated }}</p>
       </div>
     </div>
     <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
@@ -60,7 +60,7 @@
         <label>{{ 'ubs-tariffs.region' | translate }}</label>
         <mat-select
           #regionSelect
-          formControlName="regionNameUk"
+          formControlName="regionName"
           class="form-control"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
           (selectionChange)="onRegionSelected($event)"

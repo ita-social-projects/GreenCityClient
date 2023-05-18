@@ -25,10 +25,8 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   CardForm = this.fb.group({
     courierName: ['', Validators.required],
-    courierNameEng: [''],
     station: ['', Validators.required],
-    regionNameUk: ['', Validators.required],
-    regionNameEng: [''],
+    regionName: ['', Validators.required],
     city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
@@ -65,9 +63,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public blurOnOption = false;
   public isCardExist;
 
-  currentCourierName: string;
-  currentCourierNameEng;
-  currentCity: string;
+  courierNameUk;
+  courierNameEn;
+  currentCourierNameTranslated;
+  cityEn;
+  cityUk;
   currentStation: string;
   currentRegionTranslated;
   regionEng: string;
@@ -98,28 +98,26 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return this.CardForm.get('station');
   }
   get region() {
-    return this.CardForm.get('regionNameUk');
+    return this.CardForm.get('regionName');
   }
   get city() {
     return this.CardForm.get('city');
   }
 
   ngOnInit(): void {
-    console.log('edit data', this.modalData);
-
     this.isEdit = this.modalData.edit;
     this.isCreate = this.modalData.create;
-    this.currentCourierName = this.modalData.courierName;
-    this.currentCity = this.modalData.city;
-    this.currentStation = this.modalData.selectedStation;
-    this.currentCourierNameEng = this.modalData.courierEnglishName;
-    this.regionEng = this.modalData.regionEnglishName;
     this.tariffId = this.modalData.tariffId;
-    this.regionEnglishName = this.modalData.regionName;
+    this.courierNameUk = this.modalData.courierUkrainianName;
+    this.courierNameEn = this.modalData.courierEnglishName;
 
-    if (this.isEdit) {
-      this.fillFields(this.modalData);
-    }
+    this.currentStation = this.modalData.selectedStation;
+
+    this.regionEnglishName = this.modalData.regionEnglishName;
+    this.regionUkrainianName = this.modalData.regionUkrainianName;
+    this.cityUk = this.modalData.cityNameUk;
+    this.cityEn = this.modalData.cityNameEn;
+
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -128,12 +126,17 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.datePipe = new DatePipe(this.currentLanguage);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
+
     this.setStationPlaceholder();
     this.setCountOfSelectedCity();
     this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
     this.setCountOfSelectedCity();
+
+    if (this.isEdit) {
+      this.fillFields(this.modalData);
+    }
   }
 
   public ngOnDestroy(): void {
@@ -192,6 +195,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Stations[]) => {
         this.stations = res;
+
+        if (this.isEdit) {
+          this.setSelectedStation();
+        }
+
         const stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
           .pipe(
@@ -216,8 +224,51 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
             element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName)
           )
           .flat(2);
+
+        if (this.isEdit) {
+          this.setSelectedCities();
+        }
       }
     });
+  }
+
+  setSelectedStation() {
+    this.selectedStation = this.station.value.map((stationName) => {
+      const selectedStationValue = this.stations.find((ob) => ob.name === stationName);
+
+      return {
+        name: selectedStationValue.name,
+        id: selectedStationValue.id
+      };
+    });
+    this.station.setValidators(this.stationValidator());
+    this.station.setValue('');
+    this.blurOnOption = false;
+
+    this.setStationPlaceholder();
+  }
+
+  private setSelectedCities(): void {
+    const currentRegion = this.locations.filter((element) =>
+      element.regionTranslationDtos.find((it) => it.regionName === this.region.value)
+    );
+    this.filteredCities = currentRegion[0].locationsDto;
+
+    this.selectedCities = this.cityUk.map((cityUk, index) => {
+      let cityEn = this.cityEn[index];
+      let cityObj = this.filteredCities.find((city) =>
+        city.locationTranslationDtoList.some((loc) => loc.locationName === cityUk || loc.locationName === cityEn)
+      );
+
+      return {
+        location: cityUk,
+        englishLocation: cityEn,
+        locationId: cityObj ? cityObj.locationId : null
+      };
+    });
+    this.setCountOfSelectedCity();
+    this.city.setValidators(this.cityValidator());
+    this.city.enable();
   }
 
   public onSelectCourier(event): void {
@@ -227,7 +278,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     });
     this.courierEnglishName = selectedValue.nameEn;
     this.courierUkrainianName = selectedValue.nameUk;
-    this.currentCourierNameEng = this.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
+    this.currentCourierNameTranslated = this.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
     this.courierId = selectedValue.courierId;
     this.isCardExist = false;
   }
@@ -255,6 +306,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     } else {
       this.selectedStation.push(tempItem);
     }
+
     this.station.setValidators(this.stationValidator());
     this.station.setValue('');
     this.setStationPlaceholder();
@@ -276,10 +328,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return this.selectedStation.map((it) => it.name).includes(item);
   }
 
-  private getRegionNameByLanguageCode(selectedValue, languageCode): string[] {
+  private getRegionNameByLanguageCode(selectedValue: any[], languageCode: string): string[] {
     return selectedValue
-      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === languageCode).map((i) => i.regionName))
-      .flat(2);
+      .flatMap((it) => it.regionTranslationDtos)
+      .filter((ob) => ob.languageCode === languageCode)
+      .map((i) => i.regionName);
   }
 
   public onRegionSelected(event): void {
@@ -287,13 +340,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
     this.regionEnglishName = this.getRegionNameByLanguageCode(selectedValue, Language.EN);
     this.regionUkrainianName = this.getRegionNameByLanguageCode(selectedValue, Language.UA);
-
-    const oppositeLanguage = this.currentLanguage === Language.EN ? Language.UA : Language.EN;
-    this.currentRegionTranslated = selectedValue.flatMap((it) =>
-      it.regionTranslationDtos
-        .filter((ob) => ob.languageCode === this.currentLanguage)
-        .map(() => it.regionTranslationDtos.find((innerOb) => innerOb.languageCode === oppositeLanguage)?.regionName)
-    );
+    this.currentRegionTranslated = this.getLangValue(this.regionEnglishName, this.regionUkrainianName);
 
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
@@ -316,11 +363,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         )
       );
     });
-    if (event.value) {
-      this.city.enable();
-    } else {
-      this.city.disable();
-    }
+
+    event.value ? this.city.enable() : this.city.disable();
     this.isCardExist = false;
   }
 
@@ -407,9 +451,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public createCardDto() {
-    console.log('this.selectedStation', this.selectedStation);
-    console.log('this.selectedCities', this.selectedCities);
-
     this.createCardObj = {
       courierId: this.courierId,
       receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
@@ -423,14 +464,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public editCard(): void {
-    console.log('this.selectedCities', this.selectedCities, this.selectedStation);
-
     const body = {
       locationIds: this.selectedCities.map((val) => val.locationId),
       receivingStationIds: this.selectedStation.map((station) => station.id)
     };
-
-    console.log('edit', body);
 
     this.tariffsService
       .editTariffInfo(body, this.tariffId)
@@ -440,15 +477,18 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   fillFields(modalData) {
     if (modalData) {
-      const { courierUkrainianName, courierEnglishName, regionEnglishName, station, regionUkrainianName, city } = this.modalData;
+      const { courierUkrainianName, courierEnglishName, regionEnglishName, selectedStation, regionUkrainianName, cityUk, cityEn } =
+        this.modalData;
+
       this.CardForm.patchValue({
-        courierName: courierUkrainianName,
-        courierNameEng: courierEnglishName,
-        regionNameUk: regionUkrainianName,
-        regionNameEng: regionEnglishName,
-        station,
-        city
+        courierName: this.getLangValue(courierUkrainianName, courierEnglishName),
+        regionName: this.getLangValue(regionUkrainianName, regionEnglishName),
+        station: selectedStation,
+        city: this.getLangValue(cityUk, cityEn)
       });
+
+      this.currentCourierNameTranslated = this.getLangValue(courierEnglishName, courierUkrainianName);
+      this.currentRegionTranslated = this.getLangValue(regionEnglishName, regionUkrainianName);
     }
   }
 
@@ -459,6 +499,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((response) => {
         this.isCardExist = response;
+
         if (!this.isCardExist) {
           this.dialogRef.close();
           const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
