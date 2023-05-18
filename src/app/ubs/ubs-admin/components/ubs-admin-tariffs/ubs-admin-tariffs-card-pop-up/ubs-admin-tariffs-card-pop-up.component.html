@@ -4,7 +4,7 @@
 <div class="w-100" *ngIf="isEdit">
   <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit_card_title' | translate }}</p>
 </div>
-<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true" [hideTitle]="true"></app-dialog-tariff>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true" [deactivatePopup]="true"></app-dialog-tariff>
 <ng-template #form>
   <form [formGroup]="CardForm">
     <div class="d-flex first-row">
