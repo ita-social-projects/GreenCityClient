@@ -1,5 +1,5 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterViewInit {
+export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -28,8 +28,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
     latitude: 50.43353,
     longitude: 30.53789
   };
-  public zoom = 13;
-  private geoCoder;
+  public zoom = 8;
   address: string;
 
   public isOfline: boolean;
@@ -55,6 +54,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
   public dateForm: FormGroup;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  isLocationSelected = false;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -165,15 +165,15 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
     }
   }
 
-  ngAfterViewInit(): void {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
+  private setCurrentLocation(): void {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords.latitude && position.coords.longitude) {
         this.coordinates.latitude = position.coords.latitude;
         this.coordinates.longitude = position.coords.longitude;
-        this.zoom = 15;
+        this.zoom = 8;
         this.getAddress(position.coords.latitude, position.coords.longitude);
-      });
-    }
+      }
+    });
   }
 
   public checkIfOnline(): void {
@@ -201,42 +201,49 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, AfterVie
 
   private setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
-      this.geoCoder = new google.maps.Geocoder();
+      this.setCurrentLocation();
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
 
       this.autocomplete.addListener('place_changed', () => {
         const locationName = this.autocomplete.getPlace();
+        if (locationName.formatted_address) {
+          this.coordinates.latitude = locationName.geometry.location.lat();
+          this.coordinates.longitude = locationName.geometry.location.lng();
+          this.coordOffline.emit(this.coordinates);
+          this.dateForm.patchValue({
+            place: locationName.formatted_address
+          });
 
-        this.coordinates.latitude = locationName.geometry.location.lat();
-        this.coordinates.longitude = locationName.geometry.location.lng();
-
-        this.coordOffline.emit(this.coordinates);
-
-        this.dateForm.patchValue({
-          place: locationName.formatted_address
-        });
+          this.isLocationSelected = false;
+        } else {
+          this.isLocationSelected = true;
+          return;
+        }
       });
     });
   }
+
   onChangePickerOnMap(event): void {
     this.coordinates.latitude = event.coords.lat;
     this.coordinates.longitude = event.coords.lng;
-
+    this.isLocationSelected = false;
     this.getAddress(this.coordinates.latitude, this.coordinates.longitude);
   }
 
   getAddress(latitude, longitude) {
-    this.geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+    const geoCoder = new google.maps.Geocoder();
+    geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
         if (results[0]) {
-          this.zoom = 12;
           this.address = results[0].formatted_address;
           this.dateForm.get('place').setValue(this.address);
         } else {
-          window.alert('No results found');
+          this.isLocationSelected = true;
+          return;
         }
       } else {
-        window.alert('Geocoder failed due to: ' + status);
+        this.isLocationSelected = true;
+        return;
       }
     });
   }
