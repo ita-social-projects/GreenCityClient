@@ -95,7 +95,7 @@
         </mat-option>
       </mat-autocomplete>
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
-        <app-ubs-input-error [formElement]="houseNumber"></app-ubs-input-error>
+        <app-ubs-input-error [formElement]="houseNumber" [inputName]="'requiredHouseNumber'"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
