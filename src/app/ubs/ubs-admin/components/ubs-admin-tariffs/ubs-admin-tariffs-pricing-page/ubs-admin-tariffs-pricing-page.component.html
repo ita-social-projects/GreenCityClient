@@ -130,8 +130,9 @@
                 (keypress)="checkOnNumber($event, minPriceOfOrder)"
                 id="from"
                 formControlName="minPriceOfOrder"
+                placeholder="0грн"
               />
-              <span class="line"></span>
+              <span class="line">-</span>
               <input
                 class="input"
                 type="number"
@@ -139,6 +140,7 @@
                 (keypress)="checkOnNumber($event, maxPriceOfOrder)"
                 id="to"
                 formControlName="maxPriceOfOrder"
+                placeholder="0грн"
               />
               <label id="label-limit" for="to"></label>
             </fieldset>
@@ -162,8 +164,9 @@
                 (keypress)="checkOnNumber($event, minBigBags)"
                 id="from-packages"
                 formControlName="minAmountOfBigBags"
+                placeholder="20"
               />
-              <span class="line"></span>
+              <span class="line">-</span>
               <input
                 class="input"
                 type="number"
@@ -171,6 +174,7 @@
                 (keypress)="checkOnNumber($event, maxBigBags)"
                 id="to-packages"
                 formControlName="maxAmountOfBigBags"
+                placeholder="20"
               />
               <label id="label-limit" for="to-packages"></label>
             </fieldset>
