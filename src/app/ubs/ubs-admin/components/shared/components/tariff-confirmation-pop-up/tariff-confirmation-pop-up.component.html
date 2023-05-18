@@ -7,11 +7,11 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p class="text">{{ courierName }}</p>
+        <p class="text">{{ getLangValue(courierName, courierEnglishName) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">Courier</label>
-        <p class="text">{{ courierEnglishName }}</p>
+        <label class="label">{{ 'ubs-tariffs.courier-translate' | translate }}</label>
+        <p class="text">{{ getLangValue(courierEnglishName, courierName) }}</p>
       </div>
     </div>
     <div class="form-block">
@@ -23,21 +23,21 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p class="text">{{ regionName }}</p>
+        <p class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">Region</label>
-        <p class="text">{{ regionEnglishName }}</p>
+        <label class="label">{{ 'ubs-tariffs.region-translate' | translate }}</label>
+        <p class="text">{{ getLangValue(regionEnglishName, regionName) }}</p>
       </div>
     </div>
-    <div class="form-block">
+    <div *ngFor="let item of locationNames" class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
+        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
       </div>
       <div class="en-part">
-        <label class="label">City</label>
-        <p *ngFor="let locationEnglishName of locationEnglishNames" class="text">{{ locationEnglishName }}</p>
+        <label class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
+        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
       </div>
     </div>
   </div>
