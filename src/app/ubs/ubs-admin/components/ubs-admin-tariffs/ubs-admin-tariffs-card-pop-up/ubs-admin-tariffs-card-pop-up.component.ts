@@ -44,9 +44,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public couriers: Couriers[];
   public couriersName;
   public courierEnglishName;
+  public courierUkrainianName;
   public locations: Locations[];
   public regions;
   public regionEnglishName;
+  public regionUkrainianName;
   public stations: Stations[];
   public filteredStations;
   public selectedStation = [];
@@ -103,6 +105,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('edit data', this.modalData);
+
     this.isEdit = this.modalData.edit;
     this.isCreate = this.modalData.create;
     this.currentCourierName = this.modalData.courierName;
@@ -222,6 +226,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       return name === event.value;
     });
     this.courierEnglishName = selectedValue.nameEn;
+    this.courierUkrainianName = selectedValue.nameUk;
     this.currentCourierNameEng = this.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
     this.courierId = selectedValue.courierId;
     this.isCardExist = false;
@@ -271,11 +276,17 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return this.selectedStation.map((it) => it.name).includes(item);
   }
 
+  private getRegionNameByLanguageCode(selectedValue, languageCode): string[] {
+    return selectedValue
+      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === languageCode).map((i) => i.regionName))
+      .flat(2);
+  }
+
   public onRegionSelected(event): void {
     const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.value));
-    this.regionEnglishName = selectedValue
-      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
-      .flat(2);
+
+    this.regionEnglishName = this.getRegionNameByLanguageCode(selectedValue, Language.EN);
+    this.regionUkrainianName = this.getRegionNameByLanguageCode(selectedValue, Language.UA);
 
     const oppositeLanguage = this.currentLanguage === Language.EN ? Language.UA : Language.EN;
     this.currentRegionTranslated = selectedValue.flatMap((it) =>
@@ -396,6 +407,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public createCardDto() {
+    console.log('this.selectedStation', this.selectedStation);
+    console.log('this.selectedCities', this.selectedCities);
+
     this.createCardObj = {
       courierId: this.courierId,
       receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
@@ -409,10 +423,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public editCard(): void {
+    console.log('this.selectedCities', this.selectedCities, this.selectedStation);
+
     const body = {
       locationIds: this.selectedCities.map((val) => val.locationId),
       receivingStationIds: this.selectedStation.map((station) => station.id)
     };
+
+    console.log('edit', body);
 
     this.tariffsService
       .editTariffInfo(body, this.tariffId)
@@ -422,11 +440,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   fillFields(modalData) {
     if (modalData) {
-      const { courierNameUk, courierEnglishName, regionEnglishName, station, regionNameUk, city } = this.modalData;
+      const { courierUkrainianName, courierEnglishName, regionEnglishName, station, regionUkrainianName, city } = this.modalData;
       this.CardForm.patchValue({
-        courierName: courierNameUk,
+        courierName: courierUkrainianName,
         courierNameEng: courierEnglishName,
-        regionNameUk,
+        regionNameUk: regionUkrainianName,
         regionNameEng: regionEnglishName,
         station,
         city
@@ -448,13 +466,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
             panelClass: 'address-matDialog-styles-w-100',
             data: {
               title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-              courierName: this.courier.value,
+              courierName: this.courierUkrainianName,
               courierEnglishName: this.courierEnglishName,
               stationNames: this.selectedStation.map((it) => it.name),
-              regionName: this.region.value,
+              regionName: this.regionUkrainianName,
               regionEnglishName: this.regionEnglishName,
-              locationNames: this.selectedCities.map((it) => it.location),
-              locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
+              locationNames: this.selectedCities,
               action: 'ubs-tariffs-add-location-pop-up.create_button'
             }
           });
