@@ -217,7 +217,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
           this.isLocationSelected = false;
         } else {
           this.isLocationSelected = true;
-          return;
         }
       });
     });
@@ -239,11 +238,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
           this.dateForm.get('place').setValue(this.address);
         } else {
           this.isLocationSelected = true;
-          return;
         }
       } else {
         this.isLocationSelected = true;
-        return;
       }
     });
   }
