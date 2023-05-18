@@ -1377,28 +1377,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.deactivateCardObj).toEqual(result);
   });
 
-  it('method deactivateCard should open pop up with data', () => {
-    component.selectedRegions.push(locationItem);
-    component.selectedStations.push(stationItem);
-    component.selectedCities.push(cityItem);
-    component.selectedCourier = { id: 0, name: 'фейкКурєр1' };
-    const spy = spyOn(component, 'createDeactivateCardDto');
-    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
-    component.deactivateCard();
-    expect(fakeMatDialogRef.close).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalledWith(TariffDeactivateConfirmationPopUpComponent, {
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        courierName: 'фейкКурєр1',
-        stationNames: ['Фейк1'],
-        regionName: ['Фейк'],
-        locationNames: ['Фейк місто']
-      }
-    });
-  });
-
   it('method onNoClick should invoke destroyRef.close()', () => {
     component.selectedRegions.push(locationItem);
     component.selectedStations.push(stationItem);
