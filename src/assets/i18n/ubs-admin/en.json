@@ -789,6 +789,7 @@
       "placeholder-service": "Введіть назву послуги",
       "service_description": "Опис сервісу",
       "tariff_description": "Опис послуги",
+      "tariff_name": "Найменування послуги",
       "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання"
     }
   },
