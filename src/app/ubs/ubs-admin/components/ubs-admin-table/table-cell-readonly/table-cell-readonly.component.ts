@@ -32,7 +32,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
 
     const replaceRules = {
       [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
-      [Language.UA]: { regex: /l|p/gi, match: { l: 'л', p: 'шт' } }
+      [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
     };
 
     if (this.key === TableKeys.bagsAmount && replaceRules[this.lang]) {
