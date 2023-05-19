@@ -246,7 +246,7 @@ export interface AllLocationsDtos {
   orderIsPresent: boolean;
 }
 
-export interface searchAddressInteface {
+export interface SearchAddressInteface {
   input: string;
   street: string;
   city: string;
