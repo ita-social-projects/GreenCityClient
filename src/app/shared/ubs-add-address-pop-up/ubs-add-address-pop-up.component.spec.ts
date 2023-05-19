@@ -18,6 +18,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LocationService } from '@global-service/location/location.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -316,6 +317,11 @@ describe('UBSAddAddressPopUpComponent', () => {
   fakeLocationServiceMock.getDistrictAuto = () => streetPlaceResultUk.address_components[1].long_name;
   fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
+  const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -336,6 +342,7 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: LocationService, useValue: fakeLocationServiceMock },
+        { provide: LanguageService, useValue: fakeLanguageServiceMock },
         UserOwnAuthService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -582,6 +589,17 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.onStreetSelected(streetPredictionKyivRegion[0]);
     expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], component.street, component.languages.uk);
     expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], component.streetEn, component.languages.en);
+  });
+
+  it('method onStreetSelected should set housePredictionList and placeId null', () => {
+    component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
+      callback(streetPlaceResultEn, status as any);
+    });
+    component.onStreetSelected(streetPredictionKyivRegion[0]);
+    expect(component.houseNumber.value).toBe('');
+    expect(component.housePredictionList).toBeNull();
+    expect(component.placeId).toBeNull();
   });
 
   it('method onStreetSelected should invoke getDetails', () => {
