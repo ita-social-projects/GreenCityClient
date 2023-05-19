@@ -362,10 +362,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       componentRestrictions: { country: 'ua' }
     };
     this.autocompleteService.getPlacePredictions(request, (housePredictions) => {
-      const streetCheck = searchAddress.street;
-      const cityCheck = searchAddress.city;
       this.housePredictionList = housePredictions?.filter(
-        (el) => el.description.includes(streetCheck) && el.description.includes(cityCheck)
+        (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
       );
       this.housePredictionList.forEach(
         (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
