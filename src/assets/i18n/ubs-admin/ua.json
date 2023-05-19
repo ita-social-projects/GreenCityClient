@@ -647,6 +647,7 @@
     "limits": "Ліміти",
     "order_limits": "Ліміти замовлення",
     "min_order_amount": "Сума замовлення",
+    "placeholder_order_amount": "0грн",
     "min_number_of_packages": "Кількість пакетів",
     "min_set_of_packages": "Мінімальний набір пакетів",
     "info_about_order_limits_header": "Інформація про ліміти замовлення",

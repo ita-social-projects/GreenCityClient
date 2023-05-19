@@ -130,7 +130,7 @@
                 (keypress)="checkOnNumber($event, minPriceOfOrder)"
                 id="from"
                 formControlName="minPriceOfOrder"
-                placeholder="0грн"
+                placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
               />
               <span class="line">-</span>
               <input
@@ -140,7 +140,7 @@
                 (keypress)="checkOnNumber($event, maxPriceOfOrder)"
                 id="to"
                 formControlName="maxPriceOfOrder"
-                placeholder="0грн"
+                placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
               />
               <label id="label-limit" for="to"></label>
             </fieldset>

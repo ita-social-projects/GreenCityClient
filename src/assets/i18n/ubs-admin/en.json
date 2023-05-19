@@ -650,6 +650,7 @@
     "limits": "Limits",
     "order_limits": "Order limits",
     "min_order_amount": "Minimum order amount",
+    "placeholder_order_amount": "0UAH",
     "min_number_of_packages": "Minimum number of packages",
     "min_set_of_packages": "Minimum set of packages",
     "info_about_order_limits_header": "Information about order limits",
