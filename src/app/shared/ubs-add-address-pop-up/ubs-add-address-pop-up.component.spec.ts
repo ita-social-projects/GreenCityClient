@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
@@ -685,6 +685,19 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.addAdress();
     fixture.detectChanges();
     expect(component.updatedAddresses).toEqual(response.addressList);
+  });
+
+  it('method setPredictHouseNumbers should set place id and isHouseSelected', () => {
+    const houseValue = { value: '1A' };
+    spyOn(houseValue.value, 'toLowerCase').and.returnValue('1a');
+    component.houseNumber.setValue(houseValue.value);
+    component.autocompleteService = { getPlacePredictions: () => {} } as any;
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
+      callback(streetPredictionKyivRegion, status as any);
+    });
+    component.setPredictHouseNumbers();
+    expect(component.housePredictionList).toEqual([]);
+    expect(component.isHouseSelected).toBeFalsy();
   });
 
   it('method onHouseSelected should set place id and isHouseSelected', () => {

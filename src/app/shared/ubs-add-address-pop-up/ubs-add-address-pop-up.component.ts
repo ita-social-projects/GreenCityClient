@@ -341,15 +341,14 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   setPredictHouseNumbers(): void {
     this.housePredictionList = null;
     this.isHouseSelected = false;
-    const houseValue = this.houseNumber.value;
+    const houseValue = this.houseNumber.value.toLowerCase();
     if (this.cityEn.value && this.streetEn.value && houseValue) {
       const streetName = this.getLangValue(this.street.value, this.streetEn.value);
       const cityName = this.getLangValue(this.city.value, this.cityEn.value);
-      const houseNum = houseValue.toLowerCase();
-      this.houseNumber.setValue(houseNum);
+      this.houseNumber.setValue(houseValue);
       const searchAddress = {
-        input: `${streetName}, ${houseNum}, ${cityName}`,
-        street: `${streetName}, ${houseNum}`,
+        input: `${streetName}, ${houseValue}, ${cityName}`,
+        street: `${streetName}, ${houseValue}`,
         city: `${cityName},`
       };
       this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
