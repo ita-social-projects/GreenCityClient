@@ -392,7 +392,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     let englishLocation;
     let locationId;
     event.option.value.locationTranslationDtoList.forEach((el) => {
-      el.languageCode === Language.UA ? (location = el.locationName) : (englishLocation = el.locationName);
+      if (el.languageCode === Language.UA) {
+        location = el.locationName;
+      }
+      if (el.languageCode === Language.EN) {
+        englishLocation = el.locationName;
+      }
       locationId = event.option.value.locationId;
     });
 
