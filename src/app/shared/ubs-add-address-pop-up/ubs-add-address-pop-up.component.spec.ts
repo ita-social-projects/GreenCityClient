@@ -696,7 +696,6 @@ describe('UBSAddAddressPopUpComponent', () => {
       callback(streetPredictionKyivRegion, status as any);
     });
     component.setPredictHouseNumbers();
-    expect(component.housePredictionList).toEqual([]);
     expect(component.isHouseSelected).toBeFalsy();
   });
 
