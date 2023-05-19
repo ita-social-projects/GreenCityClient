@@ -44,6 +44,7 @@
                   <option
                     *ngFor="let status of generalInfo.orderPaymentStatusesDto"
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
+                    [value]="status?.key"
                   >
                     {{ getLangValue(status?.ua, status?.eng) }}
                   </option>
