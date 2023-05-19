@@ -6,12 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import {
-  TariffPlaceholderSelected,
-  TariffLocationLabelName,
-  TariffCourierLabelName,
-  TariffRegionLabelName
-} from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
+import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
 import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
@@ -33,7 +28,6 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   isRestore: boolean;
   isDeactivate: boolean;
   isDeactivatePopup = true;
-  lang = false;
   courierLabelEn = TariffCourierLabelName.en;
   courierLabelUa = TariffCourierLabelName.ua;
   regionLabelEn = TariffRegionLabelName.en;
@@ -69,13 +63,14 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   setDate(): void {
     const currentLang = this.languageService.getCurrentLanguage();
     this.newDate = this.tariffsService.setDate(currentLang);
-    if (currentLang === Language.UA) {
-      this.lang = true;
-    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public getLangArrayValue(uaValue: string[], enValue: string[]) {
+    return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
   public onCancelClick(): void {

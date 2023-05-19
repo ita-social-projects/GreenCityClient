@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
+import { Language } from 'src/app/main/i18n/Language';
 
 enum status {
   active = 'ACTIVE',
@@ -327,11 +328,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     let name;
     const selectedItemName = event.option.value;
     const selectedItem = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === selectedItemName));
-    let regionNameUa;
-    let regionNameEn;
-    selectedItem[0].regionTranslationDtos.forEach((item) => {
-      item.languageCode === 'ua' ? (regionNameUa = item.regionName) : (regionNameEn = item.regionName);
-    });
+    const regionNameUa = selectedItem[0].regionTranslationDtos.find((item) => item.languageCode === Language.UA).regionName;
+    const regionNameEn = selectedItem[0].regionTranslationDtos.find((item) => item.languageCode === Language.EN).regionName;
     this.selectedRegionValue.push({ regionNameUa, regionNameEn });
 
     selectedItem.forEach((item) => {
@@ -452,12 +450,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const selectedItem = this.currentCities.filter((element) =>
       element.locationTranslationDtoList.find((it) => it.locationName === event.option.value)
     )[0];
-    let cityNameUa;
-    let cityNameEn;
-    selectedItem.locationTranslationDtoList.forEach((item) => {
-      item.languageCode === 'ua' ? (cityNameUa = item.locationName) : (cityNameEn = item.locationName);
-    });
+    const cityNameUa = selectedItem.locationTranslationDtoList.find((item) => item.languageCode === Language.UA).locationName;
+    const cityNameEn = selectedItem.locationTranslationDtoList.find((item) => item.languageCode === Language.EN).locationName;
     this.selectedCitiesValue.push({ cityNameUa, cityNameEn });
+
     const tempItem = {
       id: selectedItem.locationId,
       name: selectedItem.locationTranslationDtoList

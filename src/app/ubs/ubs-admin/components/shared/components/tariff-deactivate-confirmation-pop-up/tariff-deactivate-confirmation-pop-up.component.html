@@ -42,21 +42,11 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <div *ngIf="lang">
-          <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
-        </div>
-        <div *ngIf="!lang">
-          <p *ngFor="let locationEnglishName of locationEnglishNames" class="text">{{ locationEnglishName }}</p>
-        </div>
+        <p class="text">{{ getLangArrayValue(locationNames, locationEnglishNames) }}</p>
       </div>
       <div class="en-part">
         <label class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
-        <div *ngIf="lang">
-          <p *ngFor="let locationEnglishName of locationEnglishNames" class="text">{{ locationEnglishName }}</p>
-        </div>
-        <div *ngIf="!lang">
-          <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
-        </div>
+        <p class="text">{{ getLangArrayValue(locationEnglishNames, locationNames) }}</p>
       </div>
     </div>
   </div>
