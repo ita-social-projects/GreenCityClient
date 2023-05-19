@@ -641,8 +641,10 @@
     "delete-button": "Delete",
     "restore-button": "Restore",
     "name_of_the_service": "Name of the service",
+    "name_of_the_tariff": "Name of the tariff",
     "capacity": "Capacity",
     "service_description": "Service description",
+    "tariff_description": "Tariff description",
     "basic_cost": "Basic cost",
     "carriers_commission": "Carrier commission",
     "full_cost": "Full cost",
@@ -666,6 +668,7 @@
     "btn": {
       "add_service": "Add service",
       "add_service2": "Add service",
+      "add_tariff": "Add tariff",
       "save_changes": "Save changes",
       "add_carrier": "Add carrier",
       "add": "Add",

@@ -638,8 +638,10 @@
     "city-translate": "City",
     "restore-button": "Відновити",
     "name_of_the_service": "Найменування послуги",
+    "name_of_the_tariff": "Найменування тарифу",
     "capacity": "Об’єм",
     "service_description": "Опис послуги",
+    "tariff_description": "Опис тарифу",
     "basic_cost": "Базова вартість",
     "carriers_commission": "Комісія перевізника",
     "full_cost": "Повна вартість",
@@ -663,6 +665,7 @@
     "btn": {
       "add_service": "Додати сервіс",
       "add_service2": "Додати послугу",
+      "add_tariff": "Додати тариф",
       "save_changes": "Зберегти зміни",
       "add_carrier": "Додати перевізника",
       "add": "Додати",
