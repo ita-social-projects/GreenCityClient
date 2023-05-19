@@ -245,3 +245,9 @@ export interface AllLocationsDtos {
   tariffsForLocationDto: CourierLocations | null;
   orderIsPresent: boolean;
 }
+
+export interface searchAddress {
+  input: string;
+  street: string;
+  city: string;
+}

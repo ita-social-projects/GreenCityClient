@@ -6,7 +6,7 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, Region } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, Region, searchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
@@ -354,7 +354,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     }
   }
 
-  inputHouse(searchAddress: { input: string; street: string; city: string }, lang: string): void {
+  inputHouse(searchAddress: searchAddress, lang: string): void {
     const request = {
       input: searchAddress.input,
       language: lang,
