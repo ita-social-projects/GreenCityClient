@@ -255,8 +255,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.filteredCities = currentRegion[0].locationsDto;
 
     this.selectedCities = this.cityUk.map((cityUk, index) => {
-      let cityEn = this.cityEn[index];
-      let cityObj = this.filteredCities.find((city) =>
+      const cityEn = this.cityEn[index];
+      const cityObj = this.filteredCities.find((city) =>
         city.locationTranslationDtoList.some((loc) => loc.locationName === cityUk || loc.locationName === cityEn)
       );
 
