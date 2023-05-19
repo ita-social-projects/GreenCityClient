@@ -668,4 +668,11 @@ describe('UBSAddAddressPopUpComponent', () => {
     fixture.detectChanges();
     expect(component.updatedAddresses).toEqual(response.addressList);
   });
+
+  it('method onHouseSelected should set place id and isHouseSelected', () => {
+    component.onHouseSelected(streetPredictionKyivRegion[0]);
+    expect(component.addAddressForm.get('searchAddress').value).toBe('вулиця Незалежності, Щасливе, Київська область, Україна');
+    expect(component.placeId).toBe('1111');
+    expect(component.isHouseSelected).toBeTruthy();
+  });
 });
