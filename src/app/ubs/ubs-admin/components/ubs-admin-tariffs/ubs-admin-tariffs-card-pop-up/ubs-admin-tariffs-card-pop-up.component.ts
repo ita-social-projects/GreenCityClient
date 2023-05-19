@@ -267,6 +267,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       };
     });
     this.setCountOfSelectedCity();
+    this.city.reset();
     this.city.setValidators(this.cityValidator());
     this.city.enable();
   }
