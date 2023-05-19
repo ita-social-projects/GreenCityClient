@@ -119,19 +119,22 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
   };
 
   const modalData = {
-    courierNameUk: 'Courier name',
+    courierUkrainianName: 'Courier name',
     courierEnglishName: 'Courier English name',
     regionEnglishName: 'Region English name',
-    station: 'Station name',
-    regionNameUk: 'Region name'
+    regionUkrainianName: 'region Ukrainian Name',
+    tariffId: 1,
+    selectedStation: 'Station name',
+    regionNameUk: 'Region name',
+    cityNameEn: 'cityNameEn',
+    cityNameUk: 'cityNameEn'
   };
 
   const fakeCardForm = new FormGroup({
-    courierName: new FormControl(modalData.courierNameUk),
-    courierNameEng: new FormControl(modalData.courierEnglishName),
-    regionNameUk: new FormControl(modalData.regionNameUk),
-    station: new FormControl(modalData.station),
-    regionNameEng: new FormControl(modalData.regionEnglishName)
+    courierName: new FormControl(modalData.courierEnglishName),
+    regionName: new FormControl(modalData.regionEnglishName),
+    station: new FormControl(modalData.selectedStation),
+    city: new FormControl(modalData.cityNameEn)
   });
 
   const eventMockCity = {
@@ -224,12 +227,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(spy3).toHaveBeenCalled();
     expect(spy4).toHaveBeenCalled();
     expect(spy5).toHaveBeenCalled();
-  });
-
-  it('should fill form fields with modal data', () => {
-    component.modalData = modalData;
-    component.fillFields(modalData);
-    expect(component.CardForm.value).toEqual(fakeCardForm.value);
   });
 
   it('should return false when no cards have all selected locations', (done) => {

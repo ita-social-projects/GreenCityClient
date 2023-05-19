@@ -477,14 +477,14 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   fillFields(modalData) {
     if (modalData) {
-      const { courierUkrainianName, courierEnglishName, regionEnglishName, selectedStation, regionUkrainianName, cityUk, cityEn } =
+      const { courierUkrainianName, courierEnglishName, regionEnglishName, selectedStation, regionUkrainianName, cityNameUk, cityNameEn } =
         this.modalData;
 
       this.CardForm.patchValue({
         courierName: this.getLangValue(courierUkrainianName, courierEnglishName),
         regionName: this.getLangValue(regionUkrainianName, regionEnglishName),
         station: selectedStation,
-        city: this.getLangValue(cityUk, cityEn)
+        city: this.getLangValue(cityNameUk, cityNameEn)
       });
 
       this.currentCourierNameTranslated = this.getLangValue(courierEnglishName, courierUkrainianName);
