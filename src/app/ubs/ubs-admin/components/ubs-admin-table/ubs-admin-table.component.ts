@@ -856,7 +856,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         }
       };
       const onMouseUp = () => {
-        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
         this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
         cleanupMouseMove();
         cleanupMouseUp();
@@ -911,6 +910,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
+
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
       .pipe(takeUntil(this.destroy))
