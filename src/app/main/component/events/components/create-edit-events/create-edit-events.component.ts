@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
-
+import { Component, OnDestroy, OnInit, Injector, Input } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
-
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -18,6 +16,9 @@ import { ofType } from '@ngrx/effects';
 import { CreateEcoEventAction, EditEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { take } from 'rxjs/operators';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
@@ -57,9 +58,16 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
+  deleteDialogData = {
+    popupTitle: 'discard-changes.delete-message',
+    popupConfirm: 'discard-changes.btn.yes',
+    popupCancel: 'discard-changes.btn.no',
+    style: 'green'
+  };
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  @Input() cancelChanges: boolean;
 
   constructor(
     public router: Router,
@@ -68,6 +76,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     private store: Store,
     private snackBar: MatSnackBarComponent,
     private injector: Injector,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private languageService: LanguageService
   ) {
     this.quillModules = quillConfig;
@@ -135,6 +145,24 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public checkStatus(event: boolean, ind: number): void {
     this.dates[ind].valid = event;
+  }
+
+  public shouldDeleteEvent(): void {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.escapeFromCreateEvent();
+        }
+      });
   }
 
   public escapeFromCreateEvent(): void {

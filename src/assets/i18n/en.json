@@ -1096,5 +1096,10 @@
     "min-length-description": "The field should contain minimum 20 symbols",
     "max-length-description": "The field should contain maximum 63 206 symbols",
     "max-length": "The field should contain less characters"
+  },
+  "discard-changes": {
+    "delete-message": "All created content will be lost. Do you still want to cancel event creation?",
+    "btn.yes": "Yes, cancel",
+    "btn.no": "Continue editing"
   }
 }

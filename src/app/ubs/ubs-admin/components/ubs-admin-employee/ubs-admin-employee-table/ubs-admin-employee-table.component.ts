@@ -36,7 +36,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   public deleteDialogData = {
     popupTitle: 'employees.warning-title',
     popupConfirm: 'employees.btn.delete',
-    popupCancel: 'employees.btn.cancel'
+    popupCancel: 'employees.btn.cancel',
+    style: 'red'
   };
   public icons = {
     edit: './assets/img/ubs-admin-employees/edit.svg',

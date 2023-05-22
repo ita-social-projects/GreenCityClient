@@ -66,7 +66,8 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   deleteDialogData = {
     popupTitle: 'add-payment.delete-message',
     popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no'
+    popupCancel: 'employees.btn.no',
+    style: 'red'
   };
   verifyEditingData = {
     popupTitle: 'add-payment.cancel-message',

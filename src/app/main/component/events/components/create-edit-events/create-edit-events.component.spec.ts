@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { CreateEditEventsComponent } from './create-edit-events.component';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('CreateEditEventsComponent', () => {
@@ -105,7 +106,9 @@ describe('CreateEditEventsComponent', () => {
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: ActionsSubject, useValue: actionSub },
         { provide: Store, useValue: storeMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: MatDialog, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
