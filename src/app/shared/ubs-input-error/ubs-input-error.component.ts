@@ -1,22 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { errorType, inputsName } from '@global-user/models/error-type.model';
 import { Patterns } from 'src/assets/patterns/patterns';
-
-enum errorType {
-  email = 'email',
-  pattern = 'pattern',
-  wrongNumber = 'wrongNumber',
-  minlength = 'minlength',
-  maxlength = 'maxlength',
-  required = 'required',
-  newPasswordMatchesOld = 'newPasswordMatchesOld',
-  confirmPasswordMistmatch = 'confirmPasswordMistmatch'
-}
-
-enum inputsName {
-  requiredEmailEmployee = 'requiredEmailEmployee',
-  requiredPhoneEmployee = 'requiredPhoneEmployee'
-}
 
 @Component({
   selector: 'app-ubs-input-error',
@@ -33,6 +18,7 @@ export class UBSInputErrorComponent implements OnInit {
     email: 'input-error.email-wrong',
     emailEmployee: 'input-error.email-required-employee',
     phoneEmployee: 'input-error.phone-required-employee',
+    houseNumber: 'input-error.house-number',
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
@@ -95,6 +81,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.emailEmployee;
       case inputName === inputsName.requiredPhoneEmployee:
         return this.validationErrors.phoneEmployee;
+      case inputName === inputsName.requiredHouseNumber:
+        return this.validationErrors.houseNumber;
       default:
         return this.validationErrors.required;
     }
