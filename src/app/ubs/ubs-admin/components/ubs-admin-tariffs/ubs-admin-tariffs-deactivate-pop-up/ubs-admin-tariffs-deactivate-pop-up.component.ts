@@ -12,6 +12,8 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { TranslateService } from '@ngx-translate/core';
 import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
+import { Language } from 'src/app/main/i18n/Language';
 
 enum status {
   active = 'ACTIVE',
@@ -63,6 +65,17 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public selectedCourier: SelectedItems;
   public tariffCards: TariffCard[] = [];
   public currentLanguage: string;
+  public selectedValue: any;
+  public selectedCitiesValue: any[] = [];
+  public selectedRegionValue: any[] = [];
+  public placeholderSelectedEn = TariffPlaceholderSelected.en;
+  public placeholderSelectedUa = TariffPlaceholderSelected.ua;
+  public courierLabelEn = TariffCourierLabelName.en;
+  public courierLabelUa = TariffCourierLabelName.ua;
+  public regionLabelEn = TariffRegionLabelName.en;
+  public regionLabelUa = TariffRegionLabelName.ua;
+  public cityLabelEn = TariffLocationLabelName.en;
+  public cityLabelUa = TariffLocationLabelName.ua;
   deactivateCardObj: DeactivateCard;
 
   constructor(
@@ -190,10 +203,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   public selectCourier(event: MatAutocompleteSelectedEvent): void {
-    const selectedValue = this.couriers.find((ob) => this.getLangValue(ob.nameUk, ob.nameEn) === event.option.value);
+    this.selectedValue = this.couriers.find((ob) => this.getLangValue(ob.nameUk, ob.nameEn) === event.option.value);
     this.selectedCourier = {
-      id: selectedValue.courierId,
-      name: this.getLangValue(selectedValue.nameUk, selectedValue.nameEn)
+      id: this.selectedValue.courierId,
+      name: this.getLangValue(this.selectedValue.nameUk, this.selectedValue.nameEn)
     };
     this.onSelectedCourier();
   }
@@ -264,7 +277,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
   public setStationPlaceholder(): void {
     if (this.selectedStations.length) {
-      this.stationPlaceholder = this.selectedStations.length + ' вибрано';
+      this.stationPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedStations.length);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-station').subscribe((data) => (this.stationPlaceholder = data));
     }
@@ -315,6 +328,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     let name;
     const selectedItemName = event.option.value;
     const selectedItem = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === selectedItemName));
+    const regionNameUa = selectedItem[0].regionTranslationDtos.find((item) => item.languageCode === Language.UA).regionName;
+    const regionNameEn = selectedItem[0].regionTranslationDtos.find((item) => item.languageCode === Language.EN).regionName;
+    this.selectedRegionValue.push({ regionNameUa, regionNameEn });
 
     selectedItem.forEach((item) => {
       id = item.regionId;
@@ -383,7 +399,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public setRegionsPlaceholder(): void {
     this.selectedRegionsLength = this.selectedRegions.length;
     if (this.selectedRegionsLength) {
-      this.regionPlaceholder = this.selectedRegionsLength + ' вибрано';
+      this.regionPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedRegionsLength);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-region').subscribe((data) => (this.regionPlaceholder = data));
     }
@@ -434,6 +450,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const selectedItem = this.currentCities.filter((element) =>
       element.locationTranslationDtoList.find((it) => it.locationName === event.option.value)
     )[0];
+    const cityNameUa = selectedItem.locationTranslationDtoList.find((item) => item.languageCode === Language.UA).locationName;
+    const cityNameEn = selectedItem.locationTranslationDtoList.find((item) => item.languageCode === Language.EN).locationName;
+    this.selectedCitiesValue.push({ cityNameUa, cityNameEn });
+
     const tempItem = {
       id: selectedItem.locationId,
       name: selectedItem.locationTranslationDtoList
@@ -472,7 +492,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public setCityPlaceholder(): void {
     this.selectedCityLength = this.selectedCities.length;
     if (this.selectedCityLength) {
-      this.cityPlaceholder = this.selectedCityLength + ' вибрано';
+      this.cityPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedCityLength);
     } else {
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => (this.cityPlaceholder = data));
     }
@@ -695,10 +715,14 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierName: this.selectedCourier?.name,
+        courierNameUk: this.selectedValue.nameUk,
+        courierEnglishName: this.selectedValue.nameEn,
+        regionNameUk: this.selectedRegionValue.map((region) => region.regionNameUa),
+        regionEnglishName: this.selectedRegionValue.map((region) => region.regionNameEn),
+        cityNameUk: this.selectedCitiesValue.map((city) => city.cityNameUa),
+        cityNameEn: this.selectedCitiesValue.map((city) => city.cityNameEn),
         stationNames: this.selectedStations.map((it) => it.name),
-        regionName: this.selectedRegions.map((it) => it.name),
-        locationNames: this.selectedCities.map((it) => it.name)
+        isDeactivate: true
       }
     });
     this.createDeactivateCardDto();

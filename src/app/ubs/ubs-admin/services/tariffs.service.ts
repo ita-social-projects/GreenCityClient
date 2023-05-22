@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
+import { TariffPlaceholderSelected } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { DatePipe } from '@angular/common';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TariffsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private langService: LanguageService) {}
 
   courierId: number;
   locationId: number;
@@ -175,5 +177,10 @@ export class TariffsService {
 
   setDate(language): string {
     return new DatePipe(language).transform(new Date(), 'MMM dd, yyyy');
+  }
+
+  getPlaceholderValue(selectedItem): string {
+    const selected = this.langService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
+    return `${selectedItem} ${selected}`;
   }
 }
