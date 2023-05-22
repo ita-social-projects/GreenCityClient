@@ -74,11 +74,7 @@ export class HabitProgressComponent implements OnChanges {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);
         } else {
-          this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
-          this.habit.workingDays = response.workingDays;
-          this.habit.habitStreak = response.habitStreak;
-          this.buildHabitDescription();
-          this.isRequest = false;
+          this.updateHabit(response);
         }
       });
   }
@@ -88,13 +84,18 @@ export class HabitProgressComponent implements OnChanges {
     this.habitAssignService
       .unenrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
-      .subscribe((response) => {
-        this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
-        this.habit.workingDays = response.workingDays;
-        this.habit.habitStreak = response.habitStreak;
-        this.buildHabitDescription();
-        this.isRequest = false;
+      .subscribe((response: HabitAssignInterface) => {
+        this.updateHabit(response);
       });
+  }
+
+  updateHabit(response: HabitAssignInterface): void {
+    this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
+    this.habit.workingDays = response.workingDays;
+    this.habit.habitStreak = response.habitStreak;
+    this.buildHabitDescription();
+    this.countProgressBar();
+    this.isRequest = false;
   }
 
   public getDayName(): string {
