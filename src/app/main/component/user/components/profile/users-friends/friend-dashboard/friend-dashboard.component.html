@@ -17,7 +17,7 @@
 
       <span>
         <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          {{ 'profile.friends.all-friends' | translate }}
+          {{ 'profile.friends.all-friends' | translate }} <span *ngIf="allFriendsAmount">{{ allFriendsAmount }}</span>
         </a>
 
         <a
@@ -28,7 +28,7 @@
           {{ 'profile.friends.search-friends' | translate }}
         </a>
         <a [routerLink]="['/profile', userId, 'friends', 'requests']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          {{ 'profile.friends.requests' | translate }}
+          {{ 'profile.friends.requests' | translate }} <span *ngIf="requestFriendsAmount">{{ requestFriendsAmount }}</span>
         </a>
       </span>
     </div>
