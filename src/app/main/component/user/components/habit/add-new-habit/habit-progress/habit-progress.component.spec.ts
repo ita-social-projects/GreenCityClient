@@ -17,7 +17,7 @@ class DatePipeMock implements PipeTransform {
   }
 }
 
-fdescribe('HabitProgressComponent', () => {
+describe('HabitProgressComponent', () => {
   let component: HabitProgressComponent;
   let fixture: ComponentFixture<HabitProgressComponent>;
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
