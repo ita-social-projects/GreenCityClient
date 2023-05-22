@@ -90,6 +90,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
   isFiltersOpened = false;
+  isTimePickerOpened = false;
   public showPopUp: boolean;
   mouseEvents = MouseEvents;
   cancellationReason: string;
@@ -552,6 +553,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.allChecked = false;
   }
 
+  setIsTimePickerOpened(isOpened: boolean): void {
+    this.isTimePickerOpened = isOpened;
+  }
+
   public closeAlertMess(): void {
     this.blockedInfo = [];
   }
@@ -804,59 +809,61 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public onResizeColumn(event: MouseEvent, columnIndex: number): void {
-    const resizeHandleWidth = 15; // Px
-    const resizeStartX = event.pageX;
-    const tableOffsetX = this.getTableOffsetX();
+    if (!this.isTimePickerOpened) {
+      const resizeHandleWidth = 15; // Px
+      const resizeStartX = event.pageX;
+      const tableOffsetX = this.getTableOffsetX();
 
-    const {
-      left: leftColumnBoundary,
-      right: rightColumnBoundary,
-      width: originalColumnWidth
-    } = this.getColumnHeaderBoundaries(columnIndex);
+      const {
+        left: leftColumnBoundary,
+        right: rightColumnBoundary,
+        width: originalColumnWidth
+      } = this.getColumnHeaderBoundaries(columnIndex);
 
-    const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
-    const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
-    if (!isResizingLeft && !isResizingRight) {
-      return;
-    }
-
-    event.preventDefault();
-
-    const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
-    const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
-    const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
-
-    let newColumnWidth = originalColumnWidth;
-    let newAdjColumnWidth = adjColumnOriginalWidth;
-    let cleanupMouseMove = () => {};
-    let cleanupMouseUp = () => {};
-    const onMouseMove = (moveEvent) => {
-      const movedToX = moveEvent.pageX;
-      const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
-      if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
+      const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
+      const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
+      if (!isResizingLeft && !isResizingRight) {
         return;
       }
-      newColumnWidth = originalColumnWidth + dx;
-      newAdjColumnWidth = adjColumnOriginalWidth - dx;
-      this.setColumnWidth(columnIndex, newColumnWidth);
-      this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
-      // Move column if it is sticky
-      if (isAdjColumnSticky) {
-        const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
-        const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
-        const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
-        const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
-        this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
-      }
-    };
-    const onMouseUp = () => {
-      this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
-      this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
-      cleanupMouseMove();
-      cleanupMouseUp();
-    };
-    cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
-    cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
+
+      event.preventDefault();
+
+      const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
+      const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
+      const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
+
+      let newColumnWidth = originalColumnWidth;
+      let newAdjColumnWidth = adjColumnOriginalWidth;
+      let cleanupMouseMove = () => {};
+      let cleanupMouseUp = () => {};
+      const onMouseMove = (moveEvent) => {
+        const movedToX = moveEvent.pageX;
+        const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
+        if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
+          return;
+        }
+        newColumnWidth = originalColumnWidth + dx;
+        newAdjColumnWidth = adjColumnOriginalWidth - dx;
+        this.setColumnWidth(columnIndex, newColumnWidth);
+        this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+        // Move column if it is sticky
+        if (isAdjColumnSticky) {
+          const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
+          const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
+          const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
+          const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
+          this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
+        }
+      };
+      const onMouseUp = () => {
+        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
+        this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
+        cleanupMouseMove();
+        cleanupMouseUp();
+      };
+      cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
+      cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
+    }
   }
 
   private getTableOffsetX(): number | undefined {
