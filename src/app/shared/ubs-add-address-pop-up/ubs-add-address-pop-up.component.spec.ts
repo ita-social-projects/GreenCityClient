@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
@@ -18,6 +18,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LocationService } from '@global-service/location/location.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -316,6 +317,11 @@ describe('UBSAddAddressPopUpComponent', () => {
   fakeLocationServiceMock.getDistrictAuto = () => streetPlaceResultUk.address_components[1].long_name;
   fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
+  const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -336,6 +342,7 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: LocationService, useValue: fakeLocationServiceMock },
+        { provide: LanguageService, useValue: fakeLanguageServiceMock },
         UserOwnAuthService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -584,6 +591,17 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], component.streetEn, component.languages.en);
   });
 
+  it('method onStreetSelected should set housePredictionList and placeId null', () => {
+    component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
+    spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
+      callback(streetPlaceResultEn, status as any);
+    });
+    component.onStreetSelected(streetPredictionKyivRegion[0]);
+    expect(component.houseNumber.value).toBe('');
+    expect(component.housePredictionList).toBeNull();
+    expect(component.placeId).toBeNull();
+  });
+
   it('method onStreetSelected should invoke getDetails', () => {
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
@@ -667,5 +685,24 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.addAdress();
     fixture.detectChanges();
     expect(component.updatedAddresses).toEqual(response.addressList);
+  });
+
+  it('method setPredictHouseNumbers should set place id and isHouseSelected', () => {
+    const houseValue = { value: '1A' };
+    spyOn(houseValue.value, 'toLowerCase').and.returnValue('1a');
+    component.houseNumber.setValue(houseValue.value);
+    component.autocompleteService = { getPlacePredictions: () => {} } as any;
+    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
+      callback(streetPredictionKyivRegion, status as any);
+    });
+    component.setPredictHouseNumbers();
+    expect(component.isHouseSelected).toBeFalsy();
+  });
+
+  it('method onHouseSelected should set place id and isHouseSelected', () => {
+    component.onHouseSelected(streetPredictionKyivRegion[0]);
+    expect(component.addAddressForm.get('searchAddress').value).toBe('вулиця Незалежності, Щасливе, Київська область, Україна');
+    expect(component.placeId).toBe('1111');
+    expect(component.isHouseSelected).toBeTruthy();
   });
 });

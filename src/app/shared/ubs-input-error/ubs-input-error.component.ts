@@ -29,6 +29,7 @@ export class UBSInputErrorComponent implements OnInit {
     email: 'input-error.email-wrong',
     emailEmployee: 'input-error.email-required-employee',
     phoneEmployee: 'input-error.phone-required-employee',
+    houseNumber: 'input-error.house-number',
     minlength: 'input-error.minlength-short',
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
@@ -91,6 +92,8 @@ export class UBSInputErrorComponent implements OnInit {
         return this.validationErrors.emailEmployee;
       case inputName === inputsName.requiredPhoneEmployee:
         return this.validationErrors.phoneEmployee;
+      case inputName === inputsName.requiredHouseNumber:
+        return this.validationErrors.houseNumber;
       default:
         return this.validationErrors.required;
     }

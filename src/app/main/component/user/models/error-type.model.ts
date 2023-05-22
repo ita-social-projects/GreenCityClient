@@ -6,5 +6,6 @@ export enum errorType {
 
 export enum inputsName {
   requiredEmailEmployee = 'requiredEmailEmployee',
-  requiredPhoneEmployee = 'requiredPhoneEmployee'
+  requiredPhoneEmployee = 'requiredPhoneEmployee',
+  requiredHouseNumber = 'requiredHouseNumber'
 }

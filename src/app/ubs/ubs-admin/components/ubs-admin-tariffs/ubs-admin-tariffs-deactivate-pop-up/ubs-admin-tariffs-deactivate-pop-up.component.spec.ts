@@ -10,6 +10,7 @@ import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
@@ -543,7 +544,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsDeactivatePopUpComponent],
-      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, BrowserAnimationsModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
