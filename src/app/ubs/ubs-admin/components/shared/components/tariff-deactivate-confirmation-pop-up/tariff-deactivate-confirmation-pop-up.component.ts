@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
+import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',
@@ -19,23 +22,55 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   courierName: string;
   stationNames: Array<string>;
   regionNames: Array<string>;
+  regionName: string;
+  regionEnglishName: string;
   locationNames: Array<string>;
+  locationEnglishNames: Array<string>;
+  isRestore: boolean;
+  isDeactivate: boolean;
+  isDeactivatePopup = true;
+  courierLabelEn = TariffCourierLabelName.en;
+  courierLabelUa = TariffCourierLabelName.ua;
+  regionLabelEn = TariffRegionLabelName.en;
+  regionLabelUa = TariffRegionLabelName.ua;
+  cityLabelEn = TariffLocationLabelName.en;
+  cityLabelUa = TariffLocationLabelName.ua;
 
   constructor(
     private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>
+    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>,
+    private tariffsService: TariffsService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     this.courierName = this.modalData.courierName ?? '';
     this.stationNames = this.modalData.stationNames ?? '';
-    this.regionNames = this.modalData.regionName ?? '';
-    this.locationNames = this.modalData.locationNames ?? '';
+    this.regionName = this.modalData.regionNameUk ?? '';
+    this.regionEnglishName = this.modalData.regionEnglishName ?? '';
+    this.isDeactivate = this.modalData.isDeactivate;
+    this.locationNames = this.modalData.cityNameUk ?? '';
+    this.locationEnglishNames = this.modalData.cityNameEn ?? '';
+    this.isRestore = this.modalData.isRestore;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.adminName = firstName;
     });
+    this.setDate();
+  }
+
+  setDate(): void {
+    const currentLang = this.languageService.getCurrentLanguage();
+    this.newDate = this.tariffsService.setDate(currentLang);
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public getLangArrayValue(uaValue: string[], enValue: string[]) {
+    return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
   public onCancelClick(): void {

@@ -7,19 +7,35 @@
     <div class="form-block">
       <div [ngClass]="{ 'ua-part': true, 'show-block': !courierName }">
         <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p class="text">{{ courierName }}</p>
+        <p class="text">{{ getLangValue(courierName, courierEnglishName) }}</p>
       </div>
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !stationNames.length }">
+      <div class="en-part">
+        <label class="label">{{ getLangValue(courierLabelEn, courierLabelUa) }}</label>
+        <p class="text">{{ getLangValue(courierEnglishName, courierName) }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.station' | translate }}</label>
         <p *ngFor="let stationName of stationNames" class="text">{{ stationName }}</p>
       </div>
       <div [ngClass]="{ 'ua-part': true, 'show-block': !regionNames.length }">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p *ngFor="let regionName of regionNames" class="text">{{ regionName }}</p>
+        <p class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
       </div>
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !locationNames.length }">
+      <div class="en-part">
+        <label class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
+        <p class="text">{{ getLangValue(regionEnglishName, regionName) }}</p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
+        <p class="text">{{ getLangArrayValue(locationNames, locationEnglishNames) }}</p>
+      </div>
+      <div class="en-part">
+        <label class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
+        <p class="text">{{ getLangArrayValue(locationEnglishNames, locationNames) }}</p>
       </div>
     </div>
   </div>
