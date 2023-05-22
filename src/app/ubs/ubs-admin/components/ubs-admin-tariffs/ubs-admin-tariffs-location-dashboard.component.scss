@@ -62,6 +62,7 @@ form {
   background: transparent;
   border: none;
   color: var(--ubs-primary-light-grey);
+  text-overflow: ellipsis;
 }
 
 .input-wrapper input.region {
