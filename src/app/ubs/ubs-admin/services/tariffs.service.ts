@@ -149,8 +149,13 @@ export class TariffsService {
     return new DatePipe(language).transform(new Date(), 'MMM dd, yyyy');
   }
 
-  getPlaceholderValue(selectedItem): string {
-    const selected = this.langService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
+  getPlaceholderValue(selectedItem, translated = false): string {
+    let selected;
+    if (translated) {
+      selected = this.langService.getLangValue(TariffPlaceholderSelected.en, TariffPlaceholderSelected.ua);
+    } else {
+      selected = this.langService.getLangValue(TariffPlaceholderSelected.ua, TariffPlaceholderSelected.en);
+    }
     return `${selectedItem} ${selected}`;
   }
 }

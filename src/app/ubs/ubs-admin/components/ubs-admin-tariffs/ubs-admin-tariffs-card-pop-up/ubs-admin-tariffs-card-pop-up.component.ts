@@ -25,10 +25,8 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   CardForm = this.fb.group({
     courierName: ['', Validators.required],
-    courierNameEng: [''],
     station: ['', Validators.required],
-    regionNameUk: ['', Validators.required],
-    regionNameEng: [''],
+    regionName: ['', Validators.required],
     city: [{ value: '', disabled: true }, [Validators.maxLength(40), Validators.required]]
   });
   public icons = {
@@ -44,9 +42,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public couriers: Couriers[];
   public couriersName;
   public courierEnglishName;
+  public courierUkrainianName;
   public locations: Locations[];
   public regions;
   public regionEnglishName;
+  public regionUkrainianName;
   public stations: Stations[];
   public filteredStations;
   public selectedStation = [];
@@ -63,15 +63,19 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public blurOnOption = false;
   public isCardExist;
 
-  currentCourierName: string;
-  currentCourierNameEng: string;
-  currentCity: string;
+  courierNameUk;
+  courierNameEn;
+  currentCourierNameTranslated;
+  cityEn;
+  cityUk;
   currentStation: string;
+  currentRegionTranslated;
   regionEng: string;
   isEdit: boolean;
   isCreate: boolean;
   tariffId: number;
   isLocationAlreadyUsed: boolean;
+  cityPlaceholderTranslated: string;
 
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
@@ -94,7 +98,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return this.CardForm.get('station');
   }
   get region() {
-    return this.CardForm.get('regionNameUk');
+    return this.CardForm.get('regionName');
   }
   get city() {
     return this.CardForm.get('city');
@@ -103,17 +107,17 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isEdit = this.modalData.edit;
     this.isCreate = this.modalData.create;
-    this.currentCourierName = this.modalData.courierName;
-    this.currentCity = this.modalData.city;
-    this.currentStation = this.modalData.selectedStation;
-    this.currentCourierNameEng = this.modalData.courierEnglishName;
-    this.regionEng = this.modalData.regionEnglishName;
     this.tariffId = this.modalData.tariffId;
-    this.regionEnglishName = this.modalData.regionName;
+    this.courierNameUk = this.modalData.courierUkrainianName;
+    this.courierNameEn = this.modalData.courierEnglishName;
 
-    if (this.isEdit) {
-      this.fillFields(this.modalData);
-    }
+    this.currentStation = this.modalData.selectedStation;
+
+    this.regionEnglishName = this.modalData.regionEnglishName;
+    this.regionUkrainianName = this.modalData.regionUkrainianName;
+    this.cityUk = this.modalData.cityNameUk;
+    this.cityEn = this.modalData.cityNameEn;
+
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
@@ -122,12 +126,17 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       this.datePipe = new DatePipe(this.currentLanguage);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
+
     this.setStationPlaceholder();
     this.setCountOfSelectedCity();
     this.getCouriers();
     this.getReceivingStation();
     this.getLocations();
     this.setCountOfSelectedCity();
+
+    if (this.isEdit) {
+      this.fillFields(this.modalData);
+    }
   }
 
   public ngOnDestroy(): void {
@@ -163,7 +172,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
         this.couriers = res;
-        this.couriersName = this.couriers.map((item) => this.languageService.getLangValue(item.nameUk, item.nameEn));
+        this.couriersName = this.couriers.map((item) => this.getLangValue(item.nameUk, item.nameEn));
       });
   }
 
@@ -186,6 +195,11 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Stations[]) => {
         this.stations = res;
+
+        if (this.isEdit) {
+          this.setSelectedStation();
+        }
+
         const stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
           .pipe(
@@ -210,16 +224,62 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
             element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName)
           )
           .flat(2);
+
+        if (this.isEdit) {
+          this.setSelectedCities();
+        }
       }
     });
   }
 
+  setSelectedStation() {
+    this.selectedStation = this.station.value.map((stationName) => {
+      const selectedStationValue = this.stations.find((ob) => ob.name === stationName);
+
+      return {
+        name: selectedStationValue.name,
+        id: selectedStationValue.id
+      };
+    });
+    this.station.setValidators(this.stationValidator());
+    this.station.setValue('');
+    this.blurOnOption = false;
+
+    this.setStationPlaceholder();
+  }
+
+  private setSelectedCities(): void {
+    const currentRegion = this.locations.filter((element) =>
+      element.regionTranslationDtos.find((it) => it.regionName === this.region.value)
+    );
+    this.filteredCities = currentRegion[0].locationsDto;
+
+    this.selectedCities = this.cityUk.map((cityUk, index) => {
+      const cityEn = this.cityEn[index];
+      const cityObj = this.filteredCities.find((city) =>
+        city.locationTranslationDtoList.some((loc) => loc.locationName === cityUk || loc.locationName === cityEn)
+      );
+
+      return {
+        location: cityUk,
+        englishLocation: cityEn,
+        locationId: cityObj ? cityObj.locationId : null
+      };
+    });
+    this.setCountOfSelectedCity();
+    this.city.reset();
+    this.city.setValidators(this.cityValidator());
+    this.city.enable();
+  }
+
   public onSelectCourier(event): void {
     const selectedValue = this.couriers.find((ob) => {
-      const name = this.languageService.getLangValue(ob.nameUk, ob.nameEn);
+      const name = this.getLangValue(ob.nameUk, ob.nameEn);
       return name === event.value;
     });
     this.courierEnglishName = selectedValue.nameEn;
+    this.courierUkrainianName = selectedValue.nameUk;
+    this.currentCourierNameTranslated = this.getLangValue(selectedValue.nameEn, selectedValue.nameUk);
     this.courierId = selectedValue.courierId;
     this.isCardExist = false;
   }
@@ -247,6 +307,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     } else {
       this.selectedStation.push(tempItem);
     }
+
     this.station.setValidators(this.stationValidator());
     this.station.setValue('');
     this.setStationPlaceholder();
@@ -268,11 +329,20 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return this.selectedStation.map((it) => it.name).includes(item);
   }
 
+  private getRegionNameByLanguageCode(selectedValue: any[], languageCode: string): string[] {
+    return selectedValue
+      .flatMap((it) => it.regionTranslationDtos)
+      .filter((ob) => ob.languageCode === languageCode)
+      .map((i) => i.regionName);
+  }
+
   public onRegionSelected(event): void {
     const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === event.value));
-    this.regionEnglishName = selectedValue
-      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
-      .flat(2);
+
+    this.regionEnglishName = this.getRegionNameByLanguageCode(selectedValue, Language.EN);
+    this.regionUkrainianName = this.getRegionNameByLanguageCode(selectedValue, Language.UA);
+    this.currentRegionTranslated = this.getLangValue(this.regionEnglishName, this.regionUkrainianName);
+
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
     if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
@@ -281,27 +351,26 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.selectedCities = [];
     this.setCountOfSelectedCity();
     this.filteredCities = currentRegion[0].locationsDto;
+
     this.city.valueChanges.subscribe((data) => {
       if (!data) {
         this.filteredCities = currentRegion[0].locationsDto;
       }
       this.city.setValidators(this.cityValidator());
-      const res = [];
-      this.filteredCities.forEach((elem, index) => {
-        elem.locationTranslationDtoList.forEach((el) => {
-          if (el.locationName.toLowerCase().includes(data) && el.languageCode === this.currentLanguage) {
-            res.push(this.filteredCities[index]);
-          }
-        });
-      });
-      this.filteredCities = res;
+
+      this.filteredCities = this.filteredCities.filter((city) =>
+        city.locationTranslationDtoList.some(
+          (translation) => translation.languageCode === this.currentLanguage && translation.locationName.toLowerCase().includes(data)
+        )
+      );
     });
-    if (event.value) {
-      this.city.enable();
-    } else {
-      this.city.disable();
-    }
+
+    event.value ? this.city.enable() : this.city.disable();
     this.isCardExist = false;
+  }
+
+  getTranslatedLocationName(city): string {
+    return city.locationTranslationDtoList.find((t) => t.languageCode === this.currentLanguage).locationName;
   }
 
   public selected(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -310,7 +379,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.city.updateValueAndValidity();
     this.selectCity(event);
     this.setCountOfSelectedCity();
-    this.city.setValue('' || []);
+    this.city.setValue('');
     this.city.setValidators(this.cityValidator());
     if (trigger) {
       requestAnimationFrame(() => {
@@ -332,15 +401,22 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       }
       locationId = event.option.value.locationId;
     });
+
     const tempItem = { location, englishLocation, locationId };
     const newValue = event.option.viewValue;
-    if (this.selectedCities.find((it) => it.location.includes(newValue))) {
-      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue);
+
+    const existingCity = this.selectedCities.find((it) => it.location.includes(newValue) || it.englishLocation.includes(newValue));
+    if (existingCity) {
+      this.selectedCities = this.selectedCities.filter((item) => item.location !== newValue && item.englishLocation !== newValue);
       this.checkIfLocationUsed();
     } else {
       this.selectedCities.push(tempItem);
       this.checkIfLocationUsed();
     }
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
   public checkCity(item): boolean {
@@ -353,6 +429,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     if (this.selectedCityLength) {
       this.citySelected = true;
       this.cityPlaceholder = this.tariffsService.getPlaceholderValue(this.selectedCityLength);
+      this.cityPlaceholderTranslated = this.tariffsService.getPlaceholderValue(this.selectedCityLength, true);
     } else {
       this.citySelected = false;
       this.translate.get('ubs-tariffs.placeholder-choose-city').subscribe((data) => {
@@ -406,15 +483,18 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   fillFields(modalData) {
     if (modalData) {
-      const { courierNameUk, courierEnglishName, regionEnglishName, station, regionNameUk, city } = this.modalData;
+      const { courierUkrainianName, courierEnglishName, regionEnglishName, selectedStation, regionUkrainianName, cityNameUk, cityNameEn } =
+        this.modalData;
+
       this.CardForm.patchValue({
-        courierName: courierNameUk,
-        courierNameEng: courierEnglishName,
-        regionNameUk,
-        regionNameEng: regionEnglishName,
-        station,
-        city
+        courierName: this.getLangValue(courierUkrainianName, courierEnglishName),
+        regionName: this.getLangValue(regionUkrainianName, regionEnglishName),
+        station: selectedStation,
+        city: this.getLangValue(cityNameUk, cityNameEn)
       });
+
+      this.currentCourierNameTranslated = this.getLangValue(courierEnglishName, courierUkrainianName);
+      this.currentRegionTranslated = this.getLangValue(regionEnglishName, regionUkrainianName);
     }
   }
 
@@ -425,6 +505,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((response) => {
         this.isCardExist = response;
+
         if (!this.isCardExist) {
           this.dialogRef.close();
           const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
@@ -432,13 +513,12 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
             panelClass: 'address-matDialog-styles-w-100',
             data: {
               title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-              courierName: this.courier.value,
+              courierName: this.courierUkrainianName,
               courierEnglishName: this.courierEnglishName,
               stationNames: this.selectedStation.map((it) => it.name),
-              regionName: this.region.value,
+              regionName: this.regionUkrainianName,
               regionEnglishName: this.regionEnglishName,
-              locationNames: this.selectedCities.map((it) => it.location),
-              locationEnglishNames: this.selectedCities.map((it) => it.englishLocation),
+              locationNames: this.selectedCities,
               action: 'ubs-tariffs-add-location-pop-up.create_button'
             }
           });

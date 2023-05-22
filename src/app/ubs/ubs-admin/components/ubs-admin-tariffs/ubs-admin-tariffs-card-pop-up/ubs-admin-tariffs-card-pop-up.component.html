@@ -25,7 +25,7 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p class="english-name">{{ currentCourierNameEng }}</p>
+        <p class="english-name">{{ currentCourierNameTranslated }}</p>
       </div>
     </div>
     <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
@@ -60,7 +60,7 @@
         <label>{{ 'ubs-tariffs.region' | translate }}</label>
         <mat-select
           #regionSelect
-          formControlName="regionNameUk"
+          formControlName="regionName"
           class="form-control"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
           (selectionChange)="onRegionSelected($event)"
@@ -73,7 +73,7 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="english-name">{{ regionEnglishName }}</p>
+        <p class="english-name">{{ currentRegionTranslated }}</p>
       </div>
     </div>
     <div class="d-flex">
@@ -90,7 +90,7 @@
         <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selected($event, autocompleteTriggerCity)">
           <mat-option *ngFor="let item of filteredCities" [value]="item">
             <mat-checkbox class="mr-1" [checked]="checkCity(item.locationTranslationDtoList[0].locationName)"></mat-checkbox>
-            <span class="checkbox-text">{{ item.locationTranslationDtoList[0].locationName }}</span>
+            <span class="checkbox-text">{{ getTranslatedLocationName(item) }}</span>
           </mat-option>
         </mat-autocomplete>
         <img
@@ -102,14 +102,14 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <p *ngIf="citySelected" class="english-name">{{ selectedCityLength + ' selected' }}</p>
+        <p *ngIf="citySelected" class="english-name">{{ cityPlaceholderTranslated }}</p>
       </div>
     </div>
     <div class="list">
       <div *ngFor="let item of selectedCities; let index = index" class="d-flex">
-        <div class="itemList">{{ item.location }}</div>
+        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
         <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-        <div class="itemList">{{ item.location }}</div>
+        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
       </div>
     </div>
   </form>

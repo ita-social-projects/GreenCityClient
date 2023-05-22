@@ -25,6 +25,7 @@ import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { statusOfTariff } from './tariff-status.enum';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -241,14 +242,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       name.locationTranslationDtoList.find((elem) => elem.locationName === event.option.viewValue)
     );
     const selectedCityId = selectedCity.locationId;
-    const selectedCityName = selectedCity.locationTranslationDtoList
-      .filter((it) => it.languageCode === 'ua')
-      .map((it) => it.locationName)
-      .join();
-    const selectedCityEnglishName = selectedCity.locationTranslationDtoList
-      .filter((it) => it.languageCode === 'en')
-      .map((it) => it.locationName)
-      .join();
+    const selectedCityName = this.getSelectedCityName(selectedCity, Language.UA);
+    const selectedCityEnglishName = this.getSelectedCityName(selectedCity, Language.EN);
     const tempItem = {
       name: this.getLangValue(selectedCityName, selectedCityEnglishName),
       id: selectedCityId,
@@ -342,8 +337,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   transformCityToSelectedCity(city: any) {
-    const selectedCityName = this.getSelectedCityName(city, 'ua');
-    const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
+    const selectedCityName = this.getSelectedCityName(city, Language.UA);
+    const selectedCityEnglishName = this.getSelectedCityName(city, Language.EN);
     return {
       name: this.getLangValue(selectedCityName, selectedCityEnglishName),
       id: city.id,
@@ -526,7 +521,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
       );
       this.regionEnglishName = selectedValue
-        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
         .flat(2);
       this.regionId = selectedValue.find((it) => it.regionId).regionId;
       Object.assign(this.filterData, { region: this.regionId });
@@ -589,18 +584,22 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   openEditPopUp(card): void {
+    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
+    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
+
     const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         tariffId: card.cardId,
         title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
-        courierNameUk: this.courierNameUk,
-        courierEnglishName: this.courierNameEng,
-        station: card.station,
-        regionNameUk: this.regionNameUk,
-        regionEnglishName: this.regionEnglishName,
-        city: card.city,
+        courierUkrainianName: ukCard.courier,
+        courierEnglishName: enCard.courier,
+        selectedStation: card.station,
+        regionUkrainianName: ukCard.region,
+        regionEnglishName: enCard.region,
+        cityNameUk: ukCard.city,
+        cityNameEn: enCard.city,
         action: 'ubs-tariffs-add-location-pop-up.edit_button',
         edit: true,
         button: 'edit'
@@ -710,7 +709,6 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-
         this.tariffsService
           .switchTariffStatus(card.cardId, statusOfTariff.deactivated)
           .pipe(takeUntil(this.destroy))
