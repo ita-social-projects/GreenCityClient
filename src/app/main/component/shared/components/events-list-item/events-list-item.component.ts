@@ -175,6 +175,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         break;
       case this.btnName.join:
         !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+        this.snackBar.openSnackBar('joinedEvent');
         break;
       case this.btnName.rate:
         this.openModal();
