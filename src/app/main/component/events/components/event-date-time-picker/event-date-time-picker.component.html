@@ -50,6 +50,22 @@
         placeholder="{{ 'create-event.enter-location' | translate }}"
       />
     </mat-form-field>
+    <div *ngIf="isLocationSelected" class="tag-error-messege">
+      <span>Specify the search request or choose the location manually using the map below</span>
+    </div>
+    <div class="map-container" #map>
+      <agm-map
+        [style.width.%]="100"
+        [style.height.%]="100"
+        [latitude]="coordinates.latitude"
+        [longitude]="coordinates.longitude"
+        [zoom]="zoom"
+        [streetViewControl]="false"
+        (mapClick)="onChangePickerOnMap($event)"
+      >
+        <agm-marker [latitude]="coordinates.latitude" [longitude]="coordinates.longitude"></agm-marker>
+      </agm-map>
+    </div>
   </div>
 
   <div *ngIf="dateForm.get('onlineLink')" class="active">

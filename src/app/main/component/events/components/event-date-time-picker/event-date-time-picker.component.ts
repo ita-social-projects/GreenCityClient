@@ -24,10 +24,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   public timeArr: Array<string> = [];
 
-  private coordinates: OfflineDto = {
-    latitude: null,
-    longitude: null
+  coordinates: OfflineDto = {
+    latitude: 50.43353,
+    longitude: 30.53789
   };
+  public zoom = 8;
+  address: string;
 
   public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
@@ -52,6 +54,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public dateForm: FormGroup;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  isLocationSelected = false;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -122,6 +125,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       setTimeout(() => this.setPlaceAutocomplete(), 0);
       this.coordinates.latitude = this.editDate.coordinates.latitude;
       this.coordinates.longitude = this.editDate.coordinates.longitude;
+      this.zoom = 8;
       this.coordOffline.emit(this.coordinates);
 
       this.dateForm.patchValue({
@@ -161,6 +165,17 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  private setCurrentLocation(): void {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords.latitude && position.coords.longitude) {
+        this.coordinates.latitude = position.coords.latitude;
+        this.coordinates.longitude = position.coords.longitude;
+        this.zoom = 8;
+        this.getAddress(position.coords.latitude, position.coords.longitude);
+      }
+    });
+  }
+
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
     this.checkOnlinePlace
@@ -186,20 +201,47 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   private setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
+      this.setCurrentLocation();
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
 
       this.autocomplete.addListener('place_changed', () => {
         const locationName = this.autocomplete.getPlace();
+        if (locationName.formatted_address) {
+          this.coordinates.latitude = locationName.geometry.location.lat();
+          this.coordinates.longitude = locationName.geometry.location.lng();
+          this.coordOffline.emit(this.coordinates);
+          this.dateForm.patchValue({
+            place: locationName.formatted_address
+          });
 
-        this.coordinates.latitude = locationName.geometry.location.lat();
-        this.coordinates.longitude = locationName.geometry.location.lng();
-
-        this.coordOffline.emit(this.coordinates);
-
-        this.dateForm.patchValue({
-          place: locationName.formatted_address
-        });
+          this.isLocationSelected = false;
+        } else {
+          this.isLocationSelected = true;
+        }
       });
+    });
+  }
+
+  onChangePickerOnMap(event): void {
+    this.coordinates.latitude = event.coords.lat;
+    this.coordinates.longitude = event.coords.lng;
+    this.isLocationSelected = false;
+    this.getAddress(this.coordinates.latitude, this.coordinates.longitude);
+  }
+
+  getAddress(latitude, longitude) {
+    const geoCoder = new google.maps.Geocoder();
+    geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          this.address = results[0].formatted_address;
+          this.dateForm.get('place').setValue(this.address);
+        } else {
+          this.isLocationSelected = true;
+        }
+      } else {
+        this.isLocationSelected = true;
+      }
     });
   }
 
