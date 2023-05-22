@@ -8,7 +8,7 @@ describe('TableCellReadonlyComponent', () => {
   let component: TableCellReadonlyComponent;
   let fixture: ComponentFixture<TableCellReadonlyComponent>;
 
-  const fakeStrValue = '20Л - 0шт; 120л - 3ШТ';
+  const fakeStrValue = '20л - 0шт; 120л - 3шт';
   const fakeColumn = {
     key: 'fakeKey',
     ua: 'ua',
