@@ -89,7 +89,7 @@ export class HabitProgressComponent implements OnChanges {
       });
   }
 
-  updateHabit(response: HabitAssignInterface): void {
+  private updateHabit(response: HabitAssignInterface): void {
     this.habit.habitStatusCalendarDtoList = response.habitStatusCalendarDtoList;
     this.habit.workingDays = response.workingDays;
     this.habit.habitStreak = response.habitStreak;
