@@ -1,22 +1,47 @@
 @import '../ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 
-.english-part {
-  width: 248px;
-  font-weight: 400;
-  font-family: var(--ubs-quaternary-font);
+form {
+  display: flex;
+  flex-direction: column;
+  width: 570px;
+}
+
+.d-flex {
+  width: 45%;
+}
+
+.text {
+  margin-bottom: 0;
+}
+
+.translation {
+  width: 45%;
 
   label {
+    font-family: var(--ubs-quaternary-font);
     font-size: 16px;
     line-height: 24px;
+    font-weight: 400;
     color: var(--ubs-secondary-grey);
-    margin-bottom: 0;
+    margin-bottom: 8px;
   }
 
-  .english-name {
+  .select-count {
+    margin-bottom: 20px;
+  }
+
+  .text,
+  .select-count {
+    font-family: var(--ubs-quaternary-font);
     font-size: 14px;
     line-height: 20px;
+    font-weight: 400;
     color: var(--ubs-freinacht-black);
   }
+}
+
+.courier-wrapper {
+  margin-bottom: 20px;
 }
 
 .form-group label::after {
@@ -24,7 +49,9 @@
 }
 
 .form-wrapper {
-  margin-right: 56px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }
 
 .first-row .form-group {
@@ -57,7 +84,7 @@ input {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  margin: 8px 0;
+  margin: 16px 0;
 }
 
 .selected-element {

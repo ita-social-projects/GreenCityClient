@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
+import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',
@@ -26,6 +27,12 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   isRestore: boolean;
   isDeactivate: boolean;
   isDeactivatePopup = true;
+  courierLabelEn = TariffCourierLabelName.en;
+  courierLabelUa = TariffCourierLabelName.ua;
+  regionLabelEn = TariffRegionLabelName.en;
+  regionLabelUa = TariffRegionLabelName.ua;
+  cityLabelEn = TariffLocationLabelName.en;
+  cityLabelUa = TariffLocationLabelName.ua;
 
   constructor(
     private tariffsService: TariffsService,
@@ -43,8 +50,8 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     this.regionName = this.modalData.regionNameUk ?? '';
     this.regionEnglishName = this.modalData.regionEnglishName ?? '';
     this.isDeactivate = this.modalData.isDeactivate;
-    this.locationNames = this.modalData.regionNameUk ?? '';
-    this.locationEnglishNames = this.modalData.regionEnglishName ?? '';
+    this.locationNames = this.modalData.cityNameUk ?? '';
+    this.locationEnglishNames = this.modalData.cityNameEn ?? '';
     this.isRestore = this.modalData.isRestore;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.adminName = firstName;
@@ -53,8 +60,16 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   }
 
   setDate(): void {
-    const lang = this.languageService.getCurrentLanguage();
-    this.newDate = this.tariffsService.setDate(lang);
+    const currentLang = this.languageService.getCurrentLanguage();
+    this.newDate = this.tariffsService.setDate(currentLang);
+  }
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public getLangArrayValue(uaValue: string[], enValue: string[]) {
+    return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
   public onCancelClick(): void {

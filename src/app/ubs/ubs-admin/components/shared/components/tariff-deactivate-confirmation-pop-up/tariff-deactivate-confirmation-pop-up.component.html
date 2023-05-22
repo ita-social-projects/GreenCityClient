@@ -16,11 +16,11 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p class="text">{{ courierName }}</p>
+        <p class="text">{{ getLangValue(courierName, courierEnglishName) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">Courier</label>
-        <p class="text">{{ courierEnglishName }}</p>
+        <label class="label">{{ getLangValue(courierLabelEn, courierLabelUa) }}</label>
+        <p class="text">{{ getLangValue(courierEnglishName, courierName) }}</p>
       </div>
     </div>
     <div class="form-block">
@@ -32,21 +32,21 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p class="text">{{ regionName }}</p>
+        <p class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">Region</label>
-        <p class="text">{{ regionEnglishName }}</p>
+        <label class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
+        <p class="text">{{ getLangValue(regionEnglishName, regionName) }}</p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <p *ngFor="let locationName of locationNames" class="text">{{ locationName }}</p>
+        <p class="text">{{ getLangArrayValue(locationNames, locationEnglishNames) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">City</label>
-        <p *ngFor="let locationEnglishName of locationEnglishNames" class="text">{{ locationEnglishName }}</p>
+        <label class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
+        <p class="text">{{ getLangArrayValue(locationEnglishNames, locationNames) }}</p>
       </div>
     </div>
   </div>
