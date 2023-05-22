@@ -37,7 +37,8 @@
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
       "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
-      "joined-event": "You have successfully joined the event"
+      "joined-event": "You have successfully joined the event",
+      "error-joined-event": "You can't join this event"
     }
   },
   "order-details": {
