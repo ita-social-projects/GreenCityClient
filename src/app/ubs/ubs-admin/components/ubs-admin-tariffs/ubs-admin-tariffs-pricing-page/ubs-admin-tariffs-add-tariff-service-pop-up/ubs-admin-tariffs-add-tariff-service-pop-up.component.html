@@ -1,6 +1,6 @@
 <form [formGroup]="addTariffServiceForm">
   <div *ngIf="data.button === 'add'">
-    <p class="add-location-title">{{ 'ubs-tariffs.btn.add_service2' | translate }}</p>
+    <p class="add-location-title">{{ 'ubs-tariffs.btn.add_tariff' | translate }}</p>
   </div>
   <div *ngIf="data.button === 'update'">
     <p class="add-location-title">{{ 'ubs-tariffs-add-service.edit_service' | translate }}</p>
@@ -19,7 +19,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="name">{{ 'ubs-tariffs-add-service.name_of_the_service' | translate }}</label>
+        <label for="name">{{ 'ubs-tariffs-add-service.lang.tariff_name' | translate }}</label>
         <input
           maxlength="31"
           type="text"

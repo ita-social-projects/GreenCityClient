@@ -638,8 +638,10 @@
     "city-translate": "City",
     "restore-button": "Відновити",
     "name_of_the_service": "Найменування послуги",
+    "name_of_the_tariff": "Найменування послуги",
     "capacity": "Об’єм",
     "service_description": "Опис послуги",
+    "tariff_description": "Опис послуги",
     "basic_cost": "Базова вартість",
     "carriers_commission": "Комісія перевізника",
     "full_cost": "Повна вартість",
@@ -647,6 +649,7 @@
     "limits": "Ліміти",
     "order_limits": "Ліміти замовлення",
     "min_order_amount": "Сума замовлення",
+    "placeholder_order_amount": "0грн",
     "min_number_of_packages": "Кількість пакетів",
     "min_set_of_packages": "Мінімальний набір пакетів",
     "info_about_order_limits_header": "Інформація про ліміти замовлення",
@@ -662,6 +665,7 @@
     "btn": {
       "add_service": "Додати сервіс",
       "add_service2": "Додати послугу",
+      "add_tariff": "Додати послугу",
       "save_changes": "Зберегти зміни",
       "add_carrier": "Додати перевізника",
       "add": "Додати",
@@ -777,6 +781,8 @@
       "name_of_the_service": "Name of the service",
       "placeholder-service": "Enter a name for the service",
       "service_description": "Service description",
+      "tariff_description": "Tariff description",
+      "tariff_name": "Name of the tariff",
       "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision"
     }
   },
