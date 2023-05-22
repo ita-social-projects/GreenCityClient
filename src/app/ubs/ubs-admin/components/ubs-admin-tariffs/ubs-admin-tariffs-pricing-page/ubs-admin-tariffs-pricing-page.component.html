@@ -48,7 +48,7 @@
     <p class="title">{{ 'ubs-tariffs.tariffs_for_services' | translate }}</p>
     <button class="tariffs-add-button" [disabled]="isLoadBar" (click)="openAddTariffForServicePopup()">
       <mat-icon class="add-icon">add</mat-icon>
-      {{ 'ubs-tariffs.btn.add_service2' | translate }}
+      {{ 'ubs-tariffs.btn.add_tariff' | translate }}
     </button>
   </div>
   <div class="tariffs-table">
@@ -58,9 +58,9 @@
     <table aria-label="tariffsTable1">
       <tr>
         <th scope="row" class="empty"></th>
-        <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
+        <th scope="row">{{ 'ubs-tariffs.name_of_the_tariff' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
+        <th scope="row">{{ 'ubs-tariffs.tariff_description' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.full_cost' | translate }}</th>
@@ -130,8 +130,9 @@
                 (keypress)="checkOnNumber($event, minPriceOfOrder)"
                 id="from"
                 formControlName="minPriceOfOrder"
+                placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
               />
-              <span class="line"></span>
+              <span class="line">-</span>
               <input
                 class="input"
                 type="number"
@@ -139,6 +140,7 @@
                 (keypress)="checkOnNumber($event, maxPriceOfOrder)"
                 id="to"
                 formControlName="maxPriceOfOrder"
+                placeholder="{{ 'ubs-tariffs.placeholder_order_amount' | translate }}"
               />
               <label id="label-limit" for="to"></label>
             </fieldset>
@@ -162,8 +164,9 @@
                 (keypress)="checkOnNumber($event, minBigBags)"
                 id="from-packages"
                 formControlName="minAmountOfBigBags"
+                placeholder="20"
               />
-              <span class="line"></span>
+              <span class="line">-</span>
               <input
                 class="input"
                 type="number"
@@ -171,6 +174,7 @@
                 (keypress)="checkOnNumber($event, maxBigBags)"
                 id="to-packages"
                 formControlName="maxAmountOfBigBags"
+                placeholder="20"
               />
               <label id="label-limit" for="to-packages"></label>
             </fieldset>

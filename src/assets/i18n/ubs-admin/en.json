@@ -641,8 +641,10 @@
     "delete-button": "Delete",
     "restore-button": "Restore",
     "name_of_the_service": "Name of the service",
+    "name_of_the_tariff": "Name of the tariff",
     "capacity": "Capacity",
     "service_description": "Service description",
+    "tariff_description": "Tariff description",
     "basic_cost": "Basic cost",
     "carriers_commission": "Carrier commission",
     "full_cost": "Full cost",
@@ -650,6 +652,7 @@
     "limits": "Limits",
     "order_limits": "Order limits",
     "min_order_amount": "Minimum order amount",
+    "placeholder_order_amount": "0UAH",
     "min_number_of_packages": "Minimum number of packages",
     "min_set_of_packages": "Minimum set of packages",
     "info_about_order_limits_header": "Information about order limits",
@@ -665,6 +668,7 @@
     "btn": {
       "add_service": "Add service",
       "add_service2": "Add service",
+      "add_tariff": "Add tariff",
       "save_changes": "Save changes",
       "add_carrier": "Add carrier",
       "add": "Add",
@@ -785,6 +789,7 @@
       "placeholder-service": "Введіть назву послуги",
       "service_description": "Опис сервісу",
       "tariff_description": "Опис послуги",
+      "tariff_name": "Найменування послуги",
       "placeholder-text": "Опишіть, що саме входить у послугу, і умови /правила її надання"
     }
   },

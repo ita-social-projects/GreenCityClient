@@ -139,7 +139,7 @@ h4 {
   span {
     width: 12px;
     height: 2px;
-    background: var(--ubs-quintynary-light-grey);
+    color: var(--ubs-quintynary-light-grey);
     margin: 0 6px 5px;
   }
 }
@@ -155,18 +155,23 @@ h4 {
   .input {
     width: 74px;
     height: 36px;
-    background: var(--ubs-primary-white);
-    border: 1px solid var(--ubs-quintynary-light-grey);
+    background: var(--ubs-grey-white);
+    border: 1px solid var(--ubs-primary-light-grey);
     box-sizing: border-box;
     border-radius: 4px;
     margin-bottom: 5px;
     padding: 8px;
   }
 
+  input::placeholder {
+    color: var(--ubs-primary-light-grey);
+  }
+
   label {
-    padding: 0 25px 2px 0;
+    padding: 0 12px 2px 0;
     min-width: 140px;
     white-space: nowrap;
+    color: var(--ubs-primary-grey);
   }
 
   .fields-wrapper {
