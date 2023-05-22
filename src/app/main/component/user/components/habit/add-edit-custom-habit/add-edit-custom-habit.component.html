@@ -66,7 +66,7 @@
           <div class="habit-block">
             <div>
               <label class="label">{{ 'create-news.picture-title' | translate }}</label>
-              <app-drag-and-drop [formData]="habitForm" class="image-drag-and-drop"></app-drag-and-drop>
+              <app-drag-and-drop [formData]="habitForm" (newFile)="getFile($event)" class="image-drag-and-drop"></app-drag-and-drop>
               <app-select-images [images]="habitImages" class="select-image"></app-select-images>
             </div>
           </div>

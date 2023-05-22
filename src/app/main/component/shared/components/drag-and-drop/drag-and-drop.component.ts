@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -19,6 +19,8 @@ export class DragAndDropComponent implements OnInit {
   private croppedImage: string;
   @Input() public formData: FormGroup;
 
+  @Output() newFile = new EventEmitter<FileHandle[]>();
+
   constructor(private createEcoNewsService: CreateEcoNewsService) {}
 
   ngOnInit() {
@@ -29,6 +31,7 @@ export class DragAndDropComponent implements OnInit {
     this.createEcoNewsService.files = this.files;
     this.files.forEach((item) => (item.url = this.croppedImage));
     this.isCropper = false;
+    this.newFile.emit(this.files);
     return this.files;
   }
 

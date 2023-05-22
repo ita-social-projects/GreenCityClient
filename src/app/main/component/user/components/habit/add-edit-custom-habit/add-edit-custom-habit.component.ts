@@ -12,6 +12,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 import { ShoppingList } from '../../../models/shoppinglist.interface';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -114,6 +115,10 @@ export class AddEditCustomHabitComponent implements OnInit {
   getTagsList(list: TagInterface[]): void {
     this.selectedTagsList = list.map((el) => el.id);
     this.getControl('tagIds').setValue(this.selectedTagsList);
+  }
+
+  getFile(image: FileHandle[]): void {
+    this.getControl('image').setValue(image[0].file);
   }
 
   goToAllHabits(): void {
