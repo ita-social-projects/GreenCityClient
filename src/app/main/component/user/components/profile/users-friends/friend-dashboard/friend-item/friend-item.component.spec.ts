@@ -42,9 +42,14 @@ describe('FriendItemComponent', () => {
   });
 
   it('it should call friendEvent on click', () => {
-    spyOn(component.friendEventEmit, 'emit');
-    // @ts-ignore
-    component.friendEvent(component.friend.id);
-    expect(component.friendEventEmit.emit).toHaveBeenCalledWith(1);
+    const spy = spyOn(component.friendEventEmit, 'emit');
+    component.friendEvent();
+    expect(spy).toHaveBeenCalledWith(1);
+  });
+
+  it('it should call declineEvent on click', () => {
+    const spy = spyOn(component.declineEvent, 'emit');
+    component.declineFriend();
+    expect(spy).toHaveBeenCalledWith(1);
   });
 });
