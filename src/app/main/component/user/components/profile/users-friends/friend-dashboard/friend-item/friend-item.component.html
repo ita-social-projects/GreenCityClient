@@ -1,4 +1,4 @@
-<div class="friend-item" [style.cursor]="userId ? 'default' : 'pointer'" (click)="clickHandler($event)">
+<div class="friend-item" [style.cursor]="userId ? 'default' : 'pointer'">
   <app-user-profile-image
     [imgPath]="friend.profilePicturePath"
     [firstName]="friend.name"
@@ -22,11 +22,11 @@
   </div>
   <div class="buttons">
     <div class="friend-btn">
-      <button id="addButton" class="secondary-global-button m-btn" (click)="friendEvent(friend.id)">
-        {{ btnName }}
+      <button id="addButton" class="secondary-global-button m-btn" (click)="friendEvent()">
+        {{ primaryBtnName }}
       </button>
     </div>
-    <div class="friend-btn">
+    <div *ngIf="!isFriendRequest; else isRequest" class="friend-btn">
       <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton" class="secondary-global-button m-btn">
         {{ 'profile.friends.open-chat' | translate }}
       </button>
@@ -34,5 +34,10 @@
         {{ 'profile.friends.create-chat' | translate }}
       </button>
     </div>
+    <ng-template class="friend-btn" #isRequest>
+      <button class="secondary-global-button m-btn" (click)="declineFriend()">
+        {{ secondaryBtnName }}
+      </button>
+    </ng-template>
   </div>
 </div>

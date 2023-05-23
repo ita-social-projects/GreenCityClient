@@ -21,8 +21,12 @@ export class FriendItemComponent implements OnInit {
     height: '80vh'
   };
   @Input() friend: FriendModel;
-  @Input() btnName: string;
+  @Input() primaryBtnName: string;
+  @Input() secondaryBtnName: string;
+  @Input() isFriendRequest: boolean;
+
   @Output() friendEventEmit = new EventEmitter<number>();
+  @Output() declineEvent = new EventEmitter<number>();
 
   constructor(
     private router: Router,
@@ -43,8 +47,12 @@ export class FriendItemComponent implements OnInit {
     });
   }
 
-  public friendEvent(id: number): void {
-    this.friendEventEmit.emit(id);
+  friendEvent(): void {
+    this.friendEventEmit.emit(this.friend.id);
+  }
+
+  declineFriend(): void {
+    this.declineEvent.emit(this.friend.id);
   }
 
   private toUsersInfo(): void {
@@ -71,7 +79,7 @@ export class FriendItemComponent implements OnInit {
 
   private checkButtons(idName: string) {
     if (idName === 'addButton') {
-      this.friendEvent(this.friend.id);
+      this.friendEvent();
     } else if (idName === 'createChatButton') {
       this.onCreateChat();
     } else if (idName === 'openChatButton') {

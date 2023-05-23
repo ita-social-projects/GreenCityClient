@@ -2,7 +2,11 @@
   <div class="friends-recommended-list">
     <div *ngIf="!searchMode || !isFetching" class="container">
       <div *ngFor="let item of recommendedFriends">
-        <app-friend-item [friend]="item" (friendEventEmit)="addFriend($event)" btnName="{{ 'profile.friends.add-new-friend' | translate }}">
+        <app-friend-item
+          [friend]="item"
+          (friendEventEmit)="addFriend($event)"
+          primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+        >
         </app-friend-item>
       </div>
     </div>
