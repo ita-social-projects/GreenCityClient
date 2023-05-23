@@ -297,11 +297,14 @@ describe('UbsAdminPricingPageComponent', () => {
   it('should get selected tariff card', () => {
     component.selectedCardId = 3;
     const result = {
-      courier: 'fakeCourier1',
       station: ['Станція'],
-      region: 'Область',
-      city: ['Місто'],
       tariff: 'Active',
+      courierUk: 'фейкКурєр1',
+      courierEn: 'fakeCourier1',
+      regionEn: 'Region',
+      regionUk: 'Область',
+      citiesUk: ['Місто'],
+      citiesEn: ['City'],
       regionId: 1,
       cardId: 3,
       min: 1,
