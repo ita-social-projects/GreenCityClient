@@ -1,6 +1,11 @@
 <div class="friend-dashboard">
   <div class="container">
-    <a class="profile-link" [routerLink]="['/profile', userId]">&lt;{{ 'profile.friends.link-to-profile' | translate }}</a>
+    <a class="button-link" [routerLink]="['/profile', userId]">
+      <div class="button-content">
+        <img src="assets/img/icon/econews/arrow_left.svg" alt="arrow image" class="button-arrow" />
+        <div class="button-text">{{ 'profile.friends.link-to-profile' | translate }}</div>
+      </div>
+    </a>
     <div class="friends">
       <h1>{{ 'profile.friends.friends' | translate }}</h1>
       <div>

@@ -67,6 +67,20 @@
     line-height: 18.75px;
   }
 
+  .button-link {
+    line-height: 16px;
+    margin: 0;
+    color: var(--primary-dark-grey);
+
+    .button-content {
+      display: flex;
+
+      .button-arrow {
+        margin-right: 6px;
+      }
+    }
+  }
+
   .active {
     color: var(--primary-green);
     padding: 5px 5px 0;
