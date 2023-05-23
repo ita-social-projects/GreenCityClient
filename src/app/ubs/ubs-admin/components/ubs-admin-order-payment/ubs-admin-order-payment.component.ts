@@ -110,7 +110,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     const currentDate: string = this.getStringDate(new Date());
     const paymentDetails: PaymentDetails = {
       amount: sum,
-      receiptLink: 'Зарахування на бонусний рахунок',
+      receiptLink: 'Enrollment to the bonus account',
       settlementdate: currentDate
     };
 
