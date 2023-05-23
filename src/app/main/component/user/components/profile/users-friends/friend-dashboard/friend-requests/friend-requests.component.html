@@ -1,5 +1,5 @@
-<div *ngIf="requests !== null; else spinner">
-  <div class="container">
+<div *ngIf="requests !== null; else spinner" class="container">
+  <div>
     <div *ngIf="requests !== null && requests.length === 0">
       <div class="noRequests-wraper">
         <div class="img-absent">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="request-list">
-      <div *ngFor="let request of requests">
+      <div *ngFor="let request of requests" class="user-card">
         <app-friend-item
           [friend]="request"
           primaryBtnName="{{ 'profile.friends.request-accept' | translate }}"

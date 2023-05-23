@@ -1,37 +1,43 @@
-<div class="container">
-  <a class="profile-link" [routerLink]="['/profile', userId]">&lt;{{ 'profile.friends.link-to-profile' | translate }}</a>
-  <div class="friends">
-    <h1>{{ 'profile.friends.friends' | translate }}</h1>
-    <div>
-      <form name="searchForm" class="searchField" *ngIf="!hideInput">
-        <img [src]="searchIcon" alt="search-friend" />
-        <input
-          class="search"
-          type="text"
-          #search
-          [placeholder]="'search.search-popup.placeholder' | translate"
-          (input)="onInput(search)"
-          maxlength="30"
-        />
-      </form>
+<div class="friend-dashboard">
+  <div class="container">
+    <a class="profile-link" [routerLink]="['/profile', userId]">&lt;{{ 'profile.friends.link-to-profile' | translate }}</a>
+    <div class="friends">
+      <h1>{{ 'profile.friends.friends' | translate }}</h1>
+      <div>
+        <form name="searchForm" class="searchField" *ngIf="!hideInput">
+          <img [src]="searchIcon" alt="search-friend" />
+          <input
+            class="search"
+            type="text"
+            #search
+            [placeholder]="'search.search-popup.placeholder' | translate"
+            (input)="onInput(search)"
+            maxlength="30"
+          />
+        </form>
 
-      <span>
-        <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          {{ 'profile.friends.all-friends' | translate }}
-        </a>
+        <span>
+          <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            {{ 'profile.friends.all-friends' | translate }}
+          </a>
 
-        <a
-          [routerLink]="['/profile', userId, 'friends', 'recommended']"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          {{ 'profile.friends.search-friends' | translate }}
-        </a>
-        <a [routerLink]="['/profile', userId, 'friends', 'requests']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          {{ 'profile.friends.requests' | translate }}
-        </a>
-      </span>
+          <a
+            [routerLink]="['/profile', userId, 'friends', 'recommended']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            {{ 'profile.friends.search-friends' | translate }}
+          </a>
+          <a
+            [routerLink]="['/profile', userId, 'friends', 'requests']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            {{ 'profile.friends.requests' | translate }}
+          </a>
+        </span>
+      </div>
     </div>
   </div>
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>
-<router-outlet (activate)="onActivate($event)"></router-outlet>

@@ -1,7 +1,7 @@
-<div>
+<div class="container">
   <div class="friends-list">
-    <div *ngIf="!searchMode || !isFetching" class="container">
-      <div *ngFor="let friend of friends">
+    <div *ngIf="!searchMode || !isFetching" class="cards-box">
+      <div *ngFor="let friend of friends" class="user-card">
         <app-friend-item
           [friend]="friend"
           (friendEventEmit)="handleDeleteFriend($event)"
@@ -9,9 +9,9 @@
         ></app-friend-item>
       </div>
     </div>
-    <app-spinner *ngIf="isFetching"></app-spinner>
     <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
+  <app-spinner *ngIf="isFetching"></app-spinner>
 </div>
 <div *ngIf="friends?.length === 0 && !isFetching">
   <div class="noFriends-wraper">

@@ -1,18 +1,19 @@
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-  margin: auto;
-  padding: 0;
-  min-width: 95%;
+  align-content: center;
 }
 
-@media only screen and (min-width: 1224px) {
-  .container {
-    justify-content: center;
-  }
+.friends-list,
+.cards-box {
+  display: flex;
+}
+
+.user-card {
+  display: flex;
+  width: 50%;
 }
 
 .noFriends-wraper {
@@ -31,6 +32,20 @@
   }
 }
 
-.friends-list {
-  margin: 44px auto 30px;
+@media (max-width: 1219px) {
+  .friends-list {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .cards-box {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .user-card {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 }
