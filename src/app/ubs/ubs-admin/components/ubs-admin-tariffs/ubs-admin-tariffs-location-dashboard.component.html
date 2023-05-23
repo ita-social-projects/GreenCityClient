@@ -215,16 +215,16 @@
   <tbody *ngIf="!showAllTariff && !isLoading">
     <tr class="selected-card">
       <td>
-        {{ selectedCard.region }}
+        {{ getLangValue(selectedCard.regionUk, selectedCard.regionEn) }}
       </td>
       <td>
-        <div *ngFor="let item of selectedCard.city">
+        <div *ngFor="let item of getLangArrayValue(selectedCard.citiesUk, selectedCard.citiesEn)">
           {{ item }}
         </div>
       </td>
       <td>
         <div>
-          {{ selectedCard.courier }}
+          {{ getLangValue(selectedCard.courierUk, selectedCard.courierEn) }}
         </div>
       </td>
       <td>

@@ -440,10 +440,13 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .subscribe((res: TariffCard[]) => {
         const card = res.find((it) => it.cardId === this.selectedCardId);
         this.selectedCard = {
-          courier: card.courierDto.nameEn,
+          courierUk: card.courierDto.nameUk,
+          courierEn: card.courierDto.nameEn,
           station: card.receivingStationDtos.map((it) => it.name),
-          region: card.regionDto.nameUk,
-          city: card.locationInfoDtos.map((it) => it.nameUk),
+          regionEn: card.regionDto.nameEn,
+          regionUk: card.regionDto.nameUk,
+          citiesUk: card.locationInfoDtos.map((it) => it.nameUk),
+          citiesEn: card.locationInfoDtos.map((it) => it.nameEn),
           tariff: card.tariffStatus,
           courierLimit: card.courierLimit,
           regionId: card.regionDto.regionId,
