@@ -20,6 +20,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { selectFeatureStateError, selectFeatureStateSuccess } from 'src/app/store/selectors/ecoEvents.selectors';
 
 @Injectable()
 class TranslationServiceStub {
@@ -145,7 +146,7 @@ describe('EventsListItemComponent', () => {
   ];
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const storeMock = jasmine.createSpyObj('store', ['dispatch']);
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
@@ -379,6 +380,20 @@ describe('EventsListItemComponent', () => {
     it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
       component.buttonAction(component.btnName.cancel);
       expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
+    });
+
+    it('should open error snackbar when feature state has error', () => {
+      const selectErrorSpy = storeMock.select.and.returnValue(of(true));
+      component.buttonAction(component.btnName.join);
+      expect(selectErrorSpy).toHaveBeenCalledWith(selectFeatureStateError);
+      expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
+    });
+
+    it('should open success snackbar when feature state has success', () => {
+      const selectSuccessSpy = storeMock.select.and.returnValue(of(true));
+      component.buttonAction(component.btnName.join);
+      expect(selectSuccessSpy).toHaveBeenCalledWith(selectFeatureStateSuccess);
+      expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('joinedEvent');
     });
 
     it('should dispatch AddAttenderEcoEventsByIdAction when join button is clicked', () => {

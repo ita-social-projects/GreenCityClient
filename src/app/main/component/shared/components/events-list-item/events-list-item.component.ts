@@ -3,7 +3,8 @@ import {
   DeleteEcoEventAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { Store } from '@ngrx/store';
+import { selectFeatureStateError, selectFeatureStateSuccess } from 'src/app/store/selectors/ecoEvents.selectors';
+import { Store, select } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
@@ -174,7 +175,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
         break;
       case this.btnName.join:
-        this.snackBar.openSnackBar('joinedEvent');
+        if (this.store.select(selectFeatureStateError)) {
+          this.snackBar.openSnackBar('errorJoinEvent');
+        }
+        if (this.store.select(selectFeatureStateSuccess)) {
+          this.snackBar.openSnackBar('joinedEvent');
+        }
         !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
         break;
       case this.btnName.rate:
