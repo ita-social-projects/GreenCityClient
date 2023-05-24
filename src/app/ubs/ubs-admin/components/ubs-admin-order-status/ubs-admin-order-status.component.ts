@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, S
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
+import { IGeneralOrderInfo, IPaymentStatus } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
@@ -30,6 +30,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;
+  public availablePaymentOrderStatuses: IPaymentStatus[];
   public isOrderStatusSelected = true;
   public isHistory = false;
 
@@ -62,6 +63,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       this.generalInfo.orderStatus,
       this.generalInfo.orderStatusesDtos
     );
+    this.availablePaymentOrderStatuses = this.generalInfo.orderPaymentStatusesDto;
   }
 
   private renderOrderStatus() {

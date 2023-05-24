@@ -40,9 +40,15 @@
                 <label for="payment" class="form__label">
                   {{ 'order-edit.status.payment-label' | translate }}
                 </label>
-                <select id="payment" class="form-control payment" formControlName="paymentStatus" disabled>
+                <select
+                  id="payment"
+                  class="form-control payment"
+                  formControlName="paymentStatus"
+                  disabled
+                  *ngIf="availablePaymentOrderStatuses?.length"
+                >
                   <option
-                    *ngFor="let status of generalInfo.orderPaymentStatusesDto"
+                    *ngFor="let status of availablePaymentOrderStatuses"
                     [selected]="status?.key === generalInfo.orderPaymentStatus"
                     [value]="status?.key"
                   >
