@@ -76,6 +76,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.dispatchStore(true);
     this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+      console.log('res', res);
       this.page = res.pageNumber;
       if (res.eventState) {
         this.eventsList = [...res.eventsList];
@@ -121,19 +122,17 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   getUniqueCities(events: EventPageResponceDto[]): OptionItem[] {
     const cities: OptionItem[] = [];
-
     events.forEach((event) => {
-      const { cityEn, cityUa } = event.dates[0].coordinates;
-
-      const cityExists = cities.some((city) => {
-        return city.nameEn === cityEn && city.nameUa === cityUa;
-      });
-
-      if (!cityExists) {
-        cities.push({ nameEn: cityEn, nameUa: cityUa });
+      if (event.dates[0].coordinates) {
+        const { cityEn, cityUa } = event.dates[0].coordinates;
+        const cityExists = cities.some((city) => {
+          return city.nameEn === cityEn && city.nameUa === cityUa;
+        });
+        if (!cityExists) {
+          cities.push({ nameEn: cityEn, nameUa: cityUa });
+        }
       }
     });
-
     return cities;
   }
 
