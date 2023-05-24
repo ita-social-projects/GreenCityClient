@@ -93,7 +93,10 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
         this.data?.phoneNumber ?? '',
         [Validators.required, Validators.pattern(Patterns.adminPhone), PhoneNumberValidator('UA')]
       ],
-      email: [this.data?.email ?? '', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]]
+      email: [
+        this.data?.email ?? '',
+        [Validators.required, Validators.pattern(Patterns.ubsMailPattern), , Validators.minLength(3), Validators.maxLength(72)]
+      ]
     });
     this.employeePositions = this.data?.employeePositions ?? [];
     this.imageURL = this.data?.image;
