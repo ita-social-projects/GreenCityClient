@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
@@ -15,9 +15,8 @@ import { FriendArrayModel } from '@global-user/models/friend.model';
   templateUrl: './friend-dashboard.component.html',
   styleUrls: ['./friend-dashboard.component.scss']
 })
-export class FriendDashboardComponent implements OnInit, OnDestroy {
+export class FriendDashboardComponent implements OnInit {
   userId: number;
-  langChangeSub: Subscription;
   destroy$ = new Subject();
   searchTerm$: Subject<string> = new Subject();
   searchIcon = searchIcon;
@@ -58,9 +57,12 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   private getFriendsRequests(userId: number): void {
-    this.userFriendsService.getRequests(userId).subscribe((data: FriendArrayModel) => {
-      this.requestFriendsAmount = data.totalElements;
-    });
+    this.userFriendsService
+      .getRequests(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: FriendArrayModel) => {
+        this.requestFriendsAmount = data.totalElements;
+      });
   }
 
   public onInput(input): void {
@@ -93,13 +95,8 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
-  }
-
-  ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
-    this.destroy$.next(true);
-    this.destroy$.complete();
-    this.searchTerm$.complete();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
+      this.bindLang(lang);
+    });
   }
 }

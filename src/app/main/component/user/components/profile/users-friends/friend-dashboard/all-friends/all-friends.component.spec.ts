@@ -11,6 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { AllFriendsComponent } from './all-friends.component';
+import { FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
@@ -26,70 +27,9 @@ describe('AllFriendsComponent', () => {
     profilePicturePath: '',
     added: false
   };
-  const userFriendsArray: FriendModel[] = [
-    {
-      id: 1,
-      name: 'Name',
-      profilePicturePath: '',
-      added: true,
-      rating: 380,
-      city: 'Lviv',
-      mutualFriends: 5,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 2
-      }
-    },
-    {
-      id: 2,
-      name: 'Name2',
-      profilePicturePath: '',
-      added: true,
-      rating: 380,
-      city: 'Lviv',
-      mutualFriends: 5,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 3
-      }
-    }
-  ];
-  const userFriends = {
-    totalElements: 1,
-    totalPages: 1,
-    currentPage: 1,
-    page: [
-      {
-        id: 1,
-        name: 'Name',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 5
-        }
-      },
-      {
-        id: 2,
-        name: 'Name2',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      }
-    ]
-  };
 
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
-  userFriendsServiceMock.getAllFriends = () => of(userFriends);
+  userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
   userFriendsServiceMock.deleteFriend = (idUser, idFriend) => of(response);
   userFriendsServiceMock.addFriend = (idUser, idFriend) => of(response);
 
@@ -145,7 +85,7 @@ describe('AllFriendsComponent', () => {
 
   it('should call getFriends on scroll', () => {
     // @ts-ignore
-    const getAllFriendSpy = spyOn(component.userFriendsService, 'getAllFriends').and.returnValue(of(userFriends));
+    const getAllFriendSpy = spyOn(component.userFriendsService, 'getAllFriends').and.returnValue(of(FRIENDS));
     component.onScroll();
     expect(getAllFriendSpy).toHaveBeenCalled();
   });
