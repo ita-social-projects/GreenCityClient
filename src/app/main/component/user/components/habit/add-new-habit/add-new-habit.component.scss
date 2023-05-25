@@ -306,9 +306,21 @@
           width: 100%;
 
           .item {
-            gap: 8px;
-            font-size: 12px;
+            gap: 4px;
+            font-size: 10px;
             letter-spacing: 1px;
+
+            .stars {
+              width: 40px;
+
+              img {
+                width: 12px;
+              }
+            }
+          }
+
+          .line {
+            margin: 0 4px;
           }
         }
 
