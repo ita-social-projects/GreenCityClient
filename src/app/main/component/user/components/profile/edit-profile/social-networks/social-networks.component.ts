@@ -1,9 +1,10 @@
-import { forwardRef, Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { forwardRef, Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
 
 @Component({
   selector: 'app-social-networks',
@@ -17,28 +18,22 @@ import { Patterns } from 'src/assets/patterns/patterns';
     }
   ]
 })
-export class SocialNetworksComponent implements ControlValueAccessor {
-  public icons = {
-    edit: './assets/img/profile/icons/edit.svg',
-    add: './assets/img/profile/icons/add.svg',
-    delete: './assets/img/profile/icons/delete.svg',
-    defaultIcon: './assets/img/profile/icons/default_social.svg',
-    facebook: './assets/img/icon/facebook-icon.svg',
-    linkedin: './assets/img/icon/linked-icon.svg',
-    instagram: './assets/img/icon/instagram-icon.svg',
-    twitter: './assets/img/icon/twitter-icon.svg'
-  };
-
+export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
   public urlValidationRegex = Patterns.linkPattern;
   public showInput = false;
   public inputTextValue;
   public editedSocialLink: any = false;
+  public icons;
 
   @ViewChild('socialLink') socialLink: NgModel;
   @Input() socialNetworks = [];
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private profileService: ProfileService) {}
+
+  ngOnInit() {
+    this.icons = this.profileService.icons;
+  }
 
   onChange(value: any) {
     // TODO: add functionality to this method
@@ -106,9 +101,14 @@ export class SocialNetworksComponent implements ControlValueAccessor {
   }
 
   public getSocialImage(socialNetwork) {
-    return socialNetwork && socialNetwork.socialNetworkImage && socialNetwork.socialNetworkImage.imagePath === ''
-      ? this.icons.defaultIcon
-      : socialNetwork.socialNetworkImage.imagePath;
+    const value = socialNetwork.url;
+    let imgPath = this.icons.defaultIcon;
+    Object.keys(this.icons).forEach((icon) => {
+      if (value.toLowerCase().includes(icon)) {
+        imgPath = this.icons[icon];
+      }
+    });
+    return imgPath;
   }
 
   public onCloseForm(): void {

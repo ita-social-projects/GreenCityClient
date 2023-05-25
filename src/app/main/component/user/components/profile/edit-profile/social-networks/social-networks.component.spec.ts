@@ -1,11 +1,13 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialNetworksComponent } from './social-networks.component';
 import { WarningPopUpComponent } from '@shared/components';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
 
 class MatDialogMock {
   open() {
@@ -19,12 +21,13 @@ describe('SocialNetworksComponent', () => {
   let component: SocialNetworksComponent;
   let fixture: ComponentFixture<SocialNetworksComponent>;
   let dialog: MatDialog;
+  let profileService: ProfileService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SocialNetworksComponent, WarningPopUpComponent],
-      imports: [TranslateModule.forRoot(), FormsModule],
-      providers: [{ provide: MatDialog, useClass: MatDialogMock }]
+      imports: [TranslateModule.forRoot(), FormsModule, BrowserAnimationsModule, HttpClientTestingModule],
+      providers: [{ provide: MatDialog, useClass: MatDialogMock, ProfileService }]
     }).compileComponents();
   }));
 
@@ -32,8 +35,18 @@ describe('SocialNetworksComponent', () => {
     fixture = TestBed.createComponent(SocialNetworksComponent);
     component = fixture.componentInstance;
     dialog = TestBed.inject(MatDialog);
-
+    profileService = TestBed.inject(ProfileService);
     fixture.detectChanges();
+    profileService.icons = {
+      edit: './assets/img/profile/icons/edit.svg',
+      add: './assets/img/profile/icons/add.svg',
+      delete: './assets/img/profile/icons/delete.svg',
+      defaultIcon: './assets/img/profile/icons/default_social.svg',
+      facebook: './assets/img/icon/facebook-icon.svg',
+      linkedin: './assets/img/icon/linked-icon.svg',
+      instagram: './assets/img/icon/instagram-icon.svg',
+      twitter: './assets/img/icon/twitter-icon.svg'
+    };
   });
 
   it('should create', () => {
@@ -104,14 +117,29 @@ describe('SocialNetworksComponent', () => {
     });
 
     it('Should return default image', () => {
-      expect(
-        component.getSocialImage({
-          url: 'https://www.facebook.com/',
-          socialNetworkImage: {
-            imagePath: ''
-          }
-        })
-      ).toBeTruthy();
+      const socialNetwork = {
+        url: 'https://www.some.com/',
+        socialNetworkImage: {
+          imagePath: ''
+        }
+      };
+      const imgPath = profileService.icons.defaultIcon;
+      const result = component.getSocialImage(socialNetwork);
+
+      expect(result).toBe(imgPath);
+    });
+
+    it('Should return facebook image', () => {
+      const socialNetwork = {
+        url: 'https://www.facebook.com/',
+        socialNetworkImage: {
+          imagePath: ''
+        }
+      };
+      const imgPath = profileService.icons.facebook;
+      const result = component.getSocialImage(socialNetwork);
+
+      expect(result).toBe(imgPath);
     });
 
     it('Should onCloseForm', () => {
