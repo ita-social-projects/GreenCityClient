@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, Cha
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations, Card } from '../../models/tariffs.interface';
-import { Subject, Observable, forkJoin } from 'rxjs';
+import { Subject, Observable, forkJoin, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -543,12 +543,19 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       const selectedValue = this.locations.filter((it) =>
         it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
       );
+
       this.regionEnglishName = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
         .flat(2);
       this.regionId = selectedValue.find((it) => it.regionId).regionId;
       Object.assign(this.filterData, { region: this.regionId });
     }
+
+    this.filteredRegions = of(
+      this.locations.flatMap((it) =>
+        it.regionTranslationDtos.filter((ob) => ob.languageCode === this.currentLang).map((ob) => ob.regionName)
+      )
+    );
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
   }
