@@ -7,7 +7,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { habitAssignLink } from '../../links';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { HabitAssignInterface, ResponseInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
-import { FriendsAttachedToHabitInterface } from '@global-user/components/habit/models/interfaces/friend-atteched-to-habit-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -73,10 +72,6 @@ export class HabitAssignService implements OnDestroy {
 
   progressNotificationHasDisplayed(habitAssignId: number): Observable<object> {
     return this.http.put<object>(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`, {});
-  }
-
-  getUserFriendsAttachedToHabit(habitId: number): Observable<FriendsAttachedToHabitInterface> {
-    return this.http.get<FriendsAttachedToHabitInterface>(`${habitAssignLink}/${habitId}/friends/profile-picture`);
   }
 
   ngOnDestroy(): void {
