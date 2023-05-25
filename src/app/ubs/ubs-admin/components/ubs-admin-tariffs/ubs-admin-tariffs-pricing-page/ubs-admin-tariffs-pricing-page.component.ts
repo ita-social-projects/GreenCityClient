@@ -186,6 +186,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy))
         .subscribe(() => {
           this.getCouriers();
+          this.getSelectedTariffCard();
         });
     }
 
