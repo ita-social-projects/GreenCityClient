@@ -177,13 +177,36 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public resetRegionValue(): void {
-    this.region.setValue('');
+  resetLocationValues(fieldName: string): void {
+    this.resetFormFieldValue(fieldName);
     this.selectedCities = [];
     this.setCountOfCheckedCity();
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
-    Object.assign(this.filterData, { region: '', location: locationsId });
+    this.updateFilterData({ [fieldName]: '', location: locationsId });
     this.getExistingCard(this.filterData);
+  }
+
+  resetCourierValue(): void {
+    this.resetFormFieldValue('courier');
+    this.updateFilterData({ courier: '' });
+    this.getExistingCard(this.filterData);
+  }
+
+  resetStationValue(): void {
+    this.resetFormFieldValue('station');
+    this.selectedStation = [];
+    const stationsId = this.stations.map((station) => station.id);
+    this.updateFilterData({ receivingStation: stationsId });
+    this.setStationPlaceholder();
+    this.getExistingCard(this.filterData);
+  }
+
+  private updateFilterData(data: object): void {
+    Object.assign(this.filterData, data);
+  }
+
+  private resetFormFieldValue(fieldName: string): void {
+    this[fieldName].setValue('');
   }
 
   public _filter(name: string, items: any[]): any[] {
