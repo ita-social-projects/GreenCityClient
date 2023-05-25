@@ -64,13 +64,13 @@ export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public getFriendsPicturePath(): void {
-    this.habitAssignService
+    this.habitService
       .getUserFriendsAttachedToHabit(this.habit.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((message) => {
         this.profilePicturePath = message.profilePicturePath;
       });
-    console.log(this.profilePicturePath);
+    console.log(this.profilePicturePath, 'picture');
   }
 
   public buildHabitDescription(): void {
