@@ -23,6 +23,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   isRequest = false;
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
+  profilePicturePath: string;
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
@@ -51,6 +52,13 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
     this.buildHabitDescription();
+    this.habitAssignService
+      .getUserFriendsAttachedToHabit(this.habit.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((message) => {
+        this.profilePicturePath = message.profilePicturePath;
+      });
+    console.log(this.profilePicturePath);
   }
 
   public goToHabitProfile(): void {
