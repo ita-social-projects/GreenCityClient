@@ -20,6 +20,7 @@ export class TableCellTimeComponent implements OnInit {
   @Output() cancelEdit = new EventEmitter();
   @Output() editTimeCell = new EventEmitter();
   @Output() showBlockedInfo = new EventEmitter();
+  @Output() isTimePickerOpened = new EventEmitter();
 
   public fromInput: string;
   public toInput: string;
@@ -55,6 +56,7 @@ export class TableCellTimeComponent implements OnInit {
     this.to = res[1];
   }
   public edit(): void {
+    this.isTimePickerOpened.emit(true);
     this.isEditable = false;
     this.isBlocked = true;
 
@@ -92,5 +94,6 @@ export class TableCellTimeComponent implements OnInit {
 
     this.cancelEdit.emit(this.typeOfChange);
     this.isEditable = false;
+    this.isTimePickerOpened.emit(false);
   }
 }
