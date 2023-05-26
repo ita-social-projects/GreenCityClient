@@ -1,11 +1,20 @@
-<div class="w-100">
+<div class="w-100" *ngIf="isDeactivate">
   <p class="title">{{ 'ubs-tariffs-add-location-pop-up.deactivate-confirm' | translate }}</p>
 </div>
-<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="adminName" [edit]="true"></app-dialog-tariff>
+<div class="w-100" *ngIf="isRestore">
+  <p class="title">{{ 'ubs-tariffs.btn.restore-confirmation' | translate }}</p>
+</div>
+<app-dialog-tariff
+  [deactivatePopup]="isDeactivatePopup"
+  [row]="form"
+  [newDate]="newDate"
+  [name]="adminName"
+  [edit]="true"
+></app-dialog-tariff>
 <ng-template #form>
   <div class="form">
     <div class="form-block">
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !courierName }">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
         <p class="text">{{ getLangValue(courierName, courierEnglishName) }}</p>
       </div>
@@ -19,7 +28,9 @@
         <label class="label">{{ 'ubs-tariffs.station' | translate }}</label>
         <p *ngFor="let stationName of stationNames" class="text">{{ stationName }}</p>
       </div>
-      <div [ngClass]="{ 'ua-part': true, 'show-block': !regionNames.length }">
+    </div>
+    <div class="form-block">
+      <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
         <p class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
       </div>
@@ -43,8 +54,11 @@
     <button class="button secondary-global-button" mat-button (click)="onCancelClick()">
       {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
     </button>
-    <button class="button primary-global-button" (click)="actionClick()">
+    <button class="button primary-global-button" *ngIf="isDeactivate" (click)="actionClick()">
       {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
+    </button>
+    <button class="button primary-global-button" *ngIf="isRestore" (click)="actionClick()">
+      {{ 'ubs-tariffs.restore-button' | translate }}
     </button>
   </div>
 </ng-template>

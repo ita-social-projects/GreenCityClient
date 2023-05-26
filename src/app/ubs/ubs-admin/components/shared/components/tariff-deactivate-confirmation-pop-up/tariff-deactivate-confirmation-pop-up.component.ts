@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -16,12 +15,11 @@ import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName 
 })
 export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   public adminName: string;
-  public datePipe = new DatePipe('ua');
-  public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+  newDate: string;
   unsubscribe: Subject<any> = new Subject();
   courierName: string;
+  courierEnglishName: string;
   stationNames: Array<string>;
-  regionNames: Array<string>;
   regionName: string;
   regionEnglishName: string;
   locationNames: Array<string>;
@@ -37,16 +35,17 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   cityLabelUa = TariffLocationLabelName.ua;
 
   constructor(
+    private tariffsService: TariffsService,
+    private languageService: LanguageService,
     private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>,
-    private tariffsService: TariffsService,
-    private languageService: LanguageService
+    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>
   ) {}
 
   ngOnInit(): void {
-    this.courierName = this.modalData.courierName ?? '';
+    this.courierName = this.modalData.courierNameUk ?? '';
+    this.courierEnglishName = this.modalData.courierEnglishName ?? '';
     this.stationNames = this.modalData.stationNames ?? '';
     this.regionName = this.modalData.regionNameUk ?? '';
     this.regionEnglishName = this.modalData.regionEnglishName ?? '';

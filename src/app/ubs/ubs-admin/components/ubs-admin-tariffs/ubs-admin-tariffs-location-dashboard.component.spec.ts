@@ -890,6 +890,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openAddCourierDialog', () => {
     component.openAddCourierDialog();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsCourierPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -902,6 +903,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openEditCourier', () => {
     component.openEditCourier();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsCourierPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -914,6 +916,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openAddStationDialog', () => {
     component.openAddStationDialog();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsStationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -926,6 +929,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openEditStation', () => {
     component.openEditStation();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsStationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -938,6 +942,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openAddLocation', () => {
     component.openAddLocation();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsLocationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -950,6 +955,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openEditLocation', () => {
     component.openEditLocation();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsLocationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -962,6 +968,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call openDeactivatePopUp', () => {
     component.openDeactivatePopUp();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsDeactivatePopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {

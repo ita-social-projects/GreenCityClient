@@ -175,6 +175,14 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/deactivateTariff/${tariffId}`, null);
   }
 
+  getTariffLimits(tariffId) {
+    return this.http.get(`${mainUbsLink}/ubs/superAdmin/getTariffLimits/${tariffId}`);
+  }
+
+  switchTariffStatus(tariffId: number, status): Observable<object> {
+    return this.http.patch(`${mainUbsLink}/ubs/superAdmin/switchTariffStatus/${tariffId}?status=${status}`, null);
+  }
+
   setDate(language): string {
     return new DatePipe(language).transform(new Date(), 'MMM dd, yyyy');
   }
