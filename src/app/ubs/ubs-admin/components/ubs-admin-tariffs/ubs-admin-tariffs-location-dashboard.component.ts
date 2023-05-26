@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, Cha
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
-import { Subject } from 'rxjs';
+import { Subject, Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,6 +24,9 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { statusOfTariff } from './tariff-status.enum';
+import { Language } from 'src/app/main/i18n/Language';
+
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
   templateUrl: './ubs-admin-tariffs-location-dashboard.component.html',
@@ -535,6 +538,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   public createTariffCard(): void {
     this.createCardDto();
     const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -569,12 +573,40 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
+  openEditPopUp(card): void {
+    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
+    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
+
+    const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        tariffId: card.cardId,
+        title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
+        courierUkrainianName: ukCard.courier,
+        courierEnglishName: enCard.courier,
+        selectedStation: card.station,
+        regionUkrainianName: ukCard.region,
+        regionEnglishName: enCard.region,
+        cityNameUk: ukCard.city,
+        cityNameEn: enCard.city,
+        action: 'ubs-tariffs-add-location-pop-up.edit_button',
+        edit: true,
+        button: 'edit'
+      }
+    });
+
+    matDialogRef.afterClosed().subscribe((res) => {});
+  }
+
   public createCardRequest(card): void {
     this.tariffsService.createCard(card).pipe(takeUntil(this.destroy)).subscribe();
   }
 
   openAddCourierDialog(): void {
     this.dialog.open(UbsAdminTariffsCourierPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -586,6 +618,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openEditCourier(): void {
     this.dialog.open(UbsAdminTariffsCourierPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -597,6 +630,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openAddStationDialog(): void {
     this.dialog.open(UbsAdminTariffsStationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -608,6 +642,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openEditStation(): void {
     this.dialog.open(UbsAdminTariffsStationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -619,6 +654,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openAddLocation(): void {
     this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -630,6 +666,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openEditLocation(): void {
     this.dialog.open(UbsAdminTariffsLocationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -641,6 +678,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openDeactivatePopUp(): void {
     this.dialog.open(UbsAdminTariffsDeactivatePopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
@@ -650,25 +688,81 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   openTariffDeactivatePopUp(card): void {
+    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
+    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierName: card.courier,
+        courierNameUk: ukCard.courier,
+        courierEnglishName: enCard.courier,
+        regionNameUk: ukCard.region.split(),
+        regionEnglishName: enCard.region.split(),
+        cityNameUk: ukCard.city,
+        cityNameEn: enCard.city,
         stationNames: card.station,
-        regionName: card.region.split(),
-        locationNames: card.city
+        isDeactivate: true
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService.deactivateTariffCard(card.cardId).pipe().subscribe();
+        this.tariffsService
+          .switchTariffStatus(card.cardId, statusOfTariff.deactivated)
+          .pipe(takeUntil(this.destroy))
+          .subscribe(() => {
+            if (this.cards) {
+              card.tariff = statusOfTariff.deactivated;
+              this.cards = this.cards.filter((cardItem) => cardItem.tariff !== statusOfTariff.deactivated);
+            }
+          });
       }
     });
   }
 
+  openTariffRestore(card, tariffId) {
+    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
+    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
+    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      panelClass: 'address-matDialog-styles-w-100',
+      data: {
+        courierNameUk: ukCard.courier,
+        courierEnglishName: enCard.courier,
+        regionNameUk: ukCard.region.split(),
+        regionEnglishName: enCard.region.split(),
+        cityNameUk: ukCard.city,
+        cityNameEn: enCard.city,
+        stationNames: card.station,
+        isRestore: true
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res && this.checkTariffAvailability(tariffId)) {
+        this.tariffsService
+          .switchTariffStatus(card.cardId, statusOfTariff.active)
+          .pipe(takeUntil(this.destroy))
+          .subscribe(() => {
+            if (this.selectedCard) {
+              this.selectedCard.tariff = statusOfTariff.active;
+            }
+          });
+      }
+    });
+  }
+
+  checkTariffAvailability(tariffId: number): Observable<boolean> {
+    return forkJoin([
+      this.tariffsService.getService(tariffId),
+      this.tariffsService.getAllTariffsForService(tariffId),
+      this.tariffsService.getTariffLimits(tariffId)
+    ]).pipe(map(([service, tariffForService, limits]) => !!(service && tariffForService && limits)));
+  }
+
   public openCreateCard(): void {
     this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {

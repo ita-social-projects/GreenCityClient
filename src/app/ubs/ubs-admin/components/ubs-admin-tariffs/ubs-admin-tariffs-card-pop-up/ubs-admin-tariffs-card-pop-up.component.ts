@@ -350,6 +350,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         if (!this.isCardExist) {
           this.dialogRef.close();
           const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+            disableClose: true,
             hasBackdrop: true,
             panelClass: 'address-matDialog-styles-w-100',
             data: {

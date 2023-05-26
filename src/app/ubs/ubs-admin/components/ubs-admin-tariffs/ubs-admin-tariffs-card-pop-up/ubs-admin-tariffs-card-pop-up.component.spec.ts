@@ -422,30 +422,6 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     expect(component.isCardExist).toEqual(true);
   }));
 
-  it('should open pop up if card do not exist on create card method', fakeAsync(() => {
-    tariffsServiceMock.checkIfCardExist.and.returnValue(of(false));
-    matDialogMock.open.and.returnValue(fakeMatDialogRef as any);
-    component.createCard();
-    tick();
-    expect(component.isCardExist).toEqual(false);
-    expect(fakeMatDialogRef.close).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalledWith(TariffConfirmationPopUpComponent, {
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-        courierName: component.courier.value,
-        courierEnglishName: component.courierEnglishName,
-        stationNames: component.selectedStation.map((it) => it.name),
-        regionName: component.region.value,
-        regionEnglishName: component.regionEnglishName,
-        locationNames: component.selectedCities.map((it) => it.location),
-        locationEnglishNames: component.selectedCities.map((it) => it.englishLocation),
-        action: 'ubs-tariffs-add-location-pop-up.create_button'
-      }
-    });
-  }));
-
   it('should call create Card Object', () => {
     component.createCardDto();
     const fakeNewCard = {

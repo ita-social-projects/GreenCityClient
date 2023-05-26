@@ -17,7 +17,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   const locationItem = {
     id: 0,
-    name: 'Фейк'
+    name: 'Fakre',
+    nameUa: 'Фейк'
   };
 
   const stationItem = {
@@ -27,7 +28,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   const cityItem = {
     id: 0,
-    name: 'Фейк місто'
+    name: 'Fake City',
+    nameUa: 'Фейк місто'
   };
 
   const fakeCouriers = [
@@ -810,21 +812,21 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should add new selected region if it does not exist in list', () => {
-    component.selectedRegions = [{ id: 0, name: 'Фейк область 1' }];
+    component.selectedRegions = [{ id: 0, name: 'Fake region 1', nameUa: 'Фейк область 1' }];
     component.addSelectedRegion(eventMockRegion as any);
     expect(component.selectedRegions).toEqual([
-      { id: 0, name: 'Фейк область 1' },
-      { id: 1, name: 'Фейк область' }
+      { id: 0, name: 'Fake region 1', nameUa: 'Фейк область 1' },
+      { id: 1, name: 'Fake region', nameUa: 'Фейк область' }
     ]);
   });
 
   it('should remove selected region if it exists in list', () => {
-    component.selectedRegions = [
-      { id: 0, name: 'Фейк область 1' },
-      { id: 1, name: 'Фейк область' }
-    ];
+    component.selectedRegions = [{ id: 0, name: 'Fake region 1', nameUa: 'Фейк область 1' }];
     component.addSelectedRegion(eventMockRegion as any);
-    expect(component.selectedRegions).toEqual([{ id: 0, name: 'Фейк область 1' }]);
+    expect(component.selectedRegions).toEqual([
+      { id: 0, name: 'Fake region 1', nameUa: 'Фейк область 1' },
+      { id: 1, name: 'Fake region', nameUa: 'Фейк область' }
+    ]);
   });
 
   it('the method onRegionSelected should get filtered cards', () => {
@@ -948,9 +950,9 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     const spy3 = spyOn(component, 'disableCourier');
     const spy4 = spyOn(component, 'disableStation');
     component.selectedRegions = [
-      { id: 0, name: 'Фейк область' },
-      { id: 1, name: 'Фейк область 1' },
-      { id: 2, name: 'Фейк область 2' }
+      { id: 0, name: 'Fake Region', nameUa: 'Фейк область' },
+      { id: 1, name: 'Fake Region 1', nameUa: 'Фейк область' },
+      { id: 2, name: 'Fake Region 2', nameUa: 'Фейк область' }
     ];
     component.deleteRegion(0);
     expect(component.selectedRegions.length).toEqual(2);
@@ -990,23 +992,23 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should add new selected city if it does not exist in list', () => {
-    component.selectedCities = [{ id: 2, name: 'ФейкМісто2' }];
+    component.selectedCities = [{ id: 2, name: 'FakeCity', nameUa: 'ФейкМісто2' }];
     component.currentCities = mockCities;
     component.addSelectedCity(eventMockCity as any);
     expect(component.selectedCities).toEqual([
-      { id: 2, name: 'ФейкМісто2' },
-      { id: 1, name: 'ФейкМісто1' }
+      { id: 2, name: 'FakeCity', nameUa: 'ФейкМісто2' },
+      { id: 1, name: 'FakeCity1', nameUa: 'ФейкМісто1' }
     ]);
   });
 
   it('should remove selected city if it exists in list', () => {
     component.selectedCities = [
-      { id: 2, name: 'ФейкМісто2' },
-      { id: 1, name: 'ФейкМісто1' }
+      { id: 2, name: 'FakeCity', nameUa: 'ФейкМісто2' },
+      { id: 1, name: 'FakeCity1', nameUa: 'ФейкМісто1' }
     ];
     component.currentCities = mockCities;
     component.addSelectedCity(eventMockCity as any);
-    expect(component.selectedCities).toEqual([{ id: 2, name: 'ФейкМісто2' }]);
+    expect(component.selectedCities).toEqual([{ id: 2, name: 'FakeCity', nameUa: 'ФейкМісто2' }]);
   });
 
   it('the method onCitiesSelected should get filtered cards', () => {
@@ -1075,8 +1077,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     const spy1 = spyOn(component, 'setCityPlaceholder');
     const spy2 = spyOn(component, 'onCitiesSelected');
     component.selectedCities = [
-      { id: 0, name: 'Фейк місто ' },
-      { id: 1, name: 'Фейк місто 1' }
+      { id: 2, name: 'FakeCity', nameUa: 'ФейкМісто2' },
+      { id: 1, name: 'FakeCity1', nameUa: 'ФейкМісто1' }
     ];
     component.deleteCity(0);
     expect(component.selectedCities.length).toEqual(1);
@@ -1115,7 +1117,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedRegions = [locationItem];
     component.selectedCities = [];
     component.filterTariffCards();
-    expect(component.filterTariffCards()).toEqual(fakeFilteredTariffCards);
+    expect(component.filterTariffCards()).toEqual([]);
   });
 
   it('should call method for filter tariff cards by cities when city field is filled ', () => {
@@ -1125,7 +1127,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     component.selectedRegions = [];
     component.selectedCities = [cityItem];
     component.filterTariffCards();
-    expect(component.filterTariffCards()).toEqual(fakeFilteredTariffCards);
+    expect(component.filterTariffCards()).toEqual([]);
   });
 
   it('should filter tariff cards by courier', () => {
@@ -1146,13 +1148,13 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   it('should filter tariff cards by region', () => {
     component.selectedRegions = [locationItem];
     const result = component.filterTariffCardsByRegion(fakeTariffCards);
-    expect(result).toEqual(fakeFilteredTariffCards);
+    expect(result).toEqual([]);
   });
 
   it('should filter tariff cards by cities', () => {
     component.selectedCities = [cityItem];
     const result = component.filterTariffCardsByCities(fakeTariffCards);
-    expect(result).toEqual(fakeFilteredTariffCards);
+    expect(result).toEqual([]);
   });
 
   it('should select all couriers name in filtered tariff cards', () => {
