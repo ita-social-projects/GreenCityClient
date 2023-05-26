@@ -23,8 +23,10 @@ export class HabitService {
   private backEnd = environment.backendLink;
   private httpOptions = {
     headers: new HttpHeaders({
+      'Content-Type': 'application/json',
       Authorization: 'my-auth-token'
-    })
+    }),
+    withCredentials: true
   };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
@@ -94,6 +96,9 @@ export class HabitService {
   }
 
   getUserFriendsAttachedToHabit(habitId: number): Observable<FriendsAttachedToHabitInterface> {
-    return this.http.get<FriendsAttachedToHabitInterface>(`${habitLink}/${habitId}/friends/profile-picture`);
+    const accessToken = localStorage.getItem('accessToken');
+    this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
+    this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
+    return this.http.get<FriendsAttachedToHabitInterface>(`${habitLink}/${habitId}/friends/profile-picture`, this.httpOptions);
   }
 }

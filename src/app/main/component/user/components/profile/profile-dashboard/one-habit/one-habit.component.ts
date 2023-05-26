@@ -8,6 +8,7 @@ import { HabitMark } from '@global-user/components/habit/models/HabitMark.enum';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { FriendsAttachedToHabitInterface } from '@global-user/components/habit/models/interfaces/friend-atteched-to-habit-interface';
 
 @Component({
   selector: 'app-one-habit',
@@ -23,7 +24,7 @@ export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
   isRequest = false;
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
-  profilePicturePath: string;
+  profilePicturePath: FriendsAttachedToHabitInterface;
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
@@ -68,7 +69,7 @@ export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
       .getUserFriendsAttachedToHabit(this.habit.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((message) => {
-        this.profilePicturePath = message.profilePicturePath;
+        this.profilePicturePath = message;
       });
     console.log(this.profilePicturePath, 'picture');
   }
