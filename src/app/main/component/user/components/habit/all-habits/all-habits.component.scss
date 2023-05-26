@@ -3,7 +3,7 @@ h1 {
   font-family: var(--secondary-font);
 }
 
-.habits_header-buttons {
+.habits-header-buttons {
   display: none;
 
   span {
@@ -116,12 +116,9 @@ h1 {
     padding: 0;
   }
 
-  .habits_header-buttons {
-    display: block;
-
-    :nth-child(1) {
-      margin-right: 8px;
-    }
+  .habits-header-buttons {
+    display: flex;
+    gap: 8px;
   }
 }
 
