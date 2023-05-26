@@ -92,18 +92,18 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
         <div class="list">
           <div *ngFor="let item of selectedRegions; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ item.name }}</div>
+            <div class="itemList">{{ getLangValue(item.name, item.nameUa) }}</div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteRegion(index)" />
           </div>
         </div>
       </div>
       <div class="translation">
         <label class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
-        <div class="select-count" *ngIf="selectedRegionsLength">
-          {{ selectedRegionsLength }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
+        <div class="select-count" *ngIf="selectedRegions.length">
+          {{ selectedRegions.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
         </div>
-        <div *ngFor="let regionItem of selectedRegionValue">
-          <p class="text">{{ selectedRegionsLength ? getLangValue(regionItem.regionNameEn, regionItem.regionNameUa) : '' }}</p>
+        <div *ngFor="let item of selectedRegions">
+          <p class="text">{{ selectedRegions.length ? getLangValue(item.name, item.nameUa) : '' }}</p>
         </div>
       </div>
     </div>
@@ -132,18 +132,18 @@
         />
         <div class="list">
           <div *ngFor="let item of selectedCities; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ item.name }}</div>
+            <div class="itemList">{{ getLangValue(item.name, item.nameUa) }}</div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
           </div>
         </div>
       </div>
       <div class="translation">
         <label class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
-        <div class="select-count" *ngIf="selectedCitiesValue.length">
-          {{ selectedCitiesValue.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
+        <div class="select-count" *ngIf="selectedCities.length">
+          {{ selectedCities.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
         </div>
-        <div *ngFor="let cityItem of selectedCitiesValue">
-          <p class="text">{{ selectedCitiesValue.length ? getLangValue(cityItem.cityNameEn, cityItem.cityNameUa) : '' }}</p>
+        <div *ngFor="let item of selectedCities">
+          <p class="text">{{ selectedCities.length ? getLangValue(item.name, item.nameUa) : '' }}</p>
         </div>
       </div>
     </div>

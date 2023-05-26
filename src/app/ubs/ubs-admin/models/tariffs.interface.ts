@@ -151,4 +151,5 @@ export interface LocationInfoDtos {
 export interface SelectedItems {
   id: number;
   name: string;
+  nameUa?: string;
 }
