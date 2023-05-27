@@ -29,7 +29,7 @@
         <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
+        <th scope="row" class="full-cost">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
       </tr>
       <tr *ngIf="service">
         <td style="padding-left: 0">
@@ -63,7 +63,7 @@
         <th scope="row">{{ 'ubs-tariffs.tariff_description' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.carriers_commission' | translate }}</th>
-        <th scope="row">{{ 'ubs-tariffs.full_cost' | translate }}</th>
+        <th scope="row" class="full-cost">{{ 'ubs-tariffs.full_cost' | translate }}</th>
       </tr>
       <tr *ngFor="let bag of bags">
         <td style="padding-left: 0">
