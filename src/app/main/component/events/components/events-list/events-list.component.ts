@@ -123,12 +123,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
     const cities: OptionItem[] = [];
 
     events.forEach((event) => {
-      const { cityEn, cityUa } = event.dates[0].coordinates;
-      const cityExists = cities.some((city) => {
-        return city.nameEn === cityEn && city.nameUa === cityUa;
-      });
-      if (!cityExists) {
-        cities.push({ nameEn: cityEn, nameUa: cityUa });
+      if (event.dates[0].coordinates) {
+        const { cityEn, cityUa } = event.dates[0].coordinates;
+        const cityExists = cities.some((city) => {
+          return city.nameEn === cityEn && city.nameUa === cityUa;
+        });
+        if (!cityExists) {
+          cities.push({ nameEn: cityEn, nameUa: cityUa });
+        }
       }
     });
     return cities;
