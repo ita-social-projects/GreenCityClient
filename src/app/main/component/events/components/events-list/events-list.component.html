@@ -99,7 +99,7 @@
       </div>
     </div>
     <div class="event-list">
-      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
+      <mat-card class="event-list-item" *ngFor="let eventItem of eventsList | eventListFilter: selectedFilters:userId">
         <app-events-list-item [event]="eventItem" [userId]="userId"></app-events-list-item>
       </mat-card>
     </div>

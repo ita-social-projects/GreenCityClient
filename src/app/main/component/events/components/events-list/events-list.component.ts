@@ -91,10 +91,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
   updateSelectedFilters(value: any, event): void {
     const existingFilterIndex = this.selectedFilters.indexOf(value);
     if (event.isUserInput && !event.source.selected && existingFilterIndex !== -1) {
-      this.selectedFilters.splice(existingFilterIndex, 1);
+      this.selectedFilters = this.selectedFilters.filter((filter) => filter !== value);
     }
     if (event.isUserInput && event.source.selected && existingFilterIndex === -1) {
-      this.selectedFilters.push(value);
+      this.selectedFilters = [...this.selectedFilters, value];
     }
   }
 
@@ -124,16 +124,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     events.forEach((event) => {
       const { cityEn, cityUa } = event.dates[0].coordinates;
-
       const cityExists = cities.some((city) => {
         return city.nameEn === cityEn && city.nameUa === cityUa;
       });
-
       if (!cityExists) {
         cities.push({ nameEn: cityEn, nameUa: cityUa });
       }
     });
-
     return cities;
   }
 

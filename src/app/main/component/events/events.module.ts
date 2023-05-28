@@ -38,6 +38,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EventListFilterPipe } from './components/events-list/event-list-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     EventDetailsComponent,
     ImagesSliderComponent,
     EventScheduleOverlayComponent,
-    EventScheduleComponent
+    EventScheduleComponent,
+    EventListFilterPipe
   ],
   imports: [
     MatDialogModule,

@@ -141,3 +141,12 @@ export interface PaginationInterface {
   currentPage: number;
   totalItems: number;
 }
+
+export enum FilterOfEvent {
+  closed = 'Closed',
+  open = 'Open',
+  joined = 'Joined',
+  created = 'Created',
+  upcoming = 'Upcoming',
+  passed = 'Passed'
+}
