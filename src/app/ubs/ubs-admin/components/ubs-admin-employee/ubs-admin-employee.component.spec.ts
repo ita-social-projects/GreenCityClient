@@ -125,7 +125,11 @@ describe('UbsAdminEmployeeComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
 
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', [
+    'getCurrentLanguage',
+    'languageBehaviourSubject',
+    'getAccessToken'
+  ]);
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 

@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
+import { JwtService } from '@global-service/jwt/jwt.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Observable, Subject } from 'rxjs';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
@@ -19,6 +20,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import { selectOptions, filterOptions, filtersPlaceholderOptions } from './ubs-admin-employee-table/employee-models.enum';
+import { authoritiesChangeEmployee } from './ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -70,6 +72,15 @@ export class UbsAdminEmployeeComponent implements OnInit {
   employeePhoneNumbers = [];
   employeeEmails = [];
   employeesContacts = [];
+  userEmail: string;
+  userRoles: string[];
+  userAuthorities = [];
+  isThisUserAdmin = false;
+  isThisUserCanCreateEmployee = false;
+  isThisUserCanEditEmployee = false;
+  isThisUserCanDeleteEmployee = false;
+  isThisUserCanEditEmployeeAuthorities = false;
+  userHasRights = false;
 
   public icons = {
     setting: './assets/img/ubs-tariff/setting.svg',
@@ -92,13 +103,24 @@ export class UbsAdminEmployeeComponent implements OnInit {
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.setCard();
+    });
+    this.userEmail = this.jwtService.getEmailFromAccessToken();
+    this.getEmployeePositionbyEmail(this.userEmail);
+    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee) => {
+      this.userAuthorities = employee.authorities;
+      this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
+      this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
+      this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
+      this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
+      this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
     });
     this.initForm();
     this.getPositions();
@@ -136,6 +158,12 @@ export class UbsAdminEmployeeComponent implements OnInit {
       region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]]
+    });
+  }
+
+  private getEmployeePositionbyEmail(userEmail: string) {
+    this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((roles) => {
+      this.userRoles = roles;
     });
   }
 

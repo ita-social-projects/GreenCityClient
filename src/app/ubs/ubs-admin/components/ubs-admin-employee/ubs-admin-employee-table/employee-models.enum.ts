@@ -17,3 +17,10 @@ export enum filtersPlaceholderOptions {
   region = 'employees.region',
   contact = 'employees.contact'
 }
+
+export enum authoritiesChangeEmployee {
+  add = 'REGISTER_A_NEW_EMPLOYEE',
+  edit = 'EDIT_EMPLOYEE',
+  editauthorities = 'EDIT_EMPLOYEES_AUTHORITIES',
+  deactivate = 'DEACTIVATE_EMPLOYEE'
+}
