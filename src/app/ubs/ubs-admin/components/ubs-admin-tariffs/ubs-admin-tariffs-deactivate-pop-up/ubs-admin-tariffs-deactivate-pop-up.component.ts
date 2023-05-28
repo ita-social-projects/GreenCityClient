@@ -5,7 +5,16 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, DeactivateCard } from '../../../models/tariffs.interface';
+import {
+  Locations,
+  LocationDto,
+  SelectedItems,
+  Couriers,
+  Stations,
+  TariffCard,
+  DeactivateCard,
+  TranslationDto
+} from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -319,8 +328,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public nameCreationUtil(arr, language, name) {
-    return arr.filter((it) => it.languageCode === language).map((it) => it[name]);
+  public nameCreationUtil(translationDtos: TranslationDto[], language: string, name: string) {
+    return translationDtos.filter((it) => it.languageCode === language).map((it) => it[name]);
   }
 
   public addSelectedRegion(event: MatAutocompleteSelectedEvent): void {

@@ -153,3 +153,19 @@ export interface SelectedItems {
   name: string;
   nameUa?: string;
 }
+
+export interface Card {
+  cardId: number;
+  courier: string;
+  region: string;
+  regionId: number;
+  city: string[];
+  station: string[];
+  tariff: string;
+}
+
+export interface TranslationDto {
+  locationName?: string;
+  regionName?: string;
+  languageCode: string;
+}

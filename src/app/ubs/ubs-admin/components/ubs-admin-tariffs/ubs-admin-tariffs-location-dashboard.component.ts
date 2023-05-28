@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Couriers, CreateCard, Locations, Stations } from '../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, Stations, Card } from '../../models/tariffs.interface';
 import { Subject, Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +24,7 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { statusOfTariff } from './tariff-status.enum';
+import { statusOfTariff, actionsWithTariffs } from './tariff-status.enum';
 import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
@@ -698,7 +698,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  openTariffDeactivatePopUp(card): void {
+  openTariffDeactivateOrRestorePopUp(card: Card, tariffId: number, actionName: string): void {
+    const isItRestore = actionName === actionsWithTariffs.restore;
+    const isItDeactivate = actionName === actionsWithTariffs.deactivation;
     const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
     const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
@@ -713,54 +715,32 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         cityNameUk: ukCard.city,
         cityNameEn: enCard.city,
         stationNames: card.station,
-        isDeactivate: true
+        isDeactivate: isItDeactivate,
+        isRestore: isItRestore
       }
     });
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.tariffsService
-          .switchTariffStatus(card.cardId, statusOfTariff.deactivated)
-          .pipe(takeUntil(this.destroy))
-          .subscribe(() => {
-            if (this.cards) {
-              card.tariff = statusOfTariff.deactivated;
-              this.cards = this.cards.filter((cardItem) => cardItem.tariff !== statusOfTariff.deactivated);
-            }
-          });
+        if (actionName === actionsWithTariffs.deactivation) {
+          this.changeTariffSututusInTable(card, statusOfTariff.deactivated);
+        }
+        if (actionName === actionsWithTariffs.restore && this.checkTariffAvailability(tariffId)) {
+          this.changeTariffSututusInTable(card, statusOfTariff.active);
+        }
       }
     });
   }
 
-  openTariffRestore(card, tariffId) {
-    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
-    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
-    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        courierNameUk: ukCard.courier,
-        courierEnglishName: enCard.courier,
-        regionNameUk: ukCard.region.split(),
-        regionEnglishName: enCard.region.split(),
-        cityNameUk: ukCard.city,
-        cityNameEn: enCard.city,
-        stationNames: card.station,
-        isRestore: true
-      }
-    });
-    matDialogRef.afterClosed().subscribe((res) => {
-      if (res && this.checkTariffAvailability(tariffId)) {
-        this.tariffsService
-          .switchTariffStatus(card.cardId, statusOfTariff.active)
-          .pipe(takeUntil(this.destroy))
-          .subscribe(() => {
-            if (this.selectedCard) {
-              this.selectedCard.tariff = statusOfTariff.active;
-            }
-          });
-      }
-    });
+  changeTariffSututusInTable(card: Card, status: string) {
+    this.tariffsService
+      .switchTariffStatus(card.cardId, status)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        if (this.cards) {
+          card.tariff = status;
+          this.cards = this.cards.filter((cardItem) => cardItem.tariff !== status);
+        }
+      });
   }
 
   checkTariffAvailability(tariffId: number): Observable<boolean> {
