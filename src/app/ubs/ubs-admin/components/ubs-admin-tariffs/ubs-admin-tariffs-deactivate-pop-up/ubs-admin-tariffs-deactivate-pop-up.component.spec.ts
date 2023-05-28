@@ -908,14 +908,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.regionPlaceholder).toEqual('ubs-tariffs.placeholder-choose-region');
   });
 
-  it('checkRegion should return true if item is in selectedRegions', () => {
+  it('checkOption should return true if item is in selectedRegions', () => {
     component.selectedRegions = [locationItem];
-    expect(component.checkRegion('Фейк')).toEqual(true);
+    expect(component.checkOption('Фейк', component.selectedRegions)).toEqual(true);
   });
 
-  it('checkRegion should return false if item is not in selectedRegions', () => {
+  it('checkOption should return false if item is not in selectedRegions', () => {
     component.selectedRegions = [locationItem];
-    expect(component.checkRegion('Фейк1')).toEqual(false);
+    expect(component.checkOption('Фейк1', component.selectedRegions)).toEqual(false);
   });
 
   it('should delete region from the list, only 1 selected region remained', () => {
@@ -1052,14 +1052,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.cityPlaceholder).toEqual('ubs-tariffs.placeholder-choose-city');
   });
 
-  it('checkCity should return true if item is in selectedCities', () => {
+  it('checkOption should return true if item is in selectedCities', () => {
     component.selectedCities = [cityItem];
-    expect(component.checkCity('Фейк місто')).toEqual(true);
+    expect(component.checkOption('Фейк місто', component.selectedCities)).toEqual(true);
   });
 
-  it('checkCity should return false if item is not in selectedCities', () => {
+  it('checkOption should return false if item is not in selectedCities', () => {
     component.selectedCities = [cityItem];
-    expect(component.checkCity('Фейк2')).toEqual(false);
+    expect(component.checkOption('Фейк2', component.selectedCities)).toEqual(false);
   });
 
   it('should delete city from the list, no selected city remained', () => {
