@@ -24,7 +24,8 @@ export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
   isRequest = false;
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
-  profilePicturePath: FriendsAttachedToHabitInterface;
+  profilePicturePathID: number;
+  profilePicturePath: string[] = [];
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
@@ -65,13 +66,9 @@ export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public getFriendsPicturePath(): void {
-    this.habitService
-      .getUserFriendsAttachedToHabit(this.habit.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((message) => {
-        this.profilePicturePath = message;
-      });
-    console.log(this.profilePicturePath, 'picture');
+    this.habitService.getUserFriendsAttachedToHabit(this.habit.habit.id).subscribe((message) => {
+      this.profilePicturePath.push(message.profilePicturePath);
+    });
   }
 
   public buildHabitDescription(): void {
