@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitLink } from '../../links';
-
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
@@ -23,10 +22,8 @@ export class HabitService {
   private backEnd = environment.backendLink;
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
       Authorization: 'my-auth-token'
-    }),
-    withCredentials: true
+    })
   };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
@@ -86,9 +83,6 @@ export class HabitService {
   }
 
   getUserFriendsAttachedToHabit(habitId: number): Observable<FriendsAttachedToHabitInterface> {
-    const accessToken = localStorage.getItem('accessToken');
-    this.httpOptions.headers.set('Authorization', `Bearer ${accessToken}`);
-    this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
-    return this.http.get<FriendsAttachedToHabitInterface>(`${habitLink}/${habitId}/friends/profile-picture`, this.httpOptions);
+    return this.http.get<FriendsAttachedToHabitInterface>(`${habitLink}/${habitId}/friends/profile-pictures`);
   }
 }
