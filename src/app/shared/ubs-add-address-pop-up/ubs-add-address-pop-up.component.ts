@@ -346,11 +346,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       const streetName = this.getLangValue(this.street.value, this.streetEn.value);
       const cityName = this.getLangValue(this.city.value, this.cityEn.value);
       this.houseNumber.setValue(houseValue);
-      const searchAddress = {
-        input: `${streetName}, ${houseValue}, ${cityName}`,
-        street: `${streetName}, ${houseValue}`,
-        city: `${cityName},`
-      };
+      const searchAddress = this.locationService.setSearchAddress(cityName, streetName, houseValue);
       this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
     }
   }

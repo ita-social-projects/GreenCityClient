@@ -452,11 +452,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const houseValue = houseNumber.toLowerCase();
     if (cityName && streetName && houseValue) {
       item.get('houseNumber').setValue(houseValue);
-      const searchAddress = {
-        input: `${streetName}, ${houseValue}, ${cityName}`,
-        street: `${streetName}, ${houseValue}`,
-        city: `${cityName},`
-      };
+      const searchAddress = this.locationService.setSearchAddress(cityName, streetName, houseValue);
       this.setHousesList(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
     }
   }

@@ -55,4 +55,13 @@ export class LocationService {
       });
     });
   }
+
+  setSearchAddress(cityName: string, streetName: string, houseValue): SearchAddressInteface {
+    const searchAddress = {
+      input: `${streetName}, ${houseValue}, ${cityName}`,
+      street: `${streetName}, ${houseValue}`,
+      city: `${cityName},`
+    };
+    return searchAddress;
+  }
 }
