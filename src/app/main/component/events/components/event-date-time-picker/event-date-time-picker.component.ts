@@ -166,16 +166,17 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   }
 
   private setCurrentLocation(): void {
-    if (!this.editDate) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        if (position.coords) {
-          this.coordinates.latitude = position.coords.latitude;
-          this.coordinates.longitude = position.coords.longitude;
-          this.zoom = 8;
-          this.getAddress(position.coords.latitude, position.coords.longitude);
-        }
-      });
+    if (this.editDate) {
+      return;
     }
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords) {
+        this.coordinates.latitude = position.coords.latitude;
+        this.coordinates.longitude = position.coords.longitude;
+        this.zoom = 8;
+        this.getAddress(position.coords.latitude, position.coords.longitude);
+      }
+    });
   }
 
   public checkIfOnline(): void {
