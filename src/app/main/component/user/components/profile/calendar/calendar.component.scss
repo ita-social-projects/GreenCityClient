@@ -88,6 +88,8 @@ $bp-largest: 1200px;
       text-align: center;
 
       .calendar-grid-day {
+        display: flex;
+        justify-content: center;
         padding: 6px 0 0;
         cursor: pointer;
       }
