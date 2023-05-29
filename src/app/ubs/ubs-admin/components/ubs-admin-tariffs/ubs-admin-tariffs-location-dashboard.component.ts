@@ -728,22 +728,21 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  openTariffDeactivateOrRestorePopUp(card: Card, tariffId: number, actionName: string): void {
+  openTariffDeactivateOrRestorePopUp(card, tariffId: number, actionName: string): void {
     const isItRestore = actionName === actionsWithTariffs.restore;
     const isItDeactivate = actionName === actionsWithTariffs.deactivation;
-    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
-    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
+
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
       disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierNameUk: ukCard.courier,
-        courierEnglishName: enCard.courier,
-        regionNameUk: ukCard.region.split(),
-        regionEnglishName: enCard.region.split(),
-        cityNameUk: ukCard.city,
-        cityNameEn: enCard.city,
+        courierNameUk: card.courierUk,
+        courierEnglishName: card.courierEn,
+        regionNameUk: card.regionUk,
+        regionEnglishName: card.regionEn,
+        cityNameUk: card.citiesUk,
+        cityNameEn: card.citiesEn,
         stationNames: card.station,
         isDeactivate: isItDeactivate,
         isRestore: isItRestore
