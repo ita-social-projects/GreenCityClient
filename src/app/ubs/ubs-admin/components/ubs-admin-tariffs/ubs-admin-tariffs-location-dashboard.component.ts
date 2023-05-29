@@ -752,23 +752,23 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
         if (actionName === actionsWithTariffs.deactivation) {
-          this.changeTariffSututusInTable(card, statusOfTariff.deactivated);
+          this.changeTariffStatusInTable(card, statusOfTariff.deactivated);
         }
         if (actionName === actionsWithTariffs.restore && this.checkTariffAvailability(tariffId)) {
-          this.changeTariffSututusInTable(card, statusOfTariff.active);
+          this.changeTariffStatusInTable(card, statusOfTariff.active);
         }
       }
     });
   }
 
-  changeTariffSututusInTable(card: Card, status: string) {
+  changeTariffStatusInTable(card: Card, status: string) {
     this.tariffsService
       .switchTariffStatus(card.cardId, status)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        if (this.cards) {
-          card.tariff = status;
-          this.cards = this.cards.filter((cardItem) => cardItem.tariff !== status);
+        card.tariff = status;
+        if (!this.selectedCard) {
+          this.getExistingCard(this.filterData);
         }
       });
   }
