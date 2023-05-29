@@ -19,11 +19,11 @@ export const listElementsAdmin: object[] = [
     name: 'ubs-sidebar.employees',
     routerLink: 'employee/1'
   },
-  /*{
+  {
     link: 'assets/img/sidebarIcons/statistic_icon.svg',
     name: 'ubs-sidebar.tariffs',
     routerLink: 'tariffs'
-  },/** */
+  },
   {
     link: 'assets/img/sidebarIcons/none_notification_Bell.svg',
     name: 'ubs-sidebar.notifications',
