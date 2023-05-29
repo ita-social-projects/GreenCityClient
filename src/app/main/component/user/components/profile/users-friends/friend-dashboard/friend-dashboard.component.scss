@@ -1,4 +1,12 @@
+.friend-dashboard {
+  background-color: var(--after-primary-light-grey);
+  min-height: calc(100vh - 164px);
+}
+
 .container {
+  padding: 28px 0 44px 0;
+  padding-top: 28px;
+
   .profile-link {
     text-decoration: underline;
     color: var(--primary-green);
@@ -10,6 +18,7 @@
     justify-content: space-between;
     align-items: center;
     font-family: var(--primary-font);
+    padding-top: 12px;
 
     h1 {
       font-style: normal;
@@ -56,6 +65,20 @@
     margin: 0 16px;
     font-size: 16px;
     line-height: 18.75px;
+  }
+
+  .button-link {
+    line-height: 16px;
+    margin: 0;
+    color: var(--primary-dark-grey);
+
+    .button-content {
+      display: flex;
+
+      .button-arrow {
+        margin-right: 6px;
+      }
+    }
   }
 
   .active {

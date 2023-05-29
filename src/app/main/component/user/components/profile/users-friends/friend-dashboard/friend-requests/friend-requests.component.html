@@ -1,5 +1,5 @@
-<div *ngIf="requests !== null; else spinner">
-  <div class="container">
+<div *ngIf="requests !== null; else spinner" class="container">
+  <div>
     <div *ngIf="requests !== null && requests.length === 0">
       <div class="noRequests-wraper">
         <div class="img-absent">
@@ -10,10 +10,19 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let request of requests">
-      <app-request-item [request]="request" (acceptEvent)="accept($event)" (declineEvent)="decline($event)"> </app-request-item>
+    <div class="request-list">
+      <div *ngFor="let request of requests" class="user-card">
+        <app-friend-item
+          [friend]="request"
+          primaryBtnName="{{ 'profile.friends.request-accept' | translate }}"
+          secondaryBtnName="{{ 'profile.friends.request-decline' | translate }}"
+          isFriendRequest="true"
+          (friendEventEmit)="accept($event)"
+          (declineEvent)="decline($event)"
+        ></app-friend-item>
+      </div>
+      <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
     </div>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
 </div>
 <ng-template #spinner>

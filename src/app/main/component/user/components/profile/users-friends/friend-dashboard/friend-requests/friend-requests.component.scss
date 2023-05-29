@@ -5,7 +5,15 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+}
+
+.request-list {
+  display: flex;
+
+  .user-card {
+    display: flex;
+    width: 50%;
+  }
 }
 
 .noRequests-wraper {
@@ -20,5 +28,18 @@
     font-weight: 500;
     font-style: normal;
     line-height: 48px;
+  }
+}
+
+@media (max-width: 1219px) {
+  .request-list {
+    flex-direction: column;
+    width: 100%;
+
+    .user-card {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
   }
 }

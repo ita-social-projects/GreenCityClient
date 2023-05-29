@@ -71,7 +71,6 @@ import { AllFriendsComponent } from './components/profile/users-friends/friend-d
 import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
-import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
@@ -144,7 +143,6 @@ import { QuillModule } from 'ngx-quill';
     RecommendedFriendsComponent,
     FriendItemComponent,
     FriendRequestsComponent,
-    RequestItemComponent,
     HabitInviteFriendsPopUpComponent,
     OneNewsComponent,
     FriendProfilePageComponent,
