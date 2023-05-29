@@ -1,5 +1,5 @@
 export interface TagInterface {
-  id?: number;
+  id: number;
   name: string;
   nameUa: string;
   isActive?: boolean;
