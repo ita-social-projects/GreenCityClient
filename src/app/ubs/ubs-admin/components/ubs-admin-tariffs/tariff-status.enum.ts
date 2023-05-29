@@ -3,3 +3,8 @@ export enum statusOfTariff {
   deactivated = 'DEACTIVATED',
   new = 'NEW'
 }
+
+export enum actionsWithTariffs {
+  deactivation = 'deactivation',
+  restore = 'restore'
+}
