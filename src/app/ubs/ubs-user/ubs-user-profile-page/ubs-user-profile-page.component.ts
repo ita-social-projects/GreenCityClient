@@ -451,8 +451,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const houseNumber = item.get('houseNumber').value;
     const houseValue = houseNumber.toLowerCase();
     if (cityName && streetName && houseValue) {
-      const streetName = item.get('streetEn').value;
-      const cityName = item.get('cityEn').value;
       item.get('houseNumber').setValue(houseValue);
       const searchAddress = {
         input: `${streetName}, ${houseValue}, ${cityName}`,
