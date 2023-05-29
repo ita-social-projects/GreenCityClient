@@ -1,6 +1,6 @@
 {
   "ubs-client-profile": {
-    "data": "User Data",
+    "data": "User data",
     "message-if-edit": "Please fill in your profile to make the ordering process as fast and convenient as possible",
     "error-message-if-edit-name-surname": "The field should contain 1-30 characters",
     "error-message-if-edit-alternativeEmail": "The field should contain 3-66 characters",
@@ -436,6 +436,7 @@
     "payment-date": "Payment date",
     "order-payment-status": "Payment status",
     "amount-due": "Amount-due",
+    "enroll-bonuses": "Enrollment to the bonus account",
     "info-title": "By clicking on the order card, you get all the additional information on the order.",
     "btn": {
       "cancel": "Cancel",
@@ -532,8 +533,8 @@
         "edit-location-name": "Edit the location name",
         "edit-courier-name": "Edit the courier name",
         "edit-destination-name": "Edit the receiving station name",
-        "create-location-card": "Create a location map",
-        "delete-location-card": "Edit/Delete the location card",
+        "create-location-card": "Create a location card",
+        "edit-delete-location-card": "Edit/Delete the location card",
         "see-price-card": "See the pricing card",
         "edit-delete-price-card": "Edit/Delete the pricing card",
         "deactivate-price-card": "Deactivate the pricing card",
@@ -624,7 +625,7 @@
     "placeholder-choose-courier-translate": "Обрати кур'єра",
     "placeholder-enter-courier": "Enter courier",
     "placeholder-enter-courier-translate": "Введіть кур'єра",
-    "placeholder-choose-station": "Select station",
+    "placeholder-choose-station": "Select a receiving station",
     "placeholder-state": "Select state",
     "selected": "selected",
     "tariffs": "Tariffs",
@@ -765,14 +766,17 @@
   },
   "ubs-tariffs-add-service": {
     "add_service": "Add service",
+    "edit_tariff": "Edit tariff",
     "edit_service": "Edit service",
     "name_of_the_service": "Name of the service",
+    "name_of_the_tariff": "Name of the tariff",
     "placeholder-service": "Enter a name for the service",
     "capacity": "Capacity",
     "basic_cost": "Basic cost",
     "commission": "Commission",
     "full_cost": "Full cost",
     "service_description": "Service description",
+    "tariff_description": "Tariff description",
     "placeholder-text": "Describe what is included in the service and the conditions / rules for its provision",
     "error_message": "Fill in the selected fields",
     "error_content": "The field must contain between 1 and 255 characters",
@@ -783,7 +787,7 @@
       "save": "Save"
     },
     "lang": {
-      "name_of_the_service": "Найменування послуги",
+      "name_of_the_service": "Найменування сервісу",
       "placeholder-service": "Введіть назву послуги",
       "service_description": "Опис сервісу",
       "tariff_description": "Опис послуги",

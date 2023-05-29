@@ -1,7 +1,10 @@
-<div class="w-100">
+<div class="w-100" *ngIf="isCreate">
   <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.create_card_title' | translate }}</p>
 </div>
-<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true"></app-dialog-tariff>
+<div class="w-100" *ngIf="isEdit">
+  <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.edit_card_title' | translate }}</p>
+</div>
+<app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true" [deactivatePopup]="true"></app-dialog-tariff>
 <ng-template #form>
   <form [formGroup]="CardForm">
     <div class="d-flex first-row">
@@ -9,7 +12,7 @@
         <label>{{ 'ubs-tariffs.courier' | translate }}</label>
         <mat-select
           #courierSelect
-          formControlName="courier"
+          formControlName="courierName"
           class="form-control"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
           (selectionChange)="onSelectCourier($event)"
@@ -22,7 +25,7 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p class="english-name">{{ courierEnglishName }}</p>
+        <p class="english-name">{{ currentCourierNameTranslated }}</p>
       </div>
     </div>
     <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
@@ -57,7 +60,7 @@
         <label>{{ 'ubs-tariffs.region' | translate }}</label>
         <mat-select
           #regionSelect
-          formControlName="region"
+          formControlName="regionName"
           class="form-control"
           placeholder="{{ 'ubs-tariffs.placeholder-choose-region' | translate }}"
           (selectionChange)="onRegionSelected($event)"
@@ -70,7 +73,7 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="english-name">{{ regionEnglishName }}</p>
+        <p class="english-name">{{ currentRegionTranslated }}</p>
       </div>
     </div>
     <div class="d-flex">
@@ -87,7 +90,7 @@
         <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selected($event, autocompleteTriggerCity)">
           <mat-option *ngFor="let item of filteredCities" [value]="item">
             <mat-checkbox class="mr-1" [checked]="checkCity(item.locationTranslationDtoList[0].locationName)"></mat-checkbox>
-            <span class="checkbox-text">{{ item.locationTranslationDtoList[0].locationName }}</span>
+            <span class="checkbox-text">{{ getTranslatedLocationName(item) }}</span>
           </mat-option>
         </mat-autocomplete>
         <img
@@ -99,14 +102,14 @@
       </div>
       <div class="english-part">
         <label>{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <p *ngIf="citySelected" class="english-name">{{ selectedCityLength + ' selected' }}</p>
+        <p *ngIf="citySelected" class="english-name">{{ cityPlaceholderTranslated }}</p>
       </div>
     </div>
     <div class="list">
       <div *ngFor="let item of selectedCities; let index = index" class="d-flex">
-        <div class="itemList">{{ item.location }}</div>
+        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
         <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteCity(index)" />
-        <div class="itemList">{{ item.englishLocation }}</div>
+        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
       </div>
     </div>
   </form>
@@ -115,8 +118,11 @@
       <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
         {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
       </button>
-      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid || isCardExist" (click)="createCard()">
+      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid || isCardExist" *ngIf="isCreate" (click)="createCard()">
         {{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}
+      </button>
+      <button class="primary-global-button btn m-0" [disabled]="CardForm.invalid || isCardExist" *ngIf="isEdit" (click)="editCard()">
+        {{ 'ubs-tariffs-add-location-pop-up.edit_button' | translate }}
       </button>
     </div>
     <span *ngIf="isCardExist" class="validation-message">{{ 'ubs-tariffs.card-already-exist' | translate }}</span>

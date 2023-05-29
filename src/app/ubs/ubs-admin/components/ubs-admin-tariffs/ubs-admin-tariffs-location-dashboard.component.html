@@ -65,7 +65,7 @@
             {{ region | translate }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon class="cross-img" (click)="resetRegionValue()">close</mat-icon>
+        <mat-icon class="cross-img" (click)="resetLocationValues('region')">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
       </div>
     </div>
@@ -81,7 +81,6 @@
           (matChipInputTokenEnd)="addItem($event)"
         />
         <mat-autocomplete
-          #select
           #autoCity="matAutocomplete"
           (optionSelected)="onSelectCity($event, autocompleteTriggerCity)"
           autoActiveFirstOption
@@ -95,6 +94,7 @@
             <span class="checkbox-text">{{ city }}</span>
           </mat-option>
         </mat-autocomplete>
+        <mat-icon class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">
@@ -118,6 +118,7 @@
             {{ courier }}
           </mat-option>
         </mat-select>
+        <mat-icon class="cross-img" (click)="resetCourierValue()">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
       </div>
     </div>
@@ -130,7 +131,7 @@
           formControlName="station"
           [matAutocomplete]="autoStation"
         />
-        <mat-autocomplete #select #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
+        <mat-autocomplete #autoStation="matAutocomplete" (optionSelected)="stationSelected($event, autocompleteTriggerStation)">
           <mat-option value="all">
             <mat-checkbox [checked]="isStationChecked()" (change)="toggleSelectAllStation()" value="all"></mat-checkbox>
             {{ 'ubs-tariffs.states.all' | translate }}
@@ -140,6 +141,7 @@
             <span class="checkbox-text">{{ option }}</span>
           </mat-option>
         </mat-autocomplete>
+        <mat-icon class="cross-img" (click)="resetStationValue()">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerStation)" />
       </div>
       <div class="city-list">
@@ -172,11 +174,11 @@
     </tr>
   </thead>
   <tbody *ngIf="showAllTariff">
-    <tr *ngFor="let card of cards" class="cursor-pointer">
-      <td (click)="page(card.cardId)">
+    <tr *ngFor="let card of cards" class="cursor-pointer" (click)="page($event.target.className, card.cardId)">
+      <td>
         {{ card.region }}
       </td>
-      <td (click)="page(card.cardId)">
+      <td>
         <div *ngFor="let item of card.city">
           {{ item }}
         </div>
@@ -195,39 +197,38 @@
         {{ card.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
-        <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+        <button class="crumbs-btn">
+          <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
+        </button>
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="openEditPopUp(card)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button mat-menu-item (click)="openTariffDeactivatePopUp(card)">
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'deactivation')">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'">
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'restore')">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
-      </mat-menu>
+      </td>
     </tr>
   </tbody>
   <tbody *ngIf="!showAllTariff && !isLoading">
     <tr class="selected-card">
       <td>
-        {{ selectedCard.region }}
+        {{ getLangValue(selectedCard.regionUk, selectedCard.regionEn) }}
       </td>
       <td>
-        <div *ngFor="let item of selectedCard.city">
+        <div *ngFor="let item of getLangArrayValue(selectedCard.citiesUk, selectedCard.citiesEn)">
           {{ item }}
         </div>
       </td>
       <td>
         <div>
-          {{ selectedCard.courier }}
+          {{ getLangValue(selectedCard.courierUk, selectedCard.courierEn) }}
         </div>
       </td>
       <td>
@@ -242,21 +243,18 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="openEditPopUp(selectedCard)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button mat-menu-item (click)="openTariffDeactivatePopUp(selectedCard)">
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(selectedCard, selectedCard.cardId, 'deactivation')">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="selectedCard.tariff === 'DEACTIVATED'" [matMenuTriggerFor]="restore">
-        <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
-      </td>
-      <mat-menu #restore="matMenu">
-        <button mat-menu-item>
-          <span class="menu-item">{{ 'ubs-tariffs.btn.restore' | translate }}</span>
+      <td class="last-col" *ngIf="selectedCard.tariff === 'DEACTIVATED'">
+        <button class="restore-tariff" (click)="openTariffDeactivateOrRestorePopUp(selectedCard, selectedCard.cardId, 'restore')">
+          <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
-      </mat-menu>
+      </td>
     </tr>
   </tbody>
 </table>

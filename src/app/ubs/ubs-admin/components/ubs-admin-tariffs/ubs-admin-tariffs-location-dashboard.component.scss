@@ -20,6 +20,12 @@ form {
   margin-bottom: 32px;
 }
 
+.restore-tariff {
+  border: none;
+  background-color: transparent;
+  width: 30px;
+}
+
 .showing-block {
   background: var(--ubs-primary-white);
   box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
@@ -207,6 +213,11 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.crumbs-btn {
+  border: none;
+  background: transparent;
 }
 
 .tariff-img {

@@ -3,6 +3,7 @@ export interface Bag {
   nameEng?: string;
   capacity: number;
   price: number;
+  limitIncluded?: boolean;
   commission: number;
   description?: string;
   descriptionEng?: string;
@@ -21,6 +22,19 @@ export interface Bag {
     descriptionEng: string;
     nameEng: string;
   };
+}
+
+export interface BagLimitDto {
+  id: number;
+  limitIncluded: boolean;
+}
+
+export interface ILimit {
+  bagLimitDtoList: BagLimitDto[];
+  courierLimit: string;
+  limitDescription: string;
+  min: number;
+  max: number;
 }
 
 export interface Service {
@@ -44,11 +58,11 @@ export interface Stations {
 
 export interface Couriers {
   courierId: number;
-  courierStatus: string;
+  courierStatus?: string;
   nameUk: string;
   nameEn: string;
-  createDate: string;
-  createdBy: string;
+  createDate?: string;
+  createdBy?: string;
 }
 
 export interface Locations {
@@ -138,4 +152,20 @@ export interface SelectedItems {
   id: number;
   name: string;
   nameUa?: string;
+}
+
+export interface Card {
+  cardId: number;
+  courier: string;
+  region: string;
+  regionId: number;
+  city: string[];
+  station: string[];
+  tariff: string;
+}
+
+export interface TranslationDto {
+  locationName?: string;
+  regionName?: string;
+  languageCode: string;
 }
