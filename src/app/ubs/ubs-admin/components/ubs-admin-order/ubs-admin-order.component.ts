@@ -500,7 +500,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
-    date.setHours(+hours + 2);
+    date.setHours(+hours + 3);
     date.setMinutes(+minutes);
     return date ? date.toISOString().split('Z').join('') : '';
   }
