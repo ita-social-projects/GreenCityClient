@@ -18,6 +18,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
+import { SearchAddressInteface } from '../../ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -29,6 +30,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   placeService: google.maps.places.PlacesService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
   cityPredictionList: google.maps.places.AutocompletePrediction[];
+  housePredictionList: google.maps.places.AutocompletePrediction[];
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
   userProfile: UserProfile;
@@ -173,6 +175,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         ]),
         isKyiv: new FormControl(adres?.city === 'Київ' ? true : false),
         searchAddress: new FormControl(null),
+        isHouseSelected: new FormControl(null),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
         actual: new FormControl(adres?.actual)
@@ -240,6 +243,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       currentFormGroup.get('houseCorpus').reset('');
       this.streetPredictionList = null;
       this.cityPredictionList = null;
+      this.housePredictionList = null;
     });
 
     const elem = this.regions.find((el) => el.name === (event.target as HTMLSelectElement).value.slice(3));
@@ -382,10 +386,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
-      if (request.language === this.languages.en) {
-        item.get('searchAddress').setValue(placeDetails.formatted_address);
-        this.setPlaceId(item);
-      }
       if (request.language === this.languages.en && isKyiv.value) {
         const districtEn = item.get('districtEn');
         this.setDistrictAuto(placeDetails, districtEn, request.language);
@@ -442,17 +442,53 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     setTimeout(() => this.focusOnFirst());
   }
 
-  setPlaceId(item: AbstractControl): void {
-    const searchAddress = item.get('searchAddress').value;
+  setPredictHouseNumbers(item: AbstractControl): void {
+    this.housePredictionList = null;
+    item.get('isHouseSelected').setValue(false);
+    const cityName = item.get('cityEn').value;
+    const streetName = item.get('streetEn').value;
     const houseNumber = item.get('houseNumber').value;
-    if (searchAddress && houseNumber) {
-      const addressConverted = this.locationService.addHouseNumToAddress(searchAddress, houseNumber);
-      const request = {
-        query: addressConverted
+    const houseValue = houseNumber.toLowerCase();
+    if (cityName && streetName && houseValue) {
+      const streetName = item.get('streetEn').value;
+      const cityName = item.get('cityEn').value;
+      item.get('houseNumber').setValue(houseValue);
+      const searchAddress = {
+        input: `${streetName}, ${houseValue}, ${cityName}`,
+        street: `${streetName}, ${houseValue}`,
+        city: `${cityName},`
       };
-      this.placeService.textSearch(request, (address) => {
-        item.get('placeId').setValue(address[0].place_id);
-      });
+      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+    }
+  }
+
+  inputHouse(searchAddress: SearchAddressInteface, lang: string): void {
+    const request = {
+      input: searchAddress.input,
+      language: lang,
+      types: ['address'],
+      componentRestrictions: { country: 'ua' }
+    };
+    this.autocompleteService.getPlacePredictions(request, (housePredictions) => {
+      this.housePredictionList = housePredictions?.filter(
+        (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
+      );
+      this.housePredictionList.forEach(
+        (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
+      );
+    });
+  }
+
+  onHouseSelected(item: AbstractControl, address: google.maps.places.AutocompletePrediction): void {
+    item.get('searchAddress').setValue(address.description);
+    item.get('placeId').setValue(address.place_id);
+    item.get('isHouseSelected').setValue(true);
+    this.housePredictionList = null;
+  }
+
+  checkHouseInput(item: AbstractControl): void {
+    if (!item.get('isHouseSelected').value) {
+      item.get('houseNumber').setValue('');
     }
   }
 
@@ -502,6 +538,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           delete updatedAddres.entranceNumber;
         }
         delete updatedAddres.searchAddress;
+        delete updatedAddres.isHouseSelected;
         submitData.addressDto.push(updatedAddres);
       });
 
