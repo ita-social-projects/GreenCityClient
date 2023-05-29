@@ -50,7 +50,8 @@
       border: 1px solid var(--primary-green);
     }
 
-    &:hover .global-tag-clicked {
+    &:hover .global-tag-clicked,
+    &:focus .global-tag-clicked {
       color: var(--primary-white);
       border: none;
     }

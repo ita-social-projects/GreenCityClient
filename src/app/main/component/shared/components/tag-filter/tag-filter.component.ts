@@ -43,7 +43,8 @@ export class TagFilterComponent implements OnInit, OnChanges {
   public toggleFilter(currentFilter: string): void {
     this.filters.forEach((el) => (el.isActive = el.name === currentFilter ? !el.isActive : el.isActive));
     this.emitActiveFilters();
-    this.setSessionStorageFilters();
+    const isAnyFilterSelcted = this.filters.some((item) => item.isActive === true);
+    isAnyFilterSelcted ? this.setSessionStorageFilters() : this.cleanSessionStorageFilters();
   }
 
   private setTags(tags: Array<TagInterface>): void {
@@ -58,8 +59,12 @@ export class TagFilterComponent implements OnInit, OnChanges {
     this.emitActiveFilters();
   }
 
-  private setSessionStorageFilters() {
+  private setSessionStorageFilters(): void {
     sessionStorage.setItem(this.storageKey, JSON.stringify(this.filters));
+  }
+
+  private cleanSessionStorageFilters(): void {
+    sessionStorage.removeItem(this.storageKey);
   }
 
   private getSessionStorageFilters() {
