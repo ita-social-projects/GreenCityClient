@@ -40,8 +40,8 @@
       color: var(--primary-white);
     }
 
-    &:active {
-      outline: none;
+    &:focus {
+      outline: none !important;
     }
 
     &:hover .global-tag,

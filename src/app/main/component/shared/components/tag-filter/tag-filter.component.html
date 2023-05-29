@@ -2,12 +2,7 @@
   <span class="filter">{{ header | translate }}</span>
   <div class="ul-eco-buttons" aria-label="filter by items">
     <button *ngFor="let filter of filters" class="tag-button" (click)="toggleFilter(filter.name)">
-      <a
-        role="button"
-        [attr.aria-pressed]="filter.isActive"
-        class="custom-chip global-tag"
-        [ngClass]="{ 'global-tag-clicked': filter.isActive }"
-      >
+      <a class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': filter.isActive }">
         <span class="text">{{ getLangValue(filter.nameUa, filter.name) }}</span>
         <div [ngClass]="{ 'global-tag-close-icon': filter.isActive }"></div>
       </a>
