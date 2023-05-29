@@ -19,8 +19,7 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
-import { selectOptions, filterOptions, filtersPlaceholderOptions } from './ubs-admin-employee-table/employee-models.enum';
-import { authoritiesChangeEmployee } from './ubs-admin-employee-table/employee-models.enum';
+import { selectOptions, filterOptions, filtersPlaceholderOptions, authoritiesChangeEmployee } from './ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee',
