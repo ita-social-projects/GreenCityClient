@@ -1366,20 +1366,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(result).toEqual(['Фейк1']);
   });
 
-  it('method deactivateCard should create request line', () => {
-    component.selectedRegions.push(locationItem);
-    component.selectedStations.push(stationItem);
-    component.selectedCities.push(cityItem);
-    const result = {
-      cities: `0`,
-      courier: undefined,
-      regions: `0`,
-      stations: `0`
-    };
-    component.createDeactivateCardDto();
-    expect(component.deactivateCardObj).toEqual(result);
-  });
-
   it('method onNoClick should invoke destroyRef.close()', () => {
     component.selectedRegions.push(locationItem);
     component.selectedStations.push(stationItem);

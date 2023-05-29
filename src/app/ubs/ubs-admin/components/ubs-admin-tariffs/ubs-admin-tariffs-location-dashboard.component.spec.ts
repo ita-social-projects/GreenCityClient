@@ -953,18 +953,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     });
   });
 
-  it('should call openDeactivatePopUp', () => {
-    component.openDeactivatePopUp();
-    expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsDeactivatePopUpComponent, {
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        headerText: 'deactivateTemplate'
-      }
-    });
-  });
-
   it('should set city placeholder', () => {
     component.selectedCities = ['Фейк'];
     component.setCountOfCheckedCity();

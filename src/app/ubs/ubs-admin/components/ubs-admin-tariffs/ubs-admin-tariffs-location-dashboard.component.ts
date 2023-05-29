@@ -721,7 +721,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return this.dialog.open(component, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
-      data: data
+      data
     });
   }
 
