@@ -35,14 +35,16 @@
     padding: 0;
     background: none;
 
-    &:hover .global-tag {
-      color: var(--primary-green);
-      border: 1px solid var(--primary-green);
-    }
+    &:hover {
+      .global-tag {
+        color: var(--primary-green);
+        border: 1px solid var(--primary-green);
+      }
 
-    &:hover .global-tag-clicked {
-      color: var(--primary-white);
-      border: none;
+      .global-tag-clicked {
+        color: var(--primary-white);
+        border: none;
+      }
     }
 
     .global-tag-clicked {
