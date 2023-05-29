@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
           <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
-          <input formControlName="email" />
+          <input formControlName="email" maxlength="72" minlength="3" />
           <div class="validation" *ngIf="email.invalid && email.touched">
             <app-ubs-input-error [formElement]="email" [inputName]="'requiredEmailEmployee'" [fromEmployee]="true"></app-ubs-input-error>
           </div>
