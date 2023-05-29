@@ -175,7 +175,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         ]),
         isKyiv: new FormControl(adres?.city === 'Київ' ? true : false),
         searchAddress: new FormControl(null),
-        isHouseSelected: new FormControl(null),
+        isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
         actual: new FormControl(adres?.actual)
@@ -370,6 +370,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   onStreetSelected(formGroupName: number, selectedStreet: google.maps.places.AutocompletePrediction): void {
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
+    currentFormGroup.get('houseNumber').setValue('');
 
     this.setValueOfStreet(selectedStreet, currentFormGroup, 'street');
     this.setValueOfStreet(selectedStreet, currentFormGroup, 'streetEn');
@@ -473,9 +474,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       this.housePredictionList = housePredictions?.filter(
         (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
       );
-      this.housePredictionList.forEach(
-        (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
-      );
+      if (this.housePredictionList && this.housePredictionList.length) {
+        this.housePredictionList.forEach(
+          (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
+        );
+      }
     });
   }
 

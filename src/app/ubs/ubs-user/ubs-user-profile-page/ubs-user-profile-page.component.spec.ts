@@ -39,7 +39,8 @@ describe('UbsUserProfilePageComponent', () => {
         street: 'Jhohn Lenon',
         streetEn: 'Jhohn Lenon',
         placeId: null,
-        searchAddress: null
+        searchAddress: null,
+        isHouseSelected: true
       }
     ],
     recipientEmail: 'blackstar@gmail.com',

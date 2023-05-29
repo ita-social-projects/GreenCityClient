@@ -341,6 +341,7 @@ export interface Address {
   id: number;
   placeId: string;
   searchAddress?: string;
+  isHouseSelected?: boolean;
   street: string;
   streetEn: string;
 }
