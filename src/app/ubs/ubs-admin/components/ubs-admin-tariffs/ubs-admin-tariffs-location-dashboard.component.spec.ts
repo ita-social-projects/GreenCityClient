@@ -875,18 +875,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.cards).toEqual(component.cardsUk);
   });
 
-  it('should set card by language', () => {
-    const spy1 = spyOn(component, 'setCountOfCheckedCity');
-    const spy2 = spyOn(component, 'getExistingCard');
-    component.region.setValue('Fake1');
-    component.selectedCities = [{ name: 'fake', id: 12, englishName: 'fake' }];
-    component.resetRegionValue();
-    expect(component.region.value).toEqual('');
-    expect(component.selectedCities).toEqual([]);
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-  });
-
   it('should call openAddCourierDialog', () => {
     component.openAddCourierDialog();
     expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsCourierPopUpComponent, {
@@ -961,18 +949,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       data: {
         headerText: 'editLocation',
         edit: true
-      }
-    });
-  });
-
-  it('should call openDeactivatePopUp', () => {
-    component.openDeactivatePopUp();
-    expect(matDialogMock.open).toHaveBeenCalledWith(UbsAdminTariffsDeactivatePopUpComponent, {
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        headerText: 'deactivateTemplate'
       }
     });
   });

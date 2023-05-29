@@ -19,7 +19,6 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
-import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
 import { Language } from 'src/app/main/i18n/Language';
@@ -83,7 +82,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public regionLabelUa = TariffRegionLabelName.ua;
   public cityLabelEn = TariffLocationLabelName.en;
   public cityLabelUa = TariffLocationLabelName.ua;
-  deactivateCardObj: DeactivateCard;
 
   constructor(
     private fb: FormBuilder,
@@ -696,37 +694,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     arr.forEach((it) => it.enable());
   }
 
-  public createDeactivateCardDto() {
-    this.deactivateCardObj = {
-      cities: this.selectedCities.map((it) => it.id).join('%'),
-      courier: this.selectedCourier?.id,
-      regions: this.selectedRegions.map((it) => it.id).join('%'),
-      stations: this.selectedStations.map((it) => it.id).join('%')
-    };
-  }
-
   public deactivateCard(): void {
-    this.dialogRef.close();
-    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        courierNameUk: this.selectedValue.nameUk,
-        courierEnglishName: this.selectedValue.nameEn,
-        regionNameUk: this.selectedRegions.map((region) => region.nameUa),
-        regionEnglishName: this.selectedRegions.map((region) => region.name),
-        cityNameUk: this.selectedCities.map((city) => city.nameUa),
-        cityNameEn: this.selectedCities.map((city) => city.name),
-        stationNames: this.selectedStations.map((it) => it.name),
-        isDeactivate: true
-      }
-    });
-    this.createDeactivateCardDto();
-    matDialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.tariffsService.deactivate(this.deactivateCardObj).pipe(takeUntil(this.unsubscribe)).subscribe();
-      }
+    this.dialogRef.close({
+      selectedValue: this.selectedValue,
+      selectedRegionValue: this.selectedRegions,
+      selectedCitiesValue: this.selectedCities,
+      selectedStations: this.selectedStations,
+      selectedCourier: this.selectedCourier
     });
   }
 

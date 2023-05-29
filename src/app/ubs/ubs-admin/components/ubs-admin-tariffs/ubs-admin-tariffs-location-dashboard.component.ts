@@ -1,15 +1,14 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { Couriers, CreateCard, Locations, Stations, Card } from '../../models/tariffs.interface';
-import { Subject, Observable, forkJoin } from 'rxjs';
+import { Couriers, CreateCard, Locations, Stations, Card, DeactivateCard } from '../../models/tariffs.interface';
+import { Subject, Observable, forkJoin, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { Store } from '@ngrx/store';
 import { MatChipInputEvent } from '@angular/material/chips';
-
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -68,6 +67,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   isFieldFilled = false;
   isCardExist = false;
   currentLang;
+  deactivateCardObj: DeactivateCard;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -165,7 +165,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public checkisCardExist(): void {
-    if (this.region.value && this.courier.value && this.selectedCities.length && this.selectedStation.length) {
+    if (this.courier.value && this.selectedCities.length) {
       this.isFieldFilled = true;
       this.createCardDto();
       this.tariffsService
@@ -177,13 +177,36 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  public resetRegionValue(): void {
-    this.region.setValue('');
+  resetLocationValues(fieldName: string): void {
+    this.resetFormFieldValue(fieldName);
     this.selectedCities = [];
     this.setCountOfCheckedCity();
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
-    Object.assign(this.filterData, { region: '', location: locationsId });
+    this.updateFilterData({ [fieldName]: '', location: locationsId });
     this.getExistingCard(this.filterData);
+  }
+
+  resetCourierValue(): void {
+    this.resetFormFieldValue('courier');
+    this.updateFilterData({ courier: '' });
+    this.getExistingCard(this.filterData);
+  }
+
+  resetStationValue(): void {
+    this.resetFormFieldValue('station');
+    this.selectedStation = [];
+    const stationsId = this.stations.map((station) => station.id);
+    this.updateFilterData({ receivingStation: stationsId });
+    this.setStationPlaceholder();
+    this.getExistingCard(this.filterData);
+  }
+
+  private updateFilterData(data: object): void {
+    Object.assign(this.filterData, data);
+  }
+
+  private resetFormFieldValue(fieldName: string): void {
+    this[fieldName].setValue('');
   }
 
   public _filter(name: string, items: any[]): any[] {
@@ -520,12 +543,19 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       const selectedValue = this.locations.filter((it) =>
         it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
       );
+
       this.regionEnglishName = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
         .flat(2);
       this.regionId = selectedValue.find((it) => it.regionId).regionId;
       Object.assign(this.filterData, { region: this.regionId });
     }
+
+    this.filteredRegions = of(
+      this.locations.flatMap((it) =>
+        it.regionTranslationDtos.filter((ob) => ob.languageCode === this.currentLang).map((ob) => ob.regionName)
+      )
+    );
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
   }
@@ -687,33 +717,80 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  openDeactivatePopUp(): void {
-    this.dialog.open(UbsAdminTariffsDeactivatePopUpComponent, {
-      disableClose: true,
+  openDialog(component, data): any {
+    return this.dialog.open(component, {
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        headerText: 'deactivateTemplate'
+      data
+    });
+  }
+
+  openConfirmationDialog(result): any {
+    const data = {
+      courierNameUk: result.selectedValue.nameUk,
+      courierEnglishName: result.selectedValue.nameEn,
+      regionNameUk: result.selectedRegionValue.map((region) => region.regionNameUa),
+      regionEnglishName: result.selectedRegionValue.map((region) => region.regionNameEn),
+      cityNameUk: result.selectedCitiesValue.map((city) => city.cityNameUa),
+      cityNameEn: result.selectedCitiesValue.map((city) => city.cityNameEn),
+      stationNames: result.selectedStations.map((it) => it.name),
+      isDeactivate: true
+    };
+    return this.openDialog(TariffDeactivateConfirmationPopUpComponent, data);
+  }
+
+  processConfirmationDialogClose(confirmRes): void {
+    if (confirmRes) {
+      this.tariffsService
+        .deactivate(this.deactivateCardObj)
+        .pipe(takeUntil(this.destroy))
+        .subscribe((res) => this.getExistingCard(this.filterData));
+    }
+  }
+
+  openDeactivatePopUp(): void {
+    const dialogRef = this.openDialog(UbsAdminTariffsDeactivatePopUpComponent, { headerText: 'deactivateTemplate' });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const confirmDialogRef = this.openConfirmationDialog(result);
+        this.createDeactivateCardDto(result);
+        confirmDialogRef.afterClosed().subscribe((confirmRes) => {
+          if (confirmRes) {
+            this.tariffsService
+              .deactivate(this.deactivateCardObj)
+              .pipe(takeUntil(this.destroy))
+              .subscribe((res) => this.getExistingCard(this.filterData));
+          }
+        });
       }
     });
   }
 
-  openTariffDeactivateOrRestorePopUp(card: Card, tariffId: number, actionName: string): void {
+  private createDeactivateCardDto(result): void {
+    this.deactivateCardObj = {
+      cities: result.selectedCitiesValue.map((it) => it.id).join('%'),
+      courier: result.selectedCourier.id,
+      regions: result.selectedRegionValue.map((it) => it.id).join('%'),
+      stations: result.selectedStations.map((it) => it.id).join('%')
+    };
+  }
+
+  openTariffDeactivateOrRestorePopUp(card, tariffId: number, actionName: string): void {
     const isItRestore = actionName === actionsWithTariffs.restore;
     const isItDeactivate = actionName === actionsWithTariffs.deactivation;
-    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
-    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
+
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
       disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierNameUk: ukCard.courier,
-        courierEnglishName: enCard.courier,
-        regionNameUk: ukCard.region.split(),
-        regionEnglishName: enCard.region.split(),
-        cityNameUk: ukCard.city,
-        cityNameEn: enCard.city,
+        courierNameUk: card.courierUk,
+        courierEnglishName: card.courierEn,
+        regionNameUk: card.regionUk,
+        regionEnglishName: card.regionEn,
+        cityNameUk: card.citiesUk,
+        cityNameEn: card.citiesEn,
         stationNames: card.station,
         isDeactivate: isItDeactivate,
         isRestore: isItRestore
@@ -722,23 +799,23 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     matDialogRef.afterClosed().subscribe((res) => {
       if (res) {
         if (actionName === actionsWithTariffs.deactivation) {
-          this.changeTariffSututusInTable(card, statusOfTariff.deactivated);
+          this.changeTariffStatusInTable(card, statusOfTariff.deactivated);
         }
         if (actionName === actionsWithTariffs.restore && this.checkTariffAvailability(tariffId)) {
-          this.changeTariffSututusInTable(card, statusOfTariff.active);
+          this.changeTariffStatusInTable(card, statusOfTariff.active);
         }
       }
     });
   }
 
-  changeTariffSututusInTable(card: Card, status: string) {
+  changeTariffStatusInTable(card: Card, status: string) {
     this.tariffsService
       .switchTariffStatus(card.cardId, status)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
-        if (this.cards) {
-          card.tariff = status;
-          this.cards = this.cards.filter((cardItem) => cardItem.tariff !== status);
+        card.tariff = status;
+        if (!this.selectedCard) {
+          this.getExistingCard(this.filterData);
         }
       });
   }
@@ -763,8 +840,12 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
   }
 
-  private getLangValue(uaValue: string, enValue: string): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public getLangArrayValue(uaValue: string[], enValue: string[]) {
+    return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
   ngOnDestroy(): void {
