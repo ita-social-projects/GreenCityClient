@@ -10,14 +10,14 @@
       <div class="private-section">
         <div class="form-group odd">
           <label class="group-title">{{ 'ubs-employee.name' | translate }}</label>
-          <input formControlName="firstName" />
+          <input formControlName="firstName" maxlength="31" />
           <div class="validation" *ngIf="firstName.invalid && firstName.touched">
             <app-ubs-input-error [formElement]="firstName" [fromEmployee]="true"></app-ubs-input-error>
           </div>
         </div>
         <div class="form-group">
           <label class="group-title">{{ 'ubs-employee.surname' | translate }}</label>
-          <input formControlName="lastName" />
+          <input formControlName="lastName" maxlength="31" />
           <div class="validation" *ngIf="lastName.invalid && lastName.touched">
             <app-ubs-input-error [formElement]="lastName" [fromEmployee]="true"></app-ubs-input-error>
           </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
           <label class="group-title">{{ 'ubs-employee.email' | translate }}</label>
-          <input formControlName="email" />
+          <input formControlName="email" maxlength="72" minlength="3" />
           <div class="validation" *ngIf="email.invalid && email.touched">
             <app-ubs-input-error [formElement]="email" [inputName]="'requiredEmailEmployee'" [fromEmployee]="true"></app-ubs-input-error>
           </div>
