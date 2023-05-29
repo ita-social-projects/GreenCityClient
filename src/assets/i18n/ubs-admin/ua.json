@@ -433,6 +433,7 @@
     "order-payment-status": "Статус оплати",
     "payment-amount": "Сума замовлення",
     "amount-due": "Сума до оплати",
+    "enroll-bonuses": "Зарахування на бонусний рахунок",
     "info-title": "Натискаючи на картку замовлення, ви отримуєте всю додаткову інформацію по замовленню.",
     "btn": {
       "cancel": "Скасувати",
@@ -622,7 +623,7 @@
     "placeholder-choose-courier-translate": "Choose courier",
     "placeholder-enter-courier": "Введіть кур'єра",
     "placeholder-enter-courier-translate": "Enter courier",
-    "placeholder-choose-station": "Оберіть станцію приймання",
+    "placeholder-choose-station": "Обрати станцію приймання",
     "selected": "вибрано",
     "tariffs": "Тарифи",
     "region": "Область",

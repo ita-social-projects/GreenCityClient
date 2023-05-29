@@ -23,7 +23,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   public sizePage = 10;
   public searchQuery = '';
   public searchMode = false;
-  readonly absent = 'assets/img/noNews.jpg';
+  readonly absent = 'assets/img/noNews.svg';
   constructor(
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,

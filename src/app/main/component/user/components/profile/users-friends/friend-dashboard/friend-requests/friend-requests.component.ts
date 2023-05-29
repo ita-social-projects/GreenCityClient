@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-friend-requests',
   templateUrl: './friend-requests.component.html',
-  styleUrls: ['./friend-requests.component.scss'],
+  styleUrls: ['./friend-requests.component.scss']
 })
 export class FriendRequestsComponent implements OnInit, OnDestroy {
   public requests: FriendModel[] = null;
@@ -16,7 +16,7 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
-  readonly absent = 'assets/img/noNews.jpg';
+  readonly absent = 'assets/img/noNews.svg';
 
   constructor(private localStorageService: LocalStorageService, private userFriendsService: UserFriendsService) {}
 

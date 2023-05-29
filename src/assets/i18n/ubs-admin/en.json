@@ -435,6 +435,7 @@
     "payment-date": "Payment date",
     "order-payment-status": "Payment status",
     "amount-due": "Amount-due",
+    "enroll-bonuses": "Enrollment to the bonus account",
     "info-title": "By clicking on the order card, you get all the additional information on the order.",
     "btn": {
       "cancel": "Cancel",
@@ -623,7 +624,7 @@
     "placeholder-choose-courier-translate": "Обрати кур'єра",
     "placeholder-enter-courier": "Enter courier",
     "placeholder-enter-courier-translate": "Введіть кур'єра",
-    "placeholder-choose-station": "Select station",
+    "placeholder-choose-station": "Select a receiving station",
     "placeholder-state": "Select state",
     "selected": "selected",
     "tariffs": "Tariffs",

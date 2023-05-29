@@ -183,6 +183,12 @@ export interface IOrderPaymentStatusesDto {
   eng?: string;
 }
 
+export interface IPaymentStatus {
+  key?: string;
+  ua?: string;
+  eng?: string;
+}
+
 export interface IUserInfo {
   recipientId: number;
   customerEmail: string;

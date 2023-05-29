@@ -144,9 +144,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-
-      const confirmedValue = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      bag.confirmed = this.isOrderStatusChanged ? 0 : confirmedValue;
+      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
 
       const setAmountOfBagsExported = this.currentOrderStatus === OrderStatus.DONE ? bag.confirmed : 0;
       bag.actual = this.isOrderStatusChanged ? 0 : this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
@@ -501,7 +499,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
-    date.setHours(+hours + 2);
+    date.setHours(+hours + 3);
     date.setMinutes(+minutes);
     return date ? date.toISOString().split('Z').join('') : '';
   }
