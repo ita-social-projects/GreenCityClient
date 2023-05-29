@@ -457,27 +457,17 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         street: `${streetName}, ${houseValue}`,
         city: `${cityName},`
       };
-      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+      this.setHousesList(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
     }
   }
 
-  inputHouse(searchAddress: SearchAddressInteface, lang: string): void {
-    const request = {
-      input: searchAddress.input,
-      language: lang,
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
-    this.autocompleteService.getPlacePredictions(request, (housePredictions) => {
-      this.housePredictionList = housePredictions?.filter(
-        (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
-      );
-      if (this.housePredictionList && this.housePredictionList.length) {
-        this.housePredictionList.forEach(
-          (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
-        );
-      }
-    });
+  setHousesList(searchAddress: SearchAddressInteface, lang: string): void {
+    this.locationService
+      .getFullAddressList(searchAddress, this.autocompleteService, lang)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((list: google.maps.places.AutocompletePrediction[]) => {
+        this.housePredictionList = list;
+      });
   }
 
   onHouseSelected(item: AbstractControl, address: google.maps.places.AutocompletePrediction): void {

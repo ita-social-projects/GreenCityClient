@@ -356,20 +356,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   inputHouse(searchAddress: SearchAddressInteface, lang: string): void {
-    const request = {
-      input: searchAddress.input,
-      language: lang,
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
-    this.autocompleteService.getPlacePredictions(request, (housePredictions) => {
-      this.housePredictionList = housePredictions?.filter(
-        (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
-      );
-      this.housePredictionList.forEach(
-        (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
-      );
-    });
+    this.locationService
+      .getFullAddressList(searchAddress, this.autocompleteService, lang)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((list: google.maps.places.AutocompletePrediction[]) => {
+        this.housePredictionList = list;
+      });
   }
 
   onHouseSelected(address: google.maps.places.AutocompletePrediction): void {

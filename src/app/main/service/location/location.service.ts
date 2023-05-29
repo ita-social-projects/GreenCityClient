@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SearchAddressInteface } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +27,32 @@ export class LocationService {
     addressArray.splice(1, 0, ' ' + houseNumber);
     const addressConverted = addressArray.join(',');
     return addressConverted;
+  }
+
+  getFullAddressList(
+    searchAddress: SearchAddressInteface,
+    autocompleteService: google.maps.places.AutocompleteService,
+    lang: string
+  ): Observable<google.maps.places.AutocompletePrediction[]> {
+    const request = {
+      input: searchAddress.input,
+      language: lang,
+      types: ['address'],
+      componentRestrictions: { country: 'ua' }
+    };
+    return new Observable((observer) => {
+      autocompleteService.getPlacePredictions(request, (housePredictions) => {
+        const predictionList = housePredictions?.filter(
+          (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
+        );
+        if (predictionList || predictionList.length) {
+          predictionList.forEach(
+            (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
+          );
+        }
+        observer.next(predictionList);
+        observer.complete();
+      });
+    });
   }
 }
