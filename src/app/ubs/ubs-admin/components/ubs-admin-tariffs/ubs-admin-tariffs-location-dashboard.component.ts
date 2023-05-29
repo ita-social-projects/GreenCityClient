@@ -165,7 +165,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public checkisCardExist(): void {
-    if (this.region.value && this.courier.value && this.selectedCities.length && this.selectedStation.length) {
+    if (this.courier.value && this.selectedCities.length) {
       this.isFieldFilled = true;
       this.createCardDto();
       this.tariffsService
