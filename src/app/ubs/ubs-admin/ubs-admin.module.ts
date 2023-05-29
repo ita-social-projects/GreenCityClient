@@ -214,6 +214,7 @@ import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-adm
       multi: true
     }
   ],
+  exports: [UbsAdminEmployeeComponent],
   entryComponents: [
     UbsAdminTableComponent,
     AddViolationsComponent,
