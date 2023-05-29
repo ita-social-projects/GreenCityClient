@@ -754,23 +754,25 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const confirmDialogRef = this.openConfirmationDialog(result);
-        this.createDeactivateCardDto(
-          result.selectedCitiesValue,
-          result.selectedCourier,
-          result.selectedRegionValue,
-          result.selectedStations
-        );
-        confirmDialogRef.afterClosed().subscribe((confirmRes) => this.processConfirmationDialogClose(confirmRes));
+        this.createDeactivateCardDto(result);
+        confirmDialogRef.afterClosed().subscribe((confirmRes) => {
+          if (confirmRes) {
+            this.tariffsService
+              .deactivate(this.deactivateCardObj)
+              .pipe(takeUntil(this.destroy))
+              .subscribe((res) => this.getExistingCard(this.filterData));
+          }
+        });
       }
     });
   }
 
-  private createDeactivateCardDto(selectedCities, selectedCourier, selectedRegions, selectedStations) {
+  private createDeactivateCardDto(result): void {
     this.deactivateCardObj = {
-      cities: selectedCities.map((it) => it.id).join('%'),
-      courier: selectedCourier?.id,
-      regions: selectedRegions.map((it) => it.id).join('%'),
-      stations: selectedStations.map((it) => it.id).join('%')
+      cities: result.selectedCitiesValue.map((it) => it.id).join('%'),
+      courier: result.selectedCourier.id,
+      regions: result.selectedRegionValue.map((it) => it.id).join('%'),
+      stations: result.selectedStations.map((it) => it.id).join('%')
     };
   }
 
