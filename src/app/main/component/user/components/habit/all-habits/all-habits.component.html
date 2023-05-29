@@ -23,10 +23,22 @@
     <div class="habits_header-actions">
       <div class="habits_header-items-found">{{ totalHabits }} {{ 'user.habit.all-habits.found' | translate }}</div>
       <div class="habits-header-buttons">
-        <button class="btn-tiles" (click)="onDisplayModeChange(true)" [ngClass]="{ 'btn-tiles-active': galleryView }" tabindex="0">
+        <button
+          class="btn-tiles"
+          [disabled]="galleryView"
+          [ngClass]="{ 'btn-tiles-active': galleryView }"
+          tabindex="0"
+          (click)="onDisplayModeChange(true)"
+        >
           <em class="fa fa-th-large"></em>
         </button>
-        <button class="btn-bars" (click)="onDisplayModeChange(false)" [ngClass]="{ 'btn-bars-active': !galleryView }" tabindex="0">
+        <button
+          class="btn-bars"
+          [disabled]="!galleryView"
+          [ngClass]="{ 'btn-bars-active': !galleryView }"
+          tabindex="0"
+          (click)="onDisplayModeChange(false)"
+        >
           <em class="fa fa-bars"></em>
         </button>
       </div>
