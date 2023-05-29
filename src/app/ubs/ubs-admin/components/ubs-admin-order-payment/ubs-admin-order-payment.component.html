@@ -41,7 +41,7 @@
             <td *ngIf="payment.paymentId" class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
             <td *ngIf="!payment.paymentId"></td>
             <td>{{ payment.amount | currency | localizedCurrency }}</td>
-            <td>{{ payment.receiptLink }}</td>
+            <td *ngIf="payment.receiptLink">{{ 'user-orders.enroll-bonuses' | translate }}</td>
           </tr>
         </tbody>
       </table>
