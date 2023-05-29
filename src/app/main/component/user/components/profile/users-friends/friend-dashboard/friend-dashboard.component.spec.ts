@@ -3,10 +3,11 @@ import { Injectable, EventEmitter, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } fr
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Language } from './../../../../../../i18n/Language';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FriendDashboardComponent } from './friend-dashboard.component';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { FRIENDS } from '@global-user/mocks/friends-mock';
 
 @Injectable()
 class TranslationServiceStub {
@@ -37,12 +38,27 @@ class TranslationServiceStub {
 describe('FriendDashboardComponent', () => {
   let component: FriendDashboardComponent;
   let fixture: ComponentFixture<FriendDashboardComponent>;
-  const mockLang = 'ru';
+  let searchTerm$: Subject<string>;
+  let componentRefMock: any;
   let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
-  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'userIdBehaviourSubject',
+    'languageSubject'
+  ]);
   localStorageServiceMock.languageSubject = new Subject();
-  localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
+  localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+
+  let userFriendsServiceMock: UserFriendsService;
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'getRequests']);
+  userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
+  userFriendsServiceMock.getRequests = () => of(FRIENDS);
+
+  componentRefMock = {
+    findUserByName: jasmine.createSpy('findUserByName'),
+    findFriendByName: jasmine.createSpy('findFriendByName')
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -50,6 +66,7 @@ describe('FriendDashboardComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: UserFriendsService, useValue: userFriendsServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
@@ -59,43 +76,59 @@ describe('FriendDashboardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FriendDashboardComponent);
     component = fixture.componentInstance;
+    searchTerm$ = new Subject<string>();
+    component.searchTerm$ = searchTerm$;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    spyOn(component, 'ngOnDestroy').and.callFake(() => {});
-    fixture.destroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should called subscribeToLangChange method one time', () => {
-    const subscribeToLangChangeSpy = spyOn(component as any, 'subscribeToLangChange');
+  it('should call all methods OnInit', () => {
+    const spyUser = spyOn(component as any, 'initUser');
+    const spySub = spyOn(component as any, 'subscribeToLangChange');
+    const spyLang = spyOn(component as any, 'bindLang');
+    const spyQuery = spyOn(component, 'preventFrequentQuery');
+    const spyInptu = spyOn(component, 'hideInputField');
+    const spyAllFriends = spyOn(component as any, 'getAllFriends');
+    const spyFriendReq = spyOn(component as any, 'getFriendsRequests');
     component.ngOnInit();
-    expect(subscribeToLangChangeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should get a user', () => {
-    const initUserSpy = spyOn(component as any, 'initUser');
-    component.ngOnInit();
-    expect(initUserSpy).toHaveBeenCalledTimes(1);
+    expect(spyUser).toHaveBeenCalled();
+    expect(spySub).toHaveBeenCalled();
+    expect(spyLang).toHaveBeenCalled();
+    expect(spyQuery).toHaveBeenCalled();
+    expect(spyInptu).toHaveBeenCalled();
+    expect(spyAllFriends).toHaveBeenCalled();
+    expect(spyFriendReq).toHaveBeenCalled();
   });
 
   it('should get userId', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
   });
 
-  it('should get a user', () => {
-    const initUserSpy = spyOn(component as any, 'initUser');
-    component.ngOnInit();
-    expect(initUserSpy).toHaveBeenCalledTimes(1);
+  it('should set allFriendsAmount on getAllFriends', () => {
+    (component as any).getAllFriends(1111);
+    expect(component.allFriendsAmount).toBe(1);
   });
 
-  it('should unsubscribe on destroy', () => {
-    component.langChangeSub = of(true).subscribe();
-    component.ngOnDestroy();
-    expect(component.langChangeSub.closed).toBeTruthy();
+  it('should set requestFriendsAmount on getFriendsRequests', () => {
+    (component as any).getFriendsRequests(1111);
+    expect(component.requestFriendsAmount).toBe(1);
+  });
+
+  it('should emit the input value through searchTerm$', () => {
+    const spy = spyOn(component.searchTerm$, 'next');
+    const input = {
+      value: 'text'
+    };
+    component.onInput(input);
+    expect(spy).toHaveBeenCalledWith('text');
+  });
+
+  it('should set the componentRef in onActivate', () => {
+    const outlet = componentRefMock;
+    component.onActivate(outlet);
+    expect((component as any).componentRef).toEqual(outlet);
   });
 });

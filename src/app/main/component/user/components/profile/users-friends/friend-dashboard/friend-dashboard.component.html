@@ -20,10 +20,9 @@
             maxlength="30"
           />
         </form>
-
         <span>
           <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            {{ 'profile.friends.all-friends' | translate }}
+            {{ 'profile.friends.all-friends' | translate }} <span *ngIf="allFriendsAmount">{{ allFriendsAmount }}</span>
           </a>
 
           <a
@@ -38,11 +37,11 @@
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            {{ 'profile.friends.requests' | translate }}
+            {{ 'profile.friends.requests' | translate }} <span *ngIf="requestFriendsAmount">{{ requestFriendsAmount }}</span>
           </a>
         </span>
       </div>
     </div>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
-  <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>

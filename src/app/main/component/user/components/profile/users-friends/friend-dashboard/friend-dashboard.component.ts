@@ -1,27 +1,35 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { RecommendedFriendsComponent } from './recommended-friends/recommended-friends.component';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
 import { searchIcon } from '../../../../../../image-pathes/places-icons';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { FriendArrayModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-friend-dashboard',
   templateUrl: './friend-dashboard.component.html',
   styleUrls: ['./friend-dashboard.component.scss']
 })
-export class FriendDashboardComponent implements OnInit, OnDestroy {
-  public userId: number;
-  public langChangeSub: Subscription;
-  public destroy$ = new Subject();
-  public searchTerm$: Subject<string> = new Subject();
-  public searchIcon = searchIcon;
-  public hideInput = true;
+export class FriendDashboardComponent implements OnInit {
+  userId: number;
+  destroy$ = new Subject();
+  searchTerm$: Subject<string> = new Subject();
+  searchIcon = searchIcon;
+  hideInput = true;
+  allFriendsAmount: number;
+  requestFriendsAmount: number;
   private componentRef;
-  constructor(private localStorageService: LocalStorageService, private translate: TranslateService) {}
+
+  constructor(
+    private localStorageService: LocalStorageService,
+    private translate: TranslateService,
+    private userFriendsService: UserFriendsService
+  ) {}
 
   ngOnInit() {
     this.initUser();
@@ -29,12 +37,32 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.preventFrequentQuery();
     this.hideInputField();
+    this.getAllFriends(this.userId);
+    this.getFriendsRequests(this.userId);
   }
 
   preventFrequentQuery() {
     this.searchTerm$.pipe(debounceTime(400), takeUntil(this.destroy$)).subscribe((value) => {
       this.searchForFriends(value);
     });
+  }
+
+  private getAllFriends(userId: number): void {
+    this.userFriendsService
+      .getAllFriends(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: FriendArrayModel) => {
+        this.allFriendsAmount = data.totalElements;
+      });
+  }
+
+  private getFriendsRequests(userId: number): void {
+    this.userFriendsService
+      .getRequests(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: FriendArrayModel) => {
+        this.requestFriendsAmount = data.totalElements;
+      });
   }
 
   public onInput(input): void {
@@ -67,13 +95,8 @@ export class FriendDashboardComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe(this.bindLang.bind(this));
-  }
-
-  ngOnDestroy(): void {
-    this.langChangeSub.unsubscribe();
-    this.destroy$.next(true);
-    this.destroy$.complete();
-    this.searchTerm$.complete();
+    this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang: string) => {
+      this.bindLang(lang);
+    });
   }
 }

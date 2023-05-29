@@ -6,46 +6,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of, Subject } from 'rxjs';
 import { FriendProfileDashboardComponent } from './friend-profile-dashboard.component';
+import { FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('FriendProfileDashboardComponent', () => {
-  const userFriends = {
-    totalElements: 24,
-    totalPages: 12,
-    currentPage: 0,
-    page: [
-      {
-        id: 1,
-        name: 'Name',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      },
-      {
-        id: 2,
-        name: 'Name2',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      }
-    ]
-  };
   let component: FriendProfileDashboardComponent;
   let fixture: ComponentFixture<FriendProfileDashboardComponent>;
   let userFriendsServiceMock: UserFriendsService;
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', {
-    getAllFriends: of({}),
+    getAllFriends: of(FRIENDS),
     addFriend: of({}),
     getPossibleFriends: of({})
   });
@@ -98,7 +66,7 @@ describe('FriendProfileDashboardComponent', () => {
   });
 
   it('method addFriend should userFriendsService.addFriend', () => {
-    component.friendsList = userFriends.page;
+    component.friendsList = FRIENDS.page;
     component.addFriend(1);
     expect(userFriendsServiceMock.addFriend).toHaveBeenCalled();
     expect(userFriendsServiceMock.addFriend).toHaveBeenCalledWith(component.currentUserId, 1);
