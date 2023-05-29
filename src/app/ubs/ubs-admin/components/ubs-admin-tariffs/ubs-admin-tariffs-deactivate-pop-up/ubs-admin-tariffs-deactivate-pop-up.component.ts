@@ -5,12 +5,20 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, DeactivateCard } from '../../../models/tariffs.interface';
+import {
+  Locations,
+  LocationDto,
+  SelectedItems,
+  Couriers,
+  Stations,
+  TariffCard,
+  DeactivateCard,
+  TranslationDto
+} from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
-import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
 import { Language } from 'src/app/main/i18n/Language';
@@ -74,7 +82,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public regionLabelUa = TariffRegionLabelName.ua;
   public cityLabelEn = TariffLocationLabelName.en;
   public cityLabelUa = TariffLocationLabelName.ua;
-  deactivateCardObj: DeactivateCard;
 
   constructor(
     private fb: FormBuilder,
@@ -173,9 +180,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .subscribe((res: Locations[]) => {
         this.locations = res;
         this.regionsName = this.locations
-          .map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName)
-          )
+          .map((element) => this.nameCreationUtil(element.regionTranslationDtos, this.currentLanguage, 'regionName'))
           .flat(2);
         this.region.valueChanges
           .pipe(
@@ -321,6 +326,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
+  public nameCreationUtil(translationDtos: TranslationDto[], language: string, name: string) {
+    return translationDtos.filter((it) => it.languageCode === language).map((it) => it[name]);
+  }
+
   public addSelectedRegion(event: MatAutocompleteSelectedEvent): void {
     let id;
     let name;
@@ -330,14 +339,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
 
     selectedItem.forEach((item) => {
       id = item.regionId;
-      name = item.regionTranslationDtos
-        .filter((it) => it.languageCode === Language.EN)
-        .map((it) => it.regionName)
-        .toString();
-      nameUa = item.regionTranslationDtos
-        .filter((it) => it.languageCode === Language.UA)
-        .map((it) => it.regionName)
-        .toString();
+      name = this.nameCreationUtil(item.regionTranslationDtos, Language.EN, 'regionName').toString();
+      nameUa = this.nameCreationUtil(item.regionTranslationDtos, Language.UA, 'regionName').toString();
     });
     const tempItem = { id, name, nameUa };
     const itemIncluded = this.selectedRegions.find((it) => it.id === tempItem.id);
@@ -405,12 +408,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public checkRegion(item): boolean {
-    if (this.currentLanguage === Language.EN) {
-      return this.selectedRegions.map((it) => it.name).includes(item);
-    } else {
-      return this.selectedRegions.map((it) => it.nameUa).includes(item);
-    }
+  public checkOption(item, itemType): boolean {
+    const itemsNames = itemType.map((it) => (this.currentLanguage === Language.EN ? it.name : it.nameUa));
+    return itemsNames.includes(item);
   }
 
   public deleteRegion(index): void {
@@ -456,14 +456,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     )[0];
     const tempItem = {
       id: selectedItem.locationId,
-      name: selectedItem.locationTranslationDtoList
-        .filter((it) => it.languageCode === Language.EN)
-        .map((it) => it.locationName)
-        .join(),
-      nameUa: selectedItem.locationTranslationDtoList
-        .filter((it) => it.languageCode === Language.UA)
-        .map((it) => it.locationName)
-        .join()
+      name: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.EN, 'locationName').join(),
+      nameUa: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.UA, 'locationName').join()
     };
     const itemIncluded = this.selectedCities.find((it) => it.id === tempItem.id);
     if (itemIncluded) {
@@ -486,14 +480,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       this.selectAllStationsInTariffCards(filteredTariffCards);
       this.selectAllRegionsInTariffCards(filteredTariffCards);
       this.enableAbstractControl([this.courier, this.station]);
-    }
-  }
-
-  public checkCity(item): boolean {
-    if (this.currentLanguage === Language.EN) {
-      return this.selectedCities.map((it) => it.name).includes(item);
-    } else {
-      return this.selectedCities.map((it) => it.nameUa).includes(item);
     }
   }
 
@@ -708,37 +694,13 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     arr.forEach((it) => it.enable());
   }
 
-  public createDeactivateCardDto() {
-    this.deactivateCardObj = {
-      cities: this.selectedCities.map((it) => it.id).join('%'),
-      courier: this.selectedCourier?.id,
-      regions: this.selectedRegions.map((it) => it.id).join('%'),
-      stations: this.selectedStations.map((it) => it.id).join('%')
-    };
-  }
-
   public deactivateCard(): void {
-    this.dialogRef.close();
-    const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
-      disableClose: true,
-      hasBackdrop: true,
-      panelClass: 'address-matDialog-styles-w-100',
-      data: {
-        courierNameUk: this.selectedValue.nameUk,
-        courierEnglishName: this.selectedValue.nameEn,
-        regionNameUk: this.selectedRegions.map((region) => region.nameUa),
-        regionEnglishName: this.selectedRegions.map((region) => region.name),
-        cityNameUk: this.selectedCities.map((city) => city.nameUa),
-        cityNameEn: this.selectedCities.map((city) => city.name),
-        stationNames: this.selectedStations.map((it) => it.name),
-        isDeactivate: true
-      }
-    });
-    this.createDeactivateCardDto();
-    matDialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.tariffsService.deactivate(this.deactivateCardObj).pipe(takeUntil(this.unsubscribe)).subscribe();
-      }
+    this.dialogRef.close({
+      selectedValue: this.selectedValue,
+      selectedRegionValue: this.selectedRegions,
+      selectedCitiesValue: this.selectedCities,
+      selectedStations: this.selectedStations,
+      selectedCourier: this.selectedCourier
     });
   }
 

@@ -85,14 +85,14 @@
         />
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="selectRegion($event, autocompleteTriggerRegion)">
           <mat-option *ngFor="let item of filteredRegions" [value]="item">
-            <mat-checkbox class="mr-1" [checked]="checkRegion(item)"> </mat-checkbox>
+            <mat-checkbox class="mr-1" [checked]="checkOption(item, selectedRegions)"> </mat-checkbox>
             <span class="checkbox-text">{{ item }}</span>
           </mat-option>
         </mat-autocomplete>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion, false)" />
         <div class="list">
           <div *ngFor="let item of selectedRegions; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ getLangValue(item.name, item.nameUa) }}</div>
+            <div class="itemList">{{ getLangValue(item.nameUa, item.name) }}</div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteRegion(index)" />
           </div>
         </div>
@@ -120,7 +120,7 @@
         />
         <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCity($event, autocompleteTriggerCity)">
           <mat-option *ngFor="let item of filteredCities" [value]="item">
-            <mat-checkbox class="mr-1" [checked]="checkCity(item)"> </mat-checkbox>
+            <mat-checkbox class="mr-1" [checked]="checkOption(item, selectedCities)"> </mat-checkbox>
             <span class="checkbox-text">{{ item }}</span>
           </mat-option>
         </mat-autocomplete>
@@ -132,7 +132,7 @@
         />
         <div class="list">
           <div *ngFor="let item of selectedCities; let index = index" class="d-flex selected-element">
-            <div class="itemList">{{ getLangValue(item.name, item.nameUa) }}</div>
+            <div class="itemList">{{ getLangValue(item.nameUa, item.name) }}</div>
             <img [src]="icons.cross" class="delete-button-img" alt="delete-icon" (click)="deleteCity(index)" />
           </div>
         </div>

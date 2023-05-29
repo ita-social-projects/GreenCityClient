@@ -10,6 +10,7 @@ import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffDeactivateConfirmationPopUpComponent } from '../../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   let component: UbsAdminTariffsDeactivatePopUpComponent;
@@ -545,7 +546,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsDeactivatePopUpComponent],
-      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, BrowserAnimationsModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
@@ -907,14 +908,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.regionPlaceholder).toEqual('ubs-tariffs.placeholder-choose-region');
   });
 
-  it('checkRegion should return true if item is in selectedRegions', () => {
+  it('checkOption should return true if item is in selectedRegions', () => {
     component.selectedRegions = [locationItem];
-    expect(component.checkRegion('Фейк')).toEqual(true);
+    expect(component.checkOption('Фейк', component.selectedRegions)).toEqual(true);
   });
 
-  it('checkRegion should return false if item is not in selectedRegions', () => {
+  it('checkOption should return false if item is not in selectedRegions', () => {
     component.selectedRegions = [locationItem];
-    expect(component.checkRegion('Фейк1')).toEqual(false);
+    expect(component.checkOption('Фейк1', component.selectedRegions)).toEqual(false);
   });
 
   it('should delete region from the list, only 1 selected region remained', () => {
@@ -1051,14 +1052,14 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.cityPlaceholder).toEqual('ubs-tariffs.placeholder-choose-city');
   });
 
-  it('checkCity should return true if item is in selectedCities', () => {
+  it('checkOption should return true if item is in selectedCities', () => {
     component.selectedCities = [cityItem];
-    expect(component.checkCity('Фейк місто')).toEqual(true);
+    expect(component.checkOption('Фейк місто', component.selectedCities)).toEqual(true);
   });
 
-  it('checkCity should return false if item is not in selectedCities', () => {
+  it('checkOption should return false if item is not in selectedCities', () => {
     component.selectedCities = [cityItem];
-    expect(component.checkCity('Фейк2')).toEqual(false);
+    expect(component.checkOption('Фейк2', component.selectedCities)).toEqual(false);
   });
 
   it('should delete city from the list, no selected city remained', () => {
@@ -1363,20 +1364,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     const mockStationsName = ['Фейк1', 'Фейк2'];
     const result = component.filterOptions('Фейк1', mockStationsName);
     expect(result).toEqual(['Фейк1']);
-  });
-
-  it('method deactivateCard should create request line', () => {
-    component.selectedRegions.push(locationItem);
-    component.selectedStations.push(stationItem);
-    component.selectedCities.push(cityItem);
-    const result = {
-      cities: `0`,
-      courier: undefined,
-      regions: `0`,
-      stations: `0`
-    };
-    component.createDeactivateCardDto();
-    expect(component.deactivateCardObj).toEqual(result);
   });
 
   it('method onNoClick should invoke destroyRef.close()', () => {
