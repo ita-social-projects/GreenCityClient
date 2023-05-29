@@ -166,8 +166,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   }
 
   private setCurrentLocation(): void {
+    if (this.editDate) {
+      return;
+    }
     navigator.geolocation.getCurrentPosition((position) => {
-      if (position.coords.latitude && position.coords.longitude) {
+      if (position.coords) {
         this.coordinates.latitude = position.coords.latitude;
         this.coordinates.longitude = position.coords.longitude;
         this.zoom = 8;
@@ -232,13 +235,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   getAddress(latitude, longitude) {
     const geoCoder = new google.maps.Geocoder();
     geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.address = results[0].formatted_address;
-          this.dateForm.get('place').setValue(this.address);
-        } else {
-          this.isLocationSelected = true;
-        }
+      if (status === 'OK' && results[0]) {
+        this.address = results[0].formatted_address;
+        this.dateForm.get('place').setValue(this.address);
       } else {
         this.isLocationSelected = true;
       }
