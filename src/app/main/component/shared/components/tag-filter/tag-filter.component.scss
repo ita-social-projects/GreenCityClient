@@ -24,31 +24,30 @@
 }
 
 .ul-eco-buttons {
+  display: flex;
   padding: 0;
   margin: 0;
   overflow: auto;
   white-space: nowrap;
   min-height: 42px;
 
-  .tag-button {
+  .tag-list {
     border: 0;
     padding: 0;
     background: none;
 
-    &:hover {
-      .global-tag {
-        color: var(--primary-green);
-        border: 1px solid var(--primary-green);
-      }
-
-      .global-tag-clicked {
-        color: var(--primary-white);
-        border: none;
-      }
-    }
-
     .global-tag-clicked {
       color: var(--primary-white);
+    }
+
+    &:hover .global-tag {
+      color: var(--primary-green);
+      border: 1px solid var(--primary-green);
+    }
+
+    &:hover .global-tag-clicked {
+      color: var(--primary-white);
+      border: none;
     }
   }
 }

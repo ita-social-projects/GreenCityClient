@@ -1,7 +1,7 @@
 <div class="wrapper">
   <span class="filter">{{ header | translate }}</span>
   <div class="ul-eco-buttons" aria-label="filter by items">
-    <button class="tag-button" *ngFor="let filter of filters" (click)="toggleFilter(filter.name)" tabindex="0">
+    <button *ngFor="let filter of filters" class="tag-list" (click)="toggleFilter(filter.name)">
       <a
         role="button"
         [attr.aria-pressed]="filter.isActive"
