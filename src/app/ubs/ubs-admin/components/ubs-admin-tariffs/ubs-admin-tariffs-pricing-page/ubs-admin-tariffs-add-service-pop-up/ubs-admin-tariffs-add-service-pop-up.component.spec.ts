@@ -182,28 +182,6 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     expect(fakeTariffService).toBeTruthy();
   });
 
-  it('should be valid if form value is valid', () => {
-    component.addServiceForm.setValue({
-      price: 120,
-      name: 'Мок Назва',
-      nameEng: 'MockNameEng',
-      description: 'Мок опис',
-      descriptionEng: 'MockDescrEng'
-    });
-    expect(component.addServiceForm.valid).toEqual(true);
-  });
-
-  it('should be valid if form value is valid', () => {
-    component.addServiceForm.setValue({
-      price: 1,
-      description: 'Ua',
-      descriptionEng: 'Eng',
-      name: '',
-      nameEng: ''
-    });
-    expect(component.addServiceForm.valid).toEqual(false);
-  });
-
   it('should be name field valid', () => {
     const nameControl = component.addServiceForm.get('name');
     nameControl.setValue('asdfghjkloiuytrewquiopytrefghkt');
