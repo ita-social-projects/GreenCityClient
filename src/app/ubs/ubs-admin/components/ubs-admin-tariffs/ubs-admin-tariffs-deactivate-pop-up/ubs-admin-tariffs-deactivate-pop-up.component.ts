@@ -5,7 +5,16 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
-import { Locations, LocationDto, SelectedItems, Couriers, Stations, TariffCard, DeactivateCard } from '../../../models/tariffs.interface';
+import {
+  Locations,
+  LocationDto,
+  SelectedItems,
+  Couriers,
+  Stations,
+  TariffCard,
+  DeactivateCard,
+  TranslationDto
+} from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
@@ -65,9 +74,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public selectedCourier: SelectedItems;
   public tariffCards: TariffCard[] = [];
   public currentLanguage: string;
-  public selectedValue: any;
-  public selectedCitiesValue: any[] = [];
-  public selectedRegionValue: any[] = [];
+  public selectedValue: Couriers;
   public placeholderSelectedEn = TariffPlaceholderSelected.en;
   public placeholderSelectedUa = TariffPlaceholderSelected.ua;
   public courierLabelEn = TariffCourierLabelName.en;
@@ -175,9 +182,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .subscribe((res: Locations[]) => {
         this.locations = res;
         this.regionsName = this.locations
-          .map((element) =>
-            element.regionTranslationDtos.filter((it) => it.languageCode === this.currentLanguage).map((it) => it.regionName)
-          )
+          .map((element) => this.nameCreationUtil(element.regionTranslationDtos, this.currentLanguage, 'regionName'))
           .flat(2);
         this.region.valueChanges
           .pipe(
@@ -323,23 +328,23 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
+  public nameCreationUtil(translationDtos: TranslationDto[], language: string, name: string) {
+    return translationDtos.filter((it) => it.languageCode === language).map((it) => it[name]);
+  }
+
   public addSelectedRegion(event: MatAutocompleteSelectedEvent): void {
     let id;
     let name;
+    let nameUa;
     const selectedItemName = event.option.value;
     const selectedItem = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === selectedItemName));
-    const regionNameUa = selectedItem[0].regionTranslationDtos.find((item) => item.languageCode === Language.UA).regionName;
-    const regionNameEn = selectedItem[0].regionTranslationDtos.find((item) => item.languageCode === Language.EN).regionName;
-    this.selectedRegionValue.push({ regionNameUa, regionNameEn });
 
     selectedItem.forEach((item) => {
       id = item.regionId;
-      name = item.regionTranslationDtos
-        .filter((it) => it.languageCode === this.currentLanguage)
-        .map((it) => it.regionName)
-        .toString();
+      name = this.nameCreationUtil(item.regionTranslationDtos, Language.EN, 'regionName').toString();
+      nameUa = this.nameCreationUtil(item.regionTranslationDtos, Language.UA, 'regionName').toString();
     });
-    const tempItem = { id, name };
+    const tempItem = { id, name, nameUa };
     const itemIncluded = this.selectedRegions.find((it) => it.id === tempItem.id);
     if (itemIncluded) {
       this.selectedRegions = this.selectedRegions.filter((item) => item.id !== tempItem.id);
@@ -405,8 +410,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     }
   }
 
-  public checkRegion(item): boolean {
-    return this.selectedRegions.map((it) => it.name).includes(item);
+  public checkOption(item, itemType): boolean {
+    const itemsNames = itemType.map((it) => (this.currentLanguage === Language.EN ? it.name : it.nameUa));
+    return itemsNames.includes(item);
   }
 
   public deleteRegion(index): void {
@@ -450,16 +456,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     const selectedItem = this.currentCities.filter((element) =>
       element.locationTranslationDtoList.find((it) => it.locationName === event.option.value)
     )[0];
-    const cityNameUa = selectedItem.locationTranslationDtoList.find((item) => item.languageCode === Language.UA).locationName;
-    const cityNameEn = selectedItem.locationTranslationDtoList.find((item) => item.languageCode === Language.EN).locationName;
-    this.selectedCitiesValue.push({ cityNameUa, cityNameEn });
-
     const tempItem = {
       id: selectedItem.locationId,
-      name: selectedItem.locationTranslationDtoList
-        .filter((it) => it.languageCode === this.currentLanguage)
-        .map((it) => it.locationName)
-        .join()
+      name: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.EN, 'locationName').join(),
+      nameUa: this.nameCreationUtil(selectedItem.locationTranslationDtoList, Language.UA, 'locationName').join()
     };
     const itemIncluded = this.selectedCities.find((it) => it.id === tempItem.id);
     if (itemIncluded) {
@@ -483,10 +483,6 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       this.selectAllRegionsInTariffCards(filteredTariffCards);
       this.enableAbstractControl([this.courier, this.station]);
     }
-  }
-
-  public checkCity(item): boolean {
-    return this.selectedCities.map((it) => it.name).includes(item);
   }
 
   public setCityPlaceholder(): void {
@@ -712,15 +708,16 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public deactivateCard(): void {
     this.dialogRef.close();
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
+      disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         courierNameUk: this.selectedValue.nameUk,
         courierEnglishName: this.selectedValue.nameEn,
-        regionNameUk: this.selectedRegionValue.map((region) => region.regionNameUa),
-        regionEnglishName: this.selectedRegionValue.map((region) => region.regionNameEn),
-        cityNameUk: this.selectedCitiesValue.map((city) => city.cityNameUa),
-        cityNameEn: this.selectedCitiesValue.map((city) => city.cityNameEn),
+        regionNameUk: this.selectedRegions.map((region) => region.nameUa),
+        regionEnglishName: this.selectedRegions.map((region) => region.name),
+        cityNameUk: this.selectedCities.map((city) => city.nameUa),
+        cityNameEn: this.selectedCities.map((city) => city.name),
         stationNames: this.selectedStations.map((it) => it.name),
         isDeactivate: true
       }

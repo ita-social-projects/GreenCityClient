@@ -202,12 +202,12 @@
         <button mat-menu-item (click)="openEditPopUp(card)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button mat-menu-item (click)="openTariffDeactivatePopUp(card)">
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'deactivation')">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
       <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'">
-        <button mat-menu-item (click)="openTariffRestore(card, card.cardId)">
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'restore')">
           <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
       </td>
@@ -243,12 +243,12 @@
         <button mat-menu-item (click)="openEditPopUp(selectedCard)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button mat-menu-item (click)="openTariffDeactivatePopUp(selectedCard)">
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(selectedCard, selectedCard.cardId, 'deactivation')">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
       <td class="last-col" *ngIf="selectedCard.tariff === 'DEACTIVATED'">
-        <button class="restore-tariff" (click)="openTariffRestore(selectedCard, selectedCard.cardId)">
+        <button class="restore-tariff" (click)="openTariffDeactivateOrRestorePopUp(selectedCard, selectedCard.cardId, 'restore')">
           <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
       </td>
