@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FilterModel, TagInterface } from './tag-filter.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-tag-filter',
@@ -14,7 +15,7 @@ export class TagFilterComponent implements OnInit, OnChanges {
   @Input() public header: string;
   @Output() tagsList = new EventEmitter<Array<string>>();
 
-  constructor(public localStorageService: LocalStorageService) {}
+  constructor(public langService: LanguageService) {}
 
   ngOnInit() {
     this.filters = this.getSessionStorageFilters();
@@ -31,7 +32,7 @@ export class TagFilterComponent implements OnInit, OnChanges {
     return this.filters
       .filter((active) => active.isActive)
       .map((filter) => {
-        return this.localStorageService.getCurrentLanguage() === 'en' ? filter.name : filter.nameUa;
+        return this.getLangValue(filter.nameUa, filter.name);
       });
   }
 
@@ -64,5 +65,9 @@ export class TagFilterComponent implements OnInit, OnChanges {
   private getSessionStorageFilters() {
     const filters = sessionStorage.getItem(this.storageKey);
     return filters !== null ? JSON.parse(filters) : [];
+  }
+
+  getLangValue(valUa: string, valEn: string): string {
+    return this.langService.getLangValue(valUa, valEn) as string;
   }
 }

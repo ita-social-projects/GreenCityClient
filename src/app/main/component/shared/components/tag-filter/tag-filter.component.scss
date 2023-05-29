@@ -31,7 +31,7 @@
   white-space: nowrap;
   min-height: 42px;
 
-  .tag-list {
+  .tag-button {
     border: 0;
     padding: 0;
     background: none;
@@ -40,7 +40,12 @@
       color: var(--primary-white);
     }
 
-    &:hover .global-tag {
+    &:active {
+      outline: none;
+    }
+
+    &:hover .global-tag,
+    &:focus .global-tag {
       color: var(--primary-green);
       border: 1px solid var(--primary-green);
     }
