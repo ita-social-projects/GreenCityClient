@@ -23,7 +23,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
   public showInput = false;
   public inputTextValue;
   public editedSocialLink: any = false;
-  public icons;
+  public icons: Record<string, string> = {};
 
   @ViewChild('socialLink') socialLink: NgModel;
   @Input() socialNetworks = [];
