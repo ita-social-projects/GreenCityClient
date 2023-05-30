@@ -126,10 +126,10 @@ export class TariffsService {
   deactivate(deactivateCardObj: DeactivateCard): Observable<object> {
     const arr = [];
     const requestObj = {
-      cities: `citiesId=${deactivateCardObj.cities}`,
+      cities: `citiesIds=${deactivateCardObj.cities}`,
       courier: `courierId=${deactivateCardObj.courier}`,
-      regions: `regionsId=${deactivateCardObj.regions}`,
-      stations: `stationsId=${deactivateCardObj.stations}`
+      regions: `regionsIds=${deactivateCardObj.regions}`,
+      stations: `stationsIds=${deactivateCardObj.stations}`
     };
 
     Object.keys(deactivateCardObj).forEach((key) => {

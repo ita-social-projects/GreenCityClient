@@ -639,7 +639,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     });
 
     matDialogRef.afterClosed().subscribe((res) => {
-      if (res) {
+      if (this.selectedCard && res) {
         this.updateSelectedCard(res);
       }
     });
@@ -742,8 +742,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   openConfirmationDialog(result): any {
     const data = {
-      courierNameUk: result.selectedValue.nameUk,
-      courierEnglishName: result.selectedValue.nameEn,
+      courierNameUk: result.selectedValue?.nameUk,
+      courierEnglishName: result.selectedValue?.nameEn,
       regionNameUk: result.selectedRegionValue.map((region) => region.regionNameUa),
       regionEnglishName: result.selectedRegionValue.map((region) => region.regionNameEn),
       cityNameUk: result.selectedCitiesValue.map((city) => city.cityNameUa),
@@ -785,7 +785,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   private createDeactivateCardDto(result): void {
     this.deactivateCardObj = {
       cities: result.selectedCitiesValue.map((it) => it.id).join('%'),
-      courier: result.selectedCourier.id,
+      courier: result.selectedCourier?.id,
       regions: result.selectedRegionValue.map((it) => it.id).join('%'),
       stations: result.selectedStations.map((it) => it.id).join('%')
     };
