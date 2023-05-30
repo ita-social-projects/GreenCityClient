@@ -127,7 +127,7 @@
             </div>
             <span
               class="toggle-icon"
-              *ngIf="!employee.expanded; else deleteIcon"
+              *ngIf="!employee.expanded && userHasRights; else deleteIcon"
               [matMenuTriggerFor]="crumbs"
               (click)="$event.stopPropagation()"
             >
@@ -135,19 +135,24 @@
             </span>
             <div [ngClass]="employee.expanded ? 'toggle-icon-down' : 'toggle-icon-up'"></div>
             <mat-menu class="menu" #crumbs="matMenu">
-              <button class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
+              <button *ngIf="isThisUserCanEditEmployee" class="menu-item" (click)="openEditDialog(employee, $event)" mat-menu-item>
                 <span class="menu-item-content">
                   <img class="menu-item-img" [src]="icons.edit" alt="edit" />
                   <span class="menu-item-action">{{ 'employees.actions.edit' | translate }}</span>
                 </span>
               </button>
-              <button class="menu-item" (click)="openPermissionsDialog(employee, $event)" mat-menu-item>
+              <button
+                class="menu-item"
+                *ngIf="isThisUserCanEditEmployeeAuthorities"
+                (click)="openPermissionsDialog(employee, $event)"
+                mat-menu-item
+              >
                 <span class="menu-item-content">
                   <img class="menu-item-img" [src]="icons.settings" alt="edit" />
                   <span class="menu-item-action">{{ 'employees.actions.settings' | translate }}</span>
                 </span>
               </button>
-              <button class="menu-item" (click)="openDeleteDialog(employee, $event)" mat-menu-item>
+              <button class="menu-item" *ngIf="isThisUserCanDeleteEmployee" (click)="openDeleteDialog(employee, $event)" mat-menu-item>
                 <span class="menu-item-content">
                   <img class="menu-item-img" [src]="icons.delete" alt="edit" />
                   <span class="menu-item-action">{{ 'employees.actions.delete' | translate }}</span>
@@ -155,7 +160,7 @@
               </button>
             </mat-menu>
             <ng-template #deleteIcon>
-              <span class="delete-icon" (click)="openDeleteDialog(employee, $event)">
+              <span *ngIf="isThisUserCanDeleteEmployee" (click)="openDeleteDialog(employee, $event)">
                 <img [src]="icons.delete" alt="delete" />
               </span>
             </ng-template>
@@ -163,14 +168,18 @@
         </mat-expansion-panel-header>
 
         <div class="actions-row">
-          <div class="btn actions-btn options" (click)="openPermissionsDialog(employee, $event)">
+          <button
+            *ngIf="isThisUserCanEditEmployeeAuthorities"
+            class="btn actions-btn options"
+            (click)="openPermissionsDialog(employee, $event)"
+          >
             <img [src]="icons.settings" alt="settings" />
             <span>{{ 'employees.settings' | translate }}</span>
-          </div>
-          <div class="btn actions-btn edit" (click)="openEditDialog(employee, $event)">
+          </button>
+          <button *ngIf="isThisUserCanEditEmployee" class="btn actions-btn edit" (click)="openEditDialog(employee, $event)">
             <img [src]="icons.edit" alt="edit" />
             <span>{{ 'employees.edit' | translate }}</span>
-          </div>
+          </button>
         </div>
       </mat-expansion-panel>
     </div>

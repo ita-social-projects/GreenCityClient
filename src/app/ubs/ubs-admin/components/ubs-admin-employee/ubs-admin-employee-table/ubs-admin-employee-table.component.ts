@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
@@ -19,6 +19,10 @@ import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-
   styleUrls: ['./ubs-admin-employee-table.component.scss']
 })
 export class UbsAdminEmployeeTableComponent implements OnInit {
+  @Input() public isThisUserCanEditEmployee: boolean;
+  @Input() public isThisUserCanEditEmployeeAuthorities: boolean;
+  @Input() public isThisUserCanDeleteEmployee: boolean;
+  @Input() public userHasRights: boolean;
   currentPageForTable = 0;
   isUpdateTable = false;
   isLoading = true;

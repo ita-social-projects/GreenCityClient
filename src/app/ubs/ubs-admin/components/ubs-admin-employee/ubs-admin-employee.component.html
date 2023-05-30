@@ -11,7 +11,7 @@
         <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
       </div>
       <div class="btn-group">
-        <button class="research-btn btn primary-global-button button-name" (click)="openDialog()">
+        <button *ngIf="isThisUserCanCreateEmployee" class="research-btn btn primary-global-button button-name" (click)="openDialog()">
           {{ 'employees.btn.add-employee' | translate }}
         </button>
       </div>
@@ -185,6 +185,12 @@
     </div>
   </form>
   <div class="employees">
-    <app-ubs-admin-employee-table></app-ubs-admin-employee-table>
+    <app-ubs-admin-employee-table
+      [isThisUserCanEditEmployee]="isThisUserCanEditEmployee"
+      [isThisUserCanEditEmployeeAuthorities]="isThisUserCanEditEmployeeAuthorities"
+      [isThisUserCanDeleteEmployee]="isThisUserCanDeleteEmployee"
+      [userHasRights]="userHasRights"
+    >
+    </app-ubs-admin-employee-table>
   </div>
 </div>

@@ -204,7 +204,7 @@ import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-adm
     MatExpansionModule,
     CdkAccordionModule
   ],
-  exports: [UbsAdminTariffsDeactivatePopUpComponent],
+  exports: [UbsAdminTariffsDeactivatePopUpComponent, UbsAdminEmployeeComponent],
   providers: [
     AdminCertificateService,
     TranslateService,
