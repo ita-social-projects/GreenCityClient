@@ -276,7 +276,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
       value: 'Фейк область'
     };
     component.onRegionSelected(mockEvent);
-    expect(component.regionEnglishName).toEqual(['Fake region']);
+    expect(component.regionEnglishName).toEqual('Fake region');
     expect(component.regionId).toEqual(1);
   });
   it('should get cities from selected region and clear selected cities list', () => {
