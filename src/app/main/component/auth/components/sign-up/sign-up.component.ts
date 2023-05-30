@@ -16,6 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 declare var google: any;
 @Component({
@@ -154,7 +155,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   private onFormInit(): void {
     this.signUpForm = this.formBuilder.group(
       {
-        email: ['', [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]],
         firstName: ['', []],
         password: ['', []],
         repeatPassword: ['', []]
