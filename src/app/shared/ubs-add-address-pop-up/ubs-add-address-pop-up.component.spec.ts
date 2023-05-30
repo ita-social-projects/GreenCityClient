@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
@@ -77,7 +77,7 @@ describe('UBSAddAddressPopUpComponent', () => {
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'getFullAddressList', 'getSearchAddress']);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
-  fakeLocationServiceMock.getFullAddressList = () => [];
+  fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
 
   const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);

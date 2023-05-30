@@ -10,6 +10,7 @@ import { LocationService } from '@global-service/location/location.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
+import { of } from 'rxjs';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -48,7 +49,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'getFullAddressList', 'getSearchAddress']);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
-  fakeLocationServiceMock.getFullAddressList = () => [];
+  fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
 
   beforeEach(async(() => {

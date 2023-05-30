@@ -102,7 +102,7 @@ describe('UbsUserProfilePageComponent', () => {
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
-  fakeLocationServiceMock.getFullAddressList = () => [];
+  fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
 
   beforeEach(async(() => {
