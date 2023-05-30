@@ -23,6 +23,25 @@ export class LocationService {
     return converted;
   }
 
+  getSearchAddress(cityName: string, streetName: string, houseValue: string): SearchAddress {
+    const searchAddress = {
+      input: `${streetName}, ${houseValue}, ${cityName}`,
+      street: `${streetName}, ${houseValue}`,
+      city: `${cityName},`
+    };
+    return searchAddress;
+  }
+
+  getCityRequest(searchAddress: string, lang: string): GoogleAutoRequest {
+    const request = {
+      input: searchAddress,
+      language: lang,
+      types: ['(cities)'],
+      componentRestrictions: { country: 'ua' }
+    };
+    return request;
+  }
+
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
     const request = {
       input: searchAddress.input,
@@ -44,24 +63,5 @@ export class LocationService {
         observer.complete();
       });
     });
-  }
-
-  getSearchAddress(cityName: string, streetName: string, houseValue: string): SearchAddress {
-    const searchAddress = {
-      input: `${streetName}, ${houseValue}, ${cityName}`,
-      street: `${streetName}, ${houseValue}`,
-      city: `${cityName},`
-    };
-    return searchAddress;
-  }
-
-  getCityRequest(searchAddress: string, lang: string): GoogleAutoRequest {
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['(cities)'],
-      componentRestrictions: { country: 'ua' }
-    };
-    return request;
   }
 }
