@@ -209,12 +209,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   inputCity(searchAddress: string, lang: string): void {
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['(cities)'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.locationService.getCityRequest(searchAddress, lang);
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
       this.cityPredictionList = cityPredictionList?.filter(
         (el) =>

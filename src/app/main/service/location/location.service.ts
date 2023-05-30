@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
+import { GoogleAutoRequest, GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
@@ -53,5 +53,15 @@ export class LocationService {
       city: `${cityName},`
     };
     return searchAddress;
+  }
+
+  getCityRequest(searchAddress: string, lang: string): GoogleAutoRequest {
+    const request = {
+      input: searchAddress,
+      language: lang,
+      types: ['(cities)'],
+      componentRestrictions: { country: 'ua' }
+    };
+    return request;
   }
 }

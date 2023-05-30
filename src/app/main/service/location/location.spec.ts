@@ -52,4 +52,9 @@ describe('LocationService', () => {
     const convertedAddress = locations.getSearchAddress('Kyiv', 'street', '2');
     expect(convertedAddress).toEqual(ADDRESSESMOCK.SEARCHADDRESS);
   });
+
+  it('should return city request value on getCityRequest', () => {
+    const cityRequest = locations.getCityRequest('вулиця Київська, 2 Київ, Україна', 'ua');
+    expect(cityRequest).toEqual(ADDRESSESMOCK.GOOGLECITYREQUEST);
+  });
 });

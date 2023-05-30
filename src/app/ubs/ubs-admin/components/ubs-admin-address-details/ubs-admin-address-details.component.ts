@@ -165,12 +165,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   inputCity(searchAddress: string, lang: string): void {
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['(cities)'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.locationService.getCityRequest(searchAddress, lang);
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
       if (this.addressRegionEng.value === 'Kyiv') {
         this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');

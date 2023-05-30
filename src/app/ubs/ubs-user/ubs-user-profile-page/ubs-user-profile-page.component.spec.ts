@@ -98,12 +98,14 @@ describe('UbsUserProfilePageComponent', () => {
     'getDistrictAuto',
     'convFirstLetterToCapital',
     'getFullAddressList',
-    'getSearchAddress'
+    'getSearchAddress',
+    'getCityRequest'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
   fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
+  fakeLocalStorageService.getCityRequest = () => ADDRESSESMOCK.GOOGLECITYREQUEST;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

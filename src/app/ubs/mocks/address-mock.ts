@@ -232,8 +232,14 @@ export const ADDRESSESMOCK = {
       'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
   },
   SEARCHADDRESS: {
-    input: `street, 2, Kyiv`,
-    street: `street, 2`,
-    city: `Kyiv,`
+    input: 'street, 2, Kyiv',
+    street: 'street, 2',
+    city: 'Kyiv,'
+  },
+  GOOGLECITYREQUEST: {
+    input: 'вулиця Київська, 2 Київ, Україна',
+    language: 'ua',
+    types: ['(cities)'],
+    componentRestrictions: { country: 'ua' }
   }
 };
