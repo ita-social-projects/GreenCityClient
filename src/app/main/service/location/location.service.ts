@@ -49,7 +49,7 @@ export class LocationService {
     });
   }
 
-  getSearchAddress(cityName: string, streetName: string, houseValue): SearchAddressInteface {
+  getSearchAddress(cityName: string, streetName: string, houseValue: string): SearchAddressInteface {
     const searchAddress = {
       input: `${streetName}, ${houseValue}, ${cityName}`,
       street: `${streetName}, ${houseValue}`,
