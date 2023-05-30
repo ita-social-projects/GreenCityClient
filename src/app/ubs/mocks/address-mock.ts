@@ -1,4 +1,4 @@
-export const ADRESSESMOCK = {
+export const ADDRESSESMOCK = {
   REGIONSMOCK: [
     { name: 'Київська область', key: 1 },
     { name: 'місто Київ', key: 2 }
@@ -230,5 +230,10 @@ export const ADRESSESMOCK = {
     name: 'вулиця Ломоносова',
     place_id:
       'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
+  },
+  SEARCHADDRESS: {
+    input: `street, 2, Kyiv`,
+    street: `street, 2`,
+    city: `Kyiv,`
   }
 };

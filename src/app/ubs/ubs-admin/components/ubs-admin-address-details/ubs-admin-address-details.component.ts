@@ -301,7 +301,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     const cityName = this.getLangValue(this.addressCity.value, this.addressCityEng.value);
     if (cityName && streetName && houseValue) {
       this.addressHouseNumber.setValue(houseValue);
-      const searchAddress = this.locationService.setSearchAddress(cityName, streetName, houseValue);
+      const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
       this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
     }
   }
