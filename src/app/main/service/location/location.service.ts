@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchAddressInteface } from 'src/app/ubs/ubs/models/ubs.interface';
+import { GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
+import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
-  getDistrictAuto(placeDetails: google.maps.places.PlaceResult, language: string): string {
+  getDistrictAuto(placeDetails: GooglePlaceResult, language: string): string {
     let currentDistrict;
     const searchItem = language === 'en' ? 'district' : 'район';
     const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
@@ -22,11 +23,7 @@ export class LocationService {
     return converted;
   }
 
-  getFullAddressList(
-    searchAddress: SearchAddressInteface,
-    autocompleteService: google.maps.places.AutocompleteService,
-    lang: string
-  ): Observable<google.maps.places.AutocompletePrediction[]> {
+  getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
     const request = {
       input: searchAddress.input,
       language: lang,
@@ -49,7 +46,7 @@ export class LocationService {
     });
   }
 
-  getSearchAddress(cityName: string, streetName: string, houseValue: string): SearchAddressInteface {
+  getSearchAddress(cityName: string, streetName: string, houseValue: string): SearchAddress {
     const searchAddress = {
       input: `${streetName}, ${houseValue}, ${cityName}`,
       street: `${streetName}, ${houseValue}`,

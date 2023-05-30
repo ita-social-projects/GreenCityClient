@@ -18,7 +18,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
-import { SearchAddressInteface } from '../../ubs/models/ubs.interface';
+import { SearchAddress } from '../../ubs/models/ubs.interface';
+import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -26,11 +27,11 @@ import { SearchAddressInteface } from '../../ubs/models/ubs.interface';
   styleUrls: ['./ubs-user-profile-page.component.scss']
 })
 export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDestroy {
-  autocompleteService: google.maps.places.AutocompleteService;
-  placeService: google.maps.places.PlacesService;
-  streetPredictionList: google.maps.places.AutocompletePrediction[];
-  cityPredictionList: google.maps.places.AutocompletePrediction[];
-  housePredictionList: google.maps.places.AutocompletePrediction[];
+  autocompleteService: GoogleAutoService;
+  placeService: GooglePlaceService;
+  streetPredictionList: GooglePrediction[];
+  cityPredictionList: GooglePrediction[];
+  housePredictionList: GooglePrediction[];
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
   userProfile: UserProfile;
@@ -290,7 +291,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  onCitySelected(formGroupName: number, selectedCity: google.maps.places.AutocompletePrediction): void {
+  onCitySelected(formGroupName: number, selectedCity: GooglePrediction): void {
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
 
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
@@ -308,7 +309,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, item: AbstractControl, abstractControlName: string): void {
+  setValueOfCity(selectedCity: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
     const abstractControl = item.get(abstractControlName);
     const isKyiv = item.get('isKyiv');
 
@@ -368,7 +369,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  onStreetSelected(formGroupName: number, selectedStreet: google.maps.places.AutocompletePrediction): void {
+  onStreetSelected(formGroupName: number, selectedStreet: GooglePrediction): void {
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     currentFormGroup.get('houseNumber').setValue('');
 
@@ -376,7 +377,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.setValueOfStreet(selectedStreet, currentFormGroup, 'streetEn');
   }
 
-  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, item: AbstractControl, abstractControlName: string): void {
+  setValueOfStreet(selectedStreet: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
     const abstractControl = item.get(abstractControlName);
     const isKyiv = item.get('isKyiv');
 
@@ -398,7 +399,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
+  setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
     abstractControl.setValue(currentDistrict);
   }
@@ -457,16 +458,16 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     }
   }
 
-  setHousesList(searchAddress: SearchAddressInteface, lang: string): void {
+  setHousesList(searchAddress: SearchAddress, lang: string): void {
     this.locationService
       .getFullAddressList(searchAddress, this.autocompleteService, lang)
       .pipe(takeUntil(this.destroy))
-      .subscribe((list: google.maps.places.AutocompletePrediction[]) => {
+      .subscribe((list: GooglePrediction[]) => {
         this.housePredictionList = list;
       });
   }
 
-  onHouseSelected(item: AbstractControl, address: google.maps.places.AutocompletePrediction): void {
+  onHouseSelected(item: AbstractControl, address: GooglePrediction): void {
     item.get('searchAddress').setValue(address.description);
     item.get('placeId').setValue(address.place_id);
     item.get('isHouseSelected').setValue(true);

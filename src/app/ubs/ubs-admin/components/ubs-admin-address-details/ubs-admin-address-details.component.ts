@@ -8,7 +8,8 @@ import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LocationService } from '@global-service/location/location.service';
-import { SearchAddressInteface } from 'src/app/ubs/ubs/models/ubs.interface';
+import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -20,11 +21,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() addressExportDetailsDto: FormGroup;
   @Input() generalInfo: IGeneralOrderInfo;
   pageOpen: boolean;
-  autocompleteService: google.maps.places.AutocompleteService;
-  streetPredictionList: google.maps.places.AutocompletePrediction[];
-  cityPredictionList: google.maps.places.AutocompletePrediction[];
-  housePredictionList: google.maps.places.AutocompletePrediction[];
-  placeService: google.maps.places.PlacesService;
+  autocompleteService: GoogleAutoService;
+  streetPredictionList: GooglePrediction[];
+  cityPredictionList: GooglePrediction[];
+  housePredictionList: GooglePrediction[];
+  placeService: GooglePlaceService;
   currentLanguage: string;
   regions: Location[];
   districts: Location[];
@@ -179,12 +180,12 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onCitySelected(selectedCity: google.maps.places.AutocompletePrediction): void {
+  onCitySelected(selectedCity: GooglePrediction): void {
     this.setValueOfCity(selectedCity, this.addressCity, this.languages.uk);
     this.setValueOfCity(selectedCity, this.addressCityEng, this.languages.en);
   }
 
-  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
+  setValueOfCity(selectedCity: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedCity.place_id,
       language: lang
@@ -236,13 +237,13 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onStreetSelected(selectedStreet: google.maps.places.AutocompletePrediction): void {
+  onStreetSelected(selectedStreet: GooglePrediction): void {
     this.addressHouseNumber.setValue('');
     this.setValueOfStreet(selectedStreet, this.addressStreet, this.languages.uk);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, this.languages.en);
   }
 
-  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
+  setValueOfStreet(selectedStreet: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedStreet.place_id,
       language: lang
@@ -260,7 +261,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
+  setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
@@ -306,11 +307,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  inputHouse(searchAddress: SearchAddressInteface, lang: string): void {
+  inputHouse(searchAddress: SearchAddress, lang: string): void {
     this.locationService
       .getFullAddressList(searchAddress, this.autocompleteService, lang)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((list: google.maps.places.AutocompletePrediction[]) => {
+      .subscribe((list: GooglePrediction[]) => {
         this.housePredictionList = list;
       });
   }
