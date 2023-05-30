@@ -236,7 +236,7 @@ export const ADDRESSESMOCK = {
     street: 'street, 2',
     city: 'Kyiv,'
   },
-  GOOGLECITYREQUEST: {
+  GOOGLEREQUEST: {
     input: 'вулиця Київська, 2 Київ, Україна',
     language: 'ua',
     types: ['(cities)'],

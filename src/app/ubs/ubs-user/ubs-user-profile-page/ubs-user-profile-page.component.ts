@@ -276,7 +276,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   inputCity(searchAddress: string, regionEnName: string, lang: string): void {
-    const request = this.locationService.getCityRequest(searchAddress, lang);
+    const request = this.locationService.getRequest(searchAddress, lang, '(cities)');
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
       if (regionEnName === 'Kyiv') {
         this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
@@ -341,12 +341,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const city = item.get('city');
     const cityEn = item.get('cityEn');
 
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!isKyiv.value) {
         this.streetPredictionList = streetPredictions?.filter(

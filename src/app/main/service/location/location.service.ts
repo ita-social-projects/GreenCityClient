@@ -32,23 +32,18 @@ export class LocationService {
     return searchAddress;
   }
 
-  getCityRequest(searchAddress: string, lang: string): GoogleAutoRequest {
+  getRequest(searchAddress: string, lang: string, types: 'address' | '(cities)'): GoogleAutoRequest {
     const request = {
       input: searchAddress,
       language: lang,
-      types: ['(cities)'],
+      types: [types],
       componentRestrictions: { country: 'ua' }
     };
     return request;
   }
 
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
-    const request = {
-      input: searchAddress.input,
-      language: lang,
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.getRequest(searchAddress.input, lang, 'address');
     return new Observable((observer) => {
       autocompleteService.getPlacePredictions(request, (housePredictions) => {
         const predictionList = housePredictions?.filter(

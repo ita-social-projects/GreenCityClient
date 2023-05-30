@@ -165,7 +165,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   inputCity(searchAddress: string, lang: string): void {
-    const request = this.locationService.getCityRequest(searchAddress, lang);
+    const request = this.locationService.getRequest(searchAddress, lang, '(cities)');
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
       if (this.addressRegionEng.value === 'Kyiv') {
         this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
@@ -207,12 +207,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   inputAddress(searchAddress: string, lang: string): void {
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!this.isDistrict) {
         this.streetPredictionList = streetPredictions?.filter(
