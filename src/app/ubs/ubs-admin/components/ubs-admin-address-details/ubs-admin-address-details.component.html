@@ -91,10 +91,10 @@
                 id="house"
                 formControlName="addressHouseNumber"
                 placeholder="{{ 'address-details.house' | translate }}"
-                (keyup)="setPredictHouseNumbers()"
-                (focusout)="checkHouseInput()"
                 matInput
                 [matAutocomplete]="autoHouse"
+                (keyup)="setPredictHouseNumbers()"
+                (focusout)="checkHouseInput()"
               />
               <mat-autocomplete #autoHouse="matAutocomplete">
                 <mat-option

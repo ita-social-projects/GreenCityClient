@@ -265,14 +265,14 @@
                   <div class="form-group input-margin houseNumber">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
                     <input
+                      id="houseNumber"
                       type="text"
                       class="form-control"
-                      id="houseNumber"
                       formControlName="houseNumber"
-                      (keyup)="setPredictHouseNumbers(userForm.controls.address.get(i.toString()))"
-                      (focusout)="checkHouseInput(userForm.controls.address.get(i.toString()))"
                       matInput
                       [matAutocomplete]="autoHouse"
+                      (keyup)="setPredictHouseNumbers(userForm.controls.address.get(i.toString()))"
+                      (focusout)="checkHouseInput(userForm.controls.address.get(i.toString()))"
                     />
                     <mat-autocomplete #autoHouse="matAutocomplete">
                       <mat-option
