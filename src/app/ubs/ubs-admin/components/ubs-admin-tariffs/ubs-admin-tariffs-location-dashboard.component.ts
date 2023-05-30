@@ -625,20 +625,35 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       data: {
         tariffId: card.cardId,
         title: 'ubs-tariffs-add-location-pop-up.edit_card_title',
-        courierUkrainianName: ukCard.courier,
-        courierEnglishName: enCard.courier,
+        courierUkrainianName: this.selectedCard ? card.courierUk : ukCard.courier,
+        courierEnglishName: this.selectedCard ? card.courierEn : enCard.courier,
         selectedStation: card.station,
-        regionUkrainianName: ukCard.region,
-        regionEnglishName: enCard.region,
-        cityNameUk: ukCard.city,
-        cityNameEn: enCard.city,
+        regionUkrainianName: this.selectedCard ? card.regionUk : ukCard.region,
+        regionEnglishName: this.selectedCard ? card.regionEn : enCard.region,
+        cityNameUk: this.selectedCard ? card.citiesUk : ukCard.city,
+        cityNameEn: this.selectedCard ? card.citiesEn : enCard.city,
         action: 'ubs-tariffs-add-location-pop-up.edit_button',
         edit: true,
         button: 'edit'
       }
     });
 
-    matDialogRef.afterClosed().subscribe((res) => {});
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.updateSelectedCard(res);
+      }
+    });
+  }
+
+  updateSelectedCard(res): void {
+    this.selectedCard.citiesEn = res.citiesEn;
+    this.selectedCard.citiesUk = res.citiesUk;
+    this.selectedCard.courierEn = res.courierEn;
+    this.selectedCard.courierUk = res.courierUk;
+    this.selectedCard.regionEn = res.regionEn;
+    this.selectedCard.regionUk = res.regionUk;
+    this.selectedCard.regionId = res.regionId;
+    this.selectedCard.station = res.station;
   }
 
   public createCardRequest(card): void {
