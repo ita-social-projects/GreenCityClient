@@ -52,4 +52,12 @@ export class UbsAdminEmployeeService {
   updatePermissions(employeeEmail, permissions) {
     return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities/`, { employeeEmail, authorities: permissions });
   }
+
+  getEmployeeLoginPositions(employeeEmail): Observable<any> {
+    return this.http.get(`${ubsAdminEmployeeLink}/get-employee-login-positions/?email=${employeeEmail}`);
+  }
+
+  getEmployeePositionsAuthorities(employeeEmail): Observable<any> {
+    return this.http.get(`${ubsAdminEmployeeLink}/get-positions-authorities/?email=${employeeEmail}`);
+  }
 }
