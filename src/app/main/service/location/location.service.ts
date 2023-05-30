@@ -22,13 +22,6 @@ export class LocationService {
     return converted;
   }
 
-  addHouseNumToAddress(address: string, houseNumber: number): string {
-    const addressArray = [...address.split(',')];
-    addressArray.splice(1, 0, ' ' + houseNumber);
-    const addressConverted = addressArray.join(',');
-    return addressConverted;
-  }
-
   getFullAddressList(
     searchAddress: SearchAddressInteface,
     autocompleteService: google.maps.places.AutocompleteService,

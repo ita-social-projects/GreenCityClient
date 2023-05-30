@@ -75,9 +75,8 @@ describe('UBSAddAddressPopUpComponent', () => {
   const fakeGoogleScript = jasmine.createSpyObj('GoogleScript', ['load']);
   fakeGoogleScript.load.and.returnValue(of());
 
-  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto']);
   fakeLocationServiceMock.getDistrictAuto = () => ADRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
-  fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
   const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {

@@ -1,12 +1,14 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LocationService } from '@global-service/location/location.service';
+import { SearchAddressInteface } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -21,6 +23,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   autocompleteService: google.maps.places.AutocompleteService;
   streetPredictionList: google.maps.places.AutocompletePrediction[];
   cityPredictionList: google.maps.places.AutocompletePrediction[];
+  housePredictionList: google.maps.places.AutocompletePrediction[];
   placeService: google.maps.places.PlacesService;
   currentLanguage: string;
   regions: Location[];
@@ -28,6 +31,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   districtsKyiv: Location[];
   isDistrict: boolean;
   isStatus = false;
+  isHouseSelected = false;
 
   languages = {
     en: 'en',
@@ -233,6 +237,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   onStreetSelected(selectedStreet: google.maps.places.AutocompletePrediction): void {
+    this.addressHouseNumber.setValue('');
     this.setValueOfStreet(selectedStreet, this.addressStreet, this.languages.uk);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, this.languages.en);
   }
@@ -286,6 +291,38 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     this.addressDistrict.markAsDirty();
     this.addressDistrictEng.setValue(selectedDistricEn.name);
     this.addressDistrictEng.markAsDirty();
+  }
+
+  setPredictHouseNumbers(): void {
+    this.housePredictionList = null;
+    this.isHouseSelected = false;
+    const houseValue = this.addressHouseNumber.value.toLowerCase();
+    const streetName = this.getLangValue(this.addressStreet.value, this.addressStreetEng.value);
+    const cityName = this.getLangValue(this.addressCity.value, this.addressCityEng.value);
+    if (cityName && streetName && houseValue) {
+      this.addressHouseNumber.setValue(houseValue);
+      const searchAddress = this.locationService.setSearchAddress(cityName, streetName, houseValue);
+      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+    }
+  }
+
+  inputHouse(searchAddress: SearchAddressInteface, lang: string): void {
+    this.locationService
+      .getFullAddressList(searchAddress, this.autocompleteService, lang)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list: google.maps.places.AutocompletePrediction[]) => {
+        this.housePredictionList = list;
+      });
+  }
+
+  onHouseSelected(): void {
+    this.isHouseSelected = true;
+  }
+
+  checkHouseInput(): void {
+    if (!this.isHouseSelected) {
+      this.addressHouseNumber.setValue('');
+    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

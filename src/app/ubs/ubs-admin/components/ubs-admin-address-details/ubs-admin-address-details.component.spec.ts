@@ -46,9 +46,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
     return valUa;
   };
 
-  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto', 'addHouseNumToAddress']);
+  const fakeLocationServiceMock = jasmine.createSpyObj('locationService', ['getDistrictAuto']);
   fakeLocationServiceMock.getDistrictAuto = () => ADRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
-  fakeLocationServiceMock.addHouseNumToAddress = () => '';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

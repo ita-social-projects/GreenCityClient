@@ -28,9 +28,4 @@ describe('LocationService', () => {
     const convertedAddress = locations.convFirstLetterToCapital('Name of District');
     expect(convertedAddress).toBe('Name of district');
   });
-
-  it('should add House Number To Address', () => {
-    const convertedAddress = locations.addHouseNumToAddress('Skovorody street, Kyiv, Ukraine', 2);
-    expect(convertedAddress).toBe('Skovorody street, 2, Kyiv, Ukraine');
-  });
 });

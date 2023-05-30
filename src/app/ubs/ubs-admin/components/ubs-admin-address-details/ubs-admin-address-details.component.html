@@ -55,13 +55,14 @@
           <div class="form-group">
             <label for="street">{{ 'address-details.street' | translate }}</label>
             <input
-              (keyup)="setPredictStreets()"
+              id="street"
               type="text"
               class="form-control"
               placeholder="{{ 'address-details.street' | translate }}"
               [readonly]="isStatus"
-              id="street"
               [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
+              [matAutocomplete]="autoStreet"
+              (keyup)="setPredictStreets()"
             />
             <mat-autocomplete #autoStreet="matAutocomplete">
               <mat-option
@@ -90,7 +91,21 @@
                 id="house"
                 formControlName="addressHouseNumber"
                 placeholder="{{ 'address-details.house' | translate }}"
+                (keyup)="setPredictHouseNumbers()"
+                (focusout)="checkHouseInput()"
+                matInput
+                [matAutocomplete]="autoHouse"
               />
+              <mat-autocomplete #autoHouse="matAutocomplete">
+                <mat-option
+                  class="autocomplete-dropdown"
+                  *ngFor="let house of housePredictionList"
+                  [value]="house.structured_formatting.main_text"
+                  (click)="onHouseSelected()"
+                >
+                  {{ house.structured_formatting.main_text }}
+                </mat-option>
+              </mat-autocomplete>
               <div class="validation" *ngIf="addressHouseNumber.invalid && addressHouseNumber.touched">
                 <app-ubs-input-error [formElement]="addressHouseNumber"></app-ubs-input-error>
               </div>
