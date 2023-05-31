@@ -1,13 +1,18 @@
 <div class="container">
   <div>
     <div *ngIf="!searchMode || !isFetching" class="cards-list">
-      <div *ngFor="let item of recommendedFriends" class="user-card">
-        <app-friend-item
-          [friend]="item"
-          (friendEventEmit)="addFriend($event)"
-          primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-        >
-        </app-friend-item>
+      <div *ngIf="amountOfFriends">
+        <p>{{ amountOfFriends }} of people found</p>
+      </div>
+      <div class="cards-box">
+        <div *ngFor="let item of recommendedFriends" class="user-card">
+          <app-friend-item
+            [friend]="item"
+            (friendEventEmit)="addFriend($event)"
+            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+          >
+          </app-friend-item>
+        </div>
       </div>
     </div>
     <app-spinner *ngIf="isFetching"></app-spinner>

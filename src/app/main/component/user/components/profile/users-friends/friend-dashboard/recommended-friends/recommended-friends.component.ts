@@ -18,6 +18,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   public scroll = false;
   public currentPage = 0;
   public totalPages: number;
+  public amountOfFriends: number;
   public isFetching = false;
   public emptySearchList = false;
   public sizePage = 10;
@@ -46,6 +47,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
           this.recommendedFriends = data.page;
+          this.amountOfFriends = data.totalElements;
           this.isFetching = false;
           this.searchMode = false;
         },
