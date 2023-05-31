@@ -92,20 +92,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getService();
       this.getCouriers();
     });
-
-    if (this.limitStatus === limitStatus.limitByPriceOfOrder) {
-      this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
-    }
-    if (this.limitStatus === limitStatus.limitByAmountOfBag) {
-      this.setMinValueValidation(this.minBigBags, this.maxBigBags);
-    }
   }
 
   setMinValueValidation(minFormControl, maxFormControl) {
     minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
-      console.log(value);
-
-      maxFormControl.setValidators([Validators.min(value), Validators.required]);
+      maxFormControl.setValidators([Validators.min(value + 1)]);
       maxFormControl.updateValueAndValidity();
     });
   }
@@ -149,11 +140,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   sumLimitStatus() {
-    this.maxBigBags.clearValidators();
-    this.maxBigBags.updateValueAndValidity();
-    this.minBigBags.clearValidators();
-    this.minBigBags.updateValueAndValidity();
-
     this.limitStatus = limitStatus.limitByPriceOfOrder;
 
     this.limitsForm.patchValue({
@@ -161,15 +147,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       maxAmountOfBigBags: null
     });
 
+    this.minBigBags.clearValidators();
+    this.minBigBags.updateValueAndValidity();
     this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
   }
 
   bagLimitStatus() {
-    this.maxPriceOfOrder.clearValidators();
-    this.maxPriceOfOrder.updateValueAndValidity();
-    this.minPriceOfOrder.clearValidators();
-    this.minPriceOfOrder.updateValueAndValidity();
-
     this.limitStatus = limitStatus.limitByAmountOfBag;
 
     this.limitsForm.patchValue({
@@ -177,6 +160,8 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       maxPriceOfOrder: null
     });
 
+    this.minPriceOfOrder.clearValidators();
+    this.minPriceOfOrder.updateValueAndValidity();
     this.setMinValueValidation(this.minBigBags, this.maxBigBags);
   }
 
@@ -500,6 +485,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         limitDescription: this.selectedCard.limitDescription,
         courierLimitsBy: this.limitStatus
       });
+      this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
     }
 
     if (this.selectedCard.courierLimit === limitStatus.limitByAmountOfBag) {
@@ -510,6 +496,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         limitDescription: this.selectedCard.limitDescription,
         courierLimitsBy: this.limitStatus
       });
+      this.setMinValueValidation(this.minBigBags, this.maxBigBags);
     }
   }
 
