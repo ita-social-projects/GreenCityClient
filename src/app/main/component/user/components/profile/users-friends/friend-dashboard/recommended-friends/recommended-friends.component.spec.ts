@@ -5,12 +5,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { RecommendedFriendsComponent } from './recommended-friends.component';
+import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
@@ -22,78 +22,10 @@ describe('RecommendedFriendsComponent', () => {
 
   const userFriendsService = 'userFriendsService';
 
-  const response = {
-    id: 1,
-    name: 'Name',
-    profilePicture: '',
-    added: false
-  };
-
-  const userFriends = {
-    totalElements: 1,
-    totalPages: 1,
-    currentPage: 1,
-    page: [
-      {
-        id: 1,
-        name: 'Name',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      },
-      {
-        id: 2,
-        name: 'Name2',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      }
-    ]
-  };
-  const userFriendsArray: FriendModel[] = [
-    {
-      id: 1,
-      name: 'Name',
-      profilePicturePath: '',
-      added: true,
-      rating: 380,
-      city: 'Lviv',
-      mutualFriends: 5,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 2
-      }
-    },
-    {
-      id: 2,
-      name: 'Name2',
-      profilePicturePath: '',
-      added: true,
-      rating: 380,
-      city: 'Lviv',
-      mutualFriends: 5,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 2
-      }
-    }
-  ];
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getPossibleFriends', 'deleteFriend', 'addFriend']);
-  userFriendsServiceMock.getPossibleFriends = () => of(userFriends);
-  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => of(response);
-  userFriendsServiceMock.addFriend = (idUser, idFriend) => of(response);
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getPossibleFriends', 'findNewFriendsByName', 'addFriend']);
+  userFriendsServiceMock.getPossibleFriends = () => of(FRIENDS);
+  userFriendsServiceMock.findNewFriendsByName = () => of(FRIENDS);
+  userFriendsServiceMock.addFriend = (idUser, idFriend) => of(FIRSTFRIEND);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -120,33 +52,52 @@ describe('RecommendedFriendsComponent', () => {
     fixture.detectChanges();
   });
 
-  afterEach(() => {
-    fixture.destroy();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get userId', () => {
-    expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
-  });
-
-  it('should get a user', () => {
+  it('should call initUser and getPossibleFriends OnInit', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
+    const getFriendsSpy = spyOn(component, 'getPossibleFriends');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
+    expect(getFriendsSpy).toHaveBeenCalled();
   });
 
-  it('should call method addFriend', () => {
-    const addFriendSpy = spyOn(component[userFriendsService], 'addFriend').and.returnValue(of({}));
-    component.addFriend(4);
-    expect(addFriendSpy).toHaveBeenCalled();
+  it('should set values on findUserByName', () => {
+    component.findUserByName('A');
+    expect(component.totalPages).toBe(1);
+    expect(component.recommendedFriends).toEqual(FRIENDS.page);
+    expect(component.amountOfFriends).toBe(2);
+    expect(component.emptySearchList).toBeFalsy();
+    expect(component.isFetching).toBeFalsy();
+    expect(component.searchMode).toBeFalsy();
+  });
+
+  it('should set values on getPossibleFriends', () => {
+    const recFriends = component.recommendedFriends.concat(FRIENDS.page);
+    component.getPossibleFriends(1111, 1);
+    expect(component.totalPages).toBe(1);
+    expect(component.recommendedFriends).toEqual(recFriends);
+    expect(component.emptySearchList).toBeFalsy();
+    expect(component.isFetching).toBeFalsy();
+    expect(component.scroll).toBeFalsy();
   });
 
   it('should call getFriends on scroll', () => {
-    const getRecommendedFriendSpy = spyOn(component[userFriendsService], 'getPossibleFriends').and.returnValue(of(userFriends));
+    const getRecommendedFriendSpy = spyOn(component, 'getPossibleFriends');
     component.onScroll();
     expect(getRecommendedFriendSpy).toHaveBeenCalled();
+  });
+
+  it('should call deleteFriendsFromList method on addFriend', () => {
+    const spy = spyOn(component as any, 'deleteFriendsFromList');
+    component.addFriend(4);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should set userId on initUser', () => {
+    (component as any).initUser();
+    expect(component.userId).toBe(1111);
   });
 });

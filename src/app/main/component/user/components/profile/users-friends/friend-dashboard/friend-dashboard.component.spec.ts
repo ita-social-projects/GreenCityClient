@@ -109,12 +109,12 @@ describe('FriendDashboardComponent', () => {
 
   it('should set allFriendsAmount on getAllFriends', () => {
     (component as any).getAllFriends(1111);
-    expect(component.allFriendsAmount).toBe(1);
+    expect(component.allFriendsAmount).toBe(2);
   });
 
   it('should set requestFriendsAmount on getFriendsRequests', () => {
     (component as any).getFriendsRequests(1111);
-    expect(component.requestFriendsAmount).toBe(1);
+    expect(component.requestFriendsAmount).toBe(2);
   });
 
   it('should emit the input value through searchTerm$', () => {

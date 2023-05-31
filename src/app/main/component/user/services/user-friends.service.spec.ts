@@ -204,11 +204,11 @@ describe('UserFriendsService', () => {
   describe('deleteFriend', () => {
     it('should return an object on calling deleteFriend', () => {
       let response;
-      userFriendsService.deleteFriend(1, 2).subscribe((data) => {
+      userFriendsService.deleteFriend(2).subscribe((data) => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/1/userFriend/2`);
+      const req = httpMock.expectOne(`${userFriendsService.url}friends/2`);
       expect(req.request.method).toBe('DELETE');
     });
   });

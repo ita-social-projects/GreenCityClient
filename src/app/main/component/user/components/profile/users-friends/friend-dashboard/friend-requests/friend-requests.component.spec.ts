@@ -9,6 +9,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { FriendRequestsComponent } from './friend-requests.component';
+import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('FriendRequestsComponent', () => {
   let component: FriendRequestsComponent;
@@ -18,51 +19,10 @@ describe('FriendRequestsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
 
-  const response = {
-    id: 1,
-    name: 'Name',
-    profilePicture: '',
-    added: false
-  };
-
-  const requests = {
-    totalElements: 1,
-    totalPages: 1,
-    currentPage: 1,
-    page: [
-      {
-        id: 1,
-        name: 'Name',
-        profilePicture: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      },
-      {
-        id: 2,
-        name: 'Name2',
-        profilePicture: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      }
-    ]
-  };
-
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRequests', 'declineRequest', 'acceptRequest']);
-  userFriendsServiceMock.getRequests = () => of(requests);
-  userFriendsServiceMock.declineRequest = (idUser, idFriend) => of(response);
-  userFriendsServiceMock.acceptRequest = (idUser, idFriend) => of(response);
+  userFriendsServiceMock.getRequests = () => of(FRIENDS);
+  userFriendsServiceMock.declineRequest = (idUser, idFriend) => of(FIRSTFRIEND);
+  userFriendsServiceMock.acceptRequest = (idUser, idFriend) => of(FIRSTFRIEND);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -86,10 +46,6 @@ describe('FriendRequestsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get userId', () => {
-    expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
-  });
-
   it('should get a user', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     component.ngOnInit();
@@ -102,24 +58,31 @@ describe('FriendRequestsComponent', () => {
     expect(getRequests).toHaveBeenCalledTimes(1);
   });
 
-  it('should call method accept', () => {
-    // @ts-ignore
-    const acceptSpy = spyOn(component.userFriendsService, 'acceptRequest').and.returnValue(of(true));
+  it('should call deleteFriendsFromList method on accept', () => {
+    const spy = spyOn(component as any, 'deleteFriendsFromList');
     component.accept(4);
-    expect(acceptSpy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should call method decline', () => {
-    // @ts-ignore
-    const declineSpy = spyOn(component.userFriendsService, 'declineRequest').and.returnValue(of(true));
+  it('should call deleteFriendsFromList method on decline', () => {
+    const spy = spyOn(component as any, 'deleteFriendsFromList');
     component.decline(4);
-    expect(declineSpy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should call getRequests on scroll', () => {
-    // @ts-ignore
-    const getRequestSpy = spyOn(component.userFriendsService, 'getRequests').and.returnValue(of(requests));
+  it('should set userId on initUser', () => {
+    (component as any).initUser();
+    expect(component.userId).toBe(1111);
+  });
+
+  it('should set requests on getRequests', () => {
+    (component as any).getRequests();
+    expect(component.requests).toEqual(FRIENDS.page);
+  });
+
+  it('should set requests on scroll', () => {
+    const result = component.requests.concat(FRIENDS.page);
     component.onScroll();
-    expect(getRequestSpy).toHaveBeenCalled();
+    expect(component.requests).toEqual(result);
   });
 });
