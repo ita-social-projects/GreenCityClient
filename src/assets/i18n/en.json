@@ -947,7 +947,8 @@
       "request-decline": "Decline",
       "request-accept": "Accept",
       "all-friends": "All friends",
-      "search-friends": "Find friends"
+      "search-friends": "Find friends",
+      "found-amount": "of people found"
     }
   },
   "create-news": {

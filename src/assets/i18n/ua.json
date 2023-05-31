@@ -966,7 +966,8 @@
       "request-decline": "Відхилити",
       "request-accept": "Прийняти",
       "all-friends": "Всі Друзі",
-      "search-friends": "Пошук"
+      "search-friends": "Пошук",
+      "found-amount": "людей знайдено"
     },
     "rate": "Рейтинг",
     "acquired-habits": "набуті звички",
