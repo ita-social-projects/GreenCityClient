@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
-import { takeUntil, skip } from 'rxjs/operators';
+import { takeUntil, skip, startWith } from 'rxjs/operators';
 import { Bag, Service, Locations, TariffCard, BagLimitDto, ILimit } from '../../../models/tariffs.interface';
 import { OrderService } from '../../../../ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -92,6 +92,22 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getService();
       this.getCouriers();
     });
+
+    if (this.limitStatus === limitStatus.limitByPriceOfOrder) {
+      this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
+    }
+    if (this.limitStatus === limitStatus.limitByAmountOfBag) {
+      this.setMinValueValidation(this.minBigBags, this.maxBigBags);
+    }
+  }
+
+  setMinValueValidation(minFormControl, maxFormControl) {
+    minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
+      console.log(value);
+
+      maxFormControl.setValidators([Validators.min(value), Validators.required]);
+      maxFormControl.updateValueAndValidity();
+    });
   }
 
   private initForm(): void {
@@ -133,21 +149,35 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   sumLimitStatus() {
+    this.maxBigBags.clearValidators();
+    this.maxBigBags.updateValueAndValidity();
+    this.minBigBags.clearValidators();
+    this.minBigBags.updateValueAndValidity();
+
     this.limitStatus = limitStatus.limitByPriceOfOrder;
 
     this.limitsForm.patchValue({
       minAmountOfBigBags: null,
       maxAmountOfBigBags: null
     });
+
+    this.setMinValueValidation(this.minPriceOfOrder, this.maxPriceOfOrder);
   }
 
   bagLimitStatus() {
+    this.maxPriceOfOrder.clearValidators();
+    this.maxPriceOfOrder.updateValueAndValidity();
+    this.minPriceOfOrder.clearValidators();
+    this.minPriceOfOrder.updateValueAndValidity();
+
     this.limitStatus = limitStatus.limitByAmountOfBag;
 
     this.limitsForm.patchValue({
       minPriceOfOrder: null,
       maxPriceOfOrder: null
     });
+
+    this.setMinValueValidation(this.minBigBags, this.maxBigBags);
   }
 
   saveChanges(): void {
@@ -501,7 +531,10 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.limitStatus === limitStatus.limitByAmountOfBag &&
       (minAmountOfBigBags.errors?.cannotBeEmpty || maxAmountOfBigBags.errors?.cannotBeEmpty);
 
-    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags) {
+    const inValidNumber =
+      (maxPriceOfOrder.invalid && maxPriceOfOrder.touched) || (maxAmountOfBigBags.invalid && maxAmountOfBigBags.touched);
+
+    if (this.limitsForm.pristine || this.saveBTNClicked || byPrice || byBags || inValidNumber) {
       return true;
     }
 
