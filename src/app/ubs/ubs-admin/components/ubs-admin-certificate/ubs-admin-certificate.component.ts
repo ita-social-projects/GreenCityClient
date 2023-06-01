@@ -186,6 +186,8 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   openExportExcel(): void {
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
+    dialogRef.componentInstance.isElementSelected = !!this.selection.selected.length;
+    dialogRef.componentInstance.selectedElements = this.selection.selected;
     dialogRef.componentInstance.totalElements = this.totalElements;
     dialogRef.componentInstance.allElements = this.allElements;
     dialogRef.componentInstance.sortingColumn = this.sortingColumn;

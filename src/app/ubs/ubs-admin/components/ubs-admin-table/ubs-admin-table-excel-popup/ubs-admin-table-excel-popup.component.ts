@@ -21,6 +21,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   tableData: any[];
   tableView: string;
   totalElements: number;
+  selectedElements: any[];
+  isElementSelected: boolean;
   search: string;
   name: string;
   allElements: number;
@@ -42,12 +44,14 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     this.language = this.languageService.getCurrentLanguage();
     this.tableView = tableViewParameters.wholeTable;
 
-    this.dataForTranslation.forEach((el) => {
-      if (el?.title?.key !== 'select') {
-        this.columnTitles.push(el?.title?.[this.language]);
-        this.columnKeys.push(el?.title?.key);
-      }
-    });
+    if (this.dataForTranslation) {
+      this.dataForTranslation.forEach((el) => {
+        if (el?.title?.key !== 'select') {
+          this.columnTitles.push(el?.title?.[this.language]);
+          this.columnKeys.push(el?.title?.key);
+        }
+      });
+    }
   }
 
   saveTable() {
@@ -81,7 +85,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-    } else if (this.tableView === tableViewParameters.currentFilter) {
+    }
+    if (this.tableView === tableViewParameters.currentFilter) {
       if (this.name === nameOfTable.ordersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
@@ -111,6 +116,16 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
+    }
+    if (this.tableView === tableViewParameters.selectedOrders && this.name === nameOfTable.ordersTable) {
+      this.tableData = this.selectedElements;
+      this.setTranslatedOrders();
+      this.filterDataForDeletedColumn();
+      this.createXLSX();
+    }
+    if (this.tableView === tableViewParameters.selectedOrders && this.name === nameOfTable.certificatesTable) {
+      this.tableData = this.selectedElements;
+      this.createXLSX();
     }
   }
 
