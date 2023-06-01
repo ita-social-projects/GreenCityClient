@@ -40,7 +40,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
     const hasNotValidFields = (everyFieldFilled && !someFieldFilled) || (!everyFieldFilled && someFieldFilled);
 
     Object.keys(this.exportDetailsDto.controls).forEach((controlName) => {
-      if ((hasNotValidFields || isFormRequired) && this.orderStatus !== OrderStatus.FORMED) {
+      if ((hasNotValidFields || isFormRequired) && this.orderStatus !== this.statuses[2]) {
         this.exportDetailsDto.get(controlName).setValidators(Validators.required);
         this.exportDetailsDto.setErrors({ incorrect: true });
       } else {
