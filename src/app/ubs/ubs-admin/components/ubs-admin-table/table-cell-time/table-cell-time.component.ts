@@ -16,6 +16,7 @@ export class TableCellTimeComponent implements OnInit {
   @Input() isAllChecked: boolean;
   @Input() doneOrCanceled: boolean;
   @Input() timeOfExport: string;
+  @Input() exportDate: string;
 
   @Output() cancelEdit = new EventEmitter();
   @Output() editTimeCell = new EventEmitter();

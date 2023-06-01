@@ -288,6 +288,7 @@
         <app-table-cell-time
           *ngIf="column.editType === 'TIME'"
           [timeOfExport]="row[column.title.key]"
+          [exportDate]="row.dateOfExport"
           [nameOfColumn]="column.title.key"
           [id]="row.id"
           [ordersToChange]="idsToChange"
