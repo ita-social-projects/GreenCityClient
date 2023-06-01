@@ -473,7 +473,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   openExportExcel(): void {
     const dialogConfig = new MatDialogConfig();
     const dialogRef = this.dialog.open(UbsAdminTableExcelPopupComponent, dialogConfig);
-    let sortedOrders = this.tableData.filter((el) => this.idsToChange.includes(el.id));
+    const sortedOrders = this.tableData.filter((el) => this.idsToChange.includes(el.id));
     dialogRef.componentInstance.isElementSelected = !!sortedOrders.length;
     dialogRef.componentInstance.selectedElements = sortedOrders;
     dialogRef.componentInstance.totalElements = this.totalElements;
