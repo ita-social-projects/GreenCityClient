@@ -6,5 +6,6 @@ export enum statusOfTariff {
 
 export enum actionsWithTariffs {
   deactivation = 'deactivation',
-  restore = 'restore'
+  restore = 'restore',
+  activate = 'activation'
 }

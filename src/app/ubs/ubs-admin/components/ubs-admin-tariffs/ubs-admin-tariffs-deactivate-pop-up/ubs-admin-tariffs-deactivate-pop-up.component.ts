@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import {
   TranslationDto
 } from '../../../models/tariffs.interface';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -74,6 +74,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public tariffCards: TariffCard[] = [];
   public currentLanguage: string;
   public selectedValue: Couriers;
+  public isDeactivatePopUp: boolean;
+  public isActivatePopUp: boolean;
   public placeholderSelectedEn = TariffPlaceholderSelected.en;
   public placeholderSelectedUa = TariffPlaceholderSelected.ua;
   public courierLabelEn = TariffCourierLabelName.en;
@@ -90,6 +92,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     private languageService: LanguageService,
     private translate: TranslateService,
     public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA)
+    public modalData: {
+      isActivation: boolean;
+      isDeactivation: boolean;
+    },
     public dialogRef: MatDialogRef<UbsAdminTariffsDeactivatePopUpComponent>
   ) {}
 
@@ -110,6 +117,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     this.localeStorage.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((name) => {
       this.name = name;
     });
+    this.isDeactivatePopUp = this.modalData.isDeactivation;
+    this.isActivatePopUp = this.modalData.isActivation;
     this.currentLanguage = this.languageService.getCurrentLanguage();
     this.setStationPlaceholder();
     this.setRegionsPlaceholder();
@@ -700,7 +709,9 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       selectedRegionValue: this.selectedRegions,
       selectedCitiesValue: this.selectedCities,
       selectedStations: this.selectedStations,
-      selectedCourier: this.selectedCourier
+      selectedCourier: this.selectedCourier,
+      isActivation: this.isActivatePopUp,
+      isDeactivation: this.isDeactivatePopUp
     });
   }
 

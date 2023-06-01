@@ -749,7 +749,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       cityNameUk: result.selectedCitiesValue.map((city) => city.cityNameUa),
       cityNameEn: result.selectedCitiesValue.map((city) => city.cityNameEn),
       stationNames: result.selectedStations.map((it) => it.name),
-      isDeactivate: true
+      isDeactivate: result.isDeactivation,
+      isRestore: result.isActivation
     };
     return this.openDialog(TariffDeactivateConfirmationPopUpComponent, data);
   }
@@ -763,8 +764,18 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
-  openDeactivatePopUp(): void {
-    const dialogRef = this.openDialog(UbsAdminTariffsDeactivatePopUpComponent, { headerText: 'deactivateTemplate' });
+  openDeactivateOrActivatePopUp(actionName: string): void {
+    const isItActivation = actionName === actionsWithTariffs.activate;
+    const isItDeactivation = actionName === actionsWithTariffs.deactivation;
+
+    const dialogRef = this.dialog.open(UbsAdminTariffsDeactivatePopUpComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        isDeactivation: isItDeactivation,
+        isActivation: isItActivation
+      }
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
