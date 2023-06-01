@@ -88,8 +88,8 @@ export class UserFriendsService {
     return this.http.post<object>(`${this.url}user/${idUser}/declineFriend/${idFriend}`, body);
   }
 
-  public deleteFriend(idUser: number, idFriend: number): Observable<object> {
-    return this.http.delete<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, this.httpOptions);
+  public deleteFriend(idFriend: number): Observable<object> {
+    return this.http.delete<object>(`${this.url}friends/${idFriend}`, this.httpOptions);
   }
 
   addedFriendsToHabit(friend) {
