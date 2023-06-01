@@ -309,6 +309,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
     const displayedColumns = this.displayedColumns.join(',');
     this.store.dispatch(SetColumnToDisplay({ columns: encodeURIComponent(displayedColumns), titles: displayedColumns }));
+    setTimeout(() => this.applyColumnsWidthPreference(), 0);
   }
 
   stickColumns() {

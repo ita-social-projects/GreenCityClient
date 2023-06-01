@@ -54,7 +54,7 @@ form {
 }
 
 .select-item {
-  border: 1px solid var(--ubs-primary-light-grey);
+  border: 1px solid var(--ubs-quaternary-dark-grey);
   border-radius: 4px;
   margin-right: 16px;
   position: relative;
@@ -73,6 +73,7 @@ form {
 
 .input-wrapper input.region {
   padding: 0 56px 0 15px;
+  color: var(--ubs-quaternary-dark-grey);
 }
 
 .courier-select {
