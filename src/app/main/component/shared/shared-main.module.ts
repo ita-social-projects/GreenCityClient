@@ -39,6 +39,7 @@ import { FilterSelectComponent } from './components/filter-select/filter-select.
 import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -89,7 +90,8 @@ registerLocaleData(ukLocale, 'ua');
     MatTooltipModule,
     MatOptionModule,
     MatDividerModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule
   ],
   exports: [
     EditPhotoPopUpComponent,

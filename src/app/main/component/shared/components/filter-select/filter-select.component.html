@@ -1,10 +1,10 @@
-<div class="dropdown">
-  <mat-label class="filter">{{ filter.title | translate }}</mat-label>
-  <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
+<mat-form-field class="dropdown" appearance="standard">
+  <mat-select [formControl]="statusFilterControl" [placeholder]="filter.title | translate" floatlLabel="never" multiple>
+    <mat-select-trigger>{{ filter.title | translate }}</mat-select-trigger>
     <mat-option [value]="0" (click)="toggleAllSelection(filter.filter)">{{ filter.selectAllOption | translate }}</mat-option>
     <mat-divider></mat-divider>
     <mat-option [value]="option?.value" *ngFor="let option of filter.options" (onSelectionChange)="updateSelectedFilters(option, $event)">
       {{ getLangValue(option.nameUa, option.name) }}
     </mat-option>
   </mat-select>
-</div>
+</mat-form-field>
