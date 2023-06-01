@@ -46,6 +46,27 @@ h1 {
     }
   }
 
+  .filters-container {
+    display: flex;
+    align-items: center;
+
+    .filter-title {
+      display: flex;
+      font-family: var(--primary-font);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 28px;
+      color: var(--secondary-dark-grey);
+      height: 28px;
+      min-width: 75px;
+    }
+
+    .filters-list-box {
+      display: flex;
+    }
+  }
+
   a .back-button {
     height: 30px;
     font-family: 'Open Sans', sans-serif;

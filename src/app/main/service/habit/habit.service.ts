@@ -53,6 +53,11 @@ export class HabitService {
     );
   }
 
+  getHabitsByFilters(page: number, size: number, language: string, filters: any): Observable<HabitListInterface> {
+    const sort = 'asc';
+    return this.http.get<HabitListInterface>(`${habitLink}/search?lang=${language}&page=${page}&size=${size}&sort=${sort}`);
+  }
+
   addCustomHabit(habit: any, lang: string): Observable<CustomHabitInterface> {
     const body = {
       habitTranslations: [

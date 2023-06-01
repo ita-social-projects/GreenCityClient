@@ -1,0 +1,18 @@
+.dropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  white-space: nowrap;
+
+  .filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--primary-font);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

@@ -781,7 +781,13 @@
         "new-habit-updated": "Ви успішно оновили звичку",
         "habit-did-not-give-up": "Ми раді, що ви передумали",
         "habit-acquired": "Ви успішно набули звичку",
-        "habit-was-deleted": "Ви успішно видалили звичку зі списку"
+        "habit-was-deleted": "Ви успішно видалили звичку зі списку",
+        "filters": {
+          "tags": {
+            "title": "Теги",
+            "select-all": "Всі теги"
+          }
+        }
       },
       "habit-trackers": {
         "habit-tracker": {
