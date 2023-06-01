@@ -92,7 +92,6 @@ describe('RecommendedFriendsComponent', () => {
   ];
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getPossibleFriends', 'deleteFriend', 'addFriend']);
   userFriendsServiceMock.getPossibleFriends = () => of(userFriends);
-  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => of(response);
   userFriendsServiceMock.addFriend = (idUser, idFriend) => of(response);
 
   beforeEach(async(() => {
