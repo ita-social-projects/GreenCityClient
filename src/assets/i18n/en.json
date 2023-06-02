@@ -1061,6 +1061,7 @@
     "placeholder": "Event name up to 70 symbols.",
     "duration": "Duration",
     "min-duration": "Min 1 day",
+    "duplicate-event-date": "You can't enter the same date for two days",
     "day": "day",
     "all-day": "all day",
     "choose-date": "Choose a date",

@@ -48,9 +48,6 @@
           </mat-form-field>
         </div>
       </div>
-      <p *ngIf="eventFormGroup.get('titleForm').getError('hasNoWhiteSpaces')" class="tag-error">
-        {{ 'create-news.has-white-spaces' | translate }}
-      </p>
 
       <div class="dateContainer">
         <div *ngFor="let date of dates; index as i" class="dateEvent">
@@ -64,6 +61,7 @@
               [editDate]="editEvent?.dates[i]"
             >
             </app-event-date-time-picker>
+            <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
           </div>
           <p *ngIf="dates.length && !isAddressFill" class="tag-error">You should fill at least one address or link</p>
         </div>

@@ -13,7 +13,7 @@
           <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
         </div>
         <div class="create">
-          <div tabindex="0" class="secondary-global-button m-btn" (click)="isUserLoggedRedirect()">
+          <div tabindex="0" class="secondary-global-button m-btn" (keydown.Tab)="isUserLoggedRedirect()" (click)="isUserLoggedRedirect()">
             {{ 'homepage.events.create-title' | translate }}
           </div>
         </div>
@@ -22,9 +22,9 @@
     <div class="filter-container">
       <p class="sort-by">{{ 'homepage.events.filter-title' | translate }}</p>
       <div class="filter-list">
-        <div class="dropdown">
+        <div class="dropdown" (click)="selectTimeList.open()">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
-          <mat-select #timeFilter [formControl]="timeFilterControl" multiple>
+          <mat-select #selectTimeList #timeFilter [formControl]="timeFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(timeList, 'timeList')">
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
@@ -38,9 +38,9 @@
             </mat-option>
           </mat-select>
         </div>
-        <div class="dropdown">
+        <div class="dropdown" (click)="selectLocationList.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
-          <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
+          <mat-select #selectLocationList #locationFilter [formControl]="locationFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(locationList, 'locationList')">{{
               'homepage.events.filter-location-аny-location' | translate
             }}</mat-option>
@@ -54,9 +54,9 @@
             </mat-option>
           </mat-select>
         </div>
-        <div class="dropdown">
+        <div class="dropdown" (click)="selectStatusesList.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
-          <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
+          <mat-select #selectStatusesList #statusFilter [formControl]="statusFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(statusesList, 'statusList')">{{
               'homepage.events.filter-status-аny-status' | translate
             }}</mat-option>
@@ -66,9 +66,9 @@
             </mat-option>
           </mat-select>
         </div>
-        <div class="dropdown">
+        <div class="dropdown" (click)="selectTypesList.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
-          <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
+          <mat-select #selectTypesList #typeFilter [formControl]="typeFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(typesList, 'typeList')">{{
               'homepage.events.filter-аny-type' | translate
             }}</mat-option>

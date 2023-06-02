@@ -67,6 +67,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  public duplindx: number;
   @Input() cancelChanges: boolean;
 
   constructor(
@@ -92,7 +93,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
@@ -136,10 +137,23 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public checkForm(form: DateFormObj, ind: number): void {
-    this.dates[ind].date = form.date;
-    this.dates[ind].startDate = form.startTime;
-    this.dates[ind].finishDate = form.endTime;
-    this.dates[ind].onlineLink = form.onlineLink;
+    this.duplindx = -1;
+    const date = form.date.toLocaleDateString();
+    const datesArray = this.dates.map((item, index) => {
+      if (index !== ind) {
+        return item.date?.toLocaleDateString();
+      }
+    });
+    const isDateDuplicate = datesArray.includes(date);
+    if (!isDateDuplicate) {
+      this.dates[ind].date = form.date;
+      this.dates[ind].startDate = form.startTime;
+      this.dates[ind].finishDate = form.endTime;
+      this.dates[ind].onlineLink = form.onlineLink;
+    } else {
+      this.duplindx = ind;
+      this.dates.splice(ind, 1, { ...DateObj });
+    }
     this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
@@ -261,7 +275,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
 
     let sendEventDto: EventDTO = {
-      title: this.eventFormGroup.get('titleForm').value,
+      title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,
       open: this.isOpen,
       datesLocations: datesDto,
@@ -289,7 +303,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.imgArray.forEach((item) => {
         formData.append('images', item);
       });
-
+      console.log('formData', formData);
       this.createEvent(formData);
     } else {
       this.eventFormGroup.markAllAsTouched();
@@ -315,11 +329,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
-  }
-
-  private validateSpaces(control: AbstractControl): ValidationErrors {
-    const value = control && control.value && control.value !== control.value.trim();
-    return value ? { hasNoWhiteSpaces: 'false' } : null;
   }
 
   private checkFileExtensionAndSize(file: any): void {
