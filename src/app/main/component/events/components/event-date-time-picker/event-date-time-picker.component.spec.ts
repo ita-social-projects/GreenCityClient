@@ -101,6 +101,28 @@ describe('EventDateTimePickerComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+  it('fillTimeArray expect will be invoke at onInit', () => {
+    const spy = spyOn(component as any, 'fillTimeArray');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('component should initialize from with correct parameters', () => {
+    component.ngOnInit();
+    expect(component.dateForm.get('date').value).toEqual('');
+    expect(component.dateForm.get('startTime').value).toEqual('');
+    expect(component.dateForm.get('endTime').value).toEqual('');
+  });
+
+  it('setEditData will be invoke at onInit', () => {
+    const spy = spyOn(component as any, 'setEditData');
+    component.editDate = editDateMock;
+    component.isDateDuplicate = true;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+    expect(component.dateForm.get('date').markAllAsTouched());
+  });
+
   it('setEditData expect onlinelink to be http:/event ', () => {
     const spy = spyOn(component.dateForm, 'patchValue').and.callThrough();
     component.editDate = editDateMock;
