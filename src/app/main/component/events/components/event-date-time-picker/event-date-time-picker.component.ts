@@ -47,6 +47,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   @Input() check: boolean;
   @Input() editDate: DateEventResponceDto;
+  @Input() isDateDuplicate: boolean;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -105,6 +106,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
         });
       }
     });
+    if (this.isDateDuplicate) {
+      this.dateForm.get('date').markAsTouched();
+    }
   }
 
   private bindLang(lang: string): void {

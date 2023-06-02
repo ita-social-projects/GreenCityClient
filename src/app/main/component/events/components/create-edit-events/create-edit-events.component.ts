@@ -7,7 +7,7 @@ import { Place } from '../../../places/models/place';
 import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -58,6 +58,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
+  public isDateDuplicate = false;
   deleteDialogData = {
     popupTitle: 'discard-changes.delete-message',
     popupConfirm: 'discard-changes.btn.yes',
@@ -138,14 +139,14 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public checkForm(form: DateFormObj, ind: number): void {
     this.duplindx = -1;
-    const date = form.date.toLocaleDateString();
+    const date = form.date?.toLocaleDateString();
     const datesArray = this.dates.map((item, index) => {
       if (index !== ind) {
         return item.date?.toLocaleDateString();
       }
     });
-    const isDateDuplicate = datesArray.includes(date);
-    if (!isDateDuplicate) {
+    this.isDateDuplicate = datesArray.includes(date);
+    if (!this.isDateDuplicate) {
       this.dates[ind].date = form.date;
       this.dates[ind].startDate = form.startTime;
       this.dates[ind].finishDate = form.endTime;
