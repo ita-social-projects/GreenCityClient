@@ -22,12 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
 import { Language } from 'src/app/main/i18n/Language';
-
-enum status {
-  active = 'ACTIVE',
-  new = 'NEW',
-  deactivated = 'DEACTIVATED'
-}
+import { statusOfTariff } from '../tariff-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
@@ -140,7 +135,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getCouriers()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Couriers[]) => {
-        this.couriers = res.filter((it) => it.courierStatus === status.active);
+        this.couriers = res.filter(
+          (it) =>
+            (this.isActivatePopUp && it.courierStatus === statusOfTariff.deactivated) ||
+            (this.isDeactivatePopUp && it.courierStatus === statusOfTariff.active)
+        );
         this.couriersName = this.couriers.map((el) => this.getLangValue(el.nameUk, el.nameEn));
         this.courier.valueChanges
           .pipe(
@@ -166,7 +165,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getAllStations()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Stations[]) => {
-        this.stations = res.filter((it) => it.stationStatus === status.active);
+        this.stations = res.filter(
+          (it) =>
+            (this.isActivatePopUp && it.stationStatus === statusOfTariff.deactivated) ||
+            (this.isDeactivatePopUp && it.stationStatus === statusOfTariff.active)
+        );
         this.stationsName = this.stations.map((it) => it.name);
         this.station.valueChanges
           .pipe(
@@ -210,7 +213,11 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       .getCardInfo()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: TariffCard[]) => {
-        this.tariffCards = res.filter((it) => it.tariffStatus === status.active);
+        this.tariffCards = res.filter(
+          (it) =>
+            (this.isActivatePopUp && it.tariffStatus === statusOfTariff.deactivated) ||
+            (this.isDeactivatePopUp && it.tariffStatus === statusOfTariff.active)
+        );
       });
   }
 
