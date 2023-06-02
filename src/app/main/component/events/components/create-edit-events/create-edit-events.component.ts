@@ -304,7 +304,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.imgArray.forEach((item) => {
         formData.append('images', item);
       });
-      console.log('formData', formData);
       this.createEvent(formData);
     } else {
       this.eventFormGroup.markAllAsTouched();
