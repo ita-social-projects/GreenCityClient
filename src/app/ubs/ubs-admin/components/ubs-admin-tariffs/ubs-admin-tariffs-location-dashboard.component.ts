@@ -779,18 +779,19 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   openTariffDeactivateOrRestorePopUp(card, tariffId: number, actionName: string): void {
     const isItRestore = actionName === actionsWithTariffs.restore;
     const isItDeactivate = actionName === actionsWithTariffs.deactivation;
-
+    const ukCard = this.cardsUk.filter((item) => item.cardId === card.cardId)[0];
+    const enCard = this.cardsEn.filter((item) => item.cardId === card.cardId)[0];
     const matDialogRef = this.dialog.open(TariffDeactivateConfirmationPopUpComponent, {
       disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
-        courierNameUk: card.courierUk,
-        courierEnglishName: card.courierEn,
-        regionNameUk: card.regionUk,
-        regionEnglishName: card.regionEn,
-        cityNameUk: card.citiesUk,
-        cityNameEn: card.citiesEn,
+        courierNameUk: this.selectedCard ? card.courierUk : ukCard.courier,
+        courierEnglishName: this.selectedCard ? card.courierEn : enCard.courier,
+        regionNameUk: this.selectedCard ? card.regionUk : ukCard.region.split(),
+        regionEnglishName: this.selectedCard ? card.regionEn : enCard.region.split(),
+        cityNameUk: this.selectedCard ? card.citiesUk : ukCard.city,
+        cityNameEn: this.selectedCard ? card.citiesEn : enCard.city,
         stationNames: card.station,
         isDeactivate: isItDeactivate,
         isRestore: isItRestore
