@@ -120,7 +120,6 @@ describe('EventDateTimePickerComponent', () => {
     component.isDateDuplicate = true;
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-    expect(component.dateForm.get('date').markAllAsTouched());
   });
 
   it('setEditData expect onlinelink to be http:/event ', () => {
