@@ -54,10 +54,15 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
   }
 
-  saveTable() {
+  saveTable(): void {
     this.isLoading = true;
+    const isSelectedOrders = this.tableView === tableViewParameters.selectedOrders;
+
+    const isOrdersTable = this.name === nameOfTable.ordersTable;
+    const isCertificatesTable = this.name === nameOfTable.certificatesTable;
+    const isCustomersTable = this.name === nameOfTable.customersTable;
     if (this.tableView === tableViewParameters.wholeTable) {
-      if (this.name === nameOfTable.ordersTable) {
+      if (isOrdersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'id')
           .then((res) => {
             this.tableData = res[`content`];
@@ -67,7 +72,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.certificatesTable) {
+      if (isCertificatesTable) {
         this.getCertificatesTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'code')
           .then((res) => {
             this.tableData = res[`page`];
@@ -76,7 +81,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.customersTable) {
+      if (isCustomersTable) {
         this.getCustomersTable(this.onePageForWholeTable, this.allElements, '', '', 'ASC', 'clientName')
           .then((res) => {
             this.tableData = res[`page`];
@@ -87,7 +92,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
       }
     }
     if (this.tableView === tableViewParameters.currentFilter) {
-      if (this.name === nameOfTable.ordersTable) {
+      if (isOrdersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`content`];
@@ -98,7 +103,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.certificatesTable) {
+      if (isCertificatesTable) {
         this.getCertificatesTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
@@ -107,7 +112,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.customersTable) {
+      if (isCustomersTable) {
         this.getCustomersTable(this.onePageForWholeTable, this.totalElements, this.filters, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
@@ -117,13 +122,13 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
           });
       }
     }
-    if (this.tableView === tableViewParameters.selectedOrders && this.name === nameOfTable.ordersTable) {
+    if (isSelectedOrders && isOrdersTable) {
       this.tableData = this.selectedElements;
       this.setTranslatedOrders();
       this.filterDataForDeletedColumn();
       this.createXLSX();
     }
-    if (this.tableView === tableViewParameters.selectedOrders && this.name === nameOfTable.certificatesTable) {
+    if (isSelectedOrders && isCertificatesTable) {
       this.tableData = this.selectedElements;
       this.createXLSX();
     }
