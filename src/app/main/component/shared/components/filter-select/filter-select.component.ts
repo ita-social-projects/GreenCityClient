@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { FilterSelect } from 'src/app/main/interface/filter-select.interface';
+import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 
 @Component({
   selector: 'app-filter-select',
@@ -16,7 +17,7 @@ export class FilterSelectComponent implements OnInit {
   statusFilterControl = new FormControl();
 
   @Output() selectAll = new EventEmitter<any>();
-  @Output() filtersList = new EventEmitter<any>();
+  @Output() selectedList = new EventEmitter<any>();
 
   constructor(private langService: LanguageService) {}
 
@@ -25,12 +26,13 @@ export class FilterSelectComponent implements OnInit {
   }
 
   toggleAllSelection(filterName: string): void {
+    this.filter.options.forEach((el) => (el.isActive = true));
     this.selectAll.emit(filterName);
   }
 
-  updateSelectedFilters(value: any, event): void {
-    console.log(value);
-    console.log(event);
+  updateSelectedFilters(option: FilterOptions, event: MatOptionSelectionChange): void {
+    option.isActive = event.source.selected;
+    this.selectedList.emit(this.filter);
   }
 
   getLangValue(uaValue: string, enValue: string): string {

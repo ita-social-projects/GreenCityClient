@@ -15,17 +15,14 @@
     <div class="filters-container">
       <span class="filter-title">{{ 'homepage.eco-news.filter' | translate }}</span>
       <div class="filters-list-box" *ngIf="tagList.length">
-        <app-filter-select *ngFor="let filter of filtersList" [filter]="filter"></app-filter-select>
+        <app-filter-select
+          *ngFor="let filter of filtersList"
+          [filter]="filter"
+          (selectedList)="setFilters($event)"
+          (selectAll)="setSelectedAll($event)"
+        ></app-filter-select>
       </div>
     </div>
-    <!-- <app-tag-filter
-      class="border_bottom"
-      (tagsList)="getFilterData($event)"
-      [storageKey]="'Habits-filter'"
-      [header]="'homepage.eco-news.filter'"
-      [tagsListData]="tagList"
-    > 
-    </app-tag-filter> -->
     <div class="habits_header-actions">
       <div class="habits_header-items-found">{{ totalHabits }} {{ 'user.habit.all-habits.found' | translate }}</div>
       <div class="habits-header-buttons">

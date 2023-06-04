@@ -231,3 +231,14 @@
 .warning-input {
   border: 1px solid var(--error-red);
 }
+
+.green-city-select {
+  .mat-option.mat-active {
+    background-color: var(--ubs-primary-liberty-green);
+  }
+  .mat-option {
+    .mat-pseudo-checkbox-checked {
+      background-color: var(--primary-green);
+    }
+  }
+}

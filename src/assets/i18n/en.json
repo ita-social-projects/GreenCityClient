@@ -781,6 +781,18 @@
           "tags": {
             "title": "Tags",
             "select-all": "All tags"
+          },
+          "complexities": {
+            "title": "Difficulty",
+            "select-all": "Any difficulty"
+          },
+          "is-custom": {
+            "title": "Types",
+            "select-all": "All types"
+          },
+          "assign": {
+            "title": "Status",
+            "select-all": "Any status"
           }
         }
       },

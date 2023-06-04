@@ -14,6 +14,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { Router } from '@angular/router';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { HabitsFiltersList } from '../models/habits-filters-list';
 
 @Component({
   selector: 'app-all-habits',
@@ -37,14 +38,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private lang: string;
   public images = singleNewsImages;
 
-  filtersList: FilterSelect[] = [
-    {
-      filter: 'tags',
-      title: 'user.habit.all-habits.filters.tags.title',
-      selectAllOption: 'user.habit.all-habits.filters.tags.select-all',
-      options: []
-    }
-  ];
+  filtersList: FilterSelect[] = HabitsFiltersList;
 
   constructor(
     private habitService: HabitService,
@@ -146,6 +140,14 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     if (this.tagList.length) {
       tags.length ? this.getHabitsByFilters(0, this.pageSize, this.selectedTagsList) : this.getAllHabits(0, this.pageSize);
     }
+  }
+
+  setSelectedAll(value: any): void {
+    console.log(value);
+  }
+
+  setFilters(value: any): void {
+    console.log(value);
   }
 
   public onResize(): void {

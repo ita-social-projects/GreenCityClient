@@ -15,10 +15,6 @@ h1 {
   }
 }
 
-.border_bottom {
-  border-bottom: 1px solid #e6e6e6;
-}
-
 .habits_header-items-found {
   font-family: var(--primary-font);
   font-size: 16px;
@@ -49,6 +45,9 @@ h1 {
   .filters-container {
     display: flex;
     align-items: center;
+    gap: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--quaternary-light-grey);
 
     .filter-title {
       display: flex;
@@ -64,6 +63,7 @@ h1 {
 
     .filters-list-box {
       display: flex;
+      gap: 16px;
     }
   }
 

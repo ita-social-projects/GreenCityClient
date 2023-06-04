@@ -786,6 +786,18 @@
           "tags": {
             "title": "Теги",
             "select-all": "Всі теги"
+          },
+          "complexities": {
+            "title": "Складність",
+            "select-all": "Будь-яка складність"
+          },
+          "is-custom": {
+            "title": "Типи",
+            "select-all": "Всі типи"
+          },
+          "assign": {
+            "title": "Статус",
+            "select-all": "Будь-який статус"
           }
         }
       },
