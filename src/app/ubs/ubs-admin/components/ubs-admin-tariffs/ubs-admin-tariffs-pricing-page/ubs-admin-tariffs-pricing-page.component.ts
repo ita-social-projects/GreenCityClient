@@ -94,7 +94,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  setMinValueValidation(minFormControl, maxFormControl) {
+  setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {
     minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
       maxFormControl.setValidators([Validators.min(value + 1)]);
       maxFormControl.updateValueAndValidity();
