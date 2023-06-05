@@ -17,8 +17,11 @@
       <button mat-menu-item (click)="openCreateCard()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.create_card' | translate }}</span>
       </button>
-      <button mat-menu-item (click)="openDeactivatePopUp()">
+      <button mat-menu-item (click)="openDeactivateOrActivatePopUp('deactivation')">
         <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)="openDeactivateOrActivatePopUp('activation')">
+        <span class="menu-item">{{ 'ubs-tariffs.btn.activation' | translate }}</span>
       </button>
     </mat-menu>
     <mat-menu #add="matMenu">

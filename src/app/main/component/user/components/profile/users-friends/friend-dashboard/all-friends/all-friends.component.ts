@@ -95,7 +95,7 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public handleDeleteFriend(id: number) {
     this.userFriendsService
-      .deleteFriend(this.userId, id)
+      .deleteFriend(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.deleteFriendsFromList(id, this.friends);

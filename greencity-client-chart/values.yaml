@@ -16,5 +16,5 @@ service:
 # https://kubernetes.github.io/ingress-nginx/deploy/
 # https://cert-manager.io/docs/installation/helm/#3-install-customresourcedefinitions
 ingress:
-  hostname: www.testgreencity.ga
+  hostname: www.greencity.social
   

@@ -123,13 +123,13 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/editTariffInfo/${tariffId}`, body);
   }
 
-  deactivate(deactivateCardObj: DeactivateCard): Observable<object> {
+  deactivate(deactivateCardObj: DeactivateCard, status: string): Observable<object> {
     const arr = [];
     const requestObj = {
-      cities: `citiesId=${deactivateCardObj.cities}`,
+      cities: `citiesIds=${deactivateCardObj.cities}`,
       courier: `courierId=${deactivateCardObj.courier}`,
-      regions: `regionsId=${deactivateCardObj.regions}`,
-      stations: `stationsId=${deactivateCardObj.stations}`
+      regions: `regionsIds=${deactivateCardObj.regions}`,
+      stations: `stationsIds=${deactivateCardObj.stations}`
     };
 
     Object.keys(deactivateCardObj).forEach((key) => {
@@ -138,7 +138,8 @@ export class TariffsService {
       }
     });
     const query = `?${arr.join('&')}`;
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}`, null);
+
+    return this.http.post(`${mainUbsLink}/ubs/superAdmin/deactivate${query}&status=${status}`, null);
   }
 
   switchTariffStatus(tariffId: number, status): Observable<object> {
