@@ -50,9 +50,9 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     this.regionName = this.modalData.regionNameUk ?? '';
     this.regionEnglishName = this.modalData.regionEnglishName ?? '';
     this.isDeactivate = this.modalData.isDeactivate;
+    this.isRestore = this.modalData.isRestore;
     this.locationNames = this.modalData.cityNameUk ?? '';
     this.locationEnglishNames = this.modalData.cityNameEn ?? '';
-    this.isRestore = this.modalData.isRestore;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.adminName = firstName;
     });

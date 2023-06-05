@@ -156,6 +156,10 @@ h4 {
   flex-flow: row wrap;
   align-items: center;
 
+  .ng-invalid.ng-touched {
+    border: 1px solid red !important;
+  }
+
   .input {
     width: 74px;
     height: 36px;

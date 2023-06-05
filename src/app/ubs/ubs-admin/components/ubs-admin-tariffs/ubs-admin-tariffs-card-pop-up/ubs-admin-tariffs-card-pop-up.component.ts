@@ -329,11 +329,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     return this.selectedStation.map((it) => it.name).includes(item);
   }
 
-  private getRegionNameByLanguageCode(selectedValue: any[], languageCode: string): string[] {
-    return selectedValue
-      .flatMap((it) => it.regionTranslationDtos)
-      .filter((ob) => ob.languageCode === languageCode)
-      .map((i) => i.regionName);
+  private getRegionNameByLanguageCode(selectedValue: any[], languageCode: string): string {
+    const result = selectedValue.flatMap((it) => it.regionTranslationDtos).find((ob) => ob.languageCode === languageCode);
+
+    return result?.regionName;
   }
 
   public onRegionSelected(event): void {
@@ -357,12 +356,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
         this.filteredCities = currentRegion[0].locationsDto;
       }
       this.city.setValidators(this.cityValidator());
-
-      this.filteredCities = this.filteredCities.filter((city) =>
-        city.locationTranslationDtoList.some(
-          (translation) => translation.languageCode === this.currentLanguage && translation.locationName.toLowerCase().includes(data)
-        )
-      );
     });
 
     event.value ? this.city.enable() : this.city.disable();
@@ -471,14 +464,26 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
   public editCard(): void {
     const body = {
+      courierId: this.courierId,
       locationIds: this.selectedCities.map((val) => val.locationId),
       receivingStationIds: this.selectedStation.map((station) => station.id)
+    };
+
+    const newValueOfCard = {
+      citiesEn: this.selectedCities.map((city) => city.englishLocation),
+      citiesUk: this.selectedCities.map((city) => city.location),
+      courierEn: this.courierEnglishName,
+      courierUk: this.courierUkrainianName,
+      regionEn: this.regionEnglishName,
+      regionUk: this.regionUkrainianName,
+      regionId: this.regionId,
+      station: this.selectedStation.map((it) => it.name)
     };
 
     this.tariffsService
       .editTariffInfo(body, this.tariffId)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.dialogRef.close());
+      .subscribe(() => this.dialogRef.close(newValueOfCard));
   }
 
   fillFields(modalData) {
