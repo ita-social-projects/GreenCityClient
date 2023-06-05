@@ -1,5 +1,5 @@
 import { initialLocationsState } from '../state/tariff.state';
-import { GetLocationsSuccess, AddLocationsSuccess, EditLocationSuccess } from '../actions/tariff.actions';
+import { GetLocationsSuccess, EditLocationSuccess, UpdateLocationsSuccess } from '../actions/tariff.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const tariffReducer = createReducer(
@@ -12,13 +12,12 @@ export const tariffReducer = createReducer(
     };
   }),
 
-  on(AddLocationsSuccess, (state, action) => ({
-    ...state,
-    locations: {
-      ...state.locations,
-      new: [action.locations, { ...state.locations }]
-    }
-  })),
+  on(UpdateLocationsSuccess, (state, action) => {
+    return {
+      ...state,
+      locations: action.locations
+    };
+  }),
 
   on(EditLocationSuccess, (state, action) => {
     const stateLocations = JSON.parse(JSON.stringify(state.locations));
