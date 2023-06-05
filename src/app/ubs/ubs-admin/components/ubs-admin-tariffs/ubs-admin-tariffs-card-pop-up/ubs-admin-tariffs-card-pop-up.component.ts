@@ -332,7 +332,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   private getRegionNameByLanguageCode(selectedValue: any[], languageCode: string): string {
     const result = selectedValue.flatMap((it) => it.regionTranslationDtos).find((ob) => ob.languageCode === languageCode);
 
-    return result.regionName;
+    return result?.regionName;
   }
 
   public onRegionSelected(event): void {
