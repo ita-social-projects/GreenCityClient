@@ -1,6 +1,4 @@
 <div class="filters-dropdown">
-  <!-- <div class="arrow" [ngClass]="{ 'arrow-up' : selectFilter.panelOpen }"></div> -->
-  <!-- <mat-label class="filter-label" (click)="selectFilter.open()">{{ filter.title | translate }}</mat-label> -->
   <mat-label class="filter-label" (click)="selectFilter.open()">{{ filter.title | translate }}</mat-label>
   <mat-select #selectFilter [formControl]="statusFilterControl" panelClass="green-city-select" multiple>
     <mat-option [value]="0" (click)="toggleAllSelection(filter.filter)">{{ filter.selectAllOption | translate }}</mat-option>

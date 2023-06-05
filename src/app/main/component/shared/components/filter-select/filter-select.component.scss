@@ -16,12 +16,18 @@
   }
 
   mat-select {
-    &::ng-deep .mat-select-arrow {
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid;
-      border-image-source: url('~/assets/icons/arrow-down-grey.svg') !important;
-      border-image-repeat: stretch;
+    &::ng-deep .mat-select-arrow-wrapper {
+      width: 8px !important;
+
+      .mat-select-arrow {
+        height: 8px;
+        width: 8px;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-image-source: none !important;
+        background-image: url('~/assets/icons/arrow-down-grey.svg');
+      }
     }
   }
 
@@ -31,19 +37,9 @@
     }
 
     mat-select {
-      &::ng-deep .mat-select-arrow {
-        border-image-source: url('~/assets/icons/arrow-down-green.svg') !important;
+      &::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
+        background-image: url('~/assets/icons/arrow-down-green.svg');
       }
     }
   }
-}
-
-.arrow {
-  height: 8px;
-  width: 8px;
-  background-image: url('~/assets/icons/arrow-down-grey.svg');
-}
-
-.arrow-up {
-  transform: rotate(180deg);
 }
