@@ -52,7 +52,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     return 0;
   }
 
-  public getSocialImage(socialNetwork: string) {
+  public getSocialImage(socialNetwork: string): string {
     const value = socialNetwork;
     let imgPath = this.icons.defaultIcon;
     Object.keys(this.icons).forEach((icon) => {
