@@ -26,6 +26,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GooglePlaceService } from 'src/app/ubs/mocks/google-types';
+import { Language } from 'src/app/main/i18n/Language';
 
 interface LocationItem {
   location: string;
@@ -167,7 +168,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       const res = [];
       this.filteredCities.forEach((elem, index) => {
         elem.locationTranslationDtoList.forEach((el) => {
-          if (el.locationName.toLowerCase().includes(data) && el.languageCode === 'ua') {
+          if (el.locationName.toLowerCase().includes(data) && el.languageCode === Language.UA) {
             res.push(this.filteredCities[index]);
           }
         });
@@ -178,14 +179,14 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     this.cities = currentRegion
       .map((element) =>
         element.locationsDto.map((item) =>
-          item.locationTranslationDtoList.filter((it) => it.languageCode === 'ua').map((it) => it.locationName)
+          item.locationTranslationDtoList.filter((it) => it.languageCode === Language.UA).map((it) => it.locationName)
         )
       )
       .flat(2);
     this.enCities = currentRegion
       .map((element) =>
         element.locationsDto.map((item) =>
-          item.locationTranslationDtoList.filter((it) => it.languageCode === 'en').map((it) => it.locationName)
+          item.locationTranslationDtoList.filter((it) => it.languageCode === Language.EN).map((it) => it.locationName)
         )
       )
       .flat(2);
@@ -297,17 +298,17 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       it.regionTranslationDtos.find((ob) => ob.regionName === event.option.value.toString())
     );
     const enValue = selectedValue
-      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+      .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
       .flat(2);
     this.englishRegion.setValue(enValue);
   }
 
   selectCitiesEdit(event): void {
     event.option.value.locationTranslationDtoList.forEach((el) => {
-      if (el.languageCode === 'ua') {
+      if (el.languageCode === Language.UA) {
         this.location.setValue(el.locationName);
       }
-      if (el.languageCode === 'en') {
+      if (el.languageCode === Language.EN) {
         this.englishLocation.setValue(el.locationName);
       }
       this.editLocationId = event.option.value.locationId;
@@ -321,7 +322,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       if (item) {
         this.locations = item;
         const uaregions = this.locations
-          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === 'ua').map((it) => it.regionName))
+          .map((element) => element.regionTranslationDtos.filter((it) => it.languageCode === Language.UA).map((it) => it.regionName))
           .flat(2);
         this.region.valueChanges
           .pipe(
@@ -344,12 +345,12 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   addLocation(): void {
     const valueUa = this.getLangValue(this.locationForm.value.region, this.locationForm.value.englishRegion);
     const valueEn = this.getLangValue(this.locationForm.value.englishRegion, this.locationForm.value.region);
-    const enRegion = { languageCode: 'en', regionName: valueEn };
-    const region = { languageCode: 'ua', regionName: valueUa };
+    const enRegion = { languageCode: Language.EN, regionName: valueEn };
+    const region = { languageCode: Language.UA, regionName: valueUa };
 
     for (const item of this.selectedCities) {
-      const enLocation = { languageCode: 'en', locationName: item.englishLocation };
-      const Location = { languageCode: 'ua', locationName: item.location };
+      const enLocation = { languageCode: Language.EN, locationName: item.englishLocation };
+      const Location = { languageCode: Language.UA, locationName: item.location };
 
       const cart: CreateLocation = {
         latitude: item.latitute,
