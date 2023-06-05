@@ -23,7 +23,7 @@ import { UbsAdminTariffsDeactivatePopUpComponent } from './ubs-admin-tariffs-dea
 import { TariffDeactivateConfirmationPopUpComponent } from '../shared/components/tariff-deactivate-confirmation-pop-up/tariff-deactivate-confirmation-pop-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { GoogleScript } from 'src/assets/google-script/google-script';
-import { statusOfTariff, actionsWithTariffs } from './tariff-status.enum';
+import { statusOfTariff, actionsWithTariffs, switchTariffStatus } from './tariff-status.enum';
 import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
@@ -744,24 +744,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const data = {
       courierNameUk: result.selectedValue?.nameUk,
       courierEnglishName: result.selectedValue?.nameEn,
-      regionNameUk: result.selectedRegionValue.map((region) => region.regionNameUa),
-      regionEnglishName: result.selectedRegionValue.map((region) => region.regionNameEn),
-      cityNameUk: result.selectedCitiesValue.map((city) => city.cityNameUa),
-      cityNameEn: result.selectedCitiesValue.map((city) => city.cityNameEn),
+      regionNameUk: result.selectedRegionValue.map((region) => region.nameUa),
+      regionEnglishName: result.selectedRegionValue.map((region) => region.name),
+      cityNameUk: result.selectedCitiesValue.map((city) => city.nameUa),
+      cityNameEn: result.selectedCitiesValue.map((city) => city.name),
       stationNames: result.selectedStations.map((it) => it.name),
       isDeactivate: result.isDeactivation,
       isRestore: result.isActivation
     };
     return this.openDialog(TariffDeactivateConfirmationPopUpComponent, data);
-  }
-
-  processConfirmationDialogClose(confirmRes): void {
-    if (confirmRes) {
-      this.tariffsService
-        .deactivate(this.deactivateCardObj)
-        .pipe(takeUntil(this.destroy))
-        .subscribe((res) => this.getExistingCard(this.filterData));
-    }
   }
 
   openDeactivateOrActivatePopUp(actionName: string): void {
@@ -780,11 +771,13 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const confirmDialogRef = this.openConfirmationDialog(result);
+        const status = result.isDeactivation ? switchTariffStatus.deactivated : switchTariffStatus.active;
         this.createDeactivateCardDto(result);
+
         confirmDialogRef.afterClosed().subscribe((confirmRes) => {
           if (confirmRes) {
             this.tariffsService
-              .deactivate(this.deactivateCardObj)
+              .deactivate(this.deactivateCardObj, status)
               .pipe(takeUntil(this.destroy))
               .subscribe((res) => this.getExistingCard(this.filterData));
           }

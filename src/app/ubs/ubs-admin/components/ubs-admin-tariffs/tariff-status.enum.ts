@@ -9,3 +9,8 @@ export enum actionsWithTariffs {
   restore = 'restore',
   activate = 'activation'
 }
+
+export enum switchTariffStatus {
+  active = 'Active',
+  deactivated = 'Deactivated'
+}
