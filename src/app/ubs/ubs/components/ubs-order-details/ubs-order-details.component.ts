@@ -13,6 +13,7 @@ import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-o
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -156,7 +157,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public checkCourierLimit(): void {
-    if (this.locations?.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
+    if (this.locations?.courierLimit === limitStatus.limitByAmountOfBag) {
       this.courierLimitBySum = true;
     } else {
       this.courierLimitByAmount = true;

@@ -19,6 +19,7 @@ import { IMaskModule } from 'angular-imask';
 import { InteractivityChecker } from '@angular/cdk/a11y';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -257,7 +258,7 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('checkCourierLimit should check and set courierLimitByAmount', () => {
-    mockLocations.courierLimit = 'LIMIT_BY_AMOUNT_OF_BAG';
+    mockLocations.courierLimit = limitStatus.limitByAmountOfBag;
     component.checkCourierLimit();
     fixture.detectChanges();
     expect(component.courierLimitByAmount).toBeTruthy();
