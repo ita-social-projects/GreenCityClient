@@ -249,20 +249,35 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.validateBags();
   }
 
-  public validateSum(): void {
-    if (this.courierLimitBySum) {
-      this.displayMinOrderMes = this.minOrderValue > this.total;
-      this.displayMaxOrderMes = this.maxOrderValue < this.total;
-      this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+  private validateLimit(
+    isCourierLimited: boolean,
+    minValue: number,
+    totalValue: number,
+    maxValue?: number
+  ): { min: boolean; max: boolean } {
+    let displayMinMessage = false;
+    let displayMaxMessage = false;
+
+    if (isCourierLimited) {
+      displayMinMessage = minValue > totalValue;
+      displayMaxMessage = maxValue ? maxValue < totalValue : false;
     }
+
+    return { min: displayMinMessage, max: displayMaxMessage };
   }
 
-  public validateBags(): void {
-    if (this.courierLimitByAmount) {
-      this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
-      this.displayMaxBigBagsMes = this.maxAmountOfBigBags < this.totalOfBigBags;
-      this.courierLimitValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
-    }
+  private validateSum(): void {
+    const result = this.validateLimit(this.courierLimitBySum, this.minOrderValue, this.total, this.maxOrderValue);
+    this.displayMinOrderMes = result.min;
+    this.displayMaxOrderMes = result.max;
+    this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+  }
+
+  private validateBags(): void {
+    const result = this.validateLimit(this.courierLimitByAmount, this.minAmountOfBigBags, this.totalOfBigBags, this.maxAmountOfBigBags);
+    this.displayMinBigBagsMes = result.min;
+    this.displayMaxBigBagsMes = result.max;
+    this.courierLimitValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
   }
 
   private subscribeToLangChange(): void {
