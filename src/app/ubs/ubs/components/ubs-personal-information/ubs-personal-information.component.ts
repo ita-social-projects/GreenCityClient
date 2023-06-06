@@ -42,7 +42,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   locations: CourierLocations;
   currentLanguage: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  private personalDataFormValidators: ValidatorFn[] = [Validators.required, Validators.maxLength(30), Validators.pattern(this.namePattern)];
+  private personalDataFormValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(this.namePattern),
+    Validators.minLength(1),
+    Validators.maxLength(30)
+  ];
   private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
