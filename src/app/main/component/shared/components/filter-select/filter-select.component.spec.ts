@@ -17,7 +17,7 @@ describe('FilterSelectComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FilterSelectComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      imports: [TranslateModule.forRoot()],
       providers: [{ provide: LanguageService, useValue: languageServiceMock }]
     }).compileComponents();
   }));
@@ -30,5 +30,10 @@ describe('FilterSelectComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return value on getLangValue', () => {
+    const value = component.getLangValue('ua', 'en');
+    expect(value).toBe('ua');
   });
 });

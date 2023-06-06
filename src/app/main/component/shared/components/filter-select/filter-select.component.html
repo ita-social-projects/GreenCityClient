@@ -1,16 +1,9 @@
 <div *ngIf="filter" class="filters-dropdown">
   <mat-label class="filter-label" (click)="selectFilter.open()">{{ filter.title | translate }}</mat-label>
   <mat-select #selectFilter panelClass="green-city-select" multiple>
-    <mat-option [value]="0" (keyup.enter)="toggleAllSelection()" (click)="toggleAllSelection()">{{
-      filter.selectAllOption | translate
-    }}</mat-option>
+    <mat-option [value]="0" (click)="toggleAllSelection()">{{ filter.selectAllOption | translate }}</mat-option>
     <mat-divider></mat-divider>
-    <mat-option
-      *ngFor="let option of filter.options"
-      [value]="option"
-      (keyup.enter)="updateSelectedFilters(option)"
-      (click)="updateSelectedFilters(option)"
-    >
+    <mat-option *ngFor="let option of filter.options" [value]="option" (click)="updateSelectedFilters(option)">
       {{ getLangValue(option.nameUa, option.name) }}
     </mat-option>
   </mat-select>
