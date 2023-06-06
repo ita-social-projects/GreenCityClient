@@ -1,14 +1,14 @@
 export const environment = {
   production: false,
   apiKeys: 'AIzaSyDanBliCzAuCZrsq67FeKEs3vqAilUD_is',
-  apiMapKey: 'AIzaSyB3xs7Kczo46LFcQRFKPMdrE0lU4qsR_S4',
-  backendLink: 'https://greencity.testgreencity.ga/',
-  backendChatLink: 'https://greencity-chat.testgreencity.ga/',
-  backendUserLink: 'https://greencity-user.testgreencity.ga/',
-  backendUbsLink: 'https://greencity-ubs.testgreencity.ga',
-  frontendLink: 'http://localhost:4200/GreenCityClient',
-  socket: 'https://greencity.testgreencity.ga/socket',
-  chatSocket: 'https://greencity-chat.testgreencity.ga/socket',
+  apiMapKey: 'AIzaSyCU0ArzZlZ3n0pLq4o9MJy29LPT5DBMk4Y',
+  backendLink: 'https://greencity.pick-up.city/',
+  backendChatLink: 'https://greencity-chat.pick-up.city/',
+  backendUserLink: 'https://greencity-user.pick-up.city/',
+  backendUbsLink: 'https://greencity-ubs.pick-up.city',
+  frontendLink: 'https://www.pick-up.city/',
+  socket: 'https://greencity.pick-up.city/socket',
+  chatSocket: 'https://greencity-chat.pick-up.city/socket',
   firebaseConfig: {
     apiKey: 'AIzaSyDSVxahTHqdffRX2upKIMXCCjEBUYoHX8E',
     authDomain: 'greencity-9bdb7.firebaseapp.com',
@@ -20,7 +20,7 @@ export const environment = {
     measurementId: 'G-CCHRKQ4R0S'
   },
   ubsAdmin: {
-    backendUbsAdminLink: 'https://greencity-ubs.testgreencity.ga/ubs'
+    backendUbsAdminLink: 'https://greencity-ubs.pick-up.city/ubs'
   },
   googleClientId: '509138864931-6emuq5cv1rvqf33ivppod9jp8n24pjst.apps.googleusercontent.com',
   agmCoreModuleApiKey: 'AIzaSyC7q2v0VgRy60dAoItfv3IJhfJQEEoeqCI'
