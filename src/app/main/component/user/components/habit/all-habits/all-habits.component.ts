@@ -28,6 +28,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   isFetching = true;
   tagList: TagInterface[] = [];
   activeFilters: string[] = [];
+  filtersList: FilterSelect[] = HabitsFiltersList;
   windowSize: number;
   private currentPage = 0;
   private pageSize = 6;
@@ -38,7 +39,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private lang: string;
   public images = singleNewsImages;
 
-  filtersList: FilterSelect[] = HabitsFiltersList;
   cleanFilters: Subject<void> = new Subject<void>();
 
   constructor(
