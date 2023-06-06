@@ -782,6 +782,7 @@
         "habit-did-not-give-up": "Ми раді, що ви передумали",
         "habit-acquired": "Ви успішно набули звичку",
         "habit-was-deleted": "Ви успішно видалили звичку зі списку",
+        "reset-filters": "Очистити",
         "filters": {
           "tags": {
             "title": "Теги",

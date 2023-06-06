@@ -15,7 +15,14 @@
     <div class="filters-container">
       <span class="filter-title">{{ 'homepage.eco-news.filter' | translate }}</span>
       <div class="filters-list-box" *ngIf="tagList.length">
-        <app-filter-select *ngFor="let filter of filtersList" [filter]="filter" (selectedList)="setFilters($event)"></app-filter-select>
+        <app-filter-select
+          *ngFor="let filter of filtersList"
+          [filter]="filter"
+          [resetAllEvent]="cleanFilters.asObservable()"
+          (selectedList)="setFilters($event)"
+        >
+        </app-filter-select>
+        <button class="reset-btn" (click)="resetFilters()">{{ 'user.habit.all-habits.reset-filters' | translate }}</button>
       </div>
     </div>
     <div class="habits_header-actions">

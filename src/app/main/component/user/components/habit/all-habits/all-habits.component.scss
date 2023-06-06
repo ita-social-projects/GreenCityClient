@@ -63,7 +63,20 @@ h1 {
 
     .filters-list-box {
       display: flex;
+      align-items: center;
       gap: 16px;
+
+      .reset-btn {
+        color: var(--quaternary-grey);
+        background: none;
+        outline: none;
+        border: 0;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--primary-green);
+        }
+      }
     }
   }
 

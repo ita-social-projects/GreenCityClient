@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
 
@@ -9,13 +11,21 @@ import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-selec
   templateUrl: './filter-select.component.html',
   styleUrls: ['./filter-select.component.scss']
 })
-export class FilterSelectComponent {
+export class FilterSelectComponent implements OnInit {
   @Input() filter: FilterSelect;
+  @Input() resetAllEvent!: Observable<void>;
   @ViewChild('selectFilter') selectFilter: MatSelect;
 
   @Output() selectedList = new EventEmitter<any>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private langService: LanguageService) {}
+
+  ngOnInit(): void {
+    if (this.resetAllEvent) {
+      this.resetAllEvent.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectFilter.value = null));
+    }
+  }
 
   toggleAllSelection(): void {
     this.filter.isAllSelected = this.selectFilter.options.first.selected;

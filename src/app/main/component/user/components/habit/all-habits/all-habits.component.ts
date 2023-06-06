@@ -27,7 +27,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   galleryView = true;
   isFetching = true;
   tagList: TagInterface[] = [];
-  selectedTagsList: Array<string> = [];
   activeFilters: string[] = [];
   windowSize: number;
   private currentPage = 0;
@@ -40,6 +39,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
 
   filtersList: FilterSelect[] = HabitsFiltersList;
+  cleanFilters: Subject<void> = new Subject<void>();
 
   constructor(
     private habitService: HabitService,
@@ -141,6 +141,15 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
         ? this.getHabitsByFilters(0, this.pageSize, this.activeFilters)
         : this.getAllHabits(0, this.pageSize);
     }
+  }
+
+  resetFilters(): void {
+    this.filtersList.forEach((filter: FilterSelect) => {
+      filter.isAllSelected = false;
+      filter.options.forEach((option: FilterOptions) => (option.isActive = false));
+    });
+    this.getAllHabits(0, this.pageSize);
+    this.cleanFilters.next();
   }
 
   public onResize(): void {
