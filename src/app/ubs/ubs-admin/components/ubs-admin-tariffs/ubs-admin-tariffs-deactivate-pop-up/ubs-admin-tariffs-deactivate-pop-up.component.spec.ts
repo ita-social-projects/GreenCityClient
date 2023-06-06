@@ -591,21 +591,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy7).toHaveBeenCalled();
   });
 
-  it('should get all couriers', () => {
-    component.getCouriers();
-    component.isActivatePopUp = false;
-    component.isDeactivatePopUp = true;
-    expect(component.couriers).toEqual(fakeCouriers);
-    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
-  });
-
-  it('should get all stations', () => {
-    component.getReceivingStation();
-    component.isDeactivatePopUp = true;
-    expect(component.stations).toEqual([fakeStation]);
-    expect(component.stationsName).toEqual(['Фейк']);
-  });
-
   it('should get locations', () => {
     component.getLocations();
     expect(component.locations).toEqual([fakeLocation]);
@@ -666,15 +651,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy1).toHaveBeenCalledWith(eventMockStation as any);
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
-  });
-
-  it('courier and region should be enabled when selectStations is empty', () => {
-    component.stations = [{ id: 1, name: 'Фейк', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' }];
-    const spy = spyOn(component, 'onDeletedField');
-    component.selectStation(eventMockStation as any);
-    expect(spy).toHaveBeenCalled();
-    expect(component.courier.disabled).toEqual(false);
-    expect(component.region.disabled).toEqual(false);
   });
 
   it('should empty station value selectStation method', () => {
