@@ -5,7 +5,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-fdescribe('FilterSelectComponent', () => {
+describe('FilterSelectComponent', () => {
   let component: FilterSelectComponent;
   let fixture: ComponentFixture<FilterSelectComponent>;
 
