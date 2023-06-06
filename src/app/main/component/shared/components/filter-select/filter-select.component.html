@@ -1,13 +1,9 @@
 <div class="filters-dropdown">
   <mat-label class="filter-label" (click)="selectFilter.open()">{{ filter.title | translate }}</mat-label>
-  <mat-select #selectFilter [formControl]="statusFilterControl" panelClass="green-city-select" multiple>
-    <mat-option [value]="0" (click)="toggleAllSelection(filter.filter)">{{ filter.selectAllOption | translate }}</mat-option>
+  <mat-select #selectFilter panelClass="green-city-select" multiple>
+    <mat-option [value]="0" (click)="toggleAllSelection()">{{ filter.selectAllOption | translate }}</mat-option>
     <mat-divider></mat-divider>
-    <mat-option
-      [value]="option?.isActive"
-      *ngFor="let option of filter.options"
-      (onSelectionChange)="updateSelectedFilters(option, $event)"
-    >
+    <mat-option *ngFor="let option of filter.options" [value]="option" (click)="updateSelectedFilters(option)">
       {{ getLangValue(option.nameUa, option.name) }}
     </mat-option>
   </mat-select>

@@ -1,7 +1,8 @@
 export interface FilterSelect {
-  filter: string;
+  name: string;
   title: string;
   selectAllOption: string;
+  isAllSelected: boolean;
   options: FilterOptions[];
 }
 

@@ -1,14 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterSelectComponent } from './filter-select.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('FilterSelectComponent', () => {
   let component: FilterSelectComponent;
   let fixture: ComponentFixture<FilterSelectComponent>;
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FilterSelectComponent]
+      declarations: [FilterSelectComponent],
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }]
     }).compileComponents();
   }));
 

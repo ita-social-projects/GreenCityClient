@@ -2,15 +2,17 @@ import { FilterSelect } from '../../../../../interface/filter-select.interface';
 
 export const HabitsFiltersList: FilterSelect[] = [
   {
-    filter: 'tags',
+    name: 'tags',
     title: 'user.habit.all-habits.filters.tags.title',
     selectAllOption: 'user.habit.all-habits.filters.tags.select-all',
+    isAllSelected: false,
     options: []
   },
   {
-    filter: 'complexities',
+    name: 'complexities',
     title: 'user.habit.all-habits.filters.complexities.title',
     selectAllOption: 'user.habit.all-habits.filters.complexities.select-all',
+    isAllSelected: false,
     options: [
       { name: 'Easy', nameUa: 'Легка', value: '1', isActive: false },
       { name: 'Medium', nameUa: 'Середня', value: '2', isActive: false },
@@ -18,21 +20,13 @@ export const HabitsFiltersList: FilterSelect[] = [
     ]
   },
   {
-    filter: 'isCustomHabit',
+    name: 'isCustomHabit',
     title: 'user.habit.all-habits.filters.is-custom.title',
     selectAllOption: 'user.habit.all-habits.filters.is-custom.select-all',
+    isAllSelected: false,
     options: [
       { name: 'Default', nameUa: 'Стандартні', value: 'false', isActive: false },
       { name: 'Custom', nameUa: 'Створені', value: 'true', isActive: false }
-    ]
-  },
-  {
-    filter: 'isAssigned',
-    title: 'user.habit.all-habits.filters.assign.title',
-    selectAllOption: 'user.habit.all-habits.filters.assign.select-all',
-    options: [
-      { name: 'Inprogress', nameUa: 'У процесі', value: 'true', isActive: false },
-      { name: 'Not inprogress', nameUa: 'Не у процесі', value: 'false', isActive: false }
     ]
   }
 ];

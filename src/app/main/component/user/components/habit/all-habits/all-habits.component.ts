@@ -22,13 +22,14 @@ import { HabitsFiltersList } from '../models/habits-filters-list';
   styleUrls: ['./all-habits.component.scss']
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
-  public habitsList: HabitInterface[] = [];
-  public totalHabits = 0;
-  public galleryView = true;
-  public isFetching = true;
-  public tagList: TagInterface[] = [];
-  public selectedTagsList: Array<string> = [];
-  public windowSize: number;
+  habitsList: HabitInterface[] = [];
+  totalHabits = 0;
+  galleryView = true;
+  isFetching = true;
+  tagList: TagInterface[] = [];
+  selectedTagsList: Array<string> = [];
+  activeFilters: string[] = [];
+  windowSize: number;
   private currentPage = 0;
   private pageSize = 6;
   private isAllPages: boolean;
@@ -57,24 +58,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
-      this.getSessionStorageFilters();
       this.getAllHabitsTags();
+      this.getAllHabits(0, this.pageSize);
     });
-  }
-
-  private getSessionStorageFilters() {
-    const HabitsTags = sessionStorage.getItem('Habits-filter');
-    const tags = HabitsTags !== null ? JSON.parse(HabitsTags) : [];
-    this.selectedTagsList = this.getActiveTags(tags);
-    this.getFilterData(this.selectedTagsList);
-  }
-
-  private getActiveTags(tags: any[]): Array<string> {
-    return tags
-      .filter((active) => active.isActive)
-      .map((filter) => {
-        return this.getLangValue(filter.nameUa, filter.name);
-      });
   }
 
   private getAllHabitsTags(): void {
@@ -83,6 +69,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((tagsArray: Array<TagInterface>) => {
         this.tagList = tagsArray;
+        const options = [];
         this.tagList.map((tag: TagInterface) => {
           const item = {
             name: tag.name,
@@ -90,7 +77,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
             value: tag.name,
             isActive: false
           };
-          this.filtersList[0].options.push(item);
+          options.push(item);
+          this.filtersList[0].options = options;
         });
       });
   }
@@ -109,9 +97,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getHabitsByFilters(page: number, size: number, tags: string[]): void {
+  private getHabitsByFilters(page: number, size: number, filters: string[]): void {
     this.habitService
-      .getHabitsByFilters(page, size, this.lang, '')
+      .getHabitsByFilters(page, size, this.lang, filters)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);
@@ -136,18 +124,30 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.localStorageService.setHabitsGalleryView(mode);
   }
 
-  public getFilterData(tags: Array<string>): void {
-    if (this.tagList.length) {
-      tags.length ? this.getHabitsByFilters(0, this.pageSize, this.selectedTagsList) : this.getAllHabits(0, this.pageSize);
+  setSelectedAll(filterChange: FilterSelect): void {
+    const selectedInd = this.filtersList.findIndex((el) => el.name === filterChange.name);
+    if (selectedInd >= 0) {
+      this.filtersList[selectedInd] = filterChange;
     }
   }
 
-  setSelectedAll(value: any): void {
-    console.log(value);
-  }
-
-  setFilters(value: any): void {
-    console.log(value);
+  setFilters(filterChange: FilterSelect): void {
+    this.activeFilters = [];
+    const selectedInd = this.filtersList.findIndex((el) => el.name === filterChange.name);
+    if (selectedInd >= 0) {
+      this.filtersList[selectedInd] = filterChange;
+      const filtersActive = this.filtersList.filter((item) => !item.isAllSelected);
+      filtersActive.forEach((el: FilterSelect) => {
+        const activeOptions = el.options.filter((el) => el.isActive);
+        if (activeOptions.length) {
+          const queryString = `${el.name}=${activeOptions.map((option) => option.value).join('%2C')}`;
+          this.activeFilters.push(queryString);
+        }
+      });
+      filtersActive.length && this.activeFilters.length
+        ? this.getHabitsByFilters(0, this.pageSize, this.activeFilters)
+        : this.getAllHabits(0, this.pageSize);
+    }
   }
 
   public onResize(): void {
@@ -160,8 +160,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     if (!this.isAllPages) {
       this.isFetching = true;
       this.currentPage += 1;
-      this.selectedTagsList.length
-        ? this.getHabitsByFilters(this.currentPage, this.pageSize, this.selectedTagsList)
+      this.activeFilters.length
+        ? this.getHabitsByFilters(this.currentPage, this.pageSize, this.activeFilters)
         : this.getAllHabits(this.currentPage, this.pageSize);
     }
   }
