@@ -76,10 +76,10 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       this.authorName = firstName;
     });
     this.name.valueChanges.subscribe((value) => {
-      this.courierExist = this.checkIsCourierExist(value, this.couriersName);
+      this.courierExist = this.checkIsCourierExist(value.trim(), this.couriersName);
     });
     this.englishName.valueChanges.subscribe((value) => {
-      this.enCourierExist = this.checkIsCourierExist(value, this.couriersNameEng);
+      this.enCourierExist = this.checkIsCourierExist(value.trim(), this.couriersNameEng);
     });
     this.placeholder = this.data.edit ? 'ubs-tariffs.placeholder-choose-courier' : 'ubs-tariffs.placeholder-enter-courier';
     this.placeholderTranslate = this.data.edit
