@@ -124,13 +124,6 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.localStorageService.setHabitsGalleryView(mode);
   }
 
-  setSelectedAll(filterChange: FilterSelect): void {
-    const selectedInd = this.filtersList.findIndex((el) => el.name === filterChange.name);
-    if (selectedInd >= 0) {
-      this.filtersList[selectedInd] = filterChange;
-    }
-  }
-
   setFilters(filterChange: FilterSelect): void {
     this.activeFilters = [];
     const selectedInd = this.filtersList.findIndex((el) => el.name === filterChange.name);

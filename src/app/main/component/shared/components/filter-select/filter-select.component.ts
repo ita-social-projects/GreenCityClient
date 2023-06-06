@@ -13,7 +13,6 @@ export class FilterSelectComponent {
   @Input() filter: FilterSelect;
   @ViewChild('selectFilter') selectFilter: MatSelect;
 
-  @Output() selectAll = new EventEmitter<any>();
   @Output() selectedList = new EventEmitter<any>();
 
   constructor(private langService: LanguageService) {}
@@ -22,7 +21,7 @@ export class FilterSelectComponent {
     this.filter.isAllSelected = this.selectFilter.options.first.selected;
     this.selectFilter.options.forEach((item: MatOption) => (this.filter.isAllSelected ? item.select() : item.deselect()));
     this.filter.options.forEach((el: FilterOptions) => (el.isActive = this.filter.isAllSelected ? true : false));
-    this.selectAll.emit(this.filter);
+    this.selectedList.emit(this.filter);
   }
 
   updateSelectedFilters(option: FilterOptions): void {
