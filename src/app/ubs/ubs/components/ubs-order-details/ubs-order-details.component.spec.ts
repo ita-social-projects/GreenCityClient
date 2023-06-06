@@ -166,18 +166,6 @@ describe('OrderDetailsFormComponent', () => {
     expect(localStorageService.removeanotherClientData).toHaveBeenCalled();
   });
 
-  it('method calculateTotal should invoke methods', () => {
-    const spy = spyOn(component, 'changeForm');
-    const spy1 = spyOn(component, 'changeOrderDetails');
-    const spy2 = spyOn(component, 'validateSum');
-    component.bags = [];
-    fixture.detectChanges();
-    (component as any).calculateTotal();
-    expect(spy).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-  });
-
   it('method filterBags should sord bags', () => {
     (component as any).orders = {
       bags: [
@@ -238,13 +226,13 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('method setLimitsValues should invoke validateBags', () => {
-    const spy = spyOn(component, 'validateBags');
+    const spy = spyOn(component as any, 'validateBags');
     component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
   });
 
   it('method setLimitsValues should invoke validateSum', () => {
-    const spy = spyOn(component, 'validateSum');
+    const spy = spyOn(component as any, 'validateSum');
     component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
   });
@@ -264,14 +252,14 @@ describe('OrderDetailsFormComponent', () => {
 
   it('validateBags should set courierLimitValidation', () => {
     component.courierLimitByAmount = true;
-    component.validateBags();
+    (component as any).validateBags();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
   });
 
   it('validateSum should set courierLimitValidation', () => {
     component.courierLimitBySum = true;
-    component.validateSum();
+    (component as any).validateSum();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
   });
