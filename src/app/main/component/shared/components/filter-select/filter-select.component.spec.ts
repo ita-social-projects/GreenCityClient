@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FilterSelectComponent } from './filter-select.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('FilterSelectComponent', () => {
   let component: FilterSelectComponent;
