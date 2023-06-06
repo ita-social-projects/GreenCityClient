@@ -15,7 +15,7 @@
     }
   }
 
-  mat-select {
+  .mat-select {
     &::ng-deep .mat-select-arrow-wrapper {
       width: 8px !important;
 
@@ -36,7 +36,7 @@
       color: var(--primary-green);
     }
 
-    mat-select {
+    .mat-select {
       &::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
         background-image: url('~/assets/icons/arrow-down-green.svg');
       }

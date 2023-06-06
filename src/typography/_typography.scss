@@ -236,9 +236,8 @@
   .mat-option.mat-active {
     background-color: var(--ubs-primary-liberty-green);
   }
-  .mat-option {
-    .mat-pseudo-checkbox-checked {
-      background-color: var(--primary-green);
-    }
+
+  .mat-option .mat-pseudo-checkbox-checked {
+    background-color: var(--primary-green);
   }
 }
