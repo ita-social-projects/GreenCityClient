@@ -70,7 +70,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       .subscribe((tagsArray: Array<TagInterface>) => {
         this.tagList = tagsArray;
         const options = [];
-        this.tagList.map((tag: TagInterface) => {
+        this.tagList.forEach((tag: TagInterface) => {
           const item = {
             name: tag.name,
             nameUa: tag.nameUa,
