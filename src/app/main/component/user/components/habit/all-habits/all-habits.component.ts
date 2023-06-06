@@ -126,10 +126,10 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
 
   setFilters(filterChange: FilterSelect): void {
     this.activeFilters = [];
-    const selectedInd = this.filtersList.findIndex((el) => el.name === filterChange.name);
+    const selectedInd = this.filtersList.findIndex((filt: FilterSelect) => filt.name === filterChange.name);
     if (selectedInd >= 0) {
       this.filtersList[selectedInd] = filterChange;
-      const filtersActive = this.filtersList.filter((item) => !item.isAllSelected);
+      const filtersActive = this.filtersList.filter((item: FilterSelect) => !item.isAllSelected);
       filtersActive.forEach((el: FilterSelect) => {
         const activeOptions = el.options.filter((el) => el.isActive);
         if (activeOptions.length) {
