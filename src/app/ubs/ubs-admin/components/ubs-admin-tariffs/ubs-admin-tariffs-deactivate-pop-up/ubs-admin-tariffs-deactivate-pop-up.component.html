@@ -1,5 +1,6 @@
 <div class="w-100">
-  <p class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}</p>
+  <p *ngIf="isDeactivatePopUp" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}</p>
+  <p *ngIf="isActivatePopUp" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.activate' | translate }}</p>
 </div>
 <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true" [deactivatePopup]="true"></app-dialog-tariff>
 <ng-template #form>
@@ -154,7 +155,7 @@
         {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
       </button>
       <button class="primary-global-button btn m-0" [disabled]="!checkFields()" (click)="deactivateCard()">
-        {{ 'ubs-tariffs-add-location-pop-up.deactivate' | translate }}
+        {{ (isDeactivatePopUp ? 'ubs-tariffs-add-location-pop-up.deactivate' : 'ubs-tariffs-add-location-pop-up.activate') | translate }}
       </button>
     </div>
   </div>
