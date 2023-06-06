@@ -56,6 +56,11 @@ export interface TariffItem {
   nameUk: string;
 }
 
+export interface SelectedItem {
+  nameEn: string;
+  nameUa: string;
+}
+
 export interface InitialData {
   firstName: string;
   lastName: string;

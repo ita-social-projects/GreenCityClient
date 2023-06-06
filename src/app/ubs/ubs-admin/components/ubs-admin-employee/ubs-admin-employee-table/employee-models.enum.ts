@@ -7,7 +7,8 @@ export enum filterOptions {
   courier = 'courier',
   position = 'position',
   region = 'region',
-  contact = 'contact'
+  contact = 'contact',
+  state = 'state'
 }
 
 export enum filtersPlaceholderOptions {
@@ -17,6 +18,18 @@ export enum filtersPlaceholderOptions {
   region = 'employees.region',
   contact = 'employees.contact'
 }
+
+export const filtersStateEmployeeOptions = [
+  { nameEn: 'All', nameUa: 'Всі' },
+  { nameEn: 'Active', nameUa: 'Активний' },
+  { nameEn: 'Inactive', nameUa: 'Деактивований' }
+];
+
+export const EmployeeStatus = {
+  active: 'ACTIVE',
+  inactive: 'INACTIVE',
+  all: ''
+};
 
 export enum authoritiesChangeEmployee {
   add = 'REGISTER_A_NEW_EMPLOYEE',

@@ -217,7 +217,7 @@ describe('UbsAdminEmployeeComponent', () => {
   it('initForm should create', () => {
     const initFormFake = {
       position: '',
-      contacts: '',
+      state: '',
       region: '',
       city: '',
       courier: ''

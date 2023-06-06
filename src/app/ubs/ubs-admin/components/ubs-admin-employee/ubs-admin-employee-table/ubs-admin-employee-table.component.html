@@ -29,6 +29,9 @@
   <div class="head-item position">
     <span>{{ 'employees.courier' | translate }}</span>
   </div>
+  <div class="head-item position">
+    <span>{{ 'employees.state' | translate }}</span>
+  </div>
 </div>
 <div
   class="scrolling"
@@ -123,6 +126,12 @@
                   class="region-placeholder"
                   style="height: 20px"
                 ></div>
+              </div>
+            </div>
+
+            <div class="description-item">
+              <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
+                <div>Active</div>
               </div>
             </div>
             <span
