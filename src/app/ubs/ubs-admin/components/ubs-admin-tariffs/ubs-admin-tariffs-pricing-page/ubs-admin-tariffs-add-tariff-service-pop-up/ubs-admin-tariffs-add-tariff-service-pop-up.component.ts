@@ -9,6 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Patterns } from 'src/assets/patterns/patterns';
 import { ModalTextComponent } from '../../../shared/components/modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-add-tariff-service-pop-up',
@@ -51,7 +52,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   setDate(): void {
     const lang = this.languageService.getCurrentLanguage();
     this.newDate = this.tariffsService.setDate(lang);
-    this.isLangEn = lang === 'en';
+    this.isLangEn = lang === Language.EN;
   }
 
   private initForm(): void {
@@ -81,8 +82,14 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
-      name: new FormControl({ value: this.receivedData.bagData.name }, [Validators.required, Validators.maxLength(30)]),
-      nameEng: new FormControl({ value: this.receivedData.bagData.nameEng }, [Validators.required, Validators.maxLength(30)]),
+      name: new FormControl({ value: this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng) }, [
+        Validators.required,
+        Validators.maxLength(30)
+      ]),
+      nameEng: new FormControl({ value: this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name) }, [
+        Validators.required,
+        Validators.maxLength(30)
+      ]),
       capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [
         Validators.pattern(Patterns.ubsServicePrice),
         Validators.min(1),
@@ -90,11 +97,21 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
       ]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      description: new FormControl({ value: this.receivedData.bagData.description }, [Validators.required, Validators.maxLength(255)]),
-      descriptionEng: new FormControl({ value: this.receivedData.bagData.descriptionEng }, [Validators.required, Validators.maxLength(255)])
+      description: new FormControl(
+        { value: this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng) },
+        [Validators.required, Validators.maxLength(255)]
+      ),
+      descriptionEng: new FormControl(
+        { value: this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description) },
+        [Validators.required, Validators.maxLength(255)]
+      )
     });
   }
 
+  public getLangValue(uaValue: string, enValue: string): string {
+    const a = this.languageService.getLangValue(uaValue, enValue);
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
   getControl(control: string): AbstractControl {
     return this.addTariffServiceForm.get(control);
   }
@@ -135,15 +152,16 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     const langCode = receivedData.bagData.languageCode;
     const { name, nameEng, capacity, price, commission, description, descriptionEng } = this.addTariffServiceForm.getRawValue();
     this.tariffService = {
-      name,
-      nameEng,
-      capacity,
+      name: this.getLangValue(name, nameEng),
+      nameEng: this.getLangValue(nameEng, name),
       price,
+      capacity,
       commission,
-      description,
-      descriptionEng,
+      description: this.getLangValue(description, descriptionEng),
+      descriptionEng: this.getLangValue(descriptionEng, description),
       langCode
     };
+
     this.loadingAnim = true;
     this.tariffsService
       .editTariffForService(receivedData.bagData.id, this.tariffService)
@@ -158,13 +176,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     if (this.receivedData.bagData) {
       const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
-        name,
-        nameEng,
+        name: this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng),
+        nameEng: this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name),
         price,
         capacity,
         commission,
-        description,
-        descriptionEng
+        description: this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng),
+        descriptionEng: this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description)
       });
     }
   }
