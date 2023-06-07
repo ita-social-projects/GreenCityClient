@@ -65,7 +65,7 @@
             >
             </app-event-date-time-picker>
           </div>
-          <p *ngIf="dates.length && !isAddressFill" class="tag-error">You should fill at least one address or link</p>
+          <p *ngIf="dates.length && !isAddressFill" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
         </div>
       </div>
 

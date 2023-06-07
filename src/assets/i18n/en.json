@@ -1087,7 +1087,8 @@
     "publish": "Publish",
     "invite": "Invite",
     "all": "All",
-    "friends": "Friends"
+    "friends": "Friends",
+    "add-location-error": "You should fill at least one address or link"
   },
   "input-error": {
     "required": "This field is required",
