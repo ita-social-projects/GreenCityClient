@@ -1,7 +1,8 @@
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
-  RemoveAttenderEcoEventsByIdAction
+  RemoveAttenderEcoEventsByIdAction,
+  ReceivedFailureAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -22,6 +23,9 @@ import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { selectFeatureStateSuccess } from 'src/app/store/selectors/ecoEvents.selectors';
+
+import { reducer } from 'src/app/store/reducers/ecoEvents.reducer';
 
 @Component({
   selector: 'app-events-list-item',
@@ -175,6 +179,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
         break;
       case this.btnName.join:
+        if (reducer(this.store, ReceivedFailureAction).error) {
+          this.snackBar.openSnackBar('errorJoinEvent');
+        }
+        if (this.store.select(selectFeatureStateSuccess)) {
+          this.snackBar.openSnackBar('joinedEvent');
+        }
         !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
         break;
       case this.btnName.rate:

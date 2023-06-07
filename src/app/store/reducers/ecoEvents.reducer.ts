@@ -72,3 +72,7 @@ export const EcoEventsReducer = createReducer(
     error: action.error
   }))
 );
+
+export function reducer(state, action) {
+  return EcoEventsReducer(state, action);
+}
