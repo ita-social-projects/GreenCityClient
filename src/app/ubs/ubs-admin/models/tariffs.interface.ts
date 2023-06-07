@@ -108,6 +108,12 @@ interface Location {
   locationName: string;
 }
 
+export interface City {
+  id: number;
+  locationTranslationDtoList: { locationName: string; languageCode: string }[];
+  name: string;
+}
+
 export interface EditLocationName {
   nameEn: string;
   nameUa: string;

@@ -11,7 +11,7 @@ import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { Couriers, CreateCard, Locations } from '../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, City } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
@@ -416,7 +416,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     };
   }
 
-  transformCityToSelectedCity(city: any) {
+  transformCityToSelectedCity(city: City) {
     const selectedCityName = this.getSelectedCityName(city, 'ua');
     const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
     return {
@@ -427,7 +427,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     };
   }
 
-  transformCourierToSelectedCourier(courier: any) {
+  transformCourierToSelectedCourier(courier: Couriers) {
     return {
       name: this.getLangValue(courier.nameUk, courier.nameEn),
       id: courier.courierId,

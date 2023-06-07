@@ -227,6 +227,21 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(component.searchForm.value).toEqual(initFormFake);
   });
 
+  it('should create form with 5 controls', () => {
+    expect(component.searchForm.contains('position')).toBeTruthy();
+    expect(component.searchForm.contains('state')).toBeTruthy();
+    expect(component.searchForm.contains('region')).toBeTruthy();
+    expect(component.searchForm.contains('city')).toBeTruthy();
+    expect(component.searchForm.contains('courier')).toBeTruthy();
+  });
+
+  it('should test input errors', () => {
+    const cityfield = component.searchForm.controls.city;
+    cityfield.setValue('Lorem ipsum dolor sit amet, consectetur adipisicing elit.');
+    expect(cityfield.errors).toBeTruthy();
+    expect(component.searchForm.valid).toBeFalsy();
+  });
+
   it('should get all postitions', () => {
     service.getAllPositions().subscribe((data) => {
       expect(data).toBe(positionMock);
@@ -467,6 +482,14 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(component.cityPlaceholder).toEqual('1 ubs-tariffs.selected');
   });
 
+  it('should set city regon', () => {
+    component.selectedRegions = [{ name: 'Фейк' }];
+    const placeholderName = 'regionPlaceholder';
+    const filterOption = 'region';
+    component.setCountOfCheckedFilters(component.selectedRegions, filterOption, placeholderName);
+    expect(component.regionPlaceholder).toEqual('1 ubs-tariffs.selected');
+  });
+
   it('should set position placeholder', () => {
     component.selectedPositions = ['ФейкПозиція1', 'ФейкПозиція2'];
     const placeholderName = 'positionsPlaceholder';
@@ -563,5 +586,86 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(component.selectedRegions.length).toBe(0);
     expect(component.selectedContact.length).toBe(0);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should setCountOfCheckedFilters() at toggleSelectAllPositions()', () => {
+    component.isPositionChecked();
+    component.employeePositions = positionMock;
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllPositions();
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedPositions.length).toBe(1);
+  });
+
+  it('should setCountOfCheckedFilters() at toggleSelectAllRegion()', () => {
+    component.isRegionChecked();
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllRegion();
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedRegions.length).toBe(1);
+  });
+
+  it('should setCountOfCheckedFilters() at toggleSelectAllCity()', () => {
+    component.isCityChecked();
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllCity();
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedCities.length).toBe(0);
+  });
+
+  it('should setCountOfCheckedFilters() at toggleSelectAllCourier()', () => {
+    component.isCourierChecked();
+    const spy = spyOn(component as any, 'setCountOfCheckedFilters');
+    component.toggleSelectAllCourier();
+    expect(spy).toHaveBeenCalled();
+    expect(component.selectedCouriers.length).toBe(1);
+  });
+
+  it('should called transformCityToSelectedCity()', () => {
+    const cityMock = {
+      name: 'Oleksandriya',
+      id: 65,
+      locationTranslationDtoList: [
+        {
+          locationName: 'Олександрія',
+          languageCode: 'ua'
+        },
+        {
+          locationName: 'Oleksandriya',
+          languageCode: 'en'
+        }
+      ]
+    };
+
+    const result = component.transformCityToSelectedCity(cityMock);
+    expect(result).toEqual({
+      name: 'Олександрія',
+      id: 65,
+      englishName: 'Oleksandriya',
+      ukrainianName: 'Олександрія'
+    });
+  });
+
+  it('should called transformCourierToSelectedCourier()', () => {
+    const courierMock = {
+      courierId: 7,
+      courierStatus: 'ACTIVE',
+      nameUk: 'Тест 11',
+      nameEn: 'Test 11',
+      createDate: '2023-05-01'
+    };
+
+    const result = component.transformCourierToSelectedCourier(courierMock as any);
+    expect(result).toEqual({
+      name: 'Тест 11',
+      id: 7,
+      englishName: 'Test 11',
+      ukrainianName: 'Тест 11'
+    });
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });
