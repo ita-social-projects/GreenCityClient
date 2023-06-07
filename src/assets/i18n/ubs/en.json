@@ -408,6 +408,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
+        "too-long-password": "Password must be less than 20 characters long without spaces.",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
         "sign-in-with-google": "Sign in with Google",
