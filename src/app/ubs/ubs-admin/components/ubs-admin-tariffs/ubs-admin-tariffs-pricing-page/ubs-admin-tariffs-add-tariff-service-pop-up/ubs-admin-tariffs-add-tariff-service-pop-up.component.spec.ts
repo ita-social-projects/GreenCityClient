@@ -15,7 +15,7 @@ import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform
 import { BrowserModule } from '@angular/platform-browser';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
-fdescribe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
+describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
   let fakeTariffService: TariffsService;
