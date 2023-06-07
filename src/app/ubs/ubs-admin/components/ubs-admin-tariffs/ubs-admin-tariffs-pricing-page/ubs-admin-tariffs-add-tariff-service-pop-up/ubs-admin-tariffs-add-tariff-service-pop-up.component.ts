@@ -109,9 +109,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
-    const a = this.languageService.getLangValue(uaValue, enValue);
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
+
   getControl(control: string): AbstractControl {
     return this.addTariffServiceForm.get(control);
   }
