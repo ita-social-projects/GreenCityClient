@@ -176,13 +176,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     if (this.receivedData.bagData) {
       const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
-        name: this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng),
-        nameEng: this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name),
+        name: this.getLangValue(name, nameEng),
+        nameEng: this.getLangValue(nameEng, name),
         price,
         capacity,
         commission,
-        description: this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng),
-        descriptionEng: this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description)
+        description: this.getLangValue(description, descriptionEng),
+        descriptionEng: this.getLangValue(descriptionEng, description)
       });
     }
   }
