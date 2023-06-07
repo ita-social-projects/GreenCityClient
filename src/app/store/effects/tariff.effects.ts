@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {
   GetLocations,
   GetLocationsSuccess,
@@ -8,7 +8,9 @@ import {
   AddLocationsSuccess,
   ReceivedFailure,
   EditLocation,
-  EditLocationSuccess
+  EditLocationSuccess,
+  UpdateLocationsSuccess,
+  UpdateLocations
 } from '../actions/tariff.actions';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { CreateLocation, Locations, EditLocationName } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
@@ -35,9 +37,26 @@ export class LocationsEffects {
       ofType(AddLocations),
       mergeMap((action: { locations: CreateLocation[] }) => {
         return this.tariffsService.addLocation(action.locations).pipe(
-          map((data: CreateLocation) => {
-            const locations = JSON.parse(JSON.stringify(action.locations));
-            return AddLocationsSuccess({ locations });
+          switchMap((data: CreateLocation) => {
+            return this.tariffsService.getLocations().pipe(
+              map((locations: Locations[]) => {
+                return UpdateLocationsSuccess({ locations });
+              })
+            );
+          }),
+          catchError((error) => of(ReceivedFailure(error)))
+        );
+      })
+    );
+  });
+
+  updateLocations = createEffect(() => {
+    return this.actions.pipe(
+      ofType(UpdateLocations),
+      mergeMap(() => {
+        return this.tariffsService.getLocations().pipe(
+          map((locations: Locations[]) => {
+            return UpdateLocationsSuccess({ locations });
           }),
           catchError((error) => of(ReceivedFailure(error)))
         );
