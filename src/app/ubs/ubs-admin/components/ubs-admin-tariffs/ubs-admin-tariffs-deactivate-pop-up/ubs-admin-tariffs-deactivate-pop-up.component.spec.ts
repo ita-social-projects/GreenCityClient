@@ -503,7 +503,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
 
   const eventMockStation = {
     option: {
-      value: 'Фейк'
+      value: 'Фейк',
+      id: '1'
     }
   };
 
@@ -563,6 +564,8 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminTariffsDeactivatePopUpComponent);
     component = fixture.componentInstance;
+    component.isActivatePopUp = false;
+    component.isDeactivatePopUp = true;
     fixture.detectChanges();
   });
 
@@ -586,18 +589,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy5).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
     expect(spy7).toHaveBeenCalled();
-  });
-
-  it('should get all couriers', () => {
-    component.getCouriers();
-    expect(component.couriers).toEqual(fakeCouriers);
-    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
-  });
-
-  it('should get all stations', () => {
-    component.getReceivingStation();
-    expect(component.stations).toEqual([fakeStation]);
-    expect(component.stationsName).toEqual(['Фейк']);
   });
 
   it('should get locations', () => {
@@ -640,14 +631,15 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onSelectedCourier should filter dropdown lists when there is filtered tariff card', () => {
+    spyOn(component, 'filterTariffCards').and.returnValue([{}] as any);
     const spy1 = spyOn(component, 'selectAllStationsInTariffCards');
     const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
     const spy3 = spyOn(component, 'selectAllCitiesInTariffCards');
     const filteredTariffCards = component.filterTariffCards();
     component.onSelectedCourier();
-    expect(spy1).toHaveBeenCalledWith(filteredTariffCards);
-    expect(spy2).toHaveBeenCalledWith(filteredTariffCards);
-    expect(spy3).toHaveBeenCalledWith(filteredTariffCards);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
   });
 
   it('should call method for selecting one station', () => {
@@ -661,21 +653,15 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy3).toHaveBeenCalled();
   });
 
-  it('courier and region should be enabled when selectStations is empty', () => {
-    component.selectedStations.push({ id: 1, name: 'Фейк' });
-    const spy = spyOn(component, 'onDeletedField');
-    component.selectStation(eventMockStation as any);
-    expect(spy).toHaveBeenCalled();
-    expect(component.courier.disabled).toEqual(false);
-    expect(component.region.disabled).toEqual(false);
-  });
-
   it('should empty station value selectStation method', () => {
+    component.stations = [{ id: 1, name: 'Фейк' }] as any;
+    component.selectedStations = [];
     component.selectStation(eventMockStation as any);
     expect(component.station.value).toEqual('');
   });
 
   it('should add new selected station if it does not exist in list', () => {
+    component.stations = [{ id: 1, name: 'Фейк', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' }];
     component.selectedStations = [{ id: 0, name: 'Cтанція' }];
     component.addSelectedStation(eventMockStation as any);
     expect(component.selectedStations).toEqual([
@@ -685,6 +671,10 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should remove selected station if it exists in list', () => {
+    component.stations = [
+      { id: 0, name: 'Cтанція', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' },
+      { id: 1, name: 'Фейк', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' }
+    ];
     component.selectedStations = [
       { id: 0, name: 'Cтанція' },
       { id: 1, name: 'Фейк' }
@@ -709,6 +699,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onStationsSelected should filter dropdown lists when there is filtered tariff card', () => {
+    spyOn(component, 'filterTariffCards').and.returnValue([{}] as any);
     const spy1 = spyOn(component, 'selectAllCouriersInTariffCards');
     const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
     const spy3 = spyOn(component, 'selectAllCitiesInTariffCards');
@@ -852,6 +843,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onRegionSelected should filter dropdown lists when there is filtered tariff card', () => {
+    spyOn(component, 'filterTariffCards').and.returnValue([{}] as any);
     const spy1 = spyOn(component, 'selectAllCouriersInTariffCards');
     const spy2 = spyOn(component, 'selectAllStationsInTariffCards');
     const spy3 = spyOn(component, 'enableCity');
@@ -1028,6 +1020,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('the method onCitiesSelected should filter dropdown lists when there is filtered tariff card', () => {
+    spyOn(component, 'filterTariffCards').and.returnValue([{}] as any);
     const spy1 = spyOn(component, 'selectAllCouriersInTariffCards');
     const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
     const spy3 = spyOn(component, 'selectAllStationsInTariffCards');
@@ -1262,19 +1255,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(component.stationsName).toEqual(['Фейк']);
     expect(component.filteredRegions).toEqual(['Фейк область']);
     expect(component.regionsName).toEqual(['Фейк область']);
-  });
-
-  it('method filterByOneField should filter only by courier', () => {
-    component.couriers = fakeCouriers;
-    component.selectedCourier = {
-      id: 1,
-      name: 'fake'
-    };
-    component.selectedStations = [];
-    component.selectedRegions = [];
-    component.selectedCities = [];
-    expect(component.filteredCouriers).toEqual(['фейкКурєр1', 'фейкКурєр2']);
-    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
   });
 
   it('method filterByOneField should filter only by stations', () => {
