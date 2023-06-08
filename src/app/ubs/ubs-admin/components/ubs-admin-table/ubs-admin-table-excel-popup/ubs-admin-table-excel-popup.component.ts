@@ -21,6 +21,8 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   tableData: any[];
   tableView: string;
   totalElements: number;
+  selectedElements: any[];
+  isElementSelected: boolean;
   search: string;
   name: string;
   allElements: number;
@@ -42,18 +44,25 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     this.language = this.languageService.getCurrentLanguage();
     this.tableView = tableViewParameters.wholeTable;
 
-    this.dataForTranslation.forEach((el) => {
-      if (el?.title?.key !== 'select') {
-        this.columnTitles.push(el?.title?.[this.language]);
-        this.columnKeys.push(el?.title?.key);
-      }
-    });
+    if (this.dataForTranslation) {
+      this.dataForTranslation.forEach((el) => {
+        if (el?.title?.key !== 'select') {
+          this.columnTitles.push(el?.title?.[this.language]);
+          this.columnKeys.push(el?.title?.key);
+        }
+      });
+    }
   }
 
-  saveTable() {
+  saveTable(): void {
     this.isLoading = true;
+    const isSelectedOrders = this.tableView === tableViewParameters.selectedOrders;
+
+    const isOrdersTable = this.name === nameOfTable.ordersTable;
+    const isCertificatesTable = this.name === nameOfTable.certificatesTable;
+    const isCustomersTable = this.name === nameOfTable.customersTable;
     if (this.tableView === tableViewParameters.wholeTable) {
-      if (this.name === nameOfTable.ordersTable) {
+      if (isOrdersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'id')
           .then((res) => {
             this.tableData = res[`content`];
@@ -63,7 +72,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.certificatesTable) {
+      if (isCertificatesTable) {
         this.getCertificatesTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'code')
           .then((res) => {
             this.tableData = res[`page`];
@@ -72,7 +81,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.customersTable) {
+      if (isCustomersTable) {
         this.getCustomersTable(this.onePageForWholeTable, this.allElements, '', '', 'ASC', 'clientName')
           .then((res) => {
             this.tableData = res[`page`];
@@ -81,8 +90,9 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-    } else if (this.tableView === tableViewParameters.currentFilter) {
-      if (this.name === nameOfTable.ordersTable) {
+    }
+    if (this.tableView === tableViewParameters.currentFilter) {
+      if (isOrdersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`content`];
@@ -93,7 +103,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.certificatesTable) {
+      if (isCertificatesTable) {
         this.getCertificatesTable(this.onePageForWholeTable, this.totalElements, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
@@ -102,7 +112,7 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
-      if (this.name === nameOfTable.customersTable) {
+      if (isCustomersTable) {
         this.getCustomersTable(this.onePageForWholeTable, this.totalElements, this.filters, this.search, this.sortType, this.sortingColumn)
           .then((res) => {
             this.tableData = res[`page`];
@@ -111,6 +121,16 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
             this.createXLSX();
           });
       }
+    }
+    if (isSelectedOrders && isOrdersTable) {
+      this.tableData = this.selectedElements;
+      this.setTranslatedOrders();
+      this.filterDataForDeletedColumn();
+      this.createXLSX();
+    }
+    if (isSelectedOrders && isCertificatesTable) {
+      this.tableData = this.selectedElements;
+      this.createXLSX();
     }
   }
 

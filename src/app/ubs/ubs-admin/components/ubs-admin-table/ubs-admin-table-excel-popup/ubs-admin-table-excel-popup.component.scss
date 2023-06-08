@@ -5,7 +5,6 @@
 }
 
 .item {
-  margin-bottom: 24px;
   font-size: 14px;
   line-height: 20px;
   color: var(--ubs-primary-grey);
@@ -13,6 +12,12 @@
 
 .box {
   margin-bottom: 28px;
+
+  .buttons-box {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 }
 
 .item:nth-child(2) {
