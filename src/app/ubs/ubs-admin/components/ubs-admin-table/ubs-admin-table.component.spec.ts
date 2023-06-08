@@ -775,7 +775,7 @@ describe('UsbAdminTableComponent', () => {
 
   it('should call clearFilters', () => {
     spyOn(component, 'clearFilters');
-    const button: DebugElement = fixture.debugElement.query(By.css('.clear-filt'));
+    const button: DebugElement = fixture.debugElement.query(By.css('.clear-apply-group .ubs-secondary-global-button'));
     fixture.detectChanges();
     button.triggerEventHandler('click', null);
     fixture.detectChanges();

@@ -1,9 +1,6 @@
 .wrapper {
   min-height: 100vh;
-  width: 80vw;
-  margin-top: 20px;
-  margin-left: -25px;
-  padding: 0 25px;
+  width: 100%;
   font-size: 16px;
   line-height: 24px;
   color: var(--ubs-primary-black);
@@ -25,7 +22,7 @@
 }
 
 .if_empty {
-  margin: 16px 0 0 44px;
+  margin: 16px 0 0 0;
 
   a {
     margin-left: 13px;
@@ -43,21 +40,6 @@
 
 .mobile-title {
   display: none;
-}
-
-.btn_new_order {
-  height: 36px;
-  min-width: 179px;
-  margin-right: 24px;
-  margin-top: 10px;
-  border: none;
-  color: var(--ubs-quaternary-dark-grey);
-  padding: 8px 24px 8px 24px;
-  background: var(--ubs-button-light-green);
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 20px;
 }
 
 .user-orders-pagination::ng-deep .ngx-pagination .current {
@@ -112,17 +94,13 @@
     }
   }
 
-  .wrapper {
-    padding-top: 32px;
-  }
-
   .main_header {
     display: flex;
     flex-direction: column;
     padding-right: 0;
   }
 
-  .btn_new_order {
+  .ubs-primary-global-button {
     width: 100%;
     min-width: unset;
     margin-right: 0;

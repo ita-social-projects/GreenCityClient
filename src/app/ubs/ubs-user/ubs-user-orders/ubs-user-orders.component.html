@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="main_header">
     <h1 class="main_header-title">{{ 'user-orders.order-title' | translate }}</h1>
-    <button class="btn_new_order" (click)="redirectToOrder()">{{ 'user-orders.btn.new-order' | translate }}</button>
+    <button class="btn ubs-primary-global-button s-btn" (click)="redirectToOrder()">{{ 'user-orders.btn.new-order' | translate }}</button>
   </div>
   <div *ngIf="!loading; else spinner">
     <div

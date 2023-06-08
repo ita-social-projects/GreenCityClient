@@ -62,19 +62,16 @@ input {
 
 .dropdown-menu {
   position: absolute;
+  left: auto;
   right: 0;
   height: 500px;
   width: 356px;
   overflow: scroll;
   padding: 0;
-  margin-top: 16px;
+  margin: 16px 0 0 0;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
   background-color: var(--ubs-secondary-white);
-}
-
-.dropdown-menu-right {
-  margin-right: 18px;
 }
 
 .date-range-box {
@@ -216,139 +213,57 @@ input {
   }
 }
 
-.view-table-btn,
-.filter-table-btn {
+.ubs-secondary-global-button img {
+  width: 13px;
+  height: 13px;
+  margin-right: 9px;
+}
+
+.ubs-secondary-global-button {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 154px;
-  height: 36px;
-  background-color: var(--primary-white) !important;
-  border: 1px solid var(--ubs-quaternary-dark-grey) !important;
-  color: var(--ubs-quaternary-dark-grey);
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 14px;
-  font-family: var(--primary-font);
-  margin-right: 20px;
-  margin-left: auto;
-  transition: 0.2s linear;
 
-  &:hover {
-    color: var(--ubs-secondary-grey);
-    border: 1px solid var(--ubs-secondary-grey) !important;
-  }
-
-  img {
-    width: 13px;
-    height: 13px;
-    margin-right: 9px;
-  }
-}
-
-@media only screen and (min-width: 250px) and (max-width: 376px) {
-  .filter-table-btn {
-    margin-left: 15px;
-    margin-right: 7px;
-    width: 100px;
-  }
-
-  .research {
+  .mat-icon {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .search {
-    margin: 2%;
-  }
-
-  .view-table-btn {
-    width: 100px;
-    margin-left: 7px;
-    margin-right: 7px;
-  }
-
-  .export-excel-btn {
-    width: 110px;
-    margin-left: 7px;
-    margin-right: 7px;
-  }
-}
-
-@media only screen and (min-width: 377px) and (max-width: 768px) {
-  .filter-table-btn {
-    margin-left: 10px;
-    margin-right: 10px;
-    width: 110px;
-  }
-
-  .research {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .search {
-    margin: 2%;
-  }
-
-  .view-table-btn {
-    width: 110px;
-  }
-
-  .export-excel-btn {
-    width: 115px;
-  }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 992px) {
-  .filter-table-btn {
-    margin-left: 20px;
-  }
-}
-
-.view-table-btn .mat-icon,
-.filter-table-btn .mat-icon {
-  padding-top: 5px;
-  font-size: 14px;
-}
-
-@media only screen and (min-width: 380px) and (max-width: 768px) {
-  .view-table-btn {
-    margin-left: 10px;
+    align-items: center;
+    font-size: 16px;
   }
 }
 
 .research {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   border: 0;
   width: 100%;
   margin: 20px 0 17px 0;
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 426px;
+    height: 36px;
+    border: 1px solid var(--ubs-primary-light-grey);
+    border-radius: 4px;
+
+    .search-input {
+      display: flex;
+      width: 100%;
+
+      input {
+        padding: 0 0 0 15px;
+        margin: 0;
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+      }
+    }
+  }
 }
 
-.search {
-  display: flex;
-  align-items: center;
-  width: 426px;
-  height: 36px;
-  border: 1px solid var(--ubs-primary-light-grey);
-  border-radius: 4px;
-}
-
-.search-input {
-  width: 100%;
-}
-
-.search-input input {
-  padding: 0 0 0 15px;
-  margin: 0;
-  width: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
+.btn-excel .mat-icon {
+  display: none;
 }
 
 .icon-style {
@@ -365,12 +280,15 @@ input {
 }
 
 .clear-apply-group {
-  padding-top: 10px;
+  padding: 12px 12px 0 12px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   box-shadow: 0 0 8px rgba(73, 74, 73, 0.2);
-  height: 50px;
   width: 100%;
+
+  .btn {
+    width: calc(50% - 4px);
+  }
 }
 
 .blocked_mess {
@@ -403,16 +321,6 @@ input {
   padding-left: 16px;
   padding-top: 8px;
   width: 320px;
-}
-
-.filter-btn {
-  text-align: center;
-  height: 36px;
-  width: 141px;
-  margin: 0 5px;
-  border: 1px solid var(--ubs-quaternary-dark-grey);
-  border-radius: 4px !important;
-  background-color: var(--ubs-secondary-white);
 }
 
 .filters-dropdown-wrapper {
@@ -467,11 +375,12 @@ input {
   z-index: 10;
 }
 
-.btn-group {
+.btns-box {
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 0;
+  gap: 18px;
 }
 
 .sticky-bottom {
@@ -590,6 +499,7 @@ input {
   display: flex;
   justify-content: space-between;
   position: relative;
+  gap: 18px;
 
   .head {
     color: var(--ubs-black);
@@ -609,4 +519,35 @@ input {
 
 .highlighted {
   background-color: var(--ubs-liberty-green);
+}
+
+@media (max-width: 1240px) {
+  .research {
+    gap: 16px;
+
+    .search {
+      width: calc(100% - 160px);
+    }
+  }
+}
+
+@media (max-width: 954px) {
+  .btn-excel,
+  .filt-btn {
+    padding: 0;
+    width: 36px;
+
+    .mat-icon {
+      display: flex;
+      justify-content: center;
+    }
+
+    span {
+      display: none;
+    }
+  }
+
+  .ubs-secondary-global-button img {
+    margin: 0;
+  }
 }

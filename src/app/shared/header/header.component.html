@@ -7,8 +7,8 @@
       </button>
     </div>
   </div>
-  <div [ngClass]="isUBS ? 'container-fluid' : 'container'">
-    <div [ngClass]="isAdmin ? 'admin-container-fluid' : 'header_container'">
+  <div [ngClass]="isUBS ? 'container-fluid' : 'container'" [ngClass]="{ 'ubs-user-header': isUBSUserPage }">
+    <div [ngClass]="isAdmin ? 'admin-container-fluid' : 'header-container'">
       <a
         class="header_logo"
         role="none"

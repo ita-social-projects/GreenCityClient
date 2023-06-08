@@ -18,6 +18,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('UbsBaseSidebarComponent', () => {
   let component: UbsBaseSidebarComponent;
@@ -47,7 +48,8 @@ describe('UbsBaseSidebarComponent', () => {
         HttpClientTestingModule,
         SharedModule,
         RouterTestingModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        TranslateModule.forRoot()
       ],
       declarations: [UbsBaseSidebarComponent, UbsAdminTableComponent, HeaderComponent],
       providers: [

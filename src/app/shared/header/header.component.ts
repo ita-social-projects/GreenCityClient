@@ -49,7 +49,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signupref') signupref: ElementRef;
   public elementName;
   public isUBS: boolean;
+  public isUBSUserPage: boolean;
   public ubsUrl = 'ubs';
+  public ubsUserUrl = 'ubs-user';
   public imageLogo;
   public navLinks;
   public selectedIndex: number = null;
@@ -85,6 +87,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isUBS = this.router.url.includes(this.ubsUrl);
+    this.isUBSUserPage = this.router.url.includes(this.ubsUserUrl);
     this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
     this.localeStorageService.setUbsRegistration(this.isUBS);
     this.toggleHeader();

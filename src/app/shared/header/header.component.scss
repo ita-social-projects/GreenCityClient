@@ -361,6 +361,8 @@ header {
 
       .header_navigation-menu-right-lang {
         .lang-option {
+          cursor: pointer;
+
           span {
             font-size: 14px;
           }
@@ -368,6 +370,22 @@ header {
       }
     }
   }
+}
+
+.header-container {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1140px;
+  height: 100%;
+}
+
+.ubs-user-header .header-container {
+  max-width: 100%;
+  padding: 0 24px;
 }
 
 #header_user-wrp {
@@ -509,6 +527,7 @@ header {
 
 .admin-container-fluid {
   width: 100%;
+  padding: 0 24px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -548,17 +567,6 @@ header {
     display: flex;
     align-items: center;
   }
-}
-
-.header_container {
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1140px;
-  height: 100%;
 }
 
 .header_navigation-menu-ubs,
@@ -711,7 +719,7 @@ header {
     padding: 0 24px;
   }
 
-  .header_container .header_logo img {
+  .header-container .header_logo img {
     width: 90px;
   }
 
@@ -781,7 +789,7 @@ header {
     }
   }
 
-  .header_container {
+  .header-container {
     padding: 0 8px;
     max-width: none;
   }
@@ -970,7 +978,7 @@ header {
 
   .container-fluid,
   .container {
-    .header_container {
+    .header-container {
       height: 86px;
     }
 
@@ -1005,7 +1013,7 @@ header {
     font-size: 12px;
   }
 
-  .header_container .header_logo {
+  .header-container .header_logo {
     width: 68px;
     height: 36px;
 
@@ -1038,7 +1046,7 @@ header {
   .container-fluid,
   .container {
     .admin-container-fluid,
-    .header_container {
+    .header-container {
       height: fit-content;
     }
 
@@ -1047,7 +1055,7 @@ header {
     }
   }
 
-  .header_container .header_logo {
+  .header-container .header_logo {
     width: 68px;
     height: 27px;
 
@@ -1094,6 +1102,10 @@ header {
     padding: 3px 14px;
     width: 48px;
     height: 27px;
+  }
+
+  .ubs-user-header .header-container {
+    height: 52px;
   }
 }
 

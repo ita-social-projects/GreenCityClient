@@ -1,6 +1,6 @@
-<div class="ubs_profile-container mx-auto">
-  <div class="container">
-    <div class="row">
+<div class="ubs-profile-container">
+  <div class="profile-box">
+    <div class="column-box">
       <div class="ubs_profile-header">
         <div class="header-text">
           <div class="header-title">
@@ -11,10 +11,10 @@
           </div>
           <div class="header-buttons">
             <ng-container *ngIf="!isEditing">
-              <button tabindex="0" class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
+              <button class="btn btn-outline-success open" (click)="openChangePasswordDialog()">
                 {{ 'ubs-client-profile.btn.change-password' | translate }}
               </button>
-              <button tabindex="0" class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
+              <button class="btn btn-outline-success delete" (click)="openDeleteProfileDialog()">
                 {{ 'ubs-client-profile.btn.delete-profile' | translate }}
               </button>
             </ng-container>
