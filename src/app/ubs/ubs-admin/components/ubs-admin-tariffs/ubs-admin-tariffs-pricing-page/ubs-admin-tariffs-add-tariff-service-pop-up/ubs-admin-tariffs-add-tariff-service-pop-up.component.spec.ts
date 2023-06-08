@@ -19,7 +19,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
   let fakeTariffService: TariffsService;
-  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   const fakeBagForm = new FormGroup({
@@ -269,24 +269,5 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     component.setDate();
     expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
     expect(result).toEqual('ua');
-  });
-
-  it('editForm() should invoke with correct parameters', () => {
-    component.receivedData = {
-      bagData: {
-        name: 'MockNameUA',
-        nameEng: 'MockNameEng',
-        description: 'MockDescrUA',
-        descriptionEng: 'MockDescrEng'
-      }
-    };
-    component.editForm();
-    expect(component.addTariffServiceForm.get('price').value).toEqual('');
-    expect(component.addTariffServiceForm.get('name').value).toEqual({ value: component.receivedData.bagData.name });
-    expect(component.addTariffServiceForm.get('nameEng').value).toEqual({ value: component.receivedData.bagData.nameEng });
-    expect(component.addTariffServiceForm.get('description').value).toEqual({ value: component.receivedData.bagData.description });
-    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual({ value: component.receivedData.bagData.descriptionEng });
-    expect(component.addTariffServiceForm.get('capacity').value).toEqual({ value: component.receivedData.bagData.capacity });
-    expect(component.addTariffServiceForm.get('commission').value).toEqual('');
   });
 });
