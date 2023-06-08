@@ -84,7 +84,12 @@ label {
   line-height: 24px;
 }
 
+.export-time {
+  margin-left: 15px;
+}
+
 #station {
+  height: 38px;
   cursor: pointer;
 }
 
@@ -102,16 +107,20 @@ input {
   margin-right: 30px;
 }
 
+#export-date {
+  height: 38px;
+}
+
 .time-picker-container {
   display: flex;
   border-radius: 4px;
   border: 1px solid var(--ubs-quintynary-light-grey);
-  margin-right: 40px;
+  margin-right: 10px;
 }
 
 .time-from {
   border: none;
-  width: 65px;
+  width: 80px;
   text-align: center;
 }
 
