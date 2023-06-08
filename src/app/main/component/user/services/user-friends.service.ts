@@ -67,7 +67,7 @@ export class UserFriendsService {
       userId: idUser
     };
 
-    return this.http.post<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, body);
+    return this.http.post<object>(`${this.url}friends/${idFriend}`, body);
   }
 
   public acceptRequest(idUser: number, idFriend: number): Observable<object> {
