@@ -41,6 +41,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   currentLocationId: number;
   locations: CourierLocations;
   currentLanguage: string;
+  checkedAddress: Address;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private personalDataFormValidators: ValidatorFn[] = [
     Validators.required,
@@ -188,8 +189,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   checkAddress(addressId) {
     this.addresses.forEach((address) => {
-      if (address.actual) {
+      if (address.id === addressId) {
         this.orderService.setCurrentAddress(address);
+        this.checkedAddress = address;
       }
     });
     this.localService.setAddressId(addressId);
@@ -202,9 +204,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     }
   }
 
-  changeAddressInPersonalData() {
+  changeAddressInPersonalData(): void {
     this.isOneAdress();
-    const activeAddress = this.addresses.find((address) => address.actual);
+    const actualAddress = this.addresses.find((address) => address.actual);
+    const activeAddress = this.checkedAddress ?? actualAddress;
+
     this.personalData.city = activeAddress.city;
     this.personalData.cityEn = activeAddress.cityEn;
     this.personalData.district = activeAddress.district;
@@ -283,7 +287,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   activeAddressId() {
     this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
-    this.addressId = activeAddress.id;
+    this.addressId = this.checkedAddress.id ?? activeAddress.id;
   }
 
   deleteAddress(address: Address) {
@@ -345,6 +349,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.firstOrder = false;
     this.activeAddressId();
     this.changeAddressInPersonalData();
+
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
     this.orderDetails.bags.forEach((bagItem: Bag, index: number) => {
