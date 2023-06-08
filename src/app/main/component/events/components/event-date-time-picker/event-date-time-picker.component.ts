@@ -115,6 +115,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     this.translate.setDefaultLang(lang);
   }
 
+  get isEditAdressDefault(): boolean {
+    return (
+      this.editDate.coordinates.latitude === this.coordinates.latitude && this.editDate.coordinates.longitude === this.coordinates.longitude
+    );
+  }
+
   private setEditData(): void {
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
     const endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
@@ -130,23 +136,25 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     });
 
     if (this.editDate.coordinates.latitude) {
-      this.checkOfflinePlace = true;
-      this.dateForm.addControl('place', new FormControl('', [Validators.required]));
-      setTimeout(() => this.setPlaceAutocomplete(), 0);
-      this.coordinates.latitude = this.editDate.coordinates.latitude;
-      this.coordinates.longitude = this.editDate.coordinates.longitude;
-      this.zoom = 8;
-      this.coordOffline.emit(this.coordinates);
+      if (!this.isEditAdressDefault) {
+        this.checkOfflinePlace = true;
+        this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+        setTimeout(() => this.setPlaceAutocomplete(), 0);
+        this.coordinates.latitude = this.editDate.coordinates.latitude;
+        this.coordinates.longitude = this.editDate.coordinates.longitude;
+        this.zoom = 8;
+        this.coordOffline.emit(this.coordinates);
 
-      this.dateForm.patchValue({
-        place: this.getLangValue(
-          this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
-          this.eventsService.createAdresses(this.editDate.coordinates, 'En')
-        )
-      });
+        this.dateForm.patchValue({
+          place: this.getLangValue(
+            this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
+            this.eventsService.createAdresses(this.editDate.coordinates, 'En')
+          )
+        });
 
-      this.coordinates.latitude = this.editDate.coordinates.latitude;
-      this.coordinates.longitude = this.editDate.coordinates.longitude;
+        this.coordinates.latitude = this.editDate.coordinates.latitude;
+        this.coordinates.longitude = this.editDate.coordinates.longitude;
+      }
     }
 
     if (this.editDate.onlineLink) {

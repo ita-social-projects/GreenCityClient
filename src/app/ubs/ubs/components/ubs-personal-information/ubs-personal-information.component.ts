@@ -170,7 +170,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       anotherClientFirstName: ['', this.anotherClientValidators],
       anotherClientLastName: ['', this.anotherClientValidators],
       anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
-      anotherClientPhoneNumber: ['+38 0'],
+      anotherClientPhoneNumber: ['+38 0', [Validators.minLength(12), PhoneNumberValidator('UA')]],
       address: ['', Validators.required],
       addressComment: ['', Validators.maxLength(255)]
     });
