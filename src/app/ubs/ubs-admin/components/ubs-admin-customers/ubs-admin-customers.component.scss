@@ -22,6 +22,16 @@
   flex: none;
 }
 
+.ubs-secondary-global-button .mat-icon {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.btn-excel .mat-icon {
+  display: none;
+}
+
 .mat-row {
   min-height: 39px;
   max-height: 39px;
@@ -59,12 +69,6 @@
 .column-title {
   color: var(--ubs-secondary-light-grey);
   font-size: 14px;
-}
-
-.ubs-secondary-global-button .mat-icon {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
 }
 
 .dropdown-menu-box {
@@ -356,10 +360,6 @@
 
 .filt-btn {
   position: relative;
-}
-
-.btn-excel .mat-icon {
-  display: none;
 }
 
 @media (max-width: 954px) {
