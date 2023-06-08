@@ -1,12 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from 'src/assets/locations/locations';
 import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LocationService } from '@global-service/location/location.service';
+import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 
 @Component({
   selector: 'app-ubs-admin-address-details',
@@ -18,16 +21,18 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() addressExportDetailsDto: FormGroup;
   @Input() generalInfo: IGeneralOrderInfo;
   pageOpen: boolean;
-  autocompleteService: google.maps.places.AutocompleteService;
-  streetPredictionList: google.maps.places.AutocompletePrediction[];
-  cityPredictionList: google.maps.places.AutocompletePrediction[];
-  placeService: google.maps.places.PlacesService;
+  autocompleteService: GoogleAutoService;
+  streetPredictionList: GooglePrediction[];
+  cityPredictionList: GooglePrediction[];
+  housePredictionList: GooglePrediction[];
+  placeService: GooglePlaceService;
   currentLanguage: string;
   regions: Location[];
   districts: Location[];
   districtsKyiv: Location[];
   isDistrict: boolean;
   isStatus = false;
+  isHouseSelected = false;
 
   languages = {
     en: 'en',
@@ -160,12 +165,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   inputCity(searchAddress: string, lang: string): void {
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['(cities)'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.locationService.getRequest(searchAddress, lang, '(cities)');
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
       if (this.addressRegionEng.value === 'Kyiv') {
         this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
@@ -175,12 +175,12 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onCitySelected(selectedCity: google.maps.places.AutocompletePrediction): void {
+  onCitySelected(selectedCity: GooglePrediction): void {
     this.setValueOfCity(selectedCity, this.addressCity, this.languages.uk);
     this.setValueOfCity(selectedCity, this.addressCityEng, this.languages.en);
   }
 
-  setValueOfCity(selectedCity: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
+  setValueOfCity(selectedCity: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedCity.place_id,
       language: lang
@@ -207,12 +207,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   inputAddress(searchAddress: string, lang: string): void {
-    const request = {
-      input: searchAddress,
-      language: lang,
-      types: ['address'],
-      componentRestrictions: { country: 'ua' }
-    };
+    const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!this.isDistrict) {
         this.streetPredictionList = streetPredictions?.filter(
@@ -232,12 +227,13 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onStreetSelected(selectedStreet: google.maps.places.AutocompletePrediction): void {
+  onStreetSelected(selectedStreet: GooglePrediction): void {
+    this.addressHouseNumber.setValue('');
     this.setValueOfStreet(selectedStreet, this.addressStreet, this.languages.uk);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, this.languages.en);
   }
 
-  setValueOfStreet(selectedStreet: google.maps.places.AutocompletePrediction, abstractControl: AbstractControl, lang: string): void {
+  setValueOfStreet(selectedStreet: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
     const request = {
       placeId: selectedStreet.place_id,
       language: lang
@@ -255,7 +251,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  setDistrictAuto(placeDetails: google.maps.places.PlaceResult, abstractControl: AbstractControl, language: string): void {
+  setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
@@ -286,6 +282,38 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     this.addressDistrict.markAsDirty();
     this.addressDistrictEng.setValue(selectedDistricEn.name);
     this.addressDistrictEng.markAsDirty();
+  }
+
+  setPredictHouseNumbers(): void {
+    this.housePredictionList = null;
+    this.isHouseSelected = false;
+    const houseValue = this.addressHouseNumber.value.toLowerCase();
+    const streetName = this.getLangValue(this.addressStreet.value, this.addressStreetEng.value);
+    const cityName = this.getLangValue(this.addressCity.value, this.addressCityEng.value);
+    if (cityName && streetName && houseValue) {
+      this.addressHouseNumber.setValue(houseValue);
+      const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
+      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+    }
+  }
+
+  inputHouse(searchAddress: SearchAddress, lang: string): void {
+    this.locationService
+      .getFullAddressList(searchAddress, this.autocompleteService, lang)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list: GooglePrediction[]) => {
+        this.housePredictionList = list;
+      });
+  }
+
+  onHouseSelected(): void {
+    this.isHouseSelected = true;
+  }
+
+  checkHouseInput(): void {
+    if (!this.isHouseSelected) {
+      this.addressHouseNumber.setValue('');
+    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

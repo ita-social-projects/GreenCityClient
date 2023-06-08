@@ -265,12 +265,25 @@
                   <div class="form-group input-margin houseNumber">
                     <label for="houseNumber " class="form-label">{{ 'ubs-client-profile.house' | translate }}</label>
                     <input
+                      id="houseNumber"
                       type="text"
                       class="form-control"
-                      id="houseNumber"
                       formControlName="houseNumber"
-                      (change)="setPlaceId(userForm.controls.address.get(i.toString()))"
+                      matInput
+                      [matAutocomplete]="autoHouse"
+                      (keyup)="setPredictHouseNumbers(userForm.controls.address.get(i.toString()))"
+                      (focusout)="checkHouseInput(userForm.controls.address.get(i.toString()))"
                     />
+                    <mat-autocomplete #autoHouse="matAutocomplete">
+                      <mat-option
+                        class="autocomplete-dropdown"
+                        *ngFor="let house of housePredictionList"
+                        [value]="house.structured_formatting.main_text"
+                        (click)="onHouseSelected(userForm.controls.address.get(i.toString()), house)"
+                      >
+                        {{ house.structured_formatting.main_text }}
+                      </mat-option>
+                    </mat-autocomplete>
                     <div class="validation" *ngIf="address.get('houseNumber').invalid && address.get('houseNumber').touched">
                       <app-ubs-input-error [formElement]="address.get('houseNumber')"> </app-ubs-input-error>
                     </div>

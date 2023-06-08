@@ -18,6 +18,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@global-service/location/location.service';
+import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -39,7 +40,8 @@ describe('UbsUserProfilePageComponent', () => {
         street: 'Jhohn Lenon',
         streetEn: 'Jhohn Lenon',
         placeId: null,
-        searchAddress: null
+        searchAddress: null,
+        isHouseSelected: true
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -75,258 +77,14 @@ describe('UbsUserProfilePageComponent', () => {
 
   const status = 'OK';
 
-  const fakeRegions = [
-    { name: 'Київська область', key: 1 },
-    { name: 'місто Київ', key: 2 }
-  ];
-
-  const fakeDistricts = [
-    { name: 'Бориспільський', key: 1 },
-    { name: 'Броварський', key: 2 },
-    { name: 'Бучанський', key: 3 }
-  ];
-
-  const fakeDictrictsKyiv = [
-    { name: 'Голосіївський район', key: 1 },
-    { name: 'Дарницький район', key: 2 },
-    { name: 'Деснянський район', key: 3 }
-  ];
-
-  const predictionListKyivRegion = [
-    {
-      description: 'Шевченкове, Київська область',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: '1111',
-      reference: '1111',
-      structured_formatting: {
-        main_text: 'Шевченкове',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Київська область',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'Шевченкове' },
-        { offset: 1, value: 'Київська область' }
-      ],
-      types: ['locality', 'political', 'geocode']
-    },
-    {
-      description: 'Шевченківка, Київська область',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: '2222',
-      reference: '2222',
-      structured_formatting: {
-        main_text: 'Шевченківка',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Київська область',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'Шевченківка' },
-        { offset: 1, value: 'Київська область' }
-      ],
-      types: ['locality', 'political', 'geocode']
-    }
-  ];
-
-  const predictionListKyivCity = [
-    {
-      description: 'Київ, місто Київ',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: 'ChIJBUVa4U7P1EAR_kYBF9IxSXY',
-      reference: '1111',
-      structured_formatting: {
-        main_text: 'Київ',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'місто Київ',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'Київ' },
-        { offset: 1, value: 'місто Київ' }
-      ],
-      types: ['locality', 'political', 'geocode']
-    },
-    {
-      description: 'Київ, Миколаївська область',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: '2222',
-      reference: '2222',
-      structured_formatting: {
-        main_text: 'Київ',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Миколаївська область',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'Київ' },
-        { offset: 1, value: 'Миколаївська область' }
-      ],
-      types: ['locality', 'political', 'geocode']
-    }
-  ];
-
-  const placeResultKyivUk = {
-    address_components: [
-      { long_name: 'Київ', short_name: 'Київ', types: ['locality', 'political'] },
-      { long_name: 'місто Київ', short_name: 'місто Київ', types: ['administrative_area_level_2', 'political'] }
-    ],
-    formatted_address: 'Київ, Україна, 02000',
-    name: 'Київ',
-    place_id: 'ChIJBUVa4U7P1EAR_kYBF9IxSXY'
-  };
-
-  const cityPlaceResultUk = {
-    address_components: [
-      { long_name: 'Шевченкове', short_name: 'Шевченкове', types: ['locality', 'political'] },
-      { long_name: 'Київська область', short_name: 'Київська область', types: ['administrative_area_level_2', 'political'] }
-    ],
-    formatted_address: 'Шевченкове, Київська область, Україна, 02000',
-    name: 'Шевченкове',
-    place_id: '111'
-  };
-
-  const cityPlaceResultEn = {
-    address_components: [
-      { long_name: 'Kyiv', short_name: 'Kyiv', types: ['locality', 'political'] },
-      { long_name: 'Kyiv City', short_name: 'Kyiv City', types: ['administrative_area_level_2', 'political'] }
-    ],
-    formatted_address: 'Kyiv, Ukraine, 02000',
-    name: 'Kyiv',
-    place_id: 'ChIJBUVa4U7P1EAR_kYBF9IxSXY'
-  };
-
-  const streetPredictionKyivCity = [
-    {
-      description: 'вулиця Ломоносова, Київ, Україна',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id:
-        'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg',
-      reference: '1111',
-      structured_formatting: {
-        main_text: 'вулиця Ломоносова',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Київ, Україна',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'вулиця Ломоносова' },
-        { offset: 1, value: 'Київ' }
-      ],
-      types: ['route', 'geocode']
-    },
-    {
-      description: 'вулиця Січневого повстання, Київ, Україна',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: '2222',
-      reference: '2222',
-      structured_formatting: {
-        main_text: 'вулиця Січневого повстання',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Київ, Україна',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'вулиця Січневого повстання' },
-        { offset: 1, value: 'Київ' }
-      ],
-      types: ['route', 'geocode']
-    }
-  ];
-
-  const streetPredictionKyivRegion = [
-    {
-      description: 'вулиця Незалежності, Щасливе, Київська область, Україна',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: '1111',
-      reference: '1111',
-      structured_formatting: {
-        main_text: 'вулиця Незалежності',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Щасливе, Київська область, Україна',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'вулиця Незалежності' },
-        { offset: 1, value: 'Щасливе' }
-      ],
-      types: ['route', 'geocode']
-    },
-    {
-      description: 'вулиця Незалежності, Щасливе, Миколаївська область, Україна',
-      matched_substrings: [
-        { length: 1, offset: 1 },
-        { length: 1, offset: 1 }
-      ],
-      place_id: '2222',
-      reference: '2222',
-      structured_formatting: {
-        main_text: 'вулиця Незалежності',
-        main_text_matched_substrings: [{ length: 1, offset: 1 }],
-        secondary_text: 'Щасливе, Миколаївська область, Україна',
-        secondary_text_matched_substrings: [{ length: 1, offset: 1 }]
-      },
-      terms: [
-        { offset: 1, value: 'вулиця Незалежності' },
-        { offset: 1, value: 'Щасливе' }
-      ],
-      types: ['route', 'geocode']
-    }
-  ];
-
-  const streetPlaceResultUk = {
-    address_components: [
-      { long_name: 'вулиця Ломоносова', short_name: 'вулиця Ломоносова', types: ['locality', 'political'] },
-      { long_name: 'Голосіївський район', short_name: 'Голосіївський район', types: ['administrative_area_level_2', 'political'] },
-      { long_name: 'місто Київ', short_name: 'місто Київ', types: ['administrative_area_level_2', 'political'] }
-    ],
-    formatted_address: 'вулиця Ломоносова, Київ, Україна, 02000',
-    name: 'вулиця Ломоносова',
-    place_id:
-      'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
-  };
-
-  const streetPlaceResultEn = {
-    address_components: [
-      { long_name: 'Lomonosova street', short_name: 'Lomonosova street', types: ['locality', 'political'] },
-      { long_name: `Holosiivs'kyi district`, short_name: `Holosiivs'kyi district`, types: ['administrative_area_level_2', 'political'] },
-      { long_name: 'Kyiv', short_name: 'Kyiv', types: ['administrative_area_level_2', 'political'] }
-    ],
-    formatted_address: 'вулиця Ломоносова, Київ, Україна, 02000',
-    name: 'вулиця Ломоносова',
-    place_id:
-      'EixNeWtoYWlsYSBMb21vbm9zb3ZhIFN0LCBLeWl2LCBVa3JhaW5lLCAwMjAwMCIuKiwKFAoSCb9RPBbdyNRAEb8pDeFisJyLEhQKEgkFRVrhTs_UQBH-RgEX0jFJdg'
-  };
-
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
   const fakeLocationsMockUk = jasmine.createSpyObj('Locations', ['getBigRegions', 'getRegions', 'getRegionsKyiv']);
-  fakeLocationsMockUk.getBigRegions.and.returnValue(fakeRegions);
-  fakeLocationsMockUk.getRegions.and.returnValue(fakeDistricts);
-  fakeLocationsMockUk.getRegionsKyiv.and.returnValue(fakeDictrictsKyiv);
+  fakeLocationsMockUk.getBigRegions.and.returnValue(ADDRESSESMOCK.REGIONSMOCK);
+  fakeLocationsMockUk.getRegions.and.returnValue(ADDRESSESMOCK.DISTRICTSMOCK);
+  fakeLocationsMockUk.getRegionsKyiv.and.returnValue(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
@@ -338,12 +96,16 @@ describe('UbsUserProfilePageComponent', () => {
 
   const fakeLocationServiceMock = jasmine.createSpyObj('locationService', [
     'getDistrictAuto',
-    'addHouseNumToAddress',
-    'convFirstLetterToCapital'
+    'convFirstLetterToCapital',
+    'getFullAddressList',
+    'getSearchAddress',
+    'getRequest'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
-  fakeLocationServiceMock.addHouseNumToAddress = () => '';
   fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
+  fakeLocationServiceMock.getFullAddressList = () => of([]);
+  fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
+  fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -505,9 +267,9 @@ describe('UbsUserProfilePageComponent', () => {
     component.onEdit();
     expect(component.isEditing).toEqual(true);
     expect(component.isFetching).toEqual(false);
-    expect(component.regions).toBe(fakeRegions);
-    expect(component.districtsKyiv).toBe(fakeDictrictsKyiv);
-    expect(component.districts).toBe(fakeDistricts);
+    expect(component.regions).toBe(ADDRESSESMOCK.REGIONSMOCK);
+    expect(component.districtsKyiv).toBe(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+    expect(component.districts).toBe(ADDRESSESMOCK.DISTRICTSMOCK);
     expect(spy1).toHaveBeenCalled();
     tick();
     fixture.detectChanges();
@@ -698,7 +460,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method setRegionValue should set value of region', () => {
     const event = { target: { value: '0: Київська область' } };
-    component.regions = fakeRegions;
+    component.regions = ADDRESSESMOCK.REGIONSMOCK;
     const currentFormGroup = component.userForm.controls.address.get('0');
     const region = currentFormGroup.get('region');
     component.setRegionValue(0, event as any);
@@ -709,7 +471,7 @@ describe('UbsUserProfilePageComponent', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const region = currentFormGroup.get('region');
     region.setValue('Київ');
-    component.regions = fakeRegions;
+    component.regions = ADDRESSESMOCK.REGIONSMOCK;
     const event = { target: { value: '0: Київська область' } };
     component.setRegionValue(0, event as any);
     region.updateValueAndValidity({ emitEvent: true });
@@ -782,22 +544,22 @@ describe('UbsUserProfilePageComponent', () => {
     regionEn.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(predictionListKyivRegion, status as any);
+      callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
     });
     const fakesearchAddress = `Київська область, Ше`;
     component.inputCity(fakesearchAddress, regionEn.value, component.languages.uk);
-    expect(component.cityPredictionList).toEqual(predictionListKyivRegion);
+    expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
   });
 
   it('method getPlacePredictions should form prediction list for Kyiv city', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
 
-    const result = [predictionListKyivCity[0]];
+    const result = [ADDRESSESMOCK.KYIVCITYLIST[0]];
     regionEn.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(predictionListKyivCity, status as any);
+      callback(ADDRESSESMOCK.KYIVCITYLIST, status as any);
     });
 
     const fakesearchAddress = `Київ`;
@@ -807,23 +569,23 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method onCitySelected should invoke method setValueOfCity 2 times', () => {
     const spy = spyOn(component, 'setValueOfCity');
-    component.onCitySelected(0, predictionListKyivRegion[0]);
+    component.onCitySelected(0, ADDRESSESMOCK.KYIVREGIONSLIST[0]);
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('method onCitySelected should invoke methods to set value of city', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const spy = spyOn(component, 'setValueOfCity');
-    component.onCitySelected(0, predictionListKyivRegion[0]);
-    expect(spy).toHaveBeenCalledWith(predictionListKyivRegion[0], currentFormGroup, 'city');
-    expect(spy).toHaveBeenCalledWith(predictionListKyivRegion[0], currentFormGroup, 'cityEn');
+    component.onCitySelected(0, ADDRESSESMOCK.KYIVREGIONSLIST[0]);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.KYIVREGIONSLIST[0], currentFormGroup, 'city');
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.KYIVREGIONSLIST[0], currentFormGroup, 'cityEn');
   });
 
   it('method onCitySelected should invoke getDetails', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
-    component.setValueOfCity(predictionListKyivRegion[0], currentFormGroup, 'city');
+    component.setValueOfCity(ADDRESSESMOCK.KYIVREGIONSLIST[0], currentFormGroup, 'city');
     expect(component.placeService.getDetails).toHaveBeenCalled();
   });
 
@@ -831,7 +593,7 @@ describe('UbsUserProfilePageComponent', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     spyOn(component, 'setValueOfCity');
-    component.onCitySelected(0, predictionListKyivRegion[0]);
+    component.onCitySelected(0, ADDRESSESMOCK.KYIVREGIONSLIST[0]);
     city.setValue('Щасливе');
     city.updateValueAndValidity({ emitEvent: true });
     tick();
@@ -852,10 +614,10 @@ describe('UbsUserProfilePageComponent', () => {
 
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
-      callback(cityPlaceResultEn, status as any);
+      callback(ADDRESSESMOCK.PLACECITYEN, status as any);
     });
-    component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'cityEn');
-    expect(cityEn.value).toEqual(cityPlaceResultEn.name);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'cityEn');
+    expect(cityEn.value).toEqual(ADDRESSESMOCK.PLACECITYEN.name);
   });
 
   it('method onCitySelected should get details for selected city in uk', () => {
@@ -865,10 +627,10 @@ describe('UbsUserProfilePageComponent', () => {
 
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
-      callback(placeResultKyivUk, status as any);
+      callback(ADDRESSESMOCK.PLACEKYIVUK, status as any);
     });
-    component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'city');
-    expect(city.value).toEqual(placeResultKyivUk.name);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'city');
+    expect(city.value).toEqual(ADDRESSESMOCK.PLACEKYIVUK.name);
     expect(isKyiv.value).toEqual(true);
   });
 
@@ -879,10 +641,10 @@ describe('UbsUserProfilePageComponent', () => {
 
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
-      callback(cityPlaceResultUk, status as any);
+      callback(ADDRESSESMOCK.PLACECITYUK, status as any);
     });
-    component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'city');
-    expect(city.value).toEqual(cityPlaceResultUk.name);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'city');
+    expect(city.value).toEqual(ADDRESSESMOCK.PLACECITYUK.name);
     expect(isKyiv.value).toEqual(false);
   });
 
@@ -932,11 +694,11 @@ describe('UbsUserProfilePageComponent', () => {
     city.setValue('Київ');
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(streetPredictionKyivCity, status as any);
+      callback(ADDRESSESMOCK.STREETSKYIVCITYLIST, status as any);
     });
     const fakesearchAddress = `Київ, Сі`;
     component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.uk);
-    expect(component.streetPredictionList).toEqual(streetPredictionKyivCity);
+    expect(component.streetPredictionList).toEqual(ADDRESSESMOCK.STREETSKYIVCITYLIST);
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
@@ -952,10 +714,10 @@ describe('UbsUserProfilePageComponent', () => {
     cityEn.setValue(`Kyiv Oblast`);
     region.setValue(`Щасливе`);
     regionEn.setValue(`Shchaslyve`);
-    const result = [streetPredictionKyivRegion[0]];
+    const result = [ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]];
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(streetPredictionKyivRegion, status as any);
+      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
     });
 
     const fakesearchAddress = `Щасливе, Не`;
@@ -965,23 +727,23 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method onStreetSelected should invoke method setValueOfStreet 2 times', () => {
     const spy = spyOn(component, 'setValueOfStreet');
-    component.onStreetSelected(0, streetPredictionKyivRegion[0]);
+    component.onStreetSelected(0, ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]);
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
   it('method onStreetSelected should invoke methods to set value of street', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const spy = spyOn(component, 'setValueOfStreet');
-    component.onStreetSelected(0, streetPredictionKyivRegion[0]);
-    expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], currentFormGroup, 'street');
-    expect(spy).toHaveBeenCalledWith(streetPredictionKyivRegion[0], currentFormGroup, 'streetEn');
+    component.onStreetSelected(0, ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], currentFormGroup, 'street');
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], currentFormGroup, 'streetEn');
   });
 
   it('method onStreetSelected should invoke getDetails', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
-    component.setValueOfStreet(streetPredictionKyivRegion[0], currentFormGroup, 'street');
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], currentFormGroup, 'street');
     expect(component.placeService.getDetails).toHaveBeenCalled();
   });
 
@@ -994,11 +756,11 @@ describe('UbsUserProfilePageComponent', () => {
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
-      callback(streetPlaceResultEn, status as any);
+      callback(ADDRESSESMOCK.PLACESTREETEN, status as any);
     });
-    component.setValueOfStreet(streetPredictionKyivCity[0], currentFormGroup, 'streetEn');
-    expect(streetEn.value).toEqual(streetPlaceResultEn.name);
-    expect(spy).toHaveBeenCalledWith(streetPlaceResultEn, districtEn, component.languages.en);
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], currentFormGroup, 'streetEn');
+    expect(streetEn.value).toEqual(ADDRESSESMOCK.PLACESTREETEN.name);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETEN, districtEn, component.languages.en);
   });
 
   it('method onStreetSelected should get details for selected street in uk', () => {
@@ -1011,18 +773,18 @@ describe('UbsUserProfilePageComponent', () => {
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
-      callback(streetPlaceResultUk, status as any);
+      callback(ADDRESSESMOCK.PLACESTREETUK, status as any);
     });
-    component.setValueOfStreet(streetPredictionKyivCity[0], currentFormGroup, 'street');
-    expect(street.value).toEqual(streetPlaceResultUk.name);
-    expect(spy).toHaveBeenCalledWith(streetPlaceResultUk, district, component.languages.uk);
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], currentFormGroup, 'street');
+    expect(street.value).toEqual(ADDRESSESMOCK.PLACESTREETUK.name);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETUK, district, component.languages.uk);
   });
 
   it('method setDistrictAuto should set district value in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
-    const result = streetPlaceResultEn.address_components[1].long_name;
-    component.setDistrictAuto(streetPlaceResultUk, district, component.languages.uk);
+    const result = ADDRESSESMOCK.PLACESTREETEN.address_components[1].long_name;
+    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETUK, district, component.languages.uk);
     expect(district.value).toEqual(result);
   });
 
@@ -1030,7 +792,7 @@ describe('UbsUserProfilePageComponent', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const districtEn = currentFormGroup.get('districtEn');
     const result = `Holosiivs'kyi district`;
-    component.setDistrictAuto(streetPlaceResultEn, districtEn, component.languages.en);
+    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETEN, districtEn, component.languages.en);
     expect(districtEn.value).toEqual(result);
   });
 
@@ -1058,14 +820,14 @@ describe('UbsUserProfilePageComponent', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
     component.setKyivDistrict('1', currentFormGroup);
-    expect(district.value).toEqual(fakeDictrictsKyiv[1].name);
+    expect(district.value).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK[1].name);
   });
 
   it('method setDistrict should set district value in Kyiv region', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const district = currentFormGroup.get('district');
     component.setDistrict('1', currentFormGroup);
-    expect(district.value).toEqual(fakeDistricts[1].name);
+    expect(district.value).toEqual(ADDRESSESMOCK.DISTRICTSMOCK[1].name);
   });
 
   it('should return ua value by getLangValue', () => {
