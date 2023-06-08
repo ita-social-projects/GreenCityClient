@@ -19,6 +19,7 @@
   </div>
   <form class="showing-block" *ngIf="showAllEmployees" [formGroup]="searchForm" #form="ngForm">
     <div class="d-flex">
+      <!-- Positions -->
       <div class="col-item">
         <div class="input-wrapper">
           <input
@@ -50,33 +51,7 @@
           </div>
         </div>
       </div>
-      <div class="col-item">
-        <div class="input-wrapper">
-          <input
-            type="text"
-            class="contacts"
-            placeholder="{{ 'employees.contacts' | translate }}"
-            matInput
-            #autocompleteTriggerContacts="matAutocompleteTrigger"
-            formControlName="contacts"
-            [matAutocomplete]="autoContacts"
-          />
-          <mat-autocomplete #autoContacts="matAutocomplete" (optionSelected)="contactSelected($event)">
-            <div class="option-wrapper">
-              <mat-option *ngFor="let contact of employeesContacts" [value]="contact">
-                {{ contact | translate }}
-              </mat-option>
-            </div>
-          </mat-autocomplete>
-          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerContacts)" />
-        </div>
-        <div class="filtrs-list">
-          <div class="filter-item" *ngFor="let contact of selectedContact">
-            <div class="remove-item-btn" (click)="removeItem(contact, 'contact')"></div>
-            <span class="filter-content"> {{ contact }}</span>
-          </div>
-        </div>
-      </div>
+      <!-- Region -->
       <div class="col-item">
         <div class="input-wrapper">
           <input
@@ -107,6 +82,7 @@
           </div>
         </div>
       </div>
+      <!-- City -->
       <div class="col-item">
         <div class="input-wrapper">
           <input
@@ -141,6 +117,7 @@
           </div>
         </div>
       </div>
+      <!-- Courier -->
       <div class="col-item">
         <div class="input-wrapper">
           <input
@@ -173,6 +150,34 @@
           <div class="filter-item" *ngFor="let courier of selectedCouriers">
             <div class="remove-item-btn" (click)="removeItem(courier, 'courier')"></div>
             <span class="filter-content">{{ courier.name }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- State -->
+      <div class="col-item">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            class="employees-state"
+            placeholder="{{ 'employees.states.active' | translate }}"
+            matInput
+            #autocompleteTriggerState="matAutocompleteTrigger"
+            formControlName="state"
+            [matAutocomplete]="autoState"
+          />
+          <mat-autocomplete #autoState="matAutocomplete" (optionSelected)="selectedStates($event)">
+            <div class="option-wrapper">
+              <mat-option *ngFor="let state of employeeStates" [value]="getLangValue(state.nameUa, state.nameEn)">
+                {{ getLangValue(state.nameUa, state.nameEn) }}
+              </mat-option>
+            </div>
+          </mat-autocomplete>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerState)" />
+        </div>
+        <div class="filtrs-list">
+          <div class="filter-item" *ngFor="let state of selectedState">
+            <div class="remove-item-btn" (click)="removeItem(state, 'state')"></div>
+            <span class="filter-content"> {{ getLangValue(state.nameUa, state.nameEn) }}</span>
           </div>
         </div>
       </div>

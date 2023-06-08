@@ -483,6 +483,7 @@
     "phone-number": "Phone number*",
     "position": "Position",
     "contacts": "Contacts",
+    "state": "State",
     "region": "Region",
     "city": "City",
     "courier": "Courier",
@@ -493,6 +494,11 @@
     "warning-title": "Are you sure you want to delete this employee?",
     "settings": "Set permissions",
     "edit": "Edit",
+    "states": {
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
     "permissions": {
       "clients": {
         "title": "Clients",

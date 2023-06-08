@@ -11,7 +11,7 @@ import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { Couriers, CreateCard, Locations } from '../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, City } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
@@ -19,7 +19,15 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { MatChipInputEvent } from '@angular/material/chips';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
-import { selectOptions, filterOptions, filtersPlaceholderOptions, authoritiesChangeEmployee } from './ubs-admin-employee-table/employee-models.enum';
+import {
+  selectOptions,
+  filterOptions,
+  filtersPlaceholderOptions,
+  authoritiesChangeEmployee,
+  filtersStateEmployeeOptions,
+  EmployeeStatus
+} from './ubs-admin-employee-table/employee-models.enum';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -34,6 +42,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   regionEnglishName: string[];
   regionNameUk: string;
   regionId: number;
+  selectRegionId: number[] = [];
   showAllEmployees = true;
   positionsPlaceholder: string;
   cityPlaceholder: string;
@@ -53,7 +62,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   cards = [];
   cardsUk = [];
   cardsEn = [];
-  filterData = {};
+  filterData = { position: [], region: [], location: [], courier: [], status: 'ACTIVE' };
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
@@ -67,10 +76,12 @@ export class UbsAdminEmployeeComponent implements OnInit {
   selectedPositions = [];
   selectedRegions = [];
   selectedContact = [];
+  selectedState = [];
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   employeePhoneNumbers = [];
   employeeEmails = [];
   employeesContacts = [];
+  employeeStates = filtersStateEmployeeOptions;
   userEmail: string;
   userRoles: string[];
   userAuthorities = [];
@@ -153,7 +164,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   private initForm(): void {
     this.searchForm = this.fb.group({
       position: ['', [Validators.required]],
-      contacts: ['', [Validators.required]],
+      state: ['', [Validators.required]],
       region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]]
@@ -173,8 +184,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
   get position() {
     return this.searchForm.get('position');
   }
-  get contacts() {
-    return this.searchForm.get('contacts');
+  get state() {
+    return this.searchForm.get('state');
   }
   get region() {
     return this.searchForm.get('region');
@@ -263,7 +274,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     });
   }
 
-  private getLangValue(uaValue: string, enValue: string): string {
+  getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
@@ -293,7 +304,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
       !!this.selectedContact.length ||
       !!this.selectedRegions.length ||
       !!this.selectedCities.length ||
-      !!this.selectedCouriers.length
+      !!this.selectedCouriers.length ||
+      !!this.selectedState.length
     );
   }
 
@@ -404,7 +416,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     };
   }
 
-  transformCityToSelectedCity(city: any) {
+  transformCityToSelectedCity(city: City) {
     const selectedCityName = this.getSelectedCityName(city, 'ua');
     const selectedCityEnglishName = this.getSelectedCityName(city, 'en');
     return {
@@ -415,7 +427,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     };
   }
 
-  transformCourierToSelectedCourier(courier: any) {
+  transformCourierToSelectedCourier(courier: Couriers) {
     return {
       name: this.getLangValue(courier.nameUk, courier.nameEn),
       id: courier.courierId,
@@ -513,11 +525,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
     );
     const selectedCityId = selectedCity.locationId;
     const selectedCityName = selectedCity.locationTranslationDtoList
-      .filter((it) => it.languageCode === 'ua')
+      .filter((it) => it.languageCode === Language.UA)
       .map((it) => it.locationName)
       .join();
     const selectedCityEnglishName = selectedCity.locationTranslationDtoList
-      .filter((it) => it.languageCode === 'en')
+      .filter((it) => it.languageCode === Language.EN)
       .map((it) => it.locationName)
       .join();
     const tempItem = {
@@ -571,32 +583,49 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return this.selectedRegions.some((it) => it.regionTranslationDtos.some((ob) => ob.regionName === name));
   }
 
-  contactSelected(event): void {
-    this.selectedContact = this.employeesContacts.filter((contact) => contact === event.option.value.toString());
-    Object.assign(this.filterData, { contact: this.selectedContact });
+  selectedStates(event) {
+    this.selectedState = [];
+    const statusValue = this.employeeStates.find(
+      (state) => this.getLangValue(state.nameUa, state.nameEn) === event.option.value.toString()
+    );
+    let selectedStatus = '';
+    switch (statusValue.nameEn) {
+      case 'Active':
+        selectedStatus = EmployeeStatus.active;
+        break;
+      case 'Inactive':
+        selectedStatus = EmployeeStatus.inactive;
+        break;
+      default:
+        selectedStatus = EmployeeStatus.all;
+    }
+    Object.assign(this.filterData, { status: selectedStatus });
+    this.selectedState.push(statusValue);
   }
 
   regionSelectedSub(value) {
     if (value === selectOptions.all) {
       this.toggleSelectAllRegion();
-      Object.assign(this.filterData, { region: '' });
+      const regionsId = this.selectedRegions.map((region) => region.regionId);
+      Object.assign(this.filterData, { region: regionsId });
     } else if (value == null) {
       this.selectedRegions.length = 0;
-      Object.assign(this.filterData, { region: '' });
+      Object.assign(this.filterData, { region: [] });
     } else {
       const newValue = value;
       const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === newValue));
       this.regionEnglishName = selectedValue
-        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === 'en').map((i) => i.regionName))
+        .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
         .flat(2);
       this.regionId = selectedValue.find((it) => it.regionId).regionId;
-
       if (this.selectedRegions.some((it) => it.regionId === this.regionId)) {
         this.selectedRegions = this.selectedRegions.filter((item) => item.regionId !== this.regionId);
+        this.selectRegionId = this.selectedRegions.filter((item) => item.regionId !== this.regionId).map((item) => item.regionId);
       } else {
         this.selectedRegions.push(selectedValue.find((it) => it.regionId === this.regionId));
+        this.selectRegionId = this.selectedRegions.map((item) => item.regionId);
       }
-      Object.assign(this.filterData, { region: this.regionId });
+      Object.assign(this.filterData, { region: this.selectRegionId });
     }
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
   }
@@ -623,12 +652,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
   }
 
-  getFilterData(tags: Array<string>): void {
-    if (this.tagList.length) {
-      this.selectedTagsList = tags;
-    }
-  }
-
   resetAllFilters(): void {
     this.searchForm.reset();
 
@@ -644,7 +667,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.selectedRegions.length = 0;
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
 
-    this.selectedContact.length = 0;
+    this.selectedState.length = 0;
   }
 
   removeItem(filterName: any, selectorType: string): void {
@@ -653,9 +676,9 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.selectedPositions = this.selectedPositions.filter((item) => item.id !== filterName.id);
         this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
         break;
-      case filterOptions.contact:
-        this.selectedContact = this.selectedContact.filter((item) => item !== filterName);
-        this.contacts.setValue('');
+      case filterOptions.state:
+        this.selectedState = [];
+        this.state.setValue('');
         break;
       case filterOptions.city:
         this.selectedCities = this.selectedCities.filter((item) => item.id !== filterName.id);
