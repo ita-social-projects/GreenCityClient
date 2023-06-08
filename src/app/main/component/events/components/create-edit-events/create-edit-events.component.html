@@ -64,7 +64,7 @@
             </app-event-date-time-picker>
             <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
           </div>
-          <p *ngIf="dates.length && !isAddressFill" class="tag-error">You should fill at least one address or link</p>
+          <p *ngIf="dates.length && !isAddressFill" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
         </div>
       </div>
 
