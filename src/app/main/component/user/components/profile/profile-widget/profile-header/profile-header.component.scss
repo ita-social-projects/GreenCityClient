@@ -8,16 +8,6 @@ p {
 .profile {
   height: 366px;
   background-color: var(--secondary-light-grey);
-  position: relative;
-
-  .edit-icon {
-    width: 16px;
-    height: 16px;
-    background-image: url('~/assets/img/profile/icons/edit.svg');
-    position: absolute;
-    top: 20px;
-    right: 16px;
-  }
 
   .column {
     display: grid;
@@ -25,11 +15,32 @@ p {
     grid-template-rows: 104px 24px 24px 36px 32px 50px 90px;
     background: var(--primary-white);
 
-    .user-image {
-      width: 76px;
-      height: 76px;
-      margin-top: 20px;
-      justify-self: center;
+    .container-user-image {
+      max-width: 88px;
+      height: 88px;
+      margin: 20px auto 0 auto;
+      position: relative;
+
+      .user-image {
+        width: 76px;
+        height: 76px;
+        justify-self: center;
+        overflow: hidden;
+      }
+
+      .edit-icon {
+        width: 24px;
+        height: 24px;
+        background: white;
+        border: 1px solid var(--secondary-grey);
+        border-radius: 50%;
+        background-image: url('~/assets/img/profile/icons/edit.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        bottom: 4px;
+        right: 2px;
+      }
     }
 
     .name {
@@ -91,29 +102,9 @@ p {
         margin-right: 10px;
       }
 
-      div {
+      .social-img {
         width: 24px;
         height: 24px;
-      }
-
-      .facebook {
-        background-image: url('~/assets/img/icon/facebook-icon.svg');
-      }
-
-      .instagram {
-        background-image: url('~/assets/img/icon/instagram-icon.svg');
-      }
-
-      .linked {
-        background-image: url('~/assets/img/icon/linked-icon.svg');
-      }
-
-      .twitter {
-        background-image: url('~/assets/img/icon/twitter-icon.svg');
-      }
-
-      .green-city {
-        background-image: url('~/assets/img/icon/green-city-icon.svg');
       }
     }
 

@@ -100,7 +100,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  public getSocialImage(socialNetwork) {
+  public getSocialImage(socialNetwork): string {
     const value = socialNetwork.url;
     let imgPath = this.icons.defaultIcon;
     Object.keys(this.icons).forEach((icon) => {

@@ -1,15 +1,18 @@
 <div class="profile" *ngIf="userInfo">
-  <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']">
-    <div class="edit-icon"></div>
-  </a>
   <div class="column">
-    <app-user-profile-image
-      class="user-image"
-      [imgPath]="userInfo.profilePicturePath"
-      [firstName]="userInfo.name"
-      [additionalImgClass]="'center'"
-    >
-    </app-user-profile-image>
+    <div class="container-user-image">
+      <app-user-profile-image
+        class="user-image"
+        [imgPath]="userInfo.profilePicturePath"
+        [firstName]="userInfo.name"
+        [additionalImgClass]="'center'"
+      >
+      </app-user-profile-image>
+      <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']">
+        <div class="edit-icon"></div>
+      </a>
+    </div>
+
     <p class="name">
       {{ userInfo.name }}
     </p>
@@ -25,7 +28,7 @@
     <div *ngIf="checkUserCredo" class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
     <div class="social" *ngIf="userSocialNetworks">
       <a *ngFor="let item of userSocialNetworks" [href]="item.link">
-        <div [class]="item.name"></div>
+        <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" />
       </a>
     </div>
     <div class="profile-progress">

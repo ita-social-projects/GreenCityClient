@@ -6,6 +6,7 @@ import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ActivatedRoute } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { take } from 'rxjs/operators';
+import { ProfileService } from '../../profile-service/profile.service';
 
 @Component({
   selector: 'app-profile-header',
@@ -22,6 +23,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
   userSocialNetworks: Array<any>;
   public userId: number;
+  public icons: Record<string, string> = {};
   private userId$: Subscription;
 
   @Input() public progress: ProfileStatistics;
@@ -32,13 +34,15 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   constructor(
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit() {
     this.userId$ = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
     this.buildSocialNetworksChart();
     this.showEditButton = this.route.snapshot.params.userName === this.userInfo.name;
+    this.icons = this.profileService.icons;
   }
 
   get checkUserCredo(): number {
@@ -46,6 +50,17 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
       return this.userInfo.userCredo.length;
     }
     return 0;
+  }
+
+  public getSocialImage(socialNetwork: string): string {
+    const value = socialNetwork;
+    let imgPath = this.icons.defaultIcon;
+    Object.keys(this.icons).forEach((icon) => {
+      if (value.toLowerCase().includes(icon)) {
+        imgPath = this.icons[icon];
+      }
+    });
+    return imgPath;
   }
 
   private findNetwork(networkLink) {
