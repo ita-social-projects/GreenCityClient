@@ -56,6 +56,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   public filterValue = '';
   public modelChanged: Subject<string> = new Subject<string>();
   public pageSize = 10;
+  public isFiltersOpened = false;
 
   private tableData: any[];
   private sortType: string;
@@ -130,11 +131,8 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     this.getTable();
   }
 
-  public togglePopUp() {
-    if (this.display === 'block') {
-      this.submitFilterForm();
-    }
-    this.display = this.display === 'none' ? 'block' : 'none';
+  togglePopUp(): void {
+    this.isFiltersOpened = !this.isFiltersOpened;
   }
 
   private initFilterForm() {

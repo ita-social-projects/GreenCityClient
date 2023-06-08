@@ -21,6 +21,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  white-space: nowrap;
   height: 44px;
   line-height: 28px;
   font-size: 18px;
@@ -88,6 +89,7 @@
 
 .ubs-link-global-button {
   color: var(--ubs-dark-purple);
+  white-space: nowrap;
   font-size: 16px;
   font-weight: 400;
 }

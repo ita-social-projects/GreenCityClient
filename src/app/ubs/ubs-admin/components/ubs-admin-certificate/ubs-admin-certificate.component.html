@@ -5,13 +5,20 @@
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
-  <div class="btn-group">
-    <button type="button" class="btn btn-default" class="view-table-btn" [disabled]="isLoading" (click)="openAddCertificate()">
-      <img src="assets/img/edit.svg" alt="edit" />
-      {{ 'ubs-tables.add-certificate' | translate }}
+  <div class="btns-group">
+    <button
+      type="button"
+      class="btn btn-default"
+      class="btn ubs-secondary-global-button s-btn add-btn"
+      [disabled]="isLoading"
+      (click)="openAddCertificate()"
+    >
+      <mat-icon>add</mat-icon>
+      <span>{{ 'ubs-tables.add-certificate' | translate }}</span>
     </button>
-    <button type="button" class="btn btn-default" class="export-excel-btn" (click)="openExportExcel()">
-      {{ 'ubs-tables.export-to-excel' | translate }}
+    <button type="button" class="btn btn-default" class="btn ubs-secondary-global-button s-btn btn-excel" (click)="openExportExcel()">
+      <mat-icon>open_in_new</mat-icon>
+      <span>{{ 'ubs-tables.export-to-excel' | translate }}</span>
     </button>
   </div>
 </div>

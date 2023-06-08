@@ -137,67 +137,6 @@ input {
   color: var(--ubs-secondary-grey);
 }
 
-.filter-button .mat-icon {
-  font-size: 12px;
-}
-
-.view-table-btn .mat-icon {
-  padding-top: 5px;
-  font-size: 15px;
-}
-
-.export-excel-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 190px;
-  height: 36px;
-  background-color: var(--primary-white) !important;
-  border: 1px solid var(--ubs-quaternary-dark-grey) !important;
-  color: var(--ubs-quaternary-dark-grey);
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 14px;
-  font-family: var(--primary-font);
-  transition: 0.2s linear;
-  margin-right: 20px;
-
-  &:hover {
-    color: var(--ubs-secondary-grey);
-    border: 1px solid var(--ubs-secondary-grey) !important;
-  }
-}
-
-.view-table-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 154px;
-  height: 36px;
-  background-color: var(--primary-white) !important;
-  border: 1px solid var(--ubs-quaternary-dark-grey) !important;
-  color: var(--ubs-quaternary-dark-grey);
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 14px;
-  font-family: var(--primary-font);
-  margin-right: 20px;
-  margin-left: auto;
-  transition: 0.2s linear;
-  padding: 0 10px 0 6px;
-
-  &:hover {
-    color: var(--ubs-secondary-grey);
-    border: 1px solid var(--ubs-secondary-grey) !important;
-  }
-
-  img {
-    width: 13px;
-    height: 13px;
-    margin-right: 9px;
-  }
-}
-
 .research {
   display: flex;
   justify-content: space-between;
@@ -295,18 +234,19 @@ input {
   z-index: 10;
 }
 
-.btn-group {
+.btns-group {
   display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-bottom: 0;
+  gap: 16px;
 }
 
-button:disabled,
-button[disabled] {
-  border: 1px solid var(--ubs-secondary-grey);
-  background-color: lightgray;
-  color: gray;
+.ubs-secondary-global-button .mat-icon {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.btn-excel .mat-icon {
+  display: none;
 }
 
 .column_header {
@@ -320,4 +260,29 @@ button[disabled] {
 ::ng-deep .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
 ::ng-deep .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
   background-color: var(--ubs-button-light-green) !important;
+}
+
+@media (max-width: 954px) {
+  .research {
+    gap: 16px;
+
+    .search {
+      width: 100%;
+    }
+  }
+
+  .btn-excel,
+  .add-btn {
+    padding: 0;
+    width: 36px;
+
+    .mat-icon {
+      display: flex;
+      justify-content: center;
+    }
+
+    span {
+      display: none;
+    }
+  }
 }

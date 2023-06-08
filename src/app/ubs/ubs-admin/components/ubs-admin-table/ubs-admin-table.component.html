@@ -5,13 +5,13 @@
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
-  <div class="btn-group">
+  <div class="btns-box">
     <div class="filters-dropdown-wrapper">
-      <button type="button" class="btn btn-default filter-table-btn" (click)="toggleFilters()">
+      <button type="button" class="btn ubs-secondary-global-button s-btn filt-btn" (click)="toggleFilters()">
         <mat-icon>filter_list</mat-icon>
-        {{ 'ubs-tables.filters' | translate }}
+        <span>{{ 'ubs-tables.filters' | translate }}</span>
       </button>
-      <div [ngClass]="{ show: isFiltersOpened }" class="dropdown-menu dropdown-menu-right">
+      <div [ngClass]="{ show: isFiltersOpened }" class="dropdown-menu">
         <div class="sticky-top dropdown-top-panel">
           <p class="font-weight-bold">{{ 'ubs-tables.filter' | translate }}</p>
           <button type="button" class="reset-settings" (click)="toggleFilters()">
@@ -101,10 +101,10 @@
           </ng-container>
         </div>
         <div class="sticky-bottom clear-apply-group">
-          <button [disabled]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
+          <button [disabled]="noFiltersApplied" type="button" class="btn ubs-primary-global-button s-btn" (click)="applyFilters()">
             {{ 'ubs-tables.apply-filters' | translate }}
           </button>
-          <button type="button" class="filter-btn clear-filt" (click)="clearFilters()">
+          <button type="button" class="btn ubs-secondary-global-button s-btn" (click)="clearFilters()">
             {{ 'ubs-tables.clear-filters' | translate }}
           </button>
         </div>
@@ -112,9 +112,9 @@
     </div>
     <div class="button-group">
       <div class="table-view-dropdown-wrapper">
-        <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
+        <button type="button" class="btn ubs-secondary-global-button s-btn filt-btn" (click)="toggleTableView()">
           <img src="assets/img/edit.svg" alt="edit" />
-          {{ 'ubs-tables.table-view' | translate }}
+          <span>{{ 'ubs-tables.table-view' | translate }}</span>
         </button>
         <ul class="dropdown-menu" [style.display]="display">
           <div class="sticky-top dropdown-top-panel">
@@ -172,8 +172,9 @@
           </div>
         </ul>
       </div>
-      <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
-        {{ 'ubs-tables.export-to-excel' | translate }}
+      <button type="button" class="btn ubs-secondary-global-button s-btn btn-excel" (click)="openExportExcel()">
+        <mat-icon>open_in_new</mat-icon>
+        <span>{{ 'ubs-tables.export-to-excel' | translate }}</span>
       </button>
     </div>
   </div>
