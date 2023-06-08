@@ -334,7 +334,8 @@
     },
     "select-data": "Select data for the export",
     "current": "Save current view",
-    "all": "Save all table (It will take some time)"
+    "all": "Save all table (It will take some time)",
+    "selected": "Save selected data"
   },
   "order-payment": {
     "title": "Order payment",

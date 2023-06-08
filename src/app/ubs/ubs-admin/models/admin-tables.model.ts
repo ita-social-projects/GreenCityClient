@@ -1,6 +1,7 @@
 export const tableViewParameters = {
   wholeTable: 'wholeTable',
-  currentFilter: 'currentFilter'
+  currentFilter: 'currentFilter',
+  selectedOrders: 'selectedOrders'
 };
 
 export const nameOfTable = {
