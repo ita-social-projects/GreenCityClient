@@ -35,14 +35,24 @@ $inputwidth: 260px;
   }
 }
 
-.ubs_profile-container {
+.ubs-profile-container {
   font-family: var(--primary-font);
   font-size: 0.9em;
-  max-width: 1200px;
   display: flex;
-  justify-content: center;
-  margin-bottom: 100px;
-  margin-top: 19px;
+  padding-left: 36px;
+  margin-bottom: 64px;
+  min-width: 880px;
+
+  .profile-box {
+    display: flex;
+    width: 880px;
+
+    .column-box {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
 
   .ubs_profile-header {
     width: 100%;
@@ -54,7 +64,7 @@ $inputwidth: 260px;
       justify-content: space-between;
 
       .header-buttons {
-        margin: 0 0 30px 30px;
+        margin: 0 0 30px 0;
       }
 
       .open {
@@ -189,7 +199,6 @@ $inputwidth: 260px;
     font-weight: bold;
     color: $btnblackcol;
     margin-bottom: 30px;
-    margin-left: 30px;
     width: 250px;
   }
 
@@ -360,38 +369,6 @@ $inputwidth: 260px;
   margin-left: 180px;
 }
 
-@media (max-width: 1439px) {
-  .ubs_profile-container {
-    max-width: 800px;
-  }
-
-  .delete-address {
-    margin-left: 5px;
-  }
-}
-
-@media (max-width: 992px) {
-  .ubs_profile-footer {
-    .footer-btns {
-      padding-right: 26px;
-    }
-  }
-
-  .delete-address {
-    margin-left: 30px;
-  }
-}
-
-@media (max-width: 600px) {
-  .ubs_profile-header {
-    margin-left: 20px;
-  }
-
-  .ubs_profile-container .input-group {
-    padding: 0;
-  }
-}
-
 .checkbox-wrapper {
   width: 220px;
   display: flex;
@@ -434,4 +411,41 @@ $inputwidth: 260px;
   font-size: 12px;
   line-height: 16px;
   color: #444e55;
+}
+
+@media (max-width: 1439px) {
+  .delete-address {
+    margin-left: 5px;
+  }
+
+  .ubs-profile-container {
+    padding: 0;
+    min-width: auto;
+
+    .profile-box {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .ubs_profile-footer {
+    .footer-btns {
+      padding-right: 26px;
+    }
+  }
+
+  .delete-address {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ubs_profile-header {
+    margin-left: 20px;
+  }
+
+  .ubs-profile-container .input-group {
+    padding: 0;
+  }
 }

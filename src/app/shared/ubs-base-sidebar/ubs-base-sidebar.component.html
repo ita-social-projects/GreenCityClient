@@ -45,9 +45,10 @@
     </mat-drawer>
 
     <mat-drawer-content [ngClass]="isAdmin ? 'admin-main-content' : 'main-content'" role="main">
-      <div [ngClass]="{ 'margin-for-table': !isAdmin, 'sidebar-container': true }" #sidebarContainer>
+      <div class="content-box" [ngClass]="{ 'margin-for-table': !isAdmin, 'sidebar-container': true }" #sidebarContainer>
         <ng-content></ng-content>
       </div>
+      <app-ubs-footer *ngIf="!isAdmin" class="footer"></app-ubs-footer>
     </mat-drawer-content>
   </mat-drawer-container>
 

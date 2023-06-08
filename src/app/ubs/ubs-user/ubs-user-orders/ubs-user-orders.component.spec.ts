@@ -130,7 +130,7 @@ describe('UbsUserOrdersComponent', () => {
 
   it('should navigate user to /ubs/order after clicking new order button ', async () => {
     await buildComponent();
-    const newOrderButton = fixture.debugElement.query(By.css('.btn_new_order')).nativeElement;
+    const newOrderButton = fixture.debugElement.query(By.css('.ubs-primary-global-button')).nativeElement;
     newOrderButton.click();
     expect(RouterMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
   });
