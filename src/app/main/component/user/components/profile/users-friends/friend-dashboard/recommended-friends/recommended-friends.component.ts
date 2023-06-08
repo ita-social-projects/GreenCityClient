@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -11,13 +11,14 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './recommended-friends.component.html',
   styleUrls: ['./recommended-friends.component.scss']
 })
-export class RecommendedFriendsComponent implements OnInit, OnDestroy {
+export class RecommendedFriendsComponent implements OnInit {
   public recommendedFriends: FriendModel[] = [];
   public userId: number;
   private destroy$ = new Subject();
   public scroll = false;
   public currentPage = 0;
   public totalPages: number;
+  public amountOfFriends: number;
   public isFetching = false;
   public emptySearchList = false;
   public sizePage = 10;
@@ -46,6 +47,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
           this.recommendedFriends = data.page;
+          this.amountOfFriends = data.totalElements;
           this.isFetching = false;
           this.searchMode = false;
         },
@@ -57,26 +59,29 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       );
   }
 
-  public deleteFriendsFromList(id, array) {
+  private deleteFriendsFromList(id, array) {
     const indexAddedFriend = array.findIndex((item) => item.id === id);
     array.splice(indexAddedFriend, 1);
   }
 
   public getPossibleFriends(userId: number, currentPage: number) {
     this.isFetching = true;
-    this.userFriendsService.getPossibleFriends(userId, currentPage).subscribe(
-      (data: FriendArrayModel) => {
-        this.totalPages = data.totalPages;
-        this.recommendedFriends = this.recommendedFriends.concat(data.page);
-        this.emptySearchList = false;
-        this.isFetching = false;
-        this.scroll = false;
-      },
-      (error) => {
-        this.matSnackBar.openSnackBar('snack-bar.error.default');
-        this.isFetching = false;
-      }
-    );
+    this.userFriendsService
+      .getPossibleFriends(userId, currentPage)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data: FriendArrayModel) => {
+          this.totalPages = data.totalPages;
+          this.recommendedFriends = this.recommendedFriends.concat(data.page);
+          this.emptySearchList = false;
+          this.isFetching = false;
+          this.scroll = false;
+        },
+        (error) => {
+          this.matSnackBar.openSnackBar('snack-bar.error.default');
+          this.isFetching = false;
+        }
+      );
   }
 
   public onScroll(): void {
@@ -99,12 +104,7 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public initUser(): void {
+  private initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Subject } from 'rxjs';
@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './friend-requests.component.html',
   styleUrls: ['./friend-requests.component.scss']
 })
-export class FriendRequestsComponent implements OnInit, OnDestroy {
+export class FriendRequestsComponent implements OnInit {
   public requests: FriendModel[] = null;
   public userId: number;
   private destroy$ = new Subject();
@@ -25,7 +25,7 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
     this.getRequests();
   }
 
-  public deleteFriendsFromList(id, array) {
+  private deleteFriendsFromList(id, array) {
     const indexSuggestion = array.findIndex((item) => item.id === id);
     array.splice(indexSuggestion, 1);
   }
@@ -48,11 +48,11 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public initUser(): void {
+  private initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 
-  public getRequests() {
+  private getRequests() {
     this.userFriendsService
       .getRequests(this.userId)
       .pipe(takeUntil(this.destroy$))
@@ -70,10 +70,5 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
       .subscribe((data: FriendArrayModel) => {
         this.requests = this.requests.concat(data.page);
       });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }

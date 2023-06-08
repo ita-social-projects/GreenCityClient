@@ -9,12 +9,21 @@
 
 .cards-list {
   display: flex;
-  flex-wrap: wrap;
-  max-width: 1170px;
+  flex-direction: column;
+  width: 100%;
+  gap: 18px;
 
-  .user-card {
+  .cards-box {
     display: flex;
-    width: 50%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    row-gap: 14px;
+
+    .user-card {
+      display: flex;
+      width: 50%;
+    }
   }
 }
 
@@ -46,7 +55,7 @@
     flex-direction: column;
     max-width: 100%;
 
-    .user-card {
+    .cards-box .user-card {
       justify-content: center;
       width: 100%;
     }

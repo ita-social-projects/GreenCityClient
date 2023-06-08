@@ -5,14 +5,24 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-}
+  padding: 0;
 
-.request-list {
-  display: flex;
-
-  .user-card {
+  .requests-box {
     display: flex;
-    width: 50%;
+    width: 100%;
+
+    .request-list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+      row-gap: 14px;
+
+      .user-card {
+        display: flex;
+        width: 50%;
+      }
+    }
   }
 }
 
@@ -34,6 +44,7 @@
 @media (max-width: 1219px) {
   .request-list {
     flex-direction: column;
+    align-items: center;
     width: 100%;
 
     .user-card {

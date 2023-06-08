@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -11,7 +11,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   templateUrl: './all-friends.component.html',
   styleUrls: ['./all-friends.component.scss']
 })
-export class AllFriendsComponent implements OnInit, OnDestroy {
+export class AllFriendsComponent implements OnInit {
   public userId: number;
   public friends: FriendModel[] = [];
   private destroy$ = new Subject();
@@ -104,10 +104,5 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
 
   public initUser(): void {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 }
