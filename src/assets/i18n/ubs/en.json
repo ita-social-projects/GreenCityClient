@@ -38,7 +38,8 @@
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
       "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
-      "update-notification": "Notification was updated"
+      "update-notification": "Notification was updated",
+      "added-address": "The address has been added"
     }
   },
   "order-details": {
