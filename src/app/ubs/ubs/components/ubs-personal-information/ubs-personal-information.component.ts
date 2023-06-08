@@ -393,6 +393,5 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         });
       }
     });
-    console.log(this.personalDataForm);
   }
 }
