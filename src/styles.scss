@@ -253,7 +253,7 @@ body {
   border: 0;
   font-size: 16px;
 
-  :hover {
+  &:hover:enabled {
     color: var(--secondary-dark-green);
   }
 }
@@ -261,6 +261,7 @@ body {
 .btn-bars-active,
 .btn-tiles-active {
   color: var(--primary-green);
+  cursor: default;
 }
 
 .error-snackbar {

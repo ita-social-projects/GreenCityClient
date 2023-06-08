@@ -3,10 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { TagFilterComponent } from './tag-filter.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('TagFilterComponent', () => {
   let component: TagFilterComponent;
   let fixture: ComponentFixture<TagFilterComponent>;
+
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue.and.returnValue('fakeTag');
 
   const tagsListDataMock = ['test', 'test', 'test', 'test'];
   const changes = {
@@ -18,7 +22,8 @@ describe('TagFilterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TagFilterComponent],
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot()],
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }]
     }).compileComponents();
   }));
 

@@ -24,15 +24,37 @@
 }
 
 .ul-eco-buttons {
-  list-style: none;
+  display: flex;
   padding: 0;
   margin: 0;
   overflow: auto;
   white-space: nowrap;
   min-height: 42px;
 
-  li {
-    display: inline-block;
+  .tag-button {
+    border: 0;
+    padding: 0;
+    background: none;
+
+    .global-tag-clicked {
+      color: var(--primary-white);
+    }
+
+    &:focus {
+      outline: none !important;
+    }
+
+    &:hover .global-tag,
+    &:focus .global-tag {
+      color: var(--primary-green);
+      border: 1px solid var(--primary-green);
+    }
+
+    &:hover .global-tag-clicked,
+    &:focus .global-tag-clicked {
+      color: var(--primary-white);
+      border: none;
+    }
   }
 }
 
