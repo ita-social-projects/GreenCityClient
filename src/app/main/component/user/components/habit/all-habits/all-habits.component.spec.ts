@@ -70,9 +70,9 @@ describe('AllHabitsComponent', () => {
   assignHabitServiceMock.getAssignedHabits = () => of(HABITSASSIGNEDLIST);
 
   let habitServiceMock: HabitService;
-  habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits', 'getHabitsByTagAndLang']);
+  habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits', 'getHabitsByFilters', 'getAllTags']);
   habitServiceMock.getAllHabits = () => of(HABITLIST);
-  habitServiceMock.getHabitsByTagAndLang = () => of(HABITLIST);
+  habitServiceMock.getHabitsByFilters = () => of(HABITLIST);
   habitServiceMock.getAllTags = () => of(TAGLIST);
 
   const userData = {
@@ -166,9 +166,9 @@ describe('AllHabitsComponent', () => {
     expect(spy).toHaveBeenCalledWith(0, HABITLIST);
   });
 
-  it('should call method setHabitsList on getHabitsByTags', () => {
+  it('should call method setHabitsList on getHabitsByFilters', () => {
     const spy = spyOn(component as any, 'setHabitsList');
-    (component as any).getHabitsByTags(0, 6, ['tag']);
+    (component as any).getHabitsByFilters(0, 6, ['tag']);
     expect(spy).toHaveBeenCalledWith(0, HABITLIST);
   });
 
@@ -196,64 +196,31 @@ describe('AllHabitsComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should not set selectedTagsList on getFilterData if tagsList array is empty', () => {
-    component.tagList = [];
-    component.getFilterData([]);
-    expect(component.selectedTagsList).toEqual([]);
-  });
-
-  it('should set selectedTagsList on getFilterData if tagsList array contains tags', () => {
-    component.tagList = TAGLIST;
-    const tags = ['Reusable'];
-    component.getFilterData(tags);
-    expect(component.selectedTagsList).toEqual(['Reusable']);
-  });
-
-  it('should call getAllHabits on getFilterData if tags is empty array', () => {
-    component.tagList = TAGLIST;
-    const spy1 = spyOn(component as any, 'getAllHabits');
-    const spy2 = spyOn(component as any, 'getHabitsByTags');
-    const tags = [];
-    component.getFilterData(tags);
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).not.toHaveBeenCalled();
-  });
-
-  it('should call getHabitsByTags on getFilterData if tags array contains value', () => {
-    component.tagList = TAGLIST;
-    const spy1 = spyOn(component as any, 'getHabitsByTags');
-    const spy2 = spyOn(component as any, 'getAllHabits');
-    const tags = ['Reusable'];
-    component.getFilterData(tags);
-    expect(spy1).toHaveBeenCalled();
-    expect(spy2).not.toHaveBeenCalled();
-  });
-
   it('should set isFatching false and dont call methods onScroll if isAllPages is true', () => {
     (component as any).isAllPages = true;
     const spy1 = spyOn(component as any, 'getAllHabits');
-    const spy2 = spyOn(component as any, 'getHabitsByTags');
+    const spy2 = spyOn(component as any, 'getHabitsByFilters');
     component.onScroll();
     expect(component.isFetching).toBeFalsy();
     expect(spy1).not.toHaveBeenCalled();
     expect(spy2).not.toHaveBeenCalled();
   });
 
-  it('should set isFatching true and call method getAllHabits on onScroll', () => {
+  it('should set isFetching true and call method getAllHabits on onScroll', () => {
     (component as any).isAllPages = false;
-    component.selectedTagsList = [];
+    component.activeFilters = [];
     const spy1 = spyOn(component as any, 'getAllHabits');
-    const spy2 = spyOn(component as any, 'getHabitsByTags');
+    const spy2 = spyOn(component as any, 'getHabitsByFilters');
     component.onScroll();
     expect(component.isFetching).toBeTruthy();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).not.toHaveBeenCalled();
   });
 
-  it('should call method getHabitsByTags on onScroll', () => {
+  it('should call method getHabitsByFilters on onScroll', () => {
     (component as any).isAllPages = false;
-    component.selectedTagsList = ['tags'];
-    const spy1 = spyOn(component as any, 'getHabitsByTags');
+    component.activeFilters = ['tags'];
+    const spy1 = spyOn(component as any, 'getHabitsByFilters');
     const spy2 = spyOn(component as any, 'getAllHabits');
     component.onScroll();
     expect(spy1).toHaveBeenCalled();

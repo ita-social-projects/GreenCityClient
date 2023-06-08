@@ -12,14 +12,19 @@
         {{ 'user.habit.all-habits.btn-crate-habit' | translate }}
       </button>
     </div>
-    <app-tag-filter
-      class="border_bottom"
-      (tagsList)="getFilterData($event)"
-      [storageKey]="'Habits-filter'"
-      [header]="'homepage.eco-news.filter'"
-      [tagsListData]="tagList"
-    >
-    </app-tag-filter>
+    <div class="filters-container">
+      <span class="filter-title">{{ 'homepage.eco-news.filter' | translate }}</span>
+      <div class="filters-list-box" *ngIf="tagList.length">
+        <app-filter-select
+          *ngFor="let filter of filtersList"
+          [filter]="filter"
+          [resetAllEvent]="cleanFilters.asObservable()"
+          (selectedList)="setFilters($event)"
+        >
+        </app-filter-select>
+        <button class="reset-btn" (click)="resetFilters()">{{ 'user.habit.all-habits.reset-filters' | translate }}</button>
+      </div>
+    </div>
     <div class="habits_header-actions">
       <div class="habits_header-items-found">{{ totalHabits }} {{ 'user.habit.all-habits.found' | translate }}</div>
       <div class="habits-header-buttons">

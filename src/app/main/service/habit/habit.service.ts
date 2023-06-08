@@ -53,6 +53,16 @@ export class HabitService {
     );
   }
 
+  getHabitsByFilters(page: number, size: number, language: string, filters: string[]): Observable<HabitListInterface> {
+    const sort = 'asc';
+    if (filters.length) {
+      const searchFilters = filters.join('&');
+      return this.http.get<HabitListInterface>(
+        `${habitLink}/search?lang=${language}&page=${page}&size=${size}&sort=${sort}&${searchFilters}`
+      );
+    }
+  }
+
   addCustomHabit(habit: any, lang: string): Observable<CustomHabitInterface> {
     const body = {
       habitTranslations: [

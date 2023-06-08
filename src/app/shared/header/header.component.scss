@@ -1,4 +1,3 @@
-$hr-color: #e6e6e6;
 $header-height: 54px;
 $white-color: var(--ubs-primary-white);
 $ubs-header-height: 86px;
@@ -686,7 +685,7 @@ header {
   margin: 12px 0;
   padding: 0;
   max-height: 1px;
-  background-color: $hr-color;
+  background-color: var(--quaternary-light-grey);
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

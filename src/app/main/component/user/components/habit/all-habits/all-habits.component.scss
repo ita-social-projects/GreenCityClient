@@ -7,10 +7,6 @@ h1 {
   display: none;
 }
 
-.border_bottom {
-  border-bottom: 1px solid #e6e6e6;
-}
-
 .habits_header-items-found {
   font-family: var(--primary-font);
   font-size: 16px;
@@ -35,6 +31,44 @@ h1 {
 
     .s-btn {
       width: 100%;
+    }
+  }
+
+  .filters-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--quaternary-light-grey);
+
+    .filter-title {
+      display: flex;
+      font-family: var(--primary-font);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 19px;
+      line-height: 28px;
+      color: var(--secondary-dark-grey);
+      height: 28px;
+      min-width: 75px;
+    }
+
+    .filters-list-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .reset-btn {
+        color: var(--quaternary-grey);
+        background: none;
+        outline: none;
+        border: 0;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--primary-green);
+        }
+      }
     }
   }
 

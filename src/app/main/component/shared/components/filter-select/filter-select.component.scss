@@ -1,0 +1,45 @@
+.filters-dropdown {
+  display: flex;
+  padding: 0;
+
+  .filter-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 4px;
+    color: var(--quaternary-grey);
+    margin: 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .mat-select {
+    &::ng-deep .mat-select-arrow-wrapper {
+      width: 8px !important;
+
+      .mat-select-arrow {
+        height: 8px;
+        width: 8px;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-image-source: none !important;
+        background-image: url('~/assets/icons/arrow-down-grey.svg');
+      }
+    }
+  }
+
+  &:hover {
+    .filter-label {
+      color: var(--primary-green);
+    }
+
+    .mat-select {
+      &::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
+        background-image: url('~/assets/icons/arrow-down-green.svg');
+      }
+    }
+  }
+}

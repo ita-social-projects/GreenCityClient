@@ -777,7 +777,26 @@
         "new-habit-updated": "You have successfully updated a habit",
         "habit-did-not-give-up": "We glad that you change your mind",
         "habit-acquired": "You have successfully acquire habit",
-        "habit-was-deleted": "You have successfully deleted habit from your list"
+        "habit-was-deleted": "You have successfully deleted habit from your list",
+        "reset-filters": "Reset all",
+        "filters": {
+          "tags": {
+            "title": "Tags",
+            "select-all": "All tags"
+          },
+          "complexities": {
+            "title": "Difficulty",
+            "select-all": "Any difficulty"
+          },
+          "is-custom": {
+            "title": "Types",
+            "select-all": "All types"
+          },
+          "assign": {
+            "title": "Status",
+            "select-all": "Any status"
+          }
+        }
       },
       "habit-trackers": {
         "habit-tracker": {

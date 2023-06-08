@@ -35,6 +35,11 @@ import { EventsListItemModalComponent } from './components/events-list-item/even
 import { TagsSelectComponent } from './components/tags-select/tags-select.component';
 import { InputErrorComponent } from './components/input-error/input-error.component';
 import { SelectImagesComponent } from './components/select-images/select-images.component';
+import { FilterSelectComponent } from './components/filter-select/filter-select.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -57,7 +62,8 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemModalComponent,
     TagsSelectComponent,
     InputErrorComponent,
-    SelectImagesComponent
+    SelectImagesComponent,
+    FilterSelectComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -81,7 +87,11 @@ registerLocaleData(ukLocale, 'ua');
     MatCheckboxModule,
     MatProgressSpinnerModule,
     UserSharedModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatOptionModule,
+    MatDividerModule,
+    MatInputModule,
+    MatSelectModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -108,7 +118,8 @@ registerLocaleData(ukLocale, 'ua');
     EventsListItemModalComponent,
     TagsSelectComponent,
     InputErrorComponent,
-    SelectImagesComponent
+    SelectImagesComponent,
+    FilterSelectComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

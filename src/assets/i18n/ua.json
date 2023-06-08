@@ -782,7 +782,26 @@
         "new-habit-updated": "Ви успішно оновили звичку",
         "habit-did-not-give-up": "Ми раді, що ви передумали",
         "habit-acquired": "Ви успішно набули звичку",
-        "habit-was-deleted": "Ви успішно видалили звичку зі списку"
+        "habit-was-deleted": "Ви успішно видалили звичку зі списку",
+        "reset-filters": "Очистити",
+        "filters": {
+          "tags": {
+            "title": "Теги",
+            "select-all": "Всі теги"
+          },
+          "complexities": {
+            "title": "Складність",
+            "select-all": "Будь-яка складність"
+          },
+          "is-custom": {
+            "title": "Типи",
+            "select-all": "Всі типи"
+          },
+          "assign": {
+            "title": "Статус",
+            "select-all": "Будь-який статус"
+          }
+        }
       },
       "habit-trackers": {
         "habit-tracker": {

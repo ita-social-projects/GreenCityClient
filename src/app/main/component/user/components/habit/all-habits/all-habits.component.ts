@@ -12,6 +12,9 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { Router } from '@angular/router';
+import { FilterOptions, FilterSelect } from 'src/app/main/interface/filter-select.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { HabitsFiltersList } from '../models/habits-filters-list';
 
 @Component({
   selector: 'app-all-habits',
@@ -19,13 +22,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./all-habits.component.scss']
 })
 export class AllHabitsComponent implements OnInit, OnDestroy {
-  public habitsList: HabitInterface[] = [];
-  public totalHabits = 0;
-  public galleryView = true;
-  public isFetching = true;
-  public tagList: TagInterface[] = [];
-  public selectedTagsList: Array<string> = [];
-  public windowSize: number;
+  habitsList: HabitInterface[] = [];
+  totalHabits = 0;
+  galleryView = true;
+  isFetching = true;
+  tagList: TagInterface[] = [];
+  activeFilters: string[] = [];
+  filtersList: FilterSelect[] = HabitsFiltersList;
+  windowSize: number;
   private currentPage = 0;
   private pageSize = 6;
   private isAllPages: boolean;
@@ -35,10 +39,13 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   private lang: string;
   public images = singleNewsImages;
 
+  cleanFilters: Subject<void> = new Subject<void>();
+
   constructor(
     private habitService: HabitService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
+    private langService: LanguageService,
     public profileService: ProfileService,
     public habitAssignService: HabitAssignService,
     public router: Router
@@ -52,6 +59,7 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       this.translate.setDefaultLang(lang);
       this.lang = lang;
       this.getAllHabitsTags();
+      this.getAllHabits(0, this.pageSize);
     });
   }
 
@@ -59,7 +67,20 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.habitService
       .getAllTags()
       .pipe(take(1))
-      .subscribe((tagsArray: Array<TagInterface>) => (this.tagList = tagsArray));
+      .subscribe((tagsArray: Array<TagInterface>) => {
+        this.tagList = tagsArray;
+        const options = [];
+        this.tagList.forEach((tag: TagInterface) => {
+          const item = {
+            name: tag.name,
+            nameUa: tag.nameUa,
+            value: tag.name,
+            isActive: false
+          };
+          options.push(item);
+          this.filtersList[0].options = options;
+        });
+      });
   }
 
   public checkHabitsView(): void {
@@ -76,9 +97,9 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getHabitsByTags(page: number, size: number, tags: string[]): void {
+  private getHabitsByFilters(page: number, size: number, filters: string[]): void {
     this.habitService
-      .getHabitsByTagAndLang(page, size, tags, this.lang)
+      .getHabitsByFilters(page, size, this.lang, filters)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.setHabitsList(page, res);
@@ -103,11 +124,32 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     this.localStorageService.setHabitsGalleryView(mode);
   }
 
-  public getFilterData(tags: Array<string>): void {
-    if (this.tagList.length) {
-      this.selectedTagsList = tags;
-      tags.length ? this.getHabitsByTags(0, this.pageSize, this.selectedTagsList) : this.getAllHabits(0, this.pageSize);
+  setFilters(filterChange: FilterSelect): void {
+    this.activeFilters = [];
+    const selectedInd = this.filtersList.findIndex((filt: FilterSelect) => filt.name === filterChange.name);
+    if (selectedInd >= 0) {
+      this.filtersList[selectedInd] = filterChange;
+      const filtersActive = this.filtersList.filter((item: FilterSelect) => !item.isAllSelected);
+      filtersActive.forEach((el: FilterSelect) => {
+        const activeOptions = el.options.filter((option: FilterOptions) => option.isActive);
+        if (activeOptions.length) {
+          const queryString = `${el.name}=${activeOptions.map((option) => option.value).join('%2C')}`;
+          this.activeFilters.push(queryString);
+        }
+      });
+      filtersActive.length && this.activeFilters.length
+        ? this.getHabitsByFilters(0, this.pageSize, this.activeFilters)
+        : this.getAllHabits(0, this.pageSize);
     }
+  }
+
+  resetFilters(): void {
+    this.filtersList.forEach((filter: FilterSelect) => {
+      filter.isAllSelected = false;
+      filter.options.forEach((option: FilterOptions) => (option.isActive = false));
+    });
+    this.getAllHabits(0, this.pageSize);
+    this.cleanFilters.next();
   }
 
   public onResize(): void {
@@ -120,8 +162,8 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
     if (!this.isAllPages) {
       this.isFetching = true;
       this.currentPage += 1;
-      this.selectedTagsList.length
-        ? this.getHabitsByTags(this.currentPage, this.pageSize, this.selectedTagsList)
+      this.activeFilters.length
+        ? this.getHabitsByFilters(this.currentPage, this.pageSize, this.activeFilters)
         : this.getAllHabits(this.currentPage, this.pageSize);
     }
   }
@@ -145,6 +187,10 @@ export class AllHabitsComponent implements OnInit, OnDestroy {
   public goToCreateHabit(): void {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/create-habit`]);
+  }
+
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   ngOnDestroy(): void {
