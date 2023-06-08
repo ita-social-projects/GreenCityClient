@@ -172,7 +172,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/1/userFriend/2`);
+      const req = httpMock.expectOne(`${userFriendsService.url}friends/2`);
       expect(req.request.method).toBe('POST');
     });
   });
