@@ -30,7 +30,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public currentDate: string;
   public isOrderStatusCancelOrDone = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
-  private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED', 'FORMED'];
+  private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED'];
 
   constructor(private cdr: ChangeDetectorRef, public orderService: OrderService) {}
 
