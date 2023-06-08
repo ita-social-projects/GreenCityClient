@@ -34,6 +34,7 @@
     },
     "success": {
       "default": "Success message. The action was successful.",
+      "added-address": "Address is successfully added",
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
