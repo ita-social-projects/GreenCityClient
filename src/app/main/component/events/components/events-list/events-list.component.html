@@ -13,16 +13,16 @@
           <img class="my-events-img" src="assets/events-icons/my-event.png" alt="my-event" />
         </div>
         <div class="create">
-          <div tabindex="0" class="secondary-global-button m-btn" (click)="isUserLoggedRedirect()">
+          <button tabindex="0" class="secondary-global-button m-btn" (click)="isUserLoggedRedirect()">
             {{ 'homepage.events.create-title' | translate }}
-          </div>
+          </button>
         </div>
       </div>
     </div>
     <div class="filter-container">
       <p class="sort-by">{{ 'homepage.events.filter-title' | translate }}</p>
       <div class="filter-list">
-        <div class="dropdown">
+        <div class="dropdown" (click)="timeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
           <mat-select #timeFilter [formControl]="timeFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(timeList, 'timeList')">
@@ -38,7 +38,7 @@
             </mat-option>
           </mat-select>
         </div>
-        <div class="dropdown">
+        <div class="dropdown" (click)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(locationList, 'locationList')">{{
@@ -54,7 +54,7 @@
             </mat-option>
           </mat-select>
         </div>
-        <div class="dropdown">
+        <div class="dropdown" (click)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
           <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(statusesList, 'statusList')">{{
@@ -66,7 +66,7 @@
             </mat-option>
           </mat-select>
         </div>
-        <div class="dropdown">
+        <div class="dropdown" (click)="typeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
           <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
             <mat-option [value]="0" (click)="toggleAllSelection(typesList, 'typeList')">{{

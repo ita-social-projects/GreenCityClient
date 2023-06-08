@@ -11,6 +11,9 @@ import { EventsService } from 'src/app/main/component/events/services/events.ser
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
+import { DateAdapter } from '@angular/material/core';
+import { LanguageModel } from '../../../layout/components/models/languageModel';
+import { Language, Locate } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -44,6 +47,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   @Input() check: boolean;
   @Input() editDate: DateEventResponceDto;
+  @Input() isDateDuplicate: boolean;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -61,7 +65,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     private langService: LanguageService,
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private adapter: DateAdapter<LanguageModel>
   ) {}
 
   ngOnInit(): void {
@@ -90,15 +95,20 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.bindLang(this.currentLang);
+      const locale = lang !== Language.UA ? Locate.EN : Locate.UA;
+      this.adapter.setLocale(locale);
       if (this.editDate) {
         this.dateForm.patchValue({
           place:
-            lang === 'ua'
+            lang === Language.UA
               ? this.eventsService.createAdresses(this.editDate.coordinates, 'Ua')
               : this.eventsService.createAdresses(this.editDate.coordinates, 'En')
         });
       }
     });
+    if (this.isDateDuplicate) {
+      this.dateForm.get('date').markAsTouched();
+    }
   }
 
   private bindLang(lang: string): void {

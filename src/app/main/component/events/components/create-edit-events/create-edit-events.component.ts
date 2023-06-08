@@ -7,7 +7,7 @@ import { Place } from '../../../places/models/place';
 import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -58,6 +58,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
+  public isDateDuplicate = false;
   deleteDialogData = {
     popupTitle: 'discard-changes.delete-message',
     popupConfirm: 'discard-changes.btn.yes',
@@ -67,6 +68,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  public duplindx: number;
   @Input() cancelChanges: boolean;
 
   constructor(
@@ -92,7 +94,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70), this.validateSpaces]),
+      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
@@ -136,10 +138,23 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public checkForm(form: DateFormObj, ind: number): void {
-    this.dates[ind].date = form.date;
-    this.dates[ind].startDate = form.startTime;
-    this.dates[ind].finishDate = form.endTime;
-    this.dates[ind].onlineLink = form.onlineLink;
+    this.duplindx = -1;
+    const date = form.date?.toLocaleDateString();
+    const datesArray = this.dates.map((item, index) => {
+      if (index !== ind) {
+        return item.date?.toLocaleDateString();
+      }
+    });
+    this.isDateDuplicate = datesArray.includes(date);
+    if (!this.isDateDuplicate) {
+      this.dates[ind].date = form.date;
+      this.dates[ind].startDate = form.startTime;
+      this.dates[ind].finishDate = form.endTime;
+      this.dates[ind].onlineLink = form.onlineLink;
+    } else {
+      this.duplindx = ind;
+      this.dates.splice(ind, 1, { ...DateObj });
+    }
     this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
@@ -261,7 +276,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
 
     let sendEventDto: EventDTO = {
-      title: this.eventFormGroup.get('titleForm').value,
+      title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,
       open: this.isOpen,
       datesLocations: datesDto,
@@ -289,7 +304,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.imgArray.forEach((item) => {
         formData.append('images', item);
       });
-
       this.createEvent(formData);
     } else {
       this.eventFormGroup.markAllAsTouched();
@@ -315,11 +329,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
-  }
-
-  private validateSpaces(control: AbstractControl): ValidationErrors {
-    const value = control && control.value && control.value !== control.value.trim();
-    return value ? { hasNoWhiteSpaces: 'false' } : null;
   }
 
   private checkFileExtensionAndSize(file: any): void {
