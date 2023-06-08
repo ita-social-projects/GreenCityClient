@@ -25,6 +25,7 @@ const ubsAdminRoutes: Routes = [
       { path: 'customers/:username', component: UbsAdminCustomerDetailsComponent },
       { path: 'certificates', component: UbsAdminCertificateComponent },
       { path: 'orders', component: UbsAdminTableComponent },
+      { path: 'order/:id', component: UbsAdminOrderComponent },
       { path: 'employee/:page', component: UbsAdminEmployeeComponent },
       { path: 'tariffs', component: UbsAdminTariffsLocationDashboardComponent },
       { path: `tariffs/location/:id`, component: UbsAdminTariffsPricingPageComponent },
@@ -33,8 +34,7 @@ const ubsAdminRoutes: Routes = [
       { path: 'notifications', component: UbsAdminNotificationListComponent },
       { path: 'notification/:id', component: UbsAdminNotificationComponent }
     ]
-  },
-  { path: 'order/:id', component: UbsAdminOrderComponent }
+  }
 ];
 
 @NgModule({
