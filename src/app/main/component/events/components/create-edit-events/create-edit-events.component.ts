@@ -90,7 +90,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
-
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
@@ -310,6 +309,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.checkAfterSend = false;
     }
   }
+
+  public onPreview(show) {}
 
   private createEvent(sendData: FormData) {
     this.isPosting = true;

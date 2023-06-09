@@ -1075,6 +1075,9 @@
   },
   "create-event": {
     "back": "back",
+    "back-edit": "Back to editing",
+    "save-event": "Save event",
+    "label": "Label",
     "title": "Create Event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
@@ -1089,6 +1092,7 @@
     "set-start-time": "Set Start Time",
     "set-end-time": "Set End Time",
     "event-place": "Place",
+    "event-start": "Start",
     "event-online": "Online",
     "event-location": "Location",
     "event-link": "Online Link",

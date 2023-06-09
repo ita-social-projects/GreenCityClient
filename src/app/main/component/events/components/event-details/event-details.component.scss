@@ -48,6 +48,53 @@
       }
     }
 
+    .option-border {
+      border: 1px solid black;
+      border-radius: 20px;
+      padding: 5px;
+      margin-right: 10px;
+    }
+
+    .option-border-status {
+      border: 1px solid black;
+      border-radius: 20px;
+      padding: 5px;
+    }
+
+    .position-elements {
+      display: flex;
+    }
+
+    .info-text {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .title-text {
+      font-size: 700;
+      font-size: 20px;
+      margin-right: 30px;
+    }
+
+    .button-publish {
+      margin-left: 910px;
+      margin-top: 20px;
+    }
+
+    .back-to-edit {
+      width: 100px;
+      margin-top: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      margin-left: 130px;
+
+      .button {
+        margin-right: 25px;
+      }
+    }
+
     .event-header {
       margin-top: 10px;
       display: flex;

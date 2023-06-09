@@ -62,6 +62,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public locationAddress: string;
   public addressUa: string;
   public addressEn: string;
+  public date: string;
 
   public images: string[] = [];
   public sliderIndex = 0;
@@ -109,6 +110,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
+      this.date = new Date(this.event.dates[0].startDate).toDateString();
       this.locationLink = this.event.dates[0].onlineLink;
       this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
