@@ -48,6 +48,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Input() check: boolean;
   @Input() editDate: DateEventResponceDto;
   @Input() isDateDuplicate: boolean;
+  @Input() editDates: boolean;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -89,7 +90,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
       this.datesForm.emit(value);
     });
-    if (this.editDate) {
+    if (this.editDate && !this.editDates) {
       this.setEditData();
     }
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
@@ -130,7 +131,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       this.dateForm.get('endTime').disable();
     }
     this.dateForm.patchValue({
-      date: this.editDate.startDate,
+      date: new Date(this.editDate.startDate),
       startTime: startEditTime,
       endTime: endEditTime
     });

@@ -69,6 +69,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public backRoute: string;
   public routedFromProfile: boolean;
   public duplindx: number;
+  editDates = false;
   @Input() cancelChanges: boolean;
 
   constructor(
@@ -154,6 +155,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     } else {
       this.duplindx = ind;
       this.dates.splice(ind, 1, { ...DateObj });
+      this.editDates = true;
     }
     this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
@@ -200,6 +202,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.dates = Array(value)
       .fill(null)
       .map(() => ({ ...DateObj }));
+    this.dates.forEach((item) => (item.date = new Date(item.date)));
   }
 
   public getImageTosend(imageArr: Array<File>): void {
