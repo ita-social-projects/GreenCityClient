@@ -16,13 +16,25 @@ const routes: Routes = [
       },
       {
         path: 'create-event',
-        component: CreateEditEventsComponent
+        component: CreateEditEventsComponent,
+        children: [
+          /*{
+            path: ':id/:preview',
+            component: EventDetailsComponent,
+            //data: {preview: false}
+          }*/
+        ]
       },
-
       {
         path: ':id',
         component: EventDetailsComponent
+        // data: {preview: false}
       },
+      {
+        path: ':id/:preview',
+        component: EventDetailsComponent
+        // data: {preview: false}
+      }
     ]
   }
 ];

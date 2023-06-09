@@ -53,6 +53,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isImageTypeError = false;
   public images = singleNewsImages;
   public currentLang: string;
+  public routeData: any;
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
@@ -315,7 +316,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public onPreview(show) {
-    this.router.navigate(['/events', this.editEvent.id]);
+    this.router.navigate(['events', 'create-event', this.editEvent.id, true]);
+    // this.routeData = this.router.data.subscribe(v => console.log(v));
   }
 
   private createEvent(sendData: FormData) {
