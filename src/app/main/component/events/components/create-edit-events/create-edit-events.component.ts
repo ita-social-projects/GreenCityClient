@@ -6,6 +6,7 @@ import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
 import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
 import { Router } from '@angular/router';
+import { EventsService } from '../../../events/services/events.service';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
@@ -76,6 +77,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
+    private eventService: EventsService,
     private snackBar: MatSnackBarComponent,
     private injector: Injector,
     public dialog: MatDialog,
@@ -90,6 +92,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
+    console.log(this.editMode, '111');
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
@@ -100,6 +103,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
+      console.log(this.editEvent.id, '1112222');
       this.setEditValue();
     } else {
       this.dates = [{ ...DateObj }];
@@ -310,7 +314,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onPreview(show) {}
+  public onPreview(show) {
+    this.router.navigate(['/events', this.editEvent.id]);
+  }
 
   private createEvent(sendData: FormData) {
     this.isPosting = true;
