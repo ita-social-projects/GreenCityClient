@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
@@ -89,6 +89,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitByAmount: boolean;
   public courierLimitBySum: boolean;
   public courierLimitValidation: boolean;
+  @Output() secondStepDisabledChange = new EventEmitter<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -239,6 +240,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       });
   }
 
+  changeSecondStepDisabled(value: boolean) {
+    this.secondStepDisabledChange.emit(value);
+  }
+
   checkTotalBigBags() {
     this.totalOfBigBags = 0;
     this.bags.forEach((bag) => {
@@ -248,6 +253,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       }
     });
     this.validateBags();
+    this.changeSecondStepDisabled(this.courierLimitValidation);
   }
 
   private validateLimit(

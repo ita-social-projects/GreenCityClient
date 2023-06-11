@@ -17,6 +17,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   secondStepForm: FormGroup;
   thirdStepForm: FormGroup;
   completed = false;
+  isSecondStepDisabled = true;
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
   @ViewChild('secondStep') stepTwoComponent: UBSPersonalInformationComponent;

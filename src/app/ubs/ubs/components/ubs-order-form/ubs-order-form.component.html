@@ -4,9 +4,9 @@
     <ng-template matStepperIcon="edit">
       <mat-icon class="text-light">check</mat-icon>
     </ng-template>
-    <mat-step [stepControl]="firstStepForm">
+    <mat-step [stepControl]="isSecondStepDisabled ? null : firstStepForm" [completed]="!isSecondStepDisabled">
       <ng-template matStepLabel>{{ 'order-form.order-details' | translate }}</ng-template>
-      <app-ubs-order-details #firstStep></app-ubs-order-details>
+      <app-ubs-order-details #firstStep (secondStepDisabledChange)="isSecondStepDisabled = $event"></app-ubs-order-details>
     </mat-step>
     <mat-step [stepControl]="secondStepForm">
       <ng-template matStepLabel>{{ 'order-form.personal-data' | translate }}</ng-template>
