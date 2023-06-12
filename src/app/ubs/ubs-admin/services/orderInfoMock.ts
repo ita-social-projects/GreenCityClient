@@ -1,5 +1,6 @@
 import { IOrderInfo, IEmployee } from '../models/ubs-admin.interface';
 import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
+import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
@@ -112,7 +113,7 @@ export const OrderInfoMockedData: IOrderInfo = {
   ],
   courierPricePerPackage: 1,
   courierInfo: {
-    courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
+    courierLimit: limitStatus.limitByAmountOfBag,
     min: 2,
     max: 99
   },

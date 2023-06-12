@@ -5,6 +5,7 @@ import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-details-form',
@@ -274,7 +275,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     this.showUbsCourier = this.buyMore = false;
     this.checkMinOrder.emit(true);
     this.setAmountOfBigBags(type);
-    if (this.orderDetails.courierInfo.courierLimit === 'LIMIT_BY_AMOUNT_OF_BAG') {
+    if (this.orderDetails.courierInfo.courierLimit === limitStatus.limitByAmountOfBag) {
       expression = this.orderDetails.courierInfo.max
         ? this.amountOfBigBags < this.orderDetails.courierInfo.min || this.amountOfBigBags > this.orderDetails.courierInfo.max
         : this.amountOfBigBags < this.orderDetails.courierInfo.min;
@@ -286,7 +287,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
         min: this.orderDetails.courierInfo.min,
         max: this.orderDetails.courierInfo.max || '-'
       };
-    } else if (this.orderDetails.courierInfo.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
+    } else if (this.orderDetails.courierInfo.courierLimit === limitStatus.limitByPriceOfOrder) {
       expression = this.orderDetails.courierInfo.max
         ? this.bagsInfo.sum[type] < this.orderDetails.courierInfo.min || this.bagsInfo.sum[type] > this.orderDetails.courierInfo.max
         : this.bagsInfo.sum[type] < this.orderDetails.courierInfo.min;

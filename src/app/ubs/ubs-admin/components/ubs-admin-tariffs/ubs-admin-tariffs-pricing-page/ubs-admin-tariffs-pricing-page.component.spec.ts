@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
-import { limitStatus, UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
+import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,6 +26,7 @@ import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { limitStatus } from '../ubs-tariffs.enum';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;

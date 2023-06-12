@@ -17,11 +17,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-
-export enum limitStatus {
-  limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
-  limitByPriceOfOrder = 'LIMIT_BY_SUM_OF_ORDER'
-}
+import { limitStatus } from '../ubs-tariffs.enum';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',

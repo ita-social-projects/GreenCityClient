@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
@@ -13,6 +13,7 @@ import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-o
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -88,6 +89,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitByAmount: boolean;
   public courierLimitBySum: boolean;
   public courierLimitValidation: boolean;
+  @Output() secondStepDisabledChange = new EventEmitter<boolean>();
 
   constructor(
     private fb: FormBuilder,
@@ -156,7 +158,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public checkCourierLimit(): void {
-    if (this.locations?.courierLimit === 'LIMIT_BY_SUM_OF_ORDER') {
+    if (this.locations?.courierLimit === limitStatus.limitByPriceOfOrder) {
       this.courierLimitBySum = true;
     } else {
       this.courierLimitByAmount = true;
@@ -238,6 +240,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       });
   }
 
+  changeSecondStepDisabled(value: boolean) {
+    this.secondStepDisabledChange.emit(value);
+  }
+
   checkTotalBigBags() {
     this.totalOfBigBags = 0;
     this.bags.forEach((bag) => {
@@ -247,22 +253,38 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       }
     });
     this.validateBags();
+    this.changeSecondStepDisabled(this.courierLimitValidation);
   }
 
-  public validateSum(): void {
-    if (this.courierLimitBySum) {
-      this.displayMinOrderMes = this.minOrderValue > this.total;
-      this.displayMaxOrderMes = this.maxOrderValue < this.total;
-      this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+  private validateLimit(
+    isCourierLimited: boolean,
+    minValue: number,
+    totalValue: number,
+    maxValue?: number
+  ): { min: boolean; max: boolean } {
+    let displayMinMessage = false;
+    let displayMaxMessage = false;
+
+    if (isCourierLimited) {
+      displayMinMessage = minValue > totalValue;
+      displayMaxMessage = maxValue ? maxValue < totalValue : false;
     }
+
+    return { min: displayMinMessage, max: displayMaxMessage };
   }
 
-  public validateBags(): void {
-    if (this.courierLimitByAmount) {
-      this.displayMinBigBagsMes = this.minAmountOfBigBags > this.totalOfBigBags;
-      this.displayMaxBigBagsMes = this.maxAmountOfBigBags < this.totalOfBigBags;
-      this.courierLimitValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
-    }
+  private validateSum(): void {
+    const result = this.validateLimit(this.courierLimitBySum, this.minOrderValue, this.total, this.maxOrderValue);
+    this.displayMinOrderMes = result.min;
+    this.displayMaxOrderMes = result.max;
+    this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+  }
+
+  private validateBags(): void {
+    const result = this.validateLimit(this.courierLimitByAmount, this.minAmountOfBigBags, this.totalOfBigBags, this.maxAmountOfBigBags);
+    this.displayMinBigBagsMes = result.min;
+    this.displayMaxBigBagsMes = result.max;
+    this.courierLimitValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
   }
 
   private subscribeToLangChange(): void {

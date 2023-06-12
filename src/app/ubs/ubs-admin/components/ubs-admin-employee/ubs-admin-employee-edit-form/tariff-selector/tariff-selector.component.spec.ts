@@ -12,7 +12,7 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-
+import { limitStatus } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
 import { TariffSelectorComponent } from './tariff-selector.component';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
@@ -55,7 +55,7 @@ describe('TariffSelectorComponent', () => {
           tariffStatus: 'ACTIVE',
           creator: 'nik.korzh.ita@gmail.com',
           createdAt: '2022-12-21',
-          courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
+          courierLimit: limitStatus.limitByAmountOfBag,
           minAmountOfBags: 2,
           maxAmountOfBags: 999,
           minPriceOfOrder: null,
