@@ -3,6 +3,8 @@ import {
   DeleteEcoEventAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -32,6 +34,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   @Input() userId: number;
 
+  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
@@ -57,6 +60,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public newDate;
   bookmarkSelected = false;
   public address;
+  public addAttenderError: string;
   public isOnline: string;
 
   attendees = [];
@@ -109,6 +113,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.checkButtonStatus();
     this.address = this.event.dates[0].coordinates;
     this.isOnline = this.event.dates[0].onlineLink;
+    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+      this.addAttenderError = res.error;
+    });
   }
 
   public routeToEvent(): void {
@@ -175,7 +182,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
         break;
       case this.btnName.join:
-        !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+        if (this.addAttenderError) {
+          this.snackBar.openSnackBar('errorJoinEvent');
+        } else {
+          this.snackBar.openSnackBar('joinedEvent');
+          !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+        }
         break;
       case this.btnName.rate:
         this.openModal();
