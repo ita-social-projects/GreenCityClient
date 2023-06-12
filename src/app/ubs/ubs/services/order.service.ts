@@ -125,14 +125,11 @@ export class OrderService {
     return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
-  getLocations(courierId: number): Observable<AllLocationsDtos> {
-    return this.http.get<AllLocationsDtos>(`${this.url}/locations/${courierId}`);
-  }
-
-  /*getLocations(changeLoc?: boolean): Observable<AllLocationsDtos> {
+  getLocations(courierId: number, changeLoc?: boolean): Observable<AllLocationsDtos> {
     const changeLocAttr = changeLoc ? '?changeLoc=changeLocation' : '';
-    return this.http.get<AllLocationsDtos>(`${this.url}/allLocations${changeLocAttr}`);
-  }/** */
+
+    return this.http.get<AllLocationsDtos>(`${this.url}/locations/${courierId}${changeLocAttr}`);
+  }
 
   getAllActiveCouriers(): Observable<ActiveCourierDto[]> {
     return this.http.get<ActiveCourierDto[]>(`${this.url}/getAllActiveCouriers`);

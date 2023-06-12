@@ -80,11 +80,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     of(true)
       .pipe(
         takeUntil(this.destroy$),
-        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(this.courierUBS.courierId)))
+        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(this.courierUBS.courierId, true)))
       )
       .subscribe((res: AllLocationsDtos) => {
         this.isFetching = false;
-
         this.cities = res.allActiveLocationsDtos.reduce(
           (acc, region) => [
             ...acc,
