@@ -124,7 +124,7 @@ describe('SocialNetworksComponent', () => {
         }
       };
       const imgPath = profileService.icons.defaultIcon;
-      const result = component.getSocialImage(socialNetwork);
+      const result = component.getSocialImage(socialNetwork.url);
 
       expect(result).toBe(imgPath);
     });
@@ -137,7 +137,7 @@ describe('SocialNetworksComponent', () => {
         }
       };
       const imgPath = profileService.icons.facebook;
-      const result = component.getSocialImage(socialNetwork);
+      const result = component.getSocialImage(socialNetwork.url);
 
       expect(result).toBe(imgPath);
     });

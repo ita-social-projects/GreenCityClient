@@ -53,14 +53,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   }
 
   public getSocialImage(socialNetwork: string): string {
-    const value = socialNetwork;
-    let imgPath = this.icons.defaultIcon;
-    Object.keys(this.icons).forEach((icon) => {
-      if (value.toLowerCase().includes(icon)) {
-        imgPath = this.icons[icon];
-      }
-    });
-    return imgPath;
+    return this.profileService.getSocialImage(socialNetwork);
   }
 
   private findNetwork(networkLink) {

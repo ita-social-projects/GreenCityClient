@@ -2,7 +2,7 @@
 <ng-container *ngIf="socialNetworks && socialNetworks.length > 0">
   <div *ngFor="let socialNetwork of socialNetworks" class="social_network-wrp">
     <a href="{{ socialNetwork.url }}" class="social_network-link-text" target="_blank" rel="noopener">
-      <img [src]="getSocialImage(socialNetwork)" class="social-img" alt="Social image" />
+      <img [src]="getSocialImage(socialNetwork.url)" class="social-img" alt="Social image" />
       <p>{{ replaceHttp(socialNetwork.url) }}</p>
     </a>
     <div class="social_network-edit-wrp">
