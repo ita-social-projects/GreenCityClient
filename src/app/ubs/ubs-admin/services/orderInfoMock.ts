@@ -169,3 +169,22 @@ export const GeneralInfoMock = {
     { ableActualChange: true, key: OrderStatus.CANCELED, translation: 'Canceled' }
   ]
 };
+
+export const activeCouriersMock = [
+  {
+    courierId: 15,
+    courierStatus: 'ACTIVE',
+    nameUk: 'ЛЗ тест 3',
+    nameEn: 'LZ Test 3',
+    createDate: '2023-05-26',
+    createdBy: 'UBS ADMIN'
+  },
+  {
+    courierId: 11,
+    courierStatus: 'ACTIVE',
+    nameUk: 'Тест502',
+    nameEn: 'Test502',
+    createDate: '2023-05-03',
+    createdBy: 'UBS-Admin Admin'
+  }
+];

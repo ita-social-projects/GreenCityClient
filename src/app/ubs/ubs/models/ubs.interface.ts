@@ -251,3 +251,12 @@ export interface SearchAddress {
   street: string;
   city: string;
 }
+
+export interface ActiveCourierDto {
+  courierId: number;
+  courierStatus: string;
+  nameUk: string;
+  nameEn: string;
+  createDate: string;
+  createdBy: string;
+}
