@@ -41,7 +41,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
   };
 
-  private eventId: number;
+  public eventId: number;
+  public openFromEdit: boolean;
   private userId: number;
 
   public roles = {
@@ -93,6 +94,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private eventService: EventsService,
     public router: Router,
+    private activatedRoute: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private translate: TranslateService,
@@ -104,6 +106,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params.id;
+    this.openFromEdit = this.route.snapshot.params.preview === 'true' ? true : false;
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });

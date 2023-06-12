@@ -93,7 +93,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
-    console.log(this.editMode, '111');
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
@@ -104,7 +103,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
-      console.log(this.editEvent.id, '1112222');
       this.setEditValue();
     } else {
       this.dates = [{ ...DateObj }];
@@ -316,8 +314,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public onPreview(show) {
-    this.router.navigate(['events', 'create-event', this.editEvent.id, true]);
-    // this.routeData = this.router.data.subscribe(v => console.log(v));
+    this.router.navigate(['/events', this.editEvent.id, true]);
   }
 
   private createEvent(sendData: FormData) {

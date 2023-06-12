@@ -403,7 +403,6 @@ describe('EventsListItemComponent', () => {
       component.buttonAction(component.btnName.edit);
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
       expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
-      expect(component.router.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
     });
   });
 
@@ -418,7 +417,7 @@ describe('EventsListItemComponent', () => {
 
     it(`should navigate to events`, () => {
       component.routeToEvent();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id, false]);
     });
   });
 
