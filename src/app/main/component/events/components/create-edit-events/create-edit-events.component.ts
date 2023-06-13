@@ -314,6 +314,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public onPreview(show) {
+    this.onSubmit();
     this.router.navigate(['/events', this.editEvent.id, true]);
   }
 
