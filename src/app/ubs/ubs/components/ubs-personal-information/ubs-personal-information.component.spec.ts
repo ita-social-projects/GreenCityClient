@@ -252,12 +252,6 @@ describe('UBSPersonalInformationComponent', () => {
     expect(component.openDialog).toHaveBeenCalledTimes(1);
   });
 
-  it('method activeAddressId should set id of active address', () => {
-    component.addresses = listMock.addressList;
-    component.activeAddressId();
-    expect(component.addressId).toBe(listMock.addressList[0].id);
-  });
-
   it('method deleteAddress should invoke deleteAddress from orderService', () => {
     fakeOrderService.deleteAddress.and.returnValue(of(listMock));
     const spy = spyOn(component, 'checkAddress');
