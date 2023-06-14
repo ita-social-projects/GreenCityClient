@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import {
   Locations,
@@ -23,7 +23,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
 import { Language } from 'src/app/main/i18n/Language';
 import { statusOfTariff } from '../tariff-status.enum';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',

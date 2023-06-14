@@ -1,9 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { of, Subject, BehaviorSubject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
@@ -105,6 +105,20 @@ describe('UbsMainPageComponent', () => {
     it('should fetch active couriers from the order service', () => {
       component.getActiveCouriers();
       expect(orderServiceMock.getAllActiveCouriers).toHaveBeenCalled();
+    });
+  });
+
+  it('should have expected activeCouriers after ngOnInit', () => {
+    expect(component.activeCouriers).toEqual(activecouriersMock);
+  });
+
+  describe('getLocations', () => {
+    it('should handle error from getLocations', () => {
+      const courierName = 'Test502';
+      orderServiceMock.getLocations.and.returnValue(throwError('error'));
+      spyOn(console, 'error');
+      component.getLocations(courierName);
+      expect(console.error).toHaveBeenCalledWith('error');
     });
   });
 });
