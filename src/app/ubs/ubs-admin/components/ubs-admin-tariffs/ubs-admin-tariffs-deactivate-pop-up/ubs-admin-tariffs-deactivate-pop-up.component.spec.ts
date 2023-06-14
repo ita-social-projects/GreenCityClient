@@ -607,7 +607,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
   });
 
   it('should get locations', () => {
-    component.getLocations();
+    component.getLocations(true);
     expect(component.locations).toEqual([fakeLocation]);
   });
 
