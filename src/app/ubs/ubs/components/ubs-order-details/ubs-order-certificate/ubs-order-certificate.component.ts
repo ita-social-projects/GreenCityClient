@@ -381,8 +381,8 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   public calculatePointsWithCertificate() {
-    const totalSumIsBiggerThanPoints = this.defaultPoints > this.finalSum - this.certificateSum;
     this.finalSum = this.showTotal;
+    const totalSumIsBiggerThanPoints = this.defaultPoints > this.finalSum - this.certificateSum;
     if (totalSumIsBiggerThanPoints) {
       this.pointsUsed = this.finalSum - this.certificateSum;
       this.points = this.defaultPoints - this.pointsUsed;
