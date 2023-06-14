@@ -23,6 +23,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffPlaceholderSelected, TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../ubs-tariffs.enum';
 import { Language } from 'src/app/main/i18n/Language';
 import { statusOfTariff } from '../tariff-status.enum';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-deactivate-pop-up',
@@ -121,7 +122,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
-    this.getLocations();
+    this.isActivatePopUp ? this.getLocations(false) : this.getLocations(true);
     this.getTariffCards();
   }
 
@@ -185,9 +186,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       });
   }
 
-  public getLocations(): void {
-    this.tariffsService
-      .getActiveLocations()
+  getLocations(isActive: boolean): void {
+    this.fetchLocations(isActive)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Locations[]) => {
         this.locations = res;
@@ -206,6 +206,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
             }
           });
       });
+  }
+
+  private fetchLocations(isActive: boolean): Observable<Locations[]> {
+    return isActive ? this.tariffsService.getActiveLocations() : this.tariffsService.getDeactivatedLocations();
   }
 
   public getTariffCards(): void {
