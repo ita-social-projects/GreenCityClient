@@ -3,6 +3,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { EventImage } from '../../models/events.interface';
+import { CdkDragDrop, CdkDragEnter, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-images-container',
@@ -22,6 +23,10 @@ export class ImagesContainerComponent implements OnInit {
     '/assets/img/illustration-recycle.png',
     '/assets/img/illustration-store.png'
   ];
+  defImgsSlider = [this.defImgs[0], this.defImgs[1], this.defImgs[2]];
+  startIndex = 0;
+  lastIndex = 2;
+
   public images: EventImage[] = [];
   public editMode: boolean;
   private imagesTodelete: string[] = [];
@@ -31,6 +36,13 @@ export class ImagesContainerComponent implements OnInit {
   isImageSizeError: boolean;
 
   @ViewChild('takeInput') InputVar: ElementRef;
+  @ViewChild('dropListContainer') dropListContainer?: ElementRef;
+
+  dropListReceiverElement?: HTMLElement;
+  dragDropInfo?: {
+    dragIndex: number;
+    dropIndex: number;
+  };
 
   @Input() imagesEditArr: string[];
 
@@ -94,7 +106,6 @@ export class ImagesContainerComponent implements OnInit {
         this.deleteImagesOutput.emit(this.imagesTodelete);
         this.oldImagesOutput.emit(this.imagesEditArr);
       }
-
       reader.readAsDataURL(imageFile);
       reader.onload = () => {
         this.assignImage(reader.result);
@@ -138,6 +149,72 @@ export class ImagesContainerComponent implements OnInit {
     if (this.editMode) {
       this.deleteImagesOutput.emit(this.imagesTodelete);
       this.oldImagesOutput.emit(this.imagesEditArr);
+    }
+  }
+
+  dragEntered(event: CdkDragEnter<number>) {
+    const drag = event.item;
+    const dropList = event.container;
+    const dragIndex = drag.data;
+    const dropIndex = dropList.data;
+
+    this.dragDropInfo = { dragIndex, dropIndex };
+
+    const phContainer = dropList.element.nativeElement;
+    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
+
+    if (phElement) {
+      phContainer.removeChild(phElement);
+      phContainer.parentElement?.insertBefore(phElement, phContainer);
+
+      moveItemInArray(this.images, dragIndex, dropIndex);
+    }
+  }
+
+  dragMoved(event: CdkDragMove<number>) {
+    if (!this.dropListContainer || !this.dragDropInfo) return;
+
+    const placeholderElement = this.dropListContainer.nativeElement.querySelector('.cdk-drag-placeholder');
+
+    const receiverElement =
+      this.dragDropInfo.dragIndex > this.dragDropInfo.dropIndex
+        ? placeholderElement?.nextElementSibling
+        : placeholderElement?.previousElementSibling;
+
+    if (!receiverElement) {
+      return;
+    }
+
+    receiverElement.style.display = 'none';
+    this.dropListReceiverElement = receiverElement;
+  }
+
+  dragDropped(event: CdkDragDrop<number>) {
+    if (!this.dropListReceiverElement) {
+      return;
+    }
+
+    this.dropListReceiverElement.style.removeProperty('display');
+    this.dropListReceiverElement = undefined;
+    this.dragDropInfo = undefined;
+  }
+
+  onNextImg() {
+    if (this.startIndex === 0) {
+      this.startIndex = this.defImgs.length - 1;
+      this.lastIndex--;
+      this.defImgsSlider.unshift(this.defImgs[this.defImgs.length - 1]);
+      this.defImgsSlider.pop();
+    } else if (this.lastIndex === 0) {
+      this.lastIndex = this.defImgs.length - 1;
+      this.startIndex--;
+      this.defImgsSlider.unshift(this.defImgs[this.startIndex]);
+      this.defImgsSlider.pop();
+    } else {
+      this.startIndex--;
+      this.lastIndex--;
+      this.defImgsSlider.unshift(this.defImgs[this.startIndex]);
+      this.defImgsSlider.pop();
     }
   }
 }

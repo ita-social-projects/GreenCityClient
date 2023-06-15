@@ -5,7 +5,7 @@
   background: var(--ubs-secondary-white);
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
-  margin: 1px 1px 50px 1px;
+  margin: 1px 10px 50px 1px;
 }
 
 .drag-inscription {
@@ -65,4 +65,20 @@
 .image-title {
   font-size: 12px;
   width: 100%;
+}
+.image-content-container {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.next-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.next-button {
+  padding: 50%;
+  background-color: transparent;
+  color: black;
+  border: none;
 }

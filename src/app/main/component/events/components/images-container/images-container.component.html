@@ -1,37 +1,59 @@
 <div class="example-card">
   <div clas="image-container">
-    <div class="row">
+    <div class="image-content-container">
       <div class="title-wrapper">
         <mat-label>{{ 'create-event.picture' | translate }}</mat-label>
         <mat-label>{{ imageCount }}/5</mat-label>
       </div>
       <mat-label class="image-title">{{ 'create-event.picture-title' | translate }}</mat-label>
-      <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
-        <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
-        <div class="delete-block">
-          <div>{{ img.name }}</div>
-          <div (click)="deleteImage(i)">X</div>
-        </div>
 
-        <div *ngIf="img.isLabel" class="drag-inscription">
-          <label for="file-upload">
-            {{ img.label }}
-          </label>
-          <input
-            #takeInput
-            id="file-upload"
-            class="d-none"
-            [disabled]="false"
-            type="file"
-            accept="image/png,image/jpeg"
-            (change)="loadFile($event)"
-          />
+      <div #dropListContainer class="image-content-container" cdkDropListGroup>
+        <div
+          class="image-container"
+          appDrag
+          *ngFor="let img of images; let i = index"
+          cdkDropList
+          [cdkDropListData]="i"
+          (files)="filesDropped($event)"
+        >
+          <div
+            cdkDrag
+            [cdkDragData]="i"
+            (cdkDragEntered)="dragEntered($event)"
+            (cdkDragMoved)="dragMoved($event)"
+            (cdkDragDropped)="dragDropped($event)"
+            class="draging-image"
+          >
+            <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
+            <div class="delete-block">
+              <div>{{ img.name }}</div>
+              <div (click)="deleteImage(i)">X</div>
+            </div>
+
+            <div *ngIf="img.isLabel" class="drag-inscription">
+              <label for="file-upload">
+                {{ img.label }}
+              </label>
+              <input
+                #takeInput
+                id="file-upload"
+                class="d-none"
+                [disabled]="false"
+                type="file"
+                accept="image/png,image/jpeg"
+                (change)="loadFile($event)"
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="image-container" *ngFor="let img of defImgs; index as i">
-        <img class="image-preview" [src]="img" alt="image-of-event" />
+      <div class="image-content-container">
+        <div class="image-container" *ngFor="let img of defImgsSlider; index as i">
+          <img class="image-preview" [src]="img" alt="image-of-event" />
+        </div>
+        <div class="next-button-container">
+          <button class="next-button" (click)="onNextImg()">></button>
+        </div>
       </div>
     </div>
   </div>

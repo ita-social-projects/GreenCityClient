@@ -1,162 +1,164 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
-  <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]">
-    <div class="button-arrow">
-      <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
-      <div class="edit-news">{{ 'create-event.back' | translate }}</div>
-    </div>
-  </a>
-  <div class="event-header">
-    <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
-    <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
-    <p>
-      {{ 'create-event.description' | translate }}
-    </p>
-  </div>
   <div class="event-main">
-    <mat-card class="event-main-block left">
-      <div class="main-title">
-        <div class="title-input">
-          <div class="title-wrapper">
-            <mat-label>{{ 'create-event.event-name' | translate }}</mat-label>
-            <mat-label>{{ titleForm?.value.length }}/70</mat-label>
-          </div>
-          <mat-form-field appearance="outline" class="event-input">
-            <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
-            <input matInput placeholder="title" formControlName="titleForm" />
-            <div *ngIf="titleForm?.touched && titleForm?.invalid" class="error-title">
-              <app-input-error [formElement]="titleForm"></app-input-error>
+    <div class="left-box">
+      <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]">
+        <div class="button-arrow">
+          <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+          <div class="edit-news">{{ 'create-event.back' | translate }}</div>
+        </div>
+      </a>
+      <div class="event-header">
+        <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
+        <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
+        <p>
+          {{ 'create-event.description' | translate }}
+        </p>
+      </div>
+      <mat-card class="event-main-block">
+        <div class="main-title">
+          <div class="title-input">
+            <div class="title-wrapper">
+              <mat-label>{{ 'create-event.event-name' | translate }}</mat-label>
+              <mat-label>{{ titleForm?.value.length }}/70</mat-label>
             </div>
-          </mat-form-field>
-        </div>
-
-        <div class="duration-choice">
-          <div class="title-wrapper">
-            <mat-label>{{ 'create-event.duration' | translate }}</mat-label>
+            <mat-form-field appearance="outline" class="event-input">
+              <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
+              <input matInput placeholder="title" formControlName="titleForm" />
+              <div *ngIf="titleForm?.touched && titleForm?.invalid" class="error-title">
+                <app-input-error [formElement]="titleForm"></app-input-error>
+              </div>
+            </mat-form-field>
           </div>
-          <mat-form-field appearance="outline" class="date-item">
-            <mat-label>{{ 'create-event.min-duration' | translate }}</mat-label>
-            <mat-select
-              formControlName="eventDuration"
-              ngDefaultControl
-              (selectionChange)="setDateCount(+$event.value.nameEn.split(' ')[0])"
-            >
-              <mat-option *ngFor="let date of dateArrCount" [value]="date">
-                {{ getLangValue(date.nameUa, date.nameEn) }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
 
-      <div class="dateContainer">
-        <div *ngFor="let date of dates; index as i" class="dateEvent">
-          <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
-          <div class="date-event-block">
-            <app-event-date-time-picker
-              (datesForm)="checkForm($event, i)"
-              (coordOffline)="setCoordsOnlOff($event, i)"
-              (status)="checkStatus($event, i)"
-              [check]="date.check"
-              [editDate]="editEvent?.dates[i]"
-              [isDateDuplicate]="isDateDuplicate"
-              [editDates]="editDates"
-            >
-            </app-event-date-time-picker>
-            <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
-          </div>
-          <p *ngIf="dates.length && !isAddressFill" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
-        </div>
-      </div>
-
-      <div class="textarea-wrapper">
-        <div class="title-container">
-          <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-          <p [ngClass]="isDescriptionInValid ? 'error' : 'textarea-description'">
-            {{ 'create-news.content-tooltip' | translate }}
-          </p>
-        </div>
-        <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
-          <quill-editor
-            class="editor"
-            ngDefaultControl
-            formControlName="description"
-            [modules]="quillModules"
-            placeholder="{{ 'create-news.content-placeholder' | translate }}"
-          ></quill-editor>
-        </div>
-      </div>
-    </mat-card>
-    <mat-card class="event-main-block right">
-      <app-images-container
-        [imagesEditArr]="imagesForEdit"
-        (imgArrayOutput)="getImageTosend($event)"
-        (deleteImagesOutput)="getImagesToDelete($event)"
-        (oldImagesOutput)="getOldImages($event)"
-      >
-      </app-images-container>
-
-      <div class="buttons-container">
-        <mat-label>{{ 'create-event.event-theme' | translate }}</mat-label>
-        <p *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</p>
-        <div>
-          <ul class="ul-eco-buttons" aria-label="filter by items">
-            <li *ngFor="let tag of tags">
-              <a
-                role="button"
-                [attr.aria-pressed]="tag.isActive"
-                class="custom-chip global-tag"
-                [ngClass]="{ 'global-tag-clicked': tag.isActive }"
-                tabindex="0"
-                (click)="checkTab(tag)"
+          <div class="duration-choice">
+            <div class="title-wrapper">
+              <mat-label>{{ 'create-event.duration' | translate }}</mat-label>
+            </div>
+            <mat-form-field appearance="outline" class="date-item">
+              <mat-label>{{ 'create-event.min-duration' | translate }}</mat-label>
+              <mat-select
+                formControlName="eventDuration"
+                ngDefaultControl
+                (selectionChange)="setDateCount(+$event.value.nameEn.split(' ')[0])"
               >
-                <span class="text">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
-                <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
-              </a>
-            </li>
-          </ul>
+                <mat-option *ngFor="let date of dateArrCount" [value]="date">
+                  {{ getLangValue(date.nameUa, date.nameEn) }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
-      </div>
 
-      <div class="buttons-container">
-        <mat-label>{{ 'create-event.event-type' | translate }}</mat-label>
-        <div class="flex-container">
-          <a
-            role="button"
-            class="custom-chip global-tag"
-            [ngClass]="{ 'global-tag-clicked': isOpen }"
-            tabindex="0"
-            (click)="changeToOpen()"
-          >
-            <span class="text">{{ 'create-event.open' | translate }}</span>
-            <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
-          </a>
-          <a
-            role="button"
-            class="custom-chip global-tag"
-            [ngClass]="{ 'global-tag-clicked': !isOpen }"
-            tabindex="0"
-            (click)="changeToClose()"
-          >
-            <span class="text">{{ 'create-event.close' | translate }}</span>
-            <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
-          </a>
+        <div class="dateContainer">
+          <div *ngFor="let date of dates; index as i" class="dateEvent">
+            <div>
+              <div>
+                <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
+              </div>
+              <div class="date-event-block">
+                <app-event-date-time-picker
+                  (datesForm)="checkForm($event, i)"
+                  (coordOffline)="setCoordsOnlOff($event, i)"
+                  (status)="checkStatus($event, i)"
+                  [check]="date.check"
+                  [editDate]="editEvent?.dates[i]"
+                  [isDateDuplicate]="isDateDuplicate"
+                  [editDates]="editDates"
+                >
+                </app-event-date-time-picker>
+                <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
+              </div>
+            </div>
+            <p *ngIf="dates.length && !isAddressFill" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
+          </div>
         </div>
+
+        <div class="textarea-wrapper">
+          <div class="title-container">
+            <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
+            <p [ngClass]="isDescriptionInValid ? 'error' : 'textarea-description'">
+              {{ 'create-news.content-tooltip' | translate }}
+            </p>
+          </div>
+          <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
+            <quill-editor
+              class="editor"
+              ngDefaultControl
+              formControlName="description"
+              [modules]="quillModules"
+              placeholder="{{ 'create-news.content-placeholder' | translate }}"
+            ></quill-editor>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="right-box">
+      <mat-card class="event-main-block">
+        <app-images-container [imagesEditArr]="imagesForEdit" (imgArrayOutput)="getImageTosend($event)"> </app-images-container>
+
+        <div class="buttons-container">
+          <mat-label>{{ 'create-event.event-theme' | translate }}</mat-label>
+          <p *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</p>
+          <div>
+            <ul class="ul-eco-buttons" aria-label="filter by items">
+              <li *ngFor="let tag of tags">
+                <a
+                  role="button"
+                  [attr.aria-pressed]="tag.isActive"
+                  class="custom-chip global-tag"
+                  [ngClass]="{ 'global-tag-clicked': tag.isActive }"
+                  tabindex="0"
+                  (click)="checkTab(tag)"
+                >
+                  <span class="text">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
+                  <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="buttons-container">
+          <mat-label>{{ 'create-event.event-type' | translate }}</mat-label>
+          <div class="flex-container">
+            <a
+              role="button"
+              class="custom-chip global-tag"
+              [ngClass]="{ 'global-tag-clicked': isOpen }"
+              tabindex="0"
+              (click)="changeToOpen()"
+            >
+              <span class="text">{{ 'create-event.open' | translate }}</span>
+              <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
+            </a>
+            <a
+              role="button"
+              class="custom-chip global-tag"
+              [ngClass]="{ 'global-tag-clicked': !isOpen }"
+              tabindex="0"
+              (click)="changeToClose()"
+            >
+              <span class="text">{{ 'create-event.close' | translate }}</span>
+              <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
+            </a>
+
+            <mat-form-field appearance="fill">
+              <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
+              <select matNativeControl required>
+                <option value="All">{{ 'create-event.all' | translate }}</option>
+                <option value="Frends">{{ 'create-event.friends' | translate }}</option>
+              </select>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card>
+
+      <div class="submit-container">
+        <button class="tertiary-global-button" (click)="shouldDeleteEvent()">{{ 'create-event.cancel' | translate }}</button>
+        <button class="secondary-global-button">{{ 'create-event.preview' | translate }}</button>
+        <button class="primary-global-button" (click)="onSubmit()">{{ 'create-event.publish' | translate }}</button>
       </div>
-
-      <mat-form-field appearance="fill">
-        <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
-        <select matNativeControl required>
-          <option value="All">{{ 'create-event.all' | translate }}</option>
-          <option value="Frends">{{ 'create-event.friends' | translate }}</option>
-        </select>
-      </mat-form-field>
-    </mat-card>
-  </div>
-
-  <div class="submit-container">
-    <button class="tertiary-global-button" (click)="shouldDeleteEvent()">{{ 'create-event.cancel' | translate }}</button>
-    <button class="secondary-global-button">{{ 'create-event.preview' | translate }}</button>
-    <button class="primary-global-button" (click)="onSubmit()">{{ 'create-event.publish' | translate }}</button>
+    </div>
   </div>
 </div>

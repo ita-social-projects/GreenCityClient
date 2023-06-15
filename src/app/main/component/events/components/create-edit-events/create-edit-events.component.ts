@@ -41,9 +41,12 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public selectedDay = WeekArray[0];
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
+
   public imagesToDelete: string[] = [];
   public oldImages: string[] = [];
   public imagesForEdit: string[];
+  private imgArray: Array<File> = [];
+
   public tags: Array<TagObj>;
   public isTagValid: boolean;
   public isAddressFill = true;
@@ -53,7 +56,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
   public currentLang: string;
 
-  private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;

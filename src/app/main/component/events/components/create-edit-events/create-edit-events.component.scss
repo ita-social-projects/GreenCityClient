@@ -43,12 +43,18 @@
   justify-content: space-between;
   color: var(--quaternary-grey);
 }
+.title-input {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+}
 
 .event-main {
   display: flex;
 }
 
 .event-main-block {
+  margin: 0;
   background: rgb(248, 247, 247);
 }
 
@@ -58,13 +64,12 @@
 }
 
 .event-input {
-  width: 484px;
-
-  .error-title {
-    position: relative;
-    top: 12px;
-    left: -10px;
-  }
+  width: 100%;
+}
+.error-title {
+  position: relative;
+  top: 12px;
+  left: -10px;
 }
 
 .date-item {
@@ -75,8 +80,9 @@
   margin: 0 0 0 20px;
 }
 
-.left {
-  max-width: 652px;
+.left-box {
+  width: 60%;
+  margin: 0;
 }
 
 .date-event-block {
@@ -98,9 +104,10 @@
   justify-content: space-between;
 }
 
-.right {
+.right-box {
+  width: 40%;
+  margin: 150px 0 0 32px;
   padding: 24px;
-  margin-left: 32px;
 }
 
 .buttons-container {
@@ -141,6 +148,7 @@
 .flex-container {
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .submit-container {
@@ -170,4 +178,29 @@
 
 .error {
   color: var(--error-red);
+}
+.secondary-global-button {
+  line-height: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .event-container {
+    padding: 0px 24px;
+    margin: 0;
+  }
+
+  .event-main {
+    flex-direction: column;
+    .left-box,
+    .right-box {
+      width: 100%;
+      padding: 24px;
+      margin: 0;
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .right-box {
+    margin: 170px 0;
+  }
 }
