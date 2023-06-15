@@ -21,8 +21,8 @@ describe('FriendRequestsComponent', () => {
 
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRequests', 'declineRequest', 'acceptRequest']);
   userFriendsServiceMock.getRequests = () => of(FRIENDS);
-  userFriendsServiceMock.declineRequest = (idUser, idFriend) => of(FIRSTFRIEND);
-  userFriendsServiceMock.acceptRequest = (idUser, idFriend) => of(FIRSTFRIEND);
+  userFriendsServiceMock.declineRequest = (idFriend) => of(FIRSTFRIEND);
+  userFriendsServiceMock.acceptRequest = (idFriend) => of(FIRSTFRIEND);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

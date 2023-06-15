@@ -180,19 +180,19 @@ describe('UserFriendsService', () => {
   describe('acceptRequest', () => {
     it('should return an object on calling acceptRequest', () => {
       let response;
-      userFriendsService.acceptRequest(1, 2).subscribe((data) => {
+      userFriendsService.acceptRequest(2).subscribe((data) => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/1/acceptFriend/2`);
-      expect(req.request.method).toBe('POST');
+      const req = httpMock.expectOne(`${userFriendsService.url}friends/1/acceptFriend`);
+      expect(req.request.method).toBe('PATCH');
     });
   });
 
   describe('declineRequest', () => {
     it('should return an object on calling declineRequest', () => {
       let response;
-      userFriendsService.declineRequest(1, 2).subscribe((data) => {
+      userFriendsService.declineRequest(2).subscribe((data) => {
         response = data;
       });
 

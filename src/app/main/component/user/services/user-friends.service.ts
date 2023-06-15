@@ -70,22 +70,12 @@ export class UserFriendsService {
     return this.http.post<object>(`${this.url}friends/${idFriend}`, body);
   }
 
-  public acceptRequest(idUser: number, idFriend: number): Observable<object> {
-    const body = {
-      friendId: idFriend,
-      userId: idUser
-    };
-
-    return this.http.post<object>(`${this.url}user/${idUser}/acceptFriend/${idFriend}`, body);
+  public acceptRequest(idFriend: number): Observable<object> {
+    return this.http.patch<object>(`${this.url}friends/${idFriend}/acceptFriend`, {});
   }
 
-  public declineRequest(idUser: number, idFriend: number): Observable<object> {
-    const body = {
-      friendId: idFriend,
-      userId: idUser
-    };
-
-    return this.http.post<object>(`${this.url}user/${idUser}/declineFriend/${idFriend}`, body);
+  public declineRequest(idFriend: number): Observable<object> {
+    return this.http.post<object>(`${this.url}friends/${idFriend}/declineFriend`, {});
   }
 
   public deleteFriend(idFriend: number): Observable<object> {
