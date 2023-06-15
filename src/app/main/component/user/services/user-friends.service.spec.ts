@@ -184,7 +184,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}friends/1/acceptFriend`);
+      const req = httpMock.expectOne(`${userFriendsService.url}friends/2/acceptFriend`);
       expect(req.request.method).toBe('PATCH');
     });
   });
@@ -196,7 +196,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/1/declineFriend/2`);
+      const req = httpMock.expectOne(`${userFriendsService.url}friends/2/declineFriend`);
       expect(req.request.method).toBe('POST');
     });
   });
