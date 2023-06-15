@@ -128,6 +128,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.setLocation(this.locationId);
     }
     this.takeOrderData();
+    this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
     }
@@ -332,7 +333,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.isFetching = false;
           setTimeout(() => {
             this.shareFormService.changeOrderDetails();
-            this.subscribeToLangChange();
             this.checkTotalBigBags();
           }, 0);
         },
