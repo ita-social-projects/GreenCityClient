@@ -97,7 +97,7 @@ export class RecommendedFriendsComponent implements OnInit {
 
   public addFriend(id: number) {
     this.userFriendsService
-      .addFriend(this.userId, id)
+      .addFriend(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.deleteFriendsFromList(id, this.recommendedFriends);

@@ -13,6 +13,7 @@ export class UserFriendsService {
   addedFriends: FriendModel[] = [];
   private size = 10;
   public url: string = environment.backendUserLink;
+  public urlFriend: string = environment.backendLink;
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -61,25 +62,20 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.url}user/findFriendByName?name=${name}&page=${page}&size=${size}`);
   }
 
-  public addFriend(idUser: number, idFriend: number): Observable<object> {
-    const body = {
-      friendId: idFriend,
-      userId: idUser
-    };
-
-    return this.http.post<object>(`${this.url}friends/${idFriend}`, body);
+  public addFriend(idFriend: number): Observable<object> {
+    return this.http.post<object>(`${this.urlFriend}friends/${idFriend}`, {});
   }
 
   public acceptRequest(idFriend: number): Observable<object> {
-    return this.http.patch<object>(`${this.url}friends/${idFriend}/acceptFriend`, {});
+    return this.http.patch<object>(`${this.urlFriend}friends/${idFriend}/acceptFriend`, {});
   }
 
   public declineRequest(idFriend: number): Observable<object> {
-    return this.http.post<object>(`${this.url}friends/${idFriend}/declineFriend`, {});
+    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/declineFriend`, {});
   }
 
   public deleteFriend(idFriend: number): Observable<object> {
-    return this.http.delete<object>(`${this.url}friends/${idFriend}`, this.httpOptions);
+    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}`, this.httpOptions);
   }
 
   addedFriendsToHabit(friend) {
