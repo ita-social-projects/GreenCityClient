@@ -32,7 +32,7 @@ export class FriendRequestsComponent implements OnInit {
 
   public accept(id: number) {
     this.userFriendsService
-      .acceptRequest(this.userId, id)
+      .acceptRequest(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.deleteFriendsFromList(id, this.requests);
@@ -41,7 +41,7 @@ export class FriendRequestsComponent implements OnInit {
 
   public decline(id: number) {
     this.userFriendsService
-      .declineRequest(this.userId, id)
+      .declineRequest(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.deleteFriendsFromList(id, this.requests);

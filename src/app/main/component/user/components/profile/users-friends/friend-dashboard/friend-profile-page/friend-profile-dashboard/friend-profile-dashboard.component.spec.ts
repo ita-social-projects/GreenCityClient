@@ -69,7 +69,7 @@ describe('FriendProfileDashboardComponent', () => {
     component.friendsList = FRIENDS.page;
     component.addFriend(1);
     expect(userFriendsServiceMock.addFriend).toHaveBeenCalled();
-    expect(userFriendsServiceMock.addFriend).toHaveBeenCalledWith(component.currentUserId, 1);
+    expect(userFriendsServiceMock.addFriend).toHaveBeenCalledWith(1);
   });
 
   it('should unsubscribe on destroy', () => {
