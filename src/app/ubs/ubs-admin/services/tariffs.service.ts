@@ -79,6 +79,10 @@ export class TariffsService {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/addLocations`, card);
   }
 
+  getDeactivatedLocations(): Observable<Locations[]> {
+    return this.http.get<Locations[]>(`${mainUbsLink}/ubs/superAdmin/getDeactivatedLocations`);
+  }
+
   getAllStations(): Observable<Stations[]> {
     return this.http.get<Stations[]>(`${mainUbsLink}/ubs/superAdmin/get-all-receiving-station`);
   }
