@@ -7,6 +7,10 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { Store } from '@ngrx/store';
+import { DeleteEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';
 
 @Component({
   selector: 'app-eco-news-detail',
@@ -31,12 +35,21 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  private deleteDialogData = {
+    popupTitle: 'homepage.eco-news.news-delete-popup.delete-title',
+    popupConfirm: 'homepage.eco-news.news-delete-popup.delete-yes',
+    popupCancel: 'homepage.eco-news.news-delete-popup.delete-no',
+    style: 'red'
+  };
+  private isPosting: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private ecoNewsService: EcoNewsService,
     private localStorageService: LocalStorageService,
-    private langService: LanguageService
+    private langService: LanguageService,
+    private dialog: MatDialog,
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -116,6 +129,27 @@ export class EcoNewsDetailComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((val: boolean) => {
         this.isLiked = val;
+      });
+  }
+
+  public deleteNews(): void {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.deleteDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      width: '300px'
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.store.dispatch(DeleteEcoNewsAction({ id: this.newsId }));
+          this.isPosting = true;
+        }
       });
   }
 

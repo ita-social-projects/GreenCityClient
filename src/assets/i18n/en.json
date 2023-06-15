@@ -103,6 +103,11 @@
       "empty-state": {
         "no-news": "Unfortunately, no more news found",
         "no-news-advice": "We couldn't find any more news. Please change filters to get another result."
+      },
+      "news-delete-popup": {
+        "delete-title": "News will be deleted. Do you want to continue?",
+        "delete-yes": "yes",
+        "delete-no": "no"
       }
     },
     "events": {
@@ -1033,6 +1038,7 @@
   "eco-news-single-view": {
     "back-button": "Back to News",
     "edit-news-button": "Edit news",
+    "delete-news-button": "Delete",
     "author": "by",
     "tags": {
       "news": "news",

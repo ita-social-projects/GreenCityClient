@@ -14,7 +14,9 @@ import {
   EditEcoNewsAction,
   EditEcoNewsSuccessAction,
   CreateEcoNewsAction,
-  CreateEcoNewsSuccessAction
+  CreateEcoNewsSuccessAction,
+  DeleteEcoNewsSuccessAction,
+  DeleteEcoNewsAction
 } from '../actions/ecoNews.actions';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -90,6 +92,20 @@ export class NewsEffects {
             (newEcoNews: EcoNewsModel) => CreateEcoNewsSuccessAction({ newEcoNews }),
             catchError(() => EMPTY)
           )
+        );
+      })
+    );
+  });
+
+  deleteNews = createEffect(() => {
+    return this.actions.pipe(
+      ofType(DeleteEcoNewsAction),
+      mergeMap((actions: { id: number }) => {
+        return this.newsService.deleteNews(actions.id).pipe(
+          catchError((error) => {
+            console.error('Помилка при видаленні новини', error);
+            return EMPTY;
+          })
         );
       })
     );

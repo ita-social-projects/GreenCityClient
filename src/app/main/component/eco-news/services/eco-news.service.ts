@@ -70,6 +70,10 @@ export class EcoNewsService implements OnDestroy {
     return this.http.post(`${this.backEnd}econews/like?id=${id}`, {});
   }
 
+  public deleteNews(id: number): Observable<any> {
+    return this.http.delete(`${this.backEnd}news/delete/${id}`);
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
