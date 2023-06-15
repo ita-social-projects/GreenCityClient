@@ -7,10 +7,9 @@ import {
   OnDestroy,
   ViewChild,
   ChangeDetectorRef,
-  AfterViewChecked,
-  EventEmitter
+  AfterViewChecked
 } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDrawer } from '@angular/material/sidenav';
 import { UserMessagesService } from '../../ubs/ubs-user/services/user-messages.service';
 import { Subject } from 'rxjs';
@@ -30,7 +29,6 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
   private sidebarChangeBreakpoint: number;
   public isAdmin = false;
-
   destroy: Subject<boolean> = new Subject<boolean>();
   @Input() public listElements: object[] = [];
   @Input() public listElementsMobile: object[] = [];
@@ -52,14 +50,10 @@ export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked,
 
   public isExpanded = false;
 
-  public navigateToPage(routerLink: string): void {
+  public navigateToPage(event: Event, routerLink: string): void {
+    event.stopPropagation();
     const mainLink = this.isAdmin ? 'ubs-admin' : 'ubs-user';
-    const route = [mainLink];
-    const routes = routerLink.split('/');
-
-    route.push(...routes);
-
-    this.router.navigate(route);
+    this.router.navigate([mainLink, ...routerLink.split('/')]);
   }
 
   public setIndexToSidebarIcons(): void {
