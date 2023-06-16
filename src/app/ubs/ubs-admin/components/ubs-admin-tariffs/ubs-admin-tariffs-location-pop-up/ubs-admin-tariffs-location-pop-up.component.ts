@@ -25,6 +25,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { GooglePlaceService } from 'src/app/ubs/mocks/google-types';
 
 interface LocationItem {
   location: string;
@@ -90,7 +91,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   regionId;
   enCities;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
-  placeService: google.maps.places.PlacesService;
+  placeService: GooglePlaceService;
 
   public icons = {
     arrowDown: '././assets/img/ubs-tariff/arrow-down.svg',
