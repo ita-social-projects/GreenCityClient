@@ -154,16 +154,13 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public returnMoney(id: number): void {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+    matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.returnMoneyDialogDate,
       hasBackdrop: true,
       closeOnNavigation: true,
       disableClose: true,
       panelClass: ''
-    });
-
-    matDialogRef
-      .afterClosed()
+    }).afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
