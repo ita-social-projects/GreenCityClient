@@ -10,7 +10,6 @@ import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -32,7 +31,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   public selectedTariffId: number;
   activeCouriers;
   ubsCourierName = 'UBS';
-  isLoggedIn = false;
+  private userId: number;
 
   priceCard = [
     {
@@ -113,14 +112,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
     private jwtService: JwtService,
-    private cdref: ChangeDetectorRef,
-    private userOwnAuthService: UserOwnAuthService
+    private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.checkUserSingIn();
+    this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
-    if (this.isLoggedIn && !this.isAdmin) {
+    if (this.userId && !this.isAdmin) {
       this.getActiveCouriers();
     }
     this.screenWidth = document.documentElement.clientWidth;
@@ -139,12 +137,6 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
-  }
-
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      this.isLoggedIn = data?.userId;
-    });
   }
 
   calcLineSize() {

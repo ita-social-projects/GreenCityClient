@@ -11,7 +11,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
-import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -34,11 +33,6 @@ describe('UbsMainPageComponent', () => {
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['credentialDataSubject']);
-  userOwnAuthServiceMock.credentialDataSubject = new Subject();
-  userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
@@ -49,8 +43,7 @@ describe('UbsMainPageComponent', () => {
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: JwtService, useValue: jwtServiceMock },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: JwtService, useValue: jwtServiceMock }
       ]
     }).compileComponents();
   }));
@@ -79,13 +72,6 @@ describe('UbsMainPageComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should check if user logged in', () => {
-    let userID = null;
-
-    (component as any).userOwnAuthService.isLoginUserSubject.subscribe((id) => (userID = id));
-    expect(userID).toBeDefined();
   });
 
   it('should make expected calls inside openLocationDialog', () => {
