@@ -77,11 +77,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   const status = 'OK';
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
-    'getCurrentLanguage',
-    'languageBehaviourSubject',
-    'setFirstName'
-  ]);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
@@ -116,14 +112,13 @@ describe('UbsUserProfilePageComponent', () => {
       declarations: [UbsUserProfilePageComponent],
       providers: [
         { provide: MatDialog, useValue: dialogMock },
+        { provide: MatDialogRef, useValue: {} },
         { provide: ClientProfileService, useValue: clientProfileServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Locations, useValue: fakeLocationsMockUk },
-        { provide: MatDialogRef, useValue: {} },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: MatDialogRef, useValue: {} },
         { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
@@ -204,29 +199,32 @@ describe('UbsUserProfilePageComponent', () => {
     component.isEditing = true;
     fixture.detectChanges();
     spyOn(component, 'onCancel');
-    const cancelButton = fixture.debugElement.query(By.css('.cancel')).nativeElement;
+    const cancelButton = fixture.debugElement.query(By.css('.submit-btns .ubs-secondary-global-button')).nativeElement;
     cancelButton.click();
     tick();
     expect(component.onCancel).toHaveBeenCalled();
   }));
 
-  it('method onEdit should be calls by clicking edit button', fakeAsync(() => {
-    component.isEditing = false;
-    fixture.detectChanges();
-    spyOn(component, 'onEdit');
-    const editButton = fixture.debugElement.query(By.css('.edit')).nativeElement;
-    editButton.click();
-    tick();
-    expect(component.onEdit).toHaveBeenCalled();
-  }));
-
   it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
     spyOn(component, 'openDeleteProfileDialog');
-    const deleteButton = fixture.debugElement.query(By.css('.delete')).nativeElement;
+    const deleteButton = fixture.debugElement.query(By.css('.header-buttons .ubs-danger-global-button')).nativeElement;
     deleteButton.click();
     tick();
     expect(component.openDeleteProfileDialog).toHaveBeenCalled();
   }));
+
+  it('method onCancel should call userInit method', () => {
+    component.isEditing = true;
+    const spy = spyOn(component, 'userInit');
+    component.onCancel();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method onCancel should set isEditing false', () => {
+    component.isEditing = true;
+    component.onCancel();
+    expect(component.isEditing).toBeFalsy();
+  });
 
   it('method openDeleteAddressDialog has to open popup', () => {
     const matDialogRefMock = {
@@ -242,11 +240,17 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
     spyOn(component, 'openChangePasswordDialog');
-    const openButton = fixture.debugElement.query(By.css('.open')).nativeElement;
+    const openButton = fixture.debugElement.query(By.css('.header-buttons .ubs-secondary-global-button')).nativeElement;
     openButton.click();
     tick();
     expect(component.openChangePasswordDialog).toHaveBeenCalled();
   }));
+
+  it('method openChangePasswordDialog has to open popup', () => {
+    spyOn(dialogMock, 'open').and.callFake(() => {});
+    component.openChangePasswordDialog();
+    expect(dialogMock.open).toHaveBeenCalled();
+  });
 
   it('spiner has to be defined if (isFetching === true)', () => {
     component.isFetching = true;
@@ -254,17 +258,6 @@ describe('UbsUserProfilePageComponent', () => {
     const spiner = fixture.debugElement.query(By.css('app-spinner')).nativeElement;
     expect(spiner).toBeDefined();
   });
-
-  it('Form should be defined by clicking on the edit button', fakeAsync(() => {
-    const editButton = fixture.debugElement.query(By.css('.edit')).nativeElement;
-    const spy = spyOn(component, 'focusOnFirst');
-    editButton.click();
-    tick();
-    fixture.detectChanges();
-    const formElement = fixture.debugElement.nativeElement.querySelector('form');
-    const inputElements = formElement.querySelectorAll('input');
-    expect(inputElements.length).toBe(10);
-  }));
 
   it('method onEdit should get data and invoke methods', fakeAsync(() => {
     component.isEditing = false;
@@ -292,12 +285,11 @@ describe('UbsUserProfilePageComponent', () => {
   });
 
   it('method onSubmit has to be called by clicking submit button', fakeAsync(() => {
-    const isFormValid = component.userForm.value.valid;
     component.isEditing = true;
     fixture.detectChanges();
-    if (isFormValid) {
+    if (component.userForm.value.valid) {
       spyOn(component, 'onSubmit');
-      const deleteButton = fixture.debugElement.query(By.css('.btn-success')).nativeElement;
+      const deleteButton = fixture.debugElement.query(By.css('.submit-btns .ubs-primary-global-button')).nativeElement;
       deleteButton.click();
       tick();
       expect(component.onSubmit).toHaveBeenCalled();
@@ -577,7 +569,7 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('method onCitySelected should invoke method setValueOfCity 2 times', () => {
     const spy = spyOn(component, 'setValueOfCity');
-    component.onCitySelected(0, predictionListKyivRegion[0]);
+    component.onCitySelected(0, ADDRESSESMOCK.KYIVREGIONSLIST[0]);
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
@@ -637,9 +629,9 @@ describe('UbsUserProfilePageComponent', () => {
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACEKYIVUK, status as any);
     });
-    component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'city');
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'city');
     expect(city.value).toEqual(ADDRESSESMOCK.PLACEKYIVUK.name);
+    expect(isKyiv.value).toEqual(true);
   });
 
   it('method onCitySelected should set isDistrict if city is not Kyiv', () => {
@@ -651,9 +643,9 @@ describe('UbsUserProfilePageComponent', () => {
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACECITYUK, status as any);
     });
-    component.setValueOfCity(predictionListKyivCity[0], currentFormGroup, 'city');
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'city');
     expect(city.value).toEqual(ADDRESSESMOCK.PLACECITYUK.name);
+    expect(isKyiv.value).toEqual(false);
   });
 
   it('method setPredictStreets should call method for predicting streets in ua', () => {
@@ -722,10 +714,10 @@ describe('UbsUserProfilePageComponent', () => {
     cityEn.setValue(`Kyiv Oblast`);
     region.setValue(`Щасливе`);
     regionEn.setValue(`Shchaslyve`);
-    const result = [streetPredictionKyivRegion[0]];
+    const result = [ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]];
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(streetPredictionKyivRegion, status as any);
+      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
     });
 
     const fakesearchAddress = `Щасливе, Не`;
