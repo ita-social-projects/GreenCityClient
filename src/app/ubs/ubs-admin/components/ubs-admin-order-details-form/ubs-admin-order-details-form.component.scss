@@ -119,7 +119,7 @@
     position: absolute;
     top: 6px;
     right: 5px;
-    color: var(--ubs-quintynary-light-grey);
+
     font-size: 1.7em;
     padding: 0 0.2em;
     line-height: 1em;
@@ -169,6 +169,10 @@
 
 .ng-invalid:not(form):not([formarrayname]) {
   border: 1px solid var(--error-ligh-red);
+}
+
+.shop-numbers .check-empty-input {
+  border: 1px solid #ced4da;
 }
 
 @media (max-width: 1199px) {
