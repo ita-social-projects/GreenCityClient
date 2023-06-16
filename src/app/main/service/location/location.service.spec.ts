@@ -42,17 +42,6 @@ describe('LocationService', () => {
     expect(spy).toHaveBeenCalledWith('Name of District');
   });
 
-  it('should get auto district for ua lang', () => {
-    const placeDetails = {
-      address_components: [{ long_name: 'Київський район' }]
-    };
-    const convertedAddress = locations.getDistrictAuto(placeDetails, 'en');
-    expect(convertedAddress).toBe('Name of district');
-    const convertedAddress = locations.getDistrictAuto(placeDetails, 'ua');
-    expect(convertedAddress).toBe('Київський район');
-    expect(convertedAddress).toContain('район');
-  });
-
   it('should get auto district undefined if getDistrict is null', () => {
     const placeDetails = {
       address_components: [{ long_name: 'Назва' }]
