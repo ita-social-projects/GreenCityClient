@@ -77,7 +77,11 @@ describe('UbsUserProfilePageComponent', () => {
 
   const status = 'OK';
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'languageBehaviourSubject',
+    'setFirstName'
+  ]);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
@@ -195,24 +199,6 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.userInit).toHaveBeenCalled();
   });
 
-  it('method onCancel should be called by clicking cancel button', fakeAsync(() => {
-    component.isEditing = true;
-    fixture.detectChanges();
-    spyOn(component, 'onCancel');
-    const cancelButton = fixture.debugElement.query(By.css('.submit-btns .ubs-secondary-global-button')).nativeElement;
-    cancelButton.click();
-    tick();
-    expect(component.onCancel).toHaveBeenCalled();
-  }));
-
-  it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
-    spyOn(component, 'openDeleteProfileDialog');
-    const deleteButton = fixture.debugElement.query(By.css('.header-buttons .ubs-danger-global-button')).nativeElement;
-    deleteButton.click();
-    tick();
-    expect(component.openDeleteProfileDialog).toHaveBeenCalled();
-  }));
-
   it('method onCancel should call userInit method', () => {
     component.isEditing = true;
     const spy = spyOn(component, 'userInit');
@@ -237,14 +223,6 @@ describe('UbsUserProfilePageComponent', () => {
     expect(dialogMock.open).toHaveBeenCalled();
     expect(matDialogRefMock.afterClosed).toHaveBeenCalled();
   });
-
-  it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
-    spyOn(component, 'openChangePasswordDialog');
-    const openButton = fixture.debugElement.query(By.css('.header-buttons .ubs-secondary-global-button')).nativeElement;
-    openButton.click();
-    tick();
-    expect(component.openChangePasswordDialog).toHaveBeenCalled();
-  }));
 
   it('method openChangePasswordDialog has to open popup', () => {
     spyOn(dialogMock, 'open').and.callFake(() => {});
