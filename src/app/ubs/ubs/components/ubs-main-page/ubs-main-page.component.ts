@@ -31,6 +31,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   public selectedTariffId: number;
   activeCouriers;
   ubsCourierName = 'UBS';
+  private userId: number;
 
   priceCard = [
     {
@@ -115,11 +116,14 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ) {}
 
   ngOnInit(): void {
-    this.getActiveCouriers();
+    this.userId = this.localStorageService.getUserId();
+    this.isAdmin = this.checkIsAdmin();
 
+    if (this.userId && !this.isAdmin) {
+      this.getActiveCouriers();
+    }
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
-    this.isAdmin = this.checkIsAdmin();
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
   }
 
@@ -180,6 +184,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   getLocations(courierName: string): void {
+    const courier = this.findCourierByName(courierName);
+
     this.isFetching = true;
     this.orderService
       .getLocations(courier.courierId)

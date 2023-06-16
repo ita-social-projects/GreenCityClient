@@ -17,9 +17,9 @@ describe('UbsMainPageComponent', () => {
   let fixture: ComponentFixture<UbsMainPageComponent>;
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOonYEE';
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
