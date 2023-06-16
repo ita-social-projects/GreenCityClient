@@ -175,7 +175,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   creationOfRefundApplication() {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+    this.dialog.open(DialogPopUpComponent, {
       data: this.refundApplicationDialogDate,
       hasBackdrop: true,
       closeOnNavigation: true,
