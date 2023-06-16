@@ -166,13 +166,13 @@ describe('OrderService', () => {
     service.getLocations(1).subscribe((data) => {
       expect(data).toEqual(locationsMock as any);
     });
-    httpTest('allLocations', 'GET', locationsMock);
+    httpTest('locations/1', 'GET', locationsMock);
   });
 
   it('method getInfoAboutTariff should return user location tariff', () => {
     const tariffMock = { tariff: 'fake tariff' };
 
-    service.getInfoAboutTariff(1).subscribe((data) => {
+    service.getInfoAboutTariff(1, 1).subscribe((data) => {
       expect(data).toEqual(tariffMock as any);
     });
     httpTest('tariffinfo/1?courierId=1', 'GET', tariffMock);
