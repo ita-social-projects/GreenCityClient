@@ -141,7 +141,7 @@ label,
 
 .edit-address {
   height: 100%;
-  margin: 3px;
+  margin: 14px 3px 5px 10px;
   cursor: pointer;
 }
 
@@ -195,6 +195,11 @@ label,
 
 .custom-radio input[name='address'] {
   accent-color: var(--ubs-freinacht-black);
+  margin-top: 14px;
+}
+
+.adress-position {
+  margin-left: 5%;
 }
 
 @media (max-width: 767px) {
