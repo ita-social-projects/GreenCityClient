@@ -117,6 +117,10 @@
     "date": "Date:",
     "info-about-date": "Added:"
   },
+  "return-payment": {
+    "message": "Do you really want a refund?",
+    "accept-refund-application": "Your application has been accepted. Our manager will contact you later."
+  },
   "add-payment": {
     "title": "Add a payment document",
     "title-2": "A payment document",

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ChangingOrderPaymentStatus } from 'src/app/store/actions/bigOrderTable.actions';
@@ -9,6 +9,7 @@ import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -32,10 +33,32 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public unPaidAmount: number;
   public paymentInfo: IPaymentInfo;
   public paymentsArray: IPaymentInfoDto[];
+  public paymentsIdArray: string[] = [];
   public currentOrderStatus: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  public isMoneyReturning = false;
+  private returnMoneyDialogDate = {
+    popupTitle: 'return-payment.message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: 'green'
+  };
 
-  constructor(private orderService: OrderService, private dialog: MatDialog, private store: Store<IAppState>) {}
+  private refundApplicationDialogDate = {
+    popupTitle: 'return-payment.accept-refund-application',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: 'green',
+    isItrefund: true
+  };
+
+  constructor(
+    private orderService: OrderService,
+    private dialog: MatDialog,
+    private store: Store<IAppState>,
+    private dialogRef: MatDialogRef<UbsAdminOrderPaymentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit() {
     this.currentOrderStatus = this.orderStatus;
@@ -49,6 +72,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
+    this.createPaymentsIdArray();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -72,6 +96,12 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public positivePaymentsArrayAmount(): void {
     this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.amount = Math.abs(payment.amount);
+    });
+  }
+
+  public createPaymentsIdArray(): void {
+    this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
+      this.paymentsIdArray.push(payment.paymentId);
     });
   }
 
@@ -123,8 +153,35 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     });
   }
 
-  public returnMoney(sum: number): void {
-    // TO DO
+  public returnMoney(id: number): void {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.returnMoneyDialogDate,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.isMoneyReturning = true;
+          this.creationOfRefundApplication();
+          // TO DO
+        }
+      });
+  }
+
+  creationOfRefundApplication() {
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.refundApplicationDialogDate,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
   }
 
   public recountUnpaidAmount(value: number): void {
