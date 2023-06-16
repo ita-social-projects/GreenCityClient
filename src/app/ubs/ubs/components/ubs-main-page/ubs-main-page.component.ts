@@ -143,7 +143,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      this.isLoggedIn = data && data.userId;
+      this.isLoggedIn = data?.userId;
     });
   }
 
