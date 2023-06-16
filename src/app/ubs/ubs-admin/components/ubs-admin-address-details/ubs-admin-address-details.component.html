@@ -13,7 +13,7 @@
             <select
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
               (change)="setRegionValue($event)"
-              class="shadow-none form-control placeholder-positioning"
+              class="form-control shadow-none placeholder-positioning"
               id="region"
             >
               <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
@@ -26,9 +26,10 @@
               (keyup)="setPredictCities()"
               [formControlName]="getLangValue('addressCity', 'addressCityEng')"
               class="form-control"
-              id="city"
-              matInput
               [readonly]="isStatus"
+              id="city"
+              placeholder="{{ 'address-details.city' | translate }}"
+              matInput
               [matAutocomplete]="autoCity"
             />
             <mat-autocomplete #autoCity="matAutocomplete">
@@ -54,14 +55,14 @@
           <div class="form-group">
             <label for="street">{{ 'address-details.street' | translate }}</label>
             <input
-              (keyup)="setPredictStreets()"
+              id="street"
               type="text"
               class="form-control"
-              id="street"
-              [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
+              placeholder="{{ 'address-details.street' | translate }}"
               [readonly]="isStatus"
-              matInput
+              [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
               [matAutocomplete]="autoStreet"
+              (keyup)="setPredictStreets()"
             />
             <mat-autocomplete #autoStreet="matAutocomplete">
               <mat-option
@@ -82,22 +83,57 @@
           </div>
           <div class="building">
             <div class="form-group">
-              <label for="building">{{ 'address-details.building' | translate }}</label>
-              <input type="text" class="form-control" id="building" formControlName="addressHouseNumber" [readonly]="isStatus" />
+              <label for="house">{{ 'address-details.house' | translate }}</label>
+              <input
+                type="text"
+                class="form-control"
+                [readonly]="isStatus"
+                id="house"
+                formControlName="addressHouseNumber"
+                placeholder="{{ 'address-details.house' | translate }}"
+                matInput
+                [matAutocomplete]="autoHouse"
+                (keyup)="setPredictHouseNumbers()"
+                (focusout)="checkHouseInput()"
+              />
+              <mat-autocomplete #autoHouse="matAutocomplete">
+                <mat-option
+                  class="autocomplete-dropdown"
+                  *ngFor="let house of housePredictionList"
+                  [value]="house.structured_formatting.main_text"
+                  (click)="onHouseSelected()"
+                >
+                  {{ house.structured_formatting.main_text }}
+                </mat-option>
+              </mat-autocomplete>
               <div class="validation" *ngIf="addressHouseNumber.invalid && addressHouseNumber.touched">
                 <app-ubs-input-error [formElement]="addressHouseNumber"></app-ubs-input-error>
               </div>
             </div>
             <div class="form-group">
-              <label for="corpus">{{ 'address-details.corpus' | translate }}</label>
-              <input type="text" class="form-control" id="corpus" formControlName="addressHouseCorpus" [readonly]="isStatus" />
+              <label for="building">{{ 'address-details.building' | translate }}</label>
+              <input
+                type="text"
+                class="form-control"
+                [readonly]="isStatus"
+                id="building"
+                formControlName="addressHouseCorpus"
+                placeholder="{{ 'address-details.building' | translate }}"
+              />
               <div class="validation" *ngIf="addressHouseCorpus.invalid && addressHouseCorpus.touched">
                 <app-ubs-input-error [formElement]="addressHouseCorpus"></app-ubs-input-error>
               </div>
             </div>
             <div class="form-group">
               <label for="entrance">{{ 'address-details.entrance' | translate }}</label>
-              <input formControlName="addressEntranceNumber" type="text" class="form-control" id="entrance" [readonly]="isStatus" />
+              <input
+                formControlName="addressEntranceNumber"
+                type="text"
+                class="form-control"
+                [readonly]="isStatus"
+                id="entrance"
+                placeholder="{{ 'address-details.entrance' | translate }}"
+              />
               <div class="validation" *ngIf="addressEntranceNumber.invalid && addressEntranceNumber.touched">
                 <app-ubs-input-error [formElement]="addressEntranceNumber"></app-ubs-input-error>
               </div>
@@ -107,24 +143,13 @@
         <div class="form-group district">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
+            class="form-control placeholder-positioning"
             *ngIf="isDistrict"
             id="district"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="form-control placeholder-positioning"
             (change)="onDistrictSelected($event)"
           >
             <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
-          </select>
-          <select
-            *ngIf="!isDistrict"
-            id="district"
-            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="form-control"
-            (change)="onDistrictSelected($event)"
-          >
-            <option *ngFor="let district of districts" [ngValue]="district.name">
-              {{ district.name }}
-            </option>
           </select>
           <div
             class="validation"
