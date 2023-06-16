@@ -4,7 +4,8 @@ import {
   GetEcoNewsByTagsSuccessAction,
   GetEcoNewsByAuthorSuccessAction,
   CreateEcoNewsSuccessAction,
-  EditEcoNewsSuccessAction
+  EditEcoNewsSuccessAction,
+  DeleteEcoNewsSuccessAction
 } from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';
 
@@ -64,6 +65,24 @@ export const EcoNewsReducer = createReducer(
       pages: [action.newEcoNews, ...state.pages],
       autorNews: [action.newEcoNews, ...state.autorNews],
       countOfEcoNews: action.newEcoNews.countOfEcoNews
+    };
+  }),
+
+  on(DeleteEcoNewsSuccessAction, (state, action) => {
+    const updatedPages = state.pages?.filter((newsPage) => newsPage.id !== +action.id);
+    const updatedAuthorNews = state.autorNews?.filter((authorNews) => authorNews.id !== +action.id);
+    const totalElements = state.ecoNewsByAuthor.totalElements;
+    const totalElem = totalElements > 0 ? totalElements - 1 : totalElements;
+    const updatedEcoNewsByAuthorPage = state.ecoNewsByAuthor.page?.filter((newsPage) => newsPage.id !== +action.id);
+    return {
+      ...state,
+      pages: updatedPages || state.pages,
+      autorNews: updatedAuthorNews || state.autorNews,
+      ecoNewsByAuthor: {
+        ...state.ecoNewsByAuthor,
+        totalElements: totalElem,
+        page: updatedEcoNewsByAuthorPage || state.ecoNewsByAuthor.page
+      }
     };
   })
 );

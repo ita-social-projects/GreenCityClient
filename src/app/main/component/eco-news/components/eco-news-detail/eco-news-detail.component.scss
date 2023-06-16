@@ -21,10 +21,10 @@ $bp-largest: 1440px;
   flex-direction: row;
 
   .delete-news-button {
-    margin-left: 20px;
+    border: none;
+    margin-right: 20px;
     height: 48px;
     font-size: 1rem;
-    border-radius: 4px;
   }
 }
 
@@ -321,7 +321,7 @@ $bp-largest: 1440px;
     }
 
     .delete-news-button {
-      margin: 20px 0 0 0;
+      margin: 0 0 20px 0;
     }
   }
 }

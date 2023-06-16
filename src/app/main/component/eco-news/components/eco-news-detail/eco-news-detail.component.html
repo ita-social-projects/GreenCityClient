@@ -11,15 +11,15 @@
           </div>
         </a>
       </div>
-      <div class="editDeleteBlock">
-        <a [routerLink]="['/news/create-news']" [queryParams]="{ id: newsItem.id }">
-          <div class="edit-news" *ngIf="newsItem.author.id === userId">
-            {{ 'eco-news-single-view.edit-news-button' | translate }}
-          </div>
-        </a>
+      <div class="editDeleteBlock" *ngIf="newsItem.author.id === userId">
         <button class="secondary-global-button delete-news-button" type="button" (click)="deleteNews()">
           {{ 'eco-news-single-view.delete-news-button' | translate }}
         </button>
+        <a [routerLink]="['/news/create-news']" [queryParams]="{ id: newsItem.id }">
+          <div class="edit-news">
+            {{ 'eco-news-single-view.edit-news-button' | translate }}
+          </div>
+        </a>
       </div>
     </div>
     <div class="tags">

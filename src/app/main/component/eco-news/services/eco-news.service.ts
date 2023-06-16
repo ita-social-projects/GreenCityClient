@@ -71,7 +71,7 @@ export class EcoNewsService implements OnDestroy {
   }
 
   public deleteNews(id: number): Observable<any> {
-    return this.http.delete(`${this.backEnd}news/delete/${id}`);
+    return this.http.delete(`${this.backEnd}econews/${id}`);
   }
 
   ngOnDestroy(): void {

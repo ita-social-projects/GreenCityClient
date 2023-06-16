@@ -17,6 +17,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Language } from '../../../../i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -57,8 +58,9 @@ describe('EcoNewsDetailComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EcoNewsDetailComponent, EcoNewsWidgetComponent, TranslatePipeMock, DateLocalisationPipe, SafeHtmlPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), MatDialogModule],
       providers: [
+        MatDialog,
         { provide: Store, useValue: storeMock },
         { provide: EcoNewsService, useValue: ecoNewsServ },
         Sanitizer,
