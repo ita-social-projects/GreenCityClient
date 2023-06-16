@@ -168,11 +168,11 @@ describe('UserFriendsService', () => {
   describe('addFriend', () => {
     it('should return an object on calling addFriend', () => {
       let response;
-      userFriendsService.addFriend(1, 2).subscribe((data) => {
+      userFriendsService.addFriend(2).subscribe((data) => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}friends/2`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/2`);
       expect(req.request.method).toBe('POST');
     });
   });
@@ -180,24 +180,24 @@ describe('UserFriendsService', () => {
   describe('acceptRequest', () => {
     it('should return an object on calling acceptRequest', () => {
       let response;
-      userFriendsService.acceptRequest(1, 2).subscribe((data) => {
+      userFriendsService.acceptRequest(2).subscribe((data) => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/1/acceptFriend/2`);
-      expect(req.request.method).toBe('POST');
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/2/acceptFriend`);
+      expect(req.request.method).toBe('PATCH');
     });
   });
 
   describe('declineRequest', () => {
     it('should return an object on calling declineRequest', () => {
       let response;
-      userFriendsService.declineRequest(1, 2).subscribe((data) => {
+      userFriendsService.declineRequest(2).subscribe((data) => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/1/declineFriend/2`);
-      expect(req.request.method).toBe('POST');
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/2/declineFriend`);
+      expect(req.request.method).toBe('DELETE');
     });
   });
 
@@ -208,7 +208,7 @@ describe('UserFriendsService', () => {
         response = data;
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}friends/2`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/2`);
       expect(req.request.method).toBe('DELETE');
     });
   });

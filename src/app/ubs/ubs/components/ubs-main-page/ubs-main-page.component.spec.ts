@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { of, Subject } from 'rxjs';
+import { of, Subject, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
@@ -11,6 +11,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
+import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -19,7 +20,7 @@ describe('UbsMainPageComponent', () => {
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration']);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
@@ -33,6 +34,11 @@ describe('UbsMainPageComponent', () => {
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
 
+  let userOwnAuthServiceMock: UserOwnAuthService;
+  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['credentialDataSubject']);
+  userOwnAuthServiceMock.credentialDataSubject = new Subject();
+  userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
@@ -43,7 +49,8 @@ describe('UbsMainPageComponent', () => {
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
         { provide: CheckTokenService, useValue: checkTokenServiceMock },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: JwtService, useValue: jwtServiceMock }
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
       ]
     }).compileComponents();
   }));
@@ -72,6 +79,13 @@ describe('UbsMainPageComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should check if user logged in', () => {
+    let userID = null;
+
+    (component as any).userOwnAuthService.isLoginUserSubject.subscribe((id) => (userID = id));
+    expect(userID).toBeDefined();
   });
 
   it('should make expected calls inside openLocationDialog', () => {
