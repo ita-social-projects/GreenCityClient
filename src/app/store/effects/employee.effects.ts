@@ -24,12 +24,24 @@ export class EmployeesEffects {
   getEmployees = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEmployees),
-      mergeMap((actions: { pageNumber: number; pageSize: number; search?: string; reset: boolean }) => {
-        return this.ubsAdminEmployeeService.getEmployees(actions.pageNumber, actions.pageSize, actions.search).pipe(
-          map((employees: Employees) => GetEmployeesSuccess({ employees, reset: actions.reset })),
-          catchError(() => EMPTY)
-        );
-      })
+      mergeMap(
+        (actions: {
+          pageNumber: number;
+          pageSize: number;
+          search?: string;
+          sortBy?: string;
+          reset: boolean;
+          sortDirection?: string;
+          filterData;
+        }) => {
+          return this.ubsAdminEmployeeService
+            .getEmployees(actions.pageNumber, actions.pageSize, actions.search, actions.sortBy, actions.sortDirection, actions.filterData)
+            .pipe(
+              map((employees: Employees) => GetEmployeesSuccess({ employees, reset: actions.reset })),
+              catchError(() => EMPTY)
+            );
+        }
+      )
     );
   });
 

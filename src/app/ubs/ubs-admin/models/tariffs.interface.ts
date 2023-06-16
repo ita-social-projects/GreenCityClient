@@ -169,3 +169,9 @@ export interface TranslationDto {
   regionName?: string;
   languageCode: string;
 }
+
+export interface City {
+  id: number;
+  locationTranslationDtoList: { locationName: string; languageCode: string }[];
+  name: string;
+}
