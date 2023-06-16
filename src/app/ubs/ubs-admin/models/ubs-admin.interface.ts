@@ -332,6 +332,7 @@ export interface Address {
   region: string;
   regionEn: string;
   district: string;
+  isHouseSelected?: boolean;
   districtEn: string;
   entranceNumber: string;
   houseCorpus: string;
