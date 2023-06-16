@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { TariffsService } from '../../../services/tariffs.service';
 import {
   Locations,
@@ -121,7 +121,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
     setTimeout(() => this.city.disable());
     this.getCouriers();
     this.getReceivingStation();
-    this.getLocations();
+    this.isActivatePopUp ? this.getLocations(false) : this.getLocations(true);
     this.getTariffCards();
   }
 
@@ -185,7 +185,8 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
       });
   }
 
-  public getLocations(): void {
+  getLocations(isActive: boolean): void {
+    this.fetchLocations(isActive);
     this.tariffsService
       .getActiveLocations()
       .pipe(takeUntil(this.unsubscribe))
@@ -206,6 +207,10 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
             }
           });
       });
+  }
+
+  private fetchLocations(isActive: boolean): Observable<Locations[]> {
+    return isActive ? this.tariffsService.getActiveLocations() : this.tariffsService.getDeactivatedLocations();
   }
 
   public getTariffCards(): void {

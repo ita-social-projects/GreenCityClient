@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICertificateResponse, OrderDetails } from '../models/ubs.interface';
+import { ICertificateResponse, OrderDetails, ActiveCourierDto } from '../models/ubs.interface';
 import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -128,13 +128,17 @@ export class OrderService {
     return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
-  getLocations(changeLoc?: boolean): Observable<AllLocationsDtos> {
+  getLocations(courierId: number, changeLoc?: boolean): Observable<AllLocationsDtos> {
     const changeLocAttr = changeLoc ? '?changeLoc=changeLocation' : '';
-    return this.http.get<AllLocationsDtos>(`${this.url}/allLocations${changeLocAttr}`);
+    return this.http.get<AllLocationsDtos>(`${this.url}/locations/${courierId}${changeLocAttr}`);
   }
 
-  getInfoAboutTariff(locationId: number): Observable<AllLocationsDtos> {
-    return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo-for-location/${locationId}`);
+  getAllActiveCouriers(): Observable<ActiveCourierDto[]> {
+    return this.http.get<ActiveCourierDto[]>(`${this.url}/getAllActiveCouriers`);
+  }
+
+  getInfoAboutTariff(courierId: number, locationId: number): Observable<AllLocationsDtos> {
+    return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo/${locationId}?courierId=${courierId}`);
   }
 
   addLocation(location): Observable<any> {

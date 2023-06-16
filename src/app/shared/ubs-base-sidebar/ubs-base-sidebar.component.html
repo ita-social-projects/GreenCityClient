@@ -28,8 +28,9 @@
           [ngClass]="{ 'sidebar-list-item__collapsed': !isExpanded }"
           role="listitem"
           [attr.aria-label]="listItem.name | translate"
-          (keydown.enter)="navigateToPage(listItem.routerLink)"
-          (keydown.space)="navigateToPage(listItem.routerLink)"
+          (keydown.enter)="navigateToPage($event, listItem.routerLink)"
+          (keydown.space)="navigateToPage($event, listItem.routerLink)"
+          [matTooltip]="!isExpanded ? (listItem.name | translate) : null"
         >
           <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="{{ listItem.name | translate }} icon" />
           <span *ngIf="isExpanded" class="sidebar-list-item-link">{{ listItem.name | translate }}</span>
@@ -45,10 +46,9 @@
     </mat-drawer>
 
     <mat-drawer-content [ngClass]="isAdmin ? 'admin-main-content' : 'main-content'" role="main">
-      <div class="content-box" [ngClass]="{ 'margin-for-table': !isAdmin, 'sidebar-container': true }" #sidebarContainer>
+      <div [ngClass]="{ 'margin-for-table': !isAdmin, 'sidebar-container': true }" #sidebarContainer>
         <ng-content></ng-content>
       </div>
-      <app-ubs-footer *ngIf="!isAdmin" class="footer"></app-ubs-footer>
     </mat-drawer-content>
   </mat-drawer-container>
 

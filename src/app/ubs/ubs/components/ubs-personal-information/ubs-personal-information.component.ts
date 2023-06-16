@@ -287,7 +287,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   activeAddressId() {
     this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
-    this.addressId = this.checkedAddress.id ?? activeAddress.id;
+
+    this.addressId = this.checkedAddress?.id ? this.checkedAddress?.id : activeAddress.id;
   }
 
   deleteAddress(address: Address) {

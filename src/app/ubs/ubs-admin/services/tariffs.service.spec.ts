@@ -215,6 +215,14 @@ describe('TariffsService', () => {
     httpTest('/ubs/superAdmin/getCouriers', 'GET', courier);
   });
 
+  it('should return deactivated locations', () => {
+    service.getDeactivatedLocations().subscribe((data) => {
+      expect(data).toBe(location);
+    });
+
+    httpTest('/ubs/superAdmin/getDeactivatedLocations', 'GET', location);
+  });
+
   it('should edit info', () => {
     service.editInfo(info).subscribe((data) => {
       expect(data).toBe(info);

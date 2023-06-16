@@ -25,6 +25,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public myControl = new FormControl();
   public filteredOptions: Observable<any>;
   public selectedTariffId: number;
+  courierUBS;
+  courierUBSName = 'UBS';
 
   constructor(
     private orderService: OrderService,
@@ -37,13 +39,29 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getLocations();
+    this.getActiveCouriers();
+    this.myControl.setValidators(Validators.required);
+  }
+
+  filterOptions(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.locationName)),
       map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
     );
-    this.myControl.setValidators(Validators.required);
+  }
+
+  getActiveCouriers() {
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        this.courierUBS = res.find((courier) => courier.nameEn.includes(this.courierUBSName));
+        if (this.courierUBS) {
+          this.getLocations();
+          this.filterOptions();
+        }
+      });
   }
 
   displayFn(city: LocationsName): string {
@@ -62,7 +80,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     of(true)
       .pipe(
         takeUntil(this.destroy$),
-        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(true)))
+        mergeMap(() => iif(() => this.data, of(this.data), this.orderService.getLocations(this.courierUBS.courierId, true)))
       )
       .subscribe((res: AllLocationsDtos) => {
         this.isFetching = false;
@@ -82,7 +100,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
 
   saveLocation(): void {
     this.orderService
-      .getInfoAboutTariff(this.selectedLocationId)
+      .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: AllLocationsDtos) => {
         if (res.orderIsPresent) {
