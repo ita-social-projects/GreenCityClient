@@ -15,7 +15,7 @@ export enum EmployeesActions {
 
 export const GetEmployees = createAction(
   EmployeesActions.GetEmployees,
-  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean }>()
+  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean; sortDirection?: string; filterData }>()
 );
 
 export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees; reset: boolean }>());

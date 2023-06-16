@@ -23,6 +23,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   @Input() public isThisUserCanEditEmployeeAuthorities: boolean;
   @Input() public isThisUserCanDeleteEmployee: boolean;
   @Input() public userHasRights: boolean;
+  @Input() public filterData: any;
   currentPageForTable = 0;
   isUpdateTable = false;
   isLoading = true;
@@ -35,6 +36,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   filteredTableData: Page[] = [];
   firstPageLoad = true;
   reset = true;
+  filterDatas = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   public isTooltipOpened: boolean;
   public deleteDialogData = {
@@ -117,7 +119,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
         pageNumber: this.currentPageForTable,
         pageSize: this.sizeForTable,
         search: this.search,
-        reset: this.reset
+        reset: this.reset,
+        filterData: this.filterDatas
       })
     );
   }

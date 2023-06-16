@@ -8,17 +8,27 @@ import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
   providedIn: 'root'
 })
 export class UbsAdminEmployeeService {
-  public getAllEmployees = `${ubsAdminEmployeeLink}/getAll-active-employees`;
+  public getAllEmployees = `${ubsAdminEmployeeLink}/getAll-employees`;
   public searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private http: HttpClient) {}
 
-  getEmployees(pageNumber?: number, pageSize?: number, search?: string, sortBy?: string, sortDirection?: string): Observable<Employees> {
+  getEmployees(
+    pageNumber?: number,
+    pageSize?: number,
+    search?: string,
+    sortBy?: string,
+    sortDirection?: string,
+    filterData?
+  ): Observable<Employees> {
     const urlAttr = [{ search }, { sortBy }, { sortDirection }].reduce(
       (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
       ``
     );
-    return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`);
+
+    return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`, {
+      params: filterData
+    });
   }
 
   getAllPositions(): Observable<any[]> {
