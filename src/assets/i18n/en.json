@@ -1082,6 +1082,7 @@
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
     "event-name": "Enter name for Event",
+    "event-description": "Description",
     "placeholder": "Event name up to 70 symbols.",
     "duration": "Duration",
     "min-duration": "Min 1 day",
@@ -1112,6 +1113,7 @@
     "preview": "Preview",
     "publish": "Publish",
     "invite": "Invite",
+    "status": "Status",
     "all": "All",
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link"

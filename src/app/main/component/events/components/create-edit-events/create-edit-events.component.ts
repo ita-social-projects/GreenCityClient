@@ -4,7 +4,16 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
-import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
+import {
+  DateEvent,
+  DateFormObj,
+  Dates,
+  EventDTO,
+  EventPageResponceDto,
+  OfflineDto,
+  TagObj,
+  PagePreviewDTO
+} from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
 import { DatePipe } from '@angular/common';
@@ -40,6 +49,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public checkAfterSend = true;
   public dateArrCount = WeekArray;
   public selectedDay = WeekArray[0];
+  public addressForPreview: DateFormObj;
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
@@ -140,6 +150,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public checkForm(form: DateFormObj, ind: number): void {
+    this.addressForPreview = form;
     this.duplindx = -1;
     const date = form.date?.toLocaleDateString();
     const datesArray = this.dates.map((item, index) => {
@@ -206,6 +217,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
+    const bl = new Blob([this.imgArray[0].name]);
+    const url = URL.createObjectURL(bl);
     this.checkFileExtensionAndSize(imageArr);
   }
 
@@ -313,9 +326,23 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onPreview(show) {
-    this.onSubmit();
-    this.router.navigate(['/events', this.editEvent.id, true]);
+  public backToEditing() {
+    this.router.navigate(['/events', 'create-event']);
+  }
+
+  public onPreview() {
+    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
+    const sendEventDto: PagePreviewDTO = {
+      title: this.eventFormGroup.get('titleForm').value.trim(),
+      description: this.eventFormGroup.get('description').value,
+      open: this.isOpen,
+      datesLocations: this.dates,
+      tags: tagsArr,
+      imgArray: this.oldImages,
+      location: this.addressForPreview
+    };
+    this.eventService.setForm(sendEventDto);
+    this.router.navigate(['events', 'preview']);
   }
 
   private createEvent(sendData: FormData) {

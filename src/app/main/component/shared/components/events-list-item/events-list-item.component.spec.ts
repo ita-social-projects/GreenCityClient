@@ -417,7 +417,7 @@ describe('EventsListItemComponent', () => {
 
     it(`should navigate to events`, () => {
       component.routeToEvent();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id, false]);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
     });
   });
 

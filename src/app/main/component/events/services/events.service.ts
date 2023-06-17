@@ -1,17 +1,27 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto } from '../models/events.interface';
+import { EventResponseDto, EventDTO, PagePreviewDTO } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
+  public currentForm: PagePreviewDTO;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: HttpClient) {}
+
+  public setForm(form: PagePreviewDTO): void {
+    this.currentForm = form;
+  }
+
+  public getForm(): PagePreviewDTO {
+    return this.currentForm;
+  }
 
   public createEvent(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.backEnd}events/create`, formData);

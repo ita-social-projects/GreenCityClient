@@ -6,14 +6,12 @@
         <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" class="button-link">
           <div class="button-content">
             <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
-            <div class="button-text" *ngIf="!openFromEdit">{{ 'homepage.events.btn.back-route' | translate }}</div>
-            <div class="edit-news back-to-edit" *ngIf="openFromEdit">{{ 'create-event.back-edit' | translate }}</div>
-            <button class="primary-global-button button-publish" *ngIf="openFromEdit">{{ 'create-event.publish' | translate }}</button>
+            <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
           </div>
         </a>
       </div>
 
-      <div *ngIf="role === (roles.ORGANIZER || role === roles.ADMIN) && !openFromEdit" class="edit-buttons">
+      <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
         <div class="tertiary-global-button m-btn" (click)="deleteEvent()">
           {{ 'homepage.events.btn.delete' | translate }}
         </div>
@@ -48,7 +46,7 @@
           <app-images-slider *ngIf="images.length" [images]="images"></app-images-slider>
         </div>
 
-        <div class="event-tags-participants" *ngIf="!openFromEdit">
+        <div class="event-tags-participants">
           <div class="event-tags">
             <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
           </div>
@@ -66,7 +64,7 @@
           </div>
         </div>
 
-        <div class="event-info-block" *ngIf="!openFromEdit">
+        <div class="event-info-block">
           <div class="event-info">
             <div class="event-date">
               <div class="event-date-icon">
@@ -119,29 +117,6 @@
           </div>
         </div>
 
-        <div class="event-tags-participants" *ngIf="openFromEdit">
-          <p class="info-text">
-            <b class="title-text">{{ 'create-event.event-start' | translate }}</b> {{ date }}
-          </p>
-          <p class="info-text">
-            <b class="title-text">{{ 'create-event.event-place' | translate }}</b> {{ locationAddress }}
-          </p>
-        </div>
-
-        <div class="event-type event-tags-participants" *ngIf="openFromEdit">
-          <div class="position-elements">
-            <p class="title-text">Initiative type</p>
-            <div *ngFor="let tag of event.tags">
-              <a class="option-border">{{ tag.nameUa }}</a>
-            </div>
-          </div>
-          <div class="position-elements" *ngIf="openFromEdit">
-            <p class="title-text">Status</p>
-            <a class="option-border-status" *ngIf="event.open">{{ 'create-event.open' | translate }}</a>
-            <a class="option-border-status" *ngIf="!event.open">{{ 'create-event.close' | translate }}</a>
-          </div>
-        </div>
-
         <div class="save-join-event-block" *ngIf="role === roles.USER">
           <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
           <button class="primary-global-button">{{ 'homepage.events.btn.join-btn' | translate }}</button>
@@ -151,11 +126,6 @@
       <div class="main-right">
         <div class="description-block-title">Description</div>
         <div [innerHTML]="event.description"></div>
-      </div>
-
-      <div class="buttons">
-        <button class="secondary-global-button button" *ngIf="true">{{ 'create-event.save-event' | translate }}</button>
-        <button class="primary-global-button button" *ngIf="true">{{ 'create-event.label' | translate }}</button>
       </div>
     </div>
   </div>

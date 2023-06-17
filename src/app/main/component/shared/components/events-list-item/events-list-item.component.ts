@@ -112,7 +112,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public routeToEvent(): void {
-    this.router.navigate(['/events', this.event.id, false]);
+    this.router.navigate(['/events', this.event.id]);
   }
 
   public filterTags(tags: Array<TagDto>) {
