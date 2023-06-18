@@ -19,6 +19,8 @@ export class EventsPreviewPageComponent implements OnInit {
   public addressEn: string;
   public userName: string;
   private userNameSub: Subscription;
+  firstFriend = 'assets/img/kimi.png';
+  secondFriend = 'assets/img/lewis.png';
   public icons = {
     socials: {
       plus: 'assets/img/events/plus.svg',

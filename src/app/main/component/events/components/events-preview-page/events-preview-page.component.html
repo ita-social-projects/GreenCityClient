@@ -38,6 +38,11 @@
         </div>
 
         <div class="event-tags-participants">
+          <div class="friends-photo">
+            <a href="#"><img class="first-photo" [src]="firstFriend" alt="First friend photo" /></a>
+            <a href="#"><img class="second-photo" [src]="secondFriend" alt="Second friend photo" /></a>
+            <p><b>2</b> people are going</p>
+          </div>
           <p class="info-text">
             <b class="title-text">{{ 'create-event.event-start' | translate }}</b
             >{{ date | dateLocalisation }} {{ event.datesLocations[0].startDate }} - {{ event.datesLocations[0].finishDate }}

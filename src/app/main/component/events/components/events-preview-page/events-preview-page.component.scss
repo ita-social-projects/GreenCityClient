@@ -30,6 +30,27 @@
       width: 100%;
     }
 
+    .friends-photo {
+      display: flex;
+
+      .first-photo,
+      .second-photo {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid var(--secondary-light-grey);
+      }
+
+      .first-photo {
+        z-index: 1;
+      }
+
+      .second-photo {
+        position: relative;
+        left: -5px;
+      }
+    }
+
     .event-nav {
       display: flex;
       flex-wrap: wrap;
