@@ -43,6 +43,7 @@
   justify-content: space-between;
   color: var(--quaternary-grey);
 }
+
 .title-input {
   display: flex;
   flex-direction: column;
@@ -66,6 +67,7 @@
 .event-input {
   width: 100%;
 }
+
 .error-title {
   position: relative;
   top: 12px;
@@ -179,18 +181,20 @@
 .error {
   color: var(--error-red);
 }
+
 .secondary-global-button {
   line-height: 20px;
 }
 
 @media screen and (max-width: 768px) {
   .event-container {
-    padding: 0px 24px;
+    padding: 0 24px;
     margin: 0;
   }
 
   .event-main {
     flex-direction: column;
+
     .left-box,
     .right-box {
       width: 100%;
@@ -199,6 +203,7 @@
     }
   }
 }
+
 @media screen and (max-width: 1024px) {
   .right-box {
     margin: 170px 0;

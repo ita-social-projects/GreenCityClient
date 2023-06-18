@@ -171,22 +171,26 @@ export class ImagesContainerComponent implements OnInit {
     }
   }
 
-  dragMoved(event: CdkDragMove<number>) {
-    if (!this.dropListContainer || !this.dragDropInfo) return;
-
-    const placeholderElement = this.dropListContainer.nativeElement.querySelector('.cdk-drag-placeholder');
-
-    const receiverElement =
-      this.dragDropInfo.dragIndex > this.dragDropInfo.dropIndex
-        ? placeholderElement?.nextElementSibling
-        : placeholderElement?.previousElementSibling;
-
-    if (!receiverElement) {
-      return;
+  dragMoved(event: CdkDragMove<number>): void {
+    const placeholderElement = this.dropListContainer?.nativeElement.querySelector('.cdk-drag-placeholder');
+    const receiverElement = this.dragDropInfo && this.getReceiverElement(placeholderElement);
+    if (receiverElement) {
+      receiverElement.style.display = 'none';
+      this.dropListReceiverElement = receiverElement;
     }
+  }
 
-    receiverElement.style.display = 'none';
-    this.dropListReceiverElement = receiverElement;
+  private getReceiverElement(placeholderElement: HTMLElement | null): HTMLElement | null {
+    if (placeholderElement) {
+      const dropIndex = this.dragDropInfo?.dropIndex;
+      const dragIndex = this.dragDropInfo?.dragIndex;
+      if (dropIndex !== dragIndex) {
+        return dropIndex > dragIndex
+          ? (placeholderElement.nextElementSibling as HTMLElement)
+          : (placeholderElement.previousElementSibling as HTMLElement);
+      }
+    }
+    return null;
   }
 
   dragDropped(event: CdkDragDrop<number>) {

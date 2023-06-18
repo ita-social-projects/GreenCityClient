@@ -66,16 +66,19 @@
   font-size: 12px;
   width: 100%;
 }
+
 .image-content-container {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
 }
+
 .next-button-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .next-button {
   padding: 50%;
   background-color: transparent;
