@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AddressData, AllLocationsDtos, CourierLocations } from '../models/ubs.interface';
+import { Address, AddressData, AllLocationsDtos, CourierLocations, ActiveCourierDto } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -125,13 +125,18 @@ export class OrderService {
     return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
-  getLocations(changeLoc?: boolean): Observable<AllLocationsDtos> {
+  getLocations(courierId: number, changeLoc?: boolean): Observable<AllLocationsDtos> {
     const changeLocAttr = changeLoc ? '?changeLoc=changeLocation' : '';
-    return this.http.get<AllLocationsDtos>(`${this.url}/allLocations${changeLocAttr}`);
+
+    return this.http.get<AllLocationsDtos>(`${this.url}/locations/${courierId}${changeLocAttr}`);
   }
 
-  getInfoAboutTariff(locationId: number): Observable<AllLocationsDtos> {
-    return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo-for-location/${locationId}`);
+  getAllActiveCouriers(): Observable<ActiveCourierDto[]> {
+    return this.http.get<ActiveCourierDto[]>(`${this.url}/getAllActiveCouriers`);
+  }
+
+  getInfoAboutTariff(courierId: number, locationId: number): Observable<AllLocationsDtos> {
+    return this.http.get<AllLocationsDtos>(`${this.url}/tariffinfo/${locationId}?courierId=${courierId}`);
   }
 
   addLocation(location): Observable<any> {

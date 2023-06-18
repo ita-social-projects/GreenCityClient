@@ -93,7 +93,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
 
   public addFriend(id: number): void {
     this.userFriendsService
-      .addFriend(this.currentUserId, id)
+      .addFriend(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         () => {

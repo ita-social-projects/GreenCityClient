@@ -29,6 +29,9 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   public lineSize = Array(4).fill(0);
   public screenWidth: number;
   public selectedTariffId: number;
+  activeCouriers;
+  ubsCourierName = 'UBS';
+  private userId: number;
 
   priceCard = [
     {
@@ -113,9 +116,13 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ) {}
 
   ngOnInit(): void {
+    this.userId = this.localStorageService.getUserId();
+    this.isAdmin = this.checkIsAdmin();
+    if (this.userId && !this.isAdmin) {
+      this.getActiveCouriers();
+    }
     this.screenWidth = document.documentElement.clientWidth;
     this.onCheckToken();
-    this.isAdmin = this.checkIsAdmin();
     this.boxWidth = document.querySelector('.main-container').getBoundingClientRect().width;
   }
 
@@ -154,7 +161,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
 
   redirectToOrder() {
     this.localStorageService.setUbsRegistration(true);
-    this.getLocations();
+    this.getLocations(this.ubsCourierName);
   }
 
   public checkIsAdmin(): boolean {
@@ -162,10 +169,24 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     return userRole === 'ROLE_UBS_EMPLOYEE';
   }
 
-  getLocations(): void {
+  findCourierByName(name) {
+    return this.activeCouriers.find((courier) => courier.nameEn.includes(name));
+  }
+
+  getActiveCouriers() {
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.activeCouriers = res;
+      });
+  }
+
+  getLocations(courierName: string): void {
+    const courier = this.findCourierByName(courierName);
     this.isFetching = true;
     this.orderService
-      .getLocations()
+      .getLocations(courier.courierId)
       .pipe(
         takeUntil(this.destroy),
         finalize(() => {
