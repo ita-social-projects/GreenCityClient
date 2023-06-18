@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener, Output, EventEmitter } from '@angular/core';
+import { Directive, HostBinding, HostListener, Output, EventEmitter, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileHandle } from '../../ubs/ubs-admin/models/file-handle.model';
 
@@ -11,6 +11,7 @@ export class DragDirective {
     grey: '#999',
     white: '#F7F9FA'
   };
+
   @HostBinding('style.background') public background = this.color.white;
 
   constructor(private sanitizer: DomSanitizer) {}
