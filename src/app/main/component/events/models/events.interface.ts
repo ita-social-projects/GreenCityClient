@@ -148,6 +148,6 @@ export interface PagePreviewDTO {
   open: boolean;
   datesLocations: DateEvent[];
   tags: Array<string>;
-  imgArray: string[];
+  imgArray: File[];
   location: DateFormObj;
 }

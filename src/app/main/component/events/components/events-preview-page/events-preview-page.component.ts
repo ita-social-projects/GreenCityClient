@@ -51,6 +51,7 @@ export class EventsPreviewPageComponent implements OnInit {
     this.addressUa = this.eventService.createAdresses(this.event.datesLocations[0].coordinatesDto, 'Ua');
     this.addressEn = this.eventService.createAdresses(this.event.datesLocations[0].coordinatesDto, 'En');
     this.bindUserName();
+    console.log(this.event.imgArray, 'preview page');
   }
 
   private bindUserName(): void {

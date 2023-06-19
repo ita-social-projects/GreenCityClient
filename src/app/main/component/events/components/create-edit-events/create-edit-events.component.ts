@@ -216,7 +216,10 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public getImageTosend(imageArr: Array<File>): void {
+    console.log(imageArr, 'create-edit');
     this.imgArray = [...imageArr];
+    const createURL = URL.createObjectURL(this.imgArray[0]);
+    console.log(createURL, 'create-edit-URL');
     const bl = new Blob([this.imgArray[0].name]);
     const url = URL.createObjectURL(bl);
     this.checkFileExtensionAndSize(imageArr);
@@ -338,7 +341,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       open: this.isOpen,
       datesLocations: this.dates,
       tags: tagsArr,
-      imgArray: this.oldImages,
+      imgArray: this.imgArray,
       location: this.addressForPreview
     };
     this.eventService.setForm(sendEventDto);
