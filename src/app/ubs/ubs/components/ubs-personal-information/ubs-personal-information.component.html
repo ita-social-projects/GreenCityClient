@@ -105,18 +105,20 @@
     </div>
     <ng-template #addressesList>
       <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
-        <div class="custom-radio d-flex">
-          <input
-            class="checkmark"
-            name="address"
-            type="radio"
-            [value]="address.id"
-            [checked]="address.actual"
-            [disabled]="!address.display"
-            (click)="checkAddress(address.id)"
-          />
-        </div>
-        <app-address [address]="address" class="col-md-6"></app-address>
+        <label class="adress-position">
+          <div class="custom-radio d-flex">
+            <input
+              class="checkmark"
+              name="address"
+              type="radio"
+              [value]="address.id"
+              [checked]="address.actual"
+              [disabled]="!address.display"
+              (click)="checkAddress(address.id)"
+            />
+          </div>
+          <app-address [address]="address" class="col-md-6"></app-address>
+        </label>
         <div class="edit-address" (click)="editAddress(address.id)">
           <img src="assets/img/comments/edit.png" alt="edit image" />
         </div>

@@ -359,15 +359,22 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       }
     });
     orderBags = orderBags.filter((bag) => bag.amount && bag.amount !== 0);
+    const isAnotherClient = !!this.personalDataForm.get('anotherClientFirstName').value;
     this.personalData.firstName = this.personalDataForm.get('firstName').value;
     this.personalData.lastName = this.personalDataForm.get('lastName').value;
     this.personalData.email = this.personalDataForm.get('email').value;
     this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value;
     this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
-    this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;
-    this.personalData.senderEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.senderPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
+    this.personalData.senderFirstName = isAnotherClient
+      ? this.personalDataForm.get('anotherClientFirstName').value
+      : this.personalData.firstName;
+    this.personalData.senderLastName = isAnotherClient
+      ? this.personalDataForm.get('anotherClientLastName').value
+      : this.personalData.lastName;
+    this.personalData.senderEmail = isAnotherClient ? this.personalDataForm.get('anotherClientEmail').value : this.personalData.email;
+    this.personalData.senderPhoneNumber = isAnotherClient
+      ? this.personalDataForm.get('anotherClientPhoneNumber').value
+      : this.personalData.phoneNumber;
     this.order = new Order(
       this.shareFormService.orderDetails.additionalOrders[0] !== '' ? this.shareFormService.orderDetails.additionalOrders : null,
       this.addressId,

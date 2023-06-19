@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
@@ -18,6 +18,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
       afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
     })
   });
+
+  const MatDialogRefMock = {
+    close: () => {}
+  };
 
   const orderServiceMock = jasmine.createSpyObj('orderService', ['getOverpaymentMsg']);
   orderServiceMock.getOverpaymentMsg.and.returnValue('fakeMessage');
@@ -40,7 +44,9 @@ describe('UbsAdminOrderPaymentComponent', () => {
       providers: [
         { provide: MatDialog, useFactory: matDialogMock },
         { provide: OrderService, useValue: orderServiceMock },
-        { provide: Store, useValue: storeMock }
+        { provide: Store, useValue: storeMock },
+        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
       ]
     }).compileComponents();
   }));
