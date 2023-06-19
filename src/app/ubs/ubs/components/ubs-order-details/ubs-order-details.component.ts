@@ -325,7 +325,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.bags.forEach((bag) => {
             const { id, quantity } = bag;
             const controlName = `quantity${id}`;
-            bag.quantity = quantity === undefined ? null : quantity;
+            bag.quantity = quantity ?? null;
             this.orderDetailsForm.addControl(controlName, new FormControl('', [Validators.min(0), Validators.max(999)]));
             const bagQuantity = bag.quantity === null ? '' : Number(bag.quantity);
             this.orderDetailsForm.controls[controlName].setValue(bagQuantity);
