@@ -114,20 +114,22 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     });
   }
 
+  public getLangCityValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
   setDisabledCityForLocation(): void {
     const isCityAccess = this.currentLocationId === this.locationIdForKyiv;
-    const currentRegionUk = this.getLangValue(this.locations.regionDto.nameUk, this.locations.regionDto.nameEn);
-    const currentRegionEn = this.getLangValue(this.locations.regionDto.nameEn, this.locations.regionDto.nameUk);
+    const [currentRegionUk, currentRegionEn] = this.getLangValue(this.locations.regionDto.nameUk, this.locations.regionDto.nameEn);
     const citiesForLocationId = this.listOflocations.getCity(this.currentLanguage).map((city) => city.cityName);
 
     this.addresses = this.addresses.map((address) => {
       const newAddress = { ...address };
-      const cityName = this.getLangValue(newAddress.city, newAddress.cityEn);
-      const regionNameUk = this.getLangValue(newAddress.region, newAddress.regionEn);
-      const regionNameEn = this.getLangValue(newAddress.regionEn, newAddress.region);
-      const isRegion = currentRegionUk.includes(regionNameUk) || currentRegionEn.includes(regionNameEn);
-
+      const cityName = this.getLangCityValue(newAddress.city, newAddress.cityEn);
       const isCity = citiesForLocationId.includes(cityName);
+
+      const [regionNameUk, regionNameEn] = this.getLangValue(newAddress.region, newAddress.regionEn);
+      const isRegion = currentRegionUk.includes(regionNameUk) || currentRegionEn.includes(regionNameEn);
 
       if (isCityAccess || this.currentLocationId === this.locationIdForKyivRegion) {
         newAddress.display = isCityAccess ? isCity : !isCity && isRegion;
@@ -330,8 +332,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     return this.personalDataForm.get(control);
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
+  public getLangValue(uaValue: string, enValue: string): [string, string] {
+    return [this.langService.getLangValue(uaValue, enValue) as string, this.langService.getLangValue(enValue, uaValue) as string];
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {
