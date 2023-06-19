@@ -77,17 +77,29 @@
             <span class="col-sm-2">{{ 'order-details.certificate' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center text-success">-{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">-{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span>
-            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center text-success"
+              >{{ !bagsInfo.certificateDiscount ? '' : '-' }}{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span
+            >
+            <span class="col-sm-2 text-center"
+              >{{ !bagsInfo.certificateDiscount ? '' : '-' }}{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span
+            >
+            <span *ngIf="isVisible" class="col-sm-2 text-center"
+              >{{ !bagsInfo.certificateDiscount ? '' : '-' }}{{ bagsInfo.certificateDiscount | currency | localizedCurrency }}</span
+            >
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2">
             <span class="col-sm-2">{{ 'order-details.bonuses' | translate }}</span>
             <span class="col-sm-2"></span>
             <span class="col-sm-2"></span>
-            <span class="col-sm-2 text-center text-success">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
-            <span class="col-sm-2 text-center">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
-            <span *ngIf="isVisible" class="col-sm-2 text-center">-{{ bagsInfo.bonuses | currency | localizedCurrency }}</span>
+            <span class="col-sm-2 text-center text-success"
+              >{{ !bagsInfo.bonuses ? '' : '-' }}{{ bagsInfo.bonuses | currency | localizedCurrency }}</span
+            >
+            <span class="col-sm-2 text-center"
+              >{{ !bagsInfo.bonuses ? '' : '-' }}{{ bagsInfo.bonuses | currency | localizedCurrency }}</span
+            >
+            <span *ngIf="isVisible" class="col-sm-2 text-center"
+              >{{ !bagsInfo.bonuses ? '' : '-' }}{{ bagsInfo.bonuses | currency | localizedCurrency }}</span
+            >
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>

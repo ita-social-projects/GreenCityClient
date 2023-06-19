@@ -57,7 +57,7 @@
         <button class="btn button-payment-operations btn-enroll-to-bonus-account" (click)="enrollToBonusAccount(this.overpayment)">
           {{ 'order-payment.enroll-on-bonus-account' | translate }}
         </button>
-        <button class="btn button-payment-operations btn-return-money" (click)="returnMoney(this.overpayment)">
+        <button [disabled]="isMoneyReturning" class="btn button-payment-operations btn-return-money" (click)="returnMoney(orderId)">
           {{ 'order-payment.return-money' | translate }}
         </button>
       </div>

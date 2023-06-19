@@ -12,6 +12,7 @@ import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.com
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { FilterListByLangPipe } from './sort-list-by-lang/filter-list-by-lang.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { HeaderComponent } from './header/header.component';
 import { SearchAllResultsComponent } from './search-all-results/search-all-results.component';
@@ -82,7 +83,8 @@ import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list
     NgxPageScrollModule,
     ReactiveFormsModule,
     FormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule
   ],
   exports: [
     SpinnerComponent,

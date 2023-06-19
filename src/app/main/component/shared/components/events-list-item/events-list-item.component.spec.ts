@@ -145,7 +145,6 @@ describe('EventsListItemComponent', () => {
   ];
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
@@ -169,6 +168,19 @@ describe('EventsListItemComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
   };
+
+  const MockData = {
+    eventState: {},
+    eventsList: [],
+    visitedPages: [],
+    totalPages: 0,
+    pageNumber: 0,
+
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(MockData);
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);

@@ -5,6 +5,7 @@
   </div>
   <div class="buttons-container">
     <button
+      *ngIf="!isItrefund"
       [ngClass]="{ 'secondary-global-button': setBtnStyleRed, 'secondary-global-button-green': setBtnStyleGreen }"
       (click)="userReply(false)"
     >
