@@ -162,6 +162,7 @@
           <button class="ubs-link-global-button s-link" (click)="openExtraPackages()">{{ 'order-details.link' | translate }}</button>
           <textarea
             formControlName="orderComment"
+            [ngClass]="{ 'textarea-error': orderComment.invalid }"
             class="shadow-none form-control textarea"
             rows="7"
             placeholder="{{ 'order-details.any-details' | translate }}"
