@@ -12,7 +12,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { IMaskModule } from 'angular-imask';
@@ -134,12 +134,18 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy2).toHaveBeenCalled();
   });
 
+  it('should call openLocationDialog method if an error occurs during getOrders method', () => {
+    spyOn(orderService, 'getOrders').and.returnValue(throwError('error'));
+    const spy = spyOn(component, 'openLocationDialog');
+    component.takeOrderData();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', () => {
     const mock: OrderDetails = {
       bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
-    // orderService = TestBed.inject(OrderService);
     spyOn(global, 'setTimeout');
     const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
