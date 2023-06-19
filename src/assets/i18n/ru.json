@@ -927,6 +927,7 @@
   "eco-news-single-view": {
     "back-button": "Вернуться",
     "edit-news-button": "Редактировать новость",
+    "delete-news-button": "Удалить",
     "author": "автор",
     "tags": {
       "news": "новости",

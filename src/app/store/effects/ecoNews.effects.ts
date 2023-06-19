@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import {
@@ -14,16 +13,24 @@ import {
   EditEcoNewsAction,
   EditEcoNewsSuccessAction,
   CreateEcoNewsAction,
-  CreateEcoNewsSuccessAction
+  CreateEcoNewsSuccessAction,
+  DeleteEcoNewsSuccessAction,
+  DeleteEcoNewsAction
 } from '../actions/ecoNews.actions';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { NewsDTO } from '@eco-news-models/create-news-interface';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class NewsEffects {
-  constructor(private actions: Actions, private newsService: EcoNewsService, private createEcoNewsService: CreateEcoNewsService) {}
+  constructor(
+    private actions: Actions,
+    private newsService: EcoNewsService,
+    private createEcoNewsService: CreateEcoNewsService,
+    private router: Router
+  ) {}
 
   getNewsListByTags = createEffect(() => {
     return this.actions.pipe(
@@ -90,6 +97,23 @@ export class NewsEffects {
             (newEcoNews: EcoNewsModel) => CreateEcoNewsSuccessAction({ newEcoNews }),
             catchError(() => EMPTY)
           )
+        );
+      })
+    );
+  });
+
+  deleteNews = createEffect(() => {
+    return this.actions.pipe(
+      ofType(DeleteEcoNewsAction),
+      mergeMap((actions: { id: number }) => {
+        return this.newsService.deleteNews(actions.id).pipe(
+          map(() => DeleteEcoNewsSuccessAction({ id: actions.id })),
+          tap(() => {
+            this.router.navigate(['/news']);
+          }),
+          catchError((error) => {
+            return EMPTY;
+          })
         );
       })
     );

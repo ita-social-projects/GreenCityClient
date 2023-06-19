@@ -103,6 +103,11 @@
       "empty-state": {
         "no-news": "На жаль, новин не знайдено",
         "no-news-advice": "Ніяких новин знайти не вдалося. Будь ласка, поміняйте фільтри, щоб отримати результат."
+      },
+      "news-delete-popup": {
+        "delete-title": "Дану новину буде видалено. Ви хочете продовжити?",
+        "delete-yes": "так",
+        "delete-no": "ні"
       }
     },
     "events": {
@@ -1056,6 +1061,7 @@
   "eco-news-single-view": {
     "back-button": "Повернутися",
     "edit-news-button": "Редагувати новину",
+    "delete-news-button": "Видалити",
     "author": "автор",
     "tags": {
       "news": "новини",

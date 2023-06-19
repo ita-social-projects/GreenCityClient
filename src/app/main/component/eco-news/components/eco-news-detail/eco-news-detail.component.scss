@@ -16,6 +16,18 @@ $bp-largest: 1440px;
   align-items: center;
 }
 
+.editDeleteBlock {
+  display: flex;
+  flex-direction: row;
+
+  .delete-news-button {
+    border: none;
+    margin-right: 20px;
+    height: 48px;
+    font-size: 1rem;
+  }
+}
+
 .news-info,
 .news-text,
 .edit-news,
@@ -287,6 +299,33 @@ $bp-largest: 1440px;
   }
 }
 
+@media screen and (max-width: 401px) {
+  .top-elements {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .back-button {
+    margin-bottom: 36px;
+  }
+
+  .editDeleteBlock {
+    display: flex;
+    flex-direction: column;
+
+    .edit-news,
+    .delete-news-button {
+      height: 40px;
+      padding: 11px 32px;
+      font-weight: 600;
+    }
+
+    .delete-news-button {
+      margin: 0 0 20px 0;
+    }
+  }
+}
+
 @media screen and (max-width: 320px) {
   .wrapper {
     margin: 0 5%;
@@ -310,8 +349,6 @@ $bp-largest: 1440px;
 
   .edit-news {
     width: 100%;
-    padding: 11px 32px;
-    font-weight: 600;
   }
 
   .top-elements,

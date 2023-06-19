@@ -16,7 +16,10 @@ export enum NewsActions {
   EditEcoNewsSuccess = '[News] Edit news Success',
 
   CreateEcoNews = '[News] Create news',
-  CreateEcoNewsSuccess = '[News] Create news Success'
+  CreateEcoNewsSuccess = '[News] Create news Success',
+
+  DeleteEcoNews = '[News] Delete news',
+  DeleteEcoNewsSuccess = '[News] Delete news Success'
 }
 
 export const GetEcoNewsByTagsAction = createAction(
@@ -54,3 +57,6 @@ export const EditEcoNewsSuccessAction = createAction(NewsActions.EditEcoNewsSucc
 
 export const CreateEcoNewsAction = createAction(NewsActions.CreateEcoNews, props<{ value: NewsDTO }>());
 export const CreateEcoNewsSuccessAction = createAction(NewsActions.CreateEcoNewsSuccess, props<{ newEcoNews: EcoNewsModel }>());
+
+export const DeleteEcoNewsAction = createAction(NewsActions.DeleteEcoNews, props<{ id: number }>());
+export const DeleteEcoNewsSuccessAction = createAction(NewsActions.DeleteEcoNewsSuccess, props<{ id: number }>());
