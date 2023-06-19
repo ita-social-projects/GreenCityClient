@@ -271,7 +271,7 @@
       "email-placeholder": "example@mail.com"
     },
     "recipient": {
-      "title": "Recipient",
+      "title": "Sender",
       "name-label": "Name",
       "surname-label": "Surname",
       "name-placeholder": "Name",
