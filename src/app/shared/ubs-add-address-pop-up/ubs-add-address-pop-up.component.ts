@@ -6,13 +6,14 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, Region, SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, Region, SearchAddress, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -42,16 +43,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   regionsKyiv: Location[];
   regions: Location[];
   placeId: string;
-
-  languages = {
-    en: 'en',
-    uk: 'uk'
-  };
-
-  bigRegionsList = [
-    { regionName: 'Київська область', lang: 'ua' },
-    { regionName: 'Kyiv Oblast', lang: 'en' }
-  ];
+  locations: CourierLocations;
+  bigRegionsList = [];
 
   constructor(
     private fb: FormBuilder,
@@ -119,6 +112,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.locations = this.localStorageService.getLocations();
+    this.bigRegionsList = [
+      { regionName: this.locations.regionDto.nameUk, lang: Language.UA },
+      { regionName: this.locations.regionDto.nameEn, lang: Language.EN }
+    ];
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegionsList.filter((el) => el.lang === this.currentLanguage);
     this.addAddressForm = this.fb.group({
@@ -199,12 +197,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   setPredictCities(): void {
     this.cityPredictionList = null;
-    if (this.currentLanguage === 'ua' && this.city.value) {
-      this.inputCity(`Київська область, місто, ${this.city.value}`, this.languages.uk);
+    if (this.currentLanguage === Language.UA && this.city.value) {
+      this.inputCity(`${this.bigRegionsList[0].regionName}, місто, ${this.city.value}`, Language.UK);
     }
 
-    if (this.currentLanguage === 'en' && this.cityEn.value) {
-      this.inputCity(`Kyiv Oblast, City,${this.cityEn.value}`, this.languages.en);
+    if (this.currentLanguage === Language.EN && this.cityEn.value) {
+      this.inputCity(`${this.bigRegionsList[1].regionName}, City,${this.cityEn.value}`, Language.EN);
     }
   }
 
@@ -222,8 +220,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onCitySelected(city: GooglePrediction): void {
-    this.setValueOfCity(city, this.city, this.languages.uk);
-    this.setValueOfCity(city, this.cityEn, this.languages.en);
+    this.setValueOfCity(city, this.city, Language.UK);
+    this.setValueOfCity(city, this.cityEn, Language.EN);
   }
 
   setValueOfCity(selectedCity: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -242,12 +240,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   setPredictStreets(): void {
     this.streetPredictionList = null;
-    if (this.currentLanguage === 'ua' && this.street.value) {
-      this.inputAddress(`${this.city.value}, ${this.street.value}`, this.languages.uk);
+    if (this.currentLanguage === Language.UA && this.street.value) {
+      this.inputAddress(`${this.city.value}, ${this.street.value}`, Language.UK);
     }
 
-    if (this.currentLanguage === 'en' && this.streetEn.value) {
-      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`, this.languages.en);
+    if (this.currentLanguage === Language.EN && this.streetEn.value) {
+      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`, Language.EN);
     }
   }
 
@@ -276,8 +274,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.houseNumber.reset('');
     this.housePredictionList = null;
     this.placeId = null;
-    this.setValueOfStreet(street, this.street, this.languages.uk);
-    this.setValueOfStreet(street, this.streetEn, this.languages.en);
+    this.setValueOfStreet(street, this.street, Language.UK);
+    this.setValueOfStreet(street, this.streetEn, Language.EN);
   }
 
   setValueOfStreet(selectedStreet: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -288,13 +286,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
-      if (lang === this.languages.en) {
+      if (lang === Language.EN) {
         this.formattedAddress = placeDetails.formatted_address;
       }
-      if (lang === this.languages.en && this.isDistrict) {
+      if (lang === Language.EN && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.districtEn, lang);
       }
-      if (lang === this.languages.uk && this.isDistrict) {
+      if (lang === Language.UK && this.isDistrict) {
         this.setDistrictAuto(placeDetails, this.district, lang);
       }
     });
@@ -338,7 +336,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       const cityName = this.getLangValue(this.city.value, this.cityEn.value);
       this.houseNumber.setValue(houseValue);
       const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
-      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+      this.inputHouse(searchAddress, this.getLangValue(Language.UK, Language.EN));
     }
   }
 
