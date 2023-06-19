@@ -119,7 +119,6 @@
     position: absolute;
     top: 6px;
     right: 5px;
-
     font-size: 1.7em;
     padding: 0 0.2em;
     line-height: 1em;
@@ -172,7 +171,8 @@
 }
 
 .shop-numbers .check-empty-input {
-  border: 1px solid #ced4da;
+  border-color: var(--ubs-primary-light-grey);
+  border: 1px, solid;
 }
 
 @media (max-width: 1199px) {
