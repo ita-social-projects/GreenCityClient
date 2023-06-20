@@ -1,3 +1,5 @@
+import { SafeUrl } from '@angular/platform-browser';
+
 export interface EventDTO {
   title: string;
   description: string;
@@ -140,6 +142,11 @@ export interface PaginationInterface {
   itemsPerPage: number;
   currentPage: number;
   totalItems: number;
+}
+
+export interface FileHandle {
+  file: File;
+  url: SafeUrl;
 }
 
 export interface PagePreviewDTO {

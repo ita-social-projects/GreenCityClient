@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup } from '@angular/forms';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, EventDTO, PagePreviewDTO } from '../models/events.interface';
+import { FileHandle } from '../models/events.interface';
+import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,8 @@ export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public files: FileHandle[] = [];
+  public fileUrl: string;
 
   constructor(private http: HttpClient) {}
 

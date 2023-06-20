@@ -12,7 +12,8 @@ import {
   EventPageResponceDto,
   OfflineDto,
   TagObj,
-  PagePreviewDTO
+  PagePreviewDTO,
+  FileHandle
 } from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
@@ -64,6 +65,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
   public currentLang: string;
   public routeData: any;
+  public selectedFile: File = null;
+  public selectedFileUrl: string;
+  public files: FileHandle[] = [];
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
@@ -216,13 +220,21 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public getImageTosend(imageArr: Array<File>): void {
-    console.log(imageArr, 'create-edit');
+    //this.selectedFile = event.target.files[0] as File;
+
     this.imgArray = [...imageArr];
     const createURL = URL.createObjectURL(this.imgArray[0]);
-    console.log(createURL, 'create-edit-URL');
     const bl = new Blob([this.imgArray[0].name]);
     const url = URL.createObjectURL(bl);
+    console.log(createURL, 'create-edit-URL', url);
     this.checkFileExtensionAndSize(imageArr);
+
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(bl);
+    reader.onload = (ev) => this.handleFile(ev);
+
+    this.eventService.files = this.files;
+    console.log(imageArr, 'create-edit', reader);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -331,6 +343,25 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public backToEditing() {
     this.router.navigate(['/events', 'create-event']);
+  }
+
+  public onFileSelected(event): void {
+    this.selectedFile = event.target.files[0] as File;
+
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = (ev) => this.handleFile(ev);
+
+    this.eventService.files = this.files;
+    console.log(event, this.files, 'url files');
+  }
+
+  private handleFile(event): void {
+    const binaryString = event.target.result;
+    this.selectedFileUrl = binaryString;
+    this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
+    //this.showWarning();
+    this.eventService.fileUrl = this.selectedFileUrl;
   }
 
   public onPreview() {
