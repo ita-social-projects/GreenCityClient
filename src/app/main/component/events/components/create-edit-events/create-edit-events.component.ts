@@ -12,8 +12,7 @@ import {
   EventPageResponceDto,
   OfflineDto,
   TagObj,
-  PagePreviewDTO,
-  FileHandle
+  PagePreviewDTO
 } from '../../models/events.interface';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
@@ -65,9 +64,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
   public currentLang: string;
   public routeData: any;
-  public selectedFile: File = null;
+  public selectedFile = null;
   public selectedFileUrl: string;
-  public files: FileHandle[] = [];
+  public files = [];
 
   private imgArray: Array<File> = [];
   private pipe = new DatePipe('en-US');
@@ -220,21 +219,8 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public getImageTosend(imageArr: Array<File>): void {
-    //this.selectedFile = event.target.files[0] as File;
-
     this.imgArray = [...imageArr];
-    const createURL = URL.createObjectURL(this.imgArray[0]);
-    const bl = new Blob([this.imgArray[0].name]);
-    const url = URL.createObjectURL(bl);
-    console.log(createURL, 'create-edit-URL', url);
     this.checkFileExtensionAndSize(imageArr);
-
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(bl);
-    reader.onload = (ev) => this.handleFile(ev);
-
-    this.eventService.files = this.files;
-    console.log(imageArr, 'create-edit', reader);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -345,26 +331,9 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/events', 'create-event']);
   }
 
-  public onFileSelected(event): void {
-    this.selectedFile = event.target.files[0] as File;
-
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = (ev) => this.handleFile(ev);
-
-    this.eventService.files = this.files;
-    console.log(event, this.files, 'url files');
-  }
-
-  private handleFile(event): void {
-    const binaryString = event.target.result;
-    this.selectedFileUrl = binaryString;
-    this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
-    //this.showWarning();
-    this.eventService.fileUrl = this.selectedFileUrl;
-  }
-
   public onPreview() {
+    this.imgToData();
+    //console.log(this.files[0].url);
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
@@ -372,11 +341,38 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       open: this.isOpen,
       datesLocations: this.dates,
       tags: tagsArr,
-      imgArray: this.imgArray,
+      imgArray: this.showWarning(),
       location: this.addressForPreview
     };
+
+    console.log(sendEventDto.imgArray, 'image array');
+
     this.eventService.setForm(sendEventDto);
     this.router.navigate(['events', 'preview']);
+  }
+
+  private imgToData(): void {
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(this.imgArray[0]);
+    reader.onload = (ev) => this.handleFile(ev);
+    //console.log(reader, reader.result, 'reader', '1111');
+  }
+
+  private handleFile(event): void {
+    const binaryString = event.target.result;
+    this.selectedFileUrl = binaryString;
+    //console.log(binaryString, 'binary string preview page');
+    this.files[0] = { url: this.selectedFileUrl, file: this.imgArray[0] };
+    console.log(this.files[0], 'files[0] preview page');
+    this.showWarning();
+  }
+
+  public showWarning() {
+    this.files.forEach((item) => {
+      const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
+      //this.isWarning = !(item && imageValCondition);
+    });
+    return this.files;
   }
 
   private createEvent(sendData: FormData) {

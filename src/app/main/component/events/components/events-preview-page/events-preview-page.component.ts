@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
+import { LanguageService } from '../../../../i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from '../../services/events.service';
 import { PagePreviewDTO } from '../../models/events.interface';
 import { Subscription } from 'rxjs';
