@@ -189,7 +189,7 @@ textarea.ng-invalid.ng-dirty + p {
 }
 
 .warning {
-  color: red !important;
+  color: var(--error-red) !important;
 }
 
 .left-form-column .field-warning {
