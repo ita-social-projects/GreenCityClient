@@ -65,6 +65,7 @@
   display: flex;
   flex-direction: column;
   padding: 30px 0;
+  max-width: 300px;
 
   .tags {
     display: flex;
@@ -99,5 +100,29 @@
     font-size: 14px;
     line-height: 20px;
     color: var(--tertiary-light-grey);
+  }
+}
+
+@media (max-width: 1200px) {
+  .habit-info {
+    max-width: 239px;
+  }
+}
+
+@media (max-width: 991px) {
+  .habit-info {
+    max-width: 232px;
+  }
+}
+
+@media (max-width: 767px) {
+  .habit-info {
+    max-width: 210px;
+  }
+}
+
+@media (max-width: 575px) {
+  .habit-info {
+    max-width: 230px;
   }
 }
