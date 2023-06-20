@@ -85,6 +85,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = this.eventsList.length < data.totalElements;
         this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
+      console.log(res);
     });
   }
 
@@ -165,6 +166,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public showFavourite(): void {
     this.bookmarkSelected = !this.bookmarkSelected;
+    const eventsFavoriteList: EventPageResponceDto[] = [];
+    this.eventsList.forEach((event) => {
+      if (event.isFavorite) {
+        eventsFavoriteList.push(event);
+      }
+    });
+    this.eventsList = eventsFavoriteList;
+    console.log(eventsFavoriteList, '234');
   }
 
   public deleteOneFilter(filter, index): void {

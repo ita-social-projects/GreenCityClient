@@ -11,7 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
+import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,6 +47,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public isRegistered: boolean;
   public isReadonly = false;
   public isPosting: boolean;
+  public isEventFavorite = false;
   public btnStyle: string;
   public nameBtn: string;
 
@@ -116,6 +117,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
+    console.log(this.event, '111');
   }
 
   public routeToEvent(): void {
@@ -279,6 +281,17 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
     }
+
+    const sendEventDto = {
+      isFavorite: this.bookmarkSelected
+    };
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = 'EventPageResponceDto';
+
+    formData.append(dtoName, stringifiedDataToSend);
+    this.eventService.editEvent(formData);
+    console.log(this.event);
   }
 
   public openAuthModalWindow(page: string): void {
