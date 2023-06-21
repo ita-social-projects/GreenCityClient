@@ -144,7 +144,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       ],
       houseNumber: [
         this.data.edit ? this.data.address.houseNumber : '',
-        [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
+        [Validators.required, Validators.maxLength(10), Validators.pattern(this.housePattern)]
       ],
       houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(4), Validators.pattern(this.corpusPattern)]],
       entranceNumber: [
