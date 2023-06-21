@@ -11,9 +11,7 @@ export class ImagesSliderComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.images['url'], 'slider');
-  }
+  ngOnInit(): void {}
 
   public selectImage(ind: number): void {
     this.currentImageIdx = ind;

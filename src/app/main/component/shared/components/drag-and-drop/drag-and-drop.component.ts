@@ -29,7 +29,6 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public stopCropping(): FileHandle[] {
-    //console.log(this.files, 'files');
     this.createEcoNewsService.files = this.files;
     this.files.forEach((item) => (item.url = this.croppedImage));
     this.isCropper = false;

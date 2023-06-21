@@ -333,7 +333,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public onPreview() {
     this.imgToData();
-    //console.log(this.files[0].url);
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
@@ -370,7 +369,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public showWarning() {
     this.files.forEach((item) => {
       const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
-      //this.isWarning = !(item && imageValCondition);
     });
     return this.files;
   }
