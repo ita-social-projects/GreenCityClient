@@ -149,8 +149,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public setLimitsValues(): void {
     this.checkCourierLimit();
     this.locations = this.localStorageService.getLocations();
-    console.log('limits', this.locations);
-
     this.minOrderValue = this.locations?.min;
     this.maxOrderValue = this.locations?.max;
     this.minAmountOfBigBags = this.locations?.min;
