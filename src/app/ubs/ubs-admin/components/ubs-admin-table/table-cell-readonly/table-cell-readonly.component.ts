@@ -30,6 +30,10 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
       this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;
     }
 
+    if (this.key === TableKeys.clientPhone || this.key === TableKeys.senderPhone) {
+      this.title = this.title.toString().charAt(0) !== '+' ? '+' + this.title.toString() : this.title;
+    }
+
     const replaceRules = {
       [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
       [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
