@@ -47,6 +47,14 @@ export class Locations {
     { name: 'Kyiv', key: 2 }
   ];
 
+  bigRegionsUkraine = [
+    { name: 'Київська область', nameEn: 'Kyiv oblast', key: 1 },
+    { name: 'Харківська область', nameEn: 'Kharkiv oblast', key: 2 },
+    { name: 'Полтавська область', nameEn: 'Kyiv oblast', key: 3 },
+    { name: 'Сумська область', nameEn: 'Kyiv oblast', key: 4 },
+    { name: 'Одеська область', nameEn: 'Kyiv oblast', key: 5 }
+  ];
+
   regionsKyiv = [
     { name: 'Голосіївський район', key: 1 },
     { name: 'Дарницький район', key: 2 },
@@ -104,5 +112,9 @@ export class Locations {
 
   getBigRegions(language: string) {
     return language === Language.UA ? this.bigRegions : this.bigRegionsEn;
+  }
+
+  getBigRegionsUkraine(language: string) {
+    return this.bigRegionsUkraine;
   }
 }

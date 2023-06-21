@@ -102,7 +102,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.isDistrict = this.addressCity.value === 'Київ' ? true : false;
-    this.regions = this.locations.getBigRegions(this.currentLanguage);
+    this.regions = [{ name: this.getLangValue(this.addressRegion.value, this.addressRegionEng.value), key: 1 }];
     this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
     this.districts = this.locations.getRegions(this.currentLanguage);
 
@@ -172,8 +172,8 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   onCitySelected(selectedCity: GooglePrediction): void {
-    this.setValueOfCity(selectedCity, this.addressCity, this.languages.uk);
-    this.setValueOfCity(selectedCity, this.addressCityEng, this.languages.en);
+    this.setValueOfCity(selectedCity, this.addressCity, Language.UK);
+    this.setValueOfCity(selectedCity, this.addressCityEng, Language.EN);
   }
 
   setValueOfCity(selectedCity: GooglePrediction, abstractControl: AbstractControl, lang: string): void {

@@ -56,6 +56,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     public data: {
       edit: boolean;
       address: Address;
+      addFromProfile?: boolean;
     },
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
@@ -122,8 +123,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegionsList.filter((el) => el.lang === this.currentLanguage);
     this.addAddressForm = this.fb.group({
-      region: [this.data.edit ? this.data.address.region : this.bigRegionsList[0].regionName, Validators.required],
-      regionEn: [this.data.edit ? this.data.address.regionEn : this.bigRegionsList[1].regionName, Validators.required],
+      region: [!this.data.addFromProfile ? this.bigRegionsList[0].regionName : [{ regionName: '' }], Validators.required],
+      regionEn: [!this.data.addFromProfile ? this.bigRegionsList[1].regionName : [{ regionName: '' }], Validators.required],
       city: [
         this.data.edit ? this.data.address.city : null,
         [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
@@ -190,11 +191,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.regions = this.listOflocations.getRegions(this.currentLanguage);
 
     if (this.data.edit && this.isDistrict) {
-      const abstractControl = this.currentLanguage === Language.UA ? this.district : this.districtEn;
-      const currentDistrict = this.getLangValue(this.district.value, this.districtEn.value);
+      const abstractControl = this.getLangControl(this.district, this.districtEn);
       this.regions = [];
-      this.regions.push({ name: currentDistrict, key: 1 });
-      abstractControl.setValue(currentDistrict);
+      this.regions.push({ name: abstractControl.value, key: 1 });
+      abstractControl.setValue(abstractControl.value);
       abstractControl.markAsDirty();
     }
   }
@@ -209,6 +209,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+  }
+
+  public getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
+    return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
   }
 
   setPredictCities(): void {

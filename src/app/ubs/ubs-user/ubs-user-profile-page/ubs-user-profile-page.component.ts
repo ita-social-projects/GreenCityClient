@@ -596,6 +596,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     dialogConfig.panelClass = 'address-matDialog-styles';
     dialogConfig.data = {
       edit: false,
+      addFromProfile: true,
       address: {}
     };
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
