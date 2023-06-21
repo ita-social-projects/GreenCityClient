@@ -31,9 +31,11 @@
               class="form-control"
               type="tel"
               id="customer-tel"
+              <!--
               placeholder="{{ userInfo.customerPhoneNumber.charAt(0) !== '+' && '+' + userInfo.customerPhoneNumber }}"
-              disabled
+              --
             />
+            placeholder="{{ userInfo.customerPhoneNumber }}" disabled />
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-email">
