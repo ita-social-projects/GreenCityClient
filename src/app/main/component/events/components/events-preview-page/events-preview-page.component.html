@@ -16,7 +16,7 @@
       <div class="left-side">
         <div class="event-title">{{ event.title }}</div>
         <div class="date-author">
-          <div>{{ date }}</div>
+          <div>{{ date | dateLocalisation }}</div>
           <div>|</div>
           <div>{{ 'homepage.events.author' | translate }} {{ userName }}</div>
         </div>
@@ -41,7 +41,7 @@
           <div class="friends-photo">
             <a href="#"><img class="first-photo" [src]="firstFriend" alt="First friend photo" /></a>
             <a href="#"><img class="second-photo" [src]="secondFriend" alt="Second friend photo" /></a>
-            <p><b>2</b> people are going</p>
+            <p><b>2</b> {{ 'create-event.preview-attendees' | translate }}</p>
           </div>
           <p class="info-text">
             <b class="title-text">{{ 'create-event.event-start' | translate }}</b

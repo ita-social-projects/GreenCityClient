@@ -1116,7 +1116,8 @@
     "status": "Status",
     "all": "All",
     "friends": "Friends",
-    "add-location-error": "You should fill at least one address or link"
+    "add-location-error": "You should fill at least one address or link",
+    "preview-attendees": "people are going"
   },
   "input-error": {
     "required": "This field is required",

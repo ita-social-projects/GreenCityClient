@@ -50,10 +50,6 @@ export class EventsPreviewPageComponent implements OnInit {
     this.bindUserName();
   }
 
-  private onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
-  }
-
   private bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
       this.userName = name;
