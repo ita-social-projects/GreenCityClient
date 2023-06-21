@@ -100,6 +100,26 @@
     .button-publish {
       margin-left: 910px;
       margin-top: 20px;
+
+      @media (max-width: 1423px) {
+        margin-left: 710px;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 1023px) {
+        margin-left: 450px;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        margin-left: 90px;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 575px) {
+        margin-left: 90px;
+        margin-top: 20px;
+      }
     }
 
     .back-to-edit {

@@ -41,9 +41,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
   };
 
-  public eventId: number;
-  public openFromEdit: boolean;
   private userId: number;
+  public eventId: number;
 
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
@@ -63,7 +62,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public locationAddress: string;
   public addressUa: string;
   public addressEn: string;
-  public date: string;
 
   public images: string[] = [];
   public sliderIndex = 0;
@@ -94,7 +92,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private eventService: EventsService,
     public router: Router,
-    private activatedRoute: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private translate: TranslateService,
@@ -106,14 +103,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params.id;
-    this.openFromEdit = this.route.snapshot.params.preview === 'true' ? true : false;
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      this.date = new Date(this.event.dates[0].startDate).toDateString();
       this.locationLink = this.event.dates[0].onlineLink;
       this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
