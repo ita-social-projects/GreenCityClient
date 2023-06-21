@@ -69,6 +69,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public files = [];
 
   private imgArray: Array<File> = [];
+  private imgArrayToPreview: string[] = [];
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
@@ -340,29 +341,30 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       open: this.isOpen,
       datesLocations: this.dates,
       tags: tagsArr,
-      imgArray: this.files[0].url,
+      imgArray: this.imgArrayToPreview,
       location: this.addressForPreview
     };
-
-    console.log(sendEventDto.imgArray, 'image array');
-
     this.eventService.setForm(sendEventDto);
     this.router.navigate(['events', 'preview']);
   }
 
   private imgToData(): void {
-    const reader: FileReader = new FileReader();
-    reader.readAsDataURL(this.imgArray[0]);
-    reader.onload = (ev) => this.handleFile(ev);
-    console.log(reader, reader.result, 'reader', '1111');
+    this.imgArray.forEach((img) => {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (ev) => this.handleFile(ev);
+    });
   }
 
   private handleFile(event): void {
     const binaryString = event.target.result;
-    this.selectedFileUrl = binaryString;
-    console.log(binaryString, 'binary string preview page');
-    this.files[0] = { url: this.selectedFileUrl, file: this.imgArray[0] };
-    console.log(this.files[0].url, 'files[0] preview page');
+    const selectedFileUrl = binaryString;
+    this.imgArray.forEach((img) => {
+      this.files.push({ url: selectedFileUrl, file: img });
+    });
+    this.files.forEach((file) => {
+      this.imgArrayToPreview.push(file.url);
+    });
     this.showWarning();
   }
 

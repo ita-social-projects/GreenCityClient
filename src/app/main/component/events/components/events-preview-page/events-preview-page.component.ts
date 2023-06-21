@@ -47,11 +47,11 @@ export class EventsPreviewPageComponent implements OnInit {
   ngOnInit() {
     this.event = this.eventService.getForm();
     this.date = new Date(this.event.datesLocations[0].date).toDateString();
-
-    this.addressUa = this.eventService.createAdresses(this.event.datesLocations[0].coordinatesDto, 'Ua');
-    this.addressEn = this.eventService.createAdresses(this.event.datesLocations[0].coordinatesDto, 'En');
     this.bindUserName();
-    console.log(this.event.imgArray, 'preview page');
+  }
+
+  private onlyUnique(value, index, array) {
+    return array.indexOf(value) === index;
   }
 
   private bindUserName(): void {

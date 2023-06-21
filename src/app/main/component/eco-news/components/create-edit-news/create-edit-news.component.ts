@@ -350,7 +350,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     this.createEcoNewsService.fileUrl = this.form.value.image;
     this.createEcoNewsService.setForm(this.form);
     this.createEcoNewsService.setNewsId(this.newsId);
-    console.log(this.form.value.image, this.newsId);
     this.router.navigate(['news', 'preview']).catch((err) => console.error(err));
   }
 

@@ -1,5 +1,11 @@
 <div class="images-slider">
-  <img [src]="images" [ngClass]="{ 'image-active': currentImageIdx === 0 }" class="img fade" alt="event" />
+  <img
+    *ngFor="let image of images; let i = index"
+    [src]="image"
+    [ngClass]="{ 'image-active': currentImageIdx === i }"
+    class="img fade"
+    alt="event"
+  />
 
   <div class="dot-container">
     <span

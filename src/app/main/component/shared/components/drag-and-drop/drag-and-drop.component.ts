@@ -25,7 +25,6 @@ export class DragAndDropComponent implements OnInit {
 
   ngOnInit() {
     this.patchImage();
-    console.log(this.formData, 'formData');
   }
 
   public stopCropping(): FileHandle[] {
@@ -62,7 +61,6 @@ export class DragAndDropComponent implements OnInit {
   }
 
   public filesDropped(files: FileHandle[]): void {
-    console.log(this.files, 'files');
     this.files = files;
     this.isCropper = true;
     this.showWarning();
@@ -71,19 +69,14 @@ export class DragAndDropComponent implements OnInit {
 
   public onFileSelected(event): void {
     this.selectedFile = event.target.files[0] as File;
-    console.log(event, this.selectedFile, 'selected file');
-
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
-    console.log(reader, 'reader');
-
     this.createEcoNewsService.files = this.files;
   }
 
   private handleFile(event): void {
     const binaryString = event.target.result;
-    console.log(binaryString, 'binary string');
     this.selectedFileUrl = binaryString;
     this.files[0] = { url: this.selectedFileUrl, file: this.selectedFile };
     this.showWarning();
