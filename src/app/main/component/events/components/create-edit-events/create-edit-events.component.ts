@@ -341,7 +341,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       open: this.isOpen,
       datesLocations: this.dates,
       tags: tagsArr,
-      imgArray: this.showWarning(),
+      imgArray: this.files[0].url,
       location: this.addressForPreview
     };
 
@@ -355,15 +355,15 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.imgArray[0]);
     reader.onload = (ev) => this.handleFile(ev);
-    //console.log(reader, reader.result, 'reader', '1111');
+    console.log(reader, reader.result, 'reader', '1111');
   }
 
   private handleFile(event): void {
     const binaryString = event.target.result;
     this.selectedFileUrl = binaryString;
-    //console.log(binaryString, 'binary string preview page');
+    console.log(binaryString, 'binary string preview page');
     this.files[0] = { url: this.selectedFileUrl, file: this.imgArray[0] };
-    console.log(this.files[0], 'files[0] preview page');
+    console.log(this.files[0].url, 'files[0] preview page');
     this.showWarning();
   }
 
