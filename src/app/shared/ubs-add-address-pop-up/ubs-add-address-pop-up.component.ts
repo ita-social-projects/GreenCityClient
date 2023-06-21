@@ -119,7 +119,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       { regionName: this.data.edit ? this.data.address.region : this.locations.regionDto.nameUk, lang: Language.UA },
       { regionName: this.data.edit ? this.data.address.regionEn : this.locations.regionDto.nameEn, lang: Language.EN }
     ];
-
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.bigRegions = this.bigRegionsList.filter((el) => el.lang === this.currentLanguage);
     this.addAddressForm = this.fb.group({
@@ -181,7 +180,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         this.placeId = null;
       });
 
-    if (this.region.value === 'Київська область') {
+    if (this.region.value === 'Київська область' || this.region.value === 'місто Київ') {
       this.isDistrictKyiv = this.city.value === 'Київ' ? true : false;
     } else {
       this.isDistrict = true;
@@ -250,7 +249,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       abstractControl.setValue(placeDetails.name);
 
       if (abstractControl === this.city) {
-        if (this.region.value === 'Київська область') {
+        if (this.region.value === 'Київська область' || this.region.value === 'місто Київ') {
           this.isDistrictKyiv = this.city.value === 'Київ' ? true : false;
         } else {
           this.isDistrict = true;
@@ -272,6 +271,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   inputAddress(searchAddress: string, lang: string): void {
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
+    const regionNameUk = this.data.edit ? this.data.address.region : this.locations.regionDto.nameUk;
+    const regionNameEn = this.data.edit ? this.data.address.regionEn : this.locations.regionDto.nameEn;
+
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!this.isDistrictKyiv) {
         this.streetPredictionList = streetPredictions?.filter(
