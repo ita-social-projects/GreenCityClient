@@ -32,6 +32,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   districts: Location[];
   districtsKyiv: Location[];
   isDistrict: boolean;
+  isDistrictKyiv: boolean;
   isStatus = false;
   isHouseSelected = false;
 
@@ -101,10 +102,23 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.isDistrict = this.addressCity.value === 'Київ' ? true : false;
+    if (this.addressRegion.value === 'Київська область' || this.addressRegion.value === 'місто Київ') {
+      this.isDistrictKyiv = this.addressCity.value === 'Київ' ? true : false;
+    } else {
+      this.isDistrict = true;
+    }
     this.regions = [{ name: this.getLangValue(this.addressRegion.value, this.addressRegionEng.value), key: 1 }];
-    this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
-    this.districts = this.locations.getRegions(this.currentLanguage);
+
+    if (this.isDistrict) {
+      const abstractControl = this.getLangControl(this.addressDistrict, this.addressDistrictEng);
+      this.districts = [];
+      this.districts.push({ name: abstractControl.value, key: 1 });
+      abstractControl.setValue(abstractControl.value);
+      abstractControl.markAsDirty();
+    } else {
+      this.districts = this.locations.getRegions(this.currentLanguage);
+      this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
+    }
 
     this.getLangControl(this.addressRegion, this.addressRegionEng).valueChanges.subscribe(() => {
       this.addressCity.setValue('');
@@ -186,7 +200,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
       abstractControl.markAsDirty();
 
       if (abstractControl === this.addressCity) {
-        this.isDistrict = this.addressCity.value === 'Київ' ? true : false;
+        if (this.addressRegion.value === 'Київська область' || this.addressRegion.value === 'місто Київ') {
+          this.isDistrictKyiv = this.addressCity.value === 'Київ' ? true : false;
+        } else {
+          this.isDistrict = true;
+        }
       }
     });
   }
@@ -205,11 +223,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   inputAddress(searchAddress: string, lang: string): void {
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!this.isDistrict) {
+      if (!this.isDistrictKyiv) {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
-            (el.structured_formatting.secondary_text.includes('Київська область') ||
-              el.structured_formatting.secondary_text.includes('Kyiv Oblast')) &&
+            (el.structured_formatting.secondary_text.includes(this.addressRegion.value) ||
+              el.structured_formatting.secondary_text.includes(this.addressRegionEng.value)) &&
             (el.structured_formatting.secondary_text.includes(this.addressCity.value) ||
               el.structured_formatting.secondary_text.includes(this.addressCityEng.value))
         );
@@ -236,12 +254,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
-      abstractControl.markAsDirty();
 
-      if (lang === Language.EN && this.isDistrict) {
+      if (lang === Language.EN && (this.isDistrictKyiv || this.isDistrict)) {
         this.setDistrictAuto(placeDetails, this.addressDistrictEng, lang);
       }
-      if (lang === Language.UK && this.isDistrict) {
+      if (lang === Language.UK && (this.isDistrictKyiv || this.isDistrict)) {
         this.setDistrictAuto(placeDetails, this.addressDistrict, lang);
       }
     });
@@ -251,11 +268,16 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
+
+    if (this.isDistrict) {
+      this.districts = [];
+      this.districts.push({ name: this.getLangValue(this.addressDistrict.value, this.addressDistrictEng.value), key: 1 });
+    }
   }
 
   onDistrictSelected(event: Event): void {
     const districtKey = (event.target as HTMLSelectElement).value.slice(0, 1);
-    this.isDistrict ? this.setKyivDistrict(districtKey) : this.setDistrict(districtKey);
+    this.isDistrictKyiv ? this.setKyivDistrict(districtKey) : this.setDistrict(districtKey);
   }
 
   setKyivDistrict(districtKey: string): void {

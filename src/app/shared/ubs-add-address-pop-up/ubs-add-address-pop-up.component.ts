@@ -275,8 +275,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   inputAddress(searchAddress: string, lang: string): void {
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
-    const regionNameUk = this.data.edit ? this.data.address.region : this.locations.regionDto.nameUk;
-    const regionNameEn = this.data.edit ? this.data.address.regionEn : this.locations.regionDto.nameEn;
 
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!this.isDistrictKyiv) {
@@ -351,13 +349,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
 
+    abstractControl.setValue(currentDistrict);
+    abstractControl.markAsDirty();
+
     if (this.isDistrict) {
       this.regions = [];
       this.regions.push({ name: this.getLangValue(this.district.value, this.districtEn.value), key: 1 });
     }
-
-    abstractControl.setValue(currentDistrict);
-    abstractControl.markAsDirty();
   }
 
   setPredictHouseNumbers(): void {

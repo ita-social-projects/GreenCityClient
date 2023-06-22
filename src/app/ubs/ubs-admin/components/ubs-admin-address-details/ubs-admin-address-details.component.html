@@ -143,14 +143,22 @@
         <div class="form-group district">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
-            class="form-control placeholder-positioning"
-            *ngIf="isDistrict"
-            id="district"
+            *ngIf="!isDistrictKyiv"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
+            class="shadow-none form-control"
+            (change)="onDistrictSelected($event)"
+          >
+            <option *ngFor="let district of districts" [ngValue]="district.name">{{ district.name }}</option>
+          </select>
+          <select
+            *ngIf="isDistrictKyiv"
+            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
+            class="shadow-none form-control"
             (change)="onDistrictSelected($event)"
           >
             <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
           </select>
+
           <div
             class="validation"
             *ngIf="
