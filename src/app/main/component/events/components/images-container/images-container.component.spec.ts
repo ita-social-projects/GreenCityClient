@@ -4,6 +4,7 @@ import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { CdkDragEnter, CdkDrag, DragDropModule, moveItemInArray, CdkDragMove, CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -11,8 +12,11 @@ class TranslatePipeMock implements PipeTransform {
     return value;
   }
 }
+interface ElementWithStyle extends Element {
+  style: CSSStyleDeclaration;
+}
 
-describe('ImagesContainerComponent', () => {
+fdescribe('ImagesContainerComponent', () => {
   let component: ImagesContainerComponent;
   let fixture: ComponentFixture<ImagesContainerComponent>;
 
@@ -30,6 +34,7 @@ describe('ImagesContainerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ImagesContainerComponent, TranslatePipeMock],
       providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
+      imports: [DragDropModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
@@ -97,5 +102,83 @@ describe('ImagesContainerComponent', () => {
     const transferFileSpy = spyOn(component as any, 'transferFile');
     component.loadFile(event as any);
     expect(transferFileSpy).toHaveBeenCalledWith(dataFileMock);
+  });
+
+  it('should move item in the array when drag entered', () => {
+    component.images = [
+      { src: null, label: '+', isLabel: true },
+      { src: null, label: '+', isLabel: false },
+      { src: null, label: '+', isLabel: false },
+      { src: null, label: '+', isLabel: false },
+      { src: null, label: '+', isLabel: false }
+    ];
+
+    const dragIndex = 1;
+    const dropIndex = 2;
+    const dropListMock: any = {
+      data: dropIndex,
+      element: {
+        nativeElement: document.createElement('div')
+      }
+    };
+    const dropEvent: CdkDragEnter<number, number> = {
+      container: dropListMock,
+      item: {
+        data: dragIndex
+      } as CdkDrag<number>,
+      currentIndex: dragIndex
+    };
+
+    component.dragEntered(dropEvent);
+
+    expect(component.dragDropInfo.dragIndex).toBe(dragIndex);
+    expect(component.dragDropInfo.dropIndex).toBe(dropIndex);
+
+    const expectedImages = [
+      { src: null, label: '+', isLabel: true },
+      { src: null, label: '+', isLabel: false },
+      { src: null, label: '+', isLabel: false },
+      { src: null, label: '+', isLabel: false },
+      { src: null, label: '+', isLabel: false }
+    ];
+    expect(component.images).toEqual(expectedImages);
+  });
+
+  it('should reset properties when drop event occurs', () => {
+    const dropEvent: CdkDragDrop<number> = {
+      previousIndex: 1,
+      currentIndex: 2,
+      item: {} as any,
+      container: undefined,
+      previousContainer: undefined,
+      isPointerOverContainer: true,
+      distance: { x: 0, y: 0 }
+    };
+    component.dropListReceiverElement = document.createElement('div');
+    component.dragDropInfo = { dragIndex: 1, dropIndex: 2 };
+
+    component.dragDropped(dropEvent);
+
+    expect(component.dropListReceiverElement).toBeUndefined();
+    expect(component.dragDropInfo).toBeUndefined();
+    expect(component.dropListReceiverElement?.style.getPropertyValue('display')).toBeFalsy();
+  });
+
+  it('should not modify properties if dropListReceiverElement is undefined', () => {
+    const dropEvent: CdkDragDrop<number> = {
+      previousIndex: 1,
+      currentIndex: 2,
+      item: {} as any,
+      container: undefined,
+      previousContainer: undefined,
+      isPointerOverContainer: true,
+      distance: { x: 0, y: 0 }
+    };
+    component.dropListReceiverElement = undefined;
+    component.dragDropInfo = { dragIndex: 1, dropIndex: 2 };
+    component.dragDropped(dropEvent);
+
+    expect(component.dropListReceiverElement).toBeUndefined();
+    expect(component.dragDropInfo).toEqual({ dragIndex: 1, dropIndex: 2 });
   });
 });

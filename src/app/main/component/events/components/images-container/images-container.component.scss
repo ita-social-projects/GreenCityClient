@@ -69,7 +69,6 @@
 
 .image-content-container {
   display: flex;
-  align-items: baseline;
   flex-wrap: wrap;
 }
 
@@ -80,7 +79,7 @@
 }
 
 .next-button {
-  padding: 50%;
+  margin-bottom: 45px;
   background-color: transparent;
   color: black;
   border: none;

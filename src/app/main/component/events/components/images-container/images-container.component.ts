@@ -34,7 +34,7 @@ export class ImagesContainerComponent implements OnInit {
   public imageCount = 0;
 
   isImageSizeError: boolean;
-
+  @ViewChild('dragElement') dragElement: ElementRef;
   @ViewChild('takeInput') InputVar: ElementRef;
   @ViewChild('dropListContainer') dropListContainer?: ElementRef;
 
@@ -50,7 +50,7 @@ export class ImagesContainerComponent implements OnInit {
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
 
-  constructor(private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent) {}
+  constructor(private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent, public elementRef: ElementRef) {}
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
 
@@ -152,7 +152,7 @@ export class ImagesContainerComponent implements OnInit {
     }
   }
 
-  dragEntered(event: CdkDragEnter<number>) {
+  dragEntered(event: CdkDragEnter<number>): void {
     const drag = event.item;
     const dropList = event.container;
     const dragIndex = drag.data;
@@ -160,10 +160,11 @@ export class ImagesContainerComponent implements OnInit {
 
     this.dragDropInfo = { dragIndex, dropIndex };
 
-    const phContainer = dropList.element.nativeElement;
-    const phElement = phContainer.querySelector('.cdk-drag-placeholder');
+    const phElements = dropList.element.nativeElement.getElementsByClassName('cdk-drag-placeholder');
+    const phElement = phElements.length > 0 ? (phElements[0] as HTMLElement) : null;
 
     if (phElement) {
+      const phContainer = dropList.element.nativeElement;
       phContainer.removeChild(phElement);
       phContainer.parentElement?.insertBefore(phElement, phContainer);
 
@@ -172,7 +173,7 @@ export class ImagesContainerComponent implements OnInit {
   }
 
   dragMoved(event: CdkDragMove<number>): void {
-    const placeholderElement = this.dropListContainer?.nativeElement.querySelector('.cdk-drag-placeholder');
+    const placeholderElement = this.dropListContainer?.nativeElement.getElementsByClassName('cdk-drag-placeholder');
     const receiverElement = this.dragDropInfo && this.getReceiverElement(placeholderElement);
     if (receiverElement) {
       receiverElement.style.display = 'none';
