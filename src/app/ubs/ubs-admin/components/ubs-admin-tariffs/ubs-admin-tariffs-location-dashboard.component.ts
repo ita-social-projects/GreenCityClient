@@ -788,10 +788,10 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   private createDeactivateCardDto(result): void {
     this.deactivateCardObj = {
-      cities: result.selectedCitiesValue.map((it) => it.id).join('%'),
+      cities: result.selectedCitiesValue.map((it) => it.id).join('%2C%20'),
       courier: result.selectedCourier?.id,
-      regions: result.selectedRegionValue.map((it) => it.id).join('%'),
-      stations: result.selectedStations.map((it) => it.id).join('%')
+      regions: result.selectedRegionValue.map((it) => it.id).join('%2C%20'),
+      stations: result.selectedStations.map((it) => it.id).join('%2C%20')
     };
   }
 

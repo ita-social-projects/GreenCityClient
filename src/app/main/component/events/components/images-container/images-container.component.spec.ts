@@ -16,7 +16,7 @@ interface ElementWithStyle extends Element {
   style: CSSStyleDeclaration;
 }
 
-fdescribe('ImagesContainerComponent', () => {
+describe('ImagesContainerComponent', () => {
   let component: ImagesContainerComponent;
   let fixture: ComponentFixture<ImagesContainerComponent>;
 
