@@ -236,7 +236,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         ],
         addressHouseNumber: [
           this.addressInfo.addressHouseNumber,
-          [Validators.required, Validators.maxLength(4), Validators.pattern(Patterns.ubsHousePattern)]
+          [Validators.required, Validators.maxLength(10), Validators.pattern(Patterns.ubsHousePattern)]
         ],
         addressHouseCorpus: [this.addressInfo.addressHouseCorpus, [Validators.maxLength(4), Validators.pattern(Patterns.ubsCorpusPattern)]],
         addressEntranceNumber: [
