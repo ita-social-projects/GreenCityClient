@@ -20,6 +20,7 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
 import { SearchAddress } from '../../ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -60,10 +61,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   currentLanguage: string;
   districts: Location[];
   districtsKyiv: Location[];
-  languages = {
-    en: 'en',
-    uk: 'uk'
-  };
 
   regionOptions = {
     types: ['administrative_area_level_1'],
@@ -146,8 +143,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setTranslatedValueOfRegion(event: any, region: AbstractControl, regionEn: AbstractControl): void {
-    this.setTranslation(event.place_id, region, this.getLangValue('uk', 'en'));
-    this.setTranslation(event.place_id, regionEn, this.getLangValue('en', 'uk'));
+    this.setTranslation(event.place_id, region, this.getLangValue(Language.UK, Language.EN));
+    this.setTranslation(event.place_id, regionEn, this.getLangValue(Language.EN, Language.UK));
   }
 
   setTranslation(id: string, abstractControl: any, lang: string): void {
@@ -283,11 +280,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const region = currentFormGroup.get('region');
     const city = currentFormGroup.get('city');
 
-    if (this.currentLanguage === 'ua' && city.value) {
-      this.inputCity(`${region.value}, ${city.value}`, regionEn.value, this.languages.uk);
+    if (this.currentLanguage === Language.UA && city.value) {
+      this.inputCity(`${region.value}, ${city.value}`, regionEn.value, Language.UK);
     }
-    if (this.currentLanguage === 'en' && cityEn.value) {
-      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value, this.languages.en);
+    if (this.currentLanguage === Language.EN && cityEn.value) {
+      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value, Language.EN);
     }
   }
 
@@ -327,7 +324,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
     const request = {
       placeId: selectedCity.place_id,
-      language: abstractControlName === 'city' ? this.languages.uk : this.languages.en
+      language: abstractControlName === 'city' ? Language.UK : Language.EN
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
@@ -343,11 +340,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const { city, cityEn, street, streetEn, region, regionEn } = currentFormGroup.value;
 
-    if (this.currentLanguage === 'ua' && street) {
-      this.inputAddress(region, regionEn, `${city}, ${street}`, currentFormGroup, this.languages.uk);
+    if (this.currentLanguage === Language.UA && street) {
+      this.inputAddress(region, regionEn, `${city}, ${street}`, currentFormGroup, Language.UK);
     }
-    if (this.currentLanguage === 'en' && streetEn) {
-      this.inputAddress(region, regionEn, `${cityEn}, ${streetEn}`, currentFormGroup, this.languages.en);
+    if (this.currentLanguage === Language.EN && streetEn) {
+      this.inputAddress(region, regionEn, `${cityEn}, ${streetEn}`, currentFormGroup, Language.EN);
     }
   }
 
@@ -386,17 +383,17 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
     const request = {
       placeId: selectedStreet.place_id,
-      language: abstractControlName === 'street' ? this.languages.uk : this.languages.en
+      language: abstractControlName === 'street' ? Language.UK : Language.EN
     };
     this.placeService.getDetails(request, (placeDetails) => {
       const districtEn = item.get('districtEn');
       const district = item.get('district');
 
       abstractControl.setValue(placeDetails.name);
-      if ((request.language === this.languages.en && isKyiv.value) || isNotKyivRegion.value) {
+      if ((request.language === Language.EN && isKyiv.value) || isNotKyivRegion.value) {
         this.setDistrictAuto(placeDetails, request.language, item);
       }
-      if ((request.language === this.languages.uk && isKyiv.value) || isNotKyivRegion.value) {
+      if ((request.language === Language.UK && isKyiv.value) || isNotKyivRegion.value) {
         this.setDistrictAuto(placeDetails, request.language, item);
       }
     });
@@ -404,13 +401,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   setDistrictAuto(placeDetails: GooglePlaceResult, language: string, item: AbstractControl): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
-    console.log('item', item);
-
     const isNotKyiv = item.get('isNotKyivRegion');
     const districtEn = item.get('districtEn');
     const district = item.get('district');
 
-    const abstractControl = language === 'uk' ? district : districtEn;
+    const abstractControl = language === Language.UK ? district : districtEn;
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
 
@@ -439,8 +434,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   setKyivDistrict(districtKey: string, item: AbstractControl): void {
     const key = Number(districtKey) + 1;
-    const selectedDistrict = this.locations.getRegionsKyiv('ua').find((el) => el.key === key);
-    const selectedDistricEn = this.locations.getRegionsKyiv('en').find((el) => el.key === key);
+    const selectedDistrict = this.locations.getRegionsKyiv(Language.UA).find((el) => el.key === key);
+    const selectedDistricEn = this.locations.getRegionsKyiv(Language.EN).find((el) => el.key === key);
 
     item.get('district').setValue(selectedDistrict.name);
     item.get('districtEn').setValue(selectedDistricEn.name);
@@ -448,8 +443,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   setDistrict(districtKey: string, item: AbstractControl): void {
     const key = Number(districtKey) + 1;
-    const selectedDistrict = this.locations.getRegions('ua').find((el) => el.key === key);
-    const selectedDistricEn = this.locations.getRegions('en').find((el) => el.key === key);
+    const selectedDistrict = this.locations.getRegions(Language.UA).find((el) => el.key === key);
+    const selectedDistricEn = this.locations.getRegions(Language.EN).find((el) => el.key === key);
 
     item.get('district').setValue(selectedDistrict.name);
     item.get('districtEn').setValue(selectedDistricEn.name);
@@ -487,7 +482,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     if (cityName && streetName && houseValue) {
       item.get('houseNumber').setValue(houseValue);
       const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
-      this.setHousesList(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+      this.setHousesList(searchAddress, this.getLangValue(Language.UK, Language.EN));
     }
   }
 
