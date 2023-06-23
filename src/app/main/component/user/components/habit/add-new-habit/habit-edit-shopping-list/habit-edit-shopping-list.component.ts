@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { ShoppingList } from '../../../../models/shoppinglist.interface';
 import { TodoStatus } from '../../models/todo-status.enum';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',
@@ -40,6 +41,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   constructor(
     public shoppinglistService: ShoppingListService,
+    private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef
@@ -137,5 +139,15 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
     this.destroySub.complete();
+  }
+
+  checkItemValidity(): void {
+    if (!this.itemForm.valid && this.itemForm.get('item').value.length > 50) {
+      this.isTooLong();
+    }
+  }
+
+  isTooLong(): void {
+    this.snackBar.openSnackBar('tooLongInput');
   }
 }
