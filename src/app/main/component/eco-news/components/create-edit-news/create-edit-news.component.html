@@ -65,7 +65,10 @@
         <div class="textarea-wrapper">
           <div class="title-wrapper">
             <h3>{{ 'create-news.content-title' | translate }}</h3>
-            <p class="textarea-description" [ngClass]="{ warning: getControl('content').invalid && getControl('content').touched }">
+            <p
+              class="textarea-description"
+              [ngClass]="{ warning: getControl('content').invalid && (getControl('content').touched || getControl('content').dirty) }"
+            >
               {{ 'create-news.content-tooltip' | translate }}
             </p>
           </div>
