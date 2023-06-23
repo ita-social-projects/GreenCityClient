@@ -5,9 +5,28 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
+    <!--<select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
       <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
-    </select>
+    </select>-->
+
+    <input
+      id="regionInput"
+      [formControlName]="getLangValue('region', 'regionEn')"
+      class="shadow-none form-control"
+      (keyup)="setPredictRegions()"
+      matInput
+      [matAutocomplete]="autoRegion"
+    />
+    <mat-autocomplete #autoRegion="matAutocomplete">
+      <mat-option
+        class="autocomplete-dropdown"
+        *ngFor="let region of regionPredictionList"
+        [value]="region.description"
+        (click)="onRegionSelected(region)"
+      >
+        {{ region.description }}
+      </mat-option>
+    </mat-autocomplete>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>

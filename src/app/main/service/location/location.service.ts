@@ -33,7 +33,7 @@ export class LocationService {
     return searchAddress;
   }
 
-  getRequest(searchAddress: string, lang: string, types: 'address' | '(cities)'): GoogleAutoRequest {
+  getRequest(searchAddress: string, lang: string, types: 'address' | '(cities)' | 'administrative_area_level_1'): GoogleAutoRequest {
     const request = {
       input: searchAddress,
       language: lang,
