@@ -39,6 +39,7 @@ import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
+import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    ResizableBottomSheetComponent
+    ResizableBottomSheetComponent,
+    CorrectUnitPipe
   ],
   imports: [
     CommonModule,
@@ -113,7 +115,8 @@ import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    ResizableBottomSheetComponent
+    ResizableBottomSheetComponent,
+    CorrectUnitPipe
   ]
 })
 export class SharedModule {}
