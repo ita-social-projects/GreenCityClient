@@ -103,7 +103,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     if (this.addressRegion.value === 'Київська область' || this.addressRegion.value === 'місто Київ') {
-      this.isDistrictKyiv = this.addressCity.value === 'Київ' ? true : false;
+      this.isDistrictKyiv = this.addressCity.value === 'Київ';
     } else {
       this.isDistrict = true;
     }
@@ -201,7 +201,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
       if (abstractControl === this.addressCity) {
         if (this.addressRegion.value === 'Київська область' || this.addressRegion.value === 'місто Київ') {
-          this.isDistrictKyiv = this.addressCity.value === 'Київ' ? true : false;
+          this.isDistrictKyiv = this.addressCity.value === 'Київ';
         } else {
           this.isDistrict = true;
         }
