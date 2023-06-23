@@ -50,7 +50,7 @@ export class EventsPreviewPageComponent implements OnInit {
     this.bindUserName();
   }
 
-  private bindUserName(): void {
+  public bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
       this.userName = name;
     });
