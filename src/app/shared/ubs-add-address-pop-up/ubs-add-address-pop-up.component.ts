@@ -386,8 +386,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     abstractControl.markAsDirty();
 
     if (this.isDistrict) {
-      this.regions = [];
-      this.regions.push({ name: this.getLangValue(this.district.value, this.districtEn.value), key: 1 });
+      this.regions = [{ name: this.getLangValue(this.district.value, this.districtEn.value), key: 1 }];
     }
   }
 

@@ -111,8 +111,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
     if (this.isDistrict) {
       const abstractControl = this.getLangControl(this.addressDistrict, this.addressDistrictEng);
-      this.districts = [];
-      this.districts.push({ name: abstractControl.value, key: 1 });
+      this.districts = [{ name: abstractControl.value, key: 1 }];
       abstractControl.setValue(abstractControl.value);
       abstractControl.markAsDirty();
     } else {
@@ -266,12 +265,11 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
-    abstractControl.setValue(currentDistrict);
+    abstractControl.setValue(currelntDistrict);
     abstractControl.markAsDirty();
 
     if (this.isDistrict) {
-      this.districts = [];
-      this.districts.push({ name: this.getLangValue(this.addressDistrict.value, this.addressDistrictEng.value), key: 1 });
+      this.districts = [{ name: this.getLangValue(this.addressDistrict.value, this.addressDistrictEng.value), key: 1 }];
     }
   }
 
