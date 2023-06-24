@@ -332,8 +332,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     return this.personalDataForm.get(control);
   }
 
-  public getLangValue(uaValue: string, enValue: string): [string, string] {
-    return [this.langService.getLangValue(uaValue, enValue) as string, this.langService.getLangValue(enValue, uaValue) as string];
+  public getLangValue(uaName: string, enName: string): [string, string] {
+    return [this.langService.getLangValue(uaName, enName) as string, this.langService.getLangValue(enName, uaName) as string];
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {

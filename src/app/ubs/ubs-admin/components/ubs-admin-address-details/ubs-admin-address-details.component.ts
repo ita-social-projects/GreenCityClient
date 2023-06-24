@@ -265,7 +265,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
-    abstractControl.setValue(currelntDistrict);
+    abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
 
     if (this.isDistrict) {

@@ -6,7 +6,7 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, Region, SearchAddress, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, SearchAddress, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
@@ -14,7 +14,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
-import { langValue } from 'src/app/main/interface/langValue';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -116,11 +115,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.locations = this.localStorageService.getLocations();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    const region = !this.data.addFromProfile ? (this.data.edit ? this.data.address.region : this.locations.regionDto.nameUk) : '';
-    const regionEn = !this.data.addFromProfile ? (this.data.edit ? this.data.address.regionEn : this.locations.regionDto.nameEn) : '';
+    const region = this.data.edit ? this.data.address.region : this.locations.regionDto.nameUk;
+    const regionEn = this.data.edit ? this.data.address.regionEn : this.locations.regionDto.nameEn;
     this.addAddressForm = this.fb.group({
-      region: [region, Validators.required],
-      regionEn: [regionEn, Validators.required],
+      region: [!this.data.addFromProfile ? region : '', Validators.required],
+      regionEn: [!this.data.addFromProfile ? regionEn : '', Validators.required],
       city: [
         this.data.edit ? this.data.address.city : null,
         [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
