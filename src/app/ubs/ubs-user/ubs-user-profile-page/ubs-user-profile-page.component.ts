@@ -338,26 +338,25 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   setPredictStreets(formGroupName: number): void {
     this.streetPredictionList = null;
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const { city, cityEn, street, streetEn, region, regionEn } = currentFormGroup.value;
+    const { city, cityEn, street, streetEn } = currentFormGroup.value;
 
     if (this.currentLanguage === Language.UA && street) {
-      this.inputAddress(region, regionEn, `${city}, ${street}`, currentFormGroup, Language.UK);
+      this.inputAddress(`${city}, ${street}`, currentFormGroup, Language.UK);
     }
     if (this.currentLanguage === Language.EN && streetEn) {
-      this.inputAddress(region, regionEn, `${cityEn}, ${streetEn}`, currentFormGroup, Language.EN);
+      this.inputAddress(`${cityEn}, ${streetEn}`, currentFormGroup, Language.EN);
     }
   }
 
-  inputAddress(regionAddress: string, regionAddressEn: string, searchAddress: string, item: AbstractControl, lang: string): void {
-    const { isKyiv, city, cityEn } = item.value;
+  inputAddress(searchAddress: string, item: AbstractControl, lang: string): void {
+    const { isKyiv, city, cityEn, region, regionEn } = item.value;
 
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
       if (!isKyiv) {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
-            (el.structured_formatting.secondary_text.includes(regionAddress) ||
-              el.structured_formatting.secondary_text.includes(regionAddressEn)) &&
+            (el.structured_formatting.secondary_text.includes(region) || el.structured_formatting.secondary_text.includes(regionEn)) &&
             (el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn))
         );
       } else {
@@ -386,9 +385,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       language: abstractControlName === 'street' ? Language.UK : Language.EN
     };
     this.placeService.getDetails(request, (placeDetails) => {
-      const districtEn = item.get('districtEn');
-      const district = item.get('district');
-
       abstractControl.setValue(placeDetails.name);
       if ((request.language === Language.EN && isKyiv.value) || isNotKyivRegion.value) {
         this.setDistrictAuto(placeDetails, request.language, item);
