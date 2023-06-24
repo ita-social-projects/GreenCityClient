@@ -158,6 +158,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       actual: true
     });
 
+    if (!this.data.addFromProfile) {
+      this.region.disable();
+      this.regionEn.disable();
+    }
+
     this.addAddressForm
       .get(this.getLangValue('city', 'cityEn'))
       .valueChanges.pipe(takeUntil(this.destroy))
