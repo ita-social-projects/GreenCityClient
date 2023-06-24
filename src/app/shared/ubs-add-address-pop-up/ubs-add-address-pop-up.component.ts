@@ -251,10 +251,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   setPredictCities(): void {
     this.cityPredictionList = null;
 
-    let a;
-    if (this.region.value === 'Київська область') {
-      //a = 'місто Київ';
-    }
     if (this.currentLanguage === Language.UA && this.city.value) {
       this.inputCity(`${this.region.value}, місто, ${this.city.value}`, Language.UK);
     }

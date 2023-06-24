@@ -408,7 +408,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     if (isNotKyiv && districtEn && district) {
       const nextKey = this.districts.length + 1;
       const districtValue = this.getLangValue(district.value, districtEn.value);
-      const isExisting = this.districts.some((district) => district.name === districtValue);
+      const isExisting = this.districts.some((districtItem) => districtItem.name === districtValue);
 
       if (!isExisting) {
         this.districts.push({ name: districtValue, key: nextKey });
