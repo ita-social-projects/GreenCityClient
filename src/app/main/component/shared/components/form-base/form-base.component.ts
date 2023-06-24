@@ -41,8 +41,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     return this.areChangesSaved ? true : !this.checkChanges();
   }
 
-  public cancel(): void {
-    this.cancelPopupJustifying(true);
+  public cancel(isPristine: boolean): void {
+    this.cancelPopupJustifying(isPristine);
     localStorage.removeItem('newsTags');
   }
 
