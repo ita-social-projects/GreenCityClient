@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import {
   GetEcoNewsByTagsAction,
@@ -15,7 +15,8 @@ import {
   CreateEcoNewsAction,
   CreateEcoNewsSuccessAction,
   DeleteEcoNewsSuccessAction,
-  DeleteEcoNewsAction
+  DeleteEcoNewsAction,
+  ReceivedEcoNewsFailureAction
 } from '../actions/ecoNews.actions';
 import { EcoNewsDto } from '@eco-news-models/eco-news-dto';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -37,10 +38,8 @@ export class NewsEffects {
       ofType(GetEcoNewsByTagsAction),
       mergeMap((actions: { currentPage: number; numberOfNews: number; tagsList: string[]; reset: boolean }) => {
         return this.newsService.getNewsListByTags(actions.currentPage, actions.numberOfNews, actions.tagsList).pipe(
-          map(
-            (ecoNews: EcoNewsDto) => GetEcoNewsByTagsSuccessAction({ ecoNews, reset: actions.reset }),
-            catchError(() => EMPTY)
-          )
+          map((ecoNews: EcoNewsDto) => GetEcoNewsByTagsSuccessAction({ ecoNews, reset: actions.reset })),
+          catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         );
       })
     );
@@ -51,10 +50,8 @@ export class NewsEffects {
       ofType(GetEcoNewsByPageAction),
       mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) => {
         return this.newsService.getEcoNewsListByPage(actions.currentPage, actions.numberOfNews).pipe(
-          map(
-            (ecoNews: EcoNewsDto) => GetEcoNewsByPageSuccessAction({ ecoNews, reset: actions.reset }),
-            catchError(() => EMPTY)
-          )
+          map((ecoNews: EcoNewsDto) => GetEcoNewsByPageSuccessAction({ ecoNews, reset: actions.reset })),
+          catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         );
       })
     );
@@ -65,10 +62,8 @@ export class NewsEffects {
       ofType(GetEcoNewsByAuthorAction),
       mergeMap((actions: { currentPage: number; numberOfNews: number; reset: boolean }) => {
         return this.newsService.getEcoNewsListByAutorId(actions.currentPage, actions.numberOfNews).pipe(
-          map(
-            (ecoNews: EcoNewsDto) => GetEcoNewsByAuthorSuccessAction({ ecoNews, reset: actions.reset }),
-            catchError(() => EMPTY)
-          )
+          map((ecoNews: EcoNewsDto) => GetEcoNewsByAuthorSuccessAction({ ecoNews, reset: actions.reset })),
+          catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         );
       })
     );
@@ -79,10 +74,8 @@ export class NewsEffects {
       ofType(EditEcoNewsAction),
       mergeMap((actions: { form: NewsDTO }) => {
         return this.createEcoNewsService.editNews(actions.form).pipe(
-          map(
-            (editedNews: EcoNewsModel) => EditEcoNewsSuccessAction({ editedNews }),
-            catchError(() => EMPTY)
-          )
+          map((editedNews: EcoNewsModel) => EditEcoNewsSuccessAction({ editedNews })),
+          catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         );
       })
     );
@@ -93,10 +86,8 @@ export class NewsEffects {
       ofType(CreateEcoNewsAction),
       mergeMap((actions: { value: NewsDTO }) => {
         return this.createEcoNewsService.sendFormData(actions.value).pipe(
-          map(
-            (newEcoNews: EcoNewsModel) => CreateEcoNewsSuccessAction({ newEcoNews }),
-            catchError(() => EMPTY)
-          )
+          map((newEcoNews: EcoNewsModel) => CreateEcoNewsSuccessAction({ newEcoNews })),
+          catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         );
       })
     );
@@ -111,9 +102,7 @@ export class NewsEffects {
           tap(() => {
             this.router.navigate(['/news']);
           }),
-          catchError((error) => {
-            return EMPTY;
-          })
+          catchError((error) => of(ReceivedEcoNewsFailureAction(error)))
         );
       })
     );

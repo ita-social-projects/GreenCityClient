@@ -5,7 +5,8 @@ import {
   GetEcoNewsByAuthorSuccessAction,
   CreateEcoNewsSuccessAction,
   EditEcoNewsSuccessAction,
-  DeleteEcoNewsSuccessAction
+  DeleteEcoNewsSuccessAction,
+  ReceivedEcoNewsFailureAction
 } from '../actions/ecoNews.actions';
 import { initialNewsState } from '../state/ecoNews.state';
 
@@ -84,5 +85,10 @@ export const EcoNewsReducer = createReducer(
         page: updatedEcoNewsByAuthorPage || state.ecoNewsByAuthor.page
       }
     };
-  })
+  }),
+
+  on(ReceivedEcoNewsFailureAction, (state, action) => ({
+    ...state,
+    error: action.error
+  }))
 );
