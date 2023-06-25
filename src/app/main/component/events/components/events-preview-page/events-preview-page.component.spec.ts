@@ -5,15 +5,21 @@ import { LanguageService } from '../../../../i18n/language.service';
 import { of } from 'rxjs';
 import { PagePreviewDTO } from '../../models/events.interface';
 import { TranslateModule } from '@ngx-translate/core';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
-import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 
-@Pipe({ name: 'dateLocalisation' })
-class DatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
+export function mockPipe(options: Pipe): Pipe {
+  const metadata: Pipe = {
+    name: options.name
+  };
+
+  return Pipe(metadata)(
+    class MockPipe implements PipeTransform {
+      transform(value: string): string {
+        return value;
+      }
+    }
+  );
 }
 
 describe('EventsPreviewPageComponent', () => {
@@ -62,7 +68,7 @@ describe('EventsPreviewPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsPreviewPageComponent, DatePipeMock],
+      declarations: [EventsPreviewPageComponent, mockPipe({ name: 'dateLocalisation' }), mockPipe({ name: 'translate' })],
       imports: [TranslateModule.forRoot()],
       providers: [
         { provide: EventsService, useValue: EventsServiceMock },
