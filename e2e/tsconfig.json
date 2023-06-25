@@ -1,7 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "noImplicitUseStrict": true,
-  "strict": true,
   "compilerOptions": {
     "outDir": "../out-tsc/e2e",
     "module": "commonjs",

@@ -31,7 +31,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     }
 
     if (this.key === TableKeys.clientPhone || this.key === TableKeys.senderPhone) {
-      this.title = this.title.toString().charAt(0) !== '+' ? '+' + this.title.toString() : this.title;
+      this.title = this.title = '+' + this.title.toString().replace(/^\+/, '');
     }
 
     const replaceRules = {
