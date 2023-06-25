@@ -206,10 +206,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onRegionSelected(event: any): void {
-    this.setTranslatedValueOfRegion(event);
-  }
-
-  setTranslatedValueOfRegion(event: any): void {
     this.setTranslation(event.place_id, this.region, this.getLangValue(Language.UK, Language.EN));
     this.setTranslation(event.place_id, this.regionEn, this.getLangValue(Language.EN, Language.UK));
   }
