@@ -115,8 +115,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.locations = this.localStorageService.getLocations();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    const region = this.data.edit ? this.data.address.region : this.locations.regionDto.nameUk;
-    const regionEn = this.data.edit ? this.data.address.regionEn : this.locations.regionDto.nameEn;
+    const region = this.data.edit ? this.data.address.region : this.locations?.regionDto.nameUk;
+    const regionEn = this.data.edit ? this.data.address.regionEn : this.locations?.regionDto.nameEn;
     this.addAddressForm = this.fb.group({
       region: [!this.data.addFromProfile ? region : '', Validators.required],
       regionEn: [!this.data.addFromProfile ? regionEn : '', Validators.required],
