@@ -8,13 +8,22 @@ import { Friend, UserFriendsInterface } from '../../../../../interface/user/user
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('UsersFriendsComponent', () => {
   let component: UsersFriendsComponent;
   let fixture: ComponentFixture<UsersFriendsComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
+  const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviorSubject',
+    'getCurrentLanguage',
+    'languageBehaviourSubject'
+  ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.languageSubject = of('en');
+
   let profileServiceMock: ProfileService;
   const userFriends = {
     amountOfFriends: 30,
@@ -22,8 +31,8 @@ describe('UsersFriendsComponent', () => {
       currentPage: 1,
       page: [],
       totalElements: 6,
-      totalPages: 1,
-    },
+      totalPages: 1
+    }
   };
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
   profileServiceMock.getUserFriends = () => of(userFriends);
@@ -31,12 +40,12 @@ describe('UsersFriendsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [UsersFriendsComponent],
+      declarations: [UsersFriendsComponent, CorrectUnitPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: ProfileService, useValue: profileServiceMock },
-      ],
+        { provide: ProfileService, useValue: profileServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -60,7 +69,7 @@ describe('UsersFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get a user\'s', () => {
+  it("should get a user's", () => {
     const showUsersFriendsSpy = spyOn(component as any, 'showUsersFriends');
     component.ngOnInit();
     expect(showUsersFriendsSpy).toHaveBeenCalledTimes(1);

@@ -3,7 +3,9 @@
     <div class="header-position shopping-list-content">
       <div class="header">
         {{ 'profile.to-do-list' | translate }}
-        <div class="items-count"><br />{{ shoppingList?.length }} {{ 'profile.elements' | translate }}</div>
+        <div class="items-count">
+          <br />{{ shoppingList?.length }} {{ 'profile.elements' | correctUnit: shoppingList?.length:currentLang | translate }}
+        </div>
       </div>
       <a *ngIf="shoppingList.length > 3" class="btn-see-all" (click)="openCloseList()">{{ 'profile.see-all' | translate }}</a>
     </div>
