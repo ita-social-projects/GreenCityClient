@@ -45,6 +45,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   placeId: string;
   locations: CourierLocations;
   isDistrict = false;
+  regionBounds;
 
   constructor(
     private fb: FormBuilder,
@@ -205,9 +206,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.initGoogleAutocompleteServices();
   }
 
-  onRegionSelected(event: any): void {
-    this.setTranslation(event.place_id, this.region, this.getLangValue(Language.UK, Language.EN));
-    this.setTranslation(event.place_id, this.regionEn, this.getLangValue(Language.EN, Language.UK));
+  onRegionSelected(region: any): void {
+    this.setTranslation(region.place_id, this.region, this.getLangValue(Language.UK, Language.EN));
+    this.setTranslation(region.place_id, this.regionEn, this.getLangValue(Language.EN, Language.UK));
   }
 
   setTranslation(id: string, abstractControl: any, lang: string): void {
@@ -218,6 +219,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
+
+      const l = placeDetails.geometry.viewport.getSouthWest();
+      const x = placeDetails.geometry.viewport.getNorthEast();
+      this.regionBounds = new google.maps.LatLngBounds(l, x);
     });
   }
 
@@ -261,9 +266,15 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   inputCity(searchAddress: string, lang: string): void {
-    const request = this.locationService.getRequest(searchAddress, lang, '(cities)');
+    const request = {
+      input: searchAddress,
+      bounds: this.regionBounds,
+      types: ['(cities)'],
+      componentRestrictions: { country: 'ua' }
+    };
+
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      this.cityPredictionList = this.filterPredictions(cityPredictionList);
+      this.cityPredictionList = cityPredictionList;
     });
   }
 

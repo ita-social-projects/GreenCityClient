@@ -61,7 +61,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   currentLanguage: string;
   districts: Location[];
   districtsKyiv: Location[];
-
+  regionBounds;
   regionOptions = {
     types: ['administrative_area_level_1'],
     componentRestrictions: { country: 'UA' }
@@ -155,6 +155,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
+
+      const l = placeDetails.geometry.viewport.getSouthWest();
+      const x = placeDetails.geometry.viewport.getNorthEast();
+      this.regionBounds = new google.maps.LatLngBounds(l, x);
     });
   }
 
@@ -289,7 +293,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   inputCity(searchAddress: string, regionEnName: string, lang: string): void {
-    const request = this.locationService.getRequest(searchAddress, lang, '(cities)');
+    const request = {
+      input: searchAddress,
+      bounds: this.regionBounds,
+      types: ['(cities)'],
+      componentRestrictions: { country: 'ua' }
+    };
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
       if (regionEnName === 'Kyiv') {
         this.cityPredictionList = cityPredictionList?.filter((el) => el.place_id === 'ChIJBUVa4U7P1EAR_kYBF9IxSXY');
