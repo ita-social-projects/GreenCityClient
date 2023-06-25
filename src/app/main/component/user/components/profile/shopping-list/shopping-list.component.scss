@@ -132,7 +132,7 @@ h2 > span {
   margin: 0 auto;
 }
 
-@media only screen and (max-width: $bp-desktop) {
+@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
   .shopping-list-block {
     width: 184px;
   }
