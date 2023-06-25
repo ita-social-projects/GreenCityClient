@@ -164,18 +164,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.searchToggle = !this.searchToggle;
   }
 
-  public showFavourite(): void {
-    this.bookmarkSelected = !this.bookmarkSelected;
-    const eventsFavoriteList: EventPageResponceDto[] = [];
-    this.eventsList.forEach((event) => {
-      if (event.isFavorite) {
-        eventsFavoriteList.push(event);
-      }
-    });
-    this.eventsList = eventsFavoriteList;
-    console.log(eventsFavoriteList, '234');
-  }
-
   public deleteOneFilter(filter, index): void {
     [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
       const item = list.options.find((option: MatOption) => filter.nameEn === option.value.nameEn);

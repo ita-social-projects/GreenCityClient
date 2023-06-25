@@ -238,12 +238,6 @@ describe('EventsListComponent', () => {
     expect(component.getUniqueCities(eventsMock)).toEqual(expected);
   });
 
-  it('should check weather showFavourite works correctly', () => {
-    component.bookmarkSelected = false;
-    component.showFavourite();
-    expect(component.bookmarkSelected).toEqual(true);
-  });
-
   it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {
     const key = 'dropdown1';
     component.allSelectedFlags[key] = true;
