@@ -87,6 +87,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  public nameBtn: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -103,6 +104,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params.id;
+    this.nameBtn = this.route.snapshot.params.btnName;
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });

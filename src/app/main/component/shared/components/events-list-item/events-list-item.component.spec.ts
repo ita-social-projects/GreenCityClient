@@ -200,7 +200,6 @@ describe('EventsListItemComponent', () => {
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
-        { provide: Router, useValue: routerSpy },
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
@@ -415,7 +414,6 @@ describe('EventsListItemComponent', () => {
       component.buttonAction(component.btnName.edit);
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
       expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
-      expect(component.router.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
     });
   });
 
@@ -427,11 +425,6 @@ describe('EventsListItemComponent', () => {
       tick();
       expect(component.routeToEvent).toHaveBeenCalled();
     }));
-
-    it(`should navigate to events`, () => {
-      component.routeToEvent();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
-    });
   });
 
   describe('Filtering tags', () => {

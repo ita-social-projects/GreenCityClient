@@ -20,9 +20,9 @@ const routes: Routes = [
       },
 
       {
-        path: ':id',
+        path: ':id/:btnName',
         component: EventDetailsComponent
-      },
+      }
     ]
   }
 ];

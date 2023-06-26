@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -62,6 +62,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public address;
   public addAttenderError: string;
   public isOnline: string;
+  private routeBtnName: string;
 
   attendees = [];
   attendeesAvatars = [];
@@ -90,6 +91,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
+    private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private userOwnAuthService: UserOwnAuthService,
@@ -116,10 +118,11 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
+    this.routeBtnName = this.nameBtn;
   }
 
   public routeToEvent(): void {
-    this.router.navigate(['/events', this.event.id]);
+    this.router.navigate(['/events', this.event.id, this.nameBtn]);
   }
 
   public filterTags(tags: Array<TagDto>) {
