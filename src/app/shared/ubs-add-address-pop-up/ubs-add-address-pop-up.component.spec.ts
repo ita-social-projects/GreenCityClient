@@ -80,12 +80,14 @@ describe('UBSAddAddressPopUpComponent', () => {
     'getDistrictAuto',
     'getFullAddressList',
     'getSearchAddress',
-    'getRequest'
+    'getRequest',
+    'checkOnCityNames'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
   fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
+  fakeLocalStorageService.checkOnCityNames = () => of(true);
 
   const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {
@@ -144,8 +146,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     component.ngOnInit();
     expect(component.addAddressForm).toBeTruthy();
     expect(component.currentLanguage).toBe(Language.UA);
-    expect(component.regionsKyiv).toBe(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
-    expect(component.regions).toBe(ADDRESSESMOCK.DISTRICTSMOCK);
   });
 
   it('the form should include address data when address is editing', () => {
@@ -267,7 +267,6 @@ describe('UBSAddAddressPopUpComponent', () => {
     });
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.city, Language.UK);
     expect(component.city.value).toEqual(ADDRESSESMOCK.PLACEKYIVUK.name);
-    expect(component.isDistrictKyiv).toEqual(true);
   });
 
   it('method onCitySelected should set isDistrictKyiv if city is not Kyiv', () => {

@@ -6,7 +6,7 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, SearchAddress, CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
@@ -182,8 +182,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         this.placeId = null;
       });
 
-    if (this.region.value === 'Київська область' || this.region.value === 'місто Київ') {
-      this.isDistrictKyiv = this.city.value === 'Київ';
+    const isKyivRegion = this.locationService.checkOnCityNames(this.region.value);
+    if (isKyivRegion) {
+      this.isDistrictKyiv = this.city.value === KyivNamesEnum.KyivUa;
     } else {
       this.isDistrict = true;
     }
@@ -291,8 +292,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       abstractControl.setValue(placeDetails.name);
 
       if (abstractControl === this.city) {
-        if (this.region.value === 'Київська область' || this.region.value === 'місто Київ') {
-          this.isDistrictKyiv = this.city.value === 'Київ';
+        const isKyivRegion = this.locationService.checkOnCityNames(this.region.value);
+        if (isKyivRegion) {
+          this.isDistrictKyiv = this.city.value === KyivNamesEnum.KyivUa;
         } else {
           this.isDistrict = true;
         }

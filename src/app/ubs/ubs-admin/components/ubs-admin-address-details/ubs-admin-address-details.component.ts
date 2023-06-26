@@ -8,7 +8,7 @@ import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LocationService } from '@global-service/location/location.service';
-import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { SearchAddress, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 
@@ -102,8 +102,9 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    if (this.addressRegion.value === 'Київська область' || this.addressRegion.value === 'місто Київ') {
-      this.isDistrictKyiv = this.addressCity.value === 'Київ';
+    const isKyivRegion = this.locationService.checkOnCityNames(this.addressRegion.value);
+    if (isKyivRegion) {
+      this.isDistrictKyiv = this.addressCity.value === KyivNamesEnum.KyivUa;
     } else {
       this.isDistrict = true;
     }
@@ -199,8 +200,9 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
       abstractControl.markAsDirty();
 
       if (abstractControl === this.addressCity) {
-        if (this.addressRegion.value === 'Київська область' || this.addressRegion.value === 'місто Київ') {
-          this.isDistrictKyiv = this.addressCity.value === 'Київ';
+        const isKyivRegion = this.locationService.checkOnCityNames(this.addressRegion.value);
+        if (isKyivRegion) {
+          this.isDistrictKyiv = this.addressCity.value === KyivNamesEnum.KyivUa;
         } else {
           this.isDistrict = true;
         }

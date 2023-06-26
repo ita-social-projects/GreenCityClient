@@ -52,12 +52,14 @@ describe('UbsAdminAddressDetailsComponent', () => {
     'getDistrictAuto',
     'getFullAddressList',
     'getSearchAddress',
-    'getRequest'
+    'getRequest',
+    'checkOnCityNames'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
   fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
+  fakeLocationServiceMock.checkOnCityNames = () => of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

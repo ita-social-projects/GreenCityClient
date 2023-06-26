@@ -18,7 +18,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
-import { SearchAddress } from '../../ubs/models/ubs.interface';
+import { SearchAddress, KyivNamesEnum } from '../../ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 
@@ -214,8 +214,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        isKyiv: new FormControl(adres.region === 'місто Київ' && adres?.city === 'Київ' ? true : false),
-        isNotKyivRegion: new FormControl(adres.region !== 'місто Київ' && adres.region !== 'Київська область' ? true : false),
+        isKyiv: new FormControl(adres.region === KyivNamesEnum.KyivCityUa && adres?.city === KyivNamesEnum.KyivUa ? true : false),
+        isNotKyivRegion: new FormControl(
+          adres.region !== KyivNamesEnum.KyivCityUa && adres.region !== KyivNamesEnum.KyivRegionUa ? true : false
+        ),
         searchAddress: new FormControl(null),
         isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
         placeId: new FormControl(null),
@@ -465,7 +467,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       const regionValue = adres.region;
       const districtValue = this.getLangValue(adres.district, adres.districtEn);
 
-      if (regionValue !== 'місто Київ' && regionValue !== 'Київська область') {
+      if (regionValue !== KyivNamesEnum.KyivCityUa && regionValue !== KyivNamesEnum.KyivRegionUa) {
         const nextKey = this.districts.length + 1;
         this.districts.push({ name: districtValue, key: nextKey });
       }

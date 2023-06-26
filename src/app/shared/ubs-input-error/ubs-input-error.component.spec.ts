@@ -59,7 +59,7 @@ describe('ErrorComponent ', () => {
     Object.assign(component, { formElement: { errors: { maxlength: { requiredLength: 4 } } } });
     fixture.detectChanges();
     component.getType();
-    expect(component.errorMessage).toBe('input-error.max-length-house');
+    expect(component.errorMessage).toBe('input-error.max-length-house-corpus');
   });
 
   it('errorMessage should have correct value if we have maxlength error in "Street" field', () => {

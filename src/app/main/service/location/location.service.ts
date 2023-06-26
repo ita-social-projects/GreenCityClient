@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GoogleAutoRequest, GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
-import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { SearchAddress, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Language } from '../../i18n/Language';
+import { AbstractControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,12 @@ export class LocationService {
     const x = placeDetails.geometry.viewport.getNorthEast();
 
     return new google.maps.LatLngBounds(l, x);
+  }
+
+  checkOnCityNames(addressRegion: string): boolean {
+    const isKyivRegion = addressRegion === KyivNamesEnum.KyivRegionUa;
+    const isKyivCity = addressRegion === KyivNamesEnum.KyivCityUa;
+    return isKyivRegion || isKyivCity;
   }
 
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
