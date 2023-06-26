@@ -155,10 +155,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
-
-      const l = placeDetails.geometry.viewport.getSouthWest();
-      const x = placeDetails.geometry.viewport.getNorthEast();
-      this.regionBounds = new google.maps.LatLngBounds(l, x);
+      this.regionBounds = this.locationService.getPlaceBounds(placeDetails);
     });
   }
 

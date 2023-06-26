@@ -43,6 +43,13 @@ export class LocationService {
     return request;
   }
 
+  getPlaceBounds(placeDetails: GooglePlaceResult): any {
+    const l = placeDetails.geometry.viewport.getSouthWest();
+    const x = placeDetails.geometry.viewport.getNorthEast();
+
+    return new google.maps.LatLngBounds(l, x);
+  }
+
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
     const request = this.getRequest(searchAddress.input, lang, 'address');
     return new Observable((observer) => {
