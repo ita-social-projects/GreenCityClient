@@ -190,7 +190,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         houseNumber: new FormControl(adres?.houseNumber, [
           Validators.required,
           Validators.pattern(Patterns.ubsHousePattern),
-          Validators.maxLength(4)
+          Validators.maxLength(10)
         ]),
         houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsCorpusPattern), Validators.maxLength(4)]),
         entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
