@@ -31,9 +31,7 @@
               class="form-control"
               type="tel"
               id="customer-tel"
-              placeholder="{{
-                userInfo.customerPhoneNumber.charAt(0) !== '+' ? '+' + userInfo.customerPhoneNumber : userInfo.customerPhoneNumber
-              }}"
+              placeholder="{{ '+' + userInfo.customerPhoneNumber.replace(isTherePlus, '') }}"
               disabled
             />
           </div>
