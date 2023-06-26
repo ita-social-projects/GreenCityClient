@@ -64,7 +64,6 @@ export class DragAndDropComponent implements OnInit {
     this.files = files;
     this.isCropper = true;
     this.showWarning();
-    this.createEcoNewsService.isImageValid = this.isWarning;
   }
 
   public onFileSelected(event): void {

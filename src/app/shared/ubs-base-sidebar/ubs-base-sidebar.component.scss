@@ -28,7 +28,7 @@
   }
 
   .main-content {
-    margin-top: 120px;
+    margin-top: 88px;
     overflow-x: hidden;
     min-height: 345px;
   }
@@ -40,7 +40,7 @@
   }
 
   .sidebar-list {
-    margin: 35px 0 0 0;
+    margin: 20px 0 0 0;
     padding: 0;
     list-style-type: none;
     text-align: center;
@@ -142,7 +142,7 @@
     .sidebar {
       .sidebar-container {
         width: 100% !important;
-        margin: 50px 0 125px 0 !important;
+        margin: 0 0 125px 0 !important;
       }
 
       .sidebar-slider {
@@ -157,8 +157,12 @@
 }
 
 @media (max-width: 767px) {
-  .main .admin-main-content {
+  .main .main-content {
     margin-top: 52px;
+  }
+
+  .main .sidebar .sidebar-slider {
+    top: 20px;
   }
 }
 
