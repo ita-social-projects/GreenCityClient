@@ -117,7 +117,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
-    console.log(this.event, '111');
   }
 
   public routeToEvent(): void {
@@ -291,7 +290,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
     formData.append(dtoName, stringifiedDataToSend);
     this.eventService.editEvent(formData);
-    console.log(this.event);
   }
 
   public openAuthModalWindow(page: string): void {

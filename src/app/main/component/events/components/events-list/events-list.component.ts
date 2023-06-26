@@ -85,7 +85,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = this.eventsList.length < data.totalElements;
         this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
-      console.log(res);
     });
   }
 
