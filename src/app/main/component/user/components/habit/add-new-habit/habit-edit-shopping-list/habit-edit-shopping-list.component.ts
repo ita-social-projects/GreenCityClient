@@ -19,7 +19,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isEditing = false;
 
   public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(/\S/)])
   });
   public subscription: Subscription;
   public userId: number;
