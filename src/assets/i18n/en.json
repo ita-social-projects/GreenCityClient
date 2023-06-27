@@ -1012,7 +1012,7 @@
   "drag-and-drop": {
     "picture-description": "Drop your image here or",
     "browse": "browse",
-    "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+    "picture-tooltip": "Upload PNG or JPG only. File size should be less than 10MB",
     "submit-changes-button": "Submit",
     "cancel-changes-button": "Cancel",
     "not-uploaded-warning": "Image isn't uploaded"
