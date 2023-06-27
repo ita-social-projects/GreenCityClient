@@ -14,13 +14,16 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { EventsListItemComponent } from '../../../shared/components/events-list-item/events-list-item.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss']
 })
-export class EventDetailsComponent implements OnInit, OnDestroy {
+export class EventDetailsComponent extends EventsListItemComponent implements OnInit, OnDestroy {
   bsOpen = false;
 
   public icons = {
@@ -42,7 +45,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   };
 
   private eventId: number;
-  private userId: number;
+  public userId: number;
 
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',
@@ -77,6 +80,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     style: 'red'
   };
 
+  public btnStyle: string;
+  public styleBtn = {
+    secondary: 'secondary-global-button',
+    primary: 'primary-global-button',
+    hiden: 'event-button-hiden'
+  };
+
   mapDialogData: any;
 
   public address = 'Should be adress';
@@ -87,30 +97,33 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
-  public nameBtn: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private eventService: EventsService,
+    public route: ActivatedRoute,
+    public eventService: EventsService,
     public router: Router,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private translate: TranslateService,
-    private dialog: MatDialog,
-    private store: Store,
+    public localStorageService: LocalStorageService,
+    public langService: LanguageService,
+    public translate: TranslateService,
+    public dialog: MatDialog,
+    public store: Store,
     private actionsSubj: ActionsSubject,
-    private jwtService: JwtService
-  ) {}
+    private jwtService: JwtService,
+    public modalService?: BsModalService,
+    public snackBar?: MatSnackBarComponent
+  ) {
+    super(router, route, localStorageService, langService, dialog, store, eventService, translate, modalService);
+  }
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params.id;
-    this.nameBtn = this.route.snapshot.params.btnName;
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
+      this.checkButtonStatus();
       this.locationLink = this.event.dates[0].onlineLink;
       this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
@@ -145,7 +158,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.backRoute = this.localStorageService.getPreviousPage();
   }
 
-  private bindLang(lang: string): void {
+  public bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
   }
 
@@ -178,6 +191,31 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       width: '900px',
       height: '400px'
     });
+  }
+
+  public checkButtonStatus(): void {
+    const isSubscribe = this.event.isSubscribed;
+    const isOwner = this.userId === this.event.organizer.id;
+    const isActive = this.checkIsActive();
+    if (isSubscribe && isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.secondary;
+      this.nameBtn = this.btnName.cancel;
+      return;
+    }
+    if (!isSubscribe && isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.primary;
+      this.nameBtn = this.btnName.join;
+      return;
+    }
+    if (isSubscribe && !isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.primary;
+      this.nameBtn = this.btnName.rate;
+      return;
+    }
+    if (!!this.userId) {
+      this.btnStyle = this.styleBtn.primary;
+      this.nameBtn = this.btnName.join;
+    }
   }
 
   public deleteEvent(): void {

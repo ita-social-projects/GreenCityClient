@@ -119,7 +119,7 @@
 
         <div class="save-join-event-block" *ngIf="role === roles.USER">
           <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
-          <button class="primary-global-button">{{ nameBtn | translate }}</button>
+          <button class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
         </div>
       </div>
 

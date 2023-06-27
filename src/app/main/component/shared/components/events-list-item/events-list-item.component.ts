@@ -62,7 +62,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public address;
   public addAttenderError: string;
   public isOnline: string;
-  private routeBtnName: string;
 
   attendees = [];
   attendeesAvatars = [];
@@ -91,16 +90,16 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
-    private route: ActivatedRoute,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private userOwnAuthService: UserOwnAuthService,
-    private modalService: BsModalService,
-    private dialog: MatDialog,
-    private store: Store,
-    private eventService: EventsService,
-    private translate: TranslateService,
-    private snackBar: MatSnackBarComponent
+    public route: ActivatedRoute,
+    public localStorageService: LocalStorageService,
+    public langService: LanguageService,
+    public dialog: MatDialog,
+    public store: Store,
+    public eventService: EventsService,
+    public translate: TranslateService,
+    public modalService?: BsModalService,
+    public snackBar?: MatSnackBarComponent,
+    public userOwnAuthService?: UserOwnAuthService
   ) {}
 
   ngOnInit(): void {
@@ -118,11 +117,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
-    this.routeBtnName = this.nameBtn;
   }
 
   public routeToEvent(): void {
-    this.router.navigate(['/events', this.event.id, this.nameBtn]);
+    this.router.navigate(['/events', this.event.id]);
   }
 
   public filterTags(tags: Array<TagDto>) {
@@ -142,7 +140,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public checkButtonStatus(): void {
     const isSubscribe = this.event.isSubscribed;
-    const isOwner = +this.userId === this.event.organizer.id;
+    const isOwner = this.userId === this.event.organizer.id;
     const isActive = this.checkIsActive();
     if (isOwner && isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
