@@ -365,14 +365,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.files.forEach((file) => {
       this.imgArrayToPreview.push(file.url);
     });
-    this.showWarning();
-  }
-
-  public showWarning() {
-    this.files.forEach((item) => {
-      const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
-    });
-    return this.files;
   }
 
   private createEvent(sendData: FormData) {
