@@ -49,6 +49,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     Validators.minLength(1),
     Validators.maxLength(30)
   ];
+  locationIdForKyiv = 1;
+  locationIdForKyivRegion = 2;
   private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
@@ -100,11 +102,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (this.localService.getCurrentLocationId()) {
       this.currentLocationId = this.localService.getCurrentLocationId();
       this.locations = this.localService.getLocations();
-
       this.currentLocation = this.locations.locationsDtosList[0].nameEn;
     }
     this.orderService.locationSub.subscribe((data) => {
       this.currentLocation = data;
+      this.locations = this.localService.getLocations();
     });
     this.orderService.currentAddress.subscribe((data: Address) => {
       this.personalDataForm.controls.address.setValue(data);
@@ -112,16 +114,29 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     });
   }
 
+  public getLangCityValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
   setDisabledCityForLocation(): void {
-    const isCityAccess = this.currentLocationId === 1;
-    this.citiesForLocationId = this.listOflocations.getCity(this.currentLanguage);
+    const isCityAccess = this.currentLocationId === this.locationIdForKyiv;
+    const [currentRegionUk, currentRegionEn] = this.getLangValue(this.locations.regionDto.nameUk, this.locations.regionDto.nameEn);
+    const citiesForLocationId = this.listOflocations.getCity(this.currentLanguage).map((city) => city.cityName);
 
     this.addresses = this.addresses.map((address) => {
       const newAddress = { ...address };
-      const cityName = this.getLangValue(newAddress.city, newAddress.cityEn);
-      const isCity = this.citiesForLocationId.some((city) => city.cityName === cityName);
+      const cityName = this.getLangCityValue(newAddress.city, newAddress.cityEn);
+      const isCity = citiesForLocationId.includes(cityName);
 
-      newAddress.display = isCity ? isCityAccess : !isCityAccess;
+      const [regionNameUk, regionNameEn] = this.getLangValue(newAddress.region, newAddress.regionEn);
+      const isRegion = currentRegionUk.includes(regionNameUk) || currentRegionEn.includes(regionNameEn);
+
+      if (isCityAccess || this.currentLocationId === this.locationIdForKyivRegion) {
+        newAddress.display = isCityAccess ? isCity : !isCity && isRegion;
+      } else {
+        newAddress.display = isRegion;
+      }
+
       return newAddress;
     });
   }
@@ -317,8 +332,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     return this.personalDataForm.get(control);
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
+  public getLangValue(uaName: string, enName: string): [string, string] {
+    return [this.langService.getLangValue(uaName, enName) as string, this.langService.getLangValue(enName, uaName) as string];
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {

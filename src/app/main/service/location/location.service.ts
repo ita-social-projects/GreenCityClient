@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GoogleAutoRequest, GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
-import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { SearchAddress, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Language } from '../../i18n/Language';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
 export class LocationService {
   getDistrictAuto(placeDetails: GooglePlaceResult, language: string): string {
     let currentDistrict;
-    const searchItem = language === 'en' ? 'district' : 'район';
+    const searchItem = language === Language.EN ? 'district' : 'район';
     const getDistrict = placeDetails.address_components.filter((item) => item.long_name.toLowerCase().includes(searchItem))[0];
     if (getDistrict) {
       currentDistrict = this.convFirstLetterToCapital(getDistrict.long_name);
@@ -32,7 +33,7 @@ export class LocationService {
     return searchAddress;
   }
 
-  getRequest(searchAddress: string, lang: string, types: 'address' | '(cities)'): GoogleAutoRequest {
+  getRequest(searchAddress: string, lang: string, types: 'address' | '(cities)' | 'administrative_area_level_1'): GoogleAutoRequest {
     const request = {
       input: searchAddress,
       language: lang,
@@ -40,6 +41,19 @@ export class LocationService {
       componentRestrictions: { country: 'ua' }
     };
     return request;
+  }
+
+  getPlaceBounds(placeDetails: GooglePlaceResult): any {
+    const l = placeDetails.geometry.viewport.getSouthWest();
+    const x = placeDetails.geometry.viewport.getNorthEast();
+
+    return new google.maps.LatLngBounds(l, x);
+  }
+
+  checkOnCityNames(addressRegion: string): boolean {
+    const isKyivRegion = addressRegion === KyivNamesEnum.KyivRegionUa;
+    const isKyivCity = addressRegion === KyivNamesEnum.KyivCityUa;
+    return isKyivRegion || isKyivCity;
   }
 
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
