@@ -33,6 +33,12 @@ input.ng-touched.ng-invalid {
   font-size: 14px;
 }
 
+.validate-address {
+  color: var(--ubs-error-ligh-red);
+  font-size: 14px;
+  margin: 12px 0 0 28px;
+}
+
 textarea {
   display: block;
   width: 100%;
