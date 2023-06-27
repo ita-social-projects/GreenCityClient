@@ -11,6 +11,7 @@ import { HabitsForDateInterface } from '@global-user/components/profile/calendar
 import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 
 @Component({
   selector: 'app-calendar-base',
@@ -311,6 +312,7 @@ export class CalendarBaseComponent implements OnDestroy {
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
     const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
     let horisontalPositioning: string;
+    let verticalPosition: string;
     if (dayItem.numberOfDate) {
       this.habitAssignService.habitDate = new Date(dateForHabitPopup);
     } else {
@@ -320,16 +322,18 @@ export class CalendarBaseComponent implements OnDestroy {
     const date = this.formatDate(isMonthCalendar, dayItem);
     const habits = this.getHabitsForDay(this.userHabitsList, date);
     const pos = event.target.getBoundingClientRect();
-    this.breakpointObserver.observe(['(max-width: 912px)']).subscribe((result: BreakpointState) => {
-      horisontalPositioning = result.matches ? '' : pos.left + '300px';
+    this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
+      verticalPosition = result.matches ? pos.top + 45 : pos.top + 25;
     });
+    horisontalPositioning = window.innerWidth - pos.left > 320 ? pos.left : window.innerWidth - 340;
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.backdropClass = 'backdropBackground';
     dialogConfig.position = {
-      top: pos.top + '80px',
-      left: horisontalPositioning
+      top: verticalPosition + 'px',
+      left: horisontalPositioning + 'px'
     };
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
