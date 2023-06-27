@@ -197,6 +197,16 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
     const isSubscribe = this.event.isSubscribed;
     const isOwner = this.userId === this.event.organizer.id;
     const isActive = this.checkIsActive();
+    if (isOwner && isActive && !isSubscribe) {
+      this.btnStyle = this.styleBtn.secondary;
+      this.nameBtn = this.btnName.edit;
+      return;
+    }
+    if (isOwner && !isActive && !isSubscribe) {
+      this.btnStyle = this.styleBtn.secondary;
+      this.nameBtn = this.btnName.delete;
+      return;
+    }
     if (isSubscribe && isActive && !isOwner) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.cancel;
@@ -210,6 +220,10 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
     if (isSubscribe && !isActive && !isOwner) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.rate;
+      return;
+    }
+    if (!isSubscribe && !isActive && !isOwner) {
+      this.btnStyle = this.styleBtn.hiden;
       return;
     }
     if (!!this.userId) {
