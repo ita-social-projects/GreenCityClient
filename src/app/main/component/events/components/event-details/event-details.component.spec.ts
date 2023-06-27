@@ -11,6 +11,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 export function mockPipe(options: Pipe): Pipe {
@@ -125,6 +127,8 @@ describe('EventDetailsComponent', () => {
         { provide: EventsService, useValue: EventsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },
+        { provide: BsModalService, useValue: {} },
+        { provide: MatSnackBarComponent, useValue: {} },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useValue: translateServiceMock },
