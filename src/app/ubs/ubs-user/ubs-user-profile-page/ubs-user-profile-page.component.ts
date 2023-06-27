@@ -214,12 +214,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        isKyiv: new FormControl(adres.region === KyivNamesEnum.KyivCityUa && adres?.city === KyivNamesEnum.KyivUa ? true : false),
-        isNotKyivRegion: new FormControl(
-          adres.region !== KyivNamesEnum.KyivCityUa && adres.region !== KyivNamesEnum.KyivRegionUa ? true : false
-        ),
+        isKyiv: new FormControl(adres.region === KyivNamesEnum.KyivCityUa && adres?.city === KyivNamesEnum.KyivUa),
+        isNotKyivRegion: new FormControl(adres.region !== KyivNamesEnum.KyivCityUa && adres.region !== KyivNamesEnum.KyivRegionUa),
         searchAddress: new FormControl(null),
-        isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
+        isHouseSelected: new FormControl(adres?.houseNumber),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
         actual: new FormControl(adres?.actual)
@@ -337,7 +335,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
       if (abstractControlName === 'city') {
-        isKyiv.setValue(abstractControl.value === 'Київ' ? true : false);
+        isKyiv.setValue(abstractControl.value === 'Київ');
         isNotKyivRegion.setValue(!isKyiv.value);
       }
     });
