@@ -56,6 +56,7 @@ describe('UBSPersonalInformationComponent', () => {
         streetEn: 'fake',
         region: 'fake',
         regionEn: 'fake',
+        display: true,
         houseCorpus: 'fake',
         entranceNumber: 'fake',
         houseNumber: 'fake',
@@ -208,12 +209,6 @@ describe('UBSPersonalInformationComponent', () => {
     expect(component.findAllAddresses).toHaveBeenCalledTimes(1);
   });
 
-  it('method checkAddress should invoke changeAddressInPersonalData', () => {
-    spyOn(component, 'changeAddressInPersonalData').and.callFake(() => {});
-    component.checkAddress(0);
-    expect(component.changeAddressInPersonalData).toHaveBeenCalledTimes(1);
-  });
-
   it('method changeAddressInPersonalData should set data to PersonalData', () => {
     const spy = spyOn(component, 'changeAddressInPersonalData');
     component.changeAddressInPersonalData();
@@ -295,5 +290,15 @@ describe('UBSPersonalInformationComponent', () => {
     const spy = spyOn(component, 'changeAddressComment');
     component.changeAddressComment();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeAddressInPersonalData', () => {
+    const addressId = 2;
+    component.addresses = [listMock.addressList[0]];
+
+    spyOn(component, 'changeAddressInPersonalData');
+    component.checkAddress(addressId);
+
+    expect(component.changeAddressInPersonalData).toHaveBeenCalled();
   });
 });
