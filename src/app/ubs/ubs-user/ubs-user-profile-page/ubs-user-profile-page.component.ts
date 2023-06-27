@@ -217,7 +217,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         isKyiv: new FormControl(adres.region === KyivNamesEnum.KyivCityUa && adres?.city === KyivNamesEnum.KyivUa),
         isNotKyivRegion: new FormControl(adres.region !== KyivNamesEnum.KyivCityUa && adres.region !== KyivNamesEnum.KyivRegionUa),
         searchAddress: new FormControl(null),
-        isHouseSelected: new FormControl(adres?.houseNumber),
+        isHouseSelected: new FormControl(!!adres?.houseNumber),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
         actual: new FormControl(adres?.actual)
