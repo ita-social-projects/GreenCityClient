@@ -72,11 +72,11 @@
       <div class="textarea-wrapper">
         <div class="title-container">
           <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-          <p [ngClass]="isDescriptionInValid ? 'error' : 'textarea-description'">
+          <p [ngClass]="eventFormGroup.get('description').invalid ? 'error' : 'textarea-description'">
             {{ 'create-news.content-tooltip' | translate }}
           </p>
         </div>
-        <div [ngClass]="eventFormGroup.get('description').valid || checkAfterSend ? 'content' : 'content content-error'">
+        <div [ngClass]="eventFormGroup.get('description').invalid ? 'content-error' : 'content'">
           <quill-editor
             class="editor"
             ngDefaultControl
