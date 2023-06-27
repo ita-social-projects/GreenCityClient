@@ -66,7 +66,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog, orderService);
+    super(router, dialog, orderService, localStorageService);
   }
 
   ngOnInit(): void {
