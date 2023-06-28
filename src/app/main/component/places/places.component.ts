@@ -17,7 +17,7 @@ import { initialMoreOptionsFormValue } from './components/more-options-filter/mo
 import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
-
+import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
@@ -43,6 +43,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public isActivePlaceFavorite = false;
   public readonly tagFilterStorageKey = 'placesTagFilter';
   public readonly moreOptionsStorageKey = 'moreOptionsFilter';
+  private isLogin: boolean = false;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -56,10 +57,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userOwnAuthService: UserOwnAuthService
   ) {}
 
   ngOnInit() {
+    this.checkLogin();
     this.placeService
       .getAllPresentTags()
       .pipe(take(1))
@@ -87,7 +90,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.favoritePlaceService.updateFavoritePlaces();
+    if (this.isLogin) {
+      this.favoritePlaceService.updateFavoritePlaces();
+    }
 
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.subscribeToLangChange();
@@ -311,6 +316,12 @@ export class PlacesComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  private checkLogin() {
+    this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
+      this.isLogin = status;
+    });
   }
 
   ngOnDestroy(): void {
