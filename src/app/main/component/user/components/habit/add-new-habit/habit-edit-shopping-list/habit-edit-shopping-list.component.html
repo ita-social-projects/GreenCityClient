@@ -36,7 +36,7 @@
         autocomplete="off"
         (input)="checkItemValidity()"
       />
-      <input [disabled]="!itemForm.valid" class="add-btn" type="submit" value="+" (click)="addItem(item.value)" />
+      <button [disabled]="!itemForm.valid" class="add-btn" type="submit" (click)="addItem(itemForm.get('item').value)">+</button>
     </form>
   </div>
 </div>
