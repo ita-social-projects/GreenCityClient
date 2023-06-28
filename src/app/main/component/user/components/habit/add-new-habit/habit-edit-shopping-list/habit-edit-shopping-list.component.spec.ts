@@ -5,6 +5,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { HabitEditShoppingListComponent } from './habit-edit-shopping-list.component';
 import { ShoppingListService } from './shopping-list.service';
@@ -40,8 +41,8 @@ describe('HabitEditShoppingListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitEditShoppingListComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [ShoppingListService, HabitService, { provide: ActivatedRoute, useValue: mockActivatedRoute }]
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule],
+      providers: [ShoppingListService, HabitService, { provide: ActivatedRoute, useValue: mockActivatedRoute }, MatSnackBar]
     }).compileComponents();
   }));
 
