@@ -123,7 +123,7 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      this.checkButtonStatus();
+      //this.checkButtonStatus();
       this.locationLink = this.event.dates[0].onlineLink;
       this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
@@ -192,7 +192,7 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
       height: '400px'
     });
   }
-
+  /*
   public checkButtonStatus(): void {
     const isSubscribe = this.event.isSubscribed;
     const isOwner = this.userId === this.event.organizer.id;
@@ -231,7 +231,7 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
       this.nameBtn = this.btnName.join;
     }
   }
-
+*/
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
