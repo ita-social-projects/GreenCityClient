@@ -43,7 +43,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public isActivePlaceFavorite = false;
   public readonly tagFilterStorageKey = 'placesTagFilter';
   public readonly moreOptionsStorageKey = 'moreOptionsFilter';
-  private isLogin: boolean = false;
+  private isLogin = false;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -318,7 +318,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
       });
   }
 
-  private checkLogin() {
+  checkLogin() {
     this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
       this.isLogin = status;
     });
