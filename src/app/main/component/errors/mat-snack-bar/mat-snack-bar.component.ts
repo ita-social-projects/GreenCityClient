@@ -5,8 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-mat-snack-bar',
   templateUrl: './mat-snack-bar.component.html',
-  styleUrls: ['./mat-snack-bar.component.scss'],
-  providers: [TranslateService]
+  styleUrls: ['./mat-snack-bar.component.scss']
 })
 export class MatSnackBarComponent {
   public message: string;

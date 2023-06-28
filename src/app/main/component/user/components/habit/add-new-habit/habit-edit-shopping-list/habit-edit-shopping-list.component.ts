@@ -11,7 +11,8 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 @Component({
   selector: 'app-habit-edit-shopping-list',
   templateUrl: './habit-edit-shopping-list.component.html',
-  styleUrls: ['./habit-edit-shopping-list.component.scss']
+  styleUrls: ['./habit-edit-shopping-list.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() shopList: ShoppingList[] = [];
@@ -19,7 +20,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isEditing = false;
 
   public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(/\S/)])
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
   public subscription: Subscription;
   public userId: number;
@@ -143,11 +144,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   checkItemValidity(): void {
     if (!this.itemForm.valid && this.itemForm.get('item').value.length > 50) {
-      this.isTooLong();
+      this.snackBar.openSnackBar('tooLongInput');
     }
-  }
-
-  isTooLong(): void {
-    this.snackBar.openSnackBar('tooLongInput');
   }
 }
