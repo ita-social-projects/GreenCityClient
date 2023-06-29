@@ -9,9 +9,9 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
+import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,6 +47,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public isRegistered: boolean;
   public isReadonly = false;
   public isPosting: boolean;
+  public isEventFavorite = false;
   public btnStyle: string;
   public nameBtn: string;
 
@@ -90,16 +91,15 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
-    public route: ActivatedRoute,
     public localStorageService: LocalStorageService,
     public langService: LanguageService,
     public dialog: MatDialog,
     public store: Store,
     public eventService: EventsService,
     public translate: TranslateService,
+    public userOwnAuthService?: UserOwnAuthService,
     public modalService?: BsModalService,
-    public snackBar?: MatSnackBarComponent,
-    public userOwnAuthService?: UserOwnAuthService
+    public snackBar?: MatSnackBarComponent
   ) {}
 
   ngOnInit(): void {
@@ -140,7 +140,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public checkButtonStatus(): void {
     const isSubscribe = this.event.isSubscribed;
-    const isOwner = this.userId === this.event.organizer.id;
+    const isOwner = +this.userId === this.event.organizer.id;
     const isActive = this.checkIsActive();
     if (isOwner && isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
@@ -185,6 +185,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       case this.btnName.join:
         if (this.addAttenderError) {
           this.snackBar.openSnackBar('errorJoinEvent');
+          this.addAttenderError = '';
         } else {
           this.snackBar.openSnackBar('joinedEvent');
           !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
@@ -279,6 +280,16 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
     }
+
+    const sendEventDto = {
+      isFavorite: this.bookmarkSelected
+    };
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = 'EventPageResponceDto';
+
+    formData.append(dtoName, stringifiedDataToSend);
+    this.eventService.editEvent(formData);
   }
 
   public openAuthModalWindow(page: string): void {

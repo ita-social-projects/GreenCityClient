@@ -112,7 +112,7 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
     public modalService?: BsModalService,
     public snackBar?: MatSnackBarComponent
   ) {
-    super(router, route, localStorageService, langService, dialog, store, eventService, translate, modalService);
+    super(router, localStorageService, langService, dialog, store, eventService, translate);
   }
 
   ngOnInit(): void {
@@ -123,7 +123,7 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      //this.checkButtonStatus();
+      this.checkButtonsStatus();
       this.locationLink = this.event.dates[0].onlineLink;
       this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
@@ -192,21 +192,11 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
       height: '400px'
     });
   }
-  /*
-  public checkButtonStatus(): void {
+
+  public checkButtonsStatus(): void {
     const isSubscribe = this.event.isSubscribed;
     const isOwner = this.userId === this.event.organizer.id;
     const isActive = this.checkIsActive();
-    if (isOwner && isActive && !isSubscribe) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.edit;
-      return;
-    }
-    if (isOwner && !isActive && !isSubscribe) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.delete;
-      return;
-    }
     if (isSubscribe && isActive && !isOwner) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.cancel;
@@ -222,16 +212,12 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
       this.nameBtn = this.btnName.rate;
       return;
     }
-    if (!isSubscribe && !isActive && !isOwner) {
-      this.btnStyle = this.styleBtn.hiden;
-      return;
-    }
     if (!!this.userId) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.join;
     }
   }
-*/
+
   public deleteEvent(): void {
     const matDialogRef = this.dialog.open(DialogPopUpComponent, {
       data: this.deleteDialogData,
