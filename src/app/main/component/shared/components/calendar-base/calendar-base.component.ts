@@ -322,11 +322,13 @@ export class CalendarBaseComponent implements OnDestroy {
     const date = this.formatDate(isMonthCalendar, dayItem);
     const habits = this.getHabitsForDay(this.userHabitsList, date);
     const pos = event.target.getBoundingClientRect();
+    const dialogHeight = habits.habitAssigns.length * 44 + 52;
+    let space;
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
-      verticalPosition = result.matches ? pos.top + 45 : pos.top + 25;
+      space = result.matches ? 25 : 45;
     });
-    horisontalPositioning = window.innerWidth - pos.left > 320 ? pos.left : window.innerWidth - 340;
-
+    horisontalPositioning = window.innerWidth - pos.left > 320 ? pos.left + space : window.innerWidth - 340;
+    verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
