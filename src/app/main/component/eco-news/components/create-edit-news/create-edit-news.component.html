@@ -12,11 +12,13 @@
             <div class="item-block">
               <div class="title-wrapper">
                 <h3>{{ 'create-news.news-title' | translate }}</h3>
-                <span class="span" [ngClass]="{ warning: form.value.title.length >= 170 }"> {{ form.value.title.length }}/170 </span>
+                <span class="span span-title" [ngClass]="{ warning: form.value.title.length > 170 }">
+                  {{ form.value.title.length }}/170
+                </span>
               </div>
               <label>
                 <textarea
-                  maxlength="170"
+                  maxlength="171"
                   placeholder="{{ 'create-news.title-placeholder' | translate }}"
                   formControlName="title"
                   (keyup)="autoResize(false, $event)"
@@ -63,7 +65,10 @@
         <div class="textarea-wrapper">
           <div class="title-wrapper">
             <h3>{{ 'create-news.content-title' | translate }}</h3>
-            <p class="textarea-description" [ngClass]="{ warning: getControl('content').invalid && getControl('content').touched }">
+            <p
+              class="textarea-description"
+              [ngClass]="{ warning: getControl('content').invalid && (getControl('content').touched || getControl('content').dirty) }"
+            >
               {{ 'create-news.content-tooltip' | translate }}
             </p>
           </div>

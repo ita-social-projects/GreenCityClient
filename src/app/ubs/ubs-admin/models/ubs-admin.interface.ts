@@ -343,6 +343,7 @@ export interface Address {
   houseCorpus: string;
   houseNumber: string;
   isKyiv?: boolean;
+  isNotKyivRegion?: boolean;
   id: number;
   placeId: string;
   searchAddress?: string;

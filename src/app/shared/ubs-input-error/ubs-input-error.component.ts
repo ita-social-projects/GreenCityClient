@@ -34,6 +34,7 @@ export class UBSInputErrorComponent implements OnInit {
     maxlength: 'input-error.max-length',
     maxlengthEntrance: 'input-error.max-length-entrance',
     maxlengthHouse: 'input-error.max-length-house',
+    maxlengthHouseCorpus: 'input-error.max-length-house-corpus',
     maxlengthStreet: 'input-error.max-length-street',
     maxlengthComment: 'input-error.max-length-comment',
     pattern: 'input-error.pattern',
@@ -127,6 +128,8 @@ export class UBSInputErrorComponent implements OnInit {
       case 2:
         return this.validationErrors.maxlengthEntrance;
       case 4:
+        return this.validationErrors.maxlengthHouseCorpus;
+      case 10:
         return this.validationErrors.maxlengthHouse;
       case 120:
         return this.validationErrors.maxlengthStreet;

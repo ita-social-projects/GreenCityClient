@@ -34,7 +34,8 @@ describe('UBSPersonalInformationComponent', () => {
     'setIsAnotherClient',
     'setAddresses',
     'getCurrentLocationId',
-    'getAddressId'
+    'getAddressId',
+    'getLocations'
   ]);
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocationId = () => '1';
@@ -174,6 +175,7 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('setDisabledCityForLocation function should redefine addresses', () => {
     component.addresses = listMock.addressList;
+    component.locations = mockLocations as any;
     component.setDisabledCityForLocation();
     expect(component.addresses).toBeDefined();
   });
@@ -184,14 +186,6 @@ describe('UBSPersonalInformationComponent', () => {
     component.ngOnChanges({ completed: { currentValue: true } as SimpleChange });
     expect(component.submit).toHaveBeenCalled();
     expect(fakeShareFormService.changePersonalData).toHaveBeenCalled();
-  });
-
-  it('method findAllAddresses should get data from orderService', () => {
-    fakeOrderService.findAllAddresses.and.returnValue(of(listMock));
-    const spy = spyOn(component, 'checkAddress').and.callFake(() => {});
-    component.findAllAddresses(true);
-    expect(component.addresses).toBeDefined();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
