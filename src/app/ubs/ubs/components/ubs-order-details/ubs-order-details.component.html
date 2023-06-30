@@ -141,18 +141,19 @@
               <p class="p-text">{{ 'order-details.cant-found-order' | translate }}</p>
             </div>
           </div>
-          <div *ngIf="canAddEcoShopOrderNumber()" class="order-notification">
+          <div class="order-notification">
             <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
               {{ 'order-details.order-error' | translate }}
             </small>
-            <button
-              [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn"
-              class="ubs-link-global-button s-link add-order-btn"
-              (click)="addOrder()"
-            >
-              {{ 'order-details.additional-orders' | translate }}
-            </button>
           </div>
+          <button
+            *ngIf="canAddEcoShopOrderNumber()"
+            [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn"
+            class="ubs-link-global-button s-link add-order-btn"
+            (click)="addOrder()"
+          >
+            {{ 'order-details.additional-orders' | translate }}
+          </button>
         </div>
       </div>
       <div class="bottom_comment">
