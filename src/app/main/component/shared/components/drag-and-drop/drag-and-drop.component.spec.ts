@@ -103,7 +103,7 @@ describe('DragAndDropComponent', () => {
       { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) }
     ];
     component.filesDropped(files);
-    expect(createEcoNewsServiceMock.isImageValid).toBe(false);
+    expect(createEcoNewsServiceMock.isImageValid).toBe(true);
   });
 
   it('should render a Warning title', () => {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Injectable({ providedIn: 'any' })
 export class Locations {
@@ -91,17 +92,18 @@ export class Locations {
   ];
 
   getCity(language: string) {
-    return language === 'ua' ? this.cities : this.citiesEn;
+    return language === Language.UA ? this.cities : this.citiesEn;
   }
+
   getRegionsKyiv(language: string) {
-    return language === 'ua' ? this.regionsKyiv : this.regionsKyivEn;
+    return language === Language.UA ? this.regionsKyiv : this.regionsKyivEn;
   }
 
   getRegions(language: string) {
-    return language === 'ua' ? this.regions : this.regionsEn;
+    return language === Language.UA ? this.regions : this.regionsEn;
   }
 
   getBigRegions(language: string) {
-    return language === 'ua' ? this.bigRegions : this.bigRegionsEn;
+    return language === Language.UA ? this.bigRegions : this.bigRegionsEn;
   }
 }

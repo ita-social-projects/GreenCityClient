@@ -271,7 +271,7 @@
       "email-placeholder": "example@mail.com"
     },
     "recipient": {
-      "title": "Recipient",
+      "title": "Sender",
       "name-label": "Name",
       "surname-label": "Surname",
       "name-placeholder": "Name",
@@ -956,7 +956,8 @@
     "minlength-short": "The field contains insufficient characters",
     "max-length": "The field should contain 1-30 characters",
     "max-length-street": "The field should contain 1-120 characters",
-    "max-length-house": "The field should contain 1-4 characters",
+    "max-length-house": "The field should contain 1-10 characters",
+    "max-length-house-corpus": "The field should contain 1-4 characters",
     "max-length-entrance": "The field should contain 1-2 characters",
     "max-length-comment": "Maximum 255 characters are allowed",
     "pattern": "Only alphabetic characters and special characters “-” (hyphen), “ ” (space) and “'” (apostrophe) are allowed",

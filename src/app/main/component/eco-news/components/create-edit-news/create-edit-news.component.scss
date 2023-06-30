@@ -87,6 +87,10 @@ form {
   color: var(--secondary-grey);
 }
 
+.span-title {
+  color: var(--quaternary-grey);
+}
+
 .item-block {
   margin-bottom: 32px;
 }
@@ -185,7 +189,7 @@ textarea.ng-invalid.ng-dirty + p {
 }
 
 .warning {
-  color: red !important;
+  color: var(--error-red) !important;
 }
 
 .left-form-column .field-warning {
