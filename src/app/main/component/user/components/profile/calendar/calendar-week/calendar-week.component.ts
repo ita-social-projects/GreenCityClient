@@ -38,6 +38,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     this.buildWeekCalendar(this.getFirstWeekDate());
     this.getLanguage();
     this.getUserHabits(false, this.weekDates);
+    this.getAllAssignedHabbits();
   }
 
   private buildWeekCalendar(firstWeekDay: Date): void {
