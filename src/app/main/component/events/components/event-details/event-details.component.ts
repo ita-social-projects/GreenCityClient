@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
+import { EventPageResponceDto } from '../../models/events.interface';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
-import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -123,7 +123,6 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      this.checkButtonsStatus();
       this.locationLink = this.event.dates[0].onlineLink;
       this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
@@ -136,6 +135,7 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
       };
 
       this.role = this.verifyRole();
+      this.checkButtonStatus();
     });
 
     this.currentLang = this.localStorageService.getCurrentLanguage();
@@ -191,31 +191,6 @@ export class EventDetailsComponent extends EventsListItemComponent implements On
       width: '900px',
       height: '400px'
     });
-  }
-
-  public checkButtonsStatus(): void {
-    const isSubscribe = this.event.isSubscribed;
-    const isOwner = this.userId === this.event.organizer.id;
-    const isActive = this.checkIsActive();
-    if (isSubscribe && isActive && !isOwner) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.cancel;
-      return;
-    }
-    if (!isSubscribe && isActive && !isOwner) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.join;
-      return;
-    }
-    if (isSubscribe && !isActive && !isOwner) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.rate;
-      return;
-    }
-    if (!!this.userId) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.join;
-    }
   }
 
   public deleteEvent(): void {
