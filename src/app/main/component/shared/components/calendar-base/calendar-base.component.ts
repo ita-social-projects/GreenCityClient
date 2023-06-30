@@ -3,7 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { Subject, Subscription } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil, take } from 'rxjs/operators';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { calendarImage } from './calendar-image';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
@@ -12,6 +12,7 @@ import { ItemClass } from './CalendarItemStyleClasses';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-calendar-base',
@@ -55,12 +56,13 @@ export class CalendarBaseComponent implements OnDestroy {
     isCurrentDayActive: false
   };
 
-  public userHabitsList: Array<HabitsForDateInterface>;
+  public userHabitsListByPeriod: Array<HabitsForDateInterface>;
   public currentDayItem: CalendarInterface;
   public isCheckedHabits: boolean;
   public checkAnswer = false;
   public isHabitListEditable: boolean;
   public daysCanEditHabits = 7;
+  public allAssignedHabits: Array<HabitAssignInterface>;
 
   constructor(
     public translate: TranslateService,
@@ -256,15 +258,15 @@ export class CalendarBaseComponent implements OnDestroy {
       .getAssignHabitsByPeriod(startDate, endDate)
       .pipe(takeUntil(this.destroySub))
       .subscribe((res) => {
-        this.userHabitsList = res;
+        this.userHabitsListByPeriod = res;
         this.habitAssignService.habitsFromDashBoard = res;
         days.forEach((day) => {
           const date = this.formatDate(isMonthCalendar, day);
           if (new Date().setHours(0, 0, 0, 0) >= new Date(date).setHours(0, 0, 0, 0)) {
-            day.hasHabitsInProgress = this.userHabitsList.filter((habit) => habit.enrollDate === date)[0].habitAssigns.length > 0;
+            day.hasHabitsInProgress = this.userHabitsListByPeriod.filter((habit) => habit.enrollDate === date)[0].habitAssigns.length > 0;
             day.areHabitsDone =
-              this.userHabitsList.filter((habit) => habit.enrollDate === date)[0].habitAssigns.filter((habit) => !habit.enrolled).length ===
-              0;
+              this.userHabitsListByPeriod.filter((habit) => habit.enrollDate === date)[0].habitAssigns.filter((habit) => !habit.enrolled)
+                .length === 0;
           }
         });
       });
@@ -320,14 +322,17 @@ export class CalendarBaseComponent implements OnDestroy {
     }
     this.checkHabitListEditable(isMonthCalendar, dayItem);
     const date = this.formatDate(isMonthCalendar, dayItem);
-    const habits = this.getHabitsForDay(this.userHabitsList, date);
+    const dayHabits = this.getHabitsForDay(this.userHabitsListByPeriod, date);
     const pos = event.target.getBoundingClientRect();
-    const dialogHeight = habits.habitAssigns.length * 44 + 52;
+    const dialogHeaderHeight = 52;
+    const habitLineHeight = 44;
+    const dialogWidth = 320;
+    const dialogHeight = dayHabits.habitAssigns.length * habitLineHeight + dialogHeaderHeight;
     let space;
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
-      space = result.matches ? 25 : 45;
+      space = result.matches ? 20 : 40;
     });
-    horisontalPositioning = window.innerWidth - pos.left > 320 ? pos.left + space : window.innerWidth - 340;
+    horisontalPositioning = window.innerWidth - pos.left > dialogWidth ? pos.left + space : window.innerWidth - (dialogWidth + space);
     verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
@@ -337,24 +342,40 @@ export class CalendarBaseComponent implements OnDestroy {
       top: verticalPosition + 'px',
       left: horisontalPositioning + 'px'
     };
+    const dayHabitsSortedByDate = dayHabits.habitAssigns.sort((a, b) => {
+      const createDateTime = (habit) => {
+        const dataString = this.allAssignedHabits?.filter((el) => el.id === habit.habitAssignId)[0].createDateTime;
+        return new Date(dataString).getTime();
+      };
+      return createDateTime(b) - createDateTime(a);
+    });
     dialogConfig.data = {
       habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
-      habits: habits.habitAssigns
+      habits: dayHabitsSortedByDate
     };
     const dialogRef = this.dialog.open(HabitsPopupComponent, dialogConfig);
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroySub))
       .subscribe((changedList) => {
-        this.sendEnrollRequest(changedList, habits.enrollDate);
+        this.sendEnrollRequest(changedList, dayHabits.enrollDate);
         this.isCheckedHabits = this.isCheckedAllHabits(changedList);
         this.currentDayItem = dayItem;
       });
   }
 
+  getAllAssignedHabbits() {
+    this.habitAssignService
+      .getAssignedHabits()
+      .pipe(take(1))
+      .subscribe((response: Array<HabitAssignInterface>) => {
+        this.allAssignedHabits = response;
+      });
+  }
+
   sendEnrollRequest(changedList, date) {
-    const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsList, date).habitAssigns;
+    const habitsForSelectedDay = this.getHabitsForDay(this.userHabitsListByPeriod, date).habitAssigns;
     habitsForSelectedDay.forEach((habit: any) => {
       const baseHabit: any = changedList.find((list: any) => list.habitAssignId === habit.habitAssignId);
       if (habit.enrolled !== baseHabit.enrolled) {
