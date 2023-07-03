@@ -20,5 +20,7 @@ export enum TableKeys {
   paymentDateFrom = 'paymentDateFrom',
   orderDateFrom = 'orderDateFrom',
   citiesEn = 'citiesEn',
-  districtsEn = 'districtsEn'
+  districtsEn = 'districtsEn',
+  clientPhone = 'clientPhone',
+  senderPhone = 'senderPhone'
 }

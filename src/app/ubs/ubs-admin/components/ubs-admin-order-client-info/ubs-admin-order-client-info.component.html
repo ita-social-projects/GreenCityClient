@@ -27,7 +27,13 @@
             <label class="form__label" for="customer-tel">
               {{ 'customer-info.customer.tel-label' | translate }}
             </label>
-            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ userInfo.customerPhoneNumber }}" disabled />
+            <input
+              class="form-control"
+              type="tel"
+              id="customer-tel"
+              placeholder="+{{ userInfo.customerPhoneNumber.replace(isTherePlus, '') }}"
+              disabled
+            />
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-email">

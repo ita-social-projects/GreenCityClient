@@ -42,7 +42,7 @@ describe('FormBaseComponent', () => {
   it('should cancelPopupJustifying and removeItem be called in cancel', () => {
     const spyCancelPopupJustifying = spyOn(FormBaseComponent.prototype as any, 'cancelPopupJustifying');
     const spyLocalStorage = spyOn(window.localStorage, 'removeItem');
-    component.cancel();
+    component.cancel(true);
     expect(spyCancelPopupJustifying).toHaveBeenCalledWith(true);
     expect(spyLocalStorage).toHaveBeenCalledWith('newsTags');
   });

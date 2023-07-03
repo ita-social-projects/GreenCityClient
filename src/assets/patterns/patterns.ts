@@ -32,7 +32,9 @@ export const Patterns = {
   ubsCityPattern: /^([a-zа-яїєґі ʼ'`ʹ-]){1,30}/iu,
   ubsWithDigitPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я0-9][іІєЄїЇёЁa-zA-Zа-яА-Я0-9\-,.ʼ'`ʹ)(! ]*$/iu,
   ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
-  adminPhone: '^\\+?3?8?(0\\d{9})$'
+  adminPhone: '^\\+?3?8?(0\\d{9})$',
+
+  isTherePlus: /^[+]/
 };
 
 export const Masks = {

@@ -24,9 +24,7 @@
           <div class="title">
             <h2>{{ habit.habitTranslation.name }}</h2>
           </div>
-          <div class="description">
-            <p>{{ habit.habitTranslation.description }}</p>
-          </div>
+          <div class="description" [innerHTML]="habit.habitTranslation.description"></div>
         </div>
         <div class="habit-action-wrp">
           <div>

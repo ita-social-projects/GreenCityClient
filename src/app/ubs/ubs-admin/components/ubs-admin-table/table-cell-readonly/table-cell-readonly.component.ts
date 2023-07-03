@@ -3,6 +3,7 @@ import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import { Language } from 'src/app/main/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-table-cell-readonly',
@@ -28,6 +29,10 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     if (this.key === TableKeys.generalDiscount) {
       this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;
+    }
+
+    if (this.key === TableKeys.clientPhone || this.key === TableKeys.senderPhone) {
+      this.title = `+${this.title.toString().replace(Patterns.isTherePlus, '')}`;
     }
 
     const replaceRules = {
