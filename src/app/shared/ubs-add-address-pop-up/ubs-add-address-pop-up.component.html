@@ -180,8 +180,7 @@
   </div>
 </form>
 <div class="buttons" mat-dialog-actions>
-  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn" (click)="deleteAddress()" [disabled]="isDisabled">
-    <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
+  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()" [disabled]="isDisabled">
     <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'personal-info.pop-up-delete' | translate }}
   </button>
