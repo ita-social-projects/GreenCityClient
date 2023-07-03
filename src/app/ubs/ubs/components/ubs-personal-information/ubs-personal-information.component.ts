@@ -51,6 +51,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   ];
   locationIdForKyiv = 1;
   locationIdForKyivRegion = 2;
+  isNotChoosedLocation: boolean;
   private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
@@ -163,11 +164,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
           address: this.addresses
         });
         this.setDisabledCityForLocation();
-
-        const addressId = this.localService.getAddressId();
-        if (this.addresses[0] && isCheck) {
-          this.checkAddress(addressId ?? this.addresses[0].id);
-        }
+        const actualAddress = this.addresses.find((address) => address.actual === true);
+        this.checkAddress(actualAddress.id);
       });
   }
 
@@ -209,6 +207,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.checkedAddress = address;
       }
     });
+    this.isNotChoosedLocation = this.checkedAddress.display === false;
     this.localService.setAddressId(addressId);
     this.changeAddressInPersonalData();
   }
