@@ -420,7 +420,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const checkDuplicate = orderValues.length === this.additionalOrders.length;
     let counter = 0;
     this.additionalOrders.controls.forEach((controller) => {
-      if (controller.valid && controller.dirty && controller.value !== '' && checkDuplicate) {
+      if (controller.dirty && controller.value && checkDuplicate) {
         counter++;
       }
     });
