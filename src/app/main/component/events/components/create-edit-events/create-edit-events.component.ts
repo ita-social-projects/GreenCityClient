@@ -211,10 +211,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     this.isOpen = false;
   }
 
-  get isDescriptionInValid(): boolean {
-    return this.eventFormGroup.get('description').touched && this.eventFormGroup.get('description').invalid;
-  }
-
   public setDateCount(value: number): void {
     this.dates = Array(value)
       .fill(null)
