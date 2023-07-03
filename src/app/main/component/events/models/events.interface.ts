@@ -141,3 +141,13 @@ export interface PaginationInterface {
   currentPage: number;
   totalItems: number;
 }
+
+export interface PagePreviewDTO {
+  title: string;
+  description: string;
+  open: boolean;
+  datesLocations: DateEvent[];
+  tags: Array<string>;
+  imgArray: any[];
+  location: DateFormObj;
+}

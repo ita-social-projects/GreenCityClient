@@ -200,7 +200,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       case this.btnName.edit:
         this.localStorageService.setEditMode('canUserEdit', true);
         this.localStorageService.setEventForEdit('editEvent', this.event);
-        this.router.navigate(['events/', 'create-event']);
+        this.router.navigate(['/events', 'create-event']);
         break;
       default:
         break;
