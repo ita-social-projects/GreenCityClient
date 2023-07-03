@@ -86,7 +86,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     if (item.status === TodoStatus.done) {
       return this.img.doneCheck;
     }
-    return item.selected ? this.img.inprogressCheck : this.img.plusCheck;
+    return item.selected ? this.img.minusCheck : this.img.plusCheck;
   }
 
   public addItem(value: string): void {

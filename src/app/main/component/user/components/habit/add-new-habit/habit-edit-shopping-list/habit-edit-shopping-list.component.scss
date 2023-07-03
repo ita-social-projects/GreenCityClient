@@ -39,6 +39,7 @@
         align-items: center;
         width: 168px;
         height: 25px;
+        max-width: calc(100% - 18px);
 
         .check-btn {
           border: 0;

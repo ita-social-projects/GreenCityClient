@@ -159,8 +159,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
           confirmed: 0,
           actual: 0
         },
-        bonuses: this.orderDetails.bonuses,
-        certificateDiscount: this.orderDetails.certificateDiscount
+        bonuses: this.bagsInfo.bonuses,
+        certificateDiscount: this.bagsInfo.certificateDiscount
       };
     });
   }
@@ -334,6 +334,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     const currentAmountOfNumbersFromShop = arr.controls.length;
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
+  }
+
+  checkEmptyInput(value: string): boolean {
+    return !value.trim().length;
   }
 
   addOrderNumberFromShop(): void {

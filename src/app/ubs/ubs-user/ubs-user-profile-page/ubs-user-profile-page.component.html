@@ -194,14 +194,15 @@
                 <div class="inline">
                   <div class="form-group input-margin region">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
-                    <select
-                      [formControlName]="getLangValue('region', 'regionEn')"
-                      (change)="setRegionValue(i, $event)"
+                    <input
+                      ngx-google-places-autocomplete
+                      type="text"
                       class="shadow-none form-control"
-                      id="region"
-                    >
-                      <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
-                    </select>
+                      required
+                      [options]="regionOptions"
+                      formControlName="{{ getLangValue('region', 'regionEn') }}"
+                      (onAddressChange)="onRegionSelected($event, i)"
+                    />
                   </div>
                   <div class="form-group city">
                     <label for="city" class="form-label">{{ 'ubs-client-profile.city' | translate }}</label>
