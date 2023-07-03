@@ -27,7 +27,7 @@ import { MaterialModule } from '../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [MainComponent, ErrorComponent],
   imports: [
@@ -48,7 +48,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgxPaginationModule,
     MaterialModule,
     SharedModule,
-    ChatModule
+    ChatModule,
+    BrowserAnimationsModule
   ],
   entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [

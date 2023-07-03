@@ -17,7 +17,6 @@ import { initialMoreOptionsFormValue } from './components/more-options-filter/mo
 import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 @Component({
   selector: 'app-places',
   templateUrl: './places.component.html',
@@ -57,12 +56,10 @@ export class PlacesComponent implements OnInit, OnDestroy {
     private placeService: PlaceService,
     private filterPlaceService: FilterPlaceService,
     private favoritePlaceService: FavoritePlaceService,
-    private dialog: MatDialog,
-    private userOwnAuthService: UserOwnAuthService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.checkLogin();
     this.placeService
       .getAllPresentTags()
       .pipe(take(1))
@@ -90,7 +87,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
       }
     });
 
-    if (this.isLogin) {
+    if (!this.localStorageService.getUserId) {
       this.favoritePlaceService.updateFavoritePlaces();
     }
 
@@ -318,11 +315,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
       });
   }
 
-  checkLogin() {
-    this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
-      this.isLogin = status;
-    });
-  }
+  // checkLogin() {
+  //   this.userOwnAuthService.isLoginUserSubject.subscribe((status) => {
+  //     this.isLogin = status;
+  //   });
+  // }
 
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
