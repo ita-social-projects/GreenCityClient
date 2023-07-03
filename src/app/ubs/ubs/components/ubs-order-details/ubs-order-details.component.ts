@@ -102,7 +102,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog, orderService);
+    super(router, dialog, orderService, localStorageService);
     this.initForm();
   }
 
@@ -160,8 +160,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public checkCourierLimit(): void {
     if (this.locations?.courierLimit === limitStatus.limitByPriceOfOrder) {
       this.courierLimitBySum = true;
+      this.courierLimitByAmount = false;
     } else {
       this.courierLimitByAmount = true;
+      this.courierLimitBySum = false;
     }
   }
 

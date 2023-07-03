@@ -79,7 +79,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private googleScript: GoogleScript,
     private langService: LanguageService
   ) {
-    super(router, dialog, orderService);
+    super(router, dialog, orderService, localService);
     this.initForm();
   }
 
