@@ -348,6 +348,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   deleteOrder(index: number): void {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     arr.removeAt(index);
+    this.orderDetailsForm.markAsDirty();
   }
 
   public changeWriteOffSum(e): void {
