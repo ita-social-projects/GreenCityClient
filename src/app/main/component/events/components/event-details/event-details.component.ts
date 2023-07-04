@@ -66,6 +66,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
+  public isOver: boolean;
+  public currentDate = new Date();
 
   public max = 5;
   public rate: number;
@@ -115,6 +117,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
+      this.isOver = this.isEventOver(this.event.dates[0].finishDate);
       this.mapDialogData = {
         lat: this.event.dates[0].coordinates.latitude,
         lng: this.event.dates[0].coordinates.longitude
@@ -206,5 +209,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
+  }
+
+  isEventOver(date: string): boolean {
+    return new Date(date).getDate() < this.currentDate.getDate();
   }
 }

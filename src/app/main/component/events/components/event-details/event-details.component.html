@@ -15,9 +15,9 @@
         <div class="tertiary-global-button m-btn" (click)="deleteEvent()">
           {{ 'homepage.events.btn.delete' | translate }}
         </div>
-        <div class="secondary-global-button m-btn" (click)="navigateToEditEvent()">
+        <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="isOver">
           {{ 'homepage.events.btn.edit' | translate }}
-        </div>
+        </button>
       </div>
     </div>
 
