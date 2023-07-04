@@ -36,7 +36,8 @@ describe('UbsAdminEmployeeComponent', () => {
   const positionMock = [
     {
       id: 0,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
 
@@ -375,8 +376,8 @@ describe('UbsAdminEmployeeComponent', () => {
       { name: 'fake2', id: 5 }
     ];
     component.employeePositions = [
-      { name: 'fake', id: 154 },
-      { name: 'fake2', id: 5 }
+      { name: 'fake', nameEn: 'fakeEn', id: 154 },
+      { name: 'fake2', nameEn: 'fake2En', id: 5 }
     ];
     const result = component.isPositionChecked();
     expect(result).toEqual(true);

@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UbsAdminEmployeeTableComponent } from './ubs-admin-employee-table.component';
 import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
@@ -19,7 +20,6 @@ describe('UbsAdminEmployeeTableComponent', () => {
   let component: UbsAdminEmployeeTableComponent;
   let fixture: ComponentFixture<UbsAdminEmployeeTableComponent>;
 
-  const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['getAllStations', 'getAllPositions']);
   const dialogRefStub = {
     afterClosed() {
       return of(true);
@@ -34,7 +34,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
   const mockedEmployeePositions = [
     {
       id: 2,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
 
@@ -126,12 +127,16 @@ describe('UbsAdminEmployeeTableComponent', () => {
     }
   ];
 
+  const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', ['getAllStations', 'getAllPositions']);
   ubsAdminEmployeeServiceMock.getAllStations.and.returnValue(of(['fakeStation1', 'fakeStation2', 'fakeStation3']));
   ubsAdminEmployeeServiceMock.getAllPositions.and.returnValue(of(['fakePosition1', 'fakePosition2', 'fakePosition3']));
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   ubsAdminEmployeeServiceMock.searchValue = new BehaviorSubject('test');
+  ubsAdminEmployeeServiceMock.filterDataSubject$ = new Subject();
   storeMock.select = () => of(fakeTableItems as any);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
+  languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -149,7 +154,8 @@ describe('UbsAdminEmployeeTableComponent', () => {
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Store, useValue: storeMock },
-        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
+        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock },
+        { provide: LanguageService, useValue: languageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
