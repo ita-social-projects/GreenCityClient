@@ -12,9 +12,9 @@
       </div>
 
       <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
-        <div class="tertiary-global-button m-btn" (click)="deleteEvent()">
+        <button class="tertiary-global-button m-btn" (click)="deleteEvent()">
           {{ 'homepage.events.btn.delete' | translate }}
-        </div>
+        </button>
         <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="isOver">
           {{ 'homepage.events.btn.edit' | translate }}
         </button>
