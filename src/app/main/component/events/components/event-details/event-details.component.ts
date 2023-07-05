@@ -118,15 +118,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
       this.isOver = this.isEventOver(this.event.dates[this.event.dates.length - 1].finishDate);
-      console.log('start', this.event.dates[this.event.dates.length - 1].startDate);
-      console.log('finish', this.event.dates[this.event.dates.length - 1].finishDate);
-      console.log('curr', this.currentDate);
-      console.log(this.event);
       this.mapDialogData = {
-        lat: this.event.dates[0].coordinates.latitude,
-        lng: this.event.dates[0].coordinates.longitude
+        lat: this.event.dates[this.event.dates.length - 1].coordinates.latitude,
+        lng: this.event.dates[this.event.dates.length - 1].coordinates.longitude
       };
-
       this.role = this.verifyRole();
     });
 
