@@ -8,7 +8,7 @@ import { UbsAdminEmployeeComponent } from './ubs-admin-employee.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { BehaviorSubject, of } from 'rxjs';
 import { Locations } from '../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
@@ -31,6 +31,7 @@ describe('UbsAdminEmployeeComponent', () => {
 
   let httpMock: HttpTestingController;
   let service: UbsAdminEmployeeService;
+  let serviceLang: LanguageService;
 
   const urlMock = environment.backendUbsLink + '/admin/ubs-employee';
   const positionMock = [
@@ -40,6 +41,8 @@ describe('UbsAdminEmployeeComponent', () => {
       nameEn: 'fakeEn'
     }
   ];
+
+  const rolesMock = ['fakeRole', 'fakeAdmin'];
 
   const dialogStub = {
     afterClosed() {
@@ -120,6 +123,7 @@ describe('UbsAdminEmployeeComponent', () => {
     createdBy: 'fakeAdmin'
   };
 
+  const fakeFilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
 
@@ -199,6 +203,7 @@ describe('UbsAdminEmployeeComponent', () => {
     const spy4 = spyOn(component as any, 'getLocations');
     const spy5 = spyOn(component as any, 'getCouriers');
     const spy6 = spyOn(component as any, 'setCountOfCheckedFilters');
+    const spy7 = spyOn(component as any, 'getEmployeePositionbyEmail');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -207,6 +212,7 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(spy5).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalledTimes(8);
+    expect(spy7).toHaveBeenCalled();
   });
 
   it('should initialize the form correctly', () => {
@@ -247,6 +253,27 @@ describe('UbsAdminEmployeeComponent', () => {
     service.getAllPositions().subscribe((data) => {
       expect(data).toBe(positionMock);
     });
+  });
+
+  it('should getEmployeePositionbyEmail', () => {
+    component.userEmail = 'testemail@gmail.com';
+    service.getEmployeeLoginPositions(component.userEmail).subscribe((data) => {
+      expect(data).toBe(rolesMock);
+    });
+  });
+
+  it('should getEmployeePositionsAuthorities', () => {
+    const positionsAuthoritiesMock = { authorities: ['fake', 'fakeAdmin'], positionId: [1, 3] };
+    component.userEmail = 'testemail@gmail.com';
+    service.getEmployeePositionsAuthorities(component.userEmail).subscribe((data) => {
+      expect(data).toBe(positionsAuthoritiesMock);
+    });
+  });
+
+  it('addNewFilters() should change filters', () => {
+    const spy = spyOn(service, 'updateFilterData');
+    component.addNewFilters(fakeFilterData);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should get all couriers', () => {
@@ -565,13 +592,21 @@ describe('UbsAdminEmployeeComponent', () => {
       }
     };
 
+    const spy = spyOn(component, 'addNewFilters');
     const spy1 = spyOn(component, 'toggleSelectAllCity');
     (component as any).onSelectCity(eventMock);
     expect(spy1).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+    expect(component.city.value).toEqual('');
 
     const spy2 = spyOn(component, 'toggleSelectAllCourier');
     (component as any).onSelectCourier(eventMock);
     expect(spy2).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+    expect(component.courier.value).toEqual('');
+
+    (component as any).regionSelectedSub('all');
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should setCountOfCheckedFilters() when resetAllFilters called', () => {

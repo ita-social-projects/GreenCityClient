@@ -1,10 +1,9 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Employees } from '../models/ubs-admin.interface';
+import { Employees, EmployeePositions } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
 import { FilterData } from '../models/tariffs.interface';
-import { EmployeePositions } from '../models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'

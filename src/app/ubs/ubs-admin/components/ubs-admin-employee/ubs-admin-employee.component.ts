@@ -11,7 +11,7 @@ import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { Couriers, CreateCard, Locations, City } from '../../models/tariffs.interface';
+import { Couriers, CreateCard, Locations, City, FilterData } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
@@ -28,7 +28,6 @@ import {
   EmployeeStatus
 } from './ubs-admin-employee-table/employee-models.enum';
 import { Language } from 'src/app/main/i18n/Language';
-import { FilterData } from '../../models/tariffs.interface';
 
 @Component({
   selector: 'app-ubs-admin-employee',
@@ -57,14 +56,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
   couriers: Couriers[];
   couriersName: Array<string>;
   positionName: Array<string>;
-  cards = [];
-  cardsUk = [];
-  cardsEn = [];
   filterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   createCardObj: CreateCard;
   isFieldFilled = false;
   isCardExist = false;
-  currentLang;
+  currentLang: string;
   tagList: TagInterface[];
   publictags: Observable<Array<TagInterface>>;
   selectedTagsList: Array<string> = [];
@@ -121,7 +117,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.setCard();
     });
     this.userEmail = this.jwtService.getEmailFromAccessToken();
     this.getEmployeePositionbyEmail(this.userEmail);
@@ -181,10 +176,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((roles) => {
       this.userRoles = roles;
     });
-  }
-
-  private setCard(): void {
-    this.cards = this.languageService.getLangValue(this.cardsUk, this.cardsEn) as any[];
   }
 
   get position() {

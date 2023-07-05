@@ -127,8 +127,10 @@
             </div>
 
             <div class="description-item">
-              <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div>Active</div>
+              <div class="description-sub-item description-item-text">
+                <div>
+                  {{ (employee.employeeStatus === 'ACTIVE' ? 'employees.status.active' : 'employees.status.inactive') | translate }}
+                </div>
               </div>
             </div>
             <span
