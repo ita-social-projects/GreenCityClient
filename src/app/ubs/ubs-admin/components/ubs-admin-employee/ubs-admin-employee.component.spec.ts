@@ -31,7 +31,6 @@ describe('UbsAdminEmployeeComponent', () => {
 
   let httpMock: HttpTestingController;
   let service: UbsAdminEmployeeService;
-  let serviceLang: LanguageService;
 
   const urlMock = environment.backendUbsLink + '/admin/ubs-employee';
   const positionMock = [
