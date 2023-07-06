@@ -11,7 +11,7 @@
           </div>
         </a>
       </div>
-      <div class="editDeleteBlock" *ngIf="newsItem.author.id === userId">
+      <div class="edit-delete-block" *ngIf="newsItem.author.id === userId">
         <button class="secondary-global-button delete-news-button" type="button" (click)="deleteNews()">
           {{ 'eco-news-single-view.delete-news-button' | translate }}
         </button>

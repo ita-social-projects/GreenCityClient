@@ -80,8 +80,11 @@ select {
   }
 }
 
-.delete-icon {
-  margin: -2px 5px 0 0;
+.delete-btn {
+  color: var(--ubs-quaternary-dark-grey);
+  text-align: center;
+  font-size: 16px;
+  text-decoration-line: underline;
 }
 
 .form-control.ng-invalid.ng-touched {

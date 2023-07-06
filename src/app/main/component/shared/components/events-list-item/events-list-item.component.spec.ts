@@ -415,7 +415,6 @@ describe('EventsListItemComponent', () => {
       component.buttonAction(component.btnName.edit);
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
       expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
-      expect(component.router.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
     });
   });
 

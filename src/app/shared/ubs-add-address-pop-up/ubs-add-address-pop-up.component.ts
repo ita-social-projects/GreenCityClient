@@ -6,13 +6,14 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, Region, SearchAddress } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
+import { Language } from 'src/app/main/i18n/Language';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -21,6 +22,7 @@ import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePredict
 })
 export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   autocompleteService: GoogleAutoService;
+  regionPredictionList: GooglePrediction[];
   streetPredictionList: GooglePrediction[];
   cityPredictionList: GooglePrediction[];
   housePredictionList: GooglePrediction[];
@@ -34,24 +36,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   housePattern = Patterns.ubsHousePattern;
   entranceNumberPattern = Patterns.ubsEntrNumPattern;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  isDistrict = false;
+  isDistrictKyiv = false;
   isHouseSelected = false;
   currentLanguage: string;
   public isDeleting: boolean;
-  bigRegions: Region[];
   regionsKyiv: Location[];
   regions: Location[];
   placeId: string;
-
-  languages = {
-    en: 'en',
-    uk: 'uk'
-  };
-
-  bigRegionsList = [
-    { regionName: 'Київська область', lang: 'ua' },
-    { regionName: 'Kyiv Oblast', lang: 'en' }
-  ];
+  locations: CourierLocations;
+  isDistrict = false;
+  regionBounds;
 
   constructor(
     private fb: FormBuilder,
@@ -61,6 +55,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     public data: {
       edit: boolean;
       address: Address;
+      addFromProfile?: boolean;
     },
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
@@ -119,11 +114,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.locations = this.localStorageService.getLocations();
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.bigRegions = this.bigRegionsList.filter((el) => el.lang === this.currentLanguage);
+    const region = this.data.edit ? this.data.address.region : this.locations?.regionDto.nameUk;
+    const regionEn = this.data.edit ? this.data.address.regionEn : this.locations?.regionDto.nameEn;
     this.addAddressForm = this.fb.group({
-      region: [this.data.edit ? this.data.address.region : this.bigRegionsList[0].regionName, Validators.required],
-      regionEn: [this.data.edit ? this.data.address.regionEn : this.bigRegionsList[1].regionName, Validators.required],
+      region: [!this.data.addFromProfile ? region : '', Validators.required],
+      regionEn: [!this.data.addFromProfile ? regionEn : '', Validators.required],
       city: [
         this.data.edit ? this.data.address.city : null,
         [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
@@ -144,7 +141,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       ],
       houseNumber: [
         this.data.edit ? this.data.address.houseNumber : '',
-        [Validators.required, Validators.maxLength(4), Validators.pattern(this.housePattern)]
+        [Validators.required, Validators.maxLength(10), Validators.pattern(this.housePattern)]
       ],
       houseCorpus: [this.data.edit ? this.data.address.houseCorpus : '', [Validators.maxLength(4), Validators.pattern(this.corpusPattern)]],
       entranceNumber: [
@@ -161,6 +158,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       id: [this.data.edit ? this.data.address.id : 0],
       actual: true
     });
+
+    if (!this.data.addFromProfile) {
+      this.region.disable();
+      this.regionEn.disable();
+    }
 
     this.addAddressForm
       .get(this.getLangValue('city', 'cityEn'))
@@ -180,9 +182,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         this.placeId = null;
       });
 
-    this.isDistrict = this.city.value === 'Київ' ? true : false;
+    const isKyivRegion = this.locationService.checkOnCityNames(this.region.value);
+    if (isKyivRegion) {
+      this.isDistrictKyiv = this.city.value === KyivNamesEnum.KyivUa;
+    } else {
+      this.isDistrict = true;
+    }
+
     this.regionsKyiv = this.listOflocations.getRegionsKyiv(this.currentLanguage);
     this.regions = this.listOflocations.getRegions(this.currentLanguage);
+
+    if (this.data.edit && this.isDistrict) {
+      const abstractControl = this.getLangControl(this.district, this.districtEn);
+      this.regions = [{ name: abstractControl.value, key: 1 }];
+      abstractControl.setValue(abstractControl.value);
+      abstractControl.markAsDirty();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -192,38 +207,79 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.initGoogleAutocompleteServices();
   }
 
+  onRegionSelected(region: any): void {
+    this.setTranslation(region.place_id, this.region, this.getLangValue(Language.UK, Language.EN));
+    this.setTranslation(region.place_id, this.regionEn, this.getLangValue(Language.EN, Language.UK));
+  }
+
+  setTranslation(id: string, abstractControl: any, lang: string): void {
+    this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
+    const request = {
+      placeId: id,
+      language: lang
+    };
+    this.placeService.getDetails(request, (placeDetails) => {
+      abstractControl.setValue(placeDetails.name);
+
+      this.regionBounds = this.locationService.getPlaceBounds(placeDetails);
+    });
+  }
+
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
   }
 
-  setPredictCities(): void {
-    this.cityPredictionList = null;
-    if (this.currentLanguage === 'ua' && this.city.value) {
-      this.inputCity(`Київська область, місто, ${this.city.value}`, this.languages.uk);
+  public getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
+    return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
+  }
+
+  setPredictRegions(): void {
+    if (this.currentLanguage === Language.UA && this.region.value) {
+      this.inputRegion(this.region.value, Language.UK);
     }
 
-    if (this.currentLanguage === 'en' && this.cityEn.value) {
-      this.inputCity(`Kyiv Oblast, City,${this.cityEn.value}`, this.languages.en);
+    if (this.currentLanguage === Language.EN && this.regionEn.value) {
+      this.inputRegion(this.regionEn.value, Language.EN);
+    }
+  }
+
+  inputRegion(searchAddress: string, lang: string): void {
+    const request = this.locationService.getRequest(searchAddress, lang, 'administrative_area_level_1');
+
+    this.autocompleteService.getPlacePredictions(request, (regionPredictionList) => {
+      this.regionPredictionList = regionPredictionList;
+    });
+  }
+
+  setPredictCities(): void {
+    this.cityPredictionList = null;
+
+    if (this.currentLanguage === Language.UA && this.city.value) {
+      this.inputCity(`${this.region.value}, місто, ${this.city.value}`, Language.UK);
+    }
+
+    if (this.currentLanguage === Language.EN && this.cityEn.value) {
+      this.inputCity(`${this.regionEn.value}, City, ${this.cityEn.value}`, Language.EN);
     }
   }
 
   inputCity(searchAddress: string, lang: string): void {
-    const request = this.locationService.getRequest(searchAddress, lang, '(cities)');
+    const request = {
+      input: searchAddress,
+      bounds: this.regionBounds,
+      types: ['(cities)'],
+      componentRestrictions: { country: 'ua' }
+    };
+
     this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
-      this.cityPredictionList = cityPredictionList?.filter(
-        (el) =>
-          el.structured_formatting.secondary_text.includes(this.bigRegionsList[0].regionName) ||
-          el.structured_formatting.secondary_text.includes(this.bigRegionsList[1].regionName) ||
-          el.structured_formatting.secondary_text.includes('Kyiv City') ||
-          el.structured_formatting.secondary_text.includes('місто Київ')
-      );
+      this.cityPredictionList = cityPredictionList;
     });
   }
 
   onCitySelected(city: GooglePrediction): void {
-    this.setValueOfCity(city, this.city, this.languages.uk);
-    this.setValueOfCity(city, this.cityEn, this.languages.en);
+    this.setValueOfCity(city, this.city, Language.UK);
+    this.setValueOfCity(city, this.cityEn, Language.EN);
   }
 
   setValueOfCity(selectedCity: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -231,37 +287,38 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       placeId: selectedCity.place_id,
       language: lang
     };
+
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
       if (abstractControl === this.city) {
-        this.isDistrict = this.city.value === 'Київ' ? true : false;
+        const isKyivRegion = this.locationService.checkOnCityNames(this.region.value);
+        if (isKyivRegion) {
+          this.isDistrictKyiv = this.city.value === KyivNamesEnum.KyivUa;
+        } else {
+          this.isDistrict = true;
+        }
       }
     });
   }
 
   setPredictStreets(): void {
     this.streetPredictionList = null;
-    if (this.currentLanguage === 'ua' && this.street.value) {
-      this.inputAddress(`${this.city.value}, ${this.street.value}`, this.languages.uk);
+
+    if (this.currentLanguage === Language.UA && this.street.value) {
+      this.inputAddress(`${this.city.value}, ${this.street.value}`, Language.UK);
     }
 
-    if (this.currentLanguage === 'en' && this.streetEn.value) {
-      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`, this.languages.en);
+    if (this.currentLanguage === Language.EN && this.streetEn.value) {
+      this.inputAddress(`${this.cityEn.value}, ${this.streetEn.value}`, Language.EN);
     }
   }
 
   inputAddress(searchAddress: string, lang: string): void {
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!this.isDistrict) {
-        this.streetPredictionList = streetPredictions?.filter(
-          (el) =>
-            (el.structured_formatting.secondary_text.includes(this.bigRegionsList[0].regionName) ||
-              el.structured_formatting.secondary_text.includes(this.bigRegionsList[1].regionName)) &&
-            (el.structured_formatting.secondary_text.includes(this.city.value) ||
-              el.structured_formatting.secondary_text.includes(this.cityEn.value))
-        );
+      if (!this.isDistrictKyiv) {
+        this.streetPredictionList = this.filterPredictions(streetPredictions);
       } else {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
@@ -272,12 +329,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     });
   }
 
+  filterPredictions(predictions: any[]): any[] {
+    return predictions?.filter(
+      (el) =>
+        el.structured_formatting.secondary_text.includes(this.region.value) ||
+        el.structured_formatting.secondary_text.includes(this.regionEn.value) ||
+        el.structured_formatting.secondary_text.includes(this.cityEn.value) ||
+        el.structured_formatting.secondary_text.includes(this.city.value)
+    );
+  }
+
   onStreetSelected(street: GooglePrediction): void {
     this.houseNumber.reset('');
     this.housePredictionList = null;
     this.placeId = null;
-    this.setValueOfStreet(street, this.street, this.languages.uk);
-    this.setValueOfStreet(street, this.streetEn, this.languages.en);
+    this.setValueOfStreet(street, this.street, Language.UK);
+    this.setValueOfStreet(street, this.streetEn, Language.EN);
   }
 
   setValueOfStreet(selectedStreet: GooglePrediction, abstractControl: AbstractControl, lang: string): void {
@@ -288,13 +355,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
-      if (lang === this.languages.en) {
+      if (lang === Language.EN) {
         this.formattedAddress = placeDetails.formatted_address;
       }
-      if (lang === this.languages.en && this.isDistrict) {
+      if (lang === Language.EN && (this.isDistrictKyiv || this.isDistrict)) {
         this.setDistrictAuto(placeDetails, this.districtEn, lang);
       }
-      if (lang === this.languages.uk && this.isDistrict) {
+      if (lang === Language.UK && (this.isDistrictKyiv || this.isDistrict)) {
         this.setDistrictAuto(placeDetails, this.district, lang);
       }
     });
@@ -302,13 +369,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   onDistrictSelected(event: Event): void {
     const districtKey = (event.target as HTMLSelectElement).value.slice(0, 1);
-    this.isDistrict ? this.setKyivDistrict(districtKey) : this.setDistrict(districtKey);
+    this.isDistrictKyiv ? this.setKyivDistrict(districtKey) : this.setDistrict(districtKey);
   }
 
   setKyivDistrict(districtKey: string): void {
     const key = Number(districtKey) + 1;
-    const selectedDistrict = this.listOflocations.getRegionsKyiv('ua').find((el) => el.key === key);
-    const selectedDistricEn = this.listOflocations.getRegionsKyiv('en').find((el) => el.key === key);
+    const selectedDistrict = this.listOflocations.getRegionsKyiv(Language.UA).find((el) => el.key === key);
+    const selectedDistricEn = this.listOflocations.getRegionsKyiv(Language.EN).find((el) => el.key === key);
 
     this.district.setValue(selectedDistrict.name);
     this.districtEn.setValue(selectedDistricEn.name);
@@ -316,8 +383,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   setDistrict(districtKey: string): void {
     const key = Number(districtKey) + 1;
-    const selectedDistrict = this.listOflocations.getRegions('ua').find((el) => el.key === key);
-    const selectedDistricEn = this.listOflocations.getRegions('en').find((el) => el.key === key);
+    const selectedDistrict = this.listOflocations.getRegions(Language.UA).find((el) => el.key === key);
+    const selectedDistricEn = this.listOflocations.getRegions(Language.EN).find((el) => el.key === key);
 
     this.district.setValue(selectedDistrict.name);
     this.districtEn.setValue(selectedDistricEn.name);
@@ -325,8 +392,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
+
+    if (this.isDistrict) {
+      this.regions = [{ name: this.getLangValue(this.district.value, this.districtEn.value), key: 1 }];
+    }
   }
 
   setPredictHouseNumbers(): void {
@@ -338,7 +410,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       const cityName = this.getLangValue(this.city.value, this.cityEn.value);
       this.houseNumber.setValue(houseValue);
       const searchAddress = this.locationService.getSearchAddress(cityName, streetName, houseValue);
-      this.inputHouse(searchAddress, this.getLangValue(this.languages.uk, this.languages.en));
+      this.inputHouse(searchAddress, this.getLangValue(Language.UK, Language.EN));
     }
   }
 

@@ -10,7 +10,8 @@
     "house-number": "Please select a house number",
     "entrance-wrong": "Only numbers are allowed",
     "max-length-street": "The field should contain 1-120 characters",
-    "max-length-house": "The field should contain 1-4 characters",
+    "max-length-house": "The field should contain 1-10 characters",
+    "max-length-house-corpus": "The field should contain 1-4 characters",
     "max-length-entrance": "The field should contain 1-2 characters",
     "max-length-comment": "Maximum 255 characters are allowed",
     "minlength-short": "The field contains insufficient characters",
@@ -175,7 +176,8 @@
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
-    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs"
+    "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
+    "address-doesnt-match-tariff": "The selected address is not serviced by this tariff. To place an order, change the location (tariff) or choose another address"
   },
   "submit-order": {
     "your-order": "Your order",

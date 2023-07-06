@@ -4,8 +4,18 @@ import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
 import { Place } from '../../../places/models/place';
-import { DateEvent, DateFormObj, Dates, EventDTO, EventPageResponceDto, OfflineDto, TagObj } from '../../models/events.interface';
+import {
+  DateEvent,
+  DateFormObj,
+  Dates,
+  EventDTO,
+  EventPageResponceDto,
+  OfflineDto,
+  TagObj,
+  PagePreviewDTO
+} from '../../models/events.interface';
 import { Router } from '@angular/router';
+import { EventsService } from '../../../events/services/events.service';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
@@ -39,6 +49,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public checkAfterSend = true;
   public dateArrCount = WeekArray;
   public selectedDay = WeekArray[0];
+  public addressForPreview: DateFormObj;
   public editMode: boolean;
   public editEvent: EventPageResponceDto;
   public imagesToDelete: string[] = [];
@@ -52,8 +63,13 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   public isImageTypeError = false;
   public images = singleNewsImages;
   public currentLang: string;
+  public routeData: any;
+  public selectedFile = null;
+  public selectedFileUrl: string;
+  public files = [];
 
   private imgArray: Array<File> = [];
+  private imgArrayToPreview: string[] = [];
   private pipe = new DatePipe('en-US');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
@@ -77,6 +93,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
+    private eventService: EventsService,
     private snackBar: MatSnackBarComponent,
     private injector: Injector,
     public dialog: MatDialog,
@@ -91,7 +108,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
-
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
 
     this.eventFormGroup = new FormGroup({
@@ -139,6 +155,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public checkForm(form: DateFormObj, ind: number): void {
+    this.addressForPreview = form;
     this.duplindx = -1;
     const date = form.date?.toLocaleDateString();
     const datesArray = this.dates.map((item, index) => {
@@ -192,10 +209,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public changeToClose(): void {
     this.isOpen = false;
-  }
-
-  get isDescriptionInValid(): boolean {
-    return this.eventFormGroup.get('description').touched && this.eventFormGroup.get('description').invalid;
   }
 
   public setDateCount(value: number): void {
@@ -312,6 +325,45 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = false;
     }
+  }
+
+  public backToEditing() {
+    this.router.navigate(['/events', 'create-event']);
+  }
+
+  public onPreview() {
+    this.imgToData();
+    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
+    const sendEventDto: PagePreviewDTO = {
+      title: this.eventFormGroup.get('titleForm').value.trim(),
+      description: this.eventFormGroup.get('description').value,
+      open: this.isOpen,
+      datesLocations: this.dates,
+      tags: tagsArr,
+      imgArray: this.imgArrayToPreview,
+      location: this.addressForPreview
+    };
+    this.eventService.setForm(sendEventDto);
+    this.router.navigate(['events', 'preview']);
+  }
+
+  private imgToData(): void {
+    this.imgArray.forEach((img) => {
+      const reader: FileReader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (ev) => this.handleFile(ev);
+    });
+  }
+
+  private handleFile(event): void {
+    const binaryString = event.target.result;
+    const selectedFileUrl = binaryString;
+    this.imgArray.forEach((img) => {
+      this.files.push({ url: selectedFileUrl, file: img });
+    });
+    this.files.forEach((file) => {
+      this.imgArrayToPreview.push(file.url);
+    });
   }
 
   private createEvent(sendData: FormData) {

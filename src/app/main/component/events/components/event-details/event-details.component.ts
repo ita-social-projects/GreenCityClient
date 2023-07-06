@@ -41,8 +41,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     arrowLeft: 'assets/img/icon/econews/arrow_left.svg'
   };
 
-  private eventId: number;
   private userId: number;
+  public eventId: number;
 
   public roles = {
     UNAUTHENTICATED: 'UNAUTHENTICATED',

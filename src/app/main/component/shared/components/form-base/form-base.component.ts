@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../../../../ubs/ubs/services/order.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-form-base',
@@ -34,15 +35,20 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     // TODO: add functionality to this method
   }
 
-  constructor(public router: Router, public dialog: MatDialog, public orderService?: OrderService) {}
+  constructor(
+    public router: Router,
+    public dialog: MatDialog,
+    public orderService?: OrderService,
+    private localStorage?: LocalStorageService
+  ) {}
 
   @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
     return this.areChangesSaved ? true : !this.checkChanges();
   }
 
-  public cancel(): void {
-    this.cancelPopupJustifying(true);
+  public cancel(isPristine: boolean): void {
+    this.cancelPopupJustifying(isPristine);
     localStorage.removeItem('newsTags');
   }
 
@@ -62,6 +68,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
 
   cancelUBS(isUbsOrderSubmit?: boolean): void {
     const condition = this.getFormValues();
+    this.localStorage.removeUBSExistingOrderId();
     this.cancelPopupJustifying(condition, isUbsOrderSubmit);
   }
 

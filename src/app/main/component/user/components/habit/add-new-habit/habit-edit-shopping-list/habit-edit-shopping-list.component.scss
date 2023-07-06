@@ -39,6 +39,7 @@
         align-items: center;
         width: 168px;
         height: 25px;
+        max-width: calc(100% - 18px);
 
         .check-btn {
           border: 0;
@@ -99,9 +100,9 @@ form {
   }
 
   .add-btn {
+    padding-left: 5px;
     width: 26px;
     height: 26px;
-    padding: 0;
     border: none;
     border-radius: 50%;
     background: var(--primary-green);

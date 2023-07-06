@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./images-slider.component.scss']
 })
 export class ImagesSliderComponent implements OnInit {
-  @Input() images: string[] = [];
+  @Input() images: [];
   public currentImageIdx = 0;
 
   constructor() {}

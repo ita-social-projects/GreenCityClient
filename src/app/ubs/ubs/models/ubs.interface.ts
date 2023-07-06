@@ -260,3 +260,10 @@ export interface ActiveCourierDto {
   createDate: string;
   createdBy: string;
 }
+
+export enum KyivNamesEnum {
+  KyivRegionUa = 'Київська область',
+  KyivCityUa = 'місто Київ',
+  KyivUa = 'Київ',
+  KyivEn = 'Kyiv'
+}

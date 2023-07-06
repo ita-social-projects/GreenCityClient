@@ -5,9 +5,24 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
-      <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
-    </select>
+    <input
+      id="regionInput"
+      [formControlName]="getLangValue('region', 'regionEn')"
+      class="shadow-none form-control"
+      (keyup)="setPredictRegions()"
+      matInput
+      [matAutocomplete]="autoRegion"
+    />
+    <mat-autocomplete #autoRegion="matAutocomplete">
+      <mat-option
+        class="autocomplete-dropdown"
+        *ngFor="let region of regionPredictionList"
+        [value]="region.description"
+        (click)="onRegionSelected(region)"
+      >
+        {{ region.description }}
+      </mat-option>
+    </mat-autocomplete>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
@@ -127,7 +142,7 @@
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select
-      *ngIf="!isDistrict"
+      *ngIf="!isDistrictKyiv"
       [formControlName]="getLangValue('district', 'districtEn')"
       class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
@@ -135,7 +150,7 @@
       <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
     </select>
     <select
-      *ngIf="isDistrict"
+      *ngIf="isDistrictKyiv"
       [formControlName]="getLangValue('district', 'districtEn')"
       class="shadow-none form-control"
       (change)="onDistrictSelected($event)"
@@ -165,8 +180,7 @@
   </div>
 </form>
 <div class="buttons" mat-dialog-actions>
-  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn" (click)="deleteAddress()" [disabled]="isDisabled">
-    <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
+  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()" [disabled]="isDisabled">
     <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'personal-info.pop-up-delete' | translate }}
   </button>

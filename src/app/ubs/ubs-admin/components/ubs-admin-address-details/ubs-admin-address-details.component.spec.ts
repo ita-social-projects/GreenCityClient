@@ -11,6 +11,7 @@ import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { of } from 'rxjs';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -51,12 +52,14 @@ describe('UbsAdminAddressDetailsComponent', () => {
     'getDistrictAuto',
     'getFullAddressList',
     'getSearchAddress',
-    'getRequest'
+    'getRequest',
+    'checkOnCityNames'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
   fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
+  fakeLocationServiceMock.checkOnCityNames = () => of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -105,10 +108,10 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.addressCity.setValue('Київ');
     component.loadData();
     expect(component.currentLanguage).toBe('ua');
-    expect(component.isDistrict).toBe(true);
-    expect(component.regions).toBe(ADDRESSESMOCK.REGIONSMOCK);
-    expect(component.districtsKyiv).toBe(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
-    expect(component.districts).toBe(ADDRESSESMOCK.DISTRICTSMOCK);
+    expect(component.isDistrictKyiv).toBeTruthy();
+    expect(component.isDistrict).toBeFalsy();
+    expect(component.districtsKyiv).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+    expect(component.districts).toEqual(ADDRESSESMOCK.DISTRICTSMOCK);
   });
 
   it('if value of region was changed other fields should be empty', fakeAsync(() => {
@@ -181,7 +184,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Kyiv`;
-    component.inputCity(fakesearchAddress, component.languages.en);
+    component.inputCity(fakesearchAddress, Language.EN);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
@@ -212,7 +215,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
       callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
     });
     const fakesearchAddress = `Київська область, Ше`;
-    component.inputCity(fakesearchAddress, component.languages.uk);
+    component.inputCity(fakesearchAddress, Language.UK);
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
   });
 
@@ -225,7 +228,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     });
 
     const fakesearchAddress = `Київ`;
-    component.inputCity(fakesearchAddress, component.languages.uk);
+    component.inputCity(fakesearchAddress, Language.UK);
     expect(component.cityPredictionList).toEqual(result);
   });
 
@@ -238,14 +241,14 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('method onCitySelected should invoke methods to set value of city', () => {
     const spy = spyOn(component, 'setValueOfCity');
     component.onCitySelected(ADDRESSESMOCK.KYIVREGIONSLIST[0]);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.KYIVREGIONSLIST[0], component.addressCity, component.languages.uk);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.KYIVREGIONSLIST[0], component.addressCityEng, component.languages.en);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.KYIVREGIONSLIST[0], component.addressCity, Language.UK);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.KYIVREGIONSLIST[0], component.addressCityEng, Language.EN);
   });
 
   it('method onCitySelected should invoke getDetails', () => {
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
-    component.setValueOfCity(ADDRESSESMOCK.KYIVREGIONSLIST[0], component.addressCity, component.languages.uk);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVREGIONSLIST[0], component.addressCity, Language.UK);
     expect(component.placeService.getDetails).toHaveBeenCalled();
   });
 
@@ -254,7 +257,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACECITYEN, status as any);
     });
-    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCityEng, component.languages.en);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCityEng, Language.EN);
     expect(component.addressCityEng.value).toEqual(ADDRESSESMOCK.PLACECITYEN.name);
   });
 
@@ -263,19 +266,19 @@ describe('UbsAdminAddressDetailsComponent', () => {
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACEKYIVUK, status as any);
     });
-    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCity, component.languages.uk);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCity, Language.UK);
     expect(component.addressCity.value).toEqual(ADDRESSESMOCK.PLACEKYIVUK.name);
-    expect(component.isDistrict).toEqual(true);
+    expect(component.isDistrictKyiv).toEqual(true);
   });
 
-  it('method onCitySelected should set isDistrict if city is not Kyiv', () => {
+  it('method onCitySelected should set isDistrictKyiv if city is not Kyiv', () => {
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACECITYUK, status as any);
     });
-    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCity, component.languages.uk);
+    component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCity, Language.UK);
     expect(component.addressCity.value).toEqual(ADDRESSESMOCK.PLACECITYUK.name);
-    expect(component.isDistrict).toEqual(false);
+    expect(component.isDistrictKyiv).toEqual(false);
   });
 
   it('method setPredictStreets should call method for predicting streets in ua', () => {
@@ -304,24 +307,24 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Lomo`;
-    component.inputAddress(fakesearchAddress, component.languages.en);
+    component.inputAddress(fakesearchAddress, Language.EN);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
-    component.isDistrict = true;
+    component.isDistrictKyiv = true;
     component.addressCity.setValue(`Київ`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.STREETSKYIVCITYLIST, status as any);
     });
     const fakesearchAddress = `Київ, Сі`;
-    component.inputAddress(fakesearchAddress, component.languages.uk);
+    component.inputAddress(fakesearchAddress, Language.UK);
     expect(component.streetPredictionList).toEqual(ADDRESSESMOCK.STREETSKYIVCITYLIST);
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
-    component.isDistrict = false;
+    component.isDistrictKyiv = false;
     const result = [ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]];
     component.addressRegion.setValue(`Київська область`);
     component.addressRegionEng.setValue(`Kyiv Oblast`);
@@ -333,7 +336,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
     });
 
     const fakesearchAddress = `Щасливе, Не`;
-    component.inputAddress(fakesearchAddress, component.languages.uk);
+    component.inputAddress(fakesearchAddress, Language.UK);
     expect(component.streetPredictionList).toEqual(result);
   });
 
@@ -346,64 +349,56 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('method onStreetSelected should invoke methods to set value of street', () => {
     const spy = spyOn(component, 'setValueOfStreet');
     component.onStreetSelected(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreet, component.languages.uk);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreetEng, component.languages.en);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreet, Language.UK);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreetEng, Language.EN);
   });
 
   it('method onStreetSelected should invoke getDetails', () => {
     component.placeService = { getDetails: (a, b) => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callThrough();
-    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreet, component.languages.uk);
-    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreetEng, component.languages.en);
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreet, Language.UK);
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0], component.addressStreetEng, Language.EN);
     expect(component.placeService.getDetails).toHaveBeenCalled();
   });
 
   it('method onStreetSelected should get details for selected street in en', () => {
-    component.isDistrict = true;
+    component.isDistrictKyiv = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACESTREETEN, status as any);
     });
-    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], component.addressStreetEng, component.languages.en);
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], component.addressStreetEng, Language.EN);
     expect(component.addressStreetEng.value).toEqual(ADDRESSESMOCK.PLACESTREETEN.name);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETEN, component.addressDistrictEng, component.languages.en);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETEN, component.addressDistrictEng, Language.EN);
   });
 
   it('method onStreetSelected should get details for selected street in uk', () => {
-    component.isDistrict = true;
+    component.isDistrictKyiv = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACESTREETUK, status as any);
     });
-    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], component.addressStreet, component.languages.uk);
+    component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], component.addressStreet, Language.UK);
     expect(component.addressStreet.value).toEqual(ADDRESSESMOCK.PLACESTREETUK.name);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETUK, component.addressDistrict, component.languages.uk);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETUK, component.addressDistrict, Language.UK);
   });
 
   it('method setDistrictAuto should set district value in uk', () => {
     const result = ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
-    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETUK, component.addressDistrict, component.languages.uk);
+    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETUK, component.addressDistrict, Language.UK);
     expect(component.addressDistrict.value).toEqual(result);
   });
 
   it('method setDistrictAuto should set district value in en', () => {
     const result = ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
-    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETEN, component.addressDistrictEng, component.languages.en);
+    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETEN, component.addressDistrictEng, Language.EN);
     expect(component.addressDistrictEng.value).toEqual(result);
   });
 
-  it('method onDistrictSelected should invoke method for setting district value in Kyiv city', () => {
-    component.isDistrict = true;
-    const event = { target: { value: '1: Дарницький район' } };
-    const spy = spyOn(component, 'setKyivDistrict');
-    component.onDistrictSelected(event as any);
-    expect(spy).toHaveBeenCalledWith('1');
-  });
-
   it('method onDistrictSelected should invoke method for setting district value in Kyiv region', () => {
-    component.isDistrict = false;
+    component.isDistrictKyiv = false;
     const event = { target: { value: '1: Броварський' } };
     const spy = spyOn(component, 'setDistrict');
     component.onDistrictSelected(event as any);

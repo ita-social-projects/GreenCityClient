@@ -34,7 +34,8 @@ describe('UBSPersonalInformationComponent', () => {
     'setIsAnotherClient',
     'setAddresses',
     'getCurrentLocationId',
-    'getAddressId'
+    'getAddressId',
+    'getLocations'
   ]);
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocationId = () => '1';
@@ -55,6 +56,7 @@ describe('UBSPersonalInformationComponent', () => {
         streetEn: 'fake',
         region: 'fake',
         regionEn: 'fake',
+        display: true,
         houseCorpus: 'fake',
         entranceNumber: 'fake',
         houseNumber: 'fake',
@@ -174,6 +176,7 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('setDisabledCityForLocation function should redefine addresses', () => {
     component.addresses = listMock.addressList;
+    component.locations = mockLocations as any;
     component.setDisabledCityForLocation();
     expect(component.addresses).toBeDefined();
   });
@@ -184,14 +187,6 @@ describe('UBSPersonalInformationComponent', () => {
     component.ngOnChanges({ completed: { currentValue: true } as SimpleChange });
     expect(component.submit).toHaveBeenCalled();
     expect(fakeShareFormService.changePersonalData).toHaveBeenCalled();
-  });
-
-  it('method findAllAddresses should get data from orderService', () => {
-    fakeOrderService.findAllAddresses.and.returnValue(of(listMock));
-    const spy = spyOn(component, 'checkAddress').and.callFake(() => {});
-    component.findAllAddresses(true);
-    expect(component.addresses).toBeDefined();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
@@ -212,12 +207,6 @@ describe('UBSPersonalInformationComponent', () => {
     component.takeUserData();
     expect(component.setFormData).toHaveBeenCalledTimes(1);
     expect(component.findAllAddresses).toHaveBeenCalledTimes(1);
-  });
-
-  it('method checkAddress should invoke changeAddressInPersonalData', () => {
-    spyOn(component, 'changeAddressInPersonalData').and.callFake(() => {});
-    component.checkAddress(0);
-    expect(component.changeAddressInPersonalData).toHaveBeenCalledTimes(1);
   });
 
   it('method changeAddressInPersonalData should set data to PersonalData', () => {
@@ -301,5 +290,15 @@ describe('UBSPersonalInformationComponent', () => {
     const spy = spyOn(component, 'changeAddressComment');
     component.changeAddressComment();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeAddressInPersonalData', () => {
+    const addressId = 2;
+    component.addresses = [listMock.addressList[0]];
+
+    spyOn(component, 'changeAddressInPersonalData');
+    component.checkAddress(addressId);
+
+    expect(component.changeAddressInPersonalData).toHaveBeenCalled();
   });
 });

@@ -147,6 +147,10 @@ export class MatSnackBarComponent {
     errorJoinEvent: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('snack-bar.success.error-joined-event');
+    },
+    tooLongInput: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('user.habit.too-long-input');
     }
   };
 

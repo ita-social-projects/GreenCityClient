@@ -162,9 +162,11 @@ export class OrderService {
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
   }
+
   public updateOrdersInfo(lang: string, data: {}) {
     return this.http.put(`${this.backend}/management/all-order-page-admin-info?lang=${lang}`, data);
   }
+
   public addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
     const formData: FormData = new FormData();
     if (file) {

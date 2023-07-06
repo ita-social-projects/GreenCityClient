@@ -64,16 +64,13 @@ export class DragAndDropComponent implements OnInit {
     this.files = files;
     this.isCropper = true;
     this.showWarning();
-    this.createEcoNewsService.isImageValid = this.isWarning;
   }
 
   public onFileSelected(event): void {
     this.selectedFile = event.target.files[0] as File;
-
     const reader: FileReader = new FileReader();
     reader.readAsDataURL(this.selectedFile);
     reader.onload = (ev) => this.handleFile(ev);
-
     this.createEcoNewsService.files = this.files;
   }
 

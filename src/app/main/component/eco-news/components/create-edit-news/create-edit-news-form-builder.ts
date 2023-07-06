@@ -12,17 +12,18 @@ export class CreateEditNewsFormBuilder {
     return this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [''],
-      content: ['', [Validators.required, Validators.minLength(20)]],
+      content: ['', [Validators.required, Validators.minLength(27), Validators.maxLength(63206)]],
       tags: this.fb.array([]),
       image: ['']
     });
   }
 
   getEditForm(data) {
+    const contentValidator = [Validators.required, Validators.minLength(20), Validators.maxLength(63206)];
     return this.fb.group({
       title: [data.title, [Validators.required, Validators.maxLength(170), this.noWhitespaceValidator]],
       source: [data.source],
-      content: [data.text || data.content || data.content.html, [Validators.required, Validators.minLength(20)]],
+      content: [data.text || data.content || data.content.html, contentValidator],
       tags: this.fb.array(this.localStorageService.getCurrentLanguage() === 'ua' ? data.tagsUa : data.tags),
       image: [data.imagePath]
     });
