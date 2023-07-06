@@ -73,6 +73,7 @@ export class TariffsService {
   setTariffLimits(limits, tariffId: number) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/setTariffLimits/${tariffId}`, limits);
   }
+
   public getJSON(sourceText, lang, translateTo): Observable<any> {
     return ajax.getJSON(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)
@@ -105,6 +106,10 @@ export class TariffsService {
 
   public editLocationName(newLocation: EditLocationName[]): Observable<object> {
     return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
+  }
+
+  public deleteCityInLocation(id: number) {
+    return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteLocation/${id}`);
   }
 
   public getFilteredCard(filterData): Observable<any[]> {
