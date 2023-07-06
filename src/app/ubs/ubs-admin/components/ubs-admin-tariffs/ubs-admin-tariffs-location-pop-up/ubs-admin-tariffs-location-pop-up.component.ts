@@ -9,7 +9,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
@@ -25,9 +25,8 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { GooglePlaceService, GooglePrediction, GoogleAutoService } from 'src/app/ubs/mocks/google-types';
+import { GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
-import { AbstractControl } from '@angular/forms';
 
 interface LocationItem {
   location: string;
