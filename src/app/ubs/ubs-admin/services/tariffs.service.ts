@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
+import { Bag, CreateCard, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -102,10 +102,6 @@ export class TariffsService {
 
   editCourier(newCourier) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
-  }
-
-  public editLocationName(newLocation: EditLocationName[]): Observable<object> {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
   }
 
   public deleteCityInLocation(id: number) {

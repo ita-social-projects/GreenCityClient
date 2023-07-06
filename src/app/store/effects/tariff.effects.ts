@@ -6,13 +6,11 @@ import {
   GetLocationsSuccess,
   AddLocations,
   ReceivedFailure,
-  EditLocation,
-  EditLocationSuccess,
   UpdateLocationsSuccess,
   UpdateLocations
 } from '../actions/tariff.actions';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
-import { CreateLocation, Locations, EditLocationName } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { CreateLocation, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { EMPTY, of } from 'rxjs';
 
 @Injectable()
@@ -56,21 +54,6 @@ export class LocationsEffects {
         return this.tariffsService.getLocations().pipe(
           map((locations: Locations[]) => {
             return UpdateLocationsSuccess({ locations });
-          }),
-          catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
-
-  editLocationName = createEffect(() => {
-    return this.actions.pipe(
-      ofType(EditLocation),
-      mergeMap((action: { editedLocations: EditLocationName[] }) => {
-        return this.tariffsService.editLocationName(action.editedLocations).pipe(
-          map(() => {
-            const editedLocations = JSON.parse(JSON.stringify(action.editedLocations));
-            return EditLocationSuccess({ editedLocations });
           }),
           catchError((error) => of(ReceivedFailure(error)))
         );

@@ -19,7 +19,7 @@ import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { CreateLocation, Locations, EditLocationName } from '../../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
-import { AddLocations, EditLocation, GetLocations } from 'src/app/store/actions/tariff.actions';
+import { AddLocations, GetLocations } from 'src/app/store/actions/tariff.actions';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
