@@ -221,6 +221,7 @@ export class CalendarBaseComponent implements OnDestroy {
     this.currentYear = this.yearData;
     this.calendarDay = [];
     this.buildCalendar();
+    this.getUserHabits(true, this.calendarDay);
   }
 
   public formatDate(isMonthCalendar: boolean, dayItem) {

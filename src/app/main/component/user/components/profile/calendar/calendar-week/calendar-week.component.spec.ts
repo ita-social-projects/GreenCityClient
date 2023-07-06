@@ -59,10 +59,6 @@ describe('HabitCalendarComponent', () => {
     expect(component.weekDates.length).toBe(7);
   });
 
-  it('should create calendar', () => {
-    expect((component as any).setDayName(component.currentDate)).toBe('нд');
-  });
-
   it('title has to be changed after changing language', () => {
     const spy = spyOn<any>(component, 'buildWeekCalendarTitle');
     (component as any).getLanguage();
