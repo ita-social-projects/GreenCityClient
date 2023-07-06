@@ -159,8 +159,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
           confirmed: 0,
           actual: 0
         },
-        bonuses: this.bagsInfo.bonuses,
-        certificateDiscount: this.bagsInfo.certificateDiscount
+        bonuses: this.orderDetails.bonuses,
+        certificateDiscount: this.orderDetails.certificateDiscount
       };
     });
   }
