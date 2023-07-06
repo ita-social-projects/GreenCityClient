@@ -34,6 +34,7 @@ import {
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys } from '../../services/table-keys.enum';
 
 @Component({
@@ -350,6 +351,23 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       return `${this.isAllSelected ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+
+  isStatus(row): string {
+    switch (row.orderStatus) {
+      case OrderStatus.CANCELED:
+        return '#CCCCCC';
+      case OrderStatus.DONE:
+        return '#6AA84F';
+      case OrderStatus.ADJUSTMENT:
+        return '#FFFF00';
+      case OrderStatus.BROUGHT_IT_HIMSELF:
+        return '#CCCCCC';
+      case OrderStatus.CONFIRMED:
+        return '#00FF00';
+      case OrderStatus.ON_THE_ROUTE:
+        return '#D9EAD3';
+    }
   }
 
   public showBlockedMessage(info): void {

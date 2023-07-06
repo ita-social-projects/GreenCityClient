@@ -518,7 +518,7 @@ input {
 }
 
 .highlighted {
-  background-color: var(--ubs-liberty-green);
+  background-color: var(--ubs-liberty-green) !important;
 }
 
 @media (max-width: 1240px) {
