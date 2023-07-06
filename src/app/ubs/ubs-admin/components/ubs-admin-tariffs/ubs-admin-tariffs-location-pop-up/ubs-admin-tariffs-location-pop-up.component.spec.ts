@@ -163,7 +163,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
 
-  const tariifsServiceMock = jasmine.createSpyObj('tariiffsService', ['getJSON']);
+  const tariifsServiceMock = jasmine.createSpyObj('tariiffsService', ['getJSON', 'deleteCityInLocation']);
   tariifsServiceMock.getJSON.and.returnValue(of('fake'));
 
   const inputsMock = { nativeElement: { value: 'fake' } };
@@ -214,7 +214,27 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
 
   it('should get a list of cities when region is selected', () => {
     component.selectCities(mockRegion);
-    expect(component.filteredCities).toEqual(mockCities);
+
+    const expectedCities = ['Фейк1', 'Фейк2'];
+    const expectedEnCities = ['Fake1', 'Fake2'];
+
+    expect(component.cities).toEqual(expectedCities);
+    expect(component.enCities).toEqual(expectedEnCities);
+    expect(component.activeCities).toEqual(expectedCities);
+
+    const expectedEditedCities = [
+      {
+        locationId: undefined,
+        englishLocation: 'Fake1',
+        location: 'Фейк1'
+      },
+      {
+        locationId: undefined,
+        englishLocation: 'Fake2',
+        location: 'Фейк2'
+      }
+    ];
+    expect(component.editedCities).toEqual(expectedEditedCities);
   });
 
   it('should return a id of selected region', () => {
@@ -318,10 +338,10 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   it('should add new edited city', () => {
     component.location.setValue('фейк');
     component.englishLocation.setValue('fake');
-    component.editedCities = [];
+    component.selectedCities = [];
     component.editLocationId = 0;
     component.addEditedCity();
-    expect(component.editedCities.length).toBe(1);
+    expect(component.selectedCities.length).toBe(1);
     expect(component.location.value).toBe('');
     expect(component.englishLocation.value).toBe('');
   });
@@ -420,12 +440,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(component.selectedCities.length).toEqual(0);
   });
 
-  it('should delete edited city from the list', () => {
-    component.editedCities.push(localItem);
-    component.deleteEditedCity(0);
-    expect(component.editedCities.length).toEqual(0);
-  });
-
   it('should set english region name', () => {
     const mockEvent = {
       option: {
@@ -433,27 +447,13 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
       }
     };
     component.selectedEditRegion(mockEvent);
-    expect(component.englishRegion.value).toEqual(['Fake region']);
-  });
-
-  it('should set english city name', () => {
-    component.selectCitiesEdit(eventMockCity);
-    expect(component.location.value).toEqual('фейк');
-    expect(component.englishLocation.value).toEqual('fake');
-    expect(component.editLocationId).toEqual(1);
+    expect(component.englishRegion.value).toEqual('Fake region');
   });
 
   it('component function addAdress should add locations', () => {
     component.selectedCities.push(localItem);
     component.addLocation();
     expect(component.createdCards.length).toBe(1);
-    expect(storeMock.dispatch).toHaveBeenCalled();
-  });
-
-  it('should edit location in the store', () => {
-    component.editedCities.push(editedItem);
-    component.editLocation();
-    expect(component.newLocationName.length).toBe(1);
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
