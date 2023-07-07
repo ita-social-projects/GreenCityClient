@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import {
   selectOptions,
@@ -57,12 +56,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   couriersName: Array<string>;
   positionName: Array<string>;
   filterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
-  createCardObj: CreateCard;
-  isFieldFilled = false;
-  isCardExist = false;
   currentLang: string;
-  tagList: TagInterface[];
-  publictags: Observable<Array<TagInterface>>;
   selectedTagsList: Array<string> = [];
   isElementFocused = false;
   selectedCities = [];
@@ -118,16 +112,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
     });
-    this.userEmail = this.jwtService.getEmailFromAccessToken();
-    this.getEmployeePositionbyEmail(this.userEmail);
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee) => {
-      this.userAuthorities = employee.authorities;
-      this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
-      this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
-      this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
-      this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
-      this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
-    });
+    this.definitionUserAuthorities();
     this.initForm();
     this.getPositions();
     this.getContacts();
@@ -160,6 +145,19 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   addNewFilters(data: FilterData) {
     this.ubsAdminEmployeeService.updateFilterData(data);
+  }
+
+  definitionUserAuthorities(): void {
+    this.userEmail = this.jwtService.getEmailFromAccessToken();
+    this.getEmployeePositionbyEmail(this.userEmail);
+    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee) => {
+      this.userAuthorities = employee.authorities;
+      this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
+      this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
+      this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
+      this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
+      this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
+    });
   }
 
   private initForm(): void {
@@ -280,6 +278,12 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
+  animationUtil(trigger: MatAutocompleteTrigger): void {
+    requestAnimationFrame(() => {
+      trigger.openPanel();
+    });
+  }
+
   getCouriers(): void {
     this.tariffsService
       .getCouriers()
@@ -340,9 +344,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
     this.position.setValue('');
     if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+      this.animationUtil(trigger);
     }
   }
 
@@ -360,9 +362,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
     this.courier.setValue('');
     if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+      this.animationUtil(trigger);
     }
   }
 
@@ -498,9 +498,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
     this.city.setValue('');
     if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+      this.animationUtil(trigger);
     }
   }
 
@@ -583,9 +581,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
   }
 
-  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
+  openAuto(event: Event, trigger?: MatAutocompleteTrigger): void {
     event.stopPropagation();
-    trigger.openPanel();
+    if (trigger) {
+      trigger.openPanel();
+    }
   }
 
   checkSelectedItem(item: string, array: Array<{ name: string; id: number }>): boolean {
@@ -665,6 +665,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.selectedPositions.push(value.trim());
       } else if (option === filterOptions.region) {
         this.selectedRegions.push(value.trim());
+      } else if (option === filterOptions.state) {
+        this.selectedState.push(value.trim());
       }
     }
   }

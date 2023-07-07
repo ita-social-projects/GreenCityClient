@@ -122,6 +122,10 @@ describe('UbsAdminEmployeeComponent', () => {
     createdBy: 'fakeAdmin'
   };
 
+  const positionsAuthoritiesMock = {
+    authorities: ['REGISTER_A_NEW_EMPLOYEE', 'EDIT_EMPLOYEE', 'EDIT_EMPLOYEES_AUTHORITIES', 'DEACTIVATE_EMPLOYEE'],
+    positionId: [1, 2, 3, 4, 5, 6, 7]
+  };
   const fakeFilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers']);
   tariffsServiceMock.getCouriers.and.returnValue(of([fakeCouriers]));
@@ -202,7 +206,7 @@ describe('UbsAdminEmployeeComponent', () => {
     const spy4 = spyOn(component as any, 'getLocations');
     const spy5 = spyOn(component as any, 'getCouriers');
     const spy6 = spyOn(component as any, 'setCountOfCheckedFilters');
-    const spy7 = spyOn(component as any, 'getEmployeePositionbyEmail');
+    const spy7 = spyOn(component as any, 'definitionUserAuthorities');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -212,6 +216,37 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(spy6).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalledTimes(8);
     expect(spy7).toHaveBeenCalled();
+  });
+
+  it('should getEmployeePositionbyEmail call at definitionUserAuthorities func', () => {
+    const spy = spyOn(component as any, 'getEmployeePositionbyEmail');
+    (component as any).definitionUserAuthorities();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should get employee positions and authorities', () => {
+    component.userEmail = 'testemail@gmail.com';
+    service.getEmployeePositionsAuthorities(component.userEmail).subscribe((data) => {
+      expect(data).toBe(positionsAuthoritiesMock);
+      expect(component.userAuthorities).toBe([
+        'REGISTER_A_NEW_EMPLOYEE',
+        'EDIT_EMPLOYEE',
+        'EDIT_EMPLOYEES_AUTHORITIES',
+        'DEACTIVATE_EMPLOYEE'
+      ]);
+      expect(component.isThisUserCanCreateEmployee).toBeTruthy();
+      expect(component.isThisUserCanEditEmployee).toBeTruthy();
+      expect(component.isThisUserCanEditEmployeeAuthorities).toBeTruthy();
+      expect(component.isThisUserCanDeleteEmployee).toBeTruthy();
+      expect(component.userHasRights).toBeTruthy();
+    });
+  });
+
+  it('should open MatAutocomplete', () => {
+    const mockEvent = new Event('click');
+    const spy = spyOn(mockEvent, 'stopPropagation');
+    component.openAuto(mockEvent);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should initialize the form correctly', () => {
@@ -262,10 +297,10 @@ describe('UbsAdminEmployeeComponent', () => {
   });
 
   it('should getEmployeePositionsAuthorities', () => {
-    const positionsAuthoritiesMock = { authorities: ['fake', 'fakeAdmin'], positionId: [1, 3] };
+    const positionsPermMock = { authorities: ['fake', 'fakeAdmin'], positionId: [1, 3] };
     component.userEmail = 'testemail@gmail.com';
     service.getEmployeePositionsAuthorities(component.userEmail).subscribe((data) => {
-      expect(data).toBe(positionsAuthoritiesMock);
+      expect(data).toBe(positionsPermMock);
     });
   });
 
@@ -409,6 +444,27 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(result).toEqual(true);
   });
 
+  it('should check if isPositionChecked(), isCityChecked(), ', () => {
+    component.employeePositions = [
+      { name: 'fake', nameEn: 'fakeEn', id: 154 },
+      { name: 'fake2', nameEn: 'fake2En', id: 5 }
+    ];
+    component.isPositionChecked();
+    expect(component.selectedPositions.length).toEqual(0);
+
+    component.cities = [{ name: 'fake', id: 154 }];
+    component.isCityChecked();
+    expect(component.selectedCities.length).toEqual(0);
+
+    component.couriers = [
+      { courierId: 139, nameEn: 'fake', nameUk: 'фейк' },
+      { courierId: 2, nameEn: 'fake2', nameUk: 'фейк2' },
+      { courierId: 3, nameEn: 'fake3', nameUk: 'фейк3' }
+    ];
+    component.isCourierChecked();
+    expect(component.selectedCouriers.length).toEqual(0);
+  });
+
   it('should check if all Couriers is choosen', () => {
     component.selectedCouriers = [
       { name: 'fake', id: 139, englishName: 'fake', ukrainianName: 'фейк' },
@@ -535,8 +591,10 @@ describe('UbsAdminEmployeeComponent', () => {
 
   it('should setCountOfCheckedFilters() when resetAllFilters called', () => {
     const spy = spyOn(component, 'setCountOfCheckedFilters');
+    const spy1 = spyOn(component, 'addNewFilters');
     component.resetAllFilters();
     expect(spy).toHaveBeenCalledTimes(5);
+    expect(spy1).toHaveBeenCalled();
   });
 
   it('should setCountOfCheckedFilters() set Placeholder name', () => {
@@ -702,5 +760,14 @@ describe('UbsAdminEmployeeComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  it('should applyFilter()', () => {
+    const event = {
+      target: { value: 'Fake Filter ' }
+    } as unknown as Event;
+    component.applyFilter(event);
+    expect((event.target as HTMLInputElement).value).toEqual('Fake Filter ');
+    expect(service.searchValue.next('fake filter')).toBeUndefined();
   });
 });
