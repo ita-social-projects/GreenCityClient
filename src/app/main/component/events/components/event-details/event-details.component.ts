@@ -205,12 +205,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
+  isEventOver(date: string): boolean {
+    return new Date(date).getTime() < this.currentDate.getTime();
+  }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
-  }
-
-  isEventOver(date: string): boolean {
-    return new Date(date).getDate() < this.currentDate.getDate();
   }
 }

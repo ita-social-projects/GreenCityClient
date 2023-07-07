@@ -198,4 +198,9 @@ describe('EventDetailsComponent', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
   });
+
+  it('should return true if an event is over', () => {
+    const value = component.isEventOver('2023-06-28T13:19:13.389Z');
+    expect(value).toBeTruthy();
+  });
 });
