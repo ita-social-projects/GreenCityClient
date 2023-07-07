@@ -357,6 +357,7 @@ input[type='number'] {
     display: flex;
     flex-direction: column;
     width: 215px;
+    position: relative;
 
     ::placeholder {
       color: var(--ubs-primary-light-grey);
@@ -367,7 +368,7 @@ input[type='number'] {
     & > [input-close-button] {
       opacity: 0;
       position: absolute;
-      top: 29px;
+      top: 32px;
       right: 5px;
       color: var(--ubs-quintynary-light-grey);
       font-size: 1.7em;
