@@ -200,7 +200,10 @@ describe('EventDetailsComponent', () => {
   });
 
   it('should return true if an event is over', () => {
-    const value = component.isEventOver('2023-06-28T13:19:13.389Z');
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
+    const prevDate = currentDate.toISOString();
+    const value = component.isEventOver(prevDate.toString());
     expect(value).toBeTruthy();
   });
 });
