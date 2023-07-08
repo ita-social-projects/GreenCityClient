@@ -590,7 +590,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         stationNames: this.selectedStation.map((it) => it.name),
         regionName: this.region.value,
         regionEnglishName: this.regionEnglishName,
-        locationNames: this.selectedCities.map((it) => it.name),
+        locationNames: this.selectedCities.map((it) => {
+          return { name: it.name, ukrainianName: it.ukrainianName, englishName: it.englishName };
+        }),
         locationEnglishNames: this.selectedCities.map((it) => it.englishName),
         courierId: this.courierId,
         regionId: this.regionId,
