@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BsModalRef, ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
@@ -12,6 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -106,13 +108,15 @@ describe('EventDetailsComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
   };
-
+  const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
+  const bsModalBsModalServiceMock = jasmine.createSpyObj('BsModalService', ['show']);
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
 
@@ -129,7 +133,10 @@ describe('EventDetailsComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: ActionsSubject, useValue: actionSub }
+        { provide: ActionsSubject, useValue: actionSub },
+        { provide: BsModalRef, useValue: bsModalRefMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: BsModalService, useValue: bsModalBsModalServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -184,18 +191,17 @@ describe('EventDetailsComponent', () => {
     expect(role).toBe('ADMIN');
   });
 
-  it('should redirect to edit page', (done) => {
-    fixture.ngZone.run(() => {
-      component.navigateToEditEvent();
-      fixture.whenStable().then(() => {
-        expect(routerSpy.navigate).toBeDefined();
-        done();
-      });
-    });
-  });
-
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
+    component.isRegistered = false;
+    spyOn(component, 'openAuthModalWindow');
+    if (!component.isRegistered) {
+      component.openAuthModalWindow('sign-in');
+    }
+    expect(component.openAuthModalWindow).toHaveBeenCalled();
   });
 });

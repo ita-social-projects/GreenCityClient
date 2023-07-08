@@ -5,8 +5,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { take, takeUntil } from 'rxjs/operators';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
-import { DeleteEcoEventAction, EventsActions } from 'src/app/store/actions/ecoEvents.actions';
+import {
+  AddAttenderEcoEventsByIdAction,
+  DeleteEcoEventAction,
+  EventsActions,
+  RemoveAttenderEcoEventsByIdAction
+} from 'src/app/store/actions/ecoEvents.actions';
 import { EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
@@ -14,6 +20,11 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
+import { IAppState } from 'src/app/store/state/app.state';
+import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 
 @Component({
   selector: 'app-event-details',
@@ -51,6 +62,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     ADMIN: 'ADMIN'
   };
 
+  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
 
   attendees = [];
@@ -87,6 +100,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public backRoute: string;
   public routedFromProfile: boolean;
+  public isUserCanJoin = false;
+  public isUserCanRate = false;
+  public isSubscribe = false;
+  public addAttenderError: string;
+  public isRegistered: boolean;
+  public isReadonly = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -98,11 +117,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private snackBar: MatSnackBarComponent,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
     this.eventId = this.route.snapshot.params.id;
+    const isOwnerParams = this.route.snapshot.params.isOwner;
+    const isActiveParams = this.route.snapshot.params.isActive;
+    const isOwner = isOwnerParams ? JSON.parse(isOwnerParams) : false;
+    const isActive = isActiveParams ? JSON.parse(isActiveParams) : false;
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
@@ -120,6 +145,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         lng: this.event.dates[0].coordinates.longitude
       };
 
+      this.isRegistered = !!this.userId;
+      this.isSubscribe = this.event.isSubscribed;
+      this.isUserCanRate = this.isSubscribe && !isActive && !isOwner;
+      this.isUserCanJoin = !this.isSubscribe && isActive && !isOwner;
+      this.ecoEvents$.subscribe((result: IEcoEventsState) => {
+        this.addAttenderError = result.error;
+      });
       this.role = this.verifyRole();
     });
 
@@ -201,6 +233,44 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public buttonAction() {
+    if (this.isUserCanJoin) {
+      if (this.addAttenderError) {
+        this.snackBar.openSnackBar('errorJoinEvent');
+        this.addAttenderError = '';
+      } else {
+        this.snackBar.openSnackBar('joinedEvent');
+        !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+      }
+    } else {
+      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+    }
+    this.isUserCanJoin = !this.isUserCanJoin;
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
+  }
+
+  public openModal(): void {
+    const initialState = {
+      id: this.event.id,
+      isRegistered: this.isRegistered,
+      max: this.max,
+      isReadonly: this.isReadonly
+    };
+
+    this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
+    this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
 
   ngOnDestroy() {

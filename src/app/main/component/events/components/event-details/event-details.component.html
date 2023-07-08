@@ -119,7 +119,14 @@
 
         <div class="save-join-event-block" *ngIf="role === roles.USER">
           <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
-          <button class="primary-global-button">{{ 'homepage.events.btn.join-btn' | translate }}</button>
+          <button
+            *ngIf="!isUserCanRate"
+            [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
+            (click)="buttonAction()"
+          >
+            {{ (isUserCanJoin ? 'event.btn-join' : 'event.btn-cancel') | translate }}
+          </button>
+          <button class="primary-global-button" *ngIf="isUserCanRate" (click)="openModal()">{{ 'event.btn-rate' | translate }}</button>
         </div>
       </div>
 
