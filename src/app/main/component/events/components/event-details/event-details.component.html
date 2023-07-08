@@ -12,12 +12,12 @@
       </div>
 
       <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
-        <div class="tertiary-global-button m-btn" (click)="deleteEvent()">
+        <button class="tertiary-global-button m-btn" (click)="deleteEvent()">
           {{ 'homepage.events.btn.delete' | translate }}
-        </div>
-        <div class="secondary-global-button m-btn" (click)="navigateToEditEvent()">
+        </button>
+        <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="isOver">
           {{ 'homepage.events.btn.edit' | translate }}
-        </div>
+        </button>
       </div>
     </div>
 
@@ -117,7 +117,7 @@
           </div>
         </div>
 
-        <div class="save-join-event-block" *ngIf="role === roles.USER">
+        <div class="save-join-event-block" *ngIf="role === roles.USER && !isOver">
           <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
           <button
             *ngIf="!isUserCanRate"

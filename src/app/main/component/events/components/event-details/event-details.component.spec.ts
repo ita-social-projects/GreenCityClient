@@ -66,6 +66,19 @@ describe('EventDetailsComponent', () => {
     isSubscribed: true
   };
 
+  const MockData = {
+    eventState: {},
+    eventsList: [],
+    visitedPages: [],
+    totalPages: 0,
+    pageNumber: 0,
+
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(MockData);
+
   const EventsServiceMock = jasmine.createSpyObj('eventService', ['getEventById ', 'deleteEvent', 'getAllAttendees', 'createAdresses']);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
@@ -115,7 +128,6 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
-  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -192,6 +204,14 @@ describe('EventDetailsComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  it('should return true if an event is over', () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
+    const prevDate = currentDate.toISOString();
+    const value = component.isEventOver(prevDate.toString());
+    expect(value).toBeTruthy();
   });
 
   it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
