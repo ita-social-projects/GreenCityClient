@@ -248,7 +248,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.addAttenderError = '';
       } else {
         this.snackBar.openSnackBar('joinedEvent');
-        !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+        this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       }
     } else {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
