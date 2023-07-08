@@ -240,7 +240,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   isEventOver(date: string): boolean {
     return new Date(date).getTime() < this.currentDate.getTime();
   }
-  
+
   public buttonAction() {
     if (this.isUserCanJoin) {
       if (this.addAttenderError) {
@@ -278,7 +278,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.bsModalRef = this.modalService.show(EventsListItemModalComponent, { class: 'modal-dialog-centered', initialState });
     this.bsModalRef.content.closeBtnName = 'event.btn-close';
   }
-  
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
