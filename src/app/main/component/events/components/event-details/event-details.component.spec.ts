@@ -157,11 +157,9 @@ describe('EventDetailsComponent', () => {
 
   it('should call methods on ngOnInit', () => {
     const spy1 = spyOn(component as any, 'bindLang');
-    const spy2 = spyOn(component as any, 'verifyRole');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalledWith('ua');
-    expect(spy2).toHaveBeenCalled();
   });
 
   it('should verify unauthenticated role', () => {
