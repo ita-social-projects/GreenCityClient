@@ -113,7 +113,7 @@ export class LanguageService {
   }
 
   setBrowserLang() {
-    const language = navigator.language !== 'en' && navigator.language !== 'ru' ? 'ua' : navigator.language;
+    const language = navigator.language !== 'en' ? 'ua' : 'en';
     this.translate.setDefaultLang(this.getLanguageByString(language));
     this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
   }
