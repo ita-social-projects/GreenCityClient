@@ -38,7 +38,7 @@ export class AuthModalComponent implements OnInit, OnDestroy {
   }
 
   public closeWindow(): void {
-    this.matDialogRef.close(true);
+    this.matDialogRef.close();
   }
 
   private setAuthPage(): void {
