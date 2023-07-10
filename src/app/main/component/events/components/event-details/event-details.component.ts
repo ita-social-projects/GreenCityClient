@@ -66,6 +66,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
+  public isOver: boolean;
+  public currentDate = new Date();
 
   public max = 5;
   public rate: number;
@@ -109,17 +111,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
-      this.locationLink = this.event.dates[0].onlineLink;
-      this.addressUa = this.eventService.createAdresses(this.event.dates[0].coordinates, 'Ua');
-      this.addressEn = this.eventService.createAdresses(this.event.dates[0].coordinates, 'En');
+      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+      this.addressUa = this.eventService.createAdresses(this.event.dates[this.event.dates.length - 1].coordinates, 'Ua');
+      this.addressEn = this.eventService.createAdresses(this.event.dates[this.event.dates.length - 1].coordinates, 'En');
       this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
+      this.isOver = this.isEventOver(this.event.dates[this.event.dates.length - 1].finishDate);
       this.mapDialogData = {
-        lat: this.event.dates[0].coordinates.latitude,
-        lng: this.event.dates[0].coordinates.longitude
+        lat: this.event.dates[this.event.dates.length - 1].coordinates.latitude,
+        lng: this.event.dates[this.event.dates.length - 1].coordinates.longitude
       };
-
       this.role = this.verifyRole();
     });
 
@@ -201,6 +203,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue, enValue): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  isEventOver(date: string): boolean {
+    return new Date(date).getTime() < this.currentDate.getTime();
   }
 
   ngOnDestroy() {
