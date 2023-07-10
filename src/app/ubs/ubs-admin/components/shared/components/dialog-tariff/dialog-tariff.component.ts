@@ -6,7 +6,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
   styleUrls: ['./dialog-tariff.component.scss']
 })
 export class DialogTariffComponent implements OnInit {
-  @Input() deactivatePopup = false;
+  @Input() deactivatePopup: boolean;
   @Input() row: TemplateRef<any>;
   @Input() newDate;
   @Input() name: string;

@@ -3,7 +3,7 @@
     <p *ngIf="!data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.station_title' | translate }}</p>
     <p *ngIf="data.edit" class="add-location-title">{{ 'ubs-tariffs-add-location-pop-up.station_edit_title' | translate }}</p>
   </div>
-  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="authorName" [edit]="true"></app-dialog-tariff>
+  <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="authorName" [edit]="true" [deactivatePopup]="true"></app-dialog-tariff>
   <ng-template #form>
     <p *ngIf="data.edit" class="edit-text">{{ 'ubs-tariffs-add-location-pop-up.station_edit_text' | translate }}</p>
     <div class="d-flex">
