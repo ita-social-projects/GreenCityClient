@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TagInterface } from '../tag-filter/tag-filter.model';
 
@@ -7,7 +7,7 @@ import { TagInterface } from '../tag-filter/tag-filter.model';
   templateUrl: './tags-select.component.html',
   styleUrls: ['./tags-select.component.scss']
 })
-export class TagsSelectComponent {
+export class TagsSelectComponent implements OnInit {
   @Input() tagsList: TagInterface[];
   @Input() tagMaxLength: number;
   selectedList: TagInterface[];
@@ -15,6 +15,10 @@ export class TagsSelectComponent {
   @Output() selectTags = new EventEmitter<TagInterface[]>();
 
   constructor(private langService: LanguageService) {}
+
+  ngOnInit(): void {
+    this.changeValueIsActive();
+  }
 
   checkTab(tag: TagInterface): void {
     const isMaxLength = this.checkMaxLength(tag.isActive);
@@ -30,5 +34,9 @@ export class TagsSelectComponent {
 
   getLangValue(valUa: string, valEn: string): string {
     return this.langService.getLangValue(valUa, valEn) as string;
+  }
+
+  changeValueIsActive(): void {
+    this.tagsList = this.tagsList ? this.tagsList.map((tags) => ({ ...tags, isActive: false })) : this.tagsList;
   }
 }

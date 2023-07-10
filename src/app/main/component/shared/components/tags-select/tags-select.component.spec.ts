@@ -60,4 +60,25 @@ describe('TagsSelectComponent', () => {
     const valueByLang = (component as any).getLangValue('fakeTag', 'fakeTagEn');
     expect(valueByLang).toBe('fakeTag');
   });
+
+  it('should set isActive to false for tagsList when tagsList has values', () => {
+    const tagsList = [
+      { id: 1, name: 'News', nameUa: 'Новини', isActive: true },
+      { id: 2, name: 'Events', nameUa: 'Події', isActive: true },
+      { id: 3, name: 'Education', nameUa: 'Освіта', isActive: true }
+    ];
+    component.tagsList = tagsList;
+    component.changeValueIsActive();
+    expect(component.tagsList).toEqual([
+      { id: 1, name: 'News', nameUa: 'Новини', isActive: false },
+      { id: 2, name: 'Events', nameUa: 'Події', isActive: false },
+      { id: 3, name: 'Education', nameUa: 'Освіта', isActive: false }
+    ]);
+  });
+
+  it('should not modify tagsList when tagsList is undefined', () => {
+    component.tagsList = undefined;
+    component.changeValueIsActive();
+    expect(component.tagsList).toBeUndefined();
+  });
 });
