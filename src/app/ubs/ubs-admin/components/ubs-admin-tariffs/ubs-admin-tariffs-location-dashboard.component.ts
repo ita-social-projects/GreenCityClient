@@ -42,6 +42,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   regionEnglishName: string[];
   regionNameUk: string;
   regionId: number;
+  isInputRegionExisting = true;
   stations: Stations[];
   stationName: Array<string> = [];
   couriers: Couriers[];
@@ -184,6 +185,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
     this.updateFilterData({ [fieldName]: '', location: locationsId });
     this.getExistingCard(this.filterData);
+    this.isInputRegionExisting = true;
   }
 
   resetCourierValue(): void {
@@ -537,7 +539,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public regionSelected(event) {
-    if (event.option.value === 'Усі') {
+    if (event.option.value === 'All' || event.option.value === 'Все') {
       Object.assign(this.filterData, { region: '' });
     } else {
       const selectedValue = this.locations.filter((it) =>
@@ -558,6 +560,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     );
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
+    this.isInputRegionExisting = true;
   }
 
   filterOptions(control, array): Array<string> {
@@ -590,9 +593,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         stationNames: this.selectedStation.map((it) => it.name),
         regionName: this.region.value,
         regionEnglishName: this.regionEnglishName,
-        locationNames: this.selectedCities.map((it) => it.name),
-        locationEnglishNames: this.selectedCities.map((it) => it.englishName),
-        courierId: this.courierId,
+        locationNames: this.selectedCities.map((it) => {
+          return { name: it.name, ukrainianName: it.ukrainianName, englishName: it.englishName };
+        }),
         regionId: this.regionId,
         receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
         locationIdList: this.selectedCities.map((it) => it.id).sort(),
@@ -866,6 +869,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public getLangArrayValue(uaValue: string[], enValue: string[]) {
     return this.languageService.getLangValue(uaValue, enValue) as string[];
+  }
+
+  checkUserRegion(event: Event) {
+    let filteredRegions = [];
+    const target = event.target as HTMLInputElement;
+    this.filteredRegions.pipe(takeUntil(this.destroy)).subscribe((regions) => {
+      filteredRegions = regions;
+      filteredRegions.push(this.getLangValue('Все', 'All'));
+    });
+    this.isInputRegionExisting = filteredRegions.some((el) => el.toLowerCase().includes(target.value.toLowerCase()));
   }
 
   ngOnDestroy(): void {

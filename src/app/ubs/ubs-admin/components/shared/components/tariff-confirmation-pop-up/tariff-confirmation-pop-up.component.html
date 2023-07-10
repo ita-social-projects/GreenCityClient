@@ -33,11 +33,11 @@
     <div *ngFor="let item of locationNames" class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+        <div class="itemList">{{ getLangValue(item.ukrainianName, item.englishName) }}</div>
       </div>
       <div class="en-part">
         <label class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        <div class="itemList">{{ getLangValue(item.englishName, item.ukrainianName) }}</div>
       </div>
     </div>
   </div>
