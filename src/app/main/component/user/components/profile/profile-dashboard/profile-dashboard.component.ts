@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, distinctUntilChanged } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -68,7 +68,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       if (val.ecoNewsByAuthor) {
         this.totalNews = val.ecoNewsByAuthor.totalElements;
         this.hasNext = val.ecoNewsByAuthor.hasNext;
-        this.news = val.autorNews;
+        this.news = val.autorNews.filter((elem, index, arr) => {
+          return arr.findIndex((item) => item.id === elem.id) === index;
+        });
       }
     });
 
