@@ -12,6 +12,8 @@ import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-fo
 import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
 import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
+import { FilterData } from '../../../models/tariffs.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -35,6 +37,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   filteredTableData: Page[] = [];
   firstPageLoad = true;
   reset = true;
+  filterDatas: FilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   public isTooltipOpened: boolean;
   public deleteDialogData = {
@@ -57,12 +60,17 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   constructor(
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private languageService: LanguageService,
     private dialog: MatDialog,
     private store: Store<IAppState>,
     public fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.ubsAdminEmployeeService.filterDataSubject$.subscribe((filterList: FilterData) => {
+      this.filterDatas = { ...filterList };
+      this.initSearch();
+    });
     this.initSearch();
   }
 
@@ -118,7 +126,8 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
         pageNumber: this.currentPageForTable,
         pageSize: this.sizeForTable,
         search: this.search,
-        reset: this.reset
+        reset: this.reset,
+        filterData: this.filterDatas
       })
     );
   }
@@ -170,5 +179,9 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
           this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
         }
       });
+  }
+
+  getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 }

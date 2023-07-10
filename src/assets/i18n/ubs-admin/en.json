@@ -503,6 +503,10 @@
       "active": "Active",
       "inactive": "Inactive"
     },
+    "status": {
+      "active": "ACTIVE",
+      "inactive": "INACTIVE"
+    },
     "permissions": {
       "clients": {
         "title": "Clients",

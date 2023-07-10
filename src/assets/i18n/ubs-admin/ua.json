@@ -500,6 +500,10 @@
       "active": "Активні",
       "inactive": "Деактивовані"
     },
+    "status": {
+      "active": "АКТИВНИЙ",
+      "inactive": "ДЕАКТИВОВАНИЙ"
+    },
     "permissions": {
       "clients": {
         "title": "Клієнти",

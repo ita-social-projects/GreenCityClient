@@ -127,6 +127,14 @@ export interface CreateCard {
   regionId: number;
 }
 
+export interface FilterData {
+  positions: Array<number>;
+  regions: Array<number>;
+  locations: Array<number>;
+  couriers: Array<number>;
+  employeeStatus: string;
+}
+
 export interface TariffCard {
   cardId: number;
   regionDto: RegionDto;

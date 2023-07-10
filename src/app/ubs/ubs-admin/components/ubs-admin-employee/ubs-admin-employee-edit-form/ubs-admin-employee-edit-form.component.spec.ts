@@ -28,7 +28,8 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   const mockedEmployeePositions = [
     {
       id: 2,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
   const mockedReceivingStations = [
@@ -203,7 +204,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   });
 
   it('Role should be added', () => {
-    const fakeRole = { id: 3, name: 'addedFake' };
+    const fakeRole = { id: 3, name: 'addedFake', nameEn: 'addedFakeEn' };
     component.onCheckChangeRole(fakeRole);
     expect(component.employeePositions).toEqual([...mockedEmployeePositions, fakeRole]);
   });
@@ -267,11 +268,13 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       component.employeePositions = [
         {
           id: 2,
-          name: 'fake'
+          name: 'fake',
+          nameEn: 'fakeEn'
         },
         {
           id: 22,
-          name: 'fake22'
+          name: 'fake22',
+          nameEn: 'fake22En'
         }
       ];
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();

@@ -66,9 +66,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
-      data: {
-        popUpName: page
-      }
+      data: { popUpName: page }
     });
   }
 

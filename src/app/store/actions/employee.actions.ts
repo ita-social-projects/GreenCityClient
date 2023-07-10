@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Employees, Page, EmployeeDataToSend } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum EmployeesActions {
@@ -15,7 +16,7 @@ export enum EmployeesActions {
 
 export const GetEmployees = createAction(
   EmployeesActions.GetEmployees,
-  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean }>()
+  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean; sortDirection?: string; filterData: FilterData }>()
 );
 
 export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees; reset: boolean }>());
