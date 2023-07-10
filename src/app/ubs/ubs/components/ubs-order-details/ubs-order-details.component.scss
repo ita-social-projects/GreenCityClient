@@ -523,6 +523,10 @@ h5 {
       margin-bottom: 3rem;
     }
   }
+
+  .textarea-error {
+    border: 1px solid var(--ubs-primary-red);
+  }
 }
 
 .btn-main {
