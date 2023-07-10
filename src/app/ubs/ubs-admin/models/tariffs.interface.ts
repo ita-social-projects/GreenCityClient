@@ -117,7 +117,7 @@ export interface City {
 export interface EditLocationName {
   nameEn: string;
   nameUa: string;
-  locationId: number;
+  locationId?: number;
 }
 
 export interface CreateCard {
