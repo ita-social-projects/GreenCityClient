@@ -61,7 +61,7 @@
           #autocompleteTriggerRegion="matAutocompleteTrigger"
           formControlName="region"
           [matAutocomplete]="autoRegion"
-          (input)="checkRegion($event)"
+          (input)="checkUserRegion($event)"
           [ngClass]="{ 'region-not-existing': !isInputRegionExisting }"
         />
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">

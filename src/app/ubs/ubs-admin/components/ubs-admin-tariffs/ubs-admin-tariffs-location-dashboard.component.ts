@@ -873,7 +873,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     return this.languageService.getLangValue(uaValue, enValue) as string[];
   }
 
-  checkRegion(event: Event) {
+  checkUserRegion(event: Event) {
     let filteredRegions = [];
     const target = event.target as HTMLInputElement;
     this.filteredRegions.pipe(takeUntil(this.destroy)).subscribe((regions) => {
