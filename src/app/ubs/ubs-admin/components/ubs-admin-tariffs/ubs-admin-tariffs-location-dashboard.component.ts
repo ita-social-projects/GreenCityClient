@@ -41,6 +41,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   locations: Locations[];
   regionEnglishName: string[];
   regionNameUk: string;
+  isInputRegionExisting = true;
   regionId: number;
   stations: Stations[];
   stationName: Array<string> = [];
@@ -184,6 +185,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
     this.updateFilterData({ [fieldName]: '', location: locationsId });
     this.getExistingCard(this.filterData);
+    this.isInputRegionExisting = true;
   }
 
   resetCourierValue(): void {
@@ -524,7 +526,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   checkRegionValue(value): void {
     let currentRegion;
-    if (value === 'Усі' || !value) {
+    if (value === 'All' || 'Все' || !value) {
       currentRegion = this.locations;
     } else {
       currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
@@ -537,7 +539,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public regionSelected(event) {
-    if (event.option.value === 'Усі') {
+    if (event.option.value === 'All' || event.option.value === 'Все') {
       Object.assign(this.filterData, { region: '' });
     } else {
       const selectedValue = this.locations.filter((it) =>
@@ -558,6 +560,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     );
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
+    this.isInputRegionExisting = true;
   }
 
   filterOptions(control, array): Array<string> {
@@ -868,6 +871,16 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public getLangArrayValue(uaValue: string[], enValue: string[]) {
     return this.languageService.getLangValue(uaValue, enValue) as string[];
+  }
+
+  checkRegion(event: Event) {
+    let filteredRegions = [];
+    const target = event.target as HTMLInputElement;
+    this.filteredRegions.pipe(takeUntil(this.destroy)).subscribe((regions) => {
+      filteredRegions = regions;
+      filteredRegions.push(this.getLangValue('Все', 'All'));
+    });
+    this.isInputRegionExisting = filteredRegions.some((el) => el.toLowerCase().includes(target.value.toLowerCase()));
   }
 
   ngOnDestroy(): void {

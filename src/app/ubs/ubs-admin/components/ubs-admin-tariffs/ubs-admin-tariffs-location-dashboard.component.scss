@@ -74,6 +74,9 @@ form {
 .input-wrapper input.region {
   padding: 0 56px 0 15px;
   color: var(--ubs-quaternary-dark-grey);
+  &-not-existing {
+    border: 1px solid var(--error-ligh-red);
+  }
 }
 
 .courier-select {

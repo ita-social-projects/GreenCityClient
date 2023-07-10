@@ -459,7 +459,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call method for filtering card with chosen all regions', () => {
     const eventMock = {
       option: {
-        value: 'Усі'
+        value: 'All'
       }
     };
     const fakeFilterData = {
