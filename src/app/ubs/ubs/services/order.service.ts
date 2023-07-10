@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICertificateResponse, OrderDetails } from '../models/ubs.interface';
+import { ICertificateResponse, OrderDetails, DistrictsDtos } from '../models/ubs.interface';
 import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -89,6 +89,11 @@ export class OrderService {
 
   findAllAddresses(): Observable<any> {
     return this.http.get<{ addressList: Address[] }>(`${this.url}/findAll-order-address`);
+  }
+
+  findAllDistricts(region: string, city: string): Observable<DistrictsDtos[]> {
+    const regionValue = region.replace(' область', '');
+    return this.http.get<DistrictsDtos[]>(`${this.url}/get-all-districts?city=${city}&region=${regionValue}`);
   }
 
   setOrder(order: Order) {

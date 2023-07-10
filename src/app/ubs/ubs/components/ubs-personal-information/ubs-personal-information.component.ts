@@ -137,7 +137,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       } else {
         newAddress.display = isRegion;
       }
-
       return newAddress;
     });
   }
@@ -311,6 +310,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .subscribe((list: { addressList: Address[] }) => {
         this.addresses = list.addressList;
         if (this.addresses[0]) {
+          this.setDisabledCityForLocation();
           this.checkAddress(this.addresses[0].id);
         } else {
           this.personalDataForm.patchValue({

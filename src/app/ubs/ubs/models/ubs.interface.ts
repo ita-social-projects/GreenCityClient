@@ -233,6 +233,15 @@ export interface ActiveLocations {
   nameUk: string;
 }
 
+export interface DistrictsDtos {
+  parentId: number;
+  id: number;
+  locationNameMap: {
+    name: string;
+    name_en: string;
+  };
+}
+
 export interface ActiveLocationsDtos {
   locations: ActiveLocations[];
   nameEn: string;
