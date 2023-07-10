@@ -5,7 +5,7 @@
       <a *ngIf="ecoPlaces?.length > 3" class="btn-see-all">{{ 'profile.see-all' | translate }}</a>
     </div>
     <div class="favourites-quantity">
-      <span>{{ ecoPlaces?.length }} {{ 'profile.eco-places-quantity' | translate }}</span>
+      <span>{{ ecoPlaces?.length }} {{ 'profile.eco-places-quantity' | correctUnit: ecoPlaces?.length:currentLang | translate }}</span>
     </div>
   </div>
   <div>

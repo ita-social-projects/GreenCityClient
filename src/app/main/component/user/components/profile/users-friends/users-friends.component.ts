@@ -17,6 +17,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   public userId: number;
   public amountOfFriends: number;
   public destroy$ = new Subject();
+  public currentLang: string;
 
   constructor(
     private profileService: ProfileService,
@@ -28,6 +29,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showUsersFriends();
     this.initUser();
+    this.localStorageService.languageBehaviourSubject.subscribe((lang) => (this.currentLang = lang));
   }
 
   public showUsersFriends(): void {

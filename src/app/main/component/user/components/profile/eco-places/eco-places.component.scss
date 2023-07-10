@@ -74,7 +74,7 @@ $grey: var(--tertiary-light-grey);
   stroke: rgb(226, 226, 226) !important;
 }
 
-@media only screen and (max-width: $bp-desktop) {
+@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
   .eco-places-content {
     width: 184px;
   }
