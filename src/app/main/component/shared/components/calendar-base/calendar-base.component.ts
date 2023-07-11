@@ -62,7 +62,7 @@ export class CalendarBaseComponent implements OnDestroy {
   public checkAnswer = false;
   public isHabitListEditable: boolean;
   public daysCanEditHabits = 7;
-  public allAssignedHabits: Array<HabitAssignInterface>;
+  public allAssignedHabits: Array<Pick<HabitAssignInterface, 'id' | 'createDateTime'>>;
 
   constructor(
     public translate: TranslateService,
@@ -324,15 +324,18 @@ export class CalendarBaseComponent implements OnDestroy {
     const date = this.formatDate(isMonthCalendar, dayItem);
     const dayHabits = this.getHabitsForDay(this.userHabitsListByPeriod, date);
     const pos = event.target.getBoundingClientRect();
-    const dialogHeaderHeight = 52;
-    const habitLineHeight = 44;
-    const dialogWidth = 320;
-    const dialogHeight = dayHabits.habitAssigns.length * habitLineHeight + dialogHeaderHeight;
+    const dialogBoxSize = {
+      headerHeight: 52,
+      habitLineHeight: 44,
+      width: 320
+    };
+    const dialogHeight = dayHabits.habitAssigns.length * dialogBoxSize.habitLineHeight + dialogBoxSize.headerHeight;
     let space;
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
       space = result.matches ? 20 : 40;
     });
-    horisontalPositioning = window.innerWidth - pos.left > dialogWidth ? pos.left + space : window.innerWidth - (dialogWidth + space);
+    horisontalPositioning =
+      window.innerWidth - pos.left > dialogBoxSize.width ? pos.left + space : window.innerWidth - (dialogBoxSize.width + space);
     verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
@@ -368,9 +371,11 @@ export class CalendarBaseComponent implements OnDestroy {
   getAllAssignedHabbits() {
     this.habitAssignService
       .getAssignedHabits()
-      .pipe(take(1))
+      .pipe(takeUntil(this.destroySub), take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        this.allAssignedHabits = response;
+        this.allAssignedHabits = response.map((el) => {
+          return { id: el.id, createDateTime: el.createDateTime };
+        });
       });
   }
 

@@ -65,7 +65,7 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
   private getFirstWeekDate(): Date {
     const day =
       this.currentDate.getDay() === 0 ? this.currentDate.getDate() - 6 : this.currentDate.getDate() - this.currentDate.getDay() + 1;
-    const month = new Date().getMonth();
+    const month = this.currentDate.getMonth();
     const year = this.currentDate.getFullYear();
     return new Date(year, month, day);
   }

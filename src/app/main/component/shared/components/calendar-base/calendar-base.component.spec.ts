@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from './calendar-base.component';
 import { EventEmitter, Injectable } from '@angular/core';
@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { ItemClass } from './CalendarItemStyleClasses';
 
 @Injectable()
 class TranslationServiceStub {
@@ -108,6 +109,30 @@ describe('CalendarBaseComponent', () => {
         hasHabitsInProgress: true,
         areHabitsDone: false,
         isCurrentDayActive: true
+      },
+      {
+        numberOfDate: 8,
+        date: new Date('26.06.2023'),
+        month: 5,
+        year: 2023,
+        firstDay: 1,
+        totalDaysInMonth: 31,
+        dayName: 'test',
+        hasHabitsInProgress: true,
+        areHabitsDone: true,
+        isCurrentDayActive: undefined
+      },
+      {
+        numberOfDate: 8,
+        date: new Date('26 Jun 2023'),
+        month: 5,
+        year: 2023,
+        firstDay: 1,
+        totalDaysInMonth: 31,
+        dayName: 'test',
+        hasHabitsInProgress: true,
+        areHabitsDone: false,
+        isCurrentDayActive: undefined
       }
     ];
 
@@ -160,12 +185,30 @@ describe('CalendarBaseComponent', () => {
 
   it('should return true if habits is in progress', () => {
     expect(component.checkCanOpenPopup(calendarMock)).toEqual(true);
+    calendarMock.hasHabitsInProgress = false;
+    fixture.detectChanges();
+    expect(component.checkCanOpenPopup(calendarMock)).toEqual(false);
   });
 
   it('should return true when toggle monthView', () => {
     component.monthView = true;
     component.toggleCalendarView();
     expect(!component.monthView).toEqual(true);
+  });
+
+  it('should get all users assigned habits', () => {
+    const assignedHabits = [{ id: 400, createDateTime: new Date('2023-06-29T20:05:20.271836Z') }];
+    spyOn(component, 'getAllAssignedHabbits').and.callFake(() => {
+      component.allAssignedHabits = assignedHabits;
+    });
+    component.getAllAssignedHabbits();
+    expect(component.allAssignedHabits).toEqual(assignedHabits);
+  });
+
+  it('shoul choose display class', () => {
+    expect(component.chooseDisplayClass(component.calendarDay[4])).toBe(ItemClass.CURRENT);
+    expect(component.chooseDisplayClass(component.calendarDay[5])).toBe(ItemClass.ENROLLED);
+    expect(component.chooseDisplayClass(component.calendarDay[6])).toBe(ItemClass.UNENROLLEDPAST);
   });
 
   describe('formDate', () => {
