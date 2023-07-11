@@ -91,7 +91,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAllUserEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
-        this.eventsList = this.eventService.sortEvents(res.page);
+        this.eventsList = Array.isArray(res.page) ? this.sortEvents(res.page) : [];
         this.eventsTotal = res.totalElements;
       });
   }
@@ -104,6 +104,17 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.eventsList = res.page;
       });
+  }
+
+  sortEvents(events: any) {
+    return [
+      ...events
+        .filter((event) => event.dates[event.dates.length - 1].onlineLink)
+        .sort(
+          (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
+        ),
+      ...events.filter((event) => !event.dates[event.dates.length - 1].onlineLink)
+    ];
   }
 
   public dispatchNews(res: boolean) {

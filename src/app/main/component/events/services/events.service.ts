@@ -70,17 +70,6 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  public sortEvents(events: any): any {
-    return [
-      ...events
-        .filter((event) => event.dates[event.dates.length - 1].onlineLink)
-        .sort(
-          (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
-        ),
-      ...events.filter((event) => !event.dates[event.dates.length - 1].onlineLink)
-    ];
-  }
-
   createAdresses(coordinates, lenguage: string) {
     const devider = `, `;
     return (
