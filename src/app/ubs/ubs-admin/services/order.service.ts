@@ -244,4 +244,8 @@ export class OrderService {
   public getOrderCancelReason(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-order-cancellation-reason/${orderId}`);
   }
+
+  public saveOrderIdForRefund(orderId: number) {
+    return this.http.post(`${this.backend}/management/save-order-for-refund/${orderId}`, orderId, { observe: 'response' });
+  }
 }
