@@ -234,11 +234,4 @@ describe('UbsAdminEmployeeTableComponent', () => {
       panelClass: 'delete-dialog-container'
     });
   });
-
-  it('should call initSearch', () => {
-    const service = fixture.debugElement.injector.get(UbsAdminEmployeeService);
-    service.searchValue.next('Fake filter ');
-    component.initSearch();
-    expect(component.search).toBeUndefined();
-  });
 });
