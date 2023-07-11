@@ -91,7 +91,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAllUserEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
-        this.eventsList = Array.isArray(res.page) ? this.sortEvents(res.page) : [];
+        this.eventsList = (res.page && this.sortEvents(res.page)) || [];
         this.eventsTotal = res.totalElements;
       });
   }
