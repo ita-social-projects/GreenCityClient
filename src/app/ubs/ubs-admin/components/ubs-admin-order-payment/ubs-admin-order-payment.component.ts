@@ -169,7 +169,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          console.log('res', res);
           this.orderService.saveOrderIdForRefund(id).subscribe((response) => {
             if (response.status === 201) {
               this.isMoneyReturning = true;
