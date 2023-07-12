@@ -6,6 +6,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarWeekInterface } from './calendar-week-interface';
+import { Language } from 'src/app/main/i18n/Language';
 
 describe('HabitCalendarComponent', () => {
   let component: CalendarWeekComponent;
@@ -35,7 +36,7 @@ describe('HabitCalendarComponent', () => {
     };
     component.currentDate = new Date('Sun Jul 02 2023 00:00:00 GMT+0300');
     component.weekDates = [];
-    component.language = 'ua';
+    component.language = Language.UA;
     component.weekTitle = '';
   });
 
