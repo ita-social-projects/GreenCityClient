@@ -5,26 +5,26 @@ import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/lo
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
-import { OrderInfoMockedData } from './../../services/orderInfoMock';
+import { OrderInfoMockedData, IPaymentInfoDtoMock } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { Observable, of } from 'rxjs';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { HttpClient } from '@angular/common/http';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
   let fixture: ComponentFixture<UbsAdminOrderPaymentComponent>;
   let storeMock;
-  const matDialogMock = () => ({
-    open: () => ({
-      afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
-    })
-  });
 
-  const MatDialogRefMock = {
-    close: () => {}
-  };
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
 
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOverpaymentMsg']);
+  const fakeMatDialog = jasmine.createSpyObj(['close', 'afterClosed']);
+  fakeMatDialog.afterClosed.and.returnValue(of(true));
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOverpaymentMsg', 'addPaymentBonuses', 'saveOrderIdForRefund']);
   orderServiceMock.getOverpaymentMsg.and.returnValue('fakeMessage');
+  orderServiceMock.addPaymentBonuses = () => new Observable();
+  orderServiceMock.saveOrderIdForRefund = () => new Observable();
 
   const fakeAmountOfBagsConfirmed: Map<string, number> = new Map();
   fakeAmountOfBagsConfirmed.set('1', 1);
@@ -32,6 +32,12 @@ describe('UbsAdminOrderPaymentComponent', () => {
   fakeAmountOfBagsConfirmed.set('3', 1);
 
   const fakeOrderInfo = OrderInfoMockedData;
+  const returnMoneyDialogDateMock = {
+    popupTitle: 'return-payment.message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: 'green'
+  };
 
   beforeEach(async(() => {
     storeMock = {
@@ -42,10 +48,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
       declarations: [UbsAdminOrderPaymentComponent, LocalizedCurrencyPipe],
       imports: [MatDialogModule, TranslateModule.forRoot(), StoreModule.forRoot({})],
       providers: [
-        { provide: MatDialog, useFactory: matDialogMock },
+        { provide: MatDialog, useValue: matDialogMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        { provide: MatDialogRef, useValue: fakeMatDialog },
         { provide: MAT_DIALOG_DATA, useValue: {} }
       ]
     }).compileComponents();
@@ -67,7 +73,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('life cycle hook ngOnInit', () => {
+    const spy = spyOn(component, 'setDateInPaymentArray');
+    const spy2 = spyOn(component, 'positivePaymentsArrayAmount');
     component.ngOnInit();
+    const sumDiscount = component.orderInfo.orderBonusDiscount + component.orderInfo.orderCertificateTotalDiscount;
     expect(component.orderId).toBe(1);
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
     expect(component.paymentsArray).toBe(fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos);
@@ -75,6 +84,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.paidAmount).toBe(component.paymentInfo.paidAmount);
     expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
     expect(component.currentOrderStatus).toBe('Formed');
+    expect(component.overpayment).toBe(component.paymentInfo.overpayment);
+    expect(sumDiscount).toBe(0);
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('method formatDate', () => {
@@ -90,8 +103,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('method openDetails', () => {
+    component.pageOpen = false;
     component.openDetails();
     expect(component.pageOpen).toBeTruthy();
+    expect(component.pageOpen).toBe(true);
   });
 
   it('method recountUnpaidAmount', () => {
@@ -107,6 +122,20 @@ describe('UbsAdminOrderPaymentComponent', () => {
 
     expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(component.overpayment);
     expect(component.overpayment).toBe(fakeModuleOverPayment);
+  });
+
+  it('method returnMoney', () => {
+    matDialogMock.open.and.returnValue(fakeMatDialog as any);
+    const orderId = 137;
+    component.returnMoney(orderId);
+    expect(matDialogMock.open).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
+      hasBackdrop: true,
+      data: returnMoneyDialogDateMock,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
   });
 
   it('method isOverpaymentReturnAvailable', () => {
@@ -136,5 +165,23 @@ describe('UbsAdminOrderPaymentComponent', () => {
       .reverse()
       .join('-');
     expect(component.getStringDate(currentTime)).toBe(formatDate);
+  });
+
+  it('method displayUnpaidAmount', () => {
+    component.unPaidAmount = 0;
+    component.currentOrderStatus = OrderStatus.CANCELED;
+    expect(component.displayUnpaidAmount()).toBeFalsy();
+  });
+
+  it('method setCancelOrderOverpayment', () => {
+    const sum = 250;
+    component.setCancelOrderOverpayment(sum);
+    expect(component.overpayment).toBe(250);
+  });
+
+  it('method preconditionChangePaymentData', () => {
+    const spy = spyOn(component, 'recountUnpaidAmount');
+    component.preconditionChangePaymentData(IPaymentInfoDtoMock);
+    expect(spy).toHaveBeenCalledWith(IPaymentInfoDtoMock.amount);
   });
 });

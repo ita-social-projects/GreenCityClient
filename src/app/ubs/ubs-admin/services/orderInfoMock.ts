@@ -1,4 +1,4 @@
-import { IOrderInfo, IEmployee } from '../models/ubs-admin.interface';
+import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.interface';
 import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 
@@ -188,3 +188,11 @@ export const activeCouriersMock = [
     createdBy: 'UBS-Admin Admin'
   }
 ];
+
+export const IPaymentInfoDtoMock: IPaymentInfoDto = {
+  id: 1,
+  currentDate: '2022-02-09',
+  settlementdate: '2022-02-01',
+  amount: 200,
+  receiptLink: 'Enrollment to the bonus account'
+};
