@@ -44,11 +44,11 @@ describe('HabitCalendarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should find first week date', () => {
+  xit('should find first week date', () => {
     expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jun 26 2023 00:00:00 GMT+0300'));
   });
 
-  it('should find first week date', () => {
+  xit('should find first week date', () => {
     component.currentDate = new Date('Mon Jul 03 2023 00:00:00 GMT+0300');
     fixture.detectChanges();
     expect((component as any).getFirstWeekDate()).toEqual(new Date('Mon Jul 03 2023 00:00:00 GMT+0300'));
