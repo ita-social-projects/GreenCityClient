@@ -50,6 +50,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
+  public userLatitude: number;
+  public userLongitude: number;
+
   constructor(
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
@@ -62,6 +65,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscribeToLangChange();
     this.getUserId();
+
+    this.getLocation();
 
     this.authorNews$.subscribe((val: IEcoNewsState) => {
       this.currentPage = val.authorNewsPage;
@@ -86,13 +91,25 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  getLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position) {
+        this.userLatitude = position.coords.latitude;
+        this.userLongitude = position.coords.longitude;
+      }
+    });
+  }
+
   initGetUserEvents(): void {
     this.eventService
       .getAllUserEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
-        this.eventsList = (res.page && this.sortEvents(res.page)) || [];
+        this.eventsList = (res.page && this.getSortedEvents(res.page, this.userLatitude, this.userLongitude)) || [];
         this.eventsTotal = res.totalElements;
+        console.log(this.eventService.sortOfflineEvents(res.page, this.userLatitude, this.userLongitude));
+        console.log(this.userLatitude);
+        console.log(this.userLongitude);
       });
   }
 
@@ -106,15 +123,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  sortEvents(events: any) {
-    return [
-      ...events
-        .filter((event) => event.dates[event.dates.length - 1].onlineLink)
-        .sort(
-          (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
-        ),
-      ...events.filter((event) => !event.dates[event.dates.length - 1].onlineLink)
-    ];
+  getSortedEvents(events: any, userLat: number, userLon: number) {
+    return [...this.eventService.sortOnlineEvents(events), ...this.eventService.sortOfflineEvents(events, userLat, userLon)];
   }
 
   public dispatchNews(res: boolean) {

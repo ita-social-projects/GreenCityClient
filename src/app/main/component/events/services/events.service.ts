@@ -83,6 +83,47 @@ export class EventsService implements OnDestroy {
     );
   }
 
+  getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R: number = 6371; // Radius of the earth in km
+    const dLat: number = this.deg2rad(lat2 - lat1); // deg2rad below
+    const dLon: number = this.deg2rad(lon2 - lon1);
+    const a: number =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d: number = R * c; // Distance in km
+    return d; // distance returned
+  }
+
+  deg2rad(deg: number): number {
+    return deg * (Math.PI / 180);
+  }
+
+  public sortOnlineEvents(events: any) {
+    return events
+      .filter((event) => event.dates[event.dates.length - 1].onlineLink)
+      .sort(
+        (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
+      );
+  }
+
+  public sortOfflineEvents(events: any, userLat: number, userLon: number) {
+    return events
+      .filter((event) => !event.dates[event.dates.length - 1].onlineLink)
+      .map((event) => {
+        return {
+          ...event,
+          distance: this.getDistanceFromLatLonInKm(
+            userLat,
+            userLon,
+            event.dates[event.dates.length - 1].coordinates.latitude,
+            event.dates[event.dates.length - 1].coordinates.longitude
+          )
+        };
+      })
+      .sort((a, b) => a.distance - b.distance);
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
