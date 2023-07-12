@@ -40,7 +40,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
   styleUrls: ['./ubs-admin-order.component.scss']
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentChecked {
-  deleteNumberOrderFromEcoShop: boolean = false;
+  deleteNumberOrderFromEcoShop = false;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
