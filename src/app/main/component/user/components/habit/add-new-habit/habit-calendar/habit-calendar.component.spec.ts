@@ -1,26 +1,24 @@
 import { HabitCalendarComponent } from './habit-calendar.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CalendarBaseComponent } from '@shared/components';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { fakeAsync, tick, async } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HabitCalendarComponent', () => {
   let component: HabitCalendarComponent;
   let fixture: ComponentFixture<HabitCalendarComponent>;
-  let TranslationServiceStub;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [HabitCalendarComponent, CalendarBaseComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
-      providers: [
-        { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: LanguageService, useValue: {} }
-      ]
+      providers: [{ provide: LanguageService, useValue: {} }],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
 
@@ -47,6 +45,18 @@ describe('HabitCalendarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call function OnInit', () => {
+    spyOn(component, 'bindDefaultTranslate');
+    spyOn(component, 'subscribeToLangChange');
+    spyOn(component, 'buildCalendar');
+    spyOn(component, 'getUserHabits');
+    component.ngOnInit();
+    expect(component.bindDefaultTranslate).toHaveBeenCalled();
+    expect(component.subscribeToLangChange).toHaveBeenCalled();
+    expect(component.buildCalendar).toHaveBeenCalled();
+    expect(component.getUserHabits).toHaveBeenCalledWith(true, component.calendarDay);
   });
 
   it('should show habits after clicking on day item', fakeAsync(() => {
