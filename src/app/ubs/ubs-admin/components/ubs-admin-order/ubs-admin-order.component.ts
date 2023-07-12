@@ -40,6 +40,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
   styleUrls: ['./ubs-admin-order.component.scss']
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentChecked {
+  deleteNumberOrderFromEcoShop: boolean = false;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
@@ -409,6 +410,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     return exportDetailsDtoValue;
   }
 
+  deleteNumberOrderFromEcoShopChange(value: boolean) {
+    this.deleteNumberOrderFromEcoShop = value;
+  }
+
   public onSubmit(): void {
     this.isSubmitted = true;
     const changedValues: any = {};
@@ -421,11 +426,17 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
+      const keyEcoNumberFromShop = 'ecoNumberFromShop';
       if (changedValues.orderDetailsForm.storeOrderNumbers) {
-        const keyEcoNumberFromShop = 'ecoNumberFromShop';
         changedValues[keyEcoNumberFromShop] = {
-          ecoNumber: changedValues.orderDetailsForm.storeOrderNumbers
+          ecoNumber: this.orderForm.value.orderDetailsForm.storeOrderNumbers
         };
+        this.deleteNumberOrderFromEcoShop = false;
+      } else if (this.deleteNumberOrderFromEcoShop) {
+        changedValues[keyEcoNumberFromShop] = {
+          ecoNumber: this.orderForm.value.orderDetailsForm.storeOrderNumbers
+        };
+        this.deleteNumberOrderFromEcoShop = false;
       }
     }
     changedValues.ubsCourierPrice = this.ubsCourierPrice;

@@ -41,6 +41,7 @@
           [orderStatusInfo]="orderStatusInfo"
           [orderInfo]="orderInfo"
           [totalPaid]="totalPaid"
+          (deleteNumberOrderFromEcoShopChanged)="deleteNumberOrderFromEcoShopChange($event)"
           (changeOverpayment)="changeOverpayment($event)"
           (checkMinOrder)="setMinOrder($event)"
           (changeCurrentPrice)="onChangeCurrentPrice($event)"

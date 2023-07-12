@@ -41,6 +41,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isOrderNotTakenOut = false;
   isDisabledWriteOffStation = false;
 
+  @Output() deleteNumberOrderFromEcoShopChanged = new EventEmitter<boolean>();
   @Output() changeOverpayment = new EventEmitter<number>();
   @Output() checkMinOrder = new EventEmitter<boolean>();
   @Output() changeCurrentPrice = new EventEmitter<number>();
@@ -349,6 +350,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     arr.removeAt(index);
     this.orderDetailsForm.markAsDirty();
+    this.deleteNumberOrderFromEcoShopChanged.emit(true);
   }
 
   public changeWriteOffSum(e): void {
