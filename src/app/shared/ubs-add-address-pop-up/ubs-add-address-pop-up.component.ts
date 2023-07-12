@@ -6,7 +6,7 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
@@ -42,7 +42,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   placeId: string;
   locations: CourierLocations;
   regionBounds;
-  districts;
+  districts: DistrictsDtos[];
 
   constructor(
     private fb: FormBuilder,
@@ -180,15 +180,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       });
 
     if (this.data.edit) {
-      this.getDistrictsForCity();
-
-      this.districtEn.setValue(this.districtEn.value.split("'").join(''));
-      this.districtEn.markAsDirty();
-
-      /* const abstractControl = this.region;
-      this.regions = [{ name: abstractControl.value, key: 1 }];
-      abstractControl.setValue(abstractControl.value);
-      abstractControl.markAsDirty();/** */
+      this.districts = this.data.address.addressRegionDistrictList.map((district) => {
+        return {
+          nameUa: `${district.nameUa} район`,
+          nameEn: `${district.nameEn} district`
+        };
+      });
     }
   }
 
@@ -287,24 +284,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getDistrictsForCity() {
+  getDistrictsForCity(): void {
     this.orderService
       .findAllDistricts(this.region.value, this.city.value)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        if (res.length > 1) {
-          console.log('res 1', res);
-
-          this.districts = res.map((item) => ({
-            nameUa: item.locationNameMap.name + ' район',
-            nameEn: item.locationNameMap.name_en + ' district'
-          }));
-        } else {
-          this.districts = res.map((item) => ({
-            nameUa: item.locationNameMap.name,
-            nameEn: item.locationNameMap.name_en
-          }));
-        }
+      .subscribe((districts) => {
+        this.districts = districts;
       });
   }
 
@@ -370,13 +355,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onDistrictSelected() {
-    const selectedDistrict = this.getLangValue(this.district.value, this.districtEn.value);
-    const compareField = this.getLangValue('nameUa', 'nameEn');
+    console.log('this.district, this.districtEn', this.district.value, this.districtEn.value);
 
-    const correspondingDistrict = this.districts.find((district) => district[compareField] === selectedDistrict);
-
-    this.district.setValue(correspondingDistrict.nameUa);
-    this.districtEn.setValue(correspondingDistrict.nameEn);
+    this.locationService.setDistrictValues(this.district, this.districtEn, this.districts);
   }
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
@@ -486,15 +467,19 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   isSubmitBtnDisabled(): boolean {
-    let valueExistsInDistricts = false;
+    let isValueExistsInDistricts = false;
 
     if (this.district.value && this.districtEn.value) {
-      valueExistsInDistricts = this.districts?.some(
-        (district) => this.getLangValue(district.nameUa, district.nameEn) === this.getLangValue(this.district.value, this.districtEn.value)
+      isValueExistsInDistricts = this.districts?.some(
+        (district) => district.nameUa === this.district.value || district.nameEn === this.districtEn.value
       );
     }
 
-    return !this.addAddressForm.valid || this.isDisabled || !this.isHouseSelected || !valueExistsInDistricts;
+    if (this.houseNumber.value) {
+      this.isHouseSelected = true;
+    }
+
+    return !this.addAddressForm.valid || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts;
   }
 
   public getLangValue(uaValue, enValue): string {

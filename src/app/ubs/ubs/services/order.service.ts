@@ -3,7 +3,7 @@ import { Address, AddressData, AllLocationsDtos, CourierLocations, ActiveCourier
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { ICertificateResponse, OrderDetails, DistrictsDtos } from '../models/ubs.interface';
 import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
@@ -92,8 +92,21 @@ export class OrderService {
   }
 
   findAllDistricts(region: string, city: string): Observable<DistrictsDtos[]> {
-    const regionValue = region.replace(' область', '');
-    return this.http.get<DistrictsDtos[]>(`${this.url}/get-all-districts?city=${city}&region=${regionValue}`);
+    return this.http.get<DistrictsDtos[]>(`${this.url}/get-all-districts?city=${city}&region=${region}`).pipe(
+      map((districts) => {
+        if (districts.length > 1) {
+          return districts.map((item) => ({
+            nameUa: item.nameUa + ' район',
+            nameEn: item.nameEn + ' district'
+          }));
+        } else {
+          return districts.map((item) => ({
+            nameUa: item.nameUa,
+            nameEn: item.nameEn
+          }));
+        }
+      })
+    );
   }
 
   setOrder(order: Order) {

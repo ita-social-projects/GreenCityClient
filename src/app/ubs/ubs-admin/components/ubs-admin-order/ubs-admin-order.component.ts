@@ -242,7 +242,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
         ],
         addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
-        addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }]
+        addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }],
+        addressRegionDistrictList: [this.addressInfo.addressRegionDistrictList]
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],

@@ -137,6 +137,7 @@ export interface Address {
   houseNumber: string;
   addressComment?: string;
   actual: boolean;
+  addressRegionDistrictList?: DistrictsDtos[];
   searchAddress?: string;
   coordinates: {
     latitude?: number;
@@ -234,12 +235,8 @@ export interface ActiveLocations {
 }
 
 export interface DistrictsDtos {
-  parentId: number;
-  id: number;
-  locationNameMap: {
-    name: string;
-    name_en: string;
-  };
+  nameUa: string;
+  nameEn: string;
 }
 
 export interface ActiveLocationsDtos {
