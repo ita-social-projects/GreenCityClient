@@ -1,35 +1,22 @@
 import { HabitCalendarComponent } from './habit-calendar.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CalendarBaseComponent } from '@shared/components';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { By } from '@angular/platform-browser';
-import { Observable, Subject } from 'rxjs';
-import { fakeAsync, tick } from '@angular/core/testing';
-
-@Injectable()
-class TranslationServiceStub {
-  private subject = new Subject();
-  public onDefaultLangChange = new EventEmitter<any>();
-  public unsubscribe = new EventEmitter<any>();
-  public getTranslation() {
-    return this.subject.asObservable();
-  }
-  public getDefaultLang() {}
-}
+import { fakeAsync, tick, async } from '@angular/core/testing';
 
 describe('HabitCalendarComponent', () => {
   let component: HabitCalendarComponent;
   let fixture: ComponentFixture<HabitCalendarComponent>;
+  let TranslationServiceStub;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [HabitCalendarComponent, CalendarBaseComponent],
-      imports: [HttpClientTestingModule, MatDialogModule],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: LanguageService, useValue: {} }
@@ -55,6 +42,7 @@ describe('HabitCalendarComponent', () => {
       }
     ];
     component.monthView = true;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
