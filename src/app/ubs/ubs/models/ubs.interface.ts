@@ -269,6 +269,7 @@ export interface ActiveCourierDto {
 
 export enum KyivNamesEnum {
   KyivRegionUa = 'Київська область',
+  KyivRegionEn = 'Kyiv oblast',
   KyivCityUa = 'місто Київ',
   KyivUa = 'Київ',
   KyivEn = 'Kyiv'
