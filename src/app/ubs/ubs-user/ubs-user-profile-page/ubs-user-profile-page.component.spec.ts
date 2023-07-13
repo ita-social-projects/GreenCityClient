@@ -41,7 +41,7 @@ describe('UbsUserProfilePageComponent', () => {
         placeId: null,
         searchAddress: null,
         isHouseSelected: true,
-        addressRegionDistrictList: []
+        addressRegionDistrictList: null
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -94,7 +94,8 @@ describe('UbsUserProfilePageComponent', () => {
     'convFirstLetterToCapital',
     'getFullAddressList',
     'getSearchAddress',
-    'getRequest'
+    'getRequest',
+    'appendDistrictLabel'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
@@ -124,6 +125,10 @@ describe('UbsUserProfilePageComponent', () => {
     fixture = TestBed.createComponent(UbsUserProfilePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   it('should call "redirectToMessengers" correctly ', () => {
@@ -157,10 +162,6 @@ describe('UbsUserProfilePageComponent', () => {
     clientProfileServiceMock.postDataClientProfile(userProfileDataMock).subscribe((data) => {
       expect(component.isFetching).toBeFalsy();
     });
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('method ngOnInit should call getUserData', () => {

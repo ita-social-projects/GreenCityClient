@@ -144,7 +144,10 @@ describe('LocationService', () => {
 
   it('should return correct LatLngBounds', () => {
     const result = locations.getPlaceBounds(mockPlaceDetails);
-    expect(result).toEqual({ sw: { lat: 48.5, lng: 33.5 }, ne: { lat: 50.5, lng: 35.5 } });
+    expect(result.sw.lat).toEqual(48.5);
+    expect(result.sw.lng).toEqual(33.5);
+    expect(result.ne.lat).toEqual(50.5);
+    expect(result.ne.lng).toEqual(35.5);
   });
 
   it('should throw an error when geometry or viewport are not defined', () => {
