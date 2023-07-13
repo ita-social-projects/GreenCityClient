@@ -525,7 +525,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         }
         delete updatedAddres.searchAddress;
         delete updatedAddres.isHouseSelected;
-        delete updatedAddres.addressRegionDistrictList;
         submitData.addressDto.push(updatedAddres);
       });
 
