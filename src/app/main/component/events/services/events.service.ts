@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
+import { EventResponseDto, EventPageResponceDto, PagePreviewDTO } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -99,7 +99,7 @@ export class EventsService implements OnDestroy {
     return deg * (Math.PI / 180);
   }
 
-  public sortOnlineEvents(events: any) {
+  public sortOnlineEvents(events: EventPageResponceDto[]) {
     return events
       .filter((event) => event.dates[event.dates.length - 1].onlineLink)
       .sort(
@@ -107,7 +107,7 @@ export class EventsService implements OnDestroy {
       );
   }
 
-  public sortOfflineEvents(events: any, userLat: number, userLon: number) {
+  public sortOfflineEvents(events: EventPageResponceDto[], userLat: number, userLon: number) {
     return events
       .filter((event) => !event.dates[event.dates.length - 1].onlineLink)
       .map((event) => {

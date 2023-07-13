@@ -107,7 +107,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .subscribe((res: EventResponseDto) => {
         this.eventsList = (res.page && this.getSortedEvents(res.page, this.userLatitude, this.userLongitude)) || [];
         this.eventsTotal = res.totalElements;
-        console.log(this.eventService.sortOfflineEvents(res.page, this.userLatitude, this.userLongitude));
         console.log(this.userLatitude);
         console.log(this.userLongitude);
       });
@@ -123,7 +122,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  getSortedEvents(events: any, userLat: number, userLon: number) {
+  getSortedEvents(events: EventPageResponceDto[], userLat: number, userLon: number) {
     return [...this.eventService.sortOnlineEvents(events), ...this.eventService.sortOfflineEvents(events, userLat, userLon)];
   }
 
