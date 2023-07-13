@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Address, UserProfile, Location } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
@@ -11,13 +11,13 @@ import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/c
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { take, takeUntil, map, switchMap, startWith } from 'rxjs/operators';
-import { Subject, Observable } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
-import { SearchAddress, KyivNamesEnum, DistrictsDtos } from '../../ubs/models/ubs.interface';
+import { SearchAddress, KyivNamesEnum } from '../../ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 

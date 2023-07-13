@@ -6,7 +6,7 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, SearchAddress, CourierLocations, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';

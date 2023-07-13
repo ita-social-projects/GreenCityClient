@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GoogleAutoRequest, GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
-import { SearchAddress, KyivNamesEnum, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
+import { SearchAddress, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Language } from '../../i18n/Language';
 import { LanguageService } from '../../i18n/language.service';
 import { AbstractControl } from '@angular/forms';
