@@ -254,7 +254,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.totalOfBigBags += +quantity.value;
       }
     });
-    this.validateBags();
+    if (this.courierLimitByAmount) {
+      this.validateBags();
+    }
     this.changeSecondStepDisabled(this.courierLimitValidation);
   }
 

@@ -16,7 +16,7 @@ export class ShoppingListComponent implements OnInit {
   public shoppingList: ShoppingList[] = [];
   public toggle: boolean;
   private userId: number;
-  private currentLang: string;
+  public currentLang: string;
   public profileSubscription: Subscription;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 

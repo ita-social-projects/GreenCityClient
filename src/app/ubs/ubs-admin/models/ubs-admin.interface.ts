@@ -41,6 +41,7 @@ export interface Page {
 export interface EmployeePositions {
   id: number;
   name: string;
+  nameEn: string;
 }
 
 export interface Tariff {

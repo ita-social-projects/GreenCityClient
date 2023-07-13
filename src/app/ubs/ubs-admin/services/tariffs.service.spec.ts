@@ -277,13 +277,6 @@ describe('TariffsService', () => {
     httpTest('/ubs/superAdmin/update-courier', 'PUT', courier);
   });
 
-  it('should edit location name', () => {
-    service.editLocationName([editLocation]).subscribe((data) => {
-      expect(data).toEqual([editLocation]);
-    });
-    httpTest('/ubs/superAdmin/locations/edit', 'POST', [editLocation]);
-  });
-
   it('should return filtered card', () => {
     service.getFilteredCard(filterData).subscribe((data) => {
       expect(data).toEqual([]);

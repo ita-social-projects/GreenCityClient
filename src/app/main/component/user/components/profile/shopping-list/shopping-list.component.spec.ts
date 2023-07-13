@@ -12,6 +12,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { SHOPLISTITEMONE, SHOPLISTITEMTWO } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { ALLUSERSHOPLISTS } from '@global-user/components/habit/mocks/shopping-list-mock';
+import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
 
 describe('ShoppingListComponent', () => {
   let component: ShoppingListComponent;
@@ -38,7 +39,7 @@ describe('ShoppingListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ShoppingListComponent],
+      declarations: [ShoppingListComponent, CorrectUnitPipe],
       imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, NoopAnimationsModule],
       providers: [
         { provide: ShoppingListService, useValue: shoppingListServiceMock },

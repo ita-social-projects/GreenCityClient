@@ -167,7 +167,7 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call methods on ngOnInit', () => {
+   it('should call methods on ngOnInit', () => {
     const spy1 = spyOn(component as any, 'bindLang');
     const spy2 = spyOn(component as any, 'verifyRole');
     component.ngOnInit();
