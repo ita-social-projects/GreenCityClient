@@ -99,31 +99,6 @@ export class EventsService implements OnDestroy {
     return deg * (Math.PI / 180);
   }
 
-  public sortOnlineEvents(events: EventPageResponceDto[]) {
-    return events
-      .filter((event) => event.dates[event.dates.length - 1].onlineLink)
-      .sort(
-        (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
-      );
-  }
-
-  public sortOfflineEvents(events: EventPageResponceDto[], userLat: number, userLon: number) {
-    return events
-      .filter((event) => !event.dates[event.dates.length - 1].onlineLink)
-      .map((event) => {
-        return {
-          ...event,
-          distance: this.getDistanceFromLatLonInKm(
-            userLat,
-            userLon,
-            event.dates[event.dates.length - 1].coordinates.latitude,
-            event.dates[event.dates.length - 1].coordinates.longitude
-          )
-        };
-      })
-      .sort((a, b) => a.distance - b.distance);
-  }
-
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

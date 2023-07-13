@@ -105,10 +105,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAllUserEvents(0, this.eventsPerPage)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
-        this.eventsList = (res.page && this.getSortedEvents(res.page, this.userLatitude, this.userLongitude)) || [];
+        this.eventsList = this.getSortedEvents(res.page, this.userLatitude, this.userLongitude) || [];
         this.eventsTotal = res.totalElements;
-        console.log(this.userLatitude);
-        console.log(this.userLongitude);
       });
   }
 
@@ -118,12 +116,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAllUserEvents(this.eventsPage - 1, 6)
       .pipe(take(1))
       .subscribe((res) => {
-        this.eventsList = res.page;
+        this.eventsList = this.getSortedEvents(res.page, this.userLatitude, this.userLongitude) || [];
       });
-  }
-
-  getSortedEvents(events: EventPageResponceDto[], userLat: number, userLon: number) {
-    return [...this.eventService.sortOnlineEvents(events), ...this.eventService.sortOfflineEvents(events, userLat, userLon)];
   }
 
   public dispatchNews(res: boolean) {
@@ -136,6 +130,30 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  public getSortedEvents(events: EventPageResponceDto[], userLat: number, userLon: number): EventPageResponceDto[] {
+    return [
+      ...events
+        .filter((event) => event.dates[event.dates.length - 1].onlineLink)
+        .sort(
+          (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
+        ),
+      ...events
+        .filter((event) => !event.dates[event.dates.length - 1].onlineLink)
+        .map((event) => {
+          return {
+            ...event,
+            distance: this.eventService.getDistanceFromLatLonInKm(
+              userLat,
+              userLon,
+              event.dates[event.dates.length - 1].coordinates.latitude,
+              event.dates[event.dates.length - 1].coordinates.longitude
+            )
+          };
+        })
+        .sort((a, b) => a.distance - b.distance)
+    ];
   }
 
   public changeStatus(habit: HabitAssignInterface) {
