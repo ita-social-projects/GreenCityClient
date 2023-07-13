@@ -11,18 +11,27 @@ import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { Observable, of } from 'rxjs';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { HttpClient } from '@angular/common/http';
+import { SimpleChange } from '@angular/core';
+import { AddPaymentComponent } from '../add-payment/add-payment.component';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
   let fixture: ComponentFixture<UbsAdminOrderPaymentComponent>;
   let storeMock;
+  const fakeOrderInfo = OrderInfoMockedData;
 
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
-
   const fakeMatDialog = jasmine.createSpyObj(['close', 'afterClosed']);
+  matDialogMock.open.and.returnValue(fakeMatDialog as any);
   fakeMatDialog.afterClosed.and.returnValue(of(true));
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOverpaymentMsg', 'addPaymentBonuses', 'saveOrderIdForRefund']);
-  orderServiceMock.getOverpaymentMsg.and.returnValue('fakeMessage');
+  const orderServiceMock = jasmine.createSpyObj('orderService', [
+    'getOverpaymentMsg',
+    'addPaymentBonuses',
+    'saveOrderIdForRefund',
+    'getOrderInfo'
+  ]);
+  orderServiceMock.getOverpaymentMsg.and.returnValue('Overpayment Message');
+  orderServiceMock.getOrderInfo.and.returnValue(of(fakeOrderInfo));
   orderServiceMock.addPaymentBonuses = () => new Observable();
   orderServiceMock.saveOrderIdForRefund = () => new Observable();
 
@@ -31,7 +40,6 @@ describe('UbsAdminOrderPaymentComponent', () => {
   fakeAmountOfBagsConfirmed.set('2', 2);
   fakeAmountOfBagsConfirmed.set('3', 1);
 
-  const fakeOrderInfo = OrderInfoMockedData;
   const returnMoneyDialogDateMock = {
     popupTitle: 'return-payment.message',
     popupConfirm: 'employees.btn.yes',
@@ -125,7 +133,6 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('method returnMoney', () => {
-    matDialogMock.open.and.returnValue(fakeMatDialog as any);
     const orderId = 137;
     component.returnMoney(orderId);
     expect(matDialogMock.open).toHaveBeenCalled();
@@ -135,6 +142,25 @@ describe('UbsAdminOrderPaymentComponent', () => {
       closeOnNavigation: true,
       disableClose: true,
       panelClass: ''
+    });
+  });
+
+  it('method openPopup', () => {
+    const viewMode = true;
+    const paymentIndex = 3;
+    component.openPopup(viewMode);
+    expect(matDialogMock.open).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(AddPaymentComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      height: '100%',
+      data: {
+        orderId: 1,
+        viewMode,
+        payment: viewMode ? component.paymentsArray[paymentIndex] : null
+      }
     });
   });
 
@@ -183,5 +209,40 @@ describe('UbsAdminOrderPaymentComponent', () => {
     const spy = spyOn(component, 'recountUnpaidAmount');
     component.preconditionChangePaymentData(IPaymentInfoDtoMock);
     expect(spy).toHaveBeenCalledWith(IPaymentInfoDtoMock.amount);
+  });
+
+  it('should update overpayment message and value in ngOnChanges when orderStatus changes', () => {
+    component.orderStatus = 'In Progress';
+    component.totalPaid = 480;
+    const previousStutusValue = 'In Progress';
+    const currentStatusValue = 'Completed';
+    const currentOverpaymentValue = 0;
+    const previousOverpaymentValue = 200;
+    const isFirstChange = false;
+
+    const SimpleChangesMock = {
+      orderStatus: new SimpleChange(previousStutusValue, currentStatusValue, isFirstChange),
+      overpayment: new SimpleChange(currentOverpaymentValue, previousOverpaymentValue, isFirstChange)
+    };
+
+    component.ngOnChanges(SimpleChangesMock);
+
+    expect(component.currentOrderStatus).toBe('Completed');
+    expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(480);
+    expect(component.message).toBe('Overpayment Message');
+    expect(component.overpayment).toBe(480);
+  });
+
+  it('should update positive amount value in the paymentsArray correctly', () => {
+    component.paymentsArray = [
+      { id: 1, amount: -100, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
+      { id: 2, amount: -200, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
+      { id: 3, amount: -300, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' }
+    ];
+    component.positivePaymentsArrayAmount();
+
+    expect(component.paymentsArray[0].amount).toBe(100);
+    expect(component.paymentsArray[1].amount).toBe(200);
+    expect(component.paymentsArray[2].amount).toBe(300);
   });
 });
