@@ -360,7 +360,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     let currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
 
     if (language === Language.EN) {
-      currentDistrict = currentDistrict?.split("'").join('');
+      currentDistrict = currentDistrict?.split(`'`).join('');
     }
 
     abstractControl.setValue(currentDistrict);

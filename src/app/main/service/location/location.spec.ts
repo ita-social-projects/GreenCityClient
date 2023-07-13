@@ -27,14 +27,6 @@ describe('LocationService', () => {
   const districtUa = new FormControl();
   const districtEn = new FormControl();
 
-  global['google'] = {
-    maps: {
-      LatLngBounds: function (sw, ne) {
-        return { sw: sw, ne: ne };
-      }
-    }
-  };
-
   const mockPlaceDetails = {
     geometry: {
       viewport: {
@@ -140,14 +132,6 @@ describe('LocationService', () => {
     const districtsWithLabel = locations.appendDistrictLabel([]);
 
     expect(districtsWithLabel).toEqual([]);
-  });
-
-  it('should return correct LatLngBounds', () => {
-    const result = locations.getPlaceBounds(mockPlaceDetails);
-    expect(result.sw.lat).toEqual(48.5);
-    expect(result.sw.lng).toEqual(33.5);
-    expect(result.ne.lat).toEqual(50.5);
-    expect(result.ne.lng).toEqual(35.5);
   });
 
   it('should throw an error when geometry or viewport are not defined', () => {

@@ -208,7 +208,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn.split("'").join('')), [
+        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn.split(`'`).join('')), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
