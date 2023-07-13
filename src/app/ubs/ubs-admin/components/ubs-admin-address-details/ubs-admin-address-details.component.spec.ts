@@ -53,7 +53,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
     'getDistrictAuto',
     'getFullAddressList',
     'getSearchAddress',
-    'getRequest'
+    'getRequest',
+    'appendDistrictLabel'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
   fakeLocationServiceMock.getFullAddressList = () => of([]);
@@ -107,7 +108,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     component.addressCity.setValue('Київ');
     component.loadData();
     expect(component.currentLanguage).toBe(Language.UA);
-    expect(component.districts).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCKLABLED);
   });
 
   it('if value of region was changed other fields should be empty', fakeAsync(() => {
@@ -384,5 +384,20 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('should return ua value by getLangControl', () => {
     const value = component.getLangControl(component.addressCity, component.addressCityEng);
     expect(value).toEqual(component.addressCity);
+  });
+
+  it('should retrieve districts for a city', () => {
+    const districtsMock = ADDRESSESMOCK.DISTRICTSKYIVMOCK;
+    spyOn((component as any).orderService, 'findAllDistricts').and.returnValue(of(districtsMock));
+    component.getDistrictsForCity();
+
+    expect(component.districts).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+  });
+
+  it('should not retrieve districts for a city if orderService returns an empty list', () => {
+    spyOn((component as any).orderService, 'findAllDistricts').and.returnValue(of([]));
+    component.getDistrictsForCity();
+
+    expect(component.districts).toEqual([]);
   });
 });
