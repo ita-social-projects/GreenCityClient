@@ -102,7 +102,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   loadData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.regions = [{ name: this.getLangValue(this.addressRegion.value, this.addressRegionEng.value), key: 1 }];
-    this.districts = this.appendDistrictLabel(this.addressExportDetailsDto.get('addressRegionDistrictList').value);
+    this.districts = this.locationService.appendDistrictLabel(this.addressExportDetailsDto.get('addressRegionDistrictList').value);
 
     this.getLangControl(this.addressRegion, this.addressRegionEng).valueChanges.subscribe(() => {
       this.addressCity.setValue('');
@@ -132,27 +132,12 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
     this.initGoogleAutocompleteServices();
   }
 
-  appendDistrictLabel(districtList: DistrictsDtos[]): DistrictsDtos[] | [] {
-    if (!districtList || districtList.length === 1) {
-      return districtList || [];
-    }
-
-    return districtList.map((district) => {
-      const districtWithLabel = {
-        nameUa: `${district.nameUa} район`,
-        nameEn: `${district.nameEn} district`
-      };
-      return districtWithLabel;
-    });
-  }
-
   getDistrictsForCity(): void {
     this.orderService
       .findAllDistricts(this.addressRegion.value, this.addressCity.value)
       .pipe(takeUntil(this.destroy$))
       .subscribe((districts) => {
         this.districts = districts;
-        console.log('districts', districts);
       });
   }
 
@@ -276,8 +261,6 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   onDistrictSelected(): void {
     this.locationService.setDistrictValues(this.addressDistrict, this.addressDistrictEng, this.districts);
-
-    console.log('address', this.addressDistrict.value, this.addressDistrictEng.value);
   }
 
   setPredictHouseNumbers(): void {

@@ -54,12 +54,6 @@ export class LocationService {
     return new google.maps.LatLngBounds(l, x);
   }
 
-  checkOnCityNames(addressRegion: string): boolean {
-    const isKyivRegion = addressRegion === KyivNamesEnum.KyivRegionUa;
-    const isKyivCity = addressRegion === KyivNamesEnum.KyivCityUa;
-    return isKyivRegion || isKyivCity;
-  }
-
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
     const request = this.getRequest(searchAddress.input, lang, 'address');
     return new Observable((observer) => {

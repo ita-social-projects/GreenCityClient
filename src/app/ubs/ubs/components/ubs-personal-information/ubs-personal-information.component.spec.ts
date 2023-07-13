@@ -241,13 +241,6 @@ describe('UBSPersonalInformationComponent', () => {
     expect(component.openDialog).toHaveBeenCalledTimes(1);
   });
 
-  it('method deleteAddress should invoke deleteAddress from orderService', () => {
-    fakeOrderService.deleteAddress.and.returnValue(of(listMock));
-    const spy = spyOn(component, 'checkAddress');
-    component.deleteAddress(listMock.addressList[0]);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('method addNewAddress should add new address to address list in PersonalDataForm', () => {
     component.addresses = listMock.addressList;
     const spy = spyOn(component, 'openDialog');

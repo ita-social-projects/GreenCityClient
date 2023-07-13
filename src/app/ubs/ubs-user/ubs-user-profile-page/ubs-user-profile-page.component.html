@@ -316,7 +316,7 @@
                       (change)="onDistrictSelected(i)"
                     >
                       <option
-                        *ngFor="let district of address.value?.districtList"
+                        *ngFor="let district of address.value?.addressRegionDistrictList"
                         [ngValue]="getLangValue(district.nameUa, district.nameEn)"
                       >
                         {{ getLangValue(district.nameUa, district.nameEn) }}

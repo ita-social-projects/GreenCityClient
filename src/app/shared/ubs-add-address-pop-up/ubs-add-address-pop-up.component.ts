@@ -8,7 +8,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
@@ -57,7 +56,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private listOflocations: Locations,
     private googleScript: GoogleScript,
     private locationService: LocationService
   ) {}
@@ -355,8 +353,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onDistrictSelected() {
-    console.log('this.district, this.districtEn', this.district.value, this.districtEn.value);
-
     this.locationService.setDistrictValues(this.district, this.districtEn, this.districts);
   }
 

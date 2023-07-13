@@ -10,7 +10,6 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-pas
 import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Locations } from 'src/assets/locations/locations';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { take, takeUntil, map, switchMap, startWith } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -33,6 +32,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   streetPredictionList: GooglePrediction[];
   cityPredictionList: GooglePrediction[];
   housePredictionList: GooglePrediction[];
+
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
   userProfile: UserProfile;
@@ -59,8 +59,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   phoneMask = Masks.phoneMask;
   maxAddressLength = 4;
   currentLanguage: string;
-  districts: DistrictsDtos[];
-  districtsKyiv: Location[];
   regionBounds;
   regionOptions = {
     types: ['administrative_area_level_1'],
@@ -73,7 +71,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
     public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
@@ -135,6 +132,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       currentFormGroup.get('houseNumber').reset('');
       currentFormGroup.get('entranceNumber').reset('');
       currentFormGroup.get('houseCorpus').reset('');
+      currentFormGroup.get('addressRegionDistrictList').reset([]);
       this.streetPredictionList = null;
       this.cityPredictionList = null;
       this.housePredictionList = null;
@@ -217,7 +215,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         ]),
         searchAddress: new FormControl(null),
         isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
-        districtList: new FormControl(this.appendDistrictLabel(adres?.addressRegionDistrictList)),
+        addressRegionDistrictList: new FormControl(this.locationService.appendDistrictLabel(adres?.addressRegionDistrictList)),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
         actual: new FormControl(adres?.actual)
@@ -255,20 +253,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-  }
-
-  appendDistrictLabel(districtList: DistrictsDtos[]): DistrictsDtos[] | [] {
-    if (!districtList || districtList.length === 1) {
-      return districtList || [];
-    }
-
-    return districtList.map((district) => {
-      const districtWithLabel = {
-        nameUa: `${district.nameUa} район`,
-        nameEn: `${district.nameEn} district`
-      };
-      return districtWithLabel;
-    });
   }
 
   public deleteAddress(address) {
@@ -340,15 +324,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
-  getDistrictsForCity(region: string, city: string): void {
-    this.orderService
-      .findAllDistricts(region, city)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((districts) => {
-        this.districts = districts;
-      });
-  }
-
   setValueOfCity(selectedCity: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
     const abstractControl = item.get(abstractControlName);
 
@@ -361,9 +336,21 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       abstractControl.markAsDirty();
 
       if (abstractControlName === 'city') {
-        this.getDistrictsForCity(item.get('region').value, item.get('city').value);
+        this.getDistrictsForCity(item);
       }
     });
+  }
+
+  getDistrictsForCity(formGroup: AbstractControl): void {
+    const region = formGroup.get('region').value;
+    const city = formGroup.get('city').value;
+
+    this.orderService
+      .findAllDistricts(region, city)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((districts) => {
+        formGroup.get('addressRegionDistrictList').setValue(districts);
+      });
   }
 
   setPredictStreets(formGroupName: number): void {
@@ -439,7 +426,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const district = currentFormGroup.get('district');
     const districtEn = currentFormGroup.get('districtEn');
-    const districtList = currentFormGroup.get('districtList').value;
+    const districtList = currentFormGroup.get('addressRegionDistrictList').value;
 
     this.locationService.setDistrictValues(district, districtEn, districtList);
   }
@@ -538,7 +525,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
         }
         delete updatedAddres.searchAddress;
         delete updatedAddres.isHouseSelected;
-        delete updatedAddres.districtList;
+        delete updatedAddres.addressRegionDistrictList;
         submitData.addressDto.push(updatedAddres);
       });
 
