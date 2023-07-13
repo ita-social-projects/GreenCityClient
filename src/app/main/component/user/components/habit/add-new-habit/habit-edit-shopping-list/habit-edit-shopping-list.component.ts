@@ -96,11 +96,13 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     const newItem = {
       id: null,
       status: TodoStatus.active,
-      text: value,
+      text: value.trim(),
       custom: true,
       selected: true
     };
-    this.shopList = [newItem, ...this.shopList];
+    if (newItem.text !== '') {
+      this.shopList = [newItem, ...this.shopList];
+    }
     this.item.setValue('');
     this.placeItemInOrder();
   }

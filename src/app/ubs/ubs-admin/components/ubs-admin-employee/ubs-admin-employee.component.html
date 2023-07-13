@@ -164,6 +164,7 @@
             #autocompleteTriggerState="matAutocompleteTrigger"
             formControlName="state"
             [matAutocomplete]="autoState"
+            (matChipInputTokenEnd)="addItem($event, 'state')"
           />
           <mat-autocomplete #autoState="matAutocomplete" (optionSelected)="selectedStates($event)">
             <div class="option-wrapper">

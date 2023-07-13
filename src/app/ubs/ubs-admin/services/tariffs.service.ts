@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { mainUbsLink } from 'src/app/main/links';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { Bag, CreateCard, EditLocationName, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
+import { Bag, CreateCard, Service, Couriers, Stations, Locations, DeactivateCard } from '../models/tariffs.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
@@ -73,6 +73,7 @@ export class TariffsService {
   setTariffLimits(limits, tariffId: number) {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/setTariffLimits/${tariffId}`, limits);
   }
+
   public getJSON(sourceText, lang, translateTo): Observable<any> {
     return ajax.getJSON(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang}&tl=${translateTo}&dt=t&q=` + encodeURI(sourceText)
@@ -103,8 +104,8 @@ export class TariffsService {
     return this.http.put(`${mainUbsLink}/ubs/superAdmin/update-courier`, newCourier);
   }
 
-  public editLocationName(newLocation: EditLocationName[]): Observable<object> {
-    return this.http.post(`${mainUbsLink}/ubs/superAdmin/locations/edit`, newLocation);
+  public deleteCityInLocation(id: number) {
+    return this.http.delete(`${mainUbsLink}/ubs/superAdmin/deleteLocation/${id}`);
   }
 
   public getFilteredCard(filterData): Observable<any[]> {

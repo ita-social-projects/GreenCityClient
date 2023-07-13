@@ -40,7 +40,7 @@ import { CronPipe } from './cron-pipe/cron.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-
+import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 @NgModule({
   declarations: [
     SpinnerComponent,
@@ -72,7 +72,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    ResizableBottomSheetComponent
+    ResizableBottomSheetComponent,
+    CorrectUnitPipe
   ],
   imports: [
     CommonModule,
@@ -115,7 +116,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
-    ResizableBottomSheetComponent
+    ResizableBottomSheetComponent,
+    CorrectUnitPipe
   ]
 })
 export class SharedModule {}

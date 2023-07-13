@@ -16,6 +16,7 @@ import {
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { Employees, EmployeeDataResponse, EmployeeDataToSend } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { EMPTY, of } from 'rxjs';
+import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 
 @Injectable()
 export class EmployeesEffects {
@@ -24,12 +25,24 @@ export class EmployeesEffects {
   getEmployees = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEmployees),
-      mergeMap((actions: { pageNumber: number; pageSize: number; search?: string; reset: boolean }) => {
-        return this.ubsAdminEmployeeService.getEmployees(actions.pageNumber, actions.pageSize, actions.search).pipe(
-          map((employees: Employees) => GetEmployeesSuccess({ employees, reset: actions.reset })),
-          catchError(() => EMPTY)
-        );
-      })
+      mergeMap(
+        (actions: {
+          pageNumber: number;
+          pageSize: number;
+          search?: string;
+          sortBy?: string;
+          reset: boolean;
+          sortDirection?: string;
+          filterData: FilterData;
+        }) => {
+          return this.ubsAdminEmployeeService
+            .getEmployees(actions.pageNumber, actions.pageSize, actions.search, actions.sortBy, actions.sortDirection, actions.filterData)
+            .pipe(
+              map((employees: Employees) => GetEmployeesSuccess({ employees, reset: actions.reset })),
+              catchError(() => EMPTY)
+            );
+        }
+      )
     );
   });
 

@@ -103,22 +103,26 @@
             <input
               class="shadow-none form-control mb-1"
               formControlName="location"
+              #locationInput
               [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location' | translate"
-              [matAutocomplete]="autoCity"
-              #autocompleteTriggerCity="matAutocompleteTrigger"
+              (keyup)="setPredictCities()"
+              matInput
               (keyup.enter)="addEditedCity()"
+              [matAutocomplete]="autoCity"
             />
-            <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="selectCitiesEdit($event)">
-              <ng-container>
-                <mat-option *ngFor="let option of filteredCities" [value]="option">
-                  {{ option.locationTranslationDtoList[0].locationName }}
-                </mat-option>
-              </ng-container>
+            <mat-autocomplete #autoCity="matAutocomplete">
+              <mat-option
+                class="autocomplete-dropdown"
+                *ngFor="let cityName of cityPredictionList"
+                [value]="cityName.description"
+                (click)="onCitySelected(cityName)"
+              >
+                {{ cityName.description }}
+              </mat-option>
             </mat-autocomplete>
-            <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
           </div>
           <img
-            *ngIf="location.value.length && !data.edit"
+            *ngIf="location.value.length"
             [src]="icons.cross"
             class="cross-img"
             alt="close-icon"
@@ -170,9 +174,9 @@
     <div class="mb-2">
       <div *ngFor="let item of editedCities; let index = index">
         <div class="d-flex">
-          <div class="itemList">{{ item.location }}</div>
+          <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
           <img [src]="icons.cross" class="delete-button-img" alt="edit-icon" (click)="deleteEditedCity(index)" />
-          <div class="itemList">{{ item.englishLocation }}</div>
+          <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
         </div>
       </div>
     </div>
@@ -182,15 +186,11 @@
       {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
     </button>
     <button
-      *ngIf="!data.edit"
       class="primary-global-button btn m-0"
-      [disabled]="locationForm.invalid || selectedCities.length === 0"
+      [disabled]="(data.edit ? editedCities.length : selectedCities.length) === 0 || (locationForm.invalid && !data.edit)"
       (click)="addLocation()"
     >
-      {{ 'ubs-tariffs-add-location-pop-up.add_button' | translate }}
-    </button>
-    <button *ngIf="data.edit" class="primary-global-button btn m-0" [disabled]="editedCities.length === 0" (click)="editLocation()">
-      {{ 'ubs-tariffs-add-location-pop-up.save_button' | translate }}
+      {{ (data.edit ? 'ubs-tariffs-add-location-pop-up.save_button' : 'ubs-tariffs-add-location-pop-up.add_button') | translate }}
     </button>
   </div>
 </ng-template>
