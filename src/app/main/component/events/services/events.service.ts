@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, EventPageResponceDto, PagePreviewDTO } from '../models/events.interface';
+import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
