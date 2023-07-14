@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AddressData, AllLocationsDtos, CourierLocations, ActiveCourierDto } from '../models/ubs.interface';
+import { Address, AddressData, AllLocationsDtos, CourierLocations, ActiveCourierDto, DistrictEnum } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -96,8 +96,8 @@ export class OrderService {
       map((districts) => {
         if (districts.length > 1) {
           return districts.map((item) => ({
-            nameUa: item.nameUa + ' район',
-            nameEn: item.nameEn + ' district'
+            nameUa: item.nameUa + DistrictEnum.UA,
+            nameEn: item.nameEn + DistrictEnum.EN
           }));
         } else {
           return districts.map((item) => ({

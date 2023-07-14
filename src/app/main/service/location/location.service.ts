@@ -5,6 +5,7 @@ import { SearchAddress, DistrictsDtos } from 'src/app/ubs/ubs/models/ubs.interfa
 import { Language } from '../../i18n/Language';
 import { LanguageService } from '../../i18n/language.service';
 import { AbstractControl } from '@angular/forms';
+import { DistrictEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -91,8 +92,8 @@ export class LocationService {
 
     return districtList.map((district) => {
       const districtWithLabel = {
-        nameUa: `${district.nameUa} район`,
-        nameEn: `${district.nameEn} district`
+        nameUa: `${district.nameUa}${DistrictEnum.UA}`,
+        nameEn: `${district.nameEn}${DistrictEnum.EN}`
       };
       return districtWithLabel;
     });

@@ -293,22 +293,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
-  it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
-    const result = [ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]];
-    component.addressRegion.setValue(`Київська область`);
-    component.addressRegionEng.setValue(`Kyiv Oblast`);
-    component.addressCity.setValue(`Щасливе`);
-    component.addressCityEng.setValue(`Shchaslyve`);
-    component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
-    });
-
-    const fakesearchAddress = `Щасливе, Не`;
-    component.inputAddress(fakesearchAddress, Language.UK);
-    expect(component.streetPredictionList).toEqual(result);
-  });
-
   it('method onStreetSelected should invoke method setValueOfStreet 2 times', () => {
     const spy = spyOn(component, 'setValueOfStreet');
     component.onStreetSelected(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]);

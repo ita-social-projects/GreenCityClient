@@ -274,3 +274,8 @@ export enum KyivNamesEnum {
   KyivUa = 'Київ',
   KyivEn = 'Kyiv'
 }
+
+export enum DistrictEnum {
+  UA = ' район',
+  EN = ' district'
+}
