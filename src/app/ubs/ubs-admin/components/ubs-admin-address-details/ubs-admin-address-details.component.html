@@ -10,14 +10,6 @@
         <div class="settlement">
           <div class="form-group">
             <label for="region">{{ 'address-details.region' | translate }}</label>
-            <!--<select
-              [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
-              (change)="setRegionValue($event)"
-              class="form-control shadow-none placeholder-positioning"
-              id="region"
-            >
-              <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
-            </select>-->
             <input
               type="text"
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"

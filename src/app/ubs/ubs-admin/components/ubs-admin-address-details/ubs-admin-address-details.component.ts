@@ -3,7 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
+import { IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LocationService } from '@global-service/location/location.service';
