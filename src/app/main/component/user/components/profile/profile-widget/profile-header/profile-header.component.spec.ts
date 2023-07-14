@@ -52,7 +52,8 @@ describe('ProfileHeaderComponent', () => {
       facebook: './assets/img/icon/facebook-icon.svg',
       linkedin: './assets/img/icon/linked-icon.svg',
       instagram: './assets/img/icon/instagram-icon.svg',
-      twitter: './assets/img/icon/twitter-icon.svg'
+      twitter: './assets/img/icon/twitter-icon.svg',
+      youtube: './assets/img/icon/youtube-icon.svg'
     };
   });
 
