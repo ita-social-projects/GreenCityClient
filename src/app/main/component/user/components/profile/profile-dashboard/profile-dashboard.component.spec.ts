@@ -154,7 +154,7 @@ describe('ProfileDashboardComponent', () => {
     });
   });
 
-  xit('Should call getAllUserEvents method before subscribe', async(() => {
+  it('Should call getAllUserEvents method before subscribe', async(() => {
     component.userId = 12;
     const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
     const spy2 = spyOn(EventsServiceMock.getAllUserEvents(), 'subscribe');
