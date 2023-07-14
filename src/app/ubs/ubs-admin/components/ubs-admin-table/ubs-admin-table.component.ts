@@ -34,7 +34,7 @@ import {
 import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys } from '../../services/table-keys.enum';
 
 @Component({
