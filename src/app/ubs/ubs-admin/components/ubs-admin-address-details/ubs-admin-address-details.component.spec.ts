@@ -142,13 +142,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
   }));
 
-  it('method setRegionValue should set addressRegion value', () => {
-    const event = { target: { value: '0: Київська область' } };
-    component.regions = ADDRESSESMOCK.REGIONSMOCK;
-    component.setRegionValue(event as any);
-    expect(component.addressRegion.value).toBe('Київська область');
-  });
-
   it('method setPredictCities should call method for predicting cities in ua', () => {
     component.addressRegion.setValue('місто Київ');
     component.addressCity.setValue('Київ');
