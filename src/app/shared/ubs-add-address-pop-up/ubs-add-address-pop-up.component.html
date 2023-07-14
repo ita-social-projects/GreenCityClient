@@ -142,7 +142,7 @@
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
     <select [formControlName]="getLangValue('district', 'districtEn')" class="shadow-none form-control" (change)="onDistrictSelected()">
-      <option *ngFor="let district of districts" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
+      <option *ngFor="let district of districtList" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
         {{ getLangValue(district.nameUa, district.nameEn) }}
       </option>
     </select>

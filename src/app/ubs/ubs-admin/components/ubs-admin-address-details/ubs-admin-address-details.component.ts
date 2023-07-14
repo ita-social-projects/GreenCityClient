@@ -3,7 +3,6 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Locations } from 'src/assets/locations/locations';
 import { Location, IGeneralOrderInfo } from '../../models/ubs-admin.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -29,14 +28,12 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   housePredictionList: GooglePrediction[];
   placeService: GooglePlaceService;
   currentLanguage: string;
-  regions: Location[];
   districts: DistrictsDtos[];
   isStatus = false;
   isHouseSelected = false;
 
   constructor(
     private localStorageService: LocalStorageService,
-    private locations: Locations,
     private langService: LanguageService,
     private locationService: LocationService,
     private orderService: OrderService
@@ -101,7 +98,6 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   loadData(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    this.regions = [{ name: this.getLangValue(this.addressRegion.value, this.addressRegionEng.value), key: 1 }];
     this.districts = this.locationService.appendDistrictLabel(this.addressExportDetailsDto.get('addressRegionDistrictList').value);
 
     this.getLangControl(this.addressRegion, this.addressRegionEng).valueChanges.subscribe(() => {
@@ -144,16 +140,6 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   private initGoogleAutocompleteServices(): void {
     this.autocompleteService = new google.maps.places.AutocompleteService();
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
-  }
-
-  setRegionValue(event: Event): void {
-    const elem = this.regions.find((el) => el.name === (event.target as HTMLSelectElement).value.slice(3));
-    const selectedRegionUa = this.locations.getBigRegions(Language.UA).find((el) => el.key === elem.key);
-    const selectedRegionEn = this.locations.getBigRegions(Language.EN).find((el) => el.key === elem.key);
-    this.addressRegion.setValue(selectedRegionUa.name);
-    this.addressRegion.markAsDirty();
-    this.addressRegionEng.setValue(selectedRegionEn.name);
-    this.addressRegionEng.markAsDirty();
   }
 
   setPredictCities(): void {
@@ -210,9 +196,9 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   inputAddress(searchAddress: string, lang: string): void {
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
-    const isDistrictKyiv = this.addressCity.value === KyivNamesEnum.KyivCityUa;
+    const isKyivRegion = this.addressRegion.value === KyivNamesEnum.KyivRegionUa;
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!isDistrictKyiv) {
+      if (!isKyivRegion) {
         this.streetPredictionList = streetPredictions?.filter(
           (el) =>
             (el.structured_formatting.secondary_text.includes(this.addressRegion.value) ||
@@ -232,6 +218,7 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   onStreetSelected(selectedStreet: GooglePrediction): void {
     this.addressHouseNumber.setValue('');
+
     this.setValueOfStreet(selectedStreet, this.addressStreet, Language.UK);
     this.setValueOfStreet(selectedStreet, this.addressStreetEng, Language.EN);
   }
@@ -254,7 +241,12 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   }
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
-    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    let currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+
+    if (language === Language.EN) {
+      currentDistrict = currentDistrict?.split(`'`).join('');
+    }
+
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
   }

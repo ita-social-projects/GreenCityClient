@@ -4,7 +4,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
@@ -41,9 +40,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  const fakeLocationsMockUk = jasmine.createSpyObj('Locations', ['getBigRegions']);
-  fakeLocationsMockUk.getBigRegions.and.returnValue(ADDRESSESMOCK.REGIONSMOCK);
-
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
     return valUa;
@@ -67,7 +63,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: LocationService, useValue: fakeLocationServiceMock }
       ]

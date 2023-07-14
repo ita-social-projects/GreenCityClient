@@ -442,7 +442,7 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.placeId).toBeNull();
   });
 
-  it('should assign districts correctly when edit is true', () => {
+  it('should assign districtList correctly when edit is true', () => {
     component.data.edit = true;
     component.ngOnInit();
     const expectedDistricts = fakeAddress.addressRegionDistrictList.map((district) => {
@@ -451,7 +451,7 @@ describe('UBSAddAddressPopUpComponent', () => {
         nameEn: `${district.nameEn} district`
       };
     });
-    expect(component.districts).toEqual(expectedDistricts);
+    expect(component.districtList).toEqual(expectedDistricts);
   });
 
   it('should set predictions for regions', () => {

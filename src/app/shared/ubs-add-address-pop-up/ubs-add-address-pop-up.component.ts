@@ -41,7 +41,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   placeId: string;
   locations: CourierLocations;
   regionBounds;
-  districts: DistrictsDtos[];
+  districtList: DistrictsDtos[];
 
   constructor(
     private fb: FormBuilder,
@@ -178,12 +178,15 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       });
 
     if (this.data.edit) {
-      this.districts = this.data.address.addressRegionDistrictList.map((district) => {
+      this.districtList = this.data.address.addressRegionDistrictList.map((district) => {
         return {
           nameUa: `${district.nameUa} район`,
           nameEn: `${district.nameEn} district`
         };
       });
+    } else {
+      this.district.disable();
+      this.districtEn.disable();
     }
   }
 
@@ -287,7 +290,12 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       .findAllDistricts(this.region.value, this.city.value)
       .pipe(takeUntil(this.destroy))
       .subscribe((districts) => {
-        this.districts = districts;
+        this.districtList = districts;
+
+        this.district.enable();
+        this.district.markAsTouched();
+        this.districtEn.enable();
+        this.districtEn.markAsTouched();
       });
   }
 
@@ -353,7 +361,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onDistrictSelected() {
-    this.locationService.setDistrictValues(this.district, this.districtEn, this.districts);
+    this.locationService.setDistrictValues(this.district, this.districtEn, this.districtList);
   }
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
@@ -466,7 +474,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     let isValueExistsInDistricts = false;
 
     if (this.district.value && this.districtEn.value) {
-      isValueExistsInDistricts = this.districts?.some(
+      isValueExistsInDistricts = this.districtList?.some(
         (district) => district.nameUa === this.district.value || district.nameEn === this.districtEn.value
       );
     }
