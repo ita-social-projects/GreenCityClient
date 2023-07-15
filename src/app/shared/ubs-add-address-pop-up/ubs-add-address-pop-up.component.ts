@@ -13,6 +13,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
+import { DistrictEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -180,8 +181,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     if (this.data.edit) {
       this.districtList = this.data.address.addressRegionDistrictList.map((district) => {
         return {
-          nameUa: `${district.nameUa} район`,
-          nameEn: `${district.nameEn} district`
+          nameUa: `${district.nameUa}${DistrictEnum.UA}`,
+          nameEn: `${district.nameEn}${DistrictEnum.EN}`
         };
       });
     } else {
