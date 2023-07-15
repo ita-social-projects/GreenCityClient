@@ -20,11 +20,11 @@ div {
 }
 
 .paid {
-  background-color: #ff0 !important;
+  background-color: var(--primary-yellow) !important;
 }
 
 .half-paid {
-  background-color: #fff9d2 !important;
+  background-color: var(--quaternary-light-green) !important;
 }
 
 ::ng-deep .mat-tooltip {

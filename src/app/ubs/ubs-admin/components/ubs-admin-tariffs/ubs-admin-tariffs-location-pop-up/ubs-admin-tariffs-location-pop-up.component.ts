@@ -418,8 +418,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   private checkCityExist(item, array: Array<string>): boolean {
-    console.log('item', item, 'array', array);
-
     const newCityName = item.locationTranslationDtoList?.locationName.toLowerCase();
     const cityList = array.map((it) => it.toLowerCase());
     return cityList.includes(newCityName);
