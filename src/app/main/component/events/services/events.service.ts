@@ -85,7 +85,7 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  isEventOver(date: string): boolean {
+  public isEventOver(date: string): boolean {
     return new Date(date).getTime() < this.currentDate.getTime();
   }
 

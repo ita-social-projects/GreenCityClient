@@ -163,4 +163,9 @@ describe('EventsService', () => {
     expect(req.request.method).toEqual('DELETE');
     req.flush(data);
   });
+
+  it('isEventOver() should return true is event is over', () => {
+    const result = service.isEventOver(data.dates[data.dates.length - 1].finishDate);
+    expect(result).toBeTruthy();
+  });
 });
