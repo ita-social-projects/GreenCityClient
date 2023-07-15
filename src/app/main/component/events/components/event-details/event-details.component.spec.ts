@@ -198,12 +198,4 @@ describe('EventDetailsComponent', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
   });
-
-  it('should return true if an event is over', () => {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() - 1);
-    const prevDate = currentDate.toISOString();
-    const value = component.isEventOver(prevDate.toString());
-    expect(value).toBeTruthy();
-  });
 });

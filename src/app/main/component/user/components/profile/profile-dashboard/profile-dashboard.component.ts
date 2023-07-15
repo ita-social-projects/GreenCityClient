@@ -106,6 +106,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = this.getSortedEvents(res.page, this.userLatitude, this.userLongitude) || [];
+        console.log(this.eventsList);
         this.eventsTotal = res.totalElements;
       });
   }
@@ -135,12 +136,19 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public getSortedEvents(events: EventPageResponceDto[], userLat: number, userLon: number): EventPageResponceDto[] {
     return [
       ...events
-        .filter((event) => event.dates[event.dates.length - 1].onlineLink)
+        .filter(
+          (event) =>
+            event.dates[event.dates.length - 1].onlineLink && !this.eventService.isEventOver(event.dates[event.dates.length - 1].finishDate)
+        )
         .sort(
           (a, b) => new Date(b.dates[b.dates.length - 1].finishDate).getTime() - new Date(a.dates[a.dates.length - 1].finishDate).getTime()
         ),
       ...events
-        .filter((event) => !event.dates[event.dates.length - 1].onlineLink)
+        .filter(
+          (event) =>
+            !event.dates[event.dates.length - 1].onlineLink &&
+            !this.eventService.isEventOver(event.dates[event.dates.length - 1].finishDate)
+        )
         .map((event) => {
           return {
             ...event,

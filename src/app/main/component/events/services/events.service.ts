@@ -12,6 +12,8 @@ export class EventsService implements OnDestroy {
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  public currentDate = new Date();
+
   constructor(private http: HttpClient) {}
 
   public setForm(form: PagePreviewDTO): void {
@@ -68,6 +70,10 @@ export class EventsService implements OnDestroy {
 
   public getAllAttendees(id: number): Observable<any> {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
+  }
+
+  isEventOver(date: string): boolean {
+    return new Date(date).getTime() < this.currentDate.getTime();
   }
 
   createAdresses(coordinates, lenguage: string) {
