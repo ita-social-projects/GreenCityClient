@@ -116,7 +116,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
-      this.isOver = this.isEventOver(this.event.dates[this.event.dates.length - 1].finishDate);
+      this.isOver = this.eventService.isEventOver(this.event.dates[this.event.dates.length - 1].finishDate);
       this.mapDialogData = {
         lat: this.event.dates[this.event.dates.length - 1].coordinates.latitude,
         lng: this.event.dates[this.event.dates.length - 1].coordinates.longitude
