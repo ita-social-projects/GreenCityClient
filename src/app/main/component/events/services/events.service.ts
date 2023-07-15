@@ -72,7 +72,7 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  isEventOver(date: string): boolean {
+  public isEventOver(date: string): boolean {
     return new Date(date).getTime() < this.currentDate.getTime();
   }
 
