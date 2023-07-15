@@ -42,7 +42,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   regionEnglishName: string[];
   regionNameUk: string;
   regionId: number;
-  isInputRegionExisting = true;
+  isInputRegionExisting = false;
   stations: Stations[];
   stationName: Array<string> = [];
   couriers: Couriers[];
@@ -185,7 +185,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
     this.updateFilterData({ [fieldName]: '', location: locationsId });
     this.getExistingCard(this.filterData);
-    this.isInputRegionExisting = true;
+    this.isInputRegionExisting = false;
   }
 
   resetCourierValue(): void {
@@ -873,13 +873,17 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   checkUserRegion(event: Event) {
-    let filteredRegions = [];
     const target = event.target as HTMLInputElement;
     this.filteredRegions.pipe(takeUntil(this.destroy)).subscribe((regions) => {
-      filteredRegions = regions;
-      filteredRegions.push(this.getLangValue('Все', 'All'));
+      if (target.value) {
+        this.isInputRegionExisting =
+          event.type === 'input'
+            ? [...regions, this.getLangValue('Все', 'All')].some((el) => el.toLowerCase().includes(target.value.toLowerCase()))
+            : [...regions, this.getLangValue('Все', 'All')].some((el) => el.toLowerCase() === target.value.toLowerCase());
+      } else {
+        this.isInputRegionExisting = false;
+      }
     });
-    this.isInputRegionExisting = filteredRegions.some((el) => el.toLowerCase().includes(target.value.toLowerCase()));
   }
 
   ngOnDestroy(): void {

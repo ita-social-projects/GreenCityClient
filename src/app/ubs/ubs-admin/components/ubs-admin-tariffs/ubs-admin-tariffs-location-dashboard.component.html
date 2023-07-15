@@ -62,7 +62,9 @@
           formControlName="region"
           [matAutocomplete]="autoRegion"
           (input)="checkUserRegion($event)"
-          [ngClass]="{ 'region-not-existing': !isInputRegionExisting }"
+          (change)="checkUserRegion($event)"
+          #userRegion
+          [ngClass]="{ 'region-not-existing': !isInputRegionExisting && userRegion.value.length }"
         />
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">
           <mat-option [value]="'ubs-tariffs.states.all' | translate">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>

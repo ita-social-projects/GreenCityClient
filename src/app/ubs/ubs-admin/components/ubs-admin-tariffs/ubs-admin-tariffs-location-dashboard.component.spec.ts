@@ -441,25 +441,36 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(spy).toHaveBeenCalledWith(fakeFilterData);
   });
 
-  it('should check does user input value match existing region', () => {
+  it('should check does user input value match existing region', async(() => {
     const mockEvent1: any = {
       target: {
-        value: 'Kyiv'
+        value: 'Kyiv oblast',
+        type: 'change'
       }
     };
     const mockEvent2: any = {
       target: {
-        value: '5267392'
+        value: '5267392',
+        type: 'input'
       }
     };
-    component.filteredRegions = of(['Kyiv oblast', 'Lviv oblast', 'Donetsl oblast']);
-    component.checkUserRegion(mockEvent2);
-    fixture.detectChanges();
-    expect(component.isInputRegionExisting).toBeFalsy();
+    const mockEvent3: any = {
+      target: {
+        value: 'lvi',
+        type: 'change'
+      }
+    };
+    component.filteredRegions = of(['Kyiv oblast', 'Lviv oblast', 'Donetsk oblast']);
     component.checkUserRegion(mockEvent1);
     fixture.detectChanges();
     expect(component.isInputRegionExisting).toBeTruthy();
-  });
+    component.checkUserRegion(mockEvent2);
+    fixture.detectChanges();
+    expect(component.isInputRegionExisting).toBeFalsy();
+    component.checkUserRegion(mockEvent3);
+    fixture.detectChanges();
+    expect(component.isInputRegionExisting).toBeFalsy();
+  }));
 
   it('should call method for filtering card with chosen region', () => {
     const eventMock = {
