@@ -28,6 +28,7 @@ export class CalendarComponent extends CalendarBaseComponent implements OnInit, 
     this.subscribeToLangChange();
     this.buildCalendar();
     this.getUserHabits(true, this.calendarDay);
+    this.getAllAssignedHabbits();
   }
 
   showHabits(event, dayItem: CalendarInterface) {
