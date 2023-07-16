@@ -212,7 +212,7 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   }
 
   public setDateCount(value: number): void {
-    if ((this.dates.length === 1 && this.dates[0].date === null) || this.editMode) {
+    if ((this.dates.length === 1 && !this.dates[0].date) || this.editMode) {
       this.dates = Array(value)
         .fill(null)
         .map(() => ({ ...DateObj }));
