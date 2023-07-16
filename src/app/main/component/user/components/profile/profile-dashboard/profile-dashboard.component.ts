@@ -108,6 +108,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.eventsList = this.getSortedEvents(res.page, this.userLatitude, this.userLongitude) || [];
         this.eventsTotal = res.totalElements;
       });
+
+    console.log(typeof this.eventService.getAllUserEvents(0, this.eventsPerPage));
   }
 
   onEventsPageChange(page: number): void {
@@ -159,7 +161,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
             )
           };
         })
-        .sort((a, b) => a.distance - b.distance)
+        .sort((a, b) => a.distance - b.distance),
+      ...events.filter((event) => this.eventService.isEventOver(event.dates[event.dates.length - 1].finishDate))
     ];
   }
 
