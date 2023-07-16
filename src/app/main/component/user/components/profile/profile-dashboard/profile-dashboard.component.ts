@@ -108,8 +108,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.eventsList = this.getSortedEvents(res.page, this.userLatitude, this.userLongitude) || [];
         this.eventsTotal = res.totalElements;
       });
-
-    console.log(typeof this.eventService.getAllUserEvents(0, this.eventsPerPage));
   }
 
   onEventsPageChange(page: number): void {
