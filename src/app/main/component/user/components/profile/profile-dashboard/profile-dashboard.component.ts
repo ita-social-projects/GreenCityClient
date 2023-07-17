@@ -66,8 +66,6 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.authorNews$.subscribe((val: IEcoNewsState) => {
       this.currentPage = val.authorNewsPage;
       if (val.ecoNewsByAuthor) {
-        console.log(val.autorNews);
-
         this.totalNews = val.ecoNewsByAuthor.totalElements;
         this.hasNext = val.ecoNewsByAuthor.hasNext;
         this.news = val.autorNews.filter((elem, index, arr) => {
