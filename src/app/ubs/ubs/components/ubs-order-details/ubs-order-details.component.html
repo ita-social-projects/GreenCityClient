@@ -124,6 +124,9 @@
                 <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
                 <input
                   id="index{{ i }}"
+                  [imask]="{ mask: SHOP_NUMBER_MASK }"
+                  [unmask]="false"
+                  placeholder="XXXXXXXXXX"
                   tabindex="{{ isDisabled() }}"
                   [formControlName]="i"
                   class="shadow-none form-control my-1 border-input p-2 eco-store-input"
@@ -142,7 +145,7 @@
             </div>
           </div>
           <div class="order-notification">
-            <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no'">
+            <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no' && !checkOrderValueEmpty">
               {{ 'order-details.order-error' | translate }}
             </small>
           </div>
