@@ -40,6 +40,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -91,7 +92,8 @@ registerLocaleData(ukLocale, 'ua');
     MatOptionModule,
     MatDividerModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    NgbModule
   ],
   exports: [
     EditPhotoPopUpComponent,
