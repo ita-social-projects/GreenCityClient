@@ -10,14 +10,13 @@
         <div class="settlement">
           <div class="form-group">
             <label for="region">{{ 'address-details.region' | translate }}</label>
-            <select
+            <input
+              type="text"
               [formControlName]="getLangValue('addressRegion', 'addressRegionEng')"
-              (change)="setRegionValue($event)"
               class="form-control shadow-none placeholder-positioning"
               id="region"
-            >
-              <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
-            </select>
+              disabled
+            />
           </div>
           <div class="form-group">
             <label for="city">{{ 'address-details.city' | translate }}</label>
@@ -143,20 +142,13 @@
         <div class="form-group district">
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
-            *ngIf="!isDistrictKyiv"
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
             class="shadow-none form-control"
-            (change)="onDistrictSelected($event)"
+            (change)="onDistrictSelected()"
           >
-            <option *ngFor="let district of districts" [ngValue]="district.name">{{ district.name }}</option>
-          </select>
-          <select
-            *ngIf="isDistrictKyiv"
-            [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="shadow-none form-control"
-            (change)="onDistrictSelected($event)"
-          >
-            <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
+            <option *ngFor="let district of districts" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
+              {{ getLangValue(district.nameUa, district.nameEn) }}
+            </option>
           </select>
 
           <div

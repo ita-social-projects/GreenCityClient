@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Locations } from 'src/assets/locations/locations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
@@ -12,6 +12,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
+import { KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -29,7 +30,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
     addressHouseCorpus: new FormControl('2'),
     addressEntranceNumber: new FormControl('5'),
     addressDistrict: new FormControl('Голосіївський район'),
-    addressDistrictEng: new FormControl(`Holosiivs'kyi district`)
+    addressDistrictEng: new FormControl(`Holosiivs'kyi district`),
+    addressRegionDistrictList: new FormControl(ADDRESSESMOCK.DISTRICTSKYIVMOCK)
   });
 
   const status = 'OK';
@@ -37,11 +39,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
-
-  const fakeLocationsMockUk = jasmine.createSpyObj('Locations', ['getBigRegions', 'getRegions', 'getRegionsKyiv']);
-  fakeLocationsMockUk.getBigRegions.and.returnValue(ADDRESSESMOCK.REGIONSMOCK);
-  fakeLocationsMockUk.getRegions.and.returnValue(ADDRESSESMOCK.DISTRICTSMOCK);
-  fakeLocationsMockUk.getRegionsKyiv.and.returnValue(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
@@ -53,21 +50,19 @@ describe('UbsAdminAddressDetailsComponent', () => {
     'getFullAddressList',
     'getSearchAddress',
     'getRequest',
-    'checkOnCityNames'
+    'appendDistrictLabel'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => ADDRESSESMOCK.PLACESTREETUK.address_components[1].long_name;
   fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
-  fakeLocationServiceMock.checkOnCityNames = () => of(true);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminAddressDetailsComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
-        { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: LocationService, useValue: fakeLocationServiceMock }
       ]
@@ -107,11 +102,7 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('method loadData should get data', () => {
     component.addressCity.setValue('Київ');
     component.loadData();
-    expect(component.currentLanguage).toBe('ua');
-    expect(component.isDistrictKyiv).toBeTruthy();
-    expect(component.isDistrict).toBeFalsy();
-    expect(component.districtsKyiv).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
-    expect(component.districts).toEqual(ADDRESSESMOCK.DISTRICTSMOCK);
+    expect(component.currentLanguage).toBe(Language.UA);
   });
 
   it('if value of region was changed other fields should be empty', fakeAsync(() => {
@@ -150,13 +141,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.streetPredictionList).toBe(null);
     expect((component as any).initGoogleAutocompleteServices).toHaveBeenCalledTimes(1);
   }));
-
-  it('method setRegionValue should set addressRegion value', () => {
-    const event = { target: { value: '0: Київська область' } };
-    component.regions = ADDRESSESMOCK.REGIONSMOCK;
-    component.setRegionValue(event as any);
-    expect(component.addressRegion.value).toBe('Київська область');
-  });
 
   it('method setPredictCities should call method for predicting cities in ua', () => {
     component.addressRegion.setValue('місто Київ');
@@ -268,7 +252,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     });
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCity, Language.UK);
     expect(component.addressCity.value).toEqual(ADDRESSESMOCK.PLACEKYIVUK.name);
-    expect(component.isDistrictKyiv).toEqual(true);
   });
 
   it('method onCitySelected should set isDistrictKyiv if city is not Kyiv', () => {
@@ -278,7 +261,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     });
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], component.addressCity, Language.UK);
     expect(component.addressCity.value).toEqual(ADDRESSESMOCK.PLACECITYUK.name);
-    expect(component.isDistrictKyiv).toEqual(false);
   });
 
   it('method setPredictStreets should call method for predicting streets in ua', () => {
@@ -311,35 +293,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
-  it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
-    component.isDistrictKyiv = true;
-    component.addressCity.setValue(`Київ`);
-    component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVCITYLIST, status as any);
-    });
-    const fakesearchAddress = `Київ, Сі`;
-    component.inputAddress(fakesearchAddress, Language.UK);
-    expect(component.streetPredictionList).toEqual(ADDRESSESMOCK.STREETSKYIVCITYLIST);
-  });
-
-  it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
-    component.isDistrictKyiv = false;
-    const result = [ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]];
-    component.addressRegion.setValue(`Київська область`);
-    component.addressRegionEng.setValue(`Kyiv Oblast`);
-    component.addressCity.setValue(`Щасливе`);
-    component.addressCityEng.setValue(`Shchaslyve`);
-    component.autocompleteService = { getPlacePredictions: () => {} } as any;
-    spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
-    });
-
-    const fakesearchAddress = `Щасливе, Не`;
-    component.inputAddress(fakesearchAddress, Language.UK);
-    expect(component.streetPredictionList).toEqual(result);
-  });
-
   it('method onStreetSelected should invoke method setValueOfStreet 2 times', () => {
     const spy = spyOn(component, 'setValueOfStreet');
     component.onStreetSelected(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]);
@@ -362,7 +315,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method onStreetSelected should get details for selected street in en', () => {
-    component.isDistrictKyiv = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
@@ -374,7 +326,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
   });
 
   it('method onStreetSelected should get details for selected street in uk', () => {
-    component.isDistrictKyiv = true;
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
@@ -397,24 +348,6 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.addressDistrictEng.value).toEqual(result);
   });
 
-  it('method onDistrictSelected should invoke method for setting district value in Kyiv region', () => {
-    component.isDistrictKyiv = false;
-    const event = { target: { value: '1: Броварський' } };
-    const spy = spyOn(component, 'setDistrict');
-    component.onDistrictSelected(event as any);
-    expect(spy).toHaveBeenCalledWith('1');
-  });
-
-  it('method setKyivDistrict should set district value in Kyiv city', () => {
-    component.setKyivDistrict('1');
-    expect(component.addressDistrict.value).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK[1].name);
-  });
-
-  it('method setDistrict should set district value in Kyiv region', () => {
-    component.setDistrict('1');
-    expect(component.addressDistrict.value).toEqual(ADDRESSESMOCK.DISTRICTSMOCK[1].name);
-  });
-
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
@@ -423,5 +356,20 @@ describe('UbsAdminAddressDetailsComponent', () => {
   it('should return ua value by getLangControl', () => {
     const value = component.getLangControl(component.addressCity, component.addressCityEng);
     expect(value).toEqual(component.addressCity);
+  });
+
+  it('should retrieve districts for a city', () => {
+    const districtsMock = ADDRESSESMOCK.DISTRICTSKYIVMOCK;
+    spyOn((component as any).orderService, 'findAllDistricts').and.returnValue(of(districtsMock));
+    component.getDistrictsForCity();
+
+    expect(component.districts).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+  });
+
+  it('should not retrieve districts for a city if orderService returns an empty list', () => {
+    spyOn((component as any).orderService, 'findAllDistricts').and.returnValue(of([]));
+    component.getDistrictsForCity();
+
+    expect(component.districts).toEqual([]);
   });
 });

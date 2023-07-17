@@ -1,3 +1,5 @@
+import { DistrictsDtos } from '../../ubs/models/ubs.interface';
+
 export interface Employees {
   content: Page[];
   empty: string;
@@ -222,6 +224,7 @@ export interface IAddressExportDetails {
   addressRegionEng: string;
   addressStreet: string;
   addressStreetEng: string;
+  addressRegionDistrictList: DistrictsDtos[];
 }
 
 export interface IPaymentInfo {
@@ -343,6 +346,7 @@ export interface Address {
   entranceNumber: string;
   houseCorpus: string;
   houseNumber: string;
+  addressRegionDistrictList?: any;
   isKyiv?: boolean;
   isNotKyivRegion?: boolean;
   id: number;

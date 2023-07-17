@@ -3,14 +3,13 @@ import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Address, UserProfile, Location } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from 'src/app/ubs/ubs-user/services/client-profile.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up/ubs-profile-change-password-pop-up.component';
 import { ConfirmationDialogComponent } from '../../ubs-admin/components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Locations } from 'src/assets/locations/locations';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -33,6 +32,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   streetPredictionList: GooglePrediction[];
   cityPredictionList: GooglePrediction[];
   housePredictionList: GooglePrediction[];
+
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
   userProfile: UserProfile;
@@ -59,8 +59,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   phoneMask = Masks.phoneMask;
   maxAddressLength = 4;
   currentLanguage: string;
-  districts: Location[];
-  districtsKyiv: Location[];
   regionBounds;
   regionOptions = {
     types: ['administrative_area_level_1'],
@@ -73,7 +71,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private locations: Locations,
     private googleScript: GoogleScript,
     public orderService: OrderService,
     public dialogRef: MatDialogRef<UbsUserProfilePageComponent>,
@@ -135,6 +132,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       currentFormGroup.get('houseNumber').reset('');
       currentFormGroup.get('entranceNumber').reset('');
       currentFormGroup.get('houseCorpus').reset('');
+      currentFormGroup.get('addressRegionDistrictList').reset([]);
       this.streetPredictionList = null;
       this.cityPredictionList = null;
       this.housePredictionList = null;
@@ -143,8 +141,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setTranslatedValueOfRegion(event: any, region: AbstractControl, regionEn: AbstractControl): void {
-    this.setTranslation(event.place_id, region, this.getLangValue(Language.UK, Language.EN));
-    this.setTranslation(event.place_id, regionEn, this.getLangValue(Language.EN, Language.UK));
+    this.setTranslation(event.place_id, region, Language.UK);
+    this.setTranslation(event.place_id, regionEn, Language.EN);
   }
 
   setTranslation(id: string, abstractControl: any, lang: string): void {
@@ -161,8 +159,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   userInit(): void {
     const addres = new FormArray([]);
+
     this.userProfile.addressDto.forEach((adres) => {
-      const seperateAddress = new FormGroup({
+      const separateAddress = new FormGroup({
         city: new FormControl(adres?.city, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
@@ -209,21 +208,22 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn), [
+        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn.split(`'`).join('')), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        isKyiv: new FormControl(adres.region === KyivNamesEnum.KyivCityUa && adres?.city === KyivNamesEnum.KyivUa),
-        isNotKyivRegion: new FormControl(adres.region !== KyivNamesEnum.KyivCityUa && adres.region !== KyivNamesEnum.KyivRegionUa),
         searchAddress: new FormControl(null),
         isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
+        addressRegionDistrictList: new FormControl(this.locationService.appendDistrictLabel(adres?.addressRegionDistrictList)),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
         actual: new FormControl(adres?.actual)
       });
-      addres.push(seperateAddress);
+
+      addres.push(separateAddress);
     });
+
     this.userForm = new FormGroup({
       address: addres,
       recipientName: new FormControl(this.userProfile?.recipientName, [
@@ -246,6 +246,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify),
       viberIsNotify: new FormControl(this.userProfile.viberIsNotify)
     });
+
     this.isFetching = false;
   }
 
@@ -325,8 +326,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   setValueOfCity(selectedCity: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
     const abstractControl = item.get(abstractControlName);
-    const isKyiv = item.get('isKyiv');
-    const isNotKyivRegion = item.get('isNotKyivRegion');
 
     const request = {
       placeId: selectedCity.place_id,
@@ -334,11 +333,24 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
+      abstractControl.markAsDirty();
+
       if (abstractControlName === 'city') {
-        isKyiv.setValue(abstractControl.value === 'Київ');
-        isNotKyivRegion.setValue(!isKyiv.value);
+        this.getDistrictsForCity(item);
       }
     });
+  }
+
+  getDistrictsForCity(formGroup: AbstractControl): void {
+    const region = formGroup.get('region').value;
+    const city = formGroup.get('city').value;
+
+    this.orderService
+      .findAllDistricts(region, city)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((districts) => {
+        formGroup.get('addressRegionDistrictList').setValue(districts);
+      });
   }
 
   setPredictStreets(formGroupName: number): void {
@@ -355,7 +367,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   inputAddress(searchAddress: string, item: AbstractControl, lang: string): void {
-    const { isKyiv, city, cityEn, region, regionEn } = item.value;
+    const { city, cityEn, region, regionEn } = item.value;
+    const isKyiv = city === KyivNamesEnum.KyivUa;
 
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
@@ -383,8 +396,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   setValueOfStreet(selectedStreet: GooglePrediction, item: AbstractControl, abstractControlName: string): void {
     const abstractControl = item.get(abstractControlName);
-    const isKyiv = item.get('isKyiv');
-    const isNotKyivRegion = item.get('isNotKyivRegion');
 
     const request = {
       placeId: selectedStreet.place_id,
@@ -392,10 +403,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     };
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
-      if ((request.language === Language.EN && isKyiv.value) || isNotKyivRegion.value) {
+      if (request.language === Language.EN) {
         this.setDistrictAuto(placeDetails, request.language, item);
       }
-      if ((request.language === Language.UK && isKyiv.value) || isNotKyivRegion.value) {
+      if (request.language === Language.UK) {
         this.setDistrictAuto(placeDetails, request.language, item);
       }
     });
@@ -403,53 +414,21 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   setDistrictAuto(placeDetails: GooglePlaceResult, language: string, item: AbstractControl): void {
     const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
-    const isNotKyiv = item.get('isNotKyivRegion');
     const districtEn = item.get('districtEn');
     const district = item.get('district');
 
     const abstractControl = language === Language.UK ? district : districtEn;
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
-
-    if (isNotKyiv && districtEn && district) {
-      const nextKey = this.districts.length + 1;
-      const districtValue = this.getLangValue(district.value, districtEn.value);
-      const isExisting = this.districts.some((districtItem) => districtItem.name === districtValue);
-
-      if (!isExisting) {
-        this.districts.push({ name: districtValue, key: nextKey });
-      }
-    }
   }
 
-  onDistrictSelected(formGroupName: number, event: Event): void {
+  onDistrictSelected(formGroupName: number): void {
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
-    const isKyiv = currentFormGroup.get('isKyiv');
-    const isNotKyiv = currentFormGroup.get('isNotKyivRegion');
+    const district = currentFormGroup.get('district');
+    const districtEn = currentFormGroup.get('districtEn');
+    const districtList = currentFormGroup.get('addressRegionDistrictList').value;
 
-    const districtKey = (event.target as HTMLSelectElement).value.slice(0, 1);
-
-    if (!isNotKyiv) {
-      isKyiv.value ? this.setKyivDistrict(districtKey, currentFormGroup) : this.setDistrict(districtKey, currentFormGroup);
-    }
-  }
-
-  setKyivDistrict(districtKey: string, item: AbstractControl): void {
-    const key = Number(districtKey) + 1;
-    const selectedDistrict = this.locations.getRegionsKyiv(Language.UA).find((el) => el.key === key);
-    const selectedDistricEn = this.locations.getRegionsKyiv(Language.EN).find((el) => el.key === key);
-
-    item.get('district').setValue(selectedDistrict.name);
-    item.get('districtEn').setValue(selectedDistricEn.name);
-  }
-
-  setDistrict(districtKey: string, item: AbstractControl): void {
-    const key = Number(districtKey) + 1;
-    const selectedDistrict = this.locations.getRegions(Language.UA).find((el) => el.key === key);
-    const selectedDistricEn = this.locations.getRegions(Language.EN).find((el) => el.key === key);
-
-    item.get('district').setValue(selectedDistrict.name);
-    item.get('districtEn').setValue(selectedDistricEn.name);
+    this.locationService.setDistrictValues(district, districtEn, districtList);
   }
 
   private convertDistrictName(district: string): string {
@@ -459,17 +438,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   onEdit(): void {
     this.isEditing = true;
     this.isFetching = false;
-    this.districtsKyiv = this.locations.getRegionsKyiv(this.currentLanguage);
-    this.districts = this.locations.getRegions(this.currentLanguage);
-    this.userProfile.addressDto.forEach((adres) => {
-      const regionValue = adres.region;
-      const districtValue = this.getLangValue(adres.district, adres.districtEn);
-
-      if (regionValue !== KyivNamesEnum.KyivCityUa && regionValue !== KyivNamesEnum.KyivRegionUa) {
-        const nextKey = this.districts.length + 1;
-        this.districts.push({ name: districtValue, key: nextKey });
-      }
-    });
     this.initGoogleAutocompleteServices();
     setTimeout(() => this.focusOnFirst());
   }

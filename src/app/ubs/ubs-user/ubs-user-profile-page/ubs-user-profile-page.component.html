@@ -311,21 +311,15 @@
                   <div class="form-group district">
                     <label for="district" class="form-label">{{ 'ubs-client-profile.district' | translate }}</label>
                     <select
-                      *ngIf="address.value?.isKyiv"
-                      [formControlName]="getLangValue('district', 'districtEn')"
-                      class="shadow-none form-control"
-                      (change)="onDistrictSelected(i, $event)"
-                    >
-                      <option *ngFor="let district of districtsKyiv" [ngValue]="district.name">{{ district.name }}</option>
-                    </select>
-                    <select
-                      *ngIf="!address.value?.isKyiv"
                       [formControlName]="getLangValue('district', 'districtEn')"
                       class="shadow-none form-control district"
-                      (change)="onDistrictSelected(i, $event)"
+                      (change)="onDistrictSelected(i)"
                     >
-                      <option *ngFor="let district of districts" [ngValue]="district.name">
-                        {{ district.name }}
+                      <option
+                        *ngFor="let district of address.value?.addressRegionDistrictList"
+                        [ngValue]="getLangValue(district.nameUa, district.nameEn)"
+                      >
+                        {{ getLangValue(district.nameUa, district.nameEn) }}
                       </option>
                     </select>
                   </div>

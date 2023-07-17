@@ -6,9 +6,8 @@ import { iif, of, Subject, throwError } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, Location, SearchAddress, CourierLocations, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
+import { Address, SearchAddress, CourierLocations, DistrictsDtos, DistrictEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
@@ -36,16 +35,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   housePattern = Patterns.ubsHousePattern;
   entranceNumberPattern = Patterns.ubsEntrNumPattern;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  isDistrictKyiv = false;
   isHouseSelected = false;
   currentLanguage: string;
   public isDeleting: boolean;
-  regionsKyiv: Location[];
-  regions: Location[];
   placeId: string;
   locations: CourierLocations;
-  isDistrict = false;
   regionBounds;
+  districtList: DistrictsDtos[];
 
   constructor(
     private fb: FormBuilder,
@@ -60,7 +56,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
-    private listOflocations: Locations,
     private googleScript: GoogleScript,
     private locationService: LocationService
   ) {}
@@ -182,21 +177,16 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         this.placeId = null;
       });
 
-    const isKyivRegion = this.locationService.checkOnCityNames(this.region.value);
-    if (isKyivRegion) {
-      this.isDistrictKyiv = this.city.value === KyivNamesEnum.KyivUa;
+    if (this.data.edit) {
+      this.districtList = this.data.address.addressRegionDistrictList.map((district) => {
+        return {
+          nameUa: `${district.nameUa}${DistrictEnum.UA}`,
+          nameEn: `${district.nameEn}${DistrictEnum.EN}`
+        };
+      });
     } else {
-      this.isDistrict = true;
-    }
-
-    this.regionsKyiv = this.listOflocations.getRegionsKyiv(this.currentLanguage);
-    this.regions = this.listOflocations.getRegions(this.currentLanguage);
-
-    if (this.data.edit && this.isDistrict) {
-      const abstractControl = this.getLangControl(this.district, this.districtEn);
-      this.regions = [{ name: abstractControl.value, key: 1 }];
-      abstractControl.setValue(abstractControl.value);
-      abstractControl.markAsDirty();
+      this.district.disable();
+      this.districtEn.disable();
     }
   }
 
@@ -208,8 +198,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onRegionSelected(region: any): void {
-    this.setTranslation(region.place_id, this.region, this.getLangValue(Language.UK, Language.EN));
-    this.setTranslation(region.place_id, this.regionEn, this.getLangValue(Language.EN, Language.UK));
+    this.setTranslation(region.place_id, this.region, Language.UK);
+    this.setTranslation(region.place_id, this.regionEn, Language.EN);
   }
 
   setTranslation(id: string, abstractControl: any, lang: string): void {
@@ -291,15 +281,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.placeService.getDetails(request, (placeDetails) => {
       abstractControl.setValue(placeDetails.name);
 
-      if (abstractControl === this.city) {
-        const isKyivRegion = this.locationService.checkOnCityNames(this.region.value);
-        if (isKyivRegion) {
-          this.isDistrictKyiv = this.city.value === KyivNamesEnum.KyivUa;
-        } else {
-          this.isDistrict = true;
-        }
-      }
+      this.getDistrictsForCity();
     });
+  }
+
+  getDistrictsForCity(): void {
+    this.orderService
+      .findAllDistricts(this.region.value, this.city.value)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((districts) => {
+        this.districtList = districts;
+
+        this.district.enable();
+        this.district.markAsTouched();
+        this.districtEn.enable();
+        this.districtEn.markAsTouched();
+      });
   }
 
   setPredictStreets(): void {
@@ -317,15 +314,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   inputAddress(searchAddress: string, lang: string): void {
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!this.isDistrictKyiv) {
-        this.streetPredictionList = this.filterPredictions(streetPredictions);
-      } else {
-        this.streetPredictionList = streetPredictions?.filter(
-          (el) =>
-            el.structured_formatting.secondary_text.includes(this.city.value) ||
-            el.structured_formatting.secondary_text.includes(this.cityEn.value)
-        );
-      }
+      this.streetPredictionList = streetPredictions?.filter(
+        (el) =>
+          el.structured_formatting.secondary_text.includes(this.city.value) ||
+          el.structured_formatting.secondary_text.includes(this.cityEn.value)
+      );
     });
   }
 
@@ -358,47 +351,28 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       if (lang === Language.EN) {
         this.formattedAddress = placeDetails.formatted_address;
       }
-      if (lang === Language.EN && (this.isDistrictKyiv || this.isDistrict)) {
+      if (lang === Language.EN) {
         this.setDistrictAuto(placeDetails, this.districtEn, lang);
       }
-      if (lang === Language.UK && (this.isDistrictKyiv || this.isDistrict)) {
+      if (lang === Language.UK) {
         this.setDistrictAuto(placeDetails, this.district, lang);
       }
     });
   }
 
-  onDistrictSelected(event: Event): void {
-    const districtKey = (event.target as HTMLSelectElement).value.slice(0, 1);
-    this.isDistrictKyiv ? this.setKyivDistrict(districtKey) : this.setDistrict(districtKey);
-  }
-
-  setKyivDistrict(districtKey: string): void {
-    const key = Number(districtKey) + 1;
-    const selectedDistrict = this.listOflocations.getRegionsKyiv(Language.UA).find((el) => el.key === key);
-    const selectedDistricEn = this.listOflocations.getRegionsKyiv(Language.EN).find((el) => el.key === key);
-
-    this.district.setValue(selectedDistrict.name);
-    this.districtEn.setValue(selectedDistricEn.name);
-  }
-
-  setDistrict(districtKey: string): void {
-    const key = Number(districtKey) + 1;
-    const selectedDistrict = this.listOflocations.getRegions(Language.UA).find((el) => el.key === key);
-    const selectedDistricEn = this.listOflocations.getRegions(Language.EN).find((el) => el.key === key);
-
-    this.district.setValue(selectedDistrict.name);
-    this.districtEn.setValue(selectedDistricEn.name);
+  onDistrictSelected() {
+    this.locationService.setDistrictValues(this.district, this.districtEn, this.districtList);
   }
 
   setDistrictAuto(placeDetails: GooglePlaceResult, abstractControl: AbstractControl, language: string): void {
-    const currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+    let currentDistrict = this.locationService.getDistrictAuto(placeDetails, language);
+
+    if (language === Language.EN) {
+      currentDistrict = currentDistrict?.split(`'`).join('');
+    }
 
     abstractControl.setValue(currentDistrict);
     abstractControl.markAsDirty();
-
-    if (this.isDistrict) {
-      this.regions = [{ name: this.getLangValue(this.district.value, this.districtEn.value), key: 1 }];
-    }
   }
 
   setPredictHouseNumbers(): void {
@@ -494,6 +468,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         }
       );
     this.snackBar.openSnackBar('addedAddress');
+  }
+
+  isSubmitBtnDisabled(): boolean {
+    let isValueExistsInDistricts = false;
+
+    if (this.district.value && this.districtEn.value) {
+      isValueExistsInDistricts = this.districtList?.some(
+        (district) => district.nameUa === this.district.value || district.nameEn === this.districtEn.value
+      );
+    }
+
+    if (this.houseNumber.value) {
+      this.isHouseSelected = true;
+    }
+
+    return !this.addAddressForm.valid || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts;
   }
 
   public getLangValue(uaValue, enValue): string {

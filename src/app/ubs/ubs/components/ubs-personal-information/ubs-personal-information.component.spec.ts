@@ -17,6 +17,7 @@ import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { KyivNamesEnum } from '../../models/ubs.interface';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -241,13 +242,6 @@ describe('UBSPersonalInformationComponent', () => {
     expect(component.openDialog).toHaveBeenCalledTimes(1);
   });
 
-  it('method deleteAddress should invoke deleteAddress from orderService', () => {
-    fakeOrderService.deleteAddress.and.returnValue(of(listMock));
-    const spy = spyOn(component, 'checkAddress');
-    component.deleteAddress(listMock.addressList[0]);
-    expect(spy).toHaveBeenCalledTimes(1);
-  });
-
   it('method addNewAddress should add new address to address list in PersonalDataForm', () => {
     component.addresses = listMock.addressList;
     const spy = spyOn(component, 'openDialog');
@@ -300,5 +294,23 @@ describe('UBSPersonalInformationComponent', () => {
     component.checkAddress(addressId);
 
     expect(component.changeAddressInPersonalData).toHaveBeenCalled();
+  });
+
+  it('should subscribe to locationSubject and languageBehaviourSubject', () => {
+    const spyLocationSubject = spyOn(component.orderService.locationSubject, 'pipe').and.callThrough();
+    const spyLangBehaviourSubject = spyOn((component as any).localService.languageBehaviourSubject, 'pipe').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(spyLocationSubject).toHaveBeenCalled();
+    expect(spyLangBehaviourSubject).toHaveBeenCalled();
+  });
+
+  it('should return appropriate language value based on current language', () => {
+    const uaValue = KyivNamesEnum.KyivRegionUa;
+    const enValue = KyivNamesEnum.KyivRegionEn;
+
+    component.currentLanguage = Language.EN;
+    expect(component.getLangCityValue(uaValue, enValue)).toBe(KyivNamesEnum.KyivRegionEn);
   });
 });

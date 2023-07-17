@@ -137,6 +137,7 @@ export interface Address {
   houseNumber: string;
   addressComment?: string;
   actual: boolean;
+  addressRegionDistrictList?: DistrictsDtos[];
   searchAddress?: string;
   coordinates: {
     latitude?: number;
@@ -233,6 +234,11 @@ export interface ActiveLocations {
   nameUk: string;
 }
 
+export interface DistrictsDtos {
+  nameUa: string;
+  nameEn: string;
+}
+
 export interface ActiveLocationsDtos {
   locations: ActiveLocations[];
   nameEn: string;
@@ -263,7 +269,13 @@ export interface ActiveCourierDto {
 
 export enum KyivNamesEnum {
   KyivRegionUa = 'Київська область',
+  KyivRegionEn = 'Kyiv oblast',
   KyivCityUa = 'місто Київ',
   KyivUa = 'Київ',
   KyivEn = 'Kyiv'
+}
+
+export enum DistrictEnum {
+  UA = ' район',
+  EN = ' district'
 }

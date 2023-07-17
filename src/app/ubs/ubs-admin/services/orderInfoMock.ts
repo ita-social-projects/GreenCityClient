@@ -1,6 +1,7 @@
 import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.interface';
 import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
 import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
+import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
@@ -94,7 +95,8 @@ export const OrderInfoMockedData: IOrderInfo = {
     addressRegion: 'Київська область',
     addressRegionEng: 'Kyiv Oblast',
     addressStreet: 'Січових Стрільців вул',
-    addressStreetEng: 'Sichovyh Streltsyv str'
+    addressStreetEng: 'Sichovyh Streltsyv str',
+    addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK
   },
   addressComment: '',
   amountOfBagsConfirmed: new Map(),

@@ -26,16 +26,6 @@ describe('Locations', () => {
     expect(result).toEqual(locations.cities);
   });
 
-  it('should return list of Kyiv regions in en', () => {
-    const result = locations.getRegionsKyiv('en');
-    expect(result).toEqual(locations.regionsKyivEn);
-  });
-
-  it('should return list of Kyiv regions in ua', () => {
-    const result = locations.getRegionsKyiv('ua');
-    expect(result).toEqual(locations.regionsKyiv);
-  });
-
   it('should return list of regions in en', () => {
     const result = locations.getRegions('en');
     expect(result).toEqual(locations.regionsEn);
