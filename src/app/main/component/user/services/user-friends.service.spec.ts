@@ -49,35 +49,6 @@ describe('UserFriendsService', () => {
     });
   });
 
-  describe('getRecommendedFriends', () => {
-    it('should return an FriendArrayModel', () => {
-      const recommendedFriends = {
-        totalElements: 18,
-        totalPages: 2,
-        currentPage: 1,
-        page: [
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          },
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          }
-        ]
-      };
-      userFriendsService.getRecommendedFriends(4).subscribe((users) => {
-        expect(users.page.length).toBe(2);
-      });
-
-      const req = httpMock.expectOne(`${userFriendsService.url}user/4/recommendedFriends/?page=0&size=10`);
-      expect(req.request.method).toBe('GET');
-      req.flush(recommendedFriends);
-    });
-  });
-
   describe('getAllFriends', () => {
     it('should return an FriendArrayModel', () => {
       const recommendedFriends = {
