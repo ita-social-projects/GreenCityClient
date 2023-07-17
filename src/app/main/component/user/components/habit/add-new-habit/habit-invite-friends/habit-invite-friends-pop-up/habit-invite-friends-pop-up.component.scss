@@ -8,6 +8,7 @@
 
   .popup-section {
     margin: 12px 0;
+    min-height: 250px;
 
     ul {
       max-height: 200px;
@@ -48,5 +49,35 @@
     button {
       margin: 10px;
     }
+  }
+}
+
+.searchField {
+  display: inline;
+  position: relative;
+
+  input {
+    width: 325px;
+    height: 36px;
+    border: 1px solid var(--quintynary-light-grey);
+    border-radius: 4px;
+    padding: 8px;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 3px 0 var(--quintynary-light-grey);
+    }
+
+    &::placeholder {
+      color: var(--ubs-primary-light-grey);
+      font-family: var(--primary-font);
+      font-size: 14px;
+    }
+  }
+
+  img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 }
