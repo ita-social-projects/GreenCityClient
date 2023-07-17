@@ -51,6 +51,7 @@
 
 <div class="select-pagination-wrapper">
   <pagination-controls
+    [ngStyle]="{ 'margin-top': '15px' }"
     (pageChange)="onPageChanged($event)"
     maxSize="9"
     directionLinks="true"
