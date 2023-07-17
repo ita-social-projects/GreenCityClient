@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { take, takeUntil, distinctUntilChanged } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
@@ -66,6 +66,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.authorNews$.subscribe((val: IEcoNewsState) => {
       this.currentPage = val.authorNewsPage;
       if (val.ecoNewsByAuthor) {
+        console.log(val.autorNews);
+
         this.totalNews = val.ecoNewsByAuthor.totalElements;
         this.hasNext = val.ecoNewsByAuthor.hasNext;
         this.news = val.autorNews.filter((elem, index, arr) => {
