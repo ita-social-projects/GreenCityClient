@@ -148,3 +148,17 @@ button {
   cursor: pointer;
   color: var(--ubs-primary-light-grey);
 }
+
+.select-pagination-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  margin-right: 10px;
+}
+
+.select-pagination-wrapper select {
+  margin-left: 15px;
+}
+.select-pagination-wrapper pagination-controls {
+  margin-top: 15px;
+}

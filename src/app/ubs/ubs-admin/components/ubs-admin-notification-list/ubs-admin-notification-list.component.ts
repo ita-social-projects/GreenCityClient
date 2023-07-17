@@ -22,10 +22,14 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   triggers = notificationTriggersMock;
   notifications: any[] = [];
   filtersForm: FormGroup;
-  itemsPerPage = 10;
+  itemsPerPage: number;
+  itemsNumber = '10';
+  itemsNumberArr = ['10', '20', '30', 'all'];
   currentPage = 1;
   totalItems: number;
   currentLanguage: string;
+  scroll = false;
+  isAllItemsSelected = true;
 
   constructor(
     private fb: FormBuilder,
@@ -68,13 +72,27 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   }
 
   loadPage(page, filters?): void {
+    if (this.itemsNumber === 'all' && this.isAllItemsSelected) {
+      this.itemsPerPage = 10;
+      this.isAllItemsSelected = false;
+    } else if (this.itemsNumber !== 'all') {
+      this.itemsPerPage = Number(this.itemsNumber);
+      this.isAllItemsSelected = true;
+    }
+
+    this.scroll = true;
+
     this.notificationsService
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = data.page;
         this.totalItems = data.totalElements;
+        this.scroll = false;
       });
+    if (this.itemsNumber === 'all') {
+      this.itemsPerPage += 10;
+    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
@@ -83,5 +101,11 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
 
   navigateToNotification(id: number) {
     this.router.navigate(['..', 'notification', id], { relativeTo: this.route });
+  }
+
+  onScroll(): void {
+    if (this.itemsNumber !== '10') {
+      this.loadPage(this.currentPage);
+    }
   }
 }
