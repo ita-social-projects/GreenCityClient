@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { TariffsService } from '../../../services/tariffs.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-employee-edit-form',
@@ -84,6 +85,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     public fb: FormBuilder,
     private tariffsService: TariffsService,
     private dialog: MatDialog,
+    public langService: LanguageService,
     @Inject(MAT_DIALOG_DATA) public data: Page
   ) {
     this.employeeForm = this.fb.group({
