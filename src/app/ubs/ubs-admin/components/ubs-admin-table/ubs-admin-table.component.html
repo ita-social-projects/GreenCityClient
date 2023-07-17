@@ -312,7 +312,11 @@
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns" #tableHeaderRow class="tableHeaderRow"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlighted: selection.isSelected(row) }"></mat-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [ngClass]="{ highlighted: selection.isSelected(row) }"
+      [ngStyle]="{ 'background-color': isStatus(row) }"
+    ></mat-row>
   </table>
   <app-spinner *ngIf="isUpdate"></app-spinner>
 </div>

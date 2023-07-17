@@ -24,3 +24,11 @@ export enum TableKeys {
   clientPhone = 'clientPhone',
   senderPhone = 'senderPhone'
 }
+
+export const TableColorKeys = {
+  GRAY_300: '#CCCCCC',
+  GREEN_600: '#6AA84F',
+  YELLOW_500: '#FFFF00',
+  GREEN_500: '#00FF00',
+  GREEN_200: '#D9EAD3'
+};

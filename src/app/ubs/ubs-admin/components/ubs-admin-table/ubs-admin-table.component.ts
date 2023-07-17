@@ -35,7 +35,7 @@ import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { TableKeys } from '../../services/table-keys.enum';
+import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -351,6 +351,22 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       return `${this.isAllSelected ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+
+  isStatus(row): string {
+    switch (row.orderStatus) {
+      case OrderStatus.CANCELED:
+      case OrderStatus.BROUGHT_IT_HIMSELF:
+        return TableColorKeys.GRAY_300;
+      case OrderStatus.DONE:
+        return TableColorKeys.GREEN_600;
+      case OrderStatus.ADJUSTMENT:
+        return TableColorKeys.YELLOW_500;
+      case OrderStatus.CONFIRMED:
+        return TableColorKeys.GREEN_500;
+      case OrderStatus.ON_THE_ROUTE:
+        return TableColorKeys.GREEN_200;
+    }
   }
 
   public showBlockedMessage(info): void {
