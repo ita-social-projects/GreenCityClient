@@ -41,6 +41,14 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
       });
   }
 
+  setFriendDisable(friendId: number): boolean {
+    return this.userFriendsService.addedFriends.some((addedFriend) => addedFriend.id === friendId);
+  }
+
+  setAllFriendsDisable(): boolean {
+    return this.userFriendsService.addedFriends.length === this.friends.length;
+  }
+
   updateAllAdd() {
     this.allAdd = this.friends !== null && this.friends.every((friend) => friend.added);
   }
@@ -65,8 +73,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
 
   setAddedFriends() {
     this.friends.map((friend) => {
-      const isAdded = this.userFriendsService.addedFriends.some((addedFriend) => addedFriend.id === friend.id);
-      if (friend.added && !isAdded) {
+      if (friend.added) {
         this.userFriendsService.addedFriendsToHabit(friend);
       }
     });

@@ -12,11 +12,17 @@
   </form>
   <section class="popup-section">
     <div *ngIf="!userValue">
-      <mat-checkbox class="all-friends" [checked]="allAdd" [indeterminate]="someAdd()" (change)="setAll($event.checked)">
+      <mat-checkbox
+        class="all-friends"
+        [checked]="allAdd"
+        [indeterminate]="someAdd()"
+        (change)="setAll($event.checked)"
+        [class.disabled]="setAllFriendsDisable()"
+      >
         {{ 'user.habit.invite.all' | translate }}
       </mat-checkbox>
       <ul>
-        <li *ngFor="let friend of friends">
+        <li *ngFor="let friend of friends" [class.disabled]="setFriendDisable(friend.id)">
           <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
             <div class="friend">
               <app-user-profile-image
@@ -34,7 +40,7 @@
     </div>
     <div *ngIf="userValue">
       <ul>
-        <li *ngFor="let friend of inputFriends">
+        <li *ngFor="let friend of inputFriends" [class.disabled]="setFriendDisable(friend.id)">
           <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
             <div class="friend">
               <app-user-profile-image
@@ -52,7 +58,9 @@
     </div>
   </section>
   <mat-dialog-actions class="invite-popup-footer">
-    <button class="btn btn-outline-success" mat-dialog-close>{{ 'user.habit.invite.btn.cancel' | translate }}</button>
+    <button class="btn btn-outline-success" mat-dialog-close>
+      {{ 'user.habit.invite.btn.cancel' | translate }}
+    </button>
     <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="setAddedFriends()">
       {{ 'user.habit.invite.btn.invite' | translate }}
     </button>
