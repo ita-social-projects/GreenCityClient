@@ -19,6 +19,7 @@ import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
+import { take } from 'rxjs/operators';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -47,13 +48,15 @@ describe('AddNewHabitComponent', () => {
     'deleteHabitById',
     'assignCustomHabit',
     'setHabitStatus',
-    'progressNotificationHasDisplayed'
+    'progressNotificationHasDisplayed',
+    'assignHabit'
   ]);
   fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
   fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
+  fakeHabitAssignService.assignHabit = () => of();
 
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
@@ -244,11 +247,76 @@ describe('AddNewHabitComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['profile', 2]);
   });
 
-  it('should call go to profile and snackbar on afterHabitWasUpdated', () => {
+  it('should call go to profile and snackbar on afterHabitWasChanged', () => {
     const spyGoProfile = spyOn(component, 'goToProfile');
     const spySnackBar = spyOn(matSnackBarMock, 'openSnackBar');
-    (component as any).afterHabitWasUpdated();
+    const changesType = 'habitUpdated';
+    (component as any).afterHabitWasChanged(changesType);
     expect(spyGoProfile).toHaveBeenCalled();
-    expect(spySnackBar).toHaveBeenCalledWith('habitUpdated');
+    expect(spySnackBar).toHaveBeenCalledWith(changesType);
+  });
+
+  it('addHabit method should call assignCustomHabit methods', () => {
+    (component as any).isCustomHabit = true;
+    const spy = spyOn(component as any, 'assignCustomHabit');
+    component.addHabit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('addHabit method should call assignStandartHabit methods', () => {
+    (component as any).isCustomHabit = false;
+    const spy = spyOn(component as any, 'assignStandartHabit');
+    component.addHabit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
+    const spy = spyOn(component as any, 'afterHabitWasChanged');
+    const paramsMock = { habitId: 1, newDuration: 25, defailtItemsIds: [], friendsIdsList: [] };
+    (component as any).assignCustomHabit();
+    fakeHabitAssignService
+      .assignCustomHabit(paramsMock.habitId, paramsMock.newDuration, paramsMock.defailtItemsIds, paramsMock.friendsIdsList)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('habitAdded');
+      });
+  });
+
+  it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
+    const spy = spyOn(component as any, 'afterHabitWasChanged');
+    const paramsMock = { habitId: 1, newDuration: 25, defailtItemsIds: [], friendsIdsList: [] };
+    (component as any).assignCustomHabit();
+    fakeHabitAssignService
+      .assignCustomHabit(paramsMock.habitId, paramsMock.newDuration, paramsMock.defailtItemsIds, paramsMock.friendsIdsList)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('habitAdded');
+      });
+  });
+
+  it('call of assignStandartHabit method should invoke afterHabitWasChanged method', () => {
+    const spy = spyOn(component as any, 'afterHabitWasChanged');
+    (component as any).habitId = 2;
+    (component as any).assignStandartHabit();
+    fakeHabitAssignService
+      .assignHabit((component as any).habitId)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('habitAdded');
+      });
+  });
+
+  it('call of addCustomHabitItems method should invoke afterHabitWasChanged method', () => {
+    const spy = spyOn(component as any, 'afterHabitWasChanged');
+    (component as any).habitId = 2;
+    (component as any).userId = 27;
+    (component as any).customShopList = [];
+    (component as any).addCustomHabitItems();
+    fakeShoppingListService
+      .addHabitCustomShopList((component as any).userId, (component as any).habitId, (component as any).customShopList)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('habitAdded');
+      });
   });
 });

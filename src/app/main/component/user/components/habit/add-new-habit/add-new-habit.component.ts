@@ -267,8 +267,7 @@ export class AddNewHabitComponent implements OnInit {
       .assignHabit(this.habitId)
       .pipe(take(1))
       .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitAdded');
+        this.afterHabitWasChanged('habitAdded');
       });
   }
 

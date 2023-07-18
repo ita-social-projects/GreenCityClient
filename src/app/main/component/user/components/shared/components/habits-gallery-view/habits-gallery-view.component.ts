@@ -54,8 +54,7 @@ export class HabitsGalleryViewComponent implements OnInit {
       .assignHabit(this.habit.id)
       .pipe(take(1))
       .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitAdded');
+        this.afterHabitWasChanged();
       });
   }
 
