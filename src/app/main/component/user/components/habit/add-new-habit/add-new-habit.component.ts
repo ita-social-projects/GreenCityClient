@@ -39,6 +39,7 @@ export class AddNewHabitComponent implements OnInit {
   initialShoppingList: ShoppingList[];
   standartShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
+  friendsIdsList: number[] = [];
 
   isAcquired = false;
   isEditing = false;
@@ -61,6 +62,7 @@ export class AddNewHabitComponent implements OnInit {
   private enoughToAcquire = 80;
   private page = 0;
   private size = 3;
+  private isCustomHabit = false;
 
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -149,6 +151,7 @@ export class AddNewHabitComponent implements OnInit {
       .subscribe((data: HabitInterface) => {
         this.initHabitData(data);
         this.initialDuration = data.defaultDuration;
+        this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
           data.customShoppingListItems.forEach((item) => (item.custom = true));
           this.initialShoppingList = data.customShoppingListItems;
@@ -243,8 +246,7 @@ export class AddNewHabitComponent implements OnInit {
             .deleteHabitById(this.habitAssignId)
             .pipe(take(1))
             .subscribe(() => {
-              this.goToProfile();
-              this.snackBar.openSnackBar('habitDeleted');
+              this.afterHabitWasChanged('habitDeleted');
             });
         } else {
           this.snackBar.openSnackBar('habitDidNotGiveUp');
@@ -257,18 +259,26 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   addHabit(): void {
-    const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
+    this.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+  }
+
+  private assignStandartHabit() {
     this.habitAssignService
-      .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds)
+      .assignHabit(this.habitId)
       .pipe(take(1))
       .subscribe(() => {
-        if (this.customShopList && this.customShopList.length) {
-          this.addCustomHabitItems();
-        }
-        if (!this.customShopList) {
-          this.goToProfile();
-          this.snackBar.openSnackBar('habitAdded');
-        }
+        this.router.navigate(['profile', this.userId]);
+        this.snackBar.openSnackBar('habitAdded');
+      });
+  }
+
+  private assignCustomHabit() {
+    const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
+    this.habitAssignService
+      .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds, this.friendsIdsList)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.customShopList.length > 0 ? this.addCustomHabitItems() : this.afterHabitWasChanged('habitAdded');
       });
   }
 
@@ -280,12 +290,12 @@ export class AddNewHabitComponent implements OnInit {
       .addHabitCustomShopList(this.userId, this.habitId, customItemsList)
       .pipe(take(1))
       .subscribe(() => {
-        this.goToProfile();
-        this.snackBar.openSnackBar('habitAdded');
+        this.afterHabitWasChanged('habitAdded');
       });
   }
 
   updateHabit(): void {
+    console.log('update');
     this.habitAssignService
       .updateHabit(this.habitAssignId, this.newDuration)
       .pipe(take(1))
@@ -297,10 +307,10 @@ export class AddNewHabitComponent implements OnInit {
             .updateHabitShopList(habitShopListUpdate)
             .pipe(take(1))
             .subscribe(() => {
-              this.afterHabitWasUpdated();
+              this.afterHabitWasChanged('habitUpdated');
             });
         }
-        this.afterHabitWasUpdated();
+        this.afterHabitWasChanged('habitUpdated');
       });
   }
 
@@ -315,9 +325,9 @@ export class AddNewHabitComponent implements OnInit {
     });
   }
 
-  private afterHabitWasUpdated(): void {
+  private afterHabitWasChanged(kindOfChanges: string): void {
     this.goToProfile();
-    this.snackBar.openSnackBar('habitUpdated');
+    this.snackBar.openSnackBar(kindOfChanges);
   }
 
   private setHabitListForUpdate(): HabitUpdateShopList {
@@ -370,8 +380,7 @@ export class AddNewHabitComponent implements OnInit {
       .setHabitStatus(this.habitAssignId, this.setStatus)
       .pipe(take(1))
       .subscribe(() => {
-        this.goToProfile();
-        this.snackBar.openSnackBar('habitAcquired');
+        this.afterHabitWasChanged('habitAcquired');
       });
   }
 }
