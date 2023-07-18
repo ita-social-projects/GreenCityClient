@@ -3,7 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -61,6 +61,7 @@ describe('UbsAdminNotificationListComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        FormsModule,
         NgxPaginationModule,
         TranslateModule.forRoot()
       ],
@@ -134,5 +135,35 @@ describe('UbsAdminNotificationListComponent', () => {
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
     expect(rows.length).toBe(0);
+  });
+
+  it('should update itemsNumber and itemsPerPage correctly', () => {
+    const selectElement = fixture.nativeElement.querySelector('select');
+
+    selectElement.value = '10';
+    selectElement.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(component.itemsNumber).toBe('10');
+    expect(component.itemsPerPage).toBe(10);
+
+    selectElement.value = '20';
+    selectElement.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(component.itemsNumber).toBe('20');
+    expect(component.itemsPerPage).toBe(20);
+
+    selectElement.value = '30';
+    selectElement.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(component.itemsNumber).toBe('30');
+    expect(component.itemsPerPage).toBe(30);
+
+    selectElement.value = 'all';
+    selectElement.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(component.itemsNumber).toBe('all');
+    expect(component.itemsPerPage).toBe(20);
+    component.loadPage(1);
+    expect(component.itemsPerPage).toBe(30);
   });
 });

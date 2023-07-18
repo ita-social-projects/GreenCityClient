@@ -22,14 +22,14 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   triggers = notificationTriggersMock;
   notifications: any[] = [];
   filtersForm: FormGroup;
-  itemsPerPage: number;
+  itemsPerPage = 10;
   itemsNumber = '10';
   itemsNumberArr = ['10', '20', '30', 'all'];
   currentPage = 1;
   totalItems: number;
   currentLanguage: string;
   scroll = false;
-  isAllItemsSelected = true;
+  elementsArePresent = true;
 
   constructor(
     private fb: FormBuilder,
@@ -70,16 +70,12 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     this.loadPage(page, this.filtersForm.value);
     this.currentPage = page;
   }
+  changedItemsNumber() {
+    this.itemsPerPage = this.itemsNumber !== 'all' ? Number(this.itemsNumber) : 20;
+    this.loadPage(this.currentPage);
+  }
 
   loadPage(page, filters?): void {
-    if (this.itemsNumber === 'all' && this.isAllItemsSelected) {
-      this.itemsPerPage = 10;
-      this.isAllItemsSelected = false;
-    } else if (this.itemsNumber !== 'all') {
-      this.itemsPerPage = Number(this.itemsNumber);
-      this.isAllItemsSelected = true;
-    }
-
     this.scroll = true;
 
     this.notificationsService
@@ -89,8 +85,9 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
         this.notifications = data.page;
         this.totalItems = data.totalElements;
         this.scroll = false;
+        this.elementsArePresent = this.itemsPerPage < this.totalItems;
       });
-    if (this.itemsNumber === 'all') {
+    if (this.itemsNumber === 'all' && this.itemsPerPage < this.totalItems) {
       this.itemsPerPage += 10;
     }
   }
