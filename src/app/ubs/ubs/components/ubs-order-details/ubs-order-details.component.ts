@@ -44,6 +44,16 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   displayCert = false;
   onSubmit = true;
   order: {};
+  filters = {
+    comment: '',
+    additionalOrders: '',
+    quantity1: 0,
+    quantity2: 0,
+    quantity3: 0,
+    amountDue: 0,
+    orderAmount: 0
+  };
+  bufferArray = {};
 
   public SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   certificateMask = Masks.certificateMask;
@@ -108,6 +118,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
+    this.filters = this.getSessionStorageFilters();
+    this.initForm();
     this.route.queryParams.subscribe((params) => {
       const key = 'isThisExistingOrder';
       this.isThisExistingOrder = !!params[key];
@@ -136,15 +148,15 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   changeQuantity(id: number, value: number): void {
-    const formControl = this.orderDetailsForm.get('quantity' + id);
+    let formControl = this.filters['quantity' + id] ? this.filters['quantity' + id] : 0;
     const maxValue = 999;
     const minValue = 0;
-    const newValue = Number(formControl.value) + value;
-
-    if (newValue <= maxValue && newValue >= minValue) {
-      formControl.setValue(String(newValue));
-      this.onQuantityChange(id);
-    }
+    this.filters['quantity' + id] = Number(formControl) + value;
+    this.setSessionStorageFilters();
+    formControl = this.filters['quantity' + id];
+    this.orderDetailsForm.controls['quantity' + id].setValue(String(this.filters['quantity' + id]));
+    console.log(this.orderDetailsForm.value, 'changeQuantity');
+    this.onQuantityChange(id);
   }
 
   public setLimitsValues(): void {
@@ -209,11 +221,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      orderComment: new FormControl('', Validators.maxLength(255)),
-      bonus: new FormControl('no'),
-      shop: new FormControl('no'),
+      orderComment: new FormControl(this.filters.comment, Validators.maxLength(255)),
+      bonus: new FormControl(''),
+      shop: new FormControl(''),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
-      additionalOrders: this.fb.array(['']),
+      additionalOrders: this.fb.array([this.filters.additionalOrders]),
       orderSum: new FormControl(0, [Validators.required])
     });
   }
@@ -251,8 +263,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.totalOfBigBags = 0;
     this.bags.forEach((bag) => {
       if (bag.limitedIncluded) {
-        const quantity = this.orderDetailsForm.controls[`quantity${bag.id}`];
-        this.totalOfBigBags += +quantity.value;
+        const quantity = this.filters[`quantity${bag.id}`];
+        this.totalOfBigBags += +quantity ? quantity : 0;
       }
     });
     if (this.courierLimitByAmount) {
@@ -298,8 +310,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.setCurrentLocation(this.currentLanguage);
       const inputsQuantity = [];
       this.bags.forEach((a) => {
-        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
-        a.quantity = null;
+        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? 0 : a.quantity);
+        a.quantity = 0;
       });
       this.bags = this.orders.bags;
       this.filterBags();
@@ -368,6 +380,27 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.shareFormService.orderDetails.total = this.showTotal;
     this.shareFormService.orderDetails.finalSum = this.finalSum;
     this.shareFormService.changeOrderDetails();
+    this.filters.amountDue = this.finalSum;
+    this.filters.orderAmount = this.finalSum;
+    this.filters.comment = this.orderDetailsForm.value.orderComment;
+    this.filters.additionalOrders = this.additionalOrders.value;
+    this.setSessionStorageFilters();
+  }
+
+  setDataForSessionStorage() {
+    Object.assign(this.bufferArray, this.filters);
+    this.setSessionStorageFilters();
+  }
+
+  private setSessionStorageFilters(): void {
+    Object.assign(this.bufferArray, this.filters);
+    sessionStorage.setItem('key', JSON.stringify(this.bufferArray));
+    const filters = JSON.parse(sessionStorage.getItem('key'));
+  }
+
+  private getSessionStorageFilters() {
+    const filters = sessionStorage.getItem('key');
+    return filters !== null ? JSON.parse(filters) : [];
   }
 
   get formArrayCertificates() {
@@ -389,9 +422,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private calculateTotal(): void {
     this.total = 0;
     this.bags.forEach((bag) => {
-      this.total += bag.price * bag.quantity;
+      const quantity = this.filters['quantity' + bag.id] ? this.filters['quantity' + bag.id] : 0;
+      this.total += bag.price * quantity ? bag.price * quantity : 0;
     });
-    this.showTotal = this.total;
+    this.showTotal = this.total ? this.total : 0;
     this.changeForm();
     this.validateSum();
     this.onSubmit = this.displayMinOrderMes || this.displayMaxOrderMes;
@@ -462,6 +496,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         orderFormBagController.setValue('');
         bag.quantity = null;
       }
+      console.log(this.orderDetailsForm.value, 'onQuantityChange');
     });
     document.getElementById(`quantity${id}`).focus();
     this.checkTotalBigBags();

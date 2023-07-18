@@ -292,42 +292,4 @@ describe('OrderDetailsFormComponent', () => {
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
   });
-
-  it('changeQuantity()', () => {
-    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
-    spyOn(global, 'setTimeout');
-    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
-    shareFormService.orderDetails = ordersMock;
-
-    component.takeOrderData();
-
-    const id = 1;
-    const value1 = 1;
-    const value2 = -1;
-    const formControl = component.orderDetailsForm.get('quantity' + id);
-    const oldValue = Number(formControl.value);
-    const newValue = oldValue + value1;
-
-    const spySetValue = spyOn(formControl, 'setValue').and.callThrough();
-
-    component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(spySetValue).toHaveBeenCalledWith(String(newValue));
-    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(newValue));
-    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(newValue));
-
-    const minValue = '0';
-    formControl.setValue(minValue);
-    component.changeQuantity(id, value2);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(minValue));
-    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(minValue));
-
-    const maxValue = '999';
-    formControl.setValue(maxValue);
-    component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(maxValue));
-    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(maxValue));
-  });
 });

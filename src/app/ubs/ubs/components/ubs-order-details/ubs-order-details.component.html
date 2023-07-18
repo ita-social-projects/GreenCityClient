@@ -51,7 +51,7 @@
                   [id]="'quantity' + bag.id"
                   min="0"
                   max="999"
-                  placeholder="0"
+                  placeholder="{{ filters['quantity' + bag.id] ? filters['quantity' + bag.id] : 0 }}"
                   [unmask]="false"
                   [imask]="{ mask: servicesMask }"
                   (change)="onQuantityChange(bag.id)"
@@ -62,7 +62,9 @@
                 </button>
               </div>
             </div>
-            <span class="bag-name label-total"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
+            <span class="bag-name label-total">
+              {{ (filters['quantity' + bag.id] ? filters['quantity' + bag.id] : 0) * bag.price | currency | localizedCurrency }}</span
+            >
           </li>
         </ul>
       </div>
@@ -73,7 +75,7 @@
               <p class="total-content" [class.d-none]="showTotal === 0">
                 <span>{{ 'order-details.order-amount' | translate }}</span>
                 <span>
-                  <strong>{{ showTotal | currency | localizedCurrency }}</strong>
+                  <strong>{{ (filters.orderAmount ? filters.orderAmount : showTotal) | currency | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="displayCert">
@@ -91,7 +93,7 @@
               <p class="total-content">
                 <span>{{ 'order-details.amount-due' | translate }} </span>
                 <span>
-                  <strong>{{ finalSum | currency | localizedCurrency }}</strong>
+                  <strong>{{ (filters.amountDue ? filters.amountDue : 0) | currency | localizedCurrency }}</strong>
                 </span>
               </p>
             </div>
