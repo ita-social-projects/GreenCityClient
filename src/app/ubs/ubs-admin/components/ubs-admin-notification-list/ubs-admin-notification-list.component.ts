@@ -101,8 +101,6 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   }
 
   onScroll(): void {
-    if (this.itemsNumber !== '10') {
-      this.loadPage(this.currentPage);
-    }
+    this.loadPage(this.currentPage);
   }
 }
