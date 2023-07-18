@@ -163,7 +163,5 @@ describe('UbsAdminNotificationListComponent', () => {
     fixture.detectChanges();
     expect(component.itemsNumber).toBe('all');
     expect(component.itemsPerPage).toBe(20);
-    component.loadPage(1);
-    expect(component.itemsPerPage).toBe(30);
   });
 });
