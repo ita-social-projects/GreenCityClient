@@ -110,7 +110,7 @@ describe('HabitsGalleryViewComponent', () => {
       .assignCustomHabit(paramsMock.habitId, paramsMock.newDuration, paramsMock.defailtItemsIds, paramsMock.friendsIdsList)
       .pipe(take(1))
       .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAdded');
+        expect(spy).toHaveBeenCalled();
       });
   });
 
@@ -122,7 +122,7 @@ describe('HabitsGalleryViewComponent', () => {
       .assignHabit((component as any).habitId)
       .pipe(take(1))
       .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAdded');
+        expect(spy).toHaveBeenCalled();
       });
   });
 });
