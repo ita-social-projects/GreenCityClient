@@ -30,13 +30,14 @@ import { take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
   styleUrls: ['./create-edit-events.component.scss']
 })
-export class CreateEditEventsComponent implements OnInit, OnDestroy {
+export class CreateEditEventsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public title = '';
   public dates: DateEvent[] = [];
   public quillModules = {};
@@ -75,11 +76,19 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
-  deleteDialogData = {
-    popupTitle: 'discard-changes.delete-message',
-    popupConfirm: 'discard-changes.btn.yes',
-    popupCancel: 'discard-changes.btn.no',
-    style: 'green'
+
+  public previousPath = '/events';
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'homepage.events.events-popup.title',
+      popupSubtitle: 'homepage.events.events-popup.subtitle',
+      popupConfirm: 'homepage.events.events-popup.confirm',
+      popupCancel: 'homepage.events.events-popup.cancel'
+    }
   };
 
   public backRoute: string;
@@ -89,17 +98,18 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
   @Input() cancelChanges: boolean;
 
   constructor(
+    private injector: Injector,
+    public dialog: MatDialog,
     public router: Router,
     private localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
     private eventService: EventsService,
     private snackBar: MatSnackBarComponent,
-    private injector: Injector,
-    public dialog: MatDialog,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private languageService: LanguageService
   ) {
+    super(router, dialog);
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
 
@@ -179,24 +189,6 @@ export class CreateEditEventsComponent implements OnInit, OnDestroy {
 
   public checkStatus(event: boolean, ind: number): void {
     this.dates[ind].valid = event;
-  }
-
-  public shouldDeleteEvent(): void {
-    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
-      data: this.deleteDialogData,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ''
-    });
-    matDialogRef
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (res) {
-          this.escapeFromCreateEvent();
-        }
-      });
   }
 
   public escapeFromCreateEvent(): void {
