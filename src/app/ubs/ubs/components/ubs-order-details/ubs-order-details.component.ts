@@ -14,6 +14,7 @@ import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packa
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -151,11 +152,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     let formControl = this.filters['quantity' + id] ? this.filters['quantity' + id] : 0;
     const maxValue = 999;
     const minValue = 0;
-    this.filters['quantity' + id] = Number(formControl) + value;
+    const newValue = Number(formControl) + value;
+    if (newValue <= maxValue && newValue >= minValue) {
+      this.filters['quantity' + id] = Number(formControl) + value;
+    }
     this.setSessionStorageFilters();
     formControl = this.filters['quantity' + id];
     this.orderDetailsForm.controls['quantity' + id].setValue(String(this.filters['quantity' + id]));
-    console.log(this.orderDetailsForm.value, 'changeQuantity');
     this.onQuantityChange(id);
   }
 
@@ -222,8 +225,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   initForm() {
     this.orderDetailsForm = this.fb.group({
       orderComment: new FormControl(this.filters.comment, Validators.maxLength(255)),
-      bonus: new FormControl(''),
-      shop: new FormControl(''),
+      bonus: new FormControl('no'),
+      shop: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
       additionalOrders: this.fb.array([this.filters.additionalOrders]),
       orderSum: new FormControl(0, [Validators.required])
@@ -387,15 +390,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.setSessionStorageFilters();
   }
 
-  setDataForSessionStorage() {
-    Object.assign(this.bufferArray, this.filters);
-    this.setSessionStorageFilters();
-  }
-
   private setSessionStorageFilters(): void {
     Object.assign(this.bufferArray, this.filters);
     sessionStorage.setItem('key', JSON.stringify(this.bufferArray));
-    const filters = JSON.parse(sessionStorage.getItem('key'));
   }
 
   private getSessionStorageFilters() {
@@ -496,7 +493,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         orderFormBagController.setValue('');
         bag.quantity = null;
       }
-      console.log(this.orderDetailsForm.value, 'onQuantityChange');
     });
     document.getElementById(`quantity${id}`).focus();
     this.checkTotalBigBags();

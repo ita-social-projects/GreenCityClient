@@ -292,4 +292,37 @@ describe('OrderDetailsFormComponent', () => {
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('changeQuantity()', () => {
+    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
+    spyOn(global, 'setTimeout');
+    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
+    shareFormService.orderDetails = ordersMock;
+
+    component.takeOrderData();
+
+    const id = 1;
+    const value1 = 1;
+    const value2 = -1;
+    let formControl = String(component.filters.quantity1);
+    const oldValue = formControl;
+    const newValue = oldValue + value1;
+
+    formControl = newValue;
+    component.changeQuantity(id, value1);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(formControl).toEqual(String(newValue));
+
+    const minValue = '0';
+    formControl = minValue;
+    component.changeQuantity(id, value2);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(2);
+    expect(formControl).toEqual(String(minValue));
+
+    const maxValue = '999';
+    formControl = maxValue;
+    component.changeQuantity(id, value1);
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(3);
+    expect(formControl).toEqual(String(maxValue));
+  });
 });

@@ -54,6 +54,18 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should load all permissions correctly', async () => {
+    component.ngOnInit();
+    const seeClientPageCbDe = fixture.debugElement.query(By.css('mat-checkbox.clients-see-main-page input'));
+    const editEmplPermsCbDe = fixture.debugElement.query(By.css('mat-checkbox.employees-edit-authority input'));
+    const createEmplCbDe = fixture.debugElement.query(By.css('mat-checkbox.employees-create-card input'));
+    const createMessageCbDe = fixture.debugElement.query(By.css('mat-checkbox.messages-create-card input'));
+    expect(seeClientPageCbDe.nativeElement.checked).toBeTruthy();
+    expect(editEmplPermsCbDe.nativeElement.checked).toBeTruthy();
+    expect(createEmplCbDe.nativeElement.checked).toBeTruthy();
+    expect(createMessageCbDe.nativeElement.checked).toBeTruthy();
+  });
+
   it('should make a call to UbsAdminEmployeeService.updatePermissions with correct params', async () => {
     component.ngOnInit();
     const editEmplPermsCbDe = fixture.debugElement.query(By.css('mat-checkbox.employees-edit-authority input'));
