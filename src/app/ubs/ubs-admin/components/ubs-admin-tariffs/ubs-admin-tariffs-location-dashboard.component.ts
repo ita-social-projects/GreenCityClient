@@ -39,7 +39,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   @Input() selectedCard;
 
   locations: Locations[];
-  regionEnglishName: string[];
+  regionEnglishName: string;
   regionNameUk: string;
   regionId: number;
   canRegionInputValueBeRegion = false;
@@ -178,7 +178,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       !this.isRegionValueAll(),
       this.selectedStation.length
     ].every((el) => el);
-    if (this.isFieldFilled) {
+    if (this.courier.value && this.selectedCities.length && this.selectedStation.length) {
       this.createCardDto();
       this.tariffsService
         .checkIfCardExist(this.createCardObj)
@@ -581,12 +581,11 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
       this.regionEnglishName = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.EN).map((i) => i.regionName))
-        .flat(2);
+        .flat(2)[0];
       this.regionNameUk = selectedValue
         .map((it) => it.regionTranslationDtos.filter((ob) => ob.languageCode === Language.UA).map((i) => i.regionName))
         .flat(2)[0];
       this.regionId = selectedValue.find((it) => it.regionId).regionId;
-
       Object.assign(this.filterData, { region: this.regionId });
     }
 
@@ -630,6 +629,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         stationNames: this.selectedStation.map((it) => it.name),
         regionName: this.region.value,
         regionEnglishName: this.regionEnglishName,
+        regionNameUk: this.regionNameUk,
         locationNames: this.selectedCities.map((it) => {
           return { name: it.name, ukrainianName: it.ukrainianName, englishName: it.englishName };
         }),

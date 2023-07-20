@@ -23,6 +23,7 @@ export class TariffConfirmationPopUpComponent implements OnInit {
   stationNames: Array<string>;
   regionName: string;
   regionEnglishName: string;
+  regionNameUk: string;
   locationNames: Array<string>;
   locationEnglishNames: Array<string>;
   action: string;
@@ -42,6 +43,7 @@ export class TariffConfirmationPopUpComponent implements OnInit {
     this.stationNames = this.modalData.stationNames ?? '';
     this.regionName = this.modalData.regionName ?? '';
     this.regionEnglishName = this.modalData.regionEnglishName ?? '';
+    this.regionNameUk = this.modalData.regionNameUk ?? '';
     this.locationNames = this.modalData.locationNames ?? '';
     this.action = this.modalData.action;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
