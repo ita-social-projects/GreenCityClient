@@ -844,7 +844,6 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.region.setValue('Фейк область5');
     component.resetLocationValues('region');
     expect(component.region.value).toBe('');
-    expect(component.canRegionInputValueBeRegion).toBeFalsy;
   });
 
   it('should call functions on checkisCardExist', () => {
