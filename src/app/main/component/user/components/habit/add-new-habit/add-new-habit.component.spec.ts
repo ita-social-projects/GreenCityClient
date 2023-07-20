@@ -20,6 +20,7 @@ import { EcoNewsService } from '@eco-news-service/eco-news.service';
 import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
 import { take } from 'rxjs/operators';
+import { HabitAcquireConfirm } from '../models/habit-warnings';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -49,7 +50,8 @@ describe('AddNewHabitComponent', () => {
     'assignCustomHabit',
     'setHabitStatus',
     'progressNotificationHasDisplayed',
-    'assignHabit'
+    'assignHabit',
+    'updateHabit'
   ]);
   fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
@@ -57,6 +59,7 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
   fakeHabitAssignService.assignHabit = () => of();
+  fakeHabitAssignService.updateHabit = () => of();
 
   fakeHabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
@@ -317,6 +320,149 @@ describe('AddNewHabitComponent', () => {
       .pipe(take(1))
       .subscribe(() => {
         expect(spy).toHaveBeenCalledWith('habitAdded');
+      });
+  });
+
+  it('call of updateHabit method should invoke afterHabitWasChanged method', () => {
+    const customShopListMock = {
+      id: 7,
+      status: 'fake string',
+      text: 'fake custom text',
+      selected: false,
+      custom: true
+    };
+
+    const spy = spyOn(component as any, 'afterHabitWasChanged');
+    const spy2 = spyOn(component as any, 'convertShopLists');
+    const spy3 = spyOn(component as any, 'setHabitListForUpdate');
+    component.customShopList = [customShopListMock];
+    (component as any).updateHabit();
+    fakeHabitAssignService
+      .updateHabit(5, 21)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(spy2).toHaveBeenCalled();
+        expect(spy3).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalled();
+      });
+  });
+
+  it('call of acquireHabit method should invoke afterHabitWasChanged method', () => {
+    const spy = spyOn(component as any, 'afterHabitWasChanged');
+    (component as any).habitAssignId = 2;
+    (component as any).acquireHabit();
+    fakeHabitAssignService
+      .setHabitStatus((component as any).habitAssignId, (component as any).setStatus)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(spy).toHaveBeenCalledWith('habitAcquired');
+      });
+  });
+
+  it('should call HabitAcquireConfirm dialog on openAcquireConfirm', () => {
+    const spyDialog = spyOn(component as any, 'getOpenDialog');
+    const spyRef = spyOn(component as any, 'afterDialogClosed');
+    component.openAcquireConfirm();
+    expect(spyDialog).toHaveBeenCalled();
+    expect(spyDialog).toHaveBeenCalledWith(HabitAcquireConfirm, true);
+    expect(spyRef).toHaveBeenCalled();
+  });
+
+  it('setHabitListForUpdate should return shopListUpdate ', () => {
+    const standartShoppingListMock = [
+      {
+        id: 3,
+        status: 'fake string',
+        text: 'fake stundart text',
+        selected: false,
+        custom: false
+      }
+    ];
+
+    const customShoppingListMock = [
+      {
+        id: 7,
+        status: 'fake string',
+        text: 'fake custom text',
+        selected: false,
+        custom: true
+      }
+    ];
+
+    (component as any).habitAssignId = 3;
+    (component as any).currentLang = 'en';
+    (component as any).customShopList = customShoppingListMock;
+    (component as any).standartShopList = standartShoppingListMock;
+
+    const habitUpdateShopListMock = {
+      habitAssignId: 3,
+      customShopList: customShoppingListMock,
+      standartShopList: standartShoppingListMock,
+      lang: 'en'
+    };
+
+    const result = (component as any).setHabitListForUpdate();
+    (component as any).setHabitListForUpdate();
+    expect(result).toEqual(habitUpdateShopListMock);
+  });
+
+  it('convertShopLists should change customShopList and standartShopList', () => {
+    (component as any).customShopList = [
+      {
+        id: 7,
+        status: 'fake string',
+        text: 'fake custom text',
+        selected: false,
+        custom: true
+      }
+    ];
+
+    (component as any).standartShopList = [
+      {
+        id: 3,
+        status: 'fake string',
+        text: 'fake standart text',
+        selected: false,
+        custom: false
+      }
+    ];
+
+    const customShopListMock = [
+      {
+        id: 7,
+        status: 'fake string',
+        text: 'fake custom text'
+      }
+    ];
+
+    const standartShopListMock = [
+      {
+        id: 3,
+        status: 'fake string',
+        text: 'fake standart text'
+      }
+    ];
+
+    (component as any).convertShopLists();
+    expect((component as any).customShopList).toEqual(customShopListMock);
+    expect((component as any).standartShopList).toEqual(standartShopListMock);
+  });
+
+  it('call of getStandartShopList method should change initialShoppingList', () => {
+    const customShopListMock = {
+      id: 7,
+      status: 'fake string',
+      text: 'fake custom text',
+      selected: false,
+      custom: true
+    };
+    (component as any).habitId = 2;
+    (component as any).getStandartShopList();
+    fakeShoppingListService
+      .getHabitShopList((component as any).habitId)
+      .pipe(take(1))
+      .subscribe((res) => {
+        expect(component.initialShoppingList).toBe(res);
       });
   });
 });

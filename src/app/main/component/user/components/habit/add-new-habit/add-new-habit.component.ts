@@ -294,7 +294,6 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   updateHabit(): void {
-    console.log('update');
     this.habitAssignService
       .updateHabit(this.habitAssignId, this.newDuration)
       .pipe(take(1))
