@@ -61,10 +61,9 @@
           #autocompleteTriggerRegion="matAutocompleteTrigger"
           formControlName="region"
           [matAutocomplete]="autoRegion"
-          (input)="checkUserRegion($event)"
-          (change)="checkUserRegion($event)"
-          #userRegion
-          [ngClass]="{ 'region-not-existing': !isInputRegionExisting && userRegion.value.length }"
+          [ngClass]="{ 'region-not-existing': !canRegionInputValueBeRegion && region.value.length }"
+          (change)="onChangeRegion()"
+          (keyup.enter)="onChangeRegion()"
         />
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">
           <mat-option [value]="'ubs-tariffs.states.all' | translate">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
@@ -265,7 +264,7 @@
     </tr>
   </tbody>
 </table>
-<div *ngIf="isFieldFilled && !isCardExist && isInputRegionExisting" class="create-card-field">
+<div *ngIf="isFieldFilled && !isCardExist" class="create-card-field">
   <span>{{ 'ubs-tariffs.card-not-found' | translate }}</span>
   <button class="ubs-button" (click)="createTariffCard()">{{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}</button>
 </div>
