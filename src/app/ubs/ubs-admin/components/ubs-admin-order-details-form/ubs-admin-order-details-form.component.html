@@ -98,8 +98,14 @@
               >{{ !bagsInfo.bonuses ? '' : '-' }}{{ bagsInfo.bonuses | currency | localizedCurrency }}</span
             >
             <span *ngIf="isVisible" class="col-sm-2 text-center"
-              >{{ !bagsInfo.bonuses ? '' : '-' }}{{ bagsInfo.bonuses | currency | localizedCurrency }}</span
-            >
+              >{{
+                isOrderCancelled
+                  ? (0 | currency | localizedCurrency)
+                  : bagsInfo.bonuses
+                  ? '-' + (bagsInfo.bonuses | currency | localizedCurrency)
+                  : ''
+              }}
+            </span>
           </li>
           <li class="d-flex justify-content-between align-items-baseline py-2" *ngIf="isVisible && showUbsCourier">
             <span class="col-sm-2">{{ 'order-details.ubs-courier' | translate }}</span>
