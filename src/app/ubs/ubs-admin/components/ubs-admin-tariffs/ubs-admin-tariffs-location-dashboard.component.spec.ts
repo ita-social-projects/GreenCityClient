@@ -1035,6 +1035,38 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.isRegionValueAll).toBeTruthy();
   });
 
+  it('should change region value after input event', () => {
+    const inputRegion = fixture.nativeElement.querySelector('.region');
+    inputRegion.value = 'new value';
+    inputRegion.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.region.value).toBe('new value');
+    });
+  });
+
+  it('should update cities placeholder after input event', () => {
+    const inputRegion = fixture.nativeElement.querySelector('.region');
+    const spy = spyOn(component, 'setCountOfCheckedCity');
+    inputRegion.value = 'new value';
+    inputRegion.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  it('should change region value after input event', () => {
+    const spy = spyOn(component, 'onChangeRegion');
+    const inputRegion = fixture.nativeElement.querySelector('.region');
+    inputRegion.value = 'new value';
+    inputRegion.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
   it('destroy Subject should be closed after ngOnDestroy()', () => {
     const destroy = 'destroy';
     component[destroy] = new Subject<boolean>();
