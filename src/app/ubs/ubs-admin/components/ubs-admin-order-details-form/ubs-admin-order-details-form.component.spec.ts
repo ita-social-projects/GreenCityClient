@@ -208,4 +208,21 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     (component as any).emitCurrentOrderPrice(sum);
     expect(changeCurrentPriceSpy).toHaveBeenCalledWith(sum);
   });
+
+  describe('getOrderBonusValue', () => {
+    it('should return 0 if the order is cancelled', () => {
+      component.isOrderCancelled = true;
+      expect(component.getOrderBonusValue(100)).toEqual(0);
+    });
+
+    it('should return negative bonuses if the order is not cancelled and bonuses are present', () => {
+      component.isOrderCancelled = false;
+      expect(component.getOrderBonusValue(100)).toEqual('-100');
+    });
+
+    it('should return empty string if the order is not cancelled and bonuses are not present', () => {
+      component.isOrderCancelled = false;
+      expect(component.getOrderBonusValue(null)).toEqual('');
+    });
+  });
 });
