@@ -137,31 +137,28 @@ describe('UbsAdminNotificationListComponent', () => {
     expect(rows.length).toBe(0);
   });
 
-  it('should update itemsNumber and itemsPerPage correctly', () => {
+  it('should update itemsNumber correctly', () => {
     const selectElement = fixture.nativeElement.querySelector('select');
-
-    selectElement.value = '10';
-    selectElement.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-    expect(component.itemsNumber).toBe('10');
-    expect(component.itemsPerPage).toBe(10);
+    const changedItemsNumberSpyOn = spyOn(component, 'changedItemsNumber');
 
     selectElement.value = '20';
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
+
+    expect(changedItemsNumberSpyOn).toHaveBeenCalled();
     expect(component.itemsNumber).toBe('20');
+  });
+
+  it('should increase itemsPerPage by 10 when conditions are met', () => {
+    component.itemsPerPage = 10;
+
+    component.itemsNumber = '20';
+    component.loadPage(1);
     expect(component.itemsPerPage).toBe(20);
 
-    selectElement.value = '30';
-    selectElement.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-    expect(component.itemsNumber).toBe('30');
-    expect(component.itemsPerPage).toBe(30);
-
-    selectElement.value = 'all';
-    selectElement.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-    expect(component.itemsNumber).toBe('all');
+    component.itemsNumber = 'all';
+    component.totalItems = 30;
+    component.loadPage(1);
     expect(component.itemsPerPage).toBe(20);
   });
 });

@@ -47,7 +47,13 @@
   </tbody>
 </table>
 <app-spinner *ngIf="scroll && elementsArePresent"></app-spinner>
-<div *ngIf="itemsNumber !== '10'" infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+<div
+  *ngIf="itemsNumber !== '10'"
+  infiniteScroll
+  [infiniteScrollDistance]="0"
+  [infiniteScrollThrottle]="500"
+  (scrolled)="loadPage(currentPage)"
+></div>
 
 <div class="select-pagination-wrapper">
   <pagination-controls

@@ -30,6 +30,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   currentLanguage: string;
   scroll = false;
   elementsArePresent = true;
+  firstLoadPage = true;
 
   constructor(
     private fb: FormBuilder,
@@ -67,16 +68,19 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   }
 
   onPageChanged(page): void {
+    this.itemsPerPage = 10;
+    this.firstLoadPage = true;
     this.loadPage(page, this.filtersForm.value);
     this.currentPage = page;
   }
   changedItemsNumber() {
-    this.itemsPerPage = this.itemsNumber !== 'all' ? Number(this.itemsNumber) : 20;
+    this.itemsPerPage = 10;
+    this.firstLoadPage = true;
     this.loadPage(this.currentPage);
   }
 
   loadPage(page, filters?): void {
-    this.scroll = true;
+    this.scroll = Number(this.itemsNumber) > this.itemsPerPage || this.itemsNumber === 'all';
 
     this.notificationsService
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
@@ -87,8 +91,12 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
         this.scroll = false;
         this.elementsArePresent = this.itemsPerPage < this.totalItems;
       });
-    if (this.itemsNumber === 'all' && this.itemsPerPage < this.totalItems) {
+    if (Number(this.itemsNumber) > this.itemsPerPage || (this.itemsNumber === 'all' && this.itemsPerPage < this.totalItems)) {
       this.itemsPerPage += 10;
+    }
+    if (this.firstLoadPage && this.itemsNumber !== '10') {
+      this.firstLoadPage = false;
+      this.loadPage(this.currentPage);
     }
   }
 
@@ -98,9 +106,5 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
 
   navigateToNotification(id: number) {
     this.router.navigate(['..', 'notification', id], { relativeTo: this.route });
-  }
-
-  onScroll(): void {
-    this.loadPage(this.currentPage);
   }
 }
