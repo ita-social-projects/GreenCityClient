@@ -166,6 +166,10 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     });
   }
 
+  getOrderBonusValue(bonuses: number) {
+    return this.isOrderCancelled ? 0 : bonuses ? '-' + bonuses : '';
+  }
+
   private calculateFinalSum(): void {
     const bonusesAndCert = this.isOrderCancelled
       ? this.bagsInfo.certificateDiscount
