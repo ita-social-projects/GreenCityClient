@@ -77,7 +77,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   }
 
   setAddedFriends() {
-    this.friends.forEach((friend) => {
+    return this.friends.map((friend) => {
       if (friend.added) {
         this.userFriendsService.addedFriendsToHabit(friend);
       }
