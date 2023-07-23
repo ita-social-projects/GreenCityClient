@@ -47,7 +47,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   order: {};
   filters = {
     comment: '',
-    additionalOrders: '',
+    additionalOrders: [''],
     quantity1: 0,
     quantity2: 0,
     quantity3: 0,
@@ -228,9 +228,11 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       bonus: new FormControl('no'),
       shop: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
-      additionalOrders: this.fb.array([this.filters.additionalOrders]),
+      additionalOrders: this.fb.array(['']),
       orderSum: new FormControl(0, [Validators.required])
     });
+
+    this.additionalOrders.controls[0].setValue(this.filters.additionalOrders);
   }
 
   openLocationDialog() {
@@ -388,6 +390,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.filters.comment = this.orderDetailsForm.value.orderComment;
     this.filters.additionalOrders = this.additionalOrders.value;
     this.setSessionStorageFilters();
+    this.orderDetailsForm.controls.additionalOrders.setValue(this.filters.additionalOrders);
   }
 
   private setSessionStorageFilters(): void {
