@@ -23,21 +23,25 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
+        <p class="text">{{ getLangValue(regionNameUk, regionEnglishName) }}</p>
       </div>
       <div class="en-part">
         <label class="label">{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="text">{{ getLangValue(regionEnglishName, regionName) }}</p>
+        <p class="text">{{ getLangValue(regionEnglishName, regionNameUk) }}</p>
       </div>
     </div>
-    <div *ngFor="let item of locationNames" class="form-block">
+    <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+        <div *ngFor="let item of locationNames">
+          <div class="itemList">{{ getLangValue(item.ukrainianName, item.englishName) }}</div>
+        </div>
       </div>
       <div class="en-part">
         <label class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        <div *ngFor="let item of locationNames">
+          <div class="itemList">{{ getLangValue(item.englishName, item.ukrainianName) }}</div>
+        </div>
       </div>
     </div>
   </div>
