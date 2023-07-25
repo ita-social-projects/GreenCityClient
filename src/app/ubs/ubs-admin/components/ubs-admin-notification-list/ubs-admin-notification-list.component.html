@@ -46,7 +46,7 @@
     </tr>
   </tbody>
 </table>
-<app-spinner *ngIf="scroll && elementsArePresent"></app-spinner>
+<app-spinner *ngIf="spinner"></app-spinner>
 <div
   *ngIf="itemsNumber !== '10'"
   infiniteScroll
@@ -68,7 +68,7 @@
   >
   </pagination-controls>
 
-  <select [(ngModel)]="itemsNumber" (change)="changedItemsNumber()">
+  <select [(ngModel)]="itemsNumber" (change)="onPageChanged(currentPage)">
     <option *ngFor="let i of itemsNumberArr" [value]="i">{{ i }}</option>
   </select>
 </div>

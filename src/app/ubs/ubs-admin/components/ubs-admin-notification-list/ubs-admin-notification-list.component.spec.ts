@@ -139,13 +139,11 @@ describe('UbsAdminNotificationListComponent', () => {
 
   it('should update itemsNumber correctly', () => {
     const selectElement = fixture.nativeElement.querySelector('select');
-    const changedItemsNumberSpyOn = spyOn(component, 'changedItemsNumber');
 
     selectElement.value = '20';
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
 
-    expect(changedItemsNumberSpyOn).toHaveBeenCalled();
     expect(component.itemsNumber).toBe('20');
   });
 
@@ -158,6 +156,7 @@ describe('UbsAdminNotificationListComponent', () => {
 
     component.itemsNumber = 'all';
     component.totalItems = 30;
+    component.onPageChanged(1);
     component.loadPage(1);
     expect(component.itemsPerPage).toBe(20);
   });
