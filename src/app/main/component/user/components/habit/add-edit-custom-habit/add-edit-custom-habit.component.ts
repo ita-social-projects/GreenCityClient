@@ -124,7 +124,7 @@ export class AddEditCustomHabitComponent implements OnInit {
   }
 
   goToAllHabits(): void {
-    this.userFriendsService.addedFriends!.length = 0;
+    this.userFriendsService.addedFriends.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
   }
 
