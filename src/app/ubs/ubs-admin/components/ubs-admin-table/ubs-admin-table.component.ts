@@ -415,16 +415,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
-  private addClickListener() {
-    if (this.isFiltersOpened) {
-      document.addEventListener('click', this.onClick);
-    }
-  }
-
-  private removeClickListener() {
-    document.removeEventListener('click', this.onClick);
-  }
-
   private onClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     const filterWrapperElement = document.querySelector('.filters-dropdown-wrapper');
@@ -434,6 +424,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       this.toggleFilters();
     }
   };
+
+  private addClickListener() {
+    if (this.isFiltersOpened) {
+      document.addEventListener('click', this.onClick);
+    }
+  }
+
+  private removeClickListener() {
+    document.removeEventListener('click', this.onClick);
+  }
 
   public toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
