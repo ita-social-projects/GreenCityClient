@@ -1,5 +1,5 @@
 .friends-images {
-  width: 360px;
+  width: 380px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -29,10 +29,26 @@
     .friend {
       display: inline-flex;
       flex-direction: row;
+      justify-content: center;
+      align-items: center;
 
-      p {
+      .friend-details {
         margin: 15px 5px;
-        color: var(--ubs-tertiary-light-green);
+
+        .friend-name {
+          color: var(--ubs-tertiary-light-green);
+        }
+
+        .friend-email {
+          font-size: 12px;
+          color: var(--secondary-grey);
+          font-family: var(--secondary-font);
+        }
+
+        p {
+          margin: 0;
+          padding: 0;
+        }
       }
     }
 

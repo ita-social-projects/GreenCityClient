@@ -16,7 +16,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   userId: number;
   friends: FriendModel[];
   inputFriends: FriendModel[];
-  userValue: string;
+  inputValue: string;
   allAdd = false;
   addedFriends: FriendModel[] = [];
   searchIcon = searchIcon;
@@ -34,19 +34,20 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
 
   getFriends() {
     this.userFriendsService
-      .getAllFriends(this.userId)
+      .getAllFriends()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((data: FriendArrayModel) => {
         this.friends = data.page;
+        console.log(data.page);
       });
   }
 
   setFriendDisable(friendId: number): boolean {
-    return this.userFriendsService.addedFriends.some((addedFriend) => addedFriend.id === friendId);
+    return this.userFriendsService.addedFriends?.some((addedFriend) => addedFriend.id === friendId);
   }
 
   setAllFriendsDisable(): boolean {
-    return this.userFriendsService.addedFriends.length === this.friends.length;
+    return this.userFriendsService.addedFriends?.length === this.friends?.length;
   }
 
   updateAllAdd() {
@@ -72,8 +73,8 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   }
 
   public onInput(input): void {
-    this.userValue = input.target.value;
-    this.inputFriends = this.friends.filter((friend) => friend.name.includes(this.userValue));
+    this.inputValue = input.target.value;
+    this.inputFriends = this.friends.filter((friend) => friend.name.includes(this.inputValue) || friend.email.includes(this.inputValue));
   }
 
   setAddedFriends() {

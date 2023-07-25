@@ -28,10 +28,9 @@ describe('FriendItemComponent', () => {
       profilePicturePath: '',
       added: true,
       rating: 380,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 2
-      }
+      email: 'name@mail.com',
+      friendStatus: 'FRIEND',
+      chatId: 2
     };
     fixture.detectChanges();
   });

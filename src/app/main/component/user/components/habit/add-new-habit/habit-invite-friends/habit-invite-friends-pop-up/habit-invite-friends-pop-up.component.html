@@ -11,7 +11,7 @@
     />
   </form>
   <section class="popup-section">
-    <div *ngIf="!userValue">
+    <div *ngIf="!inputValue">
       <mat-checkbox
         class="all-friends"
         [checked]="allAdd"
@@ -26,31 +26,37 @@
           <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
             <div class="friend">
               <app-user-profile-image
-                [imgPath]="friend.profilePicture"
+                [imgPath]="friend.profilePicturePath"
                 [firstName]="friend.name"
                 class="friend-img"
                 [additionalImgClass]="'friend-user-profile'"
               >
               </app-user-profile-image>
-              <p class="friend-name">{{ friend.name }}</p>
+              <div class="friend-details">
+                <p class="friend-name">{{ friend.name }}</p>
+                <p class="friend-email">{{ friend.email }}</p>
+              </div>
             </div>
           </mat-checkbox>
         </li>
       </ul>
     </div>
-    <div *ngIf="userValue">
+    <div *ngIf="inputValue">
       <ul>
         <li *ngFor="let friend of inputFriends" [class.disabled]="setFriendDisable(friend.id)">
           <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
             <div class="friend">
               <app-user-profile-image
-                [imgPath]="friend.profilePicture"
+                [imgPath]="friend.profilePicturePath"
                 [firstName]="friend.name"
                 class="friend-img"
                 [additionalImgClass]="'friend-user-profile'"
               >
               </app-user-profile-image>
-              <p class="friend-name">{{ friend.name }}</p>
+              <div class="friend-details">
+                <p class="friend-name">{{ friend.name }}</p>
+                <p class="friend-email">{{ friend.email }}</p>
+              </div>
             </div>
           </mat-checkbox>
         </li>

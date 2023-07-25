@@ -41,8 +41,7 @@ export class FriendItemComponent implements OnInit {
   ngOnInit() {
     this.socketService.updateFriendsChatsStream$.subscribe((chatInfo) => {
       if (this.friend.id === chatInfo.friendId) {
-        this.friend.friendsChatDto.chatExists = chatInfo.chatExists;
-        this.friend.friendsChatDto.chatId = chatInfo.chatId;
+        this.friend.chatId = chatInfo.chatId;
       }
     });
   }
@@ -91,12 +90,11 @@ export class FriendItemComponent implements OnInit {
     this.socketService.createNewChat(this.friend.id, true);
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
-    this.friend.friendsChatDto.chatExists = true;
   }
 
   private onOpenChat() {
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
-    this.chatsService.openCurrentChat(this.friend.friendsChatDto.chatId);
+    this.chatsService.openCurrentChat(this.friend.chatId);
   }
 }

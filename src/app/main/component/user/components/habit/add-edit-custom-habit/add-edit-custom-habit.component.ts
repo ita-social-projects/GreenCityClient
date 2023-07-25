@@ -13,6 +13,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -53,7 +54,8 @@ export class AddEditCustomHabitComponent implements OnInit {
     private router: Router,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private habitService: HabitService
+    private habitService: HabitService,
+    private userFriendsService: UserFriendsService
   ) {
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
@@ -122,6 +124,7 @@ export class AddEditCustomHabitComponent implements OnInit {
   }
 
   goToAllHabits(): void {
+    this.userFriendsService.addedFriends!.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
   }
 
