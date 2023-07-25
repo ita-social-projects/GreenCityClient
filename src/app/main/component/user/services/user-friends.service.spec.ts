@@ -68,11 +68,11 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getAllFriends(4).subscribe((users) => {
+      userFriendsService.getAllFriends().subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/4/findAll/friends/?page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends?page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(recommendedFriends);
     });
