@@ -123,17 +123,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.dateAdapter.setLocale('en-GB');
   }
 
-  private onClick = (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-    const filterWrapperElement = document.querySelector('.filters-dropdown-wrapper');
-    console.log(filterWrapperElement && !filterWrapperElement.contains(target) && this.isFiltersOpened);
-    console.log(filterWrapperElement, !filterWrapperElement.contains(target), this.isFiltersOpened);
-    if (filterWrapperElement && !filterWrapperElement.contains(target) && this.isFiltersOpened) {
-      this.toggleFilters();
-    }
-  };
-
   ngOnInit() {
+    this.onClick = this.onClick.bind(this);
     this.firstPageLoad = true;
     this.initDateForm();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -433,6 +424,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   private removeClickListener() {
     document.removeEventListener('click', this.onClick);
+  }
+
+  private onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const filterWrapperElement = document.querySelector('.filters-dropdown-wrapper');
+    if (filterWrapperElement && !filterWrapperElement.contains(target) && this.isFiltersOpened) {
+      this.toggleFilters();
+    }
   }
 
   public toggleFilters(): void {
