@@ -415,8 +415,33 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
+  private addClickListener() {
+    if (this.isFiltersOpened) {
+      document.addEventListener('click', this.onClick);
+    }
+  }
+
+  private removeClickListener() {
+    document.removeEventListener('click', this.onClick);
+  }
+
+  private onClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    const filterWrapperElement = document.querySelector('.filters-dropdown-wrapper');
+    console.log(filterWrapperElement && !filterWrapperElement.contains(target) && this.isFiltersOpened);
+    console.log(filterWrapperElement, !filterWrapperElement.contains(target), this.isFiltersOpened);
+    if (filterWrapperElement && !filterWrapperElement.contains(target) && this.isFiltersOpened) {
+      this.toggleFilters();
+    }
+  };
+
   public toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
+    if (this.isFiltersOpened) {
+      this.addClickListener();
+    } else {
+      this.removeClickListener();
+    }
   }
 
   public toggleTableView(): void {
@@ -974,6 +999,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return this.displayedColumns.length > 1 ? 'block' : 'none';
   }
   ngOnDestroy() {
+    this.removeClickListener();
     this.destroy.next();
     this.destroy.unsubscribe();
   }
