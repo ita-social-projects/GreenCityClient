@@ -26,6 +26,23 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   public positionName: Array<string>;
   public destroySub: Subject<boolean> = new Subject<boolean>();
 
+  private viewersArr = [
+    employeePositionsName.SuperAdmin,
+    employeePositionsName.Admin,
+    employeePositionsName.CallManager,
+    employeePositionsName.ServiceManager,
+    employeePositionsName.Logistician,
+    employeePositionsName.Navigator
+  ];
+
+  private employeesCertViewerArr = [
+    employeePositionsName.SuperAdmin,
+    employeePositionsName.Admin,
+    employeePositionsName.CallManager,
+    employeePositionsName.ServiceManager,
+    employeePositionsName.Logistician
+  ];
+
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public service: UserMessagesService,
@@ -71,60 +88,33 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   }
 
   get customerViewer() {
-    const viewersArr = [
-      employeePositionsName.SuperAdmin,
-      employeePositionsName.Admin,
-      employeePositionsName.CallManager,
-      employeePositionsName.ServiceManager,
-      employeePositionsName.Logistician,
-      employeePositionsName.Navigator
-    ];
-
-    return this.positionFilterUtil(viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.customers);
+    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.customers);
   }
 
   get employeesViewer() {
-    const employeesArr = [
-      employeePositionsName.SuperAdmin,
-      employeePositionsName.Admin,
-      employeePositionsName.CallManager,
-      employeePositionsName.ServiceManager,
-      employeePositionsName.Logistician
-    ];
-    return this.positionFilterUtil(employeesArr) || this.authoritiesFilterUtil(EnablingAuthorities.employees);
+    return this.positionFilterUtil(this.employeesCertViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.employees);
   }
 
   get certificatesViewer() {
-    const certificatesArr = [
-      employeePositionsName.SuperAdmin,
-      employeePositionsName.Admin,
-      employeePositionsName.CallManager,
-      employeePositionsName.ServiceManager,
-      employeePositionsName.Logistician
-    ];
-    return this.positionFilterUtil(certificatesArr) || this.authoritiesFilterUtil(EnablingAuthorities.certificates);
+    return this.positionFilterUtil(this.employeesCertViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.certificates);
   }
 
   get notificationsViewer() {
-    const notificationsArr = [
+    const notificationsViewerArr = [
       employeePositionsName.SuperAdmin,
       employeePositionsName.Admin,
       employeePositionsName.CallManager,
       employeePositionsName.ServiceManager
     ];
-    return this.positionFilterUtil(notificationsArr) || this.authoritiesFilterUtil(EnablingAuthorities.notifications);
+    return this.positionFilterUtil(notificationsViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.notifications);
   }
 
   get tariffsViewer() {
-    const viewersArr = [
-      employeePositionsName.SuperAdmin,
-      employeePositionsName.Admin,
-      employeePositionsName.CallManager,
-      employeePositionsName.ServiceManager,
-      employeePositionsName.Logistician,
-      employeePositionsName.Navigator
-    ];
-    return this.positionFilterUtil(viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.tariffs);
+    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.tariffs);
+  }
+
+  get ordersViewer() {
+    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.tariffs);
   }
 
   private changeListElementsDependOnPermissions(positions: string[], authorities: string[]) {
@@ -148,6 +138,10 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
 
     if (!this.tariffsViewer) {
       this.listElenenChangetUtil(SideMenuElementsNames.tariffs);
+    }
+
+    if (!this.ordersViewer) {
+      this.listElenenChangetUtil(SideMenuElementsNames.orders);
     }
   }
 }
