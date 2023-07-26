@@ -21,6 +21,8 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() addressComment: string;
   @Input() addressExportDetailsDto: FormGroup;
   @Input() generalInfo: IGeneralOrderInfo;
+  @Input() isEmployeeCanEditOrder: boolean;
+
   pageOpen: boolean;
   autocompleteService: GoogleAutoService;
   streetPredictionList: GooglePrediction[];
@@ -42,6 +44,9 @@ export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
+    if (!this.isEmployeeCanEditOrder) {
+      this.addressHouseNumber.disable();
+    }
   }
 
   get addressRegion() {

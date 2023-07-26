@@ -24,7 +24,7 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
-        <select formControlName="responsibleCaller" class="form-control form__select">
+        <select formControlName="responsibleCaller" class="form-control form__select" disabled="!isEmployeeCanEditOrder">
           <option *ngFor="let employee of allCallManagers" [value]="employee">
             {{ employee }}
           </option>
@@ -34,7 +34,7 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
-        <select formControlName="responsibleLogicMan" class="form-control form__select">
+        <select formControlName="responsibleLogicMan" class="form-control form__select" disabled="!isEmployeeCanEditOrder">
           <option *ngFor="let employee of allLogisticians" [value]="employee">
             {{ employee }}
           </option>
@@ -44,7 +44,7 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
-        <select formControlName="responsibleNavigator" class="form-control form__select">
+        <select formControlName="responsibleNavigator" class="form-control form__select" disabled="!isEmployeeCanEditOrder">
           <option *ngFor="let employee of allNavigators" [value]="employee">
             {{ employee }}
           </option>
@@ -54,7 +54,7 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
-        <select formControlName="responsibleDriver" class="form-control form__select">
+        <select formControlName="responsibleDriver" class="form-control form__select" disabled="!isEmployeeCanEditOrder">
           <option *ngFor="let employee of allDrivers" [value]="employee">
             {{ employee }}
           </option>

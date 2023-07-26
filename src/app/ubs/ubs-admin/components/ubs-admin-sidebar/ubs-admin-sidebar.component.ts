@@ -114,7 +114,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   }
 
   get ordersViewer() {
-    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.tariffs);
+    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.orders);
   }
 
   private changeListElementsDependOnPermissions(positions: string[], authorities: string[]) {

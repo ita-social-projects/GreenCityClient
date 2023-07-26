@@ -569,6 +569,10 @@ export enum EnablingAuthorities {
   notifications = 'SEE_MESSAGES_PAGE'
 }
 
+export enum abilityEditAuthorities {
+  orders = 'EDIT_ORDER'
+}
+
 export enum SideMenuElementsNames {
   orders = 'ubs-sidebar.orders',
   customers = 'ubs-sidebar.customers',

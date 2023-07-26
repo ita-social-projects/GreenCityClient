@@ -38,7 +38,7 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
+                [attr.disabled]="isDisabledConfirmQuantity() ? true : null || !isEmployeeCanEditOrder"
                 (change)="onQuantityChange('confirmed', bag.id)"
                 disabled
               />
@@ -51,6 +51,7 @@
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
                 [attr.disabled]="isOrderCancelled && isOrderPaid ? true : null"
+                [readonly]="!isEmployeeCanEditOrder"
                 (change)="onQuantityChange('actual', bag.id)"
               />
             </div>
@@ -111,6 +112,7 @@
                   min="0"
                   [value]="courierPrice | currency"
                   (change)="changeUbsCourierSum($event)"
+                  [readonly]="!isEmployeeCanEditOrder"
                 />
                 <span>
                   {{ '' | localizedCurrency }}
@@ -129,6 +131,7 @@
                   min="0"
                   [value]="writeoffAtStationSum"
                   [disabled]="isDisabledWriteOffStation"
+                  [readonly]="!isEmployeeCanEditOrder"
                   (change)="changeWriteOffSum($event)"
                 />
                 <span>
@@ -178,11 +181,12 @@
                     [unmask]="false"
                     placeholder="XXXXXXXXXX"
                     formControlName="{{ i }}"
+                    [readonly]="!isEmployeeCanEditOrder"
                   />
                   <span input-close-button (click)="deleteOrder(i)">&times;</span>
                 </div>
               </ng-container>
-              <button *ngIf="checkMaxOrdersFromShop()" class="add-order-num" (click)="addOrderNumberFromShop()">
+              <button *ngIf="checkMaxOrdersFromShop() && isEmployeeCanEditOrder" class="add-order-num" (click)="addOrderNumberFromShop()">
                 {{ 'order-details.additional-orders' | translate }}
               </button>
             </div>
