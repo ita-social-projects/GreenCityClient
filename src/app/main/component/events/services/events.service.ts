@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
+import { StdioNull } from 'child_process';
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +43,10 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/createdEvents?page=${page}&size=${quantity}`);
   }
 
-  public getAllUserEvents(page: number, quantity: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/relatedEvents?page=${page}&size=${quantity}`);
+  public getAllUserEvents(page: number, quantity: number, eventType?: string | null): Observable<EventResponseDto> {
+    return this.http.get<EventResponseDto>(
+      `${this.backEnd}events/myEvents/relatedEvents?eventType=${eventType}page=${page}&size=${quantity}`
+    );
   }
 
   public getEventById(id: number): Observable<any> {

@@ -131,7 +131,10 @@
       "item-found-text": "",
       "items-event-text": "Items found",
       "my-space": {
-        "tag-title": "My Events"
+        "tag-title": "My Events",
+        "event-types-title": "Types:",
+        "event-type-online": "Online",
+        "event-type-offline": "Offline"
       },
       "open": "Open",
       "registered": "Anyone registered",

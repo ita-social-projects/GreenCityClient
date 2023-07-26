@@ -62,6 +62,14 @@ a {
   }
 }
 
+.events-filter {
+  display: flex;
+  justify-content: space-between;
+
+  .events-types {
+  }
+}
+
 .news-list {
   list-style: none;
   padding-left: 0;

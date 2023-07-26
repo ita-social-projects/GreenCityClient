@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -37,6 +37,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   userId: number;
   news: EcoNewsModel[];
 
+  public isOnlineChecked = false;
+  public isOfflineChecked = false;
+
   public eventsList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
@@ -47,6 +50,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private newsCount = 3;
 
   public totalNews = 0;
+
+  public eventType: string | null;
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -86,9 +91,21 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  initGetUserEvents(): void {
+  onCheckboxChange(checkboxNumber: number) {
+    if (checkboxNumber === 1) {
+      this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
+    } else if (checkboxNumber === 2) {
+      this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
+    }
+
+    this.eventType = this.isOnlineChecked ? 'ONLINE' : this.isOfflineChecked ? 'OFFLINE' : null;
+
+    this.initGetUserEvents(this.eventType);
+  }
+
+  initGetUserEvents(eventType?: string | null): void {
     this.eventService
-      .getAllUserEvents(0, this.eventsPerPage)
+      .getAllUserEvents(0, this.eventsPerPage, eventType)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
@@ -96,10 +113,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  onEventsPageChange(page: number): void {
+  onEventsPageChange(page: number, eventType?: string | null): void {
     this.eventsPage = page;
     this.eventService
-      .getAllUserEvents(this.eventsPage - 1, 6)
+      .getAllUserEvents(this.eventsPage - 1, 6, eventType)
       .pipe(take(1))
       .subscribe((res) => {
         this.eventsList = res.page;
