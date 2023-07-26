@@ -417,9 +417,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   private addClickListener() {
-    if (this.isFiltersOpened) {
-      document.addEventListener('click', this.onClick);
-    }
+    document.addEventListener('click', this.onClick);
   }
 
   private removeClickListener() {
@@ -436,11 +434,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   public toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
-    if (this.isFiltersOpened) {
-      this.addClickListener();
-    } else {
-      this.removeClickListener();
-    }
+    this.isFiltersOpened ? this.addClickListener() : this.removeClickListener();
   }
 
   public toggleTableView(): void {
