@@ -45,7 +45,7 @@ export class EventsService implements OnDestroy {
 
   public getAllUserEvents(page: number, quantity: number, eventType?: string | null): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(
-      `${this.backEnd}events/myEvents/relatedEvents?eventType=${eventType}page=${page}&size=${quantity}`
+      `${this.backEnd}events/myEvents/relatedEvents?eventType=${eventType}&page=${page}&size=${quantity}`
     );
   }
 
