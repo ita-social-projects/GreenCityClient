@@ -170,6 +170,7 @@
     "info-address": "Garbage collection address",
     "info-no-address": "You have no addresses added. Please add an address.",
     "info-add-address": "Add another address",
+    "info-add-first-address": "Add your address",
     "info-address-coment": "Comment to the address",
     "info-coment-placeholder": "Any details you would like to tell us further",
     "info-back": "Back",

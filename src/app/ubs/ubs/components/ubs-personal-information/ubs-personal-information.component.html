@@ -135,7 +135,7 @@
         (click)="addNewAddress()"
         [disabled]="addresses.length >= maxAddressLength"
       >
-        {{ 'personal-info.info-add-address' | translate }}
+        {{ (addresses.length === 0 ? 'personal-info.info-add-first-address' : 'personal-info.info-add-address') | translate }}
       </button>
     </div>
   </div>
@@ -156,7 +156,8 @@
 
 <div class="w-100 buttons">
   <button class="ubs-back-link-global-button" matStepperPrevious>
-    <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp;
+    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+    &nbsp;
     <span class="link-underline">{{ 'personal-info.info-back' | translate }}</span>
   </button>
   <div class="btn-canc-sub">
