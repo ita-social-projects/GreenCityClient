@@ -38,7 +38,6 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((data: FriendArrayModel) => {
         this.friends = data.page;
-        console.log(data.page);
       });
   }
 

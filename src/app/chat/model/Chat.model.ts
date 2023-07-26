@@ -12,6 +12,5 @@ export interface Chat {
 
 export interface FriendChatInfo {
   friendId: number;
-  chatExists: boolean;
   chatId: number;
 }
