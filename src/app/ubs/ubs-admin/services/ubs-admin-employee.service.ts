@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
 import { FilterData } from '../models/tariffs.interface';
+import { EmployeePositionsAuthorities } from '../models/ubs-admin.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,11 @@ export class UbsAdminEmployeeService {
   public getAllEmployees = `${ubsAdminEmployeeLink}/getAll-employees`;
   public searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public filterDataSubject$: Subject<FilterData> = new Subject<FilterData>();
-
+  public employeePositionsAuthorities$: BehaviorSubject<EmployeePositionsAuthorities> = new BehaviorSubject<EmployeePositionsAuthorities>({
+    authorities: [],
+    positionId: []
+  });
+  public employeePositions$: BehaviorSubject<Array<string>> = new BehaviorSubject<Array<string>>([]);
   constructor(private http: HttpClient) {}
 
   getEmployees(

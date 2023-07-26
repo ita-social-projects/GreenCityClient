@@ -4,6 +4,7 @@ import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-bas
 import { UserMessagesService } from '../services/user-messages.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { listElementsUser, listElementsUserMobile } from '../../ubs/models/ubs-sidebar-links';
+import { UbsAdminEmployeeService } from '../../ubs-admin/services/ubs-admin-employee.service';
 
 @Component({
   selector: 'app-ubs-user-sidebar',
@@ -13,7 +14,12 @@ export class UbsUserSidebarComponent extends UbsBaseSidebarComponent {
   public listElementsUser = listElementsUser;
   public listElementsUserMobile = listElementsUserMobile;
 
-  constructor(public service: UserMessagesService, public breakpointObserver: BreakpointObserver, public jwtService: JwtService) {
+  constructor(
+    public ubsAdminEmployeeService: UbsAdminEmployeeService,
+    public service: UserMessagesService,
+    public breakpointObserver: BreakpointObserver,
+    public jwtService: JwtService
+  ) {
     super(service, breakpointObserver, jwtService);
   }
 }
