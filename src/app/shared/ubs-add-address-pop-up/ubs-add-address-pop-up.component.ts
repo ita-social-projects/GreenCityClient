@@ -13,6 +13,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
+import { RequiredFromDropdownValidator } from 'src/app/ubs/ubs-user/requiredFromDropDown.validator';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -42,6 +43,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   locations: CourierLocations;
   regionBounds;
   districtList: DistrictsDtos[];
+  errorValueObj = {
+    region: false,
+    city: false,
+    street: false
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -114,8 +120,14 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     const region = this.data.edit ? this.data.address.region : this.locations?.regionDto.nameUk;
     const regionEn = this.data.edit ? this.data.address.regionEn : this.locations?.regionDto.nameEn;
     this.addAddressForm = this.fb.group({
-      region: [!this.data.addFromProfile ? region : '', Validators.required],
-      regionEn: [!this.data.addFromProfile ? regionEn : '', Validators.required],
+      region: [
+        !this.data.addFromProfile ? region : '',
+        [Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj?.region)]
+      ],
+      regionEn: [
+        !this.data.addFromProfile ? regionEn : '',
+        [Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj?.region)]
+      ],
       city: [
         this.data.edit ? this.data.address.city : null,
         [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
@@ -198,6 +210,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onRegionSelected(region: any): void {
+    this.errorValueObj.region = false;
+    this.updateValidInputs('region', 'regionEn');
+
     this.setTranslation(region.place_id, this.region, Language.UK);
     this.setTranslation(region.place_id, this.regionEn, Language.EN);
   }
@@ -224,7 +239,22 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
   }
 
+  updateValidInputs(control: string, controlEn: string): void {
+    const currentControl = this.addAddressForm.get(this.getLangValue(control, controlEn));
+    currentControl.setValidators([Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj[control])]);
+    currentControl.updateValueAndValidity();
+    this.addAddressForm.updateValueAndValidity();
+  }
+
+  isErrorMessageShown(control: AbstractControl, controlEn: AbstractControl) {
+    const currentControl = this.getLangControl(control, controlEn);
+    return currentControl.touched && (currentControl.errors?.requiredFromDropdown || currentControl.errors?.required);
+  }
+
   setPredictRegions(): void {
+    this.erValObj.region = true;
+    this.updateValidInputs('region', 'regionEn');
+
     if (this.currentLanguage === Language.UA && this.region.value) {
       this.inputRegion(this.region.value, Language.UK);
     }
@@ -243,6 +273,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   setPredictCities(): void {
+    this.errorValueObj.city = true;
+    console.log('check');
+    this.updateValidInputs('city', 'cityEn');
+
     this.cityPredictionList = null;
 
     if (this.currentLanguage === Language.UA && this.city.value) {
@@ -268,6 +302,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onCitySelected(city: GooglePrediction): void {
+    this.errorValueObj.city = false;
+    this.updateValidInputs('city', 'cityEn');
+
     this.setValueOfCity(city, this.city, Language.UK);
     this.setValueOfCity(city, this.cityEn, Language.EN);
   }
@@ -300,6 +337,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   setPredictStreets(): void {
+    this.errorValueObj.street = true;
+    this.updateValidInputs('street', 'streetEn');
+
     this.streetPredictionList = null;
 
     if (this.currentLanguage === Language.UA && this.street.value) {
@@ -333,6 +373,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   onStreetSelected(street: GooglePrediction): void {
+    this.errorValueObj.street = false;
+    this.updateValidInputs('street', 'streetEn');
+
     this.houseNumber.reset('');
     this.housePredictionList = null;
     this.placeId = null;
