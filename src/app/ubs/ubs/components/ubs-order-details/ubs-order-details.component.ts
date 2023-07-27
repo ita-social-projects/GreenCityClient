@@ -403,12 +403,18 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   changeOrderDetails() {
+    this.filters.pointsSum = this.pointsUsed;
+    this.filters.certificatesSum = this.showCertificateUsed;
+    this.filters.additionalOrders = this.additionalOrders.value ? this.additionalOrders.value : false;
+    this.filters.certificates = this.certificates;
+    this.filters.pointsToUse = this.pointsUsed;
     this.filters.amountDue = this.finalSum;
     this.filters.orderAmount = this.finalSum;
     this.filters.comment = this.orderDetailsForm.value.orderComment;
     this.orderAmount = this.filters.orderAmount ? this.filters.orderAmount : this.showTotal;
     this.amountDue = this.filters.amountDue ? this.filters.amountDue : this.finalSum;
     this.setSessionStorageFilters();
+
     this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
     this.shareFormService.orderDetails.certificates = this.certificates;
     this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value ? this.additionalOrders.value : false;
