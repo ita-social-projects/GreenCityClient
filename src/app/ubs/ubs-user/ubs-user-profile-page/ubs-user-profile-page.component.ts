@@ -38,8 +38,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   private destroy: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
   userProfile: UserProfile;
-  viberNotification = false;
-  telegramNotification = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   dataDeleteAddress = {
     title: 'ubs-client-profile.delete-address',
@@ -694,13 +692,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   onSwitchChanged(id: string, checked: boolean): void {
     switch (id) {
       case NotificationPlatform.telegramNotification:
-        this.telegramNotification = checked;
         this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
         this.userProfile.telegramIsNotify && this.goToTelegramUrl();
         break;
 
       case NotificationPlatform.viberNotification:
-        this.viberNotification = checked;
         this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
         this.userProfile.viberIsNotify && this.goToViberUrl();
         break;
