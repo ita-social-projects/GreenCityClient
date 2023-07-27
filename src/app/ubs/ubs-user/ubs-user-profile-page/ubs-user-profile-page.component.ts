@@ -21,6 +21,7 @@ import { SearchAddress, KyivNamesEnum } from '../../ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 import { RequiredFromDropdownValidator } from '../requiredFromDropDown.validator';
+import { NotificationPlatform } from '../../ubs/notification-platform.enum';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -267,9 +268,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
 
     this.isFetching = false;
-
     this.errorMessages = new Array(this.userForm.get('address').value.length).fill(this.errorValueObj);
-    console.log(this.errorMessages);
   }
 
   private initGoogleAutocompleteServices(): void {
@@ -589,15 +588,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.snackBar.openSnackBar('savedChangesToUserProfile');
   }
 
-  redirectToMessengers() {
-    if (this.telegramNotification) {
-      this.goToTelegramUrl();
-    }
-    if (this.viberNotification) {
-      this.goToViberUrl();
-    }
-  }
-
   goToTelegramUrl() {
     (window as any).open(this.telegramBotURL, '_blank');
   }
@@ -701,19 +691,19 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.userForm.updateValueAndValidity();
   }
 
-  onSwitchChanged(id: string, checked: boolean) {
-    if (id === 'telegramNotification') {
-      this.telegramNotification = checked;
-      this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-    }
+  onSwitchChanged(id: string, checked: boolean): void {
+    switch (id) {
+      case NotificationPlatform.telegramNotification:
+        this.telegramNotification = checked;
+        this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
+        this.userProfile.telegramIsNotify && this.goToTelegramUrl();
+        break;
 
-    if (id === 'viberNotification') {
-      this.viberNotification = checked;
-      this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
-    }
-
-    if (this.userProfile.viberIsNotify || this.userProfile.telegramIsNotify) {
-      this.redirectToMessengers();
+      case NotificationPlatform.viberNotification:
+        this.viberNotification = checked;
+        this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
+        this.userProfile.viberIsNotify && this.goToViberUrl();
+        break;
     }
   }
 
