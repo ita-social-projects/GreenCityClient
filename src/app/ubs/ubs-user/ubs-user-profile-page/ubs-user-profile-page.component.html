@@ -125,7 +125,7 @@
                   [isEditing]="!isEditing"
                   value="id1"
                   id="telegramNotification"
-                  (switchChanged)="onSwitchChanged('telegramNotification', $event)"
+                  (switchChanged)="onSwitchChanged('telegramNotification')"
                 ></app-ubs-switcher>
                 <div class="social-media">Viber</div>
                 <app-ubs-switcher
@@ -134,7 +134,7 @@
                   [isEditing]="!isEditing"
                   value="id2"
                   id="telegramNotification"
-                  (switchChanged)="onSwitchChanged('viberNotification', $event)"
+                  (switchChanged)="onSwitchChanged('viberNotification')"
                 ></app-ubs-switcher>
               </div>
               <div class="alert-mess">{{ 'ubs-client-profile.social-media-mess' | translate }}</div>

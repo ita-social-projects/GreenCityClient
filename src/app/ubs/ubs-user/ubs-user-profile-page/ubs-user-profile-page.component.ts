@@ -689,16 +689,20 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.userForm.updateValueAndValidity();
   }
 
-  onSwitchChanged(id: string, checked: boolean): void {
+  onSwitchChanged(id: string): void {
     switch (id) {
       case NotificationPlatform.telegramNotification:
         this.userProfile.telegramIsNotify = !this.userProfile.telegramIsNotify;
-        this.userProfile.telegramIsNotify && this.goToTelegramUrl();
+        if (this.userProfile.telegramIsNotify) {
+          this.goToTelegramUrl();
+        }
         break;
 
       case NotificationPlatform.viberNotification:
         this.userProfile.viberIsNotify = !this.userProfile.viberIsNotify;
-        this.userProfile.viberIsNotify && this.goToViberUrl();
+        if (this.userProfile.viberIsNotify) {
+          this.goToViberUrl();
+        }
         break;
     }
   }
