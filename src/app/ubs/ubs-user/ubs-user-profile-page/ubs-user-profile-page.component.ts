@@ -121,9 +121,6 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   setRegionValue(i: number) {
     this.errorMessages[i].region = true;
     this.updateValidInputs('region', 'regionEn', i);
-    const currentFormGroup = this.userForm.controls.address.get(i.toString());
-    const region = currentFormGroup.get('region');
-    const regionEn = currentFormGroup.get('regionEn');
   }
 
   setUrlToBot(): void {
