@@ -20,6 +20,7 @@ import { LocationService } from '@global-service/location/location.service';
 import { SearchAddress, KyivNamesEnum } from '../../ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
+import { RequiredFromDropdownValidator } from '../requiredFromDropDown.validator';
 
 @Component({
   selector: 'app-ubs-user-profile-page',
@@ -60,6 +61,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   maxAddressLength = 4;
   currentLanguage: string;
   regionBounds;
+  errorMessages = [];
+  errorValueObj = {
+    region: false,
+    city: false,
+    street: false
+  };
   regionOptions = {
     types: ['administrative_area_level_1'],
     componentRestrictions: { country: 'UA' }
@@ -112,15 +119,27 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     );
   }
 
+  setRegionValue(i: number) {
+    this.errorMessages[i].region = true;
+    this.updateValidInputs('region', 'regionEn', i);
+    const currentFormGroup = this.userForm.controls.address.get(i.toString());
+    const region = currentFormGroup.get('region');
+    const regionEn = currentFormGroup.get('regionEn');
+  }
+
   setUrlToBot(): void {
     this.telegramBotURL = this.userProfile.botList[0]?.link;
     this.viberBotURL = this.userProfile.botList[1]?.link;
   }
 
   onRegionSelected(event: any, index: number): void {
+    this.errorMessages[index].region = false;
+
     const currentFormGroup = this.userForm.controls.address.get(index.toString());
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
+
+    this.updateValidInputs('region', 'regionEn', index);
 
     currentFormGroup.get(this.getLangValue('region', 'regionEn')).valueChanges.subscribe(() => {
       currentFormGroup.get('cityEn').setValue('');
@@ -248,6 +267,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
 
     this.isFetching = false;
+
+    this.errorMessages = new Array(this.userForm.get('address').value.length).fill(this.errorValueObj);
+    console.log(this.errorMessages);
   }
 
   private initGoogleAutocompleteServices(): void {
@@ -275,6 +297,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setPredictCities(formGroupName: number): void {
+    this.errorMessages[formGroupName].city = true;
+    this.updateValidInputs('city', 'cityEn', formGroupName);
+
     this.cityPredictionList = null;
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const regionEn = currentFormGroup.get('regionEn');
@@ -306,7 +331,15 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     });
   }
 
+  isSubmitBtnDisabled() {
+    const isFormError = this.errorMessages.some((obj) => Object.values(obj).some((value) => value === true));
+    return !this.userForm.valid || this.userForm.pristine || isFormError;
+  }
+
   onCitySelected(formGroupName: number, selectedCity: GooglePrediction): void {
+    this.errorMessages[formGroupName].city = false;
+    this.updateValidInputs('city', 'cityEn', formGroupName);
+
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
 
     this.setValueOfCity(selectedCity, currentFormGroup, 'city');
@@ -354,6 +387,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   setPredictStreets(formGroupName: number): void {
+    this.errorMessages[formGroupName].street = true;
+    this.updateValidInputs('street', 'streetEn', formGroupName);
+
     this.streetPredictionList = null;
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     const { city, cityEn, street, streetEn } = currentFormGroup.value;
@@ -387,6 +423,9 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   onStreetSelected(formGroupName: number, selectedStreet: GooglePrediction): void {
+    this.errorMessages[formGroupName].street = false;
+    this.updateValidInputs('street', 'streetEn', formGroupName);
+
     const currentFormGroup = this.userForm.controls.address.get(formGroupName.toString());
     currentFormGroup.get('houseNumber').setValue('');
 
@@ -644,6 +683,22 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public getLangControl(uaControl: AbstractControl, enControl: AbstractControl): AbstractControl {
+    return this.langService.getLangValue(uaControl, enControl) as AbstractControl;
+  }
+
+  updateValidInputs(control: string, controlEn: string, index: number): void {
+    const currentControlName = this.langService.getLangValue(control, controlEn);
+    const currentControl = this.userForm.controls.address.get(index.toString()).get(currentControlName as string);
+
+    currentControl.setValidators([
+      Validators.required,
+      RequiredFromDropdownValidator.requiredFromDropdown(this.errorMessages[index][control])
+    ]);
+    currentControl.updateValueAndValidity();
+    this.userForm.updateValueAndValidity();
   }
 
   onSwitchChanged(id: string, checked: boolean) {
