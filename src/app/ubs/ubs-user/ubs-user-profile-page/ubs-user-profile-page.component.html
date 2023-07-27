@@ -145,10 +145,13 @@
             <div formGroupName="{{ i }}" class="ubs-cliend-profile-group">
               <!-- Not editing -->
               <div *ngIf="!isEditing">
-                <h5 class="h5-margin-top">
-                  {{ 'ubs-client-profile.address' | translate }}
-                  <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
-                </h5>
+                <div class="address-header">
+                  <span class="address-header__title">
+                    {{ 'ubs-client-profile.address' | translate }}
+                    <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
+                  </span>
+                  <span *ngIf="address.value?.actual" class="address-header__default"> основна</span>
+                </div>
                 <div class="inline">
                   <div class="form-group input-margin localization">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
@@ -187,7 +190,7 @@
 
               <!-- Is editing -->
               <div *ngIf="isEditing">
-                <h5 class="h5-margin-top">
+                <h5 class="address-header">
                   {{ 'ubs-client-profile.address' | translate }}
                   <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
                 </h5>

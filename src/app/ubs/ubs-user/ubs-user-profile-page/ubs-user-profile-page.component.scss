@@ -67,8 +67,24 @@ $inputwidth: 260px;
     padding: 0;
   }
 
-  .h5-margin-top {
+  .address-header {
+    display: flex;
+    align-items: center;
     margin: 28px 0 14px 0;
+
+    .address-header__title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .address-header__default {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ubs-secondary-grey);
+      border-left: 1px solid var(--ubs-secondary-grey);
+      padding-left: 10px;
+      margin-left: 10px;
+    }
   }
 
   .localization {
