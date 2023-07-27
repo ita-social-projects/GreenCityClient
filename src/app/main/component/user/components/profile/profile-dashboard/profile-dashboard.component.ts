@@ -51,10 +51,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   public totalNews = 0;
 
-  public eventType: string | null;
+  public eventType: string;
 
-  public userLatitude: number | null;
-  public userLongitude: number | null;
+  public userLatitude = 0;
+  public userLongitude = 0;
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -98,8 +98,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   getUserLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
       if (position) {
-        this.userLatitude = position.coords.latitude || null;
-        this.userLongitude = position.coords.longitude || null;
+        this.userLatitude = position.coords.latitude;
+        this.userLongitude = position.coords.longitude;
       }
     });
   }
@@ -111,12 +111,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
     }
 
-    this.eventType = this.isOnlineChecked ? 'ONLINE' : this.isOfflineChecked ? 'OFFLINE' : null;
+    this.eventType = this.isOnlineChecked ? 'ONLINE' : this.isOfflineChecked ? 'OFFLINE' : '';
 
     this.initGetUserEvents(this.eventType);
   }
 
-  initGetUserEvents(eventType?: string | null): void {
+  initGetUserEvents(eventType?: string): void {
     this.eventService
       .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
@@ -126,7 +126,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  onEventsPageChange(page: number, eventType?: string | null): void {
+  onEventsPageChange(page: number, eventType?: string): void {
     this.eventsPage = page;
     this.eventService
       .getAllUserEvents(this.eventsPage - 1, 6, this.userLatitude, this.userLongitude, eventType)
