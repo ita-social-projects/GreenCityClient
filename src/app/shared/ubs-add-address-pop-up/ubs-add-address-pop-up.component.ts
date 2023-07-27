@@ -252,7 +252,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   setPredictRegions(): void {
-    this.erValObj.region = true;
+    this.errorValueObj.region = true;
     this.updateValidInputs('region', 'regionEn');
 
     if (this.currentLanguage === Language.UA && this.region.value) {
@@ -274,7 +274,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   setPredictCities(): void {
     this.errorValueObj.city = true;
-    console.log('check');
     this.updateValidInputs('city', 'cityEn');
 
     this.cityPredictionList = null;
