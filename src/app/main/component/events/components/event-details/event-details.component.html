@@ -117,10 +117,10 @@
           </div>
         </div>
 
-        <div class="save-join-event-block" *ngIf="role === roles.USER && !isOver">
-          <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
+        <div class="save-join-event-block" *ngIf="role === roles.USER">
+          <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
           <button
-            *ngIf="!isUserCanRate"
+            *ngIf="!isUserCanRate && !isOver"
             [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
             (click)="buttonAction()"
           >
