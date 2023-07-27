@@ -53,6 +53,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   public eventType: string | null;
 
+  public userLatitude: number | null;
+  public userLongitude: number | null;
+
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
   constructor(
@@ -79,6 +82,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
     this.initGetUserEvents();
     this.dispatchNews(false);
+    this.getUserLocation();
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
 
@@ -87,6 +91,15 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
       if (!isNaN(tabId)) {
         this.selectedIndex = tabId;
+      }
+    });
+  }
+
+  getUserLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position) {
+        this.userLatitude = position.coords.latitude || null;
+        this.userLongitude = position.coords.longitude || null;
       }
     });
   }
@@ -105,7 +118,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   initGetUserEvents(eventType?: string | null): void {
     this.eventService
-      .getAllUserEvents(0, this.eventsPerPage, eventType)
+      .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
@@ -116,7 +129,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   onEventsPageChange(page: number, eventType?: string | null): void {
     this.eventsPage = page;
     this.eventService
-      .getAllUserEvents(this.eventsPage - 1, 6, eventType)
+      .getAllUserEvents(this.eventsPage - 1, 6, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
       .subscribe((res) => {
         this.eventsList = res.page;
