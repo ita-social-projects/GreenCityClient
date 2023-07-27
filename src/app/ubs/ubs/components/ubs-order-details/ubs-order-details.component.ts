@@ -418,7 +418,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.shareFormService.orderDetails.total = this.filters.orderAmount;
     this.shareFormService.orderDetails.finalSum = this.filters.amountDue;
     this.shareFormService.changeOrderDetails();
-    console.log(this.shareFormService.orderDetails, 'this.shareFormService.orderDetails');
+    //console.log(this.shareFormService.orderDetails, 'this.shareFormService.orderDetails');
   }
 
   private setSessionStorageFilters(): void {
