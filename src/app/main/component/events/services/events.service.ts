@@ -43,6 +43,7 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/createdEvents?page=${page}&size=${quantity}`);
   }
 
+  // tslint:disable-next-line:max-line-length
   public getAllUserEvents(
     page: number,
     quantity: number,
