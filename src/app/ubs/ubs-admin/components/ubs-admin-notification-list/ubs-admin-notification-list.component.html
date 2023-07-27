@@ -46,14 +46,29 @@
     </tr>
   </tbody>
 </table>
+<app-spinner *ngIf="spinner"></app-spinner>
+<div
+  *ngIf="itemsNumber !== '10'"
+  infiniteScroll
+  [infiniteScrollDistance]="0"
+  [infiniteScrollThrottle]="500"
+  (scrolled)="loadPage(currentPage)"
+></div>
 
-<pagination-controls
-  (pageChange)="onPageChanged($event)"
-  maxSize="9"
-  directionLinks="true"
-  autoHide="true"
-  responsive="true"
-  previousLabel="Previous"
-  nextLabel="Next"
->
-</pagination-controls>
+<div class="select-pagination-wrapper">
+  <pagination-controls
+    [ngStyle]="{ 'margin-top': '15px' }"
+    (pageChange)="onPageChanged($event)"
+    maxSize="9"
+    directionLinks="true"
+    autoHide="true"
+    responsive="true"
+    previousLabel="Previous"
+    nextLabel="Next"
+  >
+  </pagination-controls>
+
+  <select [(ngModel)]="itemsNumber" (change)="onPageChanged(currentPage)">
+    <option *ngFor="let i of itemsNumberArr" [value]="i">{{ i }}</option>
+  </select>
+</div>
