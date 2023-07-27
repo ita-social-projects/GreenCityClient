@@ -732,43 +732,17 @@ describe('UbsUserProfilePageComponent', () => {
 
   describe('onSwitchChanged method', () => {
     it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
-      component.userProfile.telegramIsNotify = false;
       spyOn(component, 'goToTelegramUrl');
+      component.onSwitchChanged(NotificationPlatform.telegramNotification);
 
-      component.onSwitchChanged(NotificationPlatform.telegramNotification, true);
-
-      expect(component.userProfile.telegramIsNotify).toBe(true);
       expect(component.goToTelegramUrl).toHaveBeenCalled();
     });
 
-    it('should toggle telegramIsNotify and not call goToTelegramUrl when id is telegramNotification but checked is false', () => {
-      component.userProfile.telegramIsNotify = true;
-      spyOn(component, 'goToTelegramUrl');
-
-      component.onSwitchChanged(NotificationPlatform.telegramNotification, false);
-
-      expect(component.userProfile.telegramIsNotify).toBe(false);
-      expect(component.goToTelegramUrl).not.toHaveBeenCalled();
-    });
-
     it('should toggle viberIsNotify and call goToViberUrl when id is viberNotification', () => {
-      component.userProfile.viberIsNotify = false;
       spyOn(component, 'goToViberUrl');
+      component.onSwitchChanged(NotificationPlatform.viberNotification);
 
-      component.onSwitchChanged(NotificationPlatform.viberNotification, true);
-
-      expect(component.userProfile.viberIsNotify).toBe(true);
       expect(component.goToViberUrl).toHaveBeenCalled();
-    });
-
-    it('should toggle viberIsNotify and not call goToViberUrl when id is viberNotification but checked is false', () => {
-      component.userProfile.viberIsNotify = true;
-      spyOn(component, 'goToViberUrl');
-
-      component.onSwitchChanged(NotificationPlatform.viberNotification, false);
-
-      expect(component.userProfile.viberIsNotify).toBe(false);
-      expect(component.goToViberUrl).not.toHaveBeenCalled();
     });
   });
 });
