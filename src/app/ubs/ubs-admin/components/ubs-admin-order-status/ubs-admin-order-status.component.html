@@ -19,9 +19,8 @@
                 <select
                   id="order"
                   *ngIf="isOrderStatusSelected"
-                  class="form-control"
+                  [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
                   formControlName="orderStatus"
-                  disabled="!isEmployeeCanEditOrder"
                   (change)="onChangedOrderStatus($event.target.value)"
                 >
                   <option
@@ -65,10 +64,10 @@
         <div class="form-group">
           <label for="comment" class="form__label">{{ 'order-edit.comment.label' | translate }}</label>
           <textarea
-            class="form-control mw-100"
+            [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
+            class="mw-100"
             id="comment"
             formControlName="adminComment"
-            disabled="!isEmployeeCanEditOrder"
             placeholder="{{ 'order-edit.comment.placeholder' | translate }}"
           ></textarea>
           <div class="validation" *ngIf="adminComment.invalid && adminComment.touched">

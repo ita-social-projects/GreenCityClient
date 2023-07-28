@@ -56,3 +56,7 @@ p {
     height: 125px;
   }
 }
+
+.readonly {
+  pointer-events: none;
+}

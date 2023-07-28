@@ -60,7 +60,11 @@
       </div>
       <div class="form-group col-md-4">
         <label for="station">{{ 'export-details.station' | translate }}</label>
-        <select formControlName="receivingStationId" class="form-control" id="station" disabled="!isEmployeeCanEditOrder">
+        <select
+          formControlName="receivingStationId"
+          id="station"
+          [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
+        >
           <option *ngFor="let station of allReceivingStations" [value]="station">
             {{ station }}
           </option>

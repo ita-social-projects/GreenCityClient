@@ -33,7 +33,8 @@
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count">
               <input
-                class="shadow-none form-control input p-2"
+                [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
+                class="shadow-none input p-2"
                 type="number"
                 min="0"
                 max="999"
@@ -51,7 +52,6 @@
                 max="999"
                 formControlName="actualQuantity{{ bag.id }}"
                 [attr.disabled]="isOrderCancelled && isOrderPaid ? true : null"
-                [readonly]="!isEmployeeCanEditOrder"
                 (change)="onQuantityChange('actual', bag.id)"
               />
             </div>
@@ -131,7 +131,6 @@
                   min="0"
                   [value]="writeoffAtStationSum"
                   [disabled]="isDisabledWriteOffStation"
-                  [readonly]="!isEmployeeCanEditOrder"
                   (change)="changeWriteOffSum($event)"
                 />
                 <span>

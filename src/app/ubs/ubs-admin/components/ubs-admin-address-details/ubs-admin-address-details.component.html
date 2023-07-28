@@ -143,8 +143,7 @@
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="shadow-none form-control"
-            disabled="!isEmployeeCanEditOrder"
+            [ngClass]="isEmployeeCanEditOrder ? 'shadow-none form-control' : 'shadow-none form-control readonly'"
             (change)="onDistrictSelected()"
           >
             <option *ngFor="let district of districts" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
