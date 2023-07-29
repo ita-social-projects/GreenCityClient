@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, HostListener } from '@angular/core';
 import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitMark } from '@global-user/components/habit/models/HabitMark.enum';
@@ -11,7 +11,7 @@ import { HabitAssignInterface } from '../../models/interfaces/habit-assign.inter
   templateUrl: './habit-progress.component.html',
   styleUrls: ['./habit-progress.component.scss']
 })
-export class HabitProgressComponent implements OnChanges {
+export class HabitProgressComponent implements OnChanges, OnInit {
   @Input() habit: HabitAssignInterface;
   public indicator: number;
   isRequest = false;
@@ -21,6 +21,9 @@ export class HabitProgressComponent implements OnChanges {
   habitMark: string;
   heightThumbLabel = 4;
   public isHidden = false;
+  millisecondsOfDay = 1000 * 3600 * 24;
+  screenBreakpoint = 1024;
+  isDesktopWidth: boolean;
   private descriptionType = {
     acquired: () => {
       this.habitMark = HabitMark.ACQUIRED;
@@ -44,6 +47,54 @@ export class HabitProgressComponent implements OnChanges {
       this.buildHabitDescription();
       this.countProgressBar();
     }
+    this.habitAssignService.habitForEdit = this.habit;
+  }
+
+  ngOnInit(): void {
+    this.isDesktopWidth = this.isDeskWidth();
+    this.habitAssignService.habitChangesFromCalendarSubj.subscribe((changes) => {
+      if (changes.date === this.currentDate) {
+        changes.isEnrolled ? this.descriptionType.done() : this.descriptionType.undone();
+      }
+      this.updateHabitSteak(changes);
+      this.countProgressBar();
+    });
+  }
+
+  @HostListener('window:resize') public checkDisplayWidth() {
+    this.isDesktopWidth = this.isDeskWidth();
+  }
+
+  public isDeskWidth(): boolean {
+    return window.innerWidth > this.screenBreakpoint;
+  }
+
+  countDifferenceInDays(date1: string, date2: string): number {
+    return (new Date(date1).getTime() - new Date(date2).getTime()) / this.millisecondsOfDay;
+  }
+
+  updateHabitSteak(changes): void {
+    if (changes.isEnrolled) {
+      this.habit.habitStatusCalendarDtoList.push({
+        enrollDate: changes.date,
+        id: null
+      });
+    } else {
+      this.habit.habitStatusCalendarDtoList = this.habit.habitStatusCalendarDtoList.filter((habit) => {
+        return habit.enrollDate !== changes.date;
+      });
+    }
+    const sortedCalendarDtoList = this.habit.habitStatusCalendarDtoList.sort((a, b) => {
+      return new Date(b.enrollDate).getTime() - new Date(a.enrollDate).getTime();
+    });
+    if (sortedCalendarDtoList[0]?.enrollDate !== this.currentDate) {
+      this.habit.habitStreak = 0;
+    } else {
+      this.habit.habitStreak = sortedCalendarDtoList.filter((el, index, arr) => {
+        return index > 0 ? this.countDifferenceInDays(arr[0].enrollDate, el.enrollDate) === index : true;
+      }).length;
+    }
+    this.habit.workingDays = this.habit.habitStatusCalendarDtoList.length;
   }
 
   public countProgressBar(): void {
@@ -74,6 +125,7 @@ export class HabitProgressComponent implements OnChanges {
           this.descriptionType.acquired();
           this.nowAcquiredHabit.emit(response);
         } else {
+          this.setGreenCircleInCalendar(true);
           this.updateHabit(response);
         }
       });
@@ -85,6 +137,7 @@ export class HabitProgressComponent implements OnChanges {
       .unenrollByHabit(this.habit.id, this.currentDate)
       .pipe(take(1))
       .subscribe((response: HabitAssignInterface) => {
+        this.setGreenCircleInCalendar(false);
         this.updateHabit(response);
       });
   }
@@ -96,6 +149,22 @@ export class HabitProgressComponent implements OnChanges {
     this.buildHabitDescription();
     this.countProgressBar();
     this.isRequest = false;
+  }
+
+  setGreenCircleInCalendar(isSetCircle: boolean) {
+    const lastDay = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+    const lastDayInMonth = this.datePipe.transform(lastDay, 'yyy-MM-dd');
+    const dataFromDashBoard = this.habitAssignService.habitsFromDashBoard.find((item) => item.enrollDate === this.currentDate);
+    if (dataFromDashBoard) {
+      dataFromDashBoard.habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
+    } else {
+      this.habitAssignService.getAssignHabitsByPeriod(this.currentDate, lastDayInMonth).subscribe((res) => {
+        this.habitAssignService.habitsFromDashBoard = res;
+        this.habitAssignService.habitsFromDashBoard
+          .find((item) => item.enrollDate === this.currentDate)
+          .habitAssigns.find((item) => item.habitAssignId === this.habit.id).enrolled = isSetCircle;
+      });
+    }
   }
 
   public getDayName(): string {

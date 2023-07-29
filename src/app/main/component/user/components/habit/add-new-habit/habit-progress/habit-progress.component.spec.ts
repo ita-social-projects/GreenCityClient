@@ -23,8 +23,22 @@ describe('HabitProgressComponent', () => {
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
     'getAssignHabitsByPeriod',
     'enrollByHabit',
-    'unenrollByHabit'
+    'unenrollByHabit',
+    'habitChangesFromCalendarSubj'
   ]);
+  habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
+    JSON.stringify([
+      {
+        enrollDate: '2022-02-10',
+        habitAssigns: [
+          {
+            habitId: 123,
+            enrolled: false
+          }
+        ]
+      }
+    ])
+  );
 
   const fakeHabitAcquired = { ...DEFAULTFULLINFOHABIT, status: 'ACQUIRED' };
 
@@ -44,6 +58,7 @@ describe('HabitProgressComponent', () => {
     component = fixture.componentInstance;
     component.habit = fakeHabitAcquired as any;
     habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
+    habitAssignServiceMock.habitChangesFromCalendarSubj = of({});
     fixture.detectChanges();
   });
 

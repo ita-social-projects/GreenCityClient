@@ -60,10 +60,6 @@
     width: calc(100% - 66px);
   }
 
-  .app-calendar-week {
-    display: none;
-  }
-
   .days-duration {
     position: relative;
     display: flex;
@@ -122,10 +118,6 @@
   .calendar {
     flex-direction: column;
     gap: 24px;
-
-    .calendar-container {
-      display: none;
-    }
 
     .app-calendar-week {
       display: flex;
