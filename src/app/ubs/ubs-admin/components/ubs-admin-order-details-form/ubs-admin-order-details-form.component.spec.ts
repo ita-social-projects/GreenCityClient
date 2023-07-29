@@ -275,7 +275,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
 
   it('should calculateOverpayment metod call if showUbsCourier = true', () => {
     component.showUbsCourier = true;
-    component.bagsInfo.sum['confirmed'] = 140;
+    component.bagsInfo.sum.confirmed = 140;
     component.orderDetails.certificateDiscount = 12;
     component.courierPrice = 20;
     component.orderDetails.bonuses = 250;
@@ -287,7 +287,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
   it('should calculateOverpayment metod call if showUbsCourier = false and isOrderBroughtByHimself = false', () => {
     component.showUbsCourier = false;
     component.showUbsCourier = false;
-    component.bagsInfo.sum['confirmed'] = 140;
+    component.bagsInfo.sum.confirmed = 140;
     component.orderDetails.certificateDiscount = 12;
     component.orderDetails.bonuses = 250;
     component.orderDetails.paidAmount = 20;
