@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -51,7 +51,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   public totalNews = 0;
 
-  public eventType: string;
+  public eventType = '';
 
   public userLatitude = 0;
   public userLongitude = 0;
@@ -111,7 +111,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
     }
 
-    this.eventType = this.isOnlineChecked ? 'ONLINE' : this.isOfflineChecked ? 'OFFLINE' : '';
+    if (this.isOnlineChecked) {
+      this.eventType = 'ONLINE';
+    } else if (this.isOfflineChecked) {
+      this.eventType = 'OFFLINE';
+    }
 
     this.initGetUserEvents(this.eventType);
   }
