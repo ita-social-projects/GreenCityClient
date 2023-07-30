@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -165,10 +165,11 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     const habitIndex = this.popupHabits.findIndex((habit) => habit.habitAssignId === id);
     this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled;
     if (this.currentPage === 'editHabit' && id === this.habitAssignService.habitForEdit.id) {
-      this.habitAssignService.setCircleFromPopUpToProgress({
+      const changes = {
         date: this.datePipe.transform(this.data.habitsCalendarSelectedDate, 'yyyy-MM-dd'),
         isEnrolled: this.popupHabits[habitIndex].enrolled
-      });
+      };
+      this.habitAssignService.setCircleFromPopUpToProgress(changes);
     }
     if (this.currentPage === 'profileHabits') {
       this.setCircleFromPopUpToCards(id, this.popupHabits[habitIndex].enrolled);

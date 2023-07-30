@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DEFAULTFULLINFOHABIT } from '../../mocks/habit-assigned-mock';
+import { DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
 
 @Pipe({ name: 'datePipe' })
 class DatePipeMock implements PipeTransform {
@@ -69,6 +69,33 @@ describe('HabitProgressComponent', () => {
   it('ngOnChanges', () => {
     const spy = spyOn(component, 'countProgressBar');
     component.ngOnChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should call updateHabitSteak and countProgressBar', () => {
+    const spy1 = spyOn(component, 'updateHabitSteak');
+    const spy2 = spyOn(component, 'countProgressBar');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('should call isDeskWidth while ngOnInit', () => {
+    const spy = spyOn(component, 'isDeskWidth');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should update habitSteak', () => {
+    const spy = spyOn(component, 'countDifferenceInDays');
+    component.currentDate = '2023-04-16';
+    component.habit = DEFAULTFULLINFOHABIT_2 as any;
+    component.updateHabitSteak({ date: '2023-04-16', isEnrolled: true });
+    expect(component.habit.workingDays).toBe(3);
+    expect(component.habit.habitStreak).toBe(1);
+    component.updateHabitSteak({ date: '2023-04-14', isEnrolled: false });
+    expect(component.habit.workingDays).toBe(2);
+    expect(component.habit.habitStreak).toBe(1);
     expect(spy).toHaveBeenCalled();
   });
 
