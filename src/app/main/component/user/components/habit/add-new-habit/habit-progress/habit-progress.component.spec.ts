@@ -70,6 +70,7 @@ describe('HabitProgressComponent', () => {
     const spy = spyOn(component, 'countProgressBar');
     component.ngOnChanges();
     expect(spy).toHaveBeenCalled();
+    expect(habitAssignServiceMock.habitForEdit).toEqual(component.habit);
   });
 
   it('ngOnInit should call updateHabitSteak and countProgressBar', () => {

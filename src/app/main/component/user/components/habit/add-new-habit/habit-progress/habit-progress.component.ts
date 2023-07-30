@@ -4,7 +4,11 @@ import { HabitStatus } from '@global-models/habit/HabitStatus.enum';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitMark } from '@global-user/components/habit/models/HabitMark.enum';
 import { take } from 'rxjs/operators';
-import { HabitAssignInterface } from '../../models/interfaces/habit-assign.interface';
+import {
+  HabitAssignInterface,
+  ChangesFromCalendarToProgress,
+  HabitStatusCalendarListInterface
+} from '../../models/interfaces/habit-assign.interface';
 
 @Component({
   selector: 'app-habit-progress',
@@ -73,7 +77,13 @@ export class HabitProgressComponent implements OnChanges, OnInit {
     return (new Date(date1).getTime() - new Date(date2).getTime()) / this.millisecondsOfDay;
   }
 
-  updateHabitSteak(changes): void {
+  sortHabitStatusCalendarDtoListByDate() {
+    return this.habit.habitStatusCalendarDtoList.sort((a: HabitStatusCalendarListInterface, b: HabitStatusCalendarListInterface) => {
+      return new Date(b.enrollDate).getTime() - new Date(a.enrollDate).getTime();
+    });
+  }
+
+  updateHabitSteak(changes: ChangesFromCalendarToProgress): void {
     if (changes.isEnrolled) {
       this.habit.habitStatusCalendarDtoList.push({
         enrollDate: changes.date,
@@ -84,14 +94,12 @@ export class HabitProgressComponent implements OnChanges, OnInit {
         return habit.enrollDate !== changes.date;
       });
     }
-    const sortedCalendarDtoList = this.habit.habitStatusCalendarDtoList.sort((a, b) => {
-      return new Date(b.enrollDate).getTime() - new Date(a.enrollDate).getTime();
-    });
+    const sortedCalendarDtoList = this.sortHabitStatusCalendarDtoListByDate();
     if (sortedCalendarDtoList[0]?.enrollDate !== this.currentDate) {
       this.habit.habitStreak = 0;
     } else {
       this.habit.habitStreak = sortedCalendarDtoList.filter((el, index, arr) => {
-        return index > 0 ? this.countDifferenceInDays(arr[0].enrollDate, el.enrollDate) === index : true;
+        return index ? this.countDifferenceInDays(arr[0].enrollDate, el.enrollDate) === index : true;
       }).length;
     }
     this.habit.workingDays = this.habit.habitStatusCalendarDtoList.length;
