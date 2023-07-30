@@ -26,22 +26,16 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   public positionName: Array<string>;
   public destroySub: Subject<boolean> = new Subject<boolean>();
 
-  private viewersArr = [
+  private notificationsViewerArr = [
     employeePositionsName.SuperAdmin,
     employeePositionsName.Admin,
     employeePositionsName.CallManager,
-    employeePositionsName.ServiceManager,
-    employeePositionsName.Logistician,
-    employeePositionsName.Navigator
+    employeePositionsName.ServiceManager
   ];
 
-  private employeesCertViewerArr = [
-    employeePositionsName.SuperAdmin,
-    employeePositionsName.Admin,
-    employeePositionsName.CallManager,
-    employeePositionsName.ServiceManager,
-    employeePositionsName.Logistician
-  ];
+  private employeesCertViewerArr = [...this.notificationsViewerArr, employeePositionsName.Logistician];
+
+  private viewersArr = [...this.employeesCertViewerArr, employeePositionsName.Navigator];
 
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
@@ -60,7 +54,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
     });
   }
 
-  private authoritiesSubscription(positions) {
+  private authoritiesSubscription(positions: Array<string>) {
     this.ubsAdminEmployeeService.employeePositionsAuthorities$.pipe(takeUntil(this.destroySub)).subscribe((rights) => {
       if (rights.authorities.length) {
         this.changeListElementsDependOnPermissions(positions, rights.authorities);
@@ -71,14 +65,14 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   private positionFilterUtil(posArr: Array<string>): boolean {
     if (this.employeePositions) {
       const result = this.employeePositions.filter((positionsItem) => posArr.includes(positionsItem));
-      return result.length > 0;
+      return !!result.length;
     }
   }
 
   private authoritiesFilterUtil(authority: string): boolean {
     if (this.employeeAuthorities) {
       const result = this.employeeAuthorities.filter((authoritiesItem) => authoritiesItem === authority);
-      return result.length > 0;
+      return !!result.length;
     }
   }
 
@@ -100,13 +94,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   }
 
   get notificationsViewer() {
-    const notificationsViewerArr = [
-      employeePositionsName.SuperAdmin,
-      employeePositionsName.Admin,
-      employeePositionsName.CallManager,
-      employeePositionsName.ServiceManager
-    ];
-    return this.positionFilterUtil(notificationsViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.notifications);
+    return this.positionFilterUtil(this.notificationsViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.notifications);
   }
 
   get tariffsViewer() {

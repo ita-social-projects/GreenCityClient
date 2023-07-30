@@ -140,13 +140,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     let isThisPositionCanEdit = false;
     let isThisRoleCanEdit = false;
     if (this.employeePositions) {
-      isThisPositionCanEdit =
-        this.employeePositions.filter((positionsItem: string) => positionsForEditOrder.includes(positionsItem)).length > 0;
+      isThisPositionCanEdit = !!this.employeePositions.filter((positionsItem: string) => positionsForEditOrder.includes(positionsItem))
+        .length;
     }
 
     if (this.employeeAuthorities) {
-      isThisRoleCanEdit =
-        this.employeeAuthorities.filter((authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders).length > 0;
+      isThisRoleCanEdit = !!this.employeeAuthorities.filter((authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders).length;
     }
 
     if (isThisPositionCanEdit || isThisRoleCanEdit) {
