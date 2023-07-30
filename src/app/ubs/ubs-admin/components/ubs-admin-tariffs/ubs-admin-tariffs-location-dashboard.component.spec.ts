@@ -30,6 +30,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { TariffRegionAll } from './ubs-tariffs.enum';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -833,7 +834,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.locations = mockRegion;
     component.region.setValue('Фейк область5');
     component.onChangeRegion();
-    expect(component.region.value).toBe('Все');
+    expect(component.region.value).toBe(TariffRegionAll.ua);
     expect(component.canRegionInputValueBeRegion).toBeTruthy();
     component.region.setValue('Фейк обла');
     component.onChangeRegion();

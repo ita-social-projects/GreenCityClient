@@ -25,6 +25,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { statusOfTariff, actionsWithTariffs, switchTariffStatus } from './tariff-status.enum';
 import { Language } from 'src/app/main/i18n/Language';
+import { TariffRegionAll } from './ubs-tariffs.enum';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -167,7 +168,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public isRegionValueAll() {
-    return this.region.value.toLowerCase() === 'all' || this.region.value.toLowerCase() === 'все';
+    return this.region.value.toLowerCase() === TariffRegionAll.en || this.region.value.toLowerCase() === TariffRegionAll.ua;
   }
 
   public checkisCardExist(): void {
@@ -540,7 +541,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   checkRegionValue(value): void {
     let currentRegion;
-    if (value.toLowerCase() === 'все' || value.toLowerCase() === 'all' || !value) {
+    if (value.toLowerCase() === TariffRegionAll.ua || value.toLowerCase() === TariffRegionAll.en || !value) {
       currentRegion = this.locations;
     } else {
       currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === value));
@@ -553,11 +554,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     const locationNames = this.locations.flatMap((it) =>
       it.regionTranslationDtos.filter((ob) => ob.languageCode === this.currentLang).map((ob) => ob.regionName)
     );
-    this.canRegionInputValueBeRegion = value && !!this._filter(value, [...locationNames, 'все', 'all']).length;
+    this.canRegionInputValueBeRegion = value && !!this._filter(value, [...locationNames, TariffRegionAll.ua, TariffRegionAll.en]).length;
   }
 
   public onChangeRegion() {
-    if (this.canRegionInputValueBeRegion && !this.isRegionValueAll() && !this._filter(this.region.value, ['all', 'все']).length) {
+    if (
+      this.canRegionInputValueBeRegion &&
+      !this.isRegionValueAll() &&
+      !this._filter(this.region.value, [TariffRegionAll.en, TariffRegionAll.ua]).length
+    ) {
       const firstSuitableRegion = this.locations
         .filter((element) => {
           return element.regionTranslationDtos.find((it) => it.regionName.toLowerCase().includes(this.region.value.toLowerCase()));
@@ -566,8 +571,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
       this.region.setValue(firstSuitableRegion);
       this.regionSelected({ option: { value: firstSuitableRegion } });
     } else {
-      this.region.setValue(this.getLangValue('Все', 'All'));
-      this.regionSelected({ option: { value: this.getLangValue('Все', 'All') } });
+      this.region.setValue(this.getLangValue(TariffRegionAll.ua, TariffRegionAll.en));
+      this.regionSelected({ option: { value: this.getLangValue(TariffRegionAll.ua, TariffRegionAll.en) } });
     }
   }
 
