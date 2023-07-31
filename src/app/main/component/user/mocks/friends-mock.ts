@@ -26,6 +26,19 @@ export const SECONDFRIEND: FriendModel = {
   chatId: 2
 };
 
+export const THIRDDFRIEND: FriendModel = {
+  id: 2,
+  name: 'Name2',
+  profilePicturePath: '',
+  added: false,
+  rating: 380,
+  city: 'Lviv',
+  mutualFriends: 5,
+  email: 'name2@mail.com',
+  friendStatus: 'FRIEND',
+  chatId: 2
+};
+
 export const FRIENDS: FriendArrayModel = {
   totalElements: 2,
   totalPages: 1,
