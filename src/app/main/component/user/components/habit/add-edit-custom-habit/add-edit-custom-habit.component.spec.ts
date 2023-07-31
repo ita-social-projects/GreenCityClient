@@ -12,6 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -41,7 +42,8 @@ describe('AddEditCustomHabitComponent', () => {
         BrowserAnimationsModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        MatDialogModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
