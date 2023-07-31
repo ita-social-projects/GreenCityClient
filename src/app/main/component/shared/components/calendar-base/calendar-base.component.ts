@@ -236,17 +236,6 @@ export class CalendarBaseComponent implements OnDestroy {
     }
   }
 
-  formatSelectedDate(isMonthCalendar, dayItem: CalendarInterface) {
-    if (isMonthCalendar) {
-      return `${this.months[dayItem.month]} ${dayItem.numberOfDate}, ${dayItem.year}`;
-    } else {
-      const month = dayItem.date.toLocaleDateString(this.language, { month: 'long' });
-      const day = dayItem.date.getDate();
-      const year = dayItem.date.getFullYear();
-      return `${month} ${day}, ${year}`;
-    }
-  }
-
   getHabitsForDay(habitsList, date) {
     return habitsList.find((list) => list.enrollDate === date);
   }
@@ -354,7 +343,7 @@ export class CalendarBaseComponent implements OnDestroy {
       return createDateTime(b) - createDateTime(a);
     });
     dialogConfig.data = {
-      habitsCalendarSelectedDate: this.formatSelectedDate(isMonthCalendar, dayItem),
+      habitsCalendarSelectedDate: this.formatDate(isMonthCalendar, dayItem),
       isHabitListEditable: this.isHabitListEditable,
       habits: dayHabitsSortedByDate
     };

@@ -223,13 +223,6 @@ describe('CalendarBaseComponent', () => {
     });
   });
 
-  describe('formatSelectedDate', () => {
-    it('should return date: jan 11 2020', () => {
-      const result = component.formatSelectedDate(true, calendarMock);
-      expect(result).toEqual('jan 11, 2020');
-    });
-  });
-
   it('should return true when isActiveMonth', () => {
     component.isActiveMonth();
     expect(component.isActiveMonth).toBeTruthy();

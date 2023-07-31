@@ -166,8 +166,16 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     });
   }
 
+  getOrderBonusValue(bonuses: number) {
+    const bonusesQuantity = bonuses ? '-' + bonuses : '';
+    return this.isOrderCancelled ? 0 : bonusesQuantity;
+  }
+
   private calculateFinalSum(): void {
-    const bonusesAndCert = this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
+    const bonusesAndCert = this.isOrderCancelled
+      ? this.bagsInfo.certificateDiscount
+      : this.bagsInfo.bonuses + this.bagsInfo.certificateDiscount;
+
     this.checkMinOrderLimit();
     this.bagsInfo.finalSum = {
       planned: this.bagsInfo.sum.planned - bonusesAndCert,
@@ -234,14 +242,16 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     let priceWithoutCertificate = this.bagsInfo?.sum[bagType] - this.orderDetails.certificateDiscount;
     priceWithoutCertificate = Math.max(priceWithoutCertificate, 0);
 
-    const baseSumOfOrder = this.orderDetails.bonuses + this.orderDetails.paidAmount + this.orderDetails.certificateDiscount;
+    const usedBonuses = this.isOrderCancelled ? 0 : this.orderDetails.bonuses;
+
+    const baseSumOfOrder = usedBonuses + this.orderDetails.paidAmount + this.orderDetails.certificateDiscount;
 
     if (this.isOrderBroughtByHimself) {
       this.overpayment = baseSumOfOrder - this.writeoffAtStationSum;
     } else if (this.showUbsCourier) {
-      this.overpayment = this.orderDetails.bonuses - priceWithoutCertificate - this.courierPrice;
+      this.overpayment = usedBonuses - priceWithoutCertificate - this.courierPrice;
     } else {
-      this.overpayment = this.orderDetails.bonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
+      this.overpayment = usedBonuses + this.orderDetails.paidAmount - priceWithoutCertificate;
     }
 
     this.changeOverpayment.emit(this.overpayment);
