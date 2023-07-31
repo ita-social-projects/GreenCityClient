@@ -11,7 +11,8 @@ enum errorType {
   maxlength = 'maxlength',
   required = 'required',
   newPasswordMatchesOld = 'newPasswordMatchesOld',
-  confirmPasswordMistmatch = 'confirmPasswordMistmatch'
+  confirmPasswordMistmatch = 'confirmPasswordMistmatch',
+  requiredFromDropdown = 'requiredFromDropdown'
 }
 
 @Component({
@@ -48,7 +49,8 @@ export class UBSInputErrorComponent implements OnInit {
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
-    confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm'
+    confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm',
+    requiredFromDropdown: 'personal-info.required-from-dropdown'
   };
 
   ngOnInit() {
@@ -79,6 +81,9 @@ export class UBSInputErrorComponent implements OnInit {
             break;
           case errorType.confirmPasswordMistmatch:
             this.errorMessage = this.validationErrors.confirmPasswordMistmatch;
+            break;
+          case errorType.requiredFromDropdown:
+            this.errorMessage = this.validationErrors.requiredFromDropdown;
             break;
           default:
             this.errorMessage = this.validationErrors[err];
