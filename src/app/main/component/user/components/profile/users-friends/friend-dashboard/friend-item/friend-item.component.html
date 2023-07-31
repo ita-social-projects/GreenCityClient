@@ -27,10 +27,10 @@
       </button>
     </div>
     <div *ngIf="!isFriendRequest; else isRequest" class="friend-btn">
-      <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton" class="secondary-global-button m-btn">
+      <button *ngIf="friend.chatId" id="openChatButton" class="secondary-global-button m-btn">
         {{ 'profile.friends.open-chat' | translate }}
       </button>
-      <button *ngIf="!friend.friendsChatDto.chatExists" id="createChatButton" class="secondary-global-button m-btn">
+      <button *ngIf="!friend.chatId" id="createChatButton" class="secondary-global-button m-btn">
         {{ 'profile.friends.create-chat' | translate }}
       </button>
     </div>

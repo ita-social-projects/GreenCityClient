@@ -8,10 +8,9 @@ export const FIRSTFRIEND: FriendModel = {
   rating: 380,
   city: 'Lviv',
   mutualFriends: 5,
-  friendsChatDto: {
-    chatExists: true,
-    chatId: 2
-  }
+  email: 'name@mail.com',
+  friendStatus: 'FRIEND',
+  chatId: 2
 };
 
 export const SECONDFRIEND: FriendModel = {
@@ -22,10 +21,22 @@ export const SECONDFRIEND: FriendModel = {
   rating: 380,
   city: 'Lviv',
   mutualFriends: 5,
-  friendsChatDto: {
-    chatExists: true,
-    chatId: 2
-  }
+  email: 'name2@mail.com',
+  friendStatus: 'FRIEND',
+  chatId: 2
+};
+
+export const THIRDDFRIEND: FriendModel = {
+  id: 2,
+  name: 'Name2',
+  profilePicturePath: '',
+  added: false,
+  rating: 380,
+  city: 'Lviv',
+  mutualFriends: 5,
+  email: 'name2@mail.com',
+  friendStatus: 'FRIEND',
+  chatId: 2
 };
 
 export const FRIENDS: FriendArrayModel = {

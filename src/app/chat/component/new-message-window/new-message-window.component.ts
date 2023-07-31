@@ -53,8 +53,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
   }
 
   public checkChat(friend: FriendModel) {
-    if (friend.friendsChatDto.chatExists) {
-      const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
+    if (friend.chatId) {
+      const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.chatId);
       this.chatsService.setCurrentChat(userChat);
     } else {
       this.socketService.createNewChat(friend.id, false, true);
