@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +22,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
   templateUrl: './add-edit-custom-habit.component.html',
   styleUrls: ['./add-edit-custom-habit.component.scss']
 })
-export class AddEditCustomHabitComponent implements OnInit {
+export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
   habit: any;
   complexityList = [
@@ -49,14 +51,32 @@ export class AddEditCustomHabitComponent implements OnInit {
   private currentLang: string;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
+  public previousPath: string;
+  public popupConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: 'user.habit.all-habits.habits-popup.title',
+      popupSubtitle: 'user.habit.all-habits.habits-popup.subtitle',
+      popupConfirm: 'user.habit.all-habits.habits-popup.confirm',
+      popupCancel: 'user.habit.all-habits.habits-popup.cancel'
+    }
+  };
+
   constructor(
+    private injector: Injector,
+    public dialog: MatDialog,
+    public router: Router,
     private fb: FormBuilder,
-    private router: Router,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private habitService: HabitService,
     private userFriendsService: UserFriendsService
   ) {
+    super(router, dialog);
+
     this.quillModules = quillConfig;
     Quill.register('modules/imageResize', ImageResize);
   }
@@ -66,6 +86,7 @@ export class AddEditCustomHabitComponent implements OnInit {
     this.initForm();
     this.getHabitTags();
     this.subscribeToLangChange();
+    this.previousPath = `/profile/${this.userId}/allhabits`;
   }
 
   private getUserId() {

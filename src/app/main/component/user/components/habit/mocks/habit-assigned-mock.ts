@@ -140,3 +140,28 @@ export const HABITSFORDATE: HabitsForDateInterface[] = [
     ]
   }
 ];
+
+export const DEFAULTFULLINFOHABIT_2: HabitAssignInterface = {
+  id: 1,
+  status: 'INPROGRESS',
+  createDateTime: new Date('2023-04-14'),
+  habit: DEFAULTHABIT,
+  enrolled: true,
+  userId: 17,
+  duration: 8,
+  workingDays: 2,
+  habitStreak: 1,
+  lastEnrollmentDate: new Date(2021, 5, 23),
+  habitStatusCalendarDtoList: [
+    { enrollDate: '2023-04-14', id: 2 },
+    { enrollDate: '2023-04-10', id: 3 }
+  ],
+  shoppingListItems: [
+    {
+      id: 6,
+      status: 'ACTIVE',
+      text: 'TEST'
+    }
+  ],
+  progressNotificationHasDisplayed: false
+};

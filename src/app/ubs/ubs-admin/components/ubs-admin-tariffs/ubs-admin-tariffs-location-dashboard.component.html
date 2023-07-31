@@ -61,9 +61,12 @@
           #autocompleteTriggerRegion="matAutocompleteTrigger"
           formControlName="region"
           [matAutocomplete]="autoRegion"
+          [ngClass]="{ 'region-not-existing': !canRegionInputValueBeRegion && region.value.length }"
+          (change)="onChangeRegion()"
+          (keyup.enter)="onChangeRegion()"
         />
         <mat-autocomplete #autoRegion="matAutocomplete" (optionSelected)="regionSelected($event)">
-          <mat-option value="Усі">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
+          <mat-option [value]="'ubs-tariffs.states.all' | translate">{{ 'ubs-tariffs.states.all' | translate }}</mat-option>
           <mat-option *ngFor="let region of filteredRegions | async" [value]="region">
             {{ region | translate }}
           </mat-option>

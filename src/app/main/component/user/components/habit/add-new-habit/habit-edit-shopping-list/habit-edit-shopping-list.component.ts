@@ -57,6 +57,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     if (this.shopList && this.isEditing) {
       this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress));
     }
+    this.placeItemInOrder();
     this.cdr.detectChanges();
   }
 
@@ -105,6 +106,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     }
     this.item.setValue('');
     this.placeItemInOrder();
+    this.newList.emit(this.shopList);
   }
 
   public selectItem(item: ShoppingList): void {
@@ -121,6 +123,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       this.shopList = [item, ...this.shopList];
     }
     this.placeItemInOrder();
+    this.newList.emit(this.shopList);
   }
 
   private placeItemInOrder(): void {
@@ -130,7 +133,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       const orderCustom = a.custom && !b.custom ? -1 : 1;
       return statusDifference ? statusDifference : orderCustom;
     });
-    this.newList.emit(this.shopList);
   }
 
   public deleteItem(text: string): void {

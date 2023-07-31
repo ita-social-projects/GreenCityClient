@@ -23,9 +23,12 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   notifications: any[] = [];
   filtersForm: FormGroup;
   itemsPerPage = 10;
+  itemsNumber = '10';
+  itemsNumberArr = ['10', '20', '30', 'all'];
   currentPage = 1;
   totalItems: number;
   currentLanguage: string;
+  spinner: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -63,18 +66,27 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   }
 
   onPageChanged(page): void {
+    this.itemsPerPage = 10;
     this.loadPage(page, this.filtersForm.value);
     this.currentPage = page;
   }
 
   loadPage(page, filters?): void {
+    const checkElementsArePresent =
+      this.itemsPerPage < Number(this.itemsNumber) || (this.itemsNumber === 'all' && this.itemsPerPage < this.totalItems);
+    this.spinner = checkElementsArePresent;
+
     this.notificationsService
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = data.page;
         this.totalItems = data.totalElements;
+        this.spinner = false;
       });
+    if (checkElementsArePresent) {
+      this.itemsPerPage += 10;
+    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

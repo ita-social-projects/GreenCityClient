@@ -46,12 +46,31 @@ export class HabitsGalleryViewComponent implements OnInit {
   }
 
   public addHabit() {
+    this.habit.isCustomHabit ? this.assignCustomHabit() : this.assignStandartHabit();
+  }
+
+  private assignStandartHabit() {
     this.habitAssignService
       .assignHabit(this.habit.id)
       .pipe(take(1))
       .subscribe(() => {
-        this.router.navigate(['profile', this.userId]);
-        this.snackBar.openSnackBar('habitAdded');
+        this.afterHabitWasChanged();
       });
+  }
+
+  private assignCustomHabit() {
+    const defailtItemsIds = [];
+    const friendsIdsList = [];
+    this.habitAssignService
+      .assignCustomHabit(this.habit.id, this.habit.defaultDuration, defailtItemsIds, friendsIdsList)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.afterHabitWasChanged();
+      });
+  }
+
+  private afterHabitWasChanged() {
+    this.router.navigate(['profile', this.userId]);
+    this.snackBar.openSnackBar('habitAdded');
   }
 }

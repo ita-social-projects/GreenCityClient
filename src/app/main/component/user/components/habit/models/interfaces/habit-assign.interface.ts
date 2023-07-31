@@ -35,3 +35,7 @@ export interface ResponseInterface {
   habitStreak: number;
   lastEnrollmentDate: Date;
 }
+export interface ChangesFromCalendarToProgress {
+  isEnrolled: boolean;
+  date: string;
+}
