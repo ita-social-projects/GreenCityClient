@@ -207,12 +207,7 @@
                       (input)="setRegionValue(i)"
                       (onAddressChange)="onRegionSelected($event, i)"
                     />
-                    <div
-                      *ngIf="
-                        address.get(getLangValue('region', 'regionEn')).errors?.required ||
-                        address.get(getLangValue('region', 'regionEn')).errors?.requiredFromDropdown
-                      "
-                    >
+                    <div *ngIf="setValidationInputError(address, 'region', 'regionEn')">
                       <app-ubs-input-error [formElement]="address.get(getLangValue('region', 'regionEn'))"> </app-ubs-input-error>
                     </div>
                   </div>
@@ -236,12 +231,7 @@
                         {{ cityName.description }}
                       </mat-option>
                     </mat-autocomplete>
-                    <div
-                      *ngIf="
-                        address.get(getLangValue('city', 'cityEn')).errors?.required ||
-                        address.get(getLangValue('city', 'cityEn')).errors?.requiredFromDropdown
-                      "
-                    >
+                    <div *ngIf="setValidationInputError(address, 'city', 'cityEn')">
                       <app-ubs-input-error [formElement]="address.get(getLangValue('city', 'cityEn'))"> </app-ubs-input-error>
                     </div>
                   </div>
@@ -268,12 +258,7 @@
                         {{ streetName.description }}
                       </mat-option>
                     </mat-autocomplete>
-                    <div
-                      *ngIf="
-                        address.get(getLangValue('street', 'streetEn')).errors?.required ||
-                        address.get(getLangValue('street', 'streetEn')).errors?.requiredFromDropdown
-                      "
-                    >
+                    <div *ngIf="setValidationInputError(address, 'street', 'streetEn')">
                       <app-ubs-input-error [formElement]="address.get(getLangValue('street', 'streetEn'))"> </app-ubs-input-error>
                     </div>
                   </div>

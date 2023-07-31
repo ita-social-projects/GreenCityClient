@@ -118,6 +118,11 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     );
   }
 
+  setValidationInputError(addressControl: AbstractControl, nameUa: string, nameEn: string) {
+    const formControl = addressControl.get(this.getLangValue(nameUa, nameEn));
+    return formControl.errors?.required || formControl.errors?.requiredFromDropdown;
+  }
+
   setRegionValue(i: number) {
     this.errorMessages[i].region = true;
     this.updateValidInputs('region', 'regionEn', i);
