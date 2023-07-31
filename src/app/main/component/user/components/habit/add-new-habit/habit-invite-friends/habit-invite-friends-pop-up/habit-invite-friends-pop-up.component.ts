@@ -62,8 +62,8 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   setAll(added: boolean) {
     this.allAdd = added;
     if (this.friends) {
-      return this.friends.map((friend) => {
-        const isAlreadyAdded = this.userFriendsService.addedFriends.some((addedFriend) => addedFriend.id === friend.id);
+      return this.friends?.map((friend) => {
+        const isAlreadyAdded = this.userFriendsService.addedFriends?.some((addedFriend) => addedFriend.id === friend.id);
         if (!isAlreadyAdded) {
           friend.added = added;
         }
