@@ -23,6 +23,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() generalInfo: IGeneralOrderInfo;
   @Input() currentLanguage: string;
   @Input() additionalPayment: string;
+  @Input() isEmployeeCanEditOrder: boolean;
   @Output() changedOrderStatus = new EventEmitter<string>();
   @Output() cancelReason = new EventEmitter<string>();
 

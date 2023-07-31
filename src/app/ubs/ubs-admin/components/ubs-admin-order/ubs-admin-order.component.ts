@@ -24,7 +24,9 @@ import {
   IResponsiblePersons,
   IUpdateResponsibleEmployee,
   IUserInfo,
-  ResponsibleEmployee
+  ResponsibleEmployee,
+  abilityEditAuthorities,
+  employeePositionsName
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
@@ -33,6 +35,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -74,6 +77,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private orderService: OrderService;
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
+  private employeeAuthorities: string[];
+  private employeePositions: string[];
+  public isEmployeeCanEditOrder = false;
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
@@ -84,7 +90,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private changeDetector: ChangeDetectorRef,
     private injector: Injector,
     private store: Store<IAppState>,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    public ubsAdminEmployeeService: UbsAdminEmployeeService
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -106,6 +113,44 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, false);
+    this.ubsAdminEmployeeService.employeePositions$.pipe(takeUntil(this.destroy$)).subscribe((employeePositions) => {
+      if (employeePositions.length) {
+        this.authoritiesSubscription(employeePositions);
+      }
+    });
+  }
+
+  private authoritiesSubscription(positions) {
+    this.ubsAdminEmployeeService.employeePositionsAuthorities$.pipe(takeUntil(this.destroy$)).subscribe((rights) => {
+      if (rights.authorities.length) {
+        this.definedIsEmployeeCanEditOrder(positions, rights.authorities);
+      }
+    });
+  }
+
+  private definedIsEmployeeCanEditOrder(positions: string[], authorities: string[]) {
+    this.employeeAuthorities = authorities;
+    this.employeePositions = positions;
+    const positionsForEditOrder: string[] = [
+      employeePositionsName.SuperAdmin,
+      employeePositionsName.Admin,
+      employeePositionsName.CallManager,
+      employeePositionsName.ServiceManager
+    ];
+    let isThisPositionCanEdit = false;
+    let isThisRoleCanEdit = false;
+    if (this.employeePositions) {
+      isThisPositionCanEdit = !!this.employeePositions.filter((positionsItem: string) => positionsForEditOrder.includes(positionsItem))
+        .length;
+    }
+
+    if (this.employeeAuthorities) {
+      isThisRoleCanEdit = !!this.employeeAuthorities.filter((authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders).length;
+    }
+
+    if (isThisPositionCanEdit || isThisRoleCanEdit) {
+      this.isEmployeeCanEditOrder = true;
+    }
   }
 
   public onCancelOrder(): void {

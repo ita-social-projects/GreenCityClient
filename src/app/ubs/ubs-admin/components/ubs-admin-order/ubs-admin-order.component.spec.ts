@@ -12,11 +12,14 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { GeneralInfoMock } from '../../services/orderInfoMock';
+import { Language } from 'src/app/main/i18n/Language';
+import { employeePositionsName } from '../../models/ubs-admin.interface';
+import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
 describe('UbsAdminCabinetComponent', () => {
   let component: UbsAdminOrderComponent;
@@ -27,6 +30,28 @@ describe('UbsAdminCabinetComponent', () => {
 
   const OrderInfoMock = OrderInfoMockedData;
 
+  const employeePositionsMock = [
+    employeePositionsName.CallManager,
+    employeePositionsName.ServiceManager,
+    employeePositionsName.Logistician
+  ];
+
+  const employeePositionsAuthorities = {
+    authorities: ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'],
+    positionId: [3, 4, 5]
+  };
+
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  localStorageServiceMock.languageSubject = new Subject<string>();
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
+
+  const ubsAdminEmployeeServiceMock = jasmine.createSpyObj('ubsAdminEmployeeServiceMock', [
+    'employeePositions$',
+    'employeePositionsAuthorities$'
+  ]);
+  ubsAdminEmployeeServiceMock.employeePositions$ = new BehaviorSubject(employeePositionsMock);
+  ubsAdminEmployeeServiceMock.employeePositionsAuthorities$ = new BehaviorSubject(employeePositionsAuthorities);
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -39,7 +64,14 @@ describe('UbsAdminCabinetComponent', () => {
         StoreModule.forRoot({})
       ],
       declarations: [UbsAdminOrderComponent],
-      providers: [MatSnackBarComponent, FormBuilder, OrderService, provideMockStore({})]
+      providers: [
+        MatSnackBarComponent,
+        FormBuilder,
+        OrderService,
+        provideMockStore({}),
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -80,6 +112,56 @@ describe('UbsAdminCabinetComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should invoke getOrderInfo() is ngOnInit', () => {
+    component.orderId = 1;
+    const spy = spyOn(component, 'getOrderInfo');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(component.orderId, false);
+  });
+
+  it('authoritiesSubscription expect will be invoke at onInit', () => {
+    const spy = spyOn(component as any, 'authoritiesSubscription');
+    component.ngOnInit();
+    ubsAdminEmployeeServiceMock.employeePositions$.subscribe((positions) => {
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(positions);
+    });
+  });
+
+  it('definedIsEmployeeCanEditOrder expect will be invoke at authoritiesSubscription', () => {
+    const spy = spyOn(component as any, 'definedIsEmployeeCanEditOrder');
+    (component as any).authoritiesSubscription(employeePositionsMock);
+    ubsAdminEmployeeServiceMock.employeePositionsAuthorities$.subscribe((rights) => {
+      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(employeePositionsMock, employeePositionsAuthorities.authorities);
+    });
+  });
+
+  it('definedIsEmployeeCanEditOrder expect will be invoke', () => {
+    (component as any).definedIsEmployeeCanEditOrder(employeePositionsMock, employeePositionsAuthorities.authorities);
+    expect((component as any).employeeAuthorities).toEqual(employeePositionsAuthorities.authorities);
+    expect((component as any).employeePositions).toEqual(employeePositionsMock);
+    expect((component as any).isEmployeeCanEditOrder).toBeTruthy();
+  });
+
+  it('setOrderDetails expect will be invoke at onCancelOrder', () => {
+    const spy = spyOn(component as any, 'setOrderDetails');
+    component.onCancelOrder();
+    expect(spy).toHaveBeenCalled();
+    expect(component.isOrderStatusChanged).toBeTruthy();
+  });
+
+  it('notRequiredFieldsStatuses expect will be invoke at onChangedOrderStatus', () => {
+    const spy = spyOn(component as any, 'notRequiredFieldsStatuses');
+    const spy2 = spyOn(component as any, 'getOrderStatusInfo');
+    const status = 'FORMED';
+    component.onChangedOrderStatus(status);
+    expect(component.currentOrderStatus).toBe(status);
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should disable exportDetailsDto and responsiblePersonsForm when currentOrderStatus is CANCELED', () => {

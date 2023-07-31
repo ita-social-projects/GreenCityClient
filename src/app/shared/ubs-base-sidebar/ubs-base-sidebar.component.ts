@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./ubs-base-sidebar.component.scss']
 })
 export class UbsBaseSidebarComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
-  private destroySub: Subject<boolean> = new Subject<boolean>();
+  public destroySub: Subject<boolean> = new Subject<boolean>();
   readonly bellsNoneNotification = 'assets/img/sidebarIcons/none_notification_Bell.svg';
   readonly bellsNotification = 'assets/img/sidebarIcons/notification_Bell.svg';
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';

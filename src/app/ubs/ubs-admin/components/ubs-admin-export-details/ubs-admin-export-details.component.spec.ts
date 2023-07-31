@@ -78,6 +78,7 @@ describe('UbsAdminExportDetailsComponent', () => {
   });
 
   it('showTimePickerClick should re-assign values to properties', () => {
+    component.isEmployeeCanEditOrder = true;
     component.showTimePickerClick();
 
     expect(component.showTimePicker).toBe(true);
