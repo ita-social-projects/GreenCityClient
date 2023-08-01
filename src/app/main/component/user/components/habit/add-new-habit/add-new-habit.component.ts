@@ -84,7 +84,6 @@ export class AddNewHabitComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.friendsIdsList = this.userFriendService.addedFriends?.map((friend) => friend.id);
     this.getUserId();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
@@ -276,6 +275,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private assignCustomHabit() {
+    this.friendsIdsList = this.userFriendService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
     this.habitAssignService
