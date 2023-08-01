@@ -25,7 +25,7 @@
               (keyup)="setPredictCities()"
               [formControlName]="getLangValue('addressCity', 'addressCityEng')"
               class="form-control"
-              [readonly]="isStatus"
+              [readonly]="isStatus || !isEmployeeCanEditOrder"
               id="city"
               placeholder="{{ 'address-details.city' | translate }}"
               matInput
@@ -58,7 +58,7 @@
               type="text"
               class="form-control"
               placeholder="{{ 'address-details.street' | translate }}"
-              [readonly]="isStatus"
+              [readonly]="isStatus || !isEmployeeCanEditOrder"
               [formControlName]="getLangValue('addressStreet', 'addressStreetEng')"
               [matAutocomplete]="autoStreet"
               (keyup)="setPredictStreets()"
@@ -86,7 +86,7 @@
               <input
                 type="text"
                 class="form-control"
-                [readonly]="isStatus"
+                [readonly]="isStatus || !isEmployeeCanEditOrder"
                 id="house"
                 formControlName="addressHouseNumber"
                 placeholder="{{ 'address-details.house' | translate }}"
@@ -114,7 +114,7 @@
               <input
                 type="text"
                 class="form-control"
-                [readonly]="isStatus"
+                [readonly]="isStatus || !isEmployeeCanEditOrder"
                 id="building"
                 formControlName="addressHouseCorpus"
                 placeholder="{{ 'address-details.building' | translate }}"
@@ -129,7 +129,7 @@
                 formControlName="addressEntranceNumber"
                 type="text"
                 class="form-control"
-                [readonly]="isStatus"
+                [readonly]="isStatus || !isEmployeeCanEditOrder"
                 id="entrance"
                 placeholder="{{ 'address-details.entrance' | translate }}"
               />
@@ -143,7 +143,7 @@
           <label for="district">{{ 'address-details.district' | translate }}</label>
           <select
             [formControlName]="getLangValue('addressDistrict', 'addressDistrictEng')"
-            class="shadow-none form-control"
+            [ngClass]="isEmployeeCanEditOrder ? 'shadow-none form-control' : 'shadow-none form-control readonly'"
             (change)="onDistrictSelected()"
           >
             <option *ngFor="let district of districts" [ngValue]="getLangValue(district.nameUa, district.nameEn)">

@@ -59,8 +59,9 @@ describe('SignIn component', () => {
   googleServiceMock.signIn = () => of(userSuccessSignIn);
 
   let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   beforeEach(async(() => {

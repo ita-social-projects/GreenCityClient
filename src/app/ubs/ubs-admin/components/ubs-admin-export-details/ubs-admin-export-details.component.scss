@@ -136,6 +136,10 @@ select {
   @include input;
 }
 
+.readonly {
+  pointer-events: none;
+}
+
 .dropdown_time {
   position: fixed;
   background: rgba(0, 0, 0, 0.3);

@@ -9,7 +9,7 @@
     <div class="invite-friends-box">
       <div *ngFor="let friend of addedFriends" class="invite-friends">
         <app-user-profile-image
-          [imgPath]="friend.profilePicture"
+          [imgPath]="friend.profilePicturePath"
           [firstName]="friend.name"
           class="friend-img"
           [additionalImgClass]="'friend-user-profile'"

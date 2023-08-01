@@ -15,6 +15,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   @Input() exportInfo: IExportDetails;
   @Input() exportDetailsDto: FormGroup;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
@@ -83,9 +84,11 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   showTimePickerClick(): void {
-    this.showTimePicker = true;
-    this.fromInput = this.exportDetailsDto.get('timeDeliveryFrom').value;
-    this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
+    if (this.isEmployeeCanEditOrder) {
+      this.showTimePicker = true;
+      this.fromInput = this.exportDetailsDto.get('timeDeliveryFrom').value;
+      this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
+    }
   }
 
   checkDate(event: any): void {

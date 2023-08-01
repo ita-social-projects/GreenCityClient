@@ -39,8 +39,8 @@ export class ChatsListComponent implements OnInit {
   }
 
   public checkChat(friend: FriendModel) {
-    if (friend.friendsChatDto.chatExists) {
-      const userChat = this.chatService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
+    if (friend.chatId) {
+      const userChat = this.chatService.userChats.find((chat) => chat.id === friend.chatId);
       this.chatService.setCurrentChat(userChat);
       this.createNewMessageWindow.emit();
     } else {
