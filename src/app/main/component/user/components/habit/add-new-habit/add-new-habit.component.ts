@@ -22,6 +22,7 @@ import { HabitAssignInterface } from '../models/interfaces/habit-assign.interfac
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 @Component({
   selector: 'app-add-new-habit',
