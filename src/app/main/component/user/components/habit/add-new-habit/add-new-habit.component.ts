@@ -21,6 +21,8 @@ import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -77,10 +79,12 @@ export class AddNewHabitComponent implements OnInit {
     private shopListService: ShoppingListService,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private location: Location
+    private location: Location,
+    public userFriendService: UserFriendsService
   ) {}
 
   ngOnInit() {
+    this.friendsIdsList = this.userFriendService.addedFriends?.map((friend) => friend.id);
     this.getUserId();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
@@ -153,7 +157,7 @@ export class AddNewHabitComponent implements OnInit {
         this.initialDuration = data.defaultDuration;
         this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
-          data.customShoppingListItems.forEach((item) => (item.custom = true));
+          data.customShoppingListItems?.forEach((item) => (item.custom = true));
           this.initialShoppingList = data.customShoppingListItems;
         } else {
           this.getStandartShopList();
@@ -230,7 +234,7 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
-        res.customShoppingListItemDto.forEach((item) => (item.custom = true));
+        res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
       });
   }
@@ -273,8 +277,9 @@ export class AddNewHabitComponent implements OnInit {
 
   private assignCustomHabit() {
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
+    const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
     this.habitAssignService
-      .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds, this.friendsIdsList)
+      .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
         this.customShopList.length > 0 ? this.addCustomHabitItems() : this.afterHabitWasChanged('habitAdded');
@@ -313,11 +318,11 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private convertShopLists(): void {
-    this.customShopList.forEach((el) => {
+    this.customShopList?.forEach((el) => {
       delete el.custom;
       delete el.selected;
     });
-    this.standartShopList.forEach((el) => {
+    this.standartShopList?.forEach((el) => {
       delete el.custom;
       delete el.selected;
     });
