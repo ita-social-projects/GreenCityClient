@@ -51,7 +51,7 @@ export class HabitAssignService implements OnDestroy {
     friendsIdsList: Array<number>,
     habitAssignProperties: HabitAssignPropertiesDto
   ): Observable<HabitAssignCustomPropertiesDto> {
-    const body: HabitAssignCustomPropertiesDto = { friendsIdsList: friendsIdsList, habitAssignPropertiesDto: habitAssignProperties };
+    const body: HabitAssignCustomPropertiesDto = { friendsIdsList, habitAssignPropertiesDto: habitAssignProperties };
     return this.http.post<HabitAssignCustomPropertiesDto>(`${habitAssignLink}/${habitId}/custom`, body);
   }
 
