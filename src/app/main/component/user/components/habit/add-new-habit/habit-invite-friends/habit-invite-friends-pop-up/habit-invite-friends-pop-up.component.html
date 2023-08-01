@@ -1,27 +1,72 @@
 <div class="friends-images">
+  <form name="searchForm" class="searchField">
+    <img [src]="searchIcon" alt="search-friend" />
+    <input
+      class="search"
+      type="text"
+      #search
+      [placeholder]="'search.search-popup.placeholder' | translate"
+      (input)="onInput($event)"
+      maxlength="30"
+    />
+  </form>
   <section class="popup-section">
-    <mat-checkbox class="all-friends" [checked]="allAdd" [indeterminate]="someAdd()" (change)="setAll($event.checked)">
-      {{ 'user.habit.invite.all' | translate }}
-    </mat-checkbox>
-    <ul>
-      <li *ngFor="let friend of friends">
-        <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
-          <div class="friend">
-            <app-user-profile-image
-              [imgPath]="friend.profilePicture"
-              [firstName]="friend.name"
-              class="friend-img"
-              [additionalImgClass]="'friend-user-profile'"
-            >
-            </app-user-profile-image>
-            <p class="friend-name">{{ friend.name }}</p>
-          </div>
-        </mat-checkbox>
-      </li>
-    </ul>
+    <div *ngIf="!inputValue">
+      <mat-checkbox
+        class="all-friends"
+        [checked]="allAdd"
+        [indeterminate]="someAdd()"
+        (change)="setAll($event.checked)"
+        [class.disabled]="setAllFriendsDisable()"
+      >
+        {{ 'user.habit.invite.all' | translate }}
+      </mat-checkbox>
+      <ul>
+        <li *ngFor="let friend of friends" [class.disabled]="setFriendDisable(friend.id)">
+          <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
+            <div class="friend">
+              <app-user-profile-image
+                [imgPath]="friend.profilePicturePath"
+                [firstName]="friend.name"
+                class="friend-img"
+                [additionalImgClass]="'friend-user-profile'"
+              >
+              </app-user-profile-image>
+              <div class="friend-details">
+                <p class="friend-name">{{ friend.name }}</p>
+                <p class="friend-email">{{ friend.email }}</p>
+              </div>
+            </div>
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="inputValue">
+      <ul>
+        <li *ngFor="let friend of inputFriends" [class.disabled]="setFriendDisable(friend.id)">
+          <mat-checkbox [(ngModel)]="friend.added" (ngModelChange)="updateAllAdd()">
+            <div class="friend">
+              <app-user-profile-image
+                [imgPath]="friend.profilePicturePath"
+                [firstName]="friend.name"
+                class="friend-img"
+                [additionalImgClass]="'friend-user-profile'"
+              >
+              </app-user-profile-image>
+              <div class="friend-details">
+                <p class="friend-name">{{ friend.name }}</p>
+                <p class="friend-email">{{ friend.email }}</p>
+              </div>
+            </div>
+          </mat-checkbox>
+        </li>
+      </ul>
+    </div>
   </section>
   <mat-dialog-actions class="invite-popup-footer">
-    <button class="btn btn-outline-success" mat-dialog-close>{{ 'user.habit.invite.btn.cancel' | translate }}</button>
+    <button class="btn btn-outline-success" mat-dialog-close>
+      {{ 'user.habit.invite.btn.cancel' | translate }}
+    </button>
     <button class="btn btn-success" [mat-dialog-close]="true" cdkFocusInitial (click)="setAddedFriends()">
       {{ 'user.habit.invite.btn.invite' | translate }}
     </button>

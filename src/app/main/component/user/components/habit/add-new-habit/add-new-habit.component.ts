@@ -97,6 +97,7 @@ export class AddNewHabitComponent implements OnInit {
     });
     this.checkIfAssigned();
     this.getRecommendedNews(this.page, this.size);
+    this.userFriendsService.addedFriends.length = 0;
   }
 
   private bindLang(lang: string): void {

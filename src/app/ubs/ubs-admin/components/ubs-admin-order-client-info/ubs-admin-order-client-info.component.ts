@@ -19,6 +19,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   @Input() userInfoDto: FormGroup;
   @Input() orderId: number;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   phoneMask = Masks.phoneMask;
   isTherePlus = Patterns.isTherePlus;

@@ -15,6 +15,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -71,7 +72,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private habitService: HabitService
+    private habitService: HabitService,
+    private userFriendsService: UserFriendsService
   ) {
     super(router, dialog);
 
@@ -143,6 +145,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   goToAllHabits(): void {
+    this.userFriendsService.addedFriends.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
   }
 

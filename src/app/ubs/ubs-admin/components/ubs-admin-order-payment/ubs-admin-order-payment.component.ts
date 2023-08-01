@@ -21,6 +21,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() actualPrice: number;
   @Input() totalPaid: number;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   @Output() newPaymentStatus = new EventEmitter<string>();
   @Output() paymentUpdate = new EventEmitter<number>();

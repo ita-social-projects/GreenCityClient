@@ -56,7 +56,6 @@ export class SocketService {
       const idFriend = newUserChat.participants.find((user) => user.id !== this.userId).id;
       this.updateFriendsChatsStream$.next({
         friendId: idFriend,
-        chatExists: true,
         chatId: newUserChat.id
       });
       if (this.isOpenNewChat) {

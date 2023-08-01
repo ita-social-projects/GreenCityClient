@@ -1,15 +1,14 @@
 export interface FriendModel {
   id: number;
   name: string;
+  email: string;
   profilePicturePath?: string;
   added?: boolean;
   rating: number;
   city?: string;
   mutualFriends?: number | string;
-  friendsChatDto: {
-    chatExists: boolean;
-    chatId?: number;
-  };
+  friendStatus: string;
+  chatId?: number;
 }
 
 export interface FriendArrayModel {

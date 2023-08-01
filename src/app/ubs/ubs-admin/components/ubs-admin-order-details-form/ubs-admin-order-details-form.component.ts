@@ -54,6 +54,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() orderStatusInfo;
   @Input() totalPaid: number;
   @Input() orderInfo: IOrderInfo;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   constructor(private fb: FormBuilder, private orderService: OrderService, private langService: LanguageService) {}
 
