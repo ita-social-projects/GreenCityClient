@@ -21,7 +21,6 @@ import { WarningDialog } from '@global-user/models/warning-dialog.inteface';
 import { HabitAssignInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
-import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
