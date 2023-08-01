@@ -121,6 +121,13 @@ describe('AddEditCustomHabitComponent', () => {
     expect(component.habitForm.get('shopList').value).toEqual(convertedList);
   });
 
+  it('should trim value', () => {
+    const titleControl = component.habitForm.get('title');
+    titleControl.setValue('    ab ');
+    component.trimValue(titleControl);
+    expect(titleControl.value).toBe('ab');
+  });
+
   it('should set TagList after get it from child component', () => {
     (component as any).initForm();
     component.getTagsList(tagsMock);

@@ -30,6 +30,7 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { TariffRegionAll } from './ubs-tariffs.enum';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
@@ -833,7 +834,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.locations = mockRegion;
     component.region.setValue('Фейк область5');
     component.onChangeRegion();
-    expect(component.region.value).toBe('Все');
+    expect(component.region.value).toBe(TariffRegionAll.ua);
     expect(component.canRegionInputValueBeRegion).toBeTruthy();
     component.region.setValue('Фейк обла');
     component.onChangeRegion();
@@ -1032,7 +1033,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should check does chosen region equal All', () => {
     component.region.setValue('All');
-    expect(component.isRegionValueAll).toBeTruthy();
+    fixture.detectChanges();
+    const result = component.isRegionValueAll();
+    expect(result).toBe(true);
+    component.region.setValue('Kyiv');
+    const result2 = component.isRegionValueAll();
+    fixture.detectChanges();
+    expect(result2).toBe(false);
   });
 
   it('should change region value after input event', () => {

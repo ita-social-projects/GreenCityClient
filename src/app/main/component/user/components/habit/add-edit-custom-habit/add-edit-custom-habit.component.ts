@@ -96,13 +96,17 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private initForm(): void {
     this.habitForm = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(70)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(27), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
       duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
       tagIds: new FormControl(null, Validators.required),
       image: new FormControl(''),
       shopList: new FormControl([])
     });
+  }
+
+  public trimValue(control: AbstractControl): void {
+    control.setValue(control.value.trim());
   }
 
   getControl(control: string): AbstractControl {
