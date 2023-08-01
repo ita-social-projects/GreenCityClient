@@ -121,7 +121,7 @@ describe('AddEditCustomHabitComponent', () => {
   });
 
   it('should trim value', () => {
-    const titleControl = (component as any).initForm.get('title');
+    const titleControl = component.habitForm.get('title');
     titleControl.setValue('    ab ');
     component.trimValue(titleControl);
     expect(titleControl.value).toBe('ab');

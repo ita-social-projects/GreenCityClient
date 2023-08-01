@@ -1033,7 +1033,13 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   it('should check does chosen region equal All', () => {
     component.region.setValue('All');
-    expect(component.isRegionValueAll).toBeTruthy();
+    fixture.detectChanges();
+    const result = component.isRegionValueAll();
+    expect(result).toBe(true);
+    component.region.setValue('Kyiv');
+    const result2 = component.isRegionValueAll();
+    fixture.detectChanges();
+    expect(result2).toBe(false);
   });
 
   it('should change region value after input event', () => {
