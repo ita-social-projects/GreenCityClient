@@ -80,7 +80,7 @@ export class AddNewHabitComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location,
-    public userFriendService: UserFriendsService
+    public userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {
@@ -275,7 +275,7 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private assignCustomHabit() {
-    this.friendsIdsList = this.userFriendService.addedFriends?.map((friend) => friend.id);
+    this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
     this.habitAssignService
