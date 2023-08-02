@@ -420,7 +420,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   setPredictHouseNumbers(): void {
     this.housePredictionList = null;
     this.isHouseSelected = false;
-    const houseValue = this.houseNumber.value.toLowerCase();
+    const houseValue = this.houseNumber.value;
     if (this.cityEn.value && this.streetEn.value && houseValue) {
       const streetName = this.getLangValue(this.street.value, this.streetEn.value);
       const cityName = this.getLangValue(this.city.value, this.cityEn.value);
