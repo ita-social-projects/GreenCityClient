@@ -3,7 +3,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { EventImage } from '../../models/events.interface';
-
+import { EventsService } from '../../services/events.service';
 @Component({
   selector: 'app-images-container',
   templateUrl: './images-container.component.html',
@@ -38,7 +38,7 @@ export class ImagesContainerComponent implements OnInit {
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
 
-  constructor(private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent) {}
+  constructor(private events: EventsService, private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent) {}
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
 
@@ -64,6 +64,15 @@ export class ImagesContainerComponent implements OnInit {
       this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
     }
     this.images[0].isLabel = true;
+  }
+
+  public chooseImage(img) {
+    const imageName = img.substring(img.lastIndexOf('/') + 1);
+    this.events.getImageAsFile(img).subscribe((blob: Blob) => {
+      const imageFile = new File([blob], imageName, { type: 'image/png' });
+      this.checkFileExtension(imageFile);
+      this.transferFile(imageFile);
+    });
   }
 
   public filesDropped(files: FileHandle[]): void {

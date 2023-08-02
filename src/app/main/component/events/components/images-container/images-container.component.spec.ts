@@ -4,6 +4,7 @@ import { ImagesContainerComponent } from './images-container.component';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 @Pipe({ name: 'translate' })
 class TranslatePipeMock implements PipeTransform {
@@ -29,6 +30,7 @@ describe('ImagesContainerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ImagesContainerComponent, TranslatePipeMock],
+      imports: [HttpClientTestingModule],
       providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
