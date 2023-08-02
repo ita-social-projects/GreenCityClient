@@ -76,6 +76,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
+  public isPristine = true;
 
   public previousPath = '/events';
   public popupConfig = {
@@ -122,7 +123,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(28), Validators.maxLength(63206)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
 
@@ -201,6 +202,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public changeToClose(): void {
     this.isOpen = false;
+  }
+
+  public onClickTextArea(): void {
+    this.isPristine = false;
   }
 
   public setDateCount(value: number): void {
