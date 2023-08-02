@@ -16,7 +16,7 @@ import { quillConfig } from 'src/app/main/component/events/components/create-edi
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
@@ -96,7 +96,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private initForm(): void {
     this.habitForm = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(70)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(27), Validators.maxLength(63206)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
       duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
       tagIds: new FormControl(null, Validators.required),
@@ -111,6 +111,13 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   getControl(control: string): AbstractControl {
     return this.habitForm.get(control);
+  }
+
+  changeEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.getControl('description').setValue(event.text.trim());
+      this.getControl('description').markAsTouched();
+    }
   }
 
   private subscribeToLangChange(): void {
