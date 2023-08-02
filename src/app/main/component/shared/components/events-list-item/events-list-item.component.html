@@ -48,8 +48,7 @@
       <p *ngIf="isOnline">{{ isOnline }}</p>
     </div>
     <div class="date-container">
-      <span *ngIf="event.open" class="lock-open"></span>
-      <span *ngIf="!event.open" class="lock-closed"></span>
+      <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
       <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
     </div>
     <div class="event-title">
