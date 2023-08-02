@@ -46,12 +46,8 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
   }
 
-  public getPossibleFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/findAll/friendsWithoutExist/?page=${page}&size=${size}`);
-  }
-
-  public findNewFriendsByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/findNewFriendsByName?name=${name}&page=${page}&size=${size}`);
+  public getNewFriends(page: number, size = this.size, name?: string): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/not-friends-yet?name=${name}&page=${page}&size=${size}`);
   }
 
   public findFriendByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {

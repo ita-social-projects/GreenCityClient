@@ -33,7 +33,7 @@ export class RecommendedFriendsComponent implements OnInit {
 
   ngOnInit() {
     this.initUser();
-    this.getPossibleFriends(this.userId, this.currentPage);
+    this.getNewFriends(this.currentPage);
   }
 
   public findUserByName(value: string) {
@@ -41,7 +41,7 @@ export class RecommendedFriendsComponent implements OnInit {
     this.isFetching = true;
     this.searchMode = true;
     this.userFriendsService
-      .findNewFriendsByName(value)
+      .getNewFriends(undefined, undefined, value)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -64,10 +64,10 @@ export class RecommendedFriendsComponent implements OnInit {
     array.splice(indexAddedFriend, 1);
   }
 
-  public getPossibleFriends(userId: number, currentPage: number) {
+  public getNewFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
-      .getPossibleFriends(userId, currentPage)
+      .getNewFriends(currentPage, this.sizePage, '')
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -91,7 +91,7 @@ export class RecommendedFriendsComponent implements OnInit {
     this.scroll = true;
     if (this.currentPage < this.totalPages) {
       this.currentPage += 1;
-      this.getPossibleFriends(this.userId, this.currentPage);
+      this.getNewFriends(this.currentPage);
     }
   }
 
