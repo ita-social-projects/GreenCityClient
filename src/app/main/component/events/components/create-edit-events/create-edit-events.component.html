@@ -72,10 +72,11 @@
       <div class="textarea-wrapper">
         <div class="title-container">
           <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-          <p *ngIf="isPristine" class="textarea-description">
-            {{ 'create-news.content-tooltip' | translate }}
-          </p>
-          <p *ngIf="!isPristine" [ngClass]="eventFormGroup.get('description').invalid ? 'error' : 'textarea-description'">
+          <p
+            [ngClass]="
+              !isPristine ? (eventFormGroup.get('description').invalid ? 'error' : 'textarea-description') : 'textarea-description'
+            "
+          >
             {{ 'create-news.content-tooltip' | translate }}
           </p>
         </div>
