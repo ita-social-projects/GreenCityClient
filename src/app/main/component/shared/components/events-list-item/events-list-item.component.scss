@@ -163,10 +163,9 @@
     display: flex;
     align-items: center;
 
-    .main-container .date-container span {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
+    p {
+      padding: 0;
+      margin: 0;
     }
 
     .location {
@@ -185,7 +184,6 @@
 
     .place {
       margin-right: 13px;
-      margin-top: -18px;
       width: 14px;
       height: 14px;
       background: url('src/assets/events-icons/place.png') no-repeat center;
@@ -204,6 +202,12 @@
       height: 16px;
       background: url('src/assets/events-icons/lock-closed.png') no-repeat center;
     }
+  }
+
+  .main-container .date-container span {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
   }
 }
 
