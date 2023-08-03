@@ -130,6 +130,7 @@
     <div class="w-100">
       <div *ngIf="isNotChoosedLocation" class="validate-address">{{ 'personal-info.address-doesnt-match-tariff' | translate }}</div>
       <button
+        *ngIf="!isLocationAdded"
         type="button"
         class="ubs-link-global-button s-link"
         mat-raised-button
@@ -137,6 +138,16 @@
         [disabled]="addresses.length >= maxAddressLength"
       >
         {{ 'personal-info.info-add-address' | translate }}
+      </button>
+      <button
+        *ngIf="isLocationAdded"
+        type="button"
+        class="ubs-link-global-button s-link"
+        mat-raised-button
+        (click)="addNewAddress()"
+        [disabled]="addresses.length >= maxAddressLength"
+      >
+        {{ 'personal-info.info-add-new-address' | translate }}
       </button>
     </div>
   </div>
