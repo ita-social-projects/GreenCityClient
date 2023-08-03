@@ -51,7 +51,7 @@ export class UserFriendsService {
   }
 
   public findFriendByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/findFriendByName?name=${name}&page=${page}&size=${size}`);
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${name}&page=${page}&size=${size}`);
   }
 
   public addFriend(idFriend: number): Observable<object> {
