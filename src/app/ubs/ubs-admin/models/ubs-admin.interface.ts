@@ -1,3 +1,5 @@
+import { DistrictsDtos } from '../../ubs/models/ubs.interface';
+
 export interface Employees {
   content: Page[];
   empty: string;
@@ -222,6 +224,7 @@ export interface IAddressExportDetails {
   addressRegionEng: string;
   addressStreet: string;
   addressStreetEng: string;
+  addressRegionDistrictList: DistrictsDtos[];
 }
 
 export interface IPaymentInfo {
@@ -343,6 +346,7 @@ export interface Address {
   entranceNumber: string;
   houseCorpus: string;
   houseNumber: string;
+  addressRegionDistrictList?: any;
   isKyiv?: boolean;
   isNotKyivRegion?: boolean;
   id: number;
@@ -538,4 +542,47 @@ export enum ordersStatuses {
   NotTakenOutEN = 'Not taken out',
   CancelUA = 'Скасовано',
   CancelEN = 'Canceled'
+}
+
+export interface AdminSideBarMenu {
+  link: string;
+  name: string;
+  routerLink: string;
+}
+
+export enum employeePositionsName {
+  ServiceManager = 'Менеджер послуги',
+  CallManager = 'Менеджер обдзвону',
+  Logistician = 'Логіст',
+  Navigator = 'Штурман',
+  Driver = 'Водій',
+  SuperAdmin = 'Супер адмін',
+  Admin = 'Адмін'
+}
+
+export enum EnablingAuthorities {
+  orders = 'SEE_BIG_ORDER_TABLE',
+  customers = 'SEE_CLIENTS_PAGE',
+  certificates = 'SEE_CERTIFICATES',
+  employees = 'SEE_EMPLOYEES_PAGE',
+  tariffs = 'SEE_TARIFFS',
+  notifications = 'SEE_MESSAGES_PAGE'
+}
+
+export enum abilityEditAuthorities {
+  orders = 'EDIT_ORDER'
+}
+
+export enum SideMenuElementsNames {
+  orders = 'ubs-sidebar.orders',
+  customers = 'ubs-sidebar.customers',
+  certificates = 'ubs-sidebar.certificates',
+  employees = 'ubs-sidebar.employees',
+  tariffs = 'ubs-sidebar.tariffs',
+  notifications = 'ubs-sidebar.notifications'
+}
+
+export interface EmployeePositionsAuthorities {
+  authorities: string[];
+  positionId: number[];
 }

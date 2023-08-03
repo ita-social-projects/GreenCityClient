@@ -88,7 +88,7 @@ describe('HabitsPopupComponent', () => {
     spyOn(component, 'formatSelectedDate').and.returnValue('02 20 2022');
     component.loadPopup();
     expect(component.language).toBe('ua');
-    expect(component.habitsCalendarSelectedDate).toBe('2022-02-20');
+    expect(component.habitsCalendarSelectedDate).toBe('02 20 2022');
     expect(component.isHabitListEditable).toBeTruthy();
     expect(component.popupHabits).toEqual(mockPopupHabits);
     expect(component.today).toBe('02 20 2022');

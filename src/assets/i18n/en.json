@@ -144,6 +144,12 @@
         "edit": "Edit",
         "delete": "Delete"
       },
+      "events-popup": {
+        "title": "All created content will be lost.",
+        "subtitle": "Do you still want to cancel event creating?",
+        "cancel": "Continue editing",
+        "confirm": "Yes, cancel"
+      },
       "modal-rating-title-can-evaluate": "Evaluate the event and the organizer",
       "modal-rating-title-can`t-evaluate": "You cannot add this event. First register on the site"
     },
@@ -785,6 +791,12 @@
         "habit-acquired": "You have successfully acquire habit",
         "habit-was-deleted": "You have successfully deleted habit from your list",
         "reset-filters": "Reset all",
+        "habits-popup": {
+          "title": "All created content will be lost.",
+          "subtitle": "Do you still want to cancel habit creating?",
+          "cancel": "Continue editing",
+          "confirm": "Yes, cancel"
+        },
         "filters": {
           "tags": {
             "title": "Tags",
@@ -1135,7 +1147,7 @@
     "max-length": "The field should contain less characters"
   },
   "discard-changes": {
-    "delete-message": "All created content will be lost. Do you still want to cancel event creation?",
+    "delete-message": "All created content will be lost. Do you still want to cancel creation?",
     "btn.yes": "Yes, cancel",
     "btn.no": "Continue editing"
   }

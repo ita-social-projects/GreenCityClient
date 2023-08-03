@@ -45,6 +45,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   onSubmit = true;
   order: {};
 
+  public SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   certificateMask = Masks.certificateMask;
   ecoStoreMask = Masks.ecoStoreMask;
   servicesMask = Masks.servicesMask;
@@ -254,7 +255,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         this.totalOfBigBags += +quantity.value;
       }
     });
-    this.validateBags();
+    if (this.courierLimitByAmount) {
+      this.validateBags();
+    }
     this.changeSecondStepDisabled(this.courierLimitValidation);
   }
 
@@ -420,7 +423,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const checkDuplicate = orderValues.length === this.additionalOrders.length;
     let counter = 0;
     this.additionalOrders.controls.forEach((controller) => {
-      if (controller.dirty && controller.value && checkDuplicate) {
+      if (controller.value.length === 10 && controller.dirty && controller.value && checkDuplicate) {
         counter++;
       }
     });
@@ -429,6 +432,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   public changeShopRadioBtn() {
     this.orderDetailsForm.controls.shop.setValue('yes');
+  }
+
+  get checkOrderValueEmpty() {
+    return this.additionalOrders.controls[this.additionalOrders.length - 1].value.length === 0;
   }
 
   isDisabled(): number {
@@ -530,6 +537,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const orders = this.additionalOrders;
     orders.length > 1 ? orders.removeAt(index) : orders.reset(['']);
     this.changeOrderDetails();
+    this.ecoStoreValidation();
   }
 
   removeOrder(event: KeyboardEvent, index: number) {

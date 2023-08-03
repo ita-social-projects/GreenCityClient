@@ -3,7 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -61,6 +61,7 @@ describe('UbsAdminNotificationListComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        FormsModule,
         NgxPaginationModule,
         TranslateModule.forRoot()
       ],
@@ -134,5 +135,29 @@ describe('UbsAdminNotificationListComponent', () => {
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
     expect(rows.length).toBe(0);
+  });
+
+  it('should update itemsNumber correctly', () => {
+    const selectElement = fixture.nativeElement.querySelector('select');
+
+    selectElement.value = '20';
+    selectElement.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+
+    expect(component.itemsNumber).toBe('20');
+  });
+
+  it('should increase itemsPerPage by 10 when conditions are met', () => {
+    component.itemsPerPage = 10;
+
+    component.itemsNumber = '20';
+    component.loadPage(1);
+    expect(component.itemsPerPage).toBe(20);
+
+    component.itemsNumber = 'all';
+    component.totalItems = 30;
+    component.onPageChanged(1);
+    component.loadPage(1);
+    expect(component.itemsPerPage).toBe(20);
   });
 });

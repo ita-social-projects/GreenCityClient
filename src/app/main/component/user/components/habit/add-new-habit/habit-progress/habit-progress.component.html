@@ -16,8 +16,10 @@
   </div>
 </div>
 <div class="calendar">
-  <app-habit-calendar class="calendar-container"></app-habit-calendar>
-  <app-calendar-week class="app-calendar-week"></app-calendar-week>
+  <app-habit-calendar class="calendar-container" *ngIf="isDesktopWidth; else mobileView"></app-habit-calendar>
+  <ng-template #mobileView>
+    <app-calendar-week class="app-calendar-week"></app-calendar-week>
+  </ng-template>
   <div class="days-duration">
     <div class="thumb-label" [style.bottom.%]="indicator - heightThumbLabel" *ngIf="isHidden && indicator">{{ indicator }}%</div>
     <div class="indicator" (mouseenter)="isHidden = !isHidden" (mouseleave)="isHidden = !isHidden" [style.height.%]="indicator"></div>

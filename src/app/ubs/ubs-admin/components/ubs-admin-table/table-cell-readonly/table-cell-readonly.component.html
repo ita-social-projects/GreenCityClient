@@ -3,6 +3,7 @@
   #tooltip="matTooltip"
   matTooltip="{{ title | serverTranslate: lang }}"
   matTooltipClass="my-custom-tooltip"
+  [ngClass]="{ 'un-paid': unpaid, 'half-paid': halfpaid, paid: paid }"
   (mouseenter)="showTooltip($event, tooltip)"
   (mouseleave)="tooltip.hide()"
 >

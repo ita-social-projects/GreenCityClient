@@ -35,11 +35,13 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   const mockedReceivingStations = [
     {
       id: 3,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     },
     {
       id: 4,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
   const mockedData = {

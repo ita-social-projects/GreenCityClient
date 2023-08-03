@@ -9,6 +9,7 @@ import { OrderService } from '../../services/order.service';
 import { UbsAdminOrderDetailsFormComponent } from './ubs-admin-order-details-form.component';
 import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('UbsAdminOrderDetailsFormComponent', () => {
   let component: UbsAdminOrderDetailsFormComponent;
@@ -57,6 +58,11 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     orderFullPrice: new FormControl(9999)
   });
 
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
+    return valUa;
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminOrderDetailsFormComponent],
@@ -69,7 +75,13 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
         ReactiveFormsModule,
         TranslateModule.forRoot()
       ],
-      providers: [{ provide: MAT_DIALOG_DATA, useValue: [] }, { provide: MatDialogRef, useValue: [] }, OrderService, FormBuilder]
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: [] },
+        { provide: MatDialogRef, useValue: [] },
+        { provide: LanguageService, useValue: languageServiceMock },
+        OrderService,
+        FormBuilder
+      ]
     }).compileComponents();
   }));
 
@@ -169,8 +181,18 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     (component as any).calculateFinalSum();
 
     expect(component.bagsInfo.finalSum.planned).toBe(55);
-    expect(component.bagsInfo.finalSum.confirmed).toBe(140);
     expect(component.bagsInfo.finalSum.actual).toBe(225);
+  });
+
+  it('should calculate final sum correctly', () => {
+    const spy = spyOn(component as any, 'checkMinOrderLimit');
+    const spy2 = spyOn(component as any, 'calculateOverpayment');
+    const spy3 = spyOn(component as any, 'setFinalFullPrice');
+
+    (component as any).calculateFinalSum();
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
   });
 
   it('should toggle the value of pageOpen property', () => {
@@ -207,5 +229,83 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     const sum = 100;
     (component as any).emitCurrentOrderPrice(sum);
     expect(changeCurrentPriceSpy).toHaveBeenCalledWith(sum);
+  });
+
+  describe('getOrderBonusValue', () => {
+    it('should return 0 if the order is cancelled', () => {
+      component.isOrderCancelled = true;
+      expect(component.getOrderBonusValue(100)).toEqual(0);
+    });
+
+    it('should return negative bonuses if the order is not cancelled and bonuses are present', () => {
+      component.isOrderCancelled = false;
+      expect(component.getOrderBonusValue(100)).toEqual('-100');
+    });
+
+    it('should return empty string if the order is not cancelled and bonuses are not present', () => {
+      component.isOrderCancelled = false;
+      expect(component.getOrderBonusValue(null)).toEqual('');
+    });
+  });
+
+  it('should isDisabledConfirmQuantity() return true', () => {
+    component.isOrderBroughtByHimself = true;
+    component.isDisabledConfirmQuantity();
+    expect(component.isDisabledConfirmQuantity()).toBeTruthy();
+  });
+
+  it('should isDisabledConfirmQuantity() return true', () => {
+    component.isOrderBroughtByHimself = false;
+    component.isOrderCancelled = false;
+    component.isOrderNotTakenOut = false;
+    component.isOrderDone = false;
+    component.isDisabledConfirmQuantity();
+    expect(component.isDisabledConfirmQuantity()).toBeFalsy();
+  });
+
+  it('should calculateOverpayment metod call if isOrderBroughtByHimself = true', () => {
+    component.isOrderBroughtByHimself = true;
+    component.orderDetails.bonuses = 10;
+    component.orderDetails.paidAmount = 20;
+    component.orderDetails.certificateDiscount = 5;
+    component.writeoffAtStationSum = 7;
+    (component as any).calculateOverpayment();
+    expect(component.overpayment).toBe(28);
+  });
+
+  it('should calculateOverpayment metod call if showUbsCourier = true', () => {
+    component.showUbsCourier = true;
+    component.bagsInfo.sum.confirmed = 140;
+    component.orderDetails.certificateDiscount = 12;
+    component.courierPrice = 20;
+    component.orderDetails.bonuses = 250;
+
+    (component as any).calculateOverpayment();
+    expect(component.overpayment).toBe(102);
+  });
+
+  it('should calculateOverpayment metod call if showUbsCourier = false and isOrderBroughtByHimself = false', () => {
+    component.showUbsCourier = false;
+    component.showUbsCourier = false;
+    component.bagsInfo.sum.confirmed = 140;
+    component.orderDetails.certificateDiscount = 12;
+    component.orderDetails.bonuses = 250;
+    component.orderDetails.paidAmount = 20;
+    (component as any).calculateOverpayment();
+    expect(component.overpayment).toBe(142);
+  });
+
+  it('should changeWriteOffSum metod call', () => {
+    const eventMock = { target: { value: '150' } };
+    const spy = spyOn(component as any, 'emitSumForStation');
+    const spy2 = spyOn(component as any, 'calculateFinalSum');
+    component.changeWriteOffSum(eventMock);
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('should return ua value by getLangValue', () => {
+    const value = component.getLangValue('value', 'enValue');
+    expect(value).toBe('value');
   });
 });

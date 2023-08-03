@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,6 +12,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -35,7 +36,15 @@ describe('AddEditCustomHabitComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddEditCustomHabitComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, BrowserAnimationsModule, NoopAnimationsModule, ReactiveFormsModule],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        NoopAnimationsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        MatDialogModule
+      ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
@@ -110,6 +119,13 @@ describe('AddEditCustomHabitComponent', () => {
     component.getShopList(newShopList);
     expect(component.newList).toEqual(convertedList);
     expect(component.habitForm.get('shopList').value).toEqual(convertedList);
+  });
+
+  it('should trim value', () => {
+    const titleControl = component.habitForm.get('title');
+    titleControl.setValue('    ab ');
+    component.trimValue(titleControl);
+    expect(titleControl.value).toBe('ab');
   });
 
   it('should set TagList after get it from child component', () => {

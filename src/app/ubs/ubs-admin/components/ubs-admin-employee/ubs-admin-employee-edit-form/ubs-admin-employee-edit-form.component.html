@@ -63,9 +63,9 @@
                 class="role-item"
                 *ngFor="let role of roles"
                 [checked]="doesIncludeRole(role)"
-                (change)="onCheckChangeRole({ id: role.id, name: role.name })"
+                (change)="onCheckChangeRole(role)"
               >
-                {{ role.name }}
+                {{ langService.getLangValue(role.name, role.nameEn) }}
               </mat-checkbox>
             </div>
           </cdk-accordion-item>

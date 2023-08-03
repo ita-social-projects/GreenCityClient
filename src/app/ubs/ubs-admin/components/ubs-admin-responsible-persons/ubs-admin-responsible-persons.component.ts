@@ -13,6 +13,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
   @Input() responsiblePersonInfo: IResponsiblePersons;
   @Input() responsiblePersonsForm: FormGroup;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   public allCallManagers: string[];
   public allLogisticians: string[];

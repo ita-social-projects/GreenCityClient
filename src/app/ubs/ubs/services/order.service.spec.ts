@@ -8,6 +8,8 @@ import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from '../../ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
 import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
+import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
+import { ADDRESSESMOCK } from '../../mocks/address-mock';
 
 describe('OrderService', () => {
   const bagMock = {
@@ -237,5 +239,20 @@ describe('OrderService', () => {
     });
 
     httpTest('client/processOrderFondy', 'POST', responceOrderFondyModel);
+  });
+
+  it('method findAllDistricts should return districts based on region and city', () => {
+    const regionMock = KyivNamesEnum.KyivRegionEn;
+    const cityMock = KyivNamesEnum.KyivEn;
+    const districtsMock: DistrictsDtos[] = ADDRESSESMOCK.DISTRICTSKYIVMOCK;
+
+    service.findAllDistricts(regionMock, cityMock).subscribe((districts) => {
+      expect(districts.length).toBe(3);
+      expect(districts).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCKLABLED);
+    });
+
+    const req = httpMock.expectOne(`${baseLink}/get-all-districts?city=${cityMock}&region=${regionMock}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(districtsMock);
   });
 });

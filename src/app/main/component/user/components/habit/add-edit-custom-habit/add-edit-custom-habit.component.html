@@ -18,6 +18,7 @@
                 class="primary-global-input"
                 [ngClass]="{ 'warning-input': getControl('title').touched && getControl('title').invalid }"
                 [placeholder]="'user.habit.add-new-habit.habit-title-placeholder' | translate"
+                (focusout)="trimValue(getControl('title'))"
               />
               <div *ngIf="getControl('title').touched && getControl('title').invalid">
                 <app-input-error [formElement]="getControl('title')"></app-input-error>
@@ -97,7 +98,9 @@
           </div>
         </div>
         <div class="add-habit-container">
-          <button class="tertiary-global-button" (click)="goToAllHabits()">{{ 'user.habit.btn.cancel' | translate }}</button>
+          <button class="tertiary-global-button" (click)="cancel(true)">
+            {{ 'user.habit.btn.cancel' | translate }}
+          </button>
           <button class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
             {{ 'user.habit.btn.add' | translate }}
           </button>

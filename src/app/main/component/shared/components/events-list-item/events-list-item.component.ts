@@ -63,6 +63,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public address;
   public addAttenderError: string;
   public isOnline: string;
+  isOwner: boolean;
+  isActive: boolean;
 
   attendees = [];
   attendeesAvatars = [];
@@ -120,7 +122,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public routeToEvent(): void {
-    this.router.navigate(['/events', this.event.id]);
+    this.router.navigate(['/events', this.event.id, { isOwner: this.isOwner, isActive: this.isActive }]);
   }
 
   public filterTags(tags: Array<TagDto>) {
@@ -140,34 +142,34 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
 
   public checkButtonStatus(): void {
     const isSubscribe = this.event.isSubscribed;
-    const isOwner = +this.userId === this.event.organizer.id;
-    const isActive = this.checkIsActive();
-    if (isOwner && isActive && !isSubscribe) {
+    this.isOwner = +this.userId === this.event.organizer.id;
+    this.isActive = this.checkIsActive();
+    if (this.isOwner && this.isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.edit;
       return;
     }
-    if (isOwner && !isActive && !isSubscribe) {
+    if (this.isOwner && !this.isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.delete;
       return;
     }
-    if (isSubscribe && isActive && !isOwner) {
+    if (isSubscribe && this.isActive && !this.isOwner) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.cancel;
       return;
     }
-    if (!isSubscribe && isActive && !isOwner) {
+    if (!isSubscribe && this.isActive && !this.isOwner) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.join;
       return;
     }
-    if (isSubscribe && !isActive && !isOwner) {
+    if (isSubscribe && !this.isActive && !this.isOwner) {
       this.btnStyle = this.styleBtn.primary;
       this.nameBtn = this.btnName.rate;
       return;
     }
-    if (!isSubscribe && !isActive && !isOwner) {
+    if (!isSubscribe && !this.isActive && !this.isOwner) {
       this.btnStyle = this.styleBtn.hiden;
       return;
     }

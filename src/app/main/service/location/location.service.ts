@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GoogleAutoRequest, GoogleAutoService, GooglePlaceResult, GooglePrediction } from 'src/app/ubs/mocks/google-types';
-import { SearchAddress, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
+import { SearchAddress, DistrictsDtos, DistrictEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { Language } from '../../i18n/Language';
+import { LanguageService } from '../../i18n/language.service';
+import { AbstractControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
+  constructor(private langService: LanguageService) {}
+
   getDistrictAuto(placeDetails: GooglePlaceResult, language: string): string {
     let currentDistrict;
     const searchItem = language === Language.EN ? 'district' : 'район';
@@ -50,12 +54,6 @@ export class LocationService {
     return new google.maps.LatLngBounds(l, x);
   }
 
-  checkOnCityNames(addressRegion: string): boolean {
-    const isKyivRegion = addressRegion === KyivNamesEnum.KyivRegionUa;
-    const isKyivCity = addressRegion === KyivNamesEnum.KyivCityUa;
-    return isKyivRegion || isKyivCity;
-  }
-
   getFullAddressList(searchAddress: SearchAddress, autocompleteService: GoogleAutoService, lang: string): Observable<GooglePrediction[]> {
     const request = this.getRequest(searchAddress.input, lang, 'address');
     return new Observable((observer) => {
@@ -71,6 +69,32 @@ export class LocationService {
         observer.next(predictionList);
         observer.complete();
       });
+    });
+  }
+
+  setDistrictValues(districtUa: AbstractControl, districtEn: AbstractControl, districts: DistrictsDtos[]): void {
+    const selectedDistrict = this.langService.getLangValue(districtUa.value, districtEn.value);
+
+    const correspondingDistrict =
+      districts.find((d) => d.nameEn === selectedDistrict) || districts.find((d) => d.nameUa === selectedDistrict);
+
+    districtUa.setValue(correspondingDistrict.nameUa);
+    districtUa.markAsDirty();
+    districtEn.setValue(correspondingDistrict.nameEn);
+    districtEn.markAsDirty();
+  }
+
+  appendDistrictLabel(districtList: DistrictsDtos[]): DistrictsDtos[] | [] {
+    if (!districtList || districtList.length === 1) {
+      return districtList || [];
+    }
+
+    return districtList.map((district) => {
+      const districtWithLabel = {
+        nameUa: `${district.nameUa}${DistrictEnum.UA}`,
+        nameEn: `${district.nameEn}${DistrictEnum.EN}`
+      };
+      return districtWithLabel;
     });
   }
 }

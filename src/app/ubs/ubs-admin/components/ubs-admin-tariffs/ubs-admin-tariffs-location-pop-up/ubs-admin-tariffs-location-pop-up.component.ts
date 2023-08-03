@@ -417,8 +417,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     trigger.openPanel();
   }
 
-  private checkCityExist(item: string, array: Array<string>): boolean {
-    const newCityName = item.toLowerCase();
+  private checkCityExist(item, array: Array<string>): boolean {
+    const newCityName = item.locationTranslationDtoList?.locationName.toLowerCase();
     const cityList = array.map((it) => it.toLowerCase());
     return cityList.includes(newCityName);
   }

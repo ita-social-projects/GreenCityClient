@@ -21,6 +21,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() actualPrice: number;
   @Input() totalPaid: number;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   @Output() newPaymentStatus = new EventEmitter<string>();
   @Output() paymentUpdate = new EventEmitter<number>();
@@ -37,6 +38,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public currentOrderStatus: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public isMoneyReturning = false;
+  public isRefundApplicationCreate = false;
   private returnMoneyDialogDate = {
     popupTitle: 'return-payment.message',
     popupConfirm: 'employees.btn.yes',
@@ -46,6 +48,14 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
   private refundApplicationDialogDate = {
     popupTitle: 'return-payment.accept-refund-application',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: 'green',
+    isItrefund: true
+  };
+
+  private refundApplicationErrorDialogDate = {
+    popupTitle: 'return-payment.error-refund-application',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
     style: 'green',
@@ -72,7 +82,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
-    this.createPaymentsIdArray();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -96,12 +105,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public positivePaymentsArrayAmount(): void {
     this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.amount = Math.abs(payment.amount);
-    });
-  }
-
-  public createPaymentsIdArray(): void {
-    this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
-      this.paymentsIdArray.push(payment.paymentId);
     });
   }
 
@@ -167,21 +170,21 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.isMoneyReturning = true;
-          this.creationOfRefundApplication();
-          // TO DO
+          this.orderService.saveOrderIdForRefund(id).subscribe((response) => {
+            if (response.status === 201) {
+              this.isMoneyReturning = true;
+              this.isRefundApplicationCreate = true;
+            }
+            this.dialog.open(DialogPopUpComponent, {
+              data: this.isRefundApplicationCreate ? this.refundApplicationDialogDate : this.refundApplicationErrorDialogDate,
+              hasBackdrop: true,
+              closeOnNavigation: true,
+              disableClose: true,
+              panelClass: ''
+            });
+          });
         }
       });
-  }
-
-  creationOfRefundApplication() {
-    this.dialog.open(DialogPopUpComponent, {
-      data: this.refundApplicationDialogDate,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ''
-    });
   }
 
   public recountUnpaidAmount(value: number): void {

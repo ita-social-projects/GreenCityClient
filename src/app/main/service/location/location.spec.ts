@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { LocationService } from './location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
+import { LanguageService } from '../../i18n/language.service';
 import { of } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { Language } from '../../i18n/Language';
 
 describe('LocationService', () => {
   let locations;
@@ -19,9 +22,23 @@ describe('LocationService', () => {
   const mockAutocompleteService = { getPlacePredictions: (a, b) => {} } as any;
   mockAutocompleteService.getPlacePredictions = () => of(mockHousePredictions, 'OK' as any);
 
+  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue']);
+
+  const districtUa = new FormControl();
+  const districtEn = new FormControl();
+
+  const mockPlaceDetails = {
+    geometry: {
+      viewport: {
+        getSouthWest: () => ({ lat: 48.5, lng: 33.5 }),
+        getNorthEast: () => ({ lat: 50.5, lng: 35.5 })
+      }
+    }
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [],
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }],
       imports: []
     });
     locations = TestBed.inject(LocationService);
@@ -32,14 +49,14 @@ describe('LocationService', () => {
   });
 
   it('should get auto district for en lang', () => {
-    const convertedAddress = locations.getDistrictAuto(placeDetailsEn, 'en');
+    const convertedAddress = locations.getDistrictAuto(placeDetailsEn, Language.EN);
     expect(convertedAddress).toBe('Name of district');
     expect(convertedAddress).toContain('district');
   });
 
   it('should call convFirstLetterToCapital on getDistrictAuto', () => {
     const spy = spyOn(locations, 'convFirstLetterToCapital');
-    locations.getDistrictAuto(placeDetailsEn, 'en');
+    locations.getDistrictAuto(placeDetailsEn, Language.EN);
     expect(spy).toHaveBeenCalledWith('Name of District');
   });
 
@@ -47,7 +64,7 @@ describe('LocationService', () => {
     const placeDetails = {
       address_components: [{ long_name: 'Київський район' }]
     };
-    const convertedAddress = locations.getDistrictAuto(placeDetails, 'ua');
+    const convertedAddress = locations.getDistrictAuto(placeDetails, Language.UA);
     expect(convertedAddress).toBe('Київський район');
     expect(convertedAddress).toContain('район');
   });
@@ -56,7 +73,7 @@ describe('LocationService', () => {
     const placeDetails = {
       address_components: [{ long_name: 'Назва' }]
     };
-    const convertedAddress = locations.getDistrictAuto(placeDetails, 'ua');
+    const convertedAddress = locations.getDistrictAuto(placeDetails, Language.UA);
     expect(convertedAddress).toBeUndefined();
   });
 
@@ -67,12 +84,12 @@ describe('LocationService', () => {
 
   it('should call getRequest on getFullAddressList', () => {
     const spy = spyOn(locations, 'getRequest');
-    locations.getFullAddressList(ADDRESSESMOCK.SEARCHADDRESS, mockAutocompleteService, 'en');
+    locations.getFullAddressList(ADDRESSESMOCK.SEARCHADDRESS, mockAutocompleteService, Language.EN);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should return place prediction list on getFullAddressList', () => {
-    locations.getFullAddressList(ADDRESSESMOCK.SEARCHADDRESS, mockAutocompleteService, 'en').subscribe((predictions) => {
+    locations.getFullAddressList(ADDRESSESMOCK.SEARCHADDRESS, mockAutocompleteService, Language.EN).subscribe((predictions) => {
       const result = predictions;
       expect(result[0].description).toBe('street , 2, Kyiv, Ukraine');
       expect(result[0].description).toContain(ADDRESSESMOCK.SEARCHADDRESS.street);
@@ -87,7 +104,70 @@ describe('LocationService', () => {
   });
 
   it('should return city request value on getRequest', () => {
-    const cityRequest = locations.getRequest('вулиця Київська, 2 Київ, Україна', 'ua', '(cities)');
+    const cityRequest = locations.getRequest('вулиця Київська, 2 Київ, Україна', Language.UA, '(cities)');
     expect(cityRequest).toEqual(ADDRESSESMOCK.GOOGLEREQUEST);
+  });
+
+  it('should set correct district values', () => {
+    languageServiceMock.getLangValue.and.returnValue('Holosiivskyi');
+    locations.setDistrictValues(districtUa, districtEn, ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+
+    expect(districtUa.value).toEqual('Голосіївський');
+    expect(districtEn.value).toEqual('Holosiivskyi');
+    expect(districtUa.dirty).toEqual(true);
+    expect(districtEn.dirty).toEqual(true);
+  });
+
+  it('should append district label for multiple districts', () => {
+    const districtsWithLabel = locations.appendDistrictLabel(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+
+    expect(districtsWithLabel).toEqual([
+      { nameUa: 'Голосіївський район', nameEn: 'Holosiivskyi district' },
+      { nameUa: 'Дарницький район', nameEn: 'Darnytskyi district' },
+      { nameUa: 'Деснянський район', nameEn: 'Desnyan district' }
+    ]);
+  });
+
+  it('should append district label for empty districts', () => {
+    const districtsWithLabel = locations.appendDistrictLabel([]);
+
+    expect(districtsWithLabel).toEqual([]);
+  });
+
+  it('should throw an error when geometry or viewport are not defined', () => {
+    const undefinedViewportPlaceDetails = { geometry: {} };
+    const noGeometryPlaceDetails = {};
+
+    expect(() => locations.getPlaceBounds(undefinedViewportPlaceDetails)).toThrow();
+    expect(() => locations.getPlaceBounds(noGeometryPlaceDetails)).toThrow();
+  });
+
+  it('should correctly convert the first letter of a string to a capital letter', () => {
+    expect(locations.convFirstLetterToCapital('test')).toEqual('Test');
+  });
+
+  it('should correctly form a search address', () => {
+    const searchAddress = locations.getSearchAddress('Kyiv', 'Street', '1');
+    expect(searchAddress).toEqual({
+      input: 'Street, 1, Kyiv',
+      street: 'Street, 1',
+      city: 'Kyiv,'
+    });
+  });
+
+  it('should correctly form a request', () => {
+    const request = locations.getRequest('Test Street, 1, Kyiv', Language.EN, 'address');
+    expect(request).toEqual({
+      input: 'Test Street, 1, Kyiv',
+      language: Language.EN,
+      types: ['address'],
+      componentRestrictions: { country: 'ua' }
+    });
+  });
+
+  it('should correctly append district label', () => {
+    const districtsWithLabel = locations.appendDistrictLabel(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
+    expect(districtsWithLabel[0].nameUa).toEqual('Голосіївський район');
+    expect(districtsWithLabel[0].nameEn).toEqual('Holosiivskyi district');
   });
 });

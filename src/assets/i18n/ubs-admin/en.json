@@ -119,7 +119,8 @@
   },
   "return-payment": {
     "message": "Do you really want a refund?",
-    "accept-refund-application": "Your application has been accepted. Our manager will contact you later."
+    "accept-refund-application": "Your application has been accepted. Our manager will contact you later.",
+    "error-refund-application": "Something went wrong. Your application has not been accepted. Please, try create it later."
   },
   "add-payment": {
     "title": "Add a payment document",
@@ -943,7 +944,8 @@
     "info-cancel": "Cancel",
     "info-next": "Next",
     "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
-    "default-address": "Make it the default address"
+    "default-address": "Make it the default address",
+    "required-from-dropdown": "Please choose from the list"
   },
   "input-error": {
     "required": "This field is required",
