@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AddressService {
-  isLocationAdded: boolean = false;
+  isLocationAdded = false;
 
   setIsLocationAdded(value: boolean): void {
     this.isLocationAdded = value;
