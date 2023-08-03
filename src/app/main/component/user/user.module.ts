@@ -85,6 +85,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-widget/habits-widget.component';
 import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';
 import { QuillModule } from 'ngx-quill';
+import { UserNotificationsComponent } from './components/profile/user-notifications/user-notifications.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,8 @@ import { QuillModule } from 'ngx-quill';
     FriendProfileDashboardComponent,
     SetCountComponent,
     HabitsWidgetComponent,
-    AddEditCustomHabitComponent
+    AddEditCustomHabitComponent,
+    UserNotificationsComponent
   ],
   imports: [
     NgbModule,

@@ -110,6 +110,12 @@
         "delete-no": "no"
       }
     },
+    "notifications": {
+      "title": "Notifications",
+      "all-notifications": "All messages",
+      "no-new-notifications": "No new messages at the moment.",
+      "no-notifications": "Unfortunately, no more notifications found"
+    },
     "events": {
       "title": "Events",
       "author": "by",
@@ -329,6 +335,7 @@
     "my-habits": "My habits",
     "profile": "Profile",
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
