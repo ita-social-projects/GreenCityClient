@@ -13,6 +13,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 })
 export class RecommendedFriendsComponent implements OnInit {
   public recommendedFriends: FriendModel[] = [];
+  public recommendedFriendsBySearch: FriendModel[] = [];
   public userId: number;
   private destroy$ = new Subject();
   public scroll = false;
@@ -24,6 +25,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public sizePage = 10;
   public searchQuery = '';
   public searchMode = false;
+  public isPristine = true;
   readonly absent = 'assets/img/noNews.svg';
   constructor(
     private userFriendsService: UserFriendsService,
@@ -37,16 +39,18 @@ export class RecommendedFriendsComponent implements OnInit {
   }
 
   public findUserByName(value: string) {
+    this.isPristine = false;
     this.searchQuery = value;
     this.isFetching = true;
     this.searchMode = true;
     this.userFriendsService
-      .getNewFriends(undefined, undefined, value)
+      .getNewFriends(this.currentPage, this.sizePage, value)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
-          this.recommendedFriends = data.page;
+          this.recommendedFriendsBySearch = data.page;
+          console.log('data', data.page);
           this.amountOfFriends = data.totalElements;
           this.isFetching = false;
           this.searchMode = false;
@@ -57,6 +61,9 @@ export class RecommendedFriendsComponent implements OnInit {
           this.searchMode = false;
         }
       );
+
+    console.log('isPristine', this.isPristine);
+    console.log('rec frie', this.recommendedFriendsBySearch);
   }
 
   private deleteFriendsFromList(id, array) {
@@ -67,7 +74,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public getNewFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
-      .getNewFriends(currentPage, this.sizePage, '')
+      .getNewFriends(currentPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {

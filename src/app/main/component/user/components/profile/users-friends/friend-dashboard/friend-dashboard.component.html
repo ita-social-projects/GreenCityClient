@@ -16,7 +16,7 @@
             type="text"
             #search
             [placeholder]="'search.search-popup.placeholder' | translate"
-            (input)="onInput(search)"
+            (keyup)="onKeyup(search)"
             maxlength="30"
           />
         </form>

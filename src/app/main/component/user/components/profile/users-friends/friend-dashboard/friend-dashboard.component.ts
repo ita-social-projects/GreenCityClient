@@ -65,7 +65,7 @@ export class FriendDashboardComponent implements OnInit {
       });
   }
 
-  public onInput(input): void {
+  public onKeyup(input): void {
     this.searchTerm$.next(input.value);
   }
 

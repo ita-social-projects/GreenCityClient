@@ -23,8 +23,8 @@ describe('RecommendedFriendsComponent', () => {
   const userFriendsService = 'userFriendsService';
 
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getPossibleFriends', 'findNewFriendsByName', 'addFriend']);
-  userFriendsServiceMock.getPossibleFriends = () => of(FRIENDS);
-  userFriendsServiceMock.findNewFriendsByName = () => of(FRIENDS);
+  userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
+  userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
 
   beforeEach(async(() => {
@@ -58,7 +58,7 @@ describe('RecommendedFriendsComponent', () => {
 
   it('should call initUser and getPossibleFriends OnInit', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
-    const getFriendsSpy = spyOn(component, 'getPossibleFriends');
+    const getFriendsSpy = spyOn(component, 'getNewFriends');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
     expect(getFriendsSpy).toHaveBeenCalled();
@@ -74,9 +74,9 @@ describe('RecommendedFriendsComponent', () => {
     expect(component.searchMode).toBeFalsy();
   });
 
-  it('should set values on getPossibleFriends', () => {
+  it('should set values on getNewFriends', () => {
     const recFriends = component.recommendedFriends.concat(FRIENDS.page);
-    component.getPossibleFriends(1111, 1);
+    component.getNewFriends(1);
     expect(component.totalPages).toBe(1);
     expect(component.recommendedFriends).toEqual(recFriends);
     expect(component.emptySearchList).toBeFalsy();
@@ -85,7 +85,7 @@ describe('RecommendedFriendsComponent', () => {
   });
 
   it('should call getFriends on scroll', () => {
-    const getRecommendedFriendSpy = spyOn(component, 'getPossibleFriends');
+    const getRecommendedFriendSpy = spyOn(component, 'getNewFriends');
     component.onScroll();
     expect(getRecommendedFriendSpy).toHaveBeenCalled();
   });

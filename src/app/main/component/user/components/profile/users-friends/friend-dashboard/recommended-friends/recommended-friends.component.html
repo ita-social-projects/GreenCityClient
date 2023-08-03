@@ -1,20 +1,41 @@
 <div class="container">
   <div>
-    <div *ngIf="!searchMode || !isFetching" class="cards-list">
-      <div *ngIf="amountOfFriends">
-        <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
-      </div>
-      <div class="cards-box">
-        <div *ngFor="let item of recommendedFriends" class="user-card">
-          <app-friend-item
-            [friend]="item"
-            (friendEventEmit)="addFriend($event)"
-            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-          >
-          </app-friend-item>
+    <div *ngIf="isPristine">
+      <div *ngIf="!searchMode || !isFetching" class="cards-list">
+        <div *ngIf="amountOfFriends">
+          <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
+        </div>
+        <div class="cards-box">
+          <div *ngFor="let item of recommendedFriends" class="user-card">
+            <app-friend-item
+              [friend]="item"
+              (friendEventEmit)="addFriend($event)"
+              primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+            >
+            </app-friend-item>
+          </div>
         </div>
       </div>
     </div>
+
+    <div *ngIf="!isPristine">
+      <div *ngIf="!searchMode || !isFetching" class="cards-list">
+        <div *ngIf="amountOfFriends">
+          <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
+        </div>
+        <div class="cards-box">
+          <div *ngFor="let item of recommendedFriendsBySearch" class="user-card">
+            <app-friend-item
+              [friend]="item"
+              (friendEventEmit)="addFriend($event)"
+              primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+            >
+            </app-friend-item>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <app-spinner *ngIf="isFetching"></app-spinner>
     <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>

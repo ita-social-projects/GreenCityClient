@@ -41,7 +41,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     this.selectedIndex = +this.route.snapshot.queryParams.index;
     this.isActiveInfinityScroll = this.selectedIndex === 3 || this.selectedIndex === 4;
     this.getAllFriends(this.userId);
-    this.getMutualFriends(this.userId);
+    this.getMutualFriends();
   }
 
   private getAllFriends(id: number, page?: number): void {

@@ -122,7 +122,7 @@ describe('FriendDashboardComponent', () => {
     const input = {
       value: 'text'
     };
-    component.onInput(input);
+    component.onKeyup(input);
     expect(spy).toHaveBeenCalledWith('text');
   });
 

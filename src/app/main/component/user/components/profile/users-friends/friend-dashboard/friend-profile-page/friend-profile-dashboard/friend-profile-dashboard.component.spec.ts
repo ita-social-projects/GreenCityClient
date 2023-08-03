@@ -15,7 +15,7 @@ describe('FriendProfileDashboardComponent', () => {
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', {
     getAllFriends: of(FRIENDS),
     addFriend: of({}),
-    getPossibleFriends: of({})
+    getNewFriends: of({})
   });
   const activatedRouteMock = {
     snapshot: {
