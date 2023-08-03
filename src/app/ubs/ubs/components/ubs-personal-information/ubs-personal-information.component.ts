@@ -16,6 +16,7 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AddressService } from '../../../../main/service/address/address.service';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -52,7 +53,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   locationIdForKyiv = 1;
   locationIdForKyivRegion = 2;
   isNotChoosedLocation: boolean;
-  isLocationAdded: boolean;
   private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
   popupConfig = {
     hasBackdrop: true,
@@ -79,10 +79,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private localService: LocalStorageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript,
-    private langService: LanguageService
+    private langService: LanguageService,
+    private addressService: AddressService
   ) {
     super(router, dialog, orderService, localService);
     this.initForm();
+    this.buttonsSToggle();
   }
 
   ngOnInit() {
@@ -209,11 +211,16 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       }
     });
     if (this.addresses) {
-      this.isLocationAdded = true;
+      this.addressService.setIsLocationAdded(true);
     }
     this.isNotChoosedLocation = this.checkedAddress.display === false;
     this.localService.setAddressId(addressId);
     this.changeAddressInPersonalData();
+  }
+
+  buttonsSToggle() {
+    const isLocationAdded = this.addressService.getIsLocationAdded();
+    return isLocationAdded;
   }
 
   isOneAdress() {
@@ -322,7 +329,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
           });
         }
       });
-    this.isLocationAdded = false;
+    if (this.addresses.length === 1) {
+      this.addressService.setIsLocationAdded(false);
+    }
   }
 
   addNewAddress() {
@@ -330,7 +339,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.personalDataForm.patchValue({
       address: this.addresses
     });
-    this.isLocationAdded = true;
   }
 
   getControl(control: string) {

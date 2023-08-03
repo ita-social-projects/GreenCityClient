@@ -14,6 +14,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
+import { AddressService } from '../../main/service/address/address.service';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -62,7 +63,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     private langService: LanguageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private addressService: AddressService
   ) {}
 
   get region() {
@@ -481,7 +483,6 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       .subscribe(
         (list: { addressList: Address[] }) => {
           this.orderService.setCurrentAddress(this.addAddressForm.value);
-
           this.updatedAddresses = list.addressList;
           this.dialogRef.close('Added');
           this.isDisabled = false;
@@ -494,6 +495,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
         }
       );
     this.snackBar.openSnackBar('addedAddress');
+    this.addressService.setIsLocationAdded(true);
   }
 
   public getLangValue(uaValue, enValue): string {
