@@ -480,6 +480,7 @@
   },
   "nav-bar": {
     "user-settings": "Налаштування",
+    "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"

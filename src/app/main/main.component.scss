@@ -21,6 +21,9 @@
   position: relative;
   padding-top: 52px;
   text-align: center;
+  @media screen and (max-width: 1024px) and (min-width: 768px) {
+    padding-top: 86px;
+  }
 }
 
 .skip {
