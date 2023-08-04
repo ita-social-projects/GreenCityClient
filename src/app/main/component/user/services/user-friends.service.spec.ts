@@ -213,8 +213,8 @@ describe('UserFriendsService', () => {
     });
   });
 
-  describe('findFriendByName', () => {
-    it('should return an object on calling findFriendByName', () => {
+  describe('getAllFriendsAndByName', () => {
+    it('should return an object on calling getAllFriendsAndByName', () => {
       const friends = {
         totalElements: 0,
         totalPages: 0,
@@ -227,7 +227,7 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.findFriendByName(friends.page[0].name).subscribe((users) => {
+      userFriendsService.getAllFriendsAndByName(friends.page[0].name).subscribe((users) => {
         expect(users).toBeTruthy();
       });
 

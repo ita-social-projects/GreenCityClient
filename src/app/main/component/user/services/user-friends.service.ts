@@ -50,7 +50,7 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/not-friends-yet?name=${name}&page=${page}&size=${size}`);
   }
 
-  public findFriendByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
+  public getAllFriendsAndByName(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${name}&page=${page}&size=${size}`);
   }
 
