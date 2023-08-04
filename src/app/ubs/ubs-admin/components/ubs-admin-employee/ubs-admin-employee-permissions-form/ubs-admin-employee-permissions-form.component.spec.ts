@@ -78,4 +78,9 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
     ]);
     expect(component.isUpdating).toBe(true);
   });
+
+  it('should enable button sumbit after a form is changed', () => {
+    component.updateAllComplete();
+    expect(component.isDisabled).toBe(false);
+  });
 });
