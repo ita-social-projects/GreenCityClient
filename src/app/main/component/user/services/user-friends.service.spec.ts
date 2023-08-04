@@ -130,7 +130,7 @@ describe('UserFriendsService', () => {
         expect(users.page.length).toBe(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/4/friendRequests/?page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/friendRequests?page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(requests);
     });
