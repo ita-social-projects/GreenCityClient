@@ -124,7 +124,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   ngOnInit() {
-    this.onClick = this.onClick.bind(this);
     this.firstPageLoad = true;
     this.initDateForm();
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang) => {
@@ -416,25 +415,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
-  private addClickListener() {
-    document.addEventListener('click', this.onClick);
-  }
-
-  private removeClickListener() {
-    document.removeEventListener('click', this.onClick);
-  }
-
-  private onClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const filterWrapperElement = document.querySelector('.filters-dropdown-wrapper');
-    if (filterWrapperElement && !filterWrapperElement.contains(target) && this.isFiltersOpened) {
-      this.toggleFilters();
-    }
+  clickedOutside() {
+    this.isFiltersOpened = false;
   }
 
   public toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
-    this.isFiltersOpened ? this.addClickListener() : this.removeClickListener();
   }
 
   public toggleTableView(): void {
@@ -992,7 +978,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return this.displayedColumns.length > 1 ? 'block' : 'none';
   }
   ngOnDestroy() {
-    this.removeClickListener();
     this.destroy.next();
     this.destroy.unsubscribe();
   }

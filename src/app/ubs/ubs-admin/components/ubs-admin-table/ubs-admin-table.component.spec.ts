@@ -889,43 +889,4 @@ describe('UsbAdminTableComponent', () => {
 
     expect(result).toBe(true);
   });
-
-  it('should add click listener when filters are opened', () => {
-    component.toggleFilters();
-    fixture.detectChanges();
-
-    expect(documentClickSpy).toHaveBeenCalledTimes(1);
-    expect(documentClickSpy.calls.mostRecent().args[0]).toBe('click');
-  });
-
-  it('should remove click listener when filters are closed', () => {
-    component.toggleFilters();
-    fixture.detectChanges();
-
-    component.toggleFilters();
-    fixture.detectChanges();
-
-    expect(documentClickSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should close filters when clicking outside', fakeAsync(() => {
-    component.toggleFilters();
-    fixture.detectChanges();
-
-    const event = new MouseEvent('click');
-    document.dispatchEvent(event);
-    tick();
-
-    expect(component.isFiltersOpened).toBeFalsy();
-  }));
-
-  it('should not close filters when clicking inside', fakeAsync(() => {
-    component.toggleFilters();
-    fixture.detectChanges();
-    const filterWrapperElement = document.querySelector('.filters-dropdown-wrapper');
-    const event = new MouseEvent('click');
-    filterWrapperElement.dispatchEvent(event);
-    tick();
-    expect(component.isFiltersOpened).toBeTruthy();
-  }));
 });
