@@ -34,7 +34,6 @@ describe('UsbAdminTableComponent', () => {
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   let router: Router;
-  let documentClickSpy: jasmine.Spy;
 
   const initDateMock = {
     orderDateFrom: '',
@@ -143,13 +142,11 @@ describe('UsbAdminTableComponent', () => {
     component.bigOrderTable$ = of(false) as any;
     router = TestBed.inject(Router);
     fixture.detectChanges();
-    documentClickSpy = spyOn(document, 'addEventListener').and.callThrough();
   });
 
   afterEach(() => {
     spyOn(component, 'ngOnDestroy').and.callFake(() => {});
     fixture.destroy();
-    documentClickSpy.calls.reset();
   });
 
   it('should create', () => {
