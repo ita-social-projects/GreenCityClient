@@ -61,6 +61,11 @@ export class FriendItemComponent implements OnInit {
     this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab: 'All firends', index: 3 } });
   }
 
+  public cutText(): string {
+    const maxTextLength = 10;
+    return this.friend.city.length > 10 ? this.friend.city.slice(0, maxTextLength) + '...' : this.friend.city;
+  }
+
   private showMutualFriends(): void {
     this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab: 'Mutual friends', index: 4 } });
   }
