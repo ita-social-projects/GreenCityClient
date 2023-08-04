@@ -62,8 +62,8 @@ export class FriendItemComponent implements OnInit {
   }
 
   public cutText(): string {
-    const maxTextLength = 10;
-    return this.friend.city.length > 10 ? this.friend.city.slice(0, maxTextLength) + '...' : this.friend.city;
+    const maxTextLength = 20;
+    return this.friend.city.length > maxTextLength ? this.friend.city.slice(0, maxTextLength) + '...' : this.friend.city;
   }
 
   private showMutualFriends(): void {
