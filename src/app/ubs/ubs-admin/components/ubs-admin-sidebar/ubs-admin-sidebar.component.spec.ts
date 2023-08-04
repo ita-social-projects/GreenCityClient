@@ -23,15 +23,6 @@ describe('UbsAdminSidebarComponent', () => {
     positionId: [3, 4, 5]
   };
 
-  const viewersArrMock = [
-    employeePositionsName.SuperAdmin,
-    employeePositionsName.Admin,
-    employeePositionsName.CallManager,
-    employeePositionsName.ServiceManager,
-    employeePositionsName.Logistician,
-    employeePositionsName.Navigator
-  ];
-
   const listElementsAdminMock: object[] = [
     {
       link: 'assets/img/sidebarIcons/shopping-cart_icon.svg',
@@ -121,71 +112,50 @@ describe('UbsAdminSidebarComponent', () => {
 
   it('notificationsViewer method should call', () => {
     const spy = spyOnProperty(component, 'notificationsViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
     (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
   it('certificatesViewer method should call', () => {
     const spy = spyOnProperty(component, 'certificatesViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
     (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
   it('tariffsViewer method should call', () => {
     const spy = spyOnProperty(component, 'tariffsViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
     (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith(viewersArrMock);
     expect(spy3).toHaveBeenCalled();
   });
 
   it('employeesViewer method should call', () => {
     const spy = spyOnProperty(component, 'employeesViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
     (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
   it('customerViewer method should call', () => {
     const spy = spyOnProperty(component, 'customerViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
     (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith(viewersArrMock);
     expect(spy3).toHaveBeenCalled();
   });
 
   it('ordersViewer method should call', () => {
     const spy = spyOnProperty(component, 'ordersViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
     (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith(viewersArrMock);
     expect(spy3).toHaveBeenCalled();
-  });
-
-  it('positionFilterUtil method should call', () => {
-    component.employeePositions = employeePositionsMock;
-    const spy = spyOn(component as any, 'positionFilterUtil').and.callThrough();
-    expect(spy).toBeTruthy();
   });
 
   it('authoritiesFilterUtil method should call', () => {

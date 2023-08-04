@@ -5,14 +5,12 @@ import { UbsBaseSidebarComponent } from 'src/app/shared/ubs-base-sidebar/ubs-bas
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { listElementsAdmin } from '../../../ubs/models/ubs-sidebar-links';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import {
-  employeePositionsName,
-  AdminSideBarMenu,
-  EnablingAuthorities,
-  SideMenuElementsNames
-} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { AdminSideBarMenu, EnablingAuthorities, SideMenuElementsNames } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
 
 // @ts-ignore
 @Component({
@@ -22,51 +20,32 @@ import { Subject } from 'rxjs';
 export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements AfterViewInit, OnInit {
   public listElementsAdmin = listElementsAdmin;
   public employeeAuthorities: string[];
-  public employeePositions: string[];
   public positionName: Array<string>;
   public destroySub: Subject<boolean> = new Subject<boolean>();
-
-  private notificationsViewerArr = [
-    employeePositionsName.SuperAdmin,
-    employeePositionsName.Admin,
-    employeePositionsName.CallManager,
-    employeePositionsName.ServiceManager
-  ];
-
-  private employeesCertViewerArr = [...this.notificationsViewerArr, employeePositionsName.Logistician];
-
-  private viewersArr = [...this.employeesCertViewerArr, employeePositionsName.Navigator];
+  public permissions$ = this.store.select((state): Array<string> => state.employees.employeesPermissions);
 
   constructor(
     public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public service: UserMessagesService,
     public breakpointObserver: BreakpointObserver,
-    public jwtService: JwtService
+    public jwtService: JwtService,
+    private store: Store<IAppState>
   ) {
     super(service, breakpointObserver, jwtService);
   }
 
   ngOnInit() {
-    this.ubsAdminEmployeeService.employeePositions$.pipe(takeUntil(this.destroySub)).subscribe((employeePositions) => {
-      if (employeePositions.length) {
-        this.authoritiesSubscription(employeePositions);
-      }
-    });
+    const userEmail = this.jwtService.getEmailFromAccessToken();
+    this.store.dispatch(GetEmployeesPermissions({ email: userEmail }));
+    this.authoritiesSubscription();
   }
 
-  private authoritiesSubscription(positions: Array<string>) {
-    this.ubsAdminEmployeeService.employeePositionsAuthorities$.pipe(takeUntil(this.destroySub)).subscribe((rights) => {
-      if (rights.authorities.length) {
-        this.changeListElementsDependOnPermissions(positions, rights.authorities);
+  private authoritiesSubscription() {
+    this.permissions$.subscribe((authorities) => {
+      if (authorities.length) {
+        this.changeListElementsDependOnPermissions(authorities);
       }
     });
-  }
-
-  private positionFilterUtil(posArr: Array<string>): boolean {
-    if (this.employeePositions) {
-      const result = this.employeePositions.filter((positionsItem) => posArr.includes(positionsItem));
-      return !!result.length;
-    }
   }
 
   private authoritiesFilterUtil(authority: string): boolean {
@@ -82,32 +61,31 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
   }
 
   get customerViewer() {
-    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.customers);
+    return this.authoritiesFilterUtil(EnablingAuthorities.customers);
   }
 
   get employeesViewer() {
-    return this.positionFilterUtil(this.employeesCertViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.employees);
+    return this.authoritiesFilterUtil(EnablingAuthorities.employees);
   }
 
   get certificatesViewer() {
-    return this.positionFilterUtil(this.employeesCertViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.certificates);
+    return this.authoritiesFilterUtil(EnablingAuthorities.certificates);
   }
 
   get notificationsViewer() {
-    return this.positionFilterUtil(this.notificationsViewerArr) || this.authoritiesFilterUtil(EnablingAuthorities.notifications);
+    return this.authoritiesFilterUtil(EnablingAuthorities.notifications);
   }
 
   get tariffsViewer() {
-    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.tariffs);
+    return this.authoritiesFilterUtil(EnablingAuthorities.tariffs);
   }
 
   get ordersViewer() {
-    return this.positionFilterUtil(this.viewersArr) || this.authoritiesFilterUtil(EnablingAuthorities.orders);
+    return this.authoritiesFilterUtil(EnablingAuthorities.orders);
   }
 
-  private changeListElementsDependOnPermissions(positions: string[], authorities: string[]) {
+  private changeListElementsDependOnPermissions(authorities: string[]) {
     this.employeeAuthorities = authorities;
-    this.employeePositions = positions;
     if (!this.customerViewer) {
       this.listElenenChangetUtil(SideMenuElementsNames.customers);
     }

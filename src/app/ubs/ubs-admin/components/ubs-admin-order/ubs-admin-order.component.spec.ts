@@ -125,25 +125,21 @@ describe('UbsAdminCabinetComponent', () => {
   it('authoritiesSubscription expect will be invoke at onInit', () => {
     const spy = spyOn(component as any, 'authoritiesSubscription');
     component.ngOnInit();
-    ubsAdminEmployeeServiceMock.employeePositions$.subscribe((positions) => {
-      expect(spy).toHaveBeenCalled();
-      expect(spy).toHaveBeenCalledWith(positions);
-    });
+    expect(spy).toHaveBeenCalled();
   });
 
   it('definedIsEmployeeCanEditOrder expect will be invoke at authoritiesSubscription', () => {
     const spy = spyOn(component as any, 'definedIsEmployeeCanEditOrder');
-    (component as any).authoritiesSubscription(employeePositionsMock);
+    (component as any).authoritiesSubscription();
     ubsAdminEmployeeServiceMock.employeePositionsAuthorities$.subscribe((rights) => {
       expect(spy).toHaveBeenCalled();
-      expect(spy).toHaveBeenCalledWith(employeePositionsMock, employeePositionsAuthorities.authorities);
+      expect(spy).toHaveBeenCalledWith(employeePositionsAuthorities.authorities);
     });
   });
 
   it('definedIsEmployeeCanEditOrder expect will be invoke', () => {
-    (component as any).definedIsEmployeeCanEditOrder(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).definedIsEmployeeCanEditOrder(employeePositionsAuthorities.authorities);
     expect((component as any).employeeAuthorities).toEqual(employeePositionsAuthorities.authorities);
-    expect((component as any).employeePositions).toEqual(employeePositionsMock);
     expect((component as any).isEmployeeCanEditOrder).toBeTruthy();
   });
 

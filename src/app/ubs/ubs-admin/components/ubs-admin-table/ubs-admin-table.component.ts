@@ -36,6 +36,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
+import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -103,6 +104,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
+  public isEmployeeHasPermissions: boolean;
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
   bigOrderTableParams$ = this.store.select((state: IAppState): IBigOrderTableParams => state.bigOrderTable.bigOrderTableParams);
@@ -114,6 +116,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     private adminTableService: AdminTableService,
     private localStorageService: LocalStorageService,
     private tableHeightService: TableHeightService,
+    public ubsAdminEmployeeService: UbsAdminEmployeeService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,

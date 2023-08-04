@@ -113,43 +113,23 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, false);
-    this.ubsAdminEmployeeService.employeePositions$.pipe(takeUntil(this.destroy$)).subscribe((employeePositions) => {
-      if (employeePositions.length) {
-        this.authoritiesSubscription(employeePositions);
-      }
-    });
+    this.authoritiesSubscription();
   }
 
-  private authoritiesSubscription(positions) {
+  private authoritiesSubscription() {
     this.ubsAdminEmployeeService.employeePositionsAuthorities$.pipe(takeUntil(this.destroy$)).subscribe((rights) => {
       if (rights.authorities.length) {
-        this.definedIsEmployeeCanEditOrder(positions, rights.authorities);
+        this.definedIsEmployeeCanEditOrder(rights.authorities);
       }
     });
   }
 
-  private definedIsEmployeeCanEditOrder(positions: string[], authorities: string[]) {
+  private definedIsEmployeeCanEditOrder(authorities: string[]) {
     this.employeeAuthorities = authorities;
-    this.employeePositions = positions;
-    const positionsForEditOrder: string[] = [
-      employeePositionsName.SuperAdmin,
-      employeePositionsName.Admin,
-      employeePositionsName.CallManager,
-      employeePositionsName.ServiceManager
-    ];
-    let isThisPositionCanEdit = false;
-    let isThisRoleCanEdit = false;
-    if (this.employeePositions) {
-      isThisPositionCanEdit = !!this.employeePositions.filter((positionsItem: string) => positionsForEditOrder.includes(positionsItem))
-        .length;
-    }
-
     if (this.employeeAuthorities) {
-      isThisRoleCanEdit = !!this.employeeAuthorities.filter((authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders).length;
-    }
-
-    if (isThisPositionCanEdit || isThisRoleCanEdit) {
-      this.isEmployeeCanEditOrder = true;
+      this.isEmployeeCanEditOrder = !!this.employeeAuthorities.filter(
+        (authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders
+      ).length;
     }
   }
 
