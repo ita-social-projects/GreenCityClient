@@ -126,7 +126,7 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getRequests(4).subscribe((users) => {
+      userFriendsService.getRequests().subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
