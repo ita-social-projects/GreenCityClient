@@ -1,8 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Directive, ElementRef, Inject, AfterViewInit, Output, OnDestroy, EventEmitter } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[appClickOutside]'
