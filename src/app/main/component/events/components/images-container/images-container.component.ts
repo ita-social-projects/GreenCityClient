@@ -38,7 +38,11 @@ export class ImagesContainerComponent implements OnInit {
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
 
-  constructor(private events: EventsService, private localStorageService: LocalStorageService, private snackBar: MatSnackBarComponent) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBarComponent,
+    private eventService: EventsService
+  ) {}
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
 
@@ -68,7 +72,7 @@ export class ImagesContainerComponent implements OnInit {
 
   public chooseImage(img) {
     const imageName = img.substring(img.lastIndexOf('/') + 1);
-    this.events.getImageAsFile(img).subscribe((blob: Blob) => {
+    this.eventService.getImageAsFile(img).subscribe((blob: Blob) => {
       const imageFile = new File([blob], imageName, { type: 'image/png' });
       this.checkFileExtension(imageFile);
       this.transferFile(imageFile);
