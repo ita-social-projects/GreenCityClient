@@ -119,15 +119,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     const region = this.data.edit ? this.data.address.region : this.locations?.regionDto.nameUk;
     const regionEn = this.data.edit ? this.data.address.regionEn : this.locations?.regionDto.nameEn;
+
     this.addAddressForm = this.fb.group({
-      region: [
-        !this.data.addFromProfile ? region : '',
-        [Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj?.region)]
-      ],
-      regionEn: [
-        !this.data.addFromProfile ? regionEn : '',
-        [Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj?.region)]
-      ],
+      region: [!this.data.addFromProfile ? region : '', [Validators.required]],
+      regionEn: [!this.data.addFromProfile ? regionEn : '', [Validators.required]],
       city: [
         this.data.edit ? this.data.address.city : null,
         [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern(Patterns.ubsWithDigitPattern)]
@@ -241,7 +236,13 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
 
   updateValidInputs(control: string, controlEn: string): void {
     const currentControl = this.addAddressForm.get(this.getLangValue(control, controlEn));
-    currentControl.setValidators([Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj[control])]);
+
+    const validator =
+      !this.data.addFromProfile && control !== 'city'
+        ? [Validators.required]
+        : [Validators.required, RequiredFromDropdownValidator.requiredFromDropdown(this.errorValueObj[control])];
+
+    currentControl.setValidators(validator);
     currentControl.updateValueAndValidity();
     this.addAddressForm.updateValueAndValidity();
   }
@@ -474,6 +475,9 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     this.addAddressForm.value.placeId = this.placeId;
     this.isDisabled = true;
 
+    const streetUaValue = this.getLangValue(this.street.value, this.streetEn.value);
+    const streetEnValue = this.getLangValue(this.streetEn.value, this.street.value);
+
     const addressData = {
       addressComment: this.addressComment.value,
       districtEn: this.districtEn.value,
@@ -484,7 +488,11 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       regionEn: this.addAddressForm.value.regionEn,
       region: this.addAddressForm.value.region,
       searchAddress: this.addAddressForm.value.searchAddress,
-      placeId: this.placeId
+      placeId: this.placeId,
+      streetUa: streetUaValue ? streetUaValue : streetEnValue,
+      streetEn: streetEnValue ? streetEnValue : streetUaValue,
+      city: this.city.value,
+      cityEn: this.cityEn.value
     };
 
     of(true)
@@ -521,11 +529,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       );
     }
 
-    if (this.houseNumber.value) {
-      this.isHouseSelected = true;
-    }
+    this.isHouseSelected = !!this.houseNumber.value;
+    const isFormInvalidFromProfile = !this.addAddressForm.valid && this.data.addFromProfile;
 
-    return !this.addAddressForm.valid || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts;
+    return isFormInvalidFromProfile || this.isDisabled || !this.isHouseSelected || !isValueExistsInDistricts;
   }
 
   public getLangValue(uaValue, enValue): string {
