@@ -136,7 +136,7 @@
         (click)="addNewAddress()"
         [disabled]="addresses.length >= maxAddressLength"
       >
-        {{ 'personal-info.info-add-address' | translate }}
+        {{ (addresses.length === 0 ? 'personal-info.info-add-address' : 'personal-info.info-add-new-address') | translate }}
       </button>
     </div>
   </div>
