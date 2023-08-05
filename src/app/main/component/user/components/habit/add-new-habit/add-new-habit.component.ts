@@ -112,7 +112,8 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private checkIfAssigned(): void {
-    if (this.isEditing) {
+    this.getUserId();
+    if (this.isEditing && this.userId) {
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId, this.currentLang)
         .pipe(take(1))
@@ -130,12 +131,14 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {
-    this.habitService
-      .getHabitsByTagAndLang(page, size, tags, this.currentLang)
-      .pipe(take(1))
-      .subscribe((data: HabitListInterface) => {
-        this.recommendedHabits = data.page;
-      });
+    if (this.userId) {
+      this.habitService
+        .getHabitsByTagAndLang(page, size, tags, this.currentLang)
+        .pipe(take(1))
+        .subscribe((data: HabitListInterface) => {
+          this.recommendedHabits = data.page;
+        });
+    }
   }
 
   private getRecommendedNews(page: number, size: number): void {
