@@ -59,7 +59,7 @@
       <div class="image-container" appDrag (files)="onFilesDropped($event)" *ngFor="let img of images">
         <img class="image-preview" [src]="img.src" alt="image-of-violation" (click)="openImg(img)" />
         <div class="delete-block">
-          <div>{{ img.name | maxImageName }}</div>
+          <div>{{ img.name | maxTextLength }}</div>
           <div class="delete-image-button" (click)="deleteImage(img)">X</div>
         </div>
       </div>
