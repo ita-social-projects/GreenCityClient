@@ -1,10 +1,10 @@
 <div class="container">
   <div>
+    <div *ngIf="amountOfFriends">
+      <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
+    </div>
     <div *ngIf="isPristine">
       <div *ngIf="!searchMode || !isFetching" class="cards-list">
-        <div *ngIf="amountOfFriends">
-          <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
-        </div>
         <div class="cards-box">
           <div *ngFor="let item of recommendedFriends" class="user-card">
             <app-friend-item
@@ -20,9 +20,6 @@
 
     <div *ngIf="!isPristine">
       <div *ngIf="!searchMode || !isFetching" class="cards-list">
-        <div *ngIf="amountOfFriends">
-          <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
-        </div>
         <div class="cards-box">
           <div *ngFor="let item of recommendedFriendsBySearch" class="user-card">
             <app-friend-item

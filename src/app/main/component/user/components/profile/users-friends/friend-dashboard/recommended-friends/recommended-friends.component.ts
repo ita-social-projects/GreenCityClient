@@ -50,7 +50,6 @@ export class RecommendedFriendsComponent implements OnInit {
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
           this.recommendedFriendsBySearch = data.page;
-          console.log('data', data.page);
           this.amountOfFriends = data.totalElements;
           this.isFetching = false;
           this.searchMode = false;
@@ -61,9 +60,6 @@ export class RecommendedFriendsComponent implements OnInit {
           this.searchMode = false;
         }
       );
-
-    console.log('isPristine', this.isPristine);
-    console.log('rec frie', this.recommendedFriendsBySearch);
   }
 
   private deleteFriendsFromList(id, array) {
