@@ -2,7 +2,7 @@ import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { Component, OnDestroy, OnInit, DoCheck, Renderer2, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
@@ -44,23 +44,22 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   displayCert = false;
   onSubmit = true;
   order: {};
-  filters = {
-    additionalOrders: [],
-    certificates: [],
-    certificatesSum: 0,
+  filters: OrderDetails = {
+    bags: [],
     points: 0,
-    pointsSum: 0,
     pointsToUse: 0,
-    comment: '',
-    quantity1: 0,
-    quantity2: 0,
-    quantity3: 0,
-    amountDue: 0,
-    orderAmount: 0
+    certificates: '',
+    additionalOrders: '',
+    orderComment: '',
+    certificatesSum: 0,
+    pointsSum: 0,
+    total: 0,
+    finalSum: 0,
+    minAmountOfBigBags: 0
   };
   bufferArray = {};
   public orderAmount: number;
-  public amountDue = this.filters.amountDue ? this.filters.amountDue : 0;
+  public amountDue: number;
 
   public SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   certificateMask = Masks.certificateMask;
@@ -108,10 +107,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitBySum: boolean;
   public courierLimitValidation: boolean;
   @Output() secondStepDisabledChange = new EventEmitter<boolean>();
-  object1 = {
-    ff: 0,
-    dd: 0
-  };
 
   constructor(
     private fb: FormBuilder,
@@ -130,10 +125,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   ngOnInit(): void {
     this.filters = this.getSessionStorageFilters();
-    console.log(this.filters, 'this.filters');
     this.initForm();
 
-    this.amountDue = this.filters.amountDue ? this.filters.amountDue : 0;
+    this.amountDue = this.filters.total ? this.filters.total : 0;
+    this.orderAmount = this.filters.finalSum ? this.filters.finalSum : 0;
+    this.validateSum();
+
     this.route.queryParams.subscribe((params) => {
       const key = 'isThisExistingOrder';
       this.isThisExistingOrder = !!params[key];
@@ -179,15 +176,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   setValueFromSessionStorage(): void {
-    this.shareFormService.orderDetails.orderComment = this.filters.comment;
-    this.shareFormService.orderDetails.total = this.filters.orderAmount;
-    this.shareFormService.orderDetails.finalSum = this.filters.amountDue;
+    this.shareFormService.orderDetails.orderComment = this.filters.orderComment;
+    this.shareFormService.orderDetails.total = this.filters.total;
+    this.shareFormService.orderDetails.finalSum = this.filters.finalSum;
     this.shareFormService.orderDetails.pointsToUse = this.filters.pointsToUse;
     this.shareFormService.orderDetails.certificates = this.filters.certificates;
     this.shareFormService.orderDetails.additionalOrders = this.filters.additionalOrders;
     this.shareFormService.orderDetails.certificatesSum = this.filters.certificatesSum;
     this.shareFormService.orderDetails.pointsSum = this.filters.pointsSum;
-
     this.shareFormService.changeOrderDetails();
   }
 
@@ -253,7 +249,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      orderComment: new FormControl(this.filters.comment, Validators.maxLength(255)),
+      orderComment: new FormControl(this.filters.orderComment, Validators.maxLength(255)),
       bonus: new FormControl('no'),
       shop: new FormControl('no'),
       formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
@@ -402,29 +398,31 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     });
   }
 
-  changeOrderDetails() {
+  setDataForStorage(): void {
     this.filters.pointsSum = this.pointsUsed;
     this.filters.certificatesSum = this.showCertificateUsed;
-    this.filters.additionalOrders = this.additionalOrders.value ? this.additionalOrders.value : false;
-    this.filters.certificates = this.certificates;
+    this.filters.additionalOrders = this.additionalOrders.value;
+    this.filters.certificates = this.certificates[0];
     this.filters.pointsToUse = this.pointsUsed;
-    this.filters.amountDue = this.finalSum;
-    this.filters.orderAmount = this.finalSum;
-    this.filters.comment = this.orderDetailsForm.value.orderComment;
-    this.orderAmount = this.filters.orderAmount ? this.filters.orderAmount : this.showTotal;
-    this.amountDue = this.filters.amountDue ? this.filters.amountDue : this.finalSum;
+    this.filters.finalSum = this.finalSum;
+    this.filters.total = this.showTotal;
+    this.filters.orderComment = this.orderDetailsForm.value.orderComment;
+    this.orderAmount = this.filters.total ? this.filters.total : this.showTotal;
+    this.amountDue = this.filters.finalSum ? this.filters.finalSum : this.finalSum;
     this.setSessionStorageFilters();
+  }
 
+  changeOrderDetails() {
+    this.setDataForStorage();
     this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
     this.shareFormService.orderDetails.certificates = this.certificates;
-    this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value ? this.additionalOrders.value : false;
+    this.shareFormService.orderDetails.additionalOrders = this.additionalOrders.value;
     this.shareFormService.orderDetails.orderComment = this.orderDetailsForm.value.orderComment;
     this.shareFormService.orderDetails.certificatesSum = this.showCertificateUsed;
     this.shareFormService.orderDetails.pointsSum = this.pointsUsed;
-    this.shareFormService.orderDetails.total = this.filters.orderAmount;
-    this.shareFormService.orderDetails.finalSum = this.filters.amountDue;
+    this.shareFormService.orderDetails.total = this.filters.total;
+    this.shareFormService.orderDetails.finalSum = this.filters.finalSum;
     this.shareFormService.changeOrderDetails();
-    //console.log(this.shareFormService.orderDetails, 'this.shareFormService.orderDetails');
   }
 
   private setSessionStorageFilters(): void {
@@ -458,7 +456,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.bags.forEach((bag) => {
       this.total += bag.price * this.returnBagQuantity(bag.id);
     });
-    this.showTotal = this.total ? this.total : 0;
+    this.showTotal = this.total;
     this.changeForm();
     this.validateSum();
     this.onSubmit = this.displayMinOrderMes || this.displayMaxOrderMes;
@@ -536,12 +534,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     if (this.isBonus === 'yes') {
       this.calculatePoints();
     }
-  }
-
-  setBagsAfterRefresh(): void {
-    this.bags.forEach((bag) => {
-      bag.quantity = this.returnBagQuantity(bag.id);
-    });
   }
 
   calculatePoints(): void {

@@ -304,7 +304,8 @@ describe('OrderDetailsFormComponent', () => {
     const id = 1;
     const value1 = 1;
     const value2 = -1;
-    let formControl = String(component.filters.quantity1);
+    const bagsQuantity = 5;
+    let formControl = String(bagsQuantity);
     const oldValue = formControl;
     const newValue = oldValue + value1;
 
