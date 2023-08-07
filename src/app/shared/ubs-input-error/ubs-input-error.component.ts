@@ -1,7 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { errorType, inputsName } from '@global-user/models/error-type.model';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { inputsName } from '@global-user/models/error-type.model';
+
+enum errorType {
+  email = 'email',
+  pattern = 'pattern',
+  wrongNumber = 'wrongNumber',
+  minlength = 'minlength',
+  maxlength = 'maxlength',
+  required = 'required',
+  newPasswordMatchesOld = 'newPasswordMatchesOld',
+  confirmPasswordMistmatch = 'confirmPasswordMistmatch',
+  requiredFromDropdown = 'requiredFromDropdown'
+}
 
 @Component({
   selector: 'app-ubs-input-error',
@@ -37,7 +49,8 @@ export class UBSInputErrorComponent implements OnInit {
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
-    confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm'
+    confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm',
+    requiredFromDropdown: 'personal-info.required-from-dropdown'
   };
 
   ngOnInit() {
@@ -68,6 +81,9 @@ export class UBSInputErrorComponent implements OnInit {
             break;
           case errorType.confirmPasswordMistmatch:
             this.errorMessage = this.validationErrors.confirmPasswordMistmatch;
+            break;
+          case errorType.requiredFromDropdown:
+            this.errorMessage = this.validationErrors.requiredFromDropdown;
             break;
           default:
             this.errorMessage = this.validationErrors[err];

@@ -156,7 +156,7 @@ export class LocalStorageService {
   }
 
   public setLocationId(currentLocationId: number) {
-    localStorage.setItem('currentLocationId', JSON.stringify(currentLocationId));
+    localStorage.setItem('currentLocationId', String(currentLocationId));
   }
 
   public setLocations(locations: any) {
@@ -164,7 +164,7 @@ export class LocalStorageService {
   }
 
   public setOrderWithoutPayment(value: boolean): void {
-    localStorage.setItem('saveOrderWithoutPayment', JSON.stringify(value));
+    localStorage.setItem('saveOrderWithoutPayment', String(value));
   }
 
   public getOrderWithoutPayment(): any {
@@ -174,7 +174,7 @@ export class LocalStorageService {
   }
 
   public setUbsOrderId(orderId: string | number): void {
-    localStorage.setItem('UbsOrderId', JSON.stringify(orderId));
+    localStorage.setItem('UbsOrderId', String(orderId));
   }
 
   public getUbsOrderId(): any {
@@ -186,11 +186,7 @@ export class LocalStorageService {
   }
 
   public setUbsFondyOrderId(orderId: string | number) {
-    localStorage.setItem('UbsFondyOrderId', JSON.stringify(orderId));
-  }
-
-  public removeOrderWithoutPayment(): void {
-    localStorage.removeItem('saveOrderWithoutPayment');
+    localStorage.setItem('UbsFondyOrderId', String(orderId));
   }
 
   public setUbsBonusesOrderId(orderId: string | number) {
@@ -209,12 +205,16 @@ export class LocalStorageService {
     localStorage.removeItem('UbsFondyOrderId');
   }
 
+  public removeOrderWithoutPayment(): void {
+    localStorage.removeItem('saveOrderWithoutPayment');
+  }
+
   public removeUBSExistingOrderId() {
     localStorage.removeItem('UBSExistingOrderId');
   }
 
   public setUserPagePayment(state: boolean): unknown {
-    return localStorage.setItem('IsUserPagePayment', JSON.stringify(state));
+    return localStorage.setItem('IsUserPagePayment', String(state));
   }
 
   public getUserPagePayment(): string {
@@ -332,7 +332,7 @@ export class LocalStorageService {
   }
 
   public setAddressId(addressId: number): void {
-    JSON.parse(localStorage.getItem('addressId'));
+    localStorage.setItem('addressId', String(addressId));
   }
 
   public getAddressId(): number {

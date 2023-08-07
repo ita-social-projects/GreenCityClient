@@ -11,7 +11,6 @@ import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Locations } from 'src/assets/locations/locations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
@@ -19,6 +18,8 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@global-service/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
+import { Language } from 'src/app/main/i18n/Language';
+import { NotificationPlatform } from '../../ubs/notification-platform.enum';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -36,12 +37,12 @@ describe('UbsUserProfilePageComponent', () => {
         region: 'Kyiv',
         regionEn: 'Kyiv',
         coordinates: { latitude: 0, longitude: 0 },
-        isKyiv: false,
         street: 'Jhohn Lenon',
         streetEn: 'Jhohn Lenon',
         placeId: null,
         searchAddress: null,
-        isHouseSelected: true
+        isHouseSelected: true,
+        addressRegionDistrictList: null
       }
     ],
     recipientEmail: 'blackstar@gmail.com',
@@ -77,18 +78,9 @@ describe('UbsUserProfilePageComponent', () => {
 
   const status = 'OK';
 
-  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', [
-    'getCurrentLanguage',
-    'languageBehaviourSubject',
-    'setFirstName'
-  ]);
+  const fakeLocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageBehaviourSubject']);
   fakeLocalStorageService.getCurrentLanguage = () => 'ua';
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
-
-  const fakeLocationsMockUk = jasmine.createSpyObj('Locations', ['getBigRegions', 'getRegions', 'getRegionsKyiv']);
-  fakeLocationsMockUk.getBigRegions.and.returnValue(ADDRESSESMOCK.REGIONSMOCK);
-  fakeLocationsMockUk.getRegions.and.returnValue(ADDRESSESMOCK.DISTRICTSMOCK);
-  fakeLocationsMockUk.getRegionsKyiv.and.returnValue(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string | AbstractControl, valEn: string | AbstractControl) => {
@@ -103,7 +95,8 @@ describe('UbsUserProfilePageComponent', () => {
     'convFirstLetterToCapital',
     'getFullAddressList',
     'getSearchAddress',
-    'getRequest'
+    'getRequest',
+    'appendDistrictLabel'
   ]);
   fakeLocationServiceMock.getDistrictAuto = () => `Holosiivs'kyi district`;
   fakeLocationServiceMock.convFirstLetterToCapital = () => `Troeshchina`;
@@ -121,7 +114,6 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: MatSnackBarComponent, useValue: snackBarMock },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: Locations, useValue: fakeLocationsMockUk },
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: LocationService, useValue: fakeLocationServiceMock }
       ],
@@ -136,19 +128,8 @@ describe('UbsUserProfilePageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should call "redirectToMessengers" correctly ', () => {
-    component.viberNotification = false;
-    component.telegramNotification = true;
-    const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
-    const goToViberSpy = spyOn(component, 'goToViberUrl');
-    const redirectSpy = spyOn(component, 'redirectToMessengers');
-
-    redirectSpy();
-    goToTelegramSpy();
-
-    expect(redirectSpy).toHaveBeenCalled();
-    expect(goToViberSpy).toHaveBeenCalledTimes(0);
-    expect(goToTelegramSpy).toHaveBeenCalled();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   it('should call "goToTelegramUrl" correctly', () => {
@@ -167,10 +148,6 @@ describe('UbsUserProfilePageComponent', () => {
     clientProfileServiceMock.postDataClientProfile(userProfileDataMock).subscribe((data) => {
       expect(component.isFetching).toBeFalsy();
     });
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('method ngOnInit should call getUserData', () => {
@@ -199,6 +176,24 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.userInit).toHaveBeenCalled();
   });
 
+  it('method onCancel should be called by clicking cancel button', fakeAsync(() => {
+    component.isEditing = true;
+    fixture.detectChanges();
+    spyOn(component, 'onCancel');
+    const cancelButton = fixture.debugElement.query(By.css('.submit-btns .ubs-secondary-global-button')).nativeElement;
+    cancelButton.click();
+    tick();
+    expect(component.onCancel).toHaveBeenCalled();
+  }));
+
+  it('method openDeleteProfileDialog should be calls by clicking delete button', fakeAsync(() => {
+    spyOn(component, 'openDeleteProfileDialog');
+    const deleteButton = fixture.debugElement.query(By.css('.header-buttons .ubs-danger-global-button')).nativeElement;
+    deleteButton.click();
+    tick();
+    expect(component.openDeleteProfileDialog).toHaveBeenCalled();
+  }));
+
   it('method onCancel should call userInit method', () => {
     component.isEditing = true;
     const spy = spyOn(component, 'userInit');
@@ -224,6 +219,14 @@ describe('UbsUserProfilePageComponent', () => {
     expect(matDialogRefMock.afterClosed).toHaveBeenCalled();
   });
 
+  it('method openChangePasswordDialog should calls by clicking open button', fakeAsync(() => {
+    spyOn(component, 'openChangePasswordDialog');
+    const openButton = fixture.debugElement.query(By.css('.header-buttons .ubs-secondary-global-button')).nativeElement;
+    openButton.click();
+    tick();
+    expect(component.openChangePasswordDialog).toHaveBeenCalled();
+  }));
+
   it('method openChangePasswordDialog has to open popup', () => {
     spyOn(dialogMock, 'open').and.callFake(() => {});
     component.openChangePasswordDialog();
@@ -245,9 +248,6 @@ describe('UbsUserProfilePageComponent', () => {
     component.onEdit();
     expect(component.isEditing).toEqual(true);
     expect(component.isFetching).toEqual(false);
-    expect(component.regions).toBe(ADDRESSESMOCK.REGIONSMOCK);
-    expect(component.districtsKyiv).toBe(ADDRESSESMOCK.DISTRICTSKYIVMOCK);
-    expect(component.districts).toBe(ADDRESSESMOCK.DISTRICTSMOCK);
     expect(spy1).toHaveBeenCalled();
     tick();
     fixture.detectChanges();
@@ -304,6 +304,9 @@ describe('UbsUserProfilePageComponent', () => {
         }
       ]
     };
+
+    delete submitData.addressRegionDistrictList;
+
     expect(submitData).toEqual(userProfileDataMock);
   });
 
@@ -335,7 +338,7 @@ describe('UbsUserProfilePageComponent', () => {
     expect(submitData).not.toEqual(userProfileDataMock);
   });
 
-  it('method onSubmit should return submitData  without housecorpus ', () => {
+  it('method onSubmit should return submitData without housecorpus ', () => {
     let submitData;
     component.toggleAlternativeEmail();
     component.onSubmit();
@@ -367,11 +370,13 @@ describe('UbsUserProfilePageComponent', () => {
       ]
     };
     userProfileDataMock.addressDto[0].houseCorpus = null;
+
     expect(submitData).toEqual(userProfileDataMock);
   });
 
   it('method onSubmit should return submitData  without entrance number ', () => {
     let submitData;
+
     component.toggleAlternativeEmail();
     component.onSubmit();
     submitData = {
@@ -402,6 +407,7 @@ describe('UbsUserProfilePageComponent', () => {
       ]
     };
     userProfileDataMock.addressDto[0].entranceNumber = null;
+
     expect(submitData).toEqual(userProfileDataMock);
   });
 
@@ -435,38 +441,6 @@ describe('UbsUserProfilePageComponent', () => {
       });
     }
   });
-
-  it('method setRegionValue should set value of region', () => {
-    const event = { target: { value: '0: Київська область' } };
-    component.regions = ADDRESSESMOCK.REGIONSMOCK;
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const region = currentFormGroup.get('region');
-    component.setRegionValue(0, event as any);
-    expect(region.value).toEqual('Київська область');
-  });
-
-  it('if value of region was changed other fields should be empty', fakeAsync(() => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const region = currentFormGroup.get('region');
-    region.setValue('Київ');
-    component.regions = ADDRESSESMOCK.REGIONSMOCK;
-    const event = { target: { value: '0: Київська область' } };
-    component.setRegionValue(0, event as any);
-    region.updateValueAndValidity({ emitEvent: true });
-    tick();
-    fixture.detectChanges();
-    expect(currentFormGroup.get('cityEn').value).toBe('');
-    expect(currentFormGroup.get('city').value).toBe('');
-    expect(currentFormGroup.get('districtEn').value).toBe('');
-    expect(currentFormGroup.get('district').value).toBe('');
-    expect(currentFormGroup.get('street').value).toBe('');
-    expect(currentFormGroup.get('streetEn').value).toBe('');
-    expect(currentFormGroup.get('houseNumber').value).toBe('');
-    expect(currentFormGroup.get('entranceNumber').value).toBe('');
-    expect(currentFormGroup.get('houseCorpus').value).toBe('');
-    expect(component.streetPredictionList).toBe(null);
-    expect(component.cityPredictionList).toBe(null);
-  }));
 
   it('method emptyPredictLists should set lists', () => {
     component.emptyPredictLists();
@@ -511,7 +485,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Kyiv`;
-    component.inputCity(fakesearchAddress, regionEn.value, component.languages.en);
+    component.inputCity(fakesearchAddress, regionEn.value, Language.EN);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
@@ -525,7 +499,7 @@ describe('UbsUserProfilePageComponent', () => {
       callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
     });
     const fakesearchAddress = `Київська область, Ше`;
-    component.inputCity(fakesearchAddress, regionEn.value, component.languages.uk);
+    component.inputCity(fakesearchAddress, regionEn.value, Language.UK);
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
   });
 
@@ -541,7 +515,7 @@ describe('UbsUserProfilePageComponent', () => {
     });
 
     const fakesearchAddress = `Київ`;
-    component.inputCity(fakesearchAddress, regionEn.value, component.languages.uk);
+    component.inputCity(fakesearchAddress, regionEn.value, Language.UK);
     expect(component.cityPredictionList).toEqual(result);
   });
 
@@ -601,7 +575,6 @@ describe('UbsUserProfilePageComponent', () => {
   it('method onCitySelected should get details for selected city in uk', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
-    const isKyiv = currentFormGroup.get('isKyiv');
 
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
@@ -609,13 +582,11 @@ describe('UbsUserProfilePageComponent', () => {
     });
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'city');
     expect(city.value).toEqual(ADDRESSESMOCK.PLACEKYIVUK.name);
-    expect(isKyiv.value).toEqual(true);
   });
 
   it('method onCitySelected should set isDistrict if city is not Kyiv', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
-    const isKyiv = currentFormGroup.get('isKyiv');
 
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
@@ -623,7 +594,6 @@ describe('UbsUserProfilePageComponent', () => {
     });
     component.setValueOfCity(ADDRESSESMOCK.KYIVCITYLIST[0], currentFormGroup, 'city');
     expect(city.value).toEqual(ADDRESSESMOCK.PLACECITYUK.name);
-    expect(isKyiv.value).toEqual(false);
   });
 
   it('method setPredictStreets should call method for predicting streets in ua', () => {
@@ -644,6 +614,8 @@ describe('UbsUserProfilePageComponent', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const cityEn = currentFormGroup.get('cityEn');
     const streetEn = currentFormGroup.get('streetEn');
+    const region = currentFormGroup.get('region');
+    const regionEn = currentFormGroup.get('regionEn');
 
     cityEn.setValue('Kyiv');
     streetEn.setValue('Lomo');
@@ -652,7 +624,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'en';
     component.setPredictStreets(0);
     expect(component.streetPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, currentFormGroup, 'en');
+    expect(spy).toHaveBeenCalledWith(searchAddress, currentFormGroup, Language.EN);
   });
 
   it('method inputAddress should invoke getPlacePredictions', () => {
@@ -660,34 +632,30 @@ describe('UbsUserProfilePageComponent', () => {
     component.autocompleteService = { getPlacePredictions: (a, b) => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callThrough();
     const fakesearchAddress = `Kyiv, Lomo`;
-    component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.en);
+    component.inputAddress(fakesearchAddress, currentFormGroup, Language.EN);
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
-    const isKyiv = currentFormGroup.get('isKyiv');
     const city = currentFormGroup.get('city');
-    isKyiv.setValue(true);
     city.setValue('Київ');
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.STREETSKYIVCITYLIST, status as any);
     });
     const fakesearchAddress = `Київ, Сі`;
-    component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.uk);
+    component.inputAddress(fakesearchAddress, currentFormGroup, Language.UK);
     expect(component.streetPredictionList).toEqual(ADDRESSESMOCK.STREETSKYIVCITYLIST);
   });
 
   it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
-    const isKyiv = currentFormGroup.get('isKyiv');
     const city = currentFormGroup.get('city');
     const cityEn = currentFormGroup.get('cityEn');
     const region = currentFormGroup.get('region');
     const regionEn = currentFormGroup.get('regionEn');
 
-    isKyiv.setValue(false);
     city.setValue(`Київська область`);
     cityEn.setValue(`Kyiv Oblast`);
     region.setValue(`Щасливе`);
@@ -699,7 +667,7 @@ describe('UbsUserProfilePageComponent', () => {
     });
 
     const fakesearchAddress = `Щасливе, Не`;
-    component.inputAddress(fakesearchAddress, currentFormGroup, component.languages.uk);
+    component.inputAddress(fakesearchAddress, currentFormGroup, Language.UK);
     expect(component.streetPredictionList).toEqual(result);
   });
 
@@ -729,87 +697,52 @@ describe('UbsUserProfilePageComponent', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const streetEn = currentFormGroup.get('streetEn');
     const districtEn = currentFormGroup.get('districtEn');
-    const isKyiv = currentFormGroup.get('isKyiv');
-    isKyiv.setValue(true);
     const spy = spyOn(component, 'setDistrictAuto');
+
     component.placeService = { getDetails: () => {}, textSearch: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACESTREETEN, status as any);
     });
     component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], currentFormGroup, 'streetEn');
     expect(streetEn.value).toEqual(ADDRESSESMOCK.PLACESTREETEN.name);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETEN, districtEn, component.languages.en);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETEN, Language.EN, currentFormGroup);
   });
 
-  it('method onStreetSelected should get details for selected street in uk', () => {
+  it('method onStreetSelected should get details for selected street in UK', () => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const street = currentFormGroup.get('street');
     const district = currentFormGroup.get('district');
-    const isKyiv = currentFormGroup.get('isKyiv');
-    isKyiv.setValue(true);
 
     const spy = spyOn(component, 'setDistrictAuto');
     component.placeService = { getDetails: () => {} } as any;
     spyOn(component.placeService, 'getDetails').and.callFake((request, callback) => {
       callback(ADDRESSESMOCK.PLACESTREETUK, status as any);
     });
+
     component.setValueOfStreet(ADDRESSESMOCK.STREETSKYIVCITYLIST[0], currentFormGroup, 'street');
+
     expect(street.value).toEqual(ADDRESSESMOCK.PLACESTREETUK.name);
-    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETUK, district, component.languages.uk);
-  });
-
-  it('method setDistrictAuto should set district value in uk', () => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const district = currentFormGroup.get('district');
-    const result = ADDRESSESMOCK.PLACESTREETEN.address_components[1].long_name;
-    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETUK, district, component.languages.uk);
-    expect(district.value).toEqual(result);
-  });
-
-  it('method setDistrictAuto should set district value in en', () => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const districtEn = currentFormGroup.get('districtEn');
-    const result = `Holosiivs'kyi district`;
-    component.setDistrictAuto(ADDRESSESMOCK.PLACESTREETEN, districtEn, component.languages.en);
-    expect(districtEn.value).toEqual(result);
-  });
-
-  it('method onDistrictSelected should invoke method for setting district value in Kyiv city', () => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const isKyiv = currentFormGroup.get('isKyiv');
-    isKyiv.setValue(true);
-    const event = { target: { value: '1: Дарницький район' } };
-    const spy = spyOn(component, 'setKyivDistrict');
-    component.onDistrictSelected(0, event as any);
-    expect(spy).toHaveBeenCalledWith('1', currentFormGroup);
-  });
-
-  it('method onDistrictSelected should invoke method for setting district value in Kyiv region', () => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const isKyiv = currentFormGroup.get('isKyiv');
-    isKyiv.setValue(false);
-    const event = { target: { value: '1: Броварський' } };
-    const spy = spyOn(component, 'setDistrict');
-    component.onDistrictSelected(0, event as any);
-    expect(spy).toHaveBeenCalledWith('1', currentFormGroup);
-  });
-
-  it('method setKyivDistrict should set district value in Kyiv city', () => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const district = currentFormGroup.get('district');
-    component.setKyivDistrict('1', currentFormGroup);
-    expect(district.value).toEqual(ADDRESSESMOCK.DISTRICTSKYIVMOCK[1].name);
-  });
-
-  it('method setDistrict should set district value in Kyiv region', () => {
-    const currentFormGroup = component.userForm.controls.address.get('0');
-    const district = currentFormGroup.get('district');
-    component.setDistrict('1', currentFormGroup);
-    expect(district.value).toEqual(ADDRESSESMOCK.DISTRICTSMOCK[1].name);
+    expect(spy).toHaveBeenCalledWith(ADDRESSESMOCK.PLACESTREETUK, Language.UK, currentFormGroup);
   });
 
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  describe('onSwitchChanged method', () => {
+    it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
+      spyOn(component, 'goToTelegramUrl');
+      component.onSwitchChanged(NotificationPlatform.telegramNotification);
+
+      expect(component.goToTelegramUrl).toHaveBeenCalled();
+    });
+
+    it('should toggle viberIsNotify and call goToViberUrl when id is viberNotification', () => {
+      spyOn(component, 'goToViberUrl');
+      component.onSwitchChanged(NotificationPlatform.viberNotification);
+
+      expect(component.goToViberUrl).toHaveBeenCalled();
+    });
   });
 });

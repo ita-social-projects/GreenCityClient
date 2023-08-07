@@ -5,9 +5,27 @@
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <select [formControlName]="getLangValue('region', 'regionEn')" class="shadow-none form-control">
-      <option *ngFor="let reg of bigRegions" selected>{{ reg.regionName }}</option>
-    </select>
+    <input
+      id="regionInput"
+      [formControlName]="getLangValue('region', 'regionEn')"
+      class="shadow-none form-control"
+      (input)="setPredictRegions()"
+      matInput
+      [matAutocomplete]="autoRegion"
+    />
+    <mat-autocomplete #autoRegion="matAutocomplete">
+      <mat-option
+        class="autocomplete-dropdown"
+        *ngFor="let region of regionPredictionList"
+        [value]="region.description"
+        (onSelectionChange)="onRegionSelected(region)"
+      >
+        {{ region.description }}
+      </mat-option>
+    </mat-autocomplete>
+    <div *ngIf="isErrorMessageShown(region, regionEn)">
+      <app-ubs-input-error [formElement]="getLangValue(region, regionEn)"></app-ubs-input-error>
+    </div>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-city' | translate }}</label>
@@ -15,7 +33,7 @@
       id="cityInput"
       [formControlName]="getLangValue('city', 'cityEn')"
       class="shadow-none form-control"
-      (keyup)="setPredictCities()"
+      (input)="setPredictCities()"
       matInput
       [matAutocomplete]="autoCity"
     />
@@ -24,21 +42,15 @@
         class="autocomplete-dropdown"
         *ngFor="let cityName of cityPredictionList"
         [value]="cityName.description"
-        (click)="onCitySelected(cityName)"
+        (onSelectionChange)="onCitySelected(cityName)"
       >
         {{ cityName.description }}
       </mat-option>
     </mat-autocomplete>
-    <div
-      class="validation"
-      *ngIf="
-        addAddressForm.get(this.getLangValue('city', 'cityEn')).invalid && addAddressForm.get(this.getLangValue('city', 'cityEn')).touched
-      "
-    >
+    <div *ngIf="isErrorMessageShown(city, cityEn)">
       <app-ubs-input-error [formElement]="getLangValue(city, cityEn)"></app-ubs-input-error>
     </div>
   </div>
-
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
     <label>{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
@@ -47,7 +59,7 @@
       type="text"
       class="shadow-none form-control"
       placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
-      (keyup)="setPredictStreets()"
+      (input)="setPredictStreets()"
       matInput
       [matAutocomplete]="autoStreet"
     />
@@ -56,18 +68,12 @@
         class="autocomplete-dropdown"
         *ngFor="let streetName of streetPredictionList"
         [value]="streetName.description"
-        (click)="onStreetSelected(streetName)"
+        (onSelectionChange)="onStreetSelected(streetName)"
       >
         {{ streetName.description }}
       </mat-option>
     </mat-autocomplete>
-    <div
-      class="validation"
-      *ngIf="
-        addAddressForm.get(this.getLangValue('street', 'streetEn')).invalid &&
-        addAddressForm.get(this.getLangValue('street', 'streetEn')).touched
-      "
-    >
+    <div *ngIf="isErrorMessageShown(street, streetEn)">
       <app-ubs-input-error [formElement]="getLangValue(street, streetEn)"></app-ubs-input-error>
     </div>
   </div>
@@ -79,7 +85,7 @@
         type="text"
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
-        (keyup)="setPredictHouseNumbers()"
+        (input)="setPredictHouseNumbers()"
         (focusout)="checkHouseInput()"
         matInput
         [matAutocomplete]="autoHouse"
@@ -89,7 +95,7 @@
           class="autocomplete-dropdown"
           *ngFor="let house of housePredictionList"
           [value]="house.structured_formatting.main_text"
-          (click)="onHouseSelected(house)"
+          (onSelectionChange)="onHouseSelected(house)"
         >
           {{ house.structured_formatting.main_text }}
         </mat-option>
@@ -126,21 +132,10 @@
 
   <div class="col-md-6 col-sm-6 form-group">
     <label>{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select
-      *ngIf="!isDistrict"
-      [formControlName]="getLangValue('district', 'districtEn')"
-      class="shadow-none form-control"
-      (change)="onDistrictSelected($event)"
-    >
-      <option *ngFor="let region of regions" [ngValue]="region.name">{{ region.name }}</option>
-    </select>
-    <select
-      *ngIf="isDistrict"
-      [formControlName]="getLangValue('district', 'districtEn')"
-      class="shadow-none form-control"
-      (change)="onDistrictSelected($event)"
-    >
-      <option *ngFor="let region of regionsKyiv" [ngValue]="region.name">{{ region.name }}</option>
+    <select [formControlName]="getLangValue('district', 'districtEn')" class="shadow-none form-control" (change)="onDistrictSelected()">
+      <option *ngFor="let district of districtList" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
+        {{ getLangValue(district.nameUa, district.nameEn) }}
+      </option>
     </select>
     <div
       class="validation"
@@ -164,20 +159,15 @@
     </div>
   </div>
 </form>
-<div class="d-flex justify-content-end buttons" mat-dialog-actions>
-  <button *ngIf="data.edit" class="delete-employee" (click)="deleteAddress()" [disabled]="isDisabled">
-    <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
+<div class="buttons" mat-dialog-actions>
+  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()" [disabled]="isDisabled">
     <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
     {{ 'personal-info.pop-up-delete' | translate }}
   </button>
-  <button class="secondary-global-button btn m-0 mr-2" mat-button (click)="onNoClick()">
+  <button class="ubs-secondary-global-button m-btn" (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
-  <button
-    class="ubs-primary-global-button m-btn"
-    (click)="addAdress()"
-    [disabled]="!addAddressForm.valid || isDisabled || !isHouseSelected"
-  >
+  <button class="ubs-primary-global-button m-btn" (click)="addAdress()" [disabled]="isSubmitBtnDisabled()">
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>
