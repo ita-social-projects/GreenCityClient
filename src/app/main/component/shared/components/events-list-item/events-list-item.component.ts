@@ -276,9 +276,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   addToFavourite() {
-    this.bookmarkSelected = !this.bookmarkSelected;
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
+    } else {
+      this.bookmarkSelected = !this.bookmarkSelected;
     }
 
     const sendEventDto = {
@@ -293,14 +294,22 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
-      data: {
-        popUpName: page
-      }
-    });
+    this.dialog
+      .open(AuthModalComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        panelClass: ['custom-dialog-container'],
+        data: {
+          popUpName: page
+        }
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.isRegistered = !!result;
+        if (this.isRegistered) {
+          this.addToFavourite();
+        }
+      });
   }
 
   ngOnDestroy(): void {
