@@ -446,28 +446,6 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  it('should check weather title which length is shorter than 40 characters cut correctly', () => {
-    component.event.title = 'title';
-    expect(component.cutTitle()).toEqual('title');
-  });
-
-  it('should check weather title which length is longer than 30 characters cut correctly', () => {
-    component.event.title = '40 characters long title has to be cut as it is to long';
-    const newTitle = component.event.title.slice(0, 30) + '...';
-    expect(component.cutTitle()).toEqual(newTitle);
-  });
-
-  it('should check weather description which length is shorter than 40 characters cut correctly', () => {
-    component.event.description = 'description';
-    expect(component.cutDescription()).toEqual('description');
-  });
-
-  it('should check weather description which length is longer than 90 characters cut correctly', () => {
-    component.event.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos exercitationem fugiat incidunt';
-    const newDescription = component.event.description.slice(0, 90) + '...';
-    expect(component.cutDescription()).toEqual(newDescription);
-  });
-
   describe('ngOnDestroy', () => {
     it('should unsubscribe of language change', () => {
       component.langChangeSub = of(true).subscribe();

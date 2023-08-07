@@ -32,13 +32,13 @@ export class AllFriendsComponent implements OnInit {
 
   ngOnInit() {
     this.initUser();
-    this.getAllFriends(this.userId, this.currentPage);
+    this.getAllFriends(this.currentPage);
   }
 
-  public getAllFriends(userId: number, currentPage: number) {
+  public getAllFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
-      .getAllFriends(userId, currentPage)
+      .getAllFriendsAndByName('', currentPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -60,7 +60,7 @@ export class AllFriendsComponent implements OnInit {
     this.searchQuery = value;
     this.searchMode = true;
     this.userFriendsService
-      .findFriendByName(value)
+      .getAllFriendsAndByName(value)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -89,7 +89,7 @@ export class AllFriendsComponent implements OnInit {
     this.scroll = true;
     if (this.currentPage < this.totalPages) {
       this.currentPage += 1;
-      this.getAllFriends(this.userId, this.currentPage);
+      this.getAllFriends(this.currentPage);
     }
   }
 

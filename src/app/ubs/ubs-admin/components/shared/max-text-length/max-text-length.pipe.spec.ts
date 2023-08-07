@@ -1,19 +1,19 @@
-import { MaxImageNamePipe } from './max-image-name.pipe';
+import { MaxTextLengthPipe } from './max-text-length.pipe';
 
-describe('MaxImageNamePipe', () => {
-  const pipe = new MaxImageNamePipe();
+describe('MaxTextLengthPipe', () => {
+  const pipe = new MaxTextLengthPipe();
 
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 
   describe('transform', () => {
-    it(`imageName less than maxImgNameLength`, () => {
+    it(`textName less than MaxTextLengthPipe`, () => {
       const result = pipe.transform('lessThan15');
       expect(result).toBe('lessThan15');
     });
 
-    it(`imageName more than maxImgNameLength`, () => {
+    it(`textName more than MaxTextLengthPipe`, () => {
       const result = pipe.transform('moreThanFifteen!!!');
       expect(result).toBe('moreThanFifteen...');
     });
