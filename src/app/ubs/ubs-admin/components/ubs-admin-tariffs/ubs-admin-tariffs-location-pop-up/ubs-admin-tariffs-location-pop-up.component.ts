@@ -193,14 +193,6 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     });
   }
 
-  translate(sourceText: string, input: any): void {
-    const lang = this.getLangValue(Language.UK, Language.EN);
-    const translateTo = this.getLangValue(Language.EN, Language.UK);
-    this.tariffsService.getJSON(sourceText, lang, translateTo).subscribe((data) => {
-      input.setValue(data[0][0][0]);
-    });
-  }
-
   public addCity(): void {
     if (this.location.value && this.englishLocation.value && !this.cities.includes(this.location.value) && this.citySelected) {
       const uaLocation = this.getLangValue(this.location.value, this.englishLocation.value);
@@ -296,11 +288,16 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   addEventToAutocomplete(): void {
     this.autocompleteLsr = this.autocomplete.addListener('place_changed', () => {
       this.citySelected = true;
-      const locationName = this.autocomplete.getPlace().name;
       this.currentLatitude = this.autocomplete.getPlace().geometry.location.lat();
       this.currentLongitude = this.autocomplete.getPlace().geometry.location.lng();
-      this.location.setValue(locationName);
-      this.translate(locationName, this.englishLocation);
+
+      const placeId = this.autocomplete.getPlace().place_id;
+      const languages = {
+        current: this.currentLang === Language.UA ? Language.UK : Language.EN,
+        opposite: this.currentLang === Language.UA ? Language.EN : Language.UK
+      };
+      this.setTranslation(placeId, this.location, languages.current);
+      this.setTranslation(placeId, this.englishLocation, languages.opposite);
     });
   }
 
