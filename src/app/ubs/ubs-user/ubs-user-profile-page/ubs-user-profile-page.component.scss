@@ -1,58 +1,17 @@
-$btnblackcol: #1d2830;
-$whitecol: white;
 $inputwidth: 260px;
 
 @mixin turnoffboxshadow {
   box-shadow: none;
 }
 
-@mixin btnstyle {
-  width: 168px;
-  height: 36px;
-  font-family: var(--ubs-quaternary-font);
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.input-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 325px;
-
-  .reset-button {
-    border: none;
-    background-color: transparent;
-    position: absolute;
-    left: 290px;
-
-    img {
-      height: 12px;
-    }
-  }
-}
-
-.ubs-profile-container {
+.ubs_profile-container {
   font-family: var(--primary-font);
   font-size: 0.9em;
+  max-width: 1200px;
   display: flex;
-  padding-left: 36px;
-  margin-bottom: 64px;
-  min-width: 880px;
-
-  .profile-box {
-    display: flex;
-    width: 880px;
-
-    .column-box {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-  }
+  justify-content: center;
+  margin-bottom: 100px;
+  margin-top: 19px;
 
   .ubs_profile-header {
     width: 100%;
@@ -64,69 +23,10 @@ $inputwidth: 260px;
       justify-content: space-between;
 
       .header-buttons {
-        margin: 0 0 30px 0;
-      }
-
-      .open {
-        @include btnstyle;
-
-        color: $btnblackcol;
-        border-color: $btnblackcol;
-      }
-
-      .open:hover {
-        background-color: #eff0f1;
-        border-color: var(--ubs-quaternary-dark-grey);
-      }
-
-      .open:active {
-        @include turnoffboxshadow;
-      }
-
-      .open:not(:disabled):not(.disabled):active {
-        background-color: $whitecol;
-
-        @include turnoffboxshadow;
-      }
-
-      .delete {
-        @include btnstyle;
-
-        color: var(--ubs-primary-red);
-        border: none;
-      }
-
-      .delete:hover {
-        background-color: $whitecol;
-        border-color: $whitecol;
-      }
-
-      .delete:active {
-        box-shadow: none;
-        background-color: $whitecol;
+        display: flex;
+        margin: 0 0 30px 30px;
       }
     }
-  }
-
-  .checkmark {
-    top: 5px;
-    left: 4px;
-    height: 16px;
-    width: 16px;
-    margin-right: 10px;
-    background-color: var(--ubs-primary-white);
-    border-radius: 50%;
-    border: 1px solid var(--ubs-quaternary-dark-grey);
-
-    &::after {
-      content: '';
-      position: absolute;
-      display: none;
-    }
-  }
-
-  .custom-radio input[name='address'] {
-    accent-color: var(--ubs-freinacht-black);
   }
 
   .alert-data-message {
@@ -135,13 +35,12 @@ $inputwidth: 260px;
   }
 
   .input-group {
-    background-color: $whitecol;
-    padding: 20px;
+    background-color: var(--ubs-primary-white);
+    padding: 44px;
     box-shadow: 4px 4px 10px rgba(151, 151, 151, 0.3);
     border-radius: 10px;
 
     form {
-      margin-left: 40px;
       width: 100%;
     }
   }
@@ -159,34 +58,37 @@ $inputwidth: 260px;
     border: 1px solid var(--ubs-error-ligh-red);
   }
 
-  button {
-    font-family: var(--secondary-font);
+  .marg-btn {
+    margin: 26px 30px 0 0;
   }
 
-  .btn-ubs-outline-success {
-    color: var(--ubs-button-light-green);
-    border-color: var(--ubs-button-light-green);
-  }
-
-  .edit {
-    @include btnstyle;
-
-    background-color: var(--ubs-button-light-green);
-    color: var(--ubs-quaternary-dark-grey);
-    border: none;
-  }
-
-  .margbtn {
-    margin: 26px 30px 20px 0;
-  }
-
-  .h5MarginBottom {
+  .h5-margin-bottom {
     margin: 0 0 14px 0;
     padding: 0;
   }
 
-  .h5MarginTop {
+  .address-header {
+    display: flex;
+    align-items: center;
     margin: 28px 0 14px 0;
+
+    .address-header__title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .address-header__default {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ubs-secondary-grey);
+      border-left: 1px solid var(--ubs-secondary-grey);
+      padding-left: 10px;
+      margin-left: 10px;
+    }
+  }
+
+  .localization {
+    width: 210px;
   }
 
   h5 {
@@ -197,8 +99,9 @@ $inputwidth: 260px;
 
   h3 {
     font-weight: bold;
-    color: $btnblackcol;
+    color: var(--ubs-quaternary-dark-grey);
     margin-bottom: 30px;
+    margin-left: 30px;
     width: 250px;
   }
 
@@ -207,26 +110,17 @@ $inputwidth: 260px;
     align-items: center;
     width: 300px;
 
-    .btn-alternative-email {
+    .s-link {
       margin: 14px 0 22px 0;
-      padding: 0;
-      font-family: var(--primary-font);
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.1px;
-      color: var(--ubs-dark-purple);
-      border: none;
-      background-color: #fff;
     }
   }
 
   .form-group {
     p {
       padding: 0 13px 0 0;
-      color: $btnblackcol;
+      color: var(--ubs-quaternary-dark-grey);
       font-size: 16px;
+      margin-bottom: 1px;
     }
   }
 
@@ -242,7 +136,7 @@ $inputwidth: 260px;
     }
 
     .form-control {
-      background-color: $whitecol;
+      background-color: var(--ubs-primary-white);
     }
 
     .recipientName {
@@ -279,7 +173,7 @@ $inputwidth: 260px;
     }
 
     label {
-      margin-bottom: 0;
+      margin-bottom: 10px;
       padding: 0;
       color: var(--ubs-secondary-grey);
       font-family: var(--primary-font);
@@ -300,45 +194,7 @@ $inputwidth: 260px;
     flex-direction: row;
     flex-wrap: wrap;
     padding-top: 53px;
-
-    button {
-      width: 163px;
-      height: 36px;
-      border-radius: 4px;
-      font-family: var(--ubs-quaternary-font);
-      font-style: normal;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: 0.1px;
-      margin: 0 30px 30px 0;
-    }
-
-    .save {
-      background-color: var(--ubs-button-light-green);
-      color: $btnblackcol;
-      border: none;
-
-      &:hover {
-        background-color: var(--ubs-button-dark-green);
-      }
-    }
-
-    .cancel {
-      background-color: $whitecol;
-      color: $btnblackcol;
-      border-color: $btnblackcol;
-
-      &:hover {
-        background: var(--ubs-quaternary-light-grey);
-      }
-    }
-  }
-
-  button:disabled {
-    background-color: var(--ubs-primary-grey);
-    border: 1px solid var(--ubs-primary-grey);
-    color: var(--ubs-primary-white);
+    gap: 30px;
   }
 
   .ubs_profile-footer {
@@ -365,8 +221,89 @@ $inputwidth: 260px;
 .delete-address {
   display: flex;
   flex-direction: column;
+  margin-left: auto;
+  order: 2;
+  margin-right: 60px;
+}
+
+.checkmark {
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 15px;
+  margin-right: 10px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio {
+  align-items: center;
+}
+
+.custom-radio input[name='address'] {
+  accent-color: var(--ubs-freinacht-black);
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-left: 180px;
+  align-items: center;
+  width: 325px;
+
+  .reset-button {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    left: 290px;
+
+    img {
+      height: 12px;
+    }
+  }
+}
+
+@media (max-width: 1439px) {
+  .ubs_profile-container {
+    max-width: 800px;
+
+    .delete-address {
+      margin-left: auto;
+      order: 2;
+      margin-right: 20px;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .ubs_profile-footer {
+    .footer-btns {
+      padding-right: 26px;
+    }
+  }
+
+  .delete-address {
+    margin-left: auto;
+    order: 2;
+    margin-right: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ubs_profile-header {
+    margin-left: 20px;
+  }
+
+  .ubs_profile-container .input-group {
+    padding: 0;
+  }
 }
 
 .checkbox-wrapper {
@@ -402,50 +339,9 @@ $inputwidth: 260px;
   line-height: 24px;
 }
 
-.custom-radio {
-  align-items: center;
-}
-
 .alert-mess {
   width: 325px;
   font-size: 12px;
   line-height: 16px;
   color: #444e55;
-}
-
-@media (max-width: 1439px) {
-  .delete-address {
-    margin-left: 5px;
-  }
-
-  .ubs-profile-container {
-    padding: 0;
-    min-width: auto;
-
-    .profile-box {
-      width: 100%;
-    }
-  }
-}
-
-@media (max-width: 992px) {
-  .ubs_profile-footer {
-    .footer-btns {
-      padding-right: 26px;
-    }
-  }
-
-  .delete-address {
-    margin-left: 30px;
-  }
-}
-
-@media (max-width: 600px) {
-  .ubs_profile-header {
-    margin-left: 20px;
-  }
-
-  .ubs-profile-container .input-group {
-    padding: 0;
-  }
 }

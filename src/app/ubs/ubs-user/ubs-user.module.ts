@@ -32,6 +32,7 @@ import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-use
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-switcher.component';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { UbsSwitcherComponent } from './ubs-user-profile-page/ubs-switcher/ubs-s
     FormsModule,
     NgxPaginationModule,
     InfiniteScrollModule,
+    GooglePlaceModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

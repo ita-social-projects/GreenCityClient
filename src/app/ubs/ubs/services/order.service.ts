@@ -1,10 +1,10 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AddressData, AllLocationsDtos, CourierLocations } from '../models/ubs.interface';
+import { Address, AddressData, AllLocationsDtos, CourierLocations, ActiveCourierDto, DistrictEnum } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ICertificateResponse, OrderDetails, ActiveCourierDto } from '../models/ubs.interface';
+import { tap, map } from 'rxjs/operators';
+import { ICertificateResponse, OrderDetails, DistrictsDtos } from '../models/ubs.interface';
 import { environment } from '@environment/environment.js';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -31,6 +31,7 @@ export class OrderService {
     }
     const param1 = locationId ? `?locationId=${locationId}` : '';
     const param2 = tariffId ? `tariffId=${tariffId}` : '';
+
     return this.http
       .get<OrderDetails>(`${this.url}/order-details-for-tariff${param1}&${param2}`)
       .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
@@ -78,10 +79,6 @@ export class OrderService {
     return this.http.post<{ addressList: Address[] }>(`${this.url}/save-order-address`, adress);
   }
 
-  setActualAddress(adressId: number): Observable<any> {
-    return this.http.patch(`${this.url}/makeAddressActual/${adressId}`, null);
-  }
-
   updateAdress(adress: Address): Observable<any> {
     return this.http.put<{ addressList: Address[] }>(`${this.url}/update-order-address`, adress);
   }
@@ -94,8 +91,30 @@ export class OrderService {
     return this.http.get<{ addressList: Address[] }>(`${this.url}/findAll-order-address`);
   }
 
+  findAllDistricts(region: string, city: string): Observable<DistrictsDtos[]> {
+    return this.http.get<DistrictsDtos[]>(`${this.url}/get-all-districts?city=${city}&region=${region}`).pipe(
+      map((districts) => {
+        if (districts.length > 1) {
+          return districts.map((item) => ({
+            nameUa: item.nameUa + DistrictEnum.UA,
+            nameEn: item.nameEn + DistrictEnum.EN
+          }));
+        } else {
+          return districts.map((item) => ({
+            nameUa: item.nameUa,
+            nameEn: item.nameEn
+          }));
+        }
+      })
+    );
+  }
+
   setOrder(order: Order) {
     this.orderSubject.next(order);
+  }
+
+  setActualAddress(adressId: number): Observable<any> {
+    return this.http.patch(`${this.url}/makeAddressActual/${adressId}`, null);
   }
 
   changeShouldBePaid(shouldBePaid: boolean) {
@@ -120,16 +139,13 @@ export class OrderService {
     return throwError(new Error('There is no OrderId!'));
   }
 
-  saveOrderData(): void {
-    this.localStorageService.setOrderWithoutPayment(true);
-  }
-
   getFondyStatus(orderId: string): Observable<any> {
     return this.http.get(`${this.url}/getFondyStatus/${orderId}`);
   }
 
   getLocations(courierId: number, changeLoc?: boolean): Observable<AllLocationsDtos> {
     const changeLocAttr = changeLoc ? '?changeLoc=changeLocation' : '';
+
     return this.http.get<AllLocationsDtos>(`${this.url}/locations/${courierId}${changeLocAttr}`);
   }
 
@@ -161,8 +177,11 @@ export class OrderService {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.orderDetails = null;
     this.shareFormService.personalData = null;
-    this.localStorageService.removeUbsOrderId();
     this.localStorageService.removeUbsFondyOrderId();
     this.shareFormService.saveDataOnLocalStorage();
+  }
+
+  saveOrderData(): void {
+    this.localStorageService.setOrderWithoutPayment(true);
   }
 }
