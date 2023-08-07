@@ -1,5 +1,7 @@
-import { OrderStatus, PaymnetStatus } from '../../order-status.enum';
-import { IOrderInfo, IEmployee } from '../models/ubs-admin.interface';
+import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.interface';
+import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
+import { limitStatus } from '../components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
+import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
 fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
@@ -93,7 +95,8 @@ export const OrderInfoMockedData: IOrderInfo = {
     addressRegion: 'Київська область',
     addressRegionEng: 'Kyiv Oblast',
     addressStreet: 'Січових Стрільців вул',
-    addressStreetEng: 'Sichovyh Streltsyv str'
+    addressStreetEng: 'Sichovyh Streltsyv str',
+    addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK
   },
   addressComment: '',
   amountOfBagsConfirmed: new Map(),
@@ -112,7 +115,7 @@ export const OrderInfoMockedData: IOrderInfo = {
   ],
   courierPricePerPackage: 1,
   courierInfo: {
-    courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
+    courierLimit: limitStatus.limitByAmountOfBag,
     min: 2,
     max: 99
   },
@@ -186,3 +189,11 @@ export const activeCouriersMock = [
     createdBy: 'UBS-Admin Admin'
   }
 ];
+
+export const IPaymentInfoDtoMock: IPaymentInfoDto = {
+  id: 1,
+  currentDate: '2022-02-09',
+  settlementdate: '2022-02-01',
+  amount: 200,
+  receiptLink: 'Enrollment to the bonus account'
+};

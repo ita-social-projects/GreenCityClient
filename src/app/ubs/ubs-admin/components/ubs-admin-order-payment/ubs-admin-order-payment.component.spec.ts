@@ -5,7 +5,7 @@ import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/lo
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
-
+import { ADDRESSESMOCK } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component.spec';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
 
 describe('UbsAdminOrderPaymentComponent', () => {
@@ -134,7 +134,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
       addressRegion: 'Київська область',
       addressRegionEng: 'Київська область',
       addressStreet: 'Січових Стрільців вул',
-      addressStreetEng: 'Січових Стрільців вул'
+      addressStreetEng: 'Січових Стрільців вул',
+      addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK
     },
     addressComment: '',
     amountOfBagsConfirmed: fakeAmountOfBagsConfirmed,
