@@ -169,6 +169,7 @@
     "info-surname": "Surname",
     "info-optionally": "optionally",
     "info-address": "Garbage collection address",
+    "info-no-address": "You have no addresses added. Please add an address.",
     "info-add-address": "Add address",
     "info-add-new-address": "Add another address",
     "info-address-coment": "Comment to the address",
