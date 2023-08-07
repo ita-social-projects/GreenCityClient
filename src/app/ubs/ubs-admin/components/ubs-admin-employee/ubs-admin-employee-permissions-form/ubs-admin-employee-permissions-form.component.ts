@@ -88,6 +88,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   };
 
   isUpdating = false;
+  isDisabled = true;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -127,6 +128,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
 
   isPanelOpen() {
     this.panelToggler = !this.panelToggler;
+  }
+
+  updateAllComplete() {
+    this.isDisabled = false;
   }
 
   savePermissions() {
