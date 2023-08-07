@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 @Component({
   selector: 'app-habits-gallery-view',
@@ -61,8 +62,12 @@ export class HabitsGalleryViewComponent implements OnInit {
   private assignCustomHabit() {
     const defailtItemsIds = [];
     const friendsIdsList = [];
+    const habitAssignProperties: HabitAssignPropertiesDto = {
+      defaultShoppingListItems: defailtItemsIds,
+      duration: this.habit.defaultDuration
+    };
     this.habitAssignService
-      .assignCustomHabit(this.habit.id, this.habit.defaultDuration, defailtItemsIds, friendsIdsList)
+      .assignCustomHabit(this.habit.id, friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
         this.afterHabitWasChanged();

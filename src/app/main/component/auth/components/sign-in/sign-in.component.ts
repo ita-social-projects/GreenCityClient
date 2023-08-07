@@ -194,7 +194,9 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     const getUbsRoleSignIn = this.jwtService.getUserRole();
     const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
     this.jwtService.userRole$.next(getUbsRoleSignIn);
-    this.definitionOfAuthoritiesAndPositions();
+    if (getUbsRoleSignIn !== 'ROLE_USER') {
+      this.definitionOfAuthoritiesAndPositions();
+    }
     this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
   }
 

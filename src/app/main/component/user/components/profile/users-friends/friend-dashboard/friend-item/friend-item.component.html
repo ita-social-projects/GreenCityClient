@@ -18,7 +18,7 @@
         >{{ friend.mutualFriends ? friend.mutualFriends : 0 }} {{ 'profile.friends.mutual-friends' | translate }}</span
       >
     </p>
-    <p class="friend-city">{{ friend.city ? friend.city : ('profile.friends.no-city' | translate) }}</p>
+    <p class="friend-city">{{ friend.city || ('profile.friends.no-city' | translate) }}</p>
   </div>
   <div class="buttons">
     <div class="friend-btn">

@@ -21,6 +21,9 @@ import { DEFAULTHABIT } from '../mocks/habit-assigned-mock';
 import { HABITLIST } from '../mocks/habit-mock';
 import { take } from 'rxjs/operators';
 import { HabitAcquireConfirm } from '../models/habit-warnings';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -55,7 +58,7 @@ describe('AddNewHabitComponent', () => {
   ]);
   fakeHabitAssignService.getHabitByAssignId = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.deleteHabitById = () => of();
-  fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
+  fakeHabitAssignService.assignCustomHabit = () => of();
   fakeHabitAssignService.setHabitStatus = () => of(DEFAULTFULLINFOHABIT);
   fakeHabitAssignService.progressNotificationHasDisplayed = () => of({});
   fakeHabitAssignService.assignHabit = () => of();
@@ -101,7 +104,10 @@ describe('AddNewHabitComponent', () => {
         TranslateModule.forRoot(),
         BrowserAnimationsModule,
         NoopAnimationsModule,
-        MatDialogModule
+        MatDialogModule,
+        BrowserModule,
+        ReactiveFormsModule,
+        FormsModule
       ],
       providers: [
         { provide: MatSnackBarComponent, useValue: matSnackBarMock },
@@ -275,10 +281,11 @@ describe('AddNewHabitComponent', () => {
 
   it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
     const spy = spyOn(component as any, 'afterHabitWasChanged');
-    const paramsMock = { habitId: 1, newDuration: 25, defailtItemsIds: [], friendsIdsList: [] };
+    const habitAssignPropertiesDto: HabitAssignPropertiesDto = { duration: 25, defaultShoppingListItems: [] };
+    const friendsIdsList = [];
     (component as any).assignCustomHabit();
     fakeHabitAssignService
-      .assignCustomHabit(paramsMock.habitId, paramsMock.newDuration, paramsMock.defailtItemsIds, paramsMock.friendsIdsList)
+      .assignCustomHabit(1, friendsIdsList, habitAssignPropertiesDto)
       .pipe(take(1))
       .subscribe(() => {
         expect(spy).toHaveBeenCalledWith('habitAdded');
@@ -287,10 +294,11 @@ describe('AddNewHabitComponent', () => {
 
   it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
     const spy = spyOn(component as any, 'afterHabitWasChanged');
-    const paramsMock = { habitId: 1, newDuration: 25, defailtItemsIds: [], friendsIdsList: [] };
+    const habitAssignPropertiesDto: HabitAssignPropertiesDto = { duration: 25, defaultShoppingListItems: [] };
+    const friendsIdsList = [];
     (component as any).assignCustomHabit();
     fakeHabitAssignService
-      .assignCustomHabit(paramsMock.habitId, paramsMock.newDuration, paramsMock.defailtItemsIds, paramsMock.friendsIdsList)
+      .assignCustomHabit(1, friendsIdsList, habitAssignPropertiesDto)
       .pipe(take(1))
       .subscribe(() => {
         expect(spy).toHaveBeenCalledWith('habitAdded');

@@ -22,6 +22,7 @@ import { HabitAssignInterface } from '../models/interfaces/habit-assign.interfac
 import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.interface';
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -79,7 +80,7 @@ export class AddNewHabitComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location,
-    private userFriendsService: UserFriendsService
+    public userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit() {
@@ -112,7 +113,8 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private checkIfAssigned(): void {
-    if (this.isEditing) {
+    this.getUserId();
+    if (this.isEditing && this.userId) {
       this.habitAssignService
         .getHabitByAssignId(this.habitAssignId, this.currentLang)
         .pipe(take(1))
@@ -130,12 +132,14 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private getRecommendedHabits(page: number, size: number, tags: string[]): void {
-    this.habitService
-      .getHabitsByTagAndLang(page, size, tags, this.currentLang)
-      .pipe(take(1))
-      .subscribe((data: HabitListInterface) => {
-        this.recommendedHabits = data.page;
-      });
+    if (this.userId) {
+      this.habitService
+        .getHabitsByTagAndLang(page, size, tags, this.currentLang)
+        .pipe(take(1))
+        .subscribe((data: HabitListInterface) => {
+          this.recommendedHabits = data.page;
+        });
+    }
   }
 
   private getRecommendedNews(page: number, size: number): void {
@@ -156,7 +160,7 @@ export class AddNewHabitComponent implements OnInit {
         this.initialDuration = data.defaultDuration;
         this.isCustomHabit = data.isCustomHabit;
         if (data.isCustomHabit) {
-          data.customShoppingListItems.forEach((item) => (item.custom = true));
+          data.customShoppingListItems?.forEach((item) => (item.custom = true));
           this.initialShoppingList = data.customShoppingListItems;
         } else {
           this.getStandartShopList();
@@ -233,7 +237,7 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
-        res.customShoppingListItemDto.forEach((item) => (item.custom = true));
+        res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
       });
   }
@@ -275,9 +279,11 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private assignCustomHabit() {
+    this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
+    const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
     this.habitAssignService
-      .assignCustomHabit(this.habitId, this.newDuration, defailtItemsIds, this.friendsIdsList)
+      .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
         this.customShopList.length > 0 ? this.addCustomHabitItems() : this.afterHabitWasChanged('habitAdded');
@@ -316,11 +322,11 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private convertShopLists(): void {
-    this.customShopList.forEach((el) => {
+    this.customShopList?.forEach((el) => {
       delete el.custom;
       delete el.selected;
     });
-    this.standartShopList.forEach((el) => {
+    this.standartShopList?.forEach((el) => {
       delete el.custom;
       delete el.selected;
     });

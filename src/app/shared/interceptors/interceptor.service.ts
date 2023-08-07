@@ -91,7 +91,7 @@ export class InterceptorService implements HttpInterceptor {
             if (error.status !== UNAUTHORIZED) {
               const message =
                 error?.error?.length > 0
-                  ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
+                  ? error?.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
                   : 'Error';
               this.openErrorWindow(message);
               return throwError(error);

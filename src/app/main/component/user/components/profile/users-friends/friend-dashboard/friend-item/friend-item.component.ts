@@ -5,11 +5,13 @@ import { FriendModel } from '@global-user/models/friend.model';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { ChatsService } from 'src/app/chat/service/chats/chats.service';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
+import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 
 @Component({
   selector: 'app-friend-item',
   templateUrl: './friend-item.component.html',
-  styleUrls: ['./friend-item.component.scss']
+  styleUrls: ['./friend-item.component.scss'],
+  providers: [MaxTextLengthPipe]
 })
 export class FriendItemComponent implements OnInit {
   public userId: number;
@@ -33,7 +35,8 @@ export class FriendItemComponent implements OnInit {
     private route: ActivatedRoute,
     private socketService: SocketService,
     private dialog: MatDialog,
-    private chatsService: ChatsService
+    private chatsService: ChatsService,
+    private maxTextLengthPipe: MaxTextLengthPipe
   ) {
     this.userId = +this.route.snapshot.params.userId;
   }
@@ -44,6 +47,7 @@ export class FriendItemComponent implements OnInit {
         this.friend.chatId = chatInfo.chatId;
       }
     });
+    this.friend.city = this.maxTextLengthPipe.transform(this.friend.city);
   }
 
   friendEvent(): void {
