@@ -488,8 +488,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       regionEn: this.addAddressForm.value.regionEn,
       region: this.addAddressForm.value.region,
       searchAddress: this.addAddressForm.value.searchAddress,
-      placeId: this.placeId,
-      streetUa: streetUaValue || streetEnValue,
+      placeId: this.placeId || '',
+      street: streetUaValue || streetEnValue,
       streetEn: streetEnValue || streetUaValue,
       city: this.city.value,
       cityEn: this.cityEn.value
