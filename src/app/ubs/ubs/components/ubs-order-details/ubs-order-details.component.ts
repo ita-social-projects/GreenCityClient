@@ -44,8 +44,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   displayCert = false;
   onSubmit = true;
   order: {};
-  filters: OrderDetails = {
-    bags: [],
+  filters = {
+    quantity1: 0,
+    quantity2: 0,
+    quantity3: 0,
     points: 0,
     pointsToUse: 0,
     certificates: '',
