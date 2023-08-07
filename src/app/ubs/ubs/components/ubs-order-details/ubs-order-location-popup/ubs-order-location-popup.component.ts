@@ -23,7 +23,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   private currentLanguage: string;
   public currentLocation: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public myControl = new FormControl();
+  public myControl = new FormControl('fff');
   public filteredOptions: Observable<any>;
   courierUBS;
   courierUBSName = 'UBS';
@@ -44,6 +44,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   filterOptions(): void {
+    this.myControl.setValue({ locationId: 1, locationName: 'Kyiv, Kyiv Oblast' });
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : value.locationName)),
