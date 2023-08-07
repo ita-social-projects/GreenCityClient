@@ -44,7 +44,7 @@ export class RecommendedFriendsComponent implements OnInit {
     this.isFetching = true;
     this.searchMode = true;
     this.userFriendsService
-      .getNewFriends(this.currentPage, this.sizePage, value)
+      .getNewFriends(value)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -70,7 +70,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public getNewFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
-      .getNewFriends(currentPage)
+      .getNewFriends('', currentPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {

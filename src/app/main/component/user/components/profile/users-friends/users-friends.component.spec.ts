@@ -4,11 +4,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Friend, UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FRIENDS } from '@global-user/mocks/friends-mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
+import { FirstStringWordPipe } from '@pipe/first-string-word/first-string-word.pipe';
 import { Language } from 'src/app/main/i18n/Language';
 
 describe('UsersFriendsComponent', () => {
@@ -24,27 +27,19 @@ describe('UsersFriendsComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
 
-  let profileServiceMock: ProfileService;
-  const userFriends = {
-    amountOfFriends: 30,
-    pagedFriends: {
-      currentPage: 1,
-      page: [],
-      totalElements: 6,
-      totalPages: 1
-    }
-  };
-  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserFriends']);
-  profileServiceMock.getUserFriends = () => of(userFriends);
+  let userFriendsServiceMock: UserFriendsService;
+
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends']);
+  userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [UsersFriendsComponent, CorrectUnitPipe],
+      declarations: [UsersFriendsComponent, CorrectUnitPipe, FirstStringWordPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: ProfileService, useValue: profileServiceMock }
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ]
     }).compileComponents();
   }));
@@ -77,7 +72,7 @@ describe('UsersFriendsComponent', () => {
 
   it('should set message to error message', () => {
     const error = 'Error message';
-    spyOn(profileServiceMock, 'getUserFriends').and.returnValue(throwError(error));
+    spyOn(userFriendsServiceMock, 'getAllFriends').and.returnValue(throwError(error));
     component.showUsersFriends();
     expect(component.noFriends).toBe('Error message');
   });

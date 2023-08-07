@@ -7,7 +7,6 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
@@ -51,11 +50,6 @@ export class ProfileService {
 
   public getEcoPlaces(): Observable<EcoPlaces[]> {
     return this.http.get<EcoPlaces[]>(`${mainLink}favorite_place/`);
-  }
-
-  public getUserFriends(): Observable<UserFriendsInterface> {
-    this.setUserId();
-    return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
   }
 
   public getSocialImage(socialNetwork: string): string {

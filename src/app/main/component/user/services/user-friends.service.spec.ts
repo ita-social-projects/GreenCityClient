@@ -27,28 +27,6 @@ describe('UserFriendsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getSixFriends', () => {
-    it('should return an SixFriendArrayModel', () => {
-      const userFriends = {
-        amountOfFriends: 30,
-        pagedFriends: {
-          currentPage: 1,
-          page: [],
-          totalElements: 6,
-          totalPages: 1
-        }
-      };
-
-      userFriendsService.getSixFriends(4).subscribe((users) => {
-        expect(users.pagedFriends.page.length).toBe(0);
-      });
-
-      const req = httpMock.expectOne(`${userFriendsService.url}user/4/sixUserFriends/`);
-      expect(req.request.method).toBe('GET');
-      req.flush(userFriends);
-    });
-  });
-
   describe('getAllFriends', () => {
     it('should return an FriendArrayModel', () => {
       const recommendedFriends = {
@@ -97,7 +75,7 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getNewFriends(0).subscribe((users) => {
+      userFriendsService.getNewFriends('', 0).subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
@@ -203,7 +181,7 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getNewFriends(0, 10, friends.page[0].name).subscribe((users) => {
+      userFriendsService.getNewFriends(friends.page[0].name, 0, 10).subscribe((users) => {
         expect(users.page.length).toBeGreaterThanOrEqual(2);
       });
 
@@ -213,8 +191,8 @@ describe('UserFriendsService', () => {
     });
   });
 
-  describe('getAllFriendsAndByName', () => {
-    it('should return an object on calling getAllFriendsAndByName', () => {
+  describe('getFriendsByName', () => {
+    it('should return an object on calling getFriendsByName', () => {
       const friends = {
         totalElements: 0,
         totalPages: 0,
@@ -227,7 +205,7 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getAllFriendsAndByName(friends.page[0].name).subscribe((users) => {
+      userFriendsService.getFriendsByName(friends.page[0].name).subscribe((users) => {
         expect(users).toBeTruthy();
       });
 
