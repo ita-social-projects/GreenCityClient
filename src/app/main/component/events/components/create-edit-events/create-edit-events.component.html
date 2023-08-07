@@ -72,18 +72,11 @@
       <div class="textarea-wrapper">
         <div class="title-container">
           <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-          <p
-            [ngClass]="
-              !isPristine ? (eventFormGroup.get('description').invalid ? 'error' : 'textarea-description') : 'textarea-description'
-            "
-          >
+          <p [ngClass]="handleErrorClass('error') || 'textarea-description'">
             {{ 'create-news.content-tooltip' | translate }}
           </p>
         </div>
-        <div
-          [ngClass]="!isPristine ? (eventFormGroup.get('description').invalid ? 'content-error' : 'content') : 'content'"
-          (click)="onClickTextArea()"
-        >
+        <div [ngClass]="handleErrorClass('content-error') || 'content'" (click)="onClickTextArea()">
           <quill-editor
             class="editor"
             ngDefaultControl

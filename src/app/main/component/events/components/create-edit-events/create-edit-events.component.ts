@@ -192,6 +192,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.dates[ind].valid = event;
   }
 
+  public handleErrorClass(errorClassName: string): string {
+    return !this.isPristine && this.eventFormGroup.get('description').invalid && errorClassName;
+  }
+
   public escapeFromCreateEvent(): void {
     this.router.navigate(['/events']);
   }
