@@ -15,7 +15,7 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { takeUntil, take } from 'rxjs/operators';
 import { ProfileService } from '../../../user/components/profile/profile-service/profile.service';
 import { environment } from '@environment/environment';
-import { accounts } from 'google-one-tap';
+import { accounts } from '@types/google-one-tap';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 
