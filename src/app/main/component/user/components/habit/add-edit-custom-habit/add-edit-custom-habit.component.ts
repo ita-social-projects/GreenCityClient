@@ -87,6 +87,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.getHabitTags();
     this.subscribeToLangChange();
     this.previousPath = `/profile/${this.userId}/allhabits`;
+    this.userFriendsService.addedFriends.length = 0;
   }
 
   private getUserId() {
