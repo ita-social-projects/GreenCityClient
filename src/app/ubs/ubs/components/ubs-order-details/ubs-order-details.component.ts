@@ -339,7 +339,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.setCurrentLocation(this.currentLanguage);
       const inputsQuantity = [];
       this.bags.forEach((a) => {
-        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? 0 : a.quantity);
+        inputsQuantity.push(a.quantity ?? 0);
         a.quantity = 0;
       });
       this.bags = this.orders.bags;
