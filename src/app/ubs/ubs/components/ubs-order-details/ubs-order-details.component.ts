@@ -159,13 +159,6 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   public returnBagQuantity(id): number {
-    /*let quantity: number;
-    this.filters.bags.forEach((bag) => {
-      if(bag.id === id) {
-        quantity = bag.quantity;
-      }
-    })
-    return quantity;*/
     return this.filters['quantity' + id] ? this.filters['quantity' + id] : 0;
   }
 
