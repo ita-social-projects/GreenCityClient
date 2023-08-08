@@ -23,7 +23,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   private currentLanguage: string;
   public currentLocation: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public myControl = new FormControl('fff');
+  public myControl = new FormControl();
   public filteredOptions: Observable<any>;
   courierUBS;
   courierUBSName = 'UBS';

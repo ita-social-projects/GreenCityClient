@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { HabitAssignInterface } from '@global-user/components/habit/models/inter
   templateUrl: './one-habit.component.html',
   styleUrls: ['./one-habit.component.scss']
 })
-export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
+export class OneHabitComponent implements OnInit, OnDestroy {
   @Input() habit: HabitAssignInterface;
   currentDate: string;
   showPhoto: boolean;
@@ -52,32 +52,11 @@ export class OneHabitComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
     this.buildHabitDescription();
-    this.habitService
-      .getUserFriendsAttachedToHabit(this.habit.habit.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((message) => {
-        //this.profilePicturePath = message;
-        console.log(message, 'profile picture 1');
-      });
-  }
-
-  ngOnChanges() {
-    this.getFriendsPicturePath();
   }
 
   public goToHabitProfile(): void {
     const userId = localStorage.getItem('userId');
     this.router.navigate([`profile/${userId}/allhabits/edithabit/${this.habit.id}`]);
-  }
-
-  public getFriendsPicturePath(): void {
-    this.habitService
-      .getUserFriendsAttachedToHabit(this.habit.habit.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((message) => {
-        //this.profilePicturePath = message.profilePicturePath;
-        console.log(message, 'profile picture 2');
-      });
   }
 
   public buildHabitDescription(): void {
