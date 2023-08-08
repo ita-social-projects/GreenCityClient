@@ -11,13 +11,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
   let fixture: ComponentFixture<UbsMainPageComponent>;
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
-  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOonYEE';
+  jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId']);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
@@ -80,11 +81,26 @@ describe('UbsMainPageComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
   });
 
-  it('should make expected calls inside redirectToOrder', () => {
-    const spy = spyOn(component, 'getLocations');
+  it('should make expected calls inside redirectToOrder when userId is truthy', () => {
+    (component as any).userId = 333;
+    spyOn(component, 'getLocations').and.stub();
     component.redirectToOrder();
+
     expect(localeStorageServiceMock.setUbsRegistration).toHaveBeenCalledWith(true);
-    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should open auth modal window inside redirectToOrder when userId is falsy', () => {
+    (component as any).userId = null;
+    component.redirectToOrder();
+
+    expect(matDialogMock.open).toHaveBeenCalledWith(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: 'sign-in'
+      }
+    });
   });
 
   describe('findCourierByName', () => {

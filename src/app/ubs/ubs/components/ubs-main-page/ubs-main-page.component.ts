@@ -10,6 +10,7 @@ import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -161,8 +162,23 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   redirectToOrder() {
-    this.localStorageService.setUbsRegistration(true);
-    this.getLocations(this.ubsCourierName);
+    if (this.userId) {
+      this.localStorageService.setUbsRegistration(true);
+      this.getLocations(this.ubsCourierName);
+    } else {
+      this.openAuthModalWindow();
+    }
+  }
+
+  public openAuthModalWindow(): void {
+    this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: 'sign-in'
+      }
+    });
   }
 
   public checkIsAdmin(): boolean {
@@ -171,7 +187,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   findCourierByName(name) {
-    return this.activeCouriers.find((courier) => courier.nameEn.includes(name));
+    return this.activeCouriers?.find((courier) => courier.nameEn.includes(name));
   }
 
   getActiveCouriers() {
