@@ -278,6 +278,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for selecting one city', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     const eventMock = {
       option: {
         value: 'First'
@@ -290,6 +293,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for selecting all cities', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     const eventMock = {
       option: {
         value: 'all'
@@ -504,6 +510,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for filtering card with chosen all cities', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     const eventMock = {
       option: {
         value: 'all'
@@ -519,6 +528,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for filtering card with chosen cities', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     component.locations = [fakeLocations];
     const eventMock = {
       option: {
