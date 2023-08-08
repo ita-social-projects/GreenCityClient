@@ -1191,12 +1191,5 @@
     "сertificate-field-format": "Поле може містити лише числа в форматі хххх-хххх",
     "duration-field-format": "Поле може містити лише числа в від 1 до 12",
     "discount-field-format": "Поле може містити лише числа в форматі від 1 до 999"
-  },
-
-  "homepage": {
-    "notifications": {
-      "title": "Notifi8989ions",
-      "no-notifications": "Unfortunately, no more notifications found"
-    }
   }
 }

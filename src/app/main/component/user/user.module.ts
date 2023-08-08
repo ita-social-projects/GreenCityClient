@@ -86,6 +86,7 @@ import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-w
 import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';
 import { QuillModule } from 'ngx-quill';
 import { UserNotificationsComponent } from './components/profile/user-notifications/user-notifications.component';
+import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { UserNotificationsComponent } from './components/profile/user-notificati
     SetCountComponent,
     HabitsWidgetComponent,
     AddEditCustomHabitComponent,
-    UserNotificationsComponent
+    UserNotificationsComponent,
+    UserNotificationsPopUpComponent
   ],
   imports: [
     NgbModule,
