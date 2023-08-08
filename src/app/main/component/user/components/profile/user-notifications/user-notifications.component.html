@@ -1,6 +1,5 @@
 <div class="container" aria-label="user-notification">
-  <!-- <h1 class="heading">{{ 'homepage.notifications.title' | translate }}</h1> -->
-  <h1 class="heading h5">Notifications</h1>
+  <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
   <div *ngIf="notifications.length" class="filter-search-wrapper d-flex">
     <div class="filter-wrapper d-flex">
       <span class="filter-header h6">Filter by</span>
@@ -16,8 +15,7 @@
     <input class="notification-search" type="text" placeholder="Search" />
   </div>
   <div *ngIf="!notifications.length" class="no-notifications">
-    <!-- <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data> -->
-    <app-no-data [title]="'Unfortunately, no more notifications found'"></app-no-data>
+    <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data>
   </div>
   <div *ngIf="notifications.length">
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">

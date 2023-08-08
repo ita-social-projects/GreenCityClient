@@ -9,8 +9,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./user-notifications-pop-up.component.scss']
 })
 export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
-  limitNotifications = 3;
   private onDestroy$ = new Subject();
+  limitNotifications = 3;
   notifications = [];
   notificationToShow = [];
 
@@ -37,7 +37,7 @@ export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
     this.dialogRef.close({ openAll: true });
   }
 
-  closeDialog(data) {
+  closeDialog(data: { openAll: boolean }) {
     this.dialogRef.close(data);
   }
 

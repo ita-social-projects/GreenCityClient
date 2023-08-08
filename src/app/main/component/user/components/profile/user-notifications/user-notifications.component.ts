@@ -20,7 +20,10 @@ export class UserNotificationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.localStorageService.languageBehaviourSubject.subscribe((lang) => (this.currentLang = lang));
+    this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
+      this.currentLang = lang;
+      this.translate.use(lang);
+    });
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
