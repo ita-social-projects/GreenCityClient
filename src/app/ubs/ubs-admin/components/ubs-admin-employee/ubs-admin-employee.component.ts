@@ -417,10 +417,10 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   transformPositionToSelectedPosition(position: any) {
     return {
-      name: this.getLangValue(position.name.ua, position.name.en),
+      name: this.getLangValue(position.name, position.nameEn),
       id: position.id,
-      englishName: position.name.en,
-      ukrainianName: position.name.ua
+      englishName: position.nameEn,
+      ukrainianName: position.name
     };
   }
 
@@ -517,8 +517,10 @@ export class UbsAdminEmployeeComponent implements OnInit {
       englishName: positionNameEng,
       ukrainianName: positionNameUk
     };
-    if (this.selectedPositions.map((it) => this.getLangValue(it.name, it.nameEn)).includes(newValue)) {
-      this.selectedPositions = this.selectedPositions.filter((item) => this.getLangValue(item.name, item.nameEn) !== newValue);
+    if (this.selectedPositions.map((it) => this.getLangValue(it.ukrainianName, it.englishName)).includes(newValue)) {
+      this.selectedPositions = this.selectedPositions.filter(
+        (item) => this.getLangValue(item.ukrainianName, item.englishName) !== newValue
+      );
     } else {
       this.selectedPositions.push(tempItem);
     }
