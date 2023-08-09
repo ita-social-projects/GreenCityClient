@@ -218,7 +218,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private setErrorMessage(errors: any | null): string {
+  private setErrorMessage(errors: any): string {
     if (errors.error === this.errorUnauthorized) {
       return 'user.auth.sign-in.account-has-been-deleted';
     } else if (errors.message === this.errorUnverifiedEmail) {
