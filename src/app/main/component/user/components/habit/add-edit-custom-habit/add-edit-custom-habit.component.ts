@@ -15,7 +15,8 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { quillConfig } from 'src/app/main/component/events/components/create-edit-events/quillEditorFunc';
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
-
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
@@ -71,7 +72,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private habitService: HabitService
+    private habitService: HabitService,
+    private userFriendsService: UserFriendsService
   ) {
     super(router, dialog);
 
@@ -85,6 +87,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.getHabitTags();
     this.subscribeToLangChange();
     this.previousPath = `/profile/${this.userId}/allhabits`;
+    this.userFriendsService.addedFriends.length = 0;
   }
 
   private getUserId() {
@@ -103,8 +106,19 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     });
   }
 
+  public trimValue(control: AbstractControl): void {
+    control.setValue(control.value.trim());
+  }
+
   getControl(control: string): AbstractControl {
     return this.habitForm.get(control);
+  }
+
+  changeEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.getControl('description').setValue(event.text.trim());
+      this.getControl('description').markAsTouched();
+    }
   }
 
   private subscribeToLangChange(): void {
@@ -143,6 +157,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   goToAllHabits(): void {
+    this.userFriendsService.addedFriends.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
   }
 

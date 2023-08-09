@@ -24,11 +24,13 @@ import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 
 @Component({
   selector: 'app-events-list-item',
   templateUrl: './events-list-item.component.html',
-  styleUrls: ['./events-list-item.component.scss']
+  styleUrls: ['./events-list-item.component.scss'],
+  providers: [MaxTextLengthPipe]
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
@@ -38,6 +40,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
+
+  public title: string;
+  public description: string;
 
   public rate: number;
   public author: string;
@@ -101,12 +106,15 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private store: Store,
     private eventService: EventsService,
     private translate: TranslateService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private maxTextLengthPipe: MaxTextLengthPipe
   ) {}
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
+    this.title = this.maxTextLengthPipe.transform(this.event.title, 30);
+    this.description = this.maxTextLengthPipe.transform(this.event.description, 90);
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.subscribeToLangChange();
@@ -256,16 +264,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  cutTitle(): string {
-    const maxTitleLength = 30;
-    return this.event.title.length > 40 ? this.event.title.slice(0, maxTitleLength) + '...' : this.event.title;
-  }
-
-  cutDescription(): string {
-    const maxDescriptionLength = 90;
-    return this.event.description.length > 90 ? this.event.description.slice(0, maxDescriptionLength) + '...' : this.event.description;
-  }
-
   getAllAttendees() {
     this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
       this.attendees = attendees;
@@ -278,9 +276,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   addToFavourite() {
-    this.bookmarkSelected = !this.bookmarkSelected;
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
+    } else {
+      this.bookmarkSelected = !this.bookmarkSelected;
     }
 
     const sendEventDto = {
@@ -295,14 +294,22 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.dialog.open(AuthModalComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      panelClass: ['custom-dialog-container'],
-      data: {
-        popUpName: page
-      }
-    });
+    this.dialog
+      .open(AuthModalComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        panelClass: ['custom-dialog-container'],
+        data: {
+          popUpName: page
+        }
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.isRegistered = !!result;
+        if (this.isRegistered) {
+          this.addToFavourite();
+        }
+      });
   }
 
   ngOnDestroy(): void {

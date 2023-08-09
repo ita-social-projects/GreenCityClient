@@ -18,6 +18,7 @@
                 class="primary-global-input"
                 [ngClass]="{ 'warning-input': getControl('title').touched && getControl('title').invalid }"
                 [placeholder]="'user.habit.add-new-habit.habit-title-placeholder' | translate"
+                (focusout)="trimValue(getControl('title'))"
               />
               <div *ngIf="getControl('title').touched && getControl('title').invalid">
                 <app-input-error [formElement]="getControl('title')"></app-input-error>
@@ -52,10 +53,10 @@
             <quill-editor
               class="editor"
               ngDefaultControl
-              formControlName="description"
               [modules]="quillModules"
               (dragover)="(false)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
+              (onEditorChanged)="changeEditor($event)"
             ></quill-editor>
             <div *ngIf="getControl('description').touched && getControl('description').invalid">
               <app-input-error [formElement]="getControl('description')"></app-input-error>

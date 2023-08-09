@@ -22,3 +22,8 @@ export enum limitStatus {
   limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
   limitByPriceOfOrder = 'LIMIT_BY_SUM_OF_ORDER'
 }
+
+export enum TariffRegionAll {
+  ua = 'все',
+  en = 'all'
+}

@@ -61,7 +61,7 @@ export class LocationService {
         const predictionList = housePredictions?.filter(
           (el) => el.description.includes(searchAddress.street) && el.description.includes(searchAddress.city)
         );
-        if (predictionList || predictionList.length) {
+        if (predictionList || predictionList?.length) {
           predictionList.forEach(
             (address) => (address.structured_formatting.main_text = [...address.structured_formatting.main_text.split(',')][1].trim())
           );

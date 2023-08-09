@@ -20,8 +20,14 @@ describe('AllFriendsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
 
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', [
+    'getAllFriendsAndByName',
+    'getAllFriends',
+    'deleteFriend',
+    'addFriend'
+  ]);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
+  userFriendsServiceMock.getAllFriendsAndByName = () => of(FRIENDS);
   userFriendsServiceMock.deleteFriend = (idFriend) => of(FIRSTFRIEND);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
 
@@ -72,7 +78,7 @@ describe('AllFriendsComponent', () => {
 
   it('should call getFriends on scroll', () => {
     // @ts-ignore
-    const getAllFriendSpy = spyOn(component.userFriendsService, 'getAllFriends').and.returnValue(of(FRIENDS));
+    const getAllFriendSpy = spyOn(component, 'getAllFriends').and.returnValue(of(FRIENDS));
     component.onScroll();
     expect(getAllFriendSpy).toHaveBeenCalled();
   });

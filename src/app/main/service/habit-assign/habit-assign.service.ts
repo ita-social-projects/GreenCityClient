@@ -1,12 +1,17 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { habitAssignLink } from '../../links';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
-import { HabitAssignInterface, ResponseInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import {
+  HabitAssignInterface,
+  ResponseInterface,
+  ChangesFromCalendarToProgress
+} from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +23,8 @@ export class HabitAssignService implements OnDestroy {
   habitsFromDashBoard: any;
   habitsInProgressToView: Array<HabitAssignInterface> = [];
   habitsInProgress: Array<HabitAssignInterface> = [];
+  habitForEdit: HabitAssignInterface;
+  habitChangesFromCalendarSubj: Subject<ChangesFromCalendarToProgress> = new Subject<ChangesFromCalendarToProgress>();
   countOfResult: number;
   habitDate: any;
   mapOfArrayOfAllDate = new Map();
@@ -41,13 +48,11 @@ export class HabitAssignService implements OnDestroy {
 
   assignCustomHabit(
     habitId: number,
-    duration: number,
-    defaultShoppingListItems: Array<number>,
-    friendsIdsList: Array<number>
-  ): Observable<HabitAssignInterface> {
-    const habitAssignPropertiesDto = { defaultShoppingListItems, duration };
-    const body = { friendsIdsList, habitAssignPropertiesDto };
-    return this.http.post<HabitAssignInterface>(`${habitAssignLink}/${habitId}/custom`, body);
+    friendsIdsList: Array<number>,
+    habitAssignProperties: HabitAssignPropertiesDto
+  ): Observable<HabitAssignCustomPropertiesDto> {
+    const body: HabitAssignCustomPropertiesDto = { friendsIdsList, habitAssignPropertiesDto: habitAssignProperties };
+    return this.http.post<HabitAssignCustomPropertiesDto>(`${habitAssignLink}/${habitId}/custom`, body);
   }
 
   updateHabit(habitAssignId: number, duration: number): Observable<HabitAssignInterface> {
@@ -78,6 +83,10 @@ export class HabitAssignService implements OnDestroy {
 
   progressNotificationHasDisplayed(habitAssignId: number): Observable<object> {
     return this.http.put<object>(`${habitAssignLink}/${habitAssignId}/updateProgressNotificationHasDisplayed`, {});
+  }
+
+  setCircleFromPopUpToProgress(changesFromCalendar: ChangesFromCalendarToProgress) {
+    this.habitChangesFromCalendarSubj.next(changesFromCalendar);
   }
 
   ngOnDestroy(): void {

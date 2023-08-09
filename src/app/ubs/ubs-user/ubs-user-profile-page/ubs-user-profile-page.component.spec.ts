@@ -19,6 +19,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocationService } from '@global-service/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { Language } from 'src/app/main/i18n/Language';
+import { NotificationPlatform } from '../../ubs/notification-platform.enum';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -129,21 +130,6 @@ describe('UbsUserProfilePageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call "redirectToMessengers" correctly ', () => {
-    component.viberNotification = false;
-    component.telegramNotification = true;
-    const goToTelegramSpy = spyOn(component, 'goToTelegramUrl');
-    const goToViberSpy = spyOn(component, 'goToViberUrl');
-    const redirectSpy = spyOn(component, 'redirectToMessengers');
-
-    redirectSpy();
-    goToTelegramSpy();
-
-    expect(redirectSpy).toHaveBeenCalled();
-    expect(goToViberSpy).toHaveBeenCalledTimes(0);
-    expect(goToTelegramSpy).toHaveBeenCalled();
   });
 
   it('should call "goToTelegramUrl" correctly', () => {
@@ -742,5 +728,21 @@ describe('UbsUserProfilePageComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  describe('onSwitchChanged method', () => {
+    it('should toggle telegramIsNotify and call goToTelegramUrl when id is telegramNotification', () => {
+      spyOn(component, 'goToTelegramUrl');
+      component.onSwitchChanged(NotificationPlatform.telegramNotification);
+
+      expect(component.goToTelegramUrl).toHaveBeenCalled();
+    });
+
+    it('should toggle viberIsNotify and call goToViberUrl when id is viberNotification', () => {
+      spyOn(component, 'goToViberUrl');
+      component.onSwitchChanged(NotificationPlatform.viberNotification);
+
+      expect(component.goToViberUrl).toHaveBeenCalled();
+    });
   });
 });

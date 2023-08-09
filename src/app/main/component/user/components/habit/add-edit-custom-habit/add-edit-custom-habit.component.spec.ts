@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EditorChangeContent } from 'ngx-quill';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -42,6 +43,7 @@ describe('AddEditCustomHabitComponent', () => {
         BrowserAnimationsModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        HttpClientTestingModule,
         MatDialogModule
       ],
       providers: [
@@ -118,6 +120,23 @@ describe('AddEditCustomHabitComponent', () => {
     component.getShopList(newShopList);
     expect(component.newList).toEqual(convertedList);
     expect(component.habitForm.get('shopList').value).toEqual(convertedList);
+  });
+
+  it('should trim value', () => {
+    const titleControl = component.habitForm.get('title');
+    titleControl.setValue('    ab ');
+    component.trimValue(titleControl);
+    expect(titleControl.value).toBe('ab');
+  });
+
+  it('should set editor value to form controll', () => {
+    const editorEvent = {
+      event: 'text-change',
+      text: '   from editor   '
+    };
+    component.changeEditor(editorEvent as EditorChangeContent);
+    const descriptionControl = component.habitForm.get('description');
+    expect(descriptionControl.value).toBe('from editor');
   });
 
   it('should set TagList after get it from child component', () => {

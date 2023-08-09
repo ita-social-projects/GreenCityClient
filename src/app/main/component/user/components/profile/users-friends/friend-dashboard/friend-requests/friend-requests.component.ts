@@ -54,7 +54,7 @@ export class FriendRequestsComponent implements OnInit {
 
   private getRequests() {
     this.userFriendsService
-      .getRequests(this.userId)
+      .getRequests()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: FriendArrayModel) => {
         this.requests = data.page;
@@ -65,7 +65,7 @@ export class FriendRequestsComponent implements OnInit {
     this.scroll = true;
     this.currentPage += 1;
     this.userFriendsService
-      .getRequests(this.userId, this.currentPage)
+      .getRequests(this.currentPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: FriendArrayModel) => {
         this.requests = this.requests.concat(data.page);

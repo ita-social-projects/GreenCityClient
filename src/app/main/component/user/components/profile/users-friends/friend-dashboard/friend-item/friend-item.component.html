@@ -18,7 +18,7 @@
         >{{ friend.mutualFriends ? friend.mutualFriends : 0 }} {{ 'profile.friends.mutual-friends' | translate }}</span
       >
     </p>
-    <p class="friend-city">{{ friend.city ? friend.city : ('profile.friends.no-city' | translate) }}</p>
+    <p class="friend-city">{{ friend.city || ('profile.friends.no-city' | translate) }}</p>
   </div>
   <div class="buttons">
     <div class="friend-btn">
@@ -27,10 +27,10 @@
       </button>
     </div>
     <div *ngIf="!isFriendRequest; else isRequest" class="friend-btn">
-      <button *ngIf="friend.friendsChatDto.chatExists" id="openChatButton" class="secondary-global-button m-btn">
+      <button *ngIf="friend.chatId" id="openChatButton" class="secondary-global-button m-btn">
         {{ 'profile.friends.open-chat' | translate }}
       </button>
-      <button *ngIf="!friend.friendsChatDto.chatExists" id="createChatButton" class="secondary-global-button m-btn">
+      <button *ngIf="!friend.chatId" id="createChatButton" class="secondary-global-button m-btn">
         {{ 'profile.friends.create-chat' | translate }}
       </button>
     </div>

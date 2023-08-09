@@ -50,7 +50,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
         'EDIT_LOCATION_CARD',
         'SEE_PRICING_CARD',
         'EDIT_DELETE_PRICE_CARD',
-        'DEACNIVATE_PRICING_CARD',
+        'DEACTIVATE_PRICING_CARD',
         'CONTROL_SERVICE'
       ]
     }
@@ -84,10 +84,11 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     SEE_PRICING_CARD: 'see-price-card',
     CONTROL_SERVICE: 'edit-service',
     EDIT_DELETE_PRICE_CARD: 'edit-delete-price-card',
-    DEACNIVATE_PRICING_CARD: 'deactivate-price-card'
+    DEACTIVATE_PRICING_CARD: 'deactivate-price-card'
   };
 
   isUpdating = false;
+  isDisabled = true;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -127,6 +128,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
 
   isPanelOpen() {
     this.panelToggler = !this.panelToggler;
+  }
+
+  updateAllComplete() {
+    this.isDisabled = false;
   }
 
   savePermissions() {

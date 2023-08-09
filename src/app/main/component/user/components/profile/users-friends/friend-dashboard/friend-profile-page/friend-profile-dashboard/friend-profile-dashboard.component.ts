@@ -41,7 +41,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     this.selectedIndex = +this.route.snapshot.queryParams.index;
     this.isActiveInfinityScroll = this.selectedIndex === 3 || this.selectedIndex === 4;
     this.getAllFriends(this.userId);
-    this.getMutualFriends(this.userId);
+    this.getMutualFriends();
   }
 
   private getAllFriends(id: number, page?: number): void {
@@ -57,10 +57,10 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getMutualFriends(id: number, page?: number): void {
+  private getMutualFriends(page?: number): void {
     this.isFetching = true;
     this.userFriendsService
-      .getPossibleFriends(id, page)
+      .getNewFriends(page)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.numberAllMutualFriends = data.totalElements;
@@ -79,7 +79,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.selectedIndex === 4 && !this.scroll && this.mutualFriendsList.length < this.numberAllMutualFriends) {
       this.scroll = true;
       this.currentMutualPage += 1;
-      this.getMutualFriends(this.userId, this.currentMutualPage);
+      this.getMutualFriends(this.currentMutualPage);
     }
   }
 

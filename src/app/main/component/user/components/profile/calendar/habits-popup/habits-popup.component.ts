@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { calendarIcons } from 'src/app/main/image-pathes/calendar-icons';
-import { HabitPopupInterface } from '../habit-popup-interface';
+import { HabitPopupInterface, HabitPopUpRoutes } from '../habit-popup-interface';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { LanguageService } from '../../../../../../i18n/language.service';
 import { DatePipe } from '@angular/common';
@@ -11,6 +11,7 @@ import {
   HabitAssignInterface,
   HabitStatusCalendarListInterface
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-habits-popup',
@@ -30,12 +31,14 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   arrayOfDay: any;
   habitStreak = 0;
   currentDate: Date;
+  currentPage: 'editHabit' | 'createHabit' | 'profileHabits';
 
   constructor(
     public dialogRef: MatDialogRef<HabitsPopupComponent>,
     public habitAssignService: HabitAssignService,
     public datePipe: DatePipe,
     public languageService: LanguageService,
+    public router: Router,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       habitsCalendarSelectedDate: string;
@@ -47,6 +50,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadPopup();
     this.closePopup();
+    this.checkCurrentPage();
   }
 
   ngOnDestroy() {
@@ -56,7 +60,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
 
   loadPopup() {
     this.language = this.languageService.getCurrentLanguage();
-    this.habitsCalendarSelectedDate = this.data.habitsCalendarSelectedDate;
+    this.habitsCalendarSelectedDate = this.formatSelectedDate(this.data.habitsCalendarSelectedDate);
     this.isHabitListEditable = this.data.isHabitListEditable;
     this.popupHabits = this.data.habits.map((habit) => Object.assign({}, habit));
     this.today = this.formatSelectedDate().toString();
@@ -69,12 +73,12 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
       .subscribe(() => this.dialogRef.close(this.popupHabits));
   }
 
-  formatSelectedDate() {
-    const today = new Date();
-    const monthLow = today.toLocaleDateString(this.language === 'ua' ? 'uk' : this.language, { month: 'long' });
+  formatSelectedDate(dateString?: string) {
+    const date = dateString ? new Date(dateString) : new Date();
+    const monthLow = date.toLocaleDateString(this.language === 'ua' ? 'uk' : this.language, { month: 'long' });
     const month = monthLow.charAt(0).toUpperCase() + monthLow.slice(1);
-    const day = today.getDate();
-    const year = today.getFullYear();
+    const day = date.getDate();
+    const year = date.getFullYear();
     return `${month} ${day}, ${year}`;
   }
 
@@ -160,7 +164,26 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
   toggleEnrollHabit(id: number) {
     const habitIndex = this.popupHabits.findIndex((habit) => habit.habitAssignId === id);
     this.popupHabits[habitIndex].enrolled = !this.popupHabits[habitIndex].enrolled;
-    this.setCircleFromPopUpToCards(id, this.popupHabits[habitIndex].enrolled);
+    if (this.currentPage === 'editHabit' && id === this.habitAssignService.habitForEdit.id) {
+      const changes = {
+        date: this.datePipe.transform(this.data.habitsCalendarSelectedDate, 'yyyy-MM-dd'),
+        isEnrolled: this.popupHabits[habitIndex].enrolled
+      };
+      this.habitAssignService.setCircleFromPopUpToProgress(changes);
+    }
+    if (this.currentPage === 'profileHabits') {
+      this.setCircleFromPopUpToCards(id, this.popupHabits[habitIndex].enrolled);
+    }
+  }
+
+  checkCurrentPage() {
+    if (this.router.url.includes(HabitPopUpRoutes.EditHabit)) {
+      this.currentPage = 'editHabit';
+    } else if (this.router.url.includes(HabitPopUpRoutes.CreateHabit)) {
+      this.currentPage = 'createHabit';
+    } else {
+      this.currentPage = 'profileHabits';
+    }
   }
 
   showTooltip(habit) {

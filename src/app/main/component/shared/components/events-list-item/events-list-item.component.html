@@ -47,10 +47,14 @@
       </p>
       <p *ngIf="isOnline">{{ isOnline }}</p>
     </div>
-    <div class="event-title">
-      <p class="event-name" [innerHTML]="cutTitle()"></p>
+    <div class="date-container">
+      <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
+      <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
     </div>
-    <div class="description" [innerHTML]="cutDescription()"></div>
+    <div class="event-title">
+      <p class="event-name" [innerHTML]="title"></p>
+    </div>
+    <div class="description" [innerHTML]="description"></div>
   </div>
 
   <div class="btn-group">

@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Subject } from 'rxjs';
+import { searchIcon } from 'src/app/main/image-pathes/places-icons';
 import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-habit-invite-friends-pop-up',
@@ -14,10 +17,18 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
   userId: number;
   friends: FriendModel[];
+  inputFriends: FriendModel[];
+  inputValue: string;
   allAdd = false;
   addedFriends: FriendModel[] = [];
+  searchIcon = searchIcon;
 
-  constructor(private userFriendsService: UserFriendsService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private userFriendsService: UserFriendsService,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    private snackBar: MatSnackBarComponent
+  ) {}
 
   ngOnInit() {
     this.getUserId();
@@ -30,11 +41,19 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
 
   getFriends() {
     this.userFriendsService
-      .getAllFriends(this.userId)
+      .getAllFriends()
       .pipe(takeUntil(this.destroyed$))
       .subscribe((data: FriendArrayModel) => {
         this.friends = data.page;
       });
+  }
+
+  setFriendDisable(friendId: number): boolean {
+    return this.userFriendsService.addedFriends?.some((addedFriend) => addedFriend.id === friendId);
+  }
+
+  setAllFriendsDisable(): boolean {
+    return this.userFriendsService.addedFriends?.length === this.friends?.length;
   }
 
   updateAllAdd() {
@@ -50,11 +69,23 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   setAll(added: boolean) {
     this.allAdd = added;
     if (this.friends) {
-      return this.friends.map((friend) => (friend.added = added));
+      return this.friends?.map((friend) => {
+        const isAlreadyAdded = this.userFriendsService.addedFriends?.some((addedFriend) => addedFriend.id === friend.id);
+        if (!isAlreadyAdded) {
+          friend.added = added;
+        }
+      });
     }
   }
 
+  public onInput(input): void {
+    this.inputValue = input.target.value;
+    this.inputFriends = this.friends.filter((friend) => friend.name.includes(this.inputValue) || friend.email.includes(this.inputValue));
+  }
+
   setAddedFriends() {
+    this.router.navigate(['/profile']);
+    this.snackBar.openSnackBar('habitUpdated');
     return this.friends.map((friend) => {
       if (friend.added) {
         this.userFriendsService.addedFriendsToHabit(friend);

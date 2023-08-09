@@ -17,7 +17,7 @@ import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
+import { EmployeePositions, EmployeePositionsAuthorities, Employees, Page } from '../../models/ubs-admin.interface';
 import {
   selectOptions,
   filterOptions,
@@ -150,7 +150,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
   definitionUserAuthorities(): void {
     this.userEmail = this.jwtService.getEmailFromAccessToken();
     this.getEmployeePositionbyEmail(this.userEmail);
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee) => {
+    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee: EmployeePositionsAuthorities) => {
       this.userAuthorities = employee.authorities;
       this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
       this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);

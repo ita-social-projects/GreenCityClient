@@ -12,6 +12,7 @@ import { DEFAULTHABIT } from '@global-user/components/habit/mocks/habit-assigned
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
@@ -26,7 +27,7 @@ describe('HabitsGalleryViewComponent', () => {
 
   let fakeHabitAssignService: HabitAssignService;
   fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', ['assignCustomHabit', 'assignHabit']);
-  fakeHabitAssignService.assignCustomHabit = () => of(DEFAULTFULLINFOHABIT);
+  fakeHabitAssignService.assignCustomHabit = () => of();
   fakeHabitAssignService.assignHabit = () => of();
 
   const localStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['getUserId']);
@@ -104,10 +105,11 @@ describe('HabitsGalleryViewComponent', () => {
 
   it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
     const spy = spyOn(component as any, 'afterHabitWasChanged');
-    const paramsMock = { habitId: 1, newDuration: 25, defailtItemsIds: [], friendsIdsList: [] };
+    const habitAssignPropertiesDto: HabitAssignPropertiesDto = { duration: 25, defaultShoppingListItems: [] };
+    const friendsIdsList = [];
     (component as any).assignCustomHabit();
     fakeHabitAssignService
-      .assignCustomHabit(paramsMock.habitId, paramsMock.newDuration, paramsMock.defailtItemsIds, paramsMock.friendsIdsList)
+      .assignCustomHabit(1, friendsIdsList, habitAssignPropertiesDto)
       .pipe(take(1))
       .subscribe(() => {
         expect(spy).toHaveBeenCalled();

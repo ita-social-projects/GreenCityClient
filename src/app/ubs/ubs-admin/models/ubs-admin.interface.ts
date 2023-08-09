@@ -543,3 +543,46 @@ export enum ordersStatuses {
   CancelUA = 'Скасовано',
   CancelEN = 'Canceled'
 }
+
+export interface AdminSideBarMenu {
+  link: string;
+  name: string;
+  routerLink: string;
+}
+
+export enum employeePositionsName {
+  ServiceManager = 'Менеджер послуги',
+  CallManager = 'Менеджер обдзвону',
+  Logistician = 'Логіст',
+  Navigator = 'Штурман',
+  Driver = 'Водій',
+  SuperAdmin = 'Супер адмін',
+  Admin = 'Адмін'
+}
+
+export enum EnablingAuthorities {
+  orders = 'SEE_BIG_ORDER_TABLE',
+  customers = 'SEE_CLIENTS_PAGE',
+  certificates = 'SEE_CERTIFICATES',
+  employees = 'SEE_EMPLOYEES_PAGE',
+  tariffs = 'SEE_TARIFFS',
+  notifications = 'SEE_MESSAGES_PAGE'
+}
+
+export enum abilityEditAuthorities {
+  orders = 'EDIT_ORDER'
+}
+
+export enum SideMenuElementsNames {
+  orders = 'ubs-sidebar.orders',
+  customers = 'ubs-sidebar.customers',
+  certificates = 'ubs-sidebar.certificates',
+  employees = 'ubs-sidebar.employees',
+  tariffs = 'ubs-sidebar.tariffs',
+  notifications = 'ubs-sidebar.notifications'
+}
+
+export interface EmployeePositionsAuthorities {
+  authorities: string[];
+  positionId: number[];
+}

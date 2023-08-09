@@ -34,28 +34,24 @@ export class UserFriendsService {
     return this.http.get<boolean>(`${this.url}user/isOnline/${id}/`);
   }
 
-  public getRequests(id: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${id}/friendRequests/?page=${page}&size=${size}`);
+  public getRequests(page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/friendRequests?page=${page}&size=${size}`);
   }
 
   public getSixFriends(userId: number): Observable<SixFriendArrayModel> {
     return this.http.get<SixFriendArrayModel>(`${this.url}user/${userId}/sixUserFriends/`);
   }
 
-  public getAllFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/findAll/friends/?page=${page}&size=${size}`);
+  public getAllFriends(page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
   }
 
-  public getPossibleFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/findAll/friendsWithoutExist/?page=${page}&size=${size}`);
+  public getNewFriends(page = 0, size = this.size, name = ''): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/not-friends-yet?name=${name}&page=${page}&size=${size}`);
   }
 
-  public findNewFriendsByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/findNewFriendsByName?name=${name}&page=${page}&size=${size}`);
-  }
-
-  public findFriendByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/findFriendByName?name=${name}&page=${page}&size=${size}`);
+  public getAllFriendsAndByName(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${name}&page=${page}&size=${size}`);
   }
 
   public addFriend(idFriend: number): Observable<object> {
