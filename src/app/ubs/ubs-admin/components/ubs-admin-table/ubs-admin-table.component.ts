@@ -415,6 +415,10 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     this.sortColumnsToDisplay();
   }
 
+  clickedOutside() {
+    this.isFiltersOpened = false;
+  }
+
   public toggleFilters(): void {
     this.isFiltersOpened = !this.isFiltersOpened;
   }

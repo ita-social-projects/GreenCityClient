@@ -78,8 +78,8 @@ describe('UserFriendsService', () => {
     });
   });
 
-  describe('getPossibleFriends', () => {
-    it('should return an object on calling getPossibleFriends', () => {
+  describe('getNewFriends', () => {
+    it('should return an object on calling getNewFriends', () => {
       const possibleFriends = {
         totalElements: 18,
         totalPages: 2,
@@ -97,11 +97,11 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getPossibleFriends(4).subscribe((users) => {
+      userFriendsService.getNewFriends(0).subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/4/findAll/friendsWithoutExist/?page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/not-friends-yet?name=&page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(possibleFriends);
     });
@@ -126,11 +126,11 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.getRequests(4).subscribe((users) => {
+      userFriendsService.getRequests().subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/4/friendRequests/?page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/friendRequests?page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(requests);
     });
@@ -203,18 +203,18 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.findNewFriendsByName(friends.page[0].name).subscribe((users) => {
+      userFriendsService.getNewFriends(0, 10, friends.page[0].name).subscribe((users) => {
         expect(users.page.length).toBeGreaterThanOrEqual(2);
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/findNewFriendsByName?name=${friends.page[0].name}&page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/not-friends-yet?name=${friends.page[0].name}&page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(friends);
     });
   });
 
-  describe('findFriendByName', () => {
-    it('should return an object on calling findNewFriendsByName', () => {
+  describe('getAllFriendsAndByName', () => {
+    it('should return an object on calling getAllFriendsAndByName', () => {
       const friends = {
         totalElements: 0,
         totalPages: 0,
@@ -227,11 +227,11 @@ describe('UserFriendsService', () => {
           }
         ]
       };
-      userFriendsService.findFriendByName(friends.page[0].name).subscribe((users) => {
+      userFriendsService.getAllFriendsAndByName(friends.page[0].name).subscribe((users) => {
         expect(users).toBeTruthy();
       });
 
-      const req = httpMock.expectOne(`${userFriendsService.url}user/findFriendByName?name=${friends.page[0].name}&page=0&size=10`);
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends?name=${friends.page[0].name}&page=0&size=10`);
       expect(req.request.method).toBe('GET');
       req.flush(friends);
     });

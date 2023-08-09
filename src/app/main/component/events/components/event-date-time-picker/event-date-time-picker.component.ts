@@ -172,6 +172,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.checkTime) {
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
+      this.dateForm.get('startTime').setValue(this.timeArrStart[9]);
+      this.dateForm.get('endTime').setValue(this.timeArrEnd[21]);
     } else {
       this.dateForm.get('startTime').enable();
       this.dateForm.get('endTime').enable();

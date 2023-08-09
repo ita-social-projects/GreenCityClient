@@ -13,6 +13,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 })
 export class RecommendedFriendsComponent implements OnInit {
   public recommendedFriends: FriendModel[] = [];
+  public recommendedFriendsBySearch: FriendModel[] = [];
   public userId: number;
   private destroy$ = new Subject();
   public scroll = false;
@@ -24,6 +25,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public sizePage = 10;
   public searchQuery = '';
   public searchMode = false;
+  public isPristine = true;
   readonly absent = 'assets/img/noNews.svg';
   constructor(
     private userFriendsService: UserFriendsService,
@@ -33,20 +35,21 @@ export class RecommendedFriendsComponent implements OnInit {
 
   ngOnInit() {
     this.initUser();
-    this.getPossibleFriends(this.userId, this.currentPage);
+    this.getNewFriends(this.currentPage);
   }
 
   public findUserByName(value: string) {
+    this.isPristine = false;
     this.searchQuery = value;
     this.isFetching = true;
     this.searchMode = true;
     this.userFriendsService
-      .findNewFriendsByName(value)
+      .getNewFriends(this.currentPage, this.sizePage, value)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
-          this.recommendedFriends = data.page;
+          this.recommendedFriendsBySearch = data.page;
           this.amountOfFriends = data.totalElements;
           this.isFetching = false;
           this.searchMode = false;
@@ -64,10 +67,10 @@ export class RecommendedFriendsComponent implements OnInit {
     array.splice(indexAddedFriend, 1);
   }
 
-  public getPossibleFriends(userId: number, currentPage: number) {
+  public getNewFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
-      .getPossibleFriends(userId, currentPage)
+      .getNewFriends(currentPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -91,7 +94,7 @@ export class RecommendedFriendsComponent implements OnInit {
     this.scroll = true;
     if (this.currentPage < this.totalPages) {
       this.currentPage += 1;
-      this.getPossibleFriends(this.userId, this.currentPage);
+      this.getNewFriends(this.currentPage);
     }
   }
 

@@ -6,7 +6,7 @@
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
   <div class="btn-group">
-    <div class="filters-dropdown-wrapper">
+    <div class="filters-dropdown-wrapper" appClickOutside (clickOutside)="clickedOutside()">
       <button type="button" class="btn btn-default filter-table-btn" (click)="toggleFilters()">
         <mat-icon>filter_list</mat-icon>
         {{ 'ubs-tables.filters' | translate }}

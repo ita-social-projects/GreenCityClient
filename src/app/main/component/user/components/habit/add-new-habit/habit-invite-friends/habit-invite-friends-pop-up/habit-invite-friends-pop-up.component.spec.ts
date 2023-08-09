@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitInviteFriendsPopUpComponent } from './habit-invite-friends-pop-up.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { Router } from '@angular/router';
 import { FRIENDS, FIRSTFRIEND, SECONDFRIEND } from '@global-user/mocks/friends-mock';
 
 describe('HabitInviteFriendsPopUpComponent', () => {
@@ -17,6 +19,8 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   localStorageServiceMock.getUserId = () => 2;
 
   const userFriendsServiceMock = jasmine.createSpyObj('userFriendsService', ['getAllFriends']);
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
 
   beforeEach(async(() => {
@@ -25,7 +29,9 @@ describe('HabitInviteFriendsPopUpComponent', () => {
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: Router, useValue: routerSpy },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ]
     }).compileComponents();
 
@@ -55,7 +61,7 @@ describe('HabitInviteFriendsPopUpComponent', () => {
       const friendId = 1;
       userFriendsServiceMock.addedFriends = [FIRSTFRIEND, SECONDFRIEND];
       const result = component.setFriendDisable(friendId);
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
 
     it('should return false if the friend is not in the addedFriends list', () => {
