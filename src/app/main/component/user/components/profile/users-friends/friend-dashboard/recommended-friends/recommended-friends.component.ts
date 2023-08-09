@@ -25,7 +25,7 @@ export class RecommendedFriendsComponent implements OnInit {
   public sizePage = 10;
   public searchQuery = '';
   public searchMode = false;
-  public isPristine = true;
+
   readonly absent = 'assets/img/noNews.svg';
   constructor(
     private userFriendsService: UserFriendsService,
@@ -39,7 +39,6 @@ export class RecommendedFriendsComponent implements OnInit {
   }
 
   public findUserByName(value: string) {
-    this.isPristine = false;
     this.searchQuery = value;
     this.isFetching = true;
     this.searchMode = true;
@@ -50,7 +49,7 @@ export class RecommendedFriendsComponent implements OnInit {
         (data: FriendArrayModel) => {
           this.emptySearchList = !data.page.length;
           this.recommendedFriendsBySearch = data.page;
-          this.amountOfFriends = data.totalElements;
+          this.amountOfFriends = this.recommendedFriendsBySearch.length;
           this.isFetching = false;
           this.searchMode = false;
         },
