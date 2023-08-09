@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 describe('UserNotificationsPopUpComponent', () => {
   let component: UserNotificationsPopUpComponent;
   let fixture: ComponentFixture<UserNotificationsPopUpComponent>;
+  const dialog = 'dialogRef';
   const dialogRefStub = {
     keydownEvents() {
       return of();
@@ -39,26 +40,24 @@ describe('UserNotificationsPopUpComponent', () => {
   });
 
   it('should keydownEvents be called in ngOnInit', () => {
-    const spy = spyOn(component['dialogRef'], 'keydownEvents').and.returnValue(of());
+    const spy = spyOn(component[dialog], 'keydownEvents').and.returnValue(of());
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
 
   it('should backdropClick be called in ngOnInit', () => {
-    const spy = spyOn(component['dialogRef'], 'backdropClick').and.returnValue(of());
+    const spy = spyOn(component[dialog], 'backdropClick').and.returnValue(of());
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
 
   it('should call close on matDialogRef', () => {
-    const dialog = 'dialogRef';
     const spy = spyOn(component[dialog], 'close');
     component.closeDialog({ openAll: false });
     expect(spy).toHaveBeenCalledWith({ openAll: false });
   });
 
   it('should call close after openAll notifications', () => {
-    const dialog = 'dialogRef';
     const spy = spyOn(component[dialog], 'close');
     component.openAll();
     expect(spy).toHaveBeenCalledWith({ openAll: true });
