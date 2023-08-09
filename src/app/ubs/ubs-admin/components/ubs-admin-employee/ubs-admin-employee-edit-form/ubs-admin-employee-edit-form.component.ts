@@ -312,7 +312,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     const matDialogRef = this.dialog.open(UploadPhotoContainerComponent, {
       hasBackdrop: true,
       data: {
-        file: file
+        file
       }
     });
 
