@@ -39,9 +39,3 @@ export interface ChangesFromCalendarToProgress {
   isEnrolled: boolean;
   date: string;
 }
-
-export interface FriendsAttachedToHabitInterface {
-  id: number;
-  name: string;
-  profilePicturePath: string;
-}

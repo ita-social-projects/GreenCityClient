@@ -24,7 +24,6 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   firstFriend = 'assets/img/kimi.png';
   secondFriend = 'assets/img/lewis.png';
   private destroy$ = new Subject<void>();
-  profilePicturePath: string[] = [];
   private descriptionType = {
     acquired: () => {
       this.setHabitValue(false);

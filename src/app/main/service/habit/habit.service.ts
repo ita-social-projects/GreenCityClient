@@ -11,7 +11,6 @@ import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { CustomHabitInterface } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
-import { FriendsAttachedToHabitInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -91,9 +90,5 @@ export class HabitService {
     this.httpOptions.headers.append('Content-Type', 'multipart/form-data');
 
     return this.http.post<CustomHabitInterface>(`${habitLink}/custom`, formData, this.httpOptions);
-  }
-
-  getUserFriendsAttachedToHabit(habitId: number): Observable<FriendsAttachedToHabitInterface> {
-    return this.http.get<FriendsAttachedToHabitInterface>(`${habitLink}/${habitId}/friends/profile-picture`);
   }
 }
