@@ -859,7 +859,8 @@
         "bad-email-or-password": "Bad email or password",
         "forgot-password": "Forgot password?",
         "havenot-account": "Don't have an account yet?",
-        "or-signin": "or"
+        "or-signin": "or",
+        "not-verified-email": "You should verify the email first, check your email box!"
       }
     }
   },

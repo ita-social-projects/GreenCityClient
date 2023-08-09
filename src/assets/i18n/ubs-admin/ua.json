@@ -855,7 +855,8 @@
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
         "havenot-account": "Досі немає аккаунту?",
-        "or-signin": "або"
+        "or-signin": "або",
+        "not-verified-email": "Ви повинні спочатку підтвердити електронну пошту, перевірте свою електронну скриньку!"
       }
     }
   },
