@@ -9,7 +9,8 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 })
 export class UploadPhotoContainerComponent implements OnInit {
   public isHorisontalImg: boolean;
-  croppedImage;
+  private croppedImage: string;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data, public dialogRef: MatDialogRef<UploadPhotoContainerComponent>) {}
 
   ngOnInit(): void {
@@ -27,11 +28,11 @@ export class UploadPhotoContainerComponent implements OnInit {
     this.croppedImage = event.base64;
   }
 
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-
   onSaveChanges(): void {
     this.dialogRef.close(this.croppedImage);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
   }
 }
