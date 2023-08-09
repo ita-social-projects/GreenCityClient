@@ -1,0 +1,20 @@
+<div [ngStyle]="{ height: isHorisontalImg ? '700px' : '530px', width: isHorisontalImg ? '500px' : '630px' }" class="main-container">
+  <div class="main-container__title">{{ 'ubs-employee.download-photo.title' | translate }}</div>
+  <div class="main-container__cropper-block">
+    <image-cropper
+      [maintainAspectRatio]="true"
+      [containWithinAspectRatio]="false"
+      [roundCropper]="true"
+      [resizeToHeight]="600"
+      [resizeToWidth]="400"
+      [imageFile]="data.file.file"
+      (imageCropped)="imageCropped($event)"
+      class="main-container__selected-photo"
+    >
+    </image-cropper>
+  </div>
+  <div class="main-container__bottom" (click)="onCancel()">
+    <button class="ubs-secondary-global-button">{{ 'ubs-employee.download-photo.cancel' | translate }}</button>
+    <button class="ubs-primary-global-button" (click)="onSaveChanges()">{{ 'ubs-employee.download-photo.save' | translate }}</button>
+  </div>
+</div>
