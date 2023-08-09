@@ -33,6 +33,6 @@ export class UploadPhotoContainerComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

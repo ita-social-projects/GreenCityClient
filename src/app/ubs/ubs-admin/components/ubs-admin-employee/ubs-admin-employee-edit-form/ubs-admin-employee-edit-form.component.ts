@@ -57,7 +57,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   search: FormControl;
   filteredTariffs = [];
   tariffsFromEditForm = [];
-  file: FileHandle;
 
   private addMappers = {
     tariffs: (tariffData) =>
@@ -299,17 +298,21 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   }
 
   private handleFile(event: Event): void {
-    this.imageURL = (event.target as FileReader).result;
-    this.file = { url: this.imageURL, file: this.selectedFile };
+    this.imageURL = (event.target as FileReader)?.result;
+    const file = { url: this.imageURL, file: this.selectedFile };
 
     if (this.editMode) {
       this.isInitialImageChanged = true;
     }
 
+    this.openImageDialog(file);
+  }
+
+  openImageDialog(file: FileHandle): void {
     const matDialogRef = this.dialog.open(UploadPhotoContainerComponent, {
       hasBackdrop: true,
       data: {
-        file: this.file
+        file: file
       }
     });
 
@@ -319,6 +322,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         if (res) {
           this.imageURL = res;
+        } else {
+          this.removeImage();
         }
       });
   }

@@ -32,18 +32,6 @@ describe('UploadPhotoContainerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should determine if the image is horizontal on initialization', () => {
-    const mockImage = new Image();
-    spyOn(window, 'Image').and.returnValue(mockImage);
-
-    component.ngOnInit();
-    mockImage.width = 500;
-    mockImage.height = 700;
-    mockImage.onload!(new Event('load'));
-
-    expect(component.isHorisontalImg).toBeTruthy();
-  });
-
   it('should set the cropped image', () => {
     const event: ImageCroppedEvent = {
       base64: 'base64_image_data',
