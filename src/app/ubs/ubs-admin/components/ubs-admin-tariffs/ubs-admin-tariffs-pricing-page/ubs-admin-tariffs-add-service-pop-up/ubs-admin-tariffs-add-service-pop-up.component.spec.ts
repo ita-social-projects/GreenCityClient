@@ -184,9 +184,8 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
 
   it('should be name field valid', () => {
     const nameControl = component.addServiceForm.get('name');
-    nameControl.setValue(
-      'asdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytrefghktasdfghjk'
-    );
+    const partOfName = 'asdfghjkloiuytrewquiopytrefghktasdfghjkloiuytrewquiopytreffffghg';
+    nameControl.setValue(`${partOfName + partOfName + partOfName + partOfName}`);
     expect(nameControl.valid).toBe(false);
   });
 
