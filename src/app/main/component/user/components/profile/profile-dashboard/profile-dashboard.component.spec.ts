@@ -14,6 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -153,6 +154,37 @@ describe('ProfileDashboardComponent', () => {
     component.authorNews$.subscribe((item: any) => {
       expect(component.news[0]).toEqual({ newsId: 1 } as any);
     });
+  });
+
+  it('should update eventType and call initGetUserEvents when online event is checked', () => {
+    const eventType = EventType.ONLINE;
+    component.isOnlineChecked = true;
+    const spy = spyOn(component, 'initGetUserEvents');
+    component.onCheckboxChange(eventType);
+    expect(component.isOnlineChecked).toBe(true);
+    expect(component.isOfflineChecked).toBe(false);
+    expect(component.eventType).toBe(eventType);
+    expect(spy).toHaveBeenCalledWith(eventType);
+  });
+
+  it('should update eventType and call initGetUserEvents when offline event is checked', () => {
+    const eventType = EventType.OFFLINE;
+    component.isOfflineChecked = true;
+    const spy = spyOn(component, 'initGetUserEvents');
+    component.onCheckboxChange(eventType);
+    expect(component.isOnlineChecked).toBe(false);
+    expect(component.isOfflineChecked).toBe(true);
+    expect(component.eventType).toBe(eventType);
+    expect(spy).toHaveBeenCalledWith(eventType);
+  });
+
+  it('should update eventType and call initGetUserEvents when both checkboxes are unchecked', () => {
+    const spy = spyOn(component, 'initGetUserEvents');
+    component.onCheckboxChange();
+    expect(component.isOnlineChecked).toBe(false);
+    expect(component.isOfflineChecked).toBe(false);
+    expect(component.eventType).toBe('');
+    expect(spy).toHaveBeenCalledWith('');
   });
 
   it('Should call getAllUserEvents method before subscribe', async(() => {

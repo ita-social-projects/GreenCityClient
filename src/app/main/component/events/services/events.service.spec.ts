@@ -115,7 +115,7 @@ describe('EventsService', () => {
       expect(event).toEqual(data);
     });
     const req = httpTestingController.expectOne(
-      `${url}events/myEvents/relatedEvents?page=0&size=1&userLatitude=50.58&userLongitude=42.38&eventType=ONLINE`
+      `${url}events/myEvents?eventType=ONLINE&page=0&size=1&userLatitude=50.58&userLongitude=42.38`
     );
     expect(req.request.method).toEqual('GET');
     req.flush(data);

@@ -105,7 +105,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onCheckboxChange(EventTypeChecked: string) {
+  onCheckboxChange(EventTypeChecked?: string) {
     if (EventTypeChecked === EventType.ONLINE) {
       this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
     } else if (EventTypeChecked === EventType.OFFLINE) {
