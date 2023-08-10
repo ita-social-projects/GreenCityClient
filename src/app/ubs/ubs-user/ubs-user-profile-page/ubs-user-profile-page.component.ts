@@ -403,21 +403,12 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
 
   inputAddress(searchAddress: string, item: AbstractControl, lang: string): void {
     const { city, cityEn, region, regionEn } = item.value;
-    const isKyiv = city === KyivNamesEnum.KyivUa;
 
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!isKyiv) {
-        this.streetPredictionList = streetPredictions?.filter(
-          (el) =>
-            (el.structured_formatting.secondary_text.includes(region) || el.structured_formatting.secondary_text.includes(regionEn)) &&
-            (el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn))
-        );
-      } else {
-        this.streetPredictionList = streetPredictions?.filter(
-          (el) => el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn)
-        );
-      }
+      this.streetPredictionList = streetPredictions?.filter(
+        (el) => el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn)
+      );
     });
   }
 
