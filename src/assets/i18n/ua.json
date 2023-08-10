@@ -133,9 +133,9 @@
       "my-space": {
         "tag-title": "Мої події"
       },
-      "open": "Відкрито",
+      "open": "Відкритий",
       "registered": "Є зареєстровані",
-      "completed": "Подія завершена",
+      "completed": "Закритий",
       "people-joined": "людей приєдналося",
       "btn": {
         "back-route": "Повернутися",
