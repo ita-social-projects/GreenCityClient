@@ -24,6 +24,13 @@ export class UploadPhotoContainerComponent implements OnInit {
     };
   }
 
+  getMainContainerStyle(): { height: string; width: string } {
+    return {
+      height: this.isHorisontalImg ? '700px' : '530px',
+      width: this.isHorisontalImg ? '500px' : '630px'
+    };
+  }
+
   public imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event.base64;
   }

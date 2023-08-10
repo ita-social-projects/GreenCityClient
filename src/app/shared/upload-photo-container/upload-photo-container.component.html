@@ -1,4 +1,4 @@
-<div [ngStyle]="{ height: isHorisontalImg ? '700px' : '530px', width: isHorisontalImg ? '500px' : '630px' }" class="main-container">
+<div [ngStyle]="getMainContainerStyle()" class="main-container">
   <div class="main-container__title">{{ 'ubs-employee.download-photo.title' | translate }}</div>
   <div class="main-container__cropper-block">
     <image-cropper

@@ -299,12 +299,11 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   private handleFile(event: Event): void {
     this.imageURL = (event.target as FileReader)?.result;
-    const file = { url: this.imageURL, file: this.selectedFile };
-
     if (this.editMode) {
       this.isInitialImageChanged = true;
     }
 
+    const file = { url: this.imageURL, file: this.selectedFile };
     this.openImageDialog(file);
   }
 
