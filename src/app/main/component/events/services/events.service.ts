@@ -54,7 +54,8 @@ export class EventsService implements OnDestroy {
     eventType: string = ''
   ): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(
-      `${this.backEnd}events/myEvents?eventType=${eventType}&page=${page}&size=${quantity}&userLatitude=${userLatitude}&userLongitude=${userLongitude}`
+      `${this.backEnd}events/myEvents?eventType=${eventType}&page=${page}&size=${quantity}&` +
+        `userLatitude=${userLatitude}&userLongitude=${userLongitude}`
     );
   }
 
