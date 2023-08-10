@@ -115,6 +115,10 @@ describe('EventsListItemComponent', () => {
     open: true
   };
 
+  const userFriendsServiceMock = {
+    allUserFriends: [{ id: 7, name: 'friend', email: 'friend@friend.com' }]
+  };
+
   const fakeItemTags: TagObj[] = [
     {
       nameEn: 'Environmental',
@@ -209,7 +213,7 @@ describe('EventsListItemComponent', () => {
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: UserFriendsService, useValue: { allUserFriends: [] } }
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ],
       imports: [
         RouterTestingModule,
@@ -328,6 +332,20 @@ describe('EventsListItemComponent', () => {
       component.ngOnInit();
       expect(component.bindLang).toHaveBeenCalled();
     });
+
+    it('should call checkCanUserJoinEvent', () => {
+      spyOn(component, 'checkCanUserJoinEvent');
+      component.ngOnInit();
+      expect(component.checkCanUserJoinEvent).toHaveBeenCalled();
+    });
+  });
+
+  describe('checkCanUserJoinEvent', () => {
+    it('it should check is organizer of close event a user"s friend', () => {
+      component.event = { ...eventMock, ...{ open: false } };
+      component.checkCanUserJoinEvent();
+      expect(component.canUserJoinEvent).toBe(false);
+    });
   });
 
   describe('CheckButtonStatus', () => {
@@ -369,6 +387,16 @@ describe('EventsListItemComponent', () => {
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
+    });
+
+    it('should set btnStyle  correctly when user can"t joint close event', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.canUserJoinEvent = false;
+      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
 
     it('should set btnStyle and nameBtn correctly when user is subscribed and event is unactive', () => {

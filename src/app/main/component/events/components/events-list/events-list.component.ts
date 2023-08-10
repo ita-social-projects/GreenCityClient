@@ -96,7 +96,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   getUserFriendsList() {
     this.userFriendsService
-      .getAllFriendsByUserID(this.userId)
+      .getAllFriendsByUserId(this.userId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
         this.userFriendsList = res;

@@ -56,6 +56,25 @@ describe('UserFriendsService', () => {
     });
   });
 
+  describe('getAllFriendsByUserId', () => {
+    it('should return an FriendArrayModel', () => {
+      const allFriendsriends = [
+        {
+          id: 5,
+          name: 'friend',
+          emal: 'friend@friend.com'
+        }
+      ];
+      userFriendsService.getAllFriendsByUserId(5).subscribe((users) => {
+        expect(users.length).toBe(1);
+      });
+
+      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/user/5`);
+      expect(req.request.method).toBe('GET');
+      req.flush(allFriendsriends);
+    });
+  });
+
   describe('getNewFriends', () => {
     it('should return an object on calling getNewFriends', () => {
       const possibleFriends = {

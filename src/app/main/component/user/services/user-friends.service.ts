@@ -43,7 +43,7 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
   }
 
-  public getAllFriendsByUserID(userId: number): Observable<FriendModel[]> {
+  public getAllFriendsByUserId(userId: number): Observable<FriendModel[]> {
     return this.http.get<FriendModel[]>(`${this.urlFriend}friends/user/${userId}`);
   }
 
