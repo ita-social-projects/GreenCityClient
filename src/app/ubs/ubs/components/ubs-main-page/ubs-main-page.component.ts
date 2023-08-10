@@ -256,6 +256,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
         },
         (e) => {
           console.error(e);
+          // comment
         }
       );
   }
