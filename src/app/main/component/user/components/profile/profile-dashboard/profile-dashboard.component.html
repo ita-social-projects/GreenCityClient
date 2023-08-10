@@ -98,10 +98,10 @@
         <div class="events-filter">
           <span class="event-filter-title"> {{ 'homepage.events.my-space.event-types-title' | translate }}</span>
           <div class="events-types">
-            <mat-checkbox [(ngModel)]="isOnlineChecked" (ngModelChange)="onCheckboxChange(1)">
+            <mat-checkbox [(ngModel)]="isOnlineChecked" (ngModelChange)="onCheckboxChange('ONLINE')">
               {{ 'homepage.events.my-space.event-type-online' | translate }}
             </mat-checkbox>
-            <mat-checkbox [(ngModel)]="isOfflineChecked" (ngModelChange)="onCheckboxChange(2)"
+            <mat-checkbox [(ngModel)]="isOfflineChecked" (ngModelChange)="onCheckboxChange('OFFLINE')"
               >{{ 'homepage.events.my-space.event-type-offline' | translate }}
             </mat-checkbox>
           </div>

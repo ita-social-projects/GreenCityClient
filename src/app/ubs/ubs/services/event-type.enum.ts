@@ -1,0 +1,5 @@
+export enum EventType {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+  ONLINE_OFFLINE = 'ONLINE_OFFLINE'
+}

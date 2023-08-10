@@ -15,6 +15,7 @@ import { EventsService } from 'src/app/main/component/events/services/events.ser
 import { ActivatedRoute } from '@angular/router';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -104,17 +105,19 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onCheckboxChange(checkboxNumber: number) {
-    if (checkboxNumber === 1) {
+  onCheckboxChange(EventTypeChecked: string) {
+    if (EventTypeChecked === EventType.ONLINE) {
       this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
-    } else if (checkboxNumber === 2) {
+    } else if (EventTypeChecked === EventType.OFFLINE) {
       this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
     }
 
     if (this.isOnlineChecked) {
-      this.eventType = 'ONLINE';
+      this.eventType = EventType.ONLINE;
     } else if (this.isOfflineChecked) {
-      this.eventType = 'OFFLINE';
+      this.eventType = EventType.OFFLINE;
+    } else if (!this.isOnlineChecked && !this.isOfflineChecked) {
+      this.eventType = '';
     }
 
     this.initGetUserEvents(this.eventType);

@@ -91,7 +91,8 @@ describe('ProfileDashboardComponent', () => {
         ],
         title: 'title',
         titleImage: 'image title',
-        isSubscribed: true
+        isSubscribed: true,
+        isActive: true
       }
     ],
     totalElements: 12,

@@ -89,6 +89,7 @@ export interface EventPageResponceDto {
   title: string;
   titleImage: string;
   isSubscribed: boolean;
+  isActive: boolean;
 }
 
 export interface TagDto {
