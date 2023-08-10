@@ -25,6 +25,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -79,6 +80,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'red'
   };
+  canUserJoinEvent: boolean;
 
   @Output() public isLoggedIn: boolean;
 
@@ -107,7 +109,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private eventService: EventsService,
     private translate: TranslateService,
     private snackBar: MatSnackBarComponent,
-    private maxTextLengthPipe: MaxTextLengthPipe
+    private maxTextLengthPipe: MaxTextLengthPipe,
+    private userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit(): void {
@@ -121,12 +124,18 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initAllStatusesOfEvent();
+    this.checkCanUserJoinEvent();
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
+  }
+
+  checkCanUserJoinEvent() {
+    const friends = this.userFriendsService.allUserFriends;
+    this.canUserJoinEvent = friends.some((el) => el.id === this.event.organizer.id) || this.event.open;
   }
 
   public routeToEvent(): void {
@@ -168,7 +177,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       return;
     }
     if (!isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.primary;
+      this.btnStyle = this.canUserJoinEvent ? this.styleBtn.primary : this.styleBtn.hiden;
       this.nameBtn = this.btnName.join;
       return;
     }

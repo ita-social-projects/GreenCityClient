@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class UserFriendsService {
   addedFriends: FriendModel[] = [];
+  allUserFriends: FriendModel[] = [];
   private size = 10;
   public url: string = environment.backendUserLink;
   public urlFriend: string = environment.backendLink;
@@ -40,6 +41,10 @@ export class UserFriendsService {
 
   public getAllFriends(page = 0, size = this.size): Observable<FriendArrayModel> {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
+  }
+
+  public getAllFriendsByUserID(userId: number): Observable<FriendModel[]> {
+    return this.http.get<FriendModel[]>(`${this.urlFriend}friends/user/${userId}`);
   }
 
   public getNewFriends(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
