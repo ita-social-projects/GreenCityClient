@@ -40,7 +40,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public eventsList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
-  public eventsTotal = 0;
+  public totalEvents = 0;
 
   private hasNext = true;
   private currentPage: number;
@@ -92,7 +92,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
-        this.eventsTotal = res.totalElements;
+        this.totalEvents = res.totalElements;
       });
   }
 

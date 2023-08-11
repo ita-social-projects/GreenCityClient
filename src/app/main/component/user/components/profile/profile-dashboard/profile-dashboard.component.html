@@ -96,13 +96,23 @@
 
       <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
         <div *ngIf="!loading; else spinner">
-          <ul class="news-list" *ngIf="this.eventsTotal">
+          <div class="in-progress header">
+            <a [routerLink]="['/events/create-event']">
+              <div id="create-button" class="secondary-global-button s-btn">
+                <span>{{ 'profile.dashboard.add-event' | translate }}</span>
+              </div>
+            </a>
+            <div class="favourites">
+              <span class="flag-active"></span>
+            </div>
+          </div>
+          <ul class="news-list" *ngIf="totalEvents">
             <li
               *ngFor="
-                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: eventsTotal }
+                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
               "
             >
-              <app-events-list-item [event]="eventItem" [userId]="userId"></app-events-list-item>
+              <app-one-event [event]="eventItem" [userId]="userId"></app-one-event>
             </li>
           </ul>
           <pagination-controls
@@ -112,9 +122,9 @@
             maxSize="7"
             autoHide="true"
             responsive="true"
-            *ngIf="this.eventsTotal"
+            *ngIf="this.totalEvents"
           ></pagination-controls>
-          <div class="no-data" *ngIf="!this.eventsTotal">
+          <div class="no-data" *ngIf="!this.totalEvents">
             <app-no-data [title]="'profile.dashboard.no-events'" [text]="'profile.dashboard.no-events-advice'"> </app-no-data>
             <a [routerLink]="['/events']">
               <div id="create-button" class="secondary-global-button m-btn">
