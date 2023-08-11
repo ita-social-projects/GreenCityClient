@@ -58,6 +58,18 @@ export class ShoppingListComponent implements OnInit {
     }, []);
   }
 
+  public handleItemClick(shoppingItem: any) {
+    const isLink = this.isValidURL(shoppingItem.text);
+    if (isLink) {
+      window.open(shoppingItem.text, '_blank');
+    }
+  }
+
+  public isValidURL(url: string): boolean {
+    const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    return pattern.test(url);
+  }
+
   public openCloseList(): void {
     this.toggle = !this.toggle;
   }
