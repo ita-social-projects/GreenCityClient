@@ -3,7 +3,7 @@ import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -39,6 +39,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public emailFieldValue: string;
   public passwordFieldValue: string;
   public isUbs: boolean;
+  public isEventsDetails: boolean;
+  public eventId: number;
+  public isOwnerParams: boolean;
+  public isActiveParams: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
 
@@ -55,6 +59,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnSignInService: UserOwnSignInService,
     private jwtService: JwtService,
     private router: Router,
+    private route: ActivatedRoute,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
@@ -70,6 +75,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     this.isUbs = this.router.url.includes('ubs');
+    this.isEventsDetails = this.router.url.includes('isOwner');
+    this.eventId = this.route.snapshot.params.id;
+    this.isOwnerParams = this.route.snapshot.params.isOwner;
+    this.isActiveParams = this.route.snapshot.params.isActive;
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -155,9 +164,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
+    const path = this.navigateToPage(data);
     this.zone.run(() => {
       this.router
-        .navigate(this.isUbs ? ['ubs'] : ['profile', data.userId])
+        .navigate(path)
         .then(() => {
           this.localStorageService.setFirstSignIn();
           this.profileService
@@ -191,13 +201,25 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    const path = this.navigateToPage(data);
+    this.router.navigate(path);
+  }
+
+  public navigateToPage(data): any {
     const getUbsRoleSignIn = this.jwtService.getUserRole();
-    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
     this.jwtService.userRole$.next(getUbsRoleSignIn);
     if (getUbsRoleSignIn !== 'ROLE_USER') {
       this.definitionOfAuthoritiesAndPositions();
     }
-    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
+    if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
+      return ['ubs-admin', 'orders'];
+    } else if (this.isEventsDetails) {
+      return ['/events', this.eventId, { isOwner: this.isOwnerParams, isActive: this.isActiveParams }];
+    } else if (this.isUbs) {
+      return ['ubs'];
+    } else if (getUbsRoleSignIn === 'ROLE_USER') {
+      return ['profile', data.userId];
+    }
   }
 
   private definitionOfAuthoritiesAndPositions() {

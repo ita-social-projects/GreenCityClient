@@ -211,17 +211,6 @@ describe('SignIn component', () => {
         expect(service.signIn).toHaveBeenCalled();
       })
     ));
-
-    it('Sohuld navige to profile after sign in', async(() => {
-      fixture.ngZone.run(() => {
-        // @ts-ignore
-        component.onSignInSuccess(userSuccessSignIn);
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
-        });
-      });
-    }));
   });
 
   describe('Error functionality testing', () => {

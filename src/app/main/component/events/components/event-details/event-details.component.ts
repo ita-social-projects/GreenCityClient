@@ -242,18 +242,21 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public buttonAction() {
-    if (this.isUserCanJoin) {
+    if (this.role === this.roles.UNAUTHENTICATED) {
+      this.openAuthModalWindow('sign-in');
+    } else if (this.isUserCanJoin) {
       if (this.addAttenderError) {
         this.snackBar.openSnackBar('errorJoinEvent');
         this.addAttenderError = '';
       } else {
         this.snackBar.openSnackBar('joinedEvent');
         this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+        this.isUserCanJoin = !this.isUserCanJoin;
       }
     } else {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+      this.isUserCanJoin = !this.isUserCanJoin;
     }
-    this.isUserCanJoin = !this.isUserCanJoin;
   }
 
   public openAuthModalWindow(page: string): void {
