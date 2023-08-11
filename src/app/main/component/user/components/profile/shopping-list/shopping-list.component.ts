@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
-import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.interface';
+import { AllShoppingLists, ShoppingList, CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
 
 @Component({
   selector: 'app-shopping-list',
@@ -58,7 +58,7 @@ export class ShoppingListComponent implements OnInit {
     }, []);
   }
 
-  public handleItemClick(shoppingItem: ShoppingList) {
+  public handleItemClick(shoppingItem: CustomShoppingItem) {
     const isLink = this.isValidURL(shoppingItem.text);
     if (isLink) {
       window.open(shoppingItem.text, '_blank');
