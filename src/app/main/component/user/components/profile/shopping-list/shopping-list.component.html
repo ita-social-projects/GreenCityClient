@@ -18,18 +18,9 @@
       <div class="shopping-list-content">
         <ul class="shopping-list" [ngClass]="{ 'shopping-list-max': toggle, 'shopping-list-min': !toggle }">
           <li [ngClass]="checkbox.checked ? 'item-striked' : 'item'" *ngFor="let shoppingItem of shoppingList">
-            <span
-              ngbPopover="{{ shoppingItem.text }}"
-              triggers="mouseenter:mouseleave"
-              placement="right"
-              (click)="handleItemClick(shoppingItem)"
-            >
-              <ng-container *ngIf="isValidURL(shoppingItem.text); else nonLinkItem">
-                <a>{{ shoppingItem.text }}</a>
-              </ng-container>
-              <ng-template #nonLinkItem>
-                {{ shoppingItem.text }}
-              </ng-template>
+            <span ngbPopover="{{ shoppingItem.text }}" triggers="mouseenter:mouseleave" placement="right">
+              <a href="{{ shoppingItem.text }}" target="_blank" *ngIf="isValidURL(shoppingItem.text)">{{ shoppingItem.text }}</a>
+              <span *ngIf="!isValidURL(shoppingItem.text)">{{ shoppingItem.text }}</span>
             </span>
             <mat-checkbox
               #checkbox
