@@ -211,6 +211,58 @@ describe('SignIn component', () => {
         expect(service.signIn).toHaveBeenCalled();
       })
     ));
+
+    it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
+      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      component.onSignInSuccess(mockData);
+      expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'orders']);
+    });
+
+    it('should navigate to profile/userId for ROLE_USER', () => {
+      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
+      spyOn(component, 'navigateToPage').and.returnValue(['profile', mockData.userId]);
+      component.onSignInSuccess(mockData);
+      expect(router.navigate).toHaveBeenCalledWith(['profile', mockData.userId]);
+    });
+
+    it('should navigate to events/eventId with params for isEventsDetails', () => {
+      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
+      component.isEventsDetails = true;
+      component.eventId = 45;
+      component.isOwnerParams = true;
+      component.isActiveParams = false;
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_OTHER');
+      spyOn(component, 'navigateToPage').and.callThrough();
+      component.onSignInSuccess(mockData);
+      expect(router.navigate).toHaveBeenCalledWith(['/events', 45, { isOwner: true, isActive: false }]);
+    });
+
+    it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      const result = component.navigateToPage({});
+      expect(result).toEqual(['ubs-admin', 'orders']);
+    });
+
+    it('should navigate to profile/userId for ROLE_USER', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
+      const result = component.navigateToPage({ userId: 123 });
+      expect(result).toEqual(['profile', 123]);
+    });
+
+    it('should navigate to /events/eventId with params for isEventsDetails', () => {
+      component.isEventsDetails = true;
+      component.eventId = 43;
+      component.isOwnerParams = true;
+      component.isActiveParams = false;
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_OTHER');
+      const userRoleSubjectSpy = spyOn(jwtServiceMock.userRole$, 'next');
+      spyOn(component, 'definitionOfAuthoritiesAndPositions');
+      const result = component.navigateToPage({});
+      expect(result).toEqual(['/events', 43, { isOwner: true, isActive: false }]);
+      expect(userRoleSubjectSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('Error functionality testing', () => {

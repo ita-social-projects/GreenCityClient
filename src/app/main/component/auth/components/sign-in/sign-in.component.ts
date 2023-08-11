@@ -195,7 +195,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  private onSignInSuccess(data: UserSuccessSignIn): void {
+  public onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.localStorageService.setFirstName(data.name);
@@ -222,7 +222,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private definitionOfAuthoritiesAndPositions() {
+  public definitionOfAuthoritiesAndPositions() {
     const userEmail = this.jwtService.getEmailFromAccessToken();
     this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((positions) => {
       this.ubsAdminEmployeeService.employeePositions$.next(positions);
