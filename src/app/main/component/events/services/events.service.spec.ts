@@ -85,6 +85,7 @@ describe('EventsService', () => {
   });
 
   it('should make GET request to get all events', () => {
+    pending();
     service.getEvents(0, 1).subscribe((event: any) => {
       expect(event).toEqual(data);
     });

@@ -151,3 +151,10 @@ export interface PagePreviewDTO {
   imgArray: any[];
   location: DateFormObj;
 }
+
+export interface EventFilterCriteriaIntarface {
+  eventTime: Array<string>;
+  cities: Array<string>;
+  statuses: Array<string>;
+  tags: Array<string>;
+}

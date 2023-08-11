@@ -25,14 +25,14 @@
         <div class="dropdown" (click)="timeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
           <mat-select #timeFilter [formControl]="timeFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(timeList, 'timeList')">
+            <mat-option [value]="0" (click)="toggleAllSelection(timeList, 'timeList', 'eventTime')">
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
             <mat-option
               [value]="eventTime"
               *ngFor="let eventTime of eventTimeList"
-              (onSelectionChange)="updateSelectedFilters(eventTime, $event)"
+              (onSelectionChange)="updateSelectedFilters(eventTime, $event, timeList, 'timeList', 'eventTime')"
             >
               {{ getLangValue(eventTime.nameUa, eventTime.nameEn) }}
             </mat-option>
@@ -41,14 +41,14 @@
         <div class="dropdown" (click)="locationFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-location' | translate }}</mat-label>
           <mat-select #locationFilter [formControl]="locationFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(locationList, 'locationList')">{{
+            <mat-option [value]="0" (click)="toggleAllSelection(locationList, 'locationList', 'cities')">{{
               'homepage.events.filter-location-аny-location' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
             <mat-option
               [value]="location"
               *ngFor="let location of eventLocationList"
-              (onSelectionChange)="updateSelectedFilters(location, $event)"
+              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'locationList', 'cities')"
             >
               {{ getLangValue(location.nameUa, location.nameEn) }}
             </mat-option>
@@ -57,11 +57,15 @@
         <div class="dropdown" (click)="statusFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-status' | translate }}</mat-label>
           <mat-select #statusFilter [formControl]="statusFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(statusesList, 'statusList')">{{
+            <mat-option [value]="0" (click)="toggleAllSelection(statusesList, 'statusList', 'statuses')">{{
               'homepage.events.filter-status-аny-status' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option [value]="status" *ngFor="let status of statusList" (onSelectionChange)="updateSelectedFilters(status, $event)">
+            <mat-option
+              [value]="status"
+              *ngFor="let status of statusList"
+              (onSelectionChange)="updateSelectedFilters(status, $event, statusesList, 'statusList', 'statuses')"
+            >
               {{ getLangValue(status.nameUa, status.nameEn) }}
             </mat-option>
           </mat-select>
@@ -69,11 +73,15 @@
         <div class="dropdown" (click)="typeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.filter-type' | translate }}</mat-label>
           <mat-select #typeFilter [formControl]="typeFilterControl" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(typesList, 'typeList')">{{
+            <mat-option [value]="0" (click)="toggleAllSelection(typesList, 'typeList', 'tags')">{{
               'homepage.events.filter-аny-type' | translate
             }}</mat-option>
             <mat-divider></mat-divider>
-            <mat-option *ngFor="let type of typeList" [value]="type" (onSelectionChange)="updateSelectedFilters(type, $event)">
+            <mat-option
+              *ngFor="let type of typeList"
+              [value]="type"
+              (onSelectionChange)="updateSelectedFilters(type, $event, typesList, 'typeList', 'tags')"
+            >
               <span>{{ getLangValue(type.nameUa, type.nameEn) }}</span>
             </mat-option>
           </mat-select>
@@ -86,7 +94,7 @@
     <hr />
     <div class="active-filter-container">
       <p>
-        {{ 'homepage.events.item-found-text' | translate }} {{ selectedFilters.length }}
+        {{ 'homepage.events.item-found-text' | translate }} {{ remaining }}
         {{ 'homepage.events.items-event-text' | translate }}
       </p>
       <div class="chips">

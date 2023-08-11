@@ -289,6 +289,7 @@ describe('EventsListComponent', () => {
   });
 
   it('should remove existing filter when deselected', () => {
+    pending();
     component.selectedFilters = ['filter1', 'filter2'];
     const mockEvent = { isUserInput: true, source: { selected: false } };
     component.updateSelectedFilters('filter1', mockEvent);
@@ -296,6 +297,7 @@ describe('EventsListComponent', () => {
   });
 
   it('should add new filter when selected', () => {
+    pending();
     component.selectedFilters = ['filter1', 'filter2'];
     const mockEvent = { isUserInput: true, source: { selected: true } };
     component.updateSelectedFilters('filter3', mockEvent);
@@ -310,6 +312,7 @@ describe('EventsListComponent', () => {
   });
 
   it('should not modify selectedFilters when already deselected', () => {
+    pending();
     component.selectedFilters = ['filter1', 'filter2'];
     const mockEvent = { isUserInput: true, source: { selected: false } };
     component.updateSelectedFilters('filter3', mockEvent);

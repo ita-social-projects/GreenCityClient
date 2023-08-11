@@ -22,6 +22,13 @@ export const allSelectedFlags = {
   locationList: false
 };
 
+export const allSelectedFilter = {
+  timeList: { nameEn: 'Any time', nameUa: 'Будь-який час' },
+  locationList: { nameEn: 'All cites', nameUa: 'Всі міста' },
+  statusList: { nameEn: 'Any status', nameUa: 'Будь-який статус' },
+  typeList: { nameEn: 'All types', nameUa: 'Всі типи' }
+};
+
 export const TagsArray = [
   { nameEn: 'Economic', nameUa: 'Економічний', isActive: false },
   { nameEn: 'Social', nameUa: 'Соціальний', isActive: false },
@@ -63,3 +70,10 @@ export const WeekArray = [
   { nameEn: '6 days', nameUa: '6 днів' },
   { nameEn: '7 days', nameUa: '7 днів' }
 ];
+
+export const EventFilterCriteria = {
+  eventTime: [],
+  cities: [],
+  statuses: [],
+  tags: []
+};
