@@ -22,6 +22,7 @@
     "corpus": "Corpus",
     "entrance": "Entrance",
     "district": "District",
+    "default": " default",
     "account": "Connection with social networks",
     "account-message": "Connect to Google account",
     "additional": "Additional actions",
