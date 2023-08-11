@@ -58,7 +58,7 @@ export class ShoppingListComponent implements OnInit {
     }, []);
   }
 
-  public handleItemClick(shoppingItem: any) {
+  public handleItemClick(shoppingItem: ShoppingList) {
     const isLink = this.isValidURL(shoppingItem.text);
     if (isLink) {
       window.open(shoppingItem.text, '_blank');
