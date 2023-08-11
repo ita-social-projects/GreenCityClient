@@ -114,7 +114,9 @@
       "title": "Сповіщення",
       "all-notifications": "Всі сповіщення",
       "no-new-notifications": "Нових сповіщень не знайдено.",
-      "no-notifications": "На жаль, сповіщень не знайдено"
+      "no-notifications": "На жаль, сповіщень не знайдено.",
+      "filter": "Фільтрувати за",
+      "filterAll": "Усі"
     },
     "events": {
       "title": "Події",

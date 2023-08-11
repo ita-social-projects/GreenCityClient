@@ -2,17 +2,17 @@
   <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
   <div *ngIf="notifications.length" class="filter-search-wrapper d-flex">
     <div class="filter-wrapper d-flex">
-      <span class="filter-header h6">Filter by</span>
+      <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
       <div class="filter-button">
-        <button class="global-tag">All</button>
-        <button *ngFor="let filter of projects" class="tag-button">
-          <a class="custom-chip global-tag" [ngClass]="{ 'global-tag-clicked': true }">
-            <span class="text">{{ getLangValue(filter, filter) }}</span>
+        <button class="global-tag global-tag-clicked">{{ 'homepage.notifications.filterAll' | translate }}</button>
+        <button *ngFor="let project of projects" class="tag-button">
+          <a class="custom-chip global-tag">
+            <span class="text">{{ getLangValue(project.ua, project.en) }}</span>
           </a>
         </button>
       </div>
     </div>
-    <input class="notification-search" type="text" placeholder="Search" />
+    <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
   </div>
   <div *ngIf="!notifications.length" class="no-notifications">
     <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data>
@@ -21,10 +21,7 @@
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
       <mat-expansion-panel
         class="notification"
-        [ngClass]="{
-          'notification-unread': !notification.read,
-          'notification-read': notification.read
-        }"
+        [ngClass]="notification.read ? 'notification-read' : 'notification-unread'"
         *ngFor="let notification of notifications"
         hideToggle
       >

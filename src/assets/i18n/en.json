@@ -114,7 +114,9 @@
       "title": "Notifications",
       "all-notifications": "All messages",
       "no-new-notifications": "No new messages at the moment.",
-      "no-notifications": "Unfortunately, no more notifications found"
+      "no-notifications": "Unfortunately, no more notifications found.",
+      "filter": "Filter by",
+      "filterAll": "All"
     },
     "events": {
       "title": "Events",
