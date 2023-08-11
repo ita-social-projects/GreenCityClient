@@ -754,7 +754,7 @@
           "hard": "Hard"
         },
         "textarea-title": "Habit description",
-        "description-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+        "description-tooltip": "The field should contain a minimum of 20 symbols",
         "description-placeholder": "Describe the habit",
         "modal-caption": "New habit",
         "already-chosen-caption": "Already chosen",
