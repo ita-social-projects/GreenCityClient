@@ -65,18 +65,6 @@ describe('SignIn component', () => {
   jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  let editProfileMock = {
-    city: 'string',
-    name: 'string',
-    userCredo: 'string',
-    profilePicturePath: 'string',
-    rating: 5,
-    showEcoPlace: true,
-    showLocation: true,
-    showShoppingList: true,
-    socialNetworks: []
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
