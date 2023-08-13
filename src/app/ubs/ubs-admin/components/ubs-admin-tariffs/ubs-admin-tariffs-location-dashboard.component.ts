@@ -26,6 +26,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { statusOfTariff, actionsWithTariffs, switchTariffStatus } from './tariff-status.enum';
 import { Language } from 'src/app/main/i18n/Language';
 import { TariffRegionAll } from './ubs-tariffs.enum';
+import { abilityAddAuthorities, abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-location-dashboard',
@@ -82,6 +83,20 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   };
 
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  private employeeAuthorities: string[];
+  isEmployeeCanCreateLocation: boolean;
+  isEmployeeCanCreateCourier: boolean;
+  isEmployeeCanCreateStation: boolean;
+  userCanAdd: boolean;
+  isEmployeeCanEditLocation: boolean;
+  isEmployeeCanEditCourier: boolean;
+  isEmployeeCanEditStation: boolean;
+  userCanEdit: boolean;
+  isEmployeeCanCreateEditPricingCard: boolean;
+  isEmployeeCanActivateDeactivate: boolean;
+  isUserCanControlSettings: boolean;
+  isUserCanUseCrumbs: boolean;
 
   constructor(
     private tariffsService: TariffsService,
@@ -140,6 +155,37 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         this.setStationPlaceholder();
         this.getCouriers();
       });
+    this.definitionUserAuthorities();
+  }
+
+  definitionUserAuthorities(): void {
+    this.permissions$.subscribe((employeeRight) => {
+      if (employeeRight.length) {
+        this.definedIsEmployeeHasRights(employeeRight);
+      }
+    });
+  }
+
+  definedIsEmployeeHasRights(employeeRighs) {
+    this.employeeAuthorities = employeeRighs;
+    this.isEmployeeCanCreateLocation = this.employeeAuthorities.includes(abilityAddAuthorities.location);
+    this.isEmployeeCanCreateCourier = this.employeeAuthorities.includes(abilityAddAuthorities.courier);
+    this.isEmployeeCanCreateStation = this.employeeAuthorities.includes(abilityAddAuthorities.station);
+
+    this.userCanAdd = this.isEmployeeCanCreateLocation || this.isEmployeeCanCreateCourier || this.isEmployeeCanCreateStation;
+
+    this.isEmployeeCanEditLocation = this.employeeAuthorities.includes(abilityEditAuthorities.location);
+    this.isEmployeeCanEditCourier = this.employeeAuthorities.includes(abilityEditAuthorities.courier);
+    this.isEmployeeCanEditStation = this.employeeAuthorities.includes(abilityEditAuthorities.station);
+
+    this.userCanEdit = this.isEmployeeCanEditLocation || this.isEmployeeCanEditCourier || this.isEmployeeCanEditStation;
+    this.isEmployeeCanCreateEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
+    this.isEmployeeCanActivateDeactivate = this.employeeAuthorities.includes(abilityDelAuthorities.activateDeactivate);
+
+    this.isUserCanControlSettings =
+      this.userCanAdd || this.userCanEdit || this.isEmployeeCanCreateEditPricingCard || this.isEmployeeCanActivateDeactivate;
+
+    this.isUserCanUseCrumbs = this.isEmployeeCanCreateEditPricingCard || this.isEmployeeCanActivateDeactivate;
   }
 
   ngAfterViewChecked(): void {

@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -95,6 +94,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   searchForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(
     private tariffsService: TariffsService,
@@ -104,8 +104,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private store: Store<IAppState>,
-    private jwtService: JwtService
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit(): void {
@@ -148,16 +147,20 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   definitionUserAuthorities(): void {
-    this.userEmail = this.jwtService.getEmailFromAccessToken();
-    this.getEmployeePositionbyEmail(this.userEmail);
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee: EmployeePositionsAuthorities) => {
-      this.userAuthorities = employee.authorities;
-      this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
-      this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
-      this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
-      this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
-      this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
+    this.permissions$.subscribe((employeeRight) => {
+      if (employeeRight.length) {
+        this.definedIsEmployeeHasRights(employeeRight);
+      }
     });
+  }
+
+  definedIsEmployeeHasRights(employeeRight) {
+    this.userAuthorities = employeeRight;
+    this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
+    this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
+    this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
+    this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
+    this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
   }
 
   private initForm(): void {

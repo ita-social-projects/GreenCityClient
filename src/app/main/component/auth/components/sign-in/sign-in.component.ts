@@ -18,6 +18,9 @@ import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
+import { Store } from '@ngrx/store';
+import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 declare var google: any;
 @Component({
@@ -60,7 +63,8 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService,
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
-    private zone: NgZone
+    private zone: NgZone,
+    private store: Store<IAppState>
   ) {}
 
   ngOnDestroy(): void {
@@ -191,23 +195,19 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    const getUbsRoleSignIn = this.jwtService.getUserRole();
-    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
-    this.jwtService.userRole$.next(getUbsRoleSignIn);
-    if (getUbsRoleSignIn !== 'ROLE_USER') {
-      this.definitionOfAuthoritiesAndPositions();
-    }
-    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
+    const userEmail = this.jwtService.getEmailFromAccessToken();
+    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(userEmail).subscribe((positionsAuthorities) => {
+      if (positionsAuthorities) {
+        this.definitionOfAuthorities(positionsAuthorities.authorities, data);
+      }
+    });
   }
 
-  private definitionOfAuthoritiesAndPositions() {
-    const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((positions) => {
-      this.ubsAdminEmployeeService.employeePositions$.next(positions);
-    });
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(userEmail).subscribe((positionsAuthorities) => {
-      this.ubsAdminEmployeeService.employeePositionsAuthorities$.next(positionsAuthorities);
-    });
+  private definitionOfAuthorities(authorities: string[], data) {
+    const getUbsRoleSignIn = this.jwtService.getUserRole();
+    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' && !!authorities.length ? ['ubs-admin', 'orders'] : ['ubs'];
+    this.jwtService.userRole$.next(getUbsRoleSignIn);
+    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {

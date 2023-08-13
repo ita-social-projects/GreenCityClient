@@ -18,6 +18,9 @@ import { SearchService } from '@global-service/search/search.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DropdownModule } from 'angular-bootstrap-md';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 class MatDialogMock {
   afterAllClosed = of(true);
@@ -35,6 +38,17 @@ describe('HeaderComponent', () => {
   const mockLang = 'ua';
   const mockLangId = 1;
   const userId = 'userId';
+  let store: MockStore<IAppState>;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
+  const fakeJwtService = jasmine.createSpyObj('JwtService', ['getEmailFromAccessToken']);
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
@@ -47,7 +61,7 @@ describe('HeaderComponent', () => {
   localStorageServiceMock.setUbsRegistration = () => true;
 
   let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
@@ -95,6 +109,9 @@ describe('HeaderComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
+        { provide: JwtService, useValue: fakeJwtService },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
@@ -111,6 +128,7 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
+    fakeJwtService.userRole$ = of('ROLE_UBS_EMPLOYEE');
 
     // init states
     component.dropdownVisible = false;

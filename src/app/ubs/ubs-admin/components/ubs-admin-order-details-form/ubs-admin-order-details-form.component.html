@@ -46,6 +46,7 @@
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
               <input
+                [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
                 class="shadow-none form-control input p-2"
                 type="number"
                 min="0"

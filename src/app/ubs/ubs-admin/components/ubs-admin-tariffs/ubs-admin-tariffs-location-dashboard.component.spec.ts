@@ -31,13 +31,22 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { TariffRegionAll } from './ubs-tariffs.enum';
+import { provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
   let httpMock: HttpTestingController;
   let router: Router;
-  let store: MockStore;
+  let store: MockStore<IAppState>;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
 
   const mockRegion = [
     {
@@ -196,6 +205,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
@@ -229,6 +239,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         MatChipsModule
       ],
       providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
         TranslateService,
         FormBuilder,
         { provide: MatDialog, useValue: matDialogMock },
@@ -249,7 +261,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     fixture.detectChanges();
     router = TestBed.inject(Router);
     httpMock = TestBed.inject(HttpTestingController);
-    store = TestBed.inject(Store) as MockStore;
+    store = TestBed.inject(Store) as MockStore<IAppState>;
     component.locations = [fakeLocations];
   });
 

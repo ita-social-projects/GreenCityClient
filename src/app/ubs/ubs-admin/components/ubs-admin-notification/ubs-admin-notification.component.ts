@@ -12,6 +12,9 @@ import { ConfirmationDialogComponent } from '../shared/components/confirmation-d
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { NotificationsService, notificationTriggerTimeMock, notificationTriggersMock } from '../../services/notifications.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { abilityDelAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-notification',
@@ -32,6 +35,11 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
   notificationTriggerTime = notificationTriggerTimeMock;
   notificationTriggers = notificationTriggersMock;
   notificationId: number;
+  isThisEmployeeCanEditNotification: boolean;
+  isThisEmployeeCanActivateNotification: boolean;
+  isThisEmployeeHasRights: boolean;
+  permissions$ = this.store.select((state): Array<string> => state.employees.employeesPermissions);
+  private employeeAuthorities: string[];
 
   constructor(
     private notificationsService: NotificationsService,
@@ -41,7 +49,8 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private dialog: MatDialog,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +62,22 @@ export class UbsAdminNotificationComponent implements OnInit, OnDestroy {
       this.notificationId = Number(params.id);
       this.loadNotification(this.notificationId);
     });
+    this.authoritiesSubscription();
+  }
+
+  private authoritiesSubscription() {
+    this.permissions$.subscribe((authorities) => {
+      if (authorities.length) {
+        this.definedIsEmployeeCanEditNotifications(authorities);
+      }
+    });
+  }
+
+  definedIsEmployeeCanEditNotifications(employeeRights) {
+    this.employeeAuthorities = employeeRights;
+    this.isThisEmployeeCanEditNotification = this.employeeAuthorities.includes(abilityEditAuthorities.notifications);
+    this.isThisEmployeeCanActivateNotification = this.employeeAuthorities.includes(abilityDelAuthorities.notifications);
+    this.isThisEmployeeHasRights = this.isThisEmployeeCanEditNotification || this.isThisEmployeeCanActivateNotification;
   }
 
   loadNotification(id: number): void {

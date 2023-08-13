@@ -27,6 +27,8 @@ import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 describe('UbsAdminPricingPageComponent', () => {
   let component: UbsAdminTariffsPricingPageComponent;
@@ -36,6 +38,17 @@ describe('UbsAdminPricingPageComponent', () => {
   let location: Location;
   let router: Router;
   let fakeTariffService: TariffsService;
+  let store: MockStore<IAppState>;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const fakeValue = '1';
   const fakeCourierForm = new FormGroup({
@@ -225,7 +238,6 @@ describe('UbsAdminPricingPageComponent', () => {
 
   const orderServiceMock = jasmine.createSpyObj('orderServiceMock', ['completedLocation']);
 
-  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of([fakeLocations]);
 
   beforeEach(async(() => {
@@ -253,6 +265,8 @@ describe('UbsAdminPricingPageComponent', () => {
       ],
       providers: [
         FormBuilder,
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: dialogStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
