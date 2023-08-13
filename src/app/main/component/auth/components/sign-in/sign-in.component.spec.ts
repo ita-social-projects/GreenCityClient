@@ -3,7 +3,7 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -57,12 +57,25 @@ describe('SignIn component', () => {
 
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
+  const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
 
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
+
+  let editProfileMock = {
+    city: 'string',
+    name: 'string',
+    userCredo: 'string',
+    profilePicturePath: 'string',
+    rating: 5,
+    showEcoPlace: true,
+    showLocation: true,
+    showShoppingList: true,
+    socialNetworks: []
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -213,14 +226,12 @@ describe('SignIn component', () => {
     ));
 
     it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
-      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
       component.onSignInSuccess(mockData);
       expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'orders']);
     });
 
     it('should navigate to profile/userId for ROLE_USER', () => {
-      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
       spyOn(component, 'navigateToPage').and.returnValue(['profile', mockData.userId]);
       component.onSignInSuccess(mockData);
@@ -228,7 +239,6 @@ describe('SignIn component', () => {
     });
 
     it('should navigate to events/eventId with params for isEventsDetails', () => {
-      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
       component.isEventsDetails = true;
       component.eventId = 45;
       component.isOwnerParams = true;
@@ -262,6 +272,16 @@ describe('SignIn component', () => {
       const result = component.navigateToPage({});
       expect(result).toEqual(['/events', 43, { isOwner: true, isActive: false }]);
       expect(userRoleSubjectSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should navigate to the correct page based on user role', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      spyOn(component, 'definitionOfAuthoritiesAndPositions').and.stub();
+      component.isEventsDetails = false;
+      component.isUbs = false;
+      const result = component.navigateToPage({ userId: 'user123' });
+      expect(result).toEqual(['ubs-admin', 'orders']);
+      expect(component.definitionOfAuthoritiesAndPositions).toHaveBeenCalled();
     });
   });
 

@@ -164,10 +164,9 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
-    const path = this.navigateToPage(data);
     this.zone.run(() => {
       this.router
-        .navigate(path)
+        .navigate(this.navigateToPage(data))
         .then(() => {
           this.localStorageService.setFirstSignIn();
           this.profileService
@@ -201,8 +200,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    const path = this.navigateToPage(data);
-    this.router.navigate(path);
+    this.router.navigate(this.navigateToPage(data));
   }
 
   public navigateToPage(data): any {
