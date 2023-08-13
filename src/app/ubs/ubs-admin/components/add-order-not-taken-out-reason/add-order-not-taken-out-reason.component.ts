@@ -122,9 +122,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   }
 
   prepareDataToSend(): FormData {
-    const notTakenOutReason = JSON.stringify(this.addNotTakenOutForm.value.notTakenOutReason);
     const formData: FormData = new FormData();
-    formData.append('description', notTakenOutReason);
     this.images.forEach((image) => {
       if (image.file) {
         formData.append('images', image.file);
@@ -136,14 +134,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   public send(): void {
     this.isUploading = true;
     const dataToSend = this.prepareDataToSend();
-    of(true)
-      .pipe(
-        switchMap(() => this.orderService.addReasonForNotTakenOutOrder(dataToSend, this.id)),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.dialogRef.close(true);
-      });
+    this.dialogRef.close({ description: JSON.stringify(this.addNotTakenOutForm.value.notTakenOutReason), images: dataToSend });
   }
 
   public close(): void {

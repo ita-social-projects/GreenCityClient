@@ -78,6 +78,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   private employeeAuthorities: string[];
   public isEmployeeCanEditOrder = false;
+  notTakenOutReasonDescription: string;
+  notTakenOutReasonImages: FormData;
+
   public permissions$ = this.store.select((state): Array<string> => state.employees?.employeesPermissions);
   constructor(
     private translate: TranslateService,
@@ -135,6 +138,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   public onCancelOrder(): void {
     this.isOrderStatusChanged = true;
     this.setOrderDetails();
+  }
+
+  onNotTakenOutReason(value): void {
+    this.notTakenOutReasonDescription = value.description;
+    this.notTakenOutReasonImages = value.images;
   }
 
   public getOrderInfo(orderId: number, submitMode: boolean): void {
@@ -475,6 +483,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       delete changedValues.responsiblePersonsForm;
     } else if (this.isFormResetted) {
       changedValues.responsiblePersonsForm = this.orderForm.get('responsiblePersonsForm').value;
+    }
+
+    if (this.currentOrderStatus === OrderStatus.NOT_TAKEN_OUT) {
+      changedValues.notTakenOutReason = { description: this.notTakenOutReasonDescription, images: this.notTakenOutReasonImages };
     }
 
     this.addIdForUserAndAdress(changedValues);

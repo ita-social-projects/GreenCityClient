@@ -27,6 +27,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() isEmployeeCanEditOrder: boolean;
   @Output() changedOrderStatus = new EventEmitter<string>();
   @Output() cancelReason = new EventEmitter<string>();
+  @Output() notTakenOutReason = new EventEmitter<FormData>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -118,13 +119,12 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
-        if (res.action === 'cancel') {
+        if (res) {
+          this.notTakenOutReason.emit(res);
+        } else {
           this.onChangedOrderStatus(this.generalInfo.orderStatus);
           this.generalOrderInfo.get('orderStatus').setValue(this.generalInfo.orderStatus);
-          return;
         }
-        this.generalOrderInfo.get('notTakenOutReason').setValue(res.reason);
-        this.generalOrderInfo.get('notTakenOutReason').markAsDirty();
       });
   }
 

@@ -21,6 +21,7 @@
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
           (changedOrderStatus)="onChangedOrderStatus($event)"
           (cancelReason)="onCancelReason($event)"
+          (notTakenOutReason)="onNotTakenOutReason($event)"
         >
         </app-ubs-admin-order-status>
         <app-ubs-admin-order-client-info
