@@ -38,7 +38,6 @@ describe('HeaderComponent', () => {
   const mockLang = 'ua';
   const mockLangId = 1;
   const userId = 'userId';
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,

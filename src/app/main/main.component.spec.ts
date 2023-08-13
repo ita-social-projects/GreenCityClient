@@ -24,7 +24,6 @@ describe('MainComponent', () => {
   let fixture;
   let app: MainComponent;
   let router: Router;
-  let store: MockStore<IAppState>;
   const initialState = {};
 
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];

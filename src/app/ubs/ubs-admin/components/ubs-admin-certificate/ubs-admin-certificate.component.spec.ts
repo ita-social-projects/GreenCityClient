@@ -15,7 +15,6 @@ import { IAppState } from 'src/app/store/state/app.state';
 describe('UbsAdminCertificateComponent', () => {
   let component: UbsAdminCertificateComponent;
   let fixture: ComponentFixture<UbsAdminCertificateComponent>;
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,

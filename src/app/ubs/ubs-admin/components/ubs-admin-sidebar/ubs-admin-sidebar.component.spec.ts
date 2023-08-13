@@ -14,7 +14,6 @@ import { IAppState } from 'src/app/store/state/app.state';
 describe('UbsAdminSidebarComponent', () => {
   let component: UbsAdminSidebarComponent;
   let fixture: ComponentFixture<UbsAdminSidebarComponent>;
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,

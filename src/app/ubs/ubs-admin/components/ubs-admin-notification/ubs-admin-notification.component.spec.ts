@@ -37,7 +37,6 @@ describe('UbsAdminNotificationComponent', () => {
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
   let notificationsService: NotificationsService;
   let MatSnackBarMock: MatSnackBarComponent;
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,
@@ -156,74 +155,10 @@ describe('UbsAdminNotificationComponent', () => {
     return cont.query(By.css(buttons[name]));
   };
 
-  // it('clicking `save changes` should call notificationsService.updateNotificationTemplate with updated data', async () => {
-  //   component.isThisEmployeeCanEditNotification=true;
-  //   component.isThisEmployeeCanActivateNotification=true;
-  //   const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
-  //     afterClosed: () =>
-  //       of({
-  //         title: { en: 'new topic', ua: 'нова тема' },
-  //         trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-  //         time: 'IMMEDIATELY',
-  //         schedule: '0 0 * * *'
-  //       })
-  //   });
-  //   getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
-  //   fixture.detectChanges();
-
-  //   getButton('deactivate', getPlatformActionsCell('email')).triggerEventHandler('click', null);
-  //   fixture.detectChanges();
-
-  //   const notificationUpdateSpy = spyOn(notificationsServiceMock, 'updateNotificationTemplate');
-  //   getButton('save').triggerEventHandler('click', null);
-
-  //   const getCurrentNotificationSettingsMock = () => {
-  //     expect(notificationUpdateSpy).toHaveBeenCalledWith(1, {
-  //       id: 1,
-  //       title: { en: 'new topic', ua: 'нова тема' },
-  //       trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
-  //       time: 'IMMEDIATELY',
-  //       schedule: '0 0 * * *',
-  //       status: 'ACTIVE',
-  //       platforms: [
-  //         {
-  //           name: 'email',
-  //           status: 'INACTIVE',
-  //           body: {
-  //             en: 'Unpaid order, text for Email',
-  //             ua: 'Неоплачене замовлення, текст для Email'
-  //           }
-  //         },
-  //         {
-  //           name: 'telegram',
-  //           status: 'ACTIVE',
-  //           body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' }
-  //         },
-  //         { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
-  //       ]
-  //     });
-  //   };
-  // });
-
   it('should return en value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('enValue');
   });
-
-  // it('should display `edit` and `deactivate` buttons if platform is active, `activate` button otherwise', async () => {
-  //   component.isThisEmployeeCanEditNotification = true;
-  //   component.isThisEmployeeCanActivateNotification = true;
-
-  //   const [emailActionsCell, siteActionsCell, mobileActionsCell] = getAllActionsCells();
-
-  //   expect(getButton('edit', siteActionsCell)).toBeTruthy();
-  //   expect(getButton('deactivate', siteActionsCell)).toBeTruthy();
-  //   expect(getButton('activate', siteActionsCell)).toBeFalsy();
-
-  //   expect(getButton('edit', mobileActionsCell)).toBeFalsy();
-  //   expect(getButton('deactivate', mobileActionsCell)).toBeFalsy();
-  //   expect(getButton('activate', mobileActionsCell)).toBeTruthy();
-  // });
 
   it('`cancel` button should navigate user to notification list', async () => {
     const navigateSpy = spyOn(routerMock, 'navigate');

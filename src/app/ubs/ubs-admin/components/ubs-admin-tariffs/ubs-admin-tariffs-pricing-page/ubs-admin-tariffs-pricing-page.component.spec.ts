@@ -38,7 +38,6 @@ describe('UbsAdminPricingPageComponent', () => {
   let location: Location;
   let router: Router;
   let fakeTariffService: TariffsService;
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,

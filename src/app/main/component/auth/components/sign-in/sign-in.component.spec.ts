@@ -35,7 +35,6 @@ describe('SignIn component', () => {
   let router: Router;
   let googleServiceMock: GoogleSignInService;
   let userSuccessSignIn;
-  let store: MockStore<IAppState>;
   const initialState = {
     employees: null,
     error: null,
