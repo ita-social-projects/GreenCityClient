@@ -593,7 +593,7 @@ export enum abilityEditAuthorities {
 
 export enum abilityDelAuthorities {
   notifications = 'DELETE_MESSAGE',
-  activateDeactivate = 'DEACTIVATE_PRICING_CARD'
+  activateDeactivate = 'EDIT_DELETE_PRICE_CARD'
 }
 
 export enum SideMenuElementsNames {
