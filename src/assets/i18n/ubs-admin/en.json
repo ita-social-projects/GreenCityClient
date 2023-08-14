@@ -622,6 +622,11 @@
       "search": "Search",
       "cancel": "Cancel",
       "select": "Select"
+    },
+    "download-photo": {
+      "title": "Upload photo",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "ubs-user": {

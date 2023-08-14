@@ -41,6 +41,9 @@ import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizabl
 import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list-gallery-view.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
+import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 @NgModule({
   declarations: [
     SpinnerComponent,
@@ -73,7 +76,8 @@ import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
     RepeatPipe,
     CronPipe,
     ResizableBottomSheetComponent,
-    CorrectUnitPipe
+    CorrectUnitPipe,
+    UploadPhotoContainerComponent
   ],
   imports: [
     CommonModule,
@@ -87,7 +91,8 @@ import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
     FormsModule,
     MatAutocompleteModule,
     MatTooltipModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    ImageCropperModule
   ],
   exports: [
     SpinnerComponent,

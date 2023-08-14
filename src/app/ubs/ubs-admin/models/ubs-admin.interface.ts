@@ -104,7 +104,7 @@ export interface EmployeeDataResponse {
 export interface EmployeeDto {
   firstName: string;
   id?: number;
-  image: string;
+  image: string | ArrayBuffer;
   lastName: string;
   phoneNumber: string;
   employeePositions: EmployeePositions[];
