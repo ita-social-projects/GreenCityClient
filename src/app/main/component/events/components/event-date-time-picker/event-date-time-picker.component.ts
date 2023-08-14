@@ -72,7 +72,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     const curDay = new Date().getDate();
-    this.minDate.setDate(curDay + 1);
+    this.minDate.setDate(curDay);
     this.fillTimeArray();
 
     this.dateForm = new FormGroup({
@@ -82,8 +82,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
-      this.checkStartTime(value.startTime);
-      this.checkEndTime(value.endTime);
+      this.checkDay(value.date, value.endTime, value.startTime);
 
       this.coordOffline.emit(this.coordinates);
       this.status.emit(this.dateForm.valid);
@@ -273,10 +272,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  private checkEndTime(time: string): void {
-    if (time) {
+  private checkEndTime(time: string, curTime?: Array<string>): void {
+    if (time && curTime) {
       const checkTime = time.split(':');
-
+      this.timeArrStart = [...this.timeArr.slice(+curTime[0] + 1, +checkTime[0])];
+    } else if (time) {
+      const checkTime = time.split(':');
       this.timeArrStart = [...this.timeArr.slice(0, +checkTime[0])];
     }
   }
@@ -285,6 +286,22 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (time) {
       const checkTime = time.split(':');
       this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];
+    }
+  }
+
+  private checkDay(date: string, endTime: string, startTime: string) {
+    const curDay = new Date().toDateString();
+    const selectDay = new Date(date).toDateString();
+    if (selectDay === curDay) {
+      const curTime = new Date().getHours().toString() + ':00';
+      const checkTime = curTime.split(':');
+      this.timeArrStart = [...this.timeArr.slice(+checkTime[0] + 1)];
+      this.timeArrEnd = [...this.timeArr.slice(+checkTime[0] + 2)];
+      this.checkStartTime(startTime);
+      this.checkEndTime(endTime, checkTime);
+    } else {
+      this.checkStartTime(startTime);
+      this.checkEndTime(endTime);
     }
   }
 
