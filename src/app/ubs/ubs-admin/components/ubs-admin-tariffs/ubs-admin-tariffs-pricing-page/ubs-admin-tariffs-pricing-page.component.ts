@@ -114,7 +114,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.isEmployeeCanControlService = this.employeeAuthorities.includes(abilityEditAuthorities.controlService);
     this.isEmployeeCanCreateEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
     this.isEmployeeCanActivateDeactivate = this.employeeAuthorities.includes(abilityDelAuthorities.activateDeactivate);
-    // this.isEmployeeCanUseCrumbs = this.isEmployeeCanCreateEditPricingCard || this.isEmployeeCanActivateDeactivate;
   }
 
   setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {

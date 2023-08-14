@@ -19,7 +19,6 @@ import { accounts } from 'google-one-tap';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { Store } from '@ngrx/store';
-import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 
 declare var google: any;

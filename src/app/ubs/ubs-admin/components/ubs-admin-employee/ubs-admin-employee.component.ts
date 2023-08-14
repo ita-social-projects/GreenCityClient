@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { EmployeePositions, EmployeePositionsAuthorities, Employees, Page } from '../../models/ubs-admin.interface';
+import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import {
   selectOptions,
   filterOptions,

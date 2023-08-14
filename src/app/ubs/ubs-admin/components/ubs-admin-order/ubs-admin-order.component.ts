@@ -25,8 +25,7 @@ import {
   IUpdateResponsibleEmployee,
   IUserInfo,
   ResponsibleEmployee,
-  abilityEditAuthorities,
-  employeePositionsName
+  abilityEditAuthorities
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
