@@ -58,6 +58,11 @@ export class ShoppingListComponent implements OnInit {
     }, []);
   }
 
+  public isValidURL(url: string): boolean {
+    const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    return pattern.test(url);
+  }
+
   public openCloseList(): void {
     this.toggle = !this.toggle;
   }
