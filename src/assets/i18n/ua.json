@@ -769,7 +769,7 @@
           "hard": "Важка"
         },
         "textarea-title": "Опис звички",
-        "description-tooltip": "Поле повинно містити не менше 20 та не більше 63 206 символів",
+        "description-tooltip": "Поле повинно містити не менше 20 символів",
         "description-placeholder": "Опишіть звичку",
         "modal-caption": "Нова звичка",
         "already-chosen-caption": "Вже обрані",
