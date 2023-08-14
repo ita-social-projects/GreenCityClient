@@ -79,7 +79,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   private employeeAuthorities: string[];
   public isEmployeeCanEditOrder = false;
-  public permissions$ = this.store.select((state): Array<string> => state.employees.employeesPermissions);
+  public permissions$ = this.store.select((state): Array<string> => state.employees?.employeesPermissions);
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
@@ -118,7 +118,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   private authoritiesSubscription() {
     this.permissions$.subscribe((authorities) => {
-      if (authorities.length) {
+      if (authorities?.length) {
         this.definedIsEmployeeCanEditOrder(authorities);
       }
     });
