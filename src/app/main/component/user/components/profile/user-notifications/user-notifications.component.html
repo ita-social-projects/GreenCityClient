@@ -1,0 +1,47 @@
+<div class="container" aria-label="user-notification">
+  <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
+  <div *ngIf="notifications.length" class="filter-search-wrapper d-flex">
+    <div class="filter-wrapper d-flex">
+      <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
+      <div class="filter-button">
+        <button class="global-tag global-tag-clicked">{{ 'homepage.notifications.filterAll' | translate }}</button>
+        <button *ngFor="let project of projects" class="tag-button">
+          <a class="custom-chip global-tag">
+            <span class="text">{{ getLangValue(project.ua, project.en) }}</span>
+          </a>
+        </button>
+      </div>
+    </div>
+    <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
+  </div>
+  <div *ngIf="!notifications.length" class="no-notifications">
+    <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data>
+  </div>
+  <div *ngIf="notifications.length">
+    <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
+      <mat-expansion-panel
+        class="notification"
+        [ngClass]="notification.read ? 'notification-read' : 'notification-unread'"
+        *ngFor="let notification of notifications"
+        hideToggle
+      >
+        <mat-expansion-panel-header class="notification-header"
+          ><div class="d-flex justify-content-between align-items-center">
+            <div class="notification-header-project">
+              {{ notification.project }}
+            </div>
+            <div class="notification-header-time body-2">
+              {{ notification.time }}
+            </div>
+          </div>
+          <div class="notification-header-title body-1">
+            {{ notification.title }}
+          </div>
+          <div class="notification-header-content body-2">
+            {{ notification.content }}
+          </div>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

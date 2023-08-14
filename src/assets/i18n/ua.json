@@ -110,6 +110,14 @@
         "delete-no": "ні"
       }
     },
+    "notifications": {
+      "title": "Сповіщення",
+      "all-notifications": "Всі сповіщення",
+      "no-new-notifications": "Нових сповіщень не знайдено.",
+      "no-notifications": "На жаль, сповіщень не знайдено.",
+      "filter": "Фільтрувати за",
+      "filterAll": "Усі"
+    },
     "events": {
       "title": "Події",
       "author": "автор",
@@ -335,6 +343,7 @@
     "my-habits": "Мої звички",
     "profile": "Мій кабінет",
     "user-settings": "Налаштування",
+    "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"

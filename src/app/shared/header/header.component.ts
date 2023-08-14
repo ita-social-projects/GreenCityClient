@@ -15,10 +15,11 @@ import { LanguageModel } from '../../main/component/layout/components/models/lan
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -320,6 +321,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public openSettingDialog(): void {
     this.dropdownVisible = false;
     this.router.navigate(['/profile', this.userId, 'edit']);
+  }
+
+  public openNotificationsDialog(): void {
+    this.dropdownVisible = false;
+    this.router.navigate(['/profile', this.userId, 'notifications']);
+  }
+
+  openNotificationPopUp(event) {
+    const pos = event.target.getBoundingClientRect();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.panelClass = 'dialog-notification';
+    dialogConfig.position = {
+      top: pos.top + 'px',
+      left: pos.left + 'px'
+    };
+    const matDialogRef = this.dialog.open(UserNotificationsPopUpComponent, dialogConfig);
+    matDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((data) => {
+        if (data.openAll) {
+          this.router.navigate(['/profile', this.userId, 'notifications']);
+        }
+      });
   }
 
   public signOut(): void {
