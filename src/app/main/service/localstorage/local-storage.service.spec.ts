@@ -45,7 +45,8 @@ describe('LocalStorageService', () => {
     tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
     title: 'Test event title',
     titleImage: 'testImage.jpg',
-    isSubscribed: true
+    isSubscribed: true,
+    isActive: true
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
