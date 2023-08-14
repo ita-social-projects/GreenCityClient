@@ -1181,7 +1181,7 @@
   },
   "add-new-certificate": {
     "title": "Додати сертифікат",
-    "сertificate-field": "Сертифікат. №",
+    "сertificate-field": "Сертифікат, №",
     "duration-months-field": "Час дії, місяців",
     "discount-field": "Знижка, грн",
     "cancel-button": "Скасувати",

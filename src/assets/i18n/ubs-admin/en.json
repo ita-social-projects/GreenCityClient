@@ -1185,7 +1185,7 @@
   },
   "add-new-certificate": {
     "title": "Add sertificate",
-    "сertificate-field": "Certificate. №",
+    "сertificate-field": "Certificate, №",
     "duration-months-field": "Duration, mo.",
     "discount-field": "Discount, UAH",
     "cancel-button": "Cancel",
