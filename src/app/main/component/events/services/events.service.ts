@@ -14,7 +14,7 @@ export class EventsService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  public getImageAsFile(img): Observable<Blob> {
+  public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }
 
