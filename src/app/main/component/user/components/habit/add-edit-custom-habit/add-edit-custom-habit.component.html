@@ -58,8 +58,10 @@
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
               (onEditorChanged)="changeEditor($event)"
             ></quill-editor>
-            <div *ngIf="getControl('description').touched && getControl('description').invalid">
-              <app-input-error [formElement]="getControl('description')"></app-input-error>
+            <div [style.visibility]="getControl('description').touched && getControl('description').invalid ? 'visible' : 'hidden'">
+              <p class="habit-tooltip warning">
+                {{ 'user.habit.add-new-habit.description-tooltip' | translate }}
+              </p>
             </div>
           </div>
         </div>

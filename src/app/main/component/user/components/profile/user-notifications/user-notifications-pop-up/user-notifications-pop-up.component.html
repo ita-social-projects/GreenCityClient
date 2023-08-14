@@ -1,0 +1,32 @@
+<div [ngClass]="notificationToShow.length ? 'pop-up-container' : 'pop-up-container-empty'" aria-label="user-notification">
+  <h5 class="heading body-2">{{ 'homepage.notifications.title' | translate }}</h5>
+  <mat-divider></mat-divider>
+  <div *ngIf="!notificationToShow.length" class="no-notifications d-flex justify-content-center">
+    <p class="body-2 text-center">{{ 'homepage.notifications.no-new-notifications' | translate }}</p>
+  </div>
+
+  <div *ngIf="notificationToShow.length">
+    <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
+      <mat-expansion-panel
+        class="notification"
+        [ngClass]="notification.read ? 'notification-read' : 'notification-unread'"
+        *ngFor="let notification of notificationToShow; let i = index"
+        hideToggle
+      >
+        <mat-expansion-panel-header class="notification-header">
+          <div class="notification-header-project">
+            {{ notification.project }}
+          </div>
+          <div class="notification-header-title body-1">
+            {{ notification.title }}
+          </div>
+          <div class="notification-header-content body-2">
+            {{ notification.content }}
+          </div>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-divider></mat-divider>
+  <span class="to-notifications body-2" (click)="openAll()">{{ 'homepage.notifications.all-notifications' | translate }}</span>
+</div>

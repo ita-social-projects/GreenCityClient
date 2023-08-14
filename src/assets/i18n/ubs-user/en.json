@@ -23,6 +23,7 @@
   },
   "nav-bar": {
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"

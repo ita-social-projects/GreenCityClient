@@ -43,12 +43,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
-
-  // generalError can contain:
-  // 'user.auth.sign-in.fill-all-red-fields', or
-  // 'user.auth.sign-in.account-has-been-deleted', or
-  // 'user.auth.sign-in.bad-email-or-password' error
+  private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
+  private errorUnauthorized = 'Unauthorized';
   public generalError: string;
+
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -212,10 +210,20 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   private onSignInFailure(errors: HttpErrorResponse): void {
     if (typeof errors === 'string') {
       return;
-    } else if (!Array.isArray(errors.error)) {
-      this.generalError =
-        errors.error.error === 'Unauthorized' ? 'user.auth.sign-in.account-has-been-deleted' : 'user.auth.sign-in.bad-email-or-password';
-      return;
+    }
+
+    if (!Array.isArray(errors.error)) {
+      this.generalError = this.setErrorMessage(errors.error);
+    }
+  }
+
+  private setErrorMessage(errors: any): string {
+    if (errors.error === this.errorUnauthorized) {
+      return 'user.auth.sign-in.account-has-been-deleted';
+    } else if (errors.message === this.errorUnverifiedEmail) {
+      return 'user.auth.sign-in.not-verified-email';
+    } else {
+      return 'user.auth.sign-in.bad-email-or-password';
     }
   }
 

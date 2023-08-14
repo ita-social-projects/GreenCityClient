@@ -170,7 +170,8 @@
     "info-optionally": "optionally",
     "info-address": "Garbage collection address",
     "info-no-address": "You have no addresses added. Please add an address.",
-    "info-add-address": "Add another address",
+    "info-add-address": "Add address",
+    "info-add-new-address": "Add another address",
     "info-address-coment": "Comment to the address",
     "info-coment-placeholder": "Any details you would like to tell us further",
     "info-back": "Back",
@@ -423,7 +424,8 @@
         "forgot-password": "Forgot password?",
         "account-has-been-deleted": "Your account has been deleted, please contact us to restore it",
         "havenot-account": "Don't have an account yet?",
-        "or-signin": "or"
+        "or-signin": "or",
+        "not-verified-email": "You should verify the email first, check your email box!"
       },
       "sign-up": {
         "title-up": "Hello!",
@@ -486,6 +488,7 @@
   },
   "nav-bar": {
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
