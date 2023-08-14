@@ -101,7 +101,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
       custom: true,
       selected: true
     };
-    if (newItem.text !== '') {
+    if (newItem.text) {
       this.shopList = [newItem, ...this.shopList];
     }
     this.item.setValue('');

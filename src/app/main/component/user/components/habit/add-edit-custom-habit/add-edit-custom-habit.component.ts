@@ -115,9 +115,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   changeEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    this.getControl('description').markAsTouched();
     if (event.event !== 'selection-change') {
       this.getControl('description').setValue(event.text.trim());
-      this.getControl('description').markAsTouched();
     }
   }
 

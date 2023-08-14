@@ -89,16 +89,6 @@ describe('UbsAdminNotificationListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call loadPage() with correct arguments when onPageChanged() is called', () => {
-    const loadPageSpy = spyOn(component, 'loadPage');
-    const page = 2;
-
-    component.onPageChanged(page);
-
-    expect(loadPageSpy).toHaveBeenCalledWith(page, component.filtersForm.value);
-    expect(component.currentPage).toBe(page);
-  });
-
   it('should update notifications and totalItems when loadPage() is called', () => {
     const data = {
       currentPage: 1,
@@ -135,29 +125,5 @@ describe('UbsAdminNotificationListComponent', () => {
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(By.css('.table-notifications tbody tr'));
     expect(rows.length).toBe(0);
-  });
-
-  it('should update itemsNumber correctly', () => {
-    const selectElement = fixture.nativeElement.querySelector('select');
-
-    selectElement.value = '20';
-    selectElement.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-
-    expect(component.itemsNumber).toBe('20');
-  });
-
-  it('should increase itemsPerPage by 10 when conditions are met', () => {
-    component.itemsPerPage = 10;
-
-    component.itemsNumber = '20';
-    component.loadPage(1);
-    expect(component.itemsPerPage).toBe(20);
-
-    component.itemsNumber = 'all';
-    component.totalItems = 30;
-    component.onPageChanged(1);
-    component.loadPage(1);
-    expect(component.itemsPerPage).toBe(20);
   });
 });

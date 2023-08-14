@@ -71,6 +71,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   isCardExist = false;
   currentLang;
   deactivateCardObj: DeactivateCard;
+  private scrollPosition = 0;
 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
@@ -297,7 +298,15 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     }
   }
 
+  public onOpenDropdown(event: Event): void {
+    const panel = document.querySelector('.mat-autocomplete-panel');
+    panel.scrollTop = this.scrollPosition;
+  }
+
   public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
+    const panel = document.querySelector('.mat-autocomplete-panel');
+    this.scrollPosition = panel.scrollTop;
+
     if (event.option.value === 'all') {
       this.toggleSelectAllCity();
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);

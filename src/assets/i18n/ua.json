@@ -110,6 +110,14 @@
         "delete-no": "ні"
       }
     },
+    "notifications": {
+      "title": "Сповіщення",
+      "all-notifications": "Всі сповіщення",
+      "no-new-notifications": "Нових сповіщень не знайдено.",
+      "no-notifications": "На жаль, сповіщень не знайдено.",
+      "filter": "Фільтрувати за",
+      "filterAll": "Усі"
+    },
     "events": {
       "title": "Події",
       "author": "автор",
@@ -335,6 +343,7 @@
     "my-habits": "Мої звички",
     "profile": "Мій кабінет",
     "user-settings": "Налаштування",
+    "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"
@@ -414,7 +423,8 @@
         "forgot-password": "Забули пароль?",
         "account-has-been-deleted": "Ваш аккаунт було видалено, будь ласка зв'яжіться з нами щоб відновити його",
         "havenot-account": "Досі немає аккаунту?",
-        "or-signin": "або"
+        "or-signin": "або",
+        "not-verified-email": "Ви повинні спочатку підтвердити електронну пошту, перевірте свою електронну скриньку!"
       },
       "sign-up": {
         "title-up": "Вітаємо!",
@@ -759,7 +769,7 @@
           "hard": "Важка"
         },
         "textarea-title": "Опис звички",
-        "description-tooltip": "Поле повинно містити не менше 20 та не більше 63 206 символів",
+        "description-tooltip": "Поле повинно містити не менше 20 символів",
         "description-placeholder": "Опишіть звичку",
         "modal-caption": "Нова звичка",
         "already-chosen-caption": "Вже обрані",

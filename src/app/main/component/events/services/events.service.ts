@@ -14,7 +14,7 @@ export class EventsService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  public getImageAsFile(img): Observable<Blob> {
+  public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });
   }
 
@@ -46,8 +46,17 @@ export class EventsService implements OnDestroy {
     return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/createdEvents?page=${page}&size=${quantity}`);
   }
 
-  public getAllUserEvents(page: number, quantity: number): Observable<EventResponseDto> {
-    return this.http.get<EventResponseDto>(`${this.backEnd}events/myEvents/relatedEvents?page=${page}&size=${quantity}`);
+  public getAllUserEvents(
+    page: number,
+    quantity: number,
+    userLatitude: number,
+    userLongitude: number,
+    eventType: string = ''
+  ): Observable<EventResponseDto> {
+    return this.http.get<EventResponseDto>(
+      `${this.backEnd}events/myEvents?eventType=${eventType}&page=${page}&size=${quantity}&` +
+        `userLatitude=${userLatitude}&userLongitude=${userLongitude}`
+    );
   }
 
   public getEventById(id: number): Observable<any> {

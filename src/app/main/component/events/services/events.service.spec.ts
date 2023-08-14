@@ -111,10 +111,12 @@ describe('EventsService', () => {
     req.flush(data);
   });
   it('should make GET request to get all events of user', () => {
-    service.getAllUserEvents(0, 1).subscribe((event: any) => {
+    service.getAllUserEvents(0, 1, 50.58, 42.38, 'ONLINE').subscribe((event: any) => {
       expect(event).toEqual(data);
     });
-    const req = httpTestingController.expectOne(`${url}events/myEvents/relatedEvents?page=0&size=1`);
+    const req = httpTestingController.expectOne(
+      `${url}events/myEvents?eventType=ONLINE&page=0&size=1&userLatitude=50.58&userLongitude=42.38`
+    );
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });

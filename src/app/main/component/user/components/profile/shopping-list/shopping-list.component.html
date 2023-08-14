@@ -18,7 +18,12 @@
       <div class="shopping-list-content">
         <ul class="shopping-list" [ngClass]="{ 'shopping-list-max': toggle, 'shopping-list-min': !toggle }">
           <li [ngClass]="checkbox.checked ? 'item-striked' : 'item'" *ngFor="let shoppingItem of shoppingList">
-            <span ngbPopover="{{ shoppingItem.text }}" triggers="mouseenter:mouseleave" placement="right">{{ shoppingItem.text }}</span>
+            <span ngbPopover="{{ shoppingItem.text }}" triggers="mouseenter:mouseleave" placement="right">
+              <a href="{{ shoppingItem.text }}" target="_blank" rel="noopener" *ngIf="isValidURL(shoppingItem.text)">{{
+                shoppingItem.text
+              }}</a>
+              <span *ngIf="!isValidURL(shoppingItem.text)">{{ shoppingItem.text }}</span>
+            </span>
             <mat-checkbox
               #checkbox
               [(ngModel)]="shoppingItem.selected"
