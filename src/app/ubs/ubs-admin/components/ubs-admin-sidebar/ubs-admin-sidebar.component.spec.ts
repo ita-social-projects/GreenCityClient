@@ -4,13 +4,24 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { UbsAdminSidebarComponent } from './ubs-admin-sidebar.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { employeePositionsName, SideMenuElementsNames } from '../../models/ubs-admin.interface';
 import { listElementsAdmin } from 'src/app/ubs/ubs/models/ubs-sidebar-links';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 describe('UbsAdminSidebarComponent', () => {
   let component: UbsAdminSidebarComponent;
   let fixture: ComponentFixture<UbsAdminSidebarComponent>;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const employeePositionsMock = [
     employeePositionsName.CallManager,
@@ -22,15 +33,6 @@ describe('UbsAdminSidebarComponent', () => {
     authorities: ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'],
     positionId: [3, 4, 5]
   };
-
-  const viewersArrMock = [
-    employeePositionsName.SuperAdmin,
-    employeePositionsName.Admin,
-    employeePositionsName.CallManager,
-    employeePositionsName.ServiceManager,
-    employeePositionsName.Logistician,
-    employeePositionsName.Navigator
-  ];
 
   const listElementsAdminMock: object[] = [
     {
@@ -71,7 +73,11 @@ describe('UbsAdminSidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminSidebarComponent],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [{ provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }]
+      providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
+        { provide: UbsAdminEmployeeService, useValue: ubsAdminEmployeeServiceMock }
+      ]
     }).compileComponents();
   }));
 
@@ -85,28 +91,10 @@ describe('UbsAdminSidebarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('authoritiesSubscription expect will be invoke at onInit', () => {
-    const spy = spyOn(component as any, 'authoritiesSubscription');
-    component.ngOnInit();
-    ubsAdminEmployeeServiceMock.employeePositions$.subscribe((positions) => {
-      expect(spy).toHaveBeenCalled();
-      expect(spy).toHaveBeenCalledWith(positions);
-    });
-  });
-
-  it('changeListElementsDependOnPermissions expect will be invoke at authoritiesSubscription', () => {
-    const spy = spyOn(component as any, 'changeListElementsDependOnPermissions');
-    (component as any).authoritiesSubscription(employeePositionsMock);
-    ubsAdminEmployeeServiceMock.employeePositionsAuthorities$.subscribe((rights) => {
-      expect(spy).toHaveBeenCalled();
-      expect(spy).toHaveBeenCalledWith(employeePositionsMock, employeePositionsAuthorities.authorities);
-    });
-  });
-
   it('listElenenChangetUtil should called in changeListElementsDependOnPermissions()', () => {
     const spy = spyOn(component as any, 'listElenenChangetUtil');
     spyOnProperty(component as any, 'customerViewer', 'get').and.returnValue(false);
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(SideMenuElementsNames.customers);
   });
@@ -114,78 +102,57 @@ describe('UbsAdminSidebarComponent', () => {
   it('listElenenChangetUtil should called in changeListElementsDependOnPermissions()', () => {
     const spy = spyOn(component as any, 'listElenenChangetUtil');
     spyOnProperty(component as any, 'certificatesViewer', 'get').and.returnValue(false);
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(SideMenuElementsNames.certificates);
   });
 
   it('notificationsViewer method should call', () => {
     const spy = spyOnProperty(component, 'notificationsViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
   it('certificatesViewer method should call', () => {
     const spy = spyOnProperty(component, 'certificatesViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
   it('tariffsViewer method should call', () => {
     const spy = spyOnProperty(component, 'tariffsViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith(viewersArrMock);
     expect(spy3).toHaveBeenCalled();
   });
 
   it('employeesViewer method should call', () => {
     const spy = spyOnProperty(component, 'employeesViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
   });
 
   it('customerViewer method should call', () => {
     const spy = spyOnProperty(component, 'customerViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith(viewersArrMock);
     expect(spy3).toHaveBeenCalled();
   });
 
   it('ordersViewer method should call', () => {
     const spy = spyOnProperty(component, 'ordersViewer').and.callThrough();
-    const spy2 = spyOn(component as any, 'positionFilterUtil');
     const spy3 = spyOn(component as any, 'authoritiesFilterUtil');
-    (component as any).changeListElementsDependOnPermissions(employeePositionsMock, employeePositionsAuthorities.authorities);
+    (component as any).changeListElementsDependOnPermissions(employeePositionsAuthorities.authorities);
     expect(spy).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalled();
-    expect(spy2).toHaveBeenCalledWith(viewersArrMock);
     expect(spy3).toHaveBeenCalled();
-  });
-
-  it('positionFilterUtil method should call', () => {
-    component.employeePositions = employeePositionsMock;
-    const spy = spyOn(component as any, 'positionFilterUtil').and.callThrough();
-    expect(spy).toBeTruthy();
   });
 
   it('authoritiesFilterUtil method should call', () => {
