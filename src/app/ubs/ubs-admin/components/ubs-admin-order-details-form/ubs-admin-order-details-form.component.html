@@ -39,7 +39,7 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isDisabledConfirmQuantity() ? true : null || !isEmployeeCanEditOrder"
+                [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
                 (change)="onQuantityChange('confirmed', bag.id)"
                 disabled
               />
