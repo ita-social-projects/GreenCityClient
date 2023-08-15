@@ -76,7 +76,6 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
-import { OneEventComponent } from './components/profile/profile-dashboard/one-event/one-event.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
@@ -93,7 +92,6 @@ import { QuillModule } from 'ngx-quill';
     ProfileCardsComponent,
     ProfileDashboardComponent,
     OneHabitComponent,
-    OneEventComponent,
     AchievementItemComponent,
     AchievementListComponent,
     UserAchievementsComponent,

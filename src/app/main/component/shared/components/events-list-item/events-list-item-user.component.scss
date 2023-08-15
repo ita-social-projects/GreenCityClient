@@ -171,3 +171,15 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .event {
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+  }
+
+  .event-image {
+    width: 100%;
+  }
+}

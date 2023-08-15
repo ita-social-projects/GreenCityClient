@@ -100,7 +100,7 @@
     </div>
     <div class="event-list">
       <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
-        <app-events-list-item [event]="eventItem" [userId]="userId"></app-events-list-item>
+        <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="false"></app-events-list-item>
       </mat-card>
     </div>
     <app-spinner *ngIf="elementsArePresent"></app-spinner>

@@ -25,16 +25,20 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 
 @Component({
   selector: 'app-events-list-item',
   templateUrl: './events-list-item.component.html',
-  styleUrls: ['./events-list-item.component.scss'],
+  styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss'],
   providers: [MaxTextLengthPipe]
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   @Input() userId: number;
+  @Input() isUserAssignList: boolean;
+
+  profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -275,7 +279,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  addToFavourite() {
+  addToFavourite(event?: Event) {
+    event.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
     } else {
