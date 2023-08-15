@@ -177,9 +177,9 @@
     height: auto;
     margin: 0 auto 24px;
     display: block;
-  }
 
-  .event-image {
-    width: 100%;
+    &-image-container-image {
+      width: 100%;
+    }
   }
 }
