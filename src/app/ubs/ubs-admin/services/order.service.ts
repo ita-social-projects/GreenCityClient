@@ -8,7 +8,8 @@ import {
   IPaymentInfoDto,
   FormFieldsName,
   ResponsibleEmployee,
-  INotTakenOutReason
+  INotTakenOutReason,
+  NotTakenOutReasonImages
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
@@ -97,8 +98,17 @@ export class OrderService {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
 
-  public updateOrderInfo(orderId: number, lang: string, data: {}) {
-    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data, {
+  public updateOrderInfo(orderId: number, lang: string, data: {}, images?: NotTakenOutReasonImages[]) {
+    const formData: FormData = new FormData();
+    formData.append('updateOrderPageAdminDto', JSON.stringify(data));
+
+    if (images.length) {
+      images.forEach((img) => {
+        formData.append('images', img.src);
+      });
+    }
+
+    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?language=${lang}`, formData, {
       observe: 'response'
     });
   }

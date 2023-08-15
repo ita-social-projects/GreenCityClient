@@ -121,20 +121,9 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
     this.images = this.images.filter((image) => image !== imageToDelete);
   }
 
-  prepareDataToSend(): FormData {
-    const formData: FormData = new FormData();
-    this.images.forEach((image) => {
-      if (image.file) {
-        formData.append('images', image.file);
-      }
-    });
-    return formData;
-  }
-
   public send(): void {
     this.isUploading = true;
-    const dataToSend = this.prepareDataToSend();
-    this.dialogRef.close({ description: JSON.stringify(this.addNotTakenOutForm.value.notTakenOutReason), images: dataToSend });
+    this.dialogRef.close({ description: JSON.stringify(this.addNotTakenOutForm.value.notTakenOutReason), images: this.images });
   }
 
   public close(): void {

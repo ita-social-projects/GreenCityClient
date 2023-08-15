@@ -25,7 +25,8 @@ import {
   IUpdateResponsibleEmployee,
   IUserInfo,
   ResponsibleEmployee,
-  abilityEditAuthorities
+  abilityEditAuthorities,
+  NotTakenOutReasonImages
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
@@ -79,7 +80,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private employeeAuthorities: string[];
   public isEmployeeCanEditOrder = false;
   notTakenOutReasonDescription: string;
-  notTakenOutReasonImages: FormData;
+  notTakenOutReasonImages: NotTakenOutReasonImages[];
 
   public permissions$ = this.store.select((state): Array<string> => state.employees?.employeesPermissions);
   constructor(
@@ -140,7 +141,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.setOrderDetails();
   }
 
-  onNotTakenOutReason(value): void {
+  onNotTakenOutReason(value: { description: string; images: NotTakenOutReasonImages[] }): void {
     this.notTakenOutReasonDescription = value.description;
     this.notTakenOutReasonImages = value.images;
   }
@@ -485,14 +486,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       changedValues.responsiblePersonsForm = this.orderForm.get('responsiblePersonsForm').value;
     }
 
-    if (this.currentOrderStatus === OrderStatus.NOT_TAKEN_OUT) {
-      changedValues.notTakenOutReason = { description: this.notTakenOutReasonDescription, images: this.notTakenOutReasonImages };
+    if (this.notTakenOutReasonDescription) {
+      changedValues.notTakenOutReason = this.notTakenOutReasonDescription;
     }
 
     this.addIdForUserAndAdress(changedValues);
 
     this.orderService
-      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
+      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();

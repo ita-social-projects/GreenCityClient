@@ -609,3 +609,9 @@ export interface EmployeePositionsAuthorities {
   authorities: string[];
   positionId: number[];
 }
+
+export interface NotTakenOutReasonImages {
+  name: string;
+  src: string;
+  file: File;
+}
