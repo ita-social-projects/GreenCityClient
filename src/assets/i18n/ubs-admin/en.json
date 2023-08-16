@@ -512,7 +512,9 @@
     "permissions": {
       "clients": {
         "title": "Clients",
-        "see-main-page": "See the main page of the “Client”"
+        "see-main-page": "See the main page of the “Client”",
+        "confirm-changes": "Your changes have been saved",
+        "cancel-changes": "If you cancel the changes, they will be deleted. Are you sure you want to cancel the changes?"
       },
       "employees": {
         "title": "Employees",

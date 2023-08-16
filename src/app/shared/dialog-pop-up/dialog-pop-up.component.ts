@@ -16,7 +16,10 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   popupCancel: string;
   setBtnStyleRed: boolean;
   setBtnStyleGreen: boolean;
-  isItrefund: false;
+  setBtnStyleLightGreen: boolean;
+  isItrefund = false;
+  іsPermissionConfirm = false;
+  isCancelButtonShow = false;
 
   constructor(private matDialogRef: MatDialogRef<DialogPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
 
@@ -39,6 +42,7 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.userReply(false);
       });
+    this.isCancelButtonShow = !this.isItrefund || !this.іsPermissionConfirm;
   }
 
   private setTitles(): void {
@@ -48,7 +52,9 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.popupCancel = this.data.popupCancel;
     this.setBtnStyleGreen = this.data.style === 'green';
     this.setBtnStyleRed = this.data.style === 'red';
+    this.setBtnStyleLightGreen = this.data.style === 'light green';
     this.isItrefund = this.data.isItrefund;
+    this.іsPermissionConfirm = this.data.іsPermissionConfirm;
   }
 
   public userReply(reply: boolean): void {
