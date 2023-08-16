@@ -424,7 +424,8 @@
         "forgot-password": "Forgot password?",
         "account-has-been-deleted": "Your account has been deleted, please contact us to restore it",
         "havenot-account": "Don't have an account yet?",
-        "or-signin": "or"
+        "or-signin": "or",
+        "not-verified-email": "You should verify the email first, check your email box!"
       },
       "sign-up": {
         "title-up": "Hello!",
@@ -487,6 +488,7 @@
   },
   "nav-bar": {
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"

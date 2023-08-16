@@ -85,6 +85,24 @@ a {
   }
 }
 
+.events-filter {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  .event-filter-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--freinacht-black);
+  }
+
+  .events-types {
+    * {
+      margin: 0 5px;
+    }
+  }
+}
+
 .news-list {
   list-style: none;
   padding-left: 0;

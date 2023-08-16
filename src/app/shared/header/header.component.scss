@@ -12,6 +12,10 @@ $ubs-header-height: 86px;
   backdrop-filter: blur(7px);
 }
 
+::ng-deep .dialog-notification .mat-dialog-container {
+  padding: 0;
+}
+
 .active-link {
   color: var(--primary-green) !important;
 
@@ -244,7 +248,7 @@ header {
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 100px;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -342,12 +346,23 @@ header {
     right: 20px;
 
     .header_navigation-menu-right-list {
+      @media screen and (max-width: 1023px) {
+        gap: 20px;
+      }
+
       .search-icon,
       .bookmark-icon,
       .notification-icon {
         img {
           height: 11px;
           cursor: pointer;
+        }
+      }
+
+      .bookmark-icon,
+      .notification-icon {
+        @media screen and (max-width: 450px) {
+          display: none;
         }
       }
 
@@ -918,6 +933,10 @@ header {
 @media (max-width: 1023px) {
   .header_navigation-menu-ubs {
     justify-content: flex-end;
+  }
+
+  .header_navigation-menu-right-list {
+    gap: 20px;
   }
 
   .header_navigation-menu-ubs .header_navigation-menu-right .header_navigation-menu-right-list,

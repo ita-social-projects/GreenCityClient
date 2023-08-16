@@ -23,6 +23,7 @@
       </div>
     </div>
 
+    <<<<<<< HEAD
     <div class="main-container">
       <ul class="ul-eco-buttons" aria-label="filter by items">
         <li *ngFor="let tag of activeTags">
@@ -71,6 +72,42 @@
         <p>{{ newDate | translate }}</p>
         <p></p>
       </div>
+      =======
+      <div class="main-container">
+        <ul class="ul-eco-buttons" aria-label="filter by items">
+          <li *ngFor="let tag of activeTags">
+            <a role="button" class="tag" tabindex="0">
+              <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
+              <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
+            </a>
+          </li>
+        </ul>
+        <div *ngIf="event.dates[event.dates.length - 1]" class="date-container">
+          <span class="clock"></span>
+          <div class="date">
+            {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
+          </div>
+          <span class="time-divider">|</span>
+          <div class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</div>
+        </div>
+        <div class="date-container">
+          <span class="place"></span>
+          <p *ngIf="!isOnline">
+            {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
+            {{ address.houseNumber }}
+          </p>
+          <p *ngIf="isOnline">{{ isOnline }}</p>
+        </div>
+        <div class="date-container">
+          <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
+          <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
+        </div>
+        <div class="event-title">
+          <p class="event-name" [innerHTML]="title"></p>
+        </div>
+        <div class="description" [innerHTML]="description"></div>
+      </div>
+      >>>>>>> origin/dev
 
       <div class="author">
         <img src="assets/events-icons/author.png" class="author-image" alt="author" />
@@ -84,6 +121,7 @@
         <img src="assets/events-icons/like.png" class="like-image" alt="like" />
         <p>{{ '10' }}</p>
       </div>
+      d
     </div>
   </div>
 </div>

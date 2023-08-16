@@ -70,7 +70,7 @@ export class ImagesContainerComponent implements OnInit {
     this.images[0].isLabel = true;
   }
 
-  public chooseImage(img) {
+  public chooseImage(img: string) {
     const imageName = img.substring(img.lastIndexOf('/') + 1);
     this.eventService.getImageAsFile(img).subscribe((blob: Blob) => {
       const imageFile = new File([blob], imageName, { type: 'image/png' });

@@ -126,8 +126,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initAllStatusesOfEvent();
     this.checkButtonStatus();
-    this.address = this.event.dates[0].coordinates;
-    this.isOnline = this.event.dates[0].onlineLink;
+    this.address = this.event.dates[this.event.dates.length - 1].coordinates;
+    this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });

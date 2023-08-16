@@ -1,0 +1,40 @@
+.main-container {
+  max-width: 900px;
+  max-height: 700px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  padding: 30px 80px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ubs-quaternary-dark-grey);
+  }
+
+  &__cropper-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+  }
+
+  &__selected-photo {
+    max-width: 500px;
+    max-height: 500px;
+    box-sizing: content-box;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    button {
+      margin-left: 20px;
+    }
+  }
+}
