@@ -80,8 +80,10 @@
     &-date-container {
       display: flex;
       position: relative;
+
       &-date {
         display: flex;
+
         .clock {
           width: 12px;
           height: 12px;
@@ -94,6 +96,7 @@
           margin: 0 5px;
         }
       }
+
       &-event-flags {
         position: absolute;
         top: 10px;
