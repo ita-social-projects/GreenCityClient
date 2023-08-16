@@ -58,7 +58,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
-  private userFriendsList: FriendModel[];
+  userFriends: FriendModel[];
 
   constructor(
     private store: Store,
@@ -94,13 +94,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.getUserFriendsList();
   }
 
-  getUserFriendsList() {
+  getUserFriendsList(): void {
     this.userFriendsService
       .getAllFriendsByUserId(this.userId)
       .pipe(takeUntil(this.destroyed$))
       .subscribe((res) => {
-        this.userFriendsList = res;
-        this.userFriendsService.allUserFriends = res;
+        this.userFriends = res;
       });
   }
 

@@ -114,10 +114,8 @@ describe('EventsListItemComponent', () => {
     isActive: true,
     open: true
   };
-
-  const userFriendsServiceMock = {
-    allUserFriends: [{ id: 7, name: 'friend', email: 'friend@friend.com' }]
-  };
+  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);
+  userFriendsServiceMock.getAllFriendsByUserId = () => of([]);
 
   const fakeItemTags: TagObj[] = [
     {
@@ -332,19 +330,14 @@ describe('EventsListItemComponent', () => {
       component.ngOnInit();
       expect(component.bindLang).toHaveBeenCalled();
     });
-
-    it('should call checkCanUserJoinEvent', () => {
-      spyOn(component, 'checkCanUserJoinEvent');
-      component.ngOnInit();
-      expect(component.checkCanUserJoinEvent).toHaveBeenCalled();
-    });
   });
 
   describe('checkCanUserJoinEvent', () => {
     it('it should check is organizer of close event a user"s friend', () => {
       component.event = { ...eventMock, ...{ open: false } };
-      component.checkCanUserJoinEvent();
-      expect(component.canUserJoinEvent).toBe(false);
+      component.userFriends = [];
+      component.ngOnChanges();
+      expect(component.canUserJoinCloseEvent).toBe(false);
     });
   });
 
@@ -384,6 +377,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
@@ -393,7 +387,7 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      component.canUserJoinEvent = false;
+      component.canUserJoinCloseEvent = false;
       spyOn(component, 'checkIsActive').and.returnValue(false);
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);

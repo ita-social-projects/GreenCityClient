@@ -8,7 +8,7 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
@@ -26,6 +26,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-events-list-item',
@@ -33,9 +34,10 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
   styleUrls: ['./events-list-item.component.scss'],
   providers: [MaxTextLengthPipe]
 })
-export class EventsListItemComponent implements OnInit, OnDestroy {
+export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   @Input() userId: number;
+  @Input() userFriends: FriendModel[];
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -80,7 +82,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'red'
   };
-  canUserJoinEvent: boolean;
+  public canUserJoinCloseEvent: boolean;
 
   @Output() public isLoggedIn: boolean;
 
@@ -113,6 +115,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private userFriendsService: UserFriendsService
   ) {}
 
+  ngOnChanges() {
+    this.canUserJoinCloseEvent = this.userFriends.some((el) => el.id === this.event.organizer.id) || this.event.open;
+  }
+
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
@@ -124,18 +130,12 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.initAllStatusesOfEvent();
-    this.checkCanUserJoinEvent();
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
-  }
-
-  checkCanUserJoinEvent() {
-    const friends = this.userFriendsService.allUserFriends;
-    this.canUserJoinEvent = friends.some((el) => el.id === this.event.organizer.id) || this.event.open;
   }
 
   public routeToEvent(): void {
@@ -177,7 +177,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       return;
     }
     if (!isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.canUserJoinEvent ? this.styleBtn.primary : this.styleBtn.hiden;
+      this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
       this.nameBtn = this.btnName.join;
       return;
     }
