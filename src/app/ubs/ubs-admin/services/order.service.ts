@@ -8,7 +8,8 @@ import {
   IPaymentInfoDto,
   FormFieldsName,
   ResponsibleEmployee,
-  INotTakenOutReason
+  INotTakenOutReason,
+  NotTakenOutReasonImages
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
@@ -96,13 +97,20 @@ export class OrderService {
   public getOrderInfo(orderId) {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
+  public updateOrderInfo(orderId: number, lang: string, data: {}, images?: NotTakenOutReasonImages[]) {
+    const formData: FormData = new FormData();
+    formData.append('updateOrderPageAdminDto', JSON.stringify(data));
 
-  public updateOrderInfo(orderId: number, lang: string, data: {}) {
-    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?lang=${lang}`, data, {
+    if (images.length) {
+      images.forEach((img) => {
+        formData.append('images', img.src);
+      });
+    }
+
+    return this.http.patch(`${this.backend}/management/update-order-page-admin-info/${orderId}?language=${lang}`, formData, {
       observe: 'response'
     });
   }
-
   public isStatusInArray(status: string, statusArray: Array<string>): boolean {
     return statusArray.some((s) => s === status);
   }
@@ -197,10 +205,6 @@ export class OrderService {
 
   public addViolationToCurrentOrder(violation) {
     return this.http.post(`${this.backend}/management/addViolationToUser`, violation);
-  }
-
-  public addReasonForNotTakenOutOrder(reason, id) {
-    return this.http.put(`${this.backend}/management/save-reason/${id}`, reason);
   }
 
   public updateViolationOfCurrentOrder(violation) {
