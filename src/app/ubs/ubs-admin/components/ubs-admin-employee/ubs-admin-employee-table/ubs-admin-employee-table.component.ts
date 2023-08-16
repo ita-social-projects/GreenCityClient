@@ -28,7 +28,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   currentPageForTable = 0;
   isUpdateTable = false;
   isLoading = true;
-  sizeForTable = 100;
+  sizeForTable = 30;
   search: string;
   searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
   totalPagesForTable: number;

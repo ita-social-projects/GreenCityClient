@@ -2,47 +2,47 @@
   <ng-template [ngTemplateOutlet]="textBack"></ng-template>
   <p *ngIf="showAllTariff" class="h5 main-text" tabindex="0">{{ 'ubs-tariffs.tariffs' | translate }}</p>
   <div class="mat-menu">
-    <button *ngIf="isUserCanControlSettings" class="setting-block" [matMenuTriggerFor]="menu">
+    <button class="setting-block" [matMenuTriggerFor]="menu">
       <img [src]="icons.setting" class="tariff-img" alt="settings" />
     </button>
     <mat-menu #menu="matMenu">
-      <button *ngIf="userCanAdd" mat-menu-item [matMenuTriggerFor]="add" class="add-button">
+      <button mat-menu-item [matMenuTriggerFor]="add" class="add-button">
         <span class="menu-item">{{ 'ubs-tariffs.btn.add' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
-      <button *ngIf="userCanEdit" mat-menu-item [matMenuTriggerFor]="edit" class="add-button">
+      <button mat-menu-item [matMenuTriggerFor]="edit" class="add-button">
         <span class="menu-item">{{ 'ubs-tariffs.btn.edit_name' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
-      <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openCreateCard()">
+      <button mat-menu-item (click)="openCreateCard()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.create_card' | translate }}</span>
       </button>
-      <button *ngIf="isEmployeeCanActivateDeactivate" mat-menu-item (click)="openDeactivateOrActivatePopUp('deactivation')">
+      <button mat-menu-item (click)="openDeactivateOrActivatePopUp('deactivation')">
         <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
       </button>
-      <button *ngIf="isEmployeeCanActivateDeactivate" mat-menu-item (click)="openDeactivateOrActivatePopUp('activation')">
+      <button mat-menu-item (click)="openDeactivateOrActivatePopUp('activation')">
         <span class="menu-item">{{ 'ubs-tariffs.btn.activation' | translate }}</span>
       </button>
     </mat-menu>
     <mat-menu #add="matMenu">
-      <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openAddLocation()">
+      <button mat-menu-item (click)="openAddLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.location' | translate }}</span>
       </button>
-      <button *ngIf="isEmployeeCanCreateCourier" mat-menu-item (click)="openAddCourierDialog()">
+      <button mat-menu-item (click)="openAddCourierDialog()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.courier' | translate }}</span>
       </button>
-      <button *ngIf="isEmployeeCanCreateStation" mat-menu-item (click)="openAddStationDialog()">
+      <button mat-menu-item (click)="openAddStationDialog()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.station' | translate }}</span>
       </button>
     </mat-menu>
     <mat-menu #edit="matMenu">
-      <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openEditLocation()">
+      <button mat-menu-item (click)="openEditLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.location' | translate }}</span>
       </button>
-      <button *ngIf="isEmployeeCanEditCourier" mat-menu-item (click)="openEditCourier()">
+      <button mat-menu-item (click)="openEditCourier()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.courier' | translate }}</span>
       </button>
-      <button *ngIf="isEmployeeCanEditStation" mat-menu-item (click)="openEditStation()">
+      <button mat-menu-item (click)="openEditStation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.station' | translate }}</span>
       </button>
     </mat-menu>
@@ -203,24 +203,20 @@
       <td>
         {{ card.tariff | tariffStatus: currentLang }}
       </td>
-      <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED' && isUserCanUseCrumbs" [matMenuTriggerFor]="crumbs">
+      <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <button class="crumbs-btn">
           <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
         </button>
       </td>
       <mat-menu #crumbs="matMenu">
-        <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openEditPopUp(card)">
+        <button mat-menu-item (click)="openEditPopUp(card)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button
-          *ngIf="isEmployeeCanActivateDeactivate"
-          mat-menu-item
-          (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'deactivation')"
-        >
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'deactivation')">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>
-      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED' && isEmployeeCanActivateDeactivate">
+      <td class="last-col" *ngIf="card.tariff === 'DEACTIVATED'">
         <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(card, card.cardId, 'restore')">
           <img class="tariff-img mr-3" [src]="icons.restore" alt="restore" />
         </button>
@@ -250,18 +246,14 @@
       <td>
         {{ selectedCard.tariff | tariffStatus: currentLang }}
       </td>
-      <td class="last-col" *ngIf="selectedCard.tariff !== 'DEACTIVATED' && isUserCanUseCrumbs" [matMenuTriggerFor]="crumbs">
+      <td class="last-col" *ngIf="selectedCard.tariff !== 'DEACTIVATED'" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openEditPopUp(selectedCard)">
+        <button mat-menu-item (click)="openEditPopUp(selectedCard)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
-        <button
-          *ngIf="isEmployeeCanActivateDeactivate"
-          mat-menu-item
-          (click)="openTariffDeactivateOrRestorePopUp(selectedCard, selectedCard.cardId, 'deactivation')"
-        >
+        <button mat-menu-item (click)="openTariffDeactivateOrRestorePopUp(selectedCard, selectedCard.cardId, 'deactivation')">
           <span class="menu-item">{{ 'ubs-tariffs.btn.deactivation' | translate }}</span>
         </button>
       </mat-menu>

@@ -39,14 +39,13 @@
                 min="0"
                 max="999"
                 formControlName="confirmedQuantity{{ bag.id }}"
-                [attr.disabled]="isDisabledConfirmQuantity() ? true : null"
+                [attr.disabled]="isDisabledConfirmQuantity() ? true : null || !isEmployeeCanEditOrder"
                 (change)="onQuantityChange('confirmed', bag.id)"
                 disabled
               />
             </div>
             <div class="col-sm-2 d-flex justify-content-center form-group count" *ngIf="isVisible">
               <input
-                [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
                 class="shadow-none form-control input p-2"
                 type="number"
                 min="0"

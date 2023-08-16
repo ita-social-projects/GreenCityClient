@@ -46,9 +46,11 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
         'EDIT_LOCATION_NAME',
         'EDIT_COURIER',
         'EDIT_DESTINATION_NAME',
+        'EDIT_DELETE_LOCATION_CARD',
         'EDIT_LOCATION_CARD',
         'SEE_PRICING_CARD',
         'EDIT_DELETE_PRICE_CARD',
+        'DEACTIVATE_PRICING_CARD',
         'CONTROL_SERVICE'
       ]
     }

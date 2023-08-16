@@ -18,7 +18,6 @@ import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-tariffs.enum';
-import { abilityDelAuthorities, abilityEditAuthorities } from '../../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -64,12 +63,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private location: Location;
   private fb: FormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
-  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-  private employeeAuthorities: string[];
-  public isEmployeeCanControlService: boolean;
-  public isEmployeeCanCreateEditPricingCard: boolean;
-  public isEmployeeCanActivateDeactivate: boolean;
-  public isEmployeeCanUseCrumbs: boolean;
 
   constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
     this.location = injector.get(Location);
@@ -95,25 +88,6 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getService();
       this.getCouriers();
     });
-    this.authoritiesSubscription();
-  }
-
-  private authoritiesSubscription() {
-    this.permissions$.subscribe((authorities) => {
-      if (authorities.length) {
-        this.definedIsEmployeeCanEditNotifications(authorities);
-      }
-    });
-    if (!this.isEmployeeCanCreateEditPricingCard) {
-      this.limitsForm.disable();
-    }
-  }
-
-  definedIsEmployeeCanEditNotifications(employeeRights) {
-    this.employeeAuthorities = employeeRights;
-    this.isEmployeeCanControlService = this.employeeAuthorities.includes(abilityEditAuthorities.controlService);
-    this.isEmployeeCanCreateEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
-    this.isEmployeeCanActivateDeactivate = this.employeeAuthorities.includes(abilityDelAuthorities.activateDeactivate);
   }
 
   setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {

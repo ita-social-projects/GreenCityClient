@@ -17,9 +17,6 @@ import { UbsAdminNotificationComponent } from './ubs-admin-notification.componen
 import { NotificationMock } from '../../services/notificationsMock';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -37,15 +34,6 @@ describe('UbsAdminNotificationComponent', () => {
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
   let notificationsService: NotificationsService;
   let MatSnackBarMock: MatSnackBarComponent;
-  const initialState = {
-    employees: null,
-    error: null,
-    employeesPermissions: []
-  };
-
-  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
-  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const locationMock = { back: () => {} };
   const notificationsServiceMock = {
@@ -86,8 +74,6 @@ describe('UbsAdminNotificationComponent', () => {
       declarations: [UbsAdminNotificationComponent, CronPipe],
       imports: [HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
-        provideMockStore({ initialState }),
-        { provide: Store, useValue: storeMock },
         { provide: Location, useValue: locationMock },
         { provide: NotificationsService, useValue: notificationsServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
@@ -155,9 +141,68 @@ describe('UbsAdminNotificationComponent', () => {
     return cont.query(By.css(buttons[name]));
   };
 
+  it('clicking `save changes` should call notificationsService.updateNotificationTemplate with updated data', async () => {
+    const openDialogSpy = spyOn(dialogMock, 'open').and.returnValue({
+      afterClosed: () =>
+        of({
+          title: { en: 'new topic', ua: 'нова тема' },
+          trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+          time: 'IMMEDIATELY',
+          schedule: '0 0 * * *'
+        })
+    });
+    getButton('edit', getInfoContainer()).triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    getButton('deactivate', getPlatformActionsCell('email')).triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    const notificationUpdateSpy = spyOn(notificationsServiceMock, 'updateNotificationTemplate');
+    getButton('save').triggerEventHandler('click', null);
+
+    const getCurrentNotificationSettingsMock = () => {
+      expect(notificationUpdateSpy).toHaveBeenCalledWith(1, {
+        id: 1,
+        title: { en: 'new topic', ua: 'нова тема' },
+        trigger: '6PM_3DAYS_AFTER_ORDER_FORMED_NOT_PAID',
+        time: 'IMMEDIATELY',
+        schedule: '0 0 * * *',
+        status: 'ACTIVE',
+        platforms: [
+          {
+            name: 'email',
+            status: 'INACTIVE',
+            body: {
+              en: 'Unpaid order, text for Email',
+              ua: 'Неоплачене замовлення, текст для Email'
+            }
+          },
+          {
+            name: 'telegram',
+            status: 'ACTIVE',
+            body: { en: 'Unpaid order, text for Telegram', ua: 'Неоплачене замовлення, текст для Telegram' }
+          },
+          { name: 'viber', status: 'INACTIVE', body: { en: 'Unpaid order, text for Viber', ua: 'Неоплачене замовлення, текст для Viber' } }
+        ]
+      });
+    };
+  });
+
   it('should return en value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('enValue');
+  });
+
+  it('should display `edit` and `deactivate` buttons if platform is active, `activate` button otherwise', async () => {
+    const [emailActionsCell, siteActionsCell, mobileActionsCell] = getAllActionsCells();
+
+    expect(getButton('edit', siteActionsCell)).toBeTruthy();
+    expect(getButton('deactivate', siteActionsCell)).toBeTruthy();
+    expect(getButton('activate', siteActionsCell)).toBeFalsy();
+
+    expect(getButton('edit', mobileActionsCell)).toBeFalsy();
+    expect(getButton('deactivate', mobileActionsCell)).toBeFalsy();
+    expect(getButton('activate', mobileActionsCell)).toBeTruthy();
   });
 
   it('`cancel` button should navigate user to notification list', async () => {

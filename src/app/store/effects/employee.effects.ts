@@ -11,17 +11,10 @@ import {
   DeleteEmployeeSuccess,
   UpdateEmployee,
   UpdateEmployeeSuccess,
-  ReceivedFailure,
-  GetEmployeesPermissions,
-  GetEmployeesPermissionsSuccess
+  ReceivedFailure
 } from '../actions/employee.actions';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import {
-  Employees,
-  EmployeeDataResponse,
-  EmployeeDataToSend,
-  EmployeePositionsAuthorities
-} from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { Employees, EmployeeDataResponse, EmployeeDataToSend } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { EMPTY, of } from 'rxjs';
 import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 
@@ -99,20 +92,6 @@ export class EmployeesEffects {
         return this.ubsAdminEmployeeService.deleteEmployee(action.id).pipe(
           map(() => DeleteEmployeeSuccess({ id: action.id })),
           catchError((error) => of(ReceivedFailure(error)))
-        );
-      })
-    );
-  });
-
-  getEmployeesPermissions = createEffect(() => {
-    return this.actions.pipe(
-      ofType(GetEmployeesPermissions),
-      mergeMap((actions: { email: string; reset: boolean }) => {
-        return this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(actions.email).pipe(
-          map((positionsAuthorities: EmployeePositionsAuthorities) =>
-            GetEmployeesPermissionsSuccess({ positionsAuthorities, reset: actions.reset })
-          ),
-          catchError(() => EMPTY)
         );
       })
     );

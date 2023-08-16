@@ -6,14 +6,7 @@
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
   <div class="btn-group">
-    <button
-      *ngIf="isEmployeeCanCreateCertificate"
-      type="button"
-      class="btn btn-default"
-      class="view-table-btn"
-      [disabled]="isLoading"
-      (click)="openAddCertificate()"
-    >
+    <button type="button" class="btn btn-default" class="view-table-btn" [disabled]="isLoading" (click)="openAddCertificate()">
       <img src="assets/img/edit.svg" alt="edit" />
       {{ 'ubs-tables.add-certificate' | translate }}
     </button>

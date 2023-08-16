@@ -19,8 +19,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
-import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
-import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 
 @Component({
@@ -72,7 +70,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
 
-  constructor(private injector: Injector, private store: Store) {
+  constructor(private injector: Injector) {
     this.dialog = injector.get(MatDialog);
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -364,8 +362,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.jwtService.userRole$.next('');
       }
     });
-    const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.store.dispatch(GetEmployeesPermissions({ email: userEmail, reset: true }));
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {

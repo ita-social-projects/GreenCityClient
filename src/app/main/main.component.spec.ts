@@ -14,9 +14,6 @@ import { TitleAndMetaTagsService } from '@global-service/title-meta-tags/title-a
 import { UiActionsService } from '@global-service/ui-actions/ui-actions.service';
 import { UserService } from '@global-service/user/user.service';
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from '../store/state/app.state';
 
 describe('MainComponent', () => {
   const navigateToStartingPositionOnPage = 'navigateToStartingPositionOnPage';
@@ -24,11 +21,6 @@ describe('MainComponent', () => {
   let fixture;
   let app: MainComponent;
   let router: Router;
-  const initialState = {};
-
-  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
-  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
-  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
@@ -49,8 +41,6 @@ describe('MainComponent', () => {
     TestBed.configureTestingModule({
       imports: [MainModule, RouterTestingModule, TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, BrowserModule, LayoutModule],
       providers: [
-        provideMockStore({ initialState }),
-        { provide: Store, useValue: storeMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TitleAndMetaTagsService, useValue: titleAndMetaTagsServiceMock },

@@ -520,7 +520,7 @@
         "create-card": "Create a new employee card",
         "edit-card": "Edit an employee card",
         "delete-card": "Deactivate an employee",
-        "edit-authority": "Edit an employee`s authorities"
+        "edit-authority": "Edit an employee's authority"
       },
       "certificates": {
         "title": "Certificates",
@@ -530,15 +530,15 @@
       },
       "orders": {
         "title": "Orders",
-        "see-main-page": "See an order card",
-        "edit-card": "Edit an order card"
+        "see-main-page": "See order card",
+        "edit-card": "Edit order card"
       },
       "messages": {
         "title": "Notification",
         "see-main-page": "See the main page “Notifications”",
         "create-card": "Create a new notification card",
         "edit-card": "Edit a notification card",
-        "delete-card": "Deactivate a notification card"
+        "delete-card": "Delete a notification card"
       },
       "tariffs": {
         "title": "Tariffs",
@@ -552,9 +552,9 @@
         "create-location-card": "Create a location card",
         "edit-delete-location-card": "Edit/Delete the location card",
         "see-price-card": "See the pricing card",
-        "edit-delete-price-card": "Edit/Deactivate the pricing card",
+        "edit-delete-price-card": "Edit/Delete the pricing card",
         "deactivate-price-card": "Deactivate the pricing card",
-        "edit-service": "Add/Edit/Deactivate a service",
+        "edit-service": "Add/Edit/Delete a service",
         "edit-price-card": "Edit/Delete the pricing card"
       }
     },
@@ -1193,7 +1193,7 @@
   },
   "add-new-certificate": {
     "title": "Add sertificate",
-    "сertificate-field": "Certificate, №",
+    "сertificate-field": "Certificate. №",
     "duration-months-field": "Duration, mo.",
     "discount-field": "Discount, UAH",
     "cancel-button": "Cancel",

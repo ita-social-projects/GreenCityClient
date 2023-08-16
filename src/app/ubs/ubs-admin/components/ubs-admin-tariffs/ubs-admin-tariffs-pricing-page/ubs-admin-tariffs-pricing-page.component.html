@@ -15,12 +15,7 @@
 <div class="container">
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.services' | translate }}</p>
-    <button
-      *ngIf="isEmployeeCanControlService"
-      class="tariffs-add-button"
-      [disabled]="isLoadBar1 || service"
-      (click)="openAddServicePopup()"
-    >
+    <button class="tariffs-add-button" [disabled]="isLoadBar1 || service" (click)="openAddServicePopup()">
       <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_service' | translate }}
     </button>
@@ -31,13 +26,13 @@
     </div>
     <table aria-label="tariffsTable">
       <tr>
-        <th *ngIf="isEmployeeCanControlService" scope="row" class="empty"></th>
+        <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_service' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.service_description' | translate }}</th>
         <th scope="row" class="full-cost">{{ 'ubs-tariffs.basic_cost' | translate }}</th>
       </tr>
       <tr *ngIf="service">
-        <td *ngIf="isEmployeeCanControlService" style="padding-left: 0">
+        <td style="padding-left: 0">
           <div class="image-buttons">
             <img *ngIf="!isLoadBar1" [src]="icons.edit" class="edit-button-img" alt="edit-icon" (click)="openUpdateServicePopup(service)" />
             <img *ngIf="!isLoadBar1" [src]="icons.delete" class="delete-button-img" alt="edit-icon" (click)="openDeleteService(service)" />
@@ -51,7 +46,7 @@
   </div>
   <div class="text-header">
     <p class="title">{{ 'ubs-tariffs.tariffs_for_services' | translate }}</p>
-    <button *ngIf="isEmployeeCanControlService" class="tariffs-add-button" [disabled]="isLoadBar" (click)="openAddTariffForServicePopup()">
+    <button class="tariffs-add-button" [disabled]="isLoadBar" (click)="openAddTariffForServicePopup()">
       <mat-icon class="add-icon">add</mat-icon>
       {{ 'ubs-tariffs.btn.add_tariff' | translate }}
     </button>
@@ -62,7 +57,7 @@
     </div>
     <table aria-label="tariffsTable1">
       <tr>
-        <th *ngIf="isEmployeeCanControlService" scope="row" class="empty"></th>
+        <th scope="row" class="empty"></th>
         <th scope="row">{{ 'ubs-tariffs.name_of_the_tariff' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.capacity' | translate }}</th>
         <th scope="row">{{ 'ubs-tariffs.tariff_description' | translate }}</th>
@@ -71,7 +66,7 @@
         <th scope="row" class="full-cost">{{ 'ubs-tariffs.full_cost' | translate }}</th>
       </tr>
       <tr *ngFor="let bag of bags">
-        <td *ngIf="isEmployeeCanControlService" style="padding-left: 0">
+        <td style="padding-left: 0">
           <div class="image-buttons">
             <img
               *ngIf="!isLoadBar"
@@ -113,7 +108,7 @@
             placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
           ></textarea>
         </div>
-        <mat-radio-group formControlName="courierLimitsBy">
+        <mat-radio-group class="custom-radio-btn" formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
             <mat-radio-button
@@ -189,11 +184,7 @@
           <h6>{{ 'ubs-tariffs.min_set_of_packages' | translate }}</h6>
           <div *ngFor="let bag of bags; let i = index">
             <div>
-              <mat-checkbox
-                [disabled]="!isEmployeeCanCreateEditPricingCard"
-                class="example-margin"
-                [checked]="bag.limitIncluded"
-                (change)="onChecked(bag.id, $event)"
+              <mat-checkbox class="example-margin" [checked]="bag.limitIncluded" (change)="onChecked(bag.id, $event)"
                 >{{ getLangValue(bag.name, bag.nameEng) }} {{ bag.capacity | volume }}</mat-checkbox
               >
             </div>
@@ -205,7 +196,7 @@
       </div>
     </form>
   </div>
-  <div *ngIf="isEmployeeCanCreateEditPricingCard" class="d-flex justify-content-end buttons">
+  <div class="d-flex justify-content-end buttons">
     <button class="primary-global-button btn mr-3" [disabled]="!disableSaveButton()">
       {{ 'ubs-tariffs.btn.duplicate_page' | translate }}
     </button>

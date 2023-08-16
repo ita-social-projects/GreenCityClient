@@ -14,7 +14,7 @@
         <th class="col-time">{{ 'ubs-notifications.columns-notification-list.time' | translate }}</th>
         <th class="col-period">{{ 'ubs-notifications.columns-notification-list.period' | translate }}</th>
         <th class="col-status">{{ 'ubs-notifications.columns-notification-list.status' | translate }}</th>
-        <th *ngIf="isThisEmployeeHasRights" class="col-actions"></th>
+        <th class="col-actions"></th>
       </tr>
     </thead>
     <tbody>
@@ -44,22 +44,20 @@
         <td>
           {{ 'ubs-notifications.statuses.' + notification.notificationTemplateMainInfoDto.notificationStatus | translate }}
         </td>
-        <td *ngIf="isThisEmployeeHasRights" class="col-actions">
+        <td class="col-actions">
           <div>
-            <button *ngIf="isThisEmployeeCanEditNotification" class="action-button edit-button" (click)="onEditNotificationSettings()">
+            <button class="action-button edit-button" (click)="onEditNotificationSettings()">
               <img [src]="icons.edit" alt="" />
             </button>
             <button
-              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'ACTIVE' && isThisEmployeeCanActivateNotification"
+              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'ACTIVE'"
               class="action-button deactivate-button"
               (click)="onDeactivateNotification()"
             >
               <img [src]="icons.delete" alt="" />
             </button>
             <button
-              *ngIf="
-                notification.notificationTemplateMainInfoDto.notificationStatus === 'INACTIVE' && isThisEmployeeCanActivateNotification
-              "
+              *ngIf="notification.notificationTemplateMainInfoDto.notificationStatus === 'INACTIVE'"
               class="action-button deactivate-button"
               (click)="onActivateNotification()"
             >
@@ -75,7 +73,7 @@
     <thead>
       <th class="col-platform">{{ 'ubs-notifications.columns-notification.platform' | translate }}</th>
       <th class="col-text">{{ 'ubs-notifications.columns-notification.text' | translate }}</th>
-      <th *ngIf="isThisEmployeeHasRights" class="col-action"></th>
+      <th class="col-action"></th>
     </thead>
     <tbody>
       <tr *ngFor="let platform of notification.platforms" [ngClass]="{ 'platform-inactive': platform.status !== 'ACTIVE' }">
@@ -83,30 +81,18 @@
         <td>
           {{ getLangValue(platform.body, platform.bodyEng) }}
         </td>
-        <td *ngIf="isThisEmployeeHasRights" class="col-action">
+        <td class="col-action">
           <div *ngIf="platform.status === 'ACTIVE'; else inactivePlatformActions">
-            <button
-              *ngIf="isThisEmployeeCanEditNotification"
-              class="action-button edit-button"
-              (click)="onEditNotificationText(platform.nameEng)"
-            >
+            <button class="action-button edit-button" (click)="onEditNotificationText(platform.nameEng)">
               <img [src]="icons.edit" alt="" />
             </button>
-            <button
-              *ngIf="isThisEmployeeCanActivateNotification"
-              class="action-button deactivate-button"
-              (click)="onDeactivatePlatform(platform.nameEng)"
-            >
+            <button class="action-button deactivate-button" (click)="onDeactivatePlatform(platform.nameEng)">
               <img [src]="icons.delete" alt="" />
             </button>
           </div>
           <ng-template #inactivePlatformActions>
             <div>
-              <button
-                *ngIf="isThisEmployeeCanActivateNotification"
-                class="action-button activate-button"
-                (click)="onActivatePlatform(platform.nameEng)"
-              >
+              <button class="action-button activate-button" (click)="onActivatePlatform(platform.nameEng)">
                 <img [src]="icons.activate" alt="" />
               </button>
             </div>
@@ -118,8 +104,6 @@
 
   <div class="controls">
     <button class="cancel-button" (click)="onCancel()">{{ 'ubs-notifications.buttons.cancel' | translate }}</button>
-    <button *ngIf="isThisEmployeeHasRights" class="submit-button" type="submit" (click)="onSaveChanges()">
-      {{ 'ubs-notifications.buttons.save' | translate }}
-    </button>
+    <button class="submit-button" type="submit" (click)="onSaveChanges()">{{ 'ubs-notifications.buttons.save' | translate }}</button>
   </div>
 </div>

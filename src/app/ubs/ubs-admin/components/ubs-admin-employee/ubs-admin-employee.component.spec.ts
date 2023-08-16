@@ -27,13 +27,7 @@ describe('UbsAdminEmployeeComponent', () => {
   let fixture: ComponentFixture<UbsAdminEmployeeComponent>;
   let dialog: MatDialog;
   let store: MockStore<any>;
-  const initialState = {
-    employees: null,
-    error: null,
-    employeesPermissions: []
-  };
-
-  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const initialState = {};
 
   let httpMock: HttpTestingController;
   let service: UbsAdminEmployeeService;
@@ -138,7 +132,6 @@ describe('UbsAdminEmployeeComponent', () => {
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
-  storeMock.select.and.returnValue(of({ employees: { emplpyeesPermissions: mockData } }));
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', [
     'getCurrentLanguage',
@@ -223,6 +216,30 @@ describe('UbsAdminEmployeeComponent', () => {
     expect(spy6).toHaveBeenCalled();
     expect(spy6).toHaveBeenCalledTimes(8);
     expect(spy7).toHaveBeenCalled();
+  });
+
+  it('should getEmployeePositionbyEmail call at definitionUserAuthorities func', () => {
+    const spy = spyOn(component as any, 'getEmployeePositionbyEmail');
+    (component as any).definitionUserAuthorities();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should get employee positions and authorities', () => {
+    component.userEmail = 'testemail@gmail.com';
+    service.getEmployeePositionsAuthorities(component.userEmail).subscribe((data) => {
+      expect(data).toBe(positionsAuthoritiesMock);
+      expect(component.userAuthorities).toBe([
+        'REGISTER_A_NEW_EMPLOYEE',
+        'EDIT_EMPLOYEE',
+        'EDIT_EMPLOYEES_AUTHORITIES',
+        'DEACTIVATE_EMPLOYEE'
+      ]);
+      expect(component.isThisUserCanCreateEmployee).toBeTruthy();
+      expect(component.isThisUserCanEditEmployee).toBeTruthy();
+      expect(component.isThisUserCanEditEmployeeAuthorities).toBeTruthy();
+      expect(component.isThisUserCanDeleteEmployee).toBeTruthy();
+      expect(component.userHasRights).toBeTruthy();
+    });
   });
 
   it('should open MatAutocomplete', () => {

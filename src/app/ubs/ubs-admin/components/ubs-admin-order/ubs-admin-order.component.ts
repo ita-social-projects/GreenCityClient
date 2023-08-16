@@ -25,7 +25,8 @@ import {
   IUpdateResponsibleEmployee,
   IUserInfo,
   ResponsibleEmployee,
-  abilityEditAuthorities
+  abilityEditAuthorities,
+  employeePositionsName
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
@@ -77,8 +78,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   private employeeAuthorities: string[];
+  private employeePositions: string[];
   public isEmployeeCanEditOrder = false;
-  public permissions$ = this.store.select((state): Array<string> => state.employees?.employeesPermissions);
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
@@ -112,23 +113,43 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, false);
-    this.authoritiesSubscription();
-  }
-
-  private authoritiesSubscription() {
-    this.permissions$.subscribe((authorities) => {
-      if (authorities?.length) {
-        this.definedIsEmployeeCanEditOrder(authorities);
+    this.ubsAdminEmployeeService.employeePositions$.pipe(takeUntil(this.destroy$)).subscribe((employeePositions) => {
+      if (employeePositions.length) {
+        this.authoritiesSubscription(employeePositions);
       }
     });
   }
 
-  private definedIsEmployeeCanEditOrder(authorities: string[]) {
+  private authoritiesSubscription(positions) {
+    this.ubsAdminEmployeeService.employeePositionsAuthorities$.pipe(takeUntil(this.destroy$)).subscribe((rights) => {
+      if (rights.authorities.length) {
+        this.definedIsEmployeeCanEditOrder(positions, rights.authorities);
+      }
+    });
+  }
+
+  private definedIsEmployeeCanEditOrder(positions: string[], authorities: string[]) {
     this.employeeAuthorities = authorities;
+    this.employeePositions = positions;
+    const positionsForEditOrder: string[] = [
+      employeePositionsName.SuperAdmin,
+      employeePositionsName.Admin,
+      employeePositionsName.CallManager,
+      employeePositionsName.ServiceManager
+    ];
+    let isThisPositionCanEdit = false;
+    let isThisRoleCanEdit = false;
+    if (this.employeePositions) {
+      isThisPositionCanEdit = !!this.employeePositions.filter((positionsItem: string) => positionsForEditOrder.includes(positionsItem))
+        .length;
+    }
+
     if (this.employeeAuthorities) {
-      this.isEmployeeCanEditOrder = !!this.employeeAuthorities.filter(
-        (authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders
-      ).length;
+      isThisRoleCanEdit = !!this.employeeAuthorities.filter((authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders).length;
+    }
+
+    if (isThisPositionCanEdit || isThisRoleCanEdit) {
+      this.isEmployeeCanEditOrder = true;
     }
   }
 
