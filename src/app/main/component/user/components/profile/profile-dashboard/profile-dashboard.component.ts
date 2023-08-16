@@ -12,10 +12,11 @@ import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions'
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -42,6 +43,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public isOfflineChecked = false;
 
   public eventsList: EventPageResponceDto[] = [];
+  public favouriteEvents: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
   public totalEvents = 0;
@@ -53,9 +55,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public totalNews = 0;
 
   public eventType = '';
+  public isFavoriteBtnClicked = false;
 
   public userLatitude = 0;
   public userLongitude = 0;
+
+  public images = singleNewsImages;
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -65,7 +70,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     public shoppingService: ShoppingListService,
     private store: Store,
     private eventService: EventsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -123,6 +129,16 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     this.initGetUserEvents(this.eventType);
   }
 
+  public escapeFromFavorites(): void {
+    this.isFavoriteBtnClicked = !this.isFavoriteBtnClicked;
+    console.log('go out');
+  }
+
+  public goToFavorites(): void {
+    this.isFavoriteBtnClicked = true;
+    console.log('here');
+  }
+
   initGetUserEvents(eventType?: string): void {
     this.eventService
       .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
@@ -131,6 +147,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
         this.eventsList = res.page;
         this.totalEvents = res.totalElements;
       });
+  }
+
+  getUserFavouriteEvents(eventType?: string): void {
+    this.eventService;
+    //TO DO
   }
 
   onEventsPageChange(page: number, eventType?: string): void {

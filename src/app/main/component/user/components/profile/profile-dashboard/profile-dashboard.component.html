@@ -96,14 +96,14 @@
 
       <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
         <div *ngIf="!loading; else spinner">
-          <div class="in-progress header">
+          <div class="in-progress header" *ngIf="!isFavoriteBtnClicked">
             <div class="buttons-wrapper">
               <a [routerLink]="['/events/create-event']">
                 <div id="create-button" class="secondary-global-button s-btn">
                   <span>{{ 'profile.dashboard.add-event' | translate }}</span>
                 </div>
               </a>
-              <div class="favourites">
+              <div class="favourites" (click)="goToFavorites()">
                 <span class="flag-active"></span>
               </div>
             </div>
@@ -118,7 +118,22 @@
               </div>
             </div>
           </div>
-          <ul class="news-list" *ngIf="totalEvents">
+          <div *ngIf="isFavoriteBtnClicked" class="in-progress header">
+            <div class="button-arrow" (click)="escapeFromFavorites()">
+              <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+              <div class="edit-news">{{ 'create-event.back' | translate }}</div>
+            </div>
+          </div>
+          <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
+            <li
+              *ngFor="
+                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
+              "
+            >
+              <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
+            </li>
+          </ul>
+          <ul class="news-list" *ngIf="isFavoriteBtnClicked">
             <li
               *ngFor="
                 let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
@@ -146,7 +161,7 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab disabled></mat-tab>
+      <mat-tab disabled> </mat-tab>
     </mat-tab-group>
   </div>
 
