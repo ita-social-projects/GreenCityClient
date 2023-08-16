@@ -51,7 +51,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
     style: 'green',
-    isItrefund: true
+    isItrefund: true,
+    іsPermissionConfirm: true
   };
 
   private refundApplicationErrorDialogDate = {
@@ -59,7 +60,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
     style: 'green',
-    isItrefund: true
+    isItrefund: true,
+    іsPermissionConfirm: true
   };
 
   constructor(
