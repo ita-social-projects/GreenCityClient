@@ -1,4 +1,4 @@
-.event {
+.event-assign {
   height: 206px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: var(--primary-white);
@@ -7,7 +7,7 @@
   margin-bottom: 24px;
   cursor: pointer;
 
-  &-image-container {
+  &__image-container {
     overflow: hidden;
     position: relative;
     max-width: 200px;
@@ -21,7 +21,7 @@
       object-fit: contain;
     }
 
-    .event-participants {
+    &__participants {
       align-items: center;
       display: inline-flex;
       flex-direction: row;
@@ -36,7 +36,7 @@
       background: rgba(255, 255, 255, 0.8);
       box-shadow: 0 0 2px 0 var(--primary-grey);
 
-      .event-participants-avatar {
+      &__avatars__avatar {
         width: 19px;
         height: 19px;
         float: left;
@@ -51,25 +51,25 @@
         }
       }
 
-      .event-participants-avatar:not(:first-child) {
+      &_avatars__avatar:not(:first-child) {
         margin-left: -12px;
       }
 
-      .event-participants-count-container {
+      &__count-container {
         font-style: normal;
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;
         color: var(--primary-green);
 
-        .event-participants-count {
+        &-count {
           font-weight: 500;
         }
       }
     }
   }
 
-  &-content {
+  &__content {
     width: 100%;
     padding: 0 10px;
     margin: 7px 2px;
@@ -77,11 +77,11 @@
     flex-direction: column;
     justify-content: space-between;
 
-    &-date-container {
+    &__date-container {
       display: flex;
       position: relative;
 
-      &-date {
+      &__date {
         display: flex;
 
         .clock {
@@ -97,7 +97,7 @@
         }
       }
 
-      &-event-flags {
+      &__event-flags {
         position: absolute;
         top: 10px;
         right: 10px;
@@ -121,7 +121,7 @@
       }
     }
 
-    &-status-container {
+    &__status-container {
       display: flex;
 
       .lock-open {
@@ -141,7 +141,7 @@
       }
     }
 
-    &-address-container {
+    &__address-container {
       display: flex;
 
       .place {
@@ -159,7 +159,7 @@
     }
   }
 
-  .user-info {
+  &__user-info {
     margin: 2px 0;
     display: flex;
     justify-content: space-between;
@@ -176,12 +176,12 @@
 }
 
 @media (max-width: 700px) {
-  .event {
+  .event-assign {
     height: auto;
     margin: 0 auto 24px;
     display: block;
 
-    &-image-container-image {
+    &__image-container-image {
       width: 100%;
     }
   }

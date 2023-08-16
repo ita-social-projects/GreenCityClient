@@ -1,149 +1,108 @@
-<div *ngIf="!isUserAssignList">
-  <div class="card-wrapper">
-    <div class="image-container">
-      <img class="event-image" src="{{ event.titleImage }}" alt="event" />
-      <div class="event-stars" *ngIf="!event.open">
-        <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
-        <ng-template #star let-index="index" let-value="value">
-          <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
-        </ng-template>
-      </div>
-      <div class="event-flags" *ngIf="event.open">
-        <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }" (click)="addToFavourite($event)"></span>
-      </div>
-      <div class="event-participants" *ngIf="attendees.length">
-        <div class="event-participants-avatars">
-          <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
-            <img [src]="avatar" alt="" />
-          </div>
-        </div>
-        <div class="event-participants-count-container">
-          <span class="event-participants-count">+{{ attendees.length }}</span>
+<div class="card-wrapper" *ngIf="!isUserAssignList">
+  <div class="image-container">
+    <img class="event-image" src="{{ event.titleImage }}" alt="event" />
+    <div class="event-stars" *ngIf="!event.open">
+      <rating [(ngModel)]="rate" [customTemplate]="star" [max]="max" [readonly]="false"> </rating>
+      <ng-template #star let-index="index" let-value="value">
+        <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
+      </ng-template>
+    </div>
+    <div class="event-flags" *ngIf="event.open">
+      <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }" (click)="addToFavourite($event)"></span>
+    </div>
+    <div class="event-participants" *ngIf="attendees.length">
+      <div class="event-participants-avatars">
+        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+          <img [src]="avatar" alt="" />
         </div>
       </div>
+      <div class="event-participants-count-container">
+        <span class="event-participants-count">+{{ attendees.length }}</span>
+      </div>
     </div>
+  </div>
 
-    <<<<<<< HEAD
-    <div class="main-container">
-      <ul class="ul-eco-buttons" aria-label="filter by items">
-        <li *ngFor="let tag of activeTags">
-          <a role="button" class="tag" tabindex="0">
-            <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
-            <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
-          </a>
-        </li>
-      </ul>
-      <div *ngIf="event.dates[0]" class="date-container">
-        <span class="clock"></span>
-        <div class="date">
-          {{ event.dates[0].startDate | dateLocalisation }}
-        </div>
-        <span class="time-divider">|</span>
-        <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
-      </div>
-      <div class="date-container">
-        <span class="place"></span>
-        <p *ngIf="!isOnline">
-          {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
-          {{ address.houseNumber }}
-        </p>
-        <p *ngIf="isOnline">{{ isOnline }}</p>
-      </div>
-      <div class="date-container">
-        <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
-        <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
-      </div>
-      <div class="event-title">
-        <p class="event-name" [innerHTML]="title"></p>
-      </div>
-      <div class="description" [innerHTML]="description"></div>
-    </div>
-
-    <div class="btn-group">
-      <button class="secondary-global-button m-btn" (click)="routeToEvent()">
-        {{ 'event.btn-top' | translate }}
-      </button>
-      <button class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
-    </div>
-
-    <div class="additional-info">
+  <div class="main-container">
+    <ul class="ul-eco-buttons" aria-label="filter by items">
+      <li *ngFor="let tag of activeTags">
+        <a role="button" class="tag" tabindex="0">
+          <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
+          <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
+        </a>
+      </li>
+    </ul>
+    <div *ngIf="event.dates[event.dates.length - 1]" class="date-container">
+      <span class="clock"></span>
       <div class="date">
-        <img src="assets/events-icons/date.png" class="date-image" alt="date" />
-        <p>{{ newDate | translate }}</p>
-        <p></p>
+        {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
       </div>
-      =======
-      <div class="main-container">
-        <ul class="ul-eco-buttons" aria-label="filter by items">
-          <li *ngFor="let tag of activeTags">
-            <a role="button" class="tag" tabindex="0">
-              <span class="text" [ngClass]="{ 'tag-active': tag.isActive }">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
-              <span class="tag-divider" *ngIf="activeTags.length > 1">|</span>
-            </a>
-          </li>
-        </ul>
-        <div *ngIf="event.dates[event.dates.length - 1]" class="date-container">
-          <span class="clock"></span>
-          <div class="date">
-            {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
-          </div>
-          <span class="time-divider">|</span>
-          <div class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</div>
-        </div>
-        <div class="date-container">
-          <span class="place"></span>
-          <p *ngIf="!isOnline">
-            {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
-            {{ address.houseNumber }}
-          </p>
-          <p *ngIf="isOnline">{{ isOnline }}</p>
-        </div>
-        <div class="date-container">
-          <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
-          <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
-        </div>
-        <div class="event-title">
-          <p class="event-name" [innerHTML]="title"></p>
-        </div>
-        <div class="description" [innerHTML]="description"></div>
-      </div>
-      >>>>>>> origin/dev
+      <span class="time-divider">|</span>
+      <div class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</div>
+    </div>
+    <div class="date-container">
+      <span class="place"></span>
+      <p *ngIf="!isOnline">
+        {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
+        {{ address.houseNumber }}
+      </p>
+      <p *ngIf="isOnline">{{ isOnline }}</p>
+    </div>
+    <div class="date-container">
+      <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
+      <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
+    </div>
+    <div class="event-title">
+      <p class="event-name" [innerHTML]="title"></p>
+    </div>
+    <div class="description" [innerHTML]="description"></div>
+  </div>
 
-      <div class="author">
-        <img src="assets/events-icons/author.png" class="author-image" alt="author" />
-        <p>{{ event.organizer.name }}</p>
-      </div>
-      <div class="frame">
-        <img src="assets/events-icons/frame.png" class="frame-image" alt="frame" />
-        <p>{{ '14' }}</p>
-      </div>
-      <div class="like">
-        <img src="assets/events-icons/like.png" class="like-image" alt="like" />
-        <p>{{ '10' }}</p>
-      </div>
-      d
+  <div class="btn-group">
+    <button class="secondary-global-button m-btn" (click)="routeToEvent()">
+      {{ 'event.btn-top' | translate }}
+    </button>
+    <button class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
+  </div>
+
+  <div class="additional-info">
+    <div class="date">
+      <img src="assets/events-icons/date.png" class="date-image" alt="date" />
+      <p>{{ newDate | translate }}</p>
+      <p></p>
+    </div>
+    <div class="author">
+      <img src="assets/events-icons/author.png" class="author-image" alt="author" />
+      <p>{{ event.organizer.name }}</p>
+    </div>
+    <div class="frame">
+      <img src="assets/events-icons/frame.png" class="frame-image" alt="frame" />
+      <p>{{ '14' }}</p>
+    </div>
+    <div class="like">
+      <img src="assets/events-icons/like.png" class="like-image" alt="like" />
+      <p>{{ '10' }}</p>
     </div>
   </div>
 </div>
 
 <div *ngIf="isUserAssignList">
-  <div class="event" (click)="routeToEvent()">
-    <div class="event-image-container">
-      <img class="event-image-container-image" src="{{ event.titleImage }}" alt="event" />
-      <div class="event-participants" *ngIf="attendees.length">
-        <div class="event-participants-avatars">
-          <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+  <div class="event-assign" (click)="routeToEvent()">
+    <div class="event-assign__image-container">
+      <img class="event-assign__image-container-image" src="{{ event.titleImage }}" alt="event" />
+      <div class="event-assign__participants" *ngIf="attendees.length">
+        <div class="event-assign__participants__avatars">
+          <div class="event-assign__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
             <img [src]="avatar" alt="" />
           </div>
         </div>
-        <div class="event-participants-count-container">
-          <span class="event-participants-count">+{{ attendees.length }}</span>
+        <div class="event-assign__participants__count-container">
+          <span class="event-assign__participants__count-container-count">+{{ attendees.length }}</span>
         </div>
       </div>
     </div>
-    <div class="event-content">
-      <div *ngIf="event.dates[event.dates.length - 1]" class="event-content-date-container">
-        <div class="event-content-date-container-date">
+    <div class="event-assign__content">
+      <div *ngIf="event.dates[event.dates.length - 1]" class="event-assign__content__date-container">
+        <div class="event-assign__content__date-container__date">
           <span class="clock"></span>
           <p class="date">
             {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
@@ -151,12 +110,12 @@
           <span class="time-divider">|</span>
           <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
         </div>
-        <div class="event-content-date-container-event-flags" *ngIf="event.open" (click)="addToFavourite($event)">
+        <div class="event-assign__content__date-container__event-flags" *ngIf="event.open" (click)="addToFavourite($event)">
           <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }"></span>
         </div>
       </div>
       <div>
-        <div class="event-content-status-container">
+        <div class="event-assign__content__status-container">
           <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
           <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
         </div>
@@ -165,7 +124,7 @@
             {{ event.title }}
           </h3>
         </div>
-        <div *ngIf="address && !isOnline" class="event-content-address-container">
+        <div *ngIf="address && !isOnline" class="event-assign__content__address-container">
           <span class="place"></span>
           <p>
             {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
@@ -173,12 +132,12 @@
           </p>
         </div>
       </div>
-      <div class="user-info">
-        <p class="user-info-date">
+      <div class="event-assign__content__user-info">
+        <p class="event-assign__content__user-info-date">
           <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
           {{ newDate | translate }}
         </p>
-        <p class="user-info-icon">
+        <p class="event-assign__content__user-info-icon">
           <img [src]="profileIcons.userIcon" class="author-image" alt="author" />
           {{ event.organizer.name }}
         </p>
