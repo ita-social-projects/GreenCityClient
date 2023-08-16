@@ -139,7 +139,9 @@
       "item-found-text": "Знайдено",
       "items-event-text": "подій",
       "my-space": {
-        "tag-title": "Мої події"
+        "tag-title": "Мої події",
+        "event-type-online": "Онлайн",
+        "event-type-offline": "Оффлайн"
       },
       "open": "Відкрито",
       "registered": "Є зареєстровані",
@@ -970,7 +972,6 @@
       "no-habits-in-progress": "Привіт, Еко друг ;-)",
       "no-habits-in-progress-advice": "Ласкаво просимо до «Мої звички». Здається, у вас немає звичок. Почнемо набувати нову!",
       "news-list": "Список новин",
-      "events-list": "Список подій",
       "news": {
         "news-at-1": "новина",
         "news-at-2-3-4": "новини",

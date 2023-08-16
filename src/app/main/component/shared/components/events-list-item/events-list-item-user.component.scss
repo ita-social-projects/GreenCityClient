@@ -157,20 +157,20 @@
       padding: 0;
       margin: 0;
     }
-  }
 
-  &__user-info {
-    margin: 2px 0;
-    display: flex;
-    justify-content: space-between;
-    color: var(--quaternary-grey);
+    &__user-info {
+      margin: 2px 0;
+      display: flex;
+      justify-content: space-between;
+      color: var(--quaternary-grey);
 
-    &-date {
-      font-size: 12px;
-    }
+      &-date {
+        font-size: 12px;
+      }
 
-    &-icon {
-      font-size: 12px;
+      &-icon {
+        font-size: 12px;
+      }
     }
   }
 }

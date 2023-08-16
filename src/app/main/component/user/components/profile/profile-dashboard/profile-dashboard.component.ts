@@ -108,7 +108,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   onCheckboxChange(EventTypeChecked?: string) {
     if (EventTypeChecked === EventType.ONLINE) {
       this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
-    } else if (EventTypeChecked === EventType.OFFLINE) {
+    } else {
       this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
     }
 
@@ -116,7 +116,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       this.eventType = EventType.ONLINE;
     } else if (this.isOfflineChecked) {
       this.eventType = EventType.OFFLINE;
-    } else if (!this.isOnlineChecked && !this.isOfflineChecked) {
+    } else {
       this.eventType = '';
     }
 

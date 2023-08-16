@@ -140,7 +140,6 @@
       "items-event-text": "Items found",
       "my-space": {
         "tag-title": "My Events",
-        "event-types-title": "Types:",
         "event-type-online": "Online",
         "event-type-offline": "Offline"
       },
@@ -950,7 +949,6 @@
       "no-habits-in-progress": "Hi Eco Friend ;-)",
       "no-habits-in-progress-advice": "Welcome to My Habits. It seems you don’t have any habits in progress. Let’s start to acquire a new one!",
       "news-list": "List of news",
-      "events-list": "List of events",
       "news": {
         "news-at-1": "item of news",
         "news-at-2-3-4": "news",

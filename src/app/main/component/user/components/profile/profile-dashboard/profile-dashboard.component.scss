@@ -20,26 +20,32 @@ a {
       color: var(--primary-dark-grey);
     }
 
-    .favourites {
-      width: 40px;
-      height: 40px;
-      background-color: var(--primary-white);
-      border-radius: 5px;
+    .buttons-wrapper {
       display: flex;
-      padding: 8px;
-      justify-content: center;
+      justify-content: cneter;
       align-items: center;
-      box-shadow: 0 0 1px 0 var(--primary-grey);
+      .favourites {
+        margin: 0 10px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-white);
+        border-radius: 5px;
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 1px 0 var(--primary-grey);
 
-      span {
-        display: inline-block;
-        width: 25px;
-        height: 25px;
-        transition: all 0.3s;
-      }
+        span {
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          transition: all 0.3s;
+        }
 
-      .flag-active {
-        background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+        .flag-active {
+          background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+        }
       }
     }
   }
@@ -90,15 +96,10 @@ a {
   justify-content: space-between;
   margin-bottom: 10px;
 
-  .event-filter-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--freinacht-black);
-  }
-
   .events-types {
     * {
       margin: 0 5px;
+      color: var(--primary-green);
     }
   }
 }
