@@ -150,8 +150,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   }
 
   getUserFavouriteEvents(eventType?: string): void {
-    this.eventService;
-    //TO DO
+    // TO DO
   }
 
   onEventsPageChange(page: number, eventType?: string): void {
