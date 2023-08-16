@@ -3,13 +3,21 @@ import { BehaviorSubject, of, throwError } from 'rxjs';
 import { UbsAdminEmployeePermissionsFormComponent } from './ubs-admin-employee-permissions-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+
+class MatDialogMock {
+  open() {
+    return {
+      afterClosed: () => of(true)
+    };
+  }
+}
 
 describe('UbsAdminEmployeePermissionsFormComponent', () => {
   let component: UbsAdminEmployeePermissionsFormComponent;
@@ -32,8 +40,9 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminEmployeePermissionsFormComponent],
-      imports: [CdkAccordionModule, TranslateModule.forRoot(), ReactiveFormsModule, HttpClientModule, MatCheckboxModule],
+      imports: [CdkAccordionModule, TranslateModule.forRoot(), ReactiveFormsModule, HttpClientModule, MatCheckboxModule, MatDialogModule],
       providers: [
+        { provide: MatDialog, useClass: MatDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedEmployee },
         { provide: UbsAdminEmployeeService, useValue: employeeServiceMock },
         { provide: MatDialogRef, useValue: dialogRefStub },
