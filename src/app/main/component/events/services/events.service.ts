@@ -59,6 +59,10 @@ export class EventsService implements OnDestroy {
     );
   }
 
+  public getUserFavoriteEvents(): Observable<EventResponseDto> {
+    return;
+  }
+
   public getEventById(id: number): Observable<any> {
     return this.http.get(`${this.backEnd}events/event/${id}`);
   }
