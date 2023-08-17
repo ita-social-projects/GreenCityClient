@@ -1,0 +1,87 @@
+:host {
+  font-family: var(--primary-font);
+}
+
+.pop-up-container {
+  width: 360px;
+
+  &-empty {
+    width: 335px;
+    min-height: 228px;
+    max-height: auto;
+  }
+}
+
+.heading,
+.to-notifications {
+  margin: 8px 19px;
+}
+
+.to-notifications {
+  display: block;
+  cursor: pointer;
+}
+
+.no-notifications {
+  min-height: 156px;
+  width: 100%;
+  padding-top: 24px;
+  background: no-repeat 130px 55px/80px url('src/assets/img/bell.png');
+}
+
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 23px 33px;
+}
+
+.notification {
+  margin: 0;
+
+  &-unread {
+    background-color: var(--ubs-primary-liberty-green);
+  }
+
+  &-read {
+    background-color: var(--ubs-button-light-grey);
+  }
+
+  &-header {
+    min-height: 80px !important;
+    height: unset !important;
+    padding: 7px 12px;
+    display: block;
+
+    & .mat-content {
+      display: block;
+    }
+
+    &-project {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--ubs-primary-green);
+    }
+
+    &-title {
+      color: var(--ubs-primary-black);
+    }
+
+    &-content {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
+::ng-deep .notification.mat-expanded .mat-expansion-panel-body {
+  height: 0;
+  padding: 0;
+}
+
+.notification.mat-expanded .notification-header-content {
+  white-space: wrap;
+  overflow: visible;
+}

@@ -15,6 +15,7 @@ import { EventsService } from 'src/app/main/component/events/services/events.ser
 import { ActivatedRoute } from '@angular/router';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -37,6 +38,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   userId: number;
   news: EcoNewsModel[];
 
+  public isOnlineChecked = false;
+  public isOfflineChecked = false;
+
   public eventsList: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
@@ -47,6 +51,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   private newsCount = 3;
 
   public totalNews = 0;
+
+  public eventType = '';
+
+  public userLatitude = 0;
+  public userLongitude = 0;
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -74,6 +83,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
     this.initGetUserEvents();
     this.dispatchNews(false);
+    this.getUserLocation();
 
     this.localStorageService.setCurentPage('previousPage', '/profile');
 
@@ -86,9 +96,36 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  initGetUserEvents(): void {
+  getUserLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position) {
+        this.userLatitude = position.coords.latitude;
+        this.userLongitude = position.coords.longitude;
+      }
+    });
+  }
+
+  onCheckboxChange(EventTypeChecked?: string) {
+    if (EventTypeChecked === EventType.ONLINE) {
+      this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
+    } else if (EventTypeChecked === EventType.OFFLINE) {
+      this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
+    }
+
+    if (this.isOnlineChecked) {
+      this.eventType = EventType.ONLINE;
+    } else if (this.isOfflineChecked) {
+      this.eventType = EventType.OFFLINE;
+    } else if (!this.isOnlineChecked && !this.isOfflineChecked) {
+      this.eventType = '';
+    }
+
+    this.initGetUserEvents(this.eventType);
+  }
+
+  initGetUserEvents(eventType?: string): void {
     this.eventService
-      .getAllUserEvents(0, this.eventsPerPage)
+      .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
@@ -96,10 +133,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  onEventsPageChange(page: number): void {
+  onEventsPageChange(page: number, eventType?: string): void {
     this.eventsPage = page;
     this.eventService
-      .getAllUserEvents(this.eventsPage - 1, 6)
+      .getAllUserEvents(this.eventsPage - 1, 6, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
       .subscribe((res) => {
         this.eventsList = res.page;

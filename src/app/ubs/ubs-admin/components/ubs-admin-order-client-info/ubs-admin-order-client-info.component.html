@@ -141,7 +141,7 @@
           </div>
         </div>
         <button
-          *ngIf="isViolationBtnShowed()"
+          *ngIf="isViolationBtnShowed() && isEmployeeCanEditOrder"
           class="btn"
           [disabled]="userViolationForCurrentOrder >= 1"
           type="button"

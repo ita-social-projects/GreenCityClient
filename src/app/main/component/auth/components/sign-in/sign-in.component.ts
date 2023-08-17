@@ -18,6 +18,8 @@ import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
 
 declare var google: any;
 @Component({
@@ -41,12 +43,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
-
-  // generalError can contain:
-  // 'user.auth.sign-in.fill-all-red-fields', or
-  // 'user.auth.sign-in.account-has-been-deleted', or
-  // 'user.auth.sign-in.bad-email-or-password' error
+  private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
+  private errorUnauthorized = 'Unauthorized';
   public generalError: string;
+
   @Output() private pageName = new EventEmitter();
 
   constructor(
@@ -60,7 +60,8 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService,
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
-    private zone: NgZone
+    private zone: NgZone,
+    private store: Store<IAppState>
   ) {}
 
   ngOnDestroy(): void {
@@ -191,32 +192,38 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    const getUbsRoleSignIn = this.jwtService.getUserRole();
-    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
-    this.jwtService.userRole$.next(getUbsRoleSignIn);
-    if (getUbsRoleSignIn !== 'ROLE_USER') {
-      this.definitionOfAuthoritiesAndPositions();
-    }
-    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
+    const userEmail = this.jwtService.getEmailFromAccessToken();
+    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(userEmail).subscribe((positionsAuthorities) => {
+      if (positionsAuthorities) {
+        this.definitionOfAuthorities(positionsAuthorities.authorities, data);
+      }
+    });
   }
 
-  private definitionOfAuthoritiesAndPositions() {
-    const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((positions) => {
-      this.ubsAdminEmployeeService.employeePositions$.next(positions);
-    });
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(userEmail).subscribe((positionsAuthorities) => {
-      this.ubsAdminEmployeeService.employeePositionsAuthorities$.next(positionsAuthorities);
-    });
+  private definitionOfAuthorities(authorities: string[], data) {
+    const getUbsRoleSignIn = this.jwtService.getUserRole();
+    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' && !!authorities.length ? ['ubs-admin', 'orders'] : ['ubs'];
+    this.jwtService.userRole$.next(getUbsRoleSignIn);
+    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
     if (typeof errors === 'string') {
       return;
-    } else if (!Array.isArray(errors.error)) {
-      this.generalError =
-        errors.error.error === 'Unauthorized' ? 'user.auth.sign-in.account-has-been-deleted' : 'user.auth.sign-in.bad-email-or-password';
-      return;
+    }
+
+    if (!Array.isArray(errors.error)) {
+      this.generalError = this.setErrorMessage(errors.error);
+    }
+  }
+
+  private setErrorMessage(errors: any): string {
+    if (errors.error === this.errorUnauthorized) {
+      return 'user.auth.sign-in.account-has-been-deleted';
+    } else if (errors.message === this.errorUnverifiedEmail) {
+      return 'user.auth.sign-in.not-verified-email';
+    } else {
+      return 'user.auth.sign-in.bad-email-or-password';
     }
   }
 

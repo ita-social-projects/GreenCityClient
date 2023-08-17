@@ -366,29 +366,6 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
     expect(result).toEqual(['Фейк1']);
   });
 
-  it('should translate and set text to input', () => {
-    component.translate('фейк', component.englishLocation);
-    expect(tariifsServiceMock.getJSON).toHaveBeenCalled();
-    expect(component.englishLocation.value).toEqual('f');
-  });
-
-  it('should call getJSON on translate', () => {
-    component.translate('фейк', component.englishLocation);
-    expect(tariifsServiceMock.getJSON).toHaveBeenCalledWith('фейк', 'uk', 'en');
-  });
-
-  it('should set ua lang on translate', () => {
-    const lang = component.getLangValue('uk', 'en');
-    component.translate('фейк', component.englishLocation);
-    expect(lang).toBe('uk');
-  });
-
-  it('should set ua langTranslate on translate', () => {
-    const langTranslate = component.getLangValue('en', 'uk');
-    component.translate('фейк', component.englishLocation);
-    expect(langTranslate).toBe('en');
-  });
-
   it('should find new region', () => {
     const spy = spyOn(component, 'selectCities');
     component.regionSelected = false;

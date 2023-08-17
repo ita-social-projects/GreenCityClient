@@ -64,6 +64,11 @@
                 {{ name }}
               </li>
               <li class="header_mobile-menu-item" role="link">
+                <a (click)="openNotificationsDialog()">
+                  {{ 'nav-bar.user-notifications' | translate }}
+                </a>
+              </li>
+              <li class="header_mobile-menu-item" role="link">
                 <a (click)="openSettingDialog()">
                   {{ 'nav-bar.user-settings' | translate }}
                 </a>
@@ -101,6 +106,7 @@
               class="notification-icon"
               role="notification"
               tabindex="0"
+              (click)="openNotificationPopUp($event)"
             >
               <img [src]="headerImageList.notification" alt="Internal search button" aria-hidden="true" />
             </li>
@@ -197,6 +203,11 @@
                 <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
                   <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
                     <img src="../assets/img/events/user.svg" alt="log-in user" />
+                  </a>
+                </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="notifications" tabindex="0">
+                  <a (click)="openNotificationsDialog()">
+                    {{ 'nav-bar.user-notifications' | translate }}
                   </a>
                 </li>
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="settings" tabindex="0">

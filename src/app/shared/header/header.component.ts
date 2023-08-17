@@ -15,10 +15,13 @@ import { LanguageModel } from '../../main/component/layout/components/models/lan
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
+import { Store } from '@ngrx/store';
+import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 
 @Component({
   selector: 'app-header',
@@ -69,7 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private store: Store) {
     this.dialog = injector.get(MatDialog);
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -322,6 +325,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/profile', this.userId, 'edit']);
   }
 
+  public openNotificationsDialog(): void {
+    this.dropdownVisible = false;
+    this.router.navigate(['/profile', this.userId, 'notifications']);
+  }
+
+  openNotificationPopUp(event) {
+    const pos = event.target.getBoundingClientRect();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.panelClass = 'dialog-notification';
+    dialogConfig.position = {
+      top: pos.top + 'px',
+      left: pos.left + 'px'
+    };
+    const matDialogRef = this.dialog.open(UserNotificationsPopUpComponent, dialogConfig);
+    matDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroySub))
+      .subscribe((data) => {
+        if (data.openAll) {
+          this.router.navigate(['/profile', this.userId, 'notifications']);
+        }
+      });
+  }
+
   public signOut(): void {
     this.dropdownVisible = false;
     this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
@@ -335,6 +364,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.jwtService.userRole$.next('');
       }
     });
+    const userEmail = this.jwtService.getEmailFromAccessToken();
+    this.store.dispatch(GetEmployeesPermissions({ email: userEmail, reset: true }));
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {

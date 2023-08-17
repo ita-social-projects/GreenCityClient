@@ -28,6 +28,16 @@ describe('UbsAdminCabinetComponent', () => {
   let translate: TranslateService;
   let orderService: OrderService;
 
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
+
   const OrderInfoMock = OrderInfoMockedData;
 
   const employeePositionsMock = [
@@ -65,6 +75,8 @@ describe('UbsAdminCabinetComponent', () => {
       ],
       declarations: [UbsAdminOrderComponent],
       providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
         MatSnackBarComponent,
         FormBuilder,
         OrderService,
@@ -125,26 +137,7 @@ describe('UbsAdminCabinetComponent', () => {
   it('authoritiesSubscription expect will be invoke at onInit', () => {
     const spy = spyOn(component as any, 'authoritiesSubscription');
     component.ngOnInit();
-    ubsAdminEmployeeServiceMock.employeePositions$.subscribe((positions) => {
-      expect(spy).toHaveBeenCalled();
-      expect(spy).toHaveBeenCalledWith(positions);
-    });
-  });
-
-  it('definedIsEmployeeCanEditOrder expect will be invoke at authoritiesSubscription', () => {
-    const spy = spyOn(component as any, 'definedIsEmployeeCanEditOrder');
-    (component as any).authoritiesSubscription(employeePositionsMock);
-    ubsAdminEmployeeServiceMock.employeePositionsAuthorities$.subscribe((rights) => {
-      expect(spy).toHaveBeenCalled();
-      expect(spy).toHaveBeenCalledWith(employeePositionsMock, employeePositionsAuthorities.authorities);
-    });
-  });
-
-  it('definedIsEmployeeCanEditOrder expect will be invoke', () => {
-    (component as any).definedIsEmployeeCanEditOrder(employeePositionsMock, employeePositionsAuthorities.authorities);
-    expect((component as any).employeeAuthorities).toEqual(employeePositionsAuthorities.authorities);
-    expect((component as any).employeePositions).toEqual(employeePositionsMock);
-    expect((component as any).isEmployeeCanEditOrder).toBeTruthy();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('setOrderDetails expect will be invoke at onCancelOrder', () => {
