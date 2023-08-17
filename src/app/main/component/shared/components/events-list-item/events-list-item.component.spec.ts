@@ -114,8 +114,6 @@ describe('EventsListItemComponent', () => {
     isActive: true,
     open: true
   };
-  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);
-  userFriendsServiceMock.getAllFriendsByUserId = () => of([]);
 
   const fakeItemTags: TagObj[] = [
     {
@@ -210,8 +208,7 @@ describe('EventsListItemComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
       imports: [
         RouterTestingModule,

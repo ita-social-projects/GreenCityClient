@@ -25,7 +25,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
@@ -111,8 +110,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     private eventService: EventsService,
     private translate: TranslateService,
     private snackBar: MatSnackBarComponent,
-    private maxTextLengthPipe: MaxTextLengthPipe,
-    private userFriendsService: UserFriendsService
+    private maxTextLengthPipe: MaxTextLengthPipe
   ) {}
 
   ngOnChanges() {
