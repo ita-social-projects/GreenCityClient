@@ -35,7 +35,9 @@ export const Patterns = {
   ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
   adminPhone: '^\\+?3?8?(0\\d{9})$',
 
-  isTherePlus: /^[+]/
+  isTherePlus: /^[+]/,
+
+  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/
 };
 
 export const Masks = {

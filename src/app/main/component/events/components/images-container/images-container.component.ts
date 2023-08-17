@@ -4,11 +4,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { EventImage } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
 @Component({
   selector: 'app-images-container',
   templateUrl: './images-container.component.html',
   styleUrls: ['./images-container.component.scss']
 })
+
 export class ImagesContainerComponent implements OnInit {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
@@ -77,6 +80,14 @@ export class ImagesContainerComponent implements OnInit {
       this.checkFileExtension(imageFile);
       this.transferFile(imageFile);
     });
+  }
+
+  public dropImages(event: CdkDragDrop<string[]>): void {
+    const prevIndex = event.previousIndex;
+    const newIndex = event.currentIndex;
+
+    moveItemInArray(this.images, prevIndex, newIndex);
+    moveItemInArray(this.imagesEditArr, prevIndex, newIndex);
   }
 
   public filesDropped(files: FileHandle[]): void {
