@@ -77,7 +77,6 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   redirectToOrder() {
-    const isOrderDataAtSessionStorage = sessionStorage.getItem('key');
     if (sessionStorage.getItem('key')) {
       sessionStorage.removeItem('key');
     }
