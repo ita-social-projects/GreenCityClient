@@ -1,9 +1,9 @@
-export class HabitAssignCustomPropertiesDto {
+export interface HabitAssignCustomPropertiesDto {
   friendsIdsList: Array<number>;
   habitAssignPropertiesDto: HabitAssignPropertiesDto;
 }
 
-export class HabitAssignPropertiesDto {
+export interface HabitAssignPropertiesDto {
   defaultShoppingListItems: Array<number>;
   duration: number;
 }
