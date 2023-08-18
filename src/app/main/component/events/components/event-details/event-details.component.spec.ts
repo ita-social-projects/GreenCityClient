@@ -14,6 +14,7 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -128,6 +129,9 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
+  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);
+  userFriendsServiceMock.getAllFriendsByUserId = () => of();
+
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -148,7 +152,8 @@ describe('EventDetailsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: BsModalService, useValue: bsModalBsModalServiceMock }
+        { provide: BsModalService, useValue: bsModalBsModalServiceMock },
+        { provide: UserFriendsService, useValue: userFriendsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -168,12 +173,12 @@ describe('EventDetailsComponent', () => {
   });
 
   it('should call methods on ngOnInit', () => {
-  const spy1 = spyOn(component as any, 'bindLang');
-  const spy2 = spyOn(component as any, 'verifyRole');
-  component.ngOnInit();
-  expect(spy1).toHaveBeenCalled();
-  expect(spy1).toHaveBeenCalledWith('ua');
-  expect(spy2).toHaveBeenCalled();
+    const spy1 = spyOn(component as any, 'bindLang');
+    const spy2 = spyOn(component as any, 'verifyRole');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalledWith('ua');
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('should verify unauthenticated role', () => {

@@ -20,6 +20,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -328,6 +329,15 @@ describe('EventsListItemComponent', () => {
     });
   });
 
+  describe('checkCanUserJoinEvent', () => {
+    it('it should check is organizer of close event a user"s friend', () => {
+      component.event = { ...eventMock, ...{ open: false } };
+      component.userFriends = [];
+      component.ngOnChanges();
+      expect(component.canUserJoinCloseEvent).toBe(false);
+    });
+  });
+
   describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
       component.event = eventMock;
@@ -364,9 +374,20 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
+    });
+
+    it('should set btnStyle  correctly when user can"t joint close event', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.canUserJoinCloseEvent = false;
+      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
 
     it('should set btnStyle and nameBtn correctly when user is subscribed and event is unactive', () => {
