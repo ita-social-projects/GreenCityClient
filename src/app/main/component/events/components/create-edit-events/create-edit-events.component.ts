@@ -162,7 +162,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public checkTab(tag: TagObj): void {
     tag.isActive = !tag.isActive;
-    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
+    const tagsArr: Array<string> = this.tags.filter((t) => t.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
     if (tagsArr.length === 0) {
       this.checkAfterSend = false;
     } else {
