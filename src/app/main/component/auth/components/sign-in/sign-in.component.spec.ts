@@ -256,7 +256,7 @@ describe('SignIn component', () => {
       component.isActiveParams = false;
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_OTHER');
       const userRoleSubjectSpy = spyOn(jwtServiceMock.userRole$, 'next');
-      spyOn(component, 'definitionOfAuthoritiesAndPositions');
+      spyOn<any>(component, 'definitionOfAuthoritiesAndPositions');
       const result = component.navigateToPage({});
       expect(result).toEqual(['/events', 43, { isOwner: true, isActive: false }]);
       expect(userRoleSubjectSpy).toHaveBeenCalledTimes(1);
@@ -264,12 +264,12 @@ describe('SignIn component', () => {
 
     it('should navigate to the correct page based on user role', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      spyOn(component, 'definitionOfAuthoritiesAndPositions').and.stub();
+      spyOn<any>(component, 'definitionOfAuthoritiesAndPositions').and.stub();
       component.isEventsDetails = false;
       component.isUbs = false;
       const result = component.navigateToPage({ userId: 'user123' });
       expect(result).toEqual(['ubs-admin', 'orders']);
-      expect(component.definitionOfAuthoritiesAndPositions).toHaveBeenCalled();
+      expect((component as any).definitionOfAuthoritiesAndPositions).toHaveBeenCalled();
     });
   });
 

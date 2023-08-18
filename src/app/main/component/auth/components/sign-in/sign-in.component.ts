@@ -220,7 +220,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  public definitionOfAuthoritiesAndPositions() {
+  private definitionOfAuthoritiesAndPositions() {
     const userEmail = this.jwtService.getEmailFromAccessToken();
     this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((positions) => {
       this.ubsAdminEmployeeService.employeePositions$.next(positions);
