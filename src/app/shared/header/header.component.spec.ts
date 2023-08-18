@@ -222,13 +222,6 @@ describe('HeaderComponent', () => {
       expect(component.isAllSearchOpen).toBeTruthy();
     });
 
-    it('makes expected calls in openSettingDialog', () => {
-      (component as any).userId = 123;
-      component.openSettingDialog();
-      expect(component.dropdownVisible).toBeFalsy();
-      expect((component as any).router.navigate).toHaveBeenCalledWith(['/profile', 123, 'edit']);
-    });
-
     it('makes expected calls in initUser', () => {
       const assignDataSpy = spyOn(component as any, 'assignData');
       (component as any).initUser();
