@@ -22,6 +22,7 @@
     "corpus": "Corpus",
     "entrance": "Entrance",
     "district": "District",
+    "default": " default",
     "account": "Connection with social networks",
     "account-message": "Connect to Google account",
     "additional": "Additional actions",
@@ -519,7 +520,7 @@
         "create-card": "Create a new employee card",
         "edit-card": "Edit an employee card",
         "delete-card": "Deactivate an employee",
-        "edit-authority": "Edit an employee's authority"
+        "edit-authority": "Edit an employee`s authorities"
       },
       "certificates": {
         "title": "Certificates",
@@ -529,15 +530,15 @@
       },
       "orders": {
         "title": "Orders",
-        "see-main-page": "See order card",
-        "edit-card": "Edit order card"
+        "see-main-page": "See an order card",
+        "edit-card": "Edit an order card"
       },
       "messages": {
         "title": "Notification",
         "see-main-page": "See the main page “Notifications”",
         "create-card": "Create a new notification card",
         "edit-card": "Edit a notification card",
-        "delete-card": "Delete a notification card"
+        "delete-card": "Deactivate a notification card"
       },
       "tariffs": {
         "title": "Tariffs",
@@ -551,9 +552,9 @@
         "create-location-card": "Create a location card",
         "edit-delete-location-card": "Edit/Delete the location card",
         "see-price-card": "See the pricing card",
-        "edit-delete-price-card": "Edit/Delete the pricing card",
+        "edit-delete-price-card": "Edit/Deactivate the pricing card",
         "deactivate-price-card": "Deactivate the pricing card",
-        "edit-service": "Add/Edit/Delete a service",
+        "edit-service": "Add/Edit/Deactivate a service",
         "edit-price-card": "Edit/Delete the pricing card"
       }
     },
@@ -621,6 +622,11 @@
       "search": "Search",
       "cancel": "Cancel",
       "select": "Select"
+    },
+    "download-photo": {
+      "title": "Upload photo",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "ubs-user": {
@@ -864,12 +870,14 @@
         "bad-email-or-password": "Bad email or password",
         "forgot-password": "Forgot password?",
         "havenot-account": "Don't have an account yet?",
-        "or-signin": "or"
+        "or-signin": "or",
+        "not-verified-email": "You should verify the email first, check your email box!"
       }
     }
   },
   "nav-bar": {
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
@@ -1185,7 +1193,7 @@
   },
   "add-new-certificate": {
     "title": "Add sertificate",
-    "сertificate-field": "Certificate. №",
+    "сertificate-field": "Certificate, №",
     "duration-months-field": "Duration, mo.",
     "discount-field": "Discount, UAH",
     "cancel-button": "Cancel",

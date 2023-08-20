@@ -20,14 +20,9 @@ describe('AllFriendsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
 
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', [
-    'getAllFriendsAndByName',
-    'getAllFriends',
-    'deleteFriend',
-    'addFriend'
-  ]);
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getFriendsByName', 'getAllFriends', 'deleteFriend', 'addFriend']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
-  userFriendsServiceMock.getAllFriendsAndByName = () => of(FRIENDS);
+  userFriendsServiceMock.getFriendsByName = () => of(FRIENDS);
   userFriendsServiceMock.deleteFriend = (idFriend) => of(FIRSTFRIEND);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
 

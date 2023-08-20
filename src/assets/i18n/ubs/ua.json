@@ -171,7 +171,8 @@
     "info-optionally": "не обов'язково",
     "info-address": "Адреса вивезення відходів",
     "info-no-address": "У Вас немає доданих адрес. Додайте, будь ласка, адресу.",
-    "info-add-address": "Додати іншу адресу",
+    "info-add-address": "Додати адресу",
+    "info-add-new-address": "Додати іншу адресу",
     "info-address-coment": "Коментар до адреси",
     "info-coment-placeholder": "Будь-які деталі, які ви б хотіли нам повідомити додатково",
     "info-back": "Назад",
@@ -414,7 +415,8 @@
         "forgot-password": "Забули пароль?",
         "account-has-been-deleted": "Ваш аккаунт було видалено, будь ласка зв'яжіться з нами щоб відновити його",
         "havenot-account": "Досі немає аккаунту?",
-        "or-signin": "або"
+        "or-signin": "або",
+        "not-verified-email": "Ви повинні спочатку підтвердити електронну пошту, перевірте свою електронну скриньку!"
       },
       "sign-up": {
         "title-up": "Вітаємо!",
@@ -481,6 +483,7 @@
   },
   "nav-bar": {
     "user-settings": "Налаштування",
+    "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"

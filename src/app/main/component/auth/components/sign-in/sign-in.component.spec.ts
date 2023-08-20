@@ -22,6 +22,9 @@ import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
@@ -32,6 +35,15 @@ describe('SignIn component', () => {
   let router: Router;
   let googleServiceMock: GoogleSignInService;
   let userSuccessSignIn;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -74,6 +86,8 @@ describe('SignIn component', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
         { provide: GoogleSignInService, useValue: googleServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },

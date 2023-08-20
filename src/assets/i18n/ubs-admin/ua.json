@@ -22,6 +22,7 @@
     "corpus": "Корпус",
     "entrance": "Під'їзд",
     "district": "Район",
+    "default": " основна",
     "account": "Зв'язок із соцмережами",
     "account-message": "Зв'язати з акаунтом Google",
     "additional": "Додаткові дії",
@@ -534,7 +535,7 @@
         "see-main-page": "Бачити основну сторінку 'Повідомленя'",
         "create-card": "Створювати нову картку повідомлення",
         "edit-card": "Редагувати картку повідомлення",
-        "delete-card": "Видаляти картку повідомлення"
+        "delete-card": "Деактивувати картку повідомлення"
       },
       "tariffs": {
         "title": "Тарифи",
@@ -548,9 +549,9 @@
         "create-location-card": "Створювати картку локації",
         "edit-delete-location-card": "Редагувати/Видаляти картку локації",
         "see-price-card": "Бачити картку ціни",
-        "edit-delete-price-card": "Редагувати/Видаляти картку ціни",
+        "edit-delete-price-card": "Редагувати/Деактивувати картку ціни",
         "deactivate-price-card": "Деактивувати картку ціни",
-        "edit-service": "Додати/Редагувати/Видалити послугу",
+        "edit-service": "Додати/Редагувати/Деактивувати послугу ",
         "edit-price-card": "Редагувати/Видалити картку ціни"
       }
     },
@@ -618,6 +619,11 @@
       "search": "Пошук",
       "cancel": "Скасувати",
       "select": "Обрати"
+    },
+    "download-photo": {
+      "title": "Завантажити фото",
+      "cancel": "Скасувати",
+      "save": "Зберегти"
     }
   },
   "ubs-user": {
@@ -860,12 +866,14 @@
         "sign-in-with-google": "Увійти через Google",
         "forgot-password": "Забули пароль?",
         "havenot-account": "Досі немає аккаунту?",
-        "or-signin": "або"
+        "or-signin": "або",
+        "not-verified-email": "Ви повинні спочатку підтвердити електронну пошту, перевірте свою електронну скриньку!"
       }
     }
   },
   "nav-bar": {
     "user-settings": "Налаштування",
+    "user-notifications": "Сповіщення",
     "sign-out": "Вийти",
     "sign-in": "Увійти",
     "management": "Менеджмент"
@@ -1181,7 +1189,7 @@
   },
   "add-new-certificate": {
     "title": "Додати сертифікат",
-    "сertificate-field": "Сертифікат. №",
+    "сertificate-field": "Сертифікат, №",
     "duration-months-field": "Час дії, місяців",
     "discount-field": "Знижка, грн",
     "cancel-button": "Скасувати",

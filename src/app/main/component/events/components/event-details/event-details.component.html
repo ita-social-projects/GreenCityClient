@@ -120,7 +120,7 @@
         <div class="save-join-event-block">
           <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
           <button
-            *ngIf="!isUserCanRate && !isOver"
+            *ngIf="!isUserCanRate && !isOver && (isEventOrginizerFriend || event.open)"
             [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
             (click)="buttonAction()"
           >

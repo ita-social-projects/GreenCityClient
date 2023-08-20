@@ -9,6 +9,9 @@ export interface FriendModel {
   mutualFriends?: number | string;
   friendStatus: string;
   chatId?: number;
+  role?: string;
+  userCredo?: string;
+  userStatus?: string;
 }
 
 export interface FriendArrayModel {

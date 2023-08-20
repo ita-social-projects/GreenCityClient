@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
-import { FriendArrayModel, FriendModel, SixFriendArrayModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { Observable } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class UserFriendsService {
   addedFriends: FriendModel[] = [];
+  allUserFriends: FriendModel[] = [];
   private size = 10;
   public url: string = environment.backendUserLink;
   public urlFriend: string = environment.backendLink;
@@ -38,19 +39,19 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/friendRequests?page=${page}&size=${size}`);
   }
 
-  public getSixFriends(userId: number): Observable<SixFriendArrayModel> {
-    return this.http.get<SixFriendArrayModel>(`${this.url}user/${userId}/sixUserFriends/`);
-  }
-
   public getAllFriends(page = 0, size = this.size): Observable<FriendArrayModel> {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
   }
 
-  public getNewFriends(page = 0, size = this.size, name = ''): Observable<FriendArrayModel> {
+  public getAllFriendsByUserId(userId: number): Observable<FriendModel[]> {
+    return this.http.get<FriendModel[]>(`${this.urlFriend}friends/user/${userId}`);
+  }
+
+  public getNewFriends(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/not-friends-yet?name=${name}&page=${page}&size=${size}`);
   }
 
-  public getAllFriendsAndByName(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
+  public getFriendsByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${name}&page=${page}&size=${size}`);
   }
 

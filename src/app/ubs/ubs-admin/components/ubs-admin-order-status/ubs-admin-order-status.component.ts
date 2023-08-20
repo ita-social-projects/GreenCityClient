@@ -8,7 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus, CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatusEn, PaymentStatusEn } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-admin-order-status',
@@ -26,6 +27,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Input() isEmployeeCanEditOrder: boolean;
   @Output() changedOrderStatus = new EventEmitter<string>();
   @Output() cancelReason = new EventEmitter<string>();
+  @Output() notTakenOutReason = new EventEmitter<FormData>();
 
   constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -48,7 +50,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     }
 
     if (changes.generalInfo) {
-      if (changes.generalInfo.currentValue.orderPaymentStatusNameEng === 'Unpaid') {
+      if (changes.generalInfo.currentValue.orderPaymentStatusNameEng === PaymentStatusEn.UNPAID) {
         this.generalInfo.orderPaymentStatus = PaymnetStatus.UNPAID;
       }
       this.availableOrderStatuses = this.orderService.getAvailableOrderStatuses(
@@ -98,7 +100,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
         }
         this.generalOrderInfo.get('cancellationReason').setValue(res.reason);
         this.generalOrderInfo.get('cancellationReason').markAsDirty();
-        if (res.reason === 'OTHER') {
+        if (res.reason === CancellationReason.OTHER) {
           this.generalOrderInfo.get('cancellationComment').setValue(res.comment);
           this.generalOrderInfo.get('cancellationComment').markAsDirty();
         }
@@ -117,13 +119,12 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
       .afterClosed()
       .pipe(take(1))
       .subscribe((res) => {
-        if (res.action === 'cancel') {
+        if (res) {
+          this.notTakenOutReason.emit(res);
+        } else {
           this.onChangedOrderStatus(this.generalInfo.orderStatus);
           this.generalOrderInfo.get('orderStatus').setValue(this.generalInfo.orderStatus);
-          return;
         }
-        this.generalOrderInfo.get('notTakenOutReason').setValue(res.reason);
-        this.generalOrderInfo.get('notTakenOutReason').markAsDirty();
       });
   }
 
@@ -131,11 +132,11 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
     let orderState: string;
     this.generalInfo.orderStatusesDtos.find((status) => {
       if (status.key === this.generalInfo.orderStatus) {
-        orderState = status.ableActualChange ? 'actual' : 'confirmed';
+        orderState = status.ableActualChange ? 'actual' : OrderStatusEn.CONFIRMED;
       }
     });
 
-    if (orderState === 'confirmed') {
+    if (orderState === OrderStatusEn.CONFIRMED) {
       const confirmedPaidCondition1 =
         this.currentOrderPrice > 0 && this.totalPaid > 0 && this.currentOrderPrice <= this.totalPaid && !this.unPaidAmount;
       const confirmedPaidCondition2 =

@@ -110,6 +110,14 @@
         "delete-no": "no"
       }
     },
+    "notifications": {
+      "title": "Notifications",
+      "all-notifications": "All messages",
+      "no-new-notifications": "No new messages at the moment.",
+      "no-notifications": "Unfortunately, no more notifications found.",
+      "filter": "Filter by",
+      "filterAll": "All"
+    },
     "events": {
       "title": "Events",
       "author": "by",
@@ -132,11 +140,14 @@
       "items-event-text": "Items found",
       "no-event-left": "There's no events for now",
       "my-space": {
-        "tag-title": "My Events"
+        "tag-title": "My Events",
+        "event-types-title": "Types:",
+        "event-type-online": "Online",
+        "event-type-offline": "Offline"
       },
       "open": "Open",
       "registered": "Anyone registered",
-      "completed": "Event completed",
+      "completed": "Closed",
       "people-joined": "people are going",
       "btn": {
         "back-route": "Back to Events",
@@ -330,6 +341,7 @@
     "my-habits": "My habits",
     "profile": "Profile",
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
@@ -410,7 +422,8 @@
         "forgot-password": "Forgot password?",
         "account-has-been-deleted": "Your account has been deleted, please contact us to restore it",
         "havenot-account": "Don't have an account yet?",
-        "or-signin": "or"
+        "or-signin": "or",
+        "not-verified-email": "You should verify the email first, check your email box!"
       },
       "sign-up": {
         "title-up": "Hello!",
@@ -755,7 +768,7 @@
           "hard": "Hard"
         },
         "textarea-title": "Habit description",
-        "description-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+        "description-tooltip": "The field should contain a minimum of 20 symbols",
         "description-placeholder": "Describe the habit",
         "modal-caption": "New habit",
         "already-chosen-caption": "Already chosen",

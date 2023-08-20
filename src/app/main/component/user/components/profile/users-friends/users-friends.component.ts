@@ -1,10 +1,10 @@
-import { Friend, UserFriendsInterface } from './../../../../../interface/user/user-friends.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-users-friends',
@@ -20,7 +20,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   public currentLang: string;
 
   constructor(
-    private profileService: ProfileService,
+    private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
     private router: Router,
     private route: ActivatedRoute
@@ -33,13 +33,13 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   }
 
   public showUsersFriends(): void {
-    this.profileService
-      .getUserFriends()
+    this.userFriendsService
+      .getAllFriends(0, 6)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (item: UserFriendsInterface) => {
-          this.usersFriends = item.pagedFriends.page;
-          this.amountOfFriends = item.amountOfFriends;
+        (item: FriendArrayModel) => {
+          this.usersFriends = item.page;
+          this.amountOfFriends = item.page.length;
         },
         (error) => {
           this.noFriends = error;
@@ -51,7 +51,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((userId: number) => (this.userId = userId));
   }
 
-  public showFriendsInfo(friend: Friend): void {
+  public showFriendsInfo(friend: FriendModel): void {
     this.router.navigate(['friends', friend.name, friend.id], { relativeTo: this.route });
   }
 

@@ -95,6 +95,17 @@
       </mat-tab>
 
       <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
+        <div class="events-filter">
+          <span class="event-filter-title"> {{ 'homepage.events.my-space.event-types-title' | translate }}</span>
+          <div class="events-types">
+            <mat-checkbox [(ngModel)]="isOnlineChecked" (ngModelChange)="onCheckboxChange('ONLINE')">
+              {{ 'homepage.events.my-space.event-type-online' | translate }}
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="isOfflineChecked" (ngModelChange)="onCheckboxChange('OFFLINE')"
+              >{{ 'homepage.events.my-space.event-type-offline' | translate }}
+            </mat-checkbox>
+          </div>
+        </div>
         <div *ngIf="!loading; else spinner">
           <ul class="news-list" *ngIf="this.eventsTotal">
             <li
@@ -107,8 +118,8 @@
           </ul>
           <pagination-controls
             class="events-pagination"
-            (pageChange)="onEventsPageChange($event)"
-            (pageBoundsCorrection)="onEventsPageChange($event)"
+            (pageChange)="onEventsPageChange($event, eventType)"
+            (pageBoundsCorrection)="onEventsPageChange($event, eventType)"
             maxSize="7"
             autoHide="true"
             responsive="true"

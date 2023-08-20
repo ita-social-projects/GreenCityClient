@@ -38,7 +38,7 @@ export class AllFriendsComponent implements OnInit {
   public getAllFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
-      .getAllFriendsAndByName('', currentPage)
+      .getAllFriends(currentPage)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {
@@ -60,7 +60,7 @@ export class AllFriendsComponent implements OnInit {
     this.searchQuery = value;
     this.searchMode = true;
     this.userFriendsService
-      .getAllFriendsAndByName(value)
+      .getFriendsByName(value)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: FriendArrayModel) => {

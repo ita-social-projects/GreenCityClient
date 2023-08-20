@@ -104,7 +104,7 @@ export interface EmployeeDataResponse {
 export interface EmployeeDto {
   firstName: string;
   id?: number;
-  image: string;
+  image: string | ArrayBuffer;
   lastName: string;
   phoneNumber: string;
   employeePositions: EmployeePositions[];
@@ -560,7 +560,7 @@ export enum employeePositionsName {
   Admin = 'Адмін'
 }
 
-export enum EnablingAuthorities {
+export enum EnablingSeeAuthorities {
   orders = 'SEE_BIG_ORDER_TABLE',
   customers = 'SEE_CLIENTS_PAGE',
   certificates = 'SEE_CERTIFICATES',
@@ -569,8 +569,31 @@ export enum EnablingAuthorities {
   notifications = 'SEE_MESSAGES_PAGE'
 }
 
+export enum abilityCreateAuthorities {
+  certificates = 'CREATE_NEW_CERTIFICATE',
+  notifications = 'CREATE_NEW_MESSAGE'
+}
+
+export enum abilityAddAuthorities {
+  location = 'CREATE_NEW_LOCATION',
+  courier = 'CREATE_NEW_COURIER',
+  station = 'CREATE_NEW_STATION'
+}
+
 export enum abilityEditAuthorities {
-  orders = 'EDIT_ORDER'
+  orders = 'EDIT_ORDER',
+  certificates = 'EDIT_CERTIFICATE',
+  notifications = 'EDIT_MESSAGE',
+  location = 'EDIT_LOCATION_NAME',
+  courier = 'EDIT_COURIER',
+  station = 'EDIT_DESTINATION_NAME',
+  pricingCard = 'EDIT_DELETE_PRICE_CARD',
+  controlService = 'CONTROL_SERVICE'
+}
+
+export enum abilityDelAuthorities {
+  notifications = 'DELETE_MESSAGE',
+  activateDeactivate = 'EDIT_DELETE_PRICE_CARD'
 }
 
 export enum SideMenuElementsNames {
@@ -585,4 +608,10 @@ export enum SideMenuElementsNames {
 export interface EmployeePositionsAuthorities {
   authorities: string[];
   positionId: number[];
+}
+
+export interface NotTakenOutReasonImages {
+  name: string;
+  src: string;
+  file: File;
 }

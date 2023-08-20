@@ -31,13 +31,13 @@
         </a>
       </li>
     </ul>
-    <div *ngIf="event.dates[0]" class="date-container">
+    <div *ngIf="event.dates[event.dates.length - 1]" class="date-container">
       <span class="clock"></span>
       <div class="date">
-        {{ event.dates[0].startDate | dateLocalisation }}
+        {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
       </div>
       <span class="time-divider">|</span>
-      <div class="time">{{ event.dates[0].startDate | date: 'shortTime' }}</div>
+      <div class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</div>
     </div>
     <div class="date-container">
       <span class="place"></span>
@@ -46,6 +46,10 @@
         {{ address.houseNumber }}
       </p>
       <p *ngIf="isOnline">{{ isOnline }}</p>
+    </div>
+    <div class="date-container">
+      <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
+      <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
     </div>
     <div class="event-title">
       <p class="event-name" [innerHTML]="title"></p>

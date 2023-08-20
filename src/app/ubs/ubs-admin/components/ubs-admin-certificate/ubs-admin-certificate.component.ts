@@ -11,6 +11,9 @@ import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-t
 import { columnsParamsCertificates } from '../ubs-admin-customers/columnsParams';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { abilityCreateAuthorities, abilityEditAuthorities } from '../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-certificate',
@@ -52,6 +55,9 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   startWidth: number;
   isResizingRight: boolean;
   arrowDirection: string;
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  private employeeAuthorities: string[];
+  isEmployeeCanCreateCertificate: boolean;
   resizableMousemove: () => void;
   resizableMouseup: () => void;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
@@ -62,7 +68,8 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     public dialog: MatDialog,
     private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminCertificateAddCertificatePopUpComponent>,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit() {
@@ -76,6 +83,24 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
     this.columns = columnsParamsCertificates;
     this.setDisplayedColumns();
     this.getTable();
+    this.authoritiesSubscription();
+  }
+
+  private authoritiesSubscription() {
+    this.permissions$.subscribe((authorities) => {
+      if (authorities.length) {
+        this.definedIsEmployeeCanEditOrder(authorities);
+      }
+    });
+  }
+
+  private definedIsEmployeeCanEditOrder(authorities: string[]) {
+    this.employeeAuthorities = authorities;
+    if (this.employeeAuthorities) {
+      this.isEmployeeCanCreateCertificate = !!this.employeeAuthorities.filter(
+        (authoritiesItem) => authoritiesItem === abilityCreateAuthorities.certificates
+      ).length;
+    }
   }
 
   ngAfterViewChecked() {

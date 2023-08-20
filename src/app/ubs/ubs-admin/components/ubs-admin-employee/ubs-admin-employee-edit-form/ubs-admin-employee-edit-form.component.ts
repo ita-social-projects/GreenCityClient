@@ -20,6 +20,8 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UploadPhotoContainerComponent } from 'src/app/shared/upload-photo-container/upload-photo-container.component';
+import { FileHandle } from '@eco-news-models/create-news-interface';
 
 @Component({
   selector: 'app-ubs-admin-employee-edit-form',
@@ -48,7 +50,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   public isImageError: boolean;
   public editMode: boolean;
   initialData: InitialData;
-  imageURL: string;
+  imageURL: string | ArrayBuffer;
   imageName = 'Your Avatar';
   selectedFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
@@ -221,7 +223,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     return this.employeePositions.filter((position) => !this.initialData.employeePositionsIds.includes(position.id)).length > 0;
   }
 
-  prepareEmployeeDataToSend(dto: string, image?: string): FormData {
+  prepareEmployeeDataToSend(dto: string, image?: string | ArrayBuffer): FormData {
     this.isUploading = true;
     const selectedTarifs = this.filteredTariffs.filter((it) => it.selected);
     this.employeeDataToSend = {
@@ -273,7 +275,6 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   treatFileInput(event: Event): void {
     event.preventDefault();
-
     const imageFile = (event.target as HTMLInputElement).files[0];
     this.transferFile(imageFile);
   }
@@ -285,19 +286,45 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
 
   private transferFile(imageFile: File): void {
     this.isWarning = this.showWarning(imageFile);
+
     if (!this.isWarning) {
-      const reader: FileReader = new FileReader();
       this.selectedFile = imageFile;
       this.imageName = this.selectedFile.name;
 
+      const reader: FileReader = new FileReader();
       reader.readAsDataURL(this.selectedFile);
-      reader.onload = () => {
-        this.imageURL = reader.result as string;
-        if (this.editMode) {
-          this.isInitialImageChanged = true;
-        }
-      };
+      reader.onload = (ev) => this.handleFile(ev);
     }
+  }
+
+  private handleFile(event: Event): void {
+    this.imageURL = (event.target as FileReader)?.result;
+    if (this.editMode) {
+      this.isInitialImageChanged = true;
+    }
+
+    const file = { url: this.imageURL, file: this.selectedFile };
+    this.openImageDialog(file);
+  }
+
+  openImageDialog(file: FileHandle): void {
+    const matDialogRef = this.dialog.open(UploadPhotoContainerComponent, {
+      hasBackdrop: true,
+      data: {
+        file
+      }
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((res) => {
+        if (res) {
+          this.imageURL = res;
+        } else {
+          this.removeImage();
+        }
+      });
   }
 
   private showWarning(file: File): boolean {
