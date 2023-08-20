@@ -57,8 +57,6 @@ describe('SignIn component', () => {
 
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
-  const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
-
   let jwtServiceMock: JwtService;
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
@@ -214,12 +212,14 @@ describe('SignIn component', () => {
     ));
 
     it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
+      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
       component.onSignInSuccess(mockData);
       expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'orders']);
     });
 
     it('should navigate to profile/userId for ROLE_USER', () => {
+      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
       spyOn(component, 'navigateToPage').and.returnValue(['profile', mockData.userId]);
       component.onSignInSuccess(mockData);
@@ -227,6 +227,7 @@ describe('SignIn component', () => {
     });
 
     it('should navigate to events/eventId with params for isEventsDetails', () => {
+      const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
       component.isEventsDetails = true;
       component.eventId = 45;
       component.isOwnerParams = true;
