@@ -43,6 +43,7 @@
           [habit]="assignedHabit"
           class="progress-container"
           (progressValue)="getProgressValue($event)"
+          [duration]="newDuration"
         ></app-habit-progress>
       </div>
       <div class="habit-second-block">

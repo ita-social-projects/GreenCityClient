@@ -17,6 +17,10 @@ import {
 })
 export class HabitProgressComponent implements OnChanges, OnInit {
   @Input() habit: HabitAssignInterface;
+  @Input() set duration(value: number) {
+    this.habit.duration = value;
+    this.countProgressBar();
+  }
   public indicator: number;
   isRequest = false;
   currentDate: string;
