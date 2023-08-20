@@ -144,8 +144,6 @@ describe('SignIn component', () => {
   });
 
   describe('Login functionality testing', () => {
-    const mockData = { userId: '1', name: 'Kateryna', accessToken: '11', refreshToken: '22' };
-
     it('Check what data comes on subscription', async(() => {
       const userOwnSignIn = new UserOwnSignIn();
       userOwnSignIn.email = '1';
@@ -215,15 +213,15 @@ describe('SignIn component', () => {
 
     it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      component.onSignInSuccess(mockData);
+      component.onSignInSuccess(userSuccessSignIn);
       expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'orders']);
     });
 
     it('should navigate to profile/userId for ROLE_USER', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
-      spyOn(component, 'navigateToPage').and.returnValue(['profile', mockData.userId]);
-      component.onSignInSuccess(mockData);
-      expect(router.navigate).toHaveBeenCalledWith(['profile', mockData.userId]);
+      spyOn(component, 'navigateToPage').and.returnValue(['profile', userSuccessSignIn.userId]);
+      component.onSignInSuccess(userSuccessSignIn);
+      expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
     });
 
     it('should navigate to events/eventId with params for isEventsDetails', () => {
@@ -233,7 +231,7 @@ describe('SignIn component', () => {
       component.isActiveParams = false;
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_OTHER');
       spyOn(component, 'navigateToPage').and.callThrough();
-      component.onSignInSuccess(mockData);
+      component.onSignInSuccess(userSuccessSignIn);
       expect(router.navigate).toHaveBeenCalledWith(['/events', 45, { isOwner: true, isActive: false }]);
     });
 
