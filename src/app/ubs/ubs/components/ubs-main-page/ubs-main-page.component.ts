@@ -11,6 +11,8 @@ import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { IAppState } from 'src/app/store/state/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -33,6 +35,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   activeCouriers;
   ubsCourierName = 'UBS';
   private userId: number;
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   priceCard = [
     {
@@ -107,6 +110,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ];
 
   constructor(
+    private store: Store,
     private router: Router,
     private dialog: MatDialog,
     private checkTokenservice: CheckTokenService,
@@ -181,8 +185,14 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   public checkIsAdmin(): boolean {
+    let isEmployeeHasAuthorities = true;
     const userRole = this.jwtService.getUserRole();
-    return userRole === 'ROLE_UBS_EMPLOYEE';
+    this.permissions$.subscribe((employeeAuthorities) => {
+      if (!employeeAuthorities.length) {
+        isEmployeeHasAuthorities = false;
+      }
+    });
+    return userRole === 'ROLE_UBS_EMPLOYEE' && isEmployeeHasAuthorities;
   }
 
   findCourierByName(name) {

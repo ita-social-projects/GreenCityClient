@@ -43,12 +43,12 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
         'CREATE_NEW_LOCATION',
         'CREATE_NEW_COURIER',
         'CREATE_NEW_STATION',
-        'EDIT_LOCATION_NAME',
+        'EDIT_LOCATION',
         'EDIT_COURIER',
-        'EDIT_DESTINATION_NAME',
-        'EDIT_LOCATION_CARD',
+        'EDIT_STATION',
+        'CREATE_PRICING_CARD',
         'SEE_PRICING_CARD',
-        'EDIT_DELETE_PRICE_CARD',
+        'EDIT_DELETE_DEACTIVATE_PRICING_CARD',
         'CONTROL_SERVICE'
       ]
     }
@@ -74,15 +74,16 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     CREATE_NEW_LOCATION: 'create-location',
     CREATE_NEW_COURIER: 'create-courier',
     CREATE_NEW_STATION: 'create-station',
-    EDIT_LOCATION_NAME: 'edit-location-name',
+    EDIT_LOCATION: 'edit-location-name',
     EDIT_COURIER: 'edit-courier-name',
-    EDIT_DESTINATION_NAME: 'edit-destination-name',
-    EDIT_DELETE_LOCATION_CARD: 'edit-delete-location-card',
-    EDIT_LOCATION_CARD: 'create-location-card',
+    EDIT_STATION: 'edit-destination-name',
+    CREATE_PRICING_CARD: 'create-price-card',
     SEE_PRICING_CARD: 'see-price-card',
     CONTROL_SERVICE: 'edit-service',
-    EDIT_DELETE_PRICE_CARD: 'edit-delete-price-card',
-    DEACTIVATE_PRICING_CARD: 'deactivate-price-card'
+    EDIT_DELETE_DEACTIVATE_PRICING_CARD: 'edit-delete-price-card',
+    DELETE_LOCATION: 'delete-location',
+    DELETE_DEACTIVATE_COURIER: 'delete-courier',
+    DELETE_DEACTIVATE_STATION: 'delete-station'
   };
 
   isUpdating = false;

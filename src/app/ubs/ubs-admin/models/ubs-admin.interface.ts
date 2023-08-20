@@ -577,23 +577,24 @@ export enum abilityCreateAuthorities {
 export enum abilityAddAuthorities {
   location = 'CREATE_NEW_LOCATION',
   courier = 'CREATE_NEW_COURIER',
-  station = 'CREATE_NEW_STATION'
+  station = 'CREATE_NEW_STATION',
+  pricingCard = 'CREATE_PRICING_CARD'
 }
 
 export enum abilityEditAuthorities {
   orders = 'EDIT_ORDER',
   certificates = 'EDIT_CERTIFICATE',
   notifications = 'EDIT_MESSAGE',
-  location = 'EDIT_LOCATION_NAME',
+  location = 'EDIT_LOCATION',
   courier = 'EDIT_COURIER',
-  station = 'EDIT_DESTINATION_NAME',
-  pricingCard = 'EDIT_DELETE_PRICE_CARD',
+  station = 'EDIT_STATION',
+  pricingCard = 'EDIT_DELETE_DEACTIVATE_PRICING_CARD',
   controlService = 'CONTROL_SERVICE'
 }
 
 export enum abilityDelAuthorities {
   notifications = 'DELETE_MESSAGE',
-  activateDeactivate = 'EDIT_DELETE_PRICE_CARD'
+  activateDeactivate = 'EDIT_DELETE_DEACTIVATE_PRICING_CARD'
 }
 
 export enum SideMenuElementsNames {

@@ -22,6 +22,7 @@ import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-p
 import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-header',
@@ -71,6 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userOwnAuthService: UserOwnAuthService;
   private headerService: HeaderService;
   private orderService: OrderService;
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(private injector: Injector, private store: Store) {
     this.dialog = injector.get(MatDialog);
@@ -106,7 +108,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.initUser();
     this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
       this.userRole = userRole;
-      this.isAdmin = this.userRole === this.adminRoleValue;
+      this.defineAuthorities();
       this.isGreenCityAdmin = this.userRole === this.adminRoleGreenCityValue;
     });
     this.autoOffBurgerBtn();
@@ -118,6 +120,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+    });
+  }
+
+  public defineAuthorities() {
+    this.permissions$.subscribe((employeeAuthorities) => {
+      let isEmployeeHasAuthorities = true;
+      if (!employeeAuthorities.length) {
+        isEmployeeHasAuthorities = false;
+      }
+      this.isAdmin = this.userRole === this.adminRoleValue && isEmployeeHasAuthorities;
     });
   }
 

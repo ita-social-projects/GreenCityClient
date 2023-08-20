@@ -67,7 +67,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
   private employeeAuthorities: string[];
   public isEmployeeCanControlService: boolean;
-  public isEmployeeCanCreateEditPricingCard: boolean;
+  public isEmployeeCanEditPricingCard: boolean;
   public isEmployeeCanActivateDeactivate: boolean;
   public isEmployeeCanUseCrumbs: boolean;
 
@@ -104,7 +104,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
         this.definedIsEmployeeCanEditNotifications(authorities);
       }
     });
-    if (!this.isEmployeeCanCreateEditPricingCard) {
+    if (!this.isEmployeeCanEditPricingCard) {
       this.limitsForm.disable();
     }
   }
@@ -112,7 +112,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   definedIsEmployeeCanEditNotifications(employeeRights) {
     this.employeeAuthorities = employeeRights;
     this.isEmployeeCanControlService = this.employeeAuthorities.includes(abilityEditAuthorities.controlService);
-    this.isEmployeeCanCreateEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
+    this.isEmployeeCanEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
     this.isEmployeeCanActivateDeactivate = this.employeeAuthorities.includes(abilityDelAuthorities.activateDeactivate);
   }
 
