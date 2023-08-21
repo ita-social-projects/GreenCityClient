@@ -1,7 +1,7 @@
 import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
-
+import { Patterns } from 'src/assets/patterns/patterns';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
@@ -59,8 +59,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   public isValidURL(url: string): boolean {
-    const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
-    return pattern.test(url);
+    return Patterns.isValidURL.test(url);
   }
 
   public openCloseList(): void {
