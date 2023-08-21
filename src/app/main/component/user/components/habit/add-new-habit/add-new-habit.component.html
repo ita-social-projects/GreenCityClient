@@ -88,6 +88,14 @@
       <button class="primary-global-button habit-btn" type="button" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
       </button>
+      <button
+        class="primary-global-button habit-btn"
+        type="button"
+        *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
+        (click)="editUsersCustomHabit()"
+      >
+        Edit Habit
+      </button>
     </div>
   </div>
   <app-habits-widget

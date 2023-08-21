@@ -2,6 +2,7 @@ import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
@@ -15,6 +16,7 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
+  private readonly EDIT_HABIT = 'editHabit';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
@@ -32,6 +34,10 @@ export class LocalStorageService {
 
   public getHabitsGalleryView(): boolean | null {
     return JSON.parse(localStorage.getItem(this.HABITS_GALLERY_VIEW));
+  }
+
+  public setHabitForEdit(key: string, habit: HabitInterface) {
+    localStorage.setItem(key, JSON.stringify(habit));
   }
 
   public getAccessToken(): string {

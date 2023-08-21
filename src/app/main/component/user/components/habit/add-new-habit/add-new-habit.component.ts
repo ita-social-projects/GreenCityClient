@@ -59,7 +59,7 @@ export class AddNewHabitComponent implements OnInit {
 
   private habitId: number;
   private habitAssignId: number;
-  private userId: number;
+  public userId: number;
   private currentLang: string;
   private enoughToAcquire = 80;
   private page = 0;
@@ -259,6 +259,12 @@ export class AddNewHabitComponent implements OnInit {
           this.snackBar.openSnackBar('habitDidNotGiveUp');
         }
       });
+  }
+
+  editUsersCustomHabit(): void {
+    this.localStorageService.setEditMode('canUserEdit', true);
+    this.localStorageService.setHabitForEdit('editHabit', this.habitResponse);
+    this.router.navigate(['/habits', 'edit-habit']);
   }
 
   goToProfile(): void {
