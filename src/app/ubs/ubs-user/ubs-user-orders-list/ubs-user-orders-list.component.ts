@@ -28,6 +28,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   bags: Bag[];
   anotherClient = 'false';
   orderId: string;
+  orderDetailsForSessionStorage;
 
   constructor(
     public dialog: MatDialog,
@@ -96,6 +97,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
+    sessionStorage.removeItem('key');
     if (order.paymentStatusEng === 'Unpaid') {
       this.getDataForLocalStorage(order);
     } else {
@@ -161,6 +163,24 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         pointsToUse: 0,
         total: order.orderFullPrice
       };
+
+      this.orderDetailsForSessionStorage = {
+        additionalOrders: order.additionalOrders,
+        certificatesSum: 0,
+        finalSum: order.orderFullPrice,
+        orderComment: order.orderComment,
+        pointsSum: 0,
+        pointsToUse: 0,
+        total: order.orderFullPrice,
+        quantity1: this.filterUtil(1),
+        quantity2: this.filterUtil(2),
+        quantity3: this.filterUtil(3)
+      };
+
+      const bufferArray = {};
+      Object.assign(bufferArray, this.orderDetailsForSessionStorage);
+      sessionStorage.setItem('key', JSON.stringify(bufferArray));
+
       this.personalDetails = personalDataResponse;
       this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
       this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
@@ -172,6 +192,10 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.orderId = order.id.toString();
       this.setDataToLocalStorage();
     });
+  }
+
+  private filterUtil(id: number) {
+    return this.bags.filter((item) => item.id === id)[0].quantity;
   }
 
   public setDataToLocalStorage(): void {
