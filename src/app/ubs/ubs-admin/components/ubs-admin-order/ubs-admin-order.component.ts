@@ -24,7 +24,8 @@ import {
   IResponsiblePersons,
   IUpdateResponsibleEmployee,
   IUserInfo,
-  ResponsibleEmployee
+  ResponsibleEmployee,
+  NotTakenOutReasonImages
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChangingOrderData } from 'src/app/store/actions/bigOrderTable.actions';
@@ -73,6 +74,9 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private orderService: OrderService;
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
+  notTakenOutReasonDescription: string;
+  notTakenOutReasonImages: NotTakenOutReasonImages[];
+
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
@@ -138,6 +142,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           this.orderPaymentComponent.setCancelOrderOverpayment(this.totalPaid);
         }
       });
+  }
+
+  onNotTakenOutReason(value: { description: string; images: NotTakenOutReasonImages[] }): void {
+    this.notTakenOutReasonDescription = value.description;
+    this.notTakenOutReasonImages = value.images;
   }
 
   private setOrderDetails() {
@@ -448,9 +457,13 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       changedValues.responsiblePersonsForm = this.orderForm.get('responsiblePersonsForm').value;
     }
 
+    if (this.notTakenOutReasonDescription) {
+      changedValues.notTakenOutReason = this.notTakenOutReasonDescription;
+    }
+
     this.addIdForUserAndAdress(changedValues);
     this.orderService
-      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues)
+      .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
