@@ -138,6 +138,7 @@
       "time-any-time": "Any time",
       "item-found-text": "",
       "items-event-text": "Items found",
+      "no-event-left": "There's no events for now",
       "my-space": {
         "tag-title": "My Events",
         "event-types-title": "Types:",

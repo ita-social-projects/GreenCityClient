@@ -105,5 +105,6 @@
     </div>
     <app-spinner *ngIf="elementsArePresent"></app-spinner>
     <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <p class="end-page" *ngIf="!elementsArePresent">{{ 'homepage.events.no-event-left' | translate }}</p>
   </div>
 </div>

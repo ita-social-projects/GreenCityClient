@@ -49,6 +49,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       map((value) => (typeof value === 'string' ? value : value.locationName)),
       map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
     );
+    //
   }
 
   displayFn(city: LocationsName): string {
@@ -94,6 +95,11 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
           ],
           []
         );
+        this.cities.forEach((city) => {
+          if (city.locationId === 1) {
+            this.myControl.setValue({ locationId: city.locationId, locationName: city.locationName });
+          }
+        });
       });
   }
 
