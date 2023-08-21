@@ -98,7 +98,7 @@
 
       <div class="buttons-container">
         <mat-label>{{ 'create-event.event-theme' | translate }}</mat-label>
-        <p *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</p>
+        <span *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</span>
         <div>
           <ul class="ul-eco-buttons" aria-label="filter by items">
             <li *ngFor="let tag of tags">

@@ -1138,7 +1138,7 @@
     "picture": "Picture",
     "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
     "event-theme": "Initiative type",
-    "event-type-check": "you should choose at least one type",
+    "event-type-check": "You should choose at least one type",
     "event-type": "Event type",
     "open": "Open",
     "close": "Close",
