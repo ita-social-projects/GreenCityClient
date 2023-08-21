@@ -90,7 +90,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
-    style: 'red'
+    style: 'green'
   };
 
   mapDialogData: any;
