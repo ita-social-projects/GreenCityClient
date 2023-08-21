@@ -272,12 +272,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  private checkEndTime(time: string, curTime?: Array<string>): void {
-    if (time && curTime) {
-      const checkTime = time.split(':');
-      this.timeArrStart = [...this.timeArr.slice(+curTime[0] + 1, +checkTime[0])];
-    } else if (time) {
-      const checkTime = time.split(':');
+  private checkEndTime(time: string, curTime?: number): void {
+    if (!time) {
+      return;
+    }
+    const checkTime = time.split(':');
+    if (curTime) {
+      this.timeArrStart = [...this.timeArr.slice(curTime + 1, +checkTime[0])];
+    } else {
       this.timeArrStart = [...this.timeArr.slice(0, +checkTime[0])];
     }
   }
@@ -293,12 +295,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     const curDay = new Date().toDateString();
     const selectDay = new Date(date).toDateString();
     if (selectDay === curDay) {
-      const curTime = new Date().getHours().toString() + ':00';
-      const checkTime = curTime.split(':');
-      this.timeArrStart = [...this.timeArr.slice(+checkTime[0] + 1)];
-      this.timeArrEnd = [...this.timeArr.slice(+checkTime[0] + 2)];
+      const curTime = new Date().getHours();
+      this.timeArrStart = [...this.timeArr.slice(curTime + 1)];
+      this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
       this.checkStartTime(startTime);
-      this.checkEndTime(endTime, checkTime);
+      this.checkEndTime(endTime, curTime);
     } else {
       this.checkStartTime(startTime);
       this.checkEndTime(endTime);
