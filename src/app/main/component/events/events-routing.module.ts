@@ -5,6 +5,7 @@ import { EventDetailsComponent } from './components/event-details/event-details.
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { EventsPreviewPageComponent } from './components/events-preview-page/events-preview-page.component';
 import { EventsComponent } from './events.component';
+import { AuthPageGuardService } from '@global-service/route-guards/auth-page-guard.service';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
       },
       {
         path: 'create-event',
-        component: CreateEditEventsComponent
+        component: CreateEditEventsComponent,
+        canActivate: [AuthPageGuardService]
       },
 
       {

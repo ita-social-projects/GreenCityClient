@@ -94,6 +94,16 @@
         </nav>
         <div class="header_navigation-menu-right">
           <ul role="menu" class="header_navigation-menu-right-list">
+            <!-- Bookmark icon -->
+            <li
+              *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
+              aria-label="site bookmark"
+              class="bookmark-icon"
+              role="bookmark"
+              tabindex="0"
+            >
+              <img [src]="headerImageList.bookmark" alt="Internal search button" aria-hidden="true" />
+            </li>
             <!-- Notification icon -->
             <li
               *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
@@ -104,16 +114,6 @@
               (click)="openNotificationPopUp($event)"
             >
               <img [src]="headerImageList.notification" alt="Internal search button" aria-hidden="true" />
-            </li>
-            <!-- Bookmark icon -->
-            <li
-              *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
-              aria-label="site bookmark"
-              class="bookmark-icon"
-              role="bookmark"
-              tabindex="0"
-            >
-              <img [src]="headerImageList.bookmark" alt="Internal search button" aria-hidden="true" />
             </li>
             <!-- Search icon -->
             <li
