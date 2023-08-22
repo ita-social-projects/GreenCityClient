@@ -77,6 +77,9 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   redirectToOrder() {
+    if (sessionStorage.getItem('key')) {
+      sessionStorage.removeItem('key');
+    }
     this.router.navigate(['ubs', 'order']);
   }
 

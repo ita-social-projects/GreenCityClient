@@ -117,10 +117,10 @@
           </div>
         </div>
 
-        <div class="save-join-event-block" *ngIf="role === roles.USER">
+        <div class="save-join-event-block">
           <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
           <button
-            *ngIf="!isUserCanRate && !isOver"
+            *ngIf="!isUserCanRate && !isOver && (isEventOrginizerFriend || event.open)"
             [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
             (click)="buttonAction()"
           >
@@ -131,7 +131,7 @@
       </div>
 
       <div class="main-right">
-        <div class="description-block-title">Description</div>
+        <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
         <div [innerHTML]="event.description"></div>
       </div>
     </div>

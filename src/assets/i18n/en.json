@@ -138,6 +138,7 @@
       "time-any-time": "Any time",
       "item-found-text": "",
       "items-event-text": "Items found",
+      "no-event-left": "There's no events for now",
       "my-space": {
         "tag-title": "My Events",
         "event-type-online": "Online",
@@ -145,7 +146,7 @@
       },
       "open": "Open",
       "registered": "Anyone registered",
-      "completed": "Event completed",
+      "completed": "Closed",
       "people-joined": "people are going",
       "btn": {
         "back-route": "Back to Events",
@@ -1138,7 +1139,7 @@
     "picture": "Picture",
     "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
     "event-theme": "Initiative type",
-    "event-type-check": "you should choose at least one type",
+    "event-type-check": "You should choose at least one type",
     "event-type": "Event type",
     "open": "Open",
     "close": "Close",

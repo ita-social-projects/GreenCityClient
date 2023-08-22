@@ -320,11 +320,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openSettingDialog(): void {
-    this.dropdownVisible = false;
-    this.router.navigate(['/profile', this.userId, 'edit']);
-  }
-
   public openNotificationsDialog(): void {
     this.dropdownVisible = false;
     this.router.navigate(['/profile', this.userId, 'notifications']);

@@ -6,26 +6,27 @@
         <mat-label>{{ imageCount }}/5</mat-label>
       </div>
       <mat-label class="image-title">{{ 'create-event.picture-title' | translate }}</mat-label>
-      <div class="image-container" appDrag (files)="filesDropped($event)" *ngFor="let img of images; index as i">
-        <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
-        <div class="delete-block">
-          <div>{{ img.name }}</div>
-          <div (click)="deleteImage(i)">X</div>
-        </div>
-
-        <div *ngIf="img.isLabel" class="drag-inscription">
-          <label for="file-upload">
-            {{ img.label }}
-          </label>
-          <input
-            #takeInput
-            id="file-upload"
-            class="d-none"
-            [disabled]="false"
-            type="file"
-            accept="image/png,image/jpeg"
-            (change)="loadFile($event)"
-          />
+      <div class="images-container-wrapper" cdkDropListOrientation="horizontal" cdkDropList (cdkDropListDropped)="dropImages($event)">
+        <div class="image-container" (files)="filesDropped($event)" appDrag cdkDrag *ngFor="let img of images; index as i">
+          <img class="image-preview" *ngIf="img.src" [src]="img.src" alt="image-of-event" />
+          <div class="delete-block">
+            <div>{{ img.name }}</div>
+            <div (click)="deleteImage(i)">X</div>
+          </div>
+          <div *ngIf="img.isLabel" class="drag-inscription">
+            <label for="file-upload">
+              {{ img.label }}
+            </label>
+            <input
+              #takeInput
+              id="file-upload"
+              class="d-none"
+              [disabled]="false"
+              type="file"
+              accept="image/png,image/jpeg"
+              (change)="loadFile($event)"
+            />
+          </div>
         </div>
       </div>
     </div>

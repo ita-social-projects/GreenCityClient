@@ -68,11 +68,6 @@
                   {{ 'nav-bar.user-notifications' | translate }}
                 </a>
               </li>
-              <li class="header_mobile-menu-item" role="link">
-                <a (click)="openSettingDialog()">
-                  {{ 'nav-bar.user-settings' | translate }}
-                </a>
-              </li>
               <li *ngIf="isLoggedIn && isGreenCityAdmin" class="header_mobile-menu-item">
                 <a [href]="managementLink" target="_blank" role="link">
                   {{ 'nav-bar.management' | translate }}
@@ -99,6 +94,16 @@
         </nav>
         <div class="header_navigation-menu-right">
           <ul role="menu" class="header_navigation-menu-right-list">
+            <!-- Bookmark icon -->
+            <li
+              *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
+              aria-label="site bookmark"
+              class="bookmark-icon"
+              role="bookmark"
+              tabindex="0"
+            >
+              <img [src]="headerImageList.bookmark" alt="Internal search button" aria-hidden="true" />
+            </li>
             <!-- Notification icon -->
             <li
               *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
@@ -109,16 +114,6 @@
               (click)="openNotificationPopUp($event)"
             >
               <img [src]="headerImageList.notification" alt="Internal search button" aria-hidden="true" />
-            </li>
-            <!-- Bookmark icon -->
-            <li
-              *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
-              aria-label="site bookmark"
-              class="bookmark-icon"
-              role="bookmark"
-              tabindex="0"
-            >
-              <img [src]="headerImageList.bookmark" alt="Internal search button" aria-hidden="true" />
             </li>
             <!-- Search icon -->
             <li
@@ -208,11 +203,6 @@
                 <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="notifications" tabindex="0">
                   <a (click)="openNotificationsDialog()">
                     {{ 'nav-bar.user-notifications' | translate }}
-                  </a>
-                </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="settings" tabindex="0">
-                  <a (click)="openSettingDialog()">
-                    {{ 'nav-bar.user-settings' | translate }}
                   </a>
                 </li>
                 <li

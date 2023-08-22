@@ -6,6 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { OrderService } from '../../services/order.service';
+import { CancellationReasonList } from '../../services/cancellation-reason-list-mock';
+import { CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-add-order-cancellation-reason',
@@ -19,31 +21,9 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   public cancellationReason: string;
   public cancellationComment: string;
   public orderID: number;
-  orderInfo: any;
   public isHistory: boolean;
-  reasonList: any[] = [
-    {
-      value: 'DELIVERED_HIMSELF',
-      translation: 'order-cancel.reason.delivered-himself'
-    },
-    {
-      value: 'MOVING_OUT',
-      translation: 'order-cancel.reason.moving-out'
-    },
-    {
-      value: 'OUT_OF_CITY',
-      translation: 'order-cancel.reason.out-of-city'
-    },
-    {
-      value: 'DISLIKED_SERVICE',
-      translation: 'order-cancel.reason.disliked-service'
-    },
-    {
-      value: 'OTHER',
-      translation: 'order-cancel.reason.other'
-    }
-  ];
   public adminName;
+  public reasonList = CancellationReasonList;
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -90,13 +70,11 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   }
 
   public disableButton(): boolean {
+    const isCancelReasonOther = this.cancellationReason === CancellationReason.OTHER;
     const isFormUntouched = this.commentForm.untouched && !this.cancellationReason;
-    const isInvalidCommentForm = this.commentForm.invalid && this.commentForm.touched && this.cancellationReason === 'OTHER';
-    const isOtherCancellationReasonInvalid = this.cancellationReason === 'OTHER' && !this.commentForm.get('cancellationComment').value;
+    const isInvalidCommentForm = this.commentForm.invalid && this.commentForm.touched && isCancelReasonOther;
+    const isOtherCancellationReasonInvalid = isCancelReasonOther && !this.commentForm.get('cancellationComment').value;
 
-    if (isInvalidCommentForm || isOtherCancellationReasonInvalid || isFormUntouched) {
-      return true;
-    }
-    return false;
+    return isInvalidCommentForm || isOtherCancellationReasonInvalid || isFormUntouched;
   }
 }

@@ -161,6 +161,9 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   redirectToOrder() {
+    if (sessionStorage.getItem('key')) {
+      sessionStorage.removeItem('key');
+    }
     if (this.userId) {
       this.localStorageService.setUbsRegistration(true);
       this.getLocations(this.ubsCourierName);

@@ -8,7 +8,7 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
@@ -26,6 +26,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
+import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-events-list-item',
@@ -33,10 +34,11 @@ import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons'
   styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss'],
   providers: [MaxTextLengthPipe]
 })
-export class EventsListItemComponent implements OnInit, OnDestroy {
+export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
+  @Input() userFriends: FriendModel[];
 
   profileIcons = userAssignedCardsIcons;
 
@@ -85,6 +87,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'red'
   };
+  public canUserJoinCloseEvent: boolean;
 
   @Output() public isLoggedIn: boolean;
 
@@ -115,6 +118,10 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBarComponent,
     private maxTextLengthPipe: MaxTextLengthPipe
   ) {}
+
+  ngOnChanges() {
+    this.canUserJoinCloseEvent = this.userFriends.some((el) => el.id === this.event.organizer.id) || this.event.open;
+  }
 
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
@@ -175,7 +182,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
       return;
     }
     if (!isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.primary;
+      this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
       this.nameBtn = this.btnName.join;
       return;
     }

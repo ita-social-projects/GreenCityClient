@@ -25,6 +25,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-event-details',
@@ -108,6 +109,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
+  public isEventOrginizerFriend: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -121,7 +123,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private userFriendsService: UserFriendsService
   ) {}
 
   ngOnInit(): void {
@@ -133,7 +136,9 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
-
+    this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res) => {
+      this.isEventOrginizerFriend = res.some((el) => el.id === this.userId);
+    });
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -242,18 +247,21 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public buttonAction() {
-    if (this.isUserCanJoin) {
+    if (this.role === this.roles.UNAUTHENTICATED) {
+      this.openAuthModalWindow('sign-in');
+    } else if (this.isUserCanJoin) {
       if (this.addAttenderError) {
         this.snackBar.openSnackBar('errorJoinEvent');
         this.addAttenderError = '';
       } else {
         this.snackBar.openSnackBar('joinedEvent');
         this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+        this.isUserCanJoin = !this.isUserCanJoin;
       }
     } else {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+      this.isUserCanJoin = !this.isUserCanJoin;
     }
-    this.isUserCanJoin = !this.isUserCanJoin;
   }
 
   public openAuthModalWindow(page: string): void {

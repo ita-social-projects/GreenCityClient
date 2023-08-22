@@ -15,6 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { FriendModel } from '@global-user/models/friend.model';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-events-list',
@@ -55,6 +58,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
+  userFriends: FriendModel[];
 
   constructor(
     private store: Store,
@@ -62,7 +66,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    public injector: Injector
+    public injector: Injector,
+    private userFriendsService: UserFriendsService
   ) {
     this.dialog = injector.get(MatDialog);
   }
@@ -86,6 +91,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
     });
+    this.getUserFriendsList();
+  }
+
+  getUserFriendsList(): void {
+    this.userFriendsService
+      .getAllFriendsByUserId(this.userId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((res) => {
+        this.userFriends = res;
+      });
   }
 
   updateSelectedFilters(value: any, event): void {

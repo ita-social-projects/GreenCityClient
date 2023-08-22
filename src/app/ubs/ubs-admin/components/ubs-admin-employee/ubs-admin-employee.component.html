@@ -47,7 +47,7 @@
         <div class="filtrs-list">
           <div *ngFor="let position of selectedPositions" class="filter-item">
             <div class="remove-item-btn" (click)="removeItem(position, 'position')"></div>
-            <span class="filter-content">{{ position.name }}</span>
+            <span class="filter-content">{{ getLangValue(position.ukrainianName, position.englishName) }}</span>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@
         <div class="filtrs-list">
           <div class="filter-item" *ngFor="let courier of selectedCouriers">
             <div class="remove-item-btn" (click)="removeItem(courier, 'courier')"></div>
-            <span class="filter-content">{{ courier.name }}</span>
+            <span class="filter-content">{{ getLangValue(courier.ukrainianName, courier.englishName) }}</span>
           </div>
         </div>
       </div>

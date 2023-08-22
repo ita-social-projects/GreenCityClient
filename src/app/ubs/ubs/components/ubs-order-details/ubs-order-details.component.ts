@@ -338,13 +338,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
       this.setCurrentLocation(this.currentLanguage);
       const inputsQuantity = [];
-      this.bags.forEach((a) => {
+      this.bags?.forEach((a) => {
         inputsQuantity.push(a.quantity ?? 0);
         a.quantity = 0;
       });
-      this.bags = this.orders.bags;
+      this.bags = this.orders?.bags;
       this.filterBags();
-      this.bags.forEach((b) => {
+      this.bags?.forEach((b) => {
         b.quantity = inputsQuantity.shift();
       });
       this.calculateTotal();
@@ -391,7 +391,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private filterBags(): void {
-    this.bags = this.orders.bags.sort((a, b) => b.price - a.price);
+    this.bags = this.orders?.bags.sort((a, b) => b.price - a.price);
   }
 
   changeForm() {
@@ -455,7 +455,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   private calculateTotal(): void {
     this.total = 0;
-    this.bags.forEach((bag) => {
+    this.bags?.forEach((bag) => {
       this.total += bag.price * this.returnBagQuantity(bag.id);
     });
     this.showTotal = this.total;
