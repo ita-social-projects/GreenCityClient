@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public defineAuthorities() {
     this.permissions$.subscribe((employeeAuthorities) => {
-      let isEmployeeHasNoAuthorities = !employeeAuthorities.length;
+      const isEmployeeHasNoAuthorities = !employeeAuthorities.length;
       this.isAdmin = this.userRole === this.adminRoleValue && !isEmployeeHasNoAuthorities;
     });
   }
