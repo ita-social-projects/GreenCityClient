@@ -93,6 +93,7 @@ describe('ProfileDashboardComponent', () => {
         title: 'title',
         titleImage: 'image title',
         isSubscribed: true,
+        isFavorite: false,
         isActive: true
       }
     ],

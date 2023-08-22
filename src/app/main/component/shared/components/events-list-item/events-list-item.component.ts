@@ -48,6 +48,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public title: string;
   public description: string;
 
+  public favorite: boolean;
+
   public rate: number;
   public author: string;
 
@@ -119,6 +121,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.filterTags(this.event.tags);
     this.title = this.maxTextLengthPipe.transform(this.event.title, 30);
     this.description = this.maxTextLengthPipe.transform(this.event.description, 90);
+    this.favorite = true;
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.subscribeToLangChange();
@@ -279,7 +282,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  addToFavourite(event?: Event) {
+  public addToFavourite(event?: Event) {
     event.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
@@ -295,7 +298,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     const dtoName = 'EventPageResponceDto';
 
     formData.append(dtoName, stringifiedDataToSend);
-    this.eventService.editEvent(formData);
+
+    this.eventService.editEvent(formData).subscribe((res) => {});
+    this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
   }
 
   public openAuthModalWindow(page: string): void {

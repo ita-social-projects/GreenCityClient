@@ -131,12 +131,11 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   public escapeFromFavorites(): void {
     this.isFavoriteBtnClicked = !this.isFavoriteBtnClicked;
-    console.log('go out');
   }
 
   public goToFavorites(): void {
     this.isFavoriteBtnClicked = true;
-    console.log('here');
+    this.getUserFavouriteEvents();
   }
 
   initGetUserEvents(eventType?: string): void {
@@ -149,8 +148,13 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  getUserFavouriteEvents(eventType?: string): void {
-    // TO DO
+  getUserFavouriteEvents(): void {
+    this.eventService
+      .getUserFavoriteEvents(0, this.eventsPerPage)
+      .pipe(take(1))
+      .subscribe((res: EventResponseDto) => {
+        this.favouriteEvents = res.page;
+      });
   }
 
   onEventsPageChange(page: number, eventType?: string): void {

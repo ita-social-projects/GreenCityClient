@@ -74,6 +74,7 @@ describe('EventsListComponent', () => {
       titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
       additionalImages: [],
       isSubscribed: false,
+      isFavorite: false,
       isActive: true,
       open: true
     },
@@ -124,6 +125,7 @@ describe('EventsListComponent', () => {
       titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
       additionalImages: [],
       isSubscribed: false,
+      isFavorite: false,
       isActive: true,
       open: true
     }

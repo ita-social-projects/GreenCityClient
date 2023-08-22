@@ -121,7 +121,7 @@
           <div *ngIf="isFavoriteBtnClicked" class="in-progress header">
             <div class="button-arrow" (click)="escapeFromFavorites()">
               <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
-              <div class="edit-news">{{ 'create-event.back' | translate }}</div>
+              <div class="edit-events">{{ 'create-event.back' | translate }}</div>
             </div>
           </div>
           <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
@@ -136,7 +136,8 @@
           <ul class="news-list" *ngIf="isFavoriteBtnClicked">
             <li
               *ngFor="
-                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
+                let eventItem of favouriteEvents
+                  | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
               "
             >
               <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>

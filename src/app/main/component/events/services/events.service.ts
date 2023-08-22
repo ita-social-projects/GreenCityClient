@@ -59,8 +59,12 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  public getUserFavoriteEvents(): Observable<EventResponseDto> {
-    return;
+  public addEventToFavourites(eventId: number): Observable<any> {
+    return this.http.post<any>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
+  }
+
+  public getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {
+    return this.http.get<EventResponseDto>(`${this.backEnd}events/getAllFavoriteEvents?page=${page}&size=${quantity}`);
   }
 
   public getEventById(id: number): Observable<any> {

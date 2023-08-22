@@ -8,7 +8,7 @@
       </ng-template>
     </div>
     <div class="event-flags" *ngIf="event.open">
-      <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }" (click)="addToFavourite($event)"></span>
+      <span [ngClass]="favorite ? 'flag-active' : 'flag'" (click)="addToFavourite($event)"></span>
     </div>
     <div class="event-participants" *ngIf="attendees.length">
       <div class="event-participants-avatars">
@@ -110,8 +110,8 @@
           <span class="time-divider">|</span>
           <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
         </div>
-        <div class="event-assign__content__date-container__event-flags" *ngIf="event.open" (click)="addToFavourite($event)">
-          <span class="flag" [ngClass]="{ 'flag-active': bookmarkSelected }"></span>
+        <div class="event-assign__content__date-container__event-flags" *ngIf="event.open">
+          <span [ngClass]="favorite ? 'flag-active' : 'flag'" (click)="addToFavourite($event)"></span>
         </div>
       </div>
       <div>

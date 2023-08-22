@@ -248,6 +248,12 @@ a {
 
 .button-arrow {
   display: flex;
-  align-items: baseline;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 24px;
+
+  .edit-events {
+    margin: 0 5px;
+    color: var(--primary-green);
+  }
 }
