@@ -228,7 +228,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   saveLocation(isCheck: boolean) {
     this.isFetching = true;
-    this.setCurrentLocation(this.currentLanguage);
+    this.setCurrentLocation(this.currentLanguage, this.selectedLocationId);
     this.isFetching = false;
     this.changeLocation = false;
     this.orderService.setLocationData(this.currentLocation);
@@ -239,10 +239,16 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     }
   }
 
-  private setCurrentLocation(currentLanguage: string): void {
-    const currentLocationEn = `${this.locations?.locationsDtosList[0].nameEn}, ${this.locations?.regionDto.nameEn}`;
-    const currentLocationUk = `${this.locations?.locationsDtosList[0].nameUk}, ${this.locations?.regionDto.nameUk}`;
-    this.currentLocation = this.getLangValue(currentLocationUk, currentLocationEn);
+  private setCurrentLocation(currentLanguage: string, locationId: number): void {
+    let currentLocationEn: string;
+    let currentLocationUk: string;
+    this.locations?.locationsDtosList.forEach((location) => {
+      if (location.locationId === locationId) {
+        currentLocationEn = `${location.nameEn}, ${this.locations?.regionDto.nameEn}`;
+        currentLocationUk = `${location.nameUk}, ${this.locations?.regionDto.nameUk}`;
+        this.currentLocation = this.getLangValue(currentLocationUk, currentLocationEn);
+      }
+    });
   }
 
   getFormValues(): boolean {
@@ -274,7 +280,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
         if (res && res.data) {
           this.locations = res.data;
           this.selectedLocationId = res.locationId;
-          this.setCurrentLocation(res.currentLanguage);
+          this.setCurrentLocation(res.currentLanguage, res.locationId);
           this.setLimitsValues();
           this.orderDetailsForm.markAllAsTouched();
           this.takeOrderData();
@@ -336,7 +342,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   private subscribeToLangChange(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.currentLanguage = this.localStorageService.getCurrentLanguage();
-      this.setCurrentLocation(this.currentLanguage);
+      this.setCurrentLocation(this.currentLanguage, this.selectedLocationId);
       const inputsQuantity = [];
       this.bags?.forEach((a) => {
         inputsQuantity.push(a.quantity ?? 0);
