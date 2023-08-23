@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <div *ngIf="dateForm.get('onlineLink')" class="active">
+  <div *ngIf="checkOnlinePlace" class="active">
     <mat-label>{{ 'create-event.event-link' | translate }}</mat-label>
     <mat-form-field appearance="outline">
       <mat-label>{{ 'create-event.event-online-link' | translate }}</mat-label>

@@ -28,10 +28,6 @@
   font-size: 12px;
 }
 
-.isOfline {
-  display: none;
-}
-
 .active {
   display: block;
 
@@ -47,6 +43,7 @@
 .map-container {
   width: 604px;
   height: 410px;
+  margin-bottom: 16px;
 }
 
 .tag-error-messege {

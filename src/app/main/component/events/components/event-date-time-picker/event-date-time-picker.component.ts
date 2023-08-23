@@ -34,7 +34,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public zoom = 8;
   address: string;
 
-  public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
   private pipe = new DatePipe('en-US');
   public checkTime = false;
@@ -53,6 +52,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
+  @Output() linkOnline = new EventEmitter<string>();
+  @Output() checkPlaceIsAdded = new EventEmitter<boolean>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
@@ -78,7 +79,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     this.dateForm = new FormGroup({
       date: new FormControl('', [Validators.required]),
       startTime: new FormControl('', [Validators.required]),
-      endTime: new FormControl('', [Validators.required])
+      endTime: new FormControl('', [Validators.required]),
+      onlineLink: new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)])
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
@@ -87,8 +89,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
       this.coordOffline.emit(this.coordinates);
       this.status.emit(this.dateForm.valid);
-
       this.datesForm.emit(value);
+      this.linkOnline.emit(value.onlineLink);
     });
     if (this.editDate && !this.editDates) {
       this.setEditData();
@@ -202,24 +204,29 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
-    this.checkOnlinePlace
-      ? this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]))
-      : this.dateForm.removeControl('onlineLink');
+    if (this.checkOnlinePlace) {
+      this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
+    } else {
+      this.checkPlaceIsAdded.emit(this.checkOnlinePlace);
+      this.dateForm.removeControl('onlineLink');
+      this.linkOnline.emit('');
+    }
   }
 
   public checkIfOffline(): void {
     this.checkOfflinePlace = !this.checkOfflinePlace;
     if (this.checkOfflinePlace) {
-      this.isOfline = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
     } else {
-      this.isOfline = false;
+      this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
       this.coordinates.latitude = null;
       this.coordinates.longitude = null;
       this.coordOffline.emit(this.coordinates);
       this.autocomplete.unbindAll();
       this.dateForm.removeControl('place');
+      this.isLocationSelected = false;
     }
   }
 

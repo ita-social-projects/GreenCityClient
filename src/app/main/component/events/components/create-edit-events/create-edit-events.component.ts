@@ -213,6 +213,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isPristine = false;
   }
 
+  public handlePlaceIsAdded(onlinePlaceValue: boolean): void {
+    this.isAddressFill = onlinePlaceValue;
+  }
+
   public setDateCount(value: number): void {
     if ((this.dates.length === 1 && !this.dates[0].date) || this.editMode) {
       this.dates = Array(value)
@@ -243,14 +247,22 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public setCoordsOnlOff(event: OfflineDto, ind: number): void {
     this.dates[ind].coordinatesDto = event;
-    this.isAddressFill = this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
+    this.isAddressFill = this.isLocationOrLinkAdded();
+  }
+
+  public setOnlineLink(event: any, ind: number): void {
+    this.dates[ind].onlineLink = event;
+    this.isAddressFill = this.isLocationOrLinkAdded();
+  }
+
+  private isLocationOrLinkAdded(): boolean {
+    return this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
   }
 
   private checkDates(): void {
     this.dates.forEach((item) => {
       item.check = !item.valid;
     });
-
     this.checkdates = !this.dates.some((element) => !element.valid);
   }
 
@@ -334,6 +346,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = false;
+      this.isPristine = false;
+    }
+    if (!this.isLocationOrLinkAdded()) {
+      this.isAddressFill = false;
     }
   }
 
