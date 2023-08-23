@@ -386,7 +386,8 @@
       "joined-event": "You have successfully joined the event",
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
-      "update-notification": "Notification was updated"
+      "update-notification": "Notification was updated",
+      "rating-send": "Rating sent"
     }
   },
   "user": {

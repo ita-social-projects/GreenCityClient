@@ -387,7 +387,8 @@
       "joined-event": "Ви успішно приєдналися до події",
       "saved-changes": "Ваші зміни збережено",
       "added-address": "Адресу додано",
-      "update-notification": "Повідомлення було оновлено"
+      "update-notification": "Повідомлення було оновлено",
+      "rating-send": "Рейтинг надіслано"
     }
   },
   "user": {

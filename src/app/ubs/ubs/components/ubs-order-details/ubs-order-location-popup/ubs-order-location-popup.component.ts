@@ -49,7 +49,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       map((value) => (typeof value === 'string' ? value : value.locationName)),
       map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
     );
-    //
   }
 
   displayFn(city: LocationsName): string {

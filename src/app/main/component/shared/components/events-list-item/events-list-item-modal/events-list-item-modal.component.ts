@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-events-list-item-modal',
@@ -35,7 +36,8 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     public injector: Injector,
     public bsModalRef: BsModalRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private matSnackBar: MatSnackBarComponent
   ) {
     this.dialog = injector.get(MatDialog);
   }
@@ -56,6 +58,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
         this.openAuthModalWindow('sign-in');
       }, 500);
     } else {
+      this.matSnackBar.openSnackBar('ratedEvent');
       this.onRateChange();
     }
   }

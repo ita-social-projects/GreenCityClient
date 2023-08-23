@@ -42,7 +42,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordFieldValue: string;
   public isUbs: boolean;
   public isEventsDetails: boolean;
-  public eventId: number;
+  public eventId: string;
   public isOwnerParams: boolean;
   public isActiveParams: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
@@ -77,9 +77,9 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.isUbs = this.router.url.includes('ubs');
     this.isEventsDetails = this.router.url.includes('isOwner');
-    this.eventId = this.route.snapshot.params.id;
-    this.isOwnerParams = this.route.snapshot.params.isOwner;
-    this.isActiveParams = this.route.snapshot.params.isActive;
+    this.eventId = this.router.url.slice(8, 11);
+    this.isOwnerParams = this.router.url.includes('isOwner=true') ? true : false;
+    this.isActiveParams = this.router.url.includes('isActive=true') ? true : false;
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -207,28 +207,18 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public navigateToPage(data): any {
     const getUbsRoleSignIn = this.jwtService.getUserRole();
     this.jwtService.userRole$.next(getUbsRoleSignIn);
-    if (getUbsRoleSignIn !== 'ROLE_USER') {
-      this.definitionOfAuthoritiesAndPositions();
-    }
     if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
       return ['ubs-admin', 'orders'];
-    } else if (this.isEventsDetails) {
+    }
+    if (this.isEventsDetails) {
       return ['/events', this.eventId, { isOwner: this.isOwnerParams, isActive: this.isActiveParams }];
-    } else if (this.isUbs) {
+    }
+    if (this.isUbs) {
       return ['ubs'];
-    } else if (getUbsRoleSignIn === 'ROLE_USER') {
+    }
+    if (getUbsRoleSignIn === 'ROLE_USER') {
       return ['profile', data.userId];
     }
-  }
-
-  private definitionOfAuthoritiesAndPositions() {
-    const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(userEmail).subscribe((positionsAuthorities) => {
-      if (positionsAuthorities) {
-        const getUbsRoleSignIn = this.jwtService.getUserRole();
-        this.jwtService.userRole$.next(getUbsRoleSignIn);
-      }
-    });
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
