@@ -1,0 +1,6 @@
+<div (mouseenter)="isHovered = true" (mouseleave)="isHovered = false" class="hover-container">
+  <span [class.hovered]="isHovered">
+    {{ initialText }}
+    <span class="hover-text" *ngIf="isHovered">{{ hoverText }} </span>
+  </span>
+</div>

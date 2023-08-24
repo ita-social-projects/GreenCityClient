@@ -13,12 +13,15 @@
       </a>
     </div>
 
-    <p class="name">
-      {{ userInfo.name }}
-    </p>
-    <p class="location" *ngIf="userInfo.showLocation">
-      {{ userInfo.city || mockedUserInfo.city }}
-    </p>
+    <div class="name">
+      <app-hover-text [initialText]="userInfo.name | maxTextLength: 20" [hoverText]="userInfo.name"></app-hover-text>
+    </div>
+    <div class="location" *ngIf="userInfo.showLocation">
+      <app-hover-text
+        [initialText]="userInfo.city || mockedUserInfo.city | maxTextLength: 20"
+        [hoverText]="userInfo.city || mockedUserInfo.city"
+      ></app-hover-text>
+    </div>
     <div class="online">
       {{ 'profile.online' | translate }}
     </div>

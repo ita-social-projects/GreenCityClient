@@ -31,6 +31,9 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public isUserOnline: boolean;
   public showEditButton: boolean;
 
+  public isHovered: boolean;
+  public isHoveredName: boolean;
+
   constructor(
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
