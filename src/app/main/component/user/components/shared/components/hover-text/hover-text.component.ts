@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 export class HoverTextComponent {
   @Input() initialText: string;
   @Input() hoverText: string;
-  isHovered: boolean = false;
+  isHovered: boolean;
 }
