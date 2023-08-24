@@ -14,11 +14,11 @@
     </div>
 
     <div class="name">
-      <app-hover-text [initialText]="userInfo.name | maxTextLength: 20" [hoverText]="userInfo.name"></app-hover-text>
+      <app-hover-text [initialText]="nameTransform" [hoverText]="userInfo.name"></app-hover-text>
     </div>
     <div class="location" *ngIf="userInfo.showLocation">
       <app-hover-text
-        [initialText]="userInfo.city || mockedUserInfo.city | maxTextLength: 20"
+        [initialText]="locationTransform || mockedUserInfo.city"
         [hoverText]="userInfo.city || mockedUserInfo.city"
       ></app-hover-text>
     </div>
