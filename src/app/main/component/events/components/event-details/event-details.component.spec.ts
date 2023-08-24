@@ -15,6 +15,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -29,7 +30,21 @@ export function mockPipe(options: Pipe): Pipe {
     }
   );
 }
+/*
+export function mockPipeDescriptionTransform(options: Pipe): Pipe {
+  const metadata: Pipe = {
+    name: options.name
+  };
 
+  return Pipe(metadata)(
+    class MockPipeDescriptionTransform implements PipeTransform {
+      transform(value: string): SafeHtml {
+        return value;
+      }
+    }
+  );
+}
+*/
 describe('EventDetailsComponent', () => {
   let component: EventDetailsComponent;
   let fixture: ComponentFixture<EventDetailsComponent>;
@@ -139,7 +154,12 @@ describe('EventDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
-      declarations: [EventDetailsComponent, mockPipe({ name: 'dateLocalisation' }), mockPipe({ name: 'translate' })],
+      declarations: [
+        EventDetailsComponent,
+        mockPipe({ name: 'dateLocalisation' }),
+        mockPipe({ name: 'translate' }),
+        mockPipe({ name: 'eventDescriptionTransform' })
+      ],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
         { provide: EventsService, useValue: EventsServiceMock },
