@@ -1,15 +1,10 @@
 .hover-container {
   display: inline-block;
   position: relative;
-  justify-self: center;
+  text-align: center;
 }
 
 .hover-text {
-  font-family: var(--secondary-font);
-  font-weight: 500;
-  font-size: 12px;
-  color: var(--primary-dark-green);
-  justify-self: center;
   display: block;
   position: absolute;
   top: 100%;
