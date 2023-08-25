@@ -89,6 +89,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.previousPath = `/profile/${this.userId}/allhabits`;
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url.includes('edit-habit');
+
+    if (this.isEditing) {
+      this.habit = this.isEditing ? this.localStorageService.getHabitForEdit() : null;
+      this.setEditHabit();
+    }
   }
 
   private getUserId() {
@@ -105,6 +110,18 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       image: new FormControl(''),
       shopList: new FormControl([])
     });
+  }
+
+  private setEditHabit(): void {
+    this.habitForm.patchValue({
+      title: this.habit.habitTranslation.name,
+      description: this.habit.habitTranslation.description,
+      complexity: this.habit.complexity,
+      image: this.habit.image,
+      shopList: this.habit.shoppingListItems || this.habit.customShoppingListItems
+    });
+    this.getDuration(this.habit.defaultDuration);
+    this.getShopList(this.habit.shoppingListItems || this.habit.customShoppingListItems);
   }
 
   public trimValue(control: AbstractControl): void {

@@ -40,6 +40,10 @@ export class LocalStorageService {
     localStorage.setItem(key, JSON.stringify(habit));
   }
 
+  public getHabitForEdit() {
+    return JSON.parse(localStorage.getItem(this.EDIT_HABIT));
+  }
+
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
   }
