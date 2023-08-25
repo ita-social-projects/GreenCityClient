@@ -456,7 +456,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private calculateTotal(): void {
-    JSON.parse(localStorage.getItem('UBSorderData')).bags;
+    this.bags = this.bags ?? JSON.parse(localStorage.getItem('UBSorderData')).bags;
     this.total = 0;
     this.bags?.forEach((bag) => {
       this.total += bag.price * this.returnBagQuantity(bag.id);
