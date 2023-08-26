@@ -26,14 +26,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
-    name: {
-      first: 'Brandier',
-      last: 'Webb'
-    },
-    location: 'Lviv',
     status: 'online',
-    rate: 658,
-    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.'
+    rate: 658
   };
   public previousPath = '/profile';
   public popupConfig = {
