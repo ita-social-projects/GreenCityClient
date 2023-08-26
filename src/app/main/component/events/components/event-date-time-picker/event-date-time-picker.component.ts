@@ -296,13 +296,13 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  private checkDay() {
+  private checkDay(): boolean {
     const curDay = new Date().toDateString();
     const selectDay = new Date(this.dateForm.get('date').value).toDateString();
     return curDay === selectDay;
   }
 
-  private updateTimeArrays(endTime: string, startTime: string) {
+  private updateTimeArrays(endTime: string, startTime: string): void {
     if (this.checkDay()) {
       const curTime = new Date().getHours();
       this.timeArrStart = [...this.timeArr.slice(curTime + 1)];
