@@ -6,10 +6,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { UserProfileImageComponent } from './components/user-profile-image/user-profile-image.component';
-import { HoverTextComponent } from './components/hover-text/hover-text.component';
+import { HoverTextDirective } from './hover-text.directive';
 
 @NgModule({
-  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, HoverTextComponent],
+  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, HoverTextDirective],
   imports: [
     CommonModule,
     TranslateModule.forChild({
@@ -21,7 +21,7 @@ import { HoverTextComponent } from './components/hover-text/hover-text.component
     }),
     MDBBootstrapModule
   ],
-  exports: [TranslateModule, MDBBootstrapModule, HabitsGalleryViewComponent, UserProfileImageComponent, HoverTextComponent]
+  exports: [TranslateModule, MDBBootstrapModule, HabitsGalleryViewComponent, UserProfileImageComponent, HoverTextDirective]
 })
 export class UserSharedModule {}
 

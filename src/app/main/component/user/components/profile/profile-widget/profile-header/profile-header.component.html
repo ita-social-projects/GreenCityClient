@@ -13,15 +13,8 @@
       </a>
     </div>
 
-    <div class="name">
-      <app-hover-text [initialText]="nameTransform" [hoverText]="userInfo.name"></app-hover-text>
-    </div>
-    <div class="location" *ngIf="userInfo.showLocation">
-      <app-hover-text
-        [initialText]="locationTransform || mockedUserInfo.city"
-        [hoverText]="userInfo.city || mockedUserInfo.city"
-      ></app-hover-text>
-    </div>
+    <p class="name" appHoverText hoverText="{{ userInfo.name }}">{{ nameTransform }}</p>
+    <p class="location" appHoverText hoverText="{{ userInfo.city }}">{{ locationTransform }}</p>
     <div class="online">
       {{ 'profile.online' | translate }}
     </div>
