@@ -194,7 +194,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public handleErrorClass(errorClassName: string): string {
-    return !this.isPristine && this.eventFormGroup.get('description').invalid && errorClassName;
+    if (!this.checkAfterSend && !this.eventFormGroup.get('description').value && errorClassName) {
+      return errorClassName;
+    } else {
+      return !this.isPristine && this.eventFormGroup.get('description').invalid && errorClassName;
+    }
   }
 
   public escapeFromCreateEvent(): void {
