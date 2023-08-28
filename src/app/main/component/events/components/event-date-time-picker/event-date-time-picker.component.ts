@@ -1,7 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
-
+import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -20,7 +20,7 @@ import { Language, Locate } from 'src/app/main/i18n/Language';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges {
+export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -60,7 +60,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public dateForm: FormGroup;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  isLocationSelected = false;
+  public isLocationSelected = false;
+  public isAddressFill: boolean[] = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -112,6 +114,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.isDateDuplicate) {
       this.dateForm.get('date').markAsTouched();
     }
+    const isAddressFillSubscription = this.eventsService.getIsAddressFillObservable().subscribe((values) => {
+      this.isAddressFill = values;
+    });
+    this.subscriptions.push(isAddressFillSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   private bindLang(lang: string): void {
@@ -205,10 +215,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
     if (this.checkOnlinePlace) {
-      this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
       this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
+      this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
     } else {
-      this.checkPlaceIsAdded.emit(this.checkOnlinePlace);
+      if (!this.checkOfflinePlace) {
+        this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
+      }
       this.dateForm.removeControl('onlineLink');
       this.linkOnline.emit('');
     }
@@ -219,8 +231,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.checkOfflinePlace) {
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
+      this.checkPlaceIsAdded.emit(!this.checkOfflinePlace);
+      this.dateForm.removeControl('onlineLink');
     } else {
-      this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
+      if (!this.checkOnlinePlace) {
+        this.checkPlaceIsAdded.emit(!this.checkOfflinePlace);
+      }
       this.coordinates.latitude = null;
       this.coordinates.longitude = null;
       this.coordOffline.emit(this.coordinates);

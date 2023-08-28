@@ -9,7 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { EventDateTimePickerComponent } from './event-date-time-picker.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { EventsService } from '../../services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { BehaviorSubject, of } from 'rxjs';
@@ -25,8 +25,10 @@ describe('EventDateTimePickerComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
 
-  const EventsServiceMock = jasmine.createSpyObj('eventService', ['createAdresses']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAdresses', 'setIsAddressFill', 'getIsAddressFillObservable']);
   EventsServiceMock.createAdresses = () => of('');
+  EventsServiceMock.setIsAddressFill = () => of('');
+  EventsServiceMock.getIsAddressFillObservable = () => of([]);
 
   const editDateMock = {
     coordinates: {

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
 
@@ -11,8 +11,42 @@ export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private isAddressFillSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
 
   constructor(private http: HttpClient) {}
+
+  public setIsAddressFill(value?: boolean, i?: number, check?: 'Check'): void {
+    const currentValues = this.isAddressFillSubject.getValue();
+    if (i !== undefined && value !== undefined) {
+      currentValues[i] = value;
+    } else if (i !== undefined) {
+      let newValues;
+      if (currentValues.length === 1) {
+        newValues = Array(i).fill(undefined);
+      } else if (i < currentValues.length) {
+        newValues = currentValues.slice(0, i);
+      } else {
+        const additionalValues = Array(i - currentValues.length).fill(undefined);
+        newValues = currentValues.concat(additionalValues);
+      }
+      this.isAddressFillSubject.next(newValues);
+    }
+    if (check) {
+      const newValues = currentValues.map((el) => (el === undefined ? true : el));
+      if (currentValues.length === 0) {
+        this.isAddressFillSubject.next([true]);
+      } else if (newValues.some((el) => el === undefined)) {
+        const updatedValues = newValues.map((el) => el !== false);
+        this.isAddressFillSubject.next(updatedValues);
+      } else {
+        this.isAddressFillSubject.next(newValues);
+      }
+    }
+  }
+
+  public getIsAddressFillObservable(): Observable<boolean[]> {
+    return this.isAddressFillSubject.asObservable();
+  }
 
   public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });

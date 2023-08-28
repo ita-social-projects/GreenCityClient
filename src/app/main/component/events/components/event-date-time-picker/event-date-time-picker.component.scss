@@ -48,5 +48,9 @@
 
 .tag-error-messege {
   margin-left: 20px;
-  color: red;
+  color: var(--error-red);
+}
+
+.checkbox-error ::ng-deep .mat-checkbox-frame {
+  border-color: var(--error-red);
 }

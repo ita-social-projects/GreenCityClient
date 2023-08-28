@@ -87,9 +87,16 @@ describe('CreateEditEventsComponent', () => {
   localStorageServiceMock.getUserId = () => 137;
   localStorageServiceMock.getPreviousPage = () => '/profile';
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'createEvent',
+    'editEvent',
+    'setIsAddressFill',
+    'getIsAddressFillObservable'
+  ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
   EventsServiceMock.editEvent = () => of(true);
+  EventsServiceMock.setIsAddressFill = () => of(true);
+  EventsServiceMock.getIsAddressFillObservable = () => of([]);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = () => {
