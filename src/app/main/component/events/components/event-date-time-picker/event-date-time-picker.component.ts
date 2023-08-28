@@ -1,7 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
-import { Subscription, Subject } from 'rxjs';
+
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -10,6 +10,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject } from 'rxjs';
 import { DateAdapter } from '@angular/material/core';
 import { LanguageModel } from '../../../layout/components/models/languageModel';
 import { Language, Locate } from 'src/app/main/i18n/Language';
@@ -19,7 +20,7 @@ import { Language, Locate } from 'src/app/main/i18n/Language';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
+export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -33,6 +34,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public zoom = 8;
   address: string;
 
+  public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
   private pipe = new DatePipe('en-US');
   public checkTime = false;
@@ -51,17 +53,13 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
-  @Output() linkOnline = new EventEmitter<string>();
-  @Output() checkPlaceIsAdded = new EventEmitter<boolean>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
   public dateForm: FormGroup;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  public isLocationSelected = false;
-  public isAddressFill: boolean[] = [];
-  private subscriptions: Subscription[] = [];
+  isLocationSelected = false;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -88,8 +86,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
       this.coordOffline.emit(this.coordinates);
       this.status.emit(this.dateForm.valid);
+
       this.datesForm.emit(value);
-      this.linkOnline.emit(value.onlineLink);
     });
     if (this.editDate && !this.editDates) {
       this.setEditData();
@@ -111,14 +109,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.isDateDuplicate) {
       this.dateForm.get('date').markAsTouched();
     }
-    const isAddressFillSubscription = this.eventsService.getIsAddressFillObservable().subscribe((values) => {
-      this.isAddressFill = values;
-    });
-    this.subscriptions.push(isAddressFillSubscription);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   private bindLang(lang: string): void {
@@ -216,34 +206,24 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
-    if (this.checkOnlinePlace) {
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
-      this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
-    } else {
-      if (!this.checkOfflinePlace) {
-        this.checkPlaceIsAdded.emit(!this.checkOnlinePlace);
-      }
-      this.dateForm.removeControl('onlineLink');
-      this.linkOnline.emit('');
-    }
+    this.checkOnlinePlace
+      ? this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]))
+      : this.dateForm.removeControl('onlineLink');
   }
 
   public checkIfOffline(): void {
     this.checkOfflinePlace = !this.checkOfflinePlace;
     if (this.checkOfflinePlace) {
+      this.isOfline = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
-      this.checkPlaceIsAdded.emit(!this.checkOfflinePlace);
     } else {
-      if (!this.checkOnlinePlace) {
-        this.checkPlaceIsAdded.emit(!this.checkOfflinePlace);
-      }
+      this.isOfline = false;
       this.coordinates.latitude = null;
       this.coordinates.longitude = null;
       this.coordOffline.emit(this.coordinates);
       this.autocomplete.unbindAll();
       this.dateForm.removeControl('place');
-      this.isLocationSelected = false;
     }
   }
 
