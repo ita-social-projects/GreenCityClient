@@ -1,7 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -10,7 +10,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
 import { DateAdapter } from '@angular/material/core';
 import { LanguageModel } from '../../../layout/components/models/languageModel';
 import { Language, Locate } from 'src/app/main/i18n/Language';
@@ -81,8 +80,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.dateForm = new FormGroup({
       date: new FormControl('', [Validators.required]),
       startTime: new FormControl('', [Validators.required]),
-      endTime: new FormControl('', [Validators.required]),
-      onlineLink: new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)])
+      endTime: new FormControl('', [Validators.required])
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
@@ -232,7 +230,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
       this.checkPlaceIsAdded.emit(!this.checkOfflinePlace);
-      this.dateForm.removeControl('onlineLink');
     } else {
       if (!this.checkOnlinePlace) {
         this.checkPlaceIsAdded.emit(!this.checkOfflinePlace);

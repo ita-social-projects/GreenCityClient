@@ -17,27 +17,21 @@ export class EventsService implements OnDestroy {
 
   public setIsAddressFill(value?: boolean, i?: number, check?: 'Check'): void {
     const currentValues = this.isAddressFillSubject.getValue();
+
     if (i !== undefined && value !== undefined) {
       currentValues[i] = value;
     } else if (i !== undefined) {
-      let newValues;
-      if (currentValues.length === 1) {
-        newValues = Array(i).fill(undefined);
-      } else if (i < currentValues.length) {
-        newValues = currentValues.slice(0, i);
-      } else {
-        const additionalValues = Array(i - currentValues.length).fill(undefined);
-        newValues = currentValues.concat(additionalValues);
-      }
+      const newValues =
+        i < currentValues.length ? currentValues.slice(0, i) : currentValues.concat(Array(i - currentValues.length).fill(undefined));
       this.isAddressFillSubject.next(newValues);
     }
+
     if (check) {
       const newValues = currentValues.map((el) => (el === undefined ? true : el));
-      if (currentValues.length === 0) {
-        this.isAddressFillSubject.next([true]);
-      } else if (newValues.some((el) => el === undefined)) {
-        const updatedValues = newValues.map((el) => el !== false);
-        this.isAddressFillSubject.next(updatedValues);
+      const allUndefined = newValues.every((el) => el === undefined);
+
+      if (allUndefined || newValues.some((el) => el === undefined)) {
+        this.isAddressFillSubject.next(newValues.map((el) => el !== false));
       } else {
         this.isAddressFillSubject.next(newValues);
       }
