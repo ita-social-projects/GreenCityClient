@@ -1,12 +1,13 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 
 @Component({
   selector: 'app-ubs-admin-employee-permissions-form',
@@ -96,7 +97,8 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     @Inject(MAT_DIALOG_DATA) public data: Page,
     private employeeService: UbsAdminEmployeeService,
     private dialogRef: MatDialogRef<UbsAdminEmployeePermissionsFormComponent>,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private dialog: MatDialog
   ) {
     this.employee = data;
     this.form = this.fb.group(
@@ -150,6 +152,44 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
         this.dialogRef.close(false);
       }
     );
+  }
+
+  managePermissionSettings(actionType: string): void {
+    const confirmData = {
+      popupTitle: 'employees.permissions.clients.confirm-changes',
+      popupConfirm: 'employees.btn.yes',
+      popupCancel: 'employees.btn.no',
+      style: 'light green',
+      іsPermissionConfirm: true,
+      isItrefund: true
+    };
+
+    const cancelData = {
+      popupTitle: 'employees.permissions.clients.cancel-changes',
+      popupConfirm: 'employees.btn.yes',
+      popupCancel: 'employees.btn.no',
+      style: 'light green',
+      іsPermissionConfirm: false,
+      isItrefund: false
+    };
+    const dialogRef = this.dialog.open(DialogPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      data: actionType === 'apply' ? confirmData : cancelData
+    });
+
+    if (actionType === 'cancel') {
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.dialogRef.close(true);
+          }
+        });
+    }
   }
 
   ngOnDestroy(): void {

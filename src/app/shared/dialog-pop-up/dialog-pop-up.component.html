@@ -5,14 +5,22 @@
   </div>
   <div class="buttons-container">
     <button
-      *ngIf="!isItrefund"
-      [ngClass]="{ 'secondary-global-button': setBtnStyleRed, 'secondary-global-button-green': setBtnStyleGreen }"
+      *ngIf="isCancelButtonShow"
+      [ngClass]="{
+        'secondary-global-button': setBtnStyleRed,
+        'secondary-global-button-green': setBtnStyleGreen,
+        'ubs-employee-secondary-global-button': setBtnStyleLightGreen
+      }"
       (click)="userReply(false)"
     >
       {{ popupCancel | translate }}
     </button>
     <button
-      [ngClass]="{ 'primary-global-button': setBtnStyleRed, 'primary-global-button-green': setBtnStyleGreen }"
+      [ngClass]="{
+        'primary-global-button': setBtnStyleRed,
+        'primary-global-button-green': setBtnStyleGreen,
+        'ubs-employee-global-button': setBtnStyleLightGreen
+      }"
       (click)="userReply(true)"
     >
       {{ popupConfirm | translate }}
