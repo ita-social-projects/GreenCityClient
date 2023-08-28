@@ -12,6 +12,7 @@ import { OrderService } from '../../services/order.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { Store } from '@ngrx/store';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -34,11 +35,22 @@ describe('UbsMainPageComponent', () => {
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
 
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       declarations: [UbsMainPageComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Router, useValue: routerMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },

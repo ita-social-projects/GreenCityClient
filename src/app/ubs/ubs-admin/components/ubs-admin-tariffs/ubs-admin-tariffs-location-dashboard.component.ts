@@ -94,7 +94,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   isEmployeeCanEditCourier: boolean;
   isEmployeeCanEditStation: boolean;
   userCanEdit: boolean;
-  isEmployeeCanCreateEditPricingCard: boolean;
+  isEmployeeCanCreatePricingCard: boolean;
+  isEmployeeCanEditPricingCard: boolean;
   isEmployeeCanActivateDeactivate: boolean;
   isUserCanControlSettings: boolean;
   isUserCanUseCrumbs: boolean;
@@ -180,13 +181,19 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.isEmployeeCanEditStation = this.employeeAuthorities.includes(abilityEditAuthorities.station);
 
     this.userCanEdit = this.isEmployeeCanEditLocation || this.isEmployeeCanEditCourier || this.isEmployeeCanEditStation;
-    this.isEmployeeCanCreateEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
+    this.isEmployeeCanCreatePricingCard = this.employeeAuthorities.includes(abilityAddAuthorities.pricingCard);
+    this.isEmployeeCanEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
     this.isEmployeeCanActivateDeactivate = this.employeeAuthorities.includes(abilityDelAuthorities.activateDeactivate);
 
     this.isUserCanControlSettings =
-      this.userCanAdd || this.userCanEdit || this.isEmployeeCanCreateEditPricingCard || this.isEmployeeCanActivateDeactivate;
+      this.userCanAdd ||
+      this.userCanEdit ||
+      this.isEmployeeCanCreatePricingCard ||
+      this.isEmployeeCanEditPricingCard ||
+      this.isEmployeeCanActivateDeactivate;
 
-    this.isUserCanUseCrumbs = this.isEmployeeCanCreateEditPricingCard || this.isEmployeeCanActivateDeactivate;
+    this.isUserCanUseCrumbs =
+      this.isEmployeeCanCreatePricingCard || this.isEmployeeCanEditPricingCard || this.isEmployeeCanActivateDeactivate;
   }
 
   ngAfterViewChecked(): void {
