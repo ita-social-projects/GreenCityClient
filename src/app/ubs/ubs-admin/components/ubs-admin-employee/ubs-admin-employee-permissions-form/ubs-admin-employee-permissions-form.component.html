@@ -47,10 +47,10 @@
       </cdk-accordion-item>
     </cdk-accordion>
     <div class="button-row">
-      <button mat-dialog-close="true" class="cancelButton">
+      <div class="cancelButton" (click)="managePermissionSettings('cancel')">
         {{ 'ubs-employee.cancel' | translate }}
-      </button>
-      <button type="submit" class="addButton" [disabled]="isUpdating || isDisabled">
+      </div>
+      <button type="submit" class="addButton" [disabled]="isUpdating || isDisabled" (click)="managePermissionSettings('apply')">
         <span *ngIf="isUpdating" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;
         {{ 'ubs-employee.apply' | translate }}
       </button>

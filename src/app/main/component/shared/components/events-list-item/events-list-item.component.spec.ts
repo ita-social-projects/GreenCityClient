@@ -111,7 +111,7 @@ describe('EventsListItemComponent', () => {
     title: 'dddddddd',
     titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
-    isActive: true,
+    isRelevant: true,
     open: true
   };
 

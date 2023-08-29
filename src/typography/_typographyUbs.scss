@@ -16,7 +16,9 @@
 
 .ubs-primary-global-button,
 .ubs-secondary-global-button,
-.ubs-danger-global-button {
+.ubs-danger-global-button,
+.ubs-employee-global-button,
+.ubs-employee-secondary-global-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,6 +34,18 @@
   border: none;
   background: none;
   cursor: pointer;
+}
+
+.ubs-employee-global-button {
+  color: var(--ubs-quaternary-dark-grey);
+  background: var(--ubs-button-light-green);
+}
+
+.ubs-employee-secondary-global-button {
+  color: var(--ubs-quaternary-dark-grey);
+  background: transparent;
+  border: 1px solid var(--ubs-button-light-green);
+  margin-right: 15px;
 }
 
 .ubs-primary-global-button {
