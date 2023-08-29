@@ -13,8 +13,8 @@
       </a>
     </div>
 
-    <p class="name" appHoverText hoverText="{{ userInfo.name }}">{{ nameTransform }}</p>
-    <p class="location" appHoverText hoverText="{{ userInfo.city }}">{{ locationTransform }}</p>
+    <p class="name" appCustomTooltip [appTooltip]="userInfo.name">{{ nameTransform }}</p>
+    <p class="location" appCustomTooltip [appTooltip]="userInfo.city">{{ locationTransform }}</p>
     <div class="online">
       {{ 'profile.online' | translate }}
     </div>

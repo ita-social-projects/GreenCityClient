@@ -340,3 +340,23 @@ body {
     }
   }
 }
+
+.tooltipClass:before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: -5px;
+}
+
+.tooltipClass {
+  display: inline-block;
+  border-bottom: 1px;
+  visibility: visible;
+  background-color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1000;
+}
