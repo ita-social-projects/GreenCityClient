@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,7 +20,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
-  public editProfileForm = null;
+  public editProfileForm: FormGroup;
   options: any;
   cityName: string;
   private langChangeSub: Subscription;
@@ -83,6 +84,14 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.checkLocation = this.editProfileForm.value.showLocation;
     this.checkEcoPlaces = this.editProfileForm.value.showEcoPlace;
     this.checkShoppingList = this.editProfileForm.value.showShoppingList;
+  }
+
+  initForm() {
+    this.editProfileForm = new FormGroup({
+      name: new FormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
+      city: new FormControl(null, [Validators.pattern(Patterns.ubsMailPattern)]),
+      credo: new FormControl(null, [Validators.pattern(Patterns.ubsMailPattern)])
+    });
   }
 
   public getFormValues(): any {
