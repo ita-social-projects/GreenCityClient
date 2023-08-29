@@ -1,3 +1,7 @@
+.example-card {
+  margin-left: 15px;
+}
+
 .images-container-wrapper {
   display: flex;
   flex-direction: row;
@@ -11,6 +15,10 @@
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
   margin: 1px 1px 50px 1px;
+}
+
+.count-wrapper {
+  margin-right: 16px;
 }
 
 .drag-inscription {
