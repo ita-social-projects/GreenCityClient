@@ -341,7 +341,7 @@ body {
   }
 }
 
-.tooltipClass:before {
+.tooltipClass::before {
   content: '';
   position: absolute;
   bottom: 100%;
