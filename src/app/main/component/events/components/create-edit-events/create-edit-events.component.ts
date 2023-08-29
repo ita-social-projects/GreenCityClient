@@ -94,7 +94,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public backRoute: string;
   public routedFromProfile: boolean;
   public duplindx: number;
-  public editDates = false;
+  editDates = false;
   private subscription: Subscription;
   @Input() cancelChanges: boolean;
 
