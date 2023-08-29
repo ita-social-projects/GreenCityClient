@@ -113,6 +113,7 @@ describe('EventsListItemComponent', () => {
     isSubscribed: true,
     isFavorite: false,
     isActive: true,
+    isRelevant: true,
     open: true
   };
 

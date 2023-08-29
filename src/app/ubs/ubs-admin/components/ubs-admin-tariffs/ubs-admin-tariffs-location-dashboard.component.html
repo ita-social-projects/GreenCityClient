@@ -14,7 +14,7 @@
         <span class="menu-item">{{ 'ubs-tariffs.btn.edit_name' | translate }}</span>
         <img [src]="icons.arrowRight" class="arrowRight-img" alt="settings" />
       </button>
-      <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openCreateCard()">
+      <button *ngIf="isEmployeeCanCreatePricingCard" mat-menu-item (click)="openCreateCard()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.create_card' | translate }}</span>
       </button>
       <button *ngIf="isEmployeeCanActivateDeactivate" mat-menu-item (click)="openDeactivateOrActivatePopUp('deactivation')">
@@ -25,7 +25,7 @@
       </button>
     </mat-menu>
     <mat-menu #add="matMenu">
-      <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openAddLocation()">
+      <button *ngIf="isEmployeeCanCreateLocation" mat-menu-item (click)="openAddLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.location' | translate }}</span>
       </button>
       <button *ngIf="isEmployeeCanCreateCourier" mat-menu-item (click)="openAddCourierDialog()">
@@ -36,7 +36,7 @@
       </button>
     </mat-menu>
     <mat-menu #edit="matMenu">
-      <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openEditLocation()">
+      <button *ngIf="isEmployeeCanEditLocation" mat-menu-item (click)="openEditLocation()">
         <span class="menu-item">{{ 'ubs-tariffs.btn.location' | translate }}</span>
       </button>
       <button *ngIf="isEmployeeCanEditCourier" mat-menu-item (click)="openEditCourier()">
@@ -209,7 +209,7 @@
         </button>
       </td>
       <mat-menu #crumbs="matMenu">
-        <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openEditPopUp(card)">
+        <button *ngIf="isEmployeeCanEditPricingCard" mat-menu-item (click)="openEditPopUp(card)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button
@@ -254,7 +254,7 @@
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
       </td>
       <mat-menu #crumbs="matMenu">
-        <button *ngIf="isEmployeeCanCreateEditPricingCard" mat-menu-item (click)="openEditPopUp(selectedCard)">
+        <button *ngIf="isEmployeeCanEditPricingCard" mat-menu-item (click)="openEditPopUp(selectedCard)">
           <span class="menu-item">{{ 'ubs-tariffs.btn.edit' | translate }}</span>
         </button>
         <button

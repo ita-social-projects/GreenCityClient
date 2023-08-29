@@ -76,6 +76,7 @@ describe('EventsListComponent', () => {
       isSubscribed: false,
       isFavorite: false,
       isActive: true,
+      isRelevant: true,
       open: true
     },
     {
@@ -127,6 +128,7 @@ describe('EventsListComponent', () => {
       isSubscribed: false,
       isFavorite: false,
       isActive: true,
+      isRelevant: true,
       open: true
     }
   ];

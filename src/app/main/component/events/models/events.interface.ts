@@ -91,6 +91,7 @@ export interface EventPageResponceDto {
   isSubscribed: boolean;
   isFavorite: boolean;
   isActive: boolean;
+  isRelevant: boolean;
 }
 
 export interface TagDto {

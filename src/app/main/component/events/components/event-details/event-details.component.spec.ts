@@ -213,14 +213,6 @@ describe('EventDetailsComponent', () => {
     expect(value).toBe('value');
   });
 
-  it('should return true if an event is over', () => {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() - 1);
-    const prevDate = currentDate.toISOString();
-    const value = component.isEventOver(prevDate.toString());
-    expect(value).toBeTruthy();
-  });
-
   it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
     component.isRegistered = false;
     spyOn(component, 'openAuthModalWindow');

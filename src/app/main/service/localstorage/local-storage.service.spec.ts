@@ -47,7 +47,8 @@ describe('LocalStorageService', () => {
     titleImage: 'testImage.jpg',
     isSubscribed: true,
     isFavorite: false,
-    isActive: true
+    isActive: true,
+    isRelevant: true
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
