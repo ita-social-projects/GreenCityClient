@@ -7,7 +7,7 @@ import { CustomTooltipDirective } from './custom-tooltip.directive';
   template: `<div [appCustomTooltip]="tooltipText">Hover me</div>`
 })
 class TestComponent {
-  tooltipText: string = 'Test Text';
+  tooltipText = 'Test Text';
 }
 
 describe('CustomTooltipDirective', () => {
