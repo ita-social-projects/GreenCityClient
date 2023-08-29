@@ -29,7 +29,7 @@ export class EventsService implements OnDestroy {
     }
     if (check) {
       newArray = dates.reduce((currentValue: boolean[], nextValue: DateEvent) => {
-        const hasPlace = nextValue.coordinatesDto.latitude || nextValue.onlineLink ? false : true;
+        const hasPlace = nextValue.coordinatesDto.latitude || nextValue.onlineLink;
         return [...currentValue, hasPlace];
       }, []);
     }
