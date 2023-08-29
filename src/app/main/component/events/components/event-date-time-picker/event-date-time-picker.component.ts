@@ -1,7 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
-
+import { Subscription, Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -10,7 +10,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
 import { DateAdapter } from '@angular/material/core';
 import { LanguageModel } from '../../../layout/components/models/languageModel';
 import { Language, Locate } from 'src/app/main/i18n/Language';
@@ -20,7 +19,7 @@ import { Language, Locate } from 'src/app/main/i18n/Language';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges {
+export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -28,13 +27,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public timeArr: Array<string> = [];
 
   coordinates: OfflineDto = {
-    latitude: 50.43353,
-    longitude: 30.53789
+    latitude: null,
+    longitude: null
   };
   public zoom = 8;
   address: string;
 
-  public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
   private pipe = new DatePipe('en-US');
   public checkTime = false;
@@ -53,13 +51,16 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
+  @Output() linkOnline = new EventEmitter<string>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
   public dateForm: FormGroup;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  isLocationSelected = false;
+  public isLocationSelected = false;
+  public isAddressFill: boolean[] = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -82,11 +83,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
-      this.updateTimeArrays(value.endTime, value.startTime);
-
-      this.coordOffline.emit(this.coordinates);
+      this.checkStartTime(value.startTime);
+      this.checkEndTime(value.endTime);
       this.status.emit(this.dateForm.valid);
-
       this.datesForm.emit(value);
     });
     if (this.editDate && !this.editDates) {
@@ -109,6 +108,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.isDateDuplicate) {
       this.dateForm.get('date').markAsTouched();
     }
+    const isAddressFillSubscription = this.eventsService.getIsAddressFillObservable().subscribe((values) => {
+      this.isAddressFill = values;
+    });
+    this.subscriptions.push(isAddressFillSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   private bindLang(lang: string): void {
@@ -143,7 +150,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
         this.coordinates.latitude = this.editDate.coordinates.latitude;
         this.coordinates.longitude = this.editDate.coordinates.longitude;
         this.zoom = 8;
-        this.coordOffline.emit(this.coordinates);
 
         this.dateForm.patchValue({
           place: this.getLangValue(
@@ -171,13 +177,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.checkTime) {
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
-      if (this.checkDay()) {
-        this.dateForm.get('startTime').setValue(this.timeArrStart[0]);
-        this.dateForm.get('endTime').setValue(this.timeArrEnd[this.timeArrEnd.length - 1]);
-      } else {
-        this.dateForm.get('startTime').setValue(this.timeArrStart[9]);
-        this.dateForm.get('endTime').setValue(this.timeArr[21]);
-      }
+      this.dateForm.get('startTime').setValue(this.timeArrStart[9]);
+      this.dateForm.get('endTime').setValue(this.timeArrEnd[21]);
     } else {
       this.dateForm.get('startTime').enable();
       this.dateForm.get('endTime').enable();
@@ -200,30 +201,36 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
         this.coordinates.longitude = position.coords.longitude;
         this.zoom = 8;
         this.getAddress(position.coords.latitude, position.coords.longitude);
+        this.coordOffline.emit(this.coordinates);
       }
     });
   }
 
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
-    this.checkOnlinePlace
-      ? this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]))
-      : this.dateForm.removeControl('onlineLink');
+    if (this.checkOnlinePlace) {
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
+      this.dateForm.get('onlineLink').valueChanges.subscribe((newValue) => {
+        this.linkOnline.emit(newValue);
+      });
+    } else {
+      this.dateForm.removeControl('onlineLink');
+      this.linkOnline.emit('');
+    }
   }
 
   public checkIfOffline(): void {
     this.checkOfflinePlace = !this.checkOfflinePlace;
     if (this.checkOfflinePlace) {
-      this.isOfline = true;
       this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
     } else {
-      this.isOfline = false;
       this.coordinates.latitude = null;
       this.coordinates.longitude = null;
       this.coordOffline.emit(this.coordinates);
       this.autocomplete.unbindAll();
       this.dateForm.removeControl('place');
+      this.isLocationSelected = false;
     }
   }
 
@@ -277,14 +284,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  private checkEndTime(time: string, curTime?: number): void {
-    if (!time) {
-      return;
-    }
-    const checkTime = time.split(':');
-    if (curTime) {
-      this.timeArrStart = [...this.timeArr.slice(curTime + 1, +checkTime[0])];
-    } else {
+  private checkEndTime(time: string): void {
+    if (time) {
+      const checkTime = time.split(':');
+
       this.timeArrStart = [...this.timeArr.slice(0, +checkTime[0])];
     }
   }
@@ -293,25 +296,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (time) {
       const checkTime = time.split(':');
       this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];
-    }
-  }
-
-  private checkDay(): boolean {
-    const curDay = new Date().toDateString();
-    const selectDay = new Date(this.dateForm.get('date').value).toDateString();
-    return curDay === selectDay;
-  }
-
-  private updateTimeArrays(endTime: string, startTime: string): void {
-    if (this.checkDay()) {
-      const curTime = new Date().getHours();
-      this.timeArrStart = [...this.timeArr.slice(curTime + 1)];
-      this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
-      this.checkStartTime(startTime);
-      this.checkEndTime(endTime, curTime);
-    } else {
-      this.checkStartTime(startTime);
-      this.checkEndTime(endTime);
     }
   }
 

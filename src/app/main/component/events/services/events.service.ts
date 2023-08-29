@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
+import { EventResponseDto, PagePreviewDTO, DateEvent } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,27 +15,25 @@ export class EventsService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  public setIsAddressFill(value?: boolean, i?: number, check?: 'Check'): void {
+  public setIsAddressFill(dates?: object[], check?: boolean): void {
     const currentValues = this.isAddressFillSubject.getValue();
+    let newArray;
 
-    if (i !== undefined && value !== undefined) {
-      currentValues[i] = value;
-    } else if (i !== undefined) {
-      const newValues =
-        i < currentValues.length ? currentValues.slice(0, i) : currentValues.concat(Array(i - currentValues.length).fill(undefined));
-      this.isAddressFillSubject.next(newValues);
+    if (currentValues.some((el) => el === true)) {
+      newArray =
+        dates.length < currentValues.length
+          ? currentValues.slice(0, dates.length)
+          : currentValues.concat(Array(dates.length - currentValues.length).fill(undefined));
+    } else if (dates.length && !check) {
+      newArray = Array(dates.length).fill(undefined);
     }
-
     if (check) {
-      const newValues = currentValues.map((el) => (el === undefined ? true : el));
-      const allUndefined = newValues.every((el) => el === undefined);
-
-      if (allUndefined || newValues.some((el) => el === undefined)) {
-        this.isAddressFillSubject.next(newValues.map((el) => el !== false));
-      } else {
-        this.isAddressFillSubject.next(newValues);
-      }
+      newArray = dates.reduce((currentValue: boolean[], nextValue: DateEvent) => {
+        const hasPlace = nextValue.coordinatesDto.latitude || nextValue.onlineLink ? false : true;
+        return [...currentValue, hasPlace];
+      }, []);
     }
+    this.isAddressFillSubject.next(newArray);
   }
 
   public getIsAddressFillObservable(): Observable<boolean[]> {

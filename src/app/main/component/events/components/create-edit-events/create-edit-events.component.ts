@@ -75,7 +75,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
-  public isPristine = true;
+  public submitIsFalse = false;
 
   public previousPath = '/events';
   public popupConfig = {
@@ -157,7 +157,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       description: this.editEvent.description
     });
     this.setDateCount(this.editEvent.dates.length);
-    this.eventsService.setIsAddressFill(undefined, this.editEvent.dates.length);
     this.imagesForEdit = [this.editEvent.titleImage, ...this.editEvent.additionalImages];
     this.tags.forEach((item) => (item.isActive = this.editEvent.tags.some((name) => name.nameEn === item.nameEn)));
     this.isTagValid = this.tags.some((el) => el.isActive);
@@ -191,7 +190,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates.splice(ind, 1, { ...DateObj });
       this.editDates = true;
     }
-    this.updateIsAddressFill(this.isLocationOrLinkAdded());
   }
 
   public checkStatus(event: boolean, ind: number): void {
@@ -199,11 +197,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public handleErrorClass(errorClassName: string): string {
-    if (!this.checkAfterSend && !this.eventFormGroup.get('description').value && errorClassName) {
-      return errorClassName;
-    } else {
-      return !this.isPristine && this.eventFormGroup.get('description').invalid && errorClassName;
-    }
+    const descriptionValue = this.eventFormGroup.get('description').value;
+    const descriptionWithoutPTags = descriptionValue.replace(/<\/?p>/g, '');
+    const isValidDescription = descriptionWithoutPTags.length >= 20;
+    return (this.submitIsFalse || this.editMode) && !isValidDescription ? errorClassName : '';
   }
 
   public escapeFromCreateEvent(): void {
@@ -218,14 +215,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isOpen = false;
   }
 
-  public onClickTextArea(): void {
-    this.isPristine = false;
-  }
-
-  public handlePlaceIsAdded(onlinePlaceValue: boolean, i: number): void {
-    this.updateIsAddressFill(onlinePlaceValue, i);
-  }
-
   public setDateCount(value: number): void {
     if ((this.dates.length === 1 && !this.dates[0].date) || this.editMode) {
       this.dates = Array(value)
@@ -238,8 +227,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
         this.dates.fill({ ...DateObj }, startInd);
       }
     }
+    this.eventsService.setIsAddressFill(this.dates);
     this.dates.forEach((item) => (item.date = new Date(item.date)));
-    this.eventsService.setIsAddressFill(undefined, value);
   }
 
   public getImageTosend(imageArr: Array<File>): void {
@@ -257,27 +246,22 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public setCoordsOnlOff(event: OfflineDto, ind: number): void {
     this.dates[ind].coordinatesDto = event;
-    this.updateIsAddressFill(this.isLocationOrLinkAdded());
+    this.updateIsAddressFill(this.dates, true);
   }
 
   public setOnlineLink(event: any, ind: number): void {
     this.dates[ind].onlineLink = event;
-    this.updateIsAddressFill(this.isLocationOrLinkAdded());
+    this.updateIsAddressFill(this.dates, true);
   }
 
-  public updateIsAddressFill(newValue: boolean, i?: number, check?: 'Check'): void {
-    this.eventsService.setIsAddressFill(newValue, i, check);
-  }
-
-  private isLocationOrLinkAdded(): boolean {
-    return this.dates.some((el) => el.coordinatesDto.latitude || el.onlineLink);
+  public updateIsAddressFill(newValue: object[], check: boolean): void {
+    this.eventsService.setIsAddressFill(newValue, check);
   }
 
   private checkDates(): void {
     this.dates.forEach((item) => {
       item.check = !item.valid;
     });
-    console.log('here', this.dates);
     this.checkdates = !this.dates.some((element) => !element.valid);
   }
 
@@ -361,12 +345,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = false;
-      this.isPristine = false;
+      this.submitIsFalse = true;
     }
-    this.updateIsAddressFill(undefined, undefined, 'Check');
-    if (!this.isLocationOrLinkAdded()) {
-      this.setEditValue();
-    }
+    this.updateIsAddressFill(this.dates, true);
   }
 
   public backToEditing() {

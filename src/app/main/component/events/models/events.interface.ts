@@ -25,7 +25,7 @@ export interface Dates {
     latitude: number;
     longitude: number;
   } | null;
-  onlineLink: string;
+  onlineLink?: string;
   id?: number;
 }
 
