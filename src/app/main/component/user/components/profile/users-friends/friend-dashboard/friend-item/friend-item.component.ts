@@ -47,6 +47,7 @@ export class FriendItemComponent implements OnInit {
         this.friend.chatId = chatInfo.chatId;
       }
     });
+    this.friend.name = this.maxTextLengthPipe.transform(this.friend.name);
     this.friend.city = this.maxTextLengthPipe.transform(this.friend.city);
   }
 

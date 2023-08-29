@@ -5,11 +5,13 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 
 @Component({
   selector: 'app-users-friends',
   templateUrl: './users-friends.component.html',
-  styleUrls: ['./users-friends.component.scss']
+  styleUrls: ['./users-friends.component.scss'],
+  providers: [MaxTextLengthPipe]
 })
 export class UsersFriendsComponent implements OnInit, OnDestroy {
   public usersFriends;
@@ -23,7 +25,8 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public maxTextLengthPipe: MaxTextLengthPipe
   ) {}
 
   ngOnInit() {
