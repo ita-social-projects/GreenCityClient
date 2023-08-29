@@ -16,6 +16,7 @@ import { DateAdapter } from '@angular/material/core';
 import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
 import { MatRadioChange } from '@angular/material/radio';
 import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
+import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 interface InputData {
   orderId: number;
@@ -67,7 +68,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     popupTitle: 'add-payment.delete-message',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
-    style: 'red'
+    style: PopUpsStyles.red
   };
   verifyEditingData = {
     popupTitle: 'add-payment.cancel-message',

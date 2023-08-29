@@ -38,6 +38,7 @@ export interface Page {
   phoneNumber: string;
   expanded?: boolean;
   tariffs: Tariff[];
+  employeeStatus?: string;
 }
 
 export interface EmployeePositions {

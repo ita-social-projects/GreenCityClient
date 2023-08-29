@@ -10,6 +10,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -43,14 +44,14 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     popupTitle: 'return-payment.message',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
-    style: 'green'
+    style: PopUpsStyles.green
   };
 
   private refundApplicationDialogDate = {
     popupTitle: 'return-payment.accept-refund-application',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
-    style: 'green',
+    style: PopUpsStyles.green,
     isItrefund: true,
     іsPermissionConfirm: true
   };
@@ -59,7 +60,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     popupTitle: 'return-payment.error-refund-application',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
-    style: 'green',
+    style: PopUpsStyles.green,
     isItrefund: true,
     іsPermissionConfirm: true
   };

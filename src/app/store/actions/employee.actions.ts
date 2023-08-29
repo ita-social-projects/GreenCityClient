@@ -11,6 +11,8 @@ export enum EmployeesActions {
   DeleteEmployeeSuccess = '[Employees] Delete Employee Success',
   UpdateEmployee = '[Employees] Update Employee',
   UpdateEmployeeSuccess = '[Employees] Update Employee Success',
+  ActivateEmployee = '[Employees] Activate Employee',
+  ActivateEmployeeSuccess = '[Employees] Activate Employee Success',
   ReceivedFailure = '[Employees] Received Failure',
   GetEmployeesPermissions = '[Employees] Get Employees Permissions',
   GetEmployeesPermissionsSuccess = '[Employees] Get Employees Permissions Success'
@@ -34,6 +36,10 @@ export const DeleteEmployeeSuccess = createAction(EmployeesActions.DeleteEmploye
 export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, props<{ data: FormData; employee: EmployeeDataToSend }>());
 
 export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
+
+export const ActivateEmployee = createAction(EmployeesActions.ActivateEmployee, props<{ id: number }>());
+
+export const ActivateEmployeeSuccess = createAction(EmployeesActions.ActivateEmployeeSuccess, props<{ id: number }>());
 
 export const ReceivedFailure = createAction(EmployeesActions.ReceivedFailure, props<{ error: string | null }>());
 
