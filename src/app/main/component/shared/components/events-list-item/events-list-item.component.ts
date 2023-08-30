@@ -41,9 +41,6 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
 
-  public title: string;
-  public description: string;
-
   public rate: number;
   public author: string;
 
