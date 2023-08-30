@@ -26,7 +26,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/filter-location-list-by-lang.pipe';
-import { MaxTextLengthPipe } from '../ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+//import { MaxTextLengthPipe } from '../ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -64,7 +64,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     SearchNotFoundComponent,
     UbsFooterComponent,
     FilterLocationListByLangPipe,
-    MaxTextLengthPipe,
+    //MaxTextLengthPipe,
     ShowImgsPopUpComponent,
     DialogPopUpComponent,
     UBSAddAddressPopUpComponent,
@@ -112,7 +112,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     SearchPopupComponent,
     SearchNotFoundComponent,
     UbsFooterComponent,
-    MaxTextLengthPipe,
+    // MaxTextLengthPipe,
     UBSAddAddressPopUpComponent,
     UBSInputErrorComponent,
     NewsListGalleryViewComponent,
