@@ -6,10 +6,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { UserProfileImageComponent } from './components/user-profile-image/user-profile-image.component';
-import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+//import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+import { CustomTooltipDirective } from './directives/custom-tooltip/custom-tooltip.directive';
 
 @NgModule({
-  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, MaxTextLengthPipe],
+  declarations: [HabitsGalleryViewComponent, UserProfileImageComponent, CustomTooltipDirective],
   imports: [
     CommonModule,
     TranslateModule.forChild({
@@ -21,7 +22,14 @@ import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-t
     }),
     MDBBootstrapModule
   ],
-  exports: [TranslateModule, MDBBootstrapModule, HabitsGalleryViewComponent, UserProfileImageComponent, MaxTextLengthPipe]
+  exports: [
+    TranslateModule,
+    MDBBootstrapModule,
+    HabitsGalleryViewComponent,
+    UserProfileImageComponent,
+    // MaxTextLengthPipe,
+    CustomTooltipDirective
+  ]
 })
 export class UserSharedModule {}
 

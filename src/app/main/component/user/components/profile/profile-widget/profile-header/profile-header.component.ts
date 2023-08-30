@@ -31,6 +31,9 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public isUserOnline: boolean;
   public showEditButton: boolean;
 
+  public nameTransform: string;
+  public locationTransform: string;
+
   constructor(
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,

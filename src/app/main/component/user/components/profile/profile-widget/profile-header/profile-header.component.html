@@ -13,19 +13,17 @@
       </a>
     </div>
 
-    <p class="name">
-      {{ userInfo.name }}
-    </p>
-    <p class="location" *ngIf="userInfo.showLocation">
-      {{ userInfo.city || mockedUserInfo.city }}
-    </p>
+    <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ userInfo.name | maxTextLength: 15 }}</p>
+    <p class="location" appCustomTooltip [appCustomTooltip]="userInfo.city">{{ userInfo.city | maxTextLength: 30 }}</p>
     <div class="online">
       {{ 'profile.online' | translate }}
     </div>
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
-    <div *ngIf="checkUserCredo" class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
+    <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
+      {{ (userInfo.userCredo | maxTextLength: 110) || mockedUserInfo.userCredo }}
+    </div>
     <div class="social" *ngIf="userSocialNetworks">
       <a *ngFor="let item of userSocialNetworks" [href]="item.link">
         <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" />
