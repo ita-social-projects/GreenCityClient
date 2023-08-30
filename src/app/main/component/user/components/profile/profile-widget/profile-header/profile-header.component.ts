@@ -49,6 +49,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.buildSocialNetworksChart();
     this.showEditButton = this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
+    this.isOnline(this.userId);
     this.nameTransform = this.maxTextLengthPipe.transform(this.userInfo.name, 15);
     this.locationTransform = this.maxTextLengthPipe.transform(this.userInfo.city, 30);
   }
