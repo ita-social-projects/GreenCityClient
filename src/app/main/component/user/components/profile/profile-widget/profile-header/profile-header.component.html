@@ -15,14 +15,13 @@
 
     <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ nameTransform }}</p>
     <p class="location" appCustomTooltip [appCustomTooltip]="userInfo.city">{{ locationTransform }}</p>
-    <div class="online" *ngIf="isUserOnline">
-      {{ 'profile.online' | translate }}
-    </div>
-    <div class="online" *ngIf="!isUserOnline">
-      {{ 'profile.offline' | translate }}
-    </div>
-    <div *ngIf="isUserOnline">
-      {{ 'profile.online' | translate }}
+    <div appUserStatus>
+      <div class="online" *ngIf="isUserOnline">
+        {{ 'profile.online' | translate }}
+      </div>
+      <div class="online" *ngIf="!isUserOnline">
+        {{ 'profile.offline' | translate }}
+      </div>
     </div>
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
