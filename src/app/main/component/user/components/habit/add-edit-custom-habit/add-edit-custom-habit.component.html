@@ -1,6 +1,7 @@
 <div class="wrapper">
   <div class="create-habit-header">
-    <h1 class="header-title">{{ 'user.habit.add-new-habit.create-habit' | translate }}</h1>
+    <h1 class="header-title" *ngIf="!isEditing">{{ 'user.habit.add-new-habit.create-habit' | translate }}</h1>
+    <h1 class="header-title" *ngIf="isEditing">Edit Habit</h1>
     <p>{{ 'user.habit.add-new-habit.create-habit-subtitle' | translate }}</p>
   </div>
   <div class="create-habit-main">

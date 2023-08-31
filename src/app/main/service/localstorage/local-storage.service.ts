@@ -16,7 +16,7 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
-  private readonly EDIT_HABIT = 'editHabit';
+  private readonly EDIT_HABIT = 'edithabit' || 'addhabit';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 

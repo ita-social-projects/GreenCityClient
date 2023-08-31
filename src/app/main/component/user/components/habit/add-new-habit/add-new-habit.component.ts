@@ -58,7 +58,7 @@ export class AddNewHabitComponent implements OnInit {
   star: number;
 
   private habitId: number;
-  private habitAssignId: number;
+  public habitAssignId: number;
   public userId: number;
   private currentLang: string;
   private enoughToAcquire = 80;
