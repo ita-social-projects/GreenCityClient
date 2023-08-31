@@ -15,9 +15,7 @@
               [pattern]="namePattern"
               id="name"
             />
-            <span *ngIf="editProfileForm.get('name').dirty && editProfileForm.get('name').invalid" class="error-message">{{
-              'user.edit-profile.name-warning' | translate
-            }}</span>
+            <span *ngIf="getControl('name').invalid">{{ 'user.edit-profile.name-warning' | translate }} </span>
           </div>
           <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
@@ -32,7 +30,7 @@
               [pattern]="cityPattern"
               id="city"
             />
-            <span *ngIf="editProfileForm.get('city').touched">{{ 'user.edit-profile.city-warning' | translate }}</span>
+            <span *ngIf="getControl('city').invalid">{{ 'user.edit-profile.city-warning' | translate }}</span>
           </div>
           <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
@@ -42,7 +40,7 @@
               id="credo"
               maxlength="171"
             ></textarea>
-            <span *ngIf="editProfileForm.get('credo').invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
+            <span *ngIf="getControl('credo').invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
           </div>
         </div>
         <div class="wrapper">

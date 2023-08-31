@@ -86,12 +86,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.checkShoppingList = this.editProfileForm.value.showShoppingList;
   }
 
-  initForm() {
-    this.editProfileForm = new FormGroup({
-      name: new FormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      city: new FormControl(null, [Validators.pattern(Patterns.ubsMailPattern)]),
-      credo: new FormControl(null, [Validators.pattern(Patterns.ubsMailPattern)])
-    });
+  getControl(control: string) {
+    return this.editProfileForm.get(control);
   }
 
   public getFormValues(): any {
@@ -120,6 +116,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showShoppingList: data.showShoppingList,
       socialNetworks: data.socialNetworks
     };
+    this.editProfileForm.markAllAsTouched();
   }
 
   public onCityChange(event) {
