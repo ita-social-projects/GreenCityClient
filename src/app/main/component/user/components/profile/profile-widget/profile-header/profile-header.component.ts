@@ -7,11 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { take } from 'rxjs/operators';
 import { ProfileService } from '../../profile-service/profile.service';
+import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
 
 @Component({
   selector: 'app-profile-header',
   templateUrl: './profile-header.component.html',
-  styleUrls: ['./profile-header.component.scss']
+  styleUrls: ['./profile-header.component.scss'],
+  providers: [MaxTextLengthPipe]
 })
 export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public mockedUserInfo = {
@@ -31,11 +33,15 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   public isUserOnline: boolean;
   public showEditButton: boolean;
 
+  public nameTransform: string;
+  public locationTransform: string;
+
   constructor(
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private userFriendsService: UserFriendsService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private maxTextLengthPipe: MaxTextLengthPipe
   ) {}
 
   ngOnInit() {
@@ -43,6 +49,8 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.buildSocialNetworksChart();
     this.showEditButton = this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
+    this.nameTransform = this.maxTextLengthPipe.transform(this.userInfo.name, 15);
+    this.locationTransform = this.maxTextLengthPipe.transform(this.userInfo.city, 30);
   }
 
   get checkUserCredo(): number {

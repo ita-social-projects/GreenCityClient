@@ -39,7 +39,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
       .subscribe(
         (item: FriendArrayModel) => {
           this.usersFriends = item.page;
-          this.amountOfFriends = item.page.length;
+          this.amountOfFriends = item.totalElements;
         },
         (error) => {
           this.noFriends = error;
