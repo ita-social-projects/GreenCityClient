@@ -92,7 +92,7 @@
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-              formControlName="recipientPhoneNumber"
+              [formControl]="userInfoDto.controls['recipientPhoneNumber']"
               [unmask]="true"
               [imask]="{ mask: phoneMask }"
             />

@@ -13,12 +13,8 @@
       </a>
     </div>
 
-    <p class="name">
-      {{ userInfo.name }}
-    </p>
-    <p class="location" *ngIf="userInfo.showLocation">
-      {{ userInfo.city || mockedUserInfo.city }}
-    </p>
+    <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ nameTransform }}</p>
+    <p class="location" appCustomTooltip [appCustomTooltip]="userInfo.city">{{ locationTransform }}</p>
     <div class="online">
       {{ 'profile.online' | translate }}
     </div>

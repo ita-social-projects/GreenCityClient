@@ -31,7 +31,7 @@ describe('UbsAdminEmployeeService', () => {
   ];
 
   const allPermissionsMock = [
-    'EDIT_DELETE_PRICE_CARD',
+    'EDIT_DELETE_DEACTIVATE_PRICING_CARD',
     'EDIT_COURIER',
     'CREATE_NEW_CERTIFICATE',
     'REGISTER_A_NEW_EMPLOYEE',
@@ -41,20 +41,20 @@ describe('UbsAdminEmployeeService', () => {
     'SEE_BIG_ORDER_TABLE',
     'SEE_MESSAGES_PAGE',
     'EDIT_ORDER',
-    'DEACTIVATE_PRICING_CARD',
     'SEE_EMPLOYEES_PAGE',
     'SEE_CERTIFICATES',
     'EDIT_CERTIFICATE',
     'SEE_CLIENTS_PAGE',
-    'EDIT_DESTINATION_NAME',
+    'EDIT_STATION',
     'DEACTIVATE_EMPLOYEE',
     'CONTROL_SERVICE',
-    'EDIT_LOCATION_CARD',
+    'EDIT_LOCATION',
     'EDIT_EMPLOYEE',
-    'EDIT_LOCATION_NAME',
+    'EDIT_LOCATION',
     'EDIT_MESSAGE',
     'EDIT_EMPLOYEES_AUTHORITIES',
-    'DELETE_MESSAGE'
+    'DELETE_MESSAGE',
+    'CREATE_PRICING_CARD'
   ];
 
   const positionsAuthoritiesMock = {

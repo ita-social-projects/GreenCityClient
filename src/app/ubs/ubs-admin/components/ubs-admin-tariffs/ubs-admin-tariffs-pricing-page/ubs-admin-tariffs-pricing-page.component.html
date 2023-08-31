@@ -113,7 +113,7 @@
             placeholder="{{ 'ubs-tariffs.placeholder_order_limits_info' | translate }}"
           ></textarea>
         </div>
-        <mat-radio-group formControlName="courierLimitsBy">
+        <mat-radio-group class="custom-radio-btn" formControlName="courierLimitsBy">
           <h6>{{ 'ubs-tariffs.order_limits' | translate }}</h6>
           <div class="sum-input">
             <mat-radio-button
@@ -190,7 +190,7 @@
           <div *ngFor="let bag of bags; let i = index">
             <div>
               <mat-checkbox
-                [disabled]="!isEmployeeCanCreateEditPricingCard"
+                [disabled]="!isEmployeeCanEditPricingCard"
                 class="example-margin"
                 [checked]="bag.limitIncluded"
                 (change)="onChecked(bag.id, $event)"
@@ -205,7 +205,7 @@
       </div>
     </form>
   </div>
-  <div *ngIf="isEmployeeCanCreateEditPricingCard" class="d-flex justify-content-end buttons">
+  <div *ngIf="isEmployeeCanEditPricingCard" class="d-flex justify-content-end buttons">
     <button class="primary-global-button btn mr-3" [disabled]="!disableSaveButton()">
       {{ 'ubs-tariffs.btn.duplicate_page' | translate }}
     </button>

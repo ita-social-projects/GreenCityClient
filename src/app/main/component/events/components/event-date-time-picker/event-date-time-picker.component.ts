@@ -72,7 +72,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     const curDay = new Date().getDate();
-    this.minDate.setDate(curDay + 1);
+    this.minDate.setDate(curDay);
     this.fillTimeArray();
 
     this.dateForm = new FormGroup({
@@ -82,8 +82,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
-      this.checkStartTime(value.startTime);
-      this.checkEndTime(value.endTime);
+      this.updateTimeArrays(value.endTime, value.startTime);
 
       this.coordOffline.emit(this.coordinates);
       this.status.emit(this.dateForm.valid);
@@ -172,8 +171,13 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.checkTime) {
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
-      this.dateForm.get('startTime').setValue(this.timeArrStart[9]);
-      this.dateForm.get('endTime').setValue(this.timeArrEnd[21]);
+      if (this.checkDay()) {
+        this.dateForm.get('startTime').setValue(this.timeArrStart[0]);
+        this.dateForm.get('endTime').setValue(this.timeArrEnd[this.timeArrEnd.length - 1]);
+      } else {
+        this.dateForm.get('startTime').setValue(this.timeArrStart[9]);
+        this.dateForm.get('endTime').setValue(this.timeArr[21]);
+      }
     } else {
       this.dateForm.get('startTime').enable();
       this.dateForm.get('endTime').enable();
@@ -273,10 +277,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
   }
 
-  private checkEndTime(time: string): void {
-    if (time) {
-      const checkTime = time.split(':');
-
+  private checkEndTime(time: string, curTime?: number): void {
+    if (!time) {
+      return;
+    }
+    const checkTime = time.split(':');
+    if (curTime) {
+      this.timeArrStart = [...this.timeArr.slice(curTime + 1, +checkTime[0])];
+    } else {
       this.timeArrStart = [...this.timeArr.slice(0, +checkTime[0])];
     }
   }
@@ -285,6 +293,25 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (time) {
       const checkTime = time.split(':');
       this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];
+    }
+  }
+
+  private checkDay(): boolean {
+    const curDay = new Date().toDateString();
+    const selectDay = new Date(this.dateForm.get('date').value).toDateString();
+    return curDay === selectDay;
+  }
+
+  private updateTimeArrays(endTime: string, startTime: string): void {
+    if (this.checkDay()) {
+      const curTime = new Date().getHours();
+      this.timeArrStart = [...this.timeArr.slice(curTime + 1)];
+      this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
+      this.checkStartTime(startTime);
+      this.checkEndTime(endTime, curTime);
+    } else {
+      this.checkStartTime(startTime);
+      this.checkEndTime(endTime);
     }
   }
 

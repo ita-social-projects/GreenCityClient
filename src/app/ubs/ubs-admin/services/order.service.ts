@@ -102,7 +102,7 @@ export class OrderService {
     const formData: FormData = new FormData();
     formData.append('updateOrderPageAdminDto', JSON.stringify(data));
 
-    if (images.length) {
+    if (images?.length) {
       images.forEach((img) => {
         formData.append('images', img.src);
       });
