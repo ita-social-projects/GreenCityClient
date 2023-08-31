@@ -48,6 +48,8 @@ describe('LocalStorageService', () => {
     isSubscribed: true,
     isFavorite: false,
     isActive: true,
+    countComments: 5,
+    likes: 8,
     isRelevant: true
   };
 

@@ -95,6 +95,8 @@ describe('ProfileDashboardComponent', () => {
         isSubscribed: true,
         isFavorite: false,
         isActive: true,
+        likes: 8,
+        countComments: 9,
         isRelevant: true
       }
     ],
