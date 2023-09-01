@@ -1,6 +1,11 @@
 <div class="profile-wrapper" *ngIf="userInfo">
   <div class="side-bar">
     <app-profile-header class="app-profile-header" [userInfo]="userInfo" [progress]="progress"></app-profile-header>
+    <hr *ngIf="isRequest && showButtons" />
+    <div class="friend-request" *ngIf="isRequest && showButtons">
+      <button class="secondary-global-button m-btn" (click)="accept(userId)">Accept</button>
+      <button class="secondary-global-button m-btn" (click)="decline(userId)">Decline</button>
+    </div>
     <app-users-achievements></app-users-achievements>
     <app-eco-places class="app-eco-places" *ngIf="userInfo.showEcoPlace"></app-eco-places>
     <app-shopping-list class="app-shopping-list" *ngIf="userInfo.showShoppingList"></app-shopping-list>
