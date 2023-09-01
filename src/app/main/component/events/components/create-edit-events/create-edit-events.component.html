@@ -79,10 +79,12 @@
         </div>
         <div [ngClass]="handleErrorClass('content-error') || 'content'">
           <quill-editor
+            minlength="20"
             class="editor"
             ngDefaultControl
             formControlName="description"
             [modules]="quillModules"
+            (onEditorChanged)="changedEditor($event)"
             placeholder="{{ 'create-news.content-placeholder' | translate }}"
           ></quill-editor>
         </div>

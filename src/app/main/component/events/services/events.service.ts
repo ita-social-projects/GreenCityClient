@@ -15,24 +15,26 @@ export class EventsService implements OnDestroy {
 
   constructor(private http: HttpClient) {}
 
-  public setIsAddressFill(dates?: object[], check?: boolean): void {
+  public setIsAddressFill(dates: DateEvent[], submit?: boolean, init?: boolean, check?: boolean, ind?: number): void {
     const currentValues = this.isAddressFillSubject.getValue();
     let newArray;
 
-    if (currentValues.some((el) => el === true)) {
-      newArray =
-        dates.length < currentValues.length
-          ? currentValues.slice(0, dates.length)
-          : currentValues.concat(Array(dates.length - currentValues.length).fill(undefined));
-    } else if (dates.length && !check) {
-      newArray = Array(dates.length).fill(undefined);
+    if (init) {
+      newArray = [];
+    } else if (submit) {
+      newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
+    } else if (check && ind !== undefined) {
+      currentValues[ind] = currentValues[ind] === undefined ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
+      this.isAddressFillSubject.next(currentValues);
+      return;
+    } else {
+      newArray = currentValues.some((el) => el === true)
+        ? dates.slice(0, currentValues.length).concat(Array(dates.length - currentValues.length).fill(undefined))
+        : dates.length && !submit
+        ? Array(dates.length).fill(undefined)
+        : currentValues;
     }
-    if (check) {
-      newArray = dates.reduce((currentValue: boolean[], nextValue: DateEvent) => {
-        const hasPlace = !(nextValue.coordinatesDto.latitude || nextValue.onlineLink);
-        return [...currentValue, hasPlace];
-      }, []);
-    }
+
     this.isAddressFillSubject.next(newArray);
   }
 

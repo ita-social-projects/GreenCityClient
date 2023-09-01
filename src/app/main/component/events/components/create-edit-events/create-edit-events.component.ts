@@ -14,6 +14,7 @@ import {
   TagObj,
   PagePreviewDTO
 } from '../../models/events.interface';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
 import { DatePipe } from '@angular/common';
@@ -67,6 +68,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFile = null;
   public selectedFileUrl: string;
   public files = [];
+  public editorText = '';
 
   private imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
@@ -121,7 +123,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
-
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
@@ -140,7 +141,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
-
+    this.updateIsAddressFill(undefined, undefined, true);
     this.subscription = this.eventsService.getIsAddressFillObservable().subscribe((values) => {
       this.isAddressFill = values;
     });
@@ -196,11 +197,21 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.dates[ind].valid = event;
   }
 
+  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.editorText = event.text;
+    }
+  }
+
   public handleErrorClass(errorClassName: string): string {
-    const descriptionValue = this.eventFormGroup.get('description').value;
-    const descriptionWithoutPTags = descriptionValue.replace(/<\/?p>/g, '');
-    const isValidDescription = descriptionWithoutPTags.length >= 20;
-    return (this.submitIsFalse || this.editMode) && !isValidDescription ? errorClassName : '';
+    const descriptionControl = this.eventFormGroup.get('description');
+    const isValidDescription = this.editorText.length > 20;
+    if (!isValidDescription) {
+      descriptionControl.setErrors({ invalidDescription: isValidDescription });
+    } else {
+      descriptionControl.setErrors(null);
+    }
+    return this.submitIsFalse && !isValidDescription ? errorClassName : '';
   }
 
   public escapeFromCreateEvent(): void {
@@ -246,16 +257,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public setCoordsOnlOff(event: OfflineDto, ind: number): void {
     this.dates[ind].coordinatesDto = event;
-    this.updateIsAddressFill(this.dates, true);
+    this.updateIsAddressFill(this.dates, false, false, true, ind);
   }
 
-  public setOnlineLink(event: any, ind: number): void {
+  public setOnlineLink(event: string, ind: number): void {
     this.dates[ind].onlineLink = event;
-    this.updateIsAddressFill(this.dates, true);
+    this.updateIsAddressFill(this.dates, false, false, true, ind);
   }
 
-  public updateIsAddressFill(newValue: object[], check: boolean): void {
-    this.eventsService.setIsAddressFill(newValue, check);
+  public updateIsAddressFill(newValue: DateEvent[], submit?: boolean, init?: boolean, check?: boolean, ind?: number): void {
+    this.eventsService.setIsAddressFill(newValue, submit, init, check, ind);
   }
 
   private checkDates(): void {
@@ -272,8 +283,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   private createDates(): Array<Dates> {
-    const defaultAddress = this.dates.find((it) => it.coordinatesDto.latitude)?.coordinatesDto;
-    const defaultLink = this.dates.find((it) => it.onlineLink)?.onlineLink;
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
         cur.startDate = ItemTime.START;
@@ -285,17 +294,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
 
       const coords = cur.coordinatesDto.latitude
-        ? {
-            latitude: cur.coordinatesDto.latitude,
-            longitude: cur.coordinatesDto.longitude
-          }
-        : defaultAddress;
+        ? { latitude: cur.coordinatesDto.latitude, longitude: cur.coordinatesDto.longitude }
+        : { latitude: null, longitude: null };
 
       const date: Dates = {
         startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
         finishDate: this.pipe.transform(end, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
         coordinates: coords,
-        onlineLink: cur.onlineLink ? cur.onlineLink : defaultLink
+        onlineLink: cur.onlineLink ? cur.onlineLink : ''
       };
 
       ac.push(date);
@@ -329,7 +335,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       };
     }
 
-    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.isAddressFill) {
+    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.isAddressFill.every((el) => !el)) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
@@ -344,7 +350,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.createEvent(formData);
     } else {
       this.eventFormGroup.markAllAsTouched();
-      this.checkAfterSend = false;
+      this.checkAfterSend = this.isTagValid;
       this.submitIsFalse = true;
     }
     this.updateIsAddressFill(this.dates, true);
