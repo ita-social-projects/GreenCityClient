@@ -117,11 +117,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       title: this.habit.habitTranslation.name,
       description: this.habit.habitTranslation.description,
       complexity: this.habit.complexity,
-      image: this.habit.image,
-      shopList: this.habit.shoppingListItems || this.habit.customShoppingListItems
+      image: this.habit.image
     });
-    this.getDuration(this.habit.defaultDuration);
-    this.getShopList(this.habit.shoppingListItems || this.habit.customShoppingListItems);
+    this.initialDuration = this.habit.defaultDuration;
+    this.shopList = this.habit.shoppingListItems || this.habit.customShoppingListItems || [];
+    this.selectedTagsList = this.habit.tags.map((value) => this.tagsList.indexOf(value));
   }
 
   public trimValue(control: AbstractControl): void {
@@ -196,5 +196,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .subscribe(() => {
         this.goToAllHabits();
       });
+  }
+
+  saveHabit(): void {
+    this.habitForm.reset();
   }
 }

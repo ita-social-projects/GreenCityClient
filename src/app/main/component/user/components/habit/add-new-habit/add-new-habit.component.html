@@ -100,7 +100,7 @@
         class="primary-global-button habit-btn"
         type="button"
         *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
-        (click)="editUsersCustomHabit('edithabit', habitResponse.id)"
+        (click)="editUsersCustomHabit('edithabit', habitAssignId ? habitAssignId : habitResponse.id)"
       >
         Edit Habit
       </button>
