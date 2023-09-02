@@ -135,6 +135,10 @@ export interface DateFormObj {
   onlineLink?: string;
   place: string;
   startTime?: string;
+  coordinatesDto?: {
+    latitude: number;
+    longitude: number;
+  };
 }
 
 export interface PaginationInterface {

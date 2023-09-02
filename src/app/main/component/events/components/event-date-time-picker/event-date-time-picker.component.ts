@@ -79,7 +79,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.dateForm = new FormGroup({
       date: new FormControl('', [Validators.required]),
       startTime: new FormControl('', [Validators.required]),
-      endTime: new FormControl('', [Validators.required])
+      endTime: new FormControl('', [Validators.required]),
+      coordinatesDto: new FormControl(this.coordinates, [Validators.required]),
+      onlineLink: new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)])
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
@@ -146,6 +148,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       if (!this.isEditAdressDefault) {
         this.checkOfflinePlace = true;
         this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+        this.dateForm.addControl('coordinatesDto', new FormControl('', [Validators.required]));
         setTimeout(() => this.setPlaceAutocomplete(), 0);
         this.coordinates.latitude = this.editDate.coordinates.latitude;
         this.coordinates.longitude = this.editDate.coordinates.longitude;
@@ -155,7 +158,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
           place: this.getLangValue(
             this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
             this.eventsService.createAdresses(this.editDate.coordinates, 'En')
-          )
+          ),
+          coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
         });
 
         this.coordinates.latitude = this.editDate.coordinates.latitude;

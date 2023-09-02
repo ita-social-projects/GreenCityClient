@@ -27,12 +27,11 @@ export class EventsService implements OnDestroy {
       currentValues[ind] = currentValues[ind] === undefined ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
       this.isAddressFillSubject.next(currentValues);
       return;
+    } else if (currentValues.some((el) => el === true)) {
+      newArray = currentValues.slice(0, dates.length);
+      newArray = newArray.concat(Array(dates.length - newArray.length).fill(undefined));
     } else {
-      newArray = currentValues.some((el) => el === true)
-        ? dates.slice(0, currentValues.length).concat(Array(dates.length - currentValues.length).fill(undefined))
-        : dates.length && !submit
-        ? Array(dates.length).fill(undefined)
-        : currentValues;
+      newArray = dates.length && !submit ? Array(dates.length).fill(undefined) : currentValues;
     }
 
     this.isAddressFillSubject.next(newArray);

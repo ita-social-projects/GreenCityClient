@@ -68,8 +68,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFile = null;
   public selectedFileUrl: string;
   public files = [];
-  public editorText = '';
 
+  private editorText = '';
   private imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
   private pipe = new DatePipe('en-US');
@@ -131,6 +131,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
       this.setEditValue();
+      this.editorText = this.eventFormGroup.get('description').value;
     } else {
       this.dates = [{ ...DateObj }];
     }
@@ -186,6 +187,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates[ind].startDate = form.startTime;
       this.dates[ind].finishDate = form.endTime;
       this.dates[ind].onlineLink = form.onlineLink;
+      this.dates[ind].coordinatesDto = form.coordinatesDto;
     } else {
       this.duplindx = ind;
       this.dates.splice(ind, 1, { ...DateObj });
@@ -227,7 +229,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setDateCount(value: number): void {
-    if ((this.dates.length === 1 && !this.dates[0].date) || this.editMode) {
+    if (this.editMode) {
       this.dates = Array(value)
         .fill(null)
         .map(() => ({ ...DateObj }));
