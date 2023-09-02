@@ -139,6 +139,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         if (data) {
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
+          this.socialNetworksToServer = data.socialNetworks.map((sn) => sn.url);
           this.getFormInitialValues(data);
         }
       });
