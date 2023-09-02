@@ -21,6 +21,7 @@ import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } fro
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 
 @Injectable()
 class TranslationServiceStub {
@@ -200,7 +201,7 @@ describe('EventsListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent, DatePipeMock],
+      declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
