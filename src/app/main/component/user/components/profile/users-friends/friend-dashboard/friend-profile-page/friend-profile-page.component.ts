@@ -63,12 +63,11 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
       });
   }
 
-  private deleteFriendsFromList(id: number, array: FriendModel[]) {
-    const indexSuggestion = array.findIndex((item) => item.id === id);
-    array.splice(indexSuggestion, 1);
+  private deleteFriendsFromList(id: number, array: FriendModel[]): FriendModel[] {
+    return array.filter((item) => item.id !== id);
   }
 
-  public accept(id: number) {
+  public accept(id: number): void {
     this.userFriendsService
       .acceptRequest(id)
       .pipe(takeUntil(this.destroy$))
@@ -78,7 +77,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.showButtons = false;
   }
 
-  public decline(id: number) {
+  public decline(id: number): void {
     this.userFriendsService
       .declineRequest(id)
       .pipe(takeUntil(this.destroy$))
@@ -88,7 +87,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.showButtons = false;
   }
 
-  private getRequests() {
+  private getRequests(): void {
     this.userFriendsService
       .getRequests()
       .pipe(takeUntil(this.destroy$))
