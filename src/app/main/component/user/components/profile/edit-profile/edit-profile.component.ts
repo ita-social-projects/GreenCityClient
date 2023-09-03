@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-profile',
