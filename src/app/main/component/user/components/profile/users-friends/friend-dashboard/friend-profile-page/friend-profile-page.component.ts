@@ -36,7 +36,6 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.bindLang();
     this.userId = this.route.snapshot.params.userId;
     this.isRequest = this.router.url?.includes('requests');
-    console.log(this.isRequest, 'isRequest');
     this.getUserInfo(this.userId);
     this.getUserActivities();
     this.getRequests();
@@ -64,7 +63,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
       });
   }
 
-  private deleteFriendsFromList(id, array) {
+  private deleteFriendsFromList(id: number, array: FriendModel[]) {
     const indexSuggestion = array.findIndex((item) => item.id === id);
     array.splice(indexSuggestion, 1);
   }
