@@ -19,19 +19,23 @@ export class EventsService implements OnDestroy {
     const currentValues = this.isAddressFillSubject.getValue();
     let newArray;
 
-    if (init) {
-      newArray = [];
-    } else if (submit) {
-      newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
-    } else if (check && ind !== undefined) {
-      currentValues[ind] = currentValues[ind] === undefined ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
-      this.isAddressFillSubject.next(currentValues);
-      return;
-    } else if (currentValues.some((el) => el === true)) {
-      newArray = currentValues.slice(0, dates.length);
-      newArray = newArray.concat(Array(dates.length - newArray.length).fill(undefined));
-    } else {
-      newArray = dates.length && !submit ? Array(dates.length).fill(undefined) : currentValues;
+    switch (true) {
+      case init:
+        newArray = [];
+        break;
+      case submit:
+        newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
+        break;
+      case check && ind !== undefined:
+        currentValues[ind] = currentValues[ind] === undefined ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
+        this.isAddressFillSubject.next(currentValues);
+        return;
+      case currentValues.some((el) => el === true):
+        newArray = currentValues.slice(0, dates.length);
+        newArray = newArray.concat(Array(dates.length - newArray.length).fill(undefined));
+        break;
+      default:
+        newArray = dates.length && !submit ? Array(dates.length).fill(undefined) : currentValues;
     }
 
     this.isAddressFillSubject.next(newArray);

@@ -19,7 +19,8 @@ import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -77,7 +78,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
-  public submitIsFalse = false;
+  private submitIsFalse = false;
+  private destroy$: Subject<void> = new Subject<void>();
 
   public previousPath = '/events';
   public popupConfig = {
@@ -143,9 +145,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
     this.updateIsAddressFill(undefined, undefined, true);
-    this.subscription = this.eventsService.getIsAddressFillObservable().subscribe((values) => {
-      this.isAddressFill = values;
-    });
+    this.subscription = this.eventsService
+      .getIsAddressFillObservable()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((values) => {
+        this.isAddressFill = values;
+      });
   }
 
   get titleForm() {
@@ -429,6 +434,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
-    this.subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
