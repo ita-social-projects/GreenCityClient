@@ -355,7 +355,8 @@ body {
   position: absolute;
   background-color: #fff;
   text-align: center;
-  width: 288px;
+  max-width: 288px;
+  width: auto;
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-word;
