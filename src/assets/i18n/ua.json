@@ -139,7 +139,9 @@
       "item-found-text": "Знайдено",
       "items-event-text": "подій",
       "my-space": {
-        "tag-title": "Мої події"
+        "tag-title": "Мої події",
+        "event-type-online": "Онлайн",
+        "event-type-offline": "Оффлайн"
       },
       "open": "Відкритий",
       "registered": "Є зареєстровані",
@@ -956,6 +958,7 @@
     "dashboard": {
       "my-habits": "Мої звички",
       "my-news": "Мої новини",
+      "my-events": "Мої події",
       "my-tips-and-tricks": "Мої статті",
       "habits-inprogress": "У процесі",
       "add-new-habit": "Додати Нову Звичку",
@@ -975,6 +978,7 @@
         "news-at-all": "новин"
       },
       "add-news": "Додати новини",
+      "add-event": "Додати подію",
       "no-events": "Привіт, Еко друг ;-)",
       "no-events-advice": "Ласкаво просимо до «Мої події». Здається, у вас немає подій. Почнемо приєднуватися до них!",
       "join-event": "Приєднатися до події"
@@ -1126,7 +1130,7 @@
     "text-finish": "Дякую !!!"
   },
   "create-event": {
-    "back": "назад",
+    "back": "Назад",
     "back-edit": "Повернутися до редагування",
     "save-event": "Зберегти подію",
     "label": "Мітка",

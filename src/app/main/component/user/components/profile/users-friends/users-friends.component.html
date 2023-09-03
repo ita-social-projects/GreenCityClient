@@ -25,7 +25,7 @@
           (click)="showFriendsInfo(friend)"
         >
         </app-user-profile-image>
-        <p class="friend-name">{{ friend.name | firststringword }}</p>
+        <p class="friend-name">{{ friend.name | firststringword | maxTextLength: 10 }}</p>
       </div>
     </div>
   </div>
