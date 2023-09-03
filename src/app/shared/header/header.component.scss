@@ -194,7 +194,7 @@ header {
   display: flex;
   justify-content: center;
   align-content: center;
-  margin-right: 24px;
+  margin-right: 48px;
 }
 
 .header_navigation-menu-right-list {
@@ -205,6 +205,7 @@ header {
   height: 100%;
   margin: 0;
   padding: 0;
+  gap: 16px;
 
   li {
     height: 100%;
@@ -215,30 +216,6 @@ header {
 
   li.header_sign-up-link {
     padding-right: 0;
-  }
-}
-
-.dropdown {
-  background-color: $white-color;
-  list-style-type: none;
-  padding: 0;
-  position: absolute;
-  top: 41px;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  right: -15px;
-  align-items: flex-start;
-
-  li {
-    position: relative;
-    color: var(--ubs-primary-black);
-
-    a {
-      display: block;
-      padding: 10px;
-      width: 100%;
-    }
   }
 }
 
@@ -294,6 +271,7 @@ header {
 
 .header_navigation-menu-left {
   display: none;
+  flex: 0.9;
 
   ul {
     margin: 0;
@@ -304,7 +282,6 @@ header {
     li {
       display: flex;
       align-items: center;
-      margin-left: 24px;
 
       &:first-child {
         margin-left: 0;
@@ -314,6 +291,7 @@ header {
         font-size: 14px;
         line-height: 16px;
         color: var(--primary-dark-grey);
+        text-transform: capitalize;
       }
     }
 
@@ -343,18 +321,15 @@ header {
   .header_navigation-menu-right {
     position: relative;
     height: 80%;
-    right: 20px;
+    flex: 0.6;
 
     .header_navigation-menu-right-list {
-      @media screen and (max-width: 1023px) {
-        gap: 20px;
-      }
-
       .search-icon,
       .bookmark-icon,
       .notification-icon {
         img {
           height: 11px;
+          width: 16px;
           cursor: pointer;
         }
       }
@@ -385,7 +360,6 @@ header {
   flex-direction: column;
   width: auto;
   position: relative;
-  min-width: 155px;
 
   li {
     height: 44px;
@@ -410,12 +384,11 @@ header {
 
     &:first-child {
       display: flex;
-      justify-content: flex-end;
       margin: 0;
       font-size: 14px;
       font-weight: 600;
 
-      a {
+      .list-item-main {
         padding: 7px 17px;
         border: 2px solid #87bc1e;
         border-radius: 6px;
@@ -456,6 +429,7 @@ header {
 
 .header_burger-btn {
   margin-right: 10px;
+  margin-left: 17px;
   cursor: pointer;
 
   .menu-icon-wrapper {
@@ -565,7 +539,6 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1140px;
   height: 100%;
 }
 
@@ -614,6 +587,7 @@ header {
       font-size: 14px;
       line-height: 20px;
       color: var(--ubs-main-page-text-grey);
+      text-transform: capitalize;
 
       &:hover {
         text-decoration: underline;
@@ -629,6 +603,7 @@ header {
         font-size: 14px;
         line-height: 20px;
         color: var(--ubs-main-page-text-grey);
+        text-transform: capitalize;
 
         &:hover {
           text-decoration: underline;
@@ -668,6 +643,19 @@ header {
         }
       }
     }
+  }
+}
+
+.dropdown-list {
+  position: absolute;
+  background-color: $white-color;
+  top: 45px;
+  right: 0;
+  padding: 10px 20px;
+  min-width: 172px;
+
+  &.text-hidde {
+    display: none;
   }
 }
 
@@ -715,7 +703,6 @@ header {
 }
 
 @media (min-width: 768px) {
-  .container,
   .container-fluid {
     padding: 0 24px;
   }
@@ -791,7 +778,6 @@ header {
   }
 
   .header_container {
-    padding: 0 8px;
     max-width: none;
   }
 
@@ -808,16 +794,13 @@ header {
 
   .header_navigation-menu-right ul {
     justify-content: flex-end;
-
-    &:nth-child(n + 1) {
-      padding-left: 16px;
-    }
   }
 
   .header_navigation-menu-ubs .header_navigation-menu-left ul .nav-left-list a.url-name,
   .header_navigation-menu-ubs .header_navigation-menu-left .pick-up-service,
   .header_navigation-menu-left ul li a {
     font-size: 12px;
+    text-transform: capitalize;
   }
 }
 
@@ -935,10 +918,6 @@ header {
     justify-content: flex-end;
   }
 
-  .header_navigation-menu-right-list {
-    gap: 20px;
-  }
-
   .header_navigation-menu-ubs .header_navigation-menu-right .header_navigation-menu-right-list,
   .header_navigation-menu {
     justify-content: flex-end;
@@ -974,10 +953,6 @@ header {
       li a {
         margin-right: 0;
       }
-    }
-
-    #header_user-wrp.ubs-user-cabinet.add-shadow {
-      top: 6px;
     }
   }
 
@@ -1149,6 +1124,7 @@ header {
   .header_navigation-menu-right-lang,
   .ubs-lang-switcher {
     margin-right: 18px;
+    padding: 0;
   }
 
   .admin-container-fluid {
@@ -1194,7 +1170,6 @@ header {
 
   .add-shadow {
     background-color: #fff;
-    top: 21px;
   }
 
   .header_navigation-menu-ubs {
@@ -1223,10 +1198,6 @@ header {
 
   .header_navigation-menu-right-list li.header_burger-btn {
     display: none;
-  }
-
-  .header-for-admin .header_navigation-menu-right .header_navigation-menu-right-list #header_user-wrp.ubs-admin-cabinet.add-shadow {
-    top: 6px;
   }
 }
 

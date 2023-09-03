@@ -186,7 +186,6 @@
                 [attr.aria-label]="ariaStatus"
                 [ngClass]="{
                   'd-none': toggleBurgerMenu,
-                  'add-shadow': dropdownVisible,
                   'item-list-margin': dropdownVisible && isUBS,
                   'ubs-user-cabinet': isUBS,
                   'ubs-admin-cabinet': isAdmin
@@ -196,37 +195,39 @@
                 (keyup.enter)="toggleDropdown()"
               >
                 <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
-                  <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
+                  <a class="list-item-main" [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
                     <img src="../assets/img/events/user.svg" alt="log-in user" />
                   </a>
                 </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="notifications" tabindex="0">
-                  <a (click)="openNotificationsDialog()">
-                    {{ 'nav-bar.user-notifications' | translate }}
-                  </a>
-                </li>
-                <li
-                  *ngIf="isLoggedIn && isGreenCityAdmin"
-                  aria-label="management"
-                  role="listitem"
-                  tabindex="0"
-                  [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
-                >
-                  <a [href]="managementLink" target="_blank">
-                    {{ 'nav-bar.management' | translate }}
-                  </a>
-                </li>
-                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
-                  <a (click)="signOut()">
-                    {{ 'nav-bar.sign-out' | translate }}
-                  </a>
-                </li>
-                <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                  <a [routerLink]="['/ubs-admin/orders']"> UBS-admin </a>
-                </li>
-                <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                  <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
-                </li>
+                <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                  <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="notifications" tabindex="0">
+                    <a (click)="openNotificationsDialog()">
+                      {{ 'nav-bar.user-notifications' | translate }}
+                    </a>
+                  </li>
+                  <li
+                    *ngIf="isLoggedIn && isGreenCityAdmin"
+                    aria-label="management"
+                    role="listitem"
+                    tabindex="0"
+                    [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
+                  >
+                    <a [href]="managementLink" target="_blank">
+                      {{ 'nav-bar.management' | translate }}
+                    </a>
+                  </li>
+                  <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
+                    <a (click)="signOut()">
+                      {{ 'nav-bar.sign-out' | translate }}
+                    </a>
+                  </li>
+                  <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                    <a [routerLink]="['/ubs-admin/orders']"> UBS-admin </a>
+                  </li>
+                  <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                    <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
+                  </li>
+                </ul>
               </ul>
             </ng-container>
             <!-- SIGN IN LINK -->

@@ -32,6 +32,16 @@ body {
   overflow-x: hidden;
 }
 
+.container {
+  padding-left: 0;
+  padding-right: 0;
+
+  @media screen and (max-width: 576px) {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
 .app-wrapper {
   min-height: 100%;
   display: flex;

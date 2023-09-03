@@ -208,12 +208,6 @@ $bp-largest: 1440px;
   }
 }
 
-@media (min-width: 576px) {
-  .container {
-    padding: 0;
-  }
-}
-
 @media screen and (max-width: 1024px) {
   .wrapper {
     margin: 0 3%;
