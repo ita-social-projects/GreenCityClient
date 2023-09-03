@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateStore } from '@ngx-translate/core';
 import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
+import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
@@ -22,7 +23,7 @@ describe('ProfileHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileHeaderComponent, ProfileProgressComponent],
+      declarations: [ProfileHeaderComponent, ProfileProgressComponent, MaxTextLengthPipe],
       imports: [UserSharedModule, RouterTestingModule.withRoutes([]), BrowserAnimationsModule, HttpClientTestingModule],
       providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }, TranslateStore, ProfileService]
     }).compileComponents();

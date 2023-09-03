@@ -93,6 +93,9 @@ p {
       color: var(--primary-dark-grey);
       width: 288px;
       justify-self: center;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
     }
 
     .social {

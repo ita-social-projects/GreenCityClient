@@ -11,7 +11,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   templateUrl: './images-container.component.html',
   styleUrls: ['./images-container.component.scss']
 })
-
 export class ImagesContainerComponent implements OnInit {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';

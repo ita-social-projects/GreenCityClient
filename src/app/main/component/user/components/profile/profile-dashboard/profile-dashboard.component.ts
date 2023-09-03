@@ -12,10 +12,11 @@ import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions'
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -42,9 +43,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public isOfflineChecked = false;
 
   public eventsList: EventPageResponceDto[] = [];
+  public favouriteEvents: EventPageResponceDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
-  public eventsTotal = 0;
+  public totalEvents = 0;
 
   private hasNext = true;
   private currentPage: number;
@@ -53,9 +55,12 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public totalNews = 0;
 
   public eventType = '';
+  public isFavoriteBtnClicked = false;
 
   public userLatitude = 0;
   public userLongitude = 0;
+
+  public images = singleNewsImages;
 
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
@@ -65,7 +70,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     public shoppingService: ShoppingListService,
     private store: Store,
     private eventService: EventsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -108,7 +114,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   onCheckboxChange(EventTypeChecked?: string) {
     if (EventTypeChecked === EventType.ONLINE) {
       this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
-    } else if (EventTypeChecked === EventType.OFFLINE) {
+    } else {
       this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
     }
 
@@ -116,11 +122,20 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       this.eventType = EventType.ONLINE;
     } else if (this.isOfflineChecked) {
       this.eventType = EventType.OFFLINE;
-    } else if (!this.isOnlineChecked && !this.isOfflineChecked) {
+    } else {
       this.eventType = '';
     }
 
     this.initGetUserEvents(this.eventType);
+  }
+
+  public escapeFromFavorites(): void {
+    this.isFavoriteBtnClicked = !this.isFavoriteBtnClicked;
+  }
+
+  public goToFavorites(): void {
+    this.isFavoriteBtnClicked = true;
+    this.getUserFavouriteEvents();
   }
 
   initGetUserEvents(eventType?: string): void {
@@ -129,7 +144,16 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
-        this.eventsTotal = res.totalElements;
+        this.totalEvents = res.totalElements;
+      });
+  }
+
+  getUserFavouriteEvents(): void {
+    this.eventService
+      .getUserFavoriteEvents(0, this.eventsPerPage)
+      .pipe(take(1))
+      .subscribe((res: EventResponseDto) => {
+        this.favouriteEvents = res.page;
       });
   }
 

@@ -141,7 +141,6 @@
       "no-event-left": "There's no events for now",
       "my-space": {
         "tag-title": "My Events",
-        "event-types-title": "Types:",
         "event-type-online": "Online",
         "event-type-offline": "Offline"
       },
@@ -937,6 +936,7 @@
     "dashboard": {
       "my-habits": "My habits",
       "my-news": "My news",
+      "my-events": "My events",
       "my-articles": "My articles",
       "habits-inprogress": "In progress",
       "add-new-habit": "Add New Habit",
@@ -956,6 +956,7 @@
         "news-at-all": "news"
       },
       "add-news": "Add News",
+      "add-event": "Add Event",
       "no-events": "Hi Eco Friend ;-)",
       "no-events-advice": "Welcome to My Events. It seems you don’t have any events. Let’s start to join event!",
       "join-event": "Join Event"
@@ -1107,7 +1108,7 @@
     "text-finish": "Thank you !!!"
   },
   "create-event": {
-    "back": "back",
+    "back": "Back",
     "back-edit": "Back to editing",
     "save-event": "Save event",
     "label": "Label",
