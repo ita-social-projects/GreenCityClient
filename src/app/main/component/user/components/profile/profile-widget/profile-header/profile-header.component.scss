@@ -86,18 +86,6 @@ p {
       align-items: center;
     }
 
-    .credo {
-      font-family: var(--primary-font);
-      font-size: 11px;
-      line-height: 16px;
-      color: var(--primary-dark-grey);
-      width: 288px;
-      justify-self: center;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      word-break: break-word;
-    }
-
     .social {
       display: flex;
       width: 288px;
@@ -111,6 +99,18 @@ p {
         width: 24px;
         height: 24px;
       }
+    }
+
+    .credo {
+      font-family: var(--primary-font);
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--primary-dark-grey);
+      width: 288px;
+      justify-self: center;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
     }
 
     .profile-progress {
@@ -148,14 +148,14 @@ p {
         padding: 0 20px;
       }
 
-      .credo {
+      .social {
         grid-area: 4 / 2 / 5 / 3;
         justify-self: start;
         width: auto;
         margin: 0;
       }
 
-      .social {
+      .credo {
         grid-area: 5 / 2 / 6 / 3;
         justify-self: start;
         width: auto;
@@ -177,7 +177,7 @@ p {
 
     .column {
       grid-template-columns: 1fr;
-      grid-template-rows: 122px 28px 20px 24px 40px 70px 40px 188px;
+      grid-template-rows: 122px 28px 20px 24px 40px 40px 80px 188px;
 
       .user-image {
         grid-area: 1 / 1 / 2 / 2;
@@ -221,17 +221,17 @@ p {
         line-height: 16px;
       }
 
-      .credo {
+      .social {
         grid-area: 6 / 1 / 7 / 2;
+        justify-self: center;
+      }
+
+      .credo {
+        grid-area: 7 / 1 / 8 / 2;
         width: auto;
         margin: 0 20px;
         font-size: 12px;
         line-height: 18px;
-      }
-
-      .social {
-        grid-area: 7 / 1 / 8 / 2;
-        justify-self: center;
       }
 
       .profile-progress {
