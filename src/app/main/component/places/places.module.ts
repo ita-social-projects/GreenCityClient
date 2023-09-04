@@ -33,9 +33,19 @@ import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
 import { AddressInputComponent } from './components/address-input/address-input.component';
+import { PlacesListItemComponent } from './components/places-list-item/places-list-item.component';
+import { PlacesListComponent } from './components/places-list/places-list.component';
 
 @NgModule({
-  declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
+  declarations: [
+    PlacesComponent,
+    MoreOptionsFilterComponent,
+    AddPlaceComponent,
+    TimePickerPopupComponent,
+    AddressInputComponent,
+    PlacesListItemComponent,
+    PlacesListComponent
+  ],
   imports: [
     MatSidenavModule,
     SharedModule,

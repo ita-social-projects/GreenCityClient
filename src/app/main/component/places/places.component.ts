@@ -43,6 +43,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public isActivePlaceFavorite = false;
   public readonly tagFilterStorageKey = 'placesTagFilter';
   public readonly moreOptionsStorageKey = 'moreOptionsFilter';
+  public title = 'Popular eco places';
 
   @ViewChild('drawer') drawer: MatDrawer;
 
