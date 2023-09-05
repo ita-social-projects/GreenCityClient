@@ -59,7 +59,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public navLinks;
   public selectedIndex: number = null;
   public currentLanguage: string;
-  // public dialog: MatDialog;
   public imgAlt: string;
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
@@ -75,7 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(private dialog: MatDialog, injector: Injector, private store: Store) {
-    // this.dialog = injector.get(MatDialog);
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
