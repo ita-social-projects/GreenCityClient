@@ -99,6 +99,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         this.cities.forEach((city) => {
           if (city.locationId === 1) {
             this.myControl.setValue({ locationId: city.locationId, locationName: city.locationName });
+            this.currentLocation = city.locationName;
+            this.changeLocation(city.locationId, city.locationName);
           }
         });
       });

@@ -21,7 +21,7 @@
 
   .form-spinner-wrapper {
     margin: 0 36px;
-    min-height: 120px;
+    min-height: 150px;
 
     ::ng-deep .mat-spinner {
       margin: 28px auto;
@@ -81,7 +81,7 @@
   .info {
     font-weight: normal;
     font-size: 16px;
-    margin: 0 36px;
+    margin: 0;
 
     .text {
       line-height: 24px;
