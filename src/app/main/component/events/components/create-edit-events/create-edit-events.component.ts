@@ -200,10 +200,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     }
   }
 
-  public checkStatus(event: boolean, ind: number): void {
-    this.dates[ind].valid = event;
-  }
-
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
       this.editorText = event.text;
@@ -262,13 +258,19 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.oldImages = imagesSrc;
   }
 
-  public setCoordsOnlOff(event: OfflineDto, ind: number): void {
-    this.dates[ind].coordinatesDto = event;
+  public setCoordsOffline(coordinates: OfflineDto, ind: number): void {
+    this.dates[ind].coordinatesDto = coordinates;
+    if (!this.dates[ind].onlineLink) {
+      this.dates[ind].valid = !!coordinates.latitude;
+    }
     this.updateIsAddressFill(this.dates, false, false, true, ind);
   }
 
-  public setOnlineLink(event: string, ind: number): void {
-    this.dates[ind].onlineLink = event;
+  public setOnlineLink(link: string, ind: number): void {
+    this.dates[ind].onlineLink = link;
+    if (!this.dates[ind].coordinatesDto.latitude) {
+      this.dates[ind].valid = !!link;
+    }
     this.updateIsAddressFill(this.dates, false, false, true, ind);
   }
 

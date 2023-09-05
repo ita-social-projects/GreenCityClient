@@ -55,9 +55,8 @@
           <div class="date-event-block">
             <app-event-date-time-picker
               (datesForm)="checkForm($event, i)"
-              (coordOffline)="setCoordsOnlOff($event, i)"
+              (coordOffline)="setCoordsOffline($event, i)"
               (linkOnline)="setOnlineLink($event, i)"
-              (status)="checkStatus($event, i)"
               [check]="date.check"
               [editDate]="editEvent?.dates[i]"
               [isDateDuplicate]="isDateDuplicate"
