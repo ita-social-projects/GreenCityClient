@@ -157,9 +157,15 @@ describe('CreateEditEventsComponent', () => {
     expect(component.dates[0].startDate).toBe('12:00');
   });
 
-  it('checkStatus dates.valid should be falsy', () => {
+  it('setCoordsOffline dates.valid should be falsy', () => {
     component.dates = [DateMock];
-    component.checkStatus(false, 0);
+    component.setCoordsOffline({ latitude: null, longitude: null }, 0);
+    expect(component.dates[0].valid).toBeFalsy();
+  });
+
+  it('setOnlineLink dates.valid should be falsy', () => {
+    component.dates = [DateMock];
+    component.setOnlineLink('', 0);
     expect(component.dates[0].valid).toBeFalsy();
   });
 
@@ -191,9 +197,9 @@ describe('CreateEditEventsComponent', () => {
     expect((component as any).imgArray.length).toBe(1);
   });
 
-  it('setCoordsOnlOff  expect latitude to be 2', () => {
+  it('setCoordsOffline  expect latitude to be 2', () => {
     component.dates = [DateMock];
-    component.setCoordsOnlOff({ latitude: 2, longitude: 3 }, 0);
+    component.setCoordsOffline({ latitude: 2, longitude: 3 }, 0);
     expect(component.dates[0].coordinatesDto.latitude).toBe(2);
   });
 
@@ -218,7 +224,7 @@ describe('CreateEditEventsComponent', () => {
     expect(date.getHours()).toBe(2);
   });
 
-  it('createDates  should create 1 date', () => {
+  it('createDates should create 1 date', () => {
     const spy = spyOn(component as any, 'getFormattedDate');
     component.dates = [DateMock];
     const dates = (component as any).createDates();
@@ -226,7 +232,7 @@ describe('CreateEditEventsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('createDates  should create 1 date', () => {
+  it('createDates should create 1 date. Finish date has to be 23', () => {
     component.dates = [DateMock];
     component.dates[0].startDate = null;
     component.dates[0].finishDate = null;
