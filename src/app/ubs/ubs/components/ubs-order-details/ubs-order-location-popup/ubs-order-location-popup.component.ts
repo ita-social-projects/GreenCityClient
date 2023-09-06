@@ -7,6 +7,7 @@ import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
 import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -98,6 +99,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
         this.cities.forEach((city) => {
           if (city.locationId === 1) {
             this.myControl.setValue({ locationId: city.locationId, locationName: city.locationName });
+            this.currentLocation = city.locationName;
+            this.changeLocation(city.locationId, city.locationName);
           }
         });
       });
@@ -120,6 +123,11 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
           this.passDataToComponent();
         }
       });
+  }
+
+  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
+    event.stopPropagation();
+    trigger.openPanel();
   }
 
   passDataToComponent(): void {
