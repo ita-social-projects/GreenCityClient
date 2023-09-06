@@ -156,20 +156,45 @@
                 mat-menu-item
               >
                 <span class="menu-item-content">
-                  <img class="menu-item-img" [src]="icons.settings" alt="edit" />
+                  <img class="menu-item-img" [src]="icons.settings" alt="settings" />
                   <span class="menu-item-action">{{ 'employees.actions.settings' | translate }}</span>
                 </span>
               </button>
-              <button class="menu-item" *ngIf="isThisUserCanDeleteEmployee" (click)="openDeleteDialog(employee, $event)" mat-menu-item>
+              <button
+                class="menu-item"
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
+                (click)="openDeleteDialog(employee, $event)"
+                mat-menu-item
+              >
                 <span class="menu-item-content">
-                  <img class="menu-item-img" [src]="icons.delete" alt="edit" />
-                  <span class="menu-item-action">{{ 'employees.actions.delete' | translate }}</span>
+                  <img class="menu-item-img" [src]="icons.delete" alt="deactivate" />
+                  <span class="menu-item-action">{{ 'employees.actions.deactivate' | translate }}</span>
+                </span>
+              </button>
+              <button
+                class="menu-item"
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusInactive"
+                (click)="openActivateDialog(employee, $event)"
+                mat-menu-item
+              >
+                <span class="menu-item-content">
+                  <img class="menu-item-img" [src]="icons.activate" alt="activate" />
+                  <span class="menu-item-action">{{ 'employees.actions.activate' | translate }}</span>
                 </span>
               </button>
             </mat-menu>
             <ng-template #deleteIcon>
-              <span *ngIf="isThisUserCanDeleteEmployee" (click)="openDeleteDialog(employee, $event)">
-                <img [src]="icons.delete" alt="delete" />
+              <span
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
+                (click)="openDeleteDialog(employee, $event)"
+              >
+                <img [src]="icons.delete" alt="deactivate" />
+              </span>
+              <span
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusInactive"
+                (click)="openActivateDialog(employee, $event)"
+              >
+                <img [src]="icons.activate" alt="activate" />
               </span>
             </ng-template>
           </mat-panel-title>

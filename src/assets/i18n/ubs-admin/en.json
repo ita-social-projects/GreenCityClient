@@ -497,7 +497,8 @@
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
-    "warning-title": "Are you sure you want to delete this employee?",
+    "warning-title": "Are you sure you want to deactivate this employee?",
+    "activate-employee-title": "Are you sure you want to activate this employee?",
     "settings": "Set permissions",
     "edit": "Edit",
     "states": {
@@ -570,7 +571,8 @@
     "actions": {
       "edit": "Edit employee data",
       "settings": "Set employee permissions",
-      "delete": "Delete employee"
+      "deactivate": "Deactivate an employee",
+      "activate": "Activate an employee"
     },
     "btn": {
       "cancel": "Cancel",
@@ -578,6 +580,7 @@
       "add-employee": "Add employee",
       "edit": "Edit",
       "delete": "Delete",
+      "deactivate": "Deactivate",
       "no": "No",
       "yes": "Yes"
     }

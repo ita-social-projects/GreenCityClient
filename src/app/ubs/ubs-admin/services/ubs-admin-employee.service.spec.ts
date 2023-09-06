@@ -160,4 +160,13 @@ describe('UbsAdminEmployeeService', () => {
     expect(req.request.method).toBe('PUT');
     req.flush(employeeMock);
   });
+
+  it('should activate employee', () => {
+    service.activateEmployee(1).subscribe((data) => {
+      expect(data).toBe(employeeMock);
+    });
+    const req = httpMock.expectOne(`${urlMock}/activate-employee/1`);
+    expect(req.request.method).toBe('PUT');
+    req.flush(employeeMock);
+  });
 });
