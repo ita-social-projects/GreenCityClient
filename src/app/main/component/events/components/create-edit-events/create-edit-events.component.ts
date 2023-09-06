@@ -132,6 +132,15 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     });
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
+      this.dates = this.editEvent.dates.reduce((newDates, currentDates) => {
+        const {
+          coordinates: { latitude, longitude },
+          finishDate,
+          startDate,
+          onlineLink
+        } = currentDates;
+        return newDates.concat({ coordinatesDto: { latitude, longitude }, finishDate, startDate, onlineLink, check: false, valid: true });
+      }, []);
       this.setEditValue();
       this.editorText = this.eventFormGroup.get('description').value;
     } else {
@@ -229,20 +238,18 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isOpen = false;
   }
 
-  public setDateCount(value: number): void {
-    if (this.editMode) {
-      this.dates = Array(value)
-        .fill(null)
-        .map(() => ({ ...DateObj }));
-    } else {
-      const startInd = this.dates.length;
-      this.dates.length = value;
-      if (startInd > 0) {
-        this.dates.fill({ ...DateObj }, startInd);
-      }
+  public setDateCount(length: number): void {
+    const startInd = this.dates.length;
+    this.dates.length = length;
+    if (startInd > 0) {
+      this.dates.fill({ ...DateObj }, startInd);
     }
     this.eventsService.setIsAddressFill(this.dates);
-    this.dates.forEach((item) => (item.date = new Date(item.date)));
+    this.dates.forEach((item) => {
+      if (item.date) {
+        item.date = new Date(item.date);
+      }
+    });
   }
 
   public getImageTosend(imageArr: Array<File>): void {
