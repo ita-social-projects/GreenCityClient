@@ -115,7 +115,9 @@ describe('EventsListItemComponent', () => {
     isFavorite: false,
     isActive: true,
     isRelevant: true,
-    open: true
+    open: true,
+    likes: 5,
+    countComments: 7
   };
 
   const fakeItemTags: TagObj[] = [

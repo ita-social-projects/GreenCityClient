@@ -92,6 +92,8 @@ export interface EventPageResponceDto {
   isFavorite: boolean;
   isActive: boolean;
   isRelevant: boolean;
+  countComments: number;
+  likes: number;
 }
 
 export interface TagDto {

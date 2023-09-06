@@ -77,7 +77,9 @@ describe('EventsListComponent', () => {
       isFavorite: false,
       isActive: true,
       isRelevant: true,
-      open: true
+      open: true,
+      countComments: 5,
+      likes: 6
     },
     {
       id: 7,
@@ -129,7 +131,9 @@ describe('EventsListComponent', () => {
       isFavorite: false,
       isActive: true,
       isRelevant: true,
-      open: true
+      open: true,
+      countComments: 9,
+      likes: 2
     }
   ];
 
