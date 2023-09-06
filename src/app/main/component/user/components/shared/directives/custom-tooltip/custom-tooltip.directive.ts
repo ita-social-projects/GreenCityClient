@@ -23,7 +23,6 @@ export class CustomTooltipDirective {
     const text = this.renderer.createText(this.tooltipContent);
     this.renderer.appendChild(tooltip, text);
     this.renderer.addClass(tooltip, 'tooltipClass');
-    this.renderer.setStyle(tooltip, 'position', 'absolute');
     return tooltip;
   }
 }
