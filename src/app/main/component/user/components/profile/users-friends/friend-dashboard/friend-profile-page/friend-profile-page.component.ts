@@ -72,7 +72,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
       .acceptRequest(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.deleteFriendsFromList(id, this.requests);
+        this.requests = this.deleteFriendsFromList(id, this.requests);
       });
     this.showButtons = false;
   }
@@ -82,7 +82,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
       .declineRequest(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.deleteFriendsFromList(id, this.requests);
+        this.requests = this.deleteFriendsFromList(id, this.requests);
       });
     this.showButtons = false;
   }
