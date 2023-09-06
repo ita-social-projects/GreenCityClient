@@ -188,7 +188,7 @@ describe('CreateEditEventsComponent', () => {
   });
 
   it('setDateCount dates length should be 3', () => {
-    component.setDateCount(3, null);
+    component.setDateCount(3);
     expect(component.dates.length).toBe(3);
   });
 
