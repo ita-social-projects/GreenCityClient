@@ -43,6 +43,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { EventDescriptionTransformPipe } from './events-description-transforn/event-description-transform.pipe';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     CronPipe,
     ResizableBottomSheetComponent,
     CorrectUnitPipe,
-    UploadPhotoContainerComponent
+    UploadPhotoContainerComponent,
+    EventDescriptionTransformPipe
   ],
   imports: [
     CommonModule,
@@ -119,6 +121,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
+    EventDescriptionTransformPipe,
     RepeatPipe,
     CronPipe,
     ResizableBottomSheetComponent,

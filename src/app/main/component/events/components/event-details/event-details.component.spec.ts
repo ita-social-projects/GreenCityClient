@@ -139,7 +139,12 @@ describe('EventDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule],
-      declarations: [EventDetailsComponent, mockPipe({ name: 'dateLocalisation' }), mockPipe({ name: 'translate' })],
+      declarations: [
+        EventDetailsComponent,
+        mockPipe({ name: 'dateLocalisation' }),
+        mockPipe({ name: 'translate' }),
+        mockPipe({ name: 'eventDescriptionTransform' })
+      ],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
         { provide: EventsService, useValue: EventsServiceMock },

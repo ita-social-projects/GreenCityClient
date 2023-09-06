@@ -26,7 +26,7 @@
     </div>
     <div class="social" *ngIf="userSocialNetworks">
       <a *ngFor="let item of userSocialNetworks" [href]="item.link">
-        <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" />
+        <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" [matTooltip]="item.link" />
       </a>
     </div>
     <div class="profile-progress">

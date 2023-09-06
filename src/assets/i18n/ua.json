@@ -389,7 +389,8 @@
       "joined-event": "Ви успішно приєдналися до події",
       "saved-changes": "Ваші зміни збережено",
       "added-address": "Адресу додано",
-      "update-notification": "Повідомлення було оновлено"
+      "update-notification": "Повідомлення було оновлено",
+      "rating-send": "Рейтинг надіслано"
     }
   },
   "user": {
@@ -659,6 +660,9 @@
       "input-validation-pattern": "Здається, Ваша URL-адреса неправильна",
       "input-validation-non-unique": "Це посилання вже додано",
       "profile-changes-saved": "Внесені зміни збережено",
+      "user-credo": "Моє кредо — робити маленькі кроки, які ведуть до величезного впливу. Змінюймо світ разом.",
+      "user-name": "Василь Шевченко",
+      "user-location": "Львів",
       "btn": {
         "cancel": "Скасувати",
         "save": "Зберегти",

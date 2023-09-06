@@ -50,7 +50,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       map((value) => (typeof value === 'string' ? value : value.locationName)),
       map((locationName) => (locationName ? this._filter(locationName) : this.cities.slice()))
     );
-    //
   }
 
   displayFn(city: LocationsName): string {
@@ -113,7 +112,11 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       .subscribe((res: AllLocationsDtos) => {
         if (res.orderIsPresent) {
           this.locations = res.tariffsForLocationDto;
-          this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
+          res.tariffsForLocationDto.locationsDtosList.forEach((location) => {
+            if (location.nameEn === this.currentLocation) {
+              this.selectedLocationId = location.locationId;
+            }
+          });
           this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
           this.localStorageService.setLocationId(this.selectedLocationId);
           this.localStorageService.setTariffId(this.selectedTariffId);
@@ -134,9 +137,10 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     this.dialogRef.close({ locationId: this.selectedLocationId, currentLanguage: this.currentLanguage, data: this.locations });
   }
 
-  changeLocation(id: number, locationName: string): void {
+  changeLocation(id: number, locationName: string): number {
     this.selectedLocationId = id;
     this.currentLocation = locationName.split(',')[0];
+    return id;
   }
 
   public redirectToUbsPage(): void {
