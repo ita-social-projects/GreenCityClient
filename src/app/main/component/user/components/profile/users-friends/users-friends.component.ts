@@ -52,7 +52,7 @@ export class UsersFriendsComponent implements OnInit, OnDestroy {
   }
 
   public showFriendsInfo(friend: FriendModel): void {
-    this.router.navigate(['friends', friend.name, friend.id], { relativeTo: this.route });
+    this.router.navigate([`profile/${this.userId}/friends`, friend.name, friend.id]);
   }
 
   ngOnDestroy() {
