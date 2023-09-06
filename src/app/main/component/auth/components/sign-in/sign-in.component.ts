@@ -77,7 +77,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.isUbs = this.router.url.includes('ubs');
     this.isEventsDetails = this.router.url.includes('isOwner');
-    this.eventId = this.router.url.slice(8, 11);
+    this.eventId = this.route.snapshot.params?.id;
     this.isOwnerParams = this.router.url.includes('isOwner=true');
     this.isActiveParams = this.router.url.includes('isActive=true');
     this.userOwnSignIn = new UserOwnSignIn();
