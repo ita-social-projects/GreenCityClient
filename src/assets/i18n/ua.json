@@ -140,8 +140,9 @@
       "items-event-text": "подій",
       "my-space": {
         "tag-title": "Мої події",
+        "event-types-title": "Типи:",
         "event-type-online": "Онлайн",
-        "event-type-offline": "Оффлайн"
+        "event-type-offline": "Офлайн"
       },
       "open": "Відкритий",
       "registered": "Є зареєстровані",

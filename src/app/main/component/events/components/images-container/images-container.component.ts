@@ -18,11 +18,11 @@ export class ImagesContainerComponent implements OnInit {
   private maxImages = 5;
 
   public defImgs = [
-    '/assets/img/illustration-earth.png',
-    '/assets/img/illustration-money.png',
-    '/assets/img/illustration-people.png',
-    '/assets/img/illustration-recycle.png',
-    '/assets/img/illustration-store.png'
+    '/assets/img/events/illustration-earth.png',
+    '/assets/img/events/illustration-money.png',
+    '/assets/img/events/illustration-people.png',
+    '/assets/img/events/illustration-recycle.png',
+    '/assets/img/events/illustration-store.png'
   ];
   public images: EventImage[] = [];
   public editMode: boolean;
