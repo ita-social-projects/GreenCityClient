@@ -27,7 +27,7 @@
               #serviceref
               href
               class="pick-up-service"
-              (click)="openAboutServicePopUp()"
+              (click)="openAboutServicePopUp($event)"
               (keydown.enter)="onPressEnterAboutService($event)"
               >{{ 'user.lower-nav-bar.about-us' | translate }}</a
             >
