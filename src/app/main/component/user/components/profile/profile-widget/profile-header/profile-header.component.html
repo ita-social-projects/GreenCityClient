@@ -21,14 +21,15 @@
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
-    <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
-      {{ (userInfo.userCredo | maxTextLength: 110) || mockedUserInfo.userCredo }}
-    </div>
     <div class="social" *ngIf="userSocialNetworks">
       <a *ngFor="let item of userSocialNetworks" [href]="item.link">
         <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" [matTooltip]="item.link" />
       </a>
     </div>
+    <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
+      {{ (userInfo.userCredo | maxTextLength: 110) || mockedUserInfo.userCredo }}
+    </div>
+
     <div class="profile-progress">
       <app-profile-progress [progress]="progress"></app-profile-progress>
     </div>
