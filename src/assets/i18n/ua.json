@@ -139,7 +139,10 @@
       "item-found-text": "Знайдено",
       "items-event-text": "подій",
       "my-space": {
-        "tag-title": "Мої події"
+        "tag-title": "Мої події",
+        "event-types-title": "Типи:",
+        "event-type-online": "Онлайн",
+        "event-type-offline": "Офлайн"
       },
       "open": "Відкритий",
       "registered": "Є зареєстровані",
@@ -387,7 +390,8 @@
       "joined-event": "Ви успішно приєдналися до події",
       "saved-changes": "Ваші зміни збережено",
       "added-address": "Адресу додано",
-      "update-notification": "Повідомлення було оновлено"
+      "update-notification": "Повідомлення було оновлено",
+      "rating-send": "Рейтинг надіслано"
     }
   },
   "user": {
@@ -657,6 +661,9 @@
       "input-validation-pattern": "Здається, Ваша URL-адреса неправильна",
       "input-validation-non-unique": "Це посилання вже додано",
       "profile-changes-saved": "Внесені зміни збережено",
+      "user-credo": "Моє кредо — робити маленькі кроки, які ведуть до величезного впливу. Змінюймо світ разом.",
+      "user-name": "Василь Шевченко",
+      "user-location": "Львів",
       "btn": {
         "cancel": "Скасувати",
         "save": "Зберегти",
@@ -956,6 +963,7 @@
     "dashboard": {
       "my-habits": "Мої звички",
       "my-news": "Мої новини",
+      "my-events": "Мої події",
       "my-tips-and-tricks": "Мої статті",
       "habits-inprogress": "У процесі",
       "add-new-habit": "Додати Нову Звичку",
@@ -975,6 +983,7 @@
         "news-at-all": "новин"
       },
       "add-news": "Додати новини",
+      "add-event": "Додати подію",
       "no-events": "Привіт, Еко друг ;-)",
       "no-events-advice": "Ласкаво просимо до «Мої події». Здається, у вас немає подій. Почнемо приєднуватися до них!",
       "join-event": "Приєднатися до події"
@@ -1126,7 +1135,7 @@
     "text-finish": "Дякую !!!"
   },
   "create-event": {
-    "back": "назад",
+    "back": "Назад",
     "back-edit": "Повернутися до редагування",
     "save-event": "Зберегти подію",
     "label": "Мітка",

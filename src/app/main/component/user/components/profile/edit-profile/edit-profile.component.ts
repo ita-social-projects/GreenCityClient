@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,21 +20,15 @@ import { Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
-  public editProfileForm = null;
+  public editProfileForm: FormGroup;
   options: any;
   cityName: string;
   private langChangeSub: Subscription;
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
-    name: {
-      first: 'Brandier',
-      last: 'Webb'
-    },
-    location: 'Lviv',
     status: 'online',
-    rate: 658,
-    userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.'
+    rate: 658
   };
   public previousPath = '/profile';
   public popupConfig = {
@@ -91,6 +86,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.checkShoppingList = this.editProfileForm.value.showShoppingList;
   }
 
+  getControl(control: string) {
+    return this.editProfileForm.get(control);
+  }
+
   public getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
@@ -117,6 +116,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showShoppingList: data.showShoppingList,
       socialNetworks: data.socialNetworks
     };
+    this.editProfileForm.markAllAsTouched();
   }
 
   public onCityChange(event) {
@@ -139,6 +139,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         if (data) {
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
+          this.socialNetworksToServer = data.socialNetworks.map((sn) => sn.url);
           this.getFormInitialValues(data);
         }
       });

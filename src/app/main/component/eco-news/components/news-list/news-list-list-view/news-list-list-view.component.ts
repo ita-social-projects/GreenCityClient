@@ -1,4 +1,4 @@
-import { ecoNewsIcons } from '../../../../../image-pathes/profile-icons';
+import { userAssignedCardsIcons } from '../../../../../image-pathes/profile-icons';
 import {
   Component,
   Input,
@@ -36,7 +36,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   private smallHeight = 'smallHeight';
   private bigHeight = 'bigHeight';
 
-  public profileIcons = ecoNewsIcons;
+  public profileIcons = userAssignedCardsIcons;
   public newsImage: string;
   public tags: Array<string>;
   public currentLang: string;

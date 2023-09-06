@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable()
 class TranslationServiceStub {
@@ -55,6 +56,10 @@ describe('EventsListItemModalComponent', () => {
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
 
+  let MatSnackBarMock: MatSnackBarComponent;
+  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = (type: string) => {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemModalComponent],
@@ -62,7 +67,8 @@ describe('EventsListItemModalComponent', () => {
         { provide: Store, useValue: storeMock },
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ],
       imports: [RatingModule.forRoot(), ModalModule.forRoot(), MatDialogModule, TranslateModule.forRoot()]
     }).compileComponents();

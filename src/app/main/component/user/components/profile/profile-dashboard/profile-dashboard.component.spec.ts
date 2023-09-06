@@ -93,6 +93,10 @@ describe('ProfileDashboardComponent', () => {
         title: 'title',
         titleImage: 'image title',
         isSubscribed: true,
+        isFavorite: false,
+        isActive: true,
+        likes: 8,
+        countComments: 9,
         isRelevant: true
       }
     ],
@@ -195,7 +199,7 @@ describe('ProfileDashboardComponent', () => {
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
     expect(component.eventsList).toEqual(MockResult.page);
-    expect(component.eventsTotal).toEqual(MockResult.totalElements);
+    expect(component.totalEvents).toEqual(MockResult.totalElements);
   }));
 
   it('dispatchNews expect store.dispatch have been called', () => {

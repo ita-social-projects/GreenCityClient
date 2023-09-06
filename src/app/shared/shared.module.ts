@@ -26,7 +26,7 @@ import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/filter-location-list-by-lang.pipe';
-import { MaxTextLengthPipe } from '../ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+import { MaxTextLengthPipe } from './max-text-length-pipe/max-text-length.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -43,6 +43,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { EventDescriptionTransformPipe } from './events-description-transforn/event-description-transform.pipe';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     CronPipe,
     ResizableBottomSheetComponent,
     CorrectUnitPipe,
-    UploadPhotoContainerComponent
+    UploadPhotoContainerComponent,
+    EventDescriptionTransformPipe
   ],
   imports: [
     CommonModule,
@@ -119,6 +121,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     SpacePreventDirective,
     LocalizedDatePipe,
     TranslateDatePipe,
+    EventDescriptionTransformPipe,
     RepeatPipe,
     CronPipe,
     ResizableBottomSheetComponent,

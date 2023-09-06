@@ -37,3 +37,14 @@ export enum authoritiesChangeEmployee {
   editauthorities = 'EDIT_EMPLOYEES_AUTHORITIES',
   deactivate = 'DEACTIVATE_EMPLOYEE'
 }
+
+export enum PopUpsStyles {
+  green = 'green',
+  red = 'red',
+  lightGreen = 'light green'
+}
+
+export enum ActionTypeForPermissions {
+  apply = 'apply',
+  cancel = 'cancel'
+}

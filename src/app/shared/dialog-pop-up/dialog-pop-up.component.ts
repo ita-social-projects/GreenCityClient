@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { PopUpsStyles } from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-dialog-pop-up',
@@ -50,9 +51,9 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
     this.popupSubtitle = this.data.popupSubtitle;
     this.popupConfirm = this.data.popupConfirm;
     this.popupCancel = this.data.popupCancel;
-    this.setBtnStyleGreen = this.data.style === 'green';
-    this.setBtnStyleRed = this.data.style === 'red';
-    this.setBtnStyleLightGreen = this.data.style === 'light green';
+    this.setBtnStyleGreen = this.data.style === PopUpsStyles.green;
+    this.setBtnStyleRed = this.data.style === PopUpsStyles.red;
+    this.setBtnStyleLightGreen = this.data.style === PopUpsStyles.lightGreen;
     this.isItrefund = this.data.isItrefund;
     this.іsPermissionConfirm = this.data.іsPermissionConfirm;
   }

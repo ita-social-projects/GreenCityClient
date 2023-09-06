@@ -1,4 +1,4 @@
-import { ecoNewsIcons } from '../../main/image-pathes/profile-icons';
+import { userAssignedCardsIcons } from '../../main/image-pathes/profile-icons';
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class SearchItemComponent {
   @Input() searchModel: NewsSearchModel;
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
-  profileIcons = ecoNewsIcons;
+  profileIcons = userAssignedCardsIcons;
 
   public emitCloseSearch(): void {
     this.closeSearch.emit();

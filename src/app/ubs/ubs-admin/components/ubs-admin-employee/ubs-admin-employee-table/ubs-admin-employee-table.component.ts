@@ -9,7 +9,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
-import { DeleteEmployee, GetEmployees } from 'src/app/store/actions/employee.actions';
+import { PopUpsStyles, EmployeeStatus } from './employee-models.enum';
+import { DeleteEmployee, GetEmployees, ActivateEmployee } from 'src/app/store/actions/employee.actions';
 import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
 import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 import { FilterData } from '../../../models/tariffs.interface';
@@ -40,16 +41,29 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   filterDatas: FilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   public isTooltipOpened: boolean;
+  public isStatusActive = EmployeeStatus.active;
+  public isStatusInactive = EmployeeStatus.inactive;
   public deleteDialogData = {
     popupTitle: 'employees.warning-title',
-    popupConfirm: 'employees.btn.delete',
+    popupConfirm: 'employees.btn.deactivate',
     popupCancel: 'employees.btn.cancel',
-    style: 'red'
+    style: PopUpsStyles.red
   };
+
+  public activateDialogData = {
+    popupTitle: 'employees.activate-employee-title',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: PopUpsStyles.lightGreen,
+    іsPermissionConfirm: false,
+    isItrefund: false
+  };
+
   public icons = {
     edit: './assets/img/ubs-admin-employees/edit.svg',
     settings: './assets/img/ubs-admin-employees/gear.svg',
     delete: './assets/img/ubs-admin-employees/bin.svg',
+    activate: './assets/img/ubs-tariff/restore.svg',
     crumbs: './assets/img/ubs-admin-employees/crumbs.svg',
     email: './assets/img/ubs-admin-employees/mail.svg',
     phone: './assets/img/ubs-admin-employees/phone.svg',
@@ -177,6 +191,27 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
+        }
+      });
+  }
+
+  openActivateDialog(employeeData: Page, event: Event): void {
+    event.stopPropagation();
+    const matDialogRef = this.dialog.open(DialogPopUpComponent, {
+      data: this.activateDialogData,
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: 'activate-dialog-container'
+    });
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((res) => {
+        if (res) {
+          this.store.dispatch(ActivateEmployee({ id: employeeData.id }));
+          this.initSearch();
         }
       });
   }

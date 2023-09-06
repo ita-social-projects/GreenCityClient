@@ -24,27 +24,26 @@ import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MaxTextLengthPipe } from 'src/app/ubs/ubs-admin/components/shared/max-text-length/max-text-length.pipe';
+import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { FriendModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-events-list-item',
   templateUrl: './events-list-item.component.html',
-  styleUrls: ['./events-list-item.component.scss'],
-  providers: [MaxTextLengthPipe]
+  styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
 })
 export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   @Input() userId: number;
+  @Input() isUserAssignList: boolean;
   @Input() userFriends: FriendModel[];
+
+  profileIcons = userAssignedCardsIcons;
 
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
-
-  public title: string;
-  public description: string;
 
   public rate: number;
   public author: string;
@@ -109,8 +108,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     private store: Store,
     private eventService: EventsService,
     private translate: TranslateService,
-    private snackBar: MatSnackBarComponent,
-    private maxTextLengthPipe: MaxTextLengthPipe
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnChanges() {
@@ -120,8 +118,6 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
-    this.title = this.maxTextLengthPipe.transform(this.event.title, 30);
-    this.description = this.maxTextLengthPipe.transform(this.event.description, 90);
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();
     this.subscribeToLangChange();
@@ -282,7 +278,8 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  addToFavourite() {
+  public addToFavourite(event?: Event) {
+    event.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
     } else {
@@ -297,7 +294,9 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     const dtoName = 'EventPageResponceDto';
 
     formData.append(dtoName, stringifiedDataToSend);
-    this.eventService.editEvent(formData);
+
+    this.eventService.editEvent(formData).subscribe((res) => {});
+    this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
   }
 
   public openAuthModalWindow(page: string): void {

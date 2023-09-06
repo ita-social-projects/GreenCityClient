@@ -138,10 +138,6 @@ div.search-content-wrapper {
 }
 
 @media (min-width: 576px) {
-  .container {
-    padding: 0;
-  }
-
   .list-search-items {
     grid-template-columns: repeat(2, 254px);
   }

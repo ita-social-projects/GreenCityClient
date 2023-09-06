@@ -141,7 +141,6 @@
       "no-event-left": "There's no events for now",
       "my-space": {
         "tag-title": "My Events",
-        "event-types-title": "Types:",
         "event-type-online": "Online",
         "event-type-offline": "Offline"
       },
@@ -386,7 +385,8 @@
       "joined-event": "You have successfully joined the event",
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
-      "update-notification": "Notification was updated"
+      "update-notification": "Notification was updated",
+      "rating-send": "Rating sent"
     }
   },
   "user": {
@@ -635,7 +635,7 @@
       "edit-button": "Edit Picture",
       "info": "Personal info",
       "name": "Name",
-      "name-warning": "The field is required. The name must contain 1-30 characters and can contain letters(a-z; а-я), numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden",
+      "name-warning": "The name must contain 1-30 characters and can contain letters(a-z; а-я), and numbers(0-9) and a dot(.), dot at the start, at the end and consecutive dot is forbidden.",
       "city": "City",
       "city-warning": "Should contain maximum 85 symbols and may contain letters(a-z), and next special characters '()!,-’",
       "title": "Credo",
@@ -656,6 +656,9 @@
       "input-validation-pattern": "Your URL seems to be incorrect",
       "input-validation-non-unique": "This link has been already added",
       "profile-changes-saved": "Your changes have been saved",
+      "user-credo": "My Credo is to make small steps that leads to huge impact. Let’s change the world together.",
+      "user-name": "Brandier Webb",
+      "user-location": "Lviv",
       "btn": {
         "cancel": "Cancel",
         "save": "Save",
@@ -937,6 +940,7 @@
     "dashboard": {
       "my-habits": "My habits",
       "my-news": "My news",
+      "my-events": "My events",
       "my-articles": "My articles",
       "habits-inprogress": "In progress",
       "add-new-habit": "Add New Habit",
@@ -956,6 +960,7 @@
         "news-at-all": "news"
       },
       "add-news": "Add News",
+      "add-event": "Add Event",
       "no-events": "Hi Eco Friend ;-)",
       "no-events-advice": "Welcome to My Events. It seems you don’t have any events. Let’s start to join event!",
       "join-event": "Join Event"
@@ -1107,7 +1112,7 @@
     "text-finish": "Thank you !!!"
   },
   "create-event": {
-    "back": "back",
+    "back": "Back",
     "back-edit": "Back to editing",
     "save-event": "Save event",
     "label": "Label",

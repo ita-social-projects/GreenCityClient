@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NewsModel } from '@global-user/models/news.model';
-import { ecoNewsIcons } from 'src/app/main/image-pathes/profile-icons';
+import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 
 @Component({
   selector: 'app-one-news',
@@ -10,7 +10,7 @@ import { ecoNewsIcons } from 'src/app/main/image-pathes/profile-icons';
 export class OneNewsComponent {
   @Input() ecoNewsModel: NewsModel;
 
-  public profileIcons = ecoNewsIcons;
+  public profileIcons = userAssignedCardsIcons;
 
   public checkNewsImage(): string {
     if (this.ecoNewsModel.imagePath && this.ecoNewsModel.imagePath !== ' ') {

@@ -58,6 +58,10 @@ export class UbsAdminEmployeeService {
     return this.http.put(`${ubsAdminEmployeeLink}/deactivate-employee/${id}`, id);
   }
 
+  activateEmployee(id: number) {
+    return this.http.put(`${ubsAdminEmployeeLink}/activate-employee/${id}`, id);
+  }
+
   getAllEmployeePermissions(email: string) {
     return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
   }

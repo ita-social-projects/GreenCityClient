@@ -95,12 +95,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   getUserFriendsList(): void {
-    this.userFriendsService
-      .getAllFriendsByUserId(this.userId)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((res) => {
-        this.userFriends = res;
-      });
+    if (this.userId) {
+      this.userFriendsService
+        .getAllFriendsByUserId(this.userId)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((res) => {
+          this.userFriends = res;
+        });
+    } else {
+      this.userFriends = [];
+    }
   }
 
   updateSelectedFilters(value: any, event): void {

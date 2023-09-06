@@ -92,7 +92,7 @@
                 <img [src]="icons.location" alt="" />
               </div>
               <div>
-                {{ locationLink ? locationLink : locationAddress }}
+                {{ locationAddress ? locationAddress : locationLink }}
               </div>
             </div>
             <div class="event-status-access">
@@ -132,8 +132,9 @@
 
       <div class="main-right">
         <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-        <div [innerHTML]="event.description"></div>
+        <div [innerHTML]="event.description | eventDescriptionTransform"></div>
       </div>
     </div>
   </div>
+  <app-comments-container class="event" [entityId]="eventId"></app-comments-container>
 </div>
