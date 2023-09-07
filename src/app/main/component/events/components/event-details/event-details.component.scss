@@ -245,6 +245,7 @@
 
             .event-date,
             .event-location,
+            .event-link,
             .event-status-access,
             .event-author {
               display: grid;
@@ -252,6 +253,16 @@
               column-gap: 18px;
               font-size: 16px;
               font-weight: 400;
+            }
+
+            .event-link {
+              a {
+                color: inherit;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 100%;
+              }
             }
 
             .event-date {

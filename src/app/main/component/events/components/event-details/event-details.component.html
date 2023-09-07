@@ -1,140 +1,150 @@
 <div class="event-wrapper">
-  <app-spinner *ngIf="isPosting"></app-spinner>
-  <div *ngIf="event && !isPosting" class="event">
-    <div class="event-nav">
-      <div class="back-button">
-        <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" class="button-link">
-          <div class="button-content">
-            <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
-            <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
+  <div class="container">
+    <app-spinner *ngIf="isPosting"></app-spinner>
+    <div *ngIf="event && !isPosting" class="event">
+      <div class="event-nav">
+        <div class="back-button">
+          <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" class="button-link">
+            <div class="button-content">
+              <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
+              <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
+            </div>
+          </a>
+        </div>
+
+        <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
+          <button class="tertiary-global-button m-btn" (click)="deleteEvent()">
+            {{ 'homepage.events.btn.delete' | translate }}
+          </button>
+          <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="!event.isRelevant">
+            {{ 'homepage.events.btn.edit' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="event-header">
+        <div class="left-side">
+          <div class="event-title">{{ event.title }}</div>
+          <div class="date-author">
+            <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
+            <div>|</div>
+            <div>{{ 'homepage.events.author' | translate }} {{ event.organizer.name }}</div>
           </div>
-        </a>
-      </div>
-
-      <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
-        <button class="tertiary-global-button m-btn" (click)="deleteEvent()">
-          {{ 'homepage.events.btn.delete' | translate }}
-        </button>
-        <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="!event.isRelevant">
-          {{ 'homepage.events.btn.edit' | translate }}
-        </button>
-      </div>
-    </div>
-
-    <div class="event-header">
-      <div class="left-side">
-        <div class="event-title">{{ event.title }}</div>
-        <div class="date-author">
-          <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
-          <div>|</div>
-          <div>{{ 'homepage.events.author' | translate }} {{ event.organizer.name }}</div>
         </div>
-      </div>
-      <div class="right-side">
-        <div class="share-buttons">
-          <img [src]="icons.socials.plus" alt="Share" />
-          <img [src]="icons.socials.twitter" alt="Share on Twitter" />
-          <img [src]="icons.socials.linkedin" alt="Share on LinkedIn" />
-          <img [src]="icons.socials.facebook" alt="Share on Facebook" />
-        </div>
-      </div>
-    </div>
-
-    <div class="event-main">
-      <div class="main-left">
-        <div class="main-image">
-          <app-images-slider *ngIf="images.length" [images]="images"></app-images-slider>
-        </div>
-
-        <div class="event-tags-participants">
-          <div class="event-tags">
-            <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
+        <div class="right-side">
+          <div class="share-buttons">
+            <img [src]="icons.socials.plus" alt="Share" />
+            <img [src]="icons.socials.twitter" alt="Share on Twitter" />
+            <img [src]="icons.socials.linkedin" alt="Share on LinkedIn" />
+            <img [src]="icons.socials.facebook" alt="Share on Facebook" />
           </div>
-          <div class="event-participants">
-            <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
-              <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars">
-                <img [src]="avatar" alt="" />
+        </div>
+      </div>
+
+      <div class="event-main">
+        <div class="main-left">
+          <div class="main-image">
+            <app-images-slider *ngIf="images.length" [images]="images"></app-images-slider>
+          </div>
+
+          <div class="event-tags-participants">
+            <div class="event-tags">
+              <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
+            </div>
+            <div class="event-participants">
+              <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
+                <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars">
+                  <img [src]="avatar" alt="" />
+                </div>
+              </div>
+              <div class="event-participants-count-container">
+                <span class="event-participants-count">{{ attendees.length }}</span
+                >&nbsp;
+                <span>{{ 'homepage.events.people-joined' | translate }}</span>
               </div>
             </div>
-            <div class="event-participants-count-container">
-              <span class="event-participants-count">{{ attendees.length }}</span
-              >&nbsp;
-              <span>{{ 'homepage.events.people-joined' | translate }}</span>
-            </div>
           </div>
-        </div>
 
-        <div class="event-info-block">
-          <div class="event-info">
-            <div class="event-date">
-              <div class="event-date-icon">
-                <img [src]="icons.clock" alt="" />
-              </div>
-              <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
-                <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
-                <div>|</div>
-                <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
-              </div>
-              <ng-template #multipleDays>
-                <div class="event-date-content">
-                  <div class="event-duration">
-                    {{ event.dates[0].startDate | dateLocalisation }}
-                    &nbsp;-&nbsp;
-                    {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
-                  </div>
+          <div class="event-info-block">
+            <div class="event-info">
+              <div class="event-date">
+                <div class="event-date-icon">
+                  <img [src]="icons.clock" alt="" />
+                </div>
+                <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
+                  <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
                   <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
                 </div>
-              </ng-template>
+                <ng-template #multipleDays>
+                  <div class="event-date-content">
+                    <div class="event-duration">
+                      {{ event.dates[0].startDate | dateLocalisation }}
+                      &nbsp;-&nbsp;
+                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
+                    </div>
+                    <div>|</div>
+                    <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                  </div>
+                </ng-template>
+              </div>
+              <div class="event-location">
+                <div class="event-location-icon">
+                  <img [src]="icons.location" alt="" />
+                </div>
+                <div>
+                  {{ locationAddress ? locationAddress : locationLink }}
+                </div>
+              </div>
+              <div *ngIf="locationAddress && locationLink" class="event-link">
+                <div class="event-link-icon">
+                  <img [src]="icons.link" alt="" />
+                </div>
+                <a href="{{ locationLink }}" target="_blank" rel="noopener">
+                  {{ locationLink }}
+                </a>
+              </div>
+              <div class="event-status-access">
+                <div class="event-status-icon">
+                  <img [src]="event.open ? icons.lock.open : icons.lock.closed" alt="" />
+                </div>
+                <div class="event-status-access-content">
+                  <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
+                  <div>|</div>
+                  <div>{{ 'homepage.events.registered' | translate }}</div>
+                </div>
+              </div>
+              <div class="event-author">
+                <div class="event-author-icon">
+                  <img [src]="icons.user" alt="" />
+                </div>
+                <div>{{ event.organizer.name }}</div>
+              </div>
             </div>
-            <div class="event-location">
-              <div class="event-location-icon">
-                <img [src]="icons.location" alt="" />
-              </div>
-              <div>
-                {{ locationAddress ? locationAddress : locationLink }}
-              </div>
-            </div>
-            <div class="event-status-access">
-              <div class="event-status-icon">
-                <img [src]="event.open ? icons.lock.open : icons.lock.closed" alt="" />
-              </div>
-              <div class="event-status-access-content">
-                <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
-                <div>|</div>
-                <div>{{ 'homepage.events.registered' | translate }}</div>
-              </div>
-            </div>
-            <div class="event-author">
-              <div class="event-author-icon">
-                <img [src]="icons.user" alt="" />
-              </div>
-              <div>{{ event.organizer.name }}</div>
+            <div class="event-info-days">
+              <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
             </div>
           </div>
-          <div class="event-info-days">
-            <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
+
+          <div class="save-join-event-block">
+            <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
+            <button
+              *ngIf="!isUserCanRate && !isOver && (isEventOrginizerFriend || event.open)"
+              [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
+              (click)="buttonAction()"
+            >
+              {{ (isUserCanJoin ? 'event.btn-join' : 'event.btn-cancel') | translate }}
+            </button>
+            <button class="primary-global-button" *ngIf="isUserCanRate" (click)="openModal()">{{ 'event.btn-rate' | translate }}</button>
           </div>
         </div>
 
-        <div class="save-join-event-block">
-          <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
-          <button
-            *ngIf="!isUserCanRate && !isOver && (isEventOrginizerFriend || event.open)"
-            [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
-            (click)="buttonAction()"
-          >
-            {{ (isUserCanJoin ? 'event.btn-join' : 'event.btn-cancel') | translate }}
-          </button>
-          <button class="primary-global-button" *ngIf="isUserCanRate" (click)="openModal()">{{ 'event.btn-rate' | translate }}</button>
+        <div class="main-right">
+          <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
+          <div [innerHTML]="event.description | eventDescriptionTransform"></div>
         </div>
       </div>
-
-      <div class="main-right">
-        <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-        <div [innerHTML]="event.description | eventDescriptionTransform"></div>
-      </div>
+      <app-comments-container class="event" [entityId]="eventId"></app-comments-container>
     </div>
   </div>
-  <app-comments-container class="event" [entityId]="eventId"></app-comments-container>
 </div>

@@ -46,7 +46,7 @@
         {{ address.houseNumber }}
       </p>
       <p *ngIf="isOnline && !address">
-        <a href="{{ isOnline }}">{{ 'homepage.events.my-space.event-type-online' | translate }}</a>
+        <a href="{{ isOnline }}" target="_blank" rel="noopener">{{ 'homepage.events.my-space.event-type-online' | translate }}</a>
       </p>
     </div>
     <div class="date-container">
