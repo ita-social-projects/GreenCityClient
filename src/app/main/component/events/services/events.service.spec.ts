@@ -2,10 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
+import { EventFilterCriteriaIntarface } from '../models/events.interface';
+import { EventFilterCriteria } from '../models/event-consts';
 
 describe('EventsService', () => {
   let service: EventsService;
   let httpTestingController: HttpTestingController;
+  const eventFilterCriteria: EventFilterCriteriaIntarface = EventFilterCriteria;
   const url = environment.backendLink;
   const formData = new FormData();
   const data: any = {
@@ -85,10 +88,18 @@ describe('EventsService', () => {
   });
 
   it('should make GET request to get all events', () => {
-    service.getEvents(0, 1).subscribe((event: any) => {
+    service.getEvents(0, 1, eventFilterCriteria).subscribe((event: any) => {
       expect(event).toEqual(data);
     });
-    const req = httpTestingController.expectOne(`${url}events?page=0&size=1`);
+    const urlAttr = [
+      `cities=${eventFilterCriteria.cities}`,
+      `tags=${eventFilterCriteria.tags}`,
+      `eventTime=${eventFilterCriteria.eventTime}`,
+      `statuses=${eventFilterCriteria.statuses}`
+    ]
+      .filter((item) => !!item)
+      .join('&');
+    const req = httpTestingController.expectOne(`${url}events?page=0&size=1${urlAttr}`);
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });

@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
+import { EventFilterCriteriaIntarface, EventResponseDto, PagePreviewDTO } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +34,11 @@ export class EventsService implements OnDestroy {
     return this.http.put<any>(`${this.backEnd}events/update`, formData);
   }
 
-  public getEvents(page: number, quantity: number): Observable<any> {
-    return this.http.get(`${this.backEnd}events?page=${page}&size=${quantity}`);
+  public getEvents(page: number, quantity: number, filter: EventFilterCriteriaIntarface): Observable<any> {
+    const urlAttr = [`cities=${filter.cities}`, `tags=${filter.tags}`, `eventTime=${filter.eventTime}`, `statuses=${filter.statuses}`]
+      .filter((item) => !!item)
+      .join('&');
+    return this.http.get(`${this.backEnd}events?page=${page}&size=${quantity}${urlAttr}`);
   }
 
   public getSubscribedEvents(page: number, quantity: number): Observable<EventResponseDto> {

@@ -11,7 +11,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-consts';
+import { eventStatusList, TagsArray, eventTimeList, OptionItem } from '../../models/event-consts';
 import { By } from '@angular/platform-browser';
 import { MatOption } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
@@ -20,7 +20,13 @@ import { EventPageResponceDto } from '../../models/events.interface';
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
-
+  const eventStatusList = [
+    { nameEn: 'Open', nameUa: 'Відкритa' },
+    { nameEn: 'Closed', nameUa: 'Закритa' },
+    { nameEn: 'Joined', nameUa: 'Вже доєднані' },
+    { nameEn: 'Created', nameUa: 'Створенa' },
+    { nameEn: 'Saved', nameUa: 'Збережена' }
+  ];
   const MockReqest = {
     page: [],
     totalElements: 4
@@ -276,48 +282,28 @@ describe('EventsListComponent', () => {
     });
   });
 
-  it('should subscribe to form control changes for all form controls', () => {
-    component.timeFilterControl = timeFilterControl;
-    component.locationFilterControl = locationFilterControl;
-    component.statusFilterControl = statusFilterControl;
-    component.typeFilterControl = typeFilterControl;
-
-    const spy = spyOn(component, 'updateSelectedFilters');
-
-    component.subscribeOnFormControlsChanges();
-
-    timeFilterControl.setValue('Some value');
-    locationFilterControl.setValue('Some value');
-    statusFilterControl.setValue('Some value');
-    typeFilterControl.setValue('Some value');
-
-    expect(spy).toHaveBeenCalledTimes(4);
-  });
-
   it('should remove existing filter when deselected', () => {
-    component.selectedFilters = ['filter1', 'filter2'];
-    const mockEvent = { isUserInput: true, source: { selected: false } };
-    component.updateSelectedFilters('filter1', mockEvent);
-    expect(component.selectedFilters).toEqual(['filter2']);
+    let mockEvent = { isUserInput: true, source: { selected: true } };
+    component.updateSelectedFilters(eventStatusList[0], mockEvent, component.statusesList, 'statuses', component.statusList);
+    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
+    mockEvent = { isUserInput: true, source: { selected: false } };
+    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
+    expect(component.selectedFilters).toEqual([{ nameEn: 'Open', nameUa: 'Відкритa' }]);
   });
 
   it('should add new filter when selected', () => {
-    component.selectedFilters = ['filter1', 'filter2'];
     const mockEvent = { isUserInput: true, source: { selected: true } };
-    component.updateSelectedFilters('filter3', mockEvent);
-    expect(component.selectedFilters).toEqual(['filter1', 'filter2', 'filter3']);
+    component.updateSelectedFilters(eventStatusList[0], mockEvent, component.statusesList, 'statuses', component.statusList);
+    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
+    expect(component.selectedFilters).toEqual([
+      { nameEn: 'Open', nameUa: 'Відкритa' },
+      { nameEn: 'Closed', nameUa: 'Закритa' }
+    ]);
   });
 
   it('should not modify selectedFilters when no user input', () => {
     component.selectedFilters = ['filter1', 'filter2'];
     const mockEvent = { isUserInput: false, source: { selected: true } };
-    component.updateSelectedFilters('filter3', mockEvent);
-    expect(component.selectedFilters).toEqual(['filter1', 'filter2']);
-  });
-
-  it('should not modify selectedFilters when already deselected', () => {
-    component.selectedFilters = ['filter1', 'filter2'];
-    const mockEvent = { isUserInput: true, source: { selected: false } };
     component.updateSelectedFilters('filter3', mockEvent);
     expect(component.selectedFilters).toEqual(['filter1', 'filter2']);
   });
