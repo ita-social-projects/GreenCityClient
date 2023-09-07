@@ -50,43 +50,45 @@
           </div>
         </div>
 
-      <div class="dateContainer">
-        <div *ngFor="let date of dates; index as i" class="dateEvent">
-          <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
-          <div class="date-event-block">
-            <app-event-date-time-picker
-              (datesForm)="checkFormSetDates($event, i)"
-              (coordOffline)="setCoordsOffline($event, i)"
-              (linkOnline)="setOnlineLink($event, i)"
-              (status)="checkStatus($event, i)"
-              [check]="date.check"
-              [editDate]="editEvent?.dates[i]"
-              [isDateDuplicate]="isDateDuplicate"
-              [editDates]="editDates"
-            >
-            </app-event-date-time-picker>
-            <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
+        <div class="dateContainer">
+          <div *ngFor="let date of dates; index as i" class="dateEvent">
+            <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
+            <div class="date-event-block">
+              <app-event-date-time-picker
+                (datesForm)="checkFormSetDates($event, i)"
+                (coordOffline)="setCoordsOffline($event, i)"
+                (linkOnline)="setOnlineLink($event, i)"
+                (status)="checkStatus($event, i)"
+                [check]="date.check"
+                [editDate]="editEvent?.dates[i]"
+                [isDateDuplicate]="isDateDuplicate"
+                [editDates]="editDates"
+              >
+              </app-event-date-time-picker>
+              <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
+            </div>
+            <p *ngIf="!!arePlacesFilled[i]" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
           </div>
-          <p *ngIf="!!arePlacesFilled[i]" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
         </div>
 
-      <div class="textarea-wrapper">
-        <div class="title-container">
-          <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-          <p [ngClass]="handleErrorClass('error') || 'textarea-description'">
-            {{ 'create-news.content-tooltip' | translate }}
-          </p>
-        </div>
-        <div [ngClass]="handleErrorClass('content-error') || 'content'">
-          <quill-editor
-            minlength="20"
-            class="editor"
-            ngDefaultControl
-            formControlName="description"
-            [modules]="quillModules"
-            (onEditorChanged)="changedEditor($event)"
-            placeholder="{{ 'create-news.content-placeholder' | translate }}"
-          ></quill-editor>
+        <div class="textarea-wrapper">
+          <div class="title-container">
+            <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
+            <p [ngClass]="handleErrorClass('error') || 'textarea-description'">
+              {{ 'create-news.content-tooltip' | translate }}
+            </p>
+          </div>
+          <div [ngClass]="handleErrorClass('content-error') || 'content'">
+            <quill-editor
+              minlength="20"
+              class="editor"
+              ngDefaultControl
+              formControlName="description"
+              [modules]="quillModules"
+              (onEditorChanged)="changedEditor($event)"
+              placeholder="{{ 'create-news.content-placeholder' | translate }}"
+            ></quill-editor>
+          </div>
         </div>
       </mat-card>
       <mat-card class="event-main-block right">
