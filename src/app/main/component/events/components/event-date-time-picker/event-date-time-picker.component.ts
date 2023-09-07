@@ -49,6 +49,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Input() editDate: DateEventResponceDto;
   @Input() isDateDuplicate: boolean;
   @Input() editDates: boolean;
+  @Input() firstFormIsSucceed: boolean = true;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -75,9 +76,23 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     this.minDate.setDate(curDay);
     this.fillTimeArray();
 
+    let initialDate: any = '';
+    let initialStartTime: any = '';
+
+    if (this.firstFormIsSucceed) {
+      initialDate = new Date();
+
+      const currentHour = initialDate.getHours();
+      if (currentHour + 1 !== 24) {
+        initialStartTime = (currentHour + 1).toLocaleString() + ':00';
+      } else {
+        initialStartTime = '0:00';
+      }
+    }
+
     this.dateForm = new FormGroup({
-      date: new FormControl('', [Validators.required]),
-      startTime: new FormControl('', [Validators.required]),
+      date: new FormControl(initialDate, [Validators.required]),
+      startTime: new FormControl(initialStartTime, [Validators.required]),
       endTime: new FormControl('', [Validators.required])
     });
 
