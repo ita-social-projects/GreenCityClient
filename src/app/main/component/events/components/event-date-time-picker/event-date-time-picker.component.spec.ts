@@ -25,10 +25,16 @@ describe('EventDateTimePickerComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAdresses', 'setIsAddressFill', 'getIsAddressFillObservable']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'createAdresses',
+    'setArePlacesFilled',
+    'getCheckedPlacesObservable',
+    'setInitialValueForPlaces'
+  ]);
   EventsServiceMock.createAdresses = () => of('');
-  EventsServiceMock.setIsAddressFill = () => of('');
-  EventsServiceMock.getIsAddressFillObservable = () => of([]);
+  EventsServiceMock.setArePlacesFilled = () => of('');
+  EventsServiceMock.setInitialValueForPlaces = () => of('');
+  EventsServiceMock.getCheckedPlacesObservable = () => of([]);
 
   const editDateMock = {
     coordinates: {

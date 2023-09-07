@@ -22,6 +22,10 @@ describe('CreateEditEventsComponent', () => {
   const FormMock = {
     date: new Date(),
     endTime: '15:00',
+    coordinates: {
+      latitude: null,
+      longitude: null
+    },
     onlineLink: 'link',
     place: 'place',
     startTime: '12:00'
@@ -41,7 +45,10 @@ describe('CreateEditEventsComponent', () => {
   };
 
   const EditDateEventMock = {
-    coordinates: null,
+    coordinates: {
+      latitude: null,
+      longitude: null
+    },
     event: 'string',
     finishDate: '',
     id: 1,
@@ -90,13 +97,15 @@ describe('CreateEditEventsComponent', () => {
   const EventsServiceMock = jasmine.createSpyObj('EventsService', [
     'createEvent',
     'editEvent',
-    'setIsAddressFill',
-    'getIsAddressFillObservable'
+    'setArePlacesFilled',
+    'setInitialValueForPlaces',
+    'getCheckedPlacesObservable'
   ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
   EventsServiceMock.editEvent = () => of(true);
-  EventsServiceMock.setIsAddressFill = () => of(true);
-  EventsServiceMock.getIsAddressFillObservable = () => of([]);
+  EventsServiceMock.setArePlacesFilled = () => of('');
+  EventsServiceMock.setInitialValueForPlaces = () => of('');
+  EventsServiceMock.getCheckedPlacesObservable = () => of([]);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = () => {
@@ -153,20 +162,8 @@ describe('CreateEditEventsComponent', () => {
 
   it('checkForm startDate should be 12:00', () => {
     component.dates = [DateMock];
-    component.checkForm(FormMock, 0);
+    component.checkFormSetDates(FormMock, 0);
     expect(component.dates[0].startDate).toBe('12:00');
-  });
-
-  it('setCoordsOffline dates.valid should be falsy', () => {
-    component.dates = [DateMock];
-    component.setCoordsOffline({ latitude: null, longitude: null }, 0);
-    expect(component.dates[0].valid).toBeFalsy();
-  });
-
-  it('setOnlineLink dates.valid should be falsy', () => {
-    component.dates = [DateMock];
-    component.setOnlineLink('', 0);
-    expect(component.dates[0].valid).toBeFalsy();
   });
 
   it('escapeFromCreateEvent expect router should be call', () => {
@@ -242,8 +239,6 @@ describe('CreateEditEventsComponent', () => {
 
   it('onSubmit expect isposting to be false', () => {
     const spy = spyOn(component as any, 'checkDates');
-    component.checkdates = true;
-    component.contentValid = true;
     component.tags[0].isActive = true;
     component.eventFormGroup.patchValue({
       titleForm: 'title',
@@ -251,6 +246,8 @@ describe('CreateEditEventsComponent', () => {
       description: 'descriptiondescriptiondescriptiondescription'
     });
     component.onSubmit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    (component as any).checkDates();
+    expect(component.checkdates).toBeFalsy();
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 });

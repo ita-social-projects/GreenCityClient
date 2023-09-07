@@ -47,7 +47,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public places: Place[] = [];
   public checkdates: boolean;
   public isPosting = false;
-  public contentValid: boolean;
   public checkAfterSend = true;
   public dateArrCount = WeekArray;
   public selectedDay = WeekArray[0];
@@ -59,7 +58,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public imagesForEdit: string[];
   public tags: Array<TagObj>;
   public isTagValid: boolean;
-  public isAddressFill: boolean[] = [];
+  public arePlacesFilled: boolean[] = [];
   public eventFormGroup: FormGroup;
   public isImageSizeError: boolean;
   public isImageTypeError = false;
@@ -139,7 +138,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
           startDate,
           onlineLink
         } = currentDates;
-        return newDates.concat({ coordinatesDto: { latitude, longitude }, finishDate, startDate, onlineLink, check: false, valid: true });
+        return newDates.concat({ coordinatesDto: { latitude, longitude }, finishDate, startDate, onlineLink, check: false, valid: false });
       }, []);
       this.setEditValue();
       this.editorText = this.eventFormGroup.get('description').value;
@@ -153,12 +152,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
     this.backRoute = this.localStorageService.getPreviousPage();
-    this.updateIsAddressFill(undefined, undefined, true);
+    this.eventsService.setInitialValueForPlaces();
     this.subscription = this.eventsService
-      .getIsAddressFillObservable()
+      .getCheckedPlacesObservable()
       .pipe(takeUntil(this.destroy$))
       .subscribe((values) => {
-        this.isAddressFill = values;
+        this.arePlacesFilled = values;
       });
   }
 
@@ -186,17 +185,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isTagValid = this.tags.some((el) => el.isActive);
   }
 
-  public checkForm(form: DateFormObj, ind: number): void {
+  public checkFormSetDates(form: DateFormObj, ind: number): void {
     this.addressForPreview = form;
     this.duplindx = -1;
-    const date = form.date?.toLocaleDateString();
+    let date: string;
+    if (form.date) {
+      date = form.date.toLocaleDateString();
+    }
     const datesArray = this.dates.map((item, index) => {
       if (index !== ind) {
         return item.date?.toLocaleDateString();
       }
     });
     this.isDateDuplicate = datesArray.includes(date);
-    if (!this.isDateDuplicate) {
+    if (!this.isDateDuplicate || !form.date) {
       this.dates[ind].date = form.date;
       this.dates[ind].startDate = form.startTime;
       this.dates[ind].finishDate = form.endTime;
@@ -207,6 +209,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates.splice(ind, 1, { ...DateObj });
       this.editDates = true;
     }
+  }
+
+  public checkStatus(event: boolean, ind: number): void {
+    this.dates[ind].valid = event;
   }
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
@@ -239,12 +245,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setDateCount(length: number): void {
-    const startInd = this.dates.length;
-    this.dates.length = length;
-    if (startInd > 0) {
-      this.dates.fill({ ...DateObj }, startInd);
+    if (length < this.dates.length) {
+      this.dates = this.dates.slice(0, length);
+    } else {
+      while (length > this.dates.length) {
+        this.dates.push({ ...DateObj });
+      }
     }
-    this.eventsService.setIsAddressFill(this.dates);
+    this.eventsService.setArePlacesFilled(this.dates);
     this.dates.forEach((item) => {
       if (item.date) {
         item.date = new Date(item.date);
@@ -267,22 +275,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public setCoordsOffline(coordinates: OfflineDto, ind: number): void {
     this.dates[ind].coordinatesDto = coordinates;
-    if (!this.dates[ind].onlineLink) {
-      this.dates[ind].valid = !!coordinates.latitude;
-    }
-    this.updateIsAddressFill(this.dates, false, false, true, ind);
+    this.updateAreAddressFilled(this.dates, false, true, ind);
   }
 
   public setOnlineLink(link: string, ind: number): void {
     this.dates[ind].onlineLink = link;
-    if (!this.dates[ind].coordinatesDto.latitude) {
-      this.dates[ind].valid = !!link;
-    }
-    this.updateIsAddressFill(this.dates, false, false, true, ind);
+    this.updateAreAddressFilled(this.dates, false, true, ind);
   }
 
-  public updateIsAddressFill(newValue: DateEvent[], submit?: boolean, init?: boolean, check?: boolean, ind?: number): void {
-    this.eventsService.setIsAddressFill(newValue, submit, init, check, ind);
+  public updateAreAddressFilled(newValue: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
+    this.eventsService.setArePlacesFilled(newValue, submit, check, ind);
   }
 
   private checkDates(): void {
@@ -350,8 +352,15 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
         titleImage: this.oldImages[0]
       };
     }
-
-    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.isAddressFill.every((el) => !el)) {
+    this.updateAreAddressFilled(this.dates, true);
+    console.log(
+      this.dates,
+      this.checkdates,
+      this.eventFormGroup.valid,
+      this.isTagValid,
+      this.arePlacesFilled.every((el) => !el)
+    );
+    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.arePlacesFilled.every((el) => !el)) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
@@ -369,7 +378,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.checkAfterSend = this.isTagValid;
       this.submitIsFalse = true;
     }
-    this.updateIsAddressFill(this.dates, true);
   }
 
   public backToEditing() {

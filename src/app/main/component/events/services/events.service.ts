@@ -11,38 +11,39 @@ export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  private isAddressFillSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
+  private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
 
   constructor(private http: HttpClient) {}
 
-  public setIsAddressFill(dates: DateEvent[], submit?: boolean, init?: boolean, check?: boolean, ind?: number): void {
-    const currentValues = this.isAddressFillSubject.getValue();
+  public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
+    const currentValues = this.arePlacesFilledSubject.getValue();
     let newArray;
 
     switch (true) {
-      case init:
-        newArray = [];
-        break;
       case submit:
         newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
         break;
-      case check && ind !== undefined:
-        currentValues[ind] = currentValues[ind] === undefined ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
-        this.isAddressFillSubject.next(currentValues);
+      case check:
+        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
+        this.arePlacesFilledSubject.next(currentValues);
         return;
       case currentValues.some((el) => el === true):
         newArray = currentValues.slice(0, dates.length);
-        newArray = newArray.concat(Array(dates.length - newArray.length).fill(undefined));
+        newArray = newArray.concat(Array(dates.length - newArray.length).fill(null));
         break;
       default:
-        newArray = dates.length && !submit ? Array(dates.length).fill(undefined) : currentValues;
+        newArray = dates.length && !submit ? Array(dates.length).fill(false) : currentValues;
     }
 
-    this.isAddressFillSubject.next(newArray);
+    this.arePlacesFilledSubject.next(newArray);
   }
 
-  public getIsAddressFillObservable(): Observable<boolean[]> {
-    return this.isAddressFillSubject.asObservable();
+  public setInitialValueForPlaces(): void {
+    this.arePlacesFilledSubject.next([]);
+  }
+
+  public getCheckedPlacesObservable(): Observable<boolean[]> {
+    return this.arePlacesFilledSubject.asObservable();
   }
 
   public getImageAsFile(img: string): Observable<Blob> {

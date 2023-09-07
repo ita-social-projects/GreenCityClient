@@ -59,7 +59,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isLocationSelected = false;
-  public isAddressFill: boolean[] = [];
+  public arePlacesFilled: boolean[] = [];
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -80,13 +80,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       date: new FormControl('', [Validators.required]),
       startTime: new FormControl('', [Validators.required]),
       endTime: new FormControl('', [Validators.required]),
-      coordinatesDto: new FormControl(this.coordinates, [Validators.required]),
-      onlineLink: new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)])
+      coordinatesDto: new FormControl(this.coordinates),
+      onlineLink: new FormControl('', [Validators.pattern(Patterns.linkPattern)])
     });
 
     this.dateForm.valueChanges.subscribe((value) => {
       this.checkStartTime(value.startTime);
       this.checkEndTime(value.endTime);
+      this.status.emit(this.dateForm.valid);
       this.datesForm.emit(value);
     });
     if (this.editDate && !this.editDates) {
@@ -109,10 +110,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.isDateDuplicate) {
       this.dateForm.get('date').markAsTouched();
     }
-    const isAddressFillSubscription = this.eventsService.getIsAddressFillObservable().subscribe((values) => {
-      this.isAddressFill = values;
+    const isAddressFilledSubscription = this.eventsService.getCheckedPlacesObservable().subscribe((values) => {
+      this.arePlacesFilled = values;
     });
-    this.subscriptions.push(isAddressFillSubscription);
+    this.subscriptions.push(isAddressFilledSubscription);
   }
 
   ngOnDestroy(): void {
