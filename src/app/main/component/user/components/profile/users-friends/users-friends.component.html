@@ -16,16 +16,15 @@
       </div>
     </div>
     <div class="friends-images">
-      <div *ngFor="let friend of usersFriends">
+      <div *ngFor="let friend of usersFriends" (click)="showFriendsInfo(friend)">
         <app-user-profile-image
           [imgPath]="friend.profilePicturePath"
           [firstName]="friend.name"
           class="friend-img"
           [additionalImgClass]="'friend-user-profile'"
-          (click)="showFriendsInfo(friend)"
         >
         </app-user-profile-image>
-        <p class="friend-name">{{ friend.name | firststringword }}</p>
+        <p class="friend-name">{{ friend.name | firststringword | maxTextLength: 10 }}</p>
       </div>
     </div>
   </div>

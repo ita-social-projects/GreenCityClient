@@ -1,6 +1,7 @@
 .card-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   max-width: 348px;
   height: 100%;
   flex: 1 0 auto;
@@ -23,7 +24,7 @@
     height: 100%;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .event-participants {
@@ -166,6 +167,10 @@
     p {
       padding: 0;
       margin: 0;
+
+      a {
+        color: inherit;
+      }
     }
 
     .location {

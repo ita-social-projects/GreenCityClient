@@ -32,6 +32,16 @@ body {
   overflow-x: hidden;
 }
 
+.container {
+  padding-left: 0;
+  padding-right: 0;
+
+  @media screen and (max-width: 576px) {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
 .app-wrapper {
   min-height: 100%;
   display: flex;
@@ -362,12 +372,16 @@ body {
 
 .tooltipClass {
   display: inline-block;
-  border-bottom: 1px;
   visibility: visible;
+  position: absolute;
   background-color: #fff;
   text-align: center;
+  max-width: 288px;
+  width: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
   padding: 5px;
   border-radius: 6px;
-  position: absolute;
   z-index: 1000;
 }

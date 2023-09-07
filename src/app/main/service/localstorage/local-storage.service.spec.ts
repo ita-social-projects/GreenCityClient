@@ -46,6 +46,10 @@ describe('LocalStorageService', () => {
     title: 'Test event title',
     titleImage: 'testImage.jpg',
     isSubscribed: true,
+    isFavorite: false,
+    isActive: true,
+    countComments: 5,
+    likes: 8,
     isRelevant: true
   };
 

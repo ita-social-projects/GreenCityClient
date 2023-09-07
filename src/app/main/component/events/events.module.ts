@@ -39,6 +39,9 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CommentsModule } from '../comments/comments.module';
+import { CommentsService } from '../comments/services/comments.service';
+import { EventsCommentsService } from './services/events-comments.service';
 
 @NgModule({
   declarations: [
@@ -91,8 +94,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatBottomSheetModule,
     NgbDropdownModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    CommentsModule
   ],
+  providers: [{ provide: CommentsService, useClass: EventsCommentsService }],
   exports: [TranslateModule]
 })
 export class EventsModule {}

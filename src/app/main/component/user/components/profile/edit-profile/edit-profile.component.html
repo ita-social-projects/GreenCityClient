@@ -11,18 +11,18 @@
             <input
               type="text"
               formControlName="name"
-              placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
+              placeholder="{{ 'user.edit-profile.user-name' | translate }}"
               [pattern]="namePattern"
               id="name"
             />
-            <span *ngIf="editProfileForm.get('name').invalid">{{ 'user.edit-profile.name-warning' | translate }}</span>
+            <span *ngIf="getControl('name').invalid">{{ 'user.edit-profile.name-warning' | translate }} </span>
           </div>
           <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
             <input
               type="text"
               formControlName="city"
-              placeholder="{{ userInfo.location }}"
+              placeholder="{{ 'user.edit-profile.user-location' | translate }}"
               autocorrect="off"
               autocapitalize="off"
               spellcheck="false"
@@ -30,12 +30,17 @@
               [pattern]="cityPattern"
               id="city"
             />
-            <span *ngIf="editProfileForm.get('city').invalid">{{ 'user.edit-profile.city-warning' | translate }}</span>
+            <span *ngIf="getControl('city').invalid">{{ 'user.edit-profile.city-warning' | translate }}</span>
           </div>
           <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
-            <textarea placeholder="{{ userInfo.userCredo }}" formControlName="credo" id="credo" maxlength="171"></textarea>
-            <span *ngIf="editProfileForm.get('credo').invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
+            <textarea
+              placeholder="{{ 'user.edit-profile.user-credo' | translate }}"
+              formControlName="credo"
+              id="credo"
+              maxlength="171"
+            ></textarea>
+            <span *ngIf="getControl('credo').invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
           </div>
         </div>
         <div class="wrapper">

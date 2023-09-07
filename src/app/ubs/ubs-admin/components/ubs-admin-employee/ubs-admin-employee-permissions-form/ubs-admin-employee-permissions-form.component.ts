@@ -8,6 +8,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { PopUpsStyles, ActionTypeForPermissions } from '../ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee-permissions-form',
@@ -159,7 +160,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       popupTitle: 'employees.permissions.clients.confirm-changes',
       popupConfirm: 'employees.btn.yes',
       popupCancel: 'employees.btn.no',
-      style: 'light green',
+      style: PopUpsStyles.lightGreen,
       іsPermissionConfirm: true,
       isItrefund: true
     };
@@ -168,7 +169,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       popupTitle: 'employees.permissions.clients.cancel-changes',
       popupConfirm: 'employees.btn.yes',
       popupCancel: 'employees.btn.no',
-      style: 'light green',
+      style: PopUpsStyles.lightGreen,
       іsPermissionConfirm: false,
       isItrefund: false
     };
@@ -177,10 +178,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       closeOnNavigation: true,
       disableClose: true,
       panelClass: '',
-      data: actionType === 'apply' ? confirmData : cancelData
+      data: actionType === ActionTypeForPermissions.apply ? confirmData : cancelData
     });
 
-    if (actionType === 'cancel') {
+    if (actionType === ActionTypeForPermissions.cancel) {
       dialogRef
         .afterClosed()
         .pipe(takeUntil(this.destroyed$))

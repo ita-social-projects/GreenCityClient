@@ -11,6 +11,8 @@ import {
   DeleteEmployeeSuccess,
   UpdateEmployee,
   UpdateEmployeeSuccess,
+  ActivateEmployee,
+  ActivateEmployeeSuccess,
   ReceivedFailure,
   GetEmployeesPermissions,
   GetEmployeesPermissionsSuccess
@@ -86,6 +88,18 @@ export class EmployeesEffects {
             }
             return UpdateEmployeeSuccess({ employee });
           }),
+          catchError((error) => of(ReceivedFailure(error)))
+        );
+      })
+    );
+  });
+
+  activateEmployee = createEffect(() => {
+    return this.actions.pipe(
+      ofType(ActivateEmployee),
+      mergeMap((action: { id: number }) => {
+        return this.ubsAdminEmployeeService.activateEmployee(action.id).pipe(
+          map(() => ActivateEmployeeSuccess({ id: action.id })),
           catchError((error) => of(ReceivedFailure(error)))
         );
       })

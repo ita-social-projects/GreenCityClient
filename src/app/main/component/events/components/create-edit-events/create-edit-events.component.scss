@@ -26,7 +26,13 @@
 }
 
 .event-container {
-  padding: 0 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.content-container {
+  max-width: 1330px;
+  width: 100%;
 }
 
 .event-header {
@@ -102,6 +108,7 @@
 .right {
   padding: 24px;
   margin-left: 32px;
+  max-width: 600px;
 }
 
 .buttons-container {
@@ -136,8 +143,10 @@
   align-items: center;
 }
 
-.edit-news {
+.back-button {
   margin: 6px;
+  margin-top: 9px;
+  color: var(--ubs-primary-grey);
 }
 
 .flex-container {
@@ -150,7 +159,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  max-width: 1640px;
+  max-width: 1285px;
+  width: 100%;
 
   button {
     margin-left: 16px;

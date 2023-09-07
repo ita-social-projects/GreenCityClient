@@ -59,7 +59,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public navLinks;
   public selectedIndex: number = null;
   public currentLanguage: string;
-  public dialog: MatDialog;
   public imgAlt: string;
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
@@ -74,8 +73,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
-  constructor(private injector: Injector, private store: Store) {
-    this.dialog = injector.get(MatDialog);
+  constructor(private dialog: MatDialog, injector: Injector, private store: Store) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
@@ -309,10 +307,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public onPressEnterAboutService(event: KeyboardEvent): void {
     event.preventDefault();
-    this.openAboutServicePopUp();
+    this.openAboutServicePopUp(event);
   }
 
-  public openAboutServicePopUp(): void {
+  public openAboutServicePopUp(event: Event): void {
+    event.preventDefault();
     const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,

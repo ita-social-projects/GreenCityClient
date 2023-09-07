@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -21,7 +21,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { employeePositionsName } from '../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
-describe('UbsAdminCabinetComponent', () => {
+describe('UbsAdminOrderComponent', () => {
   let component: UbsAdminOrderComponent;
   let fixture: ComponentFixture<UbsAdminOrderComponent>;
   let localStorageService: LocalStorageService;
@@ -70,7 +70,7 @@ describe('UbsAdminCabinetComponent', () => {
         BrowserAnimationsModule,
         MatDialogModule,
         RouterTestingModule,
-        HttpClientModule,
+        HttpClientTestingModule,
         StoreModule.forRoot({})
       ],
       declarations: [UbsAdminOrderComponent],

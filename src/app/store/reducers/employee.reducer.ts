@@ -4,6 +4,7 @@ import {
   AddEmployeeSuccess,
   DeleteEmployeeSuccess,
   UpdateEmployeeSuccess,
+  ActivateEmployeeSuccess,
   ReceivedFailure,
   GetEmployeesPermissionsSuccess
 } from '../actions/employee.actions';
@@ -27,6 +28,14 @@ export const employeesReducer = createReducer(
     employees: {
       ...state.employees,
       content: [action.employee, ...state.employees.content]
+    }
+  })),
+
+  on(ActivateEmployeeSuccess, (state, action) => ({
+    ...state,
+    employees: {
+      ...state.employees,
+      content: state.employees.content.map((employee) => (employee.id === action.id ? { ...employee, employeeStatus: 'ACTIVE' } : employee))
     }
   })),
 

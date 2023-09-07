@@ -2,6 +2,10 @@
   padding-top: 24px;
   background-color: var(--pre-secondary-light-grey);
 
+  .button-text {
+    margin-top: 2px;
+  }
+
   @media (min-width: 576px) and (max-width: 767px) {
     padding-left: 18px;
     padding-right: 18px;

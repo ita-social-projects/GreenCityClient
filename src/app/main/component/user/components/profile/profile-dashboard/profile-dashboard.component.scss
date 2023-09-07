@@ -19,6 +19,36 @@ a {
     p {
       color: var(--primary-dark-grey);
     }
+
+    .buttons-wrapper {
+      display: flex;
+      justify-content: cneter;
+      align-items: center;
+
+      .favourites {
+        margin: 0 10px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-white);
+        border-radius: 5px;
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 1px 0 var(--primary-grey);
+
+        span {
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          transition: all 0.3s;
+        }
+
+        .flag-active {
+          background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+        }
+      }
+    }
   }
 
   .in-progress {
@@ -67,15 +97,10 @@ a {
   justify-content: space-between;
   margin-bottom: 10px;
 
-  .event-filter-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--freinacht-black);
-  }
-
   .events-types {
     * {
       margin: 0 5px;
+      color: var(--primary-green);
     }
   }
 }
@@ -218,5 +243,17 @@ a {
   li:not(:first-child):not(:last-child) {
     border: 2px var(--primary-green) solid;
     border-radius: 10%;
+  }
+}
+
+.button-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+
+  .edit-events {
+    margin: 0 5px;
+    color: var(--primary-green);
   }
 }

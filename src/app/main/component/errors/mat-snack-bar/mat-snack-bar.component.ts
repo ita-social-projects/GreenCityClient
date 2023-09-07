@@ -151,6 +151,10 @@ export class MatSnackBarComponent {
     tooLongInput: () => {
       this.className = 'error-snackbar';
       this.getSnackBarMessage('user.habit.too-long-input');
+    },
+    ratedEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.rating-send');
     }
   };
 
