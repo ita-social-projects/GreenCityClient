@@ -108,9 +108,10 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('component should initialize from with correct parameters', () => {
+    const startTime = new Date().getHours() + 1 !== 24 ? (new Date().getHours() + 1).toLocaleString() + ':00' : '0:00';
     component.ngOnInit();
-    expect(component.dateForm.get('date').value).toEqual('');
-    expect(component.dateForm.get('startTime').value).toEqual('');
+    expect(component.dateForm.get('date').value).toEqual(new Date());
+    expect(component.dateForm.get('startTime').value).toEqual(startTime);
     expect(component.dateForm.get('endTime').value).toEqual('');
   });
 
