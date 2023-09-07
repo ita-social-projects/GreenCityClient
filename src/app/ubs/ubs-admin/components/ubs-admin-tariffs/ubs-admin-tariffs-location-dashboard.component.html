@@ -201,7 +201,7 @@
         </div>
       </td>
       <td>
-        {{ card.tariff | tariffStatus : currentLang }}
+        {{ card.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="card.tariff !== 'DEACTIVATED' && isUserCanUseCrumbs" [matMenuTriggerFor]="crumbs">
         <button class="crumbs-btn">
@@ -248,7 +248,7 @@
         </div>
       </td>
       <td>
-        {{ selectedCard.tariff | tariffStatus : currentLang }}
+        {{ selectedCard.tariff | tariffStatus: currentLang }}
       </td>
       <td class="last-col" *ngIf="selectedCard.tariff !== 'DEACTIVATED' && isUserCanUseCrumbs" [matMenuTriggerFor]="crumbs">
         <img class="tariff-img mr-3" [src]="icons.crumbs" alt="crumbs" />
