@@ -49,7 +49,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Input() editDate: DateEventResponceDto;
   @Input() isDateDuplicate: boolean;
   @Input() editDates: boolean;
-  @Input() firstFormIsSucceed: boolean = true;
+  @Input() firstFormIsSucceed = true;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
