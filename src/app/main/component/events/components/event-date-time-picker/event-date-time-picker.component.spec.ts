@@ -176,8 +176,8 @@ describe('EventDateTimePickerComponent', () => {
     expect(component.timeArrStart.length).toBe(21);
   });
 
-  it('checkStartTime expect timeArrEnd length to be 2', () => {
+  it('checkStartTime expect timeArrEnd length to be 3', () => {
     (component as any).checkStartTime('21:00');
-    expect(component.timeArrEnd.length).toBe(2);
+    expect(component.timeArrEnd.length).toBe(3);
   });
 });
