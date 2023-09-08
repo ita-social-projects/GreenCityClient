@@ -118,10 +118,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   private initialStartTime(): any {
     let initialDate: Date;
     let initialStartTime = '';
-    let currentHour;
     if (this.firstFormIsSucceed) {
       initialDate = new Date();
-      currentHour = new Date().getHours();
+      const currentHour = new Date().getHours();
       if (currentHour + 1 !== 24) {
         initialStartTime = `${currentHour + 1}:00`;
       } else {
