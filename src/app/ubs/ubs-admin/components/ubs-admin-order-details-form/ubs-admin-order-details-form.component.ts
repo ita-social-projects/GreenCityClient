@@ -1,7 +1,7 @@
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
+import { IOrderDetails, IOrderHistory, IOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -40,6 +40,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   public isOrderDone = false;
   public isOrderNotTakenOut = false;
   isDisabledWriteOffStation = false;
+  private orderHistory: IOrderHistory[];
 
   @Output() deleteNumberOrderFromEcoShopChanged = new EventEmitter<boolean>();
   @Output() changeOverpayment = new EventEmitter<number>();
@@ -59,6 +60,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder, private orderService: OrderService, private langService: LanguageService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    this.checkPreviousStatus(this.orderInfo.generalOrderInfo.id);
     const curStatus = changes.orderStatusInfo?.currentValue;
     const prevStatus = changes.orderStatusInfo?.previousValue;
 
@@ -379,5 +381,23 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  private checkPreviousStatus(orderID: number) {
+    const statusUA = 'Статус Замовлення -';
+    this.orderService.getOrderHistory(orderID).subscribe((data: IOrderHistory[]) => {
+      this.orderHistory = data;
+      this.orderHistory = this.orderHistory.filter((item) => item.eventName.includes(statusUA));
+      if (this.orderHistory.length === 2) {
+        const firstStatus = this.orderHistory[0].eventName.substring(this.orderHistory[0].eventName.lastIndexOf('-') + 2);
+        const secondStatus = this.orderHistory[1].eventName.substring(this.orderHistory[1].eventName.lastIndexOf('-') + 2);
+        if (firstStatus === 'Сформовано' && secondStatus === 'Скасовано') {
+          this.isOrderCancelledAfterFormed = true;
+          this.emitChangedStatus();
+          this.courierPrice = 0;
+          this.emitUbsPrice(this.courierPrice);
+        }
+      }
+    });
   }
 }
