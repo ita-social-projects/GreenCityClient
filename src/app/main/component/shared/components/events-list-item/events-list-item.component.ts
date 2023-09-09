@@ -112,7 +112,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   ) {}
 
   ngOnChanges() {
-    this.canUserJoinCloseEvent = this.userFriends.some((el) => el.id === this.event.organizer.id) || this.event.open;
+    this.canUserJoinCloseEvent = this.userFriends?.some((el) => el.id === this.event.organizer.id) || this.event.open;
   }
 
   ngOnInit(): void {
