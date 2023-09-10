@@ -304,8 +304,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   private checkEndTime(time: string, curTime?: number): void {
     const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
-    if (curTime === 23) curTime -= 1;
-    if (!time || (!curTime && checkTime[0] === '00')) return;
+    curTime === 23 ? (curTime -= 1) : null;
+    if (!time || (!curTime && checkTime[0] === '00')) {
+      return;
+    }
     this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
   }
 
@@ -331,7 +333,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   private updateTimeArrays(startTime: string, endTime: string): void {
     this.fillTimeArray();
-    if (this.checkAllDay) return;
+    if (this.checkAllDay) {
+      return;
+    }
     if (this.checkDay()) {
       const curTime = new Date().getHours();
       this.timeArrStart = curTime === 23 ? ['23:00'] : [...this.timeArr.slice(curTime + 1, 24)];
