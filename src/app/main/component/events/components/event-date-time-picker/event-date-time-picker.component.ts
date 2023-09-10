@@ -304,9 +304,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   private checkEndTime(time: string, curTime?: number): void {
     const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
-    curTime === 23 ? (curTime -= 1) : null;
     if (!time || (!curTime && checkTime[0] === '00')) {
       return;
+    }
+    if (curTime === 23) {
+      curTime -= 1;
     }
     this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
   }
