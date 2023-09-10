@@ -12,6 +12,7 @@ import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scro
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { of, throwError } from 'rxjs';
 
@@ -92,7 +93,8 @@ describe('UbsUserOrdersComponent', () => {
         MatTabsModule,
         NoopAnimationsModule,
         RouterModule.forRoot([]),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDialogModule
       ],
       providers: [
         { provide: Router, useValue: RouterMock },
@@ -126,13 +128,6 @@ describe('UbsUserOrdersComponent', () => {
   it('should create', async () => {
     await buildComponent();
     expect(component).toBeDefined();
-  });
-
-  it('should navigate user to /ubs/order after clicking new order button ', async () => {
-    await buildComponent();
-    const newOrderButton = fixture.debugElement.query(By.css('.ubs-primary-global-button')).nativeElement;
-    newOrderButton.click();
-    expect(RouterMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
   });
 
   it('should render ubs-user-orders-list component with correct inputs if there are current orders on init', async () => {

@@ -1,6 +1,6 @@
 <div class="dialog-container">
   <div class="close-container">
-    <button class="close-btn" mat-dialog-close (click)="redirectToUbsPage()">
+    <button class="close-btn" mat-dialog-close (click)="closePopUp()">
       <img src="{{ closeButton }}" alt="close" />
     </button>
   </div>
@@ -41,7 +41,7 @@
   </div>
 
   <mat-dialog-actions class="footer-btns">
-    <button class="ubs-secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
+    <button class="ubs-secondary-global-button" mat-dialog-close (click)="closePopUp()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button

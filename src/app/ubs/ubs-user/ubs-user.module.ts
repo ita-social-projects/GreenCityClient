@@ -26,7 +26,7 @@ import { UbsProfileChangePasswordPopUpComponent } from './ubs-user-profile-page/
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-orders-list/ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-orders-list/ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -76,7 +76,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     MatProgressBarModule,
     MatFormFieldModule,
     MatRadioModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule
   ],
   providers: [
     {

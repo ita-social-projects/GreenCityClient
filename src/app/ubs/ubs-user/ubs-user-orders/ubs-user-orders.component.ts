@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, forkJoin } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOrdersService } from '../services/user-orders.service';
 import { Router } from '@angular/router';
@@ -9,6 +9,10 @@ import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interfa
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormControl } from '@angular/forms';
+import { OrderService } from '../../ubs/services/order.service';
+import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
+import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -30,6 +34,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   orderToScroll: any;
   selected = new FormControl(0);
   public infoIcon = './assets/img/icon/info-icon.svg';
+  activeCouriers;
+  courierUBSName = 'UBS';
 
   constructor(
     private router: Router,
@@ -37,7 +43,10 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     private bonusesService: BonusesService,
     private userOrdersService: UserOrdersService,
     private translate: TranslateService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private orderService: OrderService,
+    private dialog: MatDialog,
+    private localStorageService: LocalStorageService
   ) {}
 
   onScroll() {
@@ -76,11 +85,57 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     onData(data);
   }
 
+  getActiveCouriers() {
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.activeCouriers = res;
+      });
+  }
+
+  getLocations(courierName: string): void {
+    const courier = this.activeCouriers?.find((courier) => courier.nameEn.includes(courierName));
+    this.orderService
+      .getLocations(courier.courierId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res: any) => {
+        if (res.orderIsPresent) {
+          this.saveLocation(res);
+          this.router.navigate(['ubs', 'order']);
+        } else {
+          this.openLocationDialog(res);
+        }
+      });
+  }
+
+  saveLocation(locationsData: AllLocationsDtos): void {
+    this.orderService.completedLocation(true);
+    this.localStorageService.setLocationId(locationsData.tariffsForLocationDto.locationsDtosList[0].locationId);
+    this.localStorageService.setTariffId(locationsData.tariffsForLocationDto.tariffInfoId);
+    this.localStorageService.setLocations(locationsData.tariffsForLocationDto);
+    this.orderService.setLocationData(locationsData.tariffsForLocationDto.locationsDtosList[0].nameEn);
+  }
+
+  openLocationDialog(locationsData: AllLocationsDtos) {
+    const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
+      hasBackdrop: true,
+      disableClose: true,
+      data: locationsData
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        if (res?.data) {
+          this.router.navigate(['ubs', 'order']);
+        }
+      });
+  }
+
   redirectToOrder() {
-    if (sessionStorage.getItem('key')) {
-      sessionStorage.removeItem('key');
-    }
-    this.router.navigate(['ubs', 'order']);
+    this.getLocations(this.courierUBSName);
   }
 
   ngOnInit() {
@@ -108,6 +163,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
       this.openExtendedOrder();
       this.localStorage.setOrderIdToRedirect(0);
     }
+    this.getActiveCouriers();
   }
 
   openExtendedOrder(): void {
