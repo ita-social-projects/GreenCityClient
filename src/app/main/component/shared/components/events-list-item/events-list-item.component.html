@@ -46,7 +46,7 @@
         {{ address.houseNumber }}
       </p>
       <p *ngIf="isOnline && !address">
-        <a href="{{ isOnline }}">{{ 'homepage.events.my-space.event-type-online' | translate }}</a>
+        <a href="{{ isOnline }}" target="_blank" rel="noopener">{{ 'homepage.events.my-space.event-type-online' | translate }}</a>
       </p>
     </div>
     <div class="date-container">
@@ -91,14 +91,14 @@
   <div class="event-assign" (click)="routeToEvent()">
     <div class="event-assign__image-container">
       <img class="event-assign__image-container-image" src="{{ event.titleImage }}" alt="event" />
-      <div class="event-assign__participants" *ngIf="attendees.length">
-        <div class="event-assign__participants__avatars">
-          <div class="event-assign__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+      <div class="event-assign__image-container__participants" *ngIf="attendees.length">
+        <div class="event-assign__image-container__participants__avatars">
+          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
             <img [src]="avatar" alt="" />
           </div>
         </div>
-        <div class="event-assign__participants__count-container">
-          <span class="event-assign__participants__count-container-count">+{{ attendees.length }}</span>
+        <div class="event-assign__image-container__participants__count-container">
+          <span class="event-assign__image-container__participants__count-container-count">+{{ attendees.length }}</span>
         </div>
       </div>
     </div>

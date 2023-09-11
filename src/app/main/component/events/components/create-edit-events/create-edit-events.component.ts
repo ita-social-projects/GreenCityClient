@@ -92,7 +92,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       popupCancel: 'homepage.events.events-popup.cancel'
     }
   };
-
+  public firstFormIsSucceed = true;
   public backRoute: string;
   public routedFromProfile: boolean;
   public duplindx: number;

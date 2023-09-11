@@ -63,6 +63,7 @@
                 [editDate]="editEvent?.dates[i]"
                 [isDateDuplicate]="isDateDuplicate"
                 [editDates]="editDates"
+                [firstFormIsSucceed]="firstFormIsSucceed"
               >
               </app-event-date-time-picker>
               <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
