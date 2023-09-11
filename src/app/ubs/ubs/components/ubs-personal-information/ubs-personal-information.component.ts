@@ -162,9 +162,11 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.personalDataForm.patchValue({
           address: this.addresses
         });
-        this.setDisabledCityForLocation();
+        if (this.addresses.length) {
+          this.setDisabledCityForLocation();
+        }
         const actualAddress = this.addresses.find((address) => address.actual === true);
-        this.checkAddress(actualAddress.id);
+        this.checkAddress(actualAddress?.id);
       });
   }
 
@@ -200,15 +202,17 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   checkAddress(addressId) {
-    this.addresses.forEach((address) => {
-      if (address.id === addressId) {
-        this.orderService.setCurrentAddress(address);
-        this.checkedAddress = address;
-      }
-    });
-    this.isNotChoosedLocation = this.checkedAddress.display === false;
-    this.localService.setAddressId(addressId);
-    this.changeAddressInPersonalData();
+    if (addressId) {
+      this.addresses.forEach((address) => {
+        if (address.id === addressId) {
+          this.orderService.setCurrentAddress(address);
+          this.checkedAddress = address;
+        }
+      });
+      this.isNotChoosedLocation = this.checkedAddress.display === false;
+      this.localService.setAddressId(addressId);
+      this.changeAddressInPersonalData();
+    }
   }
 
   isOneAdress() {

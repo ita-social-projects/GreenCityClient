@@ -8,7 +8,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
-import { Bag, CourierLocations, OrderDetails } from '../../models/ubs.interface';
+import { Bag, CourierLocations, OrderDetails, AllLocationsDtos } from '../../models/ubs.interface';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { ExtraPackagesPopUpComponent } from './extra-packages-pop-up/extra-packages-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
@@ -108,6 +108,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitByAmount: boolean;
   public courierLimitBySum: boolean;
   public courierLimitValidation: boolean;
+  public activeCouriers;
+  courierUBSName = 'UBS';
   @Output() secondStepDisabledChange = new EventEmitter<boolean>();
 
   constructor(
@@ -149,15 +151,49 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.localStorageService.setLocations(this.locations);
           this.setLocation(this.locationId);
         });
-    } else {
+    } else if (this.shareFormService.locationId) {
       this.locationId = this.shareFormService.locationId;
       this.setLocation(this.locationId);
+    } else {
+      this.getActiveCouriers();
     }
     this.takeOrderData();
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
     }
+  }
+
+  getActiveCouriers() {
+    this.orderService
+      .getAllActiveCouriers()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        this.activeCouriers = res;
+        this.getLocations(this.courierUBSName);
+      });
+  }
+
+  getLocations(courierName: string): void {
+    const courier = this.activeCouriers?.find((courier) => courier.nameEn.includes(courierName));
+    this.orderService
+      .getLocations(courier.courierId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res: any) => {
+        if (res.orderIsPresent) {
+          this.saveLocationForCourier(res);
+        } else {
+          this.openLocationDialog();
+        }
+      });
+  }
+
+  saveLocationForCourier(locationsData: AllLocationsDtos): void {
+    this.orderService.completedLocation(true);
+    this.localStorageService.setLocationId(locationsData.tariffsForLocationDto.locationsDtosList[0].locationId);
+    this.localStorageService.setTariffId(locationsData.tariffsForLocationDto.tariffInfoId);
+    this.localStorageService.setLocations(locationsData.tariffsForLocationDto);
+    this.orderService.setLocationData(locationsData.tariffsForLocationDto.locationsDtosList[0].nameEn);
   }
 
   public returnBagQuantity(id): number {
@@ -277,15 +313,13 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .afterClosed()
       .pipe(takeUntil(this.destroy))
       .subscribe((res) => {
-        if (res && res.data) {
+        if (res?.data) {
           this.locations = res.data;
           this.selectedLocationId = res.locationId;
           this.setCurrentLocation(res.currentLanguage, res.locationId);
           this.setLimitsValues();
           this.orderDetailsForm.markAllAsTouched();
           this.takeOrderData();
-        } else {
-          this.router.navigate(['/ubs']);
         }
         this.isDialogOpen = false;
       });
