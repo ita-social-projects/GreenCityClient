@@ -1,7 +1,6 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { DateEventResponceDto, DateFormObj, OfflineDto } from '../../models/events.interface';
-
+import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate } from '../../models/events.interface';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -38,6 +37,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public autocomplete: google.maps.places.Autocomplete;
   private pipe = new DatePipe('en-US');
   public checkTime = false;
+  private checkAllDay = false;
   public checkOfflinePlace = false;
   public checkOnlinePlace = false;
   private regionOptions = {
@@ -49,6 +49,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Input() editDate: DateEventResponceDto;
   @Input() isDateDuplicate: boolean;
   @Input() editDates: boolean;
+  @Input() firstFormIsSucceed = true;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -75,18 +76,20 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     this.minDate.setDate(curDay);
     this.fillTimeArray();
 
+    const { initialDate, initialStartTime } = this.initialStartTime();
     this.dateForm = new FormGroup({
-      date: new FormControl('', [Validators.required]),
-      startTime: new FormControl('', [Validators.required]),
+      date: new FormControl(initialDate, [Validators.required]),
+      startTime: new FormControl(initialStartTime, [Validators.required]),
       endTime: new FormControl('', [Validators.required])
     });
+    const startTime = this.dateForm.get('startTime').value;
+    const endTime = this.dateForm.get('endTime').value;
+    this.updateTimeArrays(startTime, endTime);
 
     this.dateForm.valueChanges.subscribe((value) => {
-      this.updateTimeArrays(value.endTime, value.startTime);
-
+      this.updateTimeArrays(value.startTime, value.endTime);
       this.coordOffline.emit(this.coordinates);
       this.status.emit(this.dateForm.valid);
-
       this.datesForm.emit(value);
     });
     if (this.editDate && !this.editDates) {
@@ -109,6 +112,19 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.isDateDuplicate) {
       this.dateForm.get('date').markAsTouched();
     }
+  }
+
+  private initialStartTime(editMode?: boolean): InitialStartDate {
+    let initialDate;
+    let initialStartTime = '';
+    if (this.firstFormIsSucceed || editMode) {
+      initialDate = new Date();
+      const currentHour = new Date().getHours();
+      initialStartTime = currentHour + 1 !== 24 ? `${currentHour + 1}:00` : '23:00';
+    } else {
+      initialDate = '';
+    }
+    return { initialDate, initialStartTime };
   }
 
   private bindLang(lang: string): void {
@@ -168,20 +184,24 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
   public checkIfAllDay(): void {
     this.checkTime = !this.checkTime;
+    this.checkAllDay = true;
+    const startTime = this.dateForm.get('startTime');
+    const endTime = this.dateForm.get('endTime');
     if (this.checkTime) {
-      this.dateForm.get('startTime').disable();
-      this.dateForm.get('endTime').disable();
-      if (this.checkDay()) {
-        this.dateForm.get('startTime').setValue(this.timeArrStart[0]);
-        this.dateForm.get('endTime').setValue(this.timeArrEnd[this.timeArrEnd.length - 1]);
-      } else {
-        this.dateForm.get('startTime').setValue(this.timeArrStart[9]);
-        this.dateForm.get('endTime').setValue(this.timeArr[21]);
-      }
+      startTime.disable();
+      endTime.disable();
     } else {
-      this.dateForm.get('startTime').enable();
-      this.dateForm.get('endTime').enable();
+      startTime.enable();
+      endTime.enable();
     }
+    if (this.checkDay()) {
+      startTime.setValue(this.initialStartTime(true).initialStartTime);
+      endTime.setValue(this.timeArrEnd[23]);
+    } else {
+      startTime.setValue(this.timeArrStart[0]);
+      endTime.setValue(this.timeArrEnd[23]);
+    }
+    this.canUpdateTimeArrays();
   }
 
   ngOnChanges(): void {
@@ -270,29 +290,33 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   }
 
   private fillTimeArray(): void {
+    this.timeArr = [];
+    this.timeArrStart = [];
+    this.timeArrEnd = [];
     for (let i = 0; i < 24; i++) {
       this.timeArr.push(`${i}:00`);
       this.timeArrStart.push(`${i}:00`);
-      this.timeArrEnd.push(`${i}:00`);
+      this.timeArrEnd.push(`${i + 1}:00`);
     }
+    this.timeArr.push('00:00');
+    this.timeArrEnd[23] = '00:00';
   }
 
   private checkEndTime(time: string, curTime?: number): void {
-    if (!time) {
+    const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
+    if (!time || (!curTime && checkTime[0] === '00')) {
       return;
     }
-    const checkTime = time.split(':');
-    if (curTime) {
-      this.timeArrStart = [...this.timeArr.slice(curTime + 1, +checkTime[0])];
-    } else {
-      this.timeArrStart = [...this.timeArr.slice(0, +checkTime[0])];
+    if (curTime === 23) {
+      curTime -= 1;
     }
+    this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
   }
 
   private checkStartTime(time: string): void {
     if (time) {
-      const checkTime = time.split(':');
-      this.timeArrEnd = +checkTime[0] === 23 ? ['23 : 59'] : [...this.timeArr.slice(+checkTime[0] + 1)];
+      const checkTime = Number(time.split(':')[0]);
+      this.timeArrEnd = [...this.timeArr.slice(checkTime + 1)];
     }
   }
 
@@ -302,11 +326,22 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     return curDay === selectDay;
   }
 
-  private updateTimeArrays(endTime: string, startTime: string): void {
+  public canUpdateTimeArrays(): void {
+    this.checkAllDay = false;
+    const startTime = this.dateForm.get('startTime').value;
+    const endTime = this.dateForm.get('endTime').value;
+    this.updateTimeArrays(startTime, endTime);
+  }
+
+  private updateTimeArrays(startTime: string, endTime: string): void {
+    this.fillTimeArray();
+    if (this.checkAllDay) {
+      return;
+    }
     if (this.checkDay()) {
       const curTime = new Date().getHours();
-      this.timeArrStart = [...this.timeArr.slice(curTime + 1)];
-      this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
+      this.timeArrStart = curTime === 23 ? ['23:00'] : [...this.timeArr.slice(curTime + 1, 24)];
+      this.timeArrEnd = curTime === 23 ? ['00:00'] : [...this.timeArr.slice(curTime + 2)];
       this.checkStartTime(startTime);
       this.checkEndTime(endTime, curTime);
     } else {

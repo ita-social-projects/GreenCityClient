@@ -91,7 +91,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       popupCancel: 'homepage.events.events-popup.cancel'
     }
   };
-
+  public firstFormIsSucceed = true;
   public backRoute: string;
   public routedFromProfile: boolean;
   public duplindx: number;
@@ -218,6 +218,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setDateCount(value: number): void {
+    this.firstFormIsSucceed = false;
     if ((this.dates.length === 1 && !this.dates[0].date) || this.editMode) {
       this.dates = Array(value)
         .fill(null)
