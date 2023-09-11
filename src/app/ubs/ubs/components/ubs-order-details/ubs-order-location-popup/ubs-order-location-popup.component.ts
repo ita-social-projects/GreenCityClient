@@ -143,10 +143,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     return id;
   }
 
-  public redirectToUbsPage(): void {
-    if (!this.selectedLocationId) {
-      this.router.navigate(['/ubs']);
-    }
+  public closePopUp(): void {
+    this.dialogRef.close();
   }
 
   ngOnDestroy(): void {

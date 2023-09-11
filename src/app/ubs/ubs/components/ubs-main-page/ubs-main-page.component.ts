@@ -261,7 +261,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (res) => {
-          if (res.data) {
+          if (res?.data) {
             this.router.navigate(['ubs', 'order']);
           }
         },

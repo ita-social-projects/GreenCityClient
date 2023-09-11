@@ -141,12 +141,6 @@ export interface DateFormObj {
   startTime?: string;
 }
 
-export interface PaginationInterface {
-  itemsPerPage: number;
-  currentPage: number;
-  totalItems: number;
-}
-
 export interface PagePreviewDTO {
   title: string;
   description: string;
@@ -155,4 +149,9 @@ export interface PagePreviewDTO {
   tags: Array<string>;
   imgArray: any[];
   location: DateFormObj;
+}
+
+export interface InitialStartDate {
+  initialDate: Date;
+  initialStartTime: string;
 }

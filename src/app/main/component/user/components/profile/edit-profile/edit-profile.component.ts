@@ -104,7 +104,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public getFormInitialValues(data): void {
     this.initialValues = {
-      firstName: data.firstName,
+      firstName: data.name,
       get city() {
         return data.city === null ? '' : data.city;
       },

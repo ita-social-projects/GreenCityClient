@@ -41,6 +41,7 @@ export const userRoutes: Routes = [
       },
       { path: ':id/friends/:userName/:userId', component: FriendProfilePageComponent },
       { path: ':id/friends/recommended/:userName/:userId', component: FriendProfilePageComponent },
+      { path: ':id/friends/requests/:userName/:userId', component: FriendProfilePageComponent },
       { path: '', redirectTo: ':id', pathMatch: 'full' }
     ]
   }
