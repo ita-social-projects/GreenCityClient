@@ -122,16 +122,17 @@ export class EventsListComponent implements OnInit, OnDestroy {
       value.nameEn = 'Past';
     }
     const existingFilterIndex = this.selectedFilters.indexOf(value);
-    if (event.isUserInput && !event.source.selected && existingFilterIndex !== -1) {
+    const userInput = event.isUserInput && !event.source.selected;
+    if (userInput && existingFilterIndex !== -1) {
       this.selectedFilters.splice(existingFilterIndex, 1);
       this.deleteFromEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    } else if (event.isUserInput && !event.source.selected) {
+    } else if (userInput) {
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
     } else if (!event.source.selected) {
       this.deleteFromEventFilterCriteria(value, dropdownName);
     }
-    if (event.isUserInput && event.source.selected && existingFilterIndex === -1) {
+    if (!userInput && existingFilterIndex === -1) {
       this.selectedFilters.push(value);
       this.addToEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
