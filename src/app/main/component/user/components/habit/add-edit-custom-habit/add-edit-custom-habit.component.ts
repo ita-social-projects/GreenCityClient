@@ -121,7 +121,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     });
     this.initialDuration = this.habit.defaultDuration;
     this.shopList = this.habit.shoppingListItems || this.habit.customShoppingListItems || [];
-    this.selectedTagsList = this.habit.tags.map((value) => this.tagsList.indexOf(value));
   }
 
   public trimValue(control: AbstractControl): void {
@@ -199,6 +198,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   saveHabit(): void {
-    this.habitForm.reset();
+    // TO DO: implement logic to save changes
   }
 }

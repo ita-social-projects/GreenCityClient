@@ -83,7 +83,7 @@
         *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
         (click)="editUsersCustomHabit(habitAssignId ? 'edithabit' : 'addhabit', habitResponse.id)"
       >
-        Edit Habit
+        {{ 'user.habit.btn.edit' | translate }}
       </button>
     </div>
     <div *ngIf="isEditing && !isAcquired" class="add-habit-container">

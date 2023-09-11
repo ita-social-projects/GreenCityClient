@@ -707,7 +707,8 @@
     "habit": {
       "btn": {
         "back-to-habit": "Back to my habits",
-        "save": "Save",
+        "save": "Save Changes",
+        "edit": "Edit Habit",
         "give-up": "Give up",
         "acquire": "Acquire",
         "add": "Add Habit",
