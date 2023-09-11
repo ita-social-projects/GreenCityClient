@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Injector, Input } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ReplaySubject, Subscription, Subject } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -38,7 +38,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
   templateUrl: './create-edit-events.component.html',
   styleUrls: ['./create-edit-events.component.scss']
 })
-export class CreateEditEventsComponent extends FormBaseComponent implements OnInit, OnDestroy {
+export class CreateEditEventsComponent extends FormBaseComponent implements OnInit {
   public title = '';
   public dates: DateEvent[] = [];
   public quillModules = {};
@@ -73,7 +73,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
   private pipe = new DatePipe('en-US');
-  private destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
@@ -245,13 +244,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setDateCount(length: number): void {
-    if (length < this.dates.length) {
-      this.dates = this.dates.slice(0, length);
-    } else {
-      while (length > this.dates.length) {
-        this.dates.push({ ...DateObj });
-      }
-    }
+    const datesLength = this.dates.length;
+    this.dates = length < datesLength ? this.dates.slice(0, length) : [...this.dates, ...Array(length - datesLength).fill({ ...DateObj })];
     this.eventsService.setArePlacesFilled(this.dates);
     this.dates.forEach((item) => {
       if (item.date) {
@@ -360,7 +354,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.isTagValid,
       this.arePlacesFilled.every((el) => !el)
     );
-    if (this.checkdates && this.eventFormGroup.valid && this.isTagValid && this.arePlacesFilled.every((el) => !el)) {
+    const checks = this.checkdates && this.eventFormGroup.valid && this.isTagValid;
+    if (checks && this.arePlacesFilled.every((el) => !el)) {
       this.checkAfterSend = true;
       const formData: FormData = new FormData();
       const stringifiedDataToSend = JSON.stringify(sendEventDto);
@@ -446,12 +441,5 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
