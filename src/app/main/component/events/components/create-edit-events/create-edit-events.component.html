@@ -59,6 +59,8 @@
                 (coordOffline)="setCoordsOffline($event, i)"
                 (linkOnline)="setOnlineLink($event, i)"
                 (status)="checkStatus($event, i)"
+                [index]="i"
+                [duplindx]="duplindx"
                 [check]="date.check"
                 [editDate]="editEvent?.dates[i]"
                 [isDateDuplicate]="isDateDuplicate"
@@ -66,7 +68,6 @@
                 [firstFormIsSucceed]="firstFormIsSucceed"
               >
               </app-event-date-time-picker>
-              <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
             </div>
             <p *ngIf="!!arePlacesFilled[i]" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
           </div>

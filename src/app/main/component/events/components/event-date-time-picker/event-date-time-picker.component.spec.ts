@@ -101,7 +101,7 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('ngOnInit expect dateForm toBeTruthy ', () => {
-    const spy = spyOn(component as any, 'setEditData');
+    const spy = spyOn(component as any, 'setDataEditing');
     component.editDate = editDateMock;
     component.dateForm = null;
     component.ngOnInit();
@@ -116,25 +116,29 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('component should initialize from with correct parameters', () => {
-    const startTime = new Date().getHours() + 1 !== 24 ? (new Date().getHours() + 1).toLocaleString() + ':00' : '0:00';
+    const curHour = new Date().getHours();
+    const startTime = curHour !== 23 ? `${curHour + 1}:00` : '0:00';
+    const curDay = new Date().getDate();
+    const minDate = new Date().setDate(curDay + (curHour !== 23 ? 0 : 1));
+    component.firstFormIsSucceed = true;
     component.ngOnInit();
-    expect(component.dateForm.get('date').value).toEqual(new Date());
+    expect(component.dateForm.get('date').value).toEqual(new Date(minDate));
     expect(component.dateForm.get('startTime').value).toEqual(startTime);
     expect(component.dateForm.get('endTime').value).toEqual('');
   });
 
-  it('setEditData will be invoke at onInit', () => {
-    const spy = spyOn(component as any, 'setEditData');
+  it('setDataEditing will be invoke at onInit', () => {
+    const spy = spyOn(component as any, 'setDataEditing');
     component.editDate = editDateMock;
     component.isDateDuplicate = true;
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('setEditData expect onlinelink to be http:/event ', () => {
+  it('setDataEditing expect onlinelink to be http:/event ', () => {
     const spy = spyOn(component.dateForm, 'patchValue').and.callThrough();
     component.editDate = editDateMock;
-    (component as any).setEditData();
+    (component as any).setDataEditing();
 
     expect(component.checkOnlinePlace).toBeTruthy();
     expect(component.dateForm.get('onlineLink').value).toBe('http://event');

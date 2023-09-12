@@ -95,7 +95,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public firstFormIsSucceed = true;
   public backRoute: string;
   public routedFromProfile: boolean;
-  public duplindx: number;
+  public duplindx = -1;
   editDates = false;
   private subscription: Subscription;
   @Input() cancelChanges: boolean;
@@ -244,8 +244,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setDateCount(length: number): void {
-    const datesLength = this.dates.length;
-    this.dates = length < datesLength ? this.dates.slice(0, length) : [...this.dates, ...Array(length - datesLength).fill({ ...DateObj })];
+    this.firstFormIsSucceed = false;
+    this.isDateDuplicate = false;
+    if (length < this.dates.length) {
+      this.duplindx = -1;
+      this.dates = this.dates.slice(0, length);
+    } else {
+      this.dates = [...this.dates, ...Array(length - this.dates.length).fill({ ...DateObj })];
+    }
     this.eventsService.setArePlacesFilled(this.dates);
     this.dates.forEach((item) => {
       if (item.date) {
@@ -347,13 +353,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       };
     }
     this.updateAreAddressFilled(this.dates, true);
-    console.log(
-      this.dates,
-      this.checkdates,
-      this.eventFormGroup.valid,
-      this.isTagValid,
-      this.arePlacesFilled.every((el) => !el)
-    );
+
     const checks = this.checkdates && this.eventFormGroup.valid && this.isTagValid;
     if (checks && this.arePlacesFilled.every((el) => !el)) {
       this.checkAfterSend = true;

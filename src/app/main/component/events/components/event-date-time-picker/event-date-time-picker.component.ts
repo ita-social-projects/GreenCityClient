@@ -48,7 +48,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Input() editDate: DateEventResponceDto;
   @Input() isDateDuplicate: boolean;
   @Input() editDates: boolean;
-  @Input() firstFormIsSucceed = true;
+  @Input() firstFormIsSucceed: boolean;
+  @Input() index: number;
+  @Input() duplindx: number;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -74,8 +76,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   ) {}
 
   ngOnInit(): void {
-    const curDay = new Date().getDate();
-    this.minDate.setDate(curDay);
+    const curDate = new Date();
+    const curDay = curDate.getDate();
+    this.minDate.setDate(curDay + (curDate.getHours() !== 23 ? 0 : 1));
     this.fillTimeArray();
 
     const { initialDate, initialStartTime } = this.initialStartTime();
@@ -89,6 +92,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     const startTime = this.dateForm.get('startTime').value;
     const endTime = this.dateForm.get('endTime').value;
     this.updateTimeArrays(startTime, endTime);
+    if (this.firstFormIsSucceed) {
+      this.datesForm.emit(this.dateForm.value);
+    }
 
     this.dateForm.valueChanges.subscribe((value) => {
       this.updateTimeArrays(value.startTime, value.endTime);
@@ -96,7 +102,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.datesForm.emit(value);
     });
     if (this.editDate && !this.editDates) {
-      this.setEditData();
+      this.setDataEditing();
     }
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -129,9 +135,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     let initialDate;
     let initialStartTime = '';
     if (this.firstFormIsSucceed || editMode) {
-      initialDate = new Date();
       const currentHour = new Date().getHours();
-      initialStartTime = currentHour + 1 !== 24 ? `${currentHour + 1}:00` : '23:00';
+      initialDate = currentHour !== 23 ? new Date() : this.minDate;
+      initialStartTime = currentHour !== 23 ? `${currentHour + 1}:00` : '0:00';
     } else {
       initialDate = '';
     }
@@ -148,11 +154,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     );
   }
 
-  private setEditData(): void {
+  private setDataEditing(): void {
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
-    const endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
+    let endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
     if (endEditTime === '23:59') {
       this.checkTime = true;
+      endEditTime = '00:00';
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
     }
@@ -165,8 +172,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.editDate.coordinates.latitude) {
       if (!this.isEditAdressDefault) {
         this.checkOfflinePlace = true;
-        this.dateForm.addControl('place', new FormControl('', [Validators.required]));
-        this.dateForm.addControl('coordinatesDto', new FormControl('', [Validators.required]));
+        this.dateForm.addControl('place', new FormControl(''));
+        this.dateForm.addControl('coordinatesDto', new FormControl(''));
         setTimeout(() => this.setPlaceAutocomplete(), 0);
         this.coordinates.latitude = this.editDate.coordinates.latitude;
         this.coordinates.longitude = this.editDate.coordinates.longitude;
@@ -187,7 +194,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
     if (this.editDate.onlineLink) {
       this.checkOnlinePlace = true;
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
       this.dateForm.patchValue({
         onlineLink: this.editDate.onlineLink
       });
@@ -240,7 +247,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
     if (this.checkOnlinePlace) {
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
       this.dateForm.get('onlineLink').valueChanges.subscribe((newValue) => {
         this.linkOnline.emit(newValue);
       });
@@ -253,7 +260,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public checkIfOffline(): void {
     this.checkOfflinePlace = !this.checkOfflinePlace;
     if (this.checkOfflinePlace) {
-      this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+      this.dateForm.addControl('place', new FormControl(''));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
     } else {
       this.coordinates.latitude = null;
@@ -321,14 +328,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   }
 
   private checkEndTime(time: string, curTime?: number): void {
-    const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
-    if (!time || (!curTime && checkTime[0] === '00')) {
-      return;
+    if (time) {
+      const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
+      this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
     }
-    if (curTime === 23) {
-      curTime -= 1;
-    }
-    this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
   }
 
   private checkStartTime(time: string): void {
@@ -358,8 +361,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
     if (this.checkDay()) {
       const curTime = new Date().getHours();
-      this.timeArrStart = curTime === 23 ? ['23:00'] : [...this.timeArr.slice(curTime + 1, 24)];
-      this.timeArrEnd = curTime === 23 ? ['00:00'] : [...this.timeArr.slice(curTime + 2)];
+      this.timeArrStart = [...this.timeArr.slice(curTime + 1, 24)];
+      this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
       this.checkStartTime(startTime);
       this.checkEndTime(endTime, curTime);
     } else {
