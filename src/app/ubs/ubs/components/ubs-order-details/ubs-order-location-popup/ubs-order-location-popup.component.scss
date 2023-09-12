@@ -9,6 +9,7 @@
   font-family: var(--primary-font);
   font-weight: bold;
   font-size: larger;
+  min-height: 317px;
 
   .title {
     margin: 6px 36px;
@@ -18,8 +19,17 @@
     }
   }
 
+  .form-spinner-wrapper {
+    margin: 0 36px;
+    min-height: 150px;
+
+    ::ng-deep .mat-spinner {
+      margin: 28px auto;
+    }
+  }
+
   .form {
-    margin: 28px 36px;
+    margin: 28px auto;
     font-size: 20px;
 
     .city-container {
@@ -63,7 +73,7 @@
   .info {
     font-weight: normal;
     font-size: 16px;
-    margin: 0 36px;
+    margin: 0;
 
     .text {
       line-height: 24px;
@@ -120,6 +130,13 @@
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
+
+    .form-spinner-wrapper {
+      margin: 0;
+      padding: 10px;
+      min-height: 100px;
+      flex-direction: 1 1 100px;
+    }
 
     .title {
       line-height: 1.5em;

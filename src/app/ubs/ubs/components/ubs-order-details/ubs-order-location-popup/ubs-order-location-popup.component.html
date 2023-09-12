@@ -7,27 +7,25 @@
   <div class="title">
     <h5 class="title-text">{{ 'order-details.location.title' | translate }}</h5>
   </div>
-  <form *ngIf="!isFetching; else spinner" class="form">
-    <div class="city-container">
-      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" class="shadow-none form-control" />
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-        <mat-option
-          *ngFor="let city of filteredOptions | async"
-          [value]="city"
-          (click)="changeLocation(city.locationId, city.locationName)"
-        >
-          {{ city.locationName }}
-        </mat-option>
-      </mat-autocomplete>
+  <div class="form-spinner-wrapper">
+    <form *ngIf="!isFetching; else spinner" class="form">
+      <div class="city-container">
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" class="shadow-none form-control" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let city of cities" [value]="city" (click)="changeLocation(city.locationId, city.locationName)">
+            {{ city.locationName }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </form>
+    <div class="info" *ngIf="!isFetching">
+      <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>
+      <p class="text" *ngIf="selectedLocationId === 2">{{ 'order-details.location.info-region' | translate }}</p>
     </div>
-  </form>
-  <div class="info" *ngIf="!isFetching">
-    <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>
-    <p class="text" *ngIf="selectedLocationId === 2">{{ 'order-details.location.info-region' | translate }}</p>
+    <ng-template #spinner>
+      <app-spinner class="mx-auto"></app-spinner>
+    </ng-template>
   </div>
-  <ng-template #spinner>
-    <app-spinner class="mx-auto"></app-spinner>
-  </ng-template>
   <mat-dialog-actions class="footer-btns" align="end">
     <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
       {{ 'order-details.location.btn.back' | translate }}
