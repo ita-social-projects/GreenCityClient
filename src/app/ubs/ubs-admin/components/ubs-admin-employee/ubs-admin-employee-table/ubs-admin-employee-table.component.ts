@@ -104,7 +104,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
     this.employees$.subscribe((item: Employees) => {
       if (item) {
-        this.tableData = item[`content`];
+        this.tableData = item[`page`];
         this.employees = this.tableData.map((employee: Page) => {
           return {
             ...employee,
