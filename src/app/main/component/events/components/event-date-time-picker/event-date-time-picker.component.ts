@@ -56,6 +56,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
   @Output() linkOnline = new EventEmitter<string>();
+  @Output() startTime = new EventEmitter<string>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
@@ -206,6 +207,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.checkAllDay = true;
     const startTime = this.dateForm.get('startTime');
     const endTime = this.dateForm.get('endTime');
+    if (!this.checkTime && this.checkDay()) {
+      this.startTime.emit('');
+    }
     if (this.checkTime) {
       startTime.disable();
       endTime.disable();
@@ -214,7 +218,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       endTime.enable();
     }
     if (this.checkDay()) {
-      startTime.setValue(this.initialStartTime(true).initialStartTime);
+      const initialStartTime = this.initialStartTime(true).initialStartTime;
+      this.startTime.emit(initialStartTime);
+      startTime.setValue(initialStartTime);
       endTime.setValue(this.timeArrEnd[23]);
     } else {
       startTime.setValue(this.timeArrStart[0]);

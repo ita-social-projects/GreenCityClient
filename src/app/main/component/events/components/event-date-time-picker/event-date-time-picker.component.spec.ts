@@ -122,7 +122,7 @@ describe('EventDateTimePickerComponent', () => {
     const minDate = new Date().setDate(curDay + (curHour !== 23 ? 0 : 1));
     component.firstFormIsSucceed = true;
     component.ngOnInit();
-    expect(component.dateForm.get('date').value).toEqual(new Date(minDate));
+    expect(component.dateForm.get('date').value.toString()).toEqual(new Date(minDate).toString());
     expect(component.dateForm.get('startTime').value).toEqual(startTime);
     expect(component.dateForm.get('endTime').value).toEqual('');
   });

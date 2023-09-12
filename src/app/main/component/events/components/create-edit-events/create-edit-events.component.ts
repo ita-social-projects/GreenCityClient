@@ -69,6 +69,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFileUrl: string;
   public files = [];
 
+  private currentDayStartTime: any[] = [];
   private editorText = '';
   private imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
@@ -300,7 +301,15 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return date.toString();
   }
 
+  public setStartTime(time: string, i: number): void {
+    this.currentDayStartTime = [time, i];
+  }
+
   private createDates(): Array<Dates> {
+    if (this.currentDayStartTime[0]) {
+      const [time, i] = this.currentDayStartTime;
+      this.dates[i].startDate = time;
+    }
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
         cur.startDate = ItemTime.START;
@@ -311,17 +320,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
       const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
 
-      const coords = cur.coordinatesDto.latitude
-        ? { latitude: cur.coordinatesDto.latitude, longitude: cur.coordinatesDto.longitude }
-        : { latitude: null, longitude: null };
-
       const date: Dates = {
         startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
-        finishDate: this.pipe.transform(end, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
-        coordinates: coords,
-        onlineLink: cur.onlineLink ? cur.onlineLink : ''
+        finishDate: this.pipe.transform(end, 'yyyy-MM-ddTHH:mm:ssZZZZZ')
       };
-
+      if (cur.onlineLink) {
+        date.onlineLink = cur.onlineLink;
+      }
+      if (cur.coordinatesDto.latitude) {
+        date.coordinates = { latitude: cur.coordinatesDto.latitude, longitude: cur.coordinatesDto.longitude };
+      }
       ac.push(date);
       return ac;
     }, []);

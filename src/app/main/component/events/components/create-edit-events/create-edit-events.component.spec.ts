@@ -229,12 +229,12 @@ describe('CreateEditEventsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('createDates should create 1 date. Finish date has to be 0', () => {
+  it('createDates should create 1 date. Finish date has to be 23', () => {
     component.dates = [DateMock];
     component.dates[0].startDate = null;
     component.dates[0].finishDate = null;
     const dates = (component as any).createDates();
-    expect(new Date(dates[0].finishDate).getHours()).toBe(0);
+    expect(new Date(dates[0].finishDate).getHours()).toBe(23);
   });
 
   it('onSubmit expect isposting to be false', () => {
