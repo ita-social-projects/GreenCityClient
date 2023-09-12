@@ -12,12 +12,13 @@ import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-events-list',
@@ -34,8 +35,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public locationFilterControl = new FormControl();
   public statusFilterControl = new FormControl();
   public typeFilterControl = new FormControl();
+  public searchFilterWords = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   public eventsList: EventPageResponceDto[] = [];
+  public bufferArray: EventPageResponceDto[] = [];
+  public wordsToSearch: string[];
+  public showEventItem = true;
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -46,6 +51,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
+  public noEventsMatch = false;
   public selectedFilters = [];
   public searchToggle = false;
   public bookmarkSelected = false;
@@ -84,6 +90,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.page = res.pageNumber;
       if (res.eventState) {
         this.eventsList = [...res.eventsList];
+        this.bufferArray = [...res.eventsList];
         const data = res.eventState;
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
@@ -92,6 +99,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
     });
     this.getUserFriendsList();
+    this.searchWords();
   }
 
   getUserFriendsList(): void {
@@ -105,6 +113,29 @@ export class EventsListComponent implements OnInit, OnDestroy {
     } else {
       this.userFriends = [];
     }
+  }
+
+  searchWords(): void {
+    this.searchFilterWords.valueChanges.subscribe((value) => {
+      this.wordsToSearch = value.split(' ');
+      this.sortByWord(this.bufferArray, this.wordsToSearch);
+    });
+  }
+
+  sortByWord(list: EventPageResponceDto[], words: string[]): void {
+    this.eventsList = list.filter((element) => {
+      for (const word of words) {
+        if (element.title.includes(word)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    this.eventsList.length ? (this.noEventsMatch = false) : (this.noEventsMatch = true);
+  }
+
+  public cancelSearch() {
+    this.searchFilterWords.setValue('');
   }
 
   updateSelectedFilters(value: any, event): void {

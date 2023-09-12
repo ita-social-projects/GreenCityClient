@@ -51,6 +51,7 @@
     min-width: 20px;
     min-height: 20px;
     background: url('src/assets/events-icons/search.png');
+    display: inline-block;
 
     &:hover {
       min-width: 20px;
@@ -75,6 +76,22 @@
     width: 12px;
     height: 17px;
     background: url('src/assets/events-icons/bookmark-active.png');
+  }
+}
+
+.container-input {
+  position: relative;
+
+  .cross-position {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .place-input {
+    width: 400px;
+    height: 40px;
   }
 }
 
