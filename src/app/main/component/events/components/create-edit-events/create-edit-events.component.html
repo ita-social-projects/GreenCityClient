@@ -55,9 +55,13 @@
             <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
             <div class="date-event-block">
               <app-event-date-time-picker
-                (datesForm)="checkForm($event, i)"
-                (coordOffline)="setCoordsOnlOff($event, i)"
+                (datesForm)="checkFormSetDates($event, i)"
+                (coordOffline)="setCoordsOffline($event, i)"
+                (linkOnline)="setOnlineLink($event, i)"
+                (startTime)="setStartTime($event, i)"
                 (status)="checkStatus($event, i)"
+                [index]="i"
+                [duplindx]="duplindx"
                 [check]="date.check"
                 [editDate]="editEvent?.dates[i]"
                 [isDateDuplicate]="isDateDuplicate"
@@ -65,9 +69,8 @@
                 [firstFormIsSucceed]="firstFormIsSucceed"
               >
               </app-event-date-time-picker>
-              <div *ngIf="i === duplindx" class="tag-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
             </div>
-            <p *ngIf="dates.length && !isAddressFill" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
+            <p *ngIf="!!arePlacesFilled[i]" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
           </div>
         </div>
 
@@ -78,12 +81,14 @@
               {{ 'create-news.content-tooltip' | translate }}
             </p>
           </div>
-          <div [ngClass]="handleErrorClass('content-error') || 'content'" (click)="onClickTextArea()">
+          <div [ngClass]="handleErrorClass('content-error') || 'content'">
             <quill-editor
+              minlength="20"
               class="editor"
               ngDefaultControl
               formControlName="description"
               [modules]="quillModules"
+              (onEditorChanged)="changedEditor($event)"
               placeholder="{{ 'create-news.content-placeholder' | translate }}"
             ></quill-editor>
           </div>

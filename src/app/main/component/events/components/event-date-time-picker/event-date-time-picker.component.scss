@@ -28,10 +28,6 @@
   font-size: 12px;
 }
 
-.isOfline {
-  display: none;
-}
-
 .active {
   display: block;
 
@@ -47,9 +43,21 @@
 .map-container {
   width: 604px;
   height: 410px;
+  margin-bottom: 16px;
 }
 
 .tag-error-messege {
   margin-left: 20px;
-  color: red;
+  color: var(--error-red);
+}
+
+.checkbox-error ::ng-deep .mat-checkbox-frame {
+  border-color: var(--error-red);
+}
+
+.duplix-error {
+  font-size: 12px;
+  color: var(--error-red);
+  margin-top: -5px;
+  margin-bottom: 10px;
 }

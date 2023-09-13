@@ -25,7 +25,7 @@ export interface Dates {
     latitude: number;
     longitude: number;
   } | null;
-  onlineLink: string;
+  onlineLink?: string;
   id?: number;
 }
 
@@ -139,6 +139,10 @@ export interface DateFormObj {
   onlineLink?: string;
   place: string;
   startTime?: string;
+  coordinatesDto?: {
+    latitude: number;
+    longitude: number;
+  };
 }
 
 export interface PagePreviewDTO {

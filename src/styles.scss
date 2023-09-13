@@ -351,6 +351,17 @@ body {
   }
 }
 
+// [END] View switcher buttons
+
+// [STATR] Quill editor
+
+.ql-editor {
+  height: 199px;
+  max-width: 594px;
+}
+
+// [END] Quill editor
+
 .tooltipClass::before {
   content: '';
   position: absolute;

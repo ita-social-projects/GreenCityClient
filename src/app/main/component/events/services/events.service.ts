@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, PagePreviewDTO } from '../models/events.interface';
+import { EventResponseDto, PagePreviewDTO, DateEvent } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,40 @@ export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
+  private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
 
   constructor(private http: HttpClient) {}
+
+  public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
+    const currentValues = this.arePlacesFilledSubject.getValue();
+    let newArray;
+
+    switch (true) {
+      case submit:
+        newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
+        break;
+      case check:
+        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
+        this.arePlacesFilledSubject.next(currentValues);
+        return;
+      case currentValues.some((el) => el === true):
+        newArray = currentValues.slice(0, dates.length);
+        newArray = newArray.concat(Array(dates.length - newArray.length).fill(null));
+        break;
+      default:
+        newArray = dates.length && !submit ? Array(dates.length).fill(false) : currentValues;
+    }
+
+    this.arePlacesFilledSubject.next(newArray);
+  }
+
+  public setInitialValueForPlaces(): void {
+    this.arePlacesFilledSubject.next([]);
+  }
+
+  public getCheckedPlacesObservable(): Observable<boolean[]> {
+    return this.arePlacesFilledSubject.asObservable();
+  }
 
   public getImageAsFile(img: string): Observable<Blob> {
     return this.http.get(img, { responseType: 'blob' });

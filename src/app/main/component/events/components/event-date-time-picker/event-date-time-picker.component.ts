@@ -1,6 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate } from '../../models/events.interface';
+import { Subscription, Subject } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -9,7 +10,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Subject } from 'rxjs';
 import { DateAdapter } from '@angular/material/core';
 import { LanguageModel } from '../../../layout/components/models/languageModel';
 import { Language, Locate } from 'src/app/main/i18n/Language';
@@ -19,7 +19,7 @@ import { Language, Locate } from 'src/app/main/i18n/Language';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges {
+export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -27,13 +27,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   public timeArr: Array<string> = [];
 
   coordinates: OfflineDto = {
-    latitude: 50.43353,
-    longitude: 30.53789
+    latitude: null,
+    longitude: null
   };
   public zoom = 8;
   address: string;
 
-  public isOfline: boolean;
   public autocomplete: google.maps.places.Autocomplete;
   private pipe = new DatePipe('en-US');
   public checkTime = false;
@@ -49,18 +48,24 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   @Input() editDate: DateEventResponceDto;
   @Input() isDateDuplicate: boolean;
   @Input() editDates: boolean;
-  @Input() firstFormIsSucceed = true;
+  @Input() firstFormIsSucceed: boolean;
+  @Input() index: number;
+  @Input() duplindx: number;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
+  @Output() linkOnline = new EventEmitter<string>();
+  @Output() startTime = new EventEmitter<string>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
   public dateForm: FormGroup;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
-  isLocationSelected = false;
+  public isLocationSelected = false;
+  public arePlacesFilled: boolean[] = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -72,28 +77,33 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    const curDay = new Date().getDate();
-    this.minDate.setDate(curDay);
+    const curDate = new Date();
+    const curDay = curDate.getDate();
+    this.minDate.setDate(curDay + (curDate.getHours() !== 23 ? 0 : 1));
     this.fillTimeArray();
 
     const { initialDate, initialStartTime } = this.initialStartTime();
     this.dateForm = new FormGroup({
       date: new FormControl(initialDate, [Validators.required]),
       startTime: new FormControl(initialStartTime, [Validators.required]),
-      endTime: new FormControl('', [Validators.required])
+      endTime: new FormControl('', [Validators.required]),
+      coordinatesDto: new FormControl(this.coordinates),
+      onlineLink: new FormControl('', [Validators.pattern(Patterns.linkPattern)])
     });
     const startTime = this.dateForm.get('startTime').value;
     const endTime = this.dateForm.get('endTime').value;
     this.updateTimeArrays(startTime, endTime);
+    if (this.firstFormIsSucceed) {
+      this.datesForm.emit(this.dateForm.value);
+    }
 
     this.dateForm.valueChanges.subscribe((value) => {
       this.updateTimeArrays(value.startTime, value.endTime);
-      this.coordOffline.emit(this.coordinates);
       this.status.emit(this.dateForm.valid);
       this.datesForm.emit(value);
     });
     if (this.editDate && !this.editDates) {
-      this.setEditData();
+      this.setDataEditing();
     }
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -112,15 +122,23 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.isDateDuplicate) {
       this.dateForm.get('date').markAsTouched();
     }
+    const isAddressFilledSubscription = this.eventsService.getCheckedPlacesObservable().subscribe((values) => {
+      this.arePlacesFilled = values;
+    });
+    this.subscriptions.push(isAddressFilledSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   private initialStartTime(editMode?: boolean): InitialStartDate {
     let initialDate;
     let initialStartTime = '';
     if (this.firstFormIsSucceed || editMode) {
-      initialDate = new Date();
       const currentHour = new Date().getHours();
-      initialStartTime = currentHour + 1 !== 24 ? `${currentHour + 1}:00` : '23:00';
+      initialDate = currentHour !== 23 ? new Date() : this.minDate;
+      initialStartTime = currentHour !== 23 ? `${currentHour + 1}:00` : '0:00';
     } else {
       initialDate = '';
     }
@@ -137,11 +155,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     );
   }
 
-  private setEditData(): void {
+  private setDataEditing(): void {
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
-    const endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
+    let endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
     if (endEditTime === '23:59') {
       this.checkTime = true;
+      endEditTime = '00:00';
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
     }
@@ -154,18 +173,19 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     if (this.editDate.coordinates.latitude) {
       if (!this.isEditAdressDefault) {
         this.checkOfflinePlace = true;
-        this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+        this.dateForm.addControl('place', new FormControl(''));
+        this.dateForm.addControl('coordinatesDto', new FormControl(''));
         setTimeout(() => this.setPlaceAutocomplete(), 0);
         this.coordinates.latitude = this.editDate.coordinates.latitude;
         this.coordinates.longitude = this.editDate.coordinates.longitude;
         this.zoom = 8;
-        this.coordOffline.emit(this.coordinates);
 
         this.dateForm.patchValue({
           place: this.getLangValue(
             this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
             this.eventsService.createAdresses(this.editDate.coordinates, 'En')
-          )
+          ),
+          coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
         });
 
         this.coordinates.latitude = this.editDate.coordinates.latitude;
@@ -175,7 +195,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
 
     if (this.editDate.onlineLink) {
       this.checkOnlinePlace = true;
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]));
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
       this.dateForm.patchValue({
         onlineLink: this.editDate.onlineLink
       });
@@ -187,6 +207,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     this.checkAllDay = true;
     const startTime = this.dateForm.get('startTime');
     const endTime = this.dateForm.get('endTime');
+    if (!this.checkTime && this.checkDay()) {
+      this.startTime.emit('');
+    }
     if (this.checkTime) {
       startTime.disable();
       endTime.disable();
@@ -195,7 +218,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
       endTime.enable();
     }
     if (this.checkDay()) {
-      startTime.setValue(this.initialStartTime(true).initialStartTime);
+      const initialStartTime = this.initialStartTime(true).initialStartTime;
+      this.startTime.emit(initialStartTime);
+      startTime.setValue(initialStartTime);
       endTime.setValue(this.timeArrEnd[23]);
     } else {
       startTime.setValue(this.timeArrStart[0]);
@@ -220,30 +245,36 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
         this.coordinates.longitude = position.coords.longitude;
         this.zoom = 8;
         this.getAddress(position.coords.latitude, position.coords.longitude);
+        this.coordOffline.emit(this.coordinates);
       }
     });
   }
 
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
-    this.checkOnlinePlace
-      ? this.dateForm.addControl('onlineLink', new FormControl('', [Validators.required, Validators.pattern(Patterns.linkPattern)]))
-      : this.dateForm.removeControl('onlineLink');
+    if (this.checkOnlinePlace) {
+      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
+      this.dateForm.get('onlineLink').valueChanges.subscribe((newValue) => {
+        this.linkOnline.emit(newValue);
+      });
+    } else {
+      this.dateForm.removeControl('onlineLink');
+      this.linkOnline.emit('');
+    }
   }
 
   public checkIfOffline(): void {
     this.checkOfflinePlace = !this.checkOfflinePlace;
     if (this.checkOfflinePlace) {
-      this.isOfline = true;
-      this.dateForm.addControl('place', new FormControl('', [Validators.required]));
+      this.dateForm.addControl('place', new FormControl(''));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
     } else {
-      this.isOfline = false;
       this.coordinates.latitude = null;
       this.coordinates.longitude = null;
       this.coordOffline.emit(this.coordinates);
       this.autocomplete.unbindAll();
       this.dateForm.removeControl('place');
+      this.isLocationSelected = false;
     }
   }
 
@@ -303,14 +334,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
   }
 
   private checkEndTime(time: string, curTime?: number): void {
-    const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
-    if (!time || (!curTime && checkTime[0] === '00')) {
-      return;
+    if (time) {
+      const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
+      this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
     }
-    if (curTime === 23) {
-      curTime -= 1;
-    }
-    this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
   }
 
   private checkStartTime(time: string): void {
@@ -340,8 +367,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges {
     }
     if (this.checkDay()) {
       const curTime = new Date().getHours();
-      this.timeArrStart = curTime === 23 ? ['23:00'] : [...this.timeArr.slice(curTime + 1, 24)];
-      this.timeArrEnd = curTime === 23 ? ['00:00'] : [...this.timeArr.slice(curTime + 2)];
+      this.timeArrStart = [...this.timeArr.slice(curTime + 1, 24)];
+      this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
       this.checkStartTime(startTime);
       this.checkEndTime(endTime, curTime);
     } else {
