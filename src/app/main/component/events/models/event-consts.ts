@@ -36,8 +36,8 @@ export const TagsArray = [
 ];
 
 export const eventTimeList = [
-  { nameEn: 'Upcoming', nameUa: 'Майбутній' },
-  { nameEn: 'Passed', nameUa: 'Завершений' }
+  { nameEn: 'Future', nameUa: 'Майбутній' },
+  { nameEn: 'Past', nameUa: 'Завершений' }
 ];
 
 export const eventStatusList = [
@@ -71,7 +71,7 @@ export const WeekArray = [
   { nameEn: '7 days', nameUa: '7 днів' }
 ];
 
-export const EventFilterCriteria = {
+export let EventFilterCriteria = {
   eventTime: [],
   cities: [],
   statuses: [],

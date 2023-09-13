@@ -35,10 +35,10 @@ export class EventsService implements OnDestroy {
   }
 
   public getEvents(page: number, quantity: number, filter: EventFilterCriteriaIntarface): Observable<any> {
-    const urlAttr = [`cities=${filter.cities}`, `tags=${filter.tags}`, `eventTime=${filter.eventTime}`, `statuses=${filter.statuses}`]
-      .filter((item) => !!item)
-      .join('&');
-    return this.http.get(`${this.backEnd}events?page=${page}&size=${quantity}${urlAttr}`);
+    return this.http.get(
+      `${this.backEnd}events?page=${page}&size=${quantity}&cities=${filter.cities}` +
+        `&tags=${filter.tags}&eventTime=${filter.eventTime}&statuses=${filter.statuses}`
+    );
   }
 
   public getSubscribedEvents(page: number, quantity: number): Observable<EventResponseDto> {

@@ -91,15 +91,10 @@ describe('EventsService', () => {
     service.getEvents(0, 1, eventFilterCriteria).subscribe((event: any) => {
       expect(event).toEqual(data);
     });
-    const urlAttr = [
-      `cities=${eventFilterCriteria.cities}`,
-      `tags=${eventFilterCriteria.tags}`,
-      `eventTime=${eventFilterCriteria.eventTime}`,
-      `statuses=${eventFilterCriteria.statuses}`
-    ]
-      .filter((item) => !!item)
-      .join('&');
-    const req = httpTestingController.expectOne(`${url}events?page=0&size=1${urlAttr}`);
+    const req = httpTestingController.expectOne(
+      `${url}events?page=0&size=1&cities=${eventFilterCriteria.cities}&tags=${eventFilterCriteria.tags}` +
+        `&eventTime=${eventFilterCriteria.eventTime}&statuses=${eventFilterCriteria.statuses}`
+    );
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });

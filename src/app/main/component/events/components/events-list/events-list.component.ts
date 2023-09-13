@@ -23,7 +23,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
+import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';
@@ -67,7 +67,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
-  private isFirstCityLoad = true;
   userFriends: FriendModel[];
 
   constructor(
@@ -97,10 +96,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.hasNext = data.hasNext;
         this.totalElements = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
-        if (this.isFirstCityLoad) {
-          this.eventLocationList = this.getUniqueCities(this.eventsList);
-          this.isFirstCityLoad = false;
-        }
+        this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
     });
     this.getUserFriendsList();
@@ -115,24 +111,25 @@ export class EventsListComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateSelectedFilters(value: any, event, optionsList?: any, dropdownName?: string, filterList?: any): void {
-    if (value.nameEn === 'Upcoming') {
-      value.nameEn = 'Future';
-    } else if (value.nameEn === 'Passed') {
-      value.nameEn = 'Past';
-    }
+  public updateSelectedFilters(
+    value: OptionItem,
+    event: MatOptionSelectionChange,
+    optionsList: MatSelect,
+    dropdownName: string,
+    filterList: Array<OptionItem>
+  ): void {
     const existingFilterIndex = this.selectedFilters.indexOf(value);
-    const userInput = event.isUserInput && !event.source.selected;
-    if (userInput && existingFilterIndex !== -1) {
+    const isUserInput = event.isUserInput && existingFilterIndex !== -1;
+    if (isUserInput && !event.source.selected) {
       this.selectedFilters.splice(existingFilterIndex, 1);
       this.deleteFromEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    } else if (userInput) {
+    } else if (event.isUserInput && !event.source.selected) {
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
     } else if (!event.source.selected) {
       this.deleteFromEventFilterCriteria(value, dropdownName);
     }
-    if (!userInput && existingFilterIndex === -1) {
+    if (!isUserInput && event.source.selected) {
       this.selectedFilters.push(value);
       this.addToEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
@@ -140,7 +137,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.dispatchStore(true);
   }
 
-  private checkAllSelectedFilters(value: any, optionsList: any, dropdownName: string, filterList: any) {
+  private checkAllSelectedFilters(value: OptionItem, optionsList: MatSelect, dropdownName: string, filterList: Array<OptionItem>) {
     if (this.allSelectedFlags[dropdownName]) {
       optionsList.options.first.deselect();
       filterList.forEach((item) => {
@@ -162,14 +159,14 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private deleteFromEventFilterCriteria(value: any, dropdownName: string) {
+  private deleteFromEventFilterCriteria(value: OptionItem, dropdownName: string) {
     this.eventFilterCriteria = {
       ...this.eventFilterCriteria,
       [dropdownName]: this.eventFilterCriteria[dropdownName].filter((item) => item !== value.nameEn)
     };
   }
 
-  private addToEventFilterCriteria(value: any, dropdownName: string) {
+  private addToEventFilterCriteria(value: OptionItem, dropdownName: string) {
     this.eventFilterCriteria = {
       ...this.eventFilterCriteria,
       [dropdownName]: [...this.eventFilterCriteria[dropdownName], value.nameEn]
@@ -205,7 +202,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     return cities;
   }
 
-  public toggleAllSelection(optionsList: any, dropdownName: string): void {
+  public toggleAllSelection(optionsList: MatSelect, dropdownName: string): void {
     this.allSelectedFlags[dropdownName] = !this.allSelectedFlags[dropdownName];
     if (this.allSelectedFlags[dropdownName]) {
       optionsList.options.forEach((item: MatOption) => {
@@ -230,7 +227,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.searchToggle = !this.searchToggle;
   }
 
-  public deleteOneFilter(filter, index): void {
+  public deleteOneFilter(filter: OptionItem, index: number): void {
     let deleted = true;
     const keyMapping = {
       eventTime: 0,
@@ -239,7 +236,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       tags: 3
     };
     [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list, arrayIndex) => {
-      for (const dropdownName in this.allSelectedFilter) {
+      Object.keys(this.allSelectedFilter).forEach((dropdownName) => {
         if (this.allSelectedFilter[dropdownName].nameEn === filter.nameEn) {
           list.options.forEach((item) => {
             if (arrayIndex === keyMapping[dropdownName]) {
@@ -252,7 +249,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
             deleted = false;
           }
         }
-      }
+      });
       const item2 = list.options.find((option: MatOption) => filter.nameEn === option.value.nameEn);
       if (item2) {
         this.selectedFilters.splice(index, 1);
@@ -268,16 +265,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
       });
     });
     this.selectedFilters.splice(0, this.selectedFilters.length);
-    for (const criteria in this.eventFilterCriteria) {
-      if (this.eventFilterCriteria.hasOwnProperty(criteria)) {
-        this.eventFilterCriteria[criteria] = [];
+    Object.keys(this.eventFilterCriteria).forEach((dropdownName) => {
+      if (this.eventFilterCriteria[dropdownName].length) {
+        this.eventFilterCriteria[dropdownName] = [];
       }
-    }
-    for (const dropdownName in this.allSelectedFlags) {
-      if (this.allSelectedFlags.hasOwnProperty(dropdownName)) {
+    });
+    Object.keys(this.allSelectedFlags).forEach((dropdownName) => {
+      if (this.allSelectedFlags[dropdownName].length) {
         this.allSelectedFlags[dropdownName] = false;
       }
-    }
+    });
   }
 
   private checkUserSingIn(): void {

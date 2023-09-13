@@ -36,7 +36,7 @@ export class EventsEffects {
   getEcoEventsByPage = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEcoEventsByPageAction),
-      mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean; filter?: EventFilterCriteriaIntarface }) => {
+      mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaIntarface }) => {
         return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents, actions.filter).pipe(
           map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, reset: actions.reset })),
           catchError((error) => of(ReceivedFailureAction(error)))

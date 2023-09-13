@@ -41,7 +41,7 @@ export const DeleteEcoEventSuccessAction = createAction(EventsActions.DeleteEcoE
 
 export const GetEcoEventsByPageAction = createAction(
   EventsActions.GetEcoEventsByPage,
-  props<{ currentPage: number; numberOfEvents: number; reset: boolean; filter?: EventFilterCriteriaIntarface }>()
+  props<{ currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaIntarface }>()
 );
 
 export const GetEcoEventsByPageSuccessAction = createAction(
