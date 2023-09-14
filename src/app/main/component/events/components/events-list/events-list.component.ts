@@ -129,11 +129,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.selectedFilters.splice(existingFilterIndex, 1);
       this.deleteFromEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    } else if (event.isUserInput && !event.source.selected) {
+    }
+
+    if (event.isUserInput && !event.source.selected) {
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    } else if (!event.source.selected) {
+    }
+
+    if (!event.source.selected) {
       this.deleteFromEventFilterCriteria(value, dropdownName);
     }
+
     if (!isUserInput && event.source.selected) {
       this.selectedFilters.push(value);
       this.addToEventFilterCriteria(value, dropdownName);
