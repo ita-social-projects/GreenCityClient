@@ -50,7 +50,7 @@
       <div class="cancelButton" (click)="managePermissionSettings('cancel')">
         {{ 'ubs-employee.cancel' | translate }}
       </div>
-      <button type="submit" class="addButton" [disabled]="isUpdating || isDisabled" (click)="managePermissionSettings('apply')">
+      <button type="submit" class="addButton" [disabled]="isUpdating || isDisabled">
         <span *ngIf="isUpdating" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;
         {{ 'ubs-employee.apply' | translate }}
       </button>
