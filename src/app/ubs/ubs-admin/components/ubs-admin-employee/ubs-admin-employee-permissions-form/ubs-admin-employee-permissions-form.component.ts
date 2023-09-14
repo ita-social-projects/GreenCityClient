@@ -146,6 +146,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     this.employeeService.updatePermissions(this.employee.email, selectedPermissions).subscribe(
       () => {
         this.isUpdating = false;
+        this.snackBar.openSnackBar('successUpdatePermissionsEmployee');
         this.dialogRef.close(true);
       },
       (error) => {
@@ -156,15 +157,6 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   }
 
   managePermissionSettings(actionType: string): void {
-    const confirmData = {
-      popupTitle: 'employees.permissions.clients.confirm-changes',
-      popupConfirm: 'employees.btn.yes',
-      popupCancel: 'employees.btn.no',
-      style: PopUpsStyles.lightGreen,
-      іsPermissionConfirm: true,
-      isItrefund: true
-    };
-
     const cancelData = {
       popupTitle: 'employees.permissions.clients.cancel-changes',
       popupConfirm: 'employees.btn.yes',
@@ -178,7 +170,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
       closeOnNavigation: true,
       disableClose: true,
       panelClass: '',
-      data: actionType === ActionTypeForPermissions.apply ? confirmData : cancelData
+      data: cancelData
     });
 
     if (actionType === ActionTypeForPermissions.cancel) {

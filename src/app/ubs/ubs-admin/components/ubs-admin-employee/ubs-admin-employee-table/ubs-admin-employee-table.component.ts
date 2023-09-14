@@ -47,7 +47,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     popupTitle: 'employees.warning-title',
     popupConfirm: 'employees.btn.deactivate',
     popupCancel: 'employees.btn.cancel',
-    style: PopUpsStyles.red
+    style: PopUpsStyles.lightGreen
   };
 
   public activateDialogData = {
