@@ -1,5 +1,5 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -27,6 +27,7 @@ import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-events-list',
@@ -77,12 +78,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     public injector: Injector,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
   }
 
   ngOnInit(): void {
+    this.eventService.getAddreses().subscribe((addresses) => {
+      this.eventLocationList = this.getUniqueCities(addresses);
+    });
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -97,7 +102,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
-        this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
     });
     this.getUserFriendsList();
@@ -196,11 +200,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUniqueCities(events: EventPageResponceDto[]): OptionItem[] {
+  getUniqueCities(addresses: Array<Addresses>): OptionItem[] {
     const cities: OptionItem[] = [];
-    events.forEach((event) => {
-      if (event.dates[0].coordinates) {
-        const { cityEn, cityUa } = event.dates[0].coordinates;
+    addresses.forEach((address) => {
+      if (address) {
+        const { cityEn, cityUa } = address;
         const cityExists = cities.some((city) => {
           return city.nameEn === cityEn && city.nameUa === cityUa;
         });

@@ -38,6 +38,10 @@ export class EventsService implements OnDestroy {
     this.arePlacesFilledSubject.next(newArray);
   }
 
+  public getAddreses(): Observable<any> {
+    return this.http.get(`${this.backEnd}events/addresses`);
+  }
+
   public setInitialValueForPlaces(): void {
     this.arePlacesFilledSubject.next([]);
   }
