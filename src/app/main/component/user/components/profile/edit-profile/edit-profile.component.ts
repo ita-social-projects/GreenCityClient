@@ -1,10 +1,11 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector } from '@angular/core';
+import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { EditProfileDto } from '@global-user/models/edit-profile.model';
+import { MapsAPILoader } from '@agm/core';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -13,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { FormGroup } from '@angular/forms';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -21,15 +23,21 @@ import { FormGroup } from '@angular/forms';
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
   public editProfileForm: FormGroup;
-  options: any;
-  cityName: string;
+  @ViewChild('placesRef') placesRef: ElementRef;
   private langChangeSub: Subscription;
+  cityName: string;
+  options: any;
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
     status: 'online',
     rate: 658
   };
+  coordinates = {
+    latitude: 50.43353,
+    longitude: 30.53789
+  };
+  public autocomplete;
   public previousPath = '/profile';
   public popupConfig = {
     hasBackdrop: true,
@@ -58,7 +66,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   private translate: TranslateService;
   private ngZone: NgZone;
 
-  constructor(private injector: Injector, public dialog: MatDialog, public router: Router) {
+  constructor(
+    private injector: Injector,
+    public dialog: MatDialog,
+    public router: Router,
+    private langService: LanguageService,
+    private mapsAPILoader: MapsAPILoader
+  ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
     this.editProfileService = injector.get(EditProfileService);
@@ -102,6 +116,27 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     };
   }
 
+  public setPlaceAutocomplete(): void {
+    const regionOptions = {
+      types: ['administrative_area_level_1'],
+      componentRestrictions: { country: 'UA' },
+      language: this.getLangValue('ua', 'en')
+    };
+    this.mapsAPILoader.load().then(() => {
+      this.setCurrentLocation();
+      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, regionOptions);
+    });
+  }
+
+  private setCurrentLocation(): void {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords) {
+        this.coordinates.latitude = position.coords.latitude;
+        this.coordinates.longitude = position.coords.longitude;
+      }
+    });
+  }
+
   public getFormInitialValues(data): void {
     this.initialValues = {
       firstName: data.firstName,
@@ -129,6 +164,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   private setupInitialValue() {
     this.editProfileForm = this.builder.getProfileForm();
+  }
+
+  public getLangValue(uaValue, enValue): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
   public getInitialValue(): void {
