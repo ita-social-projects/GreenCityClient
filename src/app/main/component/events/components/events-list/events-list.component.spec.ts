@@ -15,7 +15,7 @@ import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-co
 import { By } from '@angular/platform-browser';
 import { MatOption } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
-import { EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, EventPageResponceDto } from '../../models/events.interface';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -137,6 +137,39 @@ describe('EventsListComponent', () => {
     }
   ];
 
+  const addressesMock: Array<Addresses> = [
+    {
+      latitude: 50.4911190426373,
+      longitude: 30.38957457031249,
+      streetEn: 'Stetsenka Street',
+      streetUa: 'вулиця Стеценка',
+      houseNumber: '20',
+      cityEn: 'Kyiv',
+      cityUa: 'Київ',
+      regionEn: 'Kyiv',
+      regionUa: 'місто Київ',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      formattedAddressEn: 'Stetsenka St, 20, Kyiv, Ukraine, 02000',
+      formattedAddressUa: 'вулиця Стеценка, 20, Київ, Україна, 02000'
+    },
+    {
+      latitude: 49.8555208,
+      longitude: 24.0340401,
+      streetEn: 'Zavodska Street',
+      streetUa: 'вулиця Заводська',
+      houseNumber: '31',
+      cityEn: 'Lviv',
+      cityUa: 'Львів',
+      regionEn: 'Lvivska oblast',
+      regionUa: 'Львівська область',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
+      formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
+    }
+  ];
+
   const MockData = {
     eventState: {},
     eventsList: [],
@@ -152,8 +185,9 @@ describe('EventsListComponent', () => {
   const statusFilterControl = new FormControl();
   const typeFilterControl = new FormControl();
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAdresses']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAdresses', 'getAddreses']);
   EventsServiceMock.createAdresses = () => of('');
+  EventsServiceMock.getAddreses = () => of(addressesMock);
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });
@@ -245,7 +279,7 @@ describe('EventsListComponent', () => {
       { nameEn: 'Kyiv', nameUa: 'Київ' },
       { nameEn: 'Lviv', nameUa: 'Львів' }
     ];
-    expect(component.getUniqueCities(eventsMock)).toEqual(expected);
+    expect(component.getUniqueCities(addressesMock)).toEqual(expected);
   });
 
   it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {

@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, PagePreviewDTO, DateEvent } from '../models/events.interface';
+import { EventResponseDto, PagePreviewDTO, DateEvent, Addresses } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,10 @@ export class EventsService implements OnDestroy {
     }
 
     this.arePlacesFilledSubject.next(newArray);
+  }
+
+  public getAddreses(): Observable<any> {
+    return this.http.get(`${this.backEnd}events/addresses`);
   }
 
   public setInitialValueForPlaces(): void {

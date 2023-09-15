@@ -14,6 +14,22 @@ export interface EventDTO {
   titleImage?: string;
 }
 
+export interface Addresses {
+  cityEn: string;
+  cityUa: string;
+  countryEn: string;
+  countryUa: string;
+  formattedAddressEn: string;
+  formattedAddressUa: string;
+  houseNumber: string;
+  latitude: number;
+  longitude: number;
+  regionEn: string;
+  regionUa: string;
+  streetEn: string;
+  streetUa: string;
+}
+
 export interface Dates {
   startDate: string;
   finishDate: string;
