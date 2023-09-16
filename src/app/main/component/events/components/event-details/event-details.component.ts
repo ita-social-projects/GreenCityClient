@@ -147,7 +147,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.addressUa = this.eventService.createAdresses(this.event.dates[this.event.dates.length - 1].coordinates, 'Ua');
       this.addressEn = this.eventService.createAdresses(this.event.dates[this.event.dates.length - 1].coordinates, 'En');
       this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
-      this.images = [res.titleImage[0] === 'i' ? `${this.defaultImagePath + res.titleImage}` : res.titleImage, ...res.additionalImages];
+      this.images = [
+        res.titleImage.startsWith('i') ? `${this.defaultImagePath + res.titleImage}` : res.titleImage,
+        ...res.additionalImages
+      ];
       this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
         lat: this.event.dates[this.event.dates.length - 1].coordinates.latitude,
