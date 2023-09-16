@@ -142,19 +142,19 @@ describe('EventDateTimePickerComponent', () => {
 
     expect(component.checkOnlinePlace).toBeTruthy();
     expect(component.dateForm.get('onlineLink').value).toBe('http://event');
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenCalledTimes(3);
 
     component.editDate = null;
   });
 
   it('checkIfAllDay expect startTime.disabled to be true', () => {
-    component.checkTime = false;
+    component.checkedAllDay = false;
     component.checkIfAllDay();
     expect(component.dateForm.get('startTime').disabled).toBeTruthy();
   });
 
   it('checkIfAllDay expect startTime.disabled to be false', () => {
-    component.checkTime = true;
+    component.checkedAllDay = true;
     component.checkIfAllDay();
     expect(component.dateForm.get('startTime').disabled).toBeFalsy();
   });

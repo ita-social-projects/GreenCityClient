@@ -124,6 +124,9 @@ export class EventsService implements OnDestroy {
   }
 
   createAdresses(coordinates, lenguage: string) {
+    if (!coordinates) {
+      return '';
+    }
     const devider = `, `;
     return (
       coordinates[`country${lenguage}`] +

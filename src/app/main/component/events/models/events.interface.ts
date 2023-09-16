@@ -30,14 +30,14 @@ export interface Dates {
 }
 
 export interface DateEvent {
-  date: Date;
+  date?: Date;
   startDate: string;
   finishDate: string;
-  coordinatesDto: {
+  coordinatesDto?: {
     latitude: number;
     longitude: number;
   };
-  onlineLink: string;
+  onlineLink?: string;
   valid: boolean;
   check: boolean;
 }

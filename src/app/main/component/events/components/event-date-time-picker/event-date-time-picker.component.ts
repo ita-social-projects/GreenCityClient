@@ -35,10 +35,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   public autocomplete: google.maps.places.Autocomplete;
   private pipe = new DatePipe('en-US');
-  public checkTime = false;
+  public checkedAllDay = false;
   private checkAllDay = false;
   public checkOfflinePlace = false;
   public checkOnlinePlace = false;
+  public isAllDayDisabled = false;
+  public isPlaceDisabled = false;
   private regionOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
@@ -56,7 +58,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
   @Output() linkOnline = new EventEmitter<string>();
-  @Output() startTime = new EventEmitter<string>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
@@ -100,7 +101,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.dateForm.valueChanges.subscribe((value) => {
       this.updateTimeArrays(value.startTime, value.endTime);
       this.status.emit(this.dateForm.valid);
-      this.datesForm.emit(value);
+      this.datesForm.emit(this.dateForm.getRawValue());
+      // if (this.hasTheDatePassed('startDate')) {
+      //   const curTime = new Date().getHours();
+      //   this.timeArrEnd = [...this.timeArr.slice(curTime + 1)];
+      // }
     });
     if (this.editDate && !this.editDates) {
       this.setDataEditing();
@@ -149,48 +154,52 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.translate.setDefaultLang(lang);
   }
 
-  get isEditAdressDefault(): boolean {
-    return (
-      this.editDate.coordinates.latitude === this.coordinates.latitude && this.editDate.coordinates.longitude === this.coordinates.longitude
-    );
-  }
-
   private setDataEditing(): void {
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
     let endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
     if (endEditTime === '23:59') {
-      this.checkTime = true;
       endEditTime = '00:00';
+    }
+    if (endEditTime === '00:00' && startEditTime === '0:00') {
+      this.checkedAllDay = true;
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
     }
+    if (this.hasTheDatePassed('startDate')) {
+      this.dateForm.get('date').disable();
+      this.dateForm.get('startTime').disable();
+      this.isAllDayDisabled = true;
+    }
+    if (this.hasTheDatePassed('finishDate')) {
+      this.dateForm.get('endTime').disable();
+      this.isPlaceDisabled = true;
+    }
+
     this.dateForm.patchValue({
       date: new Date(this.editDate.startDate),
       startTime: startEditTime,
       endTime: endEditTime
     });
 
-    if (this.editDate.coordinates.latitude) {
-      if (!this.isEditAdressDefault) {
-        this.checkOfflinePlace = true;
-        this.dateForm.addControl('place', new FormControl(''));
-        this.dateForm.addControl('coordinatesDto', new FormControl(''));
-        setTimeout(() => this.setPlaceAutocomplete(), 0);
-        this.coordinates.latitude = this.editDate.coordinates.latitude;
-        this.coordinates.longitude = this.editDate.coordinates.longitude;
-        this.zoom = 8;
+    if (this.editDate.coordinates) {
+      this.checkOfflinePlace = true;
+      this.dateForm.addControl('place', new FormControl(''));
+      this.dateForm.addControl('coordinatesDto', new FormControl(''));
+      setTimeout(() => this.setPlaceAutocomplete(), 0);
+      this.coordinates.latitude = this.editDate.coordinates.latitude;
+      this.coordinates.longitude = this.editDate.coordinates.longitude;
+      this.zoom = 8;
 
-        this.dateForm.patchValue({
-          place: this.getLangValue(
-            this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
-            this.eventsService.createAdresses(this.editDate.coordinates, 'En')
-          ),
-          coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
-        });
+      this.dateForm.patchValue({
+        place: this.getLangValue(
+          this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
+          this.eventsService.createAdresses(this.editDate.coordinates, 'En')
+        ),
+        coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
+      });
 
-        this.coordinates.latitude = this.editDate.coordinates.latitude;
-        this.coordinates.longitude = this.editDate.coordinates.longitude;
-      }
+      this.coordinates.latitude = this.editDate.coordinates.latitude;
+      this.coordinates.longitude = this.editDate.coordinates.longitude;
     }
 
     if (this.editDate.onlineLink) {
@@ -202,15 +211,16 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
   }
 
+  private hasTheDatePassed(date: string): boolean {
+    return this.minDate.getTime() >= new Date(this.editDate[date]).getTime();
+  }
+
   public checkIfAllDay(): void {
-    this.checkTime = !this.checkTime;
+    this.checkedAllDay = !this.checkedAllDay;
     this.checkAllDay = true;
     const startTime = this.dateForm.get('startTime');
     const endTime = this.dateForm.get('endTime');
-    if (!this.checkTime && this.checkDay()) {
-      this.startTime.emit('');
-    }
-    if (this.checkTime) {
+    if (this.checkedAllDay) {
       startTime.disable();
       endTime.disable();
     } else {
@@ -219,7 +229,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
     if (this.checkDay()) {
       const initialStartTime = this.initialStartTime(true).initialStartTime;
-      this.startTime.emit(initialStartTime);
       startTime.setValue(initialStartTime);
       endTime.setValue(this.timeArrEnd[23]);
     } else {
@@ -365,7 +374,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.checkAllDay) {
       return;
     }
-    if (this.checkDay()) {
+    if (this.checkDay() && !this.editDate && this.editDates) {
       const curTime = new Date().getHours();
       this.timeArrStart = [...this.timeArr.slice(curTime + 1, 24)];
       this.timeArrEnd = [...this.timeArr.slice(curTime + 2)];
