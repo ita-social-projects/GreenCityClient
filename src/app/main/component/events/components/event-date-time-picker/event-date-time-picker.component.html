@@ -7,7 +7,7 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="time-item" (click)="canUpdateTimeArrays()">
+    <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
       <mat-select ngDefaultControl formControlName="startTime">
         <mat-option *ngFor="let time of timeArrStart" [value]="time">
