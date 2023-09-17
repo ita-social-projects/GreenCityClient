@@ -102,10 +102,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.updateTimeArrays(value.startTime, value.endTime);
       this.status.emit(this.dateForm.valid);
       this.datesForm.emit(this.dateForm.getRawValue());
-      // if (this.hasTheDatePassed('startDate')) {
-      //   const curTime = new Date().getHours();
-      //   this.timeArrEnd = [...this.timeArr.slice(curTime + 1)];
-      // }
     });
     if (this.editDate && !this.editDates) {
       this.setDataEditing();
@@ -212,7 +208,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   }
 
   private hasTheDatePassed(date: string): boolean {
-    return this.minDate.getTime() >= new Date(this.editDate[date]).getTime();
+    if (date === 'startDate') {
+      return new Date().getTime() >= new Date(this.editDate[date]).getTime();
+    } else {
+      return this.minDate.getTime() >= new Date(this.editDate[date]).getTime();
+    }
   }
 
   public checkIfAllDay(): void {
