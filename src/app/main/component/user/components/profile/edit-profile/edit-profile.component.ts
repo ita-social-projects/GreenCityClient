@@ -118,22 +118,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public setPlaceAutocomplete(): void {
     const regionOptions = {
-      types: ['administrative_area_level_1'],
+      types: ['(cities)'],
       componentRestrictions: { country: 'UA' },
       language: this.getLangValue('ua', 'en')
     };
+    console.log(this.placesRef.nativeElement.value, 'this.placesRef.nativeElement');
     this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, regionOptions);
-    });
-  }
-
-  private setCurrentLocation(): void {
-    navigator.geolocation.getCurrentPosition((position) => {
-      if (position.coords) {
-        this.coordinates.latitude = position.coords.latitude;
-        this.coordinates.longitude = position.coords.longitude;
-      }
     });
   }
 
