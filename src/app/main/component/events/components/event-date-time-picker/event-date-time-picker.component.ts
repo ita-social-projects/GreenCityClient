@@ -43,6 +43,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     types: ['address'],
     componentRestrictions: { country: 'UA' }
   };
+  public duplindex: number;
 
   @Input() check: boolean;
   @Input() editDate: DateEventResponceDto;
@@ -101,6 +102,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.updateTimeArrays(value.startTime, value.endTime);
       this.status.emit(this.dateForm.valid);
       this.datesForm.emit(value);
+      if (this.dateForm.get('date').value) {
+        this.duplindex = -1;
+      }
     });
     if (this.editDate && !this.editDates) {
       this.setDataEditing();
@@ -119,9 +123,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
         });
       }
     });
-    if (this.isDateDuplicate) {
-      this.dateForm.get('date').markAsTouched();
-    }
+
     const isAddressFilledSubscription = this.eventsService.getCheckedPlacesObservable().subscribe((values) => {
       this.arePlacesFilled = values;
     });
@@ -232,6 +234,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   ngOnChanges(): void {
     if (this.check) {
       this.dateForm.markAllAsTouched();
+    }
+    if (this.isDateDuplicate && this.index === this.duplindx) {
+      this.duplindex = this.duplindx;
+      this.dateForm.patchValue({ date: null });
+      this.dateForm.get('date').markAsTouched();
     }
   }
 
