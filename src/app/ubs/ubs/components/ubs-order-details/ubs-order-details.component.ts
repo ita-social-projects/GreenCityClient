@@ -150,14 +150,15 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.locations = tariffData;
           this.localStorageService.setLocations(this.locations);
           this.setLocation(this.locationId);
+          this.takeOrderData();
         });
     } else if (this.shareFormService.locationId) {
       this.locationId = this.shareFormService.locationId;
       this.setLocation(this.locationId);
+      this.takeOrderData();
     } else {
       this.getActiveCouriers();
     }
-    this.takeOrderData();
     this.subscribeToLangChange();
     if (this.localStorageService.getUbsOrderData()) {
       this.calculateTotal();
@@ -182,6 +183,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .subscribe((res: any) => {
         if (res.orderIsPresent) {
           this.saveLocationForCourier(res);
+          this.takeOrderData();
         } else {
           this.openLocationDialog();
         }

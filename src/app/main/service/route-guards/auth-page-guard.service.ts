@@ -22,11 +22,8 @@ export class AuthPageGuardService implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
       this.openSingInWindow('sign-in', state);
-      if (state.url.includes('ubs')) {
-        return this.router.parseUrl('/ubs');
-      } else {
-        return this.router.parseUrl('/greenCity');
-      }
+      const path = state.url.includes('ubs') ? '/ubs' : '/greenCity';
+      return this.router.parseUrl(path);
     }
     return of<boolean>(true);
   }
