@@ -1,6 +1,7 @@
 <div class="wrapper">
   <div class="create-habit-header">
-    <h1 class="header-title">{{ 'user.habit.add-new-habit.create-habit' | translate }}</h1>
+    <h1 class="header-title" *ngIf="!isEditing">{{ 'user.habit.add-new-habit.create-habit' | translate }}</h1>
+    <h1 class="header-title" *ngIf="isEditing">{{ 'user.habit.add-new-habit.edit-habit' | translate }}</h1>
     <p>{{ 'user.habit.add-new-habit.create-habit-subtitle' | translate }}</p>
   </div>
   <div class="create-habit-main">
@@ -30,7 +31,7 @@
                 <li *ngFor="let item of complexityList" class="star-button">
                   <span ngbPopover="{{ item.name | translate }}" triggers="mouseenter:mouseleave" placement="bottom" container="body">
                     <label>
-                      <input type="radio" name="complexity" [value]="item.value" formControlName="complexity" />
+                      <input type="radio" name="complexity" [value]="item.value" />
                       <img [src]="getStars(item.value, getControl('complexity').value)" [alt]="item.alt" />
                     </label>
                   </span>
@@ -54,6 +55,7 @@
               class="editor"
               ngDefaultControl
               [modules]="quillModules"
+              formControlName="description"
               (dragover)="(false)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
               (onEditorChanged)="changeEditor($event)"
@@ -103,8 +105,11 @@
           <button class="tertiary-global-button" (click)="cancel(true)">
             {{ 'user.habit.btn.cancel' | translate }}
           </button>
-          <button class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
+          <button *ngIf="!isEditing" class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="addHabit()">
             {{ 'user.habit.btn.add' | translate }}
+          </button>
+          <button *ngIf="isEditing" class="primary-global-button" [disabled]="habitForm.invalid" type="submit" (click)="saveHabit()">
+            {{ 'user.habit.btn.save' | translate }}
           </button>
         </div>
       </div>
