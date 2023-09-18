@@ -88,6 +88,12 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.subscribeToLangChange();
     this.previousPath = `/profile/${this.userId}/allhabits`;
     this.userFriendsService.addedFriends.length = 0;
+    this.isEditing = this.router.url?.includes('edit-habit');
+
+    if (this.isEditing) {
+      this.habit = this.isEditing ? this.localStorageService.getHabitForEdit() : null;
+      this.setEditHabit();
+    }
   }
 
   private getUserId() {
@@ -104,6 +110,17 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       image: new FormControl(''),
       shopList: new FormControl([])
     });
+  }
+
+  private setEditHabit(): void {
+    this.habitForm.patchValue({
+      title: this.habit.habitTranslation.name,
+      description: this.habit.habitTranslation.description,
+      complexity: this.habit.complexity,
+      image: this.habit.image
+    });
+    this.initialDuration = this.habit.defaultDuration;
+    this.shopList = this.habit.shoppingListItems || this.habit.customShoppingListItems || [];
   }
 
   public trimValue(control: AbstractControl): void {
@@ -178,5 +195,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .subscribe(() => {
         this.goToAllHabits();
       });
+  }
+
+  saveHabit(): void {
+    // TO DO: implement logic to save changes
   }
 }

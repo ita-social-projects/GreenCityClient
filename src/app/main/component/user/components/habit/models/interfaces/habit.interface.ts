@@ -11,6 +11,7 @@ export interface HabitInterface {
   amountAcquiredUsers: number;
   habitAssignStatus?: string;
   isCustomHabit: boolean;
+  usersIdWhoCreatedCustomHabit: number;
   customShoppingListItems?: ShoppingList[];
   shoppingListItems?: ShoppingList[];
   tags: Array<string>;
