@@ -33,10 +33,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     status: 'online',
     rate: 658
   };
-  coordinates = {
-    latitude: 50.43353,
-    longitude: 30.53789
-  };
   public autocomplete;
   public previousPath = '/profile';
   public popupConfig = {
@@ -122,7 +118,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       componentRestrictions: { country: 'UA' },
       language: this.getLangValue('ua', 'en')
     };
-    console.log(this.placesRef.nativeElement.value, 'this.placesRef.nativeElement');
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, regionOptions);
     });
