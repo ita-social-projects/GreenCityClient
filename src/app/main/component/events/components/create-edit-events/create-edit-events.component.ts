@@ -206,7 +206,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates[ind].startDate = form.startTime;
       this.dates[ind].finishDate = form.endTime;
       this.dates[ind].onlineLink = form.onlineLink;
-      this.dates[ind].coordinatesDto = { latitude: form.coordinatesDto.latitude, longitude: form.coordinatesDto.longitude };
+      if (form.coordinatesDto) {
+        this.dates[ind].coordinatesDto = { latitude: form.coordinatesDto.latitude, longitude: form.coordinatesDto.longitude };
+      }
     } else {
       this.duplindx = ind;
       this.dates[ind].date = null;

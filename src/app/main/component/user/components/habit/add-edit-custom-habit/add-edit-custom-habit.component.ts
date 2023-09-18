@@ -89,7 +89,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.previousPath = `/profile/${this.userId}/allhabits`;
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
-
+    console.log('there');
     if (this.isEditing) {
       this.habit = this.isEditing ? this.localStorageService.getHabitForEdit() : null;
       this.setEditHabit();
