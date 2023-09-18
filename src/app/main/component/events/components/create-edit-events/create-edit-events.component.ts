@@ -21,7 +21,7 @@ import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
+import { DateObj, TimeBack, TimeFront, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -293,22 +293,22 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.checkdates = !this.dates.some((element) => !element.valid);
   }
 
-  private getFormattedDate(dateString: Date, hour: number, min: number): string {
+  private getFormattedDate(dateString: Date, hour: string, min: string): string {
     const date = new Date(dateString);
-    date.setHours(hour, min);
+    date.setHours(Number(hour), Number(min));
     return date.toString();
   }
 
   private createDates(): Array<Dates> {
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
-        cur.startDate = ItemTime.START;
+        cur.startDate = TimeBack.START;
       }
-      if (!cur.finishDate || cur.finishDate === '00:00') {
-        cur.finishDate = ItemTime.END;
+      if (!cur.finishDate || cur.finishDate === TimeFront.END) {
+        cur.finishDate = TimeBack.END;
       }
-      const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
-      const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
+      const start = this.getFormattedDate(cur.date, cur.startDate.split(TimeFront.DIVIDER)[0], cur.startDate.split(TimeFront.DIVIDER)[1]);
+      const end = this.getFormattedDate(cur.date, cur.finishDate.split(TimeFront.DIVIDER)[0], cur.finishDate.split(TimeFront.DIVIDER)[1]);
 
       const date: Dates = {
         startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),

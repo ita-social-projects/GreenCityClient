@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, PagePreviewDTO, DateEvent } from '../models/events.interface';
+import { EventResponseDto, Coordinates, PagePreviewDTO, DateEvent } from '../models/events.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -123,20 +123,12 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  createAdresses(coordinates, lenguage: string) {
-    if (!coordinates) {
+  createAdresses(coord: Coordinates | null, lang: string): string {
+    if (!coord) {
       return '';
     }
-    const devider = `, `;
-    return (
-      coordinates[`country${lenguage}`] +
-      devider +
-      coordinates[`city${lenguage}`] +
-      devider +
-      coordinates[`street${lenguage}`] +
-      devider +
-      coordinates.houseNumber
-    );
+    const divider = `, `;
+    return `${coord[`country${lang}`]}${divider}${coord[`city${lang}`]}${divider}${coord[`street${lang}`]}${divider}${coord.houseNumber}`;
   }
 
   ngOnDestroy(): void {

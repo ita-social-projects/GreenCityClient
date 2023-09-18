@@ -13,6 +13,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { DateAdapter } from '@angular/material/core';
 import { LanguageModel } from '../../../layout/components/models/languageModel';
 import { Language, Locate } from 'src/app/main/i18n/Language';
+import { TimeFront, TimeBack } from '../../models/event-consts';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -139,7 +140,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.firstFormIsSucceed || editMode) {
       const currentHour = new Date().getHours();
       initialDate = currentHour !== 23 ? new Date() : this.minDate;
-      initialStartTime = currentHour !== 23 ? `${currentHour + 1}:00` : '0:00';
+      initialStartTime = currentHour !== 23 ? `${currentHour + 1}${TimeFront.DIVIDER}${TimeFront.MINUTES}` : TimeFront.START;
     } else {
       initialDate = '';
     }
@@ -153,10 +154,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   private setDataEditing(): void {
     const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
     let endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
-    if (endEditTime === '23:59') {
-      endEditTime = '00:00';
+    if (endEditTime === TimeBack.END) {
+      endEditTime = TimeFront.END;
     }
-    if (endEditTime === '00:00' && startEditTime === '0:00') {
+    if (endEditTime === TimeFront.END && startEditTime === TimeFront.START) {
       this.checkedAllDay = true;
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
@@ -228,11 +229,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.checkDay()) {
       const initialStartTime = this.initialStartTime(true).initialStartTime;
       startTime.setValue(initialStartTime);
-      endTime.setValue(this.timeArr[24]);
     } else {
       startTime.setValue(this.timeArr[0]);
-      endTime.setValue(this.timeArr[24]);
     }
+    endTime.setValue(this.timeArr[24]);
   }
 
   ngOnChanges(): void {
@@ -331,24 +331,24 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.timeArrStart = [];
     this.timeArrEnd = [];
     for (let i = 0; i < 24; i++) {
-      this.timeArr.push(`${i}:00`);
-      this.timeArrStart.push(`${i}:00`);
-      this.timeArrEnd.push(`${i + 1}:00`);
+      this.timeArr.push(`${i}${TimeFront.DIVIDER}${TimeFront.MINUTES}`);
+      this.timeArrStart.push(`${i}${TimeFront.DIVIDER}${TimeFront.MINUTES}`);
+      this.timeArrEnd.push(`${i + 1}${TimeFront.DIVIDER}${TimeFront.MINUTES}`);
     }
-    this.timeArr.push('00:00');
-    this.timeArrEnd[23] = '00:00';
+    this.timeArr.push(TimeFront.END);
+    this.timeArrEnd[23] = TimeFront.END;
   }
 
   private checkEndTime(time: string, curTime?: number): void {
     if (time) {
-      const checkTime = time.split(':')[0] === '00' ? 24 : Number(time.split(':')[0]);
+      const checkTime = time.split(TimeFront.DIVIDER)[0] === TimeFront.MINUTES ? 24 : Number(time.split(TimeFront.DIVIDER)[0]);
       this.timeArrStart = curTime !== null ? [...this.timeArr.slice(curTime + 1, checkTime)] : [...this.timeArr.slice(0, checkTime)];
     }
   }
 
   private checkStartTime(time: string): void {
     if (time) {
-      const checkTime = Number(time.split(':')[0]);
+      const checkTime = Number(time.split(TimeFront.DIVIDER)[0]);
       this.timeArrEnd = [...this.timeArr.slice(checkTime + 1)];
     }
   }
