@@ -13,6 +13,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { Store } from '@ngrx/store';
+import { IOrderState } from 'src/app/store/state/order.state';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -41,10 +42,22 @@ describe('UbsMainPageComponent', () => {
     employeesPermissions: []
   };
 
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
   const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
-
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],

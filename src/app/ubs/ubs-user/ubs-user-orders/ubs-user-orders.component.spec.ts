@@ -22,6 +22,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { IOrderState } from 'src/app/store/state/order.state';
+import { Store, StoreModule } from '@ngrx/store';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -83,6 +85,21 @@ describe('UbsUserOrdersComponent', () => {
     fixture.detectChanges();
   };
 
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe, InfiniteScrollDirective],
@@ -94,9 +111,11 @@ describe('UbsUserOrdersComponent', () => {
         NoopAnimationsModule,
         RouterModule.forRoot([]),
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
+        StoreModule.forRoot({})
       ],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: Router, useValue: RouterMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },

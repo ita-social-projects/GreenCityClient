@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '@environment/environment.js';
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { Order } from '../models/ubs.model';
 import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -10,6 +10,10 @@ import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/mod
 import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
 import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
+import { Store } from '@ngrx/store';
+import { IOrderState } from 'src/app/store/state/order.state';
+import { provideMockStore } from '@ngrx/store/testing';
+import { StoreModule } from '@ngrx/store';
 
 describe('OrderService', () => {
   const bagMock = {
@@ -94,6 +98,15 @@ describe('OrderService', () => {
     orderDetails: null,
     personalData: null
   };
+  const initialState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+  const pipe = jasmine.createSpy().and.returnValue(of('success'));
 
   const baseLink = environment.ubsAdmin.backendUbsAdminLink;
 
@@ -109,9 +122,10 @@ describe('OrderService', () => {
         OrderService,
         { provide: UBSOrderFormService, useValue: ubsOrderServiseMock },
         { provide: BehaviorSubject, useValue: behaviorSubjectMock },
-        { provide: Subject, useValue: subjectMock }
+        { provide: Subject, useValue: subjectMock },
+        { provide: Store, useValue: storeMock }
       ],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule, StoreModule.forRoot({})]
     });
     httpMock = TestBed.inject(HttpTestingController);
     service = TestBed.inject(OrderService);

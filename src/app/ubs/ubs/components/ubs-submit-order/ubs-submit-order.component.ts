@@ -12,6 +12,9 @@ import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Store, select } from '@ngrx/store';
+import { UpdatePersonalData } from 'src/app/store/actions/order.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -63,6 +66,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private langService: LanguageService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
+    private store: Store,
     router: Router,
     dialog: MatDialog
   ) {
@@ -166,8 +170,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isFinalSumZero = orderDetails.finalSum <= 0;
       this.isTotalAmountZero = orderDetails.total === 0;
     });
-    this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
-      this.personalData = personalData;
+    this.store.pipe(select((state: IAppState): PersonalData => state.order.personalData)).subscribe((statePersonalData: PersonalData) => {
+      if (statePersonalData) {
+        this.personalData = statePersonalData;
+      } else {
+        this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
+          this.personalData = personalData;
+        });
+      }
     });
   }
 
@@ -187,6 +197,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     if (!this.isPaymentWithMoney) {
       localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
     }
+    this.cleanPersonalDataState();
   }
 
   public getExistingOrderUrl(): void {
@@ -257,5 +268,9 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public cleanPersonalDataState(): void {
+    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }

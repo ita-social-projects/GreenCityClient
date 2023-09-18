@@ -17,6 +17,8 @@ import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
+import { Store } from '@ngrx/store';
+import { IOrderState } from 'src/app/store/state/order.state';
 
 describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
@@ -42,6 +44,22 @@ describe('UbsOrderCertificateComponent', () => {
   };
 
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
+
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderCertificateComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
@@ -58,7 +76,8 @@ describe('UbsOrderCertificateComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
-        { provide: LocalStorageService, useValue: localStorageService }
+        { provide: LocalStorageService, useValue: localStorageService },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

@@ -19,6 +19,8 @@ import { LocationService } from '@global-service/location/location.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
+import { IOrderState } from 'src/app/store/state/order.state';
+import { Store } from '@ngrx/store';
 
 describe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
@@ -88,6 +90,21 @@ describe('UBSAddAddressPopUpComponent', () => {
     return valUa;
   };
 
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -108,6 +125,8 @@ describe('UBSAddAddressPopUpComponent', () => {
         { provide: GoogleScript, useValue: fakeGoogleScript },
         { provide: LocationService, useValue: fakeLocationServiceMock },
         { provide: LanguageService, useValue: fakeLanguageServiceMock },
+        { provide: Store, useValue: storeMock },
+
         UserOwnAuthService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

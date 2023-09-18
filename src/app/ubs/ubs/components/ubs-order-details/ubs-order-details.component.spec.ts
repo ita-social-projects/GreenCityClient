@@ -20,6 +20,8 @@ import { InteractivityChecker } from '@angular/cdk/a11y';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
+import { Store } from '@ngrx/store';
+import { IOrderState } from 'src/app/store/state/order.state';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -84,6 +86,22 @@ describe('OrderDetailsFormComponent', () => {
     return valUa;
   };
 
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+  const pipe = jasmine.createSpy().and.returnValue(of('success'));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
@@ -99,6 +117,7 @@ describe('OrderDetailsFormComponent', () => {
       ],
       providers: [
         MatDialog,
+        { provide: Store, useValue: storeMock },
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
         { provide: LocalStorageService, useValue: localStorageService },
@@ -270,7 +289,7 @@ describe('OrderDetailsFormComponent', () => {
     (component as any).validateSum();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
-  }); /** */
+  });
 
   it('getter formArrayCertificates should return formArray of certificates', () => {
     const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
@@ -304,26 +323,30 @@ describe('OrderDetailsFormComponent', () => {
     const id = 1;
     const value1 = 1;
     const value2 = -1;
-    const bagsQuantity = 5;
-    let formControl = String(bagsQuantity);
-    const oldValue = formControl;
+    const formControl = component.orderDetailsForm.get('quantity' + id);
+    const oldValue = Number(formControl.value);
     const newValue = oldValue + value1;
 
-    formControl = newValue;
+    const spySetValue = spyOn(formControl, 'setValue').and.callThrough();
+
     component.changeQuantity(id, value1);
     expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(formControl).toEqual(String(newValue));
+    expect(spySetValue).toHaveBeenCalledWith(String(newValue));
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(newValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(newValue));
 
     const minValue = '0';
-    formControl = minValue;
+    formControl.setValue(minValue);
     component.changeQuantity(id, value2);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(2);
-    expect(formControl).toEqual(String(minValue));
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(minValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(minValue));
 
     const maxValue = '999';
-    formControl = maxValue;
+    formControl.setValue(maxValue);
     component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(3);
-    expect(formControl).toEqual(String(maxValue));
+    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
+    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(maxValue));
+    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(maxValue));
   });
 });

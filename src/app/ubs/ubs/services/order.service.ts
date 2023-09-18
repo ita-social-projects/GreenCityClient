@@ -1,5 +1,13 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Address, AddressData, AllLocationsDtos, CourierLocations, ActiveCourierDto, DistrictEnum } from '../models/ubs.interface';
+import {
+  Address,
+  AddressData,
+  AllLocationsDtos,
+  CourierLocations,
+  ActiveCourierDto,
+  DistrictEnum,
+  PersonalData
+} from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -10,6 +18,8 @@ import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
+import { IAppState } from 'src/app/store/state/app.state';
+import { Store, select } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -20,21 +30,43 @@ export class OrderService {
   locationSubject = new Subject();
   locationSub = new Subject();
   currentAddress = new Subject();
+  private stateOrderDetails: OrderDetails;
+  private statePersonalData: PersonalData;
 
-  constructor(private http: HttpClient, private shareFormService: UBSOrderFormService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private shareFormService: UBSOrderFormService,
+    private localStorageService: LocalStorageService,
+    private store: Store
+  ) {}
 
   getOrders(locationId?: number, tariffId?: number): Observable<any> {
     const ubsOrderData = this.localStorageService.getUbsOrderData();
     if (ubsOrderData) {
       const observable = new Observable((observer) => observer.next(ubsOrderData));
       return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
-    }
-    const param1 = locationId ? `?locationId=${locationId}` : '';
-    const param2 = tariffId ? `tariffId=${tariffId}` : '';
+    } else {
+      this.store.pipe(select((state: IAppState): OrderDetails => state.order.orderDetails)).subscribe((stateOrderDetails: OrderDetails) => {
+        this.stateOrderDetails = stateOrderDetails;
+      });
+      if (this.stateOrderDetails) {
+        const savedOrderDetails = { ...this.stateOrderDetails };
+        const stateBags = this.stateOrderDetails.bags.map((bag) => ({
+          ...bag,
+          quantity: Number(bag.quantity)
+        }));
+        savedOrderDetails.bags = stateBags;
+        const observable = new Observable((observer) => observer.next(savedOrderDetails));
+        return observable.pipe(tap((orderDetails: OrderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+      } else {
+        const param1 = locationId ? `?locationId=${locationId}` : '';
+        const param2 = tariffId ? `tariffId=${tariffId}` : '';
 
-    return this.http
-      .get<OrderDetails>(`${this.url}/order-details-for-tariff${param1}&${param2}`)
-      .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+        return this.http
+          .get<OrderDetails>(`${this.url}/order-details-for-tariff${param1}&${param2}`)
+          .pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
+      }
+    }
   }
 
   getExistingOrder(userId: number): Observable<OrderDetails> {
@@ -55,7 +87,16 @@ export class OrderService {
       const observable = new Observable((observer) => observer.next(ubsPersonalData));
       return observable.pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
     } else {
-      return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+      this.store.pipe(select((state: IAppState): PersonalData => state.order.personalData)).subscribe((statePersonalData: PersonalData) => {
+        this.statePersonalData = statePersonalData;
+      });
+      if (this.statePersonalData) {
+        const savedPersonalData = { ...this.statePersonalData };
+        const observable = new Observable((observer) => observer.next(savedPersonalData));
+        return observable.pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+      } else {
+        return this.http.get(`${this.url}/personal-data`).pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
+      }
     }
   }
 

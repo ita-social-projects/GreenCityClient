@@ -13,6 +13,8 @@ import { OrderService } from '../../ubs/services/order.service';
 import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -46,7 +48,8 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     private localStorage: LocalStorageService,
     private orderService: OrderService,
     private dialog: MatDialog,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private store: Store
   ) {}
 
   onScroll() {
@@ -136,6 +139,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
   redirectToOrder() {
     this.getLocations(this.courierUBSName);
+    this.cleanOrderState();
   }
 
   ngOnInit() {
@@ -226,6 +230,11 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   displayError(error) {
     const errorMessage = this.translate.instant('snack-bar.error.default');
     this.snackBar.openSnackBar(errorMessage);
+  }
+
+  cleanOrderState(): void {
+    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
+    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 
   ngOnDestroy() {

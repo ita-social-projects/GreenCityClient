@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 import { OrderService } from '../../ubs/services/order.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -36,7 +38,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     private langService: LanguageService,
     private router: Router,
     public ubsOrderService: UBSOrderFormService,
-    public orderService: OrderService
+    public orderService: OrderService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +100,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    sessionStorage.removeItem('key');
     if (order.paymentStatusEng === 'Unpaid') {
       this.getDataForLocalStorage(order);
     } else {
@@ -111,6 +113,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this.cleanOrderState();
   }
 
   public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
@@ -164,23 +167,6 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         total: order.orderFullPrice
       };
 
-      this.orderDetailsForSessionStorage = {
-        additionalOrders: order.additionalOrders,
-        certificatesSum: 0,
-        finalSum: order.orderFullPrice,
-        orderComment: order.orderComment,
-        pointsSum: 0,
-        pointsToUse: 0,
-        total: order.orderFullPrice,
-        quantity1: this.filterUtil(1),
-        quantity2: this.filterUtil(2),
-        quantity3: this.filterUtil(3)
-      };
-
-      const bufferArray = {};
-      Object.assign(bufferArray, this.orderDetailsForSessionStorage);
-      sessionStorage.setItem('key', JSON.stringify(bufferArray));
-
       this.personalDetails = personalDataResponse;
       this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
       this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
@@ -226,5 +212,10 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  cleanOrderState(): void {
+    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
+    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }

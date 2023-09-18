@@ -13,6 +13,8 @@ import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
 import { KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
+import { IOrderState } from 'src/app/store/state/order.state';
+import { Store } from '@ngrx/store';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;
@@ -57,6 +59,21 @@ describe('UbsAdminAddressDetailsComponent', () => {
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
 
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminAddressDetailsComponent],
@@ -64,7 +81,8 @@ describe('UbsAdminAddressDetailsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
-        { provide: LocationService, useValue: fakeLocationServiceMock }
+        { provide: LocationService, useValue: fakeLocationServiceMock },
+        { provide: Store, useValue: storeMock }
       ]
     }).compileComponents();
   }));

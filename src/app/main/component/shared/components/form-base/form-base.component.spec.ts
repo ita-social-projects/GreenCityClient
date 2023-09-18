@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { FormBaseComponent } from './form-base.component';
+import { Store } from '@ngrx/store';
+import { IOrderState } from 'src/app/store/state/order.state';
 
 describe('FormBaseComponent', () => {
   let component: FormBaseComponent;
@@ -18,11 +20,29 @@ describe('FormBaseComponent', () => {
     }
   };
 
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FormBaseComponent],
       imports: [RouterTestingModule, MatDialogModule, HttpClientTestingModule],
-      providers: [{ provide: MatDialogRef, useValue: dialogRefStub }]
+      providers: [
+        { provide: MatDialogRef, useValue: dialogRefStub },
+        { provide: Store, useValue: storeMock }
+      ]
     }).compileComponents();
   }));
 

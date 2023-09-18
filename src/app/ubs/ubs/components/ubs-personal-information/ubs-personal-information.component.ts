@@ -16,6 +16,8 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Store } from '@ngrx/store';
+import { AddPersonalData, UpdateOrderData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -78,7 +80,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private localService: LocalStorageService,
     private listOflocations: Locations,
     private googleScript: GoogleScript,
-    private langService: LanguageService
+    private langService: LanguageService,
+    private store: Store
   ) {
     super(router, dialog, orderService, localService);
     this.initForm();
@@ -225,20 +228,21 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.isOneAdress();
     const actualAddress = this.addresses.find((address) => address.actual);
     const activeAddress = this.checkedAddress ?? actualAddress;
-
-    this.personalData.city = activeAddress.city;
-    this.personalData.cityEn = activeAddress.cityEn;
-    this.personalData.district = activeAddress.district;
-    this.personalData.districtEn = activeAddress.districtEn;
-    this.personalData.region = activeAddress.region;
-    this.personalData.regionEn = activeAddress.regionEn;
-    this.personalData.street = activeAddress.street;
-    this.personalData.streetEn = activeAddress.streetEn;
-    this.personalData.houseNumber = activeAddress.houseNumber;
-    this.personalData.houseCorpus = activeAddress.houseCorpus;
-    this.personalData.entranceNumber = activeAddress.entranceNumber;
-    this.personalData.latitude = activeAddress.coordinates.latitude;
-    this.personalData.longitude = activeAddress.coordinates.longitude;
+    if (this.personalData) {
+      this.personalData.city = activeAddress?.city;
+      this.personalData.cityEn = activeAddress?.cityEn;
+      this.personalData.district = activeAddress?.district;
+      this.personalData.districtEn = activeAddress?.districtEn;
+      this.personalData.region = activeAddress?.region;
+      this.personalData.regionEn = activeAddress?.regionEn;
+      this.personalData.street = activeAddress?.street;
+      this.personalData.streetEn = activeAddress?.streetEn;
+      this.personalData.houseNumber = activeAddress?.houseNumber;
+      this.personalData.houseCorpus = activeAddress?.houseCorpus;
+      this.personalData.entranceNumber = activeAddress?.entranceNumber;
+      this.personalData.latitude = activeAddress?.coordinates.latitude;
+      this.personalData.longitude = activeAddress?.coordinates.longitude;
+    }
     this.shareFormService.saveDataOnLocalStorage();
   }
 
@@ -304,7 +308,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   activeAddressId() {
     this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
-    this.addressId = this.checkedAddress.id ?? activeAddress.id;
+    this.addressId = this.checkedAddress?.id ?? activeAddress?.id;
   }
 
   deleteAddress(address: Address) {
@@ -418,5 +422,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         });
       }
     });
+  }
+
+  savePersonalInfoToState(): void {
+    this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
+  }
+
+  cleanOrderDetailsState(): void {
+    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
   }
 }

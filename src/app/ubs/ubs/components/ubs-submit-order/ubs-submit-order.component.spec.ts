@@ -12,6 +12,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { IOrderState } from 'src/app/store/state/order.state';
+import { Store } from '@ngrx/store';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
@@ -66,11 +68,27 @@ describe('UBSSubmitOrderComponent', () => {
     return valUa;
   };
 
+  const initialOrderState: IOrderState = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const ubsOrderServiseMock = {
+    orderDetails: null,
+    personalData: null,
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       declarations: [UBSSubmitOrderComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: UBSOrderFormService, useClass: FakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
