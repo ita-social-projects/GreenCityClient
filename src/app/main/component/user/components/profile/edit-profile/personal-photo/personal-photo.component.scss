@@ -7,14 +7,16 @@
   max-width: 120px;
   max-height: 120px;
 
-  a {
+  button {
     position: absolute;
-    bottom: -5px;
-    left: 72px;
+    bottom: -3px;
+    left: 69px;
+    background: transparent;
+    border: none;
 
     img {
       border-radius: 50%;
-      border: 1px solid var(--secondary-grey);
+      border: 1px solid #f0f1f1;
     }
   }
 }
