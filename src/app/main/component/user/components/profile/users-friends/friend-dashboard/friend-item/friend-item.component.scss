@@ -104,3 +104,25 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 767px) {
+  .friend-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    max-width: 200px;
+    min-width: 200px;
+  }
+
+  .friend-city {
+    text-align: center;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

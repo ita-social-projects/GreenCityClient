@@ -162,3 +162,9 @@ export interface InitialStartDate {
   initialDate: Date;
   initialStartTime: string;
 }
+export interface EventFilterCriteriaIntarface {
+  eventTime: Array<string>;
+  cities: Array<string>;
+  statuses: Array<string>;
+  tags: Array<string>;
+}

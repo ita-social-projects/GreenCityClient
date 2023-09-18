@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input } from '@angular/core';
+import { Component, OnInit, Injector, Input, ChangeDetectionStrategy } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -36,7 +36,8 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
-  styleUrls: ['./create-edit-events.component.scss']
+  styleUrls: ['./create-edit-events.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateEditEventsComponent extends FormBaseComponent implements OnInit {
   public title = '';
@@ -205,10 +206,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates[ind].startDate = form.startTime;
       this.dates[ind].finishDate = form.endTime;
       this.dates[ind].onlineLink = form.onlineLink;
-      this.dates[ind].coordinatesDto = form.coordinatesDto;
+      this.dates[ind].coordinatesDto = { latitude: form.coordinatesDto.latitude, longitude: form.coordinatesDto.longitude };
     } else {
       this.duplindx = ind;
-      this.dates.splice(ind, 1, { ...DateObj });
+      this.dates[ind].date = null;
       this.editDates = true;
     }
   }

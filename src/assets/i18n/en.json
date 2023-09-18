@@ -707,7 +707,8 @@
     "habit": {
       "btn": {
         "back-to-habit": "Back to my habits",
-        "save": "Save",
+        "save": "Save Changes",
+        "edit": "Edit Habit",
         "give-up": "Give up",
         "acquire": "Acquire",
         "add": "Add Habit",
@@ -759,6 +760,7 @@
       },
       "add-new-habit": {
         "create-habit": "Create habit",
+        "edit-habit": "Edit habit",
         "create-habit-subtitle": "Please provide as many details as you can - choose thematic sections and the duration of the habit, add a to-do list, etc. You can come back and update habit anytime after publishing.",
         "habit-title": "Habit title",
         "habit-title-placeholder": "Enter name for the habit",

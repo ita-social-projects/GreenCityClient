@@ -100,3 +100,26 @@
     }
   }
 }
+
+@media (max-width: 767px) {
+  .friends {
+    display: flex;
+    flex-direction: column !important;
+    align-items: flex-start;
+  }
+
+  .search-field-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .searchField {
+    position: relative;
+    text-align: center;
+
+    img {
+      display: none;
+    }
+  }
+}
