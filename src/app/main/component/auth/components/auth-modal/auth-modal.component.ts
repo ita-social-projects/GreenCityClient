@@ -22,10 +22,11 @@ export class AuthModalComponent implements OnInit, OnDestroy {
     public matDialogRef: MatDialogRef<AuthModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
+  public isUbs;
 
   ngOnInit(): void {
-    const isUBS = this.data.hasOwnProperty('isUBS') ? this.router.url.includes('ubs') : this.data.isUBS;
-    this.authImages = isUBS ? ubsAuthImages : authImages;
+    this.isUbs = this.data.hasOwnProperty('isUbs') ? this.data.isUbs : this.router.url.includes('ubs');
+    this.authImages = this.isUbs ? ubsAuthImages : authImages;
     this.setAuthPage();
     this.announce();
   }

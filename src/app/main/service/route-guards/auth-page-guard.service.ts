@@ -36,7 +36,7 @@ export class AuthPageGuardService implements CanActivate {
         panelClass: 'custom-dialog-container',
         data: {
           popUpName: popupName,
-          isUBS: state.url.includes('ubs')
+          isUbs: state.url.includes('ubs')
         }
       })
       .afterClosed()
