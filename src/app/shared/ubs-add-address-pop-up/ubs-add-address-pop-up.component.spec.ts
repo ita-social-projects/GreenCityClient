@@ -19,7 +19,7 @@ import { LocationService } from '@global-service/location/location.service';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 
 describe('UBSAddAddressPopUpComponent', () => {
@@ -88,18 +88,6 @@ describe('UBSAddAddressPopUpComponent', () => {
   const fakeLanguageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   fakeLanguageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
-  };
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
   };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);

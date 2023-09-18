@@ -12,7 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 
 describe('UBSSubmitOrderComponent', () => {
@@ -66,18 +66,6 @@ describe('UBSSubmitOrderComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
-  };
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
   };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);

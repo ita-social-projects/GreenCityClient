@@ -19,7 +19,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { KyivNamesEnum } from '../../models/ubs.interface';
 import { Store } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -130,18 +130,6 @@ describe('UBSPersonalInformationComponent', () => {
     'setLocationData',
     'addAdress'
   ]);
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));

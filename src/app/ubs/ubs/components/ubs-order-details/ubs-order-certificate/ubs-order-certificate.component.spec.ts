@@ -6,7 +6,6 @@ import { of, throwError } from 'rxjs';
 import { OrderService } from '../../../services/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
-import { By } from '@angular/platform-browser';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-location-popup/ubs-order-location-popup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,7 +17,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
 import { Store } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
@@ -44,18 +43,6 @@ describe('UbsOrderCertificateComponent', () => {
   };
 
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));

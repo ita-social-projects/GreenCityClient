@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('WarningPopUpComponent', () => {
   let component: WarningPopUpComponent;
@@ -29,17 +29,6 @@ describe('WarningPopUpComponent', () => {
     popupConfirm: 'popupConfirm'
   };
 
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 

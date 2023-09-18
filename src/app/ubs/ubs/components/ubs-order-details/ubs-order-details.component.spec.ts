@@ -21,7 +21,7 @@ import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-lis
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { Store } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -84,18 +84,6 @@ describe('OrderDetailsFormComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
-  };
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
   };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);

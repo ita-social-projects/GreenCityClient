@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import { FormBaseComponent } from './form-base.component';
 import { Store } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('FormBaseComponent', () => {
   let component: FormBaseComponent;
@@ -18,18 +18,6 @@ describe('FormBaseComponent', () => {
     afterClosed() {
       return of(true);
     }
-  };
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
   };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);

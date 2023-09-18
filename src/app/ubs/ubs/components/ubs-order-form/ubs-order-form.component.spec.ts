@@ -6,24 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Store } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
 
 describe('UBSOrderFormComponent ', () => {
   let component: UBSOrderFormComponent;
   let fixture: ComponentFixture<UBSOrderFormComponent>;
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));

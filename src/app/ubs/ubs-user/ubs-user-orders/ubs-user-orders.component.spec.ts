@@ -22,7 +22,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store, StoreModule } from '@ngrx/store';
 
 describe('UbsUserOrdersComponent', () => {
@@ -83,18 +83,6 @@ describe('UbsUserOrdersComponent', () => {
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     fixture.detectChanges();
-  };
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
   };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);

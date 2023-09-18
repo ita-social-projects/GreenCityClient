@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { UbsUserOrdersListComponent } from './ubs-user-orders-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 
@@ -54,17 +54,6 @@ describe('UbsUserOrdersListComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue('fakeValue');
 
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 

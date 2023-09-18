@@ -20,7 +20,7 @@ import { LocationService } from '@global-service/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { Language } from 'src/app/main/i18n/Language';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';
-import { IOrderState } from 'src/app/store/state/order.state';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 
 describe('UbsUserProfilePageComponent', () => {
@@ -105,18 +105,6 @@ describe('UbsUserProfilePageComponent', () => {
   fakeLocationServiceMock.getFullAddressList = () => of([]);
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
-
-  const initialOrderState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
-
-  const ubsOrderServiseMock = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
