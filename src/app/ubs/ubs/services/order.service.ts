@@ -30,8 +30,8 @@ export class OrderService {
   locationSubject = new Subject();
   locationSub = new Subject();
   currentAddress = new Subject();
-  private stateOrderDetails: OrderDetails;
-  private statePersonalData: PersonalData;
+  stateOrderDetails: OrderDetails;
+  statePersonalData: PersonalData;
 
   constructor(
     private http: HttpClient,
@@ -46,12 +46,14 @@ export class OrderService {
       const observable = new Observable((observer) => observer.next(ubsOrderData));
       return observable.pipe(tap((orderDetails) => (this.shareFormService.orderDetails = orderDetails)));
     } else {
-      this.store.pipe(select((state: IAppState): OrderDetails => state.order.orderDetails)).subscribe((stateOrderDetails: OrderDetails) => {
-        this.stateOrderDetails = stateOrderDetails;
-      });
+      this.store
+        .select((state: IAppState): OrderDetails => state.order.orderDetails)
+        .subscribe((stateOrderDetails: OrderDetails) => {
+          this.stateOrderDetails = stateOrderDetails;
+        });
       if (this.stateOrderDetails) {
         const savedOrderDetails = { ...this.stateOrderDetails };
-        const stateBags = this.stateOrderDetails.bags.map((bag) => ({
+        const stateBags = this.stateOrderDetails.bags?.map((bag) => ({
           ...bag,
           quantity: Number(bag.quantity)
         }));
@@ -87,9 +89,11 @@ export class OrderService {
       const observable = new Observable((observer) => observer.next(ubsPersonalData));
       return observable.pipe(tap((personalData) => (this.shareFormService.personalData = personalData)));
     } else {
-      this.store.pipe(select((state: IAppState): PersonalData => state.order.personalData)).subscribe((statePersonalData: PersonalData) => {
-        this.statePersonalData = statePersonalData;
-      });
+      this.store
+        .select((state: IAppState): PersonalData => state.order.personalData)
+        .subscribe((statePersonalData: PersonalData) => {
+          this.statePersonalData = statePersonalData;
+        });
       if (this.statePersonalData) {
         const savedPersonalData = { ...this.statePersonalData };
         const observable = new Observable((observer) => observer.next(savedPersonalData));

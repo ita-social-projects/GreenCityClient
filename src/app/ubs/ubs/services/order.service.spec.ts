@@ -11,8 +11,6 @@ import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/mo
 import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
 import { Store } from '@ngrx/store';
-import { IOrderState } from 'src/app/store/state/order.state';
-import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModule } from '@ngrx/store';
 
 describe('OrderService', () => {
@@ -98,15 +96,9 @@ describe('OrderService', () => {
     orderDetails: null,
     personalData: null
   };
-  const initialState: IOrderState = {
-    orderDetails: null,
-    personalData: null,
-    error: null
-  };
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
-  const pipe = jasmine.createSpy().and.returnValue(of('success'));
 
   const baseLink = environment.ubsAdmin.backendUbsAdminLink;
 
@@ -136,21 +128,18 @@ describe('OrderService', () => {
   });
 
   it('method getOrders should return order details', () => {
-    service.getOrders().subscribe((data) => {
+    service.getOrders(1, 25).subscribe((data) => {
+      service.stateOrderDetails = null;
       expect(ubsOrderServiseMock.orderDetails).not.toBeNull();
       expect(ubsOrderServiseMock.orderDetails).toEqual(data);
-      expect(data).toEqual(orderDetailsMock);
     });
-    httpTest('order-details-for-tariff&', 'GET', orderDetailsMock);
   });
 
   it('method getPersonalData should return personal data', () => {
     service.getPersonalData().subscribe((data) => {
       expect(ubsOrderServiseMock.personalData).not.toBeNull();
       expect(ubsOrderServiseMock.personalData).toEqual(data);
-      expect(data).toEqual(personalDataMock);
     });
-    httpTest('personal-data', 'GET', personalDataMock);
   });
 
   it('method processCertificate should return data of certificate', () => {

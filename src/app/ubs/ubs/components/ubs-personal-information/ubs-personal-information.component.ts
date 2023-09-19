@@ -228,20 +228,34 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.isOneAdress();
     const actualAddress = this.addresses.find((address) => address.actual);
     const activeAddress = this.checkedAddress ?? actualAddress;
-    if (this.personalData) {
-      this.personalData.city = activeAddress?.city;
-      this.personalData.cityEn = activeAddress?.cityEn;
-      this.personalData.district = activeAddress?.district;
-      this.personalData.districtEn = activeAddress?.districtEn;
-      this.personalData.region = activeAddress?.region;
-      this.personalData.regionEn = activeAddress?.regionEn;
-      this.personalData.street = activeAddress?.street;
-      this.personalData.streetEn = activeAddress?.streetEn;
-      this.personalData.houseNumber = activeAddress?.houseNumber;
-      this.personalData.houseCorpus = activeAddress?.houseCorpus;
-      this.personalData.entranceNumber = activeAddress?.entranceNumber;
-      this.personalData.latitude = activeAddress?.coordinates.latitude;
-      this.personalData.longitude = activeAddress?.coordinates.longitude;
+    if (this.personalData && activeAddress) {
+      let {
+        city,
+        cityEn,
+        district,
+        districtEn,
+        region,
+        regionEn,
+        street,
+        streetEn,
+        houseNumber,
+        houseCorpus,
+        entranceNumber,
+        coordinates
+      } = activeAddress;
+      this.personalData.city = city;
+      this.personalData.cityEn = cityEn;
+      this.personalData.district = district;
+      this.personalData.districtEn = districtEn;
+      this.personalData.region = region;
+      this.personalData.regionEn = regionEn;
+      this.personalData.street = street;
+      this.personalData.streetEn = streetEn;
+      this.personalData.houseNumber = houseNumber;
+      this.personalData.houseCorpus = houseCorpus;
+      this.personalData.entranceNumber = entranceNumber;
+      this.personalData.latitude = coordinates.latitude;
+      this.personalData.longitude = coordinates.longitude;
     }
     this.shareFormService.saveDataOnLocalStorage();
   }
@@ -425,7 +439,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   savePersonalInfoToState(): void {
-    this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
+    const isExistingOrderId = this.localService.getExistingOrderId();
+    if (!isExistingOrderId) {
+      this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
+    }
   }
 
   cleanOrderDetailsState(): void {

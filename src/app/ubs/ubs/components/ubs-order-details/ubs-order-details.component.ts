@@ -626,8 +626,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   saveOrderDetailsToState(): void {
-    const details = this.shareFormService.getOrderDetails();
-    this.store.dispatch(AddOrderData({ orderDetails: details }));
+    if (!this.isThisExistingOrder) {
+      const details = this.shareFormService.getOrderDetails();
+      this.store.dispatch(AddOrderData({ orderDetails: details }));
+    }
   }
 
   ngOnDestroy() {

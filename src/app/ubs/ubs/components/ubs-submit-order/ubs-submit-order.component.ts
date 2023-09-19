@@ -32,6 +32,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   selectedPayment: string;
   additionalOrders: any;
   personalData: PersonalData;
+  statePersonalData: PersonalData;
   orderDetails: OrderDetails | null;
   defaultId: 2282;
   isDownloadDataNotification: boolean;
@@ -170,15 +171,18 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isFinalSumZero = orderDetails.finalSum <= 0;
       this.isTotalAmountZero = orderDetails.total === 0;
     });
-    this.store.pipe(select((state: IAppState): PersonalData => state.order.personalData)).subscribe((statePersonalData: PersonalData) => {
-      if (statePersonalData) {
-        this.personalData = statePersonalData;
-      } else {
-        this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
-          this.personalData = personalData;
-        });
-      }
-    });
+    this.store
+      .select((state: IAppState): PersonalData => state.order.personalData)
+      .subscribe((statePersonalData: PersonalData) => {
+        this.statePersonalData = statePersonalData;
+        if (this.statePersonalData) {
+          this.personalData = statePersonalData;
+        } else {
+          this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
+            this.personalData = personalData;
+          });
+        }
+      });
   }
 
   finalizeGetOrderUrl(): void {

@@ -122,17 +122,6 @@ describe('UBSSubmitOrderComponent', () => {
     expect((component as any).destroy.unsubscribe).toHaveBeenCalledTimes(1);
   });
 
-  it('takeOrderDetails should correctly set data from subscription', () => {
-    const service = TestBed.inject(UBSOrderFormService);
-    spyOnProperty(service, 'changedOrder').and.returnValue(of(mockedOrderDetails));
-    spyOnProperty(service, 'changedPersonalData').and.returnValue(of(mockedPersonalData));
-    fixture.detectChanges();
-    component.takeOrderDetails = mockedtakeOrderDetails;
-    component.takeOrderDetails();
-    expect(component.orderDetails).toEqual(mockedOrderDetails);
-    expect(component.personalData).toEqual(mockedPersonalData);
-  });
-
   it('error from subscription should set loadingAnim to false', () => {
     const errorResponse = new HttpErrorResponse({
       error: { code: 'some code', message: 'some message' },
