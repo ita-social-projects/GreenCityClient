@@ -202,6 +202,19 @@ a {
       margin-left: -16px;
     }
   }
+
+  :host ::ng-deep {
+    .mat-tab-labels {
+      padding-left: 16px;
+      padding-right: 11px;
+      .mat-tab-label {
+        flex: 0 0 33%;
+      }
+      .mat-tab-disabled {
+        display: none;
+      }
+    }
+  }
 }
 
 @media (min-width: 576px) {
