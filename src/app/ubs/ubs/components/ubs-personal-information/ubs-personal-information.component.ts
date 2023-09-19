@@ -229,7 +229,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const actualAddress = this.addresses.find((address) => address.actual);
     const activeAddress = this.checkedAddress ?? actualAddress;
     if (this.personalData && activeAddress) {
-      let {
+      const {
         city,
         cityEn,
         district,
