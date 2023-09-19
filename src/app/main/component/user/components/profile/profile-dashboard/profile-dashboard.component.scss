@@ -207,9 +207,11 @@ a {
     .mat-tab-labels {
       padding-left: 16px;
       padding-right: 11px;
+
       .mat-tab-label {
         flex: 0 0 33%;
       }
+
       .mat-tab-disabled {
         display: none;
       }
