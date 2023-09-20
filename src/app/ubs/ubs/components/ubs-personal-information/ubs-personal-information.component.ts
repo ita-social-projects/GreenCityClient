@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -37,6 +37,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
   firstOrder = true;
+  isThisExistingOrder: boolean;
   anotherClient = false;
   currentLocation = {};
   citiesForLocationId = [];
@@ -73,6 +74,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   constructor(
     public router: Router,
+    private route: ActivatedRoute,
     public orderService: OrderService,
     private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
@@ -115,6 +117,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.orderService.currentAddress.subscribe((data: Address) => {
       this.personalDataForm.controls.address.setValue(data);
       this.personalDataForm.controls.addressComment.setValue(data.addressComment);
+    });
+    this.route.queryParams.subscribe((params) => {
+      const key = 'isThisExistingOrder';
+      this.isThisExistingOrder = !!params[key];
     });
   }
 
@@ -439,8 +445,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   savePersonalInfoToState(): void {
-    const isExistingOrderId = this.localService.getExistingOrderId();
-    if (!isExistingOrderId) {
+    if (!this.isThisExistingOrder) {
       this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
     }
   }
