@@ -37,7 +37,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
-  public isUbs: boolean;
+  public isUbs = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
   private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
@@ -65,7 +65,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();

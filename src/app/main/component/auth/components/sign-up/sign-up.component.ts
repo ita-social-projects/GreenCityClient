@@ -43,7 +43,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
   public currentLanguage: string;
-  public isUbs: boolean;
+  public isUbs = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
   private errorsType = {
@@ -71,7 +71,6 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
-    this.isUbs = this.router.url.includes('ubs');
   }
 
   ngOnChanges(): void {

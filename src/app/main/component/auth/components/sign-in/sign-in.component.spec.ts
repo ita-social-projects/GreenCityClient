@@ -102,7 +102,7 @@ describe('SignIn component', () => {
       spyOn(component, 'onOpenModalWindow');
 
       const nativeElement = fixture.nativeElement;
-      const button = nativeElement.querySelector('.forgot-password');
+      const button = nativeElement.querySelector('.forgot-password-ubs');
       button.dispatchEvent(new Event('click'));
 
       fixture.detectChanges();
@@ -217,7 +217,7 @@ describe('SignIn component', () => {
         component.onSignInSuccess(userSuccessSignIn);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
+          expect(router.navigate).toHaveBeenCalledWith(['ubs']);
         });
       });
     }));
