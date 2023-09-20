@@ -118,6 +118,7 @@ header {
   font-weight: 600;
   width: 70px;
   padding: 0 12px;
+  white-space: nowrap;
 
   a {
     color: var(--secondary-dark-green);
@@ -183,6 +184,7 @@ header {
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
+  white-space: nowrap;
 
   &:hover {
     color: var(--ubs-secondary-light-green);

@@ -13,9 +13,9 @@
         <img class="cross-btn" [src]="authImages.cross" alt="close button" />
       </a>
       <div [ngSwitch]="authPage">
-        <app-sign-in *ngSwitchCase="'sign-in'" (pageName)="changeAuthPage($event)"></app-sign-in>
-        <app-sign-up *ngSwitchCase="'sign-up'" (pageName)="changeAuthPage($event)"></app-sign-up>
-        <app-restore-password *ngSwitchCase="'restore-password'" (pageName)="changeAuthPage($event)"></app-restore-password>
+        <app-sign-in *ngSwitchCase="'sign-in'" (pageName)="changeAuthPage($event)" [isUbs]="isUbs"></app-sign-in>
+        <app-sign-up *ngSwitchCase="'sign-up'" (pageName)="changeAuthPage($event)" [isUbs]="isUbs"></app-sign-up>
+        <app-restore-password *ngSwitchCase="'restore-password'" (pageName)="changeAuthPage($event)" [isUbs]="isUbs"></app-restore-password>
       </div>
     </div>
   </div>

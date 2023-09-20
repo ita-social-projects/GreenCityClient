@@ -86,7 +86,7 @@
           "liked": "Сподобалось",
           "comment": "Коментар",
           "edit": "Редагувати",
-          "edited": "відредаговано",
+          "edited": "Відредаговано",
           "delete": "Видалити",
           "save": "Зберегти зміни",
           "close": "Закрити",
@@ -1025,7 +1025,7 @@
       "request-decline": "Відхилити",
       "request-accept": "Прийняти",
       "all-friends": "Всі Друзі",
-      "search-friends": "Пошук",
+      "search-friends": "Знайти друга",
       "found-amount": "людей знайдено"
     },
     "rate": "Рейтинг",

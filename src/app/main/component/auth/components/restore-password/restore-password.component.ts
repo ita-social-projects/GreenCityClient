@@ -1,7 +1,7 @@
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,6 +24,8 @@ declare var google: any;
   styleUrls: ['./restore-password.component.scss']
 })
 export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isUbs: boolean;
+
   public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
   public closeBtn = SignInIcons;
@@ -37,7 +39,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   public currentLanguage: string;
   public userIdSubscription: Subscription;
   public emailFieldValue: string;
-  public isUbs: boolean;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -53,7 +54,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
