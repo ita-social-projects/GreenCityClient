@@ -1,6 +1,13 @@
-export enum ItemTime {
-  START = '00 : 00',
-  END = '23 : 59'
+export enum TimeBack {
+  START = '00:00',
+  END = '23:59'
+}
+
+export enum TimeFront {
+  START = '0:00',
+  END = '00:00',
+  DIVIDER = ':',
+  MINUTES = '00'
 }
 
 export interface OptionItem {
