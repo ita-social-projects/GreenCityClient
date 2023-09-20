@@ -19,7 +19,7 @@ import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
 import { IAppState } from 'src/app/store/state/app.state';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'

@@ -16,7 +16,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { Store } from '@ngrx/store';
 import { AddOrderData } from 'src/app/store/actions/order.actions';
-import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -342,7 +341,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       this.setCurrentLocation(this.currentLanguage, this.selectedLocationId);
       const inputsQuantity = [];
       this.bags?.forEach((a) => {
-        inputsQuantity.push(a.quantity === undefined || a.quantity === null ? null : a.quantity);
+        const noQuantity = a.quantity === undefined || a.quantity === null;
+        inputsQuantity.push(noQuantity ? null : a.quantity);
         a.quantity = null;
       });
       this.bags = this.orders?.bags;

@@ -12,7 +12,7 @@ import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { UpdatePersonalData } from 'src/app/store/actions/order.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 
