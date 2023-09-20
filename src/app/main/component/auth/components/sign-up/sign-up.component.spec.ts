@@ -264,7 +264,7 @@ describe('SignUpComponent', () => {
         // @ts-ignore
         component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
+          expect(router.navigate).toHaveBeenCalledWith(['ubs']);
         });
         fixture.destroy();
         flush();

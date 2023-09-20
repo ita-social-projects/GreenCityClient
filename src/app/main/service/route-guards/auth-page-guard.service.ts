@@ -22,7 +22,6 @@ export class AuthPageGuardService implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.isLoggedIn) {
       this.openSingInWindow('sign-in', state);
-      const path = state.url.includes('ubs') ? '/ubs' : '/greenCity';
       return this.router.parseUrl('/ubs');
     }
     return of<boolean>(true);
@@ -35,8 +34,7 @@ export class AuthPageGuardService implements CanActivate {
         closeOnNavigation: true,
         panelClass: 'custom-dialog-container',
         data: {
-          popUpName: popupName,
-          isUBS: state.url.includes('ubs')
+          popUpName: popupName
         }
       })
       .afterClosed()

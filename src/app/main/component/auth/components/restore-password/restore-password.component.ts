@@ -37,7 +37,7 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   public currentLanguage: string;
   public userIdSubscription: Subscription;
   public emailFieldValue: string;
-  public isUbs: boolean;
+  public isUbs = true;
   @Output() public pageName = new EventEmitter();
 
   constructor(
@@ -53,7 +53,6 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.isUbs = this.router.url.includes('ubs');
     this.userOwnSignIn = new UserOwnSignIn();
     this.initFormReactive();
     this.configDefaultErrorMessage();
