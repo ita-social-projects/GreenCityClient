@@ -94,7 +94,7 @@ describe('EditProfileComponent', () => {
         showLocation: '',
         showEcoPlace: '',
         showShoppingList: '',
-        socialNetworks: ''
+        socialNetworks: []
       };
       component.editProfileForm.value.city = '';
       component.editProfileForm.value.name = '';
@@ -102,7 +102,7 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showLocation = '';
       component.editProfileForm.value.showEcoPlace = '';
       component.editProfileForm.value.showShoppingList = '';
-      component.editProfileForm.value.socialNetworks = '';
+      component.socialNetworksToServer = [];
     });
 
     it('should return false in case of form fields were not changed', () => {

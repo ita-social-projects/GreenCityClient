@@ -93,12 +93,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
-      city: this.editProfileForm.value.city,
-      userCredo: this.editProfileForm.value.credo,
+      city: this.editProfileForm.value.city === null ? '' : this.editProfileForm.value.city,
+      userCredo: this.editProfileForm.value.credo === null ? '' : this.editProfileForm.value.credo,
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
       showShoppingList: this.editProfileForm.value.showShoppingList,
-      socialNetworks: this.editProfileForm.value.socialNetworks
+      socialNetworks: this.socialNetworksToServer
     };
   }
 
@@ -114,11 +114,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
       showShoppingList: data.showShoppingList,
-      socialNetworks: data.socialNetworks
+      socialNetworks: data.socialNetworks.map((network) => {
+        return network.url;
+      })
     };
     this.editProfileForm.markAllAsTouched();
   }
-
   public onCityChange(event) {
     this.cityName = event.formatted_address.split(',')[0];
   }
