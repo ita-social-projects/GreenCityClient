@@ -94,14 +94,16 @@ export class CalendarBaseComponent implements OnDestroy {
 
   public subscribeToLangChange(): void {
     this.langChangeSub = this.translate.onDefaultLangChange.subscribe((res) => {
-      const translations = res.translations.profile.calendar;
-      this.daysName = translations.days;
-      this.months = translations.months;
-      this.monthsShort = translations.monthsShort;
-      this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
-      this.markCurrentDayOfWeek();
-      this.buildMonthCalendar(this.monthsShort);
-      this.getUserHabits(true, this.calendarDay);
+      setTimeout(() => {
+        const translations = res.translations.profile.calendar;
+        this.daysName = translations.days;
+        this.months = translations.months;
+        this.monthsShort = translations.monthsShort;
+        this.monthAndYearName = `${this.months[this.currentMonth]} ${this.currentYear}`;
+        this.markCurrentDayOfWeek();
+        this.buildMonthCalendar(this.monthsShort);
+        this.getUserHabits(true, this.calendarDay);
+      }, 0);
     });
   }
 

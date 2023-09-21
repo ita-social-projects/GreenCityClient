@@ -128,7 +128,7 @@ p {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1439px) {
+@media (min-width: 768px) and (max-width: 1199px) {
   .outer {
     .friends {
       width: 184px;
@@ -143,6 +143,35 @@ p {
       .add-friends {
         width: 48px;
         height: 48px;
+      }
+    }
+    div {
+      p:nth-child(2) {
+        position: relative;
+        bottom: 1px;
+        right: 5px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1199px) and (max-width: 1439px) {
+  .outer {
+    .friends {
+      .friends-images {
+        div {
+          position: relative;
+          top: 6px;
+          left: 5px;
+          scale: 116%;
+
+          p:nth-child(2) {
+            position: relative;
+            bottom: 1px;
+            right: 5px;
+            scale: 87%;
+          }
+        }
       }
     }
   }

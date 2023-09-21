@@ -32,13 +32,15 @@ p {
           line-height: 24px;
           color: var(--primary-dark-grey);
         }
+      }
 
-        a:nth-child(2) {
-          font-weight: 400;
-          font-size: 12px;
-          color: var(--tertiary-light-grey);
-          line-height: 16px;
-        }
+      a:nth-child(2) {
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--tertiary-light-grey);
+        line-height: 16px;
+        position: relative;
+        bottom: 20px;
       }
     }
 
@@ -62,12 +64,20 @@ p {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1439px) {
+@media (min-width: 768px) and (max-width: 1199px) {
   .outer {
     height: 132px;
 
     .achievements {
       width: 184px;
+
+      .header {
+        a:nth-child(2) {
+          text-align: center;
+          top: 0px;
+          width: 80px;
+        }
+      }
 
       .body img {
         height: 48px;
