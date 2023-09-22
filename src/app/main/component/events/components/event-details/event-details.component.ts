@@ -242,7 +242,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public buttonAction() {
+  public buttonAction(event) {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
     }
@@ -254,11 +254,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.snackBar.openSnackBar('joinedEvent');
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
       this.isUserCanJoin = !this.isUserCanJoin;
-    }
-    if (!this.isUserCanJoin) {
+    } else {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
       this.isUserCanJoin = !this.isUserCanJoin;
     }
+    event.target.blur();
   }
 
   public openAuthModalWindow(page: string): void {
