@@ -178,7 +178,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
         mergeMap((statePersonalData: PersonalData) => {
           return this.shareFormService.changedPersonalData.pipe(
             map((personalData: PersonalData) => {
-              this.personalData = statePersonalData ? statePersonalData : personalData;
+              this.personalData = statePersonalData || personalData;
             })
           );
         })
