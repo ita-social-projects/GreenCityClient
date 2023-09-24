@@ -14,6 +14,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  public currLang: string;
   private langChangeSub: Subscription;
   public userInfo: EditProfileModel;
   public isDesktopWidth: boolean;
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.checkUserActivities();
+    console.log(this.translate);
   }
 
   @HostListener('window:resize') public checkDisplayWidth() {
@@ -59,7 +61,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLangChange(): void {
-    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => this.bindLang(lang));
+    this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
+      this.bindLang(lang);
+      this.currLang = lang;
+    });
   }
 
   private checkUserActivities(): void {

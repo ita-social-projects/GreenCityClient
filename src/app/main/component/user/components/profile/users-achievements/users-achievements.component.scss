@@ -40,6 +40,11 @@ p {
         color: var(--tertiary-light-grey);
         line-height: 16px;
         position: relative;
+      }
+    }
+
+    div {
+      .see-all-ukr {
         bottom: 20px;
       }
     }
@@ -72,10 +77,10 @@ p {
       width: 184px;
 
       .header {
-        a:nth-child(2) {
-          text-align: right;
-          bottom: 1px;
-          width: 80px;
+        div {
+          .see-all-ukr {
+            bottom: 0px;
+          }
         }
       }
 
