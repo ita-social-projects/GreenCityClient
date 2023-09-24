@@ -32,6 +32,10 @@ p {
           line-height: 24px;
           color: var(--primary-dark-grey);
         }
+
+        .see-all-ukr {
+          bottom: 20px;
+        }
       }
 
       a:nth-child(2) {
@@ -40,12 +44,6 @@ p {
         color: var(--tertiary-light-grey);
         line-height: 16px;
         position: relative;
-      }
-    }
-
-    div {
-      .see-all-ukr {
-        bottom: 20px;
       }
     }
 
@@ -79,7 +77,7 @@ p {
       .header {
         div {
           .see-all-ukr {
-            bottom: 0px;
+            bottom: -1px;
           }
         }
       }

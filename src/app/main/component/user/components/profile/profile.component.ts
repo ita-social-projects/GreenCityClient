@@ -35,7 +35,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.checkUserActivities();
-    console.log(this.translate);
   }
 
   @HostListener('window:resize') public checkDisplayWidth() {
