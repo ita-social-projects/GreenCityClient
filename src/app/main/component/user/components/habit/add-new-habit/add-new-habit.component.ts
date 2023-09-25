@@ -38,7 +38,7 @@ export class AddNewHabitComponent implements OnInit {
 
   newDuration: number;
   initialDuration: number;
-  initialShoppingList: ShoppingList[];
+  initialShoppingList: ShoppingList[] = [];
   standartShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
   friendsIdsList: number[] = [];
@@ -238,7 +238,9 @@ export class AddNewHabitComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
         res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
-        this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
+        if (res.userShoppingListItemDto[0]?.text !== 'No items to recommend' || res.customShoppingListItemDto.length) {
+          this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
+        }
       });
   }
 
