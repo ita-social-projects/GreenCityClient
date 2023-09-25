@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
@@ -11,7 +11,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   templateUrl: './images-container.component.html',
   styleUrls: ['./images-container.component.scss']
 })
-export class ImagesContainerComponent implements OnInit {
+export class ImagesContainerComponent implements OnInit, OnChanges {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
   private imgArray: File[] = [];
@@ -24,6 +24,7 @@ export class ImagesContainerComponent implements OnInit {
     '/assets/img/events/illustration-recycle.png',
     '/assets/img/events/illustration-store.png'
   ];
+  private defaultImage = '/assets/img/events/default-image.png';
   public images: EventImage[] = [];
   public editMode: boolean;
   private imagesTodelete: string[] = [];
@@ -35,7 +36,7 @@ export class ImagesContainerComponent implements OnInit {
   @ViewChild('takeInput') InputVar: ElementRef;
 
   @Input() imagesEditArr: string[];
-
+  @Input() isImagesArrayEmpty: boolean;
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
@@ -45,6 +46,7 @@ export class ImagesContainerComponent implements OnInit {
     private snackBar: MatSnackBarComponent,
     private eventService: EventsService
   ) {}
+
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
 
@@ -62,6 +64,12 @@ export class ImagesContainerComponent implements OnInit {
           el.isLabel = true;
         }
       });
+    }
+  }
+
+  ngOnChanges() {
+    if (this.isImagesArrayEmpty) {
+      this.chooseImage(this.defaultImage);
     }
   }
 

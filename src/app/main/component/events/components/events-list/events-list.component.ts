@@ -36,7 +36,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public typeFilterControl = new FormControl();
 
   public eventsList: EventPageResponceDto[] = [];
-  public defaultImagePath = 'https://greencity.greencity.social/';
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -84,9 +83,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.page = res.pageNumber;
       if (res.eventState) {
-        this.eventsList = res.eventsList.map((event) => {
-          return event.titleImage.startsWith('i') ? { ...event, titleImage: `${this.defaultImagePath + event.titleImage}` } : event;
-        });
+        this.eventsList = [...res.eventsList];
         const data = res.eventState;
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
