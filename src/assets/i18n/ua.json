@@ -187,6 +187,7 @@
     },
     "search-not-found": {
       "not-found-text": "Не вдалося знайти результати за запитом '{{searchQuery}}'. Змініть запит.",
+      "not-found-friends-text": "Не вдалося знайти результати за запитом.",
       "choose-alternative": "Можливо, ви можете знайти тут щось цікаве:",
       "alternative-header-news": "Новини",
       "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
