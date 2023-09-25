@@ -201,17 +201,19 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   getUniqueCities(addresses: Array<Addresses>): OptionItem[] {
-    const cities: OptionItem[] = [];
-    addresses.forEach((address) => {
+    const uniqueCities = new Set();
+
+    addresses.forEach((address: Addresses) => {
       if (address) {
         const { cityEn, cityUa } = address;
-        const cityExists = cities.some((city) => {
-          return city.nameEn === cityEn && city.nameUa === cityUa;
-        });
-        if (!cityExists) {
-          cities.push({ nameEn: cityEn, nameUa: cityUa });
+        if (cityEn !== null) {
+          uniqueCities.add(`${cityEn}-${cityUa}`);
         }
       }
+    });
+    const cities = Array.from(uniqueCities).map((city: string) => {
+      const [nameEn, nameUa] = city.split('-');
+      return { nameEn, nameUa };
     });
     return cities;
   }
