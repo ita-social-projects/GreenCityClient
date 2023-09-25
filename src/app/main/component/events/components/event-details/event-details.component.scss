@@ -6,6 +6,10 @@
     margin-top: 2px;
   }
 
+  .secondary-global-button {
+    padding: 8px 22.5px;
+  }
+
   @media (min-width: 576px) and (max-width: 767px) {
     padding-left: 18px;
     padding-right: 18px;
@@ -334,7 +338,7 @@
         .save-join-event-block {
           display: flex;
           justify-content: flex-end;
-          gap: 24px;
+          gap: 23px;
         }
 
         .event-tags-status {
