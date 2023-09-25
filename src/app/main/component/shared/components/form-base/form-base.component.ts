@@ -54,9 +54,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
 
   public checkChanges(): boolean {
     const body = this.getFormValues();
-    return Object.keys(body).reduce((acc, key) => {
-      return acc || (JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined);
-    }, false);
+    return Object.keys(body).some((key) => {
+      return JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined;
+    });
   }
 
   cancelUBSwithoutSaving(): void {
