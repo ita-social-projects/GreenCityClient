@@ -2,12 +2,15 @@
   <div class="achievements">
     <div class="header">
       <div>
-        <p>
+        <p class="my-achievements">
           {{ 'profile.my-achievements' | translate }}
         </p>
-        <a href="">{{ 'profile.see-all' | translate }}</a>
+        <a *ngIf="this.currLang === 'en'" href="">{{ 'profile.see-all' | translate }}</a>
       </div>
-      <div class="acheived-quantity">15 {{ 'profile.achieved' | translate }}</div>
+      <div>
+        <div class="acheived-quantity">15 {{ 'profile.achieved' | translate }}</div>
+        <a *ngIf="this.currLang === 'ua'" href="" class="see-all-ukr">{{ 'profile.see-all' | translate }}</a>
+      </div>
     </div>
     <div class="body">
       <img [src]="image" alt="achievement" *ngFor="let image of achievementsImages" />
