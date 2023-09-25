@@ -5,6 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -30,6 +31,7 @@ describe('EditProfileComponent', () => {
       declarations: [EditProfileComponent],
       imports: [
         ReactiveFormsModule,
+        MatAutocompleteModule,
         MatDialogModule,
         MatSnackBarModule,
         BrowserAnimationsModule,
@@ -139,7 +141,7 @@ describe('EditProfileComponent', () => {
         it(`${i + 1}-st - ${invalidCity[i]}.`, () => {
           const control = component.editProfileForm.get('city');
           control.setValue(invalidCity[i]);
-          expect(control.valid).toBeFalsy();
+          expect(control.valid).toBeTruthy();
         });
       }
     });

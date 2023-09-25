@@ -20,17 +20,14 @@
           <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
             <input
-              type="text"
+              matInput
+              #placesRef
+              matGoogleMapsAutocomplete
+              class="shadow-none form-control"
               formControlName="city"
+              (input)="setPlaceAutocomplete()"
               placeholder="{{ 'user.edit-profile.user-location' | translate }}"
-              autocorrect="off"
-              autocapitalize="off"
-              spellcheck="false"
-              #search
-              [pattern]="cityPattern"
-              id="city"
             />
-            <span *ngIf="getControl('city').invalid">{{ 'user.edit-profile.city-warning' | translate }}</span>
           </div>
           <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
