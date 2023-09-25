@@ -130,7 +130,7 @@
 </div>
 
 <div class="w-100 buttons" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
-  <button *ngIf="!isNotification" class="ubs-back-link-global-button" matStepperPrevious>
+  <button *ngIf="!isNotification" class="ubs-back-link-global-button" matStepperPrevious (click)="cleanPersonalDataState()">
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="link-underline">{{ 'submit-order.back' | translate }}</span>
   </button>
   <div class="btn-canc-sub">

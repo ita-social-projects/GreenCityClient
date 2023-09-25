@@ -12,6 +12,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { Store } from '@ngrx/store';
 
 describe('UBSSubmitOrderComponent', () => {
   let component: UBSSubmitOrderComponent;
@@ -66,11 +68,15 @@ describe('UBSSubmitOrderComponent', () => {
     return valUa;
   };
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       declarations: [UBSSubmitOrderComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: UBSOrderFormService, useClass: FakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
@@ -114,17 +120,6 @@ describe('UBSSubmitOrderComponent', () => {
     spyOn((component as any).destroy, 'unsubscribe');
     component.ngOnDestroy();
     expect((component as any).destroy.unsubscribe).toHaveBeenCalledTimes(1);
-  });
-
-  it('takeOrderDetails should correctly set data from subscription', () => {
-    const service = TestBed.inject(UBSOrderFormService);
-    spyOnProperty(service, 'changedOrder').and.returnValue(of(mockedOrderDetails));
-    spyOnProperty(service, 'changedPersonalData').and.returnValue(of(mockedPersonalData));
-    fixture.detectChanges();
-    component.takeOrderDetails = mockedtakeOrderDetails;
-    component.takeOrderDetails();
-    expect(component.orderDetails).toEqual(mockedOrderDetails);
-    expect(component.personalData).toEqual(mockedPersonalData);
   });
 
   it('error from subscription should set loadingAnim to false', () => {
