@@ -202,7 +202,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   getUniqueCities(addresses: Array<Addresses>): OptionItem[] {
     const uniqueCities = new Set();
-    console.log();
+
     addresses.forEach((address: Addresses) => {
       if (address) {
         const { cityEn, cityUa } = address;
