@@ -421,13 +421,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       ? this.store.dispatch(EditEcoEventAction({ data: sendData }))
       : this.store.dispatch(CreateEcoEventAction({ data: sendData }));
 
-    this.actionsSubj
-      .pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess, EventsActions.ReceivedFailure))
-      .subscribe(() => {
-        this.isPosting = false;
-        this.escapeFromCreateEvent();
-      });
+    this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
+      this.isPosting = false;
+      this.escapeFromCreateEvent();
+    });
   }
+
   private checkUserSigned(): boolean {
     this.getUserId();
     return this.userId != null && !isNaN(this.userId);
