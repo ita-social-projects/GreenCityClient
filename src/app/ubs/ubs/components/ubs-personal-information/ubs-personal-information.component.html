@@ -156,7 +156,7 @@
 </form>
 
 <div class="w-100 buttons">
-  <button class="ubs-back-link-global-button" matStepperPrevious>
+  <button class="ubs-back-link-global-button" matStepperPrevious (click)="cleanOrderDetailsState()">
     <i class="fas fa-chevron-left" aria-hidden="true"></i>
     &nbsp;
     <span class="link-underline">{{ 'personal-info.info-back' | translate }}</span>
@@ -165,7 +165,13 @@
     <button class="ubs-secondary-global-button" type="button" (click)="cancelUBS()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
-    <button type="submit" class="ubs-primary-global-button" matStepperNext [disabled]="personalDataForm.invalid || isNotChoosedLocation">
+    <button
+      type="submit"
+      class="ubs-primary-global-button"
+      matStepperNext
+      [disabled]="personalDataForm.invalid || isNotChoosedLocation"
+      (click)="savePersonalInfoToState()"
+    >
       {{ 'personal-info.info-next' | translate }}
     </button>
   </div>

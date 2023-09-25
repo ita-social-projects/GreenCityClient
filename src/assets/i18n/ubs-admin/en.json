@@ -1204,6 +1204,7 @@
     }
   },
   "snack-bar": {
+    "save-employee-permissons": "Your changes have been saved",
     "error": {
       "exist-address": "This address has already been added"
     }

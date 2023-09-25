@@ -1,6 +1,13 @@
-export enum ItemTime {
-  START = '00 : 00',
-  END = '23 : 59'
+export enum TimeBack {
+  START = '00:00',
+  END = '23:59'
+}
+
+export enum TimeFront {
+  START = '0:00',
+  END = '00:00',
+  DIVIDER = ':',
+  MINUTES = '00'
 }
 
 export interface OptionItem {
@@ -9,17 +16,24 @@ export interface OptionItem {
 }
 
 export interface AllSelectedFlags {
-  typeList: boolean;
-  timeList: boolean;
-  statusList: boolean;
-  locationList: boolean;
+  tags: boolean;
+  eventTime: boolean;
+  statuses: boolean;
+  cities: boolean;
 }
 
 export const allSelectedFlags = {
-  timeList: false,
-  statusList: false,
-  typeList: false,
-  locationList: false
+  eventTime: false,
+  statuses: false,
+  tags: false,
+  cities: false
+};
+
+export const allSelectedFilter = {
+  eventTime: { nameEn: 'Any time', nameUa: 'Будь-який час' },
+  cities: { nameEn: 'All cites', nameUa: 'Всі міста' },
+  statuses: { nameEn: 'Any status', nameUa: 'Будь-який статус' },
+  tags: { nameEn: 'All types', nameUa: 'Всі типи' }
 };
 
 export const TagsArray = [
@@ -29,8 +43,8 @@ export const TagsArray = [
 ];
 
 export const eventTimeList = [
-  { nameEn: 'Upcoming', nameUa: 'Майбутній' },
-  { nameEn: 'Passed', nameUa: 'Завершений' }
+  { nameEn: 'Future', nameUa: 'Майбутній' },
+  { nameEn: 'Past', nameUa: 'Завершений' }
 ];
 
 export const eventStatusList = [
@@ -63,3 +77,10 @@ export const WeekArray = [
   { nameEn: '6 days', nameUa: '6 днів' },
   { nameEn: '7 days', nameUa: '7 днів' }
 ];
+
+export let EventFilterCriteria = {
+  eventTime: [],
+  cities: [],
+  statuses: [],
+  tags: []
+};

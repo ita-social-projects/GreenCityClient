@@ -13,12 +13,12 @@ import { createReducer, on } from '@ngrx/store';
 export const employeesReducer = createReducer(
   initialEmployeesState,
   on(GetEmployeesSuccess, (state, action) => {
-    const prevEmployees = action.reset ? [] : state.employees?.content ?? [];
+    const prevEmployees = action.reset ? [] : state.employees?.page ?? [];
     return {
       ...state,
       employees: {
         ...action.employees,
-        content: [...prevEmployees, ...action.employees.content]
+        content: [...prevEmployees, ...action.employees.page]
       }
     };
   }),
@@ -27,7 +27,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: [action.employee, ...state.employees.content]
+      content: [action.employee, ...state.employees.page]
     }
   })),
 
@@ -35,7 +35,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.content.map((employee) => (employee.id === action.id ? { ...employee, employeeStatus: 'ACTIVE' } : employee))
+      content: state.employees.page.map((employee) => (employee.id === action.id ? { ...employee, employeeStatus: 'ACTIVE' } : employee))
     }
   })),
 
@@ -43,7 +43,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.content.filter((employee) => employee.id !== action.id)
+      content: state.employees.page.filter((employee) => employee.id !== action.id)
     }
   })),
 
@@ -51,7 +51,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.content.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
+      content: state.employees.page.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
     }
   })),
 

@@ -77,6 +77,7 @@ import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-hab
 import { MatTabsModule } from '@angular/material/tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
@@ -163,6 +164,7 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
     SharedMainModule,
     SharedModule,
     MatButtonModule,
+    MatAutocompleteModule,
     MatRadioModule,
     MatSliderModule,
     MatTooltipModule,
@@ -186,6 +188,7 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
     NgxPaginationModule,
     QuillModule.forRoot()
   ],
+  exports: [MatAutocompleteModule],
   providers: [EditProfileFormBuilder]
 })
 export class UserModule {}

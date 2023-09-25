@@ -10,6 +10,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { Store, StoreModule } from '@ngrx/store';
 
 describe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
@@ -32,15 +34,19 @@ describe('UbsConfirmPageComponent', () => {
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsConfirmPageComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         { provide: MatSnackBarComponent, useValue: fakeSnackBar },
         { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
         { provide: JwtService, useValue: fakeJwtService },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService }
+        { provide: LocalStorageService, useValue: fakeLocalStorageService },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

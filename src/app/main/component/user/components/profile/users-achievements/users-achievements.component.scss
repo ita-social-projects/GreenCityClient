@@ -33,12 +33,17 @@ p {
           color: var(--primary-dark-grey);
         }
 
-        a:nth-child(2) {
-          font-weight: 400;
-          font-size: 12px;
-          color: var(--tertiary-light-grey);
-          line-height: 16px;
+        .see-all-ukr {
+          bottom: 20px;
         }
+      }
+
+      a:nth-child(2) {
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--tertiary-light-grey);
+        line-height: 16px;
+        position: relative;
       }
     }
 
@@ -62,12 +67,20 @@ p {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1439px) {
+@media (min-width: 768px) and (max-width: 1199px) {
   .outer {
     height: 132px;
 
     .achievements {
       width: 184px;
+
+      .header {
+        div {
+          .see-all-ukr {
+            bottom: -1px;
+          }
+        }
+      }
 
       .body img {
         height: 48px;
