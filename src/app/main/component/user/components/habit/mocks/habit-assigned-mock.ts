@@ -14,6 +14,7 @@ export const DEFAULTHABIT: HabitInterface = {
     name: 'Default habit'
   },
   id: 1,
+  usersIdWhoCreatedCustomHabit: 33,
   image: 'https://www.testgreencity.ga/assets/img/habits/man.svg',
   shoppingListItems: [],
   tags: [],
@@ -33,6 +34,7 @@ export const CUSTOMHABIT: HabitInterface = {
     name: 'Custom habit'
   },
   id: 2,
+  usersIdWhoCreatedCustomHabit: 50,
   image: '',
   shoppingListItems: [],
   tags: [],

@@ -71,6 +71,18 @@ form {
   text-overflow: ellipsis;
 }
 
+.input-wrapper input::placeholder,
+:host::ng-deep .mat-select-placeholder {
+  color: var(--ubs-primary-light-grey);
+  font-size: 14px;
+  font-family: var(--ubs-quaternary-font);
+}
+
+:host::ng-deep .mat-select-value {
+  font-size: 14px;
+  font-family: var(--ubs-quaternary-font);
+}
+
 .input-wrapper input.region {
   padding: 0 56px 0 15px;
   color: var(--ubs-quaternary-dark-grey);

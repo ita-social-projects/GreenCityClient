@@ -20,17 +20,14 @@
           <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
             <input
-              type="text"
+              matInput
+              #placesRef
+              matGoogleMapsAutocomplete
+              class="shadow-none form-control"
               formControlName="city"
+              (input)="setPlaceAutocomplete()"
               placeholder="{{ 'user.edit-profile.user-location' | translate }}"
-              autocorrect="off"
-              autocapitalize="off"
-              spellcheck="false"
-              #search
-              [pattern]="cityPattern"
-              id="city"
             />
-            <span *ngIf="getControl('city').invalid">{{ 'user.edit-profile.city-warning' | translate }}</span>
           </div>
           <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
@@ -73,13 +70,13 @@
               <label class="label-wrapper">
                 <input type="checkbox" formControlName="showShoppingList" [attr.checked]="checkShoppingList" />
                 <span class="checkmark"></span>
-                {{ 'user.edit-profile.to-do-list' | translate }}
+                {{ 'user.edit-profile.shopping-list' | translate }}
               </label>
             </li>
           </ul>
         </div>
         <div class="buttons">
-          <button class="secondary-global-button" type="button" (click)="cancel(!editProfileForm.pristine)">
+          <button class="secondary-global-button" type="button" (click)="cancel(!editProfileForm.pristine && checkChanges())">
             {{ 'user.edit-profile.btn.cancel' | translate }}
           </button>
           <button class="primary-global-button" type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">

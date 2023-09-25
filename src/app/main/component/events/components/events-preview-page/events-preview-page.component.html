@@ -61,9 +61,11 @@
             </div>
           </div>
           <div class="position-elements">
-            <p class="title-text">{{ 'create-event.status' | translate }}</p>
-            <a class="option-border-status" *ngIf="event.open">{{ 'create-event.open' | translate }}</a>
-            <a class="option-border-status" *ngIf="!event.open">{{ 'create-event.close' | translate }}</a>
+            <p class="title-text">{{ 'create-event.event-type' | translate }}</p>
+            <div>
+              <a class="option-border" *ngIf="event.open">{{ 'create-event.open' | translate }}</a>
+              <a class="option-border" *ngIf="!event.open">{{ 'create-event.close' | translate }}</a>
+            </div>
           </div>
         </div>
       </div>

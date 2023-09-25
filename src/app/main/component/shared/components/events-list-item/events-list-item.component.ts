@@ -78,7 +78,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     popupTitle: 'homepage.events.delete-title',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
-    style: 'red'
+    style: 'green'
   };
   public canUserJoinCloseEvent: boolean;
 

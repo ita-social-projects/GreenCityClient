@@ -19,10 +19,8 @@
       <div class="comment-date">
         <span class="comment-dot"></span>
         <span class="comment-date-month"
-          >{{ comment.modifiedDate | dateLocalisation }}
-          <span *ngIf="isCommentEdited(comment)" class="edited">
-            {{ 'homepage.eco-news.comment.btn.edited' | translate }}
-          </span>
+          ><span *ngIf="isCommentEdited(comment)" class="edited"> {{ 'homepage.eco-news.comment.btn.edited' | translate }} </span>
+          {{ comment.modifiedDate | dateLocalisation }}
         </span>
         <span class="comment-dot last-dot"></span>
       </div>

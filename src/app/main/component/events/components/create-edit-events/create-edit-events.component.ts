@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injector, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -21,7 +21,7 @@ import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DateObj, ItemTime, TagsArray, WeekArray } from '../../models/event-consts';
+import { DateObj, TimeBack, TimeFront, TagsArray, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -36,7 +36,8 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
-  styleUrls: ['./create-edit-events.component.scss']
+  styleUrls: ['./create-edit-events.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateEditEventsComponent extends FormBaseComponent implements OnInit {
   public title = '';
@@ -69,7 +70,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFileUrl: string;
   public files = [];
 
-  private currentDayStartTime: any[] = [];
   private editorText = '';
   private imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
@@ -133,14 +133,17 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     });
     if (this.editMode) {
       this.editEvent = this.editMode ? this.localStorageService.getEventForEdit() : null;
-      this.dates = this.editEvent.dates.reduce((newDates, currentDates) => {
-        const {
-          coordinates: { latitude, longitude },
-          finishDate,
-          startDate,
-          onlineLink
-        } = currentDates;
-        return newDates.concat({ coordinatesDto: { latitude, longitude }, finishDate, startDate, onlineLink, check: false, valid: false });
+      this.dates = this.editEvent.dates.reduce((newDates, currentDate) => {
+        const { startDate, finishDate } = currentDate;
+        const date: DateEvent = { startDate, finishDate, check: false, valid: false };
+        if (currentDate.onlineLink) {
+          date.onlineLink = currentDate.onlineLink;
+        }
+        if (currentDate.coordinates) {
+          date.coordinatesDto = { latitude: currentDate.coordinates.latitude, longitude: currentDate.coordinates.longitude };
+        }
+        newDates.push(date);
+        return newDates;
       }, []);
       this.setEditValue();
       this.editorText = this.eventFormGroup.get('description').value;
@@ -205,10 +208,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates[ind].startDate = form.startTime;
       this.dates[ind].finishDate = form.endTime;
       this.dates[ind].onlineLink = form.onlineLink;
-      this.dates[ind].coordinatesDto = form.coordinatesDto;
+      if (form.coordinatesDto) {
+        this.dates[ind].coordinatesDto = { latitude: form.coordinatesDto.latitude, longitude: form.coordinatesDto.longitude };
+      }
     } else {
       this.duplindx = ind;
-      this.dates.splice(ind, 1, { ...DateObj });
+      this.dates[ind].date = null;
       this.editDates = true;
     }
   }
@@ -253,14 +258,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.duplindx = -1;
       this.dates = this.dates.slice(0, length);
     } else {
-      this.dates = [...this.dates, ...Array(length - this.dates.length).fill({ ...DateObj })];
+      const additionalDates = Array.from({ length: length - this.dates.length }, () => ({ ...DateObj }));
+      this.dates.push(...additionalDates);
     }
     this.eventsService.setArePlacesFilled(this.dates);
-    this.dates.forEach((item) => {
-      if (item.date) {
-        item.date = new Date(item.date);
-      }
-    });
   }
 
   public getImageTosend(imageArr: Array<File>): void {
@@ -298,30 +299,22 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.checkdates = !this.dates.some((element) => !element.valid);
   }
 
-  private getFormattedDate(dateString: Date, hour: number, min: number): string {
+  private getFormattedDate(dateString: Date, hour: string, min: string): string {
     const date = new Date(dateString);
-    date.setHours(hour, min);
+    date.setHours(Number(hour), Number(min));
     return date.toString();
   }
 
-  public setStartTime(time: string, i: number): void {
-    this.currentDayStartTime = [time, i];
-  }
-
   private createDates(): Array<Dates> {
-    if (this.currentDayStartTime[0]) {
-      const [time, i] = this.currentDayStartTime;
-      this.dates[i].startDate = time;
-    }
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
-        cur.startDate = ItemTime.START;
+        cur.startDate = TimeBack.START;
       }
-      if (!cur.finishDate) {
-        cur.finishDate = ItemTime.END;
+      if (!cur.finishDate || cur.finishDate === TimeFront.END) {
+        cur.finishDate = TimeBack.END;
       }
-      const start = this.getFormattedDate(cur.date, +cur.startDate.split(':')[0], +cur.startDate.split(':')[1]);
-      const end = this.getFormattedDate(cur.date, +cur.finishDate.split(':')[0], +cur.finishDate.split(':')[1]);
+      const start = this.getFormattedDate(cur.date, cur.startDate.split(TimeFront.DIVIDER)[0], cur.startDate.split(TimeFront.DIVIDER)[1]);
+      const end = this.getFormattedDate(cur.date, cur.finishDate.split(TimeFront.DIVIDER)[0], cur.finishDate.split(TimeFront.DIVIDER)[1]);
 
       const date: Dates = {
         startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),

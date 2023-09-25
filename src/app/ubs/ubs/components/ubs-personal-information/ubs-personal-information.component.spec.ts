@@ -18,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { KyivNamesEnum } from '../../models/ubs.interface';
+import { Store } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -129,6 +131,9 @@ describe('UBSPersonalInformationComponent', () => {
     'addAdress'
   ]);
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -143,6 +148,7 @@ describe('UBSPersonalInformationComponent', () => {
       ],
       declarations: [UBSPersonalInformationComponent, UBSInputErrorComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: fakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },

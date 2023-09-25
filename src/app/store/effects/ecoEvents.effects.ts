@@ -3,7 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import {
+  EventFilterCriteriaIntarface,
+  EventPageResponceDto,
+  EventResponseDto
+} from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import {
   CreateEcoEventAction,
@@ -32,8 +36,8 @@ export class EventsEffects {
   getEcoEventsByPage = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEcoEventsByPageAction),
-      mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean }) => {
-        return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents).pipe(
+      mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaIntarface }) => {
+        return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents, actions.filter).pipe(
           map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, reset: actions.reset })),
           catchError((error) => of(ReceivedFailureAction(error)))
         );

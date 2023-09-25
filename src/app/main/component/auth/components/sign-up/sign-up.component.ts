@@ -2,7 +2,7 @@ import { Patterns } from './../../../../../../assets/patterns/patterns';
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -25,6 +25,8 @@ declare var google: any;
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isUbs: boolean;
+
   public signUpForm: FormGroup;
   public emailControl: AbstractControl;
   public firstNameControl: AbstractControl;
@@ -44,7 +46,6 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public passwordConfirmFieldValue: string;
   public isSignInPage: boolean;
   public currentLanguage: string;
-  public isUbs: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
@@ -71,7 +72,6 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
     this.getFormFields();
     this.setNullAllMessage();
     this.userOwnSignUp = new UserOwnSignUp();
-    this.isUbs = this.router.url.includes('ubs');
   }
 
   ngOnChanges(): void {

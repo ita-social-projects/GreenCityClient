@@ -4,8 +4,10 @@ import { IEmployeesState, initialEmployeesState } from './employee.state';
 import { IEcoNewsState, initialNewsState } from './ecoNews.state';
 import { ILocationsState, initialLocationsState } from './tariff.state';
 import { IEcoEventsState, initialEventsState } from './ecoEvents.state';
+import { IOrderState, initialOrderState } from './order.state';
 
 export interface IAppState {
+  order: IOrderState;
   employees: IEmployeesState;
   locations: ILocationsState;
   bigOrderTable: IBigOrderTableState;
@@ -15,6 +17,7 @@ export interface IAppState {
 }
 
 export const initialAppState: IAppState = {
+  order: initialOrderState,
   employees: initialEmployeesState,
   locations: initialLocationsState,
   bigOrderTable: initialBigOrderTableState,

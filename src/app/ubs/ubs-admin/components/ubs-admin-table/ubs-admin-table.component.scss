@@ -605,6 +605,8 @@ input {
 
 #table-container {
   margin-top: 17px;
+  overflow-inline: scroll;
+  max-height: 83vh;
 }
 
 .highlighted {

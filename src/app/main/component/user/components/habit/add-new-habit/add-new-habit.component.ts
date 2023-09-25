@@ -58,8 +58,8 @@ export class AddNewHabitComponent implements OnInit {
   star: number;
 
   private habitId: number;
-  private habitAssignId: number;
-  private userId: number;
+  public habitAssignId: number;
+  public userId: number;
   private currentLang: string;
   private enoughToAcquire = 80;
   private page = 0;
@@ -259,6 +259,12 @@ export class AddNewHabitComponent implements OnInit {
           this.snackBar.openSnackBar('habitDidNotGiveUp');
         }
       });
+  }
+
+  editUsersCustomHabit(url: string, id: number): void {
+    this.localStorageService.setEditMode('canUserEdit', true);
+    this.localStorageService.setHabitForEdit(url, this.habitResponse);
+    this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
   goToProfile(): void {
