@@ -264,7 +264,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public getImageTosend(imageArr: Array<File>): void {
-    console.log(imageArr);
     this.imgArray = [...imageArr];
     this.checkFileExtensionAndSize(imageArr);
   }
