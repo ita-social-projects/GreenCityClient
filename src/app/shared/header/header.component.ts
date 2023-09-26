@@ -92,6 +92,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.imgAlt = this.isUBS ? 'Image ubs logo' : 'Image green city logo';
     this.localeStorageService.setUbsRegistration(this.isUBS);
     this.toggleHeader();
+    console.log(this.navLinks, 'navLinks');
     this.dialog.afterAllClosed.pipe(takeUntil(this.destroySub)).subscribe(() => {
       this.focusDone();
     });

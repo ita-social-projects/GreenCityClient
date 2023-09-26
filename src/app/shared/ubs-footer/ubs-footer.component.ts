@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
   templateUrl: './ubs-footer.component.html',
   styleUrls: ['./ubs-footer.component.scss']
 })
-export class UbsFooterComponent {
+export class UbsFooterComponent implements OnInit {
   public footerPicture = ubsHeaderIcons;
   public screenWidth = window.innerWidth;
   public currentYear = new Date().getFullYear();
@@ -22,11 +22,16 @@ export class UbsFooterComponent {
 
   constructor(private dialog: MatDialog) {}
 
+  ngOnInit() {
+    console.log(this.ubsNavLinks, 'ubsNavLinks');
+  }
+
   onResize() {
     this.screenWidth = window.innerWidth;
   }
 
-  public openAboutServicePopUp(): void {
+  public openAboutServicePopUp(event: Event): void {
+    event.preventDefault();
     const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -45,6 +50,6 @@ export class UbsFooterComponent {
 
   public onPressEnter(event: KeyboardEvent): void {
     event.preventDefault();
-    this.openAboutServicePopUp();
+    this.openAboutServicePopUp(event);
   }
 }

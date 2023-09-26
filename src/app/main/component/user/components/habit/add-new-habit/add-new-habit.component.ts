@@ -288,11 +288,15 @@ export class AddNewHabitComponent implements OnInit {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
+    console.log(habitAssignProperties, defailtItemsIds, this.standartShopList, 'habitAssignProperties');
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
-        this.customShopList.length > 0 ? this.addCustomHabitItems() : this.afterHabitWasChanged('habitAdded');
+        if (this.customShopList.length > 0) {
+          this.addCustomHabitItems();
+        }
+        this.afterHabitWasChanged('habitAdded');
       });
   }
 
