@@ -252,7 +252,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             this.localStorageService.setUbsBonusesOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
-            console.log('getNewOrderUrl');
             this.localStorageService.setUbsFondyOrderId(orderId);
             this.redirectToExternalUrl(this.shareFormService.orderUrl);
           }
