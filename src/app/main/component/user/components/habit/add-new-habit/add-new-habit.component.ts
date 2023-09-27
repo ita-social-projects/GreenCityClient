@@ -263,6 +263,9 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
+    this.habitResponse.shoppingListItems = this.standartShopList;
+    this.habitResponse.customShoppingListItems = this.customShopList;
+    this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
     this.localStorageService.setHabitForEdit(url, this.habitResponse);
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }

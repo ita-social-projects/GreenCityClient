@@ -51,6 +51,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   ngOnInit() {
     this.subscribeToLangChange();
     this.userId = this.localStorageService.getUserId();
+    this.newList.emit(this.shopList);
   }
 
   ngAfterViewChecked(): void {

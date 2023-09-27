@@ -107,9 +107,10 @@ describe('DragAndDropComponent', () => {
   });
 
   it('should render a Warning title', () => {
-    spyOn(component, 'showWarning');
-    let warning: HTMLElement;
-    warning = fixture.nativeElement.querySelector('.warning');
+    component.isWarning = true;
+    fixture.detectChanges();
+    const warning: HTMLElement = fixture.nativeElement.querySelector('.warning');
+    expect(warning).toBeTruthy();
     expect(warning.textContent).toContain('drag-and-drop.picture-tooltip');
   });
 
