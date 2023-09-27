@@ -64,7 +64,7 @@ export class HabitService {
     }
   }
 
-  prepareCustomHabitRequest(habit: any, lang: string) {
+  private prepareCustomHabitRequest(habit: any, lang: string): FormData {
     const body = {
       habitTranslations: [
         {
@@ -98,7 +98,7 @@ export class HabitService {
     return this.http.post<CustomHabitDtoRequest>(`${habitLink}/custom`, formData, this.httpOptions);
   }
 
-  changeCustomHabit(habit: any, lang: string) {
+  changeCustomHabit(habit: any, lang: string): Observable<CustomHabitDtoRequest> {
     const formData = this.prepareCustomHabitRequest(habit, lang);
     return this.http.put<CustomHabitDtoRequest>(`${habitLink}/update/${habit.id}`, formData, this.httpOptions);
   }
