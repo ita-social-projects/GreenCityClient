@@ -25,8 +25,12 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public editProfileForm: FormGroup;
   @ViewChild('placesRef') placesRef: ElementRef;
   private langChangeSub: Subscription;
-  cityName: string;
-  options: any;
+  private coordinates = { latitude: null, longitude: null };
+  private cityOptions = {
+    types: ['(cities)'],
+    componentRestrictions: { country: 'UA' },
+    language: this.getLangValue('ua', 'en')
+  };
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
@@ -84,10 +88,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.getInitialValue();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.options = {
-      types: ['(cities)'],
-      componentRestrictions: { country: 'UA' }
-    };
+    this.setPlaceAutocomplete();
   }
 
   ngDoCheck() {
@@ -113,14 +114,22 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   }
 
   public setPlaceAutocomplete(): void {
-    const regionOptions = {
-      types: ['(cities)'],
-      componentRestrictions: { country: 'UA' },
-      language: this.getLangValue('ua', 'en')
-    };
     this.mapsAPILoader.load().then(() => {
-      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, regionOptions);
+      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.cityOptions);
+      this.autocomplete.addListener('place_changed', () => {
+        const locationName = this.autocomplete.getPlace();
+        if (locationName.formatted_address) {
+          this.coordinates.latitude = locationName.geometry.location.lat();
+          this.coordinates.longitude = locationName.geometry.location.lng();
+          let indexLength = 7;
+          this.getControl('city').setValue(locationName.formatted_address.slice(0, -indexLength));
+        }
+      });
     });
+  }
+
+  onCityChange() {
+    this.getControl('city').setValue('');
   }
 
   public getFormInitialValues(data): void {
@@ -140,9 +149,6 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       })
     };
     this.editProfileForm.markAllAsTouched();
-  }
-  public onCityChange(event) {
-    this.cityName = event.formatted_address.split(',')[0];
   }
 
   public emitSocialLinks(val: string[]) {

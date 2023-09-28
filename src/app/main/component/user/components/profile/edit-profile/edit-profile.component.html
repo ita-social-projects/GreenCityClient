@@ -25,7 +25,7 @@
               matGoogleMapsAutocomplete
               class="shadow-none form-control"
               formControlName="city"
-              (input)="setPlaceAutocomplete()"
+              (change)="onCityChange()"
               placeholder="{{ 'user.edit-profile.user-location' | translate }}"
             />
           </div>
