@@ -75,7 +75,7 @@
     "quill-emoji": "^0.2.0",
     "quill-image-resize": "^3.0.9",
     "quill-image-resize-module": "^3.0.0",
-    "quill-mention": "^2.2.7",
+    "quill-mention": "^4.0.0",
     "rxjs": "~6.6.7",
     "sockjs-client": "^1.5.0",
     "tslib": "^2.5.0",
