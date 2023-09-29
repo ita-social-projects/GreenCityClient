@@ -1,8 +1,11 @@
+.profile-container {
+  background-color: var(--after-primary-light-grey);
+}
+
 .profile-wrapper {
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: 32px;
-  background-color: var(--after-primary-light-grey);
 
   .left-column {
     width: 100%;
@@ -26,13 +29,16 @@
   }
 }
 
-@media (min-width: 576px) {
+@media (max-width: 768px) {
   .profile-wrapper {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     .left-column {
       order: 1;
+      width: 100vw;
+      min-height: 322px;
     }
 
     .habits-dashboard {
@@ -43,6 +49,7 @@
     .right-column {
       display: block;
       order: 2;
+      width: 100%;
 
       .app-profile-cards {
         display: none;
@@ -54,7 +61,7 @@
 @media (min-width: 768px) {
   .profile-wrapper {
     display: grid;
-    grid-template-columns: 225px 483px;
+    grid-template-columns: 219px 1fr;
     grid-template-rows: 156px 1fr;
     grid-gap: 32px;
     justify-content: center;
@@ -117,5 +124,11 @@
 @media (min-width: 1200px) {
   .profile-wrapper {
     grid-template-columns: 261px 554px 261px;
+  }
+}
+
+@media (max-width: 575px) {
+  .left-column {
+    height: 430px;
   }
 }

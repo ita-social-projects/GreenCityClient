@@ -346,6 +346,7 @@ header {
 
       .header_navigation-menu-right-lang {
         padding-left: 0;
+
         &:hover {
           cursor: pointer;
         }
@@ -964,8 +965,7 @@ header {
     }
   }
 
-  .container-fluid,
-  .container {
+  .container-fluid {
     .header_container {
       height: 86px;
     }

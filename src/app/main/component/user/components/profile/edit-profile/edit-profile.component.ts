@@ -121,7 +121,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         if (locationName.formatted_address) {
           this.coordinates.latitude = locationName.geometry.location.lat();
           this.coordinates.longitude = locationName.geometry.location.lng();
-          let indexLength = 7;
+          const indexLength = 7;
           this.getControl('city').setValue(locationName.formatted_address.slice(0, -indexLength));
         }
       });

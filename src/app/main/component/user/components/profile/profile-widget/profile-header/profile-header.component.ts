@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EditProfileModel } from '@user-models/edit-profile.model';
@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { take } from 'rxjs/operators';
 import { ProfileService } from '../../profile-service/profile.service';
+import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 
 @Component({
   selector: 'app-profile-header',
@@ -30,6 +31,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   @Input() public userInfo: EditProfileModel;
   public isUserOnline: boolean;
   public showEditButton: boolean;
+  public getScreenWidth: number;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -45,11 +47,28 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.icons = this.profileService.icons;
   }
 
+  @HostListener('window:resize') public onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+  }
+
   get checkUserCredo(): number {
     if (this.userInfo && this.userInfo.userCredo) {
       return this.userInfo.userCredo.length;
     }
     return 0;
+  }
+
+  getCredoLength() {
+    if (this.getScreenWidth > Breakpoints.pcBig) {
+      return 110;
+    }
+    if (this.getScreenWidth < Breakpoints.tabletLow) {
+      return 100;
+    }
+    if (this.getScreenWidth < Breakpoints.tabletMidle) {
+      return 170;
+    }
+    return 90;
   }
 
   public getSocialImage(socialNetwork: string): string {
