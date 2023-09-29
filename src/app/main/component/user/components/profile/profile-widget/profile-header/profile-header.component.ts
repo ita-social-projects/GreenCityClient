@@ -58,8 +58,8 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     return 0;
   }
 
-  getCredoLength() {
-    if (this.getScreenWidth > Breakpoints.pcBig) {
+  getCredoLength(): number {
+    if (this.getScreenWidth > Breakpoints.pcLow) {
       return 110;
     }
     if (this.getScreenWidth < Breakpoints.tabletLow) {

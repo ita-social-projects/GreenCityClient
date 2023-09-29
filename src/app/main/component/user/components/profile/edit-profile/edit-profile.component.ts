@@ -121,11 +121,18 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
         if (locationName.formatted_address) {
           this.coordinates.latitude = locationName.geometry.location.lat();
           this.coordinates.longitude = locationName.geometry.location.lng();
-          const indexLength = 7;
-          this.getControl('city').setValue(locationName.formatted_address.slice(0, -indexLength));
+          this.getControl('city').setValue(this.getCityCountryFormat(locationName.formatted_address));
         }
       });
     });
+  }
+
+  private getCityCountryFormat(address: string): string {
+    const postIndexLength = 7;
+    if (address.split(', ').length === 3) {
+      return address.slice(0, -postIndexLength);
+    }
+    return `${address.split(', ')[0]}, ${address.split(', ')[2] || ''}`;
   }
 
   onCityChange() {

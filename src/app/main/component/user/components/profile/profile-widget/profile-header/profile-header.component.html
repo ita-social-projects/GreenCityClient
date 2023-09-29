@@ -8,9 +8,7 @@
         [additionalImgClass]="'profile-avatar'"
       >
       </app-user-profile-image>
-      <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon">
-        <!-- <button class="edit-icon"></button> -->
-      </a>
+      <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>
     </div>
 
     <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ userInfo.name | maxTextLength: 15 }}</p>
