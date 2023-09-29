@@ -228,6 +228,7 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitShopList(this.habitId)
       .pipe(take(1))
       .subscribe((res) => {
+        console.log(res, 'getStandartShopList');
         this.initialShoppingList = res;
       });
   }
@@ -237,6 +238,7 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
+        console.log(res, 'getCustomShopList');
         res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
       });
@@ -304,6 +306,7 @@ export class AddNewHabitComponent implements OnInit {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
+    console.log(customItemsList, 'customItemsList');
     this.shopListService
       .addHabitCustomShopList(this.userId, this.habitId, customItemsList)
       .pipe(take(1))
