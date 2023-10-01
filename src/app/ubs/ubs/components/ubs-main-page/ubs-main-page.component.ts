@@ -173,6 +173,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       this.openAuthModalWindow();
     }
     this.cleanOrderState();
+    localStorage.removeItem('UBSExistingOrderId');
   }
 
   public openAuthModalWindow(): void {
