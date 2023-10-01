@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { ubsHeaderIcons } from '../../main/image-pathes/header-icons';
   templateUrl: './ubs-footer.component.html',
   styleUrls: ['./ubs-footer.component.scss']
 })
-export class UbsFooterComponent implements OnInit {
+export class UbsFooterComponent {
   public footerPicture = ubsHeaderIcons;
   public screenWidth = window.innerWidth;
   public currentYear = new Date().getFullYear();
@@ -21,10 +21,6 @@ export class UbsFooterComponent implements OnInit {
   @ViewChild('serviceref') serviceref: ElementRef;
 
   constructor(private dialog: MatDialog) {}
-
-  ngOnInit() {
-    console.log(this.ubsNavLinks, 'ubsNavLinks');
-  }
 
   onResize() {
     this.screenWidth = window.innerWidth;

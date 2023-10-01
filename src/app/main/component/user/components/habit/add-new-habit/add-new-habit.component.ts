@@ -228,7 +228,6 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitShopList(this.habitId)
       .pipe(take(1))
       .subscribe((res) => {
-        console.log(res, 'getStandartShopList');
         this.initialShoppingList = res;
       });
   }
@@ -238,7 +237,6 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
-        console.log(res, 'getCustomShopList');
         res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
       });
@@ -290,12 +288,11 @@ export class AddNewHabitComponent implements OnInit {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
-    console.log(habitAssignProperties, defailtItemsIds, this.standartShopList, 'habitAssignProperties');
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
-        if (this.customShopList.length > 0) {
+        if (this.customShopList.length) {
           this.addCustomHabitItems();
         }
         this.afterHabitWasChanged('habitAdded');
@@ -306,7 +303,6 @@ export class AddNewHabitComponent implements OnInit {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
-    console.log(customItemsList, 'customItemsList');
     this.shopListService
       .addHabitCustomShopList(this.userId, this.habitId, customItemsList)
       .pipe(take(1))
