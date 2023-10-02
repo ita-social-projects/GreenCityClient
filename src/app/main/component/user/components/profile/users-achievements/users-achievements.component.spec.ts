@@ -26,16 +26,4 @@ describe('UsersAchievementsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should set isEngLang to true when currLang is "en"', () => {
-    component.currLang = 'en';
-    component.ngOnChanges();
-    expect(component.isEngLang).toBeTruthy();
-  });
-
-  it('should set isEngLang to false when currLang is "ua"', () => {
-    component.currLang = 'ua';
-    component.ngOnChanges();
-    expect(component.isEngLang).toBeFalsy();
-  });
 });

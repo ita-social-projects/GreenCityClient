@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 
 @Component({
@@ -6,13 +6,8 @@ import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
   templateUrl: './users-achievements.component.html',
   styleUrls: ['./users-achievements.component.scss']
 })
-export class UsersAchievementsComponent implements OnChanges {
+export class UsersAchievementsComponent {
   public achievementsImages = PROFILE_IMAGES.achs;
-  public isEngLang: boolean;
 
   @Input() currLang: string;
-
-  ngOnChanges(): void {
-    this.isEngLang = this.currLang === 'en';
-  }
 }
