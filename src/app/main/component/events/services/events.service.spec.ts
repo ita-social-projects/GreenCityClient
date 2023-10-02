@@ -46,6 +46,25 @@ describe('EventsService', () => {
     title: 'string',
     titleImage: 'string'
   };
+
+  const dataAdrress = [
+    {
+      cityEn: 'string',
+      cityUa: 'string',
+      countryEn: 'string',
+      countryUa: 'string',
+      formattedAddressEn: 'string',
+      formattedAddressUa: 'string',
+      houseNumber: 'string',
+      latitude: 0,
+      longitude: 0,
+      regionEn: 'string',
+      regionUa: 'string',
+      streetEn: 'string',
+      streetUa: 'string'
+    }
+  ];
+
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -170,5 +189,15 @@ describe('EventsService', () => {
     const req = httpTestingController.expectOne(`${url}events/removeAttender/156`);
     expect(req.request.method).toEqual('DELETE');
     req.flush(data);
+  });
+
+  it('should make GET request to retrieve addresses', () => {
+    service.getAddreses().subscribe((addresses: any) => {
+      expect(addresses).toEqual(dataAdrress);
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/addresses`);
+    expect(req.request.method).toEqual('GET');
+    req.flush(dataAdrress);
   });
 });
