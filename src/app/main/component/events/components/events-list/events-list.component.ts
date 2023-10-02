@@ -147,7 +147,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.searchFilterWords.setValue('');
   }
 
-  updateSelectedFilters(value: any, event): void {
   public updateSelectedFilters(
     value: OptionItem,
     event: MatOptionSelectionChange,
