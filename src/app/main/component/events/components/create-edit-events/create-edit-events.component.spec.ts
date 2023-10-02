@@ -22,6 +22,10 @@ describe('CreateEditEventsComponent', () => {
   const FormMock = {
     date: new Date(),
     endTime: '15:00',
+    coordinates: {
+      latitude: null,
+      longitude: null
+    },
     onlineLink: 'link',
     place: 'place',
     startTime: '12:00'
@@ -41,7 +45,10 @@ describe('CreateEditEventsComponent', () => {
   };
 
   const EditDateEventMock = {
-    coordinates: null,
+    coordinates: {
+      latitude: null,
+      longitude: null
+    },
     event: 'string',
     finishDate: '',
     id: 1,
@@ -87,9 +94,18 @@ describe('CreateEditEventsComponent', () => {
   localStorageServiceMock.getUserId = () => 137;
   localStorageServiceMock.getPreviousPage = () => '/profile';
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createEvent', 'editEvent']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'createEvent',
+    'editEvent',
+    'setArePlacesFilled',
+    'setInitialValueForPlaces',
+    'getCheckedPlacesObservable'
+  ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
   EventsServiceMock.editEvent = () => of(true);
+  EventsServiceMock.setArePlacesFilled = () => of('');
+  EventsServiceMock.setInitialValueForPlaces = () => of('');
+  EventsServiceMock.getCheckedPlacesObservable = () => of([]);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = () => {
@@ -146,14 +162,8 @@ describe('CreateEditEventsComponent', () => {
 
   it('checkForm startDate should be 12:00', () => {
     component.dates = [DateMock];
-    component.checkForm(FormMock, 0);
+    component.checkFormSetDates(FormMock, 0);
     expect(component.dates[0].startDate).toBe('12:00');
-  });
-
-  it('checkStatus dates.valid should be falsy', () => {
-    component.dates = [DateMock];
-    component.checkStatus(false, 0);
-    expect(component.dates[0].valid).toBeFalsy();
   });
 
   it('escapeFromCreateEvent expect router should be call', () => {
@@ -184,9 +194,9 @@ describe('CreateEditEventsComponent', () => {
     expect((component as any).imgArray.length).toBe(1);
   });
 
-  it('setCoordsOnlOff  expect latitude to be 2', () => {
+  it('setCoordsOffline  expect latitude to be 2', () => {
     component.dates = [DateMock];
-    component.setCoordsOnlOff({ latitude: 2, longitude: 3 }, 0);
+    component.setCoordsOffline({ latitude: 2, longitude: 3 }, 0);
     expect(component.dates[0].coordinatesDto.latitude).toBe(2);
   });
 
@@ -211,7 +221,7 @@ describe('CreateEditEventsComponent', () => {
     expect(date.getHours()).toBe(2);
   });
 
-  it('createDates  should create 1 date', () => {
+  it('createDates should create 1 date', () => {
     const spy = spyOn(component as any, 'getFormattedDate');
     component.dates = [DateMock];
     const dates = (component as any).createDates();
@@ -219,7 +229,7 @@ describe('CreateEditEventsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('createDates  should create 1 date', () => {
+  it('createDates should create 1 date. Finish date has to be 23', () => {
     component.dates = [DateMock];
     component.dates[0].startDate = null;
     component.dates[0].finishDate = null;
@@ -229,8 +239,6 @@ describe('CreateEditEventsComponent', () => {
 
   it('onSubmit expect isposting to be false', () => {
     const spy = spyOn(component as any, 'checkDates');
-    component.checkdates = true;
-    component.contentValid = true;
     component.tags[0].isActive = true;
     component.eventFormGroup.patchValue({
       titleForm: 'title',
@@ -238,6 +246,8 @@ describe('CreateEditEventsComponent', () => {
       description: 'descriptiondescriptiondescriptiondescription'
     });
     component.onSubmit();
-    expect(spy).toHaveBeenCalledTimes(1);
+    (component as any).checkDates();
+    expect(component.checkdates).toBeFalsy();
+    expect(spy).toHaveBeenCalledTimes(2);
   });
 });

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -12,6 +12,9 @@ import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Store } from '@ngrx/store';
+import { UpdatePersonalData } from 'src/app/store/actions/order.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -63,6 +66,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private langService: LanguageService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
+    private store: Store,
     router: Router,
     dialog: MatDialog
   ) {
@@ -166,9 +170,20 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isFinalSumZero = orderDetails.finalSum <= 0;
       this.isTotalAmountZero = orderDetails.total === 0;
     });
-    this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
-      this.personalData = personalData;
-    });
+
+    this.store
+      .select((state: IAppState): PersonalData => state.order.personalData)
+      .pipe(
+        takeUntil(this.destroy),
+        mergeMap((statePersonalData: PersonalData) => {
+          return this.shareFormService.changedPersonalData.pipe(
+            map((personalData: PersonalData) => {
+              this.personalData = statePersonalData || personalData;
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 
   finalizeGetOrderUrl(): void {
@@ -187,6 +202,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     if (!this.isPaymentWithMoney) {
       localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
     }
+    this.cleanPersonalDataState();
   }
 
   public getExistingOrderUrl(): void {
@@ -206,6 +222,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
           this.shareFormService.orderUrl = '';
           this.localStorageService.removeUBSExistingOrderId();
           this.shareFormService.orderUrl = link.toString();
+          console.log('getExistingOrderUrl');
           this.localStorageService.setUbsFondyOrderId(orderId);
           this.redirectToExternalUrl(this.shareFormService.orderUrl);
         },
@@ -235,6 +252,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             this.localStorageService.setUbsBonusesOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
+            console.log('getNewOrderUrl');
             this.localStorageService.setUbsFondyOrderId(orderId);
             this.redirectToExternalUrl(this.shareFormService.orderUrl);
           }
@@ -257,5 +275,9 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public cleanPersonalDataState(): void {
+    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }

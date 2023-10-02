@@ -54,6 +54,7 @@
 
   .main-data-input,
   .main-data-input-password {
+    position: relative;
     border: 1px solid var(--secondary-grey);
     border-radius: 5px;
     width: 100%;
@@ -80,10 +81,13 @@
     .password-input {
       border: transparent;
       border-radius: 5px;
-      width: 90%;
+      width: 100%;
     }
 
     .show-password-img {
+      position: absolute;
+      top: 10px;
+      right: 18px;
       align-self: center;
       width: 16px;
       height: 16px;

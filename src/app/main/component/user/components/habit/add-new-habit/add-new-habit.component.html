@@ -77,6 +77,14 @@
       <button class="primary-global-button habit-btn" type="button" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
+      <button
+        class="primary-global-button habit-btn"
+        type="button"
+        *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
+        (click)="editUsersCustomHabit(habitAssignId ? 'edithabit' : 'addhabit', habitResponse.id)"
+      >
+        {{ 'user.habit.btn.edit' | translate }}
+      </button>
     </div>
     <div *ngIf="isEditing && !isAcquired" class="add-habit-container">
       <button class="tertiary-global-button habit-btn" (click)="giveUpHabit()">
@@ -87,6 +95,14 @@
       </button>
       <button class="primary-global-button habit-btn" type="button" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
+      </button>
+      <button
+        class="primary-global-button habit-btn"
+        type="button"
+        *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
+        (click)="editUsersCustomHabit('edithabit', habitAssignId ? habitAssignId : habitResponse.id)"
+      >
+        Edit Habit
       </button>
     </div>
   </div>

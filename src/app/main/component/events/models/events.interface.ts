@@ -25,19 +25,19 @@ export interface Dates {
     latitude: number;
     longitude: number;
   } | null;
-  onlineLink: string;
+  onlineLink?: string;
   id?: number;
 }
 
 export interface DateEvent {
-  date: Date;
+  date?: Date;
   startDate: string;
   finishDate: string;
-  coordinatesDto: {
+  coordinatesDto?: {
     latitude: number;
     longitude: number;
   };
-  onlineLink: string;
+  onlineLink?: string;
   valid: boolean;
   check: boolean;
 }
@@ -101,20 +101,23 @@ export interface TagDto {
   nameUa: string;
   nameEn: string;
 }
+
+export interface Coordinates {
+  cityEn: string;
+  cityUa: string;
+  latitude: number;
+  longitude: number;
+  countryEn: string;
+  countryUa: string;
+  houseNumber: number;
+  regionEn: string;
+  regionUa: string;
+  streetEn: string;
+  streetUa: string;
+}
+
 export interface DateEventResponceDto {
-  coordinates: {
-    cityEn: string;
-    cityUa: string;
-    latitude: number;
-    longitude: number;
-    countryEn: string;
-    countryUa: string;
-    houseNumber: number;
-    regionEn: string;
-    regionUa: string;
-    streetEn: string;
-    streetUa: string;
-  };
+  coordinates: Coordinates;
   event: string;
   finishDate: string;
   id: number;
@@ -139,6 +142,10 @@ export interface DateFormObj {
   onlineLink?: string;
   place: string;
   startTime?: string;
+  coordinatesDto?: {
+    latitude: number;
+    longitude: number;
+  };
 }
 
 export interface PagePreviewDTO {
@@ -154,4 +161,10 @@ export interface PagePreviewDTO {
 export interface InitialStartDate {
   initialDate: Date;
   initialStartTime: string;
+}
+export interface EventFilterCriteriaIntarface {
+  eventTime: Array<string>;
+  cities: Array<string>;
+  statuses: Array<string>;
+  tags: Array<string>;
 }

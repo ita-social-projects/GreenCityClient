@@ -5,6 +5,8 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { of } from 'rxjs';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('WarningPopUpComponent', () => {
   let component: WarningPopUpComponent;
@@ -27,13 +29,17 @@ describe('WarningPopUpComponent', () => {
     popupConfirm: 'popupConfirm'
   };
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WarningPopUpComponent],
-      imports: [TranslateModule.forRoot(), MatDialogModule, BrowserDynamicTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, BrowserDynamicTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         { provide: MatDialogRef, useValue: dialogRefStub },
-        { provide: MAT_DIALOG_DATA, useValue: popupDataStub }
+        { provide: MAT_DIALOG_DATA, useValue: popupDataStub },
+        { provide: Store, useValue: storeMock }
       ]
     }).compileComponents();
   }));

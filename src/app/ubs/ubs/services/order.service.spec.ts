@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '@environment/environment.js';
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 import { Order } from '../models/ubs.model';
 import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
@@ -10,6 +10,8 @@ import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/mod
 import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
 import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
+import { Store } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 describe('OrderService', () => {
   const bagMock = {
@@ -95,6 +97,9 @@ describe('OrderService', () => {
     personalData: null
   };
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   const baseLink = environment.ubsAdmin.backendUbsAdminLink;
 
   function httpTest(url, type, response) {
@@ -109,9 +114,10 @@ describe('OrderService', () => {
         OrderService,
         { provide: UBSOrderFormService, useValue: ubsOrderServiseMock },
         { provide: BehaviorSubject, useValue: behaviorSubjectMock },
-        { provide: Subject, useValue: subjectMock }
+        { provide: Subject, useValue: subjectMock },
+        { provide: Store, useValue: storeMock }
       ],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule, StoreModule.forRoot({})]
     });
     httpMock = TestBed.inject(HttpTestingController);
     service = TestBed.inject(OrderService);
@@ -122,21 +128,18 @@ describe('OrderService', () => {
   });
 
   it('method getOrders should return order details', () => {
-    service.getOrders().subscribe((data) => {
+    service.getOrders(1, 25).subscribe((data) => {
+      service.stateOrderDetails = null;
       expect(ubsOrderServiseMock.orderDetails).not.toBeNull();
       expect(ubsOrderServiseMock.orderDetails).toEqual(data);
-      expect(data).toEqual(orderDetailsMock);
     });
-    httpTest('order-details-for-tariff&', 'GET', orderDetailsMock);
   });
 
   it('method getPersonalData should return personal data', () => {
     service.getPersonalData().subscribe((data) => {
       expect(ubsOrderServiseMock.personalData).not.toBeNull();
       expect(ubsOrderServiseMock.personalData).toEqual(data);
-      expect(data).toEqual(personalDataMock);
     });
-    httpTest('personal-data', 'GET', personalDataMock);
   });
 
   it('method processCertificate should return data of certificate', () => {

@@ -9,7 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { EventDateTimePickerComponent } from './event-date-time-picker.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { EventsService } from '../../services/events.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { BehaviorSubject, of } from 'rxjs';
@@ -25,8 +25,16 @@ describe('EventDateTimePickerComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
 
-  const EventsServiceMock = jasmine.createSpyObj('eventService', ['createAdresses']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'createAdresses',
+    'setArePlacesFilled',
+    'getCheckedPlacesObservable',
+    'setInitialValueForPlaces'
+  ]);
   EventsServiceMock.createAdresses = () => of('');
+  EventsServiceMock.setArePlacesFilled = () => of('');
+  EventsServiceMock.setInitialValueForPlaces = () => of('');
+  EventsServiceMock.getCheckedPlacesObservable = () => of([]);
 
   const editDateMock = {
     coordinates: {
@@ -93,7 +101,7 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('ngOnInit expect dateForm toBeTruthy ', () => {
-    const spy = spyOn(component as any, 'setEditData');
+    const spy = spyOn(component as any, 'setDataEditing');
     component.editDate = editDateMock;
     component.dateForm = null;
     component.ngOnInit();
@@ -108,41 +116,45 @@ describe('EventDateTimePickerComponent', () => {
   });
 
   it('component should initialize from with correct parameters', () => {
-    const startTime = new Date().getHours() + 1 !== 24 ? (new Date().getHours() + 1).toLocaleString() + ':00' : '0:00';
+    const curHour = new Date().getHours();
+    const startTime = curHour !== 23 ? `${curHour + 1}:00` : '0:00';
+    const curDay = new Date().getDate();
+    const minDate = new Date().setDate(curDay + (curHour !== 23 ? 0 : 1));
+    component.firstFormIsSucceed = true;
     component.ngOnInit();
-    expect(component.dateForm.get('date').value).toEqual(new Date());
+    expect(component.dateForm.get('date').value.toString()).toEqual(new Date(minDate).toString());
     expect(component.dateForm.get('startTime').value).toEqual(startTime);
     expect(component.dateForm.get('endTime').value).toEqual('');
   });
 
-  it('setEditData will be invoke at onInit', () => {
-    const spy = spyOn(component as any, 'setEditData');
+  it('setDataEditing will be invoke at onInit', () => {
+    const spy = spyOn(component as any, 'setDataEditing');
     component.editDate = editDateMock;
     component.isDateDuplicate = true;
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('setEditData expect onlinelink to be http:/event ', () => {
+  it('setDataEditing expect onlinelink to be http:/event ', () => {
     const spy = spyOn(component.dateForm, 'patchValue').and.callThrough();
     component.editDate = editDateMock;
-    (component as any).setEditData();
+    (component as any).setDataEditing();
 
     expect(component.checkOnlinePlace).toBeTruthy();
     expect(component.dateForm.get('onlineLink').value).toBe('http://event');
-    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenCalledTimes(3);
 
     component.editDate = null;
   });
 
   it('checkIfAllDay expect startTime.disabled to be true', () => {
-    component.checkTime = false;
+    component.checkedAllDay = false;
     component.checkIfAllDay();
     expect(component.dateForm.get('startTime').disabled).toBeTruthy();
   });
 
   it('checkIfAllDay expect startTime.disabled to be false', () => {
-    component.checkTime = true;
+    component.checkedAllDay = true;
     component.checkIfAllDay();
     expect(component.dateForm.get('startTime').disabled).toBeFalsy();
   });

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 
 @Component({
@@ -8,4 +8,5 @@ import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 })
 export class UsersAchievementsComponent {
   public achievementsImages = PROFILE_IMAGES.achs;
+  @Input() currLang: string;
 }

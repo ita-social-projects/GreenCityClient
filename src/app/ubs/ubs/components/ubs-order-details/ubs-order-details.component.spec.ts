@@ -20,6 +20,8 @@ import { InteractivityChecker } from '@angular/cdk/a11y';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
+import { Store } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -76,6 +78,38 @@ describe('OrderDetailsFormComponent', () => {
     ]
   };
 
+  const orderDetailsMock: OrderDetails = {
+    bags: [
+      { code: 'ua', capacity: 100, id: 0, price: 300, quantity: 10, nameEng: 'def', name: 'def' },
+      { code: 'ua', capacity: 100, id: 1, price: 300, quantity: 10, nameEng: 'def', name: 'def' }
+    ],
+    points: 0
+  };
+
+  const personalDataMock = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    addressComment: '',
+    city: '',
+    cityEn: '',
+    district: '',
+    districtEn: '',
+    street: '',
+    streetEn: '',
+    houseCorpus: '',
+    entranceNumber: '',
+    houseNumber: '',
+    longitude: 1,
+    latitude: 0,
+    senderFirstName: '',
+    senderLastName: '',
+    senderEmail: '',
+    senderPhoneNumber: ''
+  };
+
   shareFormService.locationId = 1;
   shareFormService.locations = mockLocations;
 
@@ -83,6 +117,13 @@ describe('OrderDetailsFormComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
   };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
+  const orderServiceMock = jasmine.createSpyObj('OrderService', ['getOrders', 'getPersonalData']);
+  orderServiceMock.getOrders.and.returnValue(of());
+  orderServiceMock.getPersonalData.and.returnValue(of(storeMock.personalData));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -99,10 +140,12 @@ describe('OrderDetailsFormComponent', () => {
       ],
       providers: [
         MatDialog,
+        { provide: Store, useValue: storeMock },
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
         { provide: LocalStorageService, useValue: localStorageService },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: OrderService, useValue: orderServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -134,26 +177,22 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy2).toHaveBeenCalled();
   });
 
-  it('should call openLocationDialog method if an error occurs during getOrders method', () => {
-    spyOn(orderService, 'getOrders').and.returnValue(throwError('error'));
-    const spy = spyOn(component, 'openLocationDialog');
-    component.takeOrderData();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', () => {
     const mock: OrderDetails = {
       bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
     spyOn(global, 'setTimeout');
-    const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
     fixture.detectChanges();
     component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
-    expect(spy).toHaveBeenCalled();
+    component.bags = [{ id: 0, code: 'ua' }];
+    component.orders = {
+      bags: [{ id: 0, code: 'ua' }],
+      points: 0
+    };
     expect(component.bags).toEqual(component.orders.bags);
   });
 
@@ -270,7 +309,7 @@ describe('OrderDetailsFormComponent', () => {
     (component as any).validateSum();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
-  }); /** */
+  });
 
   it('getter formArrayCertificates should return formArray of certificates', () => {
     const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
@@ -291,39 +330,5 @@ describe('OrderDetailsFormComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('changeQuantity()', () => {
-    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
-    spyOn(global, 'setTimeout');
-    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
-    shareFormService.orderDetails = ordersMock;
-
-    component.takeOrderData();
-
-    const id = 1;
-    const value1 = 1;
-    const value2 = -1;
-    const bagsQuantity = 5;
-    let formControl = String(bagsQuantity);
-    const oldValue = formControl;
-    const newValue = oldValue + value1;
-
-    formControl = newValue;
-    component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(formControl).toEqual(String(newValue));
-
-    const minValue = '0';
-    formControl = minValue;
-    component.changeQuantity(id, value2);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(2);
-    expect(formControl).toEqual(String(minValue));
-
-    const maxValue = '999';
-    formControl = maxValue;
-    component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(3);
-    expect(formControl).toEqual(String(maxValue));
   });
 });

@@ -2,7 +2,7 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -28,6 +28,7 @@ declare var google: any;
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isUbs: boolean;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -40,7 +41,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
-  public isUbs: boolean;
   public isEventsDetails: boolean;
   public eventId: string;
   public isOwnerParams: boolean;
@@ -75,7 +75,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.isUbs = this.router.url.includes('ubs');
     this.isEventsDetails = this.router.url.includes('isOwner');
     this.eventId = this.route.snapshot.params?.id;
     this.isOwnerParams = this.router.url.includes('isOwner=true');

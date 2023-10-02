@@ -86,7 +86,7 @@
           "liked": "Liked",
           "comment": "Comment",
           "edit": "Edit",
-          "edited": "edited",
+          "edited": "Edited",
           "delete": "Delete",
           "save": "Save changes",
           "close": "Close",
@@ -184,6 +184,7 @@
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}'. Please change the search.",
+      "not-found-friends-text": "We didn't find any results matching this search.",
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -708,7 +709,8 @@
     "habit": {
       "btn": {
         "back-to-habit": "Back to my habits",
-        "save": "Save",
+        "save": "Save Changes",
+        "edit": "Edit Habit",
         "give-up": "Give up",
         "acquire": "Acquire",
         "add": "Add Habit",
@@ -760,6 +762,7 @@
       },
       "add-new-habit": {
         "create-habit": "Create habit",
+        "edit-habit": "Edit habit",
         "create-habit-subtitle": "Please provide as many details as you can - choose thematic sections and the duration of the habit, add a to-do list, etc. You can come back and update habit anytime after publishing.",
         "habit-title": "Habit title",
         "habit-title-placeholder": "Enter name for the habit",
@@ -1005,7 +1008,7 @@
       "request-decline": "Decline",
       "request-accept": "Accept",
       "all-friends": "All friends",
-      "search-friends": "Find friends",
+      "search-friends": "Find a friend",
       "found-amount": "of people found"
     }
   },
