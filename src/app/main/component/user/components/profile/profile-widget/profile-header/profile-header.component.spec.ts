@@ -76,4 +76,17 @@ describe('ProfileHeaderComponent', () => {
 
     expect(result).toBe(imgPath);
   });
+
+  it('should define getScreenWidth when window is resized', () => {
+    window.dispatchEvent(new Event('resize'));
+    expect(component.getScreenWidth).toBeDefined();
+  });
+
+  it('should count credo length according to window width', () => {
+    const windowWidth = { 1400: 110, 570: 100, 755: 170, 800: 90 };
+    Object.keys(windowWidth).forEach((key) => {
+      component.getScreenWidth = Number(key);
+      expect(component.getCredoLength()).toBe(windowWidth[key]);
+    });
+  });
 });

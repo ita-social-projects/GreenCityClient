@@ -324,7 +324,7 @@ header {
   .header_navigation-menu-right {
     position: relative;
     height: 80%;
-    flex: 0.6;
+    flex: 0;
 
     .header_navigation-menu-right-list {
       .search-icon,
@@ -345,6 +345,12 @@ header {
       }
 
       .header_navigation-menu-right-lang {
+        padding-left: 0;
+
+        &:hover {
+          cursor: pointer;
+        }
+
         .lang-option {
           span {
             font-size: 14px;
@@ -959,8 +965,7 @@ header {
     }
   }
 
-  .container-fluid,
-  .container {
+  .container-fluid {
     .header_container {
       height: 86px;
     }
