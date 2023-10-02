@@ -96,6 +96,7 @@
       <mat-card class="event-main-block right">
         <app-images-container
           [imagesEditArr]="imagesForEdit"
+          [isImagesArrayEmpty]="isImagesArrayEmpty"
           (imgArrayOutput)="getImageTosend($event)"
           (deleteImagesOutput)="getImagesToDelete($event)"
           (oldImagesOutput)="getOldImages($event)"

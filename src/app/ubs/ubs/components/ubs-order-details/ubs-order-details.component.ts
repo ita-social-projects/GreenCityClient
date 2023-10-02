@@ -129,6 +129,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
           this.localStorageService.setLocations(this.locations);
           this.setLocation(this.locationId);
           this.takeOrderData();
+          this.calculateTotal();
         });
     } else if (this.shareFormService.locationId) {
       this.locationId = this.shareFormService.locationId;
@@ -328,6 +329,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.displayMinOrderMes = result.min;
     this.displayMaxOrderMes = result.max;
     this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+    this.changeSecondStepDisabled(this.courierLimitValidation);
   }
 
   private validateBags(): void {

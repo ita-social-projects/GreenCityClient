@@ -1,5 +1,5 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -28,6 +28,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-events-list',
@@ -70,7 +71,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[] = eventStatusList;
   public eventLocationList: OptionItem[] = [];
-  private optionsList: any;
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
@@ -83,12 +83,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     public injector: Injector,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
   }
 
   ngOnInit(): void {
+    this.eventService.getAddreses().subscribe((addresses) => {
+      this.eventLocationList = this.getUniqueCities(addresses);
+    });
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -104,7 +108,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
-        this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
     });
     this.getUserFriendsList();
@@ -175,6 +178,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.addToEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
     }
+    this.hasNext = true;
+    this.page = 0;
     this.dispatchStore(true);
   }
 
@@ -227,18 +232,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUniqueCities(events: EventPageResponceDto[]): OptionItem[] {
-    const cities: OptionItem[] = [];
-    events.forEach((event) => {
-      if (event.dates[0].coordinates) {
-        const { cityEn, cityUa } = event.dates[0].coordinates;
-        const cityExists = cities.some((city) => {
-          return city.nameEn === cityEn && city.nameUa === cityUa;
-        });
-        if (!cityExists) {
-          cities.push({ nameEn: cityEn, nameUa: cityUa });
+  getUniqueCities(addresses: Array<Addresses>): OptionItem[] {
+    const uniqueCities = new Set();
+
+    addresses.forEach((address: Addresses) => {
+      if (address) {
+        const { cityEn, cityUa } = address;
+        if (cityEn !== null) {
+          uniqueCities.add(`${cityEn}-${cityUa}`);
         }
       }
+    });
+    const cities = Array.from(uniqueCities).map((city: string) => {
+      const [nameEn, nameUa] = city.split('-');
+      return { nameEn, nameUa };
     });
     return cities;
   }
