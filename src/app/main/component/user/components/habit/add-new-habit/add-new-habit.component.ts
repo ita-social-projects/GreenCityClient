@@ -292,7 +292,10 @@ export class AddNewHabitComponent implements OnInit {
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
-        this.customShopList.length > 0 ? this.addCustomHabitItems() : this.afterHabitWasChanged('habitAdded');
+        if (this.customShopList.length) {
+          this.addCustomHabitItems();
+        }
+        this.afterHabitWasChanged('habitAdded');
       });
   }
 

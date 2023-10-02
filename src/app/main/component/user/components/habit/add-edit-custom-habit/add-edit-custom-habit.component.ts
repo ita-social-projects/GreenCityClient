@@ -160,6 +160,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         text: item.text
       };
     });
+    console.log(this.newList, 'new list');
     this.getControl('shopList').setValue(this.newList);
   }
 

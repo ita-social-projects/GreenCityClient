@@ -26,7 +26,8 @@ export class UbsFooterComponent {
     this.screenWidth = window.innerWidth;
   }
 
-  public openAboutServicePopUp(): void {
+  public openAboutServicePopUp(event: Event): void {
+    event.preventDefault();
     const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
@@ -45,6 +46,6 @@ export class UbsFooterComponent {
 
   public onPressEnter(event: KeyboardEvent): void {
     event.preventDefault();
-    this.openAboutServicePopUp();
+    this.openAboutServicePopUp(event);
   }
 }
