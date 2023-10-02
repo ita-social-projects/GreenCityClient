@@ -140,6 +140,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   redirectToOrder() {
     this.getLocations(this.courierUBSName);
     this.cleanOrderState();
+    localStorage.removeItem('UBSExistingOrderId');
   }
 
   ngOnInit() {
