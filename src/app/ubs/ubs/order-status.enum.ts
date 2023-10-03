@@ -12,7 +12,8 @@ export enum OrderStatus {
 export enum PaymnetStatus {
   PAID = 'PAID',
   HALF_PAID = 'HALF_PAID',
-  UNPAID = 'UNPAID'
+  UNPAID = 'UNPAID',
+  PAYMENT_REFUNDED = 'PAYMENT_REFUNDED'
 }
 
 export enum CancellationReason {
