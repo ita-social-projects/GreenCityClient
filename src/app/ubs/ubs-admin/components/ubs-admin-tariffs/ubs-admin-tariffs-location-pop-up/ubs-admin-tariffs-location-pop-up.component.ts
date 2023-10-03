@@ -27,6 +27,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 interface LocationItem {
   location: string;
@@ -109,6 +110,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     private cdr: ChangeDetectorRef,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsLocationPopUpComponent>,
+    private snackBar: MatSnackBarComponent,
     private store: Store<IAppState>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -387,6 +389,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     }
     this.store.dispatch(AddLocations({ locations: this.createdCards }));
     this.dialogRef.close({});
+    this.snackBar.openSnackBar('successUpdateUbsData');
   }
 
   onCancel(): void {

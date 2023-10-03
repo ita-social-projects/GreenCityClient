@@ -9,6 +9,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TariffsService } from '../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsAdminTariffsStationPopUpComponent', () => {
   let component: UbsAdminTariffsStationPopUpComponent;
@@ -48,6 +49,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
