@@ -7,7 +7,7 @@
     </h6>
   </div>
 
-  <form [formGroup]="orderDetailsForm">
+  <form [formGroup]="orderDetailsForm" class="form-container">
     <div class="question">{{ 'ubs-client-profile.payment.question-certificate' | translate }}</div>
 
     <div class="form-field-container">
@@ -137,18 +137,6 @@
           </div>
         </div>
       </mat-radio-group>
-    </div>
-
-    <div *ngIf="userOrder.sum > 0">
-      <hr style="border-width: 2px" />
-
-      <div class="choose-payment">{{ 'ubs-client-profile.payment.choose-payment' | translate }}</div>
-      <div class="text">{{ 'ubs-client-profile.payment.way-payment' | translate }}</div>
-
-      <select formControlName="paymentSystem" class="form-select" (change)="orderOptionPayment($event)">
-        <option value="Fondy">{{ 'ubs-client-profile.payment.fondy-card' | translate }}</option>
-        <option value="LiqPay">{{ 'ubs-client-profile.payment.liqpay-card' | translate }}</option>
-      </select>
     </div>
   </form>
 

@@ -10,6 +10,10 @@
   border-color: var(--ubs-quaternary-dark-grey) !important;
 }
 
+.form-container {
+  margin-bottom: 45px;
+}
+
 .dialog-container {
   padding: 20px;
   font-size: 14px;
@@ -45,14 +49,6 @@
 
   .text {
     padding: 5px 0;
-  }
-
-  .form-select {
-    border: 1px solid var(--ubs-primary-grey);
-    border-radius: 5px;
-    width: 300px;
-    padding: 7px;
-    margin-bottom: 45px;
   }
 
   div.text-message {
@@ -114,6 +110,7 @@
   .action-btns {
     float: right;
     color: var(--ubs-tertiary-dark-grey);
+    padding-bottom: 35px;
 
     .btn-pay {
       font-size: 14px;

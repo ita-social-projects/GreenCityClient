@@ -99,20 +99,28 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
   }
 
+  private isUserCanNotChangeOrder(order: IUserOrderInfo): boolean {
+    const isOrderDone = order.orderStatusEng === OrderStatusEn.DONE;
+    const isOrderBroughtItHimself = order.orderStatusEng === OrderStatusEn.BROUGHT_IT_HIMSELF;
+    return isOrderDone || isOrderBroughtItHimself;
+  }
+
+  private openOrderPaymentPopUp(order: IUserOrderInfo): void {
+    this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
+      maxWidth: '500px',
+      panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
+      data: {
+        orderId: order.id,
+        price: order.amountBeforePayment,
+        bonuses: this.bonuses
+      }
+    });
+  }
+
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    if (order.paymentStatusEng === 'Unpaid') {
-      this.getDataForLocalStorage(order);
-    } else {
-      this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
-        maxWidth: '500px',
-        panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
-        data: {
-          orderId: order.id,
-          price: order.amountBeforePayment,
-          bonuses: this.bonuses
-        }
-      });
-    }
+    this.isOrderUnpaid(order) && !this.isUserCanNotChangeOrder(order)
+      ? this.getDataForLocalStorage(order)
+      : this.openOrderPaymentPopUp(order);
     this.cleanOrderState();
   }
 
