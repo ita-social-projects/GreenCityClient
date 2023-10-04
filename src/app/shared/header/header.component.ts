@@ -25,6 +25,7 @@ import { UserNotificationsPopUpComponent } from '@global-user/components/profile
 import { IAppState } from 'src/app/store/state/app.state';
 import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 import { ResetFriends } from 'src/app/store/actions/friends.actions';
+import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-header',
@@ -54,6 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('signinref') signinref: ElementRef;
   @ViewChild('signupref') signupref: ElementRef;
   @ViewChild('serviceref') serviceref: ElementRef;
+  @ViewChild('notificationIconRef') notificationIconRef: ElementRef;
   public elementName;
   public isUBS: boolean;
   public ubsUrl = 'ubs';
@@ -74,7 +76,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-  constructor(private dialog: MatDialog, injector: Injector, private store: Store) {
+
+  constructor(private dialog: MatDialog, injector: Injector, private store: Store, private socketService: SocketService) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);
@@ -119,6 +122,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+    });
+    this.onConnectedtoSocket();
+  }
+
+  public onConnectedtoSocket(): void {
+    this.socketService.onMessage(`/topic/${this.userId}/notifications`).subscribe((msg) => {
+      this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
     });
   }
 
@@ -342,6 +352,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   openNotificationPopUp(event) {
+    this.notificationIconRef.nativeElement.srcset = this.headerImageList.notification;
     const pos = event.target.getBoundingClientRect();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;

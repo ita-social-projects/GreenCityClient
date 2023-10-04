@@ -5,19 +5,28 @@ import * as SockJS from 'sockjs-client';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { SocketClientState } from './socket-state.enum';
 import { filter, first, switchMap } from 'rxjs/operators';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SocketService implements OnDestroy {
   private state: BehaviorSubject<SocketClientState>;
   private webSocket: any;
 
-  constructor() {
+  constructor(private localStorageService: LocalStorageService) {
     this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
     this.webSocket = Stomp.over(() => new SockJS(environment.socket));
-    this.webSocket.connect({}, () => {
-      this.state.next(SocketClientState.CONNECTED);
+    this.localStorageService.userIdBehaviourSubject.subscribe((userId) => {
+      if (userId) {
+        this.webSocket.connect({}, () => {
+          this.state.next(SocketClientState.CONNECTED);
+        });
+      } else {
+        this.connect()
+          .pipe(first())
+          .subscribe((client) => client.disconnect(null));
+      }
     });
   }
 
