@@ -123,7 +123,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   openLocationDialog(locationsData: AllLocationsDtos) {
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
       data: locationsData
     });
 
