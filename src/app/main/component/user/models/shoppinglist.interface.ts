@@ -1,6 +1,8 @@
+import { TodoStatus } from '@global-user/components/habit/models/todo-status.enum';
+
 export interface ShoppingList {
-  id: number;
-  status: string;
+  id: null | number;
+  status: TodoStatus;
   text: string;
   selected?: boolean;
   custom?: boolean;

@@ -47,6 +47,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   quillModules = {};
   isEditing = false;
 
+  private habitId: number;
   private userId: number;
   private currentLang: string;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
@@ -120,9 +121,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       duration: this.habit.defaultDuration,
       tagIds: this.habit.tags,
       image: this.habit.image,
-      shopList: this.habit.customShoppingListItems,
-      id: this.habit.id
+      shopList: this.habit.customShoppingListItems
     });
+
+    this.habitId = this.habit.id;
     this.shopList = this.habit.customShoppingListItems || this.habit.shoppingListItems || [];
     this.initialDuration = this.habit.defaultDuration;
   }
@@ -207,7 +209,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   saveHabit(): void {
     this.habitService
-      .changeCustomHabit(this.habitForm.value, this.currentLang)
+      .changeCustomHabit(this.habitForm.value, this.currentLang, this.habitId)
       .pipe(take(1))
       .subscribe(() => {
         this.goToAllHabits();

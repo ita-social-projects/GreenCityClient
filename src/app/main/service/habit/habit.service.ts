@@ -10,7 +10,7 @@ import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { environment } from '@environment/environment';
 import { HabitInterface, HabitListInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
-import { CustomHabitDtoRequest } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
+import { CustomHabitDtoRequest, CustomHabit } from '@global-user/components/habit/models/interfaces/custom-habit.interface';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Injectable({
@@ -64,7 +64,7 @@ export class HabitService {
     }
   }
 
-  private prepareCustomHabitRequest(habit: any, lang: string): FormData {
+  private prepareCustomHabitRequest(habit: CustomHabit, lang: string): FormData {
     const body = {
       habitTranslations: [
         {
@@ -93,13 +93,13 @@ export class HabitService {
     return formData;
   }
 
-  addCustomHabit(habit: any, lang: string): Observable<CustomHabitDtoRequest> {
+  addCustomHabit(habit: CustomHabit, lang: string): Observable<CustomHabitDtoRequest> {
     const formData = this.prepareCustomHabitRequest(habit, lang);
     return this.http.post<CustomHabitDtoRequest>(`${habitLink}/custom`, formData, this.httpOptions);
   }
 
-  changeCustomHabit(habit: any, lang: string): Observable<CustomHabitDtoRequest> {
+  changeCustomHabit(habit: CustomHabit, lang: string, id: number): Observable<CustomHabitDtoRequest> {
     const formData = this.prepareCustomHabitRequest(habit, lang);
-    return this.http.put<CustomHabitDtoRequest>(`${habitLink}/update/${habit.id}`, formData, this.httpOptions);
+    return this.http.put<CustomHabitDtoRequest>(`${habitLink}/update/${id}`, formData, this.httpOptions);
   }
 }
