@@ -1,6 +1,7 @@
 import { HabitInterface } from '../models/interfaces/habit.interface';
 import { HabitAssignInterface, ResponseInterface } from '../models/interfaces/habit-assign.interface';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
+import { TodoStatus } from '../models/todo-status.enum';
 
 export const DEFAULTHABIT: HabitInterface = {
   complexity: 2,
@@ -60,7 +61,7 @@ export const DEFAULTFULLINFOHABIT: HabitAssignInterface = {
   shoppingListItems: [
     {
       id: 6,
-      status: 'ACTIVE',
+      status: TodoStatus.active,
       text: 'TEST'
     }
   ],
@@ -85,7 +86,7 @@ export const CUSTOMFULLINFOHABIT: HabitAssignInterface = {
   shoppingListItems: [
     {
       id: 6,
-      status: 'ACTIVE',
+      status: TodoStatus.active,
       text: 'TEST'
     }
   ],
@@ -161,7 +162,7 @@ export const DEFAULTFULLINFOHABIT_2: HabitAssignInterface = {
   shoppingListItems: [
     {
       id: 6,
-      status: 'ACTIVE',
+      status: TodoStatus.active,
       text: 'TEST'
     }
   ],

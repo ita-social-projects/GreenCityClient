@@ -14,6 +14,7 @@ import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditorChangeContent } from 'ngx-quill';
+import { TodoStatus } from '../models/todo-status.enum';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
@@ -109,13 +110,13 @@ describe('AddEditCustomHabitComponent', () => {
     const newShopList: ShoppingList[] = [
       {
         id: 1,
-        status: 'INPROGRESS',
+        status: TodoStatus.inprogress,
         text: 'Some item',
         selected: true,
         custom: true
       }
     ];
-    const convertedList: ShoppingList[] = [{ id: 1, status: 'INPROGRESS', text: 'Some item' }];
+    const convertedList: ShoppingList[] = [{ id: 1, status: TodoStatus.inprogress, text: 'Some item' }];
     (component as any).initForm();
     component.getShopList(newShopList);
     expect(component.newList).toEqual(convertedList);

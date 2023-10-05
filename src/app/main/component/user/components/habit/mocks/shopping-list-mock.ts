@@ -1,15 +1,16 @@
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
+import { TodoStatus } from '../models/todo-status.enum';
 
 export const SHOPLISTITEMONE: ShoppingList = {
   id: 1,
   text: 'Reusable stainless steel water bottle',
-  status: 'ACTIVE'
+  status: TodoStatus.active
 };
 
 export const SHOPLISTITEMTWO: ShoppingList = {
   id: 2,
   text: 'Collapsible Silicone Water Bottle',
-  status: 'INPROGRESS'
+  status: TodoStatus.active
 };
 
 export const SHOPLIST: ShoppingList[] = [SHOPLISTITEMONE, SHOPLISTITEMTWO];

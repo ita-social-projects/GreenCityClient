@@ -24,6 +24,7 @@ import { HabitAcquireConfirm } from '../models/habit-warnings';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { TodoStatus } from '../models/todo-status.enum';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -334,7 +335,7 @@ describe('AddNewHabitComponent', () => {
   it('call of updateHabit method should invoke afterHabitWasChanged method', () => {
     const customShopListMock = {
       id: 7,
-      status: 'fake string',
+      status: TodoStatus.inprogress,
       text: 'fake custom text',
       selected: false,
       custom: true

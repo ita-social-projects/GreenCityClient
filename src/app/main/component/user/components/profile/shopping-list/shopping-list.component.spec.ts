@@ -13,6 +13,7 @@ import { SHOPLISTITEMONE, SHOPLISTITEMTWO } from '@global-user/components/habit/
 import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { ALLUSERSHOPLISTS } from '@global-user/components/habit/mocks/shopping-list-mock';
 import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
+import { TodoStatus } from '@global-user/components/habit/models/todo-status.enum';
 
 describe('ShoppingListComponent', () => {
   let component: ShoppingListComponent;
@@ -100,7 +101,7 @@ describe('ShoppingListComponent', () => {
   });
 
   it('should change item status on toggleDone', () => {
-    SHOPLISTITEMONE.status = 'INPROGRESS';
+    SHOPLISTITEMONE.status = TodoStatus.inprogress;
     component.toggleDone(SHOPLISTITEMONE);
     expect(SHOPLISTITEMONE.status).toBe('DONE');
   });

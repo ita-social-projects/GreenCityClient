@@ -6,6 +6,7 @@ import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TodoStatus } from '../../models/todo-status.enum';
 
 import { HabitEditShoppingListComponent } from './habit-edit-shopping-list.component';
 import { ShoppingListService } from './shopping-list.service';
@@ -20,20 +21,20 @@ describe('HabitEditShoppingListComponent', () => {
   const mockList: ShoppingList[] = [
     {
       id: 1,
-      status: 'INPROGRESS',
+      status: TodoStatus.active,
       text: 'Item 1',
       selected: false
     },
     {
       id: 2,
-      status: 'ACTIVE',
+      status: TodoStatus.active,
       text: 'Item 2',
       selected: false
     }
   ];
   const mockItem: ShoppingList = {
     id: 234,
-    status: 'ACTIVE',
+    status: TodoStatus.active,
     text: 'Item 2',
     selected: false
   };
@@ -95,7 +96,7 @@ describe('HabitEditShoppingListComponent', () => {
     const newList = [
       {
         id: null,
-        status: 'ACTIVE',
+        status: TodoStatus.active,
         text: 'test',
         custom: true,
         selected: true
