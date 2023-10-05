@@ -238,9 +238,7 @@ export class AddNewHabitComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
         res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
-        if (res.userShoppingListItemDto[0]?.text !== 'No items to recommend' || res.customShoppingListItemDto.length) {
-          this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
-        }
+        this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
       });
   }
 
