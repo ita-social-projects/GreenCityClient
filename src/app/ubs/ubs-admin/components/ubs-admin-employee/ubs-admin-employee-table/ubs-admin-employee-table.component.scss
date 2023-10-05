@@ -325,7 +325,7 @@
           display: flex;
           flex-direction: column;
           gap: 4px;
-          max-height: 73px;
+          max-height: fit-content;
 
           .locations-list {
             display: flex;
@@ -363,7 +363,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 36px;
-      margin-top: 32px;
+      margin-top: 15px;
 
       .actions-btn {
         height: 36px;
