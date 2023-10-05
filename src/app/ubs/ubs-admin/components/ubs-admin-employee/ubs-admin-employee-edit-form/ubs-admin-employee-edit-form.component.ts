@@ -265,6 +265,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     const image = this.selectedFile ? this.defaultPhotoURL : this.imageURL || this.defaultPhotoURL;
     const dataToSend = this.prepareEmployeeDataToSend('employeeWithTariffsIdDto', image);
     this.store.dispatch(UpdateEmployee({ data: dataToSend, employee: this.employeeDataToSend }));
+    this.dialogRef.close(this.employeeDataToSend);
   }
 
   createEmployee(): void {

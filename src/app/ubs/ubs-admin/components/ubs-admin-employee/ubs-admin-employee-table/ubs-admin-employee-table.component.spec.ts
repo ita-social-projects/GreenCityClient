@@ -135,6 +135,7 @@ describe('UbsAdminEmployeeTableComponent', () => {
   ubsAdminEmployeeServiceMock.filterDataSubject$ = new Subject();
   storeMock.select = () => of(fakeTableItems as any);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  matDialogMock.open.and.returnValue({ afterClosed: () => of({}) });
   const languageServiceMock = jasmine.createSpyObj('languageServiceMock', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
