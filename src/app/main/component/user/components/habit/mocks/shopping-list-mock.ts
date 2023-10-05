@@ -10,7 +10,7 @@ export const SHOPLISTITEMONE: ShoppingList = {
 export const SHOPLISTITEMTWO: ShoppingList = {
   id: 2,
   text: 'Collapsible Silicone Water Bottle',
-  status: TodoStatus.active
+  status: TodoStatus.inprogress
 };
 
 export const SHOPLIST: ShoppingList[] = [SHOPLISTITEMONE, SHOPLISTITEMTWO];
