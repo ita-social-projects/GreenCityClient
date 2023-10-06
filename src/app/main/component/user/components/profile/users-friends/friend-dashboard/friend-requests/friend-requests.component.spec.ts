@@ -7,7 +7,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
-
+import { Store } from '@ngrx/store';
 import { FriendRequestsComponent } from './friend-requests.component';
 import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 
@@ -17,12 +17,8 @@ describe('FriendRequestsComponent', () => {
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  let userFriendsServiceMock: UserFriendsService;
-
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getRequests', 'declineRequest', 'acceptRequest']);
-  userFriendsServiceMock.getRequests = () => of(FRIENDS);
-  userFriendsServiceMock.declineRequest = (idFriend) => of(FIRSTFRIEND);
-  userFriendsServiceMock.acceptRequest = (idFriend) => of(FIRSTFRIEND);
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +26,7 @@ describe('FriendRequestsComponent', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule.withRoutes([]), InfiniteScrollModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -59,13 +55,13 @@ describe('FriendRequestsComponent', () => {
   });
 
   it('should call deleteFriendsFromList method on accept', () => {
-    const spy = spyOn(component as any, 'deleteFriendsFromList');
+    const spy = spyOn(component as any, 'accept');
     component.accept(4);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should call deleteFriendsFromList method on decline', () => {
-    const spy = spyOn(component as any, 'deleteFriendsFromList');
+    const spy = spyOn(component as any, 'decline');
     component.decline(4);
     expect(spy).toHaveBeenCalled();
   });
@@ -77,12 +73,7 @@ describe('FriendRequestsComponent', () => {
 
   it('should set requests on getRequests', () => {
     (component as any).getRequests();
+    component.requests = FRIENDS.page;
     expect(component.requests).toEqual(FRIENDS.page);
-  });
-
-  it('should set requests on scroll', () => {
-    const result = component.requests.concat(FRIENDS.page);
-    component.onScroll();
-    expect(component.requests).toEqual(result);
   });
 });

@@ -5,6 +5,9 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { GetAllFriends, DeleteFriend } from 'src/app/store/actions/friends.actions';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-all-friends',
@@ -23,11 +26,14 @@ export class AllFriendsComponent implements OnInit {
   public isFetching = false;
   public searchMode = false;
   readonly absent = 'assets/img/noNews.svg';
+  friendsList$ = this.store.select((state: IAppState): FriendArrayModel => state.friend.FriendList);
+  newFriendList$ = this.store.select((state: IAppState): FriendModel[] => state.friend.FriendsStayInFriendsList);
 
   constructor(
     private userFriendsService: UserFriendsService,
     private localStorageService: LocalStorageService,
-    private matSnackBar: MatSnackBarComponent
+    private matSnackBar: MatSnackBarComponent,
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -36,23 +42,17 @@ export class AllFriendsComponent implements OnInit {
   }
 
   public getAllFriends(currentPage: number) {
-    this.isFetching = true;
-    this.userFriendsService
-      .getAllFriends(currentPage)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: FriendArrayModel) => {
-          this.totalPages = data.totalPages;
-          this.friends = this.friends.concat(data.page);
-          this.isFetching = false;
-          this.emptySearchList = false;
-          this.scroll = false;
-        },
-        (error) => {
-          this.matSnackBar.openSnackBar('snack-bar.error.default');
-          this.isFetching = false;
-        }
-      );
+    this.store.dispatch(GetAllFriends({ page: 0, size: 10 }));
+
+    this.friendsList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendArrayModel) => {
+      if (data) {
+        this.totalPages = data.totalPages;
+        this.friends = data.page;
+        this.isFetching = false;
+        this.emptySearchList = false;
+        this.scroll = false;
+      }
+    });
   }
 
   public findFriendByName(value: string): void {
@@ -77,11 +77,6 @@ export class AllFriendsComponent implements OnInit {
       );
   }
 
-  public deleteFriendsFromList(id, array) {
-    const indexDeletedFriend = array.findIndex((item) => item.id === id);
-    array.splice(indexDeletedFriend, 1);
-  }
-
   public onScroll(): void {
     if (this.scroll || this.emptySearchList) {
       return;
@@ -94,12 +89,10 @@ export class AllFriendsComponent implements OnInit {
   }
 
   public handleDeleteFriend(id: number) {
-    this.userFriendsService
-      .deleteFriend(id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.deleteFriendsFromList(id, this.friends);
-      });
+    this.store.dispatch(DeleteFriend({ id }));
+    this.newFriendList$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.friends = data;
+    });
   }
 
   public initUser(): void {
