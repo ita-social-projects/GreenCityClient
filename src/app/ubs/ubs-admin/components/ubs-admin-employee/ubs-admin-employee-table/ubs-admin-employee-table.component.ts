@@ -191,7 +191,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
-          this.initSearch();
         }
       });
   }
