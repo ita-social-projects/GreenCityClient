@@ -79,9 +79,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
     return (
-      this.isOrderPriceGreaterThenZero(order) &&
-      (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) &&
-      !this.isOrderDoneOrCancel(order)
+      this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) && !this.isOrderCanceled(order)
     );
   }
 
@@ -91,18 +89,13 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       order.orderStatusEng !== OrderStatusEn.ADJUSTMENT &&
       order.orderStatusEng !== OrderStatusEn.BROUGHT_IT_HIMSELF &&
       order.orderStatusEng !== OrderStatusEn.NOT_TAKEN_OUT &&
-      order.orderStatusEng !== OrderStatusEn.CANCELED
+      order.orderStatusEng !== OrderStatusEn.CANCELED &&
+      order.orderStatusEng !== OrderStatusEn.DONE
     );
   }
 
   public changeCard(id: number): void {
     this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
-  }
-
-  private isUserCanNotChangeOrder(order: IUserOrderInfo): boolean {
-    const isOrderDone = order.orderStatusEng === OrderStatusEn.DONE;
-    const isOrderBroughtItHimself = order.orderStatusEng === OrderStatusEn.BROUGHT_IT_HIMSELF;
-    return isOrderDone || isOrderBroughtItHimself;
   }
 
   private openOrderPaymentPopUp(order: IUserOrderInfo): void {
@@ -118,9 +111,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    this.isOrderUnpaid(order) && !this.isUserCanNotChangeOrder(order)
-      ? this.getDataForLocalStorage(order)
-      : this.openOrderPaymentPopUp(order);
+    const isOrderFormed = order.orderStatusEng === OrderStatusEn.FORMED;
+    this.isOrderUnpaid(order) && isOrderFormed ? this.getDataForLocalStorage(order) : this.openOrderPaymentPopUp(order);
     this.cleanOrderState();
   }
 
