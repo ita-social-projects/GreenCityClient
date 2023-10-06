@@ -31,7 +31,7 @@ export class HabitService {
   }
 
   getAllHabits(page: number, size: number): Observable<HabitListInterface> {
-    return this.http.get<HabitListInterface>(`${habitLink}?lang=${this.language}&page=${page}&size=${size}&sort=desc`);
+    return this.http.get<HabitListInterface>(`${habitLink}?lang=${this.language}&page=${page}&size=${size}`);
   }
 
   getHabitById(id: number): Observable<HabitInterface> {
