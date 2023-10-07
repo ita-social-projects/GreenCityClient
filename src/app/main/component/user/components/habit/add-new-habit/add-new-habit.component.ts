@@ -221,7 +221,6 @@ export class AddNewHabitComponent implements OnInit {
   getList(list: ShoppingList[]): void {
     this.standartShopList = list.filter((item) => !item.custom);
     this.customShopList = list.filter((item) => item.custom);
-    console.log(this.standartShopList, this.customShopList, list, 'standart and custom shopping list');
   }
 
   private getStandartShopList(): void {
@@ -238,7 +237,6 @@ export class AddNewHabitComponent implements OnInit {
       .getHabitAllShopLists(this.habitAssignId, this.currentLang)
       .pipe(take(1))
       .subscribe((res: AllShoppingLists) => {
-        console.log(res, 'res');
         res.customShoppingListItemDto?.forEach((item) => (item.custom = true));
         this.initialShoppingList = [...res.customShoppingListItemDto, ...res.userShoppingListItemDto];
       });
@@ -290,13 +288,11 @@ export class AddNewHabitComponent implements OnInit {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
-    console.log(habitAssignProperties, 'habitAssignProperties');
     this.habitAssignService
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
         if (this.customShopList.length) {
-          console.log(this.customShopList, 'this.customShopList');
           this.addCustomHabitItems();
         }
         this.afterHabitWasChanged('habitAdded');
@@ -316,7 +312,6 @@ export class AddNewHabitComponent implements OnInit {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
-    console.log(customItemsList, 'custom Items List');
     this.shopListService
       .addHabitCustomShopList(this.userId, this.habitId, customItemsList)
       .pipe(take(1))
@@ -333,7 +328,6 @@ export class AddNewHabitComponent implements OnInit {
         if (this.customShopList || this.standartShopList) {
           this.convertShopLists();
           const habitShopListUpdate = this.setHabitListForUpdate();
-          console.log(habitShopListUpdate, 'habitShopListUpdate');
           this.shopListService
             .updateHabitShopList(habitShopListUpdate)
             .pipe(take(1))

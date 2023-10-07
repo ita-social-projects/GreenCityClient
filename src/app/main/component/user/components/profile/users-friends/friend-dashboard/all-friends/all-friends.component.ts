@@ -20,6 +20,7 @@ export class AllFriendsComponent implements OnInit {
   private destroy$ = new Subject();
   public scroll = false;
   public currentPage = 0;
+  private size = 10;
   public totalPages: number;
   public emptySearchList = false;
   public searchQuery = '';
@@ -42,7 +43,7 @@ export class AllFriendsComponent implements OnInit {
   }
 
   public getAllFriends(currentPage: number) {
-    this.store.dispatch(GetAllFriends({ page: 0, size: 10 }));
+    this.store.dispatch(GetAllFriends({ page: currentPage, size: this.size }));
 
     this.friendsList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendArrayModel) => {
       if (data) {

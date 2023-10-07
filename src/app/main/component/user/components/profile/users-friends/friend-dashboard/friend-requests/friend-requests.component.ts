@@ -19,6 +19,7 @@ export class FriendRequestsComponent implements OnInit {
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
+  private size = 10;
   friendRequestList$ = this.store.select((state: IAppState): FriendArrayModel => state.friend.FriendRequestList);
   FriendsStayInRequestList$ = this.store.select((state: IAppState): FriendModel[] => state.friend.FriendsStayInRequestList);
   readonly absent = 'assets/img/noNews.svg';
@@ -32,7 +33,7 @@ export class FriendRequestsComponent implements OnInit {
 
   public accept(id: number) {
     this.store.dispatch(AcceptRequest({ id }));
-    this.FriendsStayInRequestList$.subscribe((data: FriendModel[]) => {
+    this.FriendsStayInRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendModel[]) => {
       if (data) {
         this.requests = data;
       }
@@ -41,7 +42,7 @@ export class FriendRequestsComponent implements OnInit {
 
   public decline(id: number) {
     this.store.dispatch(DeclineRequest({ id }));
-    this.FriendsStayInRequestList$.subscribe((data: FriendModel[]) => {
+    this.FriendsStayInRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendModel[]) => {
       if (data) {
         this.requests = data;
       }
@@ -53,8 +54,8 @@ export class FriendRequestsComponent implements OnInit {
   }
 
   private getRequests() {
-    this.store.dispatch(GetAllFriendsRequests({ page: this.currentPage, size: 10 }));
-    this.friendRequestList$.subscribe((data: FriendArrayModel) => {
+    this.store.dispatch(GetAllFriendsRequests({ page: this.currentPage, size: this.size }));
+    this.friendRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendArrayModel) => {
       if (data) {
         this.requests = data.page;
       }
