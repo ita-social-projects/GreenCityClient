@@ -13,8 +13,8 @@ export class FriendsEffects {
       ofType(friendActions.GetAllFriendsRequests),
       exhaustMap(() =>
         this.userFriendService.getRequests().pipe(
-          map((friends: FriendArrayModel) => friendActions.GetAllFriendsRequestsSucess({ FriendRequestList: friends })),
-          catchError(() => EMPTY)
+          map((friends: FriendArrayModel) => friendActions.GetAllFriendsRequestsSuccess({ FriendRequestList: friends })),
+          catchError((error) => of(friendActions.ReceivedFailureAction(error)))
         )
       )
     )
@@ -44,17 +44,17 @@ export class FriendsEffects {
     );
   });
 
-  DeleteFriend = createEffect(() => {
-    return this.actions$.pipe(
+  DeleteFriend = createEffect(() =>
+    this.actions$.pipe(
       ofType(friendActions.DeleteFriend),
-      mergeMap((actions: { id: number }) => {
-        return this.userFriendService.deleteFriend(actions.id).pipe(
+      mergeMap((actions: { id: number }) =>
+        this.userFriendService.deleteFriend(actions.id).pipe(
           map(() => friendActions.DeleteFriendSuccess({ id: actions.id })),
           catchError((error) => of(friendActions.ReceivedFailureAction(error)))
-        );
-      })
-    );
-  });
+        )
+      )
+    )
+  );
 
   LoadFriendsList = createEffect(() =>
     this.actions$.pipe(
@@ -62,7 +62,7 @@ export class FriendsEffects {
       exhaustMap(() =>
         this.userFriendService.getAllFriends().pipe(
           map((friends: FriendArrayModel) => friendActions.GetAllFriendsSuccess({ FriendList: friends })),
-          catchError(() => EMPTY)
+          catchError((error) => of(friendActions.ReceivedFailureAction(error)))
         )
       )
     )

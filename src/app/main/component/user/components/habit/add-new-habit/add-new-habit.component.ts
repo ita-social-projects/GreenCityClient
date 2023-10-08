@@ -303,7 +303,6 @@ export class AddNewHabitComponent implements OnInit {
     if (this.customShopList || this.standartShopList) {
       this.convertShopLists();
       const habitShopListUpdate = this.setHabitListForUpdate();
-      console.log(habitShopListUpdate, 'habitShopListUpdate, when adding habit');
       this.shopListService.updateHabitShopList(habitShopListUpdate).pipe(take(1));
     }
   }

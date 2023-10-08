@@ -12,26 +12,26 @@ export enum FriendsListActions {
   AcceptRequestSuccess = '[Friends] Accept friend request Success',
   DeclineRequestSuccess = '[Friends] Decline friend request Success',
   GetAllFriendsSuccess = '[Friends] Get list of all friends Success',
-  GetAllFriendsRequestsSucess = '[Friends] Get list of all friends requests Success',
+  GetAllFriendsRequestsSuccess = '[Friends] Get list of all friends requests Success',
 
   ReceivedFailure = '[Friends] Received Failure'
 }
 
 export const DeleteFriend = createAction(FriendsListActions.DeleteFriend, props<{ id: number }>());
-export const DeleteFriendSuccess = createAction(FriendsListActions.DeleteFriend, props<{ id: number }>());
+export const DeleteFriendSuccess = createAction(FriendsListActions.DeleteFriendSuccess, props<{ id: number }>());
 
 export const AcceptRequest = createAction(FriendsListActions.AcceptRequest, props<{ id: number }>());
-export const AcceptRequestSuccess = createAction(FriendsListActions.AcceptRequest, props<{ id: number }>());
+export const AcceptRequestSuccess = createAction(FriendsListActions.AcceptRequestSuccess, props<{ id: number }>());
 
 export const DeclineRequest = createAction(FriendsListActions.DeclineRequest, props<{ id: number }>());
-export const DeclineRequestSuccess = createAction(FriendsListActions.DeclineRequest, props<{ id: number }>());
+export const DeclineRequestSuccess = createAction(FriendsListActions.DeclineRequestSuccess, props<{ id: number }>());
 
 export const GetAllFriends = createAction(FriendsListActions.GetAllFriends, props<{ page: number; size: number }>());
-export const GetAllFriendsSuccess = createAction(FriendsListActions.GetAllFriends, props<{ FriendList: FriendArrayModel }>());
+export const GetAllFriendsSuccess = createAction(FriendsListActions.GetAllFriendsSuccess, props<{ FriendList: FriendArrayModel }>());
 
 export const GetAllFriendsRequests = createAction(FriendsListActions.GetAllFriendsRequests, props<{ page: number; size: number }>());
-export const GetAllFriendsRequestsSucess = createAction(
-  FriendsListActions.GetAllFriendsRequests,
+export const GetAllFriendsRequestsSuccess = createAction(
+  FriendsListActions.GetAllFriendsRequestsSuccess,
   props<{ FriendRequestList: FriendArrayModel }>()
 );
 

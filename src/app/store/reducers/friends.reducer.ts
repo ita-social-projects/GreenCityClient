@@ -5,7 +5,7 @@ import {
   AcceptRequestSuccess,
   DeclineRequestSuccess,
   GetAllFriendsSuccess,
-  GetAllFriendsRequestsSucess
+  GetAllFriendsRequestsSuccess
 } from '../actions/friends.actions';
 
 export const friendsReducers = createReducer(
@@ -56,7 +56,7 @@ export const friendsReducers = createReducer(
     };
   }),
 
-  on(GetAllFriendsRequestsSucess, (state, action) => {
+  on(GetAllFriendsRequestsSuccess, (state, action) => {
     return {
       ...state,
       FriendRequestList: action.FriendRequestList
