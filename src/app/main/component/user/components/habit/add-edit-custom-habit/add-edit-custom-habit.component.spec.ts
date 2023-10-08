@@ -15,10 +15,13 @@ import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditorChangeContent } from 'ngx-quill';
 import { TodoStatus } from '../models/todo-status.enum';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
+
+  const initialState = { habit: { defaultDuration: 1 } };
 
   const tagsMock: TagInterface[] = [{ id: 1, name: 'Tag', nameUa: 'Тег', isActive: true }];
 
@@ -50,7 +53,8 @@ describe('AddEditCustomHabitComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        provideMockStore({ initialState })
       ]
     }).compileComponents();
   }));
