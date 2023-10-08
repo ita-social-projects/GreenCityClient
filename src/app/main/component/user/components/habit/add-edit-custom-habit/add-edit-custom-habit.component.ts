@@ -17,6 +17,9 @@ import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
@@ -74,7 +77,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private habitService: HabitService,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private store: Store<IAppState>
   ) {
     super(router, dialog);
 
@@ -91,8 +95,13 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
     if (this.isEditing) {
-      this.habit = this.isEditing ? this.localStorageService.getHabitForEdit() : null;
-      this.setEditHabit();
+      this.store
+        .select((state) => state.habit)
+        .pipe(take(1))
+        .subscribe((habitState) => {
+          this.habit = habitState;
+          this.setEditHabit();
+        });
     }
   }
 

@@ -36,15 +36,6 @@ export class LocalStorageService {
     return JSON.parse(localStorage.getItem(this.HABITS_GALLERY_VIEW));
   }
 
-  public setHabitForEdit(key: string, habit: HabitInterface): void {
-    this.EDIT_HABIT = key;
-    localStorage.setItem(key, JSON.stringify(habit));
-  }
-
-  public getHabitForEdit(): string | null {
-    return JSON.parse(localStorage.getItem(this.EDIT_HABIT));
-  }
-
   public getAccessToken(): string {
     return localStorage.getItem(this.ACCESS_TOKEN);
   }
