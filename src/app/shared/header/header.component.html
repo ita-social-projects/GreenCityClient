@@ -63,7 +63,7 @@
               <li class="header_mobile-menu-item header_user-name tertiary-global-button" role="link">
                 {{ name }}
               </li>
-              <li class="header_mobile-menu-item" role="link">
+              <li *ngIf="isLoggedIn && !isAdmin" class="header_mobile-menu-item" role="link">
                 <a (click)="openNotificationsDialog()">
                   {{ 'nav-bar.user-notifications' | translate }}
                 </a>
@@ -200,7 +200,13 @@
                   </a>
                 </li>
                 <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
-                  <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="notifications" tabindex="0">
+                  <li
+                    *ngIf="isLoggedIn && !isAdmin"
+                    [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
+                    role="listitem"
+                    aria-label="notifications"
+                    tabindex="0"
+                  >
                     <a (click)="openNotificationsDialog()">
                       {{ 'nav-bar.user-notifications' | translate }}
                     </a>

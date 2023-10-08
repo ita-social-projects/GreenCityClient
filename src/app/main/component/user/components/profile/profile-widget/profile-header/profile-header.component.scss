@@ -105,10 +105,15 @@ p {
       line-height: 16px;
       color: var(--quaternary-grey);
       width: 288px;
+      height: 48px;
       justify-self: center;
       overflow-wrap: break-word;
       word-wrap: break-word;
       word-break: break-word;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
     }
 
     .profile-progress {
@@ -254,6 +259,11 @@ p {
   .profile {
     .column {
       grid-template-rows: 137px 32px 30px 39px 43px 45px 76px;
+
+      .credo {
+        height: 34px;
+        -webkit-line-clamp: 2;
+      }
 
       .container-user-image {
         margin: 48px auto 0 auto;
