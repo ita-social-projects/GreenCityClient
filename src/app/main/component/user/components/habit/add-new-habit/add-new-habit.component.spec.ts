@@ -25,7 +25,7 @@ import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomP
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { TodoStatus } from '../models/todo-status.enum';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;

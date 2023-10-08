@@ -2,7 +2,6 @@ import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
