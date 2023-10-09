@@ -76,7 +76,13 @@
     />
   </div>
   <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error-message" id="password-err-msg">
-    <app-error [formElement]="passwordControl" [isSignInPassword]="isSignInPage" [controlName]="'password'" tabindex="0"></app-error>
+    <app-error
+      [formElement]="passwordControl"
+      [isSignInPassword]="isSignInPage"
+      [controlName]="'password'"
+      [nameFieldValue]="passwordControl.value"
+      tabindex="0"
+    ></app-error>
   </div>
   <label class="content-label under-error" for="repeatPassword">
     {{ 'user.auth.sign-up.password-confirm' | translate }}
