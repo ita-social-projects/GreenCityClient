@@ -79,9 +79,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
     return (
-      this.isOrderPriceGreaterThenZero(order) &&
-      (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) &&
-      !this.isOrderDoneOrCancel(order)
+      this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) && !this.isOrderCanceled(order)
     );
   }
 
@@ -91,7 +89,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       order.orderStatusEng !== OrderStatusEn.ADJUSTMENT &&
       order.orderStatusEng !== OrderStatusEn.BROUGHT_IT_HIMSELF &&
       order.orderStatusEng !== OrderStatusEn.NOT_TAKEN_OUT &&
-      order.orderStatusEng !== OrderStatusEn.CANCELED
+      order.orderStatusEng !== OrderStatusEn.CANCELED &&
+      order.orderStatusEng !== OrderStatusEn.DONE
     );
   }
 
@@ -99,20 +98,21 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
   }
 
+  private openOrderPaymentPopUp(order: IUserOrderInfo): void {
+    this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
+      maxWidth: '500px',
+      panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
+      data: {
+        orderId: order.id,
+        price: order.amountBeforePayment,
+        bonuses: this.bonuses
+      }
+    });
+  }
+
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    if (order.paymentStatusEng === 'Unpaid') {
-      this.getDataForLocalStorage(order);
-    } else {
-      this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
-        maxWidth: '500px',
-        panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
-        data: {
-          orderId: order.id,
-          price: order.amountBeforePayment,
-          bonuses: this.bonuses
-        }
-      });
-    }
+    const isOrderFormed = order.orderStatusEng === OrderStatusEn.FORMED;
+    this.isOrderUnpaid(order) && isOrderFormed ? this.getDataForLocalStorage(order) : this.openOrderPaymentPopUp(order);
     this.cleanOrderState();
   }
 
