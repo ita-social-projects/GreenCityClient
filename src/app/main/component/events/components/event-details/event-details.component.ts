@@ -186,7 +186,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.translate.setDefaultLang(lang);
   }
 
-  private verifyRole() {
+  private verifyRole(): string {
     let role = this.roles.UNAUTHENTICATED;
     role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
     role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
@@ -242,7 +242,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public buttonAction(event) {
+  public buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
     }
@@ -258,7 +258,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
       this.isUserCanJoin = !this.isUserCanJoin;
     }
-    event.target.blur();
+    const buttonElement = event.target as HTMLButtonElement;
+    buttonElement.blur();
   }
 
   public openAuthModalWindow(page: string): void {

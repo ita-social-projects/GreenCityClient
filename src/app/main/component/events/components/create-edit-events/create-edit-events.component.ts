@@ -437,6 +437,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.escapeFromCreateEvent();
     });
   }
+
   private checkUserSigned(): boolean {
     this.getUserId();
     return this.userId != null && !isNaN(this.userId);

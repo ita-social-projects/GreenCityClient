@@ -75,7 +75,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   attendees = [];
   attendeesAvatars = [];
   deleteDialogData = {
-    popupTitle: 'homepage.events.delete-title',
+    popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
     style: 'green'

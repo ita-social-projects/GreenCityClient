@@ -38,7 +38,7 @@ export class AddNewHabitComponent implements OnInit {
 
   newDuration: number;
   initialDuration: number;
-  initialShoppingList: ShoppingList[];
+  initialShoppingList: ShoppingList[] = [];
   standartShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
   friendsIdsList: number[] = [];
