@@ -3,7 +3,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitte
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
 
@@ -97,6 +97,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.isVisible = this.orderStatusInfo.ableActualChange;
     this.isOrderPaid = this.totalPaid !== 0;
+    if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
+      this.orderDetailsForm.get('certificates').disable();
+    }
   }
 
   public showWriteOffStationField(): boolean {
