@@ -6,7 +6,7 @@ import { ILocationsState, initialLocationsState } from './tariff.state';
 import { IEcoEventsState, initialEventsState } from './ecoEvents.state';
 import { IOrderState, initialOrderState } from './order.state';
 import { initialHabitState } from './habit.state';
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
+import { HabitInterface as IHabitState } from '@global-user/components/habit/models/interfaces/habit.interface';
 
 export interface IAppState {
   order: IOrderState;
@@ -16,7 +16,7 @@ export interface IAppState {
   router?: RouterReducerState;
   ecoNewsState: IEcoNewsState;
   ecoEventsState: IEcoEventsState;
-  habit: HabitInterface;
+  habit: IHabitState;
 }
 
 export const initialAppState: IAppState = {

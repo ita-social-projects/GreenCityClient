@@ -24,7 +24,7 @@ import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { Store } from '@ngrx/store';
-import { AddHabitResponse } from 'src/app/store/actions/habit.actions';
+import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
@@ -270,7 +270,7 @@ export class AddNewHabitComponent implements OnInit {
     this.habitResponse.shoppingListItems = this.standartShopList;
     this.habitResponse.customShoppingListItems = this.customShopList;
     this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
-    this.store.dispatch(AddHabitResponse({ habitResponse: this.habitResponse }));
+    this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
