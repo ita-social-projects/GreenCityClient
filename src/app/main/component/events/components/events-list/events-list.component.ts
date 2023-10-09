@@ -213,11 +213,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private getStatusesForFilter(): OptionItem[] {
-    if (!!this.userId) {
-      return eventStatusList;
-    } else {
-      return eventStatusList.slice(0, 2);
-    }
+    return !!this.userId ? eventStatusList : eventStatusList.slice(0, 2);
   }
 
   public toggleAllSelection(optionsList: MatSelect, dropdownName: string): void {
