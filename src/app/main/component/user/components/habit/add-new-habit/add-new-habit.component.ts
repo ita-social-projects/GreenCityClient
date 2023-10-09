@@ -299,14 +299,6 @@ export class AddNewHabitComponent implements OnInit {
       });
   }
 
-  updateHabitShopList() {
-    if (this.customShopList || this.standartShopList) {
-      this.convertShopLists();
-      const habitShopListUpdate = this.setHabitListForUpdate();
-      this.shopListService.updateHabitShopList(habitShopListUpdate).pipe(take(1));
-    }
-  }
-
   private addCustomHabitItems(): void {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
