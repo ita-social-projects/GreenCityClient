@@ -146,7 +146,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     this.employeeService.updatePermissions(this.employee.email, selectedPermissions).subscribe(
       () => {
         this.isUpdating = false;
-        this.snackBar.openSnackBar('successUpdatePermissionsEmployee');
+        this.snackBar.openSnackBar('successUpdateUbsData');
         this.dialogRef.close(true);
       },
       (error) => {

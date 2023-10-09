@@ -60,7 +60,7 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar-ubs';
       this.getSnackBarMessage('snack-bar.saved-order', additionalValue);
     },
-    successUpdatePermissionsEmployee: () => {
+    successUpdateUbsData: () => {
       this.className = 'success-snackbar-ubs';
       this.getSnackBarMessage('snack-bar.save-employee-permissons');
     },
