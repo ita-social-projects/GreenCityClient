@@ -143,7 +143,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    this.eventsList.length ? (this.noEventsMatch = false) : (this.noEventsMatch = true);
+    this.noEventsMatch = !this.eventsList.length;
   }
 
   public cancelSearch() {

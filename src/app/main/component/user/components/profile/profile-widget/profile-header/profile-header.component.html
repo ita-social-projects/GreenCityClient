@@ -22,7 +22,7 @@
       </a>
     </div>
     <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
-      {{ (userInfo.userCredo | maxTextLength: getCredoLength()) || mockedUserInfo.userCredo }}
+      {{ userInfo.userCredo || mockedUserInfo.userCredo }}
     </div>
 
     <div class="profile-progress">

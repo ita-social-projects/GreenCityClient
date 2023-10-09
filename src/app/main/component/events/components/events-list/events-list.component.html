@@ -5,7 +5,7 @@
       <div class="create-container">
         <div class="container-input" *ngIf="searchToggle">
           <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchFilterWords" placeholder="Search an event" />
-          <img src="../../../../../../assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" />
+          <img src="../../../../../../assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
         </div>
         <div class="container-img">
           <span class="search-img" [ngClass]="{ 'search-img-active': searchToggle }" (click)="search()"></span>
