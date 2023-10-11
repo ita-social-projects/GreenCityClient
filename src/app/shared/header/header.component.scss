@@ -54,6 +54,7 @@ header {
   z-index: 5;
   text-transform: uppercase;
   font-size: 14px;
+  box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
 
   .warning {
     margin: 0 auto;
