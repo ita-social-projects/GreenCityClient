@@ -48,6 +48,7 @@ export class DragAndDropComponent implements OnInit {
     const getPreviewImg = this.createEcoNewsService.getFormData();
     if (this.formData.value.image) {
       this.isCropper = false;
+      this.isWarning = false;
       this.files = [{ file: this.formData.value.file, url: this.formData.value.image }];
     } else if (getPreviewImg) {
       this.isCropper = false;
