@@ -15,6 +15,7 @@ import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog
 import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
 import { FilterData } from '../../../models/tariffs.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { modifiedEmployee } from 'src/app/store/selectors/employee';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
@@ -40,6 +41,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   reset = true;
   filterDatas: FilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
+  employeesData$ = this.store.select(modifiedEmployee);
   public isTooltipOpened: boolean;
   public isStatusActive = EmployeeStatus.active;
   public isStatusInactive = EmployeeStatus.inactive;
@@ -104,20 +106,6 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
     this.employees$.subscribe((item: Employees) => {
       if (item) {
-        this.tableData = item[`page`];
-        this.employees = this.tableData.map((employee: Page) => {
-          return {
-            ...employee,
-            tariffs: employee.tariffs.map((tariff) => ({
-              ...tariff,
-              locations: {
-                displayed: tariff.locationsDtos.slice(0, 3),
-                additional: tariff.locationsDtos.slice(3)
-              }
-            })),
-            expanded: false
-          };
-        });
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
           this.isLoading = false;
@@ -191,6 +179,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.store.dispatch(DeleteEmployee({ id: employeeData.id }));
+          this.initSearch();
         }
       });
   }
