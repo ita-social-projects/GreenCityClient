@@ -1,15 +1,8 @@
-.container {
+.friend-recommended-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.cards-list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 18px;
 
   .cards-box {
     display: flex;
@@ -17,10 +10,25 @@
     flex-wrap: wrap;
     width: 100%;
     row-gap: 14px;
+    column-gap: 32px;
 
-    .user-card {
-      display: flex;
-      width: 50%;
+    @media (max-width: 1200px) {
+      gap: 32px;
+    }
+
+    @media (max-width: 1000px) {
+      justify-content: center;
+    }
+
+    @media (max-width: 320px) {
+      gap: 20px;
+    }
+  }
+
+  .user-card {
+    @media (max-width: 767px) {
+      width: 100%;
+      margin: 0 auto;
     }
   }
 }
@@ -45,17 +53,5 @@
     font-weight: 500;
     font-style: normal;
     line-height: 48px;
-  }
-}
-
-@media (max-width: 1219px) {
-  .cards-list {
-    flex-direction: column;
-    max-width: 100%;
-
-    .cards-box .user-card {
-      justify-content: center;
-      width: 100%;
-    }
   }
 }
