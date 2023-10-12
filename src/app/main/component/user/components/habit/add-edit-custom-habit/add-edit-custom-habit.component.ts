@@ -17,6 +17,9 @@ import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
@@ -47,6 +50,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   quillModules = {};
   isEditing = false;
 
+  private habitId: number;
   private userId: number;
   private currentLang: string;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
@@ -73,7 +77,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private habitService: HabitService,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private store: Store<IAppState>
   ) {
     super(router, dialog);
 
@@ -90,8 +95,13 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
     if (this.isEditing) {
-      this.habit = this.isEditing ? this.localStorageService.getHabitForEdit() : null;
-      this.setEditHabit();
+      this.store
+        .select((state) => state.habit)
+        .pipe(take(1))
+        .subscribe((habitState) => {
+          this.habit = habitState;
+          this.setEditHabit();
+        });
     }
   }
 
@@ -105,21 +115,27 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
       duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
-      tagIds: new FormControl(null, Validators.required),
+      tagIds: new FormControl([], Validators.required),
       image: new FormControl(''),
       shopList: new FormControl([])
     });
   }
 
   private setEditHabit(): void {
+    this.habitForm.addControl('id', new FormControl(null));
     this.habitForm.patchValue({
       title: this.habit.habitTranslation.name,
       description: this.habit.habitTranslation.description,
       complexity: this.habit.complexity,
-      image: this.habit.image
+      duration: this.habit.defaultDuration,
+      tagIds: this.habit.tags,
+      image: this.habit.image,
+      shopList: this.habit.customShoppingListItems
     });
+
+    this.habitId = this.habit.id;
+    this.shopList = this.habit.customShoppingListItems || this.habit.shoppingListItems || [];
     this.initialDuration = this.habit.defaultDuration;
-    this.shopList = this.habit.shoppingListItems || this.habit.customShoppingListItems || [];
   }
 
   public trimValue(control: AbstractControl): void {
@@ -128,6 +144,10 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   getControl(control: string): AbstractControl {
     return this.habitForm.get(control);
+  }
+
+  public setComplexity(i: number): void {
+    this.habitForm.patchValue({ complexity: i + 1 });
   }
 
   changeEditor(event: EditorChangeContent | EditorChangeSelection): void {
@@ -184,7 +204,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .pipe(take(1))
       .subscribe((tags: TagInterface[]) => {
         this.tagsList = tags;
-        this.tagsList.forEach((item) => (item.isActive = false));
+        this.tagsList.forEach((item) => (item.isActive = this.habitForm.value.tagIds.some((el) => el === item.name || el === item.nameUa)));
+        if (this.isEditing) {
+          const newList = this.tagsList.filter((el) => this.habitForm.value.tagIds.includes(el.name));
+          this.getTagsList(newList);
+        }
       });
   }
 
@@ -198,6 +222,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   saveHabit(): void {
-    // TO DO: implement logic to save changes
+    this.habitService
+      .changeCustomHabit(this.habitForm.value, this.currentLang, this.habitId)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.goToAllHabits();
+      });
   }
 }

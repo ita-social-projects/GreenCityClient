@@ -23,6 +23,9 @@ import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.i
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { Store } from '@ngrx/store';
+import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -80,7 +83,8 @@ export class AddNewHabitComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location,
-    public userFriendsService: UserFriendsService
+    public userFriendsService: UserFriendsService,
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit() {
@@ -263,7 +267,10 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.localStorageService.setHabitForEdit(url, this.habitResponse);
+    this.habitResponse.shoppingListItems = this.standartShopList;
+    this.habitResponse.customShoppingListItems = this.customShopList;
+    this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
+    this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 

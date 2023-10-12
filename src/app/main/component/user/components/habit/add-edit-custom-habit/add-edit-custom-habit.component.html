@@ -28,8 +28,14 @@
             <div class="difficulty-box">
               <label class="label">{{ 'user.habit.add-new-habit.difficulty.name' | translate }}</label>
               <ul class="difficulty-input">
-                <li *ngFor="let item of complexityList" class="star-button">
-                  <span ngbPopover="{{ item.name | translate }}" triggers="mouseenter:mouseleave" placement="bottom" container="body">
+                <li *ngFor="let item of complexityList; index as i" class="star-button">
+                  <span
+                    ngbPopover="{{ item.name | translate }}"
+                    triggers="mouseenter:mouseleave"
+                    placement="bottom"
+                    container="body"
+                    (click)="this.setComplexity(i)"
+                  >
                     <label>
                       <input type="radio" name="complexity" [value]="item.value" />
                       <img [src]="getStars(item.value, getControl('complexity').value)" [alt]="item.alt" />

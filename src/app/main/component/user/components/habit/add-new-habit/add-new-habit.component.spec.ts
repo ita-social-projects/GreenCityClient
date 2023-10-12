@@ -24,6 +24,8 @@ import { HabitAcquireConfirm } from '../models/habit-warnings';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { TodoStatus } from '../models/todo-status.enum';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
@@ -33,6 +35,8 @@ describe('AddNewHabitComponent', () => {
   let fakeShoppingListService: ShoppingListService;
   let fakeHabitService: HabitService;
   let fakeLocalStorageService: LocalStorageService;
+
+  const initialState = { habit: { defaultDuration: 1 } };
 
   const mockActivatedRoute = {
     params: of({ habitId: 2 })
@@ -119,7 +123,8 @@ describe('AddNewHabitComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Location, useValue: locationMock },
         { provide: MatDialog, useClass: MatDialogMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        provideMockStore({ initialState })
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -334,7 +339,7 @@ describe('AddNewHabitComponent', () => {
   it('call of updateHabit method should invoke afterHabitWasChanged method', () => {
     const customShopListMock = {
       id: 7,
-      status: 'fake string',
+      status: TodoStatus.inprogress,
       text: 'fake custom text',
       selected: false,
       custom: true

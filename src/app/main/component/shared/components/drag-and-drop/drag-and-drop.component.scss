@@ -41,7 +41,7 @@
 }
 
 .warning-color {
-  color: red !important;
+  color: var(--error-red) !important;
 }
 
 .warning-background {
@@ -50,8 +50,8 @@
 
 .warning {
   font-family: var(--primary-font);
+  color: var(--freinacht-black);
   font-size: 12px;
-  color: var(--error-red);
   line-height: 16px;
 }
 
