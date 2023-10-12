@@ -93,10 +93,10 @@
                   <img [src]="icons.location" alt="" />
                 </div>
                 <div>
-                  {{ locationAddress ? locationAddress : locationLink }}
+                  {{ locationCoordinates ? getAddress() : locationLink }}
                 </div>
               </div>
-              <div *ngIf="locationAddress && locationLink" class="event-link">
+              <div *ngIf="locationCoordinates && locationLink" class="event-link">
                 <div class="event-link-icon">
                   <img [src]="icons.link" alt="" />
                 </div>

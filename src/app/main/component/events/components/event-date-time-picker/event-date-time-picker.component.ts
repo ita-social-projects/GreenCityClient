@@ -1,18 +1,12 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate } from '../../models/events.interface';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { takeUntil } from 'rxjs/operators';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { DateAdapter } from '@angular/material/core';
-import { LanguageModel } from '../../../layout/components/models/languageModel';
-import { Language, Locate } from 'src/app/main/i18n/Language';
 import { TimeFront, TimeBack } from '../../models/event-consts';
 
 @Component({
@@ -65,19 +59,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   public dateForm: FormGroup;
   public currentLang: string;
-  private destroy: Subject<boolean> = new Subject<boolean>();
   public isLocationSelected = false;
   public arePlacesFilled: boolean[] = [];
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private mapsAPILoader: MapsAPILoader,
-    private langService: LanguageService,
-    private translate: TranslateService,
-    private localStorageService: LocalStorageService,
-    private eventsService: EventsService,
-    private adapter: DateAdapter<LanguageModel>
-  ) {}
+  constructor(private mapsAPILoader: MapsAPILoader, private langService: LanguageService, private eventsService: EventsService) {}
 
   ngOnInit(): void {
     const curDate = new Date();
@@ -111,19 +97,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.editDate && !this.editDates) {
       this.setDataEditing();
     }
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
-      this.currentLang = lang;
-      this.bindLang(this.currentLang);
-      const locale = lang !== Language.UA ? Locate.EN : Locate.UA;
-      this.adapter.setLocale(locale);
-      if (this.editDate) {
-        this.dateForm.patchValue({
-          place:
-            lang === Language.UA
-              ? this.eventsService.createAdresses(this.editDate.coordinates, 'Ua')
-              : this.eventsService.createAdresses(this.editDate.coordinates, 'En')
-        });
-      }
+
+    this.langService.getCurrentLangObs().subscribe((_) => {
+      this.getCoordinates();
     });
 
     const isAddressFilledSubscription = this.eventsService.getCheckedPlacesObservable().subscribe((values) => {
@@ -147,10 +123,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       initialDate = '';
     }
     return { initialDate, initialStartTime };
-  }
-
-  private bindLang(lang: string): void {
-    this.translate.setDefaultLang(lang);
   }
 
   private setDataEditing(): void {
@@ -191,17 +163,13 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.zoom = 8;
 
       this.dateForm.patchValue({
-        place: this.getLangValue(
-          this.eventsService.createAdresses(this.editDate.coordinates, 'Ua'),
-          this.eventsService.createAdresses(this.editDate.coordinates, 'En')
-        ),
+        place: this.eventsService.getFormattedAdress(this.editDate.coordinates),
         coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
       });
+
       if (this.hasTheDatePassed('finishDate')) {
         this.dateForm.get('place').disable();
       }
-      this.coordinates.latitude = this.editDate.coordinates.latitude;
-      this.coordinates.longitude = this.editDate.coordinates.longitude;
     }
 
     if (this.editDate.onlineLink) {
@@ -210,6 +178,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.dateForm.patchValue({
         onlineLink: this.editDate.onlineLink
       });
+    }
+  }
+
+  public getCoordinates(): void {
+    if (this.editDate) {
+      this.dateForm.patchValue({ place: this.eventsService.getFormattedAdress(this.editDate.coordinates) });
     }
   }
 
@@ -287,6 +261,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.coordOffline.emit(this.coordinates);
       this.autocomplete.unbindAll();
       this.dateForm.removeControl('place');
+      this.dateForm.removeControl('coordinatesDto');
       this.isLocationSelected = false;
     }
   }
@@ -303,7 +278,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
           this.coordinates.longitude = locationName.geometry.location.lng();
           this.coordOffline.emit(this.coordinates);
           this.dateForm.patchValue({
-            place: locationName.formatted_address
+            place: locationName.formatted_address,
+            coordinatesDto: { latitude: this.coordinates.latitude, longitude: this.coordinates.longitude }
           });
 
           this.isLocationSelected = false;
@@ -390,7 +366,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
   }
 
-  public getLangValue(uaValue, enValue): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 }

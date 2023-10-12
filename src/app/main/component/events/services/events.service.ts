@@ -2,14 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import {
-  EventResponseDto,
-  Coordinates,
-  PagePreviewDTO,
-  DateEvent,
-  EventFilterCriteriaIntarface,
-  Addresses
-} from '../models/events.interface';
+import { EventResponseDto, Coordinates, PagePreviewDTO, DateEvent, EventFilterCriteriaIntarface } from '../models/events.interface';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +13,9 @@ export class EventsService implements OnDestroy {
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
+  private divider = `, `;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private langService: LanguageService) {}
 
   public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
     const currentValues = this.arePlacesFilledSubject.getValue();
@@ -137,12 +132,42 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  createAdresses(coord: Coordinates | null, lang: string): string {
+  public getFormattedAdress(coordinates: Coordinates): string {
+    return this.getLangValue(
+      coordinates.streetUa ? this.createAdresses(coordinates, 'Ua') : coordinates.formattedAddressUa,
+      coordinates.streetEn ? this.createAdresses(coordinates, 'En') : coordinates.formattedAddressEn
+    );
+  }
+
+  public getFormattedAdressEventsList(coordinates: Coordinates) {
+    return this.getLangValue(
+      coordinates.streetUa
+        ? this.createEventsListAdresses(coordinates, 'Ua')
+        : coordinates.formattedAddressUa.split(', ').slice(0, 2).reverse().join(', '),
+      coordinates.streetEn
+        ? this.createEventsListAdresses(coordinates, 'En')
+        : coordinates.formattedAddressEn.split(', ').slice(0, 2).reverse().join(', ')
+    );
+  }
+
+  private getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public createAdresses(coord: Coordinates | null, lang: string): string {
     if (!coord) {
       return '';
     }
-    const divider = `, `;
-    return `${coord[`country${lang}`]}${divider}${coord[`city${lang}`]}${divider}${coord[`street${lang}`]}${divider}${coord.houseNumber}`;
+    return `${coord[`country${lang}`]}${this.divider}${coord[`city${lang}`]}${this.divider}${coord[`street${lang}`]}${this.divider}${
+      coord.houseNumber
+    }`;
+  }
+
+  public createEventsListAdresses(coord: Coordinates | null, lang: string): string {
+    if (!coord) {
+      return '';
+    }
+    return `${coord[`city${lang}`]}${this.divider}${coord[`street${lang}`]}${this.divider}${coord.houseNumber}`;
   }
 
   ngOnDestroy(): void {
