@@ -130,7 +130,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
 
   setDisabledCityForLocation(): void {
     const isCityAccess = this.currentLocationId === this.locationIdForKyiv;
-    const [currentRegionUk, currentRegionEn] = this.getLangValue(this.locations.regionDto.nameUk, this.locations.regionDto.nameEn);
+    const [currentRegionUk, currentRegionEn] = this.getLangValue(this.locations?.regionDto.nameUk, this.locations?.regionDto.nameEn);
     const citiesForLocationId = this.listOflocations.getCity(this.currentLanguage).map((city) => city.cityName);
 
     this.addresses = this.addresses.map((address) => {
@@ -231,6 +231,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAddressInPersonalData(): void {
+    this.currentLocationId = this.localService.getCurrentLocationId() ?? this.localService.getCurrentLocationId();
     this.isOneAdress();
     const actualAddress = this.addresses.find((address) => address.actual);
     const activeAddress = this.checkedAddress ?? actualAddress;
@@ -264,6 +265,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.personalData.longitude = coordinates.longitude;
     }
     this.shareFormService.saveDataOnLocalStorage();
+    this.localService.setLocationId(this.currentLocationId);
   }
 
   changeAnotherClientInPersonalData() {
