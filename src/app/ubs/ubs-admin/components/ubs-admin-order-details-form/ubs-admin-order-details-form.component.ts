@@ -351,8 +351,8 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
   }
 
-  checkEmptyInput(value: string): boolean {
-    return !value.trim().length;
+  checkOrderNumberFromEcoStore(value: string): boolean {
+    return !value.length || value.length >= 4;
   }
 
   addOrderNumberFromShop(): void {

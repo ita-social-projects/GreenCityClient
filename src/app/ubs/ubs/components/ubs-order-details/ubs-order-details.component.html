@@ -151,7 +151,7 @@
           </div>
           <button
             *ngIf="canAddEcoShopOrderNumber()"
-            [disabled]="additionalOrders.controls.length < 5 && !displayOrderBtn"
+            [disabled]="additionalOrders.controls.length >= 5"
             class="ubs-link-global-button s-link add-order-btn"
             (click)="addOrder()"
           >

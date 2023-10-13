@@ -174,7 +174,7 @@
               <ng-container *ngFor="let orderNumber of getStoreOrderNumbers(); let i = index">
                 <div class="shop-numbers">
                   <input
-                    [ngClass]="{ 'check-empty-input': checkEmptyInput(orderNumber.value) }"
+                    [ngClass]="{ 'valid-order': checkOrderNumberFromEcoStore(orderNumber.value) }"
                     class="shadow-none form-control border-input p-2 mb-2"
                     type="text"
                     [imask]="{ mask: SHOP_NUMBER_MASK }"
