@@ -158,16 +158,16 @@ export class EventsService implements OnDestroy {
     if (!coord) {
       return '';
     }
-    return `${coord[`country${lang}`]}${this.divider}${coord[`city${lang}`]}${this.divider}${coord[`street${lang}`]}${this.divider}${
-      coord.houseNumber
-    }`;
+    const parts = [coord[`country${lang}`], coord[`city${lang}`], coord[`street${lang}`], coord.houseNumber];
+    return parts.join(this.divider);
   }
 
   public createEventsListAddresses(coord: Coordinates | null, lang: string): string {
     if (!coord) {
       return '';
     }
-    return `${coord[`city${lang}`]}${this.divider}${coord[`street${lang}`]}${this.divider}${coord.houseNumber}`;
+    const addressParts = [coord[`city${lang}`], coord[`street${lang}`], coord.houseNumber];
+    return addressParts.join(this.divider);
   }
 
   ngOnDestroy(): void {
