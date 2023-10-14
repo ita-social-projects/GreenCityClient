@@ -132,20 +132,20 @@ export class EventsService implements OnDestroy {
     return this.http.get<any>(`${this.backEnd}events/getAllSubscribers/${id}`);
   }
 
-  public getFormattedAdress(coordinates: Coordinates): string {
+  public getFormattedAddress(coordinates: Coordinates): string {
     return this.getLangValue(
-      coordinates.streetUa ? this.createAdresses(coordinates, 'Ua') : coordinates.formattedAddressUa,
-      coordinates.streetEn ? this.createAdresses(coordinates, 'En') : coordinates.formattedAddressEn
+      coordinates.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates.formattedAddressUa,
+      coordinates.streetEn ? this.createAddresses(coordinates, 'En') : coordinates.formattedAddressEn
     );
   }
 
-  public getFormattedAdressEventsList(coordinates: Coordinates) {
+  public getFormattedAddressEventsList(coordinates: Coordinates) {
     return this.getLangValue(
       coordinates.streetUa
-        ? this.createEventsListAdresses(coordinates, 'Ua')
+        ? this.createEventsListAddresses(coordinates, 'Ua')
         : coordinates.formattedAddressUa.split(', ').slice(0, 2).reverse().join(', '),
       coordinates.streetEn
-        ? this.createEventsListAdresses(coordinates, 'En')
+        ? this.createEventsListAddresses(coordinates, 'En')
         : coordinates.formattedAddressEn.split(', ').slice(0, 2).reverse().join(', ')
     );
   }
@@ -154,7 +154,7 @@ export class EventsService implements OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public createAdresses(coord: Coordinates | null, lang: string): string {
+  public createAddresses(coord: Coordinates | null, lang: string): string {
     if (!coord) {
       return '';
     }
@@ -163,7 +163,7 @@ export class EventsService implements OnDestroy {
     }`;
   }
 
-  public createEventsListAdresses(coord: Coordinates | null, lang: string): string {
+  public createEventsListAddresses(coord: Coordinates | null, lang: string): string {
     if (!coord) {
       return '';
     }

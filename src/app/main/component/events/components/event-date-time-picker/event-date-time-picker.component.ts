@@ -163,7 +163,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.zoom = 8;
 
       this.dateForm.patchValue({
-        place: this.eventsService.getFormattedAdress(this.editDate.coordinates),
+        place: this.eventsService.getFormattedAddress(this.editDate.coordinates),
         coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
       });
 
@@ -183,7 +183,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   public getCoordinates(): void {
     if (this.editDate) {
-      this.dateForm.patchValue({ place: this.eventsService.getFormattedAdress(this.editDate.coordinates) });
+      this.dateForm.patchValue({ place: this.eventsService.getFormattedAddress(this.editDate.coordinates) });
     }
   }
 
@@ -270,7 +270,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
-
       this.autocomplete.addListener('place_changed', () => {
         const locationName = this.autocomplete.getPlace();
         if (locationName.formatted_address) {

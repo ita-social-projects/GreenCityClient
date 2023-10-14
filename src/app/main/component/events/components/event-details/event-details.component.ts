@@ -173,7 +173,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public getAddress(): string {
-    return this.eventService.getFormattedAdress(this.locationCoordinates);
+    return this.eventService.getFormattedAddress(this.locationCoordinates);
   }
 
   private verifyRole(): string {

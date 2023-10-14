@@ -277,7 +277,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
 
   public getAddress(): string {
     if (this.address) {
-      return this.eventService.getFormattedAdressEventsList(this.address);
+      return this.eventService.getFormattedAddressEventsList(this.address);
     }
   }
 

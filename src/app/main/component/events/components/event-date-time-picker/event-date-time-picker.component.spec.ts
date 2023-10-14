@@ -22,19 +22,22 @@ describe('EventDateTimePickerComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
+  languageServiceMock.getCurrentLangObs.and.returnValue(of('fakeValue'));
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', [
-    'createAdresses',
+    'createAddresses',
     'setArePlacesFilled',
     'getCheckedPlacesObservable',
-    'setInitialValueForPlaces'
+    'setInitialValueForPlaces',
+    'getFormattedAddress'
   ]);
-  EventsServiceMock.createAdresses = () => of('');
+  EventsServiceMock.createAddresses = () => of('');
   EventsServiceMock.setArePlacesFilled = () => of('');
   EventsServiceMock.setInitialValueForPlaces = () => of('');
   EventsServiceMock.getCheckedPlacesObservable = () => of([]);
+  EventsServiceMock.getFormattedAddress = () => of('Mocked formatted address');
 
   const editDateMock = {
     coordinates: {
@@ -48,7 +51,9 @@ describe('EventDateTimePickerComponent', () => {
       regionEn: 'Lvivska oblast',
       regionUa: 'Львівська область',
       streetEn: 'Svobody Ave',
-      streetUa: 'Свободи'
+      streetUa: 'Свободи',
+      formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+      formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
     },
     event: 'event',
     finishDate: '2023-05-27T15:23:59+03:00',
