@@ -139,7 +139,7 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  public getFormattedAddressEventsList(coordinates: Coordinates) {
+  public getFormattedAddressEventsList(coordinates: Coordinates): string {
     return this.getLangValue(
       coordinates.streetUa
         ? this.createEventsListAddresses(coordinates, 'Ua')
