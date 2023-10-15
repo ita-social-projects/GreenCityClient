@@ -169,6 +169,10 @@
   white-space: nowrap;
 }
 
+.save-edit:disabled .btn-text {
+  color: var(--quaternary-medium-grey);
+}
+
 .comment-likes {
   .like-amount {
     font-family: var(--primary-font);
