@@ -8,6 +8,7 @@ import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { By } from '@angular/platform-browser';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -92,15 +93,33 @@ describe('CommentsListComponent', () => {
   });
 
   it('should show page elements if user clicks reply', () => {
-    const spy = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
+    const spyMap = spyOn(component.elementsList, 'map').and.returnValue([commentData]);
+    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
+    const spyUpdateControl = spyOn(component, 'updateContentControl');
     component.showElements(1, 'showRelyButton');
-    expect(spy).toHaveBeenCalled();
-    expect(spy.length).toBe(1);
+    expect(spyMap).toHaveBeenCalled();
+    expect(spyUpdateControl).toHaveBeenCalledWith(1);
+    expect(spyMap.length).toBe(1);
+  });
+
+  it('should update content form controls when user reply', () => {
+    component.content.setValue('old value');
+    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
+    component.showElements(1, 'showRelyButton');
+    expect(component.content.value).toBe(commentData.text);
+    expect(component.isEditTextValid).toBeTruthy();
   });
 
   it('should check is current user an author', () => {
     const userId = 1;
     component.checkCommentAuthor(commentData.author.id);
     expect(commentData.author.id).toEqual(userId);
+  });
+
+  it('should check textarea length', () => {
+    const spyFilter = spyOn(component.elementsList, 'filter').and.returnValue([commentData]);
+    component.updateContentControl(1);
+    expect(component.content.value).toBe(commentData.text);
+    expect(component.isEditTextValid).toBeTruthy();
   });
 });

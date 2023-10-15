@@ -137,6 +137,8 @@
   pointer-events: none;
 }
 
+// }
+
 .cancel-edit {
   height: 40px;
   margin-right: 8px;
@@ -167,6 +169,10 @@
   color: var(--secondary-grey);
   mix-blend-mode: normal;
   white-space: nowrap;
+}
+
+.save-edit:disabled .btn-text {
+  color: var(--quaternary-medium-grey);
 }
 
 .comment-likes {
