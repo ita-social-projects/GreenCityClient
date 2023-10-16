@@ -33,7 +33,15 @@
   <div class="comment-main-text">
     <p class="comment-text" *ngIf="!comment.isEdit">{{ comment.text }}</p>
     <div class="comment-edit-text" *ngIf="comment.isEdit">
-      <textarea type="text" [value]="comment.text" (input)="checkTextarea($event)" class="edit-text-input" maxlength="8000"> </textarea>
+      <textarea
+        type="text"
+        [value]="comment.text"
+        (input)="checkTextarea($event)"
+        class="edit-text-input"
+        [ngClass]="{ invalid: !isEditTextValid }"
+        maxlength="8000"
+      >
+      </textarea>
     </div>
   </div>
   <div class="comments-elements">

@@ -1,6 +1,6 @@
 import { take } from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 
@@ -17,7 +17,7 @@ export class AddCommentComponent implements OnInit {
   public avatarImage: string;
   public firstName: string;
   public addCommentForm: FormGroup = this.fb.group({
-    content: ['', [Validators.required, Validators.maxLength(8000)]]
+    content: ['', [Validators.required, Validators.maxLength(8000), this.noSpaceValidator]]
   });
   public replyMaxLength = 8000;
 
@@ -25,6 +25,10 @@ export class AddCommentComponent implements OnInit {
 
   ngOnInit() {
     this.getUserInfo();
+  }
+
+  noSpaceValidator(control: FormControl): ValidationErrors {
+    return control.value.trim().length ? null : { spaces: true };
   }
 
   public getUserInfo(): void {

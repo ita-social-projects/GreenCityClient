@@ -80,6 +80,7 @@
           "confirm": "Yes, delete",
           "cancel": "Cancel"
         },
+        "reply-error-message": "This reply text field shouldn't be more than 8000 characters",
         "btn": {
           "reply": "Reply",
           "like": "Like",
