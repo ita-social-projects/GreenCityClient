@@ -167,6 +167,7 @@
                     *ngIf="index > 0"
                     role="menuitem"
                     tabindex="0"
+                    class="lang-option"
                     [attr.aria-label]="lang.lang"
                     (click)="changeCurrentLanguage(lang.lang, index)"
                     (keydown)="onKeydownLangOption($event, index)"
@@ -185,7 +186,6 @@
                 appCloseDropdown
                 [attr.aria-label]="ariaStatus"
                 [ngClass]="{
-                  'd-none': toggleBurgerMenu,
                   'item-list-margin': dropdownVisible && isUBS,
                   'ubs-user-cabinet': isUBS,
                   'ubs-admin-cabinet': isAdmin
@@ -194,14 +194,10 @@
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
               >
-                <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
-                  <a class="list-item-main" [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
-                    <img src="../assets/img/events/user.svg" alt="log-in user" />
-                  </a>
-                </li>
-                <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                <li class="body-2" [ngClass]="isUBS ? 'ubs-user-name' : 'user-name'">{{ name }}</li>
+                <ul *ngIf="toggleBurgerMenu" class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
                   <li
-                    *ngIf="isLoggedIn && !isAdmin"
+                    *ngIf="!isAdmin"
                     [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
                     role="listitem"
                     aria-label="notifications"

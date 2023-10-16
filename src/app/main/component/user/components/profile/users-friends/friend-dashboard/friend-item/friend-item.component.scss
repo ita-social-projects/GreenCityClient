@@ -1,14 +1,38 @@
-.friend-item {
+.friend-item-wrapper {
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  max-width: 554px;
+  width: 554px;
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
   padding: 24px;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(202, 207, 211, 0.7);
+
+  ::ng-deep .profile-avatar {
+    @media (max-width: 1200px) {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    width: 417px;
+    height: 176px;
+  }
+
+  @media (max-width: 1000px) {
+    width: 603px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+
+  @media (max-width: 450px) {
+    padding: 24px 6px 16px 10px;
+  }
 }
 
 .rate-with-photo {
@@ -65,12 +89,19 @@
   justify-content: flex-start;
   flex: 3;
   margin-left: 28px;
+
+  @media (max-width: 450px) {
+    max-width: 100px;
+    margin-left: 5px;
+    overflow: hidden;
+  }
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 114px;
 }
 
 .friend-btn {
@@ -78,8 +109,8 @@
 
   button {
     line-height: 16px;
-    padding: 0 16px;
-    width: 142px;
+    white-space: nowrap;
+    width: 100%;
   }
 }
 
@@ -90,39 +121,4 @@
 .friend-with-photo {
   display: flex;
   flex-direction: column-reverse;
-}
-
-@media only screen and (min-width: 768px) {
-  .friend-item {
-    width: 554px;
-    flex-direction: row;
-  }
-}
-
-@media only screen and (min-width: 576px) {
-  .friend-item {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 767px) {
-  .friend-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    max-width: 200px;
-    min-width: 200px;
-  }
-
-  .friend-city {
-    text-align: center;
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 }

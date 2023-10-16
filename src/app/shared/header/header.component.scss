@@ -200,6 +200,20 @@ header {
   margin-right: 48px;
 }
 
+.container .header_logo img {
+  width: 136px;
+  height: auto;
+
+  @media screen and (max-width: 577px) {
+    width: 94px;
+  }
+}
+
+.container-fluid .header_logo img {
+  width: 94px;
+  height: auto;
+}
+
 .header_navigation-menu-right-list {
   display: flex;
   align-items: center;
@@ -212,9 +226,12 @@ header {
 
   li {
     height: 100%;
-    padding: 10px 12px;
     display: flex;
     align-items: center;
+  }
+
+  .lang-option {
+    padding: 10px 12px;
   }
 
   li.header_sign-up-link {
@@ -309,15 +326,6 @@ header {
   text-decoration-line: none;
 }
 
-.header-logo {
-  display: flex;
-  align-items: center;
-
-  a img {
-    max-width: 100%;
-  }
-}
-
 .header_navigation-menu {
   height: $header-height;
 
@@ -377,6 +385,30 @@ header {
     margin: 0;
     color: var(--primary-dark-grey);
 
+    &.user-name,
+    &.ubs-user-name {
+      padding: 0;
+      font-family: var(--primary-font);
+      font-weight: 400;
+      text-transform: capitalize;
+      max-width: 160px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &.user-name {
+      color: var(--primary-green);
+
+      @media screen and (max-width: 575px) {
+        display: none;
+      }
+    }
+
+    &.ubs-user-name {
+      color: var(--ubs-electric-violet);
+    }
+
     &.drop-down-item {
       display: flex;
       align-items: center;
@@ -395,7 +427,6 @@ header {
       display: flex;
       margin: 0;
       font-size: 14px;
-      font-weight: 600;
 
       .list-item-main {
         padding: 7px 17px;
@@ -411,27 +442,6 @@ header {
 
     &.text-hidde {
       display: none;
-    }
-  }
-
-  .header_user-name {
-    span {
-      color: var(--primary-green);
-      max-width: 120px;
-    }
-  }
-
-  .ubs-header_user-name,
-  .header_user-name {
-    display: flex;
-    text-decoration: none;
-
-    span {
-      font-weight: normal;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      word-break: break-all;
     }
   }
 }
@@ -533,11 +543,6 @@ header {
         font-family: var(--ubs-secondary-font);
       }
     }
-  }
-
-  .header_logo {
-    display: flex;
-    align-items: center;
   }
 }
 
@@ -714,10 +719,6 @@ header {
 @media (min-width: 768px) {
   .container-fluid {
     padding: 0 24px;
-  }
-
-  .header_container .header_logo img {
-    width: 90px;
   }
 
   a.ubs-header-sign-in,
@@ -905,10 +906,6 @@ header {
     width: 80%;
   }
 
-  .header_logo {
-    max-height: 42px;
-  }
-
   .admin-container-fluid {
     align-items: center;
   }
@@ -975,13 +972,11 @@ header {
     }
   }
 
-  .header_navigation-menu-ubs .header_navigation-menu-right .header_navigation-menu-right-list #header_user-wrp.ubs-user-cabinet,
-  #header_user-wrp {
+  .header_navigation-menu-ubs .header_navigation-menu-right .header_navigation-menu-right-list #header_user-wrp.ubs-user-cabinet {
     display: none;
   }
 
-  .header_navigation-menu-left,
-  #header_user-wrp {
+  .header_navigation-menu-left {
     display: none;
   }
 
@@ -999,16 +994,6 @@ header {
     width: 196px;
     height: 36px;
     font-size: 12px;
-  }
-
-  .header_container .header_logo {
-    width: 68px;
-    height: 36px;
-
-    img {
-      width: 68px;
-      height: 36px;
-    }
   }
 
   img.ubs-header-sing-in-img {
@@ -1040,16 +1025,6 @@ header {
 
     .header_navigation-menu-ubs {
       height: 52px;
-    }
-  }
-
-  .header_container .header_logo {
-    width: 68px;
-    height: 27px;
-
-    img {
-      width: 54px;
-      height: 27px;
     }
   }
 
@@ -1123,15 +1098,9 @@ header {
     }
   }
 
-  a.header_logo,
-  a.header_logo img {
-    max-height: 25px;
-  }
-
   .header_lang-switcher-wrp,
   .header_navigation-menu-right-lang,
   .ubs-lang-switcher {
-    margin-right: 18px;
     padding: 0;
   }
 
