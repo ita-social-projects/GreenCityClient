@@ -359,7 +359,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public onScroll(): void {
     const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
     this.scroll = true;
-    if (this.eventsList.length !== 0) {
+    if (this.eventsList.length) {
       this.dispatchStore(isRemovedEvents);
     }
   }
