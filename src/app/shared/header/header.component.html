@@ -195,7 +195,7 @@
                 (keyup.enter)="toggleDropdown()"
               >
                 <li class="body-2" [ngClass]="isUBS ? 'ubs-user-name' : 'user-name'">{{ name }}</li>
-                <ul *ngIf="toggleBurgerMenu" class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
+                <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
                   <li
                     *ngIf="!isAdmin"
                     [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
