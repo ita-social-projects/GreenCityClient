@@ -203,6 +203,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
     }
     this.cleanPersonalDataState();
+    this.localStorageService.removeUbsFondyOrderId();
   }
 
   public getExistingOrderUrl(): void {
@@ -217,12 +218,10 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       )
       .subscribe(
         (response) => {
-          console.log('RESPONSE ', response);
           const { orderId, link } = JSON.parse(response);
           this.shareFormService.orderUrl = '';
           this.localStorageService.removeUBSExistingOrderId();
           this.shareFormService.orderUrl = link.toString();
-          console.log('getExistingOrderUrl');
           this.localStorageService.setUbsFondyOrderId(orderId);
           this.redirectToExternalUrl(this.shareFormService.orderUrl);
         },

@@ -22,7 +22,11 @@ describe('UbsMainPageComponent', () => {
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId']);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
+    'setUbsRegistration',
+    'getUserId',
+    'removeUbsFondyOrderId'
+  ]);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);

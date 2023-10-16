@@ -341,7 +341,7 @@ export class LocalStorageService {
   }
 
   public setAddresses(addresses: Address[]) {
-    localStorage.setItem('addresses', String(addresses));
+    localStorage.setItem('addresses', JSON.stringify(addresses));
   }
 
   public getCurrentLocationId(): number {
