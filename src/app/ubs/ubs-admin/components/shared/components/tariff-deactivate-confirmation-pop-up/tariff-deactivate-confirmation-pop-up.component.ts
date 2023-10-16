@@ -92,7 +92,6 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
   }
 
   public actionClick(): void {
-    console.log('ddd');
     this.dialogRef.close(true);
     this.snackBar.openSnackBar('successUpdateUbsData');
   }
