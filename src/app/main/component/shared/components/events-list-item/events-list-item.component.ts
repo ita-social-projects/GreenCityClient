@@ -291,19 +291,18 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
       this.openAuthModalWindow('sign-in');
     } else {
       this.bookmarkSelected = !this.bookmarkSelected;
+      const sendEventDto = {
+        isFavorite: this.bookmarkSelected
+      };
+      const formData: FormData = new FormData();
+      const stringifiedDataToSend = JSON.stringify(sendEventDto);
+      const dtoName = 'EventPageResponceDto';
+
+      formData.append(dtoName, stringifiedDataToSend);
+
+      this.eventService.editEvent(formData).subscribe((res) => {});
+      this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
     }
-
-    const sendEventDto = {
-      isFavorite: this.bookmarkSelected
-    };
-    const formData: FormData = new FormData();
-    const stringifiedDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = 'EventPageResponceDto';
-
-    formData.append(dtoName, stringifiedDataToSend);
-
-    this.eventService.editEvent(formData).subscribe((res) => {});
-    this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
   }
 
   public openAuthModalWindow(page: string): void {
