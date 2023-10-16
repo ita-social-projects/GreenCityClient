@@ -63,6 +63,7 @@ export class AddNewHabitComponent implements OnInit {
   private habitId: number;
   public habitAssignId: number;
   public userId: number;
+  public wasCustomHabitCreatedByUser = false;
   private currentLang: string;
   private enoughToAcquire = 80;
   private page = 0;
@@ -126,7 +127,7 @@ export class AddNewHabitComponent implements OnInit {
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
-          this.initialDuration = res.duration;
+          this.initialDuration = res.habit.defaultDuration;
           this.initHabitData(res.habit);
           this.getCustomShopList();
         });
@@ -174,6 +175,7 @@ export class AddNewHabitComponent implements OnInit {
 
   private initHabitData(habit: HabitInterface): void {
     this.habitResponse = habit;
+    this.wasCustomHabitCreatedByUser = habit.usersIdWhoCreatedCustomHabit === this.userId;
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.isCustom = habit.isCustomHabit;
     this.getStars(habit.complexity);
@@ -210,7 +212,9 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   getDuration(newDuration: number): void {
-    this.newDuration = newDuration;
+    setTimeout(() => {
+      this.newDuration = newDuration;
+    });
   }
 
   getProgressValue(progress: number): void {
