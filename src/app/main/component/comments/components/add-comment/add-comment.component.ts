@@ -28,7 +28,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   noSpaceValidator(control: FormControl): ValidationErrors {
-    return control.value.trim().length ? null : { spaces: true };
+    return (control.value || '').trim().length ? null : { spaces: true };
   }
 
   public getUserInfo(): void {
@@ -45,6 +45,7 @@ export class AddCommentComponent implements OnInit {
       .subscribe(() => {
         this.updateList.emit();
         this.addCommentForm.reset();
+        this.addCommentForm.controls.content.setValue('');
       });
   }
 }

@@ -60,8 +60,10 @@ export class CommentsListComponent {
     });
   }
 
-  public showElements(id: number, key: string): void {
-    this.updateContentControl(id);
+  public showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
+    if (key !== 'showAllRelies') {
+      this.updateContentControl(id);
+    }
     this.elementsList = this.elementsList.map((item) => {
       item[key] = item.id === id && !item[key];
       return item;
