@@ -139,9 +139,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
   redirectToOrder() {
     this.getLocations(this.courierUBSName);
-    this.cleanOrderState();
-    localStorage.removeItem('UBSExistingOrderId');
-    this.localStorageService.removeUbsFondyOrderId();
+    this.orderService.cleanPrevOrderState();
   }
 
   ngOnInit() {
@@ -232,11 +230,6 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   displayError(error) {
     const errorMessage = this.translate.instant('snack-bar.error.default');
     this.snackBar.openSnackBar(errorMessage);
-  }
-
-  cleanOrderState(): void {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 
   ngOnDestroy() {

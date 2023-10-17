@@ -24,7 +24,8 @@ describe('UBSSubmitOrderComponent', () => {
     'getCurrentLanguage',
     'setUserPagePayment',
     'setFinalSumOfOrder',
-    'removeUbsFondyOrderId'
+    'removeUbsFondyOrderId',
+    'getExistingOrderId'
   ]);
   fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
   fakeLocalStorageService.languageSubject = of('ua');

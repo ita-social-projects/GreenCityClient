@@ -172,9 +172,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     } else {
       this.openAuthModalWindow();
     }
-    this.cleanOrderState();
-    localStorage.removeItem('UBSExistingOrderId');
-    this.localStorageService.removeUbsFondyOrderId();
+    this.orderService.cleanPrevOrderState();
   }
 
   public openAuthModalWindow(): void {
@@ -270,10 +268,5 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
           console.error(e);
         }
       );
-  }
-
-  cleanOrderState() {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }

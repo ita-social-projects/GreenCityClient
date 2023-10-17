@@ -20,6 +20,7 @@
   },
   "snack-bar": {
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
+    "update-order": "Your changes have been saved",
     "no-internet": "No internet connection",
     "error": {
       "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
@@ -31,7 +32,7 @@
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
-      "exit-confirm-restore-password": "Your password hasn`t been changed."
+      "exit-confirm-restore-password": "Your password hasn`t been changed"
     },
     "success": {
       "default": "Success message. The action was successful.",
