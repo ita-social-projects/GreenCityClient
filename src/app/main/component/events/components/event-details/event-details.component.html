@@ -74,7 +74,7 @@
                 <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
                   <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
