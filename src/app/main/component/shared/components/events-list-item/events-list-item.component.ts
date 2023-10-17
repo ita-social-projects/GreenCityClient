@@ -130,6 +130,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
+    this.getAddress();
   }
 
   public routeToEvent(): void {
@@ -267,11 +268,17 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  getAllAttendees() {
+  getAllAttendees(): void {
     this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
       this.attendees = attendees;
       this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
     });
+  }
+
+  public getAddress(): string {
+    if (this.address) {
+      return this.eventService.getFormattedAddressEventsList(this.address);
+    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

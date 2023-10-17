@@ -80,11 +80,18 @@ describe('EventDetailsComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(MockData);
 
-  const EventsServiceMock = jasmine.createSpyObj('eventService', ['getEventById ', 'deleteEvent', 'getAllAttendees', 'createAdresses']);
+  const EventsServiceMock = jasmine.createSpyObj('eventService', [
+    'getEventById ',
+    'deleteEvent',
+    'getAllAttendees',
+    'createAddresses',
+    'getFormattedAddress'
+  ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getAllAttendees = () => of([]);
-  EventsServiceMock.createAdresses = () => of('');
+  EventsServiceMock.createAddresses = () => of('');
+  EventsServiceMock.getFormattedAddress = () => of('');
 
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
@@ -177,13 +184,10 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call methods on ngOnInit', () => {
-    const spy1 = spyOn(component as any, 'bindLang');
-    const spy2 = spyOn(component as any, 'verifyRole');
+  it('should call verifyRole on ngOnInit', () => {
+    const spy1 = spyOn(component as any, 'verifyRole');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
-    expect(spy1).toHaveBeenCalledWith('ua');
-    expect(spy2).toHaveBeenCalled();
   });
 
   it('should verify unauthenticated role', () => {
