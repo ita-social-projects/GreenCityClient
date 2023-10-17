@@ -74,21 +74,21 @@
                 <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
                   <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
                     <div class="event-duration">
                       {{ event.dates[0].startDate | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
+                      {{ event.dates[event.dates.length - 1].finishDate | date : 'MMM d, y' }}
                     </div>
                     <div>|</div>
-                    <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                    <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
                   </div>
                 </ng-template>
               </div>
-              <div *ngIf="locationAddress" class="event-location">
+              <div *ngIf="locationCoordinates" class="event-location">
                 <div class="event-location-icon">
                   <img [src]="icons.location" alt="" />
                 </div>
@@ -96,7 +96,7 @@
                   {{ getAddress() }}
                 </span>
               </div>
-              <div *ngIf="locationCoordinates" class="event-link">
+              <div *ngIf="locationLink" class="event-link">
                 <div class="event-link-icon">
                   <img [src]="icons.link" alt="" />
                 </div>
