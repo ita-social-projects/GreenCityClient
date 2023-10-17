@@ -74,7 +74,7 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.orderService.changeShouldBePaid(false);
         const existingOrderId = this.localStorageService.getExistingOrderId();
-        existingOrderId ? this.updateExistingOrder(reply, parseInt(existingOrderId)) : this.saveNewOrder(reply);
+        existingOrderId ? this.updateExistingOrder(reply, parseInt(existingOrderId, 10)) : this.saveNewOrder(reply);
         return;
       }
       localStorage.removeItem('newsTags');
