@@ -37,7 +37,7 @@
         {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
       </div>
       <span class="time-divider">|</span>
-      <div class="time">{{ event.dates[event.dates.length - 1].startDate | date : 'shortTime' }}</div>
+      <div class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</div>
     </div>
     <div class="date-container">
       <span class="place"></span>
@@ -109,7 +109,7 @@
             {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
           </p>
           <span class="time-divider">|</span>
-          <p class="time">{{ event.dates[event.dates.length - 1].startDate | date : 'shortTime' }}</p>
+          <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
         </div>
         <div class="event-assign__content__date-container__event-flags" *ngIf="event.open">
           <span [ngClass]="event.isFavorite ? 'flag-active' : 'flag'" (click)="addToFavourite($event)"></span>
