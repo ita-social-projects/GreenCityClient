@@ -88,7 +88,7 @@
                   </div>
                 </ng-template>
               </div>
-              <div *ngIf="locationAddress" class="event-location">
+              <div *ngIf="locationCoordinates" class="event-location">
                 <div class="event-location-icon">
                   <img [src]="icons.location" alt="" />
                 </div>
@@ -96,7 +96,7 @@
                   {{ getAddress() }}
                 </span>
               </div>
-              <div *ngIf="locationCoordinates" class="event-link">
+              <div *ngIf="locationLink" class="event-link">
                 <div class="event-link-icon">
                   <img [src]="icons.link" alt="" />
                 </div>
