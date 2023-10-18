@@ -119,8 +119,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.userFriendsService
         .getAllFriendsByUserId(this.userId)
         .pipe(takeUntil(this.destroyed$))
-        .subscribe((res) => {
-          this.userFriends = res;
+        .subscribe((res: any) => {
+          this.userFriends = res.page;
         });
     } else {
       this.userFriends = [];

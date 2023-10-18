@@ -136,8 +136,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
-    this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res) => {
-      this.isEventOrginizerFriend = res.some((el) => el.id === this.userId);
+    this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res: any) => {
+      this.isEventOrginizerFriend = res.page.some((el) => el.id === this.userId);
     });
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
