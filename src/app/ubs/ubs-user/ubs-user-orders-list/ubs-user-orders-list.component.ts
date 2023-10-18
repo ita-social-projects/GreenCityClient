@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 import { OrderService } from '../../ubs/services/order.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 import { Store } from '@ngrx/store';
 
 @Component({

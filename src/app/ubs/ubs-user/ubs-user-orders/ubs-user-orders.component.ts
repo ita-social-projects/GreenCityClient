@@ -14,7 +14,6 @@ import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-d
 import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-user-orders',
