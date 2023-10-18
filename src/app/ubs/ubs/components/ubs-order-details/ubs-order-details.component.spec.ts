@@ -247,6 +247,12 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('method calculateTotal should invoke changeOrderDetails method', () => {
+    const spy = spyOn<any>(component, 'changeOrderDetails');
+    (component as any).calculateTotal();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('method addOrder should invoke ecoStoreValidation method', () => {
     const spy = spyOn(component, 'ecoStoreValidation');
     spyOn(global, 'setTimeout');
@@ -309,6 +315,20 @@ describe('OrderDetailsFormComponent', () => {
     (component as any).validateSum();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('saveLocation should set isFetching', () => {
+    (component as any).saveLocation();
+    expect(component.isFetching).toBeTruthy();
+    (component as any).setCurrentLocation();
+    expect(component.changeLocation).toBeFalsy();
+  });
+
+  it('changeForm should set orderSum', () => {
+    component.showTotal = 0;
+    const orderSum = component.orderDetailsForm.controls.orderSum.value;
+    (component as any).changeForm();
+    expect(orderSum).toEqual(0);
   });
 
   it('getter formArrayCertificates should return formArray of certificates', () => {
