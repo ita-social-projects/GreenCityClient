@@ -300,6 +300,12 @@
                   display: block;
                 }
               }
+
+              span {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+              }
             }
 
             .event-status-access {

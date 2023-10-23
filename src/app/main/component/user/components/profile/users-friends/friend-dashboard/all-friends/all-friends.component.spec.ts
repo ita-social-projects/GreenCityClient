@@ -8,7 +8,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
-
+import { Store } from '@ngrx/store';
 import { AllFriendsComponent } from './all-friends.component';
 import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 
@@ -26,6 +26,9 @@ describe('AllFriendsComponent', () => {
   userFriendsServiceMock.deleteFriend = (idFriend) => of(FIRSTFRIEND);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AllFriendsComponent],
@@ -33,7 +36,8 @@ describe('AllFriendsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -66,7 +70,7 @@ describe('AllFriendsComponent', () => {
   });
 
   it('should call method deleteFriendsFromList on handleDeleteFriend', () => {
-    const spy = spyOn(component, 'deleteFriendsFromList');
+    const spy = spyOn(component, 'handleDeleteFriend');
     component.handleDeleteFriend(4);
     expect(spy).toHaveBeenCalled();
   });
@@ -75,6 +79,7 @@ describe('AllFriendsComponent', () => {
     // @ts-ignore
     const getAllFriendSpy = spyOn(component, 'getAllFriends').and.returnValue(of(FRIENDS));
     component.onScroll();
+    component.getAllFriends(1);
     expect(getAllFriendSpy).toHaveBeenCalled();
   });
 });

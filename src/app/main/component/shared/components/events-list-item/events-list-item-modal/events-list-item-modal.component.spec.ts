@@ -155,14 +155,21 @@ describe('EventsListItemModalComponent', () => {
       component.hoveringOver(1);
       expect(component.text).toBe('event.text-1');
       expect(component.hover).toBe(true);
-      expect(component.textByRate).toBe(' ');
+      expect(component.textByRate).toBe('');
     });
 
     it(`should be set text by rating equal 0`, () => {
       component.hoveringOver(0);
-      expect(component.text).toBe(' ');
+      expect(component.text).toBe('');
       expect(component.hover).toBe(false);
-      expect(component.textByRate).toBe(' ');
+      expect(component.textByRate).toBe('');
+    });
+
+    it(`should be set textByRate by rating equal 3`, () => {
+      component.hoveringOver(3, true);
+      expect(component.text).toBe('event.text-3');
+      expect(component.hover).toBe(true);
+      expect(component.textByRate).toBe('');
     });
   });
 

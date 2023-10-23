@@ -119,8 +119,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.userFriendsService
         .getAllFriendsByUserId(this.userId)
         .pipe(takeUntil(this.destroyed$))
-        .subscribe((res) => {
-          this.userFriends = res;
+        .subscribe((res: any) => {
+          this.userFriends = res.page;
         });
     } else {
       this.userFriends = [];
@@ -251,7 +251,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private getStatusesForFilter(): OptionItem[] {
-    return !!this.userId ? eventStatusList : eventStatusList.slice(0, 2);
+    return this.userId ? eventStatusList : eventStatusList.slice(0, 2);
   }
 
   public toggleAllSelection(optionsList: MatSelect, dropdownName: string): void {
@@ -359,7 +359,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public onScroll(): void {
     const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
     this.scroll = true;
-    this.dispatchStore(isRemovedEvents);
+    if (this.eventsList.length) {
+      this.dispatchStore(isRemovedEvents);
+    }
   }
 
   ngOnDestroy(): void {

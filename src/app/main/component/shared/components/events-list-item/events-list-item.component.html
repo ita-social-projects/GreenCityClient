@@ -42,8 +42,7 @@
     <div class="date-container">
       <span class="place"></span>
       <p *ngIf="address">
-        {{ getLangValue(address.cityUa, address.cityEn) }}, {{ getLangValue(address.streetUa, address.streetEn) }},
-        {{ address.houseNumber }}
+        {{ getAddress() }}
       </p>
       <p *ngIf="isOnline && !address">
         <a href="{{ isOnline }}" target="_blank" rel="noopener">{{ 'homepage.events.my-space.event-type-online' | translate }}</a>

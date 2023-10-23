@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 import { OrderService } from '../../ubs/services/order.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -113,7 +112,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
     const isOrderFormed = order.orderStatusEng === OrderStatusEn.FORMED;
     this.isOrderUnpaid(order) && isOrderFormed ? this.getDataForLocalStorage(order) : this.openOrderPaymentPopUp(order);
-    this.cleanOrderState();
+    this.orderService.cleanOrderState();
   }
 
   public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
@@ -212,10 +211,5 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
-  cleanOrderState(): void {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }

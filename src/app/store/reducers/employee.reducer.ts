@@ -43,7 +43,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.page.filter((employee) => employee.id !== action.id)
+      content: state.employees.page.map((employee) => (employee.id === action.id ? { ...employee, employeeStatus: 'INACTIVE' } : employee))
     }
   })),
 
@@ -51,7 +51,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.page.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
+      page: state.employees.page.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
     }
   })),
 

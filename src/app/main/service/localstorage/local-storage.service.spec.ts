@@ -25,7 +25,9 @@ describe('LocalStorageService', () => {
           regionEn: 'Lvivska oblast',
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
-          streetUa: 'Свободи'
+          streetUa: 'Свободи',
+          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
         event: 'event',
         finishDate: 'finishDate',

@@ -165,5 +165,95 @@ describe('MatSnackBarComponent', () => {
       component.snackType[`habitDidNotGiveUp`]();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should call the function successRestorePassword to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'successRestorePassword').and.callThrough();
+      component.snackType[`successRestorePassword`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function successConfirmPassword to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'successConfirmPassword').and.callThrough();
+      component.snackType[`successConfirmPassword`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function signUp to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'signUp').and.callThrough();
+      component.snackType[`signUp`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function successConfirmEmail to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'successConfirmEmail').and.callThrough();
+      component.snackType[`successConfirmEmail`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function successConfirmSaveOrder to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'successConfirmSaveOrder').and.callThrough();
+      component.snackType[`successConfirmSaveOrder`]('');
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function successConfirmUpdateOrder to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'successConfirmUpdateOrder').and.callThrough();
+      component.snackType[`successConfirmUpdateOrder`]('');
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function addedAddress to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'addedAddress').and.callThrough();
+      component.snackType[`addedAddress`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function existAddress to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'existAddress').and.callThrough();
+      component.snackType[`existAddress`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function CartValidation to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'CartValidation').and.callThrough();
+      component.snackType[`CartValidation`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function addedEvent to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'addedEvent').and.callThrough();
+      component.snackType[`addedEvent`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  savedChangesToUserProfile to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'savedChangesToUserProfile').and.callThrough();
+      component.snackType[`savedChangesToUserProfile`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  updatedNotification to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'updatedNotification').and.callThrough();
+      component.snackType[`updatedNotification`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  joinedEvent to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'joinedEvent').and.callThrough();
+      component.snackType[`joinedEvent`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  errorJoinEvent to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'errorJoinEvent').and.callThrough();
+      component.snackType[`errorJoinEvent`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  tooLongInput to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'tooLongInput').and.callThrough();
+      component.snackType[`tooLongInput`]();
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

@@ -13,7 +13,6 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-main-page',
@@ -172,8 +171,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     } else {
       this.openAuthModalWindow();
     }
-    this.cleanOrderState();
-    localStorage.removeItem('UBSExistingOrderId');
+    this.orderService.cleanPrevOrderState();
   }
 
   public openAuthModalWindow(): void {
@@ -269,10 +267,5 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
           console.error(e);
         }
       );
-  }
-
-  cleanOrderState() {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }

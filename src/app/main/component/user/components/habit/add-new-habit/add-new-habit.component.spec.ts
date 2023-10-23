@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddNewHabitComponent } from './add-new-habit.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -203,10 +203,11 @@ describe('AddNewHabitComponent', () => {
     expect((component as any).userId).toBe(2);
   });
 
-  it('getDuration should set this.newDuration', () => {
+  it('getDuration should set this.newDuration', fakeAsync(() => {
     component.getDuration(1);
+    tick();
     expect(component.newDuration).toEqual(1);
-  });
+  }));
 
   it('should set canAcquire false on getProgressValue', () => {
     component.assignedHabit = DEFAULTFULLINFOHABIT;

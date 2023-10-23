@@ -20,6 +20,7 @@ import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
+import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -228,5 +229,16 @@ export class OrderService {
 
   saveOrderData(): void {
     this.localStorageService.setOrderWithoutPayment(true);
+  }
+
+  cleanOrderState(): void {
+    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
+    this.store.dispatch(UpdatePersonalData({ personalData: null }));
+  }
+
+  cleanPrevOrderState(): void {
+    this.cleanOrderState();
+    localStorage.removeItem('UBSExistingOrderId');
+    this.localStorageService.removeUbsFondyOrderId();
   }
 }

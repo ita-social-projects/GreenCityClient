@@ -114,6 +114,8 @@ export interface Coordinates {
   regionUa: string;
   streetEn: string;
   streetUa: string;
+  formattedAddressEn: string;
+  formattedAddressUa: string;
 }
 
 export interface DateEventResponceDto {

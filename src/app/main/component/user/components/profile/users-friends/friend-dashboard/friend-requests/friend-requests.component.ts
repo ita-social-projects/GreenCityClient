@@ -4,6 +4,9 @@ import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model'
 import { Subject } from 'rxjs';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { AcceptRequest, DeclineRequest, GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';
 
 @Component({
   selector: 'app-friend-requests',
@@ -11,41 +14,39 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./friend-requests.component.scss']
 })
 export class FriendRequestsComponent implements OnInit {
-  public requests: FriendModel[] = null;
+  public requests: FriendModel[] = [];
   public userId: number;
   private destroy$ = new Subject();
   public scroll: boolean;
   public currentPage = 0;
+  private size = 10;
+  friendRequestList$ = this.store.select((state: IAppState): FriendArrayModel => state.friend.FriendRequestList);
+  FriendsStayInRequestList$ = this.store.select((state: IAppState): FriendModel[] => state.friend.FriendsStayInRequestList);
   readonly absent = 'assets/img/noNews.svg';
 
-  constructor(private localStorageService: LocalStorageService, private userFriendsService: UserFriendsService) {}
+  constructor(private localStorageService: LocalStorageService, private userFriendsService: UserFriendsService, private store: Store) {}
 
   ngOnInit() {
     this.initUser();
     this.getRequests();
   }
 
-  private deleteFriendsFromList(id, array) {
-    const indexSuggestion = array.findIndex((item) => item.id === id);
-    array.splice(indexSuggestion, 1);
-  }
-
   public accept(id: number) {
-    this.userFriendsService
-      .acceptRequest(id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.deleteFriendsFromList(id, this.requests);
-      });
+    this.store.dispatch(AcceptRequest({ id }));
+    this.FriendsStayInRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendModel[]) => {
+      if (data) {
+        this.requests = data;
+      }
+    });
   }
 
   public decline(id: number) {
-    this.userFriendsService
-      .declineRequest(id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.deleteFriendsFromList(id, this.requests);
-      });
+    this.store.dispatch(DeclineRequest({ id }));
+    this.FriendsStayInRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendModel[]) => {
+      if (data) {
+        this.requests = data;
+      }
+    });
   }
 
   private initUser(): void {
@@ -53,12 +54,12 @@ export class FriendRequestsComponent implements OnInit {
   }
 
   private getRequests() {
-    this.userFriendsService
-      .getRequests()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: FriendArrayModel) => {
+    this.store.dispatch(GetAllFriendsRequests({ page: this.currentPage, size: this.size }));
+    this.friendRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendArrayModel) => {
+      if (data) {
         this.requests = data.page;
-      });
+      }
+    });
   }
 
   public onScroll(): void {

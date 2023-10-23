@@ -42,7 +42,7 @@
   [scrollWindow]="false"
 >
   <mat-accordion class="employees-cards" *ngIf="!isLoading">
-    <div *ngFor="let employee of employees; let i = index">
+    <div *ngFor="let employee of employeesData$ | async; let i = index">
       <mat-expansion-panel
         #panel
         (opened)="employee.expanded = true"
