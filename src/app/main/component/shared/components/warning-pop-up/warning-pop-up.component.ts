@@ -73,26 +73,56 @@ export class WarningPopUpComponent implements OnInit, OnDestroy {
       if (this.isUbsOrderSubmit) {
         this.isLoading = true;
         this.orderService.changeShouldBePaid(false);
-        this.orderService.getOrderUrl().subscribe(
-          (response) => {
-            const { orderId } = JSON.parse(response);
-            this.ubsOrderFormService.transferOrderId(orderId);
-            this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
-            this.localStorageService.removeUbsFondyOrderId();
-            this.matDialogRef.close(reply);
-            this.isLoading = false;
-          },
-          () => {
-            this.orderService.changeShouldBePaid(true);
-            this.isLoading = false;
-          }
-        );
+        const existingOrderId = this.localStorageService.getExistingOrderId();
+        existingOrderId ? this.updateExistingOrder(reply, parseInt(existingOrderId, 10)) : this.saveNewOrder(reply);
         return;
       }
       localStorage.removeItem('newsTags');
     }
 
     this.matDialogRef.close(reply);
+  }
+
+  saveNewOrder(reply: boolean | null): void {
+    this.orderService
+      .getOrderUrl()
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(
+        (response) => {
+          this.responseHandler(response, reply);
+        },
+        () => {
+          this.afterLoadHandler();
+        }
+      );
+  }
+
+  updateExistingOrder(reply: boolean | null, existingOrderId?: number): void {
+    this.orderService
+      .getExistingOrderUrl(existingOrderId)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(
+        (response) => {
+          this.responseHandler(response, reply);
+        },
+        () => {
+          this.afterLoadHandler();
+        }
+      );
+  }
+
+  responseHandler(response: string, reply: boolean | null): void {
+    const { orderId } = JSON.parse(response);
+    this.ubsOrderFormService.transferOrderId(orderId);
+    this.ubsOrderFormService.setOrderResponseErrorStatus(orderId ? false : true);
+    this.localStorageService.removeUbsFondyOrderId();
+    this.matDialogRef.close(reply);
+    this.isLoading = false;
+  }
+
+  afterLoadHandler(): void {
+    this.orderService.changeShouldBePaid(true);
+    this.isLoading = false;
   }
 
   ngOnDestroy(): void {

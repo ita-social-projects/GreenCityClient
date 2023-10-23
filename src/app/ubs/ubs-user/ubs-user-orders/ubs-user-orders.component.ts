@@ -14,7 +14,6 @@ import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-d
 import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-user-orders',
@@ -139,9 +138,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
 
   redirectToOrder() {
     this.getLocations(this.courierUBSName);
-    this.cleanOrderState();
-    localStorage.removeItem('UBSExistingOrderId');
-    this.localStorageService.removeUbsFondyOrderId();
+    this.orderService.cleanPrevOrderState();
   }
 
   ngOnInit() {
@@ -232,11 +229,6 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   displayError(error) {
     const errorMessage = this.translate.instant('snack-bar.error.default');
     this.snackBar.openSnackBar(errorMessage);
-  }
-
-  cleanOrderState(): void {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 
   ngOnDestroy() {

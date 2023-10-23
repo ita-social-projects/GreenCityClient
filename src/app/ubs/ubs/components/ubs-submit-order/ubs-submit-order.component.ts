@@ -200,14 +200,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isPaymentWithMoney = false;
     }
     if (!this.isPaymentWithMoney) {
-      localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
+      this.localStorageService.getExistingOrderId() ? this.getExistingOrderUrl() : this.getNewOrderUrl();
     }
     this.cleanPersonalDataState();
     this.localStorageService.removeUbsFondyOrderId();
   }
 
   public getExistingOrderUrl(): void {
-    const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'), 10);
+    const existingOrderId = parseInt(this.localStorageService.getExistingOrderId(), 10);
     this.orderService
       .getExistingOrderUrl(existingOrderId)
       .pipe(takeUntil(this.destroy))

@@ -12,7 +12,7 @@
     </div>
     <div class="event-participants" *ngIf="attendees.length">
       <div class="event-participants-avatars">
-        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice : 0 : 2">
+        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
           <img [src]="avatar" alt="" />
         </div>
       </div>
@@ -53,9 +53,9 @@
       <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
     </div>
     <div class="event-title">
-      <p class="event-name" [innerHTML]="event.title | maxTextLength : 30"></p>
+      <p class="event-name" [innerHTML]="event.title | maxTextLength: 30"></p>
     </div>
-    <div class="description" [innerHTML]="event.description | maxTextLength : 90"></div>
+    <div class="description" [innerHTML]="event.description | maxTextLength: 90"></div>
   </div>
 
   <div class="btn-group">
@@ -92,7 +92,7 @@
       <img class="event-assign__image-container-image" src="{{ event.titleImage }}" alt="event" />
       <div class="event-assign__image-container__participants" *ngIf="attendees.length">
         <div class="event-assign__image-container__participants__avatars">
-          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice : 0 : 2">
+          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
             <img [src]="avatar" alt="" />
           </div>
         </div>

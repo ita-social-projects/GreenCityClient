@@ -35,7 +35,7 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations', 'getAllActiveCouriers']);
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations', 'getAllActiveCouriers', 'cleanPrevOrderState']);
 
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
