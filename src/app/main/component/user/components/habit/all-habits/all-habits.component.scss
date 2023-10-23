@@ -41,6 +41,10 @@ h1 {
     padding-bottom: 8px;
     border-bottom: 1px solid var(--quaternary-light-grey);
 
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
+
     .filter-title {
       display: flex;
       font-family: var(--primary-font);
@@ -69,6 +73,10 @@ h1 {
         &:hover {
           color: var(--primary-green);
         }
+      }
+
+      @media (max-width: 400px) {
+        flex-direction: column;
       }
     }
   }
@@ -107,6 +115,18 @@ h1 {
   grid-template-columns: 290px;
   grid-gap: 30px;
   justify-content: center;
+
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, 299px);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 359px);
+  }
 }
 
 .listView {
@@ -135,24 +155,8 @@ h1 {
     }
   }
 
-  .galleryContainer {
-    grid-template-columns: repeat(2, 50%);
-  }
-
   .habits-header-buttons {
     display: flex;
     gap: 8px;
-  }
-}
-
-@media (min-width: 992px) {
-  .galleryContainer {
-    grid-template-columns: repeat(3, 299px);
-  }
-}
-
-@media (min-width: 1200px) {
-  .galleryContainer {
-    grid-template-columns: repeat(3, 359px);
   }
 }
