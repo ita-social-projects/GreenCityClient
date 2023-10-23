@@ -241,13 +241,13 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public emailClassCheck(): string {
-    return (this.emailField.invalid && this.emailField.touched) || this.generalError
+    return (this.emailField?.invalid && this.emailField.touched) || this.generalError
       ? 'alert-email-validation'
       : 'successful-email-validation';
   }
 
   public passwordClassCheck(): string {
-    return (this.passwordField.invalid && this.passwordField.touched) || this.generalError
+    return (this.passwordField?.invalid && this.passwordField.touched) || this.generalError
       ? 'alert-password-validation'
       : 'successful-password-validation';
   }

@@ -80,6 +80,7 @@
           "confirm": "Yes, delete",
           "cancel": "Cancel"
         },
+        "reply-error-message": "This reply text field shouldn't be more than 8000 characters",
         "btn": {
           "reply": "Reply",
           "like": "Like",
@@ -976,7 +977,7 @@
     "elements": { "plural": "items", "singular": "item" },
     "my-eco-friends": "My Friends",
     "friends-quantity": { "plural": "connections", "singular": "connection" },
-    "zero-friends": "You don't have any friends.",
+    "zero-friends": "You don't have any friends yet.",
     "zero-user-friends": "This user has no friends",
     "zero-requests": "Unfortunately you don’t have new friends requests' on Friends requests tab as mentioned in requirements.",
     "my-eco-places": "My Eco Places",

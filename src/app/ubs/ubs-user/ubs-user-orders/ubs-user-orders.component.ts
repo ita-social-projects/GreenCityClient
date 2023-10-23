@@ -123,7 +123,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   openLocationDialog(locationsData: AllLocationsDtos) {
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
-      disableClose: true,
+      disableClose: false,
       data: locationsData
     });
 
@@ -141,6 +141,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
     this.getLocations(this.courierUBSName);
     this.cleanOrderState();
     localStorage.removeItem('UBSExistingOrderId');
+    this.localStorageService.removeUbsFondyOrderId();
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-<p *ngIf="!isWarning" class="warning">{{ 'drag-and-drop.picture-tooltip' | translate }}</p>
+<p class="warning" [ngClass]="{ 'warning-color': isWarning }">{{ 'drag-and-drop.picture-tooltip' | translate }}</p>
 <div *ngIf="!files.length" class="dropzone" appDragAndDrop (files)="filesDropped($event)">
   <div class="text-wrapper">
     <div class="centered">
@@ -38,7 +38,6 @@
   </div>
 </div>
 <ng-template #elseBlock>
-  <span class="warning" [ngClass]="{ 'warning-color': isWarning }">{{ 'drag-and-drop.picture-tooltip' | translate }}</span>
   <div class="dropzone warning-background" appDragAndDrop (files)="filesDropped($event)">
     <div class="text-wrapper">
       <div class="centered">

@@ -51,11 +51,12 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   ngOnInit() {
     this.subscribeToLangChange();
     this.userId = this.localStorageService.getUserId();
+    this.newList.emit(this.shopList);
   }
 
   ngAfterViewChecked(): void {
     if (this.shopList && this.isEditing) {
-      this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress));
+      this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
     }
     this.placeItemInOrder();
     this.cdr.detectChanges();

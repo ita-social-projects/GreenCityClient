@@ -66,7 +66,9 @@ describe('ProfileDashboardComponent', () => {
               regionEn: 'Lvivska oblast',
               regionUa: 'Львівська область',
               streetEn: 'Svobody Ave',
-              streetUa: 'Свободи'
+              streetUa: 'Свободи',
+              formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+              formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
             },
             event: 'event',
             finishDate: '2022-06-29T04:00:00Z',

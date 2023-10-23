@@ -266,7 +266,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
-    this.checkFileExtensionAndSize(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -437,6 +436,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.escapeFromCreateEvent();
     });
   }
+
   private checkUserSigned(): boolean {
     this.getUserId();
     return this.userId != null && !isNaN(this.userId);
@@ -444,11 +444,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
-  }
-
-  private checkFileExtensionAndSize(file: any): void {
-    this.isImageSizeError = file.size >= 10485760;
-    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

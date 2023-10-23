@@ -6,6 +6,7 @@ import { ShoppingListService } from '@global-user/components/habit/add-new-habit
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subscription } from 'stompjs';
 import { AllShoppingLists, ShoppingList } from '@global-user/models/shoppinglist.interface';
+import { TodoStatus } from '@global-user/components/habit/models/todo-status.enum';
 
 @Component({
   selector: 'app-shopping-list',
@@ -67,7 +68,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   public toggleDone(item: ShoppingList): void {
-    item.status = item.status === 'INPROGRESS' ? 'DONE' : 'INPROGRESS';
+    item.status = item.status === TodoStatus.inprogress ? TodoStatus.done : TodoStatus.inprogress;
     item.custom ? this.updateStatusCustomItem(item) : this.updateStatusItem(item);
   }
 

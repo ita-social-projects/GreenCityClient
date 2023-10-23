@@ -2,7 +2,6 @@ import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EventPageResponceDto } from '../../component/events/models/events.interface';
-import { HabitInterface } from '@global-user/components/habit/models/interfaces/habit.interface';
 import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
@@ -34,15 +33,6 @@ export class LocalStorageService {
 
   public getHabitsGalleryView(): boolean | null {
     return JSON.parse(localStorage.getItem(this.HABITS_GALLERY_VIEW));
-  }
-
-  public setHabitForEdit(key: string, habit: HabitInterface): void {
-    this.EDIT_HABIT = key;
-    localStorage.setItem(key, JSON.stringify(habit));
-  }
-
-  public getHabitForEdit(): string | null {
-    return JSON.parse(localStorage.getItem(this.EDIT_HABIT));
   }
 
   public getAccessToken(): string {
@@ -351,7 +341,7 @@ export class LocalStorageService {
   }
 
   public setAddresses(addresses: Address[]) {
-    localStorage.setItem('addresses', String(addresses));
+    localStorage.setItem('addresses', JSON.stringify(addresses));
   }
 
   public getCurrentLocationId(): number {

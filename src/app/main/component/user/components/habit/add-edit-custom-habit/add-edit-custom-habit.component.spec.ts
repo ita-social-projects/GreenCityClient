@@ -14,10 +14,14 @@ import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EditorChangeContent } from 'ngx-quill';
+import { TodoStatus } from '../models/todo-status.enum';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('AddEditCustomHabitComponent', () => {
   let component: AddEditCustomHabitComponent;
   let fixture: ComponentFixture<AddEditCustomHabitComponent>;
+
+  const initialState = { habit: { defaultDuration: 1 } };
 
   const tagsMock: TagInterface[] = [{ id: 1, name: 'Tag', nameUa: 'Тег', isActive: true }];
 
@@ -49,7 +53,8 @@ describe('AddEditCustomHabitComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: HabitService, useValue: habitServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        provideMockStore({ initialState })
       ]
     }).compileComponents();
   }));
@@ -109,13 +114,13 @@ describe('AddEditCustomHabitComponent', () => {
     const newShopList: ShoppingList[] = [
       {
         id: 1,
-        status: 'INPROGRESS',
+        status: TodoStatus.inprogress,
         text: 'Some item',
         selected: true,
         custom: true
       }
     ];
-    const convertedList: ShoppingList[] = [{ id: 1, status: 'INPROGRESS', text: 'Some item' }];
+    const convertedList: ShoppingList[] = [{ id: 1, status: TodoStatus.inprogress, text: 'Some item' }];
     (component as any).initForm();
     component.getShopList(newShopList);
     expect(component.newList).toEqual(convertedList);

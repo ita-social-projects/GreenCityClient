@@ -9,7 +9,7 @@
   <div class="modal-rating" [hidden]="!isRegistered">
     <rating
       (onHover)="hoveringOver($event)"
-      (mouseout)="hoveringOver(0)"
+      (onLeave)="hoveringOver(0)"
       (click)="hoveringOver($event, true)"
       [(ngModel)]="rate"
       [customTemplate]="star"
@@ -20,8 +20,7 @@
     <ng-template #star let-index="index" let-value="value">
       <span (click)="starsHandler(value, index)" class="star {{ index < value ? 'fill' : 'empty' }}"></span>
     </ng-template>
-    <p class="modal-text" *ngIf="hover">{{ text | translate }}</p>
-    <p class="modal-text" *ngIf="!hover">{{ textByRate | translate }}</p>
+    <p class="modal-text">{{ (hover ? text : textByRate) | translate }}</p>
   </div>
 
   <div class="modal-bnt-group">

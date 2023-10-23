@@ -224,27 +224,27 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public emailClassCheck(): string {
-    return (this.emailControl.invalid && this.emailControl.touched) || this.emailErrorMessageBackEnd || this.backEndError
+    return (this.emailControl?.invalid && this.emailControl.touched) || this.emailErrorMessageBackEnd || this.backEndError
       ? 'main-data-input wrong-input'
       : 'main-data-input';
   }
 
   public firstNameClassCheck(): string {
-    return (this.firstNameControl.invalid && this.firstNameControl.touched) || this.backEndError
+    return (this.firstNameControl?.invalid && this.firstNameControl.touched) || this.backEndError
       ? 'main-data-input wrong-input'
       : 'main-data-input';
   }
 
   public passwordClassCheck(): string {
-    return (this.passwordControl.invalid && this.passwordControl.touched) || this.backEndError
+    return (this.passwordControl?.invalid && this.passwordControl.touched) || this.backEndError
       ? 'main-data-input-password wrong-input'
       : 'main-data-input-password';
   }
 
   public passwordConfirmClassCheck(): string {
-    return (this.passwordControlConfirm.invalid && this.passwordControlConfirm.touched) ||
+    return (this.passwordControlConfirm?.invalid && this.passwordControlConfirm.touched) ||
       this.backEndError ||
-      (this.passwordControl.value !== this.passwordControlConfirm.value && this.passwordControlConfirm.value !== '')
+      (this.passwordControl?.value !== this.passwordControlConfirm?.value && this.passwordControlConfirm?.value !== '')
       ? 'main-data-input-password wrong-input'
       : 'main-data-input-password';
   }

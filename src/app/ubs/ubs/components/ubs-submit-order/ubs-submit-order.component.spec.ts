@@ -23,7 +23,8 @@ describe('UBSSubmitOrderComponent', () => {
   const fakeLocalStorageService = jasmine.createSpyObj('localStorageService', [
     'getCurrentLanguage',
     'setUserPagePayment',
-    'setFinalSumOfOrder'
+    'setFinalSumOfOrder',
+    'removeUbsFondyOrderId'
   ]);
   fakeLocalStorageService.getCurrentLanguage.and.returnValue('ua');
   fakeLocalStorageService.languageSubject = of('ua');

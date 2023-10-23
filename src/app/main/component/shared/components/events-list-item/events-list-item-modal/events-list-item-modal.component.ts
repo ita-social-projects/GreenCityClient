@@ -22,7 +22,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   public isRegistered: boolean;
   public isPosting: boolean;
   public text: string;
-  public textByRate: string;
+  public textByRate = '';
   public elementName: string;
   public isEventRaited = false;
   public hover: boolean;
@@ -45,6 +45,7 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.max = 3;
   }
 
   public starsHandler(index: number, value: number): void {
@@ -74,9 +75,9 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
   }
 
   public hoveringOver(event: number, rated = false): void {
-    this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : ' ';
-    this.hover = [1, 2, 3].includes(event) ? true : false;
-    this.textByRate = rated ? this.text : ' ';
+    this.textByRate = rated ? this.text : this.textByRate;
+    this.text = [1, 2, 3].includes(event) ? `event.text-${event}` : '';
+    this.hover = [1, 2, 3].includes(event);
   }
 
   public onRateChange(): void {

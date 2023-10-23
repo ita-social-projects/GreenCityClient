@@ -6,6 +6,8 @@ import { ILocationsState, initialLocationsState } from './tariff.state';
 import { IEcoEventsState, initialEventsState } from './ecoEvents.state';
 import { IOrderState, initialOrderState } from './order.state';
 import { IFriendState, initialFriendState } from './friends.state';
+import { initialHabitState } from './habit.state';
+import { HabitInterface as IHabitState } from '@global-user/components/habit/models/interfaces/habit.interface';
 
 export interface IAppState {
   friend: IFriendState;
@@ -16,6 +18,7 @@ export interface IAppState {
   router?: RouterReducerState;
   ecoNewsState: IEcoNewsState;
   ecoEventsState: IEcoEventsState;
+  habit: IHabitState;
 }
 
 export const initialAppState: IAppState = {
@@ -25,7 +28,8 @@ export const initialAppState: IAppState = {
   locations: initialLocationsState,
   bigOrderTable: initialBigOrderTableState,
   ecoNewsState: initialNewsState,
-  ecoEventsState: initialEventsState
+  ecoEventsState: initialEventsState,
+  habit: initialHabitState
 };
 
 export function getInitialState(): IAppState {

@@ -1,11 +1,16 @@
 .friend-dashboard {
   background-color: var(--after-primary-light-grey);
   min-height: calc(100vh - 164px);
+
+  @media screen and (max-width: 576px) {
+    min-height: calc(100vh - 476px);
+  }
 }
 
-.container {
-  padding: 28px 0 44px 0;
+.friend-dashboard-container {
   padding-top: 28px;
+  padding-bottom: 44px;
+  overflow-y: hidden;
 
   .profile-link {
     text-decoration: underline;
@@ -16,9 +21,23 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 63px;
     align-items: center;
     font-family: var(--primary-font);
     padding: 12px 0 44px 0;
+
+    @media screen and (max-width: 1024px) {
+      padding: 12px 0 41px 0;
+    }
+
+    @media screen and (max-width: 576px) {
+      padding: 12px 0 13px 0;
+    }
+
+    @media screen and (max-width: 576px) {
+      padding: 12px 0 21px 0;
+    }
 
     h1 {
       font-style: normal;
@@ -26,6 +45,31 @@
       font-size: 48px;
       line-height: 48px;
       font-family: var(--secondary-font);
+    }
+  }
+
+  a {
+    font-family: var(--primary-font);
+    color: var(--ubs-quaternary-dark-grey);
+    margin: 0 16px;
+    font-size: 16px;
+    line-height: 18.75px;
+  }
+
+  .friend-tabs {
+    a {
+      white-space: nowrap;
+    }
+
+    @media screen and (max-width: 1200px) {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      margin-top: 9px;
+    }
+
+    @media screen and (max-width: 320px) {
+      margin-top: 17px;
     }
   }
 
@@ -39,6 +83,22 @@
       border: 1px solid var(--quintynary-light-grey);
       border-radius: 4px;
       padding: 8px;
+
+      @media (max-width: 1024px) {
+        width: 330px;
+      }
+
+      @media (max-width: 768px) {
+        width: 219px;
+      }
+
+      @media (max-width: 576px) {
+        width: 227px;
+      }
+
+      @media (max-width: 320px) {
+        width: 256px;
+      }
 
       &:focus {
         outline: none;
@@ -59,14 +119,6 @@
     }
   }
 
-  a {
-    font-family: var(--primary-font);
-    color: var(--ubs-quaternary-dark-grey);
-    margin: 0 16px;
-    font-size: 16px;
-    line-height: 18.75px;
-  }
-
   .button-link {
     line-height: 16px;
     margin: 0;
@@ -83,43 +135,6 @@
 
   .active {
     color: var(--primary-green);
-    padding: 5px 5px 0;
     text-decoration: none;
-  }
-}
-
-@media (max-width: 992px) {
-  .container {
-    margin: auto;
-
-    .searchField {
-      input {
-        margin-left: 30px;
-        max-width: 35%;
-      }
-    }
-  }
-}
-
-@media (max-width: 767px) {
-  .friends {
-    display: flex;
-    flex-direction: column !important;
-    align-items: flex-start;
-  }
-
-  .search-field-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .searchField {
-    position: relative;
-    text-align: center;
-
-    img {
-      display: none;
-    }
   }
 }

@@ -33,7 +33,15 @@
   <div class="comment-main-text">
     <p class="comment-text" *ngIf="!comment.isEdit">{{ comment.text }}</p>
     <div class="comment-edit-text" *ngIf="comment.isEdit">
-      <textarea type="text" [value]="comment.text" [formControl]="content" class="edit-text-input" maxlength="8000"> </textarea>
+      <textarea
+        type="text"
+        [value]="comment.text"
+        (input)="checkTextarea($event)"
+        class="edit-text-input"
+        [ngClass]="{ invalid: !isEditTextValid }"
+        maxlength="8000"
+      >
+      </textarea>
     </div>
   </div>
   <div class="comments-elements">
@@ -45,7 +53,7 @@
       <div class="save-cancel-wrapper" *ngIf="isLoggedIn && checkCommentAuthor(comment.author.id)">
         <div class="d-flex">
           <div class="main-wrapper">
-            <button (click)="saveEditedComment(comment)" [disabled]="!content.valid" class="cta-btn save-edit">
+            <button (click)="saveEditedComment(comment)" [disabled]="!isEditTextValid" class="cta-btn save-edit">
               <img [src]="editIcon" alt="edit icon" />
               <span class="d-none d-sm-block btn-text">
                 {{ 'homepage.eco-news.comment.btn.save' | translate }}

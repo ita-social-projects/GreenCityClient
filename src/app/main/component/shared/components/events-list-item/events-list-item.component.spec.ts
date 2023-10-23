@@ -98,7 +98,9 @@ describe('EventsListItemComponent', () => {
           regionEn: 'Lvivska oblast',
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
-          streetUa: 'Свободи'
+          streetUa: 'Свободи',
+          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
         id: null,
         event: null,
@@ -154,10 +156,16 @@ describe('EventsListItemComponent', () => {
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'getEventById ',
+    'deleteEvent',
+    'getAllAttendees',
+    'getFormattedAddressEventsList'
+  ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
+  EventsServiceMock.getFormattedAddressEventsList = () => of('');
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [

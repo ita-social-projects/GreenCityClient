@@ -9,6 +9,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { TariffsService } from '../../../services/tariffs.service';
 import { Couriers } from '../../../models/tariffs.interface';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-courier-pop-up',
@@ -48,6 +49,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsCourierPopUpComponent>,
+    private snackBar: MatSnackBarComponent,
     private localeStorageService: LocalStorageService,
     private tariffsService: TariffsService,
     @Inject(MAT_DIALOG_DATA)
@@ -132,6 +134,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close();
+        this.snackBar.openSnackBar('successUpdateUbsData');
       });
   }
 
@@ -153,6 +156,7 @@ export class UbsAdminTariffsCourierPopUpComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.dialogRef.close();
+        this.snackBar.openSnackBar('successUpdateUbsData');
       });
   }
 

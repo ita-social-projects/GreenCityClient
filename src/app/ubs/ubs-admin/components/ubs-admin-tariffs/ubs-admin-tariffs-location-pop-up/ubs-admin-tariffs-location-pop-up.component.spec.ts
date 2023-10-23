@@ -16,6 +16,7 @@ import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsAdminTariffsLocationPopUpComponent ', () => {
   let component: UbsAdminTariffsLocationPopUpComponent;
@@ -183,7 +184,8 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: TariffsService, useValue: tariifsServiceMock },
-        { provide: GoogleScript, useValue: googleScriptMock }
+        { provide: GoogleScript, useValue: googleScriptMock },
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

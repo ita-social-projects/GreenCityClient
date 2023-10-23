@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import {
@@ -13,7 +13,7 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { EventPageResponceDto } from '../../models/events.interface';
+import { Coordinates, EventPageResponceDto } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -74,7 +74,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public isAdmin = false;
   public event: EventPageResponceDto;
   public locationLink: string;
-  public locationAddress: string;
+  public locationCoordinates: Coordinates;
   public addressUa: string;
   public addressEn: string;
 
@@ -99,7 +99,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public address = 'Should be adress';
 
   public maxRating = 5;
-  public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   public backRoute: string;
@@ -137,15 +136,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
       this.userId = Number(id);
     });
-    this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res) => {
-      this.isEventOrginizerFriend = res.some((el) => el.id === this.userId);
+    this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res: any) => {
+      this.isEventOrginizerFriend = res.page.some((el) => el.id === this.userId);
     });
     this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
       this.event = res;
       this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-      this.addressUa = this.eventService.createAdresses(this.event.dates[this.event.dates.length - 1].coordinates, 'Ua');
-      this.addressEn = this.eventService.createAdresses(this.event.dates[this.event.dates.length - 1].coordinates, 'En');
-      this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
+      this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
       this.images = [res.titleImage, ...res.additionalImages];
       this.rate = Math.round(this.event.organizer.organizerRating);
       this.mapDialogData = {
@@ -162,13 +159,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.currentLang = this.localStorageService.getCurrentLanguage();
-    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
-      this.currentLang = lang;
-      this.bindLang(this.currentLang);
-      this.locationAddress = this.getLangValue(this.addressUa, this.addressEn);
-    });
-
     this.localStorageService.setEditMode('canUserEdit', true);
 
     this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
@@ -182,11 +172,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.backRoute = this.localStorageService.getPreviousPage();
   }
 
-  private bindLang(lang: string): void {
-    this.translate.setDefaultLang(lang);
+  public getAddress(): string {
+    return this.eventService.getFormattedAddress(this.locationCoordinates);
   }
 
-  private verifyRole() {
+  private verifyRole(): string {
     let role = this.roles.UNAUTHENTICATED;
     role = this.jwtService.getUserRole() === 'ROLE_USER' ? this.roles.USER : role;
     role = this.userId === this.event.organizer.id ? this.roles.ORGANIZER : role;
@@ -238,11 +228,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getLangValue(uaValue, enValue): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public buttonAction(event) {
+  public buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
     }
@@ -258,7 +248,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
       this.isUserCanJoin = !this.isUserCanJoin;
     }
-    event.target.blur();
+    const buttonElement = event.target as HTMLButtonElement;
+    buttonElement.blur();
   }
 
   public openAuthModalWindow(page: string): void {

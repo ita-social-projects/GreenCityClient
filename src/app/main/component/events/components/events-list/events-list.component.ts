@@ -69,7 +69,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
-  public statusList: OptionItem[] = eventStatusList;
+  public statusList: OptionItem[];
   public eventLocationList: OptionItem[] = [];
   public scroll: boolean;
   public userId: number;
@@ -119,8 +119,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.userFriendsService
         .getAllFriendsByUserId(this.userId)
         .pipe(takeUntil(this.destroyed$))
-        .subscribe((res) => {
-          this.userFriends = res;
+        .subscribe((res: any) => {
+          this.userFriends = res.page;
         });
     } else {
       this.userFriends = [];
@@ -143,7 +143,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    this.eventsList.length ? (this.noEventsMatch = false) : (this.noEventsMatch = true);
+    this.noEventsMatch = !this.eventsList.length;
   }
 
   public cancelSearch() {
@@ -250,6 +250,10 @@ export class EventsListComponent implements OnInit, OnDestroy {
     return cities;
   }
 
+  private getStatusesForFilter(): OptionItem[] {
+    return this.userId ? eventStatusList : eventStatusList.slice(0, 2);
+  }
+
   public toggleAllSelection(optionsList: MatSelect, dropdownName: string): void {
     this.allSelectedFlags[dropdownName] = !this.allSelectedFlags[dropdownName];
     if (this.allSelectedFlags[dropdownName]) {
@@ -329,6 +333,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
       this.isLoggedIn = data && data.userId;
       this.userId = data.userId;
+      this.statusList = this.getStatusesForFilter();
     });
   }
 
@@ -354,7 +359,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public onScroll(): void {
     const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
     this.scroll = true;
-    this.dispatchStore(isRemovedEvents);
+    if (this.eventsList.length) {
+      this.dispatchStore(isRemovedEvents);
+    }
   }
 
   ngOnDestroy(): void {

@@ -61,7 +61,9 @@ describe('EventsListComponent', () => {
             regionEn: 'Lvivska oblast',
             regionUa: 'Львівська область',
             streetEn: 'Svobody Ave',
-            streetUa: 'Свободи'
+            streetUa: 'Свободи',
+            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           }
         }
       ],
@@ -115,7 +117,9 @@ describe('EventsListComponent', () => {
             regionEn: 'Lvivska oblast',
             regionUa: 'Львівська область',
             streetEn: 'Svobody Ave',
-            streetUa: 'Свободи'
+            streetUa: 'Свободи',
+            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
           }
         }
       ],
@@ -191,8 +195,8 @@ describe('EventsListComponent', () => {
   const statusFilterControl = new FormControl();
   const typeFilterControl = new FormControl();
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAdresses', 'getAddreses']);
-  EventsServiceMock.createAdresses = () => of('');
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAddresses', 'getAddreses']);
+  EventsServiceMock.createAddresses = () => of('');
   EventsServiceMock.getAddreses = () => of(addressesMock);
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);

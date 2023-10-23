@@ -17,12 +17,18 @@
   </div>
   <ng-template #reply>
     <div class="input-submit">
-      <textarea
-        class="reply-width"
-        placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
-        formControlName="content"
-        [maxlength]="replyMaxLength"
-      ></textarea>
+      <div class="textarea-wrapper">
+        <textarea
+          class="reply-width"
+          placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
+          formControlName="content"
+          [ngClass]="{ invalid: addCommentForm.controls['content'].errors?.maxlength }"
+        ></textarea>
+        <p *ngIf="addCommentForm.controls['content'].errors?.maxlength" class="error-message">
+          {{ 'homepage.eco-news.comment.reply-error-message' | translate }}
+        </p>
+      </div>
+
       <button class="primary-global-button" [disabled]="!addCommentForm.valid">
         {{ 'homepage.eco-news.comment.reply' | translate }}
       </button>

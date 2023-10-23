@@ -74,10 +74,7 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   }
 
   private initImages(): void {
-    for (let i = 0; i < this.maxImages; i++) {
-      this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
-    }
-    this.images[0].isLabel = true;
+    this.images = Array.from({ length: this.maxImages }, (_, i) => ({ src: null, label: this.dragAndDropLabel, isLabel: i === 0 }));
   }
 
   public chooseImage(img: string) {
@@ -112,7 +109,6 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
 
   private checkFileExtension(file: any): void {
     this.isImageSizeError = file.size >= 10000000;
-
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
@@ -140,16 +136,11 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   }
 
   private assignImage(result: any): void {
-    for (let i = 0; i < this.images.length; i++) {
-      if (!this.images[i].src) {
-        this.images[i].src = result;
-        if (this.images[i + 1]) {
-          this.images[i + 1].isLabel = true;
-        }
-        this.images[i].isLabel = false;
-        this.imageCount++;
-        break;
-      }
+    const imageToAssign = this.images.find((img) => !img.src);
+    if (imageToAssign) {
+      imageToAssign.src = result;
+      imageToAssign.isLabel = false;
+      this.imageCount += 1;
     }
   }
 

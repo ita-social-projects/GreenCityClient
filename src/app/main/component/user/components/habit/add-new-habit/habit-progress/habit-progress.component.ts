@@ -18,9 +18,12 @@ import {
 export class HabitProgressComponent implements OnChanges, OnInit {
   @Input() habit: HabitAssignInterface;
   @Input() set duration(value: number) {
-    this.habit.duration = value;
-    this.countProgressBar();
+    if (!!value && this.habit) {
+      this.habit.duration = value;
+      this.countProgressBar();
+    }
   }
+
   public indicator: number;
   isRequest = false;
   currentDate: string;
@@ -115,10 +118,10 @@ export class HabitProgressComponent implements OnChanges, OnInit {
   }
 
   public buildHabitDescription(): void {
-    const isDone = this.habit.habitStatusCalendarDtoList.some((item) => item.enrollDate === this.currentDate);
     if (this.habit.status === HabitStatus.ACQUIRED) {
       this.descriptionType.acquired();
     } else if (this.habit.status === HabitStatus.INPROGRESS) {
+      const isDone = this.habit.habitStatusCalendarDtoList.some((item) => item.enrollDate === this.currentDate);
       if (isDone) {
         this.descriptionType.done();
       } else {

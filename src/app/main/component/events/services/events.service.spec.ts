@@ -4,6 +4,7 @@ import { EventsService } from 'src/app/main/component/events/services/events.ser
 import { environment } from '@environment/environment';
 import { EventFilterCriteriaIntarface } from '../models/events.interface';
 import { EventFilterCriteria } from '../models/event-consts';
+import { TranslateService } from '@ngx-translate/core';
 
 describe('EventsService', () => {
   let service: EventsService;
@@ -68,7 +69,7 @@ describe('EventsService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [EventsService]
+      providers: [EventsService, { provide: TranslateService, useValue: {} }]
     })
   );
 

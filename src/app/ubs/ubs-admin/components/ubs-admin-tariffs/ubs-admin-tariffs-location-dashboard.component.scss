@@ -84,19 +84,27 @@ form {
 }
 
 .input-wrapper input.region {
-  padding: 0 56px 0 15px;
   color: var(--ubs-quaternary-dark-grey);
+  font-size: 14px;
+  font-family: var(--ubs-quaternary-font);
 
   &-not-existing {
     border: 1px solid var(--error-ligh-red);
   }
 }
 
+.input-wrapper input.city,
+.input-wrapper input.station,
+.input-wrapper input.region {
+  padding: 0 56px 0 15px;
+}
+
 .courier-select {
-  padding: 5px 34px 0 15px;
+  padding: 5px 40px 0 15px;
 }
 
 .state-select {
+  text-overflow: ellipsis;
   padding: 5px 34px 0 15px;
 }
 
