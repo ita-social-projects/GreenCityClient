@@ -1,6 +1,6 @@
 <div *ngIf="requests !== null; else spinner" class="friend-requests-container">
   <div class="requests-box">
-    <div *ngIf="requests.length === 0">
+    <div *ngIf="requests?.length === 0">
       <div class="noRequests-wraper">
         <div class="img-absent">
           <img [src]="absent" alt="absent-requests" />
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="requests.length" class="request-list">
+    <div *ngIf="requests?.length" class="request-list">
       <div *ngFor="let request of requests" class="user-card">
         <app-friend-item
           [friend]="request"
