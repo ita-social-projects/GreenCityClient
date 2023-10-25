@@ -202,13 +202,13 @@ describe('HeaderComponent', () => {
     it('should call getUserLangValue when isLoggedIn is true', () => {
       const spy = spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
       component.isLoggedIn = true;
-      (component as any).setCurrentLang();
+      (component as any).initLanguage();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should set currentLanguage to localStorageService.getCurrentLanguage when isLoggedIn is false', () => {
       component.isLoggedIn = false;
-      (component as any).setCurrentLang();
+      (component as any).initLanguage();
       expect(component.currentLanguage).toEqual(mockLang);
     });
 
