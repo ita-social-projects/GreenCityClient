@@ -244,6 +244,25 @@ describe('HeaderComponent', () => {
       expect(component.arrayLang[0].lang).toBe('en');
     });
 
+    it('should call setCurrentLanguage', () => {
+      spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
+      const setCurrentLanguageSpy = spyOn(component as any, 'setCurrentLanguage');
+      component.isLoggedIn = false;
+      (component as any).initLanguage();
+
+      expect(setCurrentLanguageSpy).toHaveBeenCalledWith(mockLang);
+    });
+
+    it('should set current language', () => {
+      (component as any).setCurrentLanguage('en');
+      expect(component.currentLanguage).toBe('en');
+      expect(component.arrayLang[0].lang.toLowerCase()).toBe('en');
+
+      (component as any).setCurrentLanguage('ua');
+      expect(component.currentLanguage).toBe('ua');
+      expect(component.arrayLang[0].lang.toLowerCase()).toBe('ua');
+    });
+
     it('should log out the user', fakeAsync(() => {
       const localeStorageService = 'localeStorageService';
       const orderService = 'orderService';
