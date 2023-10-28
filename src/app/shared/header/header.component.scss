@@ -4,7 +4,8 @@ $ubs-header-height: 86px;
 
 ::ng-deep .custom-dialog-container .mat-dialog-container {
   background-color: transparent;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 ::ng-deep .background-transparent {
