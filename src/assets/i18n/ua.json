@@ -1030,6 +1030,7 @@
       "request-accept": "Прийняти",
       "all-friends": "Всі Друзі",
       "search-friends": "Знайти друга",
+      "search-friends-placeholder": "Знайди нового друга",
       "found-amount": "людей знайдено"
     },
     "rate": "Рейтинг",
