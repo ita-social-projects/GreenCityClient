@@ -348,6 +348,7 @@ header {
       .bookmark-icon,
       .notification-icon {
         margin-right: 16px;
+
         @media screen and (max-width: 450px) {
           display: none;
         }
@@ -513,6 +514,7 @@ header {
     }
   }
 }
+
 @media screen and (min-width: 768px) {
   .header_burger-btn {
     margin-left: 32px;
