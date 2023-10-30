@@ -63,8 +63,8 @@ li {
   margin: 0 6px;
 
   img {
-    width: 15px;
-    height: 12.19px;
+    width: 16px;
+    height: 16px;
     vertical-align: baseline;
   }
 }
@@ -83,6 +83,11 @@ li {
   width: fit-content;
   margin: 0 auto;
   padding-bottom: 10px;
+  text-align: center;
+}
+
+.footer_right-side {
+  margin-top: 42px;
 }
 
 @media (max-width: 575px) {
