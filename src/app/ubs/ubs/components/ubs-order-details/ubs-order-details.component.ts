@@ -94,6 +94,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public courierLimitValidation: boolean;
   public activeCouriers;
   courierUBSName = 'UBS';
+  private totalSumOfBigBags: number;
   @Output() secondStepDisabledChange = new EventEmitter<boolean>();
 
   constructor(
@@ -299,6 +300,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       if (bag.limitedIncluded) {
         const quantity = this.orderDetailsForm.controls[`quantity${bag.id}`];
         this.totalOfBigBags += +quantity.value;
+        this.totalSumOfBigBags = this.totalOfBigBags * bag.price;
       }
     });
     if (this.courierLimitByAmount) {
@@ -325,7 +327,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   private validateSum(): void {
-    const result = this.validateLimit(this.courierLimitBySum, this.minOrderValue, this.total, this.maxOrderValue);
+    const result = this.validateLimit(this.courierLimitBySum, this.minOrderValue, this.totalSumOfBigBags, this.maxOrderValue);
     this.displayMinOrderMes = result.min;
     this.displayMaxOrderMes = result.max;
     this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;

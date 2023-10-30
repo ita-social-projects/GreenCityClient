@@ -72,7 +72,7 @@
     "certificate": "Certificate:",
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
-    "min-sum": "The minimum order amount must be {{minOrderValue}} UAH",
+    "min-sum": "The minimum order amount must be {{minOrderValue}} UAH for packages of 120l",
     "max-sum": "The maximum order amount is {{maxOrderValue}} UAH",
     "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120l",
     "max-big-bags": "Please note that the maximum order can contain {{maxAmountOfBigBags}} packages of 120l",
