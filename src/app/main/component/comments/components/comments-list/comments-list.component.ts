@@ -24,6 +24,7 @@ export class CommentsListComponent {
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';
   public isEditTextValid: boolean;
+  public commentMaxLength = 8000;
 
   constructor(private commentsService: CommentsService) {}
 
@@ -91,6 +92,6 @@ export class CommentsListComponent {
 
   checkTextarea(event: InputEvent): void {
     this.content.setValue((event.target as HTMLInputElement).value);
-    this.isEditTextValid = !!(event.target as HTMLInputElement).value.trim().length;
+    this.isEditTextValid = !!this.content.value.trim().length && this.content.value.length <= this.commentMaxLength;
   }
 }
