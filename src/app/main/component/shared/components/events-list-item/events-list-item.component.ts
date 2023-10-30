@@ -26,6 +26,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { FriendModel } from '@global-user/models/friend.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -71,6 +72,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public isOnline: string;
   isOwner: boolean;
   isActive: boolean;
+  public isAdmin: boolean;
 
   attendees = [];
   attendeesAvatars = [];
@@ -108,7 +110,8 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     private store: Store,
     private eventService: EventsService,
     private translate: TranslateService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private jwtService: JwtService
   ) {}
 
   ngOnChanges() {
@@ -156,12 +159,13 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     const isSubscribe = this.event.isSubscribed;
     this.isOwner = +this.userId === this.event.organizer.id;
     this.isActive = this.checkIsActive();
+    this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE';
     if (this.isOwner && this.isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.edit;
       return;
     }
-    if (this.isOwner && !this.isActive && !isSubscribe) {
+    if (this.isAdmin && !this.isActive) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.delete;
       return;
