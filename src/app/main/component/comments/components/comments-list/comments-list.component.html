@@ -38,8 +38,7 @@
         [value]="comment.text"
         (input)="checkTextarea($event)"
         class="edit-text-input"
-        [ngClass]="{ invalid: !isEditTextValid }"
-        maxlength="8000"
+        [ngClass]="{ invalid: content.value.length > commentMaxLength }"
       >
       </textarea>
     </div>
