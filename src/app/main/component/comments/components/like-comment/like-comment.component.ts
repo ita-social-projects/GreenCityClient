@@ -3,6 +3,7 @@ import { SocketService } from '../../../../service/socket/socket.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, SocketAmountLikes } from '../../models/comments-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-like-comment',
@@ -21,21 +22,36 @@ export class LikeCommentComponent implements OnInit {
     like: 'assets/img/comments/like.png',
     liked: 'assets/img/comments/liked.png'
   };
+  public socketMessageToSubscribe: string;
+  public socketMessageToSend: string;
 
   constructor(
     private commentsService: CommentsService,
     private socketService: SocketService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
     this.setStartingElements(this.likeState);
+    this.checkSocketMessageToSubscribe();
     this.onConnectedtoSocket();
   }
 
+  checkSocketMessageToSubscribe() {
+    if (this.router.url.includes('news')) {
+      this.socketMessageToSubscribe = `/topic/${this.comment.id}/comment`;
+      this.socketMessageToSend = '/app/likeAndCount';
+    }
+    if (this.router.url.includes('events')) {
+      this.socketMessageToSubscribe = `/topic/${this.comment.id}/eventComment`;
+      this.socketMessageToSend = '/app/eventCommentLikeAndCount';
+    }
+  }
+
   public onConnectedtoSocket(): void {
-    this.socketService.onMessage(`/topic/${this.comment.id}/comment`).subscribe((msg: SocketAmountLikes) => {
+    this.socketService.onMessage(this.socketMessageToSubscribe).subscribe((msg) => {
       this.changeLkeBtn(msg);
       this.likesCounter.emit(msg.amountLikes);
     });
@@ -53,7 +69,7 @@ export class LikeCommentComponent implements OnInit {
   public pressLike(): void {
     this.commentsService.postLike(this.comment.id).subscribe(() => {
       this.getUserId();
-      this.socketService.send('/app/likeAndCount', {
+      this.socketService.send(this.socketMessageToSend, {
         id: this.comment.id,
         amountLikes: this.likeState ? 0 : 1,
         userId: this.userId
