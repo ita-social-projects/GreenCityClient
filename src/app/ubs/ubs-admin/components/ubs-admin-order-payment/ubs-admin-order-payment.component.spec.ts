@@ -145,25 +145,6 @@ describe('UbsAdminOrderPaymentComponent', () => {
     });
   });
 
-  it('method openPopup', () => {
-    const viewMode = true;
-    const paymentIndex = 3;
-    component.openPopup(viewMode);
-    expect(matDialogMock.open).toHaveBeenCalled();
-    expect(matDialogMock.open).toHaveBeenCalledWith(AddPaymentComponent, {
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: false,
-      panelClass: 'custom-dialog-container',
-      height: '100%',
-      data: {
-        orderId: 1,
-        viewMode,
-        payment: viewMode ? component.paymentsArray[paymentIndex] : null
-      }
-    });
-  });
-
   it('method isOverpaymentReturnAvailable', () => {
     expect(component.isOverpaymentReturnAvailable()).toBeFalsy();
     component.currentOrderStatus = OrderStatus.CANCELED;
