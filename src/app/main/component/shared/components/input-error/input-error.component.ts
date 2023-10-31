@@ -45,12 +45,11 @@ export class InputErrorComponent implements OnInit {
           case errorType.maxlength:
             this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength, this.isEvent);
             break;
-          case errorType.required:
+          default:
             if (this.isEvent) {
               this.errorMessage = this.getRequiredErrorMessage();
               break;
             }
-          default:
             this.errorMessage = this.validationErrors[err];
         }
       }
