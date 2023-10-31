@@ -9,6 +9,8 @@ import { errorType } from '@global-user/models/error-type.model';
 })
 export class InputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
+  @Input() public isEvent: boolean;
+  @Input() public date: boolean;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -20,7 +22,10 @@ export class InputErrorComponent implements OnInit {
     maxlengthDescription: 'input-error.max-length-description',
     maxlengthService: 'ubs-tariffs-add-service.error_service_name_content',
     maxlengthServiceDescription: 'ubs-tariffs-add-service.error_content',
-    pattern: 'input-error.pattern'
+    pattern: 'input-error.pattern',
+    maxlengthEventName: 'create-event.max-length-title',
+    requiredEventName: 'create-event.title-required',
+    requiredEventDate: 'create-event.date-required'
   };
 
   ngOnInit(): void {
@@ -38,8 +43,13 @@ export class InputErrorComponent implements OnInit {
             this.errorMessage = this.getMinlengthErrorMessage(this.formElement.errors.minlength.requiredLength);
             break;
           case errorType.maxlength:
-            this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength);
+            this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength, this.isEvent);
             break;
+          case errorType.required:
+            if (this.isEvent) {
+              this.errorMessage = this.getRequiredErrorMessage();
+              break;
+            }
           default:
             this.errorMessage = this.validationErrors[err];
         }
@@ -47,11 +57,19 @@ export class InputErrorComponent implements OnInit {
     });
   }
 
+  private getRequiredErrorMessage(): string {
+    return this.date ? this.validationErrors.requiredEventDate : this.validationErrors.requiredEventName;
+  }
+
   getMinlengthErrorMessage(minlength: number): string {
     return this.formElement.value.length ? this.validationErrors.minlength : this.validationErrors.minlengthDescription;
   }
 
-  getMaxlengthErrorMessage(maxlength: number): string {
+  getMaxlengthErrorMessage(maxlength: number, isEvent: boolean): string {
+    if (isEvent) {
+      return this.validationErrors.maxlengthEventName;
+    }
+
     switch (maxlength) {
       case 30:
         return this.validationErrors.maxlengthService;
