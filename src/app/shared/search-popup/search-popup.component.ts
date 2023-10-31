@@ -1,4 +1,5 @@
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
+import { EventsSearchModel } from '@global-models/search/eventsSearch.model';
 import { SearchModel } from '@global-models/search/search.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { searchIcons } from '../../main/image-pathes/search-icons';
@@ -19,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SearchPopupComponent implements OnInit, OnDestroy {
   public newsElements: NewsSearchModel[] = [];
+  public eventsElements: EventsSearchModel[] = [];
   public isSearchClicked = false;
   public itemsFound: number = null;
   public searchModalSubscription: Subscription;
@@ -31,7 +33,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public searctabindex: SearchService;
 
   constructor(
-    public search: SearchService,
+    public searchService: SearchService,
     public dialog: MatDialog,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
@@ -52,10 +54,10 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
         }),
         switchMap((val: string) => {
           this.currentLanguage = this.localStorageService.getCurrentLanguage();
-          return this.search.getAllResults(val, this.currentLanguage);
+          return this.searchService.getAllResults(val, this.currentLanguage);
         })
       )
-      .subscribe((data) => this.setData(data));
+      .subscribe((data: SearchModel) => this.setData(data));
 
     this.searchValueChanges.pipe(filter(negate(isNil))).subscribe(() => this.resetData());
   }
@@ -65,17 +67,18 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public setupInitialValue(): void {
-    this.searchModalSubscription = this.search.searchSubject.subscribe((signal) => this.subscribeToSignal(signal));
+    this.searchModalSubscription = this.searchService.searchSubject.subscribe((signal) => this.subscribeToSignal(signal));
   }
 
   public openErrorPopup(): void {
     this.snackBar.openSnackBar('error');
   }
 
-  private setData({ ecoNews, countOfResults }: SearchModel): void {
+  private setData({ ecoNews, events, countOfResults }: SearchModel): void {
     this.isLoading = false;
 
     this.newsElements = ecoNews;
+    this.eventsElements = events;
     this.itemsFound = countOfResults;
   }
 
@@ -87,13 +90,14 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public closeSearch(): void {
-    this.search.closeSearchSignal();
+    this.searchService.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();
   }
 
   private resetData(): void {
     this.newsElements = [];
+    this.eventsElements = [];
     this.itemsFound = null;
   }
 

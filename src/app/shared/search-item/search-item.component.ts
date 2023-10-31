@@ -9,6 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SearchItemComponent {
   @Input() searchModel: NewsSearchModel;
+  @Input() type: string;
   @Output() closeSearch: EventEmitter<boolean> = new EventEmitter();
   profileIcons = userAssignedCardsIcons;
 

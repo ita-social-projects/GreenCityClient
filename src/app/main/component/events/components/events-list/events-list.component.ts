@@ -6,7 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
-import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
+import { GetEcoEventsByPageAction, GetEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import {
   TagsArray,
   eventTimeList,
@@ -29,6 +29,9 @@ import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
+import { debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
+import { SearchService } from '@global-service/search/search.service';
+import { SearchModel } from '@global-models/search/search.model';
 
 @Component({
   selector: 'app-events-list',
@@ -45,7 +48,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public locationFilterControl = new FormControl();
   public statusFilterControl = new FormControl();
   public typeFilterControl = new FormControl();
-  public searchFilterWords = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  public searchInput = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   public eventsList: EventPageResponceDto[] = [];
   public bufferArray: EventPageResponceDto[] = [];
@@ -75,6 +78,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public userId: number;
   private dialog: MatDialog;
   userFriends: FriendModel[];
+  public searchValueChanges;
+  public isLoading = false;
+  private currentLanguage: string;
 
   constructor(
     private store: Store,
@@ -84,7 +90,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private router: Router,
     public injector: Injector,
     private userFriendsService: UserFriendsService,
-    private eventService: EventsService
+    private eventService: EventsService,
+    public searchService: SearchService
   ) {
     this.dialog = injector.get(MatDialog);
   }
@@ -99,19 +106,48 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.scroll = false;
     this.dispatchStore(true);
     this.localStorageService.setCurentPage('previousPage', '/events');
-    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
-      this.page = res.pageNumber;
-      if (res.eventState) {
-        this.eventsList = [...res.eventsList];
-        this.bufferArray = [...res.eventsList];
-        const data = res.eventState;
-        this.hasNext = data.hasNext;
-        this.remaining = data.totalElements;
-        this.elementsArePresent = this.eventsList.length < data.totalElements;
-      }
-    });
+    this.searchValueChanges = this.searchInput.valueChanges;
+    this.searchValueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => {
+          this.resetData();
+          this.isLoading = true;
+        }),
+        switchMap((val: string) => {
+          this.currentLanguage = this.localStorageService.getCurrentLanguage();
+          return this.searchService.getAllResults(val, this.currentLanguage);
+        })
+      )
+      .subscribe((data: SearchModel) => {
+        console.log(data);
+        this.setData(data);
+      });
+
+    this.eventsSubsription();
     this.getUserFriendsList();
     this.searchWords();
+  }
+
+  private eventsSubsription(): void {
+    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+      console.log(res);
+      this.page = res.pageNumber;
+      if (res.eventState) {
+        console.log(res);
+        if (res.eventsList.length > 3) {
+          this.eventsList = [...res.eventsList];
+          this.bufferArray = [...res.eventsList];
+          const data = res.eventState;
+          this.hasNext = data.hasNext;
+          this.remaining = data.totalElements;
+          this.elementsArePresent = this.eventsList.length < data.totalElements;
+        } else {
+          this.eventsList.push(res.eventsList[res.eventsList.length - 1]);
+        }
+      }
+    });
   }
 
   getUserFriendsList(): void {
@@ -128,10 +164,28 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   searchWords(): void {
-    this.searchFilterWords.valueChanges.subscribe((value) => {
-      this.wordsToSearch = value.split(' ');
-      this.sortByWord(this.bufferArray, this.wordsToSearch);
-    });
+    // this.searchFilterWords.valueChanges.subscribe((value) => {
+    //   this.wordsToSearch = value.split(' ');
+    //   this.sortByWord(this.bufferArray, this.wordsToSearch);
+    // });
+  }
+
+  private setData({ events }: SearchModel): void {
+    console.log(events);
+    this.isLoading = false;
+    this.scroll = true;
+    console.log('here');
+    events.map(({ id }, i) => this.dispatchStoreSearch(id, i === 0));
+
+    // this.newsElements = ecoNews;
+    // this.eventsElements = events;
+    // this.itemsFound = countOfResults;
+  }
+
+  private resetData(): void {
+    this.eventsList = [];
+
+    // this.itemsFound = null;
   }
 
   sortByWord(list: EventPageResponceDto[], words: string[]): void {
@@ -146,8 +200,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.noEventsMatch = !this.eventsList.length;
   }
 
-  public cancelSearch() {
-    this.searchFilterWords.setValue('');
+  public closeSearch(): void {
+    this.searchInput.setValue('');
+    this.dispatchStore(true);
+    // this.searchService.closeSearchSignal();
+    // this.isSearchClicked = false;
+    // this.resetData();
   }
 
   public updateSelectedFilters(
@@ -217,6 +275,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
       ...this.eventFilterCriteria,
       [dropdownName]: [...this.eventFilterCriteria[dropdownName], value.nameEn]
     };
+  }
+
+  public dispatchStoreSearch(eventId: number, res: boolean): void {
+    console.log(eventId, res);
+    this.store.dispatch(GetEcoEventsByIdAction({ eventId: eventId, reset: res }));
   }
 
   public dispatchStore(res: boolean): void {

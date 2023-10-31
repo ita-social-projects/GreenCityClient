@@ -5,6 +5,7 @@ import {
   DeleteEcoEventSuccessAction,
   EditEcoEventSuccessAction,
   GetEcoEventsByPageSuccessAction,
+  GetEcoEventsByIdSuccessAction,
   RateEcoEventsByIdSuccessAction,
   ReceivedFailureAction,
   RemoveAttenderEventsByIdSuccessAction
@@ -16,7 +17,9 @@ export const EcoEventsReducer = createReducer(
   on(GetEcoEventsByPageSuccessAction, (state, action) => {
     let prevList = state.eventsList;
     let prevNumber = state.pageNumber;
+    console.log(action);
     if (action.reset) {
+      console.log('there');
       prevList = [];
       prevNumber = 0;
     }
@@ -25,6 +28,18 @@ export const EcoEventsReducer = createReducer(
       eventsList: [...prevList, ...action.ecoEvents.page],
       eventState: { ...action.ecoEvents },
       pageNumber: prevNumber + 1
+    };
+  }),
+
+  on(GetEcoEventsByIdSuccessAction, (state, action) => {
+    let prevList = state.eventsList;
+    if (action.reset) {
+      console.log('tere');
+      prevList = [];
+    }
+    return {
+      ...state,
+      eventsList: [...prevList, action.ecoEvents]
     };
   }),
 

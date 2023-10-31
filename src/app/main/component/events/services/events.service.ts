@@ -73,6 +73,12 @@ export class EventsService implements OnDestroy {
   }
 
   public getEvents(page: number, quantity: number, filter: EventFilterCriteriaIntarface): Observable<any> {
+    console.log(
+      this.http.get(
+        `${this.backEnd}events?page=${page}&size=${quantity}&cities=${filter.cities}` +
+          `&tags=${filter.tags}&eventTime=${filter.eventTime}&statuses=${filter.statuses}`
+      )
+    );
     return this.http.get(
       `${this.backEnd}events?page=${page}&size=${quantity}&cities=${filter.cities}` +
         `&tags=${filter.tags}&eventTime=${filter.eventTime}&statuses=${filter.statuses}`
@@ -109,6 +115,7 @@ export class EventsService implements OnDestroy {
   }
 
   public getEventById(id: number): Observable<any> {
+    console.log(this.http.get(`${this.backEnd}events/event/${id}`));
     return this.http.get(`${this.backEnd}events/event/${id}`);
   }
 

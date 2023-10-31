@@ -32,7 +32,26 @@
           <h3 class="search-title">{{ 'search.search-popup.news' | translate }}</h3>
         </a>
         <div class="list-search-items">
-          <app-search-item *ngFor="let element of newsElements" [searchModel]="element" (closeSearch)="closeSearch()" class="search-item">
+          <app-search-item
+            *ngFor="let element of newsElements"
+            [searchModel]="element"
+            [type]="'news'"
+            (closeSearch)="closeSearch()"
+            class="search-item"
+          >
+          </app-search-item>
+        </div>
+        <a [routerLink]="['/events']" (click)="closeSearch()">
+          <h3 class="search-title">{{ 'search.search-popup.events' | translate }}</h3>
+        </a>
+        <div class="list-search-items">
+          <app-search-item
+            *ngFor="let element of eventsElements"
+            [searchModel]="element"
+            [type]="'events'"
+            (closeSearch)="closeSearch()"
+            class="search-item"
+          >
           </app-search-item>
         </div>
       </div>
