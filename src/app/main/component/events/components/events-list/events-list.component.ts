@@ -279,7 +279,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public dispatchStoreSearch(eventId: number, res: boolean): void {
     console.log(eventId, res);
-    this.store.dispatch(GetEcoEventsByIdAction({ eventId: eventId, reset: res }));
+    this.store.dispatch(GetEcoEventsByIdAction({ eventId, reset: res }));
   }
 
   public dispatchStore(res: boolean): void {
