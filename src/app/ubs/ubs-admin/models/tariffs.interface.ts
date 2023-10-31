@@ -175,3 +175,11 @@ export interface City {
   locationTranslationDtoList: { locationName: string; languageCode: string }[];
   name: string;
 }
+
+export interface FilterData {
+  positions: Array<number>;
+  regions: Array<number>;
+  locations: Array<number>;
+  couriers: Array<number>;
+  employeeStatus: string;
+}

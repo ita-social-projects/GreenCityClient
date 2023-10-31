@@ -316,7 +316,7 @@
             font-size: 16px;
             line-height: 24px;
             letter-spacing: 0.001em;
-            color: var(--ubs-freinacht-black);
+            color: var(--ubs-quaternary-dark-grey);
             margin-bottom: 4px;
           }
         }
@@ -325,7 +325,7 @@
           display: flex;
           flex-direction: column;
           gap: 4px;
-          max-height: 73px;
+          max-height: fit-content;
 
           .locations-list {
             display: flex;
@@ -363,7 +363,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 36px;
-      margin-top: 32px;
+      margin-top: 15px;
 
       .actions-btn {
         height: 36px;
@@ -465,4 +465,8 @@
   pointer-events: none;
   cursor: default;
   opacity: 0.75;
+}
+
+.region-placeholder {
+  height: 20px;
 }

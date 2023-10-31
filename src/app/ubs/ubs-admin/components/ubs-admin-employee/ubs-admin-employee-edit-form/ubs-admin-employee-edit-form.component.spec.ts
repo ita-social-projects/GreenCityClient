@@ -28,17 +28,20 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   const mockedEmployeePositions = [
     {
       id: 2,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
   const mockedReceivingStations = [
     {
       id: 3,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     },
     {
       id: 4,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
   const mockedData = {
@@ -92,6 +95,12 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       }
     ]
   };
+  const mockFormData = {
+    firstName: 'fakeFirstName',
+    lastName: 'fakeLastName',
+    phoneNumber: 'fakePhoneNumber',
+    email: 'fakeEmail'
+  };
   const mockedInitialData = {
     firstName: 'fake',
     lastName: 'fake',
@@ -141,6 +150,35 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should cancel streams after ngOnDestroy', () => {
+    const destroy$ = 'destroyed$';
+    const nextSpy = spyOn(component[destroy$], 'next');
+    const completeSpy = spyOn(component[destroy$], 'complete');
+    component.ngOnDestroy();
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
+  });
+
+  it('should return firstName Control on get firstName', () => {
+    const firstName = component.firstName;
+    expect(firstName).toEqual(component.employeeForm.get('firstName'));
+  });
+
+  it('should return lastName Control on get lastName', () => {
+    const lastName = component.lastName;
+    expect(lastName).toEqual(component.employeeForm.get('lastName'));
+  });
+
+  it('should return phoneNumber Control on get phoneNumber', () => {
+    expect(component.employeeForm.get('phoneNumber')).toBeTruthy();
+    expect(component.employeeForm.get('phoneNumber').status).toEqual('INVALID');
+  });
+
+  it('should return email Control on get email', () => {
+    expect(component.employeeForm.get('email')).toBeTruthy();
+    expect(component.employeeForm.get('email').status).toEqual('INVALID');
+  });
+
   it('employeeForm should receive data from MAT_DIALOG_DATA', () => {
     expect(component.employeeForm.value).toEqual({
       firstName: 'fake',
@@ -168,7 +206,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   });
 
   it('Role should be added', () => {
-    const fakeRole = { id: 3, name: 'addedFake' };
+    const fakeRole = { id: 3, name: 'addedFake', nameEn: 'addedFakeEn' };
     component.onCheckChangeRole(fakeRole);
     expect(component.employeePositions).toEqual([...mockedEmployeePositions, fakeRole]);
   });
@@ -232,11 +270,13 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
       component.employeePositions = [
         {
           id: 2,
-          name: 'fake'
+          name: 'fake',
+          nameEn: 'fakeEn'
         },
         {
           id: 22,
-          name: 'fake22'
+          name: 'fake22',
+          nameEn: 'fake22En'
         }
       ];
       const isInitialPositionsChangedMock = component.checkIsInitialPositionsChanged();

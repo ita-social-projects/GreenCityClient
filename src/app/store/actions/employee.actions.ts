@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Employees, Page, EmployeeDataToSend } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
+import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { Employees, Page, EmployeeDataToSend, EmployeePositionsAuthorities } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 
 export enum EmployeesActions {
   GetEmployees = '[Employees] Get Employees',
@@ -10,12 +11,16 @@ export enum EmployeesActions {
   DeleteEmployeeSuccess = '[Employees] Delete Employee Success',
   UpdateEmployee = '[Employees] Update Employee',
   UpdateEmployeeSuccess = '[Employees] Update Employee Success',
-  ReceivedFailure = '[Employees] Received Failure'
+  ActivateEmployee = '[Employees] Activate Employee',
+  ActivateEmployeeSuccess = '[Employees] Activate Employee Success',
+  ReceivedFailure = '[Employees] Received Failure',
+  GetEmployeesPermissions = '[Employees] Get Employees Permissions',
+  GetEmployeesPermissionsSuccess = '[Employees] Get Employees Permissions Success'
 }
 
 export const GetEmployees = createAction(
   EmployeesActions.GetEmployees,
-  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean; sortDirection?: string; filterData }>()
+  props<{ pageNumber: number; pageSize: number; search?: string; reset: boolean; sortDirection?: string; filterData: FilterData }>()
 );
 
 export const GetEmployeesSuccess = createAction(EmployeesActions.GetEmployeesSuccess, props<{ employees: Employees; reset: boolean }>());
@@ -32,4 +37,15 @@ export const UpdateEmployee = createAction(EmployeesActions.UpdateEmployee, prop
 
 export const UpdateEmployeeSuccess = createAction(EmployeesActions.UpdateEmployeeSuccess, props<{ employee: Page }>());
 
+export const ActivateEmployee = createAction(EmployeesActions.ActivateEmployee, props<{ id: number }>());
+
+export const ActivateEmployeeSuccess = createAction(EmployeesActions.ActivateEmployeeSuccess, props<{ id: number }>());
+
 export const ReceivedFailure = createAction(EmployeesActions.ReceivedFailure, props<{ error: string | null }>());
+
+export const GetEmployeesPermissions = createAction(EmployeesActions.GetEmployeesPermissions, props<{ email: string; reset: boolean }>());
+
+export const GetEmployeesPermissionsSuccess = createAction(
+  EmployeesActions.GetEmployeesPermissionsSuccess,
+  props<{ positionsAuthorities: EmployeePositionsAuthorities; reset: boolean }>()
+);
