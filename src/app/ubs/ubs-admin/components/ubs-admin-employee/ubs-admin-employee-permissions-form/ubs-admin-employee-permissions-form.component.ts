@@ -1,12 +1,14 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Page } from '../../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { PopUpsStyles, ActionTypeForPermissions } from '../ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee-permissions-form',
@@ -43,14 +45,12 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
         'CREATE_NEW_LOCATION',
         'CREATE_NEW_COURIER',
         'CREATE_NEW_STATION',
-        'EDIT_LOCATION_NAME',
+        'EDIT_LOCATION',
         'EDIT_COURIER',
-        'EDIT_DESTINATION_NAME',
-        'EDIT_DELETE_LOCATION_CARD',
-        'EDIT_LOCATION_CARD',
+        'EDIT_STATION',
+        'CREATE_PRICING_CARD',
         'SEE_PRICING_CARD',
-        'EDIT_DELETE_PRICE_CARD',
-        'DEACNIVATE_PRICING_CARD',
+        'EDIT_DELETE_DEACTIVATE_PRICING_CARD',
         'CONTROL_SERVICE'
       ]
     }
@@ -76,18 +76,20 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     CREATE_NEW_LOCATION: 'create-location',
     CREATE_NEW_COURIER: 'create-courier',
     CREATE_NEW_STATION: 'create-station',
-    EDIT_LOCATION_NAME: 'edit-location-name',
+    EDIT_LOCATION: 'edit-location-name',
     EDIT_COURIER: 'edit-courier-name',
-    EDIT_DESTINATION_NAME: 'edit-destination-name',
-    EDIT_DELETE_LOCATION_CARD: 'edit-delete-location-card',
-    EDIT_LOCATION_CARD: 'create-location-card',
+    EDIT_STATION: 'edit-destination-name',
+    CREATE_PRICING_CARD: 'create-price-card',
     SEE_PRICING_CARD: 'see-price-card',
     CONTROL_SERVICE: 'edit-service',
-    EDIT_DELETE_PRICE_CARD: 'edit-delete-price-card',
-    DEACNIVATE_PRICING_CARD: 'deactivate-price-card'
+    EDIT_DELETE_DEACTIVATE_PRICING_CARD: 'edit-delete-price-card',
+    DELETE_LOCATION: 'delete-location',
+    DELETE_DEACTIVATE_COURIER: 'delete-courier',
+    DELETE_DEACTIVATE_STATION: 'delete-station'
   };
 
   isUpdating = false;
+  isDisabled = true;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -96,7 +98,8 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     @Inject(MAT_DIALOG_DATA) public data: Page,
     private employeeService: UbsAdminEmployeeService,
     private dialogRef: MatDialogRef<UbsAdminEmployeePermissionsFormComponent>,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private dialog: MatDialog
   ) {
     this.employee = data;
     this.form = this.fb.group(
@@ -129,6 +132,10 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     this.panelToggler = !this.panelToggler;
   }
 
+  updateAllComplete() {
+    this.isDisabled = false;
+  }
+
   savePermissions() {
     this.isUpdating = true;
     const selectedPermissions = Object.entries(this.form.value)
@@ -139,6 +146,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
     this.employeeService.updatePermissions(this.employee.email, selectedPermissions).subscribe(
       () => {
         this.isUpdating = false;
+        this.snackBar.openSnackBar('successUpdateUbsData');
         this.dialogRef.close(true);
       },
       (error) => {
@@ -146,6 +154,35 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
         this.dialogRef.close(false);
       }
     );
+  }
+
+  managePermissionSettings(actionType: string): void {
+    const cancelData = {
+      popupTitle: 'employees.permissions.clients.cancel-changes',
+      popupConfirm: 'employees.btn.yes',
+      popupCancel: 'employees.btn.no',
+      style: PopUpsStyles.lightGreen,
+      іsPermissionConfirm: false,
+      isItrefund: false
+    };
+    const dialogRef = this.dialog.open(DialogPopUpComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: '',
+      data: cancelData
+    });
+
+    if (actionType === ActionTypeForPermissions.cancel) {
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((confirm) => {
+          if (confirm) {
+            this.dialogRef.close(true);
+          }
+        });
+    }
   }
 
   ngOnDestroy(): void {

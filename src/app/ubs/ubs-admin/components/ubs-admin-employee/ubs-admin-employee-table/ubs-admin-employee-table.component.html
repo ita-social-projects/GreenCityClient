@@ -29,6 +29,9 @@
   <div class="head-item position">
     <span>{{ 'employees.courier' | translate }}</span>
   </div>
+  <div class="head-item position">
+    <span>{{ 'employees.state' | translate }}</span>
+  </div>
 </div>
 <div
   class="scrolling"
@@ -39,7 +42,7 @@
   [scrollWindow]="false"
 >
   <mat-accordion class="employees-cards" *ngIf="!isLoading">
-    <div *ngFor="let employee of employees; let i = index">
+    <div *ngFor="let employee of employeesData$ | async; let i = index">
       <mat-expansion-panel
         #panel
         (opened)="employee.expanded = true"
@@ -59,14 +62,14 @@
                 <ng-container *ngFor="let position of employee.employeePositions; let i = index">
                   <ng-container *ngIf="!employee.expanded; else allPositions">
                     <span class="link" *ngIf="employee.employeePositions.length > 2 && i <= 2">
-                      {{ i < 2 ? position.name : position.name + '...' }}
+                      {{ i < 2 ? getLangValue(position.name, position.nameEn) : getLangValue(position.name, position.nameEn) + '...' }}
                     </span>
                     <span class="link" *ngIf="employee.employeePositions.length <= 2">
-                      {{ position.name }}
+                      {{ getLangValue(position.name, position.nameEn) }}
                     </span>
                   </ng-container>
                   <ng-template #allPositions>
-                    <span class="link">{{ position.name }}</span>
+                    <span class="link">{{ getLangValue(position.name, position.nameEn) }}</span>
                   </ng-template>
                 </ng-container>
               </div>
@@ -85,7 +88,7 @@
 
             <div class="description-item receiving-station">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div>{{ tariff.region.nameEn }}</div>
+                <div>{{ getLangValue(tariff.region.nameUk, tariff.region.nameEn) }}</div>
                 <div
                   *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat"
                   class="region-placeholder"
@@ -96,18 +99,19 @@
             <div class="description-item">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
                 <div *ngIf="!tariff.locations.additional.length; else moreThanThreeLocations" class="locations-list">
-                  <div *ngFor="let location of tariff.locations.displayed">{{ location.nameEn }}</div>
+                  <div *ngFor="let location of tariff.locations.displayed">{{ getLangValue(location.nameUk, location.nameEn) }}</div>
                 </div>
                 <ng-template #moreThanThreeLocations>
                   <div class="locations-list">
-                    <div>{{ tariff.locations.displayed[0].nameEn }}</div>
-                    <div>{{ tariff.locations.displayed[1].nameEn }}</div>
+                    <div>{{ getLangValue(tariff.locations.displayed[0].nameUk, tariff.locations.displayed[0].nameEn) }}</div>
+                    <div>{{ getLangValue(tariff.locations.displayed[1].nameUk, tariff.locations.displayed[1].nameEn) }}</div>
                     <div style="color: #5639bb; text-decoration: underline" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">
-                      {{ tariff.locations.displayed[2].nameEn }} and {{ tariff.locations.additional.length }} more
+                      {{ getLangValue(tariff.locations.displayed[2].nameUk, tariff.locations.displayed[2].nameEn) }} and
+                      {{ tariff.locations.additional.length }} more
                     </div>
                     <mat-menu class="more-locations-overlay" #menu="matMenu">
                       <div class="locations-list">
-                        <div *ngFor="let location of tariff.locations.additional">{{ location.nameEn }}</div>
+                        <div *ngFor="let location of tariff.locations.additional">{{ getLangValue(location.nameUk, location.nameEn) }}</div>
                       </div>
                     </mat-menu>
                   </div>
@@ -117,12 +121,16 @@
 
             <div class="description-item">
               <div class="description-sub-item description-item-text" *ngFor="let tariff of employee.tariffs; let i = index">
-                <div>{{ tariff.courier.nameEn }}</div>
-                <div
-                  *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat"
-                  class="region-placeholder"
-                  style="height: 20px"
-                ></div>
+                <div>{{ getLangValue(tariff.courier.nameUk, tariff.courier.nameEn) }}</div>
+                <div *ngFor="let placeholder of tariff.locations.displayed.length - 1 | repeat" class="region-placeholder"></div>
+              </div>
+            </div>
+
+            <div class="description-item">
+              <div class="description-sub-item description-item-text">
+                <div>
+                  {{ (employee.employeeStatus === 'ACTIVE' ? 'employees.status.active' : 'employees.status.inactive') | translate }}
+                </div>
               </div>
             </div>
             <span
@@ -148,20 +156,45 @@
                 mat-menu-item
               >
                 <span class="menu-item-content">
-                  <img class="menu-item-img" [src]="icons.settings" alt="edit" />
+                  <img class="menu-item-img" [src]="icons.settings" alt="settings" />
                   <span class="menu-item-action">{{ 'employees.actions.settings' | translate }}</span>
                 </span>
               </button>
-              <button class="menu-item" *ngIf="isThisUserCanDeleteEmployee" (click)="openDeleteDialog(employee, $event)" mat-menu-item>
+              <button
+                class="menu-item"
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
+                (click)="openDeleteDialog(employee, $event)"
+                mat-menu-item
+              >
                 <span class="menu-item-content">
-                  <img class="menu-item-img" [src]="icons.delete" alt="edit" />
-                  <span class="menu-item-action">{{ 'employees.actions.delete' | translate }}</span>
+                  <img class="menu-item-img" [src]="icons.delete" alt="deactivate" />
+                  <span class="menu-item-action">{{ 'employees.actions.deactivate' | translate }}</span>
+                </span>
+              </button>
+              <button
+                class="menu-item"
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusInactive"
+                (click)="openActivateDialog(employee, $event)"
+                mat-menu-item
+              >
+                <span class="menu-item-content">
+                  <img class="menu-item-img" [src]="icons.activate" alt="activate" />
+                  <span class="menu-item-action">{{ 'employees.actions.activate' | translate }}</span>
                 </span>
               </button>
             </mat-menu>
             <ng-template #deleteIcon>
-              <span *ngIf="isThisUserCanDeleteEmployee" (click)="openDeleteDialog(employee, $event)">
-                <img [src]="icons.delete" alt="delete" />
+              <span
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusActive"
+                (click)="openDeleteDialog(employee, $event)"
+              >
+                <img [src]="icons.delete" alt="deactivate" />
+              </span>
+              <span
+                *ngIf="isThisUserCanDeleteEmployee && employee.employeeStatus === isStatusInactive"
+                (click)="openActivateDialog(employee, $event)"
+              >
+                <img [src]="icons.activate" alt="activate" />
               </span>
             </ng-template>
           </mat-panel-title>

@@ -1,8 +1,9 @@
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Employees } from '../models/ubs-admin.interface';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Employees, EmployeePositions, EmployeePositionsAuthorities } from '../models/ubs-admin.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
+import { FilterData } from '../models/tariffs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ import { ubsAdminEmployeeLink, ubsAdminStationLink } from 'src/app/main/links';
 export class UbsAdminEmployeeService {
   public getAllEmployees = `${ubsAdminEmployeeLink}/getAll-employees`;
   public searchValue: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
+  public filterDataSubject$: Subject<FilterData> = new Subject<FilterData>();
+  public employeePositionsAuthorities$: Subject<EmployeePositionsAuthorities> = new Subject<EmployeePositionsAuthorities>();
+  public employeePositions$: BehaviorSubject<Array<string>> = new BehaviorSubject<Array<string>>([]);
   constructor(private http: HttpClient) {}
 
   getEmployees(
@@ -19,7 +22,7 @@ export class UbsAdminEmployeeService {
     search?: string,
     sortBy?: string,
     sortDirection?: string,
-    filterData?
+    data?
   ): Observable<Employees> {
     const urlAttr = [{ search }, { sortBy }, { sortDirection }].reduce(
       (acc, item) => (Object.values(item)[0] ? `${acc}&${Object.keys(item)[0]}=${Object.values(item)[0]}` : acc),
@@ -27,12 +30,12 @@ export class UbsAdminEmployeeService {
     );
 
     return this.http.get<Employees>(`${this.getAllEmployees}?pageNumber=${pageNumber}&pageSize=${pageSize}${urlAttr}`, {
-      params: filterData
+      params: data
     });
   }
 
-  getAllPositions(): Observable<any[]> {
-    return this.http.get<any[]>(`${ubsAdminEmployeeLink}/get-all-positions`);
+  getAllPositions(): Observable<EmployeePositions[]> {
+    return this.http.get<EmployeePositions[]>(`${ubsAdminEmployeeLink}/get-all-positions`);
   }
 
   getAllStations(): Observable<any[]> {
@@ -55,6 +58,10 @@ export class UbsAdminEmployeeService {
     return this.http.put(`${ubsAdminEmployeeLink}/deactivate-employee/${id}`, id);
   }
 
+  activateEmployee(id: number) {
+    return this.http.put(`${ubsAdminEmployeeLink}/activate-employee/${id}`, id);
+  }
+
   getAllEmployeePermissions(email: string) {
     return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
   }
@@ -69,5 +76,9 @@ export class UbsAdminEmployeeService {
 
   getEmployeePositionsAuthorities(employeeEmail): Observable<any> {
     return this.http.get(`${ubsAdminEmployeeLink}/get-positions-authorities/?email=${employeeEmail}`);
+  }
+
+  updateFilterData(data: FilterData) {
+    this.filterDataSubject$.next(data);
   }
 }

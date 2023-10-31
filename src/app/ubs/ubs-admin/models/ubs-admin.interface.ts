@@ -1,15 +1,8 @@
 import { DistrictsDtos } from '../../ubs/models/ubs.interface';
 
 export interface Employees {
-  content: Page[];
-  empty: string;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  pageable: Pageable;
-  size: number;
-  sort: Sort;
+  page: Page[];
+  currentPage: number;
   totalElements: number;
   totalPages: number;
 }
@@ -38,11 +31,13 @@ export interface Page {
   phoneNumber: string;
   expanded?: boolean;
   tariffs: Tariff[];
+  employeeStatus?: string;
 }
 
 export interface EmployeePositions {
   id: number;
   name: string;
+  nameEn: string;
 }
 
 export interface Tariff {
@@ -56,6 +51,11 @@ export interface TariffItem {
   id: number;
   nameEn: string;
   nameUk: string;
+}
+
+export interface SelectedItem {
+  nameEn: string;
+  nameUa: string;
 }
 
 export interface InitialData {
@@ -98,7 +98,7 @@ export interface EmployeeDataResponse {
 export interface EmployeeDto {
   firstName: string;
   id?: number;
-  image: string;
+  image: string | ArrayBuffer;
   lastName: string;
   phoneNumber: string;
   employeePositions: EmployeePositions[];
@@ -128,6 +128,7 @@ export interface IOrderInfo {
   paymentTableInfoDto: IPaymentInfo;
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;
+  writeOffStationSum: number;
 }
 
 export interface ICourierInfo {
@@ -553,7 +554,7 @@ export enum employeePositionsName {
   Admin = 'Адмін'
 }
 
-export enum EnablingAuthorities {
+export enum EnablingSeeAuthorities {
   orders = 'SEE_BIG_ORDER_TABLE',
   customers = 'SEE_CLIENTS_PAGE',
   certificates = 'SEE_CERTIFICATES',
@@ -562,8 +563,32 @@ export enum EnablingAuthorities {
   notifications = 'SEE_MESSAGES_PAGE'
 }
 
+export enum abilityCreateAuthorities {
+  certificates = 'CREATE_NEW_CERTIFICATE',
+  notifications = 'CREATE_NEW_MESSAGE'
+}
+
+export enum abilityAddAuthorities {
+  location = 'CREATE_NEW_LOCATION',
+  courier = 'CREATE_NEW_COURIER',
+  station = 'CREATE_NEW_STATION',
+  pricingCard = 'CREATE_PRICING_CARD'
+}
+
 export enum abilityEditAuthorities {
-  orders = 'EDIT_ORDER'
+  orders = 'EDIT_ORDER',
+  certificates = 'EDIT_CERTIFICATE',
+  notifications = 'EDIT_MESSAGE',
+  location = 'EDIT_LOCATION',
+  courier = 'EDIT_COURIER',
+  station = 'EDIT_STATION',
+  pricingCard = 'EDIT_DELETE_DEACTIVATE_PRICING_CARD',
+  controlService = 'CONTROL_SERVICE'
+}
+
+export enum abilityDelAuthorities {
+  notifications = 'DELETE_MESSAGE',
+  activateDeactivate = 'EDIT_DELETE_DEACTIVATE_PRICING_CARD'
 }
 
 export enum SideMenuElementsNames {

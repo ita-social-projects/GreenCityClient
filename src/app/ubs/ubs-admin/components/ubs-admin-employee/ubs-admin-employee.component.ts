@@ -2,22 +2,20 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { Couriers, CreateCard, Locations, City } from '../../models/tariffs.interface';
+import { Couriers, Locations, City, FilterData } from '../../models/tariffs.interface';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import {
   selectOptions,
@@ -56,19 +54,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
   couriers: Couriers[];
   couriersName: Array<string>;
   positionName: Array<string>;
-  courierNameEng: string;
-  courierNameUk: string;
-  courierId;
-  cards = [];
-  cardsUk = [];
-  cardsEn = [];
   filterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
-  createCardObj: CreateCard;
-  isFieldFilled = false;
-  isCardExist = false;
-  currentLang;
-  tagList: TagInterface[];
-  publictags: Observable<Array<TagInterface>>;
+  currentLang: string;
   selectedTagsList: Array<string> = [];
   isElementFocused = false;
   selectedCities = [];
@@ -107,6 +94,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   searchForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(
     private tariffsService: TariffsService,
@@ -116,25 +104,14 @@ export class UbsAdminEmployeeComponent implements OnInit {
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private store: Store<IAppState>,
-    private jwtService: JwtService
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit(): void {
     this.localeStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
-      this.setCard();
     });
-    this.userEmail = this.jwtService.getEmailFromAccessToken();
-    this.getEmployeePositionbyEmail(this.userEmail);
-    this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(this.userEmail).subscribe((employee) => {
-      this.userAuthorities = employee.authorities;
-      this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
-      this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
-      this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
-      this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
-      this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
-    });
+    this.definitionUserAuthorities();
     this.initForm();
     this.getPositions();
     this.getContacts();
@@ -156,12 +133,34 @@ export class UbsAdminEmployeeComponent implements OnInit {
       .subscribe((i) => {
         this.getLocations();
         this.getCouriers();
+        this.getPositions();
         this.translateSelectedCity();
         this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
         this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
         this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
         this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
       });
+  }
+
+  addNewFilters(data: FilterData) {
+    this.ubsAdminEmployeeService.updateFilterData(data);
+  }
+
+  definitionUserAuthorities(): void {
+    this.permissions$.subscribe((employeeRight) => {
+      if (employeeRight.length) {
+        this.definedIsEmployeeHasRights(employeeRight);
+      }
+    });
+  }
+
+  definedIsEmployeeHasRights(employeeRight) {
+    this.userAuthorities = employeeRight;
+    this.isThisUserCanCreateEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.add);
+    this.isThisUserCanEditEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.edit);
+    this.isThisUserCanEditEmployeeAuthorities = this.userAuthorities.includes(authoritiesChangeEmployee.editauthorities);
+    this.isThisUserCanDeleteEmployee = this.userAuthorities.includes(authoritiesChangeEmployee.deactivate);
+    this.userHasRights = this.isThisUserCanEditEmployee || this.isThisUserCanEditEmployeeAuthorities || this.isThisUserCanDeleteEmployee;
   }
 
   private initForm(): void {
@@ -178,10 +177,6 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.ubsAdminEmployeeService.getEmployeeLoginPositions(userEmail).subscribe((roles) => {
       this.userRoles = roles;
     });
-  }
-
-  private setCard(): void {
-    this.cards = this.languageService.getLangValue(this.cardsUk, this.cardsEn) as any[];
   }
 
   get position() {
@@ -201,13 +196,18 @@ export class UbsAdminEmployeeComponent implements OnInit {
   }
 
   getPositions(): void {
-    this.ubsAdminEmployeeService.getAllPositions().subscribe(
-      (roles) => {
-        this.employeePositions = roles;
-        this.positionName = this.employeePositions.map((el) => el.name);
-      },
-      (error) => console.error('Observer for role got an error: ' + error)
-    );
+    this.ubsAdminEmployeeService
+      .getAllPositions()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (roles) => {
+          this.employeePositions = roles;
+          this.positionName = this.employeePositions.map((position: EmployeePositions) =>
+            this.getLangValue(position.name, position.nameEn)
+          );
+        },
+        (error) => console.error('Observer for role got an error: ' + error)
+      );
   }
 
   getContacts(): void {
@@ -281,6 +281,12 @@ export class UbsAdminEmployeeComponent implements OnInit {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
+  animationUtil(trigger: MatAutocompleteTrigger): void {
+    requestAnimationFrame(() => {
+      trigger.openPanel();
+    });
+  }
+
   getCouriers(): void {
     this.tariffsService
       .getCouriers()
@@ -332,16 +338,16 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.toggleSelectAllPositions();
       const positionsId = this.employeePositions.map((position) => position.id);
       Object.assign(this.filterData, { positions: positionsId });
+      this.addNewFilters(this.filterData);
     } else {
       this.selectPosition(event);
       const positionId = this.selectedPositions.map((it) => it.id);
       Object.assign(this.filterData, { positions: positionId });
+      this.addNewFilters(this.filterData);
     }
     this.position.setValue('');
     if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+      this.animationUtil(trigger);
     }
   }
 
@@ -350,16 +356,16 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.toggleSelectAllCourier();
       const couriersId = this.couriers.map((courier) => courier.courierId);
       Object.assign(this.filterData, { couriers: couriersId });
+      this.addNewFilters(this.filterData);
     } else {
       this.selectCourier(event);
       const courierId = this.selectedCouriers.map((it) => it.id);
       Object.assign(this.filterData, { couriers: courierId });
+      this.addNewFilters(this.filterData);
     }
     this.courier.setValue('');
     if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+      this.animationUtil(trigger);
     }
   }
 
@@ -414,8 +420,10 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   transformPositionToSelectedPosition(position: any) {
     return {
-      name: position.name,
-      id: position.id
+      name: this.getLangValue(position.name, position.nameEn),
+      id: position.id,
+      englishName: position.nameEn,
+      ukrainianName: position.name
     };
   }
 
@@ -474,7 +482,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
     this.selectedCities = [];
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
     const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
-    Object.assign(this.filterData, { regions: '', location: locationsId });
+    Object.assign(this.filterData, { regions: '', locations: locationsId });
+    this.addNewFilters(this.filterData);
   }
 
   public onSelectCity(event: MatAutocompleteSelectedEvent, trigger?: MatAutocompleteTrigger): void {
@@ -482,39 +491,67 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.toggleSelectAllCity();
       const locationsId = this.locations.map((location) => location.locationsDto.map((elem) => elem.locationId)).flat(2);
       Object.assign(this.filterData, { locations: locationsId });
+      this.addNewFilters(this.filterData);
     } else {
       this.selectCity(event);
       const locationId = this.selectedCities.map((it) => it.id);
       Object.assign(this.filterData, { locations: locationId });
+      this.addNewFilters(this.filterData);
     }
     this.setCountOfCheckedFilters(this.selectedCities, filtersPlaceholderOptions.city, 'cityPlaceholder');
     this.city.setValue('');
     if (trigger) {
-      requestAnimationFrame(() => {
-        trigger.openPanel();
-      });
+      this.animationUtil(trigger);
     }
   }
 
   selectPosition(event: MatAutocompleteSelectedEvent): void {
+    const newValue = event.option.viewValue;
     const selectedValue = this.employeePositions.find((ob) => {
-      return ob.name === event.option.viewValue;
+      return this.getLangValue(ob.name, ob.nameEn) === newValue;
     });
-
-    const positionName = selectedValue.name;
+    const positionNameUk = selectedValue.name;
+    const positionNameEng = selectedValue.nameEn;
     const positionId = selectedValue.id;
 
     const tempItem = {
-      name: positionName,
-      id: positionId
+      name: this.getLangValue(positionNameUk, positionNameEng),
+      id: positionId,
+      englishName: positionNameEng,
+      ukrainianName: positionNameUk
     };
-    const newValue = event.option.viewValue;
-    if (this.selectedPositions.map((it) => it.name).includes(newValue)) {
-      this.selectedPositions = this.selectedPositions.filter((item) => item.name !== newValue);
+    if (this.selectedPositions.map((it) => this.getLangValue(it.ukrainianName, it.englishName)).includes(newValue)) {
+      this.selectedPositions = this.selectedPositions.filter(
+        (item) => this.getLangValue(item.ukrainianName, item.englishName) !== newValue
+      );
     } else {
       this.selectedPositions.push(tempItem);
     }
     this.setCountOfCheckedFilters(this.selectedPositions, filtersPlaceholderOptions.position, 'positionsPlaceholder');
+  }
+
+  selectCourier(event: MatAutocompleteSelectedEvent): void {
+    const newValue = event.option.viewValue;
+    const selectedValue = this.couriers.find((ob) => {
+      return this.getLangValue(ob.nameUk, ob.nameEn) === newValue;
+    });
+    const courierNameUk = selectedValue.nameUk;
+    const courierNameEng = selectedValue.nameEn;
+    const courierId = selectedValue.courierId;
+
+    const tempItem = {
+      name: this.getLangValue(courierNameUk, courierNameEng),
+      id: courierId,
+      englishName: courierNameEng,
+      ukrainianName: courierNameUk
+    };
+
+    if (this.selectedCouriers.map((it) => it.name).includes(newValue)) {
+      this.selectedCouriers = this.selectedCouriers.filter((item) => item.name !== newValue);
+    } else {
+      this.selectedCouriers.push(tempItem);
+    }
+    this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
   }
 
   selectCity(event: MatAutocompleteSelectedEvent): void {
@@ -549,33 +586,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
     }
   }
 
-  selectCourier(event: MatAutocompleteSelectedEvent): void {
-    const selectedValue = this.couriers.find((ob) => {
-      const searchingFilter = this.getLangValue(ob.nameUk, ob.nameEn);
-      return searchingFilter === event.option.viewValue;
-    });
-    this.courierNameUk = selectedValue.nameUk;
-    this.courierNameEng = selectedValue.nameEn;
-    this.courierId = selectedValue.courierId;
-
-    const tempItem = {
-      name: this.getLangValue(this.courierNameUk, this.courierNameEng),
-      id: this.courierId,
-      englishName: this.courierNameEng,
-      ukrainianName: this.courierNameUk
-    };
-    const newValue = event.option.viewValue;
-    if (this.selectedCouriers.map((it) => it.name).includes(newValue)) {
-      this.selectedCouriers = this.selectedCouriers.filter((item) => item.name !== newValue);
-    } else {
-      this.selectedCouriers.push(tempItem);
-    }
-    this.setCountOfCheckedFilters(this.selectedCouriers, filtersPlaceholderOptions.courier, 'courierPlaceholder');
-  }
-
-  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
+  openAuto(event: Event, trigger?: MatAutocompleteTrigger): void {
     event.stopPropagation();
-    trigger.openPanel();
+    if (trigger) {
+      trigger.openPanel();
+    }
   }
 
   checkSelectedItem(item: string, array: Array<{ name: string; id: number }>): boolean {
@@ -603,6 +618,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
         selectedStatus = EmployeeStatus.all;
     }
     Object.assign(this.filterData, { employeeStatus: selectedStatus });
+    this.addNewFilters(this.filterData);
     this.selectedState.push(statusValue);
   }
 
@@ -611,9 +627,11 @@ export class UbsAdminEmployeeComponent implements OnInit {
       this.toggleSelectAllRegion();
       const regionsId = this.selectedRegions.map((region) => region.regionId);
       Object.assign(this.filterData, { regions: regionsId });
+      this.addNewFilters(this.filterData);
     } else if (value == null) {
       this.selectedRegions.length = 0;
       Object.assign(this.filterData, { regions: [] });
+      this.addNewFilters(this.filterData);
     } else {
       const newValue = value;
       const selectedValue = this.locations.filter((it) => it.regionTranslationDtos.find((ob) => ob.regionName === newValue));
@@ -629,6 +647,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.selectRegionId = this.selectedRegions.map((item) => item.regionId);
       }
       Object.assign(this.filterData, { regions: this.selectRegionId });
+      this.addNewFilters(this.filterData);
     }
     this.setCountOfCheckedFilters(this.selectedRegions, filtersPlaceholderOptions.region, 'regionPlaceholder');
   }
@@ -651,6 +670,8 @@ export class UbsAdminEmployeeComponent implements OnInit {
         this.selectedPositions.push(value.trim());
       } else if (option === filterOptions.region) {
         this.selectedRegions.push(value.trim());
+      } else if (option === filterOptions.state) {
+        this.selectedState.push(value.trim());
       }
     }
   }
@@ -672,6 +693,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
     this.selectedState.length = 0;
     Object.assign(this.filterData, { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' });
+    this.addNewFilters(this.filterData);
   }
 
   removeItem(filterName: any, selectorType: string): void {

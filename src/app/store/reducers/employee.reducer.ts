@@ -4,19 +4,21 @@ import {
   AddEmployeeSuccess,
   DeleteEmployeeSuccess,
   UpdateEmployeeSuccess,
-  ReceivedFailure
+  ActivateEmployeeSuccess,
+  ReceivedFailure,
+  GetEmployeesPermissionsSuccess
 } from '../actions/employee.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const employeesReducer = createReducer(
   initialEmployeesState,
   on(GetEmployeesSuccess, (state, action) => {
-    const prevEmployees = action.reset ? [] : state.employees?.content ?? [];
+    const prevEmployees = action.reset ? [] : state.employees?.page ?? [];
     return {
       ...state,
       employees: {
         ...action.employees,
-        content: [...prevEmployees, ...action.employees.content]
+        content: [...prevEmployees, ...action.employees.page]
       }
     };
   }),
@@ -25,7 +27,15 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: [action.employee, ...state.employees.content]
+      content: [action.employee, ...state.employees.page]
+    }
+  })),
+
+  on(ActivateEmployeeSuccess, (state, action) => ({
+    ...state,
+    employees: {
+      ...state.employees,
+      content: state.employees.page.map((employee) => (employee.id === action.id ? { ...employee, employeeStatus: 'ACTIVE' } : employee))
     }
   })),
 
@@ -33,7 +43,7 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.content.filter((employee) => employee.id !== action.id)
+      content: state.employees.page.map((employee) => (employee.id === action.id ? { ...employee, employeeStatus: 'INACTIVE' } : employee))
     }
   })),
 
@@ -41,12 +51,19 @@ export const employeesReducer = createReducer(
     ...state,
     employees: {
       ...state.employees,
-      content: state.employees.content.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
+      page: state.employees.page.map((employee) => (employee.id === action.employee.id ? action.employee : employee))
     }
   })),
 
   on(ReceivedFailure, (state, action) => ({
     ...state,
     error: action.error
-  }))
+  })),
+
+  on(GetEmployeesPermissionsSuccess, (state, action) => {
+    return {
+      ...state,
+      employeesPermissions: action.reset ? [] : action.positionsAuthorities.authorities
+    };
+  })
 );
