@@ -128,7 +128,7 @@ export interface IOrderInfo {
   paymentTableInfoDto: IPaymentInfo;
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;
-  writeOffStationSum: number;
+  writeOffStationSum?: number;
 }
 
 export interface ICourierInfo {

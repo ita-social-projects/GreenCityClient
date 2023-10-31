@@ -5,235 +5,46 @@ import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/lo
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
-import { ADDRESSESMOCK } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component.spec';
+import { OrderInfoMockedData, IPaymentInfoDtoMock } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
+import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { Observable, of } from 'rxjs';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { HttpClient } from '@angular/common/http';
+import { SimpleChange } from '@angular/core';
+import { AddPaymentComponent } from '../add-payment/add-payment.component';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;
   let fixture: ComponentFixture<UbsAdminOrderPaymentComponent>;
   let storeMock;
-  const matDialogMock = () => ({
-    open: () => ({
-      afterClosed: () => ({ pipe: () => ({ subscribe: (f) => f({}) }) })
-    })
-  });
+  const fakeOrderInfo = OrderInfoMockedData;
 
-  const MatDialogRefMock = {
-    close: () => {}
-  };
-
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getOverpaymentMsg']);
-  orderServiceMock.getOverpaymentMsg.and.returnValue('fakeMessage');
+  const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
+  const fakeMatDialog = jasmine.createSpyObj(['close', 'afterClosed']);
+  matDialogMock.open.and.returnValue(fakeMatDialog as any);
+  fakeMatDialog.afterClosed.and.returnValue(of(true));
+  const orderServiceMock = jasmine.createSpyObj('orderService', [
+    'getOverpaymentMsg',
+    'addPaymentBonuses',
+    'saveOrderIdForRefund',
+    'getOrderInfo'
+  ]);
+  orderServiceMock.getOverpaymentMsg.and.returnValue('Overpayment Message');
+  orderServiceMock.getOrderInfo.and.returnValue(of(fakeOrderInfo));
+  orderServiceMock.addPaymentBonuses = () => new Observable();
+  orderServiceMock.saveOrderIdForRefund = () => new Observable();
 
   const fakeAmountOfBagsConfirmed: Map<string, number> = new Map();
   fakeAmountOfBagsConfirmed.set('1', 1);
   fakeAmountOfBagsConfirmed.set('2', 2);
   fakeAmountOfBagsConfirmed.set('3', 1);
 
-  const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
-  fakeAllPositionsEmployees.set('PositionDto(id=1, name=Менеджер послуги)', [{ id: 1, name: 'Maria Admin' }]);
-  fakeAllPositionsEmployees.set('PositionDto(id=2, name=Менеджер обдзвону)', []);
-  fakeAllPositionsEmployees.set('PositionDto(id=3, name=Логіст)', []);
-  fakeAllPositionsEmployees.set('PositionDto(id=4, name=Штурман)', []);
-  fakeAllPositionsEmployees.set('PositionDto(id=5, name=Водій)', []);
-
-  const fakeOrderInfo: IOrderInfo = {
-    generalOrderInfo: {
-      id: 23,
-      dateFormed: '2022-02-08T15:21:44.85458',
-      adminComment: null,
-      orderStatus: 'FORMED',
-      orderStatusName: 'Сформовано',
-      orderStatusNameEng: 'Formed',
-      orderStatusesDtos: [
-        {
-          ableActualChange: false,
-          key: 'FORMED',
-          translation: 'Сформовано'
-        },
-        {
-          ableActualChange: false,
-          key: 'ADJUSTMENT',
-          translation: 'Узгодження'
-        },
-        {
-          ableActualChange: false,
-          key: 'BROUGHT_IT_HIMSELF',
-          translation: 'Привезе сам'
-        },
-        {
-          ableActualChange: false,
-          key: 'CONFIRMED',
-          translation: 'Підтверджено'
-        },
-        {
-          ableActualChange: false,
-          key: 'ON_THE_ROUTE',
-          translation: 'На маршруті'
-        },
-        {
-          ableActualChange: true,
-          key: 'DONE',
-          translation: 'Виконано'
-        },
-        {
-          ableActualChange: false,
-          key: 'NOT_TAKEN_OUT',
-          translation: 'Не вивезли'
-        },
-        {
-          ableActualChange: true,
-          key: 'CANCELED',
-          translation: 'Скасовано'
-        }
-      ],
-      orderPaymentStatus: 'UNPAID',
-      orderPaymentStatusName: 'Не оплачено',
-      orderPaymentStatusNameEng: 'Unpaid',
-      orderPaymentStatusesDto: [
-        {
-          key: 'PAID',
-          translation: 'Оплачено'
-        },
-        {
-          key: 'UNPAID',
-          translation: 'Не оплачено'
-        },
-        {
-          key: 'HALF_PAID',
-          translation: 'Частково оплачено'
-        },
-        {
-          key: 'PAYMENT_REFUNDED',
-          translation: 'Оплату повернуто'
-        }
-      ]
-    },
-    userInfoDto: {
-      recipientId: 37,
-      customerEmail: 'greencitytest@gmail.com',
-      customerName: 'test',
-      customerPhoneNumber: '380964521167',
-      customerSurName: 'test',
-      recipientEmail: 'test@gmail.com',
-      recipientName: 'test',
-      recipientPhoneNumber: '380964523467',
-      recipientSurName: 'test',
-      totalUserViolations: 0,
-      userViolationForCurrentOrder: 0
-    },
-    addressExportDetailsDto: {
-      addressId: 32,
-      addressCity: 'Київ',
-      addressCityEng: 'Київ',
-      addressDistrict: 'Шевченківський',
-      addressDistrictEng: 'Шевченківський',
-      addressEntranceNumber: 1,
-      addressHouseCorpus: 3,
-      addressHouseNumber: 42,
-      addressRegion: 'Київська область',
-      addressRegionEng: 'Київська область',
-      addressStreet: 'Січових Стрільців вул',
-      addressStreetEng: 'Січових Стрільців вул',
-      addressRegionDistrictList: ADDRESSESMOCK.DISTRICTSKYIVMOCK
-    },
-    addressComment: '',
-    amountOfBagsConfirmed: fakeAmountOfBagsConfirmed,
-    amountOfBagsExported: new Map(),
-    amountOfBagsOrdered: fakeAmountOfBagsConfirmed,
-    bags: [
-      {
-        actual: 0,
-        capacity: 120,
-        confirmed: 1,
-        id: 1,
-        name: 'Безпечні відходи',
-        planned: 1,
-        price: 250
-      },
-      {
-        actual: 0,
-        capacity: 120,
-        confirmed: 2,
-        id: 2,
-        name: 'Текстильні відходи',
-        planned: 2,
-        price: 300
-      },
-      {
-        actual: 0,
-        capacity: 20,
-        confirmed: 1,
-        id: 3,
-        name: 'Текстильні відходи',
-        planned: 1,
-        price: 50
-      }
-    ],
-    courierPricePerPackage: 65,
-    courierInfo: {
-      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
-      max: 99,
-      min: 2
-    },
-    orderBonusDiscount: 0,
-    orderCertificateTotalDiscount: 0,
-    orderDiscountedPrice: 900,
-    orderExportedDiscountedPrice: 0,
-    orderExportedPrice: 0,
-    orderFullPrice: 900,
-    certificates: [],
-    numbersFromShop: [],
-    comment: '',
-    paymentTableInfoDto: {
-      overpayment: 480,
-      paidAmount: 250,
-      paymentInfoDtos: [
-        {
-          amount: 200,
-          comment: null,
-          id: 40,
-          imagePath: null,
-          paymentId: '436436436',
-          receiptLink: '',
-          settlementdate: '2022-02-01',
-          currentDate: '2022-02-09'
-        },
-        {
-          amount: 100,
-          comment: null,
-          id: 44,
-          imagePath: null,
-          paymentId: '435643643',
-          receiptLink: '',
-          settlementdate: '2022-08-22',
-          currentDate: '2022-02-09'
-        },
-        {
-          amount: -350,
-          comment: null,
-          id: 45,
-          imagePath: null,
-          paymentId: '3253532',
-          receiptLink: '',
-          settlementdate: '2020-02-18',
-          currentDate: '2022-02-09'
-        }
-      ],
-      unPaidAmount: 650
-    },
-    exportDetailsDto: {
-      allReceivingStations: [],
-      dateExport: null,
-      receivingStationId: null,
-      timeDeliveryFrom: null,
-      timeDeliveryTo: null
-    },
-    employeePositionDtoRequest: {
-      allPositionsEmployees: fakeAllPositionsEmployees,
-      currentPositionEmployees: new Map(),
-      orderId: 23
-    }
+  const returnMoneyDialogDateMock = {
+    popupTitle: 'return-payment.message',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: 'green'
   };
 
   beforeEach(async(() => {
@@ -245,10 +56,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
       declarations: [UbsAdminOrderPaymentComponent, LocalizedCurrencyPipe],
       imports: [MatDialogModule, TranslateModule.forRoot(), StoreModule.forRoot({})],
       providers: [
-        { provide: MatDialog, useFactory: matDialogMock },
+        { provide: MatDialog, useValue: matDialogMock },
         { provide: OrderService, useValue: orderServiceMock },
         { provide: Store, useValue: storeMock },
-        { provide: MatDialogRef, useValue: MatDialogRefMock },
+        { provide: MatDialogRef, useValue: fakeMatDialog },
         { provide: MAT_DIALOG_DATA, useValue: {} }
       ]
     }).compileComponents();
@@ -270,14 +81,21 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('life cycle hook ngOnInit', () => {
+    const spy = spyOn(component, 'setDateInPaymentArray');
+    const spy2 = spyOn(component, 'positivePaymentsArrayAmount');
     component.ngOnInit();
-    expect(component.orderId).toBe(23);
+    const sumDiscount = component.orderInfo.orderBonusDiscount + component.orderInfo.orderCertificateTotalDiscount;
+    expect(component.orderId).toBe(1);
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
     expect(component.paymentsArray).toBe(fakeOrderInfo.paymentTableInfoDto.paymentInfoDtos);
     expect(component.paymentInfo).toBe(fakeOrderInfo.paymentTableInfoDto);
     expect(component.paidAmount).toBe(component.paymentInfo.paidAmount);
     expect(component.unPaidAmount).toBe(component.paymentInfo.unPaidAmount);
     expect(component.currentOrderStatus).toBe('Formed');
+    expect(component.overpayment).toBe(component.paymentInfo.overpayment);
+    expect(sumDiscount).toBe(0);
+    expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('method formatDate', () => {
@@ -293,8 +111,10 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('method openDetails', () => {
+    component.pageOpen = false;
     component.openDetails();
     expect(component.pageOpen).toBeTruthy();
+    expect(component.pageOpen).toBe(true);
   });
 
   it('method recountUnpaidAmount', () => {
@@ -312,9 +132,41 @@ describe('UbsAdminOrderPaymentComponent', () => {
     expect(component.overpayment).toBe(fakeModuleOverPayment);
   });
 
+  it('method returnMoney', () => {
+    const orderId = 137;
+    component.returnMoney(orderId);
+    expect(matDialogMock.open).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(DialogPopUpComponent, {
+      hasBackdrop: true,
+      data: returnMoneyDialogDateMock,
+      closeOnNavigation: true,
+      disableClose: true,
+      panelClass: ''
+    });
+  });
+
+  it('method openPopup', () => {
+    const viewMode = true;
+    const paymentIndex = 3;
+    component.openPopup(viewMode);
+    expect(matDialogMock.open).toHaveBeenCalled();
+    expect(matDialogMock.open).toHaveBeenCalledWith(AddPaymentComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      height: '100%',
+      data: {
+        orderId: 1,
+        viewMode,
+        payment: viewMode ? component.paymentsArray[paymentIndex] : null
+      }
+    });
+  });
+
   it('method isOverpaymentReturnAvailable', () => {
     expect(component.isOverpaymentReturnAvailable()).toBeFalsy();
-    component.currentOrderStatus = 'CANCELED';
+    component.currentOrderStatus = OrderStatus.CANCELED;
     expect(component.isOverpaymentReturnAvailable()).toBeTruthy();
   });
 
@@ -326,7 +178,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
   });
 
   it('method postDataItem', () => {
-    (component as any).postDataItem(250, 'PAID');
+    (component as any).postDataItem(250, PaymnetStatus.PAID);
 
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
@@ -339,5 +191,58 @@ describe('UbsAdminOrderPaymentComponent', () => {
       .reverse()
       .join('-');
     expect(component.getStringDate(currentTime)).toBe(formatDate);
+  });
+
+  it('method displayUnpaidAmount', () => {
+    component.unPaidAmount = 0;
+    component.currentOrderStatus = OrderStatus.CANCELED;
+    expect(component.displayUnpaidAmount()).toBeFalsy();
+  });
+
+  it('method setCancelOrderOverpayment', () => {
+    const sum = 250;
+    component.setCancelOrderOverpayment(sum);
+    expect(component.overpayment).toBe(250);
+  });
+
+  it('method preconditionChangePaymentData', () => {
+    const spy = spyOn(component, 'recountUnpaidAmount');
+    component.preconditionChangePaymentData(IPaymentInfoDtoMock);
+    expect(spy).toHaveBeenCalledWith(IPaymentInfoDtoMock.amount);
+  });
+
+  it('should update overpayment message and value in ngOnChanges when orderStatus changes', () => {
+    component.orderStatus = 'In Progress';
+    component.totalPaid = 480;
+    const previousStutusValue = 'In Progress';
+    const currentStatusValue = 'Completed';
+    const currentOverpaymentValue = 0;
+    const previousOverpaymentValue = 200;
+    const isFirstChange = false;
+
+    const SimpleChangesMock = {
+      orderStatus: new SimpleChange(previousStutusValue, currentStatusValue, isFirstChange),
+      overpayment: new SimpleChange(currentOverpaymentValue, previousOverpaymentValue, isFirstChange)
+    };
+
+    component.ngOnChanges(SimpleChangesMock);
+
+    expect(component.currentOrderStatus).toBe('Completed');
+    expect(orderServiceMock.getOverpaymentMsg).toHaveBeenCalledWith(480);
+    expect(component.message).toBe('Overpayment Message');
+    expect(component.overpayment).toBe(480);
+  });
+
+  it('should update positive amount value in the paymentsArray correctly', () => {
+    component.paymentsArray = [
+      { id: 1, amount: -100, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
+      { id: 2, amount: -200, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' },
+      { id: 3, amount: -300, settlementdate: '2022-12-31', currentDate: '2022-12-31', receiptLink: '' }
+    ];
+    component.positivePaymentsArrayAmount();
+
+    expect(component.paymentsArray[0].amount).toBe(100);
+    expect(component.paymentsArray[1].amount).toBe(200);
+    expect(component.paymentsArray[2].amount).toBe(300);
   });
 });

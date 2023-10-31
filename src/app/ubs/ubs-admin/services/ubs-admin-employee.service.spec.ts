@@ -25,9 +25,42 @@ describe('UbsAdminEmployeeService', () => {
   const positionMock = [
     {
       id: 0,
-      name: 'fake'
+      name: 'fake',
+      nameEn: 'fakeEn'
     }
   ];
+
+  const allPermissionsMock = [
+    'EDIT_DELETE_DEACTIVATE_PRICING_CARD',
+    'EDIT_COURIER',
+    'CREATE_NEW_CERTIFICATE',
+    'REGISTER_A_NEW_EMPLOYEE',
+    'CREATE_NEW_MESSAGE',
+    'SEE_PRICING_CARD',
+    'SEE_TARIFFS',
+    'SEE_BIG_ORDER_TABLE',
+    'SEE_MESSAGES_PAGE',
+    'EDIT_ORDER',
+    'SEE_EMPLOYEES_PAGE',
+    'SEE_CERTIFICATES',
+    'EDIT_CERTIFICATE',
+    'SEE_CLIENTS_PAGE',
+    'EDIT_STATION',
+    'DEACTIVATE_EMPLOYEE',
+    'CONTROL_SERVICE',
+    'EDIT_LOCATION',
+    'EDIT_EMPLOYEE',
+    'EDIT_LOCATION',
+    'EDIT_MESSAGE',
+    'EDIT_EMPLOYEES_AUTHORITIES',
+    'DELETE_MESSAGE',
+    'CREATE_PRICING_CARD'
+  ];
+
+  const positionsAuthoritiesMock = {
+    authorities: ['REGISTER_A_NEW_EMPLOYEE', 'EDIT_EMPLOYEE', 'EDIT_EMPLOYEES_AUTHORITIES', 'DEACTIVATE_EMPLOYEE'],
+    positionId: [1, 2, 3, 4, 5, 6, 7]
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -72,6 +105,26 @@ describe('UbsAdminEmployeeService', () => {
     req.flush(positionMock);
   });
 
+  it('should get all employee permissions', () => {
+    const email = 'testemail@gmail.com';
+    service.getAllEmployeePermissions(email).subscribe((data) => {
+      expect(data).toBe(allPermissionsMock);
+    });
+    const req = httpMock.expectOne(`${urlMock}/get-all-authorities/?email=${email}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(allPermissionsMock);
+  });
+
+  it('should get all employee positions authorities', () => {
+    const email = 'testemail@gmail.com';
+    service.getEmployeePositionsAuthorities(email).subscribe((data) => {
+      expect(data).toBe(positionsAuthoritiesMock);
+    });
+    const req = httpMock.expectOne(`${urlMock}/get-positions-authorities/?email=${email}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(positionsAuthoritiesMock);
+  });
+
   it('should add employee', () => {
     service.postEmployee(employeeMock).subscribe((data) => {
       expect(data).toBe(employeeMock);
@@ -104,6 +157,15 @@ describe('UbsAdminEmployeeService', () => {
       expect(data).toBe(employeeMock);
     });
     const req = httpMock.expectOne(`${urlMock}/deactivate-employee/1`);
+    expect(req.request.method).toBe('PUT');
+    req.flush(employeeMock);
+  });
+
+  it('should activate employee', () => {
+    service.activateEmployee(1).subscribe((data) => {
+      expect(data).toBe(employeeMock);
+    });
+    const req = httpMock.expectOne(`${urlMock}/activate-employee/1`);
     expect(req.request.method).toBe('PUT');
     req.flush(employeeMock);
   });
