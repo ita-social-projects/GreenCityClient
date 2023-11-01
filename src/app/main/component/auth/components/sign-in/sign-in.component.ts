@@ -2,8 +2,8 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -17,6 +17,9 @@ import { ProfileService } from '../../../user/components/profile/profile-service
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 import { Patterns } from 'src/assets/patterns/patterns';
+import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
 
 declare var google: any;
 @Component({
@@ -25,6 +28,7 @@ declare var google: any;
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isUbs: boolean;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -37,7 +41,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
-  public isUbs = true;
+  public isEventsDetails: boolean;
+  public eventId: string;
+  public isOwnerParams: boolean;
+  public isActiveParams: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
   private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
@@ -52,11 +59,14 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnSignInService: UserOwnSignInService,
     private jwtService: JwtService,
     private router: Router,
+    private route: ActivatedRoute,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
     private profileService: ProfileService,
-    private zone: NgZone
+    private ubsAdminEmployeeService: UbsAdminEmployeeService,
+    private zone: NgZone,
+    private store: Store<IAppState>
   ) {}
 
   ngOnDestroy(): void {
@@ -152,7 +162,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.zone.run(() => {
       this.router
-        .navigate(this.isUbs ? ['ubs'] : ['profile', data.userId])
+        .navigate(this.navigateToPage(data))
         .then(() => {
           this.localStorageService.setFirstSignIn();
           this.profileService
@@ -180,16 +190,27 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  private onSignInSuccess(data: UserSuccessSignIn): void {
+  public onSignInSuccess(data: UserSuccessSignIn): void {
     this.loadingAnim = false;
     this.userOwnSignInService.saveUserToLocalStorage(data);
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
+    this.router.navigate(this.navigateToPage(data));
+  }
+
+  public navigateToPage(data): any {
     const getUbsRoleSignIn = this.jwtService.getUserRole();
-    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
     this.jwtService.userRole$.next(getUbsRoleSignIn);
-    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
+    if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
+      return ['ubs-admin', 'orders'];
+    }
+    if (this.isUbs) {
+      return ['ubs'];
+    }
+    if (getUbsRoleSignIn === 'ROLE_USER') {
+      return ['profile', data.userId];
+    }
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {
@@ -202,10 +223,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  private setErrorMessage(error: any): string {
-    if (error.error === this.errorUnauthorized) {
+  private setErrorMessage(errors: any): string {
+    if (errors.error === this.errorUnauthorized) {
       return 'user.auth.sign-in.account-has-been-deleted';
-    } else if (error.message === this.errorUnverifiedEmail) {
+    } else if (errors.message === this.errorUnverifiedEmail) {
       return 'user.auth.sign-in.not-verified-email';
     } else {
       return 'user.auth.sign-in.bad-email-or-password';
@@ -213,13 +234,13 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public emailClassCheck(): string {
-    return (this.emailField.invalid && this.emailField.touched) || this.generalError
+    return (this.emailField?.invalid && this.emailField.touched) || this.generalError
       ? 'alert-email-validation'
       : 'successful-email-validation';
   }
 
   public passwordClassCheck(): string {
-    return (this.passwordField.invalid && this.passwordField.touched) || this.generalError
+    return (this.passwordField?.invalid && this.passwordField.touched) || this.generalError
       ? 'alert-password-validation'
       : 'successful-password-validation';
   }

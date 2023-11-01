@@ -17,6 +17,7 @@ import { UbsAdminNotificationComponent } from './ubs-admin-notification.componen
 import { NotificationMock } from '../../services/notificationsMock';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Pipe({ name: 'cron' })
 class CronPipe implements PipeTransform {
@@ -72,7 +73,7 @@ describe('UbsAdminNotificationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminNotificationComponent, CronPipe],
-      imports: [HttpClientTestingModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
+      imports: [HttpClientTestingModule, RouterTestingModule, MatDialogModule, BrowserAnimationsModule, TranslateModule.forRoot()],
       providers: [
         { provide: Location, useValue: locationMock },
         { provide: NotificationsService, useValue: notificationsServiceMock },

@@ -3,7 +3,7 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -22,6 +22,9 @@ import { GoogleBtnComponent } from '../google-btn/google-btn.component';
 import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
@@ -32,6 +35,15 @@ describe('SignIn component', () => {
   let router: Router;
   let googleServiceMock: GoogleSignInService;
   let userSuccessSignIn;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
@@ -57,10 +69,10 @@ describe('SignIn component', () => {
 
   googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
-
   let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
   beforeEach(async(() => {
@@ -74,6 +86,8 @@ describe('SignIn component', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
         { provide: GoogleSignInService, useValue: googleServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
@@ -102,7 +116,7 @@ describe('SignIn component', () => {
       spyOn(component, 'onOpenModalWindow');
 
       const nativeElement = fixture.nativeElement;
-      const button = nativeElement.querySelector('.forgot-password-ubs');
+      const button = nativeElement.querySelector('.forgot-password');
       button.dispatchEvent(new Event('click'));
 
       fixture.detectChanges();
@@ -211,16 +225,38 @@ describe('SignIn component', () => {
       })
     ));
 
-    it('Sohuld navige to profile after sign in', async(() => {
-      fixture.ngZone.run(() => {
-        // @ts-ignore
-        component.onSignInSuccess(userSuccessSignIn);
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['ubs']);
-        });
-      });
-    }));
+    it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      component.onSignInSuccess(userSuccessSignIn);
+      expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'orders']);
+    });
+
+    it('should navigate to profile/userId for ROLE_USER', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
+      spyOn(component, 'navigateToPage').and.returnValue(['profile', userSuccessSignIn.userId]);
+      component.onSignInSuccess(userSuccessSignIn);
+      expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
+    });
+
+    it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      const result = component.navigateToPage({});
+      expect(result).toEqual(['ubs-admin', 'orders']);
+    });
+
+    it('should navigate to profile/userId for ROLE_USER', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
+      const result = component.navigateToPage({ userId: 123 });
+      expect(result).toEqual(['profile', 123]);
+    });
+
+    it('should navigate to the correct page based on user role', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      component.isEventsDetails = false;
+      component.isUbs = false;
+      const result = component.navigateToPage({ userId: 'user123' });
+      expect(result).toEqual(['ubs-admin', 'orders']);
+    });
   });
 
   describe('Error functionality testing', () => {
