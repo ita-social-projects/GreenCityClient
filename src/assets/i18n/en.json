@@ -1008,8 +1008,9 @@
       "requests": "Requests",
       "request-decline": "Decline",
       "request-accept": "Accept",
-      "all-friends": "All friends",
-      "search-friends": "Find a friend",
+      "all-friends": "My friends",
+      "search-friends": "Search",
+      "find-friends": "Find a friend",
       "found-amount": "of people found"
     }
   },
