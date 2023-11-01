@@ -266,3 +266,16 @@
     }
   }
 }
+
+@media screen and (max-width: 576px) {
+  .comment-details,
+  .comment-main-text {
+    margin-left: 0;
+  }
+  .comment-details {
+    padding-top: 60px;
+  }
+  .comments-elements {
+    padding-left: 0;
+  }
+}
