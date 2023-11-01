@@ -37,8 +37,10 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
+import { MaxTextLengthPipe } from './max-text-length-pipe/max-text-length.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { UploadPhotoContainerComponent } from './upload-photo-container/upload-p
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
+    MaxTextLengthPipe,
     ResizableBottomSheetComponent,
     UploadPhotoContainerComponent
   ],
@@ -85,7 +88,8 @@ import { UploadPhotoContainerComponent } from './upload-photo-container/upload-p
     FormsModule,
     MatAutocompleteModule,
     MatTooltipModule,
-    GooglePlaceModule
+    GooglePlaceModule,
+    ImageCropperModule
   ],
   exports: [
     SpinnerComponent,
@@ -113,6 +117,7 @@ import { UploadPhotoContainerComponent } from './upload-photo-container/upload-p
     TranslateDatePipe,
     RepeatPipe,
     CronPipe,
+    MaxTextLengthPipe,
     ResizableBottomSheetComponent
   ]
 })

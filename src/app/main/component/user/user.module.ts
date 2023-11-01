@@ -82,7 +82,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
 import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';
+import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -146,7 +149,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     OneNewsComponent,
     FriendProfilePageComponent,
     FriendProfileDashboardComponent,
-    SetCountComponent
+    SetCountComponent,
+    UserNotificationsPopUpComponent
   ],
   imports: [
     NgbModule,
@@ -176,8 +180,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     InfiniteScrollModule,
     UserSharedModule,
     MatTabsModule,
+    MatDividerModule,
+    MatExpansionModule,
     NgxPaginationModule
   ],
+  exports: [MatDividerModule, MatExpansionModule],
   providers: [EditProfileFormBuilder]
 })
 export class UserModule {}

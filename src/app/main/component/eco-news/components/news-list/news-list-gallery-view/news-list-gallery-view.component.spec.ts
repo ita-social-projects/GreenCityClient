@@ -1,6 +1,7 @@
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NewsListGalleryViewComponent } from './news-list-gallery-view.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -42,7 +43,7 @@ describe('NewsListGalleryViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), BrowserAnimationsModule],
       declarations: [NewsListGalleryViewComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
