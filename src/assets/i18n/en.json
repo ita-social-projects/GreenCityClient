@@ -1160,7 +1160,8 @@
     "all": "All",
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
-    "preview-attendees": "people are going"
+    "preview-attendees": "people are going",
+    "use-greencity-pics": "Use Greencity pictures"
   },
   "input-error": {
     "required": "This field is required",
