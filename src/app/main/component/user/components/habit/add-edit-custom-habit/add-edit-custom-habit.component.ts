@@ -150,13 +150,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.habitForm.patchValue({ complexity: i + 1 });
   }
 
-  changeEditor(event: EditorChangeContent | EditorChangeSelection): void {
-    this.getControl('description').markAsTouched();
-    if (event.event !== 'selection-change') {
-      this.getControl('description').setValue(event.text.trim());
-    }
-  }
-
   private subscribeToLangChange(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
@@ -180,7 +173,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         text: item.text
       };
     });
-    console.log(this.newList, 'new list');
     this.getControl('shopList').setValue(this.newList);
   }
 
