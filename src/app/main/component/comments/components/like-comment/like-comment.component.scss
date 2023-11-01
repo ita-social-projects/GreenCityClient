@@ -2,7 +2,6 @@
   width: fit-content;
   height: 40px;
   margin-right: 8px;
-  padding-left: 0px;
 }
 
 .visible {
@@ -42,12 +41,6 @@
     font-size: 12px;
   }
 }
-
-// @media screen and (max-width: 575px) {
-//   .main-wrapper {
-//     padding-left: 30px;
-//   }
-// }
 
 @media screen and (max-width: 380px) {
   .cta-btn {
