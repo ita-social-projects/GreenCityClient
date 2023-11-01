@@ -70,14 +70,17 @@
         margin-left: 0;
         border-radius: 5px;
       }
+
       .comment-width {
         max-width: 100%;
       }
+
       .user-image {
         display: none;
       }
     }
   }
+
   .user-image {
     display: block;
   }
@@ -122,6 +125,7 @@
     .input-submit {
       display: flex;
       flex-direction: column;
+
       textarea {
         margin-bottom: 16px;
       }
