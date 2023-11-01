@@ -86,13 +86,13 @@ li {
   text-align: center;
 }
 
-.footer_right-side {
-  margin-top: 42px;
-}
-
 @media (max-width: 575px) {
   .footer_link-item {
     margin-right: 0;
+  }
+
+  .footer_right-side {
+    margin-top: 42px;
   }
 }
 
