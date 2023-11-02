@@ -36,9 +36,32 @@ form {
   margin-bottom: 64px;
 }
 
+input,
+textarea {
+  height: 48px;
+  border-radius: 5px;
+  border: 1px solid var(--quintynary-light-grey);
+  padding: 12px 16px;
+  resize: none;
+  overflow: hidden;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 form label {
   display: flex;
   flex-direction: column;
+}
+
+.textarea-wrapper textarea {
+  height: 131px;
+  border-radius: 5px;
+  border: 1px solid var(--secondary-grey);
+  width: 100%;
+  padding: 12px 16px 28px 16px;
+  overflow: hidden;
 }
 
 .box {
@@ -61,20 +84,6 @@ form label {
 
   &-description {
     color: var(--quaternary-dark-grey);
-  }
-}
-
-.wrapper input,
-.wrapper textarea {
-  height: 48px;
-  border-radius: 5px;
-  border: 1px solid var(--quintynary-light-grey);
-  padding: 12px 16px;
-  resize: none;
-  overflow: hidden;
-
-  &:focus {
-    outline: none;
   }
 }
 
@@ -131,15 +140,6 @@ form label {
     flex-wrap: wrap;
     row-gap: 8px;
   }
-}
-
-form .textarea-wrapper textarea {
-  height: 131px;
-  border-radius: 5px;
-  border: 1px solid var(--secondary-grey);
-  width: 100%;
-  padding: 12px 16px 28px 16px;
-  overflow: hidden;
 }
 
 .textarea-wrapper {
