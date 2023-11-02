@@ -23,6 +23,7 @@ import { NewsEffects } from './store/effects/ecoNews.effects';
 import { EventsEffects } from './store/effects/ecoEvents.effects';
 import { FriendsEffects } from './store/effects/friends.effects';
 import { UbsRoutingModule } from './ubs/ubs/ubs-routing.module';
+import { SharedModule } from './shared/shared.module';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
   return () =>
@@ -56,6 +57,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     MainModule,
     UbsModule,
     HttpClientModule,
+    SharedModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

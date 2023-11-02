@@ -5,7 +5,6 @@
       {{ 'accessibility.skip-to-the-main-content' | translate }}
     </a>
   </div>
-  <app-header></app-header>
   <app-search-popup></app-search-popup>
   <div class="main-content" [ngClass]="toggle ? 'app-container stop-scroll' : 'app-container'">
     <div #focusLast tabindex="-1" aria-label="Tab To Main"></div>
