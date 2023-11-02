@@ -394,7 +394,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.imgToData();
     if (this.editMode) {
       this.imgArrayToPreview.push(this.editEvent.titleImage);
-      this.editEvent.additionalImages.map((el) => this.imgArrayToPreview.push(el));
+      this.editEvent.additionalImages.forEach((el) => this.imgArrayToPreview.push(el));
     }
 
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
