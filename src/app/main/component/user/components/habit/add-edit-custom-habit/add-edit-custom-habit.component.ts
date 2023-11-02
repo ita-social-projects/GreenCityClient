@@ -16,7 +16,6 @@ import { quillConfig } from 'src/app/main/component/events/components/create-edi
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
