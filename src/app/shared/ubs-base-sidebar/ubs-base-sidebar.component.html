@@ -22,25 +22,29 @@
         </li>
         <li
           *ngFor="let listItem of listElements"
-          [routerLink]="listItem.routerLink"
-          [routerLinkActive]="['active']"
           class="sidebar-list-item"
-          [ngClass]="{ 'sidebar-list-item__collapsed': !isExpanded }"
           role="listitem"
           [attr.aria-label]="listItem.name | translate"
           (keydown.enter)="navigateToPage($event, listItem.routerLink)"
           (keydown.space)="navigateToPage($event, listItem.routerLink)"
           [matTooltip]="!isExpanded ? (listItem.name | translate) : null"
         >
-          <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="{{ listItem.name | translate }} icon" />
-          <span *ngIf="isExpanded" class="sidebar-list-item-link">{{ listItem.name | translate }}</span>
-          <span
-            *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages && isExpanded"
-            class="count-unread-messages"
-            aria-live="polite"
+          <a
+            class="sidebar-list-item-link"
+            [ngClass]="{ 'sidebar-list-item-link__collapsed': !isExpanded }"
+            [routerLink]="listItem.routerLink"
+            [routerLinkActive]="['active']"
           >
-            ({{ serviceUserMessages.countOfNoReadeMessages }})
-          </span>
+            <img [src]="getIcon(listItem)" class="sidebar-list-item-icon" alt="{{ listItem.name | translate }} icon" />
+            <span *ngIf="isExpanded" class="sidebar-list-item-desc">{{ listItem.name | translate }}</span>
+            <span
+              *ngIf="listItem.name === 'ubs-user.messages' && serviceUserMessages.countOfNoReadeMessages && isExpanded"
+              class="count-unread-messages"
+              aria-live="polite"
+            >
+              ({{ serviceUserMessages.countOfNoReadeMessages }})
+            </span>
+          </a>
         </li>
       </ul>
     </mat-drawer>
