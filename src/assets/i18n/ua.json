@@ -1002,7 +1002,7 @@
     "my-eco-friends": "Мої Друзі",
     "friends-quantity": { "singular": "зв'язок", "plural": { "units-2-3-4": "звя'зки", "units-more-5": "зв'язків" } },
     "zero-friends": "У Вас ще немає друзів.",
-    "zero-requests": "На жаль, нових запитів немає.",
+    "zero-requests": "На жаль, у вас немає нових запитів у друзі",
     "zero-user-friends": "Цей користувач не має друзів",
     "my-eco-places": "Мої Еко Місця",
     "eco-places-quantity": { "singular": "улюблене", "plural": { "units-2-3-4": "улюблених", "units-more-5": "улюблених" } },
