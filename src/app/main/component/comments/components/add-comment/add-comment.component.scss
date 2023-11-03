@@ -29,64 +29,8 @@
       width: 100%;
     }
 
-    textarea {
-      width: 100%;
-      height: 72px;
-      overflow: hidden;
-      resize: none;
-      padding: 10px 0 0 20px;
-      border: 1px solid var(--secondary-grey);
-      border-radius: 5px;
-      outline: none;
-
-      &::placeholder {
-        color: var(--secondary-grey);
-      }
-
-      &:focus {
-        border: 2px solid var(--primary-green);
-      }
-
-      &.invalid {
-        border: 2px solid var(--error-red);
-      }
-    }
-
-    .comment-width {
-      max-width: 525px;
-    }
-
-    .reply-width {
-      max-width: 487px;
-    }
-
-    button {
-      width: 129px;
-      height: 48px;
-      margin-left: 24px;
-      border-radius: 5px;
-    }
-
-    @media screen and (max-width: 575px) {
-      button {
-        width: 100%;
-        height: 48px;
-        margin-left: 0;
-        border-radius: 5px;
-      }
-
-      .comment-width {
-        max-width: 100%;
-      }
-
-      .user-image {
-        display: none;
-      }
-    }
-    @media screen and (min-width: 576px) {
-      button {
-        width: 157px;
-      }
+    .user-image {
+      display: none;
     }
   }
 
@@ -104,31 +48,9 @@
     margin-top: -5px;
   }
 }
-@media screen and (min-width: 992px) {
-  .wrapper-comment {
-    width: 792px;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .wrapper-comment {
-    width: 750px;
-  }
-}
 
 .wrapper-reply {
-  margin: 32px 0 32px 70px;
-}
-
-@media screen and (max-width: 767px) {
-  .wrapper-comment {
-    width: 100%;
-
-    .input-submit {
-      textarea {
-        margin-bottom: 16px;
-      }
-    }
-  }
+  margin: 32px 0 32px 32px;
 }
 
 @media screen and (max-width: 575px) {
@@ -136,10 +58,6 @@
     .input-submit {
       display: flex;
       flex-direction: column;
-
-      textarea {
-        margin-bottom: 16px;
-      }
     }
   }
 }
@@ -165,9 +83,70 @@
 
       button {
         width: 100%;
-        margin: 0;
       }
     }
+  }
+}
+
+textarea {
+  width: 100%;
+  height: 72px;
+  overflow: hidden;
+  resize: none;
+  padding: 10px 0 0 20px;
+  border: 1px solid var(--secondary-grey);
+  border-radius: 5px;
+  outline: none;
+
+  &::placeholder {
+    color: var(--secondary-grey);
+  }
+
+  &:focus {
+    border: 2px solid var(--primary-green);
+  }
+
+  &.invalid {
+    border: 2px solid var(--error-red);
+  }
+}
+
+button {
+  width: 100%;
+  height: 48px;
+  margin-left: 0;
+  border-radius: 5px;
+  margin: 16px 0;
+}
+
+@media screen and (min-width: 576px) {
+  button {
+    width: 157px;
+  }
+
+  .wrapper-reply {
+    width: 468px;
+    margin: 32px 0 32px auto;
+  }
+
+  .wrapper-comment {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  button {
+    margin-top: 0px;
+    margin-left: 16px;
+  }
+
+  .comment-width {
+    width: 475px;
+  }
+
+  .wrapper-reply {
+    width: 666px;
+    margin-right: 0;
   }
 }
 
@@ -182,5 +161,42 @@
 @media screen and (min-width: 992px) {
   .main-wrapper {
     justify-content: center;
+  }
+  .primary-global-button__reply {
+    width: 100%;
+  }
+
+  .wrapper-comment {
+    width: 792px;
+  }
+
+  .comment-width {
+    width: 547px;
+  }
+
+  .reply-width {
+    width: 509px;
+  }
+
+  .wrapper-reply {
+    width: 720px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .wrapper-comment {
+    width: 750px;
+  }
+
+  .comment-width {
+    width: 505px;
+  }
+
+  .reply-width {
+    width: 467px;
+  }
+
+  .wrapper-reply {
+    width: 678px;
   }
 }

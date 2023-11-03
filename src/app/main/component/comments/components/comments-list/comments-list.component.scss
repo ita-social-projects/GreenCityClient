@@ -7,9 +7,9 @@
   }
 }
 
-.wrapper-comment {
-  width: 65.79%;
-}
+// .wrapper-comment {
+//   width: 65.79%;
+// }
 
 .wrapper-reply {
   width: 90%;
@@ -279,5 +279,17 @@
 
   .comments-elements {
     padding-left: 0;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .wrapper-comment {
+    width: 794px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .wrapper-comment {
+    width: 750px;
   }
 }
