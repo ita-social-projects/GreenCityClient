@@ -45,6 +45,7 @@
           [orderStatusInfo]="orderStatusInfo"
           [orderInfo]="orderInfo"
           [totalPaid]="totalPaid"
+          [updateBonusAccount]="updateBonusAccount"
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
           (deleteNumberOrderFromEcoShopChanged)="deleteNumberOrderFromEcoShopChange($event)"
           (changeOverpayment)="changeOverpayment($event)"
@@ -62,6 +63,7 @@
           [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
           (newPaymentStatus)="onUpdatePaymentStatus($event)"
           (paymentUpdate)="onPaymentUpdate($event)"
+          (paymentToBonusAccount)="onPaymentToBonusAccount($event)"
         ></app-ubs-admin-order-payment>
         <app-ubs-admin-export-details
           [exportDetailsDto]="getFormGroup('exportDetailsDto')"

@@ -23,3 +23,7 @@ export enum CancellationReason {
   DISLIKED_SERVICE = 'DISLIKED_SERVICE',
   OTHER = 'OTHER'
 }
+
+export enum PaymentEnrollment {
+  receiptLink = 'Enrollment to the bonus account'
+}
