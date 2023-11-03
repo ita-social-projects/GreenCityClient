@@ -17,6 +17,10 @@
     margin-right: 24px;
   }
 
+  .user-image {
+    display: block;
+  }
+
   .input-submit {
     display: flex;
     width: 100%;
@@ -63,7 +67,7 @@
       border-radius: 5px;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 575px) {
       button {
         width: 100%;
         height: 48px;
@@ -79,13 +83,14 @@
         display: none;
       }
     }
+    @media screen and (min-width: 576px) {
+      button {
+        width: 157px;
+      }
+    }
   }
 
-  .user-image {
-    display: block;
-  }
-
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: 575px) {
     .user-image {
       display: none;
     }
@@ -99,16 +104,22 @@
     margin-top: -5px;
   }
 }
-
-.wrapper-comment {
-  width: 66%;
+@media screen and (min-width: 992px) {
+  .wrapper-comment {
+    width: 792px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .wrapper-comment {
+    width: 750px;
+  }
 }
 
 .wrapper-reply {
   margin: 32px 0 32px 70px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .wrapper-comment {
     width: 100%;
 
@@ -120,7 +131,7 @@
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575px) {
   .wrapper-reply {
     .input-submit {
       display: flex;
@@ -160,9 +171,16 @@
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 767px) {
   .input-submit {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .main-wrapper {
+    justify-content: center;
   }
 }
