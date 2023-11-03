@@ -1132,7 +1132,7 @@
     "min-duration": "Min 1 day",
     "duplicate-event-date": "You can't enter the same date for two days",
     "day": "day",
-    "all-day": "all day",
+    "all-day": "All day",
     "choose-date": "Choose a date",
     "set-start-time": "Set Start Time",
     "set-end-time": "Set End Time",
