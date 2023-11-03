@@ -56,7 +56,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
 
   ngAfterViewChecked(): void {
     if (this.shopList && this.isEditing) {
-      this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
+      this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress));
       this.newList.emit(this.shopList);
     }
     this.placeItemInOrder();
