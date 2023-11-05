@@ -1185,7 +1185,8 @@
     "all": "Всіх",
     "friends": "Друзів",
     "add-location-error": "Ви повинні заповнити принаймні одну адресу або посилання",
-    "preview-attendees": "людей ідуть"
+    "preview-attendees": "людей ідуть",
+    "use-greencity-pics": "Використовуйте фотографії Greencity"
   },
   "input-error": {
     "required": "Це поле є обов'язковим для заповнення",
