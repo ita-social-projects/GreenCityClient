@@ -199,8 +199,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const paymentBonusAccount = this.paymentInfo.paymentInfoDtos.filter(
       (paymentItem) => paymentItem.receiptLink === PaymentEnrollment.receiptLink
     );
-    if (paymentBonusAccount) {
-      this.updateBonusAccount = paymentBonusAccount.reduce((accumulator, currentValue) => accumulator + Math.abs(currentValue.amount), 0);
+    if (paymentBonusAccount.length) {
+      this.updateBonusAccount = paymentBonusAccount.reduce(
+        (accumulator, currentPaymentBonusValue) => accumulator + Math.abs(currentPaymentBonusValue.amount),
+        0
+      );
     }
   }
 
