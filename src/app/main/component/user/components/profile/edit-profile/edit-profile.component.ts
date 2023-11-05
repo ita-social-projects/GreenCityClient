@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { EditProfileDto } from '@global-user/models/edit-profile.model';
+import { Coordinates, EditProfileDto, EditProfileModel } from '@global-user/models/edit-profile.model';
 import { MapsAPILoader } from '@agm/core';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -25,12 +25,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public editProfileForm: FormGroup;
   @ViewChild('placesRef') placesRef: ElementRef;
   private langChangeSub: Subscription;
-  private coordinates = { latitude: null, longitude: null };
+  private coordinates: Coordinates = { latitude: null, longitude: null };
   private cityOptions = {
     types: ['(cities)'],
     componentRestrictions: { country: 'UA' },
     language: this.getLangValue('ua', 'en')
   };
+  // private country = this.getLangValue('Україна', 'Ukraine');
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
@@ -104,7 +105,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public getFormValues(): any {
     return {
       firstName: this.editProfileForm.value.name,
-      city: this.editProfileForm.value.city === null ? '' : this.editProfileForm.value.city,
+      latitude: this.coordinates.latitude,
+      longitude: this.coordinates.longitude,
       userCredo: this.editProfileForm.value.credo === null ? '' : this.editProfileForm.value.credo,
       showLocation: this.editProfileForm.value.showLocation,
       showEcoPlace: this.editProfileForm.value.showEcoPlace,
@@ -128,6 +130,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   }
 
   private getCityCountryFormat(address: string): string {
+    // return `${address.split(', ')[0]}, ${this.country}`;
     const postIndexLength = 7;
     if (address.split(', ').length === 3) {
       return address.slice(0, -postIndexLength);
@@ -139,11 +142,14 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.getControl('city').setValue('');
   }
 
-  public getFormInitialValues(data): void {
+  public getFormInitialValues(data: EditProfileModel): void {
     this.initialValues = {
       firstName: data.name,
-      get city() {
-        return data.city === null ? '' : data.city;
+      get latitude() {
+        return data.userLocationDto.latitude;
+      },
+      get longitude() {
+        return data.userLocationDto.latitude;
       },
       get userCredo() {
         return data.userCredo === null ? '' : data.userCredo;
@@ -174,7 +180,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.profileService
       .getUserInfo()
       .pipe(take(1))
-      .subscribe((data) => {
+      .subscribe((data: EditProfileModel) => {
         if (data) {
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
@@ -195,7 +201,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   public sendFormData(form): void {
     const body: EditProfileDto = {
-      city: form.value.city,
+      coordinates: { longitude: this.coordinates.longitude, latitude: this.coordinates.latitude },
       name: form.value.name,
       userCredo: form.value.credo,
       showLocation: form.value.showLocation,
