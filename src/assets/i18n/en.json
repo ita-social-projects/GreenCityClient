@@ -979,7 +979,7 @@
     "friends-quantity": { "plural": "connections", "singular": "connection" },
     "zero-friends": "You don't have any friends yet.",
     "zero-user-friends": "This user has no friends",
-    "zero-requests": "Unfortunately you don’t have new friends requests' on Friends requests tab as mentioned in requirements.",
+    "zero-requests": "Unfortunately you don’t have new friends requests",
     "my-eco-places": "My Eco Places",
     "eco-places-quantity": { "plural": "favourites", "singular": "favourite" },
     "to-do-list": "My To-do list",
