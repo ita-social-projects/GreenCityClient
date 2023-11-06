@@ -26,6 +26,7 @@ import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomP
 import { Store } from '@ngrx/store';
 import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
 import { IAppState } from 'src/app/store/state/app.state';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -69,7 +70,7 @@ export class AddNewHabitComponent implements OnInit {
   private page = 0;
   private size = 3;
   private isCustomHabit = false;
-
+  public images = singleNewsImages;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(

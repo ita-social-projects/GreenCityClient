@@ -64,7 +64,6 @@
               formControlName="description"
               (dragover)="(false)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
-              (onEditorChanged)="changeEditor($event)"
             ></quill-editor>
             <div [style.visibility]="getControl('description').touched && getControl('description').invalid ? 'visible' : 'hidden'">
               <p class="habit-tooltip warning">

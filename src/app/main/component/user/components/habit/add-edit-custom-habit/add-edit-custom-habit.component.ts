@@ -16,7 +16,6 @@ import { quillConfig } from 'src/app/main/component/events/components/create-edi
 import { ShoppingList } from '../../../models/shoppinglist.interface';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
@@ -150,13 +149,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.habitForm.patchValue({ complexity: i + 1 });
   }
 
-  changeEditor(event: EditorChangeContent | EditorChangeSelection): void {
-    this.getControl('description').markAsTouched();
-    if (event.event !== 'selection-change') {
-      this.getControl('description').setValue(event.text.trim());
-    }
-  }
-
   private subscribeToLangChange(): void {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((lang) => {
       this.translate.setDefaultLang(lang);
@@ -180,7 +172,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         text: item.text
       };
     });
-    console.log(this.newList, 'new list');
     this.getControl('shopList').setValue(this.newList);
   }
 
