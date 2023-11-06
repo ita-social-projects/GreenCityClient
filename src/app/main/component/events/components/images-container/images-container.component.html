@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <p class="use-pics">{{ 'create-event.use-greencity-pics' | translate}}</p>
+    <p class="use-pics">{{ 'create-event.use-greencity-pics' | translate }}</p>
     <div class="row">
       <div class="image-container" *ngFor="let img of defImgs; index as i">
         <img class="image-preview" [src]="img" alt="image-of-event" (click)="chooseImage(img)" />

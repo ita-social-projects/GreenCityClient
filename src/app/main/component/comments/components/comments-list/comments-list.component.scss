@@ -7,10 +7,6 @@
   }
 }
 
-.wrapper-comment {
-  width: 65.79%;
-}
-
 .wrapper-reply {
   width: 90%;
   padding-left: 70px;
@@ -264,5 +260,32 @@
       display: inline-block;
       margin: 0 8px;
     }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .comment-details,
+  .comment-main-text {
+    margin-left: 0;
+  }
+
+  .comment-details {
+    padding-top: 60px;
+  }
+
+  .comments-elements {
+    padding-left: 0;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .wrapper-comment {
+    width: 794px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .wrapper-comment {
+    width: 750px;
   }
 }

@@ -1,8 +1,7 @@
 <button *ngIf="repliesCounter >= 1" class="cta-btn view">
   <span class="btn-text">
-    <span class="d-none d-sm-inline"
-      >{{ (isShowReplies ? 'homepage.eco-news.comment.hide' : 'homepage.eco-news.comment.view') | translate }} </span
-    >{{ repliesCounter }}
+    {{ (isShowReplies ? 'homepage.eco-news.comment.hide' : 'homepage.eco-news.comment.view') | translate }}
+    {{ repliesCounter }}
     <ng-container [ngSwitch]="repliesCounter">
       <span *ngSwitchCase="1">{{ 'homepage.eco-news.comment.replies.one-reply' | translate }}</span>
       <span *ngSwitchCase="[2, 3, 4].includes(repliesCounter) ? repliesCounter : !repliesCounter">{{
