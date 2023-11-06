@@ -202,13 +202,13 @@ describe('HeaderComponent', () => {
     it('should call getUserLangValue when isLoggedIn is true', () => {
       const spy = spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
       component.isLoggedIn = true;
-      (component as any).setCurrentLang();
+      (component as any).initLanguage();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should set currentLanguage to localStorageService.getCurrentLanguage when isLoggedIn is false', () => {
       component.isLoggedIn = false;
-      (component as any).setCurrentLang();
+      (component as any).initLanguage();
       expect(component.currentLanguage).toEqual(mockLang);
     });
 
@@ -242,6 +242,25 @@ describe('HeaderComponent', () => {
 
       expect(spy).toHaveBeenCalled();
       expect(component.arrayLang[0].lang).toBe('en');
+    });
+
+    it('should call setCurrentLanguage', () => {
+      spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
+      const setCurrentLanguageSpy = spyOn(component as any, 'setCurrentLanguage');
+      component.isLoggedIn = false;
+      (component as any).initLanguage();
+
+      expect(setCurrentLanguageSpy).toHaveBeenCalledWith(mockLang);
+    });
+
+    it('should set current language', () => {
+      (component as any).setCurrentLanguage('en');
+      expect(component.currentLanguage).toBe('en');
+      expect(component.arrayLang[0].lang.toLowerCase()).toBe('en');
+
+      (component as any).setCurrentLanguage('ua');
+      expect(component.currentLanguage).toBe('ua');
+      expect(component.arrayLang[0].lang.toLowerCase()).toBe('ua');
     });
 
     it('should log out the user', fakeAsync(() => {
