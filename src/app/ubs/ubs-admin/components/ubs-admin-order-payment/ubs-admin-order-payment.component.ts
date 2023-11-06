@@ -26,6 +26,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
   @Output() newPaymentStatus = new EventEmitter<string>();
   @Output() paymentUpdate = new EventEmitter<number>();
+  @Output() paymentToBonusAccount = new EventEmitter<number>();
 
   public message: string;
   public pageOpen: boolean;
@@ -156,6 +157,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.totalPaid -= this.overpayment;
       this.overpayment = 0;
       this.paymentUpdate.emit(this.overpayment);
+      this.paymentToBonusAccount.emit(responce.amount);
     });
   }
 
