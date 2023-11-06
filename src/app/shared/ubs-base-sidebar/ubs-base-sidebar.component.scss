@@ -46,21 +46,24 @@
     text-align: center;
     color: var(--ubs-primary-white);
 
-    .sidebar-list-item {
-      display: flex;
-      align-items: center;
-      column-gap: 20px;
-      cursor: pointer;
-      padding: 15px 39px 15px 15px;
-      white-space: nowrap;
-    }
+    &-item {
+      &-link {
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 15px;
+        padding-right: 39px;
 
-    .sidebar-list-item__collapsed {
-      padding: 15px;
+        &__collapsed {
+          padding-right: 15px;
+        }
+      }
     }
   }
 
-  .sidebar-list-item-link {
+  .sidebar-list-item-desc {
     color: var(--ubs-primary-white);
     font-family: var(--primary-font);
     font-size: 16px;
