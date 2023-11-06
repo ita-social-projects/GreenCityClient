@@ -18,7 +18,7 @@
   justify-content: center;
   text-align: center;
   border: none;
-  background-color: #fff;
+  background-color: var(--pre-secondary-light-grey);
   outline: none;
 }
 
@@ -39,12 +39,6 @@
 @media screen and (max-width: 992px) {
   .btn-text {
     font-size: 12px;
-  }
-}
-
-@media screen and (max-width: 575px) {
-  .main-wrapper {
-    padding-left: 30px;
   }
 }
 

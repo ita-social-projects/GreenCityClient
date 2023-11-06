@@ -5,19 +5,14 @@
         class="user-image"
         [imgPath]="userInfo.profilePicturePath"
         [firstName]="userInfo.name"
-        [additionalImgClass]="'center'"
+        [additionalImgClass]="'profile-avatar'"
       >
       </app-user-profile-image>
-      <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']">
-        <button class="edit-icon"></button>
-      </a>
+      <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>
     </div>
 
     <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ userInfo.name | maxTextLength: 15 }}</p>
     <p class="location" appCustomTooltip [appCustomTooltip]="userInfo.city">{{ userInfo.city | maxTextLength: 30 }}</p>
-    <div class="online">
-      {{ 'profile.online' | translate }}
-    </div>
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
@@ -27,7 +22,7 @@
       </a>
     </div>
     <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
-      {{ (userInfo.userCredo | maxTextLength: 110) || mockedUserInfo.userCredo }}
+      {{ userInfo.userCredo || mockedUserInfo.userCredo }}
     </div>
 
     <div class="profile-progress">

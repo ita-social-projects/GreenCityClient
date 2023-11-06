@@ -1,5 +1,5 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -21,12 +21,14 @@ import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';
+import { Patterns } from 'src/assets/patterns/patterns';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-events-list',
@@ -43,8 +45,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public locationFilterControl = new FormControl();
   public statusFilterControl = new FormControl();
   public typeFilterControl = new FormControl();
+  public searchFilterWords = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   public eventsList: EventPageResponceDto[] = [];
+  public bufferArray: EventPageResponceDto[] = [];
+  public wordsToSearch: string[];
+  public showEventItem = true;
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -56,15 +62,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public remaining = 0;
   private eventsPerPage = 6;
   public elementsArePresent = true;
+  public noEventsMatch = false;
   public selectedFilters = [];
   public searchToggle = false;
   public bookmarkSelected = false;
   public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
-  public statusList: OptionItem[] = eventStatusList;
+  public statusList: OptionItem[];
   public eventLocationList: OptionItem[] = [];
-  private optionsList: any;
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
@@ -77,12 +83,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     public injector: Injector,
-    private userFriendsService: UserFriendsService
+    private userFriendsService: UserFriendsService,
+    private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
   }
 
   ngOnInit(): void {
+    this.eventService.getAddreses().subscribe((addresses) => {
+      this.eventLocationList = this.getUniqueCities(addresses);
+    });
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -93,14 +103,15 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.page = res.pageNumber;
       if (res.eventState) {
         this.eventsList = [...res.eventsList];
+        this.bufferArray = [...res.eventsList];
         const data = res.eventState;
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
-        this.eventLocationList = this.getUniqueCities(this.eventsList);
       }
     });
     this.getUserFriendsList();
+    this.searchWords();
   }
 
   getUserFriendsList(): void {
@@ -108,12 +119,35 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.userFriendsService
         .getAllFriendsByUserId(this.userId)
         .pipe(takeUntil(this.destroyed$))
-        .subscribe((res) => {
-          this.userFriends = res;
+        .subscribe((res: any) => {
+          this.userFriends = res.page;
         });
     } else {
       this.userFriends = [];
     }
+  }
+
+  searchWords(): void {
+    this.searchFilterWords.valueChanges.subscribe((value) => {
+      this.wordsToSearch = value.split(' ');
+      this.sortByWord(this.bufferArray, this.wordsToSearch);
+    });
+  }
+
+  sortByWord(list: EventPageResponceDto[], words: string[]): void {
+    this.eventsList = list.filter((element) => {
+      for (const word of words) {
+        if (element.title.includes(word)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    this.noEventsMatch = !this.eventsList.length;
+  }
+
+  public cancelSearch() {
+    this.searchFilterWords.setValue('');
   }
 
   public updateSelectedFilters(
@@ -144,6 +178,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.addToEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
     }
+    this.hasNext = true;
+    this.page = 0;
     this.dispatchStore(true);
   }
 
@@ -196,20 +232,26 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUniqueCities(events: EventPageResponceDto[]): OptionItem[] {
-    const cities: OptionItem[] = [];
-    events.forEach((event) => {
-      if (event.dates[0].coordinates) {
-        const { cityEn, cityUa } = event.dates[0].coordinates;
-        const cityExists = cities.some((city) => {
-          return city.nameEn === cityEn && city.nameUa === cityUa;
-        });
-        if (!cityExists) {
-          cities.push({ nameEn: cityEn, nameUa: cityUa });
+  getUniqueCities(addresses: Array<Addresses>): OptionItem[] {
+    const uniqueCities = new Set();
+
+    addresses.forEach((address: Addresses) => {
+      if (address) {
+        const { cityEn, cityUa } = address;
+        if (cityEn !== null) {
+          uniqueCities.add(`${cityEn}-${cityUa}`);
         }
       }
     });
+    const cities = Array.from(uniqueCities).map((city: string) => {
+      const [nameEn, nameUa] = city.split('-');
+      return { nameEn, nameUa };
+    });
     return cities;
+  }
+
+  private getStatusesForFilter(): OptionItem[] {
+    return this.userId ? eventStatusList : eventStatusList.slice(0, 2);
   }
 
   public toggleAllSelection(optionsList: MatSelect, dropdownName: string): void {
@@ -291,6 +333,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
       this.isLoggedIn = data && data.userId;
       this.userId = data.userId;
+      this.statusList = this.getStatusesForFilter();
     });
   }
 
@@ -316,7 +359,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public onScroll(): void {
     const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
     this.scroll = true;
-    this.dispatchStore(isRemovedEvents);
+    if (this.eventsList.length) {
+      this.dispatchStore(isRemovedEvents);
+    }
   }
 
   ngOnDestroy(): void {

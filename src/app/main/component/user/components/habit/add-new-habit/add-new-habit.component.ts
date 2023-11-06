@@ -23,6 +23,10 @@ import { HabitInterface, HabitListInterface } from '../models/interfaces/habit.i
 import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../models/shoppinglist.interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { Store } from '@ngrx/store';
+import { SetHabitForEdit } from 'src/app/store/actions/habit.actions';
+import { IAppState } from 'src/app/store/state/app.state';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 
 @Component({
   selector: 'app-add-new-habit',
@@ -38,7 +42,7 @@ export class AddNewHabitComponent implements OnInit {
 
   newDuration: number;
   initialDuration: number;
-  initialShoppingList: ShoppingList[];
+  initialShoppingList: ShoppingList[] = [];
   standartShopList: ShoppingList[] = [];
   customShopList: ShoppingList[] = [];
   friendsIdsList: number[] = [];
@@ -60,12 +64,13 @@ export class AddNewHabitComponent implements OnInit {
   private habitId: number;
   public habitAssignId: number;
   public userId: number;
+  public wasCustomHabitCreatedByUser = false;
   private currentLang: string;
   private enoughToAcquire = 80;
   private page = 0;
   private size = 3;
   private isCustomHabit = false;
-
+  public images = singleNewsImages;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -80,7 +85,8 @@ export class AddNewHabitComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private location: Location,
-    public userFriendsService: UserFriendsService
+    public userFriendsService: UserFriendsService,
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit() {
@@ -122,7 +128,7 @@ export class AddNewHabitComponent implements OnInit {
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
-          this.initialDuration = res.duration;
+          this.initialDuration = res.habit.defaultDuration;
           this.initHabitData(res.habit);
           this.getCustomShopList();
         });
@@ -170,6 +176,7 @@ export class AddNewHabitComponent implements OnInit {
 
   private initHabitData(habit: HabitInterface): void {
     this.habitResponse = habit;
+    this.wasCustomHabitCreatedByUser = habit.usersIdWhoCreatedCustomHabit === this.userId;
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.isCustom = habit.isCustomHabit;
     this.getStars(habit.complexity);
@@ -206,7 +213,9 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   getDuration(newDuration: number): void {
-    this.newDuration = newDuration;
+    setTimeout(() => {
+      this.newDuration = newDuration;
+    });
   }
 
   getProgressValue(progress: number): void {
@@ -263,7 +272,10 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.localStorageService.setHabitForEdit(url, this.habitResponse);
+    this.habitResponse.shoppingListItems = this.standartShopList;
+    this.habitResponse.customShoppingListItems = this.customShopList;
+    this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
+    this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));
     this.router.navigate([`profile/${this.userId}/allhabits/${url}/${id}/edit-habit`]);
   }
 
@@ -292,7 +304,10 @@ export class AddNewHabitComponent implements OnInit {
       .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
       .pipe(take(1))
       .subscribe(() => {
-        this.customShopList.length > 0 ? this.addCustomHabitItems() : this.afterHabitWasChanged('habitAdded');
+        if (this.customShopList.length) {
+          this.addCustomHabitItems();
+        }
+        this.afterHabitWasChanged('habitAdded');
       });
   }
 

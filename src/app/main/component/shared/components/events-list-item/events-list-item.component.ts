@@ -26,6 +26,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { FriendModel } from '@global-user/models/friend.model';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-events-list-item',
@@ -71,11 +72,12 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public isOnline: string;
   isOwner: boolean;
   isActive: boolean;
+  public isAdmin: boolean;
 
   attendees = [];
   attendeesAvatars = [];
   deleteDialogData = {
-    popupTitle: 'homepage.events.delete-title',
+    popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
@@ -108,7 +110,8 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     private store: Store,
     private eventService: EventsService,
     private translate: TranslateService,
-    private snackBar: MatSnackBarComponent
+    private snackBar: MatSnackBarComponent,
+    private jwtService: JwtService
   ) {}
 
   ngOnChanges() {
@@ -130,6 +133,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.addAttenderError = res.error;
     });
+    this.getAddress();
   }
 
   public routeToEvent(): void {
@@ -155,12 +159,13 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     const isSubscribe = this.event.isSubscribed;
     this.isOwner = +this.userId === this.event.organizer.id;
     this.isActive = this.checkIsActive();
+    this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE';
     if (this.isOwner && this.isActive && !isSubscribe) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.edit;
       return;
     }
-    if (this.isOwner && !this.isActive && !isSubscribe) {
+    if (this.isAdmin && !this.isActive) {
       this.btnStyle = this.styleBtn.secondary;
       this.nameBtn = this.btnName.delete;
       return;
@@ -267,11 +272,17 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     });
   }
 
-  getAllAttendees() {
+  getAllAttendees(): void {
     this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
       this.attendees = attendees;
       this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
     });
+  }
+
+  public getAddress(): string {
+    if (this.address) {
+      return this.eventService.getFormattedAddressEventsList(this.address);
+    }
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
@@ -284,19 +295,18 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
       this.openAuthModalWindow('sign-in');
     } else {
       this.bookmarkSelected = !this.bookmarkSelected;
+      const sendEventDto = {
+        isFavorite: this.bookmarkSelected
+      };
+      const formData: FormData = new FormData();
+      const stringifiedDataToSend = JSON.stringify(sendEventDto);
+      const dtoName = 'EventPageResponceDto';
+
+      formData.append(dtoName, stringifiedDataToSend);
+
+      this.eventService.editEvent(formData).subscribe((res) => {});
+      this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
     }
-
-    const sendEventDto = {
-      isFavorite: this.bookmarkSelected
-    };
-    const formData: FormData = new FormData();
-    const stringifiedDataToSend = JSON.stringify(sendEventDto);
-    const dtoName = 'EventPageResponceDto';
-
-    formData.append(dtoName, stringifiedDataToSend);
-
-    this.eventService.editEvent(formData).subscribe((res) => {});
-    this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
   }
 
   public openAuthModalWindow(page: string): void {

@@ -1,5 +1,5 @@
 <div class="friend-dashboard">
-  <div class="container">
+  <div class="container friend-dashboard-container">
     <a class="button-link" [routerLink]="['/profile', userId]">
       <div class="button-content">
         <img src="assets/img/icon/econews/arrow_left.svg" alt="arrow image" class="button-arrow" />
@@ -8,8 +8,8 @@
     </a>
     <div class="friends">
       <h1>{{ 'profile.friends.friends' | translate }}</h1>
-      <div class="search-field-wrapper">
-        <form name="searchForm" class="searchField" *ngIf="!hideInput">
+      <form name="searchForm" *ngIf="!hideInput">
+        <div class="searchField">
           <img [src]="searchIcon" alt="search-friend" />
           <input
             class="search"
@@ -19,27 +19,23 @@
             (input)="onInput(search)"
             maxlength="30"
           />
-        </form>
-        <span>
-          <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            {{ 'profile.friends.all-friends' | translate }} <span *ngIf="allFriendsAmount">{{ allFriendsAmount }}</span>
-          </a>
+        </div>
+      </form>
+      <div class="friend-tabs">
+        <a [routerLink]="['/profile', userId, 'friends']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'profile.friends.all-friends' | translate }} <span *ngIf="allFriendsAmount">{{ allFriendsAmount }}</span>
+        </a>
 
-          <a
-            [routerLink]="['/profile', userId, 'friends', 'recommended']"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            {{ 'profile.friends.search-friends' | translate }}
-          </a>
-          <a
-            [routerLink]="['/profile', userId, 'friends', 'requests']"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            {{ 'profile.friends.requests' | translate }} <span *ngIf="requestFriendsAmount">{{ requestFriendsAmount }}</span>
-          </a>
-        </span>
+        <a
+          [routerLink]="['/profile', userId, 'friends', 'recommended']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          {{ 'profile.friends.find-friends' | translate }}
+        </a>
+        <a [routerLink]="['/profile', userId, 'friends', 'requests']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          {{ 'profile.friends.requests' | translate }} <span *ngIf="requestFriendsAmount">{{ requestFriendsAmount }}</span>
+        </a>
       </div>
     </div>
     <router-outlet (activate)="onActivate($event)"></router-outlet>

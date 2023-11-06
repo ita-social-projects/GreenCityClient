@@ -39,6 +39,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   areAllCheckBoxEmpty: boolean;
   limitStatus: limitStatus = null;
   description;
+  servicePrice;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
@@ -365,6 +366,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service) => {
         this.service = res;
+        this.servicePrice = this.service?.price * 100;
         this.isLoadBar1 = false;
       });
   }

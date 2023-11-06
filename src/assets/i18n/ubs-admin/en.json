@@ -318,6 +318,8 @@
     "order-sum": "Order cost",
     "certificate": "Certificate",
     "bonuses": "Used bonuses",
+    "bonuses-value": "{{bonusesValue}} UAH is the amount of overpayment returned to the client as bonuses",
+    "not-enough-bags": "The number of packages does not meet the minimum order rule. Specify the amount of the charge for non-compliance with the minimum order in the 'UBS Courier' field",
     "sum-to-pay": "Amount to be paid",
     "ubs-courier": "UBS Courier",
     "min-sum": "The order cannot be changed. The minimum order price is",

@@ -11,6 +11,7 @@ import { TariffsService } from '../../../services/tariffs.service';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { Language } from 'src/app/main/i18n/Language';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
@@ -199,6 +200,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: Store, useValue: storeMock },
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

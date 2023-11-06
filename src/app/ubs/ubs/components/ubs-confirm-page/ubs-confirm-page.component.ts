@@ -101,7 +101,11 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   renderView(): void {
     if (!this.orderResponseError && !this.orderStatusDone) {
       this.saveDataOnLocalStorage();
-      this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
+      const existingOrderId = this.localStorageService.getExistingOrderId();
+      existingOrderId
+        ? this.snackBar.openSnackBar('successConfirmUpdateOrder')
+        : this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
+      this.localStorageService.removeUBSExistingOrderId();
     } else if (!this.orderResponseError && this.orderStatusDone) {
       this.saveDataOnLocalStorage();
     }
@@ -110,6 +114,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   saveDataOnLocalStorage(): void {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.saveDataOnLocalStorage();
+    this.orderService.cleanOrderState();
   }
 
   returnToPayment(url: string): void {

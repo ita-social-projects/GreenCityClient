@@ -23,6 +23,8 @@ export class CommentsListComponent {
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';
+  public isEditTextValid: boolean;
+  public commentMaxLength = 8000;
 
   constructor(private commentsService: CommentsService) {}
 
@@ -59,11 +61,20 @@ export class CommentsListComponent {
     });
   }
 
-  public showElements(id: number, key: string): void {
+  public showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
+    if (key !== 'showAllRelies') {
+      this.updateContentControl(id);
+    }
     this.elementsList = this.elementsList.map((item) => {
       item[key] = item.id === id && !item[key];
       return item;
     });
+  }
+
+  public updateContentControl(id: number): void {
+    const commentContent = this.elementsList.filter((el) => el.id === id)[0].text;
+    this.content.setValue(commentContent);
+    this.isEditTextValid = true;
   }
 
   public isShowReplies(id: number): boolean {
@@ -77,5 +88,10 @@ export class CommentsListComponent {
 
   public checkCommentAuthor(commentAuthorId: number) {
     return commentAuthorId === Number(this.userId);
+  }
+
+  checkTextarea(event: InputEvent): void {
+    this.content.setValue((event.target as HTMLInputElement).value);
+    this.isEditTextValid = !!this.content.value.trim().length && this.content.value.length <= this.commentMaxLength;
   }
 }

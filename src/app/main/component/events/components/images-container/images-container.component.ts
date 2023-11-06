@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
@@ -11,7 +11,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   templateUrl: './images-container.component.html',
   styleUrls: ['./images-container.component.scss']
 })
-export class ImagesContainerComponent implements OnInit {
+export class ImagesContainerComponent implements OnInit, OnChanges {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
   private imgArray: File[] = [];
@@ -24,6 +24,7 @@ export class ImagesContainerComponent implements OnInit {
     '/assets/img/events/illustration-recycle.png',
     '/assets/img/events/illustration-store.png'
   ];
+  private defaultImage = '/assets/img/events/default-image.png';
   public images: EventImage[] = [];
   public editMode: boolean;
   private imagesTodelete: string[] = [];
@@ -35,7 +36,7 @@ export class ImagesContainerComponent implements OnInit {
   @ViewChild('takeInput') InputVar: ElementRef;
 
   @Input() imagesEditArr: string[];
-
+  @Input() isImagesArrayEmpty: boolean;
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
@@ -45,6 +46,7 @@ export class ImagesContainerComponent implements OnInit {
     private snackBar: MatSnackBarComponent,
     private eventService: EventsService
   ) {}
+
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
 
@@ -65,11 +67,14 @@ export class ImagesContainerComponent implements OnInit {
     }
   }
 
-  private initImages(): void {
-    for (let i = 0; i < this.maxImages; i++) {
-      this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: false });
+  ngOnChanges() {
+    if (this.isImagesArrayEmpty) {
+      this.chooseImage(this.defaultImage);
     }
-    this.images[0].isLabel = true;
+  }
+
+  private initImages(): void {
+    this.images = Array.from({ length: this.maxImages }, (_, i) => ({ src: null, label: this.dragAndDropLabel, isLabel: i === 0 }));
   }
 
   public chooseImage(img: string) {
@@ -104,7 +109,6 @@ export class ImagesContainerComponent implements OnInit {
 
   private checkFileExtension(file: any): void {
     this.isImageSizeError = file.size >= 10000000;
-
     this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
@@ -132,16 +136,11 @@ export class ImagesContainerComponent implements OnInit {
   }
 
   private assignImage(result: any): void {
-    for (let i = 0; i < this.images.length; i++) {
-      if (!this.images[i].src) {
-        this.images[i].src = result;
-        if (this.images[i + 1]) {
-          this.images[i + 1].isLabel = true;
-        }
-        this.images[i].isLabel = false;
-        this.imageCount++;
-        break;
-      }
+    const imageToAssign = this.images.find((img) => !img.src);
+    if (imageToAssign) {
+      imageToAssign.src = result;
+      imageToAssign.isLabel = false;
+      this.imageCount += 1;
     }
   }
 

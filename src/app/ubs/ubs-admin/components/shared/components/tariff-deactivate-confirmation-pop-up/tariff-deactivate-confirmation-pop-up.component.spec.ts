@@ -7,6 +7,7 @@ import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('TariffDeactivateConfirmationPopUpComponent', () => {
   let component: TariffDeactivateConfirmationPopUpComponent;
@@ -27,7 +28,8 @@ describe('TariffDeactivateConfirmationPopUpComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialog },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } }
       ]
     }).compileComponents();
   }));

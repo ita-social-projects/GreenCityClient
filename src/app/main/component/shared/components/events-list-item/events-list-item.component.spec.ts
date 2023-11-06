@@ -22,6 +22,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -60,6 +61,9 @@ describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
+  const jwtServiceMock = jasmine.createSpyObj('jwtService', ['getUserRole']);
+  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.userRole$ = new BehaviorSubject('ROLE_UBS_EMPLOYEE');
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   const styleBtnMock = {
@@ -98,7 +102,9 @@ describe('EventsListItemComponent', () => {
           regionEn: 'Lvivska oblast',
           regionUa: 'Львівська область',
           streetEn: 'Svobody Ave',
-          streetUa: 'Свободи'
+          streetUa: 'Свободи',
+          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
         id: null,
         event: null,
@@ -117,7 +123,8 @@ describe('EventsListItemComponent', () => {
     isRelevant: true,
     open: true,
     likes: 5,
-    countComments: 7
+    countComments: 7,
+    isAdmin: false
   };
 
   const fakeItemTags: TagObj[] = [
@@ -154,10 +161,16 @@ describe('EventsListItemComponent', () => {
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'getEventById ',
+    'deleteEvent',
+    'getAllAttendees',
+    'getFormattedAddressEventsList'
+  ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
+  EventsServiceMock.getFormattedAddressEventsList = () => of('');
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
@@ -213,7 +226,8 @@ describe('EventsListItemComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: JwtService, useValue: jwtServiceMock }
       ],
       imports: [
         RouterTestingModule,
@@ -356,8 +370,7 @@ describe('EventsListItemComponent', () => {
 
     it('should set btnStyle and nameBtn correctly when user is owner and event is unactive', () => {
       component.event = eventMock;
-      component.userId = eventMock.organizer.id;
-      component.event.isSubscribed = false;
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
       spyOn(component, 'checkIsActive').and.returnValue(false);
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);

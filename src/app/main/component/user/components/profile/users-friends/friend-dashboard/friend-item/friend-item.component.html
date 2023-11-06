@@ -1,4 +1,4 @@
-<div class="friend-item" [style.cursor]="userId ? 'default' : 'pointer'" (click)="clickHandler($event)">
+<div class="friend-item-wrapper" [style.cursor]="userId ? 'default' : 'pointer'" (click)="clickHandler($event)">
   <app-user-profile-image
     [imgPath]="friend.profilePicturePath"
     [firstName]="friend.name"

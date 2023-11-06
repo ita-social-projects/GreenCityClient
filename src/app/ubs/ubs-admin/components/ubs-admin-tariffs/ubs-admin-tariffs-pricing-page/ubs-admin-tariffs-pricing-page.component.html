@@ -45,7 +45,7 @@
         </td>
         <td>{{ getLangValue(service.name, service.nameEng) }}</td>
         <td>{{ getLangValue(service.description, service.descriptionEng) }}</td>
-        <td>{{ service?.price | currency | localizedCurrency }}</td>
+        <td>{{ servicePrice | currency | localizedCurrency }}</td>
       </tr>
     </table>
   </div>

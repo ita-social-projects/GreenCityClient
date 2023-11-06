@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LikeCommentComponent } from './like-comment.component';
+import { Router } from '@angular/router';
 
 describe('LikeCommentComponent', () => {
   let component: LikeCommentComponent;
@@ -23,6 +24,8 @@ describe('LikeCommentComponent', () => {
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
+
+  const routerMock = { url: '' };
 
   const commentData = {
     author: {
@@ -46,7 +49,8 @@ describe('LikeCommentComponent', () => {
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: SocketService, useValue: socketServiceMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock }
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
   }));
@@ -61,6 +65,12 @@ describe('LikeCommentComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check ', () => {
+    const spy = spyOn(component, 'checkSocketMessageToSubscribe');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should get user id', () => {
@@ -129,5 +139,17 @@ describe('LikeCommentComponent', () => {
     component.likesCounter.subscribe((amountLikes) => (likeCount = amountLikes));
     component.onConnectedtoSocket();
     expect(likeCount).toBe(1);
+  });
+
+  it('should choose socketMessageToSubscribe and socketMessageToSend depending on current page', () => {
+    (component as any).router.url = 'events';
+    component.checkSocketMessageToSubscribe();
+    expect(component.socketMessageToSubscribe).toBe(`/topic/1/eventComment`);
+    expect(component.socketMessageToSend).toBe('/app/eventCommentLikeAndCount');
+
+    (component as any).router.url = 'news';
+    component.checkSocketMessageToSubscribe();
+    expect(component.socketMessageToSubscribe).toBe(`/topic/1/comment`);
+    expect(component.socketMessageToSend).toBe('/app/likeAndCount');
   });
 });

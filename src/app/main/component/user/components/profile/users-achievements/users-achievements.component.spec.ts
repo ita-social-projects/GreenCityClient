@@ -13,7 +13,7 @@ describe('UsersAchievementsComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [UsersAchievementsComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule]
     }).compileComponents();
   }));
 

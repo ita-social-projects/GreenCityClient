@@ -114,6 +114,8 @@ export interface Coordinates {
   regionUa: string;
   streetEn: string;
   streetUa: string;
+  formattedAddressEn: string;
+  formattedAddressUa: string;
 }
 
 export interface DateEventResponceDto {
@@ -167,4 +169,20 @@ export interface EventFilterCriteriaIntarface {
   cities: Array<string>;
   statuses: Array<string>;
   tags: Array<string>;
+}
+
+export interface Addresses {
+  cityEn: string;
+  cityUa: string;
+  countryEn: string;
+  countryUa: string;
+  formattedAddressEn: string;
+  formattedAddressUa: string;
+  houseNumber: string;
+  latitude: number;
+  longitude: number;
+  regionEn: string;
+  regionUa: string;
+  streetEn: string;
+  streetUa: string;
 }

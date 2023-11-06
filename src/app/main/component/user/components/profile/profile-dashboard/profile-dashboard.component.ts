@@ -88,7 +88,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.initGetUserEvents();
-    this.dispatchNews(false);
+    this.dispatchNews(true);
     this.getUserLocation();
 
     this.localStorageService.setCurentPage('previousPage', '/profile');

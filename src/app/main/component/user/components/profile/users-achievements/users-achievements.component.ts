@@ -8,5 +8,6 @@ import { PROFILE_IMAGES } from 'src/app/main/image-pathes/profile-images';
 })
 export class UsersAchievementsComponent {
   public achievementsImages = PROFILE_IMAGES.achs;
+
   @Input() currLang: string;
 }

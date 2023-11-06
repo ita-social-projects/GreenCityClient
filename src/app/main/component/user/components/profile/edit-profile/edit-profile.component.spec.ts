@@ -18,6 +18,7 @@ import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 class Test {}
 
@@ -70,7 +71,7 @@ describe('EditProfileComponent', () => {
   });
 
   describe('General methods:', () => {
-    const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
+    const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang', 'setPlaceAutocomplete'];
 
     for (let i = 0; i < initMethods.length; i++) {
       it(`ngOnInit should init ${i + 1}-st element ${initMethods[i]}`, () => {
@@ -84,6 +85,13 @@ describe('EditProfileComponent', () => {
       spyOn((component as any).langChangeSub, 'unsubscribe');
       component.ngOnDestroy();
       expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
+    });
+
+    it('should format google api formated_adress acording to mockup', () => {
+      const adress1 = 'Lviv, Lviv region, Ukraine, 79000';
+      expect((component as any).getCityCountryFormat(adress1)).toEqual('Lviv, Ukraine');
+      const adress2 = 'Kyiv, Ukraine, 01000';
+      expect((component as any).getCityCountryFormat(adress2)).toEqual('Kyiv, Ukraine');
     });
   });
 
@@ -154,6 +162,14 @@ describe('EditProfileComponent', () => {
           expect(control.valid).toBeTruthy();
         });
       }
+    });
+
+    it('should set empty value to city form control when user fills field instead choosing from list', () => {
+      const cityInput = fixture.debugElement.query(By.css('.shadow-none'));
+      cityInput.nativeElement.dispatchEvent(new Event('change'));
+      fixture.whenStable().then(() => {
+        expect(component.getControl('city').value).toEqual('');
+      });
     });
   });
 

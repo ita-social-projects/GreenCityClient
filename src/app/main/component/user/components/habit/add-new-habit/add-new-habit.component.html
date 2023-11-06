@@ -1,7 +1,9 @@
 <div class="wrapper">
   <div class="back-to-my-habits" (click)="onGoBack()">
-    <div class="arrow"></div>
-    <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
+    <div class="button-arrow">
+      <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+      <div class="back-button">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
+    </div>
   </div>
   <div class="habit-container" *ngIf="habitResponse">
     <div class="habit-info">
@@ -80,7 +82,7 @@
       <button
         class="primary-global-button habit-btn"
         type="button"
-        *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
+        *ngIf="wasCustomHabitCreatedByUser"
         (click)="editUsersCustomHabit(habitAssignId ? 'edithabit' : 'addhabit', habitResponse.id)"
       >
         {{ 'user.habit.btn.edit' | translate }}
@@ -99,10 +101,10 @@
       <button
         class="primary-global-button habit-btn"
         type="button"
-        *ngIf="habitResponse.usersIdWhoCreatedCustomHabit === userId"
+        *ngIf="wasCustomHabitCreatedByUser"
         (click)="editUsersCustomHabit('edithabit', habitAssignId ? habitAssignId : habitResponse.id)"
       >
-        Edit Habit
+        {{ 'user.habit.btn.edit' | translate }}
       </button>
     </div>
   </div>

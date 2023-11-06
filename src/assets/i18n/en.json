@@ -80,6 +80,7 @@
           "confirm": "Yes, delete",
           "cancel": "Cancel"
         },
+        "reply-error-message": "This reply text field shouldn't be more than 8000 characters",
         "btn": {
           "reply": "Reply",
           "like": "Like",
@@ -139,6 +140,7 @@
       "item-found-text": "",
       "items-event-text": "Items found",
       "no-event-left": "There's no events for now",
+      "no-matching-left": "We didn't find any results matching this search",
       "my-space": {
         "tag-title": "My Events",
         "event-type-online": "Online",
@@ -538,9 +540,9 @@
       "you-can-upload-max": "You  can  upload max",
       "photos": "photos",
       "your-photos-successfully-upload": "Your photos successfully upload",
-      "error-img-type-and-size": "Incorrect image type and size",
-      "error-img-type": "Incorrect image type",
-      "error-img-size": "Incorrect image size"
+      "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10MB",
+      "error-img-type": "Incorrect image type. Use file format JPG or PNG",
+      "error-img-size": "Incorrect image size. Image cannot be bigger than 10MB"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
@@ -975,9 +977,9 @@
     "elements": { "plural": "items", "singular": "item" },
     "my-eco-friends": "My Friends",
     "friends-quantity": { "plural": "connections", "singular": "connection" },
-    "zero-friends": "You don't have any friends.",
+    "zero-friends": "You don't have any friends yet.",
     "zero-user-friends": "This user has no friends",
-    "zero-requests": "Unfortunately you don’t have new friends requests' on Friends requests tab as mentioned in requirements.",
+    "zero-requests": "Unfortunately you don’t have new friends requests",
     "my-eco-places": "My Eco Places",
     "eco-places-quantity": { "plural": "favourites", "singular": "favourite" },
     "to-do-list": "My To-do list",
@@ -1006,8 +1008,9 @@
       "requests": "Requests",
       "request-decline": "Decline",
       "request-accept": "Accept",
-      "all-friends": "All friends",
-      "search-friends": "Find a friend",
+      "all-friends": "My friends",
+      "search-friends": "Search",
+      "find-friends": "Find a friend",
       "found-amount": "of people found"
     }
   },
@@ -1119,17 +1122,17 @@
     "back-edit": "Back to editing",
     "save-event": "Save event",
     "label": "Label",
-    "title": "Create Event",
+    "title": "Create event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
-    "event-name": "Enter name for Event",
+    "event-name": "Title",
     "event-description": "Description",
-    "placeholder": "Event name up to 70 symbols.",
+    "placeholder": "Enter a name for the event",
     "duration": "Duration",
     "min-duration": "Min 1 day",
     "duplicate-event-date": "You can't enter the same date for two days",
     "day": "day",
-    "all-day": "all day",
+    "all-day": "All day",
     "choose-date": "Choose a date",
     "set-start-time": "Set Start Time",
     "set-end-time": "Set End Time",
@@ -1158,7 +1161,8 @@
     "all": "All",
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
-    "preview-attendees": "people are going"
+    "preview-attendees": "people are going",
+    "use-greencity-pics": "Use Greencity pictures"
   },
   "input-error": {
     "required": "This field is required",

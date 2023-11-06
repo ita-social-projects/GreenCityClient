@@ -3,7 +3,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitte
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from '../ubs-admin-tariffs/ubs-tariffs.enum';
 
@@ -55,6 +55,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() totalPaid: number;
   @Input() orderInfo: IOrderInfo;
   @Input() isEmployeeCanEditOrder: boolean;
+  @Input() updateBonusAccount: number;
 
   constructor(private fb: FormBuilder, private orderService: OrderService, private langService: LanguageService) {}
 
@@ -97,6 +98,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.isVisible = this.orderStatusInfo.ableActualChange;
     this.isOrderPaid = this.totalPaid !== 0;
+    if (this.orderInfo.generalOrderInfo.orderPaymentStatus !== PaymnetStatus.UNPAID) {
+      this.orderDetailsForm.get('certificates').disable();
+    }
   }
 
   public showWriteOffStationField(): boolean {
@@ -348,13 +352,9 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
   }
 
-  checkEmptyInput(value: string): boolean {
-    return !value.trim().length;
-  }
-
   addOrderNumberFromShop(): void {
     const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
-    arr.push(new FormControl('', [Validators.required, Validators.pattern(Patterns.ordersPattern)]));
+    arr.push(new FormControl('', [Validators.pattern(Patterns.orderEcoStorePattern)]));
   }
 
   deleteOrder(index: number): void {

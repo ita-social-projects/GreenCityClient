@@ -7,6 +7,7 @@ import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 import { TariffLocationLabelName, TariffCourierLabelName, TariffRegionLabelName } from '../../../ubs-admin-tariffs/ubs-tariffs.enum';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-tariff-deactivate-confirmation-pop-up',
@@ -40,7 +41,8 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
     private localeStorageService: LocalStorageService,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>
+    public dialogRef: MatDialogRef<TariffDeactivateConfirmationPopUpComponent>,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   ngOnInit(): void {
@@ -91,5 +93,6 @@ export class TariffDeactivateConfirmationPopUpComponent implements OnInit {
 
   public actionClick(): void {
     this.dialogRef.close(true);
+    this.snackBar.openSnackBar('successUpdateUbsData');
   }
 }

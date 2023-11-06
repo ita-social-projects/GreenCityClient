@@ -66,7 +66,6 @@ export class FormBaseComponent implements ComponentCanDeactivate {
 
   cancelUBS(isUbsOrderSubmit?: boolean): void {
     const condition = this.getFormValues();
-    this.localStorage.removeUBSExistingOrderId();
     this.cancelPopupJustifying(condition, isUbsOrderSubmit);
   }
 

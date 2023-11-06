@@ -8,7 +8,7 @@
       </div>
       <div class="footer-menu_main">
         <ul class="footer-menu_links">
-          <a href #serviceref class="pick-up-service" (click)="openAboutServicePopUp()" (keydown.enter)="onPressEnter($event)">{{
+          <a href #serviceref class="pick-up-service" (click)="openAboutServicePopUp($event)" (keydown.enter)="onPressEnter($event)">{{
             'user.lower-nav-bar.about-us' | translate
           }}</a>
           <li *ngFor="let link of ubsNavLinks" role="listitem">

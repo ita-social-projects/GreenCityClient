@@ -79,6 +79,7 @@
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
       <div class="input-wrapper">
         <input
+          class="city"
           [placeholder]="cityPlaceholder"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
@@ -133,6 +134,7 @@
       <p class="col-text">{{ 'ubs-tariffs.station' | translate }}</p>
       <div class="input-wrapper">
         <input
+          class="station"
           [placeholder]="stationPlaceholder"
           #autocompleteTriggerStation="matAutocompleteTrigger"
           formControlName="station"

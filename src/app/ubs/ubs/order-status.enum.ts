@@ -12,7 +12,8 @@ export enum OrderStatus {
 export enum PaymnetStatus {
   PAID = 'PAID',
   HALF_PAID = 'HALF_PAID',
-  UNPAID = 'UNPAID'
+  UNPAID = 'UNPAID',
+  PAYMENT_REFUNDED = 'PAYMENT_REFUNDED'
 }
 
 export enum CancellationReason {
@@ -21,4 +22,8 @@ export enum CancellationReason {
   OUT_OF_CITY = 'OUT_OF_CITY',
   DISLIKED_SERVICE = 'DISLIKED_SERVICE',
   OTHER = 'OTHER'
+}
+
+export enum PaymentEnrollment {
+  receiptLink = 'Enrollment to the bonus account'
 }

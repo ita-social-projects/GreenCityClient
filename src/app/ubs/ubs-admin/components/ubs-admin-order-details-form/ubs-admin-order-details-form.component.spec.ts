@@ -10,6 +10,7 @@ import { UbsAdminOrderDetailsFormComponent } from './ubs-admin-order-details-for
 import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { OrderInfoMockedData } from './../../services/orderInfoMock';
 
 describe('UbsAdminOrderDetailsFormComponent', () => {
   let component: UbsAdminOrderDetailsFormComponent;
@@ -18,6 +19,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     key: OrderStatus.FORMED,
     ableActualChange: false
   };
+  const fakeOrderInfo = OrderInfoMockedData;
   const bagsInfoMock = {
     amount: {
       planned: 11,
@@ -92,11 +94,21 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     component.orderDetailsForm = orderDetailsFormMock;
     component.orderDetails = orderDetailsMock as any;
     component.bagsInfo = bagsInfoMock;
+    component.orderInfo = fakeOrderInfo;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('life cycle hook ngOnInit', () => {
+    component.totalPaid = 300;
+    component.orderInfo.generalOrderInfo.orderPaymentStatus = 'PAID';
+    component.ngOnInit();
+    expect(component.isVisible).toBe(component.orderStatusInfo.ableActualChange);
+    expect(component.isOrderPaid).toBeTruthy();
+    expect(component.orderDetailsForm.get('certificates').disable()).toBe(undefined);
   });
 
   it('should update writeoffAtStationSum, emit sum for station, and calculate final sum when changeWriteOffSum is called', () => {

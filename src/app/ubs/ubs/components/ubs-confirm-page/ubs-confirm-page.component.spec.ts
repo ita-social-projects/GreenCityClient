@@ -30,7 +30,9 @@ describe('UbsConfirmPageComponent', () => {
     'setUbsOrderId',
     'getOrderWithoutPayment',
     'removeOrderWithoutPayment',
-    'removeUbsOrderId'
+    'removeUbsOrderId',
+    'getExistingOrderId',
+    'removeUBSExistingOrderId'
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
 

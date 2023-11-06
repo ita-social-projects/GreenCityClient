@@ -16,6 +16,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-card-pop-up',
@@ -88,7 +89,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   get courier() {
@@ -483,7 +485,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.tariffsService
       .editTariffInfo(body, this.tariffId)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.dialogRef.close(newValueOfCard));
+      .subscribe(() => {
+        this.dialogRef.close(newValueOfCard);
+        this.snackBar.openSnackBar('successUpdateUbsData');
+      });
   }
 
   fillFields(modalData) {
@@ -531,6 +536,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           matDialogRef.afterClosed().subscribe((res) => {
             if (res) {
               this.createCardRequest(this.createCardObj);
+              this.snackBar.openSnackBar('successUpdateUbsData');
             }
           });
         }

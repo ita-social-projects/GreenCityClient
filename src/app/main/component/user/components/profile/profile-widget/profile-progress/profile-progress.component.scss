@@ -31,6 +31,7 @@ p {
       font-weight: normal;
       font-size: 12px;
       line-height: 16px;
+      color: var(--quaternary-grey);
     }
   }
 }
@@ -87,5 +88,21 @@ p {
     width: 213px;
     column-gap: 16px;
     row-gap: 16px;
+  }
+}
+
+@media (max-width: 575px) {
+  .stat {
+    .chain {
+      p:first-child {
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      p:nth-child(2) {
+        font-size: 10px;
+        line-height: 12px;
+      }
+    }
   }
 }

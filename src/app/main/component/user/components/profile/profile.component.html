@@ -1,17 +1,21 @@
-<div class="profile-wrapper" *ngIf="userInfo">
-  <div class="left-column">
-    <app-profile-header class="app-profile-header" [userInfo]="userInfo" [progress]="progress"></app-profile-header>
-    <app-users-achievements class="app-users-achievements" [currLang]="currLang"></app-users-achievements>
-    <app-users-friends class="app-users-friends"></app-users-friends>
-    <app-eco-places class="app-eco-places" *ngIf="userInfo.showEcoPlace"></app-eco-places>
-    <app-shopping-list class="app-shopping-list" *ngIf="userInfo.showShoppingList"></app-shopping-list>
-  </div>
-  <app-profile-dashboard class="habits-dashboard"></app-profile-dashboard>
-  <div class="right-column">
-    <app-calendar class="app-calendar" *ngIf="isDesktopWidth; else mobileView"></app-calendar>
-    <ng-template #mobileView>
-      <app-calendar-week class="app-calendar-week"></app-calendar-week>
-    </ng-template>
-    <app-profile-cards class="app-profile-cards"></app-profile-cards>
+<div class="profile-container">
+  <div class="container">
+    <div class="profile-wrapper" *ngIf="userInfo">
+      <div class="left-column">
+        <app-profile-header class="app-profile-header" [userInfo]="userInfo" [progress]="progress"></app-profile-header>
+        <app-users-achievements class="app-users-achievements" [currLang]="currLang"></app-users-achievements>
+        <app-users-friends class="app-users-friends"></app-users-friends>
+        <app-eco-places class="app-eco-places" *ngIf="userInfo.showEcoPlace"></app-eco-places>
+        <app-shopping-list class="app-shopping-list" *ngIf="userInfo.showShoppingList"></app-shopping-list>
+      </div>
+      <app-profile-dashboard class="habits-dashboard"></app-profile-dashboard>
+      <div class="right-column">
+        <app-calendar class="app-calendar" *ngIf="isDesktopWidth; else mobileView"></app-calendar>
+        <ng-template #mobileView>
+          <app-calendar-week class="app-calendar-week"></app-calendar-week>
+        </ng-template>
+        <app-profile-cards class="app-profile-cards"></app-profile-cards>
+      </div>
+    </div>
   </div>
 </div>

@@ -2,62 +2,59 @@
 <main role="main" id="main-content">
   <div class="box" *ngIf="!isPosting">
     <div class="title">
-      <h2>{{ attributes.title | translate }}</h2>
-      <p>{{ 'create-news.form-description' | translate }}</p>
+      <h2 class="title-header">{{ attributes.title | translate }}</h2>
+      <p class="title-description">{{ 'create-news.form-description' | translate }}</p>
     </div>
     <div class="form-container" *ngIf="form">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <div class="wrapper">
-          <div class="left-form-column">
-            <div class="item-block">
-              <div class="title-wrapper">
-                <h3>{{ 'create-news.news-title' | translate }}</h3>
-                <span class="span span-title" [ngClass]="{ warning: form.value.title.length > 170 }">
-                  {{ form.value.title.length }}/170
-                </span>
-              </div>
-              <label>
-                <textarea
-                  maxlength="171"
-                  placeholder="{{ 'create-news.title-placeholder' | translate }}"
-                  formControlName="title"
-                  (keyup)="autoResize(false, $event)"
-                ></textarea>
-              </label>
+          <div class="title-block">
+            <div class="title-wrapper">
+              <h3>{{ 'create-news.news-title' | translate }}</h3>
+              <span class="field-info" [ngClass]="{ warning: form.value.title.length > 170 }"> {{ form.value.title.length }}/170 </span>
             </div>
-            <div class="tags item-block" formArrayName="tags">
-              <h3>{{ 'create-news.tags-title' | translate }}</h3>
-              <p>
-                {{ 'create-news.tags-tooltip' | translate }}
-              </p>
-              <div class="tags-box">
-                <app-tags-select
-                  [tagsList]="filters"
-                  [tagMaxLength]="tagMaxLength"
-                  (selectTags)="getTagsList($event)"
-                  class="tags-block"
-                ></app-tags-select>
-              </div>
-            </div>
-            <div>
-              <div class="title-wrapper">
-                <h3>{{ 'create-news.source-title' | translate }}</h3>
-                <span class="span" [ngClass]="{ warning: !isLinkOrEmpty }">
-                  {{ 'create-news.source-tooltip-1' | translate }}
-                  {{ 'create-news.source-tooltip-2' | translate }}
-                </span>
-              </div>
-              <label>
-                <input
-                  type="text"
-                  placeholder="{{ 'create-news.source-placeholder' | translate }}"
-                  formControlName="source"
-                  [ngClass]="{ 'field-warning': !isLinkOrEmpty }"
-                />
-              </label>
+            <label>
+              <textarea
+                maxlength="171"
+                placeholder="{{ 'create-news.title-placeholder' | translate }}"
+                formControlName="title"
+                (keyup)="autoResize(false, $event)"
+              ></textarea>
+            </label>
+          </div>
+          <div class="tags-block" formArrayName="tags">
+            <h3>{{ 'create-news.tags-title' | translate }}</h3>
+            <p>
+              {{ 'create-news.tags-tooltip' | translate }}
+            </p>
+            <div class="tags-box">
+              <app-tags-select
+                [tagsList]="filters"
+                [tagMaxLength]="tagMaxLength"
+                (selectTags)="getTagsList($event)"
+                class="tags-select"
+              ></app-tags-select>
             </div>
           </div>
-          <div class="right-form-column">
+          <div class="source-block">
+            <div class="title-wrapper">
+              <h3>{{ 'create-news.source-title' | translate }}</h3>
+              <span class="span field-info" [ngClass]="{ warning: !isLinkOrEmpty }">
+                {{ 'create-news.source-tooltip-1' | translate }}
+                {{ 'create-news.source-tooltip-2' | translate }}
+              </span>
+            </div>
+            <label>
+              <input
+                type="text"
+                placeholder="{{ 'create-news.source-placeholder' | translate }}"
+                formControlName="source"
+                [ngClass]="{ 'field-warning': !isLinkOrEmpty }"
+              />
+            </label>
+          </div>
+
+          <div class="image-block">
             <h3>{{ 'create-news.picture-title' | translate }}</h3>
             <app-drag-and-drop [formData]="form"></app-drag-and-drop>
           </div>
@@ -66,7 +63,7 @@
           <div class="title-wrapper">
             <h3>{{ 'create-news.content-title' | translate }}</h3>
             <p
-              class="textarea-description"
+              class="field-info"
               [ngClass]="{ warning: getControl('content').invalid && (getControl('content').touched || getControl('content').dirty) }"
             >
               {{ 'create-news.content-tooltip' | translate }}

@@ -21,6 +21,7 @@ import { environment } from '../environments/environment';
 import { LanguageService } from './main/i18n/language.service';
 import { NewsEffects } from './store/effects/ecoNews.effects';
 import { EventsEffects } from './store/effects/ecoEvents.effects';
+import { FriendsEffects } from './store/effects/friends.effects';
 import { UbsRoutingModule } from './ubs/ubs/ubs-routing.module';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector, languageService: LanguageService) {
@@ -63,7 +64,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       }
     }),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([EmployeesEffects, LocationsEffects, BigOrderTableEffects, NewsEffects, EventsEffects]),
+    EffectsModule.forRoot([EmployeesEffects, LocationsEffects, BigOrderTableEffects, NewsEffects, EventsEffects, FriendsEffects]),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

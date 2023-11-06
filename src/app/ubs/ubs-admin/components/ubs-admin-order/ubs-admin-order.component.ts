@@ -34,7 +34,7 @@ import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-ad
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 
 @Component({
@@ -55,6 +55,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
   totalPaid: number;
+  updateBonusAccount: number;
   unPaidAmount: number;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
@@ -195,6 +196,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
+    const paymentBonusAccount = this.paymentInfo.paymentInfoDtos.filter(
+      (paymentItem) => paymentItem.receiptLink === PaymentEnrollment.receiptLink
+    );
+    if (paymentBonusAccount.length) {
+      this.updateBonusAccount = paymentBonusAccount.reduce(
+        (accumulator, currentPaymentBonusValue) => accumulator + Math.abs(currentPaymentBonusValue.amount),
+        0
+      );
+    }
   }
 
   private setPreviousBagsIfEmpty(status) {
@@ -300,7 +310,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     });
     const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as FormArray;
     this.orderInfo.numbersFromShop.forEach((elem) => {
-      storeOrderNumbersArr.push(new FormControl(elem, [Validators.required, Validators.pattern(Patterns.ordersPattern)]));
+      storeOrderNumbersArr.push(new FormControl(elem, [Validators.pattern(Patterns.orderEcoStorePattern)]));
     });
     this.orderDetails.bags.forEach((bag) => {
       this.getFormGroup('orderDetailsForm').addControl(
@@ -364,6 +374,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   public onPaymentUpdate(sum: number): void {
     this.totalPaid = sum;
+  }
+
+  public onPaymentToBonusAccount(sum: number): void {
+    this.updateBonusAccount = sum;
   }
 
   public changeOverpayment(sum: number): void {

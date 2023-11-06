@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Injector, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -81,6 +81,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private destroy$: Subject<void> = new Subject<void>();
 
   public previousPath = '/events';
+  public isImagesArrayEmpty: boolean;
   public popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -100,6 +101,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   editDates = false;
   private subscription: Subscription;
   @Input() cancelChanges: boolean;
+  @Output() defaultImage = new EventEmitter<string>();
 
   constructor(
     private injector: Injector,
@@ -264,7 +266,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public getImageTosend(imageArr: Array<File>): void {
     this.imgArray = [...imageArr];
-    this.checkFileExtensionAndSize(imageArr);
   }
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
@@ -330,12 +331,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public onSubmit(): void {
     this.checkDates();
-
-    let datesDto: Array<Dates>;
-    if (this.checkdates) {
-      datesDto = this.createDates();
-    }
-    const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur.nameEn], []);
+    const datesDto: Dates[] = this.checkdates ? this.createDates() : [];
+    const tagsArr: string[] = this.tags.filter((tag) => tag.isActive).map((tag) => tag.nameEn);
 
     let sendEventDto: EventDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
@@ -344,6 +341,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       datesLocations: datesDto,
       tags: tagsArr
     };
+
     if (this.editMode) {
       sendEventDto = {
         ...sendEventDto,
@@ -353,27 +351,39 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
         titleImage: this.oldImages[0]
       };
     }
+
     this.updateAreAddressFilled(this.dates, true);
 
-    const checks = this.checkdates && this.eventFormGroup.valid && this.isTagValid;
-    if (checks && this.arePlacesFilled.every((el) => !el)) {
+    const isFormValid = this.checkdates && this.eventFormGroup.valid && this.isTagValid;
+    const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
+
+    if (isFormValid && arePlacesFilled) {
       this.checkAfterSend = true;
-      const formData: FormData = new FormData();
-      const stringifiedDataToSend = JSON.stringify(sendEventDto);
+      this.isImagesArrayEmpty = !this.imgArray.length;
 
-      const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
-
-      formData.append(dtoName, stringifiedDataToSend);
-
-      this.imgArray.forEach((item) => {
-        formData.append('images', item);
-      });
-      this.createEvent(formData);
+      setTimeout(() => {
+        const formData = this.prepareFormData(sendEventDto);
+        this.createEvent(formData);
+      }, 100);
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = this.isTagValid;
       this.submitIsFalse = true;
     }
+  }
+
+  private prepareFormData(sendEventDto: EventDTO): FormData {
+    const formData: FormData = new FormData();
+    const stringifiedDataToSend = JSON.stringify(sendEventDto);
+    const dtoName = this.editMode ? 'eventDto' : 'addEventDtoRequest';
+
+    formData.append(dtoName, stringifiedDataToSend);
+
+    this.imgArray.forEach((item) => {
+      formData.append('images', item);
+    });
+
+    return formData;
   }
 
   public backToEditing() {
@@ -426,6 +436,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.escapeFromCreateEvent();
     });
   }
+
   private checkUserSigned(): boolean {
     this.getUserId();
     return this.userId != null && !isNaN(this.userId);
@@ -433,11 +444,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   private getUserId() {
     this.userId = this.localStorageService.getUserId();
-  }
-
-  private checkFileExtensionAndSize(file: any): void {
-    this.isImageSizeError = file.size >= 10485760;
-    this.isImageTypeError = !(file.type === 'image/jpeg' || file.type === 'image/png');
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

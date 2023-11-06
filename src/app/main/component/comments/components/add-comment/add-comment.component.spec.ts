@@ -75,4 +75,11 @@ describe('AddCommentComponent', () => {
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
   });
+
+  it('should check does textarea contain only spaces', () => {
+    const key = 'content';
+    component.addCommentForm.controls[key].setValue('   ');
+    fixture.detectChanges();
+    expect(component.addCommentForm.valid).toBe(false);
+  });
 });
