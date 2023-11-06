@@ -223,7 +223,6 @@ header {
   height: 100%;
   margin: 0;
   padding: 0;
-  gap: 16px;
 
   li {
     height: 100%;
@@ -232,7 +231,7 @@ header {
   }
 
   .lang-option {
-    padding: 10px 12px;
+    padding: 10px 14px;
   }
 
   li.header_sign-up-link {
@@ -348,6 +347,8 @@ header {
 
       .bookmark-icon,
       .notification-icon {
+        margin-right: 16px;
+
         @media screen and (max-width: 450px) {
           display: none;
         }
@@ -511,6 +512,12 @@ header {
         transition: top 0.2s linear, transform 0.2s ease-in 0.2s;
       }
     }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .header_burger-btn {
+    margin-left: 32px;
   }
 }
 
