@@ -11,8 +11,8 @@
 }
 
 .img-absent {
-  display: inline-block;
-  width: 50%;
+  max-width: 625px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -62,4 +62,8 @@
       color: var(--primary-green);
     }
   }
+}
+.no-data-image {
+  padding: 0 18px;
+  max-width: 100%;
 }

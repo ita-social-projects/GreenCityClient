@@ -1031,7 +1031,8 @@
       "all-friends": "Всі Друзі",
       "search-friends": "Знайти друга",
       "find-friends": "Знайти друга",
-      "found-amount": "людей знайдено"
+      "found-amount": "людей знайдено",
+      "no-mutual-friends": "Схоже, що у вас немає жодного спільного друга :-)"
     },
     "rate": "Рейтинг",
     "acquired-habits": "набуті звички",

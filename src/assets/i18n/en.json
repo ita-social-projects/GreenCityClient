@@ -1011,7 +1011,8 @@
       "all-friends": "My friends",
       "search-friends": "Search",
       "find-friends": "Find a friend",
-      "found-amount": "of people found"
+      "found-amount": "of people found",
+      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)"
     }
   },
   "create-news": {
