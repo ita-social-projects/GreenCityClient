@@ -979,7 +979,7 @@
     "friends-quantity": { "plural": "connections", "singular": "connection" },
     "zero-friends": "You don't have any friends yet.",
     "zero-user-friends": "This user has no friends",
-    "zero-requests": "Unfortunately you don’t have new friends requests' on Friends requests tab as mentioned in requirements.",
+    "zero-requests": "Unfortunately you don’t have new friends requests",
     "my-eco-places": "My Eco Places",
     "eco-places-quantity": { "plural": "favourites", "singular": "favourite" },
     "to-do-list": "My To-do list",
@@ -1008,8 +1008,9 @@
       "requests": "Requests",
       "request-decline": "Decline",
       "request-accept": "Accept",
-      "all-friends": "All friends",
-      "search-friends": "Find a friend",
+      "all-friends": "My friends",
+      "search-friends": "Search",
+      "find-friends": "Find a friend",
       "found-amount": "of people found"
     }
   },
@@ -1160,7 +1161,8 @@
     "all": "All",
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
-    "preview-attendees": "people are going"
+    "preview-attendees": "people are going",
+    "use-greencity-pics": "Use Greencity pictures"
   },
   "input-error": {
     "required": "This field is required",

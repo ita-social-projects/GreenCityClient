@@ -86,6 +86,15 @@
       }
     }
   }
+
+  .wrapper-reply {
+    .input-submit {
+      button {
+        width: 100%;
+        margin: 0;
+      }
+    }
+  }
 }
 
 textarea {
