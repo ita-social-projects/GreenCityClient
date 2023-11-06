@@ -1,5 +1,4 @@
 <div class="dashboard">
-  <!-- <div> -->
   <mat-tab-group animationDuration="400ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
     <mat-tab label="{{ 'user.habit.all-habits.title' | translate }}">
       <div class="container">
@@ -78,5 +77,4 @@
       [infiniteScrollDisabled]="!isActiveInfinityScroll"
     ></div>
   </mat-tab-group>
-  <!-- </div> -->
 </div>
