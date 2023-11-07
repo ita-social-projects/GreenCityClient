@@ -50,14 +50,14 @@ describe('FriendItemComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should call subscribeToLangChange method onInit', () => {
-    const spy = spyOn(component as any, 'subscribeToLangChange');
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call getLangChange method onInit', () => {
+    const spy = spyOn(component as any, 'getLangChange');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('it should call friendEvent on click', () => {
