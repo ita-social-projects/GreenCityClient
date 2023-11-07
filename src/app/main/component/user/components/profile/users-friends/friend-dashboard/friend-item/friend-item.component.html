@@ -12,9 +12,11 @@
       <p class="friend-rate rate-with-photo">{{ 'profile.rate' | translate }}: {{ friend.rating }}</p>
     </div>
     <p class="friend-mutual">
-      <span [class.friend-mutual-link]="!userId"
-        >{{ friend.mutualFriends ? friend.mutualFriends : 0 }} {{ 'profile.friends.mutual-friends' | translate }}</span
-      >
+      <span [class.friend-mutual-link]="!userId">
+        <!-- {{ friend.mutualFriends ? friend.mutualFriends : 0 }} {{ 'profile.friends.mutual-friends' | translate }} -->
+        <!-- friend.mutualFriends -->
+        {{ friend.mutualFriends }} {{ 'profile.friends.mutual-friends' | correctUnit: 5:currentLang | translate }}
+      </span>
     </p>
     <p class="friend-city" appCustomTooltip [appCustomTooltip]="friend.city || ('profile.friends.no-city' | translate)">
       {{ (friend.city | maxTextLength) || ('profile.friends.no-city' | translate) }}
