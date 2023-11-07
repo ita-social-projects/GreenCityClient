@@ -49,7 +49,7 @@ export class FriendItemComponent implements OnInit {
     });
     this.getLangChange();
 
-    let x = JSON.parse(JSON.stringify(this.friend));
+    const x = JSON.parse(JSON.stringify(this.friend));
     x.mutualFriends = 5;
     this.friend = x;
   }
