@@ -265,14 +265,12 @@ $cardTextColor: #1d2830;
 
 .title-sidebar {
   color: #313131;
-
-  font-family: Lato;
+  font-family: var(--primary-font), sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 28px;
   letter-spacing: 0.04px;
-
   margin: 18px 73px;
 }
 
@@ -282,10 +280,8 @@ $cardTextColor: #1d2830;
   width: 264px;
   height: 104px;
   flex-shrink: 0;
-
   border: 1px solid var(--greyscale-02);
   background: white;
-
   margin: 0 24px 14px;
 
   .head {
@@ -297,14 +293,12 @@ $cardTextColor: #1d2830;
   .content-title {
     height: 20px;
     color: var(--greyscale-07);
-
-    font-family: Lato;
+    font-family: var(--primary-font), sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 20px;
     letter-spacing: 0.1px;
-
     margin: 15px 0 12px 12px;
   }
 
@@ -314,14 +308,12 @@ $cardTextColor: #1d2830;
     position: sticky;
     margin: 17px 8px 0 0;
     padding: 0;
-
     border: none;
     background: none;
   }
 
   .material-icons {
     color: #64727d;
-
     font-size: 16px;
     width: 16px;
     height: 16px;
@@ -330,10 +322,8 @@ $cardTextColor: #1d2830;
 
   .content-address {
     color: var(--greyscale-05);
-
     margin: 12px 0 0 12px;
-
-    font-family: Lato;
+    font-family: var(--primary-font), sans-serif;
     font-size: 10px;
     font-style: normal;
     font-weight: 400;
