@@ -39,7 +39,19 @@
     <div class="places-map">
       <div class="place-info">
         <mat-drawer-container class="example-container sidebar-container" autosize>
-          <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
+          <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed [opened]="true">
+            <div *ngIf="!activePlaceDetails">
+              <p class="title-sidebar">Popular eco places</p>
+              <div class="sidebar-content-all" *ngFor="let place of placesList" (click)="selectPlaceFromSideBar(place)">
+                <div class="head">
+                  <p class="content-title">{{ place.name }}</p>
+                  <button (click)="toggleFavoriteFromSideBar(place)" class="btn-bookmark">
+                    <span class="material-icons">{{ place.isFavorite ? 'bookmark' : 'bookmark_border' }}</span>
+                  </button>
+                </div>
+                <p class="content-address">{{ place.location.address }}</p>
+              </div>
+            </div>
             <div class="sidebar-content" *ngIf="activePlaceDetails">
               <span class="close-mark" (click)="drawer.toggle(false)"></span>
               <div class="title-wrapper">
@@ -86,7 +98,6 @@
         </mat-drawer-container>
       </div>
       <div class="google-map" #map>
-        <!-- <app-places-list [title]="title"></app-places-list> -->
         <agm-map
           [style.width.%]="100"
           [style.height.%]="100"

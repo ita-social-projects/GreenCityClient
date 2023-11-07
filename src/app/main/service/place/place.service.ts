@@ -32,6 +32,10 @@ export class PlaceService {
 
   constructor(private http: HttpClient, private filterService: FilterPlaceService) {}
 
+  public getAllPlaces() {
+    return this.http.get(`${this.baseUrl}all`);
+  }
+
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();
     this.http.post<Place[]>(`${placeLink}filter`, filterDto).subscribe((res) => (this.places = res));

@@ -4,7 +4,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
 import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons.js';
-import { Place } from './models/place';
+import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
@@ -17,6 +17,7 @@ import { initialMoreOptionsFormValue } from './components/more-options-filter/mo
 import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
+import { Observable } from 'rxjs/Observable.js';
 
 @Component({
   selector: 'app-places',
@@ -43,7 +44,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public isActivePlaceFavorite = false;
   public readonly tagFilterStorageKey = 'placesTagFilter';
   public readonly moreOptionsStorageKey = 'moreOptionsFilter';
-  public title = 'Popular eco places';
+  public placesList: Array<AllAboutPlace>;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -61,6 +62,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.placeService.getAllPlaces().subscribe((item: any) => {
+      this.placesList = item.page;
+    });
     this.placeService
       .getAllPresentTags()
       .pipe(take(1))
@@ -148,6 +152,16 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
+  public toggleFavoriteFromSideBar(place) {
+    if (place.isFavorite) {
+      place.isFavorite = !place.isFavorite;
+      this.favoritePlaceService.deleteFavoritePlace(place.id, true);
+    } else {
+      place.isFavorite = !place.isFavorite;
+      this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
+    }
+  }
+
   public toggleFavorite(): void {
     if (this.isActivePlaceFavorite) {
       this.favoritePlaceService.deleteFavoritePlace(this.activePlace.id);
@@ -170,6 +184,15 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.getPlaceInfoFromGoogleApi(place);
   }
 
+  public selectPlaceFromSideBar(place: AllAboutPlace) {
+    const sendingPlace = {
+      id: place.id,
+      name: place.name,
+      location: place.location
+    };
+    this.selectPlace(sendingPlace);
+  }
+
   private getPlaceInfoFromGoogleApi(place: Place) {
     const findByQueryRequest: google.maps.places.FindPlaceFromQueryRequest = {
       query: place.name,
@@ -179,7 +202,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
       },
       fields: ['ALL']
     };
-
     this.googlePlacesService.findPlaceFromQuery(findByQueryRequest, (places: google.maps.places.PlaceResult[]) => {
       const detailsRequest: google.maps.places.PlaceDetailsRequest = {
         placeId: places[0].place_id,
