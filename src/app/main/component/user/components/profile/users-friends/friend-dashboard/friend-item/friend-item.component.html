@@ -9,9 +9,7 @@
   <div class="friend-info">
     <div class="main-info friend-with-photo">
       <p class="friend-name" appCustomTooltip [appCustomTooltip]="friend.name">{{ friend.name | maxTextLength }}</p>
-      <p class="friend-rate rate-with-photo">
-        {{ friend.rating }}
-      </p>
+      <p class="friend-rate rate-with-photo">{{ 'profile.rate' | translate }}: {{ friend.rating }}</p>
     </div>
     <p class="friend-mutual">
       <span [class.friend-mutual-link]="!userId"
