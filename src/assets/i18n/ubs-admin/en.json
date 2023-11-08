@@ -22,6 +22,7 @@
     "corpus": "Corpus",
     "entrance": "Entrance",
     "district": "District",
+    "default": " default",
     "account": "Connection with social networks",
     "account-message": "Connect to Google account",
     "additional": "Additional actions",
@@ -119,7 +120,8 @@
   },
   "return-payment": {
     "message": "Do you really want a refund?",
-    "accept-refund-application": "Your application has been accepted. Our manager will contact you later."
+    "accept-refund-application": "Your application has been accepted. Our manager will contact you later.",
+    "error-refund-application": "Something went wrong. Your application has not been accepted. Please, try create it later."
   },
   "add-payment": {
     "title": "Add a payment document",
@@ -252,6 +254,7 @@
     "street": "Street",
     "comment-label": "Comment to the address from the client",
     "comment-placeholder": "Any details you would like to report additionally regarding this order",
+    "house": "House",
     "building": "Building",
     "corpus": "Corp",
     "entrance": "Entrance",
@@ -271,7 +274,7 @@
       "email-placeholder": "example@mail.com"
     },
     "recipient": {
-      "title": "Recipient",
+      "title": "Sender",
       "name-label": "Name",
       "surname-label": "Surname",
       "name-placeholder": "Name",
@@ -316,6 +319,8 @@
     "order-sum": "Order cost",
     "certificate": "Certificate",
     "bonuses": "Used bonuses",
+    "bonuses-value": "{{bonusesValue}} UAH is the amount of overpayment returned to the client as bonuses",
+    "not-enough-bags": "The number of packages does not meet the minimum order rule. Specify the amount of the charge for non-compliance with the minimum order in the 'UBS Courier' field",
     "sum-to-pay": "Amount to be paid",
     "ubs-courier": "UBS Courier",
     "min-sum": "The order cannot be changed. The minimum order price is",
@@ -328,7 +333,16 @@
       "label": "Comment to the order from the client",
       "placeholder": "Any details you would like to report additionally regarding this order"
     },
-    "send-button": "Send message"
+    "send-button": "Send message",
+    "location": {
+      "title": "Welcome to UBS! First, choose the location of waste disposal. Currently, we work in Kyiv and the suburbs.",
+      "info-city": "The location of Kyiv also includes Hatne, Horenka, Zazymie, Irpin, Kniazhychi, Kotsiubynske, Novosilky, Petropavlivska Borshchahivka, Pohreby, Prolisky, Sofiivska Borshchahivka, Chaiky, and Shchaslyve.",
+      "info-region": "Currently, the Kyiv region includes cities within 20 km of Kyiv",
+      "btn": {
+        "back": "Back",
+        "continue": "Continue"
+      }
+    }
   },
   "export-excel-popup": {
     "buttons": {
@@ -495,7 +509,8 @@
     "photo": "Photo",
     "drag-photo": "Drag the image or",
     "download-photo": "download from the device",
-    "warning-title": "Are you sure you want to delete this employee?",
+    "warning-title": "Are you sure you want to deactivate this employee?",
+    "activate-employee-title": "Are you sure you want to activate this employee?",
     "settings": "Set permissions",
     "edit": "Edit",
     "states": {
@@ -503,10 +518,16 @@
       "active": "Active",
       "inactive": "Inactive"
     },
+    "status": {
+      "active": "ACTIVE",
+      "inactive": "INACTIVE"
+    },
     "permissions": {
       "clients": {
         "title": "Clients",
-        "see-main-page": "See the main page of the “Client”"
+        "see-main-page": "See the main page of the “Client”",
+        "confirm-changes": "Your changes have been saved",
+        "cancel-changes": "If you cancel the changes, they will be deleted. Are you sure you want to cancel the changes?"
       },
       "employees": {
         "title": "Employees",
@@ -514,7 +535,7 @@
         "create-card": "Create a new employee card",
         "edit-card": "Edit an employee card",
         "delete-card": "Deactivate an employee",
-        "edit-authority": "Edit an employee's authority"
+        "edit-authority": "Edit an employee`s authorities"
       },
       "certificates": {
         "title": "Certificates",
@@ -524,31 +545,34 @@
       },
       "orders": {
         "title": "Orders",
-        "see-main-page": "See order card",
-        "edit-card": "Edit order card"
+        "see-main-page": "See an order card",
+        "edit-card": "Edit an order card"
       },
       "messages": {
         "title": "Notification",
         "see-main-page": "See the main page “Notifications”",
         "create-card": "Create a new notification card",
         "edit-card": "Edit a notification card",
-        "delete-card": "Delete a notification card"
+        "delete-card": "Deactivate a notification card"
       },
       "tariffs": {
         "title": "Tariffs",
         "see-main-page": "See the main page “Tariffs”",
         "create-location": "Create a location",
+        "delete-location": "Delete a location",
         "create-courier": "Create a courier",
+        "delete-courier": "Delete a courier",
         "create-station": "Create a receiving station",
+        "delete-station": "Delete a receiving station",
         "edit-location-name": "Edit the location name",
         "edit-courier-name": "Edit the courier name",
         "edit-destination-name": "Edit the receiving station name",
-        "create-location-card": "Create a location card",
+        "create-price-card": "Create a pricing card",
         "edit-delete-location-card": "Edit/Delete the location card",
         "see-price-card": "See the pricing card",
-        "edit-delete-price-card": "Edit/Delete the pricing card",
+        "edit-delete-price-card": "Edit/Deactivate the pricing card",
         "deactivate-price-card": "Deactivate the pricing card",
-        "edit-service": "Add/Edit/Delete a service",
+        "edit-service": "Add/Edit/Deactivate a service",
         "edit-price-card": "Edit/Delete the pricing card"
       }
     },
@@ -559,7 +583,8 @@
     "actions": {
       "edit": "Edit employee data",
       "settings": "Set employee permissions",
-      "delete": "Delete employee"
+      "deactivate": "Deactivate an employee",
+      "activate": "Activate an employee"
     },
     "btn": {
       "cancel": "Cancel",
@@ -567,6 +592,7 @@
       "add-employee": "Add employee",
       "edit": "Edit",
       "delete": "Delete",
+      "deactivate": "Deactivate",
       "no": "No",
       "yes": "Yes"
     }
@@ -616,6 +642,11 @@
       "search": "Search",
       "cancel": "Cancel",
       "select": "Select"
+    },
+    "download-photo": {
+      "title": "Upload photo",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "ubs-user": {
@@ -866,6 +897,7 @@
   },
   "nav-bar": {
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"
@@ -1175,32 +1207,14 @@
     }
   },
   "snack-bar": {
-    "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
-    "no-internet": "No internet connection",
+    "save-employee-permissons": "Your changes have been saved",
     "error": {
-      "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
-      "cartificate-not-valid": "The certificate you have entered, has already been used",
-      "default": "Oops, something went wrong. Please reload page or try again later.",
-      "restore-password-again": "The password reset link is no longer valid, please try to reset your password again",
-      "no-internet": "No internet connection",
       "exist-address": "This address has already been added"
-    },
-    "attention": {
-      "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
-      "exit-confirm-restore-password": "Your password hasn`t been changed."
-    },
-    "success": {
-      "default": "Success message. The action was successful.",
-      "confirm-restore-password": "Your password has just been reset.",
-      "confirm-email": "Your email has been verified.",
-      "restore-password": "Restore password link was sent to your email address.",
-      "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
-      "update-notification": "Notification was updated"
     }
   },
   "add-new-certificate": {
     "title": "Add sertificate",
-    "сertificate-field": "Certificate. №",
+    "сertificate-field": "Certificate, №",
     "duration-months-field": "Duration, mo.",
     "discount-field": "Discount, UAH",
     "cancel-button": "Cancel",

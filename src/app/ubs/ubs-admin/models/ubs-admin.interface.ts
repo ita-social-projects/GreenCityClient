@@ -1,10 +1,11 @@
 import { DistrictsDtos } from '../../ubs/models/ubs.interface';
 
 export interface Employees {
-  page: Page[];
+  page?: Page[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
+  content?: Page[];
 }
 
 export interface Pageable {

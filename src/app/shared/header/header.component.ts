@@ -22,6 +22,7 @@ import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-p
 import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-header',
@@ -71,6 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userOwnAuthService: UserOwnAuthService;
   private headerService: HeaderService;
   private orderService: OrderService;
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
   constructor(private injector: Injector, private store: Store) {
     this.dialog = injector.get(MatDialog);
@@ -106,7 +108,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.initUser();
     this.jwtService.userRole$.pipe(takeUntil(this.destroySub)).subscribe((userRole) => {
       this.userRole = userRole;
-      this.isAdmin = this.userRole === this.adminRoleValue;
+      this.defineAuthorities();
       this.isGreenCityAdmin = this.userRole === this.adminRoleGreenCityValue;
     });
     this.autoOffBurgerBtn();
@@ -114,10 +116,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userOwnAuthService.isLoginUserSubject.pipe(takeUntil(this.destroySub)).subscribe((status) => (this.isLoggedIn = status));
     this.updateArrayLang();
-    this.setCurrentLang();
+    this.initLanguage();
 
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
+    });
+  }
+
+  public defineAuthorities() {
+    this.permissions$.subscribe((employeeAuthorities) => {
+      const isEmployeeHasNoAuthorities = !employeeAuthorities.length;
+      this.isAdmin = this.userRole === this.adminRoleValue && !isEmployeeHasNoAuthorities;
     });
   }
 
@@ -139,23 +148,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return '/greenCity';
   }
 
-  private setCurrentLang(): void {
+  private initLanguage(): void {
     if (this.isLoggedIn) {
       this.languageService
         .getUserLangValue()
         .pipe(takeUntil(this.destroySub))
         .subscribe(
           (lang) => {
-            this.currentLanguage = lang;
-            this.setLangArr();
+            this.setCurrentLanguage(lang);
           },
           (error) => {
-            this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+            this.setCurrentLanguage(this.languageService.getCurrentLanguage());
           }
         );
     } else {
-      this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+      this.setCurrentLanguage(this.languageService.getCurrentLanguage());
     }
+  }
+
+  private setCurrentLanguage(language: string): void {
+    this.currentLanguage = language;
+    this.setLangArr();
   }
 
   toggleHeader(): void {
@@ -299,10 +312,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public onPressEnterAboutService(event: KeyboardEvent): void {
     event.preventDefault();
-    this.openAboutServicePopUp();
+    this.openAboutServicePopUp(event);
   }
 
-  public openAboutServicePopUp($event?): void {
+  public openAboutServicePopUp(event: Event): void {
+    event.preventDefault();
     const matDialogRef = this.dialog.open(UbsPickUpServicePopUpComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
