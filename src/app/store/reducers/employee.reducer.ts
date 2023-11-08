@@ -62,7 +62,6 @@ export const employeesReducer = createReducer(
   })),
 
   on(GetEmployeesPermissionsSuccess, (state, action) => {
-    console.log('action', action);
     return {
       ...state,
       employeesPermissions: action.reset ? [] : action.positionsAuthorities.authorities
