@@ -222,7 +222,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.tags.forEach((item) => (item.isActive = tags.some((name: any) => name.nameEn === item.nameEn)));
     this.eventFormGroup.patchValue({
       titleForm: title,
-      description: description,
+      description,
       eventDuration: this.dateArrCount[datesLocations.length - 1]
     });
     this.editorText = this.eventFormGroup.get('description').value;
