@@ -72,6 +72,8 @@ jobs:
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.javascript.lcov.reportPaths=coverage/GreenCityClient/lcov.info
           -Dsonar.java.version=17
+          -Dsonar.java.source=17
+          -Dsonar.java.target=17
       - name: E2E Tests
         run: npx ng e2e --protractor-config=e2e/protractor-ci.conf.js
 
