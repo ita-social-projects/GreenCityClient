@@ -54,6 +54,7 @@ describe('EventsPreviewPageComponent', () => {
     ],
     tags: ['Social'],
     imgArray: [],
+    imgArrayToPreview: [],
     location: {
       date: new Date(2020, 3, 1),
       finishDate: 'string',

@@ -197,7 +197,7 @@ describe('CreateEditEventsComponent', () => {
   it('setCoordsOffline  expect latitude to be 2', () => {
     component.dates = [DateMock];
     component.setCoordsOffline({ latitude: 2, longitude: 3 }, 0);
-    expect(component.dates[0].coordinatesDto.latitude).toBe(2);
+    expect(component.dates[0].coordinates.latitude).toBe(2);
   });
 
   it('checkDates expect checkdates to be false', () => {
