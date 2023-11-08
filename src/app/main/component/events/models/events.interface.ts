@@ -33,7 +33,7 @@ export interface DateEvent {
   date?: Date;
   startDate: string;
   finishDate: string;
-  coordinatesDto?: {
+  coordinates?: {
     latitude: number;
     longitude: number;
   };
@@ -140,11 +140,11 @@ export interface TagObj {
 
 export interface DateFormObj {
   date: Date;
-  endTime?: string;
+  finishDate?: string;
   onlineLink?: string;
   place: string;
-  startTime?: string;
-  coordinatesDto?: {
+  startDate?: string;
+  coordinates?: {
     latitude: number;
     longitude: number;
   };
@@ -153,10 +153,12 @@ export interface DateFormObj {
 export interface PagePreviewDTO {
   title: string;
   description: string;
+  eventDuration: number;
   open: boolean;
   datesLocations: DateEvent[];
   tags: Array<string>;
   imgArray: any[];
+  imgArrayToPreview: any[];
   location: DateFormObj;
 }
 

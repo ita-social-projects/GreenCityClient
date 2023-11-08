@@ -471,6 +471,11 @@
           line-height: 28px;
           color: var(--freinacht-black);
         }
+
+        .description {
+          word-wrap: break-word;
+          overflow: hidden;
+        }
       }
 
       .event-place {

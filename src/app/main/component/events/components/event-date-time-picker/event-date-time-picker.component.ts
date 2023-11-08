@@ -1,6 +1,6 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
-import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate } from '../../models/events.interface';
+import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate, DateEvent } from '../../models/events.interface';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -49,6 +49,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Input() firstFormIsSucceed: boolean;
   @Input() index: number;
   @Input() duplindx: number;
+  @Input() fromPreview: boolean;
+  @Input() previewData: DateEvent;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
@@ -94,7 +96,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
         this.duplindex = -1;
       }
     });
-    if (this.editDate && !this.editDates) {
+    if ((this.editDate && !this.editDates) || this.fromPreview) {
       this.setDataEditing();
     }
 
@@ -126,8 +128,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   }
 
   private setDataEditing(): void {
-    const startEditTime = this.pipe.transform(this.editDate.startDate, 'H:mm');
-    let endEditTime = this.pipe.transform(this.editDate.finishDate, 'H:mm');
+    const data = this.fromPreview ? 'fromPreview' : 'editDate';
+    const startEditTime = this.fromPreview ? this.previewData?.startDate : this.pipe.transform(this.editDate.startDate, 'H:mm');
+    let endEditTime = this.fromPreview ? this.previewData?.finishDate : this.pipe.transform(this.editDate.finishDate, 'H:mm');
     if (endEditTime === TimeBack.END) {
       endEditTime = TimeFront.END;
     }
@@ -136,47 +139,50 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.dateForm.get('startTime').disable();
       this.dateForm.get('endTime').disable();
     }
-    if (this.hasTheDatePassed('startDate')) {
+    if (this.hasTheDatePassed('startDate', data)) {
       this.dateForm.get('date').disable();
       this.dateForm.get('startTime').disable();
       this.isAllDayDisabled = true;
     }
-    if (this.hasTheDatePassed('finishDate')) {
+    if (this.hasTheDatePassed('finishDate', data)) {
       this.dateForm.get('endTime').disable();
       this.isPlaceDisabled = true;
       this.dateForm.get('onlineLink').disable();
     }
 
     this.dateForm.patchValue({
-      date: new Date(this.editDate.startDate),
+      date: this.fromPreview ? this.previewData?.date : new Date(this.editDate.startDate),
       startTime: startEditTime,
       endTime: endEditTime
     });
 
-    if (this.editDate.coordinates) {
+    if (this.fromPreview ? this.previewData?.coordinates : this.editDate.coordinates) {
       this.checkOfflinePlace = true;
       this.dateForm.addControl('place', new FormControl(''));
       this.dateForm.addControl('coordinatesDto', new FormControl(''));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
-      this.coordinates.latitude = this.editDate.coordinates.latitude;
-      this.coordinates.longitude = this.editDate.coordinates.longitude;
+      this.coordinates.latitude = this.fromPreview ? this.previewData.coordinates.latitude : this.editDate.coordinates.latitude;
+      this.coordinates.longitude = this.fromPreview ? this.previewData.coordinates.longitude : this.editDate.coordinates.longitude;
       this.zoom = 8;
 
       this.dateForm.patchValue({
-        place: this.eventsService.getFormattedAddress(this.editDate.coordinates),
-        coordinatesDto: { latitude: this.editDate.coordinates.latitude, longitude: this.editDate.coordinates.longitude }
+        place: this.fromPreview ? this.previewData.coordinates : this.eventsService.getFormattedAddress(this.editDate.coordinates),
+        coordinatesDto: {
+          latitude: this.fromPreview ? this.previewData.coordinates.latitude : this.editDate.coordinates.latitude,
+          longitude: this.fromPreview ? this.previewData.coordinates.longitude : this.editDate.coordinates.longitude
+        }
       });
 
-      if (this.hasTheDatePassed('finishDate')) {
+      if (this.hasTheDatePassed('finishDate', data)) {
         this.dateForm.get('place').disable();
       }
     }
 
-    if (this.editDate.onlineLink) {
+    if (this.fromPreview ? this.previewData?.onlineLink : this.editDate.onlineLink) {
       this.checkOnlinePlace = true;
       this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
       this.dateForm.patchValue({
-        onlineLink: this.editDate.onlineLink
+        onlineLink: this.fromPreview ? this.previewData.onlineLink : this.editDate.onlineLink
       });
     }
   }
@@ -187,8 +193,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
   }
 
-  private hasTheDatePassed(date: string): boolean {
-    return new Date().getTime() >= new Date(this.editDate[date]).getTime();
+  private hasTheDatePassed(date: string, data = 'editDate'): boolean {
+    return new Date().getTime() >= new Date(this[data][date]).getTime();
   }
 
   public checkIfAllDay(): void {

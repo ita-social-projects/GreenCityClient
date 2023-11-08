@@ -10,6 +10,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO;
+  public backFromPreview: boolean;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
@@ -23,10 +24,10 @@ export class EventsService implements OnDestroy {
 
     switch (true) {
       case submit:
-        newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
+        newArray = dates.map((nextValue) => !(nextValue.coordinates?.latitude || nextValue.onlineLink));
         break;
       case check:
-        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
+        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinates?.latitude || dates[ind].onlineLink);
         this.arePlacesFilledSubject.next(currentValues);
         return;
       case currentValues.some((el) => el === true):
@@ -42,6 +43,14 @@ export class EventsService implements OnDestroy {
 
   public getAddreses(): Observable<any> {
     return this.http.get(`${this.backEnd}events/addresses`);
+  }
+
+  public setBackFromPreview(val: boolean): void {
+    this.backFromPreview = val;
+  }
+
+  public getBackFromPreview(): boolean {
+    return this.backFromPreview;
   }
 
   public setInitialValueForPlaces(): void {
@@ -134,8 +143,8 @@ export class EventsService implements OnDestroy {
 
   public getFormattedAddress(coordinates: Coordinates): string {
     return this.getLangValue(
-      coordinates.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates.formattedAddressUa,
-      coordinates.streetEn ? this.createAddresses(coordinates, 'En') : coordinates.formattedAddressEn
+      coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
+      coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 

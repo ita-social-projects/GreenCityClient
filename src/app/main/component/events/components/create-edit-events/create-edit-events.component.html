@@ -1,7 +1,7 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
   <div class="content-container">
-    <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]">
+    <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
       <div class="button-arrow">
         <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
         <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
@@ -62,6 +62,8 @@
                 [index]="i"
                 [duplindx]="duplindx"
                 [check]="date.check"
+                [fromPreview]="fromPreview"
+                [previewData]="previewDates?.datesLocations[i]"
                 [editDate]="editEvent?.dates[i]"
                 [isDateDuplicate]="isDateDuplicate"
                 [editDates]="editDates"
@@ -95,6 +97,7 @@
       </mat-card>
       <mat-card class="event-main-block right">
         <app-images-container
+          [imgArray]="imgArray"
           [imagesEditArr]="imagesForEdit"
           [isImagesArrayEmpty]="isImagesArrayEmpty"
           (imgArrayOutput)="getImageTosend($event)"

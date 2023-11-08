@@ -48,6 +48,14 @@ export class EventsPreviewPageComponent implements OnInit {
     this.event = this.eventService.getForm();
     this.date = new Date(this.event.datesLocations[0].date).toDateString();
     this.bindUserName();
+    window.onpopstate = () => {
+      this.backToEdit();
+    };
+  }
+
+  public backToEdit(): void {
+    this.eventService.setForm(this.event);
+    this.eventService.setBackFromPreview(true);
   }
 
   public bindUserName(): void {

@@ -7,7 +7,7 @@
   }
 
   .secondary-global-button {
-    padding: 8px 22.5px;
+    padding: 8px 21px;
   }
 
   @media (min-width: 576px) and (max-width: 767px) {
@@ -403,6 +403,11 @@
           font-weight: 500;
           line-height: 28px;
           color: var(--freinacht-black);
+        }
+
+        .description {
+          word-wrap: break-word;
+          overflow: hidden;
         }
       }
 

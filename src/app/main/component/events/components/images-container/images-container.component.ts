@@ -14,7 +14,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class ImagesContainerComponent implements OnInit, OnChanges {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
-  private imgArray: File[] = [];
   private maxImages = 5;
 
   public defImgs = [
@@ -35,6 +34,7 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
+  @Input() imgArray: File[] = [];
   @Input() imagesEditArr: string[];
   @Input() isImagesArrayEmpty: boolean;
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
@@ -49,28 +49,44 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
-
     this.initImages();
     if (this.editMode) {
-      this.imageCount = this.imagesEditArr.length;
-      this.images.forEach((el, ind) => {
-        if (this.imagesEditArr[ind]) {
-          el.src = this.imagesEditArr[ind];
-        }
-        if (el.src) {
-          el.isLabel = false;
-        }
-        if (!el.src && this.images[ind - 1].src) {
-          el.isLabel = true;
-        }
-      });
+      this.updateImagesAndLabels(this.imagesEditArr);
+    }
+    if (this.eventService.getBackFromPreview()) {
+      this.updateImagesAndLabels(this.imagesEditArr, this.defImgs);
     }
   }
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     if (this.isImagesArrayEmpty) {
       this.chooseImage(this.defaultImage);
     }
+  }
+
+  private updateImagesAndLabels(imagesEditArr: string[], defImgs?: string[]) {
+    this.imageCount = imagesEditArr.length;
+    this.images.forEach((el, ind) => {
+      if (imagesEditArr[ind]) {
+        el.src = this.editMode ? this.imagesEditArr[ind] : this.findMatchingImage(imagesEditArr[ind], defImgs);
+      }
+      if (el.src) {
+        el.isLabel = false;
+      }
+      if (!el.src && ind > 0 && this.images[ind - 1].src) {
+        el.isLabel = true;
+      }
+    });
+  }
+
+  private findMatchingImage(file, imageArray: string[]) {
+    const matchingImage = imageArray.find((imageUrl) => {
+      const parts = imageUrl.split('/');
+      const lastPart = parts[parts.length - 1];
+      return lastPart === file.name;
+    });
+
+    return matchingImage || null;
   }
 
   private initImages(): void {

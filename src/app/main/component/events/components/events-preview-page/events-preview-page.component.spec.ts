@@ -37,12 +37,13 @@ describe('EventsPreviewPageComponent', () => {
     title: 'Eco event',
     description: 'Event Description',
     open: true,
+    eventDuration: 1,
     datesLocations: [
       {
         date: new Date(2020, 3, 1),
         startDate: 'string',
         finishDate: 'string',
-        coordinatesDto: {
+        coordinates: {
           latitude: 5,
           longitude: 5
         },
@@ -55,10 +56,10 @@ describe('EventsPreviewPageComponent', () => {
     imgArray: [],
     location: {
       date: new Date(2020, 3, 1),
-      endTime: 'string',
+      finishDate: 'string',
       onlineLink: 'string',
       place: 'string',
-      startTime: 'string'
+      startDate: 'string'
     }
   };
   const mockUserName = 'Kateryna Kravchuk';

@@ -5,7 +5,7 @@
         <a class="button-link" [routerLink]="['/events', 'create-event']">
           <div class="button-content">
             <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
-            <div class="edit-news back-to-edit">{{ 'create-event.back-edit' | translate }}</div>
+            <div class="edit-news back-to-edit" (click)="backToEdit()">{{ 'create-event.back-edit' | translate }}</div>
             <button class="primary-global-button button-publish">{{ 'create-event.publish' | translate }}</button>
           </div>
         </a>
@@ -34,7 +34,7 @@
     <div class="event-main">
       <div class="main-left">
         <div class="main-image">
-          <app-images-slider [images]="event.imgArray"></app-images-slider>
+          <app-images-slider [images]="event.imgArrayToPreview"></app-images-slider>
         </div>
 
         <div class="event-tags-participants">
@@ -72,7 +72,7 @@
 
       <div class="main-right">
         <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-        <div [innerHTML]="event.description">{{ event.description }}</div>
+        <div [innerHTML]="event.description" class="description">{{ event.description }}</div>
       </div>
     </div>
   </div>
