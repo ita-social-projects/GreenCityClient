@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HeaderComponent } from './header.component';
 import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -79,7 +80,6 @@ describe('HeaderComponent', () => {
   languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage', 'getUserLangValue']);
   languageServiceMock.getCurrentLanguage = () => mockLang as Language;
   languageServiceMock.getUserLangValue = () => of(mockLang);
-
   languageServiceMock.changeCurrentLanguage = () => true;
   languageServiceMock.getLanguageId = () => mockLangId;
 
@@ -202,13 +202,13 @@ describe('HeaderComponent', () => {
     it('should call getUserLangValue when isLoggedIn is true', () => {
       const spy = spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
       component.isLoggedIn = true;
-      (component as any).setCurrentLang();
+      (component as any).initLanguage();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should set currentLanguage to localStorageService.getCurrentLanguage when isLoggedIn is false', () => {
       component.isLoggedIn = false;
-      (component as any).setCurrentLang();
+      (component as any).initLanguage();
       expect(component.currentLanguage).toEqual(mockLang);
     });
 
@@ -220,13 +220,6 @@ describe('HeaderComponent', () => {
     it('makes expected calls in openAllSearchSubscription', () => {
       (component as any).openAllSearchSubscription(true);
       expect(component.isAllSearchOpen).toBeTruthy();
-    });
-
-    it('makes expected calls in openSettingDialog', () => {
-      (component as any).userId = 123;
-      component.openSettingDialog();
-      expect(component.dropdownVisible).toBeFalsy();
-      expect((component as any).router.navigate).toHaveBeenCalledWith(['/profile', 123, 'edit']);
     });
 
     it('makes expected calls in initUser', () => {
@@ -249,6 +242,25 @@ describe('HeaderComponent', () => {
 
       expect(spy).toHaveBeenCalled();
       expect(component.arrayLang[0].lang).toBe('en');
+    });
+
+    it('should call setCurrentLanguage', () => {
+      spyOn((component as any).languageService, 'getUserLangValue').and.returnValue(of(mockLang));
+      const setCurrentLanguageSpy = spyOn(component as any, 'setCurrentLanguage');
+      component.isLoggedIn = false;
+      (component as any).initLanguage();
+
+      expect(setCurrentLanguageSpy).toHaveBeenCalledWith(mockLang);
+    });
+
+    it('should set current language', () => {
+      (component as any).setCurrentLanguage('en');
+      expect(component.currentLanguage).toBe('en');
+      expect(component.arrayLang[0].lang.toLowerCase()).toBe('en');
+
+      (component as any).setCurrentLanguage('ua');
+      expect(component.currentLanguage).toBe('ua');
+      expect(component.arrayLang[0].lang.toLowerCase()).toBe('ua');
     });
 
     it('should log out the user', fakeAsync(() => {

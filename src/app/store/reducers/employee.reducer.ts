@@ -13,12 +13,13 @@ import { createReducer, on } from '@ngrx/store';
 export const employeesReducer = createReducer(
   initialEmployeesState,
   on(GetEmployeesSuccess, (state, action) => {
-    const prevEmployees = action.reset ? [] : state.employees?.page ?? [];
+    const prevEmployees = action.reset ? [] : state.employees?.content ?? [];
     return {
       ...state,
       employees: {
         ...action.employees,
-        content: [...prevEmployees, ...action.employees.page]
+        content: [...prevEmployees, ...action.employees.content],
+        page: [...prevEmployees, ...action.employees.content]
       }
     };
   }),
@@ -61,6 +62,7 @@ export const employeesReducer = createReducer(
   })),
 
   on(GetEmployeesPermissionsSuccess, (state, action) => {
+    console.log('action', action);
     return {
       ...state,
       employeesPermissions: action.reset ? [] : action.positionsAuthorities.authorities

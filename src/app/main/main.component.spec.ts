@@ -35,12 +35,13 @@ describe('MainComponent', () => {
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['setDefaultLanguage', 'getUserLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['setDefaultLanguage', 'getUserLangValue', 'getCurrentLanguage']);
   const titleAndMetaTagsServiceMock = jasmine.createSpyObj('TitleAndMetaTagsService', ['useTitleMetasData']);
   const userServiceMock = jasmine.createSpyObj('UserService', ['updateLastTimeActivity']);
   const uiActionsServiceMock = jasmine.createSpyObj('UiActionsService', ['']);
   uiActionsServiceMock.stopScrollingSubject = of(false);
   languageServiceMock.getUserLangValue = () => of('ua');
+  languageServiceMock.getCurrentLanguage = () => of('ua');
 
   const focusMock = {
     nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
