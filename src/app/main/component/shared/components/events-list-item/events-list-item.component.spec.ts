@@ -165,12 +165,14 @@ describe('EventsListItemComponent', () => {
     'getEventById ',
     'deleteEvent',
     'getAllAttendees',
-    'getFormattedAddressEventsList'
+    'getFormattedAddressEventsList',
+    'setBackFromPreview'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getFormattedAddressEventsList = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of(false);
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
