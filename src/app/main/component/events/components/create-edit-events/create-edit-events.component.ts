@@ -359,7 +359,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     if (isFormValid && arePlacesFilled) {
       this.checkAfterSend = true;
-      this.isImagesArrayEmpty = !this.imgArray.length;
+      this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.editEvent.titleImage : !this.imgArray.length;
 
       setTimeout(() => {
         const formData = this.prepareFormData(sendEventDto);
@@ -392,6 +392,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public onPreview() {
     this.imgToData();
+    if (this.editMode) {
+      this.imgArrayToPreview.push(this.editEvent.titleImage);
+      this.editEvent.additionalImages.forEach((el) => this.imgArrayToPreview.push(el));
+    }
+
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
@@ -417,12 +422,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private handleFile(event): void {
     const binaryString = event.target.result;
     const selectedFileUrl = binaryString;
-    this.imgArray.forEach((img) => {
-      this.files.push({ url: selectedFileUrl, file: img });
-    });
-    this.files.forEach((file) => {
-      this.imgArrayToPreview.push(file.url);
-    });
+    this.imgArrayToPreview.push(selectedFileUrl);
   }
 
   private createEvent(sendData: FormData) {
