@@ -414,15 +414,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private imgToData(): void {
     this.imgArray.forEach((img) => {
       const reader: FileReader = new FileReader();
-      reader.onload = (ev) => this.handleFile(ev, img);
       reader.readAsDataURL(img);
+      reader.onload = (ev) => this.handleFile(ev);
     });
   }
 
-  private handleFile(event, img): void {
+  private handleFile(event): void {
     const binaryString = event.target.result;
     const selectedFileUrl = binaryString;
-    this.files.push({ url: selectedFileUrl, file: img });
     this.imgArrayToPreview.push(selectedFileUrl);
   }
 
