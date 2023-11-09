@@ -26,7 +26,7 @@
               <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
               <input matInput placeholder="title" formControlName="titleForm" />
               <div *ngIf="titleForm?.touched && titleForm?.invalid" class="error-title">
-                <app-input-error [formElement]="titleForm"></app-input-error>
+                <app-input-error [formElement]="titleForm" [isEvent]="true"></app-input-error>
               </div>
             </mat-form-field>
           </div>
