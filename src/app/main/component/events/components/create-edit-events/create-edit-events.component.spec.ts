@@ -35,13 +35,30 @@ describe('CreateEditEventsComponent', () => {
     date: new Date(),
     startDate: '',
     finishDate: '',
-    coordinatesDto: {
+    coordinates: {
       latitude: null,
       longitude: null
     },
     onlineLink: '',
     valid: false,
     check: false
+  };
+
+  const MockEventPreview = {
+    title: '',
+    description: '',
+    open: true,
+    eventDuration: 1,
+    datesLocations: [DateMock],
+    tags: [''],
+    imgArray: [''],
+    location: {
+      date: null,
+      finishDate: '',
+      onlineLink: '',
+      place: '',
+      startDate: ''
+    }
   };
 
   const EditDateEventMock = {
@@ -55,6 +72,7 @@ describe('CreateEditEventsComponent', () => {
     onlineLink: 'link',
     startDate: ''
   };
+
   const EditEventMock = {
     additionalImages: [],
     dates: [EditDateEventMock],
@@ -99,13 +117,20 @@ describe('CreateEditEventsComponent', () => {
     'editEvent',
     'setArePlacesFilled',
     'setInitialValueForPlaces',
-    'getCheckedPlacesObservable'
+    'getCheckedPlacesObservable',
+    'getForm',
+    'setForm',
+    'getBackFromPreview',
+    'setBackFromPreview'
   ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
+  EventsServiceMock.currentForm = () => of(MockEventPreview);
   EventsServiceMock.editEvent = () => of(true);
   EventsServiceMock.setArePlacesFilled = () => of('');
   EventsServiceMock.setInitialValueForPlaces = () => of('');
   EventsServiceMock.getCheckedPlacesObservable = () => of([]);
+  EventsServiceMock.setForm = () => of(MockEventPreview);
+  EventsServiceMock.getForm = () => of(MockEventPreview);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = () => {
