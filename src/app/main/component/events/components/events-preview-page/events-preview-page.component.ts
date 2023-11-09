@@ -58,6 +58,12 @@ export class EventsPreviewPageComponent implements OnInit {
     this.eventService.setBackFromPreview(true);
   }
 
+  public backToSubmit(): void {
+    this.eventService.setForm(this.event);
+    this.eventService.setBackFromPreview(true);
+    this.eventService.setSubmitFromPreview(true);
+  }
+
   public bindUserName(): void {
     this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
       this.userName = name;

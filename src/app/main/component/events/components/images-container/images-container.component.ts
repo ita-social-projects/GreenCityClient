@@ -15,6 +15,7 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
   private maxImages = 5;
+  private setDefaultImg = false;
 
   public defImgs = [
     '/assets/img/events/illustration-earth.png',
@@ -59,7 +60,8 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.isImagesArrayEmpty) {
+    if (this.isImagesArrayEmpty && !this.setDefaultImg && !this.imagesEditArr.length) {
+      this.setDefaultImg = true;
       this.chooseImage(this.defaultImage);
     }
   }

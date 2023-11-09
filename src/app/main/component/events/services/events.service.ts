@@ -11,6 +11,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 export class EventsService implements OnDestroy {
   public currentForm: PagePreviewDTO;
   public backFromPreview: boolean;
+  public submitFromPreview: boolean;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
@@ -51,6 +52,14 @@ export class EventsService implements OnDestroy {
 
   public getBackFromPreview(): boolean {
     return this.backFromPreview;
+  }
+
+  public setSubmitFromPreview(val: boolean): void {
+    this.submitFromPreview = val;
+  }
+
+  public getSubmitFromPreview(): boolean {
+    return this.submitFromPreview;
   }
 
   public setInitialValueForPlaces(): void {

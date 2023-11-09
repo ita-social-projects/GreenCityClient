@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Injector, Input, Output, EventEmitter } from '@angular/core';
 import { quillConfig } from './quillEditorFunc';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
@@ -36,8 +36,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 @Component({
   selector: 'app-create-edit-events',
   templateUrl: './create-edit-events.component.html',
-  styleUrls: ['./create-edit-events.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./create-edit-events.component.scss']
 })
 export class CreateEditEventsComponent extends FormBaseComponent implements OnInit {
   public title = '';
@@ -140,6 +139,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     } else {
       if (!this.fromPreview) {
         this.dates = [{ ...DateObj }];
+      } else if (this.eventsService.getSubmitFromPreview()) {
+        this.backFromPreview();
+        setTimeout(() => this.onSubmit());
       } else {
         this.backFromPreview();
       }
@@ -195,8 +197,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       datesEvent = dates;
     }
     this.dates = datesEvent.reduce((newDates, currentDate) => {
-      const { startDate, finishDate } = currentDate;
-      const date: DateEvent = { startDate, finishDate, check: false, valid: false };
+      const { startDate, finishDate, check, valid } = currentDate;
+      const date: DateEvent = { startDate, finishDate, check: init ? false : check, valid: init ? false : valid };
       if (currentDate.onlineLink) {
         date.onlineLink = currentDate.onlineLink;
       }
@@ -403,8 +405,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     this.updateAreAddressFilled(this.dates, true);
 
+    this.isTagValid = this.tags.some((el) => el.isActive);
     const isFormValid = this.checkdates && this.eventFormGroup.valid && this.isTagValid;
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
+    this.checkAfterSend = this.tags.some((t) => t.isActive);
 
     if (isFormValid && arePlacesFilled) {
       this.checkAfterSend = true;

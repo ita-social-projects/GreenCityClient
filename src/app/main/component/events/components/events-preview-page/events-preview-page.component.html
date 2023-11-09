@@ -6,7 +6,7 @@
           <div class="button-content">
             <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
             <div class="edit-news back-to-edit" (click)="backToEdit()">{{ 'create-event.back-edit' | translate }}</div>
-            <button class="primary-global-button button-publish">{{ 'create-event.publish' | translate }}</button>
+            <button class="primary-global-button button-publish" (click)="backToSubmit()">{{ 'create-event.publish' | translate }}</button>
           </div>
         </a>
       </div>

@@ -343,6 +343,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public isUserLoggedRedirect(): void {
     this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+    this.eventService.setBackFromPreview(false);
   }
 
   public openAuthModalWindow(page: string): void {
