@@ -547,9 +547,9 @@
       "you-can-upload-max-photos-event": "Ви можете завантажити максимально 5 фото",
       "photos": "фото",
       "your-photos-successfully-upload": "Ваше фото успішно завантажено",
-      "error-img-type-and-size": "Неправильний формат і розмір зображення",
-      "error-img-type": "Неправильний формат зображення",
-      "error-img-size": "Неправильний розмір зображення"
+      "error-img-type-and-size": "Неправильний формат і розмір зображення. Використовуйте файл формату JPG або PNG і не більше 10МБ",
+      "error-img-type": "Неправильний формат зображення. Використовуйте файл формату JPG або PNG",
+      "error-img-size": "Неправильний розмір зображення. Файл не може бути більшим ніж 10МБ"
     },
     "propose-cafe": {
       "new-cafe": "Нове кафе",
@@ -1003,7 +1003,7 @@
     "my-eco-friends": "Мої Друзі",
     "friends-quantity": { "singular": "зв'язок", "plural": { "units-2-3-4": "звя'зки", "units-more-5": "зв'язків" } },
     "zero-friends": "У Вас ще немає друзів.",
-    "zero-requests": "На жаль, нових запитів немає.",
+    "zero-requests": "На жаль, у вас немає нових запитів у друзі",
     "zero-user-friends": "Цей користувач не має друзів",
     "my-eco-places": "Мої Еко Місця",
     "eco-places-quantity": { "singular": "улюблене", "plural": { "units-2-3-4": "улюблених", "units-more-5": "улюблених" } },
@@ -1158,7 +1158,7 @@
     "duplicate-event-date": "Ви не можете обрати  ту саму дату для двох днів",
     "textarea-title": "Опис подій",
     "day": "день",
-    "all-day": "весь день",
+    "all-day": "Весь день",
     "choose-date": "Обрати дату",
     "set-start-time": "Встановити дату початку",
     "set-end-time": "Встановити дату завершення",
@@ -1186,7 +1186,8 @@
     "all": "Всіх",
     "friends": "Друзів",
     "add-location-error": "Ви повинні заповнити принаймні одну адресу або посилання",
-    "preview-attendees": "людей ідуть"
+    "preview-attendees": "людей ідуть",
+    "use-greencity-pics": "Використовуйте фотографії Greencity"
   },
   "input-error": {
     "required": "Це поле є обов'язковим для заповнення",

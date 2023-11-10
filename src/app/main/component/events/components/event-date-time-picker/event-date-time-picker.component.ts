@@ -114,6 +114,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  get endTime() {
+    return this.dateForm.get('endTime');
+  }
+
   private initialStartTime(editMode?: boolean): InitialStartDate {
     let initialDate;
     let initialStartTime = '';

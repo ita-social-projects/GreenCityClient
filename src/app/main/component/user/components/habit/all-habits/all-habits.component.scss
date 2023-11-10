@@ -19,6 +19,17 @@ h1 {
   row-gap: 20px;
   margin: 20px 0 3.125rem 0;
 
+  .button-arrow {
+    display: flex;
+    align-items: center;
+
+    .back-button {
+      margin: 6px;
+      margin-top: 9px;
+      color: var(--ubs-primary-grey);
+    }
+  }
+
   .habit-header {
     display: flex;
     flex-direction: column;
@@ -78,22 +89,6 @@ h1 {
       @media (max-width: 400px) {
         flex-direction: column;
       }
-    }
-  }
-
-  a .back-button {
-    height: 30px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    color: #494a49;
-    text-decoration-line: underline;
-    display: flex;
-    align-items: center;
-    padding: 20px 0 40px 0;
-
-    img {
-      margin-right: 6px;
     }
   }
 

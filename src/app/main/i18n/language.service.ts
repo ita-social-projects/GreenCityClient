@@ -17,7 +17,6 @@ export class LanguageService {
   private defaultLanguage = Language.EN;
   private monthMap = new Map<Language, string[]>();
   private languageSubj = new BehaviorSubject(Language.EN);
-  private langMap = new Map();
   public isLoggedIn = false;
   public synqLanguageArr: LanguageId[] = [
     { id: 1, code: 'ua' },
@@ -25,16 +24,18 @@ export class LanguageService {
     { id: 3, code: 'ru' }
   ];
 
+  private languageMap: { [key: string]: Language } = {
+    uk: Language.UA,
+    ua: Language.UA,
+    en: Language.EN
+  };
+
   constructor(
     private translate: TranslateService,
     private http: HttpClient,
     private userOwnAuthService: UserOwnAuthService,
     private localStorageService: LocalStorageService
   ) {
-    this.langMap.set(Language.EN, ['en']);
-    this.langMap.set(Language.UA, ['ua']);
-    this.langMap.set(Language.RU, ['ru']);
-
     this.monthMap.set(Language.UA, [
       'січня',
       'лютого',
@@ -96,8 +97,7 @@ export class LanguageService {
         .pipe(
           tap((userLanguage) => {
             if (userLanguage) {
-              this.translate.setDefaultLang(this.getLanguageByString(userLanguage));
-              this.localStorageService.setCurrentLanguage(this.getLanguageByString(userLanguage));
+              this.changeCurrentLanguage(userLanguage as Language);
             }
           })
         )
@@ -113,9 +113,8 @@ export class LanguageService {
   }
 
   setBrowserLang() {
-    const language = navigator.language !== Language.EN ? Language.UA : navigator.language;
-    this.translate.setDefaultLang(this.getLanguageByString(language));
-    this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
+    const language = this.getLanguageByString(navigator.language);
+    this.changeCurrentLanguage(language);
   }
 
   public getCurrentLanguage() {
@@ -127,13 +126,8 @@ export class LanguageService {
   }
 
   private getLanguageByString(languageString: string) {
-    for (const key of this.langMap.keys()) {
-      if (this.langMap.get(key).indexOf(languageString) !== -1) {
-        return key;
-      }
-    }
-
-    return this.defaultLanguage;
+    const language = languageString.substring(0, 2).toLowerCase();
+    return this.languageMap[language] || this.defaultLanguage;
   }
 
   public getLocalizedMonth(month: number) {

@@ -1,9 +1,9 @@
 <div class="habits-wrapper container" (window:resize)="onResize()">
   <div class="habits_header-wrapper">
     <a [routerLink]="['/profile', profileService.userId]">
-      <div class="back-button">
-        <img [src]="images.arrowLeft" alt="arrow" />
-        <div>{{ 'user.habit.all-habits.back-button' | translate }}</div>
+      <div class="button-arrow">
+        <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
+        <div class="back-button">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
       </div>
     </a>
     <div class="habit-header">

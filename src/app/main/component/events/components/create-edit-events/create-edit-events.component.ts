@@ -414,7 +414,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     if (isFormValid && arePlacesFilled) {
       this.checkAfterSend = true;
-      this.isImagesArrayEmpty = !this.imgArray.length && !this.imagesForEdit.length;
+      this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.editEvent.titleImage : !this.imgArray.length;
 
       setTimeout(() => {
         const formData = this.prepareFormData(sendEventDto);

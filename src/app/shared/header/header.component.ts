@@ -114,7 +114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userOwnAuthService.isLoginUserSubject.pipe(takeUntil(this.destroySub)).subscribe((status) => (this.isLoggedIn = status));
     this.updateArrayLang();
-    this.setCurrentLang();
+    this.initLanguage();
 
     this.localeStorageService.accessTokenBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((token) => {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
@@ -146,23 +146,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return '/greenCity';
   }
 
-  private setCurrentLang(): void {
+  private initLanguage(): void {
     if (this.isLoggedIn) {
       this.languageService
         .getUserLangValue()
         .pipe(takeUntil(this.destroySub))
         .subscribe(
           (lang) => {
-            this.currentLanguage = lang;
-            this.setLangArr();
+            this.setCurrentLanguage(lang);
           },
           (error) => {
-            this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+            this.setCurrentLanguage(this.languageService.getCurrentLanguage());
           }
         );
     } else {
-      this.currentLanguage = this.localeStorageService.getCurrentLanguage();
+      this.setCurrentLanguage(this.languageService.getCurrentLanguage());
     }
+  }
+
+  private setCurrentLanguage(language: string): void {
+    this.currentLanguage = language;
+    this.setLangArr();
   }
 
   toggleHeader(): void {

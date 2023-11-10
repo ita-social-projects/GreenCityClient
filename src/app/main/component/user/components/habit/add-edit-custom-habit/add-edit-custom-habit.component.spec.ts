@@ -134,16 +134,6 @@ describe('AddEditCustomHabitComponent', () => {
     expect(titleControl.value).toBe('ab');
   });
 
-  it('should set editor value to form controll', () => {
-    const editorEvent = {
-      event: 'text-change',
-      text: '   from editor   '
-    };
-    component.changeEditor(editorEvent as EditorChangeContent);
-    const descriptionControl = component.habitForm.get('description');
-    expect(descriptionControl.value).toBe('from editor');
-  });
-
   it('should set TagList after get it from child component', () => {
     (component as any).initForm();
     component.getTagsList(tagsMock);

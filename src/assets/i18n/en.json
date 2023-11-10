@@ -541,9 +541,9 @@
       "you-can-upload-max-photos-event": "You  can  upload max 5 photos",
       "photos": "photos",
       "your-photos-successfully-upload": "Your photos successfully upload",
-      "error-img-type-and-size": "Incorrect image type and size",
-      "error-img-type": "Incorrect image type",
-      "error-img-size": "Incorrect image size"
+      "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10MB",
+      "error-img-type": "Incorrect image type. Use file format JPG or PNG",
+      "error-img-size": "Incorrect image size. Image cannot be bigger than 10MB"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
@@ -980,7 +980,7 @@
     "friends-quantity": { "plural": "connections", "singular": "connection" },
     "zero-friends": "You don't have any friends yet.",
     "zero-user-friends": "This user has no friends",
-    "zero-requests": "Unfortunately you don’t have new friends requests' on Friends requests tab as mentioned in requirements.",
+    "zero-requests": "Unfortunately you don’t have new friends requests",
     "my-eco-places": "My Eco Places",
     "eco-places-quantity": { "plural": "favourites", "singular": "favourite" },
     "to-do-list": "My To-do list",
@@ -1132,8 +1132,11 @@
     "duration": "Duration",
     "min-duration": "Min 1 day",
     "duplicate-event-date": "You can't enter the same date for two days",
+    "max-length-title": "This field shouldn’t contain more than 70 symbols",
+    "title-required": "This field can't be empty and should contain up to 70 symbols",
+    "date-required": "This field can’t be empty",
     "day": "day",
-    "all-day": "all day",
+    "all-day": "All day",
     "choose-date": "Choose a date",
     "set-start-time": "Set Start Time",
     "set-end-time": "Set End Time",
@@ -1162,7 +1165,8 @@
     "all": "All",
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
-    "preview-attendees": "people are going"
+    "preview-attendees": "people are going",
+    "use-greencity-pics": "Use Greencity pictures"
   },
   "input-error": {
     "required": "This field is required",

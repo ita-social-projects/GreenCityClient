@@ -4,7 +4,9 @@
   [ngClass]="!commentId ? 'wrapper-comment' : 'wrapper-reply'"
   (ngSubmit)="onSubmit()"
 >
-  <app-user-profile-image [imgPath]="avatarImage" [firstName]="firstName" [additionalImgClass]="'comments'"> </app-user-profile-image>
+  <div class="user-image">
+    <app-user-profile-image [imgPath]="avatarImage" [firstName]="firstName" [additionalImgClass]="'comments'"> </app-user-profile-image>
+  </div>
   <div class="input-submit" *ngIf="!commentId; else reply">
     <textarea
       class="comment-width"
@@ -29,7 +31,7 @@
         </p>
       </div>
 
-      <button class="primary-global-button" [disabled]="!addCommentForm.valid">
+      <button class="primary-global-button primary-global-button__reply" [disabled]="!addCommentForm.valid">
         {{ 'homepage.eco-news.comment.reply' | translate }}
       </button>
     </div>
