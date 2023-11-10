@@ -15,7 +15,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <h5 class="time-item">--</h5>
+    <h5 class="dash">-</h5>
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
       <mat-select ngDefaultControl formControlName="endTime">
@@ -25,7 +25,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-checkbox class="example-margin" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" (change)="checkIfAllDay()">{{
+    <mat-checkbox class="all-day" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" (change)="checkIfAllDay()">{{
       'create-event.all-day' | translate
     }}</mat-checkbox>
   </div>
@@ -59,8 +59,8 @@
     </div>
     <div class="map-container" #map>
       <agm-map
-        [style.width.%]="100"
-        [style.height.%]="100"
+        [style.width.%]="91"
+        [style.height.%]="91"
         [latitude]="coordinates.latitude"
         [longitude]="coordinates.longitude"
         [zoom]="zoom"

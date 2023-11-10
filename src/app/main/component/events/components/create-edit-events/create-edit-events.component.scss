@@ -28,10 +28,12 @@
 .event-container {
   display: flex;
   justify-content: center;
+  margin: 0px 18px 0px 18px;
+  overflow-x: auto;
 }
 
 .content-container {
-  max-width: 1330px;
+  max-width: 1200px;
   width: 100%;
 }
 
@@ -49,8 +51,13 @@
   justify-content: space-between;
 }
 
+.title-image-wrapper {
+  width: 700px;
+}
+
 .event-main {
   display: flex;
+  gap: 32px;
 }
 
 .event-main-block {
@@ -63,7 +70,7 @@
 }
 
 .event-input {
-  width: 484px;
+  width: 455px;
 
   .error-title {
     position: relative;
@@ -81,7 +88,7 @@
 }
 
 .left {
-  max-width: 652px;
+  width: 610px;
 }
 
 .date-event-block {
@@ -107,8 +114,7 @@
 
 .right {
   padding: 24px;
-  margin-left: 32px;
-  max-width: 600px;
+  max-width: 610px;
 }
 
 .buttons-container {
@@ -143,6 +149,13 @@
   align-items: center;
 }
 
+.button-arrow-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .back-button {
   margin: 6px;
   margin-top: 9px;
@@ -159,8 +172,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  max-width: 1285px;
-  width: 100%;
+  width: 1218px;
 
   button {
     margin-left: 16px;
@@ -182,4 +194,92 @@
 
 .error {
   color: var(--error-red);
+}
+
+@media (max-width: 1328px) {
+  .event-main {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button-arrow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .button-arrow-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    left: -275px;
+    margin-top: 20px;
+  }
+
+  .event-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .event-header-items {
+    display: flex;
+    flex-direction: column;
+    width: 610px;
+  }
+
+  .button-arrow {
+    position: relative;
+    left: 30px;
+  }
+
+  .right {
+    min-width: 610px;
+  }
+
+  .event-main-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content-container {
+    overflow-x: auto;
+  }
+
+  .submit-container {
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 50px;
+  }
+}
+
+@media (max-width: 645px) {
+  .event-header {
+    display: block;
+    white-space: pre-wrap;
+  }
+
+  .back-button {
+    position: relative;
+    left: 8px;
+    bottom: 31px;
+  }
+
+  .button-arrow,
+  .button-arrow-container {
+    margin-top: 27px;
+    display: block;
+    position: relative;
+    left: 0px;
+    margin-bottom: -25px;
+  }
+
+  .event-main,
+  .content-container {
+    display: block;
+  }
 }

@@ -136,15 +136,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.setDates(true);
       this.setEditValue();
       this.editorText = this.eventFormGroup.get('description').value;
+    } else if (!this.fromPreview) {
+      this.dates = [{ ...DateObj }];
+    } else if (this.eventsService.getSubmitFromPreview()) {
+      this.backFromPreview();
+      setTimeout(() => this.onSubmit());
     } else {
-      if (!this.fromPreview) {
-        this.dates = [{ ...DateObj }];
-      } else if (this.eventsService.getSubmitFromPreview()) {
-        this.backFromPreview();
-        setTimeout(() => this.onSubmit());
-      } else {
-        this.backFromPreview();
-      }
+      this.backFromPreview();
     }
 
     if (!this.checkUserSigned()) {
@@ -414,7 +412,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     if (isFormValid && arePlacesFilled) {
       this.checkAfterSend = true;
-      this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.editEvent.titleImage : !this.imgArray.length;
+      this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
       setTimeout(() => {
         const formData = this.prepareFormData(sendEventDto);

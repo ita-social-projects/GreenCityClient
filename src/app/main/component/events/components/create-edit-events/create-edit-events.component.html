@@ -3,16 +3,18 @@
   <div class="content-container">
     <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
       <div class="button-arrow">
-        <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
-        <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+        <div class="button-arrow-container">
+          <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
+          <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+        </div>
       </div>
     </a>
     <div class="event-header">
-      <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
-      <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
-      <p>
-        {{ 'create-event.description' | translate }}
-      </p>
+      <div class="event-header-items">
+        <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
+        <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
+        <p>{{ 'create-event.description' | translate }}</p>
+      </div>
     </div>
     <div class="event-main">
       <mat-card class="event-main-block left">
@@ -154,12 +156,12 @@
           </div>
         </div>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline" class="date-item">
           <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
-          <select matNativeControl required>
-            <option value="All">{{ 'create-event.all' | translate }}</option>
-            <option value="Frends">{{ 'create-event.friends' | translate }}</option>
-          </select>
+          <mat-select ngDefaultControl required>
+            <mat-option value="All">{{ 'create-event.all' | translate }}</mat-option>
+            <mat-option value="Frends">{{ 'create-event.friends' | translate }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-card>
     </div>
