@@ -41,11 +41,16 @@ describe('PlacesComponent', () => {
     longitude: 33.4
   };
 
-  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces', 'createPlace']);
+  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', [
+    'getPlaceInfo',
+    'updatePlaces',
+    'createPlace',
+    'getAllPlaces'
+  ]);
   placeServiceMock.places$ = new Subject<Place[]>();
   placeServiceMock.getAllPresentTags = () => of(tagsArray);
   placeServiceMock.createPlace = () => of(locationAddressAndGeoDtoMock);
-
+  placeServiceMock.getAllPlaces = () => of();
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
   filterPlaceServiceMock.isFavoriteFilter$ = new BehaviorSubject<boolean>(true);
