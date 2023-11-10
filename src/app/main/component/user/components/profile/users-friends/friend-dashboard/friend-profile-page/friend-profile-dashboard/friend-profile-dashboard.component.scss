@@ -5,9 +5,14 @@
 
 .friends-list {
   display: flex;
-  flex-wrap: wrap;
+
   justify-content: center;
+  flex-direction: column;
   margin-top: 25px;
+  gap: 16px;
+}
+.friends-item {
+  width: 100%;
 }
 
 .img-absent {
@@ -66,4 +71,16 @@
 .no-data-image {
   padding: 0 18px;
   max-width: 100%;
+}
+@media (min-width: 768px) {
+  .friends-item {
+    width: 469px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .friends-list {
+    display: grid;
+    grid-template-columns: 417px 417px;
+  }
 }

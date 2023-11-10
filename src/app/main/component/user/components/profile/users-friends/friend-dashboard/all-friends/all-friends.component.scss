@@ -5,8 +5,7 @@
 
   .cards-box {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
     row-gap: 14px;
     column-gap: 32px;
 
@@ -14,12 +13,14 @@
       gap: 32px;
     }
 
-    @media (max-width: 1000px) {
-      justify-content: center;
+    @media (min-width: 1024px) {
+      display: grid;
+      max-width: 870px;
+      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
     }
-
-    @media (max-width: 320px) {
-      gap: 20px;
+    @media (min-width: 1200px) {
+      max-width: 1140px;
     }
   }
 
