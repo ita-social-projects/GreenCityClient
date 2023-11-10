@@ -216,6 +216,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.setDates(false, datesLocations);
     if (this.editMode) {
       this.imgArrayToPreview = imgArray;
+      this.oldImages = imgArray;
     } else {
       this.imgArray = imgArray;
     }
@@ -321,6 +322,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public getImagesToDelete(imagesSrc: Array<string>): void {
     this.imagesToDelete = imagesSrc;
+    this.imgArrayToPreview = this.imgArrayToPreview.filter((img) => img !== imagesSrc[imagesSrc.length - 1]);
   }
 
   public getOldImages(imagesSrc: Array<string>): void {
@@ -412,7 +414,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     if (isFormValid && arePlacesFilled) {
       this.checkAfterSend = true;
-      this.isImagesArrayEmpty = !this.imgArray.length;
+      this.isImagesArrayEmpty = !this.imgArray.length && !this.imagesForEdit.length;
 
       setTimeout(() => {
         const formData = this.prepareFormData(sendEventDto);
@@ -444,6 +446,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onPreview() {
+    this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
@@ -453,7 +456,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       open: this.isOpen,
       datesLocations: this.dates,
       tags: tagsArr,
-      imgArray: this.editMode ? this.imagesForEdit : this.imgArray,
+      imgArray: this.editMode ? this.imgArrayToPreview : this.imgArray,
       imgArrayToPreview: this.imgArrayToPreview,
       location: this.addressForPreview
     };
