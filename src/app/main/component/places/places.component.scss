@@ -289,35 +289,36 @@ $cardTextColor: #1d2830;
     width: 264px;
     display: flex;
     justify-content: space-between;
-  }
-  .content-title {
-    height: 20px;
-    color: var(--greyscale-07);
-    font-family: var(--primary-font), sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 20px;
-    letter-spacing: 0.1px;
-    margin: 15px 0 12px 12px;
-  }
 
-  .btn-bookmark {
-    width: 16px;
-    height: 16px;
-    position: sticky;
-    margin: 17px 8px 0 0;
-    padding: 0;
-    border: none;
-    background: none;
-  }
+    .content-title {
+      height: 20px;
+      color: var(--greyscale-07);
+      font-family: var(--primary-font), sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0.1px;
+      margin: 15px 0 12px 12px;
+    }
 
-  .material-icons {
-    color: #64727d;
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
+    .btn-bookmark {
+      width: 16px;
+      height: 16px;
+      position: sticky;
+      margin: 17px 8px 0 0;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+
+    .material-icons {
+      color: #64727d;
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
   }
 
   .content-address {
