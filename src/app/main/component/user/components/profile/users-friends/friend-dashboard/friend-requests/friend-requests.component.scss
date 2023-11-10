@@ -19,6 +19,7 @@
       margin: 0 auto;
       grid-template-columns: 1fr 1fr;
     }
+
     @media (min-width: 1200px) {
       max-width: 1140px;
     }
@@ -38,8 +39,8 @@
     justify-content: center;
     margin-bottom: 30px;
 
-    .noFriends {
-      font-family: var(--secondary-font);
+    .noRequests {
+      font-family: Montserrat, sans-serif;
       font-size: 32px;
       font-weight: 500;
       font-style: normal;

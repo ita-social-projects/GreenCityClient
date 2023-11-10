@@ -1,16 +1,21 @@
 .all-friends-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+
+  @media (min-width: 576px) {
+    flex-direction: column;
+  }
 
   .cards-box {
     display: flex;
     flex-direction: column;
-    row-gap: 14px;
-    column-gap: 32px;
+    gap: 20px;
 
-    @media (max-width: 1200px) {
+    @media (min-width: 576px) {
       gap: 32px;
+      row-gap: 16px;
     }
 
     @media (min-width: 1024px) {
@@ -19,6 +24,7 @@
       margin: 0 auto;
       grid-template-columns: 1fr 1fr;
     }
+
     @media (min-width: 1200px) {
       max-width: 1140px;
     }

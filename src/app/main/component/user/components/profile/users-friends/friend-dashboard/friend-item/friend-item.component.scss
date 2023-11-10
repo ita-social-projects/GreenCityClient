@@ -27,9 +27,6 @@
     margin: 0 auto;
   }
 
-  @media (max-width: 767px) {
-  }
-
   @media (max-width: 450px) {
     padding: 24px 6px 16px 10px;
   }
@@ -123,10 +120,6 @@
     width: 100%;
   }
 }
-
-// .friend-img {
-//   flex: 1;
-// }
 
 .friend-with-photo {
   display: flex;

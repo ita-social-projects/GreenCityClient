@@ -3,8 +3,8 @@
     <mat-tab label="{{ 'user.habit.all-habits.title' | translate }}">
       <div class="container">
         <div class="img-absent">
-          <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
           <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+          <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
         </div>
       </div>
     </mat-tab>
@@ -12,10 +12,8 @@
     <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}">
       <div class="container">
         <div class="img-absent">
+          <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
           <h3 class="title">{{ 'user.habit.all-habits.mutual' | translate }}</h3>
-          <div>
-            <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
-          </div>
         </div>
       </div>
     </mat-tab>
@@ -23,8 +21,8 @@
     <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
       <div class="container">
         <div class="img-absent">
-          <h3 class="title">{{ 'profile.dashboard.my-habits' | translate }}</h3>
           <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+          <h3 class="title">{{ 'profile.dashboard.my-habits' | translate }}</h3>
         </div>
       </div>
     </mat-tab>
@@ -43,8 +41,8 @@
         <app-spinner *ngIf="isFetching"></app-spinner>
       </div>
       <div class="img-absent" *ngIf="numberAllFriends === 0 && !isFetching">
-        <h3 class="no-friends">{{ 'profile.zero-user-friends' | translate }}</h3>
         <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+        <h3 class="no-friends">{{ 'profile.zero-user-friends' | translate }}</h3>
       </div>
     </mat-tab>
 
@@ -62,8 +60,8 @@
         <app-spinner *ngIf="isFetching"></app-spinner>
       </div>
       <div class="img-absent" *ngIf="numberAllMutualFriends === 0 && !isFetching">
-        <h3 class="no-friends">{{ 'profile.friends.no-mutual-friends' | translate }}</h3>
         <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+        <h3 class="no-friends">{{ 'profile.friends.no-mutual-friends' | translate }}</h3>
       </div>
     </mat-tab>
 

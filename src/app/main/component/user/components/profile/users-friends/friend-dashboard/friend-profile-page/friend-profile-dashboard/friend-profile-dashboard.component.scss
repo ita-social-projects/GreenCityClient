@@ -5,7 +5,6 @@
 
 .friends-list {
   display: flex;
-
   justify-content: center;
   flex-direction: column;
   margin-top: 25px;
@@ -72,6 +71,12 @@
   padding: 0 18px;
   max-width: 100%;
 }
+// @media (min-width: 576px) {
+//   .friends-list{
+//     flex-direction: column;
+//   }
+// }
+
 @media (min-width: 768px) {
   .friends-item {
     width: 469px;
