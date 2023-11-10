@@ -10,6 +10,7 @@
   margin-top: 25px;
   gap: 16px;
 }
+
 .friends-item {
   width: 100%;
 }
@@ -67,15 +68,11 @@
     }
   }
 }
+
 .no-data-image {
   padding: 0 18px;
   max-width: 100%;
 }
-// @media (min-width: 576px) {
-//   .friends-list{
-//     flex-direction: column;
-//   }
-// }
 
 @media (min-width: 768px) {
   .friends-item {
