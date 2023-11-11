@@ -30,9 +30,7 @@
     }}</mat-checkbox>
   </div>
   <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
-  <div *ngIf="dateForm?.touched && dateForm?.invalid" class="error-date">
-    <app-input-error [formElement]="endTime" [isEvent]="true" [date]="true"></app-input-error>
-  </div>
+  <div *ngIf="dateForm?.touched && dateForm?.invalid" class="tag-error">{{ 'create-event.date-required' | translate }}</div>
   <div class="checkbox">
     <mat-checkbox class="example-margin" [checked]="checkOfflinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOffline()">{{
       'create-event.event-place' | translate

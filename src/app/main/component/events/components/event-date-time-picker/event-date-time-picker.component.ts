@@ -22,8 +22,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public timeArr: Array<string> = [];
 
   coordinates: OfflineDto = {
-    latitude: null,
-    longitude: null
+    latitude: 50.4501,
+    longitude: 30.5234
   };
   public zoom = 8;
   address: string;
@@ -161,34 +161,45 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     });
 
     if (this.fromPreview ? this.previewData?.coordinates : this.editDate.coordinates) {
-      this.checkOfflinePlace = true;
-      this.dateForm.addControl('place', new FormControl(''));
-      this.dateForm.addControl('coordinatesDto', new FormControl(''));
-      setTimeout(() => this.setPlaceAutocomplete(), 0);
-      this.coordinates.latitude = this.fromPreview ? this.previewData.coordinates.latitude : this.editDate.coordinates.latitude;
-      this.coordinates.longitude = this.fromPreview ? this.previewData.coordinates.longitude : this.editDate.coordinates.longitude;
-      this.zoom = 8;
-
-      this.dateForm.patchValue({
-        place: this.fromPreview ? this.previewData.coordinates : this.eventsService.getFormattedAddress(this.editDate.coordinates),
-        coordinatesDto: {
-          latitude: this.fromPreview ? this.previewData.coordinates.latitude : this.editDate.coordinates.latitude,
-          longitude: this.fromPreview ? this.previewData.coordinates.longitude : this.editDate.coordinates.longitude
-        }
-      });
-
+      this.handleCoordinates();
       if (this.hasTheDatePassed('finishDate', data)) {
         this.dateForm.get('place').disable();
       }
     }
 
     if (this.fromPreview ? this.previewData?.onlineLink : this.editDate.onlineLink) {
-      this.checkOnlinePlace = true;
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
-      this.dateForm.patchValue({
-        onlineLink: this.fromPreview ? this.previewData.onlineLink : this.editDate.onlineLink
-      });
+      this.handleOnlineLink();
     }
+  }
+
+  private handleCoordinates(): void {
+    this.checkOfflinePlace = true;
+    this.dateForm.addControl('place', new FormControl(''));
+    this.dateForm.addControl('coordinatesDto', new FormControl(''));
+    setTimeout(() => this.setPlaceAutocomplete(), 0);
+    this.updateCoordinates();
+  }
+
+  private updateCoordinates(): void {
+    const sourceCoordinates = this.fromPreview ? this.previewData.coordinates : this.editDate.coordinates;
+    this.coordinates.latitude = sourceCoordinates.latitude;
+    this.coordinates.longitude = sourceCoordinates.longitude;
+    this.zoom = 8;
+
+    const coordinatesDto = { latitude: sourceCoordinates.latitude, longitude: sourceCoordinates.longitude };
+
+    this.dateForm.patchValue({
+      place: this.fromPreview ? this.previewData.coordinates : this.eventsService.getFormattedAddress(this.editDate.coordinates),
+      coordinatesDto
+    });
+  }
+
+  private handleOnlineLink(): void {
+    this.checkOnlinePlace = true;
+    this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
+    this.dateForm.patchValue({
+      onlineLink: this.fromPreview ? this.previewData.onlineLink : this.editDate.onlineLink
+    });
   }
 
   public getCoordinates(): void {
