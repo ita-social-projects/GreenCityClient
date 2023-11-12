@@ -523,13 +523,14 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
               }
             });
           }
+          this.updateExportDataInState(changedValues);
           this.updateResponsibleEmployeeInState(changedValues);
         }
       });
     this.statusCanceledOrDone();
   }
 
-  private updateResponsibleEmployeeInState(changedValues: IOrderInfo) {
+  private updateExportDataInState(changedValues: IOrderInfo) {
     let dateFrom;
     let dateTo;
     if (changedValues?.exportDetailsDto) {
@@ -551,13 +552,20 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
         if (key === OrderValueChanges.timeDeliveryTo || key === OrderValueChanges.timeDeliveryFrom) {
           const newDateValue = this.adminTableService.setExportTimeFormat(new Date(changedValues.exportDetailsDto[key]));
-          key === OrderValueChanges.timeDeliveryTo ? (dateTo = newDateValue) : (dateFrom = newDateValue);
+          if (key === OrderValueChanges.timeDeliveryTo) {
+            dateTo = newDateValue;
+          } else {
+            dateFrom = newDateValue;
+          }
           if (dateFrom && dateTo) {
             this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(dateFrom, dateTo).join('-'));
           }
         }
       });
     }
+  }
+
+  private updateResponsibleEmployeeInState(changedValues: IOrderInfo) {
     if (changedValues?.updateResponsibleEmployeeDto) {
       changedValues?.updateResponsibleEmployeeDto.forEach((key) => {
         switch (key.positionId) {
