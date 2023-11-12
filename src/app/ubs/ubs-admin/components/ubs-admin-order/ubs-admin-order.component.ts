@@ -36,6 +36,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
+import { AdminTableService } from '../../services/admin-table.service';
+import { OrderValueChanges, TableKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -87,6 +89,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
+    private adminTableService: AdminTableService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -513,14 +516,68 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         if (response.ok) {
           this.getOrderInfo(this.orderId, true);
-          Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
-            if (changedValues.generalOrderInfo[key]) {
-              this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
-            }
-          });
+          if (changedValues?.generalOrderInfo) {
+            Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
+              if (changedValues.generalOrderInfo[key]) {
+                this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
+              }
+            });
+          }
+          this.updateResponsibleEmployeeInState(changedValues);
         }
       });
     this.statusCanceledOrDone();
+  }
+
+  private updateResponsibleEmployeeInState(changedValues: IOrderInfo) {
+    let dateFrom;
+    let dateTo;
+    if (changedValues?.exportDetailsDto) {
+      Object.keys(changedValues?.exportDetailsDto).forEach((key: string) => {
+        switch (key) {
+          case OrderValueChanges.dateExport:
+            this.postDataItem(
+              [this.orderId],
+              TableKeys.dateOfExport,
+              this.adminTableService.setDateFormat(changedValues.exportDetailsDto[key])
+            );
+            break;
+          case OrderValueChanges.receivingStationId:
+            this.postDataItem([this.orderId], TableKeys.receivingStation, String(changedValues.exportDetailsDto[key]));
+            break;
+          default:
+            break;
+        }
+
+        if (key === OrderValueChanges.timeDeliveryTo || key === OrderValueChanges.timeDeliveryFrom) {
+          const newDateValue = this.adminTableService.setExportTimeFormat(new Date(changedValues.exportDetailsDto[key]));
+          key === OrderValueChanges.timeDeliveryTo ? (dateTo = newDateValue) : (dateFrom = newDateValue);
+          if (dateFrom && dateTo) {
+            this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(dateFrom, dateTo).join('-'));
+          }
+        }
+      });
+    }
+    if (changedValues?.updateResponsibleEmployeeDto) {
+      changedValues?.updateResponsibleEmployeeDto.forEach((key) => {
+        switch (key.positionId) {
+          case 2:
+            this.postDataItem([this.orderId], TableKeys.responsibleCaller, String(key.employeeId));
+            break;
+          case 3:
+            this.postDataItem([this.orderId], TableKeys.responsibleLogicMan, String(key.employeeId));
+            break;
+          case 4:
+            this.postDataItem([this.orderId], TableKeys.responsibleNavigator, String(key.employeeId));
+            break;
+          case 5:
+            this.postDataItem([this.orderId], TableKeys.responsibleNavigator, String(key.employeeId));
+            break;
+          default:
+            break;
+        }
+      });
+    }
   }
 
   private postDataItem(orderId: number[], columnName: string, newValue: string): void {

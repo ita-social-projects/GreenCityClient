@@ -275,6 +275,10 @@ export class AdminTableService {
     return todayDate;
   }
 
+  public setExportTimeFormat(formedDate) {
+    return [formedDate.getHours(), formedDate.getMinutes()].map((x) => (x < 10 ? '0' + x : x)).join(':');
+  }
+
   public setFilters(filters): void {
     this.filters = filters;
   }
