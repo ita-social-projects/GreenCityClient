@@ -40,6 +40,11 @@ body {
     padding-left: 18px;
     padding-right: 18px;
   }
+
+  @media screen and (max-width: 320px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
 
 .app-wrapper {

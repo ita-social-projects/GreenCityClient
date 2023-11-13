@@ -17,17 +17,34 @@
 
 .counter {
   p {
-    font-family: var(--secondary-font);
-    font-weight: 500;
+    font-family: var(--primary-font);
+    font-weight: 700;
     font-size: 24px;
     line-height: 35px;
     color: var(--secondary-dark-grey);
     margin-bottom: 18px;
   }
 
+  .total-count {
+    font-size: 18px;
+    color: var(--quaternary-dark-grey);
+  }
+
   hr {
     background: var(--quaternary-light-grey);
     margin-top: 0;
     margin-bottom: 32px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .counter {
+    p {
+      font-size: 20px;
+    }
+
+    .total-count {
+      font-size: 14px;
+    }
   }
 }

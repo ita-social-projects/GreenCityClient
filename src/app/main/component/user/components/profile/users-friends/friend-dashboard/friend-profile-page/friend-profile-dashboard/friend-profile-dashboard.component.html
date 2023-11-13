@@ -1,70 +1,76 @@
 <div class="dashboard">
-  <div>
-    <mat-tab-group animationDuration="400ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
-      <mat-tab label="{{ 'user.habit.all-habits.title' | translate }}">
+  <mat-tab-group animationDuration="400ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
+    <mat-tab label="{{ 'user.habit.all-habits.title' | translate }}">
+      <div class="container">
         <div class="img-absent">
+          <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
           <h3 class="title">{{ 'user.habit.all-habits.title' | translate }}</h3>
-          <img [src]="absentContent" alt="absent-friends" />
         </div>
-      </mat-tab>
+      </div>
+    </mat-tab>
 
-      <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}">
+    <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}">
+      <div class="container">
         <div class="img-absent">
+          <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
           <h3 class="title">{{ 'user.habit.all-habits.mutual' | translate }}</h3>
-          <img [src]="absentContent" alt="absent-friends" />
         </div>
-      </mat-tab>
+      </div>
+    </mat-tab>
 
-      <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
+    <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
+      <div class="container">
         <div class="img-absent">
+          <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
           <h3 class="title">{{ 'profile.dashboard.my-habits' | translate }}</h3>
-          <img [src]="absentContent" alt="absent-friends" />
         </div>
-      </mat-tab>
+      </div>
+    </mat-tab>
 
-      <mat-tab label="{{ 'user.habit.invite.all' | translate }}">
-        <div class="friends-list">
-          <div *ngFor="let friend of friendsList">
-            <app-friend-item
-              [friend]="friend"
-              (friendEventEmit)="addFriend($event)"
-              primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-            >
-            </app-friend-item>
-          </div>
-          <app-spinner *ngIf="isFetching"></app-spinner>
+    <mat-tab label="{{ 'user.habit.invite.all' | translate }}">
+      <div class="friends-list">
+        <div *ngFor="let friend of friendsList">
+          <app-friend-item
+            [friend]="friend"
+            (friendEventEmit)="addFriend($event)"
+            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+            class="friends-item"
+          >
+          </app-friend-item>
         </div>
-        <div class="img-absent" *ngIf="numberAllFriends === 0 && !isFetching">
-          <h3 class="no-friends">{{ 'profile.zero-user-friends' | translate }}</h3>
-          <img [src]="absentContent" alt="absent-friends" />
-        </div>
-      </mat-tab>
+        <app-spinner *ngIf="isFetching"></app-spinner>
+      </div>
+      <div class="img-absent" *ngIf="numberAllFriends === 0 && !isFetching">
+        <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+        <h3 class="no-friends">{{ 'profile.zero-user-friends' | translate }}</h3>
+      </div>
+    </mat-tab>
 
-      <mat-tab label="{{ 'profile.friends.all-mutual-friends' | translate }}">
-        <div class="friends-list">
-          <div *ngFor="let friend of mutualFriendsList">
-            <app-friend-item
-              [friend]="friend"
-              (friendEventEmit)="addFriend($event)"
-              primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-            >
-            </app-friend-item>
-          </div>
-          <app-spinner *ngIf="isFetching"></app-spinner>
+    <mat-tab label="{{ 'profile.friends.all-mutual-friends' | translate }}">
+      <div class="friends-list">
+        <div *ngFor="let friend of mutualFriendsList">
+          <app-friend-item
+            [friend]="friend"
+            (friendEventEmit)="addFriend($event)"
+            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+            class="friends-item"
+          >
+          </app-friend-item>
         </div>
-        <div class="img-absent" *ngIf="numberAllMutualFriends === 0 && !isFetching">
-          <h3 class="no-friends">{{ 'profile.zero-user-friends' | translate }}</h3>
-          <img [src]="absentContent" alt="absent-friends" />
-        </div>
-      </mat-tab>
+        <app-spinner *ngIf="isFetching"></app-spinner>
+      </div>
+      <div class="img-absent" *ngIf="numberAllMutualFriends === 0 && !isFetching">
+        <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
+        <h3 class="no-friends">{{ 'profile.friends.no-mutual-friends' | translate }}</h3>
+      </div>
+    </mat-tab>
 
-      <div
-        infiniteScroll
-        [infiniteScrollDistance]="1"
-        [infiniteScrollThrottle]="500"
-        (scrolled)="onScroll()"
-        [infiniteScrollDisabled]="!isActiveInfinityScroll"
-      ></div>
-    </mat-tab-group>
-  </div>
+    <div
+      infiniteScroll
+      [infiniteScrollDistance]="1"
+      [infiniteScrollThrottle]="500"
+      (scrolled)="onScroll()"
+      [infiniteScrollDisabled]="!isActiveInfinityScroll"
+    ></div>
+  </mat-tab-group>
 </div>

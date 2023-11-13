@@ -992,6 +992,7 @@
     "acquired-habits": "acquired habits",
     "written-articles": "written articles",
     "published-news": "published news",
+    "organized-and-attended-events": "organized and attended events",
     "my-habits": "My Habits",
     "my-news": "My news",
     "my-articles": "My articles",
@@ -1012,7 +1013,8 @@
       "all-friends": "My friends",
       "search-friends": "Search",
       "find-friends": "Find a friend",
-      "found-amount": "of people found"
+      "found-amount": "of people found",
+      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)"
     }
   },
   "create-news": {
@@ -1132,6 +1134,9 @@
     "duration": "Duration",
     "min-duration": "Min 1 day",
     "duplicate-event-date": "You can't enter the same date for two days",
+    "max-length-title": "This field shouldn’t contain more than 70 symbols",
+    "title-required": "This field can't be empty and should contain up to 70 symbols",
+    "date-required": "This field can’t be empty",
     "day": "day",
     "all-day": "All day",
     "choose-date": "Choose a date",

@@ -50,7 +50,7 @@
 }
 
 .wrapper-reply {
-  margin: 32px 0 32px 32px;
+  margin: 32px 0 32px 28px;
 }
 
 @media screen and (max-width: 575px) {
@@ -133,12 +133,16 @@ button {
   }
 
   .wrapper-reply {
-    width: 468px;
+    width: 476px;
     margin: 32px 0 32px auto;
   }
 
   .wrapper-comment {
     width: 100%;
+  }
+
+  .primary-global-button__reply {
+    width: 123px;
   }
 }
 
