@@ -7,8 +7,8 @@
       </button>
     </div>
   </div>
-  <div [ngClass]="isUBS ? 'container-fluid' : 'container'">
-    <div [ngClass]="isAdmin ? 'admin-container-fluid' : 'header_container'">
+  <div [ngClass]="isUBS ? 'container-fluid' : 'container'" [ngClass]="{ 'ubs-user-header': isUBSUserPage }">
+    <div [ngClass]="isAdmin ? 'admin-container-fluid' : 'header-container'">
       <a
         class="header_logo"
         role="none"
@@ -22,23 +22,17 @@
       <div [ngClass]="getHeaderClass()">
         <nav [ngClass]="toggleBurgerMenu ? 'header_navigation-menu-left-col' : 'header_navigation-menu-left'" role="navigation">
           <ul role="tablist">
-            <a
-              *ngIf="isUBS"
-              #serviceref
-              href
-              class="pick-up-service"
-              (click)="openAboutServicePopUp($event)"
-              (keydown.enter)="onPressEnterAboutService($event)"
-              >{{ 'user.lower-nav-bar.about-us' | translate }}</a
-            >
-            <li *ngFor="let link of navLinks" role="listitem" class="nav-left-list">
+            <a *ngIf="isUBS" class="pick-up-service" (click)="openAboutServicePopUp($event)">{{
+              'user.lower-nav-bar.about-us' | translate
+            }}</a>
+            <li *ngFor="let link of navLinks" tabindex="0" role="listitem" class="nav-left-list">
               <a *ngIf="link.url; else routerLink" [href]="link.route" target="_blank" rel="noopener noreferrer" class="url-name">
                 {{ link.name | translate }}
               </a>
               <ng-template #routerLink>
                 <a
                   [routerLink]="link.route"
-                  [routerLinkActive]="[!isUBS ? 'active-link' : '']"
+                  [routerLinkActive]="!isUBS ? 'active-link' : ''"
                   [routerLinkActiveOptions]="{ exact: true }"
                   class="url-name"
                 >
@@ -63,11 +57,11 @@
               <li class="header_mobile-menu-item header_user-name tertiary-global-button" role="link">
                 {{ name }}
               </li>
-              <li *ngIf="isLoggedIn && !isAdmin" class="header_mobile-menu-item" role="link">
-                <a (click)="openNotificationsDialog()">
-                  {{ 'nav-bar.user-notifications' | translate }}
+              <!--<li class="header_mobile-menu-item" role="link">
+                <a (click)="openSettingDialog()">
+                  {{ 'nav-bar.user-settings' | translate }}
                 </a>
-              </li>
+              </li>-->
               <li *ngIf="isLoggedIn && isGreenCityAdmin" class="header_mobile-menu-item">
                 <a [href]="managementLink" target="_blank" role="link">
                   {{ 'nav-bar.management' | translate }}
@@ -94,6 +88,16 @@
         </nav>
         <div class="header_navigation-menu-right">
           <ul role="menu" class="header_navigation-menu-right-list">
+            <!-- Notification icon -->
+            <li
+              *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
+              aria-label="site notification"
+              class="notification-icon"
+              role="notification"
+              tabindex="0"
+            >
+              <img [src]="headerImageList.notification" alt="Internal search button" aria-hidden="true" />
+            </li>
             <!-- Bookmark icon -->
             <li
               *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
@@ -103,17 +107,6 @@
               tabindex="0"
             >
               <img [src]="headerImageList.bookmark" alt="Internal search button" aria-hidden="true" />
-            </li>
-            <!-- Notification icon -->
-            <li
-              *ngIf="!isAllSearchOpen && !isUBS && isLoggedIn"
-              aria-label="site notification"
-              class="notification-icon"
-              role="notification"
-              tabindex="0"
-              (click)="openNotificationPopUp($event)"
-            >
-              <img [src]="headerImageList.notification" alt="Internal search button" aria-hidden="true" />
             </li>
             <!-- Search icon -->
             <li
@@ -132,20 +125,17 @@
               appCloseDropdown
               aria-label="language switcher"
               role="menu"
-              tabindex="-1"
-              [attr.aria-expanded]="langDropdownVisible ? 'true' : 'false'"
+              tabindex="0"
               [ngClass]="{
                 'add-shadow': langDropdownVisible,
                 'header_lang-switcher-wrp header_navigation-menu-right-lang': true,
                 'ubs-lang-switcher': isUBS
               }"
               (click)="langDropdownVisible = !langDropdownVisible"
-              (keydown.enter)="toggleLangDropdown($event)"
-              (keydown.space)="toggleLangDropdown($event)"
               (clickOutSide)="autoCloseLangDropDown($event)"
               (keyup.enter)="langDropdownVisible = !langDropdownVisible"
             >
-              <li role="option" aria-label="english" class="lang-option" tabindex="0">
+              <li role="option" aria-label="english" class="lang-option">
                 <span
                   [ngStyle]="{
                     'font-size': isUBS && '14px',
@@ -168,10 +158,8 @@
                     *ngIf="index > 0"
                     role="menuitem"
                     tabindex="0"
-                    class="lang-option"
                     [attr.aria-label]="lang.lang"
                     (click)="changeCurrentLanguage(lang.lang, index)"
-                    (keydown)="onKeydownLangOption($event, index)"
                   >
                     <span [ngClass]="isUBS && 'ubs-lang-switcher-span'" aria-hidden="true">{{ lang.lang }}</span>
                   </li>
@@ -180,13 +168,15 @@
             </ul>
             <ng-container *ngIf="isLoggedIn">
               <ul
-                class="nav-global-button"
+                class="tertiary-global-button"
                 id="header_user-wrp"
                 role="menu"
                 tabindex="0"
                 appCloseDropdown
                 [attr.aria-label]="ariaStatus"
                 [ngClass]="{
+                  'd-none': toggleBurgerMenu,
+                  'add-shadow': dropdownVisible,
                   'item-list-margin': dropdownVisible && isUBS,
                   'ubs-user-cabinet': isUBS,
                   'ubs-admin-cabinet': isAdmin
@@ -195,42 +185,38 @@
                 (clickOutSide)="autoCloseUserDropDown($event)"
                 (keyup.enter)="toggleDropdown()"
               >
-                <li class="body-2" [ngClass]="isUBS ? 'ubs-user-name' : 'user-name'">{{ name }}</li>
-                <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
-                  <!-- <li
-                    *ngIf="!isAdmin"
-                    [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
-                    role="listitem"
-                    aria-label="notifications"
-                    tabindex="0"
-                  >
-                    <a (click)="openNotificationsDialog()">
-                      {{ 'nav-bar.user-notifications' | translate }}
-                    </a>
-                  </li> -->
-                  <li
-                    *ngIf="isLoggedIn && isGreenCityAdmin"
-                    aria-label="management"
-                    role="listitem"
-                    tabindex="0"
-                    [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
-                  >
-                    <a [href]="managementLink" target="_blank">
-                      {{ 'nav-bar.management' | translate }}
-                    </a>
-                  </li>
-                  <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
-                    <a (click)="signOut()">
-                      {{ 'nav-bar.sign-out' | translate }}
-                    </a>
-                  </li>
-                  <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                    <a [routerLink]="['/ubs-admin/orders']"> UBS-admin </a>
-                  </li>
-                  <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                    <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
-                  </li>
-                </ul>
+                <li [ngClass]="isAdmin ? 'admin-list-item' : 'list-item'" role="listitem">
+                  <a [ngClass]="isUBS ? 'ubs-header_user-name' : 'header_user-name'" aria-hidden="true">
+                    <img src="../assets/img/events/user.svg" alt="log-in user" />
+                  </a>
+                </li>
+                <!--<li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="listitem" aria-label="settings" tabindex="0">
+                  <a (click)="openSettingDialog()">
+                    {{ 'nav-bar.user-settings' | translate }}
+                  </a>
+                </li>-->
+                <li
+                  *ngIf="isLoggedIn && isGreenCityAdmin"
+                  aria-label="management"
+                  role="listitem"
+                  tabindex="0"
+                  [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
+                >
+                  <a [href]="managementLink" target="_blank">
+                    {{ 'nav-bar.management' | translate }}
+                  </a>
+                </li>
+                <li [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="button" aria-label="sign-out" tabindex="0">
+                  <a (click)="signOut()">
+                    {{ 'nav-bar.sign-out' | translate }}
+                  </a>
+                </li>
+                <li *ngIf="isLoggedIn && isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                  <a [routerLink]="['/ubs-admin/orders']"> UBS-admin </a>
+                </li>
+                <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
+                  <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
+                </li>
               </ul>
             </ng-container>
             <!-- SIGN IN LINK -->
