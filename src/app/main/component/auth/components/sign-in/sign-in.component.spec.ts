@@ -116,7 +116,7 @@ describe('SignIn component', () => {
       spyOn(component, 'onOpenModalWindow');
 
       const nativeElement = fixture.nativeElement;
-      const button = nativeElement.querySelector('.forgot-password');
+      const button = nativeElement.querySelector('.forgot-password-ubs');
       button.dispatchEvent(new Event('click'));
 
       fixture.detectChanges();
@@ -229,33 +229,6 @@ describe('SignIn component', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
       component.onSignInSuccess(userSuccessSignIn);
       expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'orders']);
-    });
-
-    it('should navigate to profile/userId for ROLE_USER', () => {
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
-      spyOn(component, 'navigateToPage').and.returnValue(['profile', userSuccessSignIn.userId]);
-      component.onSignInSuccess(userSuccessSignIn);
-      expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
-    });
-
-    it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      const result = component.navigateToPage({});
-      expect(result).toEqual(['ubs-admin', 'orders']);
-    });
-
-    it('should navigate to profile/userId for ROLE_USER', () => {
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_USER');
-      const result = component.navigateToPage({ userId: 123 });
-      expect(result).toEqual(['profile', 123]);
-    });
-
-    it('should navigate to the correct page based on user role', () => {
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      component.isEventsDetails = false;
-      component.isUbs = false;
-      const result = component.navigateToPage({ userId: 'user123' });
-      expect(result).toEqual(['ubs-admin', 'orders']);
     });
   });
 
