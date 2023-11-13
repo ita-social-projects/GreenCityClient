@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { EditProfileModel } from '@user-models/edit-profile.model';
+import { EditProfileModel, UserLocationDto } from '@user-models/edit-profile.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ActivatedRoute } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -58,8 +58,13 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     return this.profileService.getSocialImage(socialNetwork);
   }
 
-  public getUserCity(userInfo): string {
-    return this.langService.getLangValue(userInfo.userLocationDto?.cityUa, userInfo.userLocationDto?.cityEn) as string;
+  public getUserCity(locationDto: UserLocationDto): string {
+    if (locationDto) {
+      const city = this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn) as string;
+      const country = this.langService.getLangValue(locationDto?.countryUa, locationDto?.countryEn) as string;
+      return locationDto.cityUa && locationDto.cityEn ? `${city}, ${country}` : '';
+    }
+    return '';
   }
 
   private findNetwork(networkLink) {

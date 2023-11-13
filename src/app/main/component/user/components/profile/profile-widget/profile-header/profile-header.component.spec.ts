@@ -96,10 +96,14 @@ describe('ProfileHeaderComponent', () => {
   });
 
   it('Should return  User City name according to current language', () => {
-    const userInfo: EditProfileModel = {
-      userLocationDto: { id: 1, cityEn: 'City', cityUa: 'Місто', countryEn: 'Country', countryUa: 'Країна' }
-    } as EditProfileModel;
+    const userLocationDto: UserLocationDto = {
+      id: 1,
+      cityEn: 'City',
+      cityUa: 'Місто',
+      countryEn: 'Country',
+      countryUa: 'Країна'
+    } as UserLocationDto;
 
-    expect(component.getUserCity(userInfo)).toBe('Місто');
+    expect(component.getUserCity(userLocationDto)).toBe('Місто, Країна');
   });
 });

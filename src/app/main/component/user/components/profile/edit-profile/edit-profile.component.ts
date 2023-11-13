@@ -31,7 +31,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     componentRestrictions: { country: 'UA' },
     language: this.getLangValue('ua', 'en')
   };
-  // private country = this.getLangValue('Україна', 'Ukraine');
+  private country = this.getLangValue('Україна', 'Ukraine');
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
@@ -124,35 +124,33 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
           this.coordinates.latitude = locationName.geometry.location.lat();
           this.coordinates.longitude = locationName.geometry.location.lng();
           this.getControl('city').setValue(this.getCityCountryFormat(locationName.formatted_address));
+          this.editProfileForm.markAsDirty();
         }
       });
     });
   }
 
   private getCityCountryFormat(address: string): string {
-    // return `${address.split(', ')[0]}, ${this.country}`;
-    const postIndexLength = 7;
-    if (address.split(', ').length === 3) {
-      return address.slice(0, -postIndexLength);
-    }
-    return `${address.split(', ')[0]}, ${address.split(', ')[2] || ''}`;
+    return `${address.split(', ')[0]}, ${this.country}`;
   }
 
-  onCityChange() {
+  onCityChange(): void {
     this.getControl('city').setValue('');
+    this.coordinates.latitude = null;
+    this.coordinates.longitude = null;
   }
 
   public getFormInitialValues(data: EditProfileModel): void {
     this.initialValues = {
       firstName: data.name,
       get latitude() {
-        return data.userLocationDto.latitude;
+        return data.userLocationDto?.latitude || null;
       },
       get longitude() {
-        return data.userLocationDto.latitude;
+        return data.userLocationDto?.longitude || null;
       },
       get userCredo() {
-        return data.userCredo === null ? '' : data.userCredo;
+        return data.userCredo ? data.userCredo : '';
       },
       showLocation: data.showLocation,
       showEcoPlace: data.showEcoPlace,
@@ -185,6 +183,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
           this.setupExistingData(data);
           this.socialNetworks = data.socialNetworks;
           this.socialNetworksToServer = data.socialNetworks.map((sn) => sn.url);
+          this.coordinates.latitude = data.userLocationDto?.latitude || null;
+          this.coordinates.longitude = data.userLocationDto?.longitude || null;
           this.getFormInitialValues(data);
         }
       });

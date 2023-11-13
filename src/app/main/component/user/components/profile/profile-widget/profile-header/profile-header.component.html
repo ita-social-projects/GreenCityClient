@@ -12,7 +12,9 @@
     </div>
 
     <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ userInfo.name | maxTextLength: 15 }}</p>
-    <p class="location" appCustomTooltip [appCustomTooltip]="getUserCity(userInfo)">{{ getUserCity(userInfo) | maxTextLength: 30 }}</p>
+    <p class="location" appCustomTooltip [appCustomTooltip]="getUserCity(userInfo.userLocationDto)">
+      {{ getUserCity(userInfo.userLocationDto) | maxTextLength: 30 }}
+    </p>
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>

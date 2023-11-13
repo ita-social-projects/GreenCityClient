@@ -1,5 +1,5 @@
 export class EditProfileModel {
-  userLocationDto: UserLocationDto;
+  userLocationDto: UserLocationDto | null;
   name: string;
   userCredo: string;
   profilePicturePath: string;
