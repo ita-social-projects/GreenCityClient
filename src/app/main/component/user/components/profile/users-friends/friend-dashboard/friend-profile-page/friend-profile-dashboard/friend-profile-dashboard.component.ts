@@ -26,7 +26,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   public friendsList: FriendModel[] = [];
   public mutualFriendsList: FriendModel[] = [];
   public selectedIndex = 0;
-  readonly absentContent = 'assets/img/noNews.jpg';
+  readonly absentContent = 'assets/img/noNews.svg';
 
   constructor(
     private userFriendsService: UserFriendsService,

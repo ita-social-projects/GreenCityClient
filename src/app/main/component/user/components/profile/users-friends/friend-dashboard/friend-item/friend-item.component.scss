@@ -1,7 +1,8 @@
 .friend-item-wrapper {
   box-sizing: border-box;
   display: flex;
-  width: 554px;
+  justify-content: space-between;
+  width: 100%;
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
@@ -26,12 +27,12 @@
     margin: 0 auto;
   }
 
-  @media (max-width: 767px) {
-    width: 100%;
-  }
-
   @media (max-width: 450px) {
     padding: 24px 6px 16px 10px;
+  }
+
+  @media (min-width: 280px) {
+    width: 100%;
   }
 }
 
@@ -48,6 +49,10 @@
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
+}
+
+.friend-item-left {
+  display: flex;
 }
 
 .friend-city,
@@ -88,12 +93,15 @@
   flex-direction: column;
   justify-content: flex-start;
   flex: 3;
-  margin-left: 28px;
+  margin-left: 5px;
 
-  @media (max-width: 450px) {
+  @media (max-width: 360px) {
     max-width: 100px;
-    margin-left: 5px;
     overflow: hidden;
+  }
+
+  @media (min-width: 450px) {
+    margin-left: 10px;
   }
 }
 
@@ -112,10 +120,6 @@
     white-space: nowrap;
     width: 100%;
   }
-}
-
-.friend-img {
-  flex: 1;
 }
 
 .friend-with-photo {
