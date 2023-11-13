@@ -2,8 +2,8 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -28,7 +28,6 @@ declare var google: any;
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() isUbs: boolean;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -41,10 +40,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
-  public isEventsDetails: boolean;
-  public eventId: string;
-  public isOwnerParams: boolean;
-  public isActiveParams: boolean;
+  public isUbs = true;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
   private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
@@ -59,7 +55,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     private userOwnSignInService: UserOwnSignInService,
     private jwtService: JwtService,
     private router: Router,
-    private route: ActivatedRoute,
     private googleService: GoogleSignInService,
     private localStorageService: LocalStorageService,
     private userOwnAuthService: UserOwnAuthService,
@@ -162,7 +157,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.jwtService.userRole$.next(this.jwtService.getUserRole());
     this.zone.run(() => {
       this.router
-        .navigate(this.navigateToPage(data))
+        .navigate(this.isUbs ? ['ubs'] : ['profile', data.userId])
         .then(() => {
           this.localStorageService.setFirstSignIn();
           this.profileService
@@ -196,21 +191,10 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.localStorageService.setFirstName(data.name);
     this.localStorageService.setFirstSignIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.router.navigate(this.navigateToPage(data));
-  }
-
-  public navigateToPage(data): any {
     const getUbsRoleSignIn = this.jwtService.getUserRole();
+    const isUbsRoleAdmin = getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE' ? ['ubs-admin', 'orders'] : ['ubs'];
     this.jwtService.userRole$.next(getUbsRoleSignIn);
-    if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
-      return ['ubs-admin', 'orders'];
-    }
-    if (this.isUbs) {
-      return ['ubs'];
-    }
-    if (getUbsRoleSignIn === 'ROLE_USER') {
-      return ['profile', data.userId];
-    }
+    this.router.navigate(this.isUbs ? isUbsRoleAdmin : ['profile', data.userId]);
   }
 
   private onSignInFailure(errors: HttpErrorResponse): void {

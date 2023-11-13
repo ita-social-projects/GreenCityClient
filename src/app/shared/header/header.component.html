@@ -197,7 +197,7 @@
               >
                 <li class="body-2" [ngClass]="isUBS ? 'ubs-user-name' : 'user-name'">{{ name }}</li>
                 <ul class="dropdown-list" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'">
-                  <li
+                  <!-- <li
                     *ngIf="!isAdmin"
                     [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'"
                     role="listitem"
@@ -207,7 +207,7 @@
                     <a (click)="openNotificationsDialog()">
                       {{ 'nav-bar.user-notifications' | translate }}
                     </a>
-                  </li>
+                  </li> -->
                   <li
                     *ngIf="isLoggedIn && isGreenCityAdmin"
                     aria-label="management"
