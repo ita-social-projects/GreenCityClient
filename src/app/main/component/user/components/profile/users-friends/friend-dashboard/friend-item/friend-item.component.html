@@ -17,8 +17,12 @@
           {{ friend.mutualFriends }} {{ 'profile.friends.mutual-friends' | correctUnit: friend.mutualFriends:currentLang | translate }}
         </span>
       </p>
-      <p class="friend-city" appCustomTooltip [appCustomTooltip]="friend.city || ('profile.friends.no-city' | translate)">
-        {{ (friend.city | maxTextLength) || ('profile.friends.no-city' | translate) }}
+      <p
+        class="friend-city"
+        appCustomTooltip
+        [appCustomTooltip]="getFriendCity(friend.userLocationDto) || ('profile.friends.no-city' | translate)"
+      >
+        {{ (getFriendCity(friend.userLocationDto) | maxTextLength) || ('profile.friends.no-city' | translate) }}
       </p>
     </div>
   </div>

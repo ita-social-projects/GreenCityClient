@@ -18,6 +18,7 @@ import { Language } from '../../../../../i18n/Language';
 import { HABITLIST } from '../mocks/habit-mock';
 import { CUSTOMHABIT, DEFAULTHABIT, HABITSASSIGNEDLIST } from '../mocks/habit-assigned-mock';
 import { FIRSTTAGITEM, SECONDTAGITEM, TAGLIST } from '../mocks/tags-list-mock';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 @Injectable()
 class TranslationServiceStub {
@@ -76,7 +77,9 @@ describe('AllHabitsComponent', () => {
   habitServiceMock.getAllTags = () => of(TAGLIST);
 
   const userData = {
-    city: 'string',
+    userLocationDto: {
+      cityUa: 'string'
+    },
     name: 'string',
     userCredo: 'string',
     profilePicturePath: defaultImagePath,
@@ -85,7 +88,7 @@ describe('AllHabitsComponent', () => {
     showLocation: true,
     showShoppingList: true,
     socialNetworks: [{ id: 1, url: defaultImagePath }]
-  };
+  } as EditProfileModel;
 
   let profileServiceMock: ProfileService;
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);

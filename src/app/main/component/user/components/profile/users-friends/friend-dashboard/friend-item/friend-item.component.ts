@@ -6,6 +6,8 @@ import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { ChatsService } from 'src/app/chat/service/chats/chats.service';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
+import { UserLocationDto } from '@global-user/models/edit-profile.model';
 
 @Component({
   selector: 'app-friend-item',
@@ -36,7 +38,8 @@ export class FriendItemComponent implements OnInit {
     private socketService: SocketService,
     private dialog: MatDialog,
     private chatsService: ChatsService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private langService: LanguageService
   ) {
     this.userId = +this.route.snapshot.params.userId;
   }
@@ -94,6 +97,10 @@ export class FriendItemComponent implements OnInit {
     } else if (idName === 'openChatButton') {
       this.onOpenChat();
     }
+  }
+
+  public getFriendCity(locationDto: UserLocationDto): string {
+    return this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn) as string;
   }
 
   private onCreateChat() {

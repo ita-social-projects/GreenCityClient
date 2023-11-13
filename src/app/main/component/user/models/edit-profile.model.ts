@@ -1,5 +1,5 @@
 export class EditProfileModel {
-  city: string;
+  userLocationDto: UserLocationDto | null;
   name: string;
   userCredo: string;
   profilePicturePath: string;
@@ -11,11 +11,28 @@ export class EditProfileModel {
 }
 
 export class EditProfileDto {
-  city: string;
+  coordinates: Coordinates;
   name: string;
   userCredo: string;
   showEcoPlace: boolean;
   showLocation: boolean;
   showShoppingList: boolean;
   socialNetworks: Array<string>;
+}
+
+export class UserLocationDto {
+  id: number | null;
+  cityEn: string | null;
+  cityUa: string | null;
+  regionEn: string | null;
+  regionUa: string | null;
+  countryEn: string | null;
+  countryUa: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+export class Coordinates {
+  latitude: number | null;
+  longitude: number | null;
 }

@@ -8,6 +8,7 @@ import { AddCommentComponent } from './add-comment.component';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
+import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 describe('AddCommentComponent', () => {
   let component: AddCommentComponent;
@@ -17,7 +18,10 @@ describe('AddCommentComponent', () => {
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
   const userData = {
-    city: 'string',
+    userLocationDto: {
+      cityUa: 'Місто',
+      cityEn: 'City'
+    },
     name: 'string',
     userCredo: 'string',
     profilePicturePath: defaultImagePath,
@@ -26,7 +30,7 @@ describe('AddCommentComponent', () => {
     showLocation: true,
     showShoppingList: true,
     socialNetworks: [{ id: 1, url: defaultImagePath }]
-  };
+  } as EditProfileModel;
 
   let profileServiceMock: ProfileService;
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);

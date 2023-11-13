@@ -182,7 +182,7 @@ describe('EditProfileComponent', () => {
       editProfileService = fixture.debugElement.injector.get(EditProfileService);
       profileService = fixture.debugElement.injector.get(ProfileService);
       mockUserInfo = {
-        city: 'Lviv',
+        userLocationDto: { cityEn: 'Lviv' },
         name: 'John',
         userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
         profilePicturePath: './assets/img/profileAvatarBig.png',
@@ -191,7 +191,7 @@ describe('EditProfileComponent', () => {
         showLocation: true,
         showShoppingList: true,
         socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
-      };
+      } as EditProfileModel;
     });
 
     it('getInitialValue should call ProfileService', () => {
