@@ -38,10 +38,6 @@
 
 .rate-with-photo {
   background: rgba(19, 170, 87, 0.12);
-
-  &::before {
-    content: 'Rate:';
-  }
 }
 
 .friend-name {

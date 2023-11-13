@@ -1015,9 +1015,10 @@
     "my-habits": "Мої звички",
     "my-news": "Мої новини",
     "my-articles": "Мої статті",
+    "rate": "Рейтинг",
     "friends": {
       "link-to-profile": "Мій кабінет",
-      "mutual-friends": "спільних друзів",
+      "mutual-friends": { "singular": "спільний друг", "plural": { "units-2-3-4": "спільних друга", "units-more-5": "спільних друзів" } },
       "all-mutual-friends": "Спільні друзі",
       "friends": "Друзі",
       "add-new-friend": "Додати",

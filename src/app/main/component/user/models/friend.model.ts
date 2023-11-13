@@ -6,7 +6,7 @@ export interface FriendModel {
   added?: boolean;
   rating: number;
   city?: string;
-  mutualFriends?: number | string;
+  mutualFriends?: number;
   friendStatus: string;
   chatId?: number;
   role?: string;

@@ -996,9 +996,10 @@
     "my-habits": "My Habits",
     "my-news": "My news",
     "my-articles": "My articles",
+    "rate": "Rate",
     "friends": {
       "link-to-profile": "Back to My habits",
-      "mutual-friends": "mutual friends",
+      "mutual-friends": { "plural": "mutual friends", "singular": "mutual friend" },
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",

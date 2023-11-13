@@ -10,14 +10,12 @@
     <div class="friend-info">
       <div class="main-info friend-with-photo">
         <p class="friend-name" appCustomTooltip [appCustomTooltip]="friend.name">{{ friend.name | maxTextLength }}</p>
-        <p class="friend-rate rate-with-photo">
-          {{ friend.rating }}
-        </p>
+        <p class="friend-rate rate-with-photo">{{ 'profile.rate' | translate }}: {{ friend.rating }}</p>
       </div>
       <p class="friend-mutual">
-        <span [class.friend-mutual-link]="!userId"
-          >{{ friend.mutualFriends ? friend.mutualFriends : 0 }} {{ 'profile.friends.mutual-friends' | translate }}</span
-        >
+        <span [class.friend-mutual-link]="!userId">
+          {{ friend.mutualFriends }} {{ 'profile.friends.mutual-friends' | correctUnit: friend.mutualFriends:currentLang | translate }}
+        </span>
       </p>
       <p class="friend-city" appCustomTooltip [appCustomTooltip]="friend.city || ('profile.friends.no-city' | translate)">
         {{ (friend.city | maxTextLength) || ('profile.friends.no-city' | translate) }}

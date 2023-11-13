@@ -5,6 +5,7 @@ import { FriendModel } from '@global-user/models/friend.model';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { ChatsService } from 'src/app/chat/service/chats/chats.service';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-friend-item',
@@ -12,6 +13,7 @@ import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal
   styleUrls: ['./friend-item.component.scss']
 })
 export class FriendItemComponent implements OnInit {
+  public currentLang: string;
   public userId: number;
   private dialogConfig = {
     hasBackdrop: true,
@@ -33,7 +35,8 @@ export class FriendItemComponent implements OnInit {
     private route: ActivatedRoute,
     private socketService: SocketService,
     private dialog: MatDialog,
-    private chatsService: ChatsService
+    private chatsService: ChatsService,
+    private localStorageService: LocalStorageService
   ) {
     this.userId = +this.route.snapshot.params.userId;
   }
@@ -44,6 +47,7 @@ export class FriendItemComponent implements OnInit {
         this.friend.chatId = chatInfo.chatId;
       }
     });
+    this.getLangChange();
   }
 
   friendEvent(): void {
@@ -52,6 +56,12 @@ export class FriendItemComponent implements OnInit {
 
   declineFriend(): void {
     this.declineEvent.emit(this.friend.id);
+  }
+
+  private getLangChange(): void {
+    this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
+      this.currentLang = lang;
+    });
   }
 
   private toUsersInfo(): void {
