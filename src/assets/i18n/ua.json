@@ -1037,7 +1037,8 @@
     "rate": "Рейтинг",
     "acquired-habits": "набуті звички",
     "written-articles": "мої статті",
-    "published-news": "мої новини"
+    "published-news": "мої новини",
+    "organized-and-attended-events": "організовані та відвідані події"
   },
   "create-news": {
     "title": "Створити новину",
