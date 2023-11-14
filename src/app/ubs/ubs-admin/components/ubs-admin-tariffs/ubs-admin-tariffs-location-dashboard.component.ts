@@ -15,7 +15,6 @@ import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/m
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';
-import { TariffConfirmationPopUpComponent } from '../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -99,6 +98,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   isEmployeeCanActivateDeactivate: boolean;
   isUserCanControlSettings: boolean;
   isUserCanUseCrumbs: boolean;
+  isLoadingCards: boolean;
 
   constructor(
     private tariffsService: TariffsService,
@@ -214,7 +214,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   private initForm(): void {
     this.searchForm = this.fb.group({
       region: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
-      city: ['', [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
+      city: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(40), Validators.pattern(Patterns.NamePattern)]],
       courier: ['', [Validators.required]],
       station: ['', [Validators.required]],
       state: ['ACTIVE']
@@ -241,6 +241,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         .subscribe((response) => {
           this.isCardExist = JSON.parse(JSON.stringify(response));
         });
+    } else {
+      this.isCardExist = false;
     }
   }
 
@@ -253,6 +255,8 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.updateFilterData({ [fieldName]: '', location: locationsId });
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
+
+    if (fieldName === 'region') this.city.disable();
   }
 
   resetCourierValue(): void {
@@ -479,6 +483,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         return searchingFilter === event.value;
       });
       this.courierNameEng = selectedValue.nameEn;
+      this.courierNameUk = selectedValue.nameUk;
       this.courierId = selectedValue.courierId;
       Object.assign(this.filterData, { courier: this.courierId });
     }
@@ -562,6 +567,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   }
 
   public getExistingCard(filterData) {
+    this.isLoadingCards = true;
     this.cardsUk.length = 0;
     this.cardsEn.length = 0;
     this.tariffsService
@@ -594,6 +600,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
           this.cardsUk.push(cardObjUk);
           this.cardsEn.push(cardObjEn);
         });
+        this.isLoadingCards = false;
       });
   }
 
@@ -664,6 +671,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
     this.canRegionInputValueBeRegion = true;
+    this.city.enable();
   }
 
   filterOptions(control, array): Array<string> {
@@ -684,26 +692,24 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
 
   public createTariffCard(): void {
     this.createCardDto();
-    const matDialogRef = this.dialog.open(TariffConfirmationPopUpComponent, {
+    const matDialogRef = this.dialog.open(UbsAdminTariffsCardPopUpComponent, {
       disableClose: true,
       hasBackdrop: true,
       panelClass: 'address-matDialog-styles-w-100',
       data: {
         title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-        courierName: this.courier.value,
-        selectedStation: this.selectedStation,
-        courierEnglishName: this.courierNameEng,
-        stationNames: this.selectedStation.map((it) => it.name),
-        regionName: this.region.value,
-        regionEnglishName: this.regionEnglishName,
-        regionNameUk: this.regionNameUk,
-        locationNames: this.selectedCities.map((it) => {
-          return { name: it.name, ukrainianName: it.ukrainianName, englishName: it.englishName };
-        }),
-        courierId: this.courierId,
-        regionId: this.regionId,
-        receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
-        locationIdList: this.selectedCities.map((it) => it.id).sort(),
+        create: true,
+        provideValues: true,
+        receivingStationsIdList: this.selectedStation.map((it) => it.id),
+        courierUkrainianName: this.courier.value ? this.courierNameUk : '',
+        courierEnglishName: this.courier.value ? this.courierNameEng : '',
+        courierId: this.courier.value ? this.courierId : null,
+        selectedStation: this.selectedStation.map((it) => it.name) || [],
+        regionUkrainianName: this.region.value ? this.regionNameUk : '',
+        regionEnglishName: this.region.value ? this.regionEnglishName : '',
+        regionId: this.region.value ? this.regionId : null,
+        cityNameUk: this.selectedCities.map((city) => city.name) || [],
+        cityNameEn: this.selectedCities.map((city) => city.englishName) || [],
         action: 'ubs-tariffs-add-location-pop-up.create_button'
       }
     });

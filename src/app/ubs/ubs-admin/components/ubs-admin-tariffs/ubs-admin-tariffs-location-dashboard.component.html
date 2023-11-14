@@ -77,7 +77,7 @@
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.city' | translate }}</p>
-      <div class="input-wrapper">
+      <div class="input-wrapper" [ngClass]="{ disabled: city.disabled }">
         <input
           class="city"
           [placeholder]="cityPlaceholder"
@@ -102,8 +102,10 @@
             <span class="checkbox-text">{{ city }}</span>
           </mat-option>
         </mat-autocomplete>
-        <mat-icon class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
-        <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
+        <div class="input-control" *ngIf="city.enabled">
+          <mat-icon class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
+          <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
+        </div>
       </div>
       <mat-chip-list #chipListCity aria-label="City selection">
         <div class="city-list">
@@ -275,7 +277,7 @@
     </tr>
   </tbody>
 </table>
-<div *ngIf="isFieldFilled && !isCardExist" class="create-card-field">
+<div *ngIf="!isLoadingCards && cards.length === 0 && !isCardExist" class="create-card-field">
   <span>{{ 'ubs-tariffs.card-not-found' | translate }}</span>
   <button class="ubs-button" (click)="createTariffCard()">{{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}</button>
 </div>

@@ -74,6 +74,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   regionEng: string;
   isEdit: boolean;
   isCreate: boolean;
+  provideValues: boolean;
   tariffId: number;
   isLocationAlreadyUsed: boolean;
   cityPlaceholderTranslated: string;
@@ -112,13 +113,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.tariffId = this.modalData.tariffId;
     this.courierNameUk = this.modalData.courierUkrainianName;
     this.courierNameEn = this.modalData.courierEnglishName;
-
-    this.currentStation = this.modalData.selectedStation;
-
-    this.regionEnglishName = this.modalData.regionEnglishName;
-    this.regionUkrainianName = this.modalData.regionUkrainianName;
-    this.cityUk = this.modalData.cityNameUk;
-    this.cityEn = this.modalData.cityNameEn;
+    this.provideValues = this.modalData.provideValues;
+    this.currentStation = this.modalData.selectedStation || '';
+    this.regionEnglishName = this.modalData.regionEnglishName || '';
+    this.regionUkrainianName = this.modalData.regionUkrainianName || '';
+    this.regionId = this.modalData.regionId || null;
+    this.cityUk = this.modalData.cityNameUk || '';
+    this.cityEn = this.modalData.cityNameEn || '';
+    this.courierId = this.modalData.courierId || null;
+    this.courierEnglishName = this.modalData.courierEnglishName || '';
+    this.courierUkrainianName = this.modalData.courierUkrainianName || '';
 
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
@@ -136,7 +140,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.getLocations();
     this.setCountOfSelectedCity();
 
-    if (this.isEdit) {
+    if (this.isEdit || this.provideValues) {
       this.fillFields(this.modalData);
     }
   }
@@ -198,7 +202,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .subscribe((res: Stations[]) => {
         this.stations = res;
 
-        if (this.isEdit) {
+        if (this.isEdit || this.provideValues) {
           this.setSelectedStation();
         }
 
@@ -227,7 +231,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           )
           .flat(2);
 
-        if (this.isEdit) {
+        if (this.isEdit || this.provideValues) {
           this.setSelectedCities();
         }
       }
@@ -251,6 +255,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   private setSelectedCities(): void {
+    if (!this.regionEnglishName || !this.regionUkrainianName) return;
+
     const currentRegion = this.locations.filter((element) =>
       element.regionTranslationDtos.find((it) => it.regionName === this.region.value)
     );
