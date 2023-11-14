@@ -68,6 +68,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFile = null;
   public selectedFileUrl: string;
   public previewDates: PagePreviewDTO;
+  public submitSelected: boolean;
 
   public fromPreview: boolean;
   private editorText = '';
@@ -381,6 +382,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onSubmit(): void {
+    this.submitSelected = true;
     this.checkDates();
     const datesDto: Dates[] = this.checkdates ? this.createDates() : [];
     const tagsArr: string[] = this.tags.filter((tag) => tag.isActive).map((tag) => tag.nameEn);

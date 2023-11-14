@@ -38,10 +38,9 @@
 }
 
 .tag-error {
-  font-size: 12px;
   color: var(--error-red);
-  margin-top: -15px;
-  margin-bottom: 10px;
+  margin-top: -18px;
+  margin-bottom: 30px;
 }
 
 .all-day {
@@ -66,9 +65,11 @@
   margin-bottom: 16px;
 }
 
-.tag-error-messege {
-  margin-left: 20px;
+.location-error-messege {
+  font-size: 12px;
   color: var(--error-red);
+  margin-top: -8px;
+  margin-bottom: 12px;
 }
 
 .checkbox-error ::ng-deep .mat-checkbox-frame {

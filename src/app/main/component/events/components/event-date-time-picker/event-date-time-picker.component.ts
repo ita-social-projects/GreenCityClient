@@ -51,6 +51,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Input() duplindx: number;
   @Input() fromPreview: boolean;
   @Input() previewData: DateEvent;
+  @Input() submitSelected: boolean;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
