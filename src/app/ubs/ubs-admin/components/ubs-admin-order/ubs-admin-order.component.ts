@@ -82,6 +82,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   private employeeAuthorities: string[];
   public isEmployeeCanEditOrder = false;
+  private timeDeliveryFrom: string;
+  private timeDeliveryTo: string;
+  private dateExport: string;
+  private receivingStationId: any;
   notTakenOutReasonDescription: string;
   notTakenOutReasonImages: NotTakenOutReasonImages[];
 
@@ -472,7 +476,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.exportDetailsDto || this.isFormResetted) {
       changedValues.exportDetailsDto = this.validateExportDetails();
+      this.dateExport = changedValues.exportDetailsDto.dateExport;
+      this.timeDeliveryFrom = changedValues.exportDetailsDto.timeDeliveryFrom;
+      this.timeDeliveryTo = changedValues.exportDetailsDto.timeDeliveryTo;
       this.formatExporteValue(changedValues.exportDetailsDto);
+      this.receivingStationId = changedValues.exportDetailsDto.receivingStationId;
     }
 
     if (changedValues.orderDetailsForm) {
@@ -531,37 +539,16 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   private updateExportDataInState(changedValues: IOrderInfo) {
-    let dateFrom;
-    let dateTo;
     if (changedValues?.exportDetailsDto) {
-      Object.keys(changedValues?.exportDetailsDto).forEach((key: string) => {
-        switch (key) {
-          case OrderValueChanges.dateExport:
-            this.postDataItem(
-              [this.orderId],
-              TableKeys.dateOfExport,
-              this.adminTableService.setDateFormat(changedValues.exportDetailsDto[key])
-            );
-            break;
-          case OrderValueChanges.receivingStationId:
-            this.postDataItem([this.orderId], TableKeys.receivingStation, String(changedValues.exportDetailsDto[key]));
-            break;
-          default:
-            break;
-        }
-
-        if (key === OrderValueChanges.timeDeliveryTo || key === OrderValueChanges.timeDeliveryFrom) {
-          const newDateValue = this.adminTableService.setExportTimeFormat(new Date(changedValues.exportDetailsDto[key]));
-          if (key === OrderValueChanges.timeDeliveryTo) {
-            dateTo = newDateValue;
-          } else {
-            dateFrom = newDateValue;
-          }
-          if (dateFrom && dateTo) {
-            this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(dateFrom, dateTo).join('-'));
-          }
-        }
-      });
+      if (this.dateExport) {
+        this.postDataItem([this.orderId], TableKeys.dateOfExport, this.dateExport);
+      }
+      if (this.receivingStationId) {
+        this.postDataItem([this.orderId], TableKeys.receivingStation, String(this.receivingStationId));
+      }
+      if (this.timeDeliveryFrom && this.timeDeliveryTo) {
+        this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(this.timeDeliveryFrom, this.timeDeliveryTo).join('-'));
+      }
     }
   }
 
@@ -579,7 +566,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
             this.postDataItem([this.orderId], TableKeys.responsibleNavigator, String(key.employeeId));
             break;
           case 5:
-            this.postDataItem([this.orderId], TableKeys.responsibleNavigator, String(key.employeeId));
+            this.postDataItem([this.orderId], TableKeys.responsibleDriver, String(key.employeeId));
             break;
           default:
             break;
@@ -622,7 +609,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
-    date.setHours(+hours + 3);
+    date.setHours(+hours + 2);
     date.setMinutes(+minutes);
     return date ? date.toISOString().split('Z').join('') : '';
   }
