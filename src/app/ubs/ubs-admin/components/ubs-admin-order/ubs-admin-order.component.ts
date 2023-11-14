@@ -37,7 +37,7 @@ import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.valid
 import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { AdminTableService } from '../../services/admin-table.service';
-import { OrderValueChanges, TableKeys } from '../../services/table-keys.enum';
+import { TableKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-order',

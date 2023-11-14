@@ -32,10 +32,3 @@ export const TableColorKeys = {
   GREEN_500: '#00FF00',
   GREEN_200: '#D9EAD3'
 };
-
-export enum OrderValueChanges {
-  dateExport = 'dateExport',
-  timeDeliveryTo = 'timeDeliveryTo',
-  timeDeliveryFrom = 'timeDeliveryFrom',
-  receivingStationId = 'receivingStationId'
-}
