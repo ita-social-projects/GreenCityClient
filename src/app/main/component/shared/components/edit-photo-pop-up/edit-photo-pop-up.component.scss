@@ -144,24 +144,8 @@
 
 @media screen and (max-width: 576px) {
   .main-container {
-    max-block-size: 376px;
-    max-height: 548px;
-
-    .buttons {
-      flex-direction: row;
-
-      .secondary-global-button {
-        margin: 8px 0;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 420px) {
-  .main-container {
     width: 100vw;
     height: 100vh;
-    min-height: 450px;
     overflow: auto;
 
     .wrapper {
@@ -171,6 +155,7 @@
       }
 
       .buttons {
+        align-items: unset;
         flex-direction: column;
 
         .primary-global-button,
@@ -179,6 +164,17 @@
           width: 288px;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-height: 430px) {
+  .main-container {
+    align-items: unset;
+
+    .wrapper {
+      justify-content: unset;
+      padding: 15px 0;
     }
   }
 }
