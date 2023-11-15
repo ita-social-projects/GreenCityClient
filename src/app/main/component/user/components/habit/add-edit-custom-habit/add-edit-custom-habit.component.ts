@@ -18,6 +18,7 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
+import { TodoStatus } from '../models/todo-status.enum';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
@@ -88,7 +89,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   ngOnInit(): void {
     this.getUserId();
     this.initForm();
-    this.getHabitTags();
     this.subscribeToLangChange();
     this.previousPath = `/profile/${this.userId}/allhabits`;
     this.userFriendsService.addedFriends.length = 0;
@@ -101,6 +101,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
           this.habit = habitState;
           this.setEditHabit();
         });
+    } else {
+      this.getHabitTags();
     }
   }
 
@@ -131,9 +133,14 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       image: this.habit.image,
       shopList: this.habit.customShoppingListItems
     });
-
+    this.getHabitTags();
     this.habitId = this.habit.id;
-    this.shopList = this.habit.customShoppingListItems || this.habit.shoppingListItems || [];
+    if (this.habit.customShoppingListItems.length) {
+      this.shopList = [...this.habit.customShoppingListItems];
+    } else {
+      this.shopList = [...this.habit.customShoppingListItems, ...this.habit.shoppingListItems];
+    }
+    this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
     this.initialDuration = this.habit.defaultDuration;
   }
 
@@ -195,9 +202,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .pipe(take(1))
       .subscribe((tags: TagInterface[]) => {
         this.tagsList = tags;
-        this.tagsList.forEach((item) => (item.isActive = this.habitForm.value.tagIds.some((el) => el === item.name || el === item.nameUa)));
+        this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.name || el === tag.nameUa)));
         if (this.isEditing) {
-          const newList = this.tagsList.filter((el) => this.habitForm.value.tagIds.includes(el.name));
+          const newList = this.tagsList.filter((el) => {
+            return this.habitForm.value.tagIds.includes(el.name) || this.habitForm.value.tagIds.includes(el.nameUa);
+          });
           this.getTagsList(newList);
         }
       });
