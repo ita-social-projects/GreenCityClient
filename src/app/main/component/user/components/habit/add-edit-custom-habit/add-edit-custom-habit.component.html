@@ -63,10 +63,11 @@
               [modules]="quillModules"
               formControlName="description"
               (dragover)="(false)"
+              (onEditorChanged)="changedEditor($event)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
             ></quill-editor>
             <div [style.visibility]="getControl('description').touched && getControl('description').invalid ? 'visible' : 'hidden'">
-              <p class="habit-tooltip warning">
+              <p class="habit-tooltip" [ngClass]="handleErrorClass('warning') || 'textarea-description'">
                 {{ 'user.habit.add-new-habit.description-tooltip' | translate }}
               </p>
             </div>

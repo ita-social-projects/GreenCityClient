@@ -71,6 +71,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public files = [];
 
   private editorText = '';
+  private isDescriptionValid: boolean;
   private imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
   private pipe = new DatePipe('en-US');
@@ -230,13 +231,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public handleErrorClass(errorClassName: string): string {
     const descriptionControl = this.eventFormGroup.get('description');
-    const isValidDescription = this.editorText.length > 20;
-    if (!isValidDescription) {
-      descriptionControl.setErrors({ invalidDescription: isValidDescription });
+    this.isDescriptionValid = this.editorText.length > 20;
+    if (!this.isDescriptionValid) {
+      descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
     } else {
       descriptionControl.setErrors(null);
     }
-    return this.submitIsFalse && !isValidDescription ? errorClassName : '';
+    return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
   public escapeFromCreateEvent(): void {
@@ -357,7 +358,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const isFormValid = this.checkdates && this.eventFormGroup.valid && this.isTagValid;
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
 
-    if (isFormValid && arePlacesFilled) {
+    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.editEvent.titleImage : !this.imgArray.length;
 

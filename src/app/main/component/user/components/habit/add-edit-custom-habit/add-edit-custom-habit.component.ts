@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -54,6 +55,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private userId: number;
   private currentLang: string;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
+  private editorText = '';
 
   public previousPath: string;
   public popupConfig = {
@@ -101,6 +103,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
           this.habit = habitState;
           this.setEditHabit();
         });
+      this.editorText = this.habitForm.get('description').value;
     } else {
       this.getHabitTags();
     }
@@ -142,6 +145,23 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     }
     this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
     this.initialDuration = this.habit.defaultDuration;
+  }
+
+  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.editorText = event.text;
+    }
+  }
+
+  public handleErrorClass(errorClassName: string): string {
+    const descriptionControl = this.habitForm.get('description');
+    const isValidDescription = this.editorText.length > 20;
+    if (!isValidDescription) {
+      descriptionControl.setErrors({ invalidDescription: isValidDescription });
+    } else {
+      descriptionControl.setErrors(null);
+    }
+    return !isValidDescription ? errorClassName : '';
   }
 
   public trimValue(control: AbstractControl): void {
