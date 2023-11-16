@@ -240,10 +240,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
-  public escapeFromCreateEvent(): void {
-    this.router.navigate(['/events']);
-  }
-
   public changeToOpen(): void {
     this.isOpen = true;
   }
@@ -389,6 +385,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public backToEditing() {
     this.router.navigate(['/events', 'create-event']);
+  }
+
+  public escapeFromCreateEvent(): void {
+    this.router.navigate(['/events']);
+    this.eventSuccessfullyAdded();
+  }
+
+  private eventSuccessfullyAdded(): void {
+    if (this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('updatedEvent');
+    }
+    if (!this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('addedEvent');
+    }
   }
 
   public onPreview() {

@@ -20,11 +20,13 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { TodoStatus } from '../models/todo-status.enum';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
-  styleUrls: ['./add-edit-custom-habit.component.scss']
+  styleUrls: ['./add-edit-custom-habit.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
@@ -81,7 +83,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private translate: TranslateService,
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private snackBar: MatSnackBarComponent
   ) {
     super(router, dialog);
 
@@ -206,6 +209,16 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   goToAllHabits(): void {
     this.userFriendsService.addedFriends.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.habitSuccessfullyAdded();
+  }
+
+  private habitSuccessfullyAdded(): void {
+    if (this.isEditing) {
+      this.snackBar.openSnackBar('habitUpdated');
+    }
+    if (this.habitForm.valid && this.isValidDescription) {
+      this.snackBar.openSnackBar('habitAdded');
+    }
   }
 
   private getHabitTags(): void {

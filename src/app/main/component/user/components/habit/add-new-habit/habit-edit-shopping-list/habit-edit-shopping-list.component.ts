@@ -147,6 +147,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.destroySub.next(true);
     this.destroySub.complete();
   }
+
   checkItemValidity(): void {
     if (!this.itemForm.valid && this.itemForm.get('item').value.length > 50) {
       this.snackBar.openSnackBar('tooLongInput');
