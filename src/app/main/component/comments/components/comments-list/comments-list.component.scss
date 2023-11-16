@@ -9,7 +9,7 @@
 
 .wrapper-reply {
   width: 90%;
-  padding-left: 70px;
+  padding-left: 28px;
 }
 
 .author-name {
@@ -209,6 +209,7 @@
 @media screen and (max-width: 575px) {
   .comments-elements {
     padding-left: 25px;
+    padding-left: 0;
   }
 
   .comment-date {
@@ -217,6 +218,7 @@
 
   .comment-details {
     flex-direction: column;
+    padding-top: 60px;
 
     .comment-date-likes {
       justify-content: left;
@@ -232,6 +234,11 @@
   }
 
   .main-wrapper:last-child {
+    margin-left: 0;
+  }
+
+  .comment-details,
+  .comment-main-text {
     margin-left: 0;
   }
 }
@@ -263,18 +270,9 @@
   }
 }
 
-@media screen and (max-width: 576px) {
-  .comment-details,
-  .comment-main-text {
-    margin-left: 0;
-  }
-
-  .comment-details {
-    padding-top: 60px;
-  }
-
-  .comments-elements {
-    padding-left: 0;
+@media screen and (min-width: 576px) {
+  .wrapper-reply {
+    padding-left: 64px;
   }
 }
 

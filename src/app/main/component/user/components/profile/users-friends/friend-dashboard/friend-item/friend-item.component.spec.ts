@@ -6,15 +6,30 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FriendItemComponent } from './friend-item.component';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
+import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.pipe';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Language } from 'src/app/main/i18n/Language';
+import { of, BehaviorSubject } from 'rxjs';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
   let fixture: ComponentFixture<FriendItemComponent>;
 
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
+    'languageBehaviourSubject',
+    'getCurrentLanguage',
+    'getUserId'
+  ]);
+  localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
+  localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
+  localStorageServiceMock.languageSubject = of('en');
+  localStorageServiceMock.getUserId = () => 1;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FriendItemComponent, MaxTextLengthPipe],
+      declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([])],
+      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
@@ -37,6 +52,12 @@ describe('FriendItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call getLangChange method onInit', () => {
+    const spy = spyOn(component as any, 'getLangChange');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('it should call friendEvent on click', () => {

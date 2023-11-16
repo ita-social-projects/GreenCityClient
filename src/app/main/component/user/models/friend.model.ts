@@ -1,3 +1,5 @@
+import { UserLocationDto } from './edit-profile.model';
+
 export interface FriendModel {
   id: number;
   name: string;
@@ -5,8 +7,8 @@ export interface FriendModel {
   profilePicturePath?: string;
   added?: boolean;
   rating: number;
-  city?: string;
-  mutualFriends?: number | string;
+  userLocationDto?: UserLocationDto | null;
+  mutualFriends?: number;
   friendStatus: string;
   chatId?: number;
   role?: string;

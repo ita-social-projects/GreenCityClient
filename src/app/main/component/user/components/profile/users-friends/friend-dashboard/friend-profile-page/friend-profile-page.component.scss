@@ -1,13 +1,14 @@
 .profile-wrapper {
-  margin: -95px auto 30px;
-  height: 100%;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  grid-gap: 32px;
 
   .side-bar {
-    width: 20%;
+    min-height: 323px;
     box-shadow: 4px 0 8px -4px var(--quintynary-dark-grey);
-    margin-top: 100px;
+    background-color: var(--primary-white);
 
     .friend-request {
       display: flex;
@@ -23,8 +24,41 @@
   }
 
   .content {
-    width: 80%;
-    margin: 25px auto auto 25px;
-    height: 100%;
+    margin-top: 25px;
+  }
+}
+
+.app-users-achivements,
+.app-eco-places,
+.app-shopping-list {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .profile-wrapper {
+    max-width: 720px;
+    display: grid;
+    grid-template-columns: 219px 469px;
+    justify-content: center;
+  }
+
+  .app-users-achivements,
+  .app-eco-places,
+  .app-shopping-list {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .profile-wrapper {
+    max-width: 960px;
+    grid-template-columns: 219px 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .profile-wrapper {
+    max-width: 1140px;
+    grid-template-columns: 261px 1fr;
   }
 }

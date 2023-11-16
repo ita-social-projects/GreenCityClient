@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { EditProfileModel } from '@user-models/edit-profile.model';
+import { EditProfileModel, UserLocationDto } from '@user-models/edit-profile.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { ActivatedRoute } from '@angular/router';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { take } from 'rxjs/operators';
 import { ProfileService } from '../../profile-service/profile.service';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-profile-header',
@@ -35,7 +36,8 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
     private userFriendsService: UserFriendsService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private langService: LanguageService
   ) {}
 
   ngOnInit() {
@@ -54,6 +56,15 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
 
   public getSocialImage(socialNetwork: string): string {
     return this.profileService.getSocialImage(socialNetwork);
+  }
+
+  public getUserCity(locationDto: UserLocationDto): string {
+    if (locationDto) {
+      const city = this.langService.getLangValue(locationDto?.cityUa, locationDto?.cityEn) as string;
+      const country = this.langService.getLangValue(locationDto?.countryUa, locationDto?.countryEn) as string;
+      return locationDto.cityUa && locationDto.cityEn ? `${city}, ${country}` : '';
+    }
+    return '';
   }
 
   private findNetwork(networkLink) {

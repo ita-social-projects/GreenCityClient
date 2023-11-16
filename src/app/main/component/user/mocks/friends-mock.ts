@@ -6,12 +6,12 @@ export const FIRSTFRIEND: FriendModel = {
   profilePicturePath: '',
   added: true,
   rating: 380,
-  city: 'Lviv',
+  userLocationDto: { cityUa: 'Місто' },
   mutualFriends: 5,
   email: 'name@mail.com',
   friendStatus: 'FRIEND',
   chatId: 2
-};
+} as FriendModel;
 
 export const SECONDFRIEND: FriendModel = {
   id: 2,
@@ -19,12 +19,12 @@ export const SECONDFRIEND: FriendModel = {
   profilePicturePath: '',
   added: true,
   rating: 380,
-  city: 'Lviv',
+  userLocationDto: { cityUa: 'Місто' },
   mutualFriends: 5,
   email: 'name2@mail.com',
   friendStatus: 'FRIEND',
   chatId: 2
-};
+} as FriendModel;
 
 export const THIRDDFRIEND: FriendModel = {
   id: 2,
@@ -32,12 +32,12 @@ export const THIRDDFRIEND: FriendModel = {
   profilePicturePath: '',
   added: false,
   rating: 380,
-  city: 'Lviv',
+  userLocationDto: { cityUa: 'Місто' },
   mutualFriends: 5,
   email: 'name2@mail.com',
   friendStatus: 'FRIEND',
   chatId: 2
-};
+} as FriendModel;
 
 export const FRIENDS: FriendArrayModel = {
   totalElements: 2,

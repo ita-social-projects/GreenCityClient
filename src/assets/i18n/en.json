@@ -993,12 +993,14 @@
     "acquired-habits": "acquired habits",
     "written-articles": "written articles",
     "published-news": "published news",
+    "organized-and-attended-events": "organized and attended events",
     "my-habits": "My Habits",
     "my-news": "My news",
     "my-articles": "My articles",
+    "rate": "Rate",
     "friends": {
       "link-to-profile": "Back to My habits",
-      "mutual-friends": "mutual friends",
+      "mutual-friends": { "plural": "mutual friends", "singular": "mutual friend" },
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
@@ -1012,7 +1014,8 @@
       "all-friends": "My friends",
       "search-friends": "Search",
       "find-friends": "Find a friend",
-      "found-amount": "of people found"
+      "found-amount": "of people found",
+      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)"
     }
   },
   "create-news": {

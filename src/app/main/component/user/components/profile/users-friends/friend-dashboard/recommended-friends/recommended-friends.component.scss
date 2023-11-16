@@ -4,55 +4,54 @@
   flex-wrap: wrap;
   justify-content: center;
 
+  @media (min-width: 576px) {
+    flex-direction: column;
+  }
+
   .cards-box {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-    row-gap: 14px;
-    column-gap: 32px;
+    flex-direction: column;
+    gap: 20px;
 
-    @media (max-width: 1200px) {
+    @media (min-width: 576px) {
       gap: 32px;
     }
 
-    @media (max-width: 1000px) {
-      justify-content: center;
+    @media (min-width: 1024px) {
+      display: grid;
+      max-width: 870px;
+      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
     }
 
-    @media (max-width: 320px) {
-      gap: 20px;
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+      row-gap: 16px;
     }
   }
 
   .user-card {
-    @media (max-width: 767px) {
+    @media (max-width: 1000px) {
       width: 100%;
       margin: 0 auto;
     }
   }
-}
 
-.search_not-found-text {
-  color: var(--secondary-dark-grey);
-  font-family: var(--secondary-font);
-  font-size: 1.3rem;
-  margin: 0 auto 40px;
-}
+  .noFriends-wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
 
-.noFriends-wraper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-
-  .noFriends {
-    font-family: var(--secondary-font);
-    font-size: 32px;
-    font-weight: 500;
-    font-style: normal;
-    line-height: 48px;
+    .noFriends {
+      font-family: var(--secondary-font);
+      font-size: 32px;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 48px;
+      text-align: center;
+    }
   }
 }
 
