@@ -56,6 +56,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private currentLang: string;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
   private editorText = '';
+  public isValidDescription: boolean;
 
   public previousPath: string;
   public popupConfig = {
@@ -95,6 +96,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     this.previousPath = `/profile/${this.userId}/allhabits`;
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
+    this.getHabitTags();
     if (this.isEditing) {
       this.store
         .select((state) => state.habit)
@@ -104,8 +106,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
           this.setEditHabit();
         });
       this.editorText = this.habitForm.get('description').value;
-    } else {
-      this.getHabitTags();
     }
   }
 
@@ -136,7 +136,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       image: this.habit.image,
       shopList: this.habit.customShoppingListItems
     });
-    this.getHabitTags();
     this.habitId = this.habit.id;
     if (this.habit.customShoppingListItems.length) {
       this.shopList = [...this.habit.customShoppingListItems];
@@ -151,25 +150,22 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     if (event.event !== 'selection-change') {
       this.editorText = event.text;
     }
+    this.handleErrorClass('warning');
   }
 
   public handleErrorClass(errorClassName: string): string {
     const descriptionControl = this.habitForm.get('description');
-    const isValidDescription = this.editorText.length > 20;
-    if (!isValidDescription) {
-      descriptionControl.setErrors({ invalidDescription: isValidDescription });
+    this.isValidDescription = this.editorText.length > 20;
+    if (!this.isValidDescription) {
+      descriptionControl.setErrors({ invalidDescription: this.isValidDescription });
     } else {
       descriptionControl.setErrors(null);
     }
-    return !isValidDescription ? errorClassName : '';
+    return !this.isValidDescription ? errorClassName : '';
   }
 
   public trimValue(control: AbstractControl): void {
     control.setValue(control.value.trim());
-  }
-
-  getControl(control: string): AbstractControl {
-    return this.habitForm.get(control);
   }
 
   public setComplexity(i: number): void {
@@ -187,10 +183,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     return value <= complexity ? this.greenStar : this.lineStar;
   }
 
-  getDuration(newDuration: number): void {
-    this.getControl('duration').setValue(newDuration);
-  }
-
   getShopList(list: ShoppingList[]): void {
     this.newList = list.map((item) => {
       return {
@@ -199,16 +191,16 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         text: item.text
       };
     });
-    this.getControl('shopList').setValue(this.newList);
+    this.habitForm.get('shopList').setValue(this.newList);
   }
 
   getTagsList(list: TagInterface[]): void {
     this.selectedTagsList = list.map((el) => el.id);
-    this.getControl('tagIds').setValue(this.selectedTagsList);
+    this.habitForm.get('tagIds').setValue(this.selectedTagsList);
   }
 
   getFile(image: FileHandle[]): void {
-    this.getControl('image').setValue(image[0].file);
+    this.habitForm.get('image').setValue(image[0].file);
   }
 
   goToAllHabits(): void {

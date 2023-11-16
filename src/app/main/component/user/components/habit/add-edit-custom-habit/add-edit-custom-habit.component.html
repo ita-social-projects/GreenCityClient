@@ -12,17 +12,17 @@
             <div class="title-box">
               <div class="title-labels">
                 <label class="label">{{ 'user.habit.add-new-habit.habit-title' | translate }}</label>
-                <span class="habit-tooltip"> {{ getControl('title').value.length }}/70 </span>
+                <span class="habit-tooltip"> {{ habitForm.get('title').value.length }}/70 </span>
               </div>
               <input
                 formControlName="title"
                 class="primary-global-input"
-                [ngClass]="{ 'warning-input': getControl('title').touched && getControl('title').invalid }"
+                [ngClass]="{ 'warning-input': habitForm.touched && habitForm.get('title').invalid }"
                 [placeholder]="'user.habit.add-new-habit.habit-title-placeholder' | translate"
-                (focusout)="trimValue(getControl('title'))"
+                (focusout)="trimValue(habitForm.get('title'))"
               />
-              <div *ngIf="getControl('title').touched && getControl('title').invalid">
-                <app-input-error [formElement]="getControl('title')"></app-input-error>
+              <div *ngIf="habitForm.touched && habitForm.get('title').invalid">
+                <app-input-error [formElement]="habitForm.get('title')"></app-input-error>
               </div>
             </div>
             <div class="difficulty-box">
@@ -38,7 +38,7 @@
                   >
                     <label>
                       <input type="radio" name="complexity" [value]="item.value" />
-                      <img [src]="getStars(item.value, getControl('complexity').value)" [alt]="item.alt" />
+                      <img [src]="getStars(item.value, habitForm.get('complexity').value)" [alt]="item.alt" />
                     </label>
                   </span>
                 </li>
@@ -66,8 +66,8 @@
               (onEditorChanged)="changedEditor($event)"
               [placeholder]="'user.habit.add-new-habit.description-placeholder' | translate"
             ></quill-editor>
-            <div [style.visibility]="getControl('description').touched && getControl('description').invalid ? 'visible' : 'hidden'">
-              <p class="habit-tooltip" [ngClass]="handleErrorClass('warning') || 'textarea-description'">
+            <div *ngIf="!isValidDescription && habitForm.get('description').touched">
+              <p class="habit-tooltip" [ngClass]="handleErrorClass('warning')">
                 {{ 'user.habit.add-new-habit.description-tooltip' | translate }}
               </p>
             </div>
@@ -92,7 +92,10 @@
           <div class="habit-second-block">
             <div class="duration-shoping">
               <div class="duration">
-                <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
+                <app-habit-duration
+                  [habitDurationInitial]="initialDuration"
+                  (changeDuration)="habitForm.get('duration').setValue($event)"
+                ></app-habit-duration>
               </div>
               <div class="shopping">
                 <app-habit-edit-shopping-list
