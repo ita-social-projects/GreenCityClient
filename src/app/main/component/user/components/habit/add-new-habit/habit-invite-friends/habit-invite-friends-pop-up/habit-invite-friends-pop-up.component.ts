@@ -2,11 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Subject } from 'rxjs';
 import { searchIcon } from 'src/app/main/image-pathes/places-icons';
 import { takeUntil } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-habit-invite-friends-pop-up',

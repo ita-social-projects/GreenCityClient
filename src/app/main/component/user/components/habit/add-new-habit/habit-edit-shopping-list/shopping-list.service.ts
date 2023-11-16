@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../../models/shoppinglist.interface';
+import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '../../../../models/shoppinglist.interface';
 
 @Injectable({
   providedIn: 'root'
