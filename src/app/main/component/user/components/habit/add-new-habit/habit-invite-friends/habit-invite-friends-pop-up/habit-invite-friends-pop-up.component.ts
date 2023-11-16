@@ -23,12 +23,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   addedFriends: FriendModel[] = [];
   searchIcon = searchIcon;
 
-  constructor(
-    private userFriendsService: UserFriendsService,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private snackBar: MatSnackBarComponent
-  ) {}
+  constructor(private userFriendsService: UserFriendsService, private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.getUserId();
@@ -84,8 +79,6 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   }
 
   setAddedFriends() {
-    this.router.navigate(['/profile']);
-    this.snackBar.openSnackBar('habitUpdated');
     return this.friends.map((friend) => {
       if (friend.added) {
         this.userFriendsService.addedFriendsToHabit(friend);

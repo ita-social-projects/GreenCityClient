@@ -12,6 +12,7 @@ import {
   ChangesFromCalendarToProgress
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +50,17 @@ export class HabitAssignService implements OnDestroy {
   assignCustomHabit(
     habitId: number,
     friendsIdsList: Array<number>,
-    habitAssignProperties: HabitAssignPropertiesDto
+    habitAssignProperties: HabitAssignPropertiesDto,
+    customShoppingListItemList?: Array<CustomShoppingItem>
   ): Observable<HabitAssignCustomPropertiesDto> {
-    const body: HabitAssignCustomPropertiesDto = { friendsIdsList, habitAssignPropertiesDto: habitAssignProperties };
+    if (!customShoppingListItemList.length) {
+      customShoppingListItemList = [];
+    }
+    const body: HabitAssignCustomPropertiesDto = {
+      friendsIdsList,
+      habitAssignPropertiesDto: habitAssignProperties,
+      customShoppingListItemList
+    };
     return this.http.post<HabitAssignCustomPropertiesDto>(`${habitAssignLink}/${habitId}/custom`, body);
   }
 
