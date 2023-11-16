@@ -8,30 +8,33 @@
   border-radius: 8px;
   height: 295px;
   margin-bottom: 30px;
-  padding: 3.4% 3.2%;
+  padding: 3.4% 0;
+  position: relative;
+  left: -5px;
 }
 
 .habit-container {
   height: 100%;
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: 69% 28%;
+  column-gap: 20px;
+
+  .habit-picture-wrp {
+    .habit-picture {
+      img {
+        top: 40px;
+        width: 300px;
+        height: 250px;
+        object-fit: cover;
+      }
+    }
+  }
 }
 
 .habit-header-wrp {
   display: grid;
   grid-template-rows: 20px auto 48px;
   row-gap: 30px;
-}
-
-.habit-picture-wrp {
-  display: none;
-
-  img {
-    align-self: center;
-    width: 100%;
-    display: block;
-    mix-blend-mode: multiply;
-  }
 }
 
 .habit-header {
@@ -68,9 +71,15 @@
 
   .acquired,
   .tags {
-    display: flex;
+    max-width: 260px;
     padding: 0 12px;
     border-right: 1px solid var(--tertiary-light-grey);
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
+  .acquired {
+    width: 220px;
   }
 
   .stars {
@@ -111,6 +120,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-width: 630px;
+    word-wrap: break-word;
     overflow: hidden;
   }
 }
@@ -120,25 +131,40 @@
   gap: 25px;
 }
 
-@media (min-width: 768px) {
-  .habit-picture-wrp {
-    display: flex;
+@media (max-width: 992px) {
+  .habit-container .habit-picture-wrp .habit-picture img {
+    position: relative;
+    left: -40px;
+    top: 40px;
+    width: 300px;
+    height: 195px;
+    object-fit: cover;
+  }
 
-    .habit-picture {
-      width: 130%;
-      height: 120%;
-      position: relative;
-      overflow: hidden;
-      direction: ltr;
-      top: -10%;
-    }
+  .habit-info .title,
+  .habit-info .description {
+    max-width: 475px;
+  }
 
-    img {
-      height: 80%;
-      top: 10%;
-      width: 120%;
-      position: absolute;
-    }
+  .habit-container {
+    grid-template-columns: 69% 29%;
+  }
+}
+
+@media (max-width: 768px) {
+  .habit-container .habit-picture-wrp .habit-picture img {
+    left: -50px;
+    top: 100px;
+    width: 230px;
+    height: 150px;
+  }
+
+  .habit-info .title {
+    max-width: 550px;
+  }
+
+  .habit-info .description {
+    max-width: 350px;
   }
 
   .habit-container {
@@ -148,19 +174,6 @@
   }
 
   .habit-wrp {
-    padding: 3.4% 0 3.4% 3.2%;
-  }
-}
-
-@media (min-width: 992px) {
-  .habit-picture-wrp {
-    img {
-      top: 0;
-      height: 100%;
-    }
-  }
-
-  .habit-container {
-    grid-template-columns: 69% 29%;
+    padding: 3.4% 0;
   }
 }
