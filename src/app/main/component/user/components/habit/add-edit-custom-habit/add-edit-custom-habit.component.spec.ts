@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
-import { EditorChangeContent } from 'ngx-quill';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -48,7 +48,8 @@ describe('AddEditCustomHabitComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
