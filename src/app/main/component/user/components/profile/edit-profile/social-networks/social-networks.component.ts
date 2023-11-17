@@ -124,18 +124,7 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
   public onAddLink(link?) {
     this.onChange(link);
     const value = link || this.inputTextValue;
-    // const icons = JSON.parse(JSON.stringify(this.icons));
-    // delete icons['edit'];
-    // delete icons['add'];
-    // delete icons['delete'];
-    // let imgPath = icons.defaultIcon;
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
-      // Object.keys(icons).forEach((icon) => {
-      //   if (value.toLowerCase().includes(icon)) {
-      //     imgPath = icons[icon];
-      //   }
-      // });
-
       this.socialNetworks.push({
         url: value
       });
