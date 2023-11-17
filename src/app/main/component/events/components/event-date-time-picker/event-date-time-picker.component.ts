@@ -134,8 +134,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   private setDataEditing(): void {
     const data = this.fromPreview ? 'fromPreview' : 'editDate';
-    const startEditTime = this.fromPreview ? this.previewData?.startDate : this.pipe.transform(this.editDate.startDate, 'H:mm');
-    let endEditTime = this.fromPreview ? this.previewData?.finishDate : this.pipe.transform(this.editDate.finishDate, 'H:mm');
+
+    const startEditTime = this.pipe.transform(this.fromPreview ? this.previewData?.startDate : this.editDate.startDate, 'H:mm');
+    const isMidnight = /T00:00:\d{2}\+\d{2}:\d{2}/.test(this.previewData?.finishDate);
+    let endEditTime = this.pipe.transform(
+      this.fromPreview ? this.previewData?.finishDate : this.editDate.finishDate,
+      isMidnight ? 'HH:mm' : 'H:mm'
+    );
+
     if (endEditTime === TimeBack.END) {
       endEditTime = TimeFront.END;
     }

@@ -3,6 +3,9 @@
   background-color: var(--pre-secondary-light-grey);
 
   .button-text {
+    display: inline-flex;
+    gap: 10px;
+    color: var(--quaternary-dark-grey);
     margin-top: 2px;
   }
 

@@ -197,6 +197,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
 
   public buttonAction(buttonName: string): void {
     this.eventService.setBackFromPreview(false);
+    this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));

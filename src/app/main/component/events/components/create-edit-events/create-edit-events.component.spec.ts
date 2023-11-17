@@ -121,7 +121,8 @@ describe('CreateEditEventsComponent', () => {
     'getForm',
     'setForm',
     'getBackFromPreview',
-    'setBackFromPreview'
+    'setBackFromPreview',
+    'transformDate'
   ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
   EventsServiceMock.currentForm = () => of(MockEventPreview);
@@ -239,27 +240,6 @@ describe('CreateEditEventsComponent', () => {
     component.dates[0].valid = true;
     (component as any).checkDates();
     expect(component.checkdates).toBeTruthy();
-  });
-
-  it('getFormattedDate expect hour to be 2', () => {
-    const date = new Date((component as any).getFormattedDate(new Date(), 2, 2));
-    expect(date.getHours()).toBe(2);
-  });
-
-  it('createDates should create 1 date', () => {
-    const spy = spyOn(component as any, 'getFormattedDate');
-    component.dates = [DateMock];
-    const dates = (component as any).createDates();
-    expect(dates.length).toBe(1);
-    expect(spy).toHaveBeenCalledTimes(2);
-  });
-
-  it('createDates should create 1 date. Finish date has to be 23', () => {
-    component.dates = [DateMock];
-    component.dates[0].startDate = null;
-    component.dates[0].finishDate = null;
-    const dates = (component as any).createDates();
-    expect(new Date(dates[0].finishDate).getHours()).toBe(23);
   });
 
   it('onSubmit expect isposting to be false', () => {

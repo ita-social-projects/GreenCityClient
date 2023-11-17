@@ -12,12 +12,12 @@ import {
   EventPageResponceDto,
   OfflineDto,
   TagObj,
-  PagePreviewDTO
+  PagePreviewDTO,
+  DateEventResponceDto
 } from '../../models/events.interface';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
-import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -67,14 +67,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public routeData: any;
   public selectedFile = null;
   public selectedFileUrl: string;
-  public previewDates: PagePreviewDTO;
+  public previewDates: PagePreviewDTO | EventPageResponceDto;
   public submitSelected: boolean;
 
   public fromPreview: boolean;
   private editorText = '';
   public imgArray: Array<File> = [];
   private imgArrayToPreview: string[] = [];
-  private pipe = new DatePipe('en-US');
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
@@ -184,8 +183,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.oldImages = this.imagesForEdit;
   }
 
-  private setDates(init: boolean, dates?: DateEvent[]): void {
-    let datesEvent: DateEvent[];
+  private setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
+    let datesEvent: DateEvent[] | DateEventResponceDto[];
     if (init) {
       datesEvent = this.localStorageService.getEventForEdit().dates;
       this.editEvent = this.localStorageService.getEventForEdit();
@@ -195,7 +194,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     } else {
       datesEvent = dates;
     }
-    this.dates = datesEvent.reduce((newDates, currentDate) => {
+    this.dates = (datesEvent as DateEventResponceDto[]).reduce((newDates: DateEvent[], currentDate: DateEventResponceDto) => {
       const { startDate, finishDate, check, valid } = currentDate;
       const date: DateEvent = { startDate, finishDate, check: init ? false : check, valid: init ? false : valid };
       if (currentDate.onlineLink) {
@@ -211,8 +210,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   private backFromPreview(): void {
     this.previewDates = this.eventsService.getForm();
-    const { title, description, open, datesLocations, tags, imgArray } = this.eventsService.getForm();
-    this.setDates(false, datesLocations);
+    const { title, description, open, dates, tags, imgArray } = this.eventsService.getForm();
+    this.setDates(false, dates);
     if (this.editMode) {
       this.imgArrayToPreview = imgArray;
       this.oldImages = imgArray;
@@ -225,7 +224,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.eventFormGroup.patchValue({
       titleForm: title,
       description,
-      eventDuration: this.dateArrCount[datesLocations.length - 1]
+      eventDuration: this.dateArrCount[dates.length - 1]
     });
     this.editorText = this.eventFormGroup.get('description').value;
   }
@@ -349,12 +348,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.checkdates = !this.dates.some((element) => !element.valid);
   }
 
-  private getFormattedDate(dateString: Date, hour: string, min: string): string {
-    const date = new Date(dateString);
-    date.setHours(Number(hour), Number(min));
-    return date.toString();
-  }
-
   private createDates(): Array<Dates> {
     return this.dates.reduce((ac, cur) => {
       if (!cur.startDate) {
@@ -363,13 +356,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       if (!cur.finishDate || cur.finishDate === TimeFront.END) {
         cur.finishDate = TimeBack.END;
       }
-      const start = this.getFormattedDate(cur.date, cur.startDate.split(TimeFront.DIVIDER)[0], cur.startDate.split(TimeFront.DIVIDER)[1]);
-      const end = this.getFormattedDate(cur.date, cur.finishDate.split(TimeFront.DIVIDER)[0], cur.finishDate.split(TimeFront.DIVIDER)[1]);
 
       const date: Dates = {
-        startDate: this.pipe.transform(start, 'yyyy-MM-ddTHH:mm:ssZZZZZ'),
-        finishDate: this.pipe.transform(end, 'yyyy-MM-ddTHH:mm:ssZZZZZ')
+        startDate: this.eventsService.transformDate(cur, 'startDate'),
+        finishDate: this.eventsService.transformDate(cur, 'finishDate')
       };
+
       if (cur.onlineLink) {
         date.onlineLink = cur.onlineLink;
       }
@@ -454,7 +446,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       description: this.eventFormGroup.get('description').value,
       eventDuration: this.eventFormGroup.get('eventDuration').value,
       open: this.isOpen,
-      datesLocations: this.dates,
+      dates: this.dates,
       tags: tagsArr,
       imgArray: this.editMode ? this.imgArrayToPreview : this.imgArray,
       imgArrayToPreview: this.imgArrayToPreview,
@@ -486,6 +478,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
       this.isPosting = false;
+      this.eventsService.setForm(null);
       this.escapeFromCreateEvent();
     });
   }

@@ -73,6 +73,12 @@ export interface EventResponseDto {
   totalPages: number;
 }
 
+export interface Organizer {
+  id: number;
+  name: string;
+  organizerRating: number;
+}
+
 export interface EventPageResponceDto {
   additionalImages: Array<string>;
   dates: Array<DateEventResponceDto>;
@@ -80,11 +86,10 @@ export interface EventPageResponceDto {
   description: any;
   id: number;
   open: boolean;
-  organizer: {
-    id: number;
-    name: string;
-    organizerRating: number;
-  };
+  location?: DateFormObj;
+  imgArray?: any[];
+  imgArrayToPreview: string[];
+  organizer: Organizer;
   tags: Array<TagDto>;
   title: string;
   titleImage: string;
@@ -125,6 +130,8 @@ export interface DateEventResponceDto {
   id: number;
   onlineLink: string;
   startDate: string;
+  check?: boolean;
+  valid: boolean;
 }
 
 export interface OfflineDto {
@@ -155,7 +162,10 @@ export interface PagePreviewDTO {
   description: string;
   eventDuration: number;
   open: boolean;
-  datesLocations: DateEvent[];
+  isRelevant?: boolean;
+  id?: number;
+  organizer?: Organizer;
+  dates: DateEvent[];
   tags: Array<string>;
   imgArray: any[];
   imgArrayToPreview: any[];
