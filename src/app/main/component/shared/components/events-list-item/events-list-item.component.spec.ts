@@ -258,7 +258,7 @@ describe('EventsListItemComponent', () => {
     component.max = 3;
     component.userId = 5;
     component.author = 'tester';
-    component.bookmarkSelected = false;
+    component.isEventFavorite = component.event.isFavorite;
     component.currentLang = 'en';
 
     component.deleteDialogData = {
@@ -503,13 +503,13 @@ describe('EventsListItemComponent', () => {
     expect(component.openAuthModalWindow).toHaveBeenCalled();
   });
 
-  describe('addToFavourite()', () => {
-    xit(`should be clicked and called addToFavourite method`, fakeAsync(() => {
-      spyOn(component, 'addToFavourite');
+  describe('changeFavouriteStatus()', () => {
+    it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
+      spyOn(component, 'changeFavouriteStatus');
       const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
       button.click();
       tick();
-      expect(component.addToFavourite).toHaveBeenCalled();
+      expect(component.changeFavouriteStatus).toHaveBeenCalled();
     }));
   });
 });

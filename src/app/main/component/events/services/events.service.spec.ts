@@ -201,4 +201,34 @@ describe('EventsService', () => {
     expect(req.request.method).toEqual('GET');
     req.flush(dataAdrress);
   });
+
+  it('should add event to favourites', () => {
+    let hasNoErrors = true;
+    service.addEventToFavourites(156).subscribe({
+      error: () => {
+        hasNoErrors = false;
+      },
+      complete: () => {
+        expect(hasNoErrors).toEqual(true);
+      }
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/addToFavorites/156`);
+    expect(req.request.method).toEqual('POST');
+  });
+
+  it('should remove event to favourites', () => {
+    let hasNoErrors = true;
+    service.removeEventFromFavourites(156).subscribe({
+      error: () => {
+        hasNoErrors = false;
+      },
+      complete: () => {
+        expect(hasNoErrors).toEqual(true);
+      }
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/removeFromFavorites/156`);
+    expect(req.request.method).toEqual('DELETE');
+  });
 });
