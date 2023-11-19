@@ -86,6 +86,7 @@
           [matAutocomplete]="autoCity"
           [matChipInputFor]="chipListCity"
           (matChipInputTokenEnd)="addItem($event)"
+          [disabled]="city.disabled"
         />
         <mat-autocomplete
           #autoCity="matAutocomplete"
