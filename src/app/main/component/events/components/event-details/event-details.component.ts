@@ -17,7 +17,7 @@ import { Coordinates, EventPageResponceDto, PagePreviewDTO } from '../../models/
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
@@ -26,7 +26,6 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-details',

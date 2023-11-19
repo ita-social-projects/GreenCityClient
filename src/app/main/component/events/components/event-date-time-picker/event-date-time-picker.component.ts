@@ -167,14 +167,21 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       endTime: endEditTime
     });
 
-    if (this.fromPreview ? this.previewData?.coordinates : this.editDate.coordinates) {
+    this.handleCoordinatesAndOnlineLink(data);
+  }
+
+  private handleCoordinatesAndOnlineLink(data: string): void {
+    const isCoordinates = this.fromPreview ? this.previewData?.coordinates : this.editDate.coordinates;
+    const isOnlineLink = this.fromPreview ? this.previewData?.onlineLink : this.editDate.onlineLink;
+
+    if (isCoordinates) {
       this.handleCoordinates();
       if (this.hasTheDatePassed('finishDate', data)) {
         this.dateForm.get('place').disable();
       }
     }
 
-    if (this.fromPreview ? this.previewData?.onlineLink : this.editDate.onlineLink) {
+    if (isOnlineLink) {
       this.handleOnlineLink();
     }
   }
