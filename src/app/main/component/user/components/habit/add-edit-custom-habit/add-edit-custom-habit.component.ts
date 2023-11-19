@@ -140,11 +140,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       shopList: this.habit.customShoppingListItems
     });
     this.habitId = this.habit.id;
-    if (this.habit.customShoppingListItems.length) {
-      this.shopList = [...this.habit.customShoppingListItems];
-    } else {
-      this.shopList = [...this.habit.customShoppingListItems, ...this.habit.shoppingListItems];
-    }
+    this.shopList = this.habit.customShoppingListItems.length
+      ? [...this.habit.customShoppingListItems]
+      : [...this.habit.customShoppingListItems, ...this.habit.shoppingListItems];
     this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
     this.initialDuration = this.habit.defaultDuration;
   }
@@ -157,13 +155,9 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   }
 
   public handleErrorClass(errorClassName: string): string {
-    const descriptionControl = this.habitForm.get('description');
+    const descrControl = this.habitForm.get('description');
     this.isValidDescription = this.editorText.length > 20;
-    if (!this.isValidDescription) {
-      descriptionControl.setErrors({ invalidDescription: this.isValidDescription });
-    } else {
-      descriptionControl.setErrors(null);
-    }
+    this.isValidDescription ? descrControl.setErrors(null) : descrControl.setErrors({ invalidDescription: this.isValidDescription });
     return !this.isValidDescription ? errorClassName : '';
   }
 
