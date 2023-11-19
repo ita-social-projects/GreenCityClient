@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
-
 @Component({
   selector: 'app-event-schedule',
   templateUrl: './event-schedule.component.html',
