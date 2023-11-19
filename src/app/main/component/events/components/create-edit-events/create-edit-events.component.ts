@@ -107,7 +107,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     private injector: Injector,
     public dialog: MatDialog,
     public router: Router,
-    private localStorageService: LocalStorageService,
+    public localStorageService: LocalStorageService,
     private actionsSubj: ActionsSubject,
     private store: Store,
     private snackBar: MatSnackBarComponent,
@@ -183,7 +183,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.oldImages = this.imagesForEdit;
   }
 
-  private setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
+  public setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
     let datesEvent: DateEvent[] | DateEventResponceDto[];
     if (init) {
       datesEvent = this.localStorageService.getEventForEdit().dates;

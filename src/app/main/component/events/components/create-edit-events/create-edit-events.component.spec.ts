@@ -226,6 +226,84 @@ describe('CreateEditEventsComponent', () => {
     expect(component.oldImages).toEqual(component.imagesForEdit);
   });
 
+  it('should set dates during initialization', () => {
+    const mockLocalStorageService = {
+      getEventForEdit: () => ({
+        dates: [
+          {
+            startDate: '2022-06-29T12:00:00Z',
+            finishDate: '2022-06-29T15:00:00Z',
+            check: true,
+            valid: true,
+            onlineLink: 'http://example.com',
+            coordinates: {
+              latitude: 1,
+              longitude: 1
+            }
+          }
+        ]
+      })
+    };
+
+    component.localStorageService = mockLocalStorageService as any;
+    component.setDates(true);
+
+    expect(component.dates.length).toBe(1);
+    expect(component.dates[0].startDate).toBe('2022-06-29T12:00:00Z');
+    expect(component.dates[0].finishDate).toBe('2022-06-29T15:00:00Z');
+    expect(component.dates[0].check).toBe(false);
+    expect(component.dates[0].valid).toBe(false);
+    expect(component.dates[0].onlineLink).toBe('http://example.com');
+    expect(component.dates[0].coordinates.latitude).toBe(1);
+    expect(component.dates[0].coordinates.longitude).toBe(1);
+  });
+
+  it('should set dates during edit mode', () => {
+    const mockLocalStorageService = {
+      getEventForEdit: () => ({
+        dates: [
+          {
+            startDate: '2022-06-29T12:00:00Z',
+            finishDate: '2022-06-29T15:00:00Z',
+            check: true,
+            valid: true,
+            onlineLink: 'http://example.com',
+            coordinates: {
+              latitude: 1,
+              longitude: 1
+            }
+          }
+        ]
+      })
+    };
+
+    component.localStorageService = mockLocalStorageService as any;
+    component.editMode = true;
+
+    component.setDates(false, [
+      {
+        startDate: '2022-06-30T12:00:00Z',
+        finishDate: '2022-06-30T15:00:00Z',
+        check: false,
+        valid: false,
+        onlineLink: 'http://edited-example.com',
+        coordinates: {
+          latitude: 2,
+          longitude: 2
+        }
+      }
+    ]);
+
+    expect(component.dates.length).toBe(1);
+    expect(component.dates[0].startDate).toBe('2022-06-30T12:00:00Z');
+    expect(component.dates[0].finishDate).toBe('2022-06-30T15:00:00Z');
+    expect(component.dates[0].check).toBe(false);
+    expect(component.dates[0].valid).toBe(false);
+    expect(component.dates[0].onlineLink).toBe('http://edited-example.com');
+    expect(component.dates[0].coordinates.latitude).toBe(2);
+    expect(component.dates[0].coordinates.longitude).toBe(2);
+  });
+
   it('checkForm startDate should be 12:00', () => {
     component.dates = [DateMock];
     component.checkFormSetDates(FormMock, 0);
