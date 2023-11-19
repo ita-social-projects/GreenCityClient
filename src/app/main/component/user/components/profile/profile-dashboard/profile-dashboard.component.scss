@@ -22,7 +22,7 @@ a {
 
     .buttons-wrapper {
       display: flex;
-      justify-content: cneter;
+      justify-content: center;
       align-items: center;
 
       .favourites {
@@ -36,6 +36,7 @@ a {
         justify-content: center;
         align-items: center;
         box-shadow: 0 0 1px 0 var(--primary-grey);
+        cursor: pointer;
 
         span {
           display: inline-block;
