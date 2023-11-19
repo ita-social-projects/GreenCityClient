@@ -708,7 +708,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
         regionUkrainianName: this.region.value ? this.regionNameUk : '',
         regionEnglishName: this.region.value ? this.regionEnglishName : '',
         regionId: this.region.value ? this.regionId : null,
-        cityNameUk: this.selectedCities.map((city) => city.name) || [],
+        cityNameUk: this.selectedCities.map((city) => city.ukrainianName) || [],
         cityNameEn: this.selectedCities.map((city) => city.englishName) || [],
         action: 'ubs-tariffs-add-location-pop-up.create_button'
       }
