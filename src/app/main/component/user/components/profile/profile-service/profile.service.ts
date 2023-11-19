@@ -53,14 +53,13 @@ export class ProfileService {
   }
 
   public getSocialImage(socialNetwork: string): string {
-    const value = socialNetwork;
     const icons = JSON.parse(JSON.stringify(this.icons));
     delete icons.edit;
     delete icons.add;
     delete icons.delete;
     let imgPath = icons.defaultIcon;
     Object.keys(icons).forEach((icon) => {
-      if (value.toLowerCase().includes(icon)) {
+      if (socialNetwork.toLowerCase().includes(icon)) {
         imgPath = icons[icon];
       }
     });
