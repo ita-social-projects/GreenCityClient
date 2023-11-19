@@ -73,7 +73,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public fromPreview: boolean;
   private editorText = '';
   public imgArray: Array<File> = [];
-  private imgArrayToPreview: string[] = [];
+  public imgArrayToPreview: string[] = [];
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
   public isDateDuplicate = false;
@@ -168,7 +168,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.eventFormGroup.get('titleForm');
   }
 
-  private setEditValue(): void {
+  public setEditValue(): void {
     this.eventFormGroup.patchValue({
       titleForm: this.editEvent.title,
       eventDuration: this.dateArrCount[this.editEvent.dates.length - 1],
@@ -293,12 +293,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.router.navigate(['/events']);
   }
 
-  public changeToOpen(): void {
-    this.isOpen = true;
-  }
-
-  public changeToClose(): void {
-    this.isOpen = false;
+  public changeEventType(): void {
+    this.isOpen = !this.isOpen;
   }
 
   public setDateCount(length: number): void {

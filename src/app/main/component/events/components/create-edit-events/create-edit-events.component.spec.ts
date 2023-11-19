@@ -44,48 +44,75 @@ describe('CreateEditEventsComponent', () => {
     check: false
   };
 
-  const MockEventPreview = {
-    title: '',
-    description: '',
-    open: true,
-    eventDuration: 1,
-    datesLocations: [DateMock],
-    tags: [''],
-    imgArray: [''],
-    location: {
-      date: null,
-      finishDate: '',
-      onlineLink: '',
-      place: '',
-      startDate: ''
-    }
-  };
-
   const EditDateEventMock = {
     coordinates: {
-      latitude: null,
-      longitude: null
+      latitude: 1,
+      longitude: 1,
+      cityEn: 'Lviv',
+      cityUa: 'Львів',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      houseNumber: 55,
+      regionEn: 'Lvivska oblast',
+      regionUa: 'Львівська область',
+      streetEn: 'Svobody Ave',
+      streetUa: 'Свободи',
+      formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+      formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
     },
-    event: 'string',
-    finishDate: '',
+    valid: true,
+    event: 'event',
+    finishDate: '2022-06-29T04:00:00Z',
     id: 1,
-    onlineLink: 'link',
-    startDate: ''
+    onlineLink: 'http',
+    startDate: '2022-06-29T04:00:00Z'
   };
 
   const EditEventMock = {
     additionalImages: [],
+    imgArray: [],
+    imgArrayToPreview: [],
+    creationDate: '2022-05-31',
     dates: [EditDateEventMock],
     description: 'any',
     id: 1,
     open: true,
     organizer: {
       id: 1,
-      name: 'John'
+      name: 'John',
+      organizerRating: 1
     },
-    tags: [],
+    location: {
+      date: new Date(),
+      finishDate: 'string',
+      onlineLink: 'string',
+      place: 'string',
+      startDate: 'string',
+      coordinates: {
+        latitude: 1,
+        longitude: 1
+      }
+    },
+    tags: [
+      {
+        id: 1,
+        nameUa: 'Tag1',
+        nameEn: 'Tag1'
+      },
+      {
+        id: 2,
+        nameUa: 'Tag2',
+        nameEn: 'Tag2'
+      }
+    ],
     title: 'Title',
-    titleImage: 'string'
+    titleImage: 'string',
+    isSubscribed: true,
+    isFavorite: false,
+    isActive: true,
+    likes: 8,
+    countComments: 9,
+    isRelevant: true
   };
 
   const formDataMock: FormGroup = new FormGroup({
@@ -125,13 +152,13 @@ describe('CreateEditEventsComponent', () => {
     'transformDate'
   ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
-  EventsServiceMock.currentForm = () => of(MockEventPreview);
+  EventsServiceMock.currentForm = () => of(EditDateEventMock);
   EventsServiceMock.editEvent = () => of(true);
   EventsServiceMock.setArePlacesFilled = () => of('');
   EventsServiceMock.setInitialValueForPlaces = () => of('');
   EventsServiceMock.getCheckedPlacesObservable = () => of([]);
-  EventsServiceMock.setForm = () => of(MockEventPreview);
-  EventsServiceMock.getForm = () => of(MockEventPreview);
+  EventsServiceMock.setForm = () => of(EditDateEventMock);
+  EventsServiceMock.getForm = () => of(EditDateEventMock);
 
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = () => {
@@ -186,6 +213,19 @@ describe('CreateEditEventsComponent', () => {
     expect(tag.isActive).toBeFalsy();
   });
 
+  it('should set values during edit mode', () => {
+    component.editEvent = EditEventMock;
+    component.setEditValue();
+
+    expect(component.eventFormGroup.get('titleForm').value).toBe(EditEventMock.title);
+    expect(component.eventFormGroup.get('eventDuration').value).toBe(component.dateArrCount[EditEventMock.dates.length - 1]);
+    expect(component.eventFormGroup.get('description').value).toBe(EditEventMock.description);
+    expect(component.imgArrayToPreview).toEqual([EditEventMock.titleImage, ...EditEventMock.additionalImages]);
+    expect(component.imagesForEdit).toEqual([EditEventMock.titleImage, ...EditEventMock.additionalImages]);
+    expect(component.isOpen).toBe(EditEventMock.open);
+    expect(component.oldImages).toEqual(component.imagesForEdit);
+  });
+
   it('checkForm startDate should be 12:00', () => {
     component.dates = [DateMock];
     component.checkFormSetDates(FormMock, 0);
@@ -198,16 +238,27 @@ describe('CreateEditEventsComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('changeToOpen expect isOpen to be true', () => {
+  it('changeEventType expect isOpen to be true', () => {
     component.isOpen = false;
-    component.changeToOpen();
+    component.changeEventType();
     expect(component.isOpen).toBeTruthy();
   });
 
-  it('changeToClose expect isOpen to be false', () => {
+  it('changeEventType expect isOpen to be false', () => {
     component.isOpen = true;
-    component.changeToClose();
+    component.changeEventType();
     expect(component.isOpen).toBeFalsy();
+  });
+
+  describe('setOnlineLink', () => {
+    it('should update the online link and call updateAreAddressFilled with correct parameters', () => {
+      const link = 'newOnlineLink';
+      const index = 0;
+      const updateAreAddressFilledSpy = spyOn(component as any, 'updateAreAddressFilled');
+      component.setOnlineLink(link, index);
+      expect(component.dates[index].onlineLink).toBe(link);
+      expect(updateAreAddressFilledSpy).toHaveBeenCalledWith(component.dates, false, true, index);
+    });
   });
 
   it('setDateCount dates length should be 3', () => {
@@ -220,7 +271,7 @@ describe('CreateEditEventsComponent', () => {
     expect((component as any).imgArray.length).toBe(1);
   });
 
-  it('setCoordsOffline  expect latitude to be 2', () => {
+  it('setCoordsOffline expect latitude to be 2', () => {
     component.dates = [DateMock];
     component.setCoordsOffline({ latitude: 2, longitude: 3 }, 0);
     expect(component.dates[0].coordinates.latitude).toBe(2);
