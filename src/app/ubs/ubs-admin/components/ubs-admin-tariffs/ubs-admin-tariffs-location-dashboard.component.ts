@@ -256,7 +256,9 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     this.getExistingCard(this.filterData);
     this.checkisCardExist();
 
-    if (fieldName === 'region') this.city.disable();
+    if (fieldName === 'region') {
+      this.city.disable();
+    }
   }
 
   resetCourierValue(): void {

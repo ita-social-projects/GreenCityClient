@@ -8,5 +8,3 @@ export interface TariffConfirmationPopUpInterface {
   locationNames;
   action: string;
 }
-
-export interface TariffCardPopUpInterface {}

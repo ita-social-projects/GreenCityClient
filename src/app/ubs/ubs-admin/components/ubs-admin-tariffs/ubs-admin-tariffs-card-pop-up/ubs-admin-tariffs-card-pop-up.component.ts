@@ -256,7 +256,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   private setSelectedCities(): void {
-    if (!this.regionEnglishName || !this.regionUkrainianName) return;
+    if (!this.regionEnglishName || !this.regionUkrainianName) {
+      return;
+    }
 
     const currentRegion = this.locations.filter((element) =>
       element.regionTranslationDtos.find((it) => it.regionName === this.region.value)
