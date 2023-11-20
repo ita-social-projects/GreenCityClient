@@ -272,7 +272,7 @@ export class AddNewHabitComponent implements OnInit {
 
   editUsersCustomHabit(url: string, id: number): void {
     this.localStorageService.setEditMode('canUserEdit', true);
-    this.habitResponse.shoppingListItems = this.standartShopList;
+    this.habitResponse.shoppingListItems = this.initialShoppingList;
     this.habitResponse.customShoppingListItems = this.customShopList;
     this.habitResponse.defaultDuration = this.newDuration || this.initialDuration;
     this.store.dispatch(SetHabitForEdit({ habitResponse: this.habitResponse }));

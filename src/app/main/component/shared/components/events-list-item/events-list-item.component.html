@@ -12,7 +12,7 @@
     </div>
     <div class="event-participants" *ngIf="attendees.length">
       <div class="event-participants-avatars">
-        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+        <div class="event-participants-avatar" *ngFor="let avatar of attendeesAvatars | slice : 0 : 2">
           <img [src]="avatar" alt="" />
         </div>
       </div>
@@ -37,7 +37,7 @@
         {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
       </div>
       <span class="time-divider">|</span>
-      <div class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</div>
+      <div class="time">{{ event.dates[event.dates.length - 1].startDate | date : 'shortTime' }}</div>
     </div>
     <div class="date-container">
       <span class="place"></span>
@@ -53,9 +53,9 @@
       <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
     </div>
     <div class="event-title">
-      <p class="event-name" [innerHTML]="event.title | maxTextLength: 30"></p>
+      <p class="event-name" [innerHTML]="event.title | maxTextLength : 30"></p>
     </div>
-    <div class="description" [innerHTML]="event.description | maxTextLength: 90"></div>
+    <div class="description" [innerHTML]="event.description | maxTextLength : 90"></div>
   </div>
 
   <div class="btn-group">
@@ -92,7 +92,7 @@
       <img class="event-assign__image-container-image" src="{{ event.titleImage }}" alt="event" />
       <div class="event-assign__image-container__participants" *ngIf="attendees.length">
         <div class="event-assign__image-container__participants__avatars">
-          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice: 0:2">
+          <div class="event-assign__image-container__participants__avatars__avatar" *ngFor="let avatar of attendeesAvatars | slice : 0 : 2">
             <img [src]="avatar" alt="" />
           </div>
         </div>
@@ -109,7 +109,7 @@
             {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
           </p>
           <span class="time-divider">|</span>
-          <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
+          <p class="time">{{ event.dates[event.dates.length - 1].startDate | date : 'shortTime' }}</p>
         </div>
         <div
           class="event-assign__content__date-container__event-flags favourite-button"

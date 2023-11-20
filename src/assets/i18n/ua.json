@@ -1036,7 +1036,6 @@
       "found-amount": "людей знайдено",
       "no-mutual-friends": "Схоже, що у вас немає жодного спільного друга :-)"
     },
-    "rate": "Рейтинг",
     "acquired-habits": "набуті звички",
     "written-articles": "мої статті",
     "published-news": "мої новини",
@@ -1194,7 +1193,9 @@
     "friends": "Друзів",
     "add-location-error": "Ви повинні заповнити принаймні одну адресу або посилання",
     "preview-attendees": "людей ідуть",
-    "use-greencity-pics": "Використовуйте фотографії Greencity"
+    "use-greencity-pics": "Використовуйте фотографії Greencity",
+    "created-event": "Ви успішно додали подію",
+    "updated-event": "Ви успішно оновили подію"
   },
   "input-error": {
     "required": "Це поле є обов'язковим для заповнення",

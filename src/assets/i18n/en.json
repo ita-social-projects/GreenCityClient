@@ -997,7 +997,6 @@
     "my-habits": "My Habits",
     "my-news": "My news",
     "my-articles": "My articles",
-    "rate": "Rate",
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": { "plural": "mutual friends", "singular": "mutual friend" },
@@ -1170,7 +1169,9 @@
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
     "preview-attendees": "people are going",
-    "use-greencity-pics": "Use Greencity pictures"
+    "use-greencity-pics": "Use Greencity pictures",
+    "created-event": "You have successfully added a new event",
+    "updated-event": "You have successfully updated an event"
   },
   "input-error": {
     "required": "This field is required",

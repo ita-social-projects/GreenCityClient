@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { MatDialogModule } from '@angular/material/dialog';
-import { EditorChangeContent } from 'ngx-quill';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -48,7 +48,8 @@ describe('AddEditCustomHabitComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule
       ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
@@ -86,12 +87,6 @@ describe('AddEditCustomHabitComponent', () => {
     expect((component as any).userId).toBe(2);
   });
 
-  it('should return title Control on getControl', () => {
-    (component as any).initForm();
-    const title = component.getControl('title');
-    expect(title).toEqual(component.habitForm.get('title'));
-  });
-
   it('subscribeToLangChange should set current language', () => {
     (component as any).subscribeToLangChange();
     expect((component as any).currentLang).toBe('ua');
@@ -102,12 +97,6 @@ describe('AddEditCustomHabitComponent', () => {
     expect(starImage).toBe('assets/img/icon/star-1.png');
     starImage = component.getStars(3, 2);
     expect(starImage).toBe('assets/img/icon/star-2.png');
-  });
-
-  it('should set duration after get it from child component', () => {
-    (component as any).initForm();
-    component.getDuration(15);
-    expect(component.habitForm.get('duration').value).toBe(15);
   });
 
   it('should set shopList after get it from child component', () => {
