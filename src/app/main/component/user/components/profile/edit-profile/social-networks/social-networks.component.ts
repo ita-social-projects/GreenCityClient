@@ -124,19 +124,9 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
   public onAddLink(link?) {
     this.onChange(link);
     const value = link || this.inputTextValue;
-    let imgPath = this.icons.defaultIcon;
     if (this.checkIsUrl(value) && !this.onCheckForExisting(value)) {
-      Object.keys(this.icons).forEach((icon) => {
-        if (value.toLowerCase().includes(icon)) {
-          imgPath = this.icons[icon];
-        }
-      });
-
       this.socialNetworks.push({
-        url: value,
-        socialNetworkImage: {
-          imagePath: imgPath
-        }
+        url: value
       });
 
       this.onEmitSocialNetworksChange();
