@@ -110,9 +110,11 @@ describe('EventsListItemComponent', () => {
         event: null,
         startDate: '2022-05-31T00:00:00+03:00',
         finishDate: '2022-05-31T23:59:00+03:00',
-        onlineLink: null
+        onlineLink: null,
+        valid: true
       }
     ],
+    imgArrayToPreview: [],
     id: 307,
     organizer: { id: 5, name: 'Mykola Kovalushun', organizerRating: 3 },
     title: 'dddddddd',
@@ -165,12 +167,15 @@ describe('EventsListItemComponent', () => {
     'getEventById ',
     'deleteEvent',
     'getAllAttendees',
-    'getFormattedAddressEventsList'
+    'getFormattedAddressEventsList',
+    'setBackFromPreview',
+    'setForm'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getFormattedAddressEventsList = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of(false);
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
@@ -178,7 +183,8 @@ describe('EventsListItemComponent', () => {
     'setEditMode',
     'setEventForEdit',
     'userIdBehaviourSubject',
-    'languageSubject'
+    'languageSubject',
+    'setForm'
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
@@ -258,7 +264,7 @@ describe('EventsListItemComponent', () => {
     component.max = 3;
     component.userId = 5;
     component.author = 'tester';
-    component.bookmarkSelected = false;
+    component.isEventFavorite = component.event.isFavorite;
     component.currentLang = 'en';
 
     component.deleteDialogData = {
@@ -503,13 +509,13 @@ describe('EventsListItemComponent', () => {
     expect(component.openAuthModalWindow).toHaveBeenCalled();
   });
 
-  describe('addToFavourite()', () => {
-    xit(`should be clicked and called addToFavourite method`, fakeAsync(() => {
-      spyOn(component, 'addToFavourite');
+  describe('changeFavouriteStatus()', () => {
+    it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
+      spyOn(component, 'changeFavouriteStatus');
       const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
       button.click();
       tick();
-      expect(component.addToFavourite).toHaveBeenCalled();
+      expect(component.changeFavouriteStatus).toHaveBeenCalled();
     }));
   });
 });

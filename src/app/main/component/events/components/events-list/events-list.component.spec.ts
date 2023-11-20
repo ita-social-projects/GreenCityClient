@@ -46,6 +46,7 @@ describe('EventsListComponent', () => {
       dates: [
         {
           id: null,
+          valid: true,
           event: null,
           startDate: '2023-04-11T21:00:00Z',
           finishDate: '2023-04-12T20:59:00Z',
@@ -67,6 +68,8 @@ describe('EventsListComponent', () => {
           }
         }
       ],
+      imgArray: [],
+      imgArrayToPreview: [],
       tags: [
         {
           id: 12,
@@ -102,6 +105,7 @@ describe('EventsListComponent', () => {
       dates: [
         {
           id: null,
+          valid: true,
           event: null,
           startDate: '2023-04-11T21:00:00Z',
           finishDate: '2023-04-12T20:59:00Z',
@@ -123,6 +127,8 @@ describe('EventsListComponent', () => {
           }
         }
       ],
+      imgArray: [],
+      imgArrayToPreview: [],
       tags: [
         {
           id: 12,

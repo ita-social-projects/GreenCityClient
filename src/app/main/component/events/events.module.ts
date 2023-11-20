@@ -21,7 +21,6 @@ import { EventsComponent } from './events.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { HttpClient } from '@angular/common/http';
 import { CreateEditEventsComponent } from './components/create-edit-events/create-edit-events.component';
-import { EventsPreviewPageComponent } from './components/events-preview-page/events-preview-page.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { EventDateTimePickerComponent } from './components/event-date-time-picker/event-date-time-picker.component';
 import { MapEventComponent } from './components/map-event/map-event.component';
@@ -48,7 +47,6 @@ import { EventsCommentsService } from './services/events-comments.service';
     EventsComponent,
     EventsListComponent,
     CreateEditEventsComponent,
-    EventsPreviewPageComponent,
     EventDateTimePickerComponent,
     MapEventComponent,
     ImagesContainerComponent,

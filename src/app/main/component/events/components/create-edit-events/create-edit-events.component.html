@@ -1,18 +1,20 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
   <div class="content-container">
-    <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]">
+    <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
       <div class="button-arrow">
-        <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
-        <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+        <div class="button-arrow-container">
+          <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
+          <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+        </div>
       </div>
     </a>
     <div class="event-header">
-      <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
-      <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
-      <p>
-        {{ 'create-event.description' | translate }}
-      </p>
+      <div class="event-header-items">
+        <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
+        <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
+        <p>{{ 'create-event.description' | translate }}</p>
+      </div>
     </div>
     <div class="event-main">
       <mat-card class="event-main-block left">
@@ -62,10 +64,13 @@
                 [index]="i"
                 [duplindx]="duplindx"
                 [check]="date.check"
+                [fromPreview]="fromPreview"
+                [previewData]="previewDates?.dates[i]"
                 [editDate]="editEvent?.dates[i]"
                 [isDateDuplicate]="isDateDuplicate"
                 [editDates]="editDates"
                 [firstFormIsSucceed]="firstFormIsSucceed"
+                [submitSelected]="submitSelected"
               >
               </app-event-date-time-picker>
             </div>
@@ -95,6 +100,7 @@
       </mat-card>
       <mat-card class="event-main-block right">
         <app-images-container
+          [imgArray]="imgArray"
           [imagesEditArr]="imagesForEdit"
           [isImagesArrayEmpty]="isImagesArrayEmpty"
           (imgArrayOutput)="getImageTosend($event)"
@@ -133,7 +139,7 @@
               class="custom-chip global-tag"
               [ngClass]="{ 'global-tag-clicked': isOpen }"
               tabindex="0"
-              (click)="changeToOpen()"
+              (click)="changeEventType()"
             >
               <span class="text">{{ 'create-event.open' | translate }}</span>
               <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
@@ -143,7 +149,7 @@
               class="custom-chip global-tag"
               [ngClass]="{ 'global-tag-clicked': !isOpen }"
               tabindex="0"
-              (click)="changeToClose()"
+              (click)="changeEventType()"
             >
               <span class="text">{{ 'create-event.close' | translate }}</span>
               <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
@@ -151,12 +157,12 @@
           </div>
         </div>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline" class="date-item">
           <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
-          <select matNativeControl required>
-            <option value="All">{{ 'create-event.all' | translate }}</option>
-            <option value="Frends">{{ 'create-event.friends' | translate }}</option>
-          </select>
+          <mat-select ngDefaultControl required>
+            <mat-option value="All">{{ 'create-event.all' | translate }}</mat-option>
+            <mat-option value="Frends">{{ 'create-event.friends' | translate }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-card>
     </div>

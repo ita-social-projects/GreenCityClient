@@ -33,7 +33,7 @@ export interface DateEvent {
   date?: Date;
   startDate: string;
   finishDate: string;
-  coordinatesDto?: {
+  coordinates?: {
     latitude: number;
     longitude: number;
   };
@@ -73,6 +73,12 @@ export interface EventResponseDto {
   totalPages: number;
 }
 
+export interface Organizer {
+  id: number;
+  name: string;
+  organizerRating: number;
+}
+
 export interface EventPageResponceDto {
   additionalImages: Array<string>;
   dates: Array<DateEventResponceDto>;
@@ -80,11 +86,10 @@ export interface EventPageResponceDto {
   description: any;
   id: number;
   open: boolean;
-  organizer: {
-    id: number;
-    name: string;
-    organizerRating: number;
-  };
+  location?: DateFormObj;
+  imgArray?: any[];
+  imgArrayToPreview: string[];
+  organizer: Organizer;
   tags: Array<TagDto>;
   title: string;
   titleImage: string;
@@ -125,6 +130,8 @@ export interface DateEventResponceDto {
   id: number;
   onlineLink: string;
   startDate: string;
+  check?: boolean;
+  valid: boolean;
 }
 
 export interface OfflineDto {
@@ -140,11 +147,11 @@ export interface TagObj {
 
 export interface DateFormObj {
   date: Date;
-  endTime?: string;
+  finishDate?: string;
   onlineLink?: string;
   place: string;
-  startTime?: string;
-  coordinatesDto?: {
+  startDate?: string;
+  coordinates?: {
     latitude: number;
     longitude: number;
   };
@@ -153,10 +160,15 @@ export interface DateFormObj {
 export interface PagePreviewDTO {
   title: string;
   description: string;
+  eventDuration: number;
   open: boolean;
-  datesLocations: DateEvent[];
+  isRelevant?: boolean;
+  id?: number;
+  organizer?: Organizer;
+  dates: DateEvent[];
   tags: Array<string>;
   imgArray: any[];
+  imgArrayToPreview: any[];
   location: DateFormObj;
 }
 

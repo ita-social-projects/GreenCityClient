@@ -8,7 +8,7 @@ import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
@@ -54,7 +54,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public isRegistered: boolean;
   public isReadonly = false;
   public isPosting: boolean;
-  public isEventFavorite = false;
+  public isEventFavorite: boolean;
   public btnStyle: string;
   public nameBtn: string;
 
@@ -66,7 +66,6 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public currentLang: string;
   public datePipe;
   public newDate;
-  bookmarkSelected = false;
   public address;
   public addAttenderError: string;
   public isOnline: string;
@@ -85,6 +84,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public canUserJoinCloseEvent: boolean;
 
   @Output() public isLoggedIn: boolean;
+  @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
 
   public styleBtn = {
     secondary: 'secondary-global-button',
@@ -134,6 +134,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
       this.addAttenderError = res.error;
     });
     this.getAddress();
+    this.isEventFavorite = this.event.isFavorite;
   }
 
   public routeToEvent(): void {
@@ -196,6 +197,8 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public buttonAction(buttonName: string): void {
+    this.eventService.setBackFromPreview(false);
+    this.eventService.setForm(null);
     switch (buttonName) {
       case this.btnName.cancel:
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
@@ -289,23 +292,32 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
-  public addToFavourite(event?: Event) {
+  public changeFavouriteStatus(event?: Event) {
     event.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
     } else {
-      this.bookmarkSelected = !this.bookmarkSelected;
-      const sendEventDto = {
-        isFavorite: this.bookmarkSelected
-      };
-      const formData: FormData = new FormData();
-      const stringifiedDataToSend = JSON.stringify(sendEventDto);
-      const dtoName = 'EventPageResponceDto';
-
-      formData.append(dtoName, stringifiedDataToSend);
-
-      this.eventService.editEvent(formData).subscribe((res) => {});
-      this.eventService.addEventToFavourites(this.event.id).subscribe((res) => {});
+      this.isEventFavorite = !this.isEventFavorite;
+      if (this.isEventFavorite) {
+        this.eventService.addEventToFavourites(this.event.id).subscribe({
+          error: () => {
+            this.snackBar.openSnackBar('error');
+            this.isEventFavorite = false;
+          }
+        });
+      } else {
+        this.eventService.removeEventFromFavourites(this.event.id).subscribe(
+          (res) => {
+            if (this.isUserAssignList) {
+              this.idOfUnFavouriteEvent.emit(this.event.id);
+            }
+          },
+          () => {
+            this.snackBar.openSnackBar('error');
+            this.isEventFavorite = true;
+          }
+        );
+      }
     }
   }
 
@@ -323,7 +335,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
       .subscribe((result) => {
         this.isRegistered = !!result;
         if (this.isRegistered) {
-          this.addToFavourite();
+          this.changeFavouriteStatus();
         }
       });
   }

@@ -144,11 +144,6 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   private getAllTags() {
-    const tags = this.createEcoNewsService.getTags();
-    if (tags.length) {
-      this.filters = tags;
-      return;
-    }
     this.ecoNewsService
       .getAllPresentTags()
       .pipe(take(1))

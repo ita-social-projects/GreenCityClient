@@ -127,7 +127,7 @@
           <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
             <li
               *ngFor="
-                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
+                let eventItem of eventsList | paginate : { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
               "
             >
               <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
@@ -137,10 +137,15 @@
             <li
               *ngFor="
                 let eventItem of favouriteEvents
-                  | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
+                  | paginate : { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
               "
             >
-              <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
+              <app-events-list-item
+                [event]="eventItem"
+                [userId]="userId"
+                [isUserAssignList]="true"
+                (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
+              ></app-events-list-item>
             </li>
           </ul>
           <pagination-controls

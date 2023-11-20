@@ -3,16 +3,27 @@
     <app-spinner *ngIf="isPosting"></app-spinner>
     <div *ngIf="event && !isPosting" class="event">
       <div class="event-nav">
-        <div class="back-button">
+        <div *ngIf="!eventService.getForm()" class="back-button">
           <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" class="button-link">
             <div class="button-content">
-              <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
+              <img [src]="icons.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
               <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
             </div>
           </a>
         </div>
+        <div *ngIf="eventService.getForm()" class="back-button">
+          <a class="button-link" [routerLink]="['/events', 'create-event']">
+            <div class="button-content">
+              <img [src]="icons.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
+              <div class="button-text" (click)="backToEdit()">{{ 'create-event.back-edit' | translate }}</div>
+            </div>
+          </a>
+        </div>
 
-        <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
+        <div
+          *ngIf="role === roles.ORGANIZER || (role === roles.ADMIN && !eventService.getForm()); else secondElseBlock"
+          class="edit-buttons"
+        >
           <button class="tertiary-global-button m-btn" (click)="deleteEvent()">
             {{ 'homepage.events.btn.delete' | translate }}
           </button>
@@ -20,6 +31,11 @@
             {{ 'homepage.events.btn.edit' | translate }}
           </button>
         </div>
+        <ng-template #secondElseBlock>
+          <a class="button-link" [routerLink]="['/events', 'create-event']">
+            <button class="primary-global-button button-publish" (click)="backToSubmit()">{{ 'create-event.publish' | translate }}</button>
+          </a>
+        </ng-template>
       </div>
 
       <div class="event-header">
@@ -28,7 +44,7 @@
           <div class="date-author">
             <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
             <div>|</div>
-            <div>{{ 'homepage.events.author' | translate }} {{ event.organizer.name }}</div>
+            <div>{{ 'homepage.events.author' | translate }} {{ organizerName }}</div>
           </div>
         </div>
         <div class="right-side">
@@ -74,27 +90,28 @@
                 <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
                   <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
                     <div class="event-duration">
                       {{ event.dates[0].startDate | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
+                      {{ event.dates[event.dates.length - 1].finishDate | date : 'MMM d, y' }}
                     </div>
                     <div>|</div>
-                    <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                    <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
+                    <div class="event-info-days">
+                      <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
+                    </div>
                   </div>
                 </ng-template>
               </div>
-              <div *ngIf="locationCoordinates" class="event-location">
+              <div *ngIf="locationCoordinates || place" class="event-location">
                 <div class="event-location-icon">
                   <img [src]="icons.location" alt="" />
                 </div>
-                <span>
-                  {{ getAddress() }}
-                </span>
+                <span>{{ eventService.getForm() ? place : getAddress() }}</span>
               </div>
               <div *ngIf="locationLink" class="event-link">
                 <div class="event-link-icon">
@@ -118,15 +135,12 @@
                 <div class="event-author-icon">
                   <img [src]="icons.user" alt="" />
                 </div>
-                <div>{{ event.organizer.name }}</div>
+                <div>{{ organizerName }}</div>
               </div>
-            </div>
-            <div class="event-info-days">
-              <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
             </div>
           </div>
 
-          <div class="save-join-event-block">
+          <div *ngIf="!eventService.getForm()" class="save-join-event-block">
             <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
             <button
               *ngIf="!isUserCanRate && !isOver && (isEventOrginizerFriend || event.open)"
@@ -141,10 +155,10 @@
 
         <div class="main-right">
           <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-          <div [innerHTML]="event.description | eventDescriptionTransform"></div>
+          <div [innerHTML]="event.description | eventDescriptionTransform" class="description"></div>
         </div>
       </div>
-      <app-comments-container class="event" [entityId]="eventId"></app-comments-container>
+      <app-comments-container *ngIf="!eventService.getForm()" class="event" [entityId]="eventId"></app-comments-container>
     </div>
   </div>
 </div>
