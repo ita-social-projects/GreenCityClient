@@ -2,18 +2,30 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
-import { EventResponseDto, Coordinates, PagePreviewDTO, DateEvent, EventFilterCriteriaIntarface } from '../models/events.interface';
+import {
+  EventResponseDto,
+  Coordinates,
+  PagePreviewDTO,
+  DateEvent,
+  EventFilterCriteriaIntarface,
+  EventPageResponceDto
+} from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { DatePipe } from '@angular/common';
+import { TimeFront } from '../models/event-consts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  public currentForm: PagePreviewDTO;
+  public currentForm: PagePreviewDTO | EventPageResponceDto;
+  public backFromPreview: boolean;
+  public submitFromPreview: boolean;
   private backEnd = environment.backendLink;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   private arePlacesFilledSubject: BehaviorSubject<boolean[]> = new BehaviorSubject<boolean[]>([]);
   private divider = `, `;
+  private pipe = new DatePipe('en-US');
 
   constructor(private http: HttpClient, private langService: LanguageService) {}
 
@@ -23,10 +35,10 @@ export class EventsService implements OnDestroy {
 
     switch (true) {
       case submit:
-        newArray = dates.map((nextValue) => !(nextValue.coordinatesDto.latitude || nextValue.onlineLink));
+        newArray = dates.map((nextValue) => !(nextValue.coordinates?.latitude || nextValue.onlineLink));
         break;
       case check:
-        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinatesDto.latitude || dates[ind].onlineLink);
+        currentValues[ind] = currentValues[ind] === null ? false : !(dates[ind].coordinates?.latitude || dates[ind].onlineLink);
         this.arePlacesFilledSubject.next(currentValues);
         return;
       case currentValues.some((el) => el === true):
@@ -44,6 +56,22 @@ export class EventsService implements OnDestroy {
     return this.http.get(`${this.backEnd}events/addresses`);
   }
 
+  public setBackFromPreview(val: boolean): void {
+    this.backFromPreview = val;
+  }
+
+  public getBackFromPreview(): boolean {
+    return this.backFromPreview;
+  }
+
+  public setSubmitFromPreview(val: boolean): void {
+    this.submitFromPreview = val;
+  }
+
+  public getSubmitFromPreview(): boolean {
+    return this.submitFromPreview;
+  }
+
   public setInitialValueForPlaces(): void {
     this.arePlacesFilledSubject.next([]);
   }
@@ -56,11 +84,24 @@ export class EventsService implements OnDestroy {
     return this.http.get(img, { responseType: 'blob' });
   }
 
-  public setForm(form: PagePreviewDTO): void {
+  public formatDate(dateString: Date, hour: string, min: string): string {
+    const date = new Date(dateString);
+    date.setHours(Number(hour), Number(min));
+    return date.toString();
+  }
+
+  public transformDate(date: DateEvent, typeDate: string): string {
+    return this.pipe.transform(
+      this.formatDate(date.date, date[typeDate].split(TimeFront.DIVIDER)[0], date[typeDate].split(TimeFront.DIVIDER)[1]),
+      'yyyy-MM-ddTHH:mm:ssZZZZZ'
+    );
+  }
+
+  public setForm(form: PagePreviewDTO | EventPageResponceDto): void {
     this.currentForm = form;
   }
 
-  public getForm(): PagePreviewDTO {
+  public getForm(): PagePreviewDTO | EventPageResponceDto {
     return this.currentForm;
   }
 
@@ -138,8 +179,8 @@ export class EventsService implements OnDestroy {
 
   public getFormattedAddress(coordinates: Coordinates): string {
     return this.getLangValue(
-      coordinates.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates.formattedAddressUa,
-      coordinates.streetEn ? this.createAddresses(coordinates, 'En') : coordinates.formattedAddressEn
+      coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
+      coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
     );
   }
 

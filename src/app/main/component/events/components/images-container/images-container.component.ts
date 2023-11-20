@@ -14,8 +14,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class ImagesContainerComponent implements OnInit, OnChanges {
   private isImageTypeError = false;
   private dragAndDropLabel = '+';
-  private imgArray: File[] = [];
   private maxImages = 5;
+  private setDefaultImg = false;
 
   public defImgs = [
     '/assets/img/events/illustration-earth.png',
@@ -35,8 +35,9 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
 
   @ViewChild('takeInput') InputVar: ElementRef;
 
+  @Input() imgArray: File[] = [];
   @Input() imagesEditArr: string[];
-  @Input() isImagesArrayEmpty: boolean;
+  @Input() isImagesArrayEmpty = false;
   @Output() imgArrayOutput = new EventEmitter<Array<File>>();
   @Output() deleteImagesOutput = new EventEmitter<Array<string>>();
   @Output() oldImagesOutput = new EventEmitter<Array<string>>();
@@ -49,28 +50,45 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
-
     this.initImages();
     if (this.editMode) {
-      this.imageCount = this.imagesEditArr.length;
-      this.images.forEach((el, ind) => {
-        if (this.imagesEditArr[ind]) {
-          el.src = this.imagesEditArr[ind];
-        }
-        if (el.src) {
-          el.isLabel = false;
-        }
-        if (!el.src && this.images[ind - 1].src) {
-          el.isLabel = true;
-        }
-      });
+      this.updateImagesAndLabels(this.imagesEditArr);
+    }
+    if (this.eventService.getBackFromPreview()) {
+      this.updateImagesAndLabels(this.imagesEditArr, this.defImgs);
     }
   }
 
-  ngOnChanges() {
-    if (this.isImagesArrayEmpty) {
+  ngOnChanges(): void {
+    if (this.isImagesArrayEmpty && !this.setDefaultImg) {
+      this.setDefaultImg = true;
       this.chooseImage(this.defaultImage);
     }
+  }
+
+  private updateImagesAndLabels(imagesEditArr: string[], defImgs?: string[]) {
+    this.imageCount = imagesEditArr.length;
+    this.images.forEach((el, ind) => {
+      if (imagesEditArr[ind]) {
+        el.src = this.editMode ? this.imagesEditArr[ind] : this.findMatchingImage(imagesEditArr[ind], defImgs);
+      }
+      if (el.src) {
+        el.isLabel = false;
+      }
+      if (!el.src && ind > 0 && this.images[ind - 1].src) {
+        el.isLabel = true;
+      }
+    });
+  }
+
+  private findMatchingImage(file, imageArray: string[]) {
+    const matchingImage = imageArray.find((imageUrl) => {
+      const parts = imageUrl.split('/');
+      const lastPart = parts[parts.length - 1];
+      return lastPart === file.name;
+    });
+
+    return matchingImage || null;
   }
 
   private initImages(): void {
@@ -113,25 +131,44 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   }
 
   private transferFile(imageFile: File): void {
-    if (!this.isImageTypeError && !this.isImageSizeError) {
-      const reader: FileReader = new FileReader();
-      this.imgArray.push(imageFile);
-      this.imgArrayOutput.emit(this.imgArray);
-      if (this.editMode) {
-        this.deleteImagesOutput.emit(this.imagesTodelete);
-        this.oldImagesOutput.emit(this.imagesEditArr);
-      }
+    const isImageValid = !this.isImageTypeError && !this.isImageSizeError && !this.images[4].src;
+    if (isImageValid) {
+      this.processValidImage(imageFile);
+    } else {
+      this.handleInvalidImageFile();
+    }
+  }
 
-      reader.readAsDataURL(imageFile);
-      reader.onload = () => {
-        this.assignImage(reader.result);
-      };
-    } else if (this.isImageTypeError && this.isImageSizeError) {
+  private processValidImage(imageFile: File): void {
+    const reader: FileReader = new FileReader();
+    this.imgArray.push(imageFile);
+    this.imgArrayOutput.emit(this.imgArray);
+
+    if (this.editMode) {
+      this.deleteImagesOutput.emit(this.imagesTodelete);
+      this.oldImagesOutput.emit(this.imagesEditArr);
+    }
+
+    const labelIndex = this.editMode ? this.imagesEditArr.length + this.imgArray.length : this.imgArray.length;
+    if (labelIndex !== 5) {
+      this.images[labelIndex].isLabel = true;
+    }
+
+    reader.readAsDataURL(imageFile);
+    reader.onload = () => {
+      this.assignImage(reader.result);
+    };
+  }
+
+  private handleInvalidImageFile(): void {
+    if (this.isImageTypeError && this.isImageSizeError) {
       this.snackBar.openSnackBar('user.photo-upload.error-img-type-and-size');
     } else if (this.isImageTypeError) {
       this.snackBar.openSnackBar('user.photo-upload.error-img-type');
     } else if (this.isImageSizeError) {
       this.snackBar.openSnackBar('user.photo-upload.error-img-size');
+    } else {
+      this.snackBar.openSnackBar('user.photo-upload.you-can-upload-max-photos-event');
     }
   }
 
@@ -147,12 +184,15 @@ export class ImagesContainerComponent implements OnInit, OnChanges {
   public deleteImage(i: number): void {
     this.images.splice(i, 1);
     this.imgArray.splice(i, 1);
+    if (this.editMode) {
+      this.imgArray.splice(i - this.imagesEditArr.length, 1);
+    }
     this.imgArrayOutput.emit(this.imgArray);
 
     const allowLabel = this.imageCount === 5;
-
     this.images.push({ src: null, label: this.dragAndDropLabel, isLabel: allowLabel });
     this.imageCount--;
+
     if (this.editMode && this.imagesEditArr[i]) {
       this.imagesTodelete.push(this.imagesEditArr[i]);
       this.imagesEditArr.splice(i, 1);

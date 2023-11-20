@@ -85,7 +85,8 @@ describe('EventDetailsComponent', () => {
     'deleteEvent',
     'getAllAttendees',
     'createAddresses',
-    'getFormattedAddress'
+    'getFormattedAddress',
+    'getForm'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);

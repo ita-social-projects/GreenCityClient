@@ -26,6 +26,7 @@ img {
   display: flex;
   flex-direction: column;
   padding: 0 12px;
+  height: 110px;
 
   .first-row {
     display: flex;
@@ -107,6 +108,9 @@ img {
     letter-spacing: 0.002em;
     width: 320px;
     word-wrap: break-word;
+    height: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -218,9 +222,6 @@ img {
   .description {
     .second-row {
       width: 230px;
-      word-wrap: normal;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 }

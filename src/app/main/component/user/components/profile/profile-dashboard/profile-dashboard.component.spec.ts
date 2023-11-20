@@ -70,6 +70,7 @@ describe('ProfileDashboardComponent', () => {
               formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
               formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
             },
+            valid: true,
             event: 'event',
             finishDate: '2022-06-29T04:00:00Z',
             id: 1,
@@ -77,6 +78,19 @@ describe('ProfileDashboardComponent', () => {
             startDate: '2022-06-29T04:00:00Z'
           }
         ],
+        location: {
+          date: new Date(),
+          finishDate: 'string',
+          onlineLink: 'string',
+          place: 'string',
+          startDate: 'string',
+          coordinates: {
+            latitude: 1,
+            longitude: 1
+          }
+        },
+        imgArray: [],
+        imgArrayToPreview: [],
         description: 'description',
         id: 95,
         open: true,

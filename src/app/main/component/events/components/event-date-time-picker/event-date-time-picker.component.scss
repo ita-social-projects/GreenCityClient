@@ -1,5 +1,5 @@
 .date-container {
-  width: 100%;
+  width: 500px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,11 +29,30 @@
 }
 
 .active {
-  display: block;
+  display: flex;
+  flex-direction: column;
 
   .mat-form-field {
-    width: 100%;
+    width: 550px;
   }
+}
+
+.tag-error {
+  color: var(--error-red);
+  margin-top: -18px;
+  margin-bottom: 30px;
+}
+
+.all-day {
+  position: relative;
+  left: 5px;
+  bottom: 5px;
+}
+
+.dash {
+  position: relative;
+  bottom: 5px;
+  margin-right: 10px;
 }
 
 .example-margin {
@@ -46,9 +65,11 @@
   margin-bottom: 16px;
 }
 
-.tag-error-messege {
-  margin-left: 20px;
+.location-error-messege {
+  font-size: 12px;
   color: var(--error-red);
+  margin-top: -8px;
+  margin-bottom: 12px;
 }
 
 .checkbox-error ::ng-deep .mat-checkbox-frame {
