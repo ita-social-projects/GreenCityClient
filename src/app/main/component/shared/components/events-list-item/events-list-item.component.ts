@@ -307,7 +307,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
         });
       } else {
         this.eventService.removeEventFromFavourites(this.event.id).subscribe(
-          (res) => {
+          () => {
             if (this.isUserAssignList) {
               this.idOfUnFavouriteEvent.emit(this.event.id);
             }
