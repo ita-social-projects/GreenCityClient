@@ -140,7 +140,12 @@
                   | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
               "
             >
-              <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
+              <app-events-list-item
+                [event]="eventItem"
+                [userId]="userId"
+                [isUserAssignList]="true"
+                (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
+              ></app-events-list-item>
             </li>
           </ul>
           <pagination-controls

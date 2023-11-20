@@ -11,7 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
@@ -105,6 +105,111 @@ describe('ProfileDashboardComponent', () => {
     totalElements: 12,
     totalPages: 1
   };
+
+  const mockFavouriteEvents: EventPageResponceDto[] = [
+    {
+      additionalImages: [],
+      creationDate: '2022-05-31',
+      dates: [
+        {
+          coordinates: {
+            latitude: 1,
+            longitude: 1,
+            cityEn: 'Lviv',
+            cityUa: 'Львів',
+            countryEn: 'Ukraine',
+            countryUa: 'Україна',
+            houseNumber: 55,
+            regionEn: 'Lvivska oblast',
+            regionUa: 'Львівська область',
+            streetEn: 'Svobody Ave',
+            streetUa: 'Свободи',
+            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          },
+          event: 'event',
+          finishDate: '2022-06-29T04:00:00Z',
+          id: 1,
+          onlineLink: 'http',
+          startDate: '2022-06-29T04:00:00Z'
+        }
+      ],
+      description: 'description',
+      id: 96,
+      open: true,
+      organizer: {
+        id: 12,
+        name: 'username',
+        organizerRating: 2
+      },
+      tags: [
+        {
+          id: 1,
+          nameUa: 'Укр тег',
+          nameEn: 'Eng Tag'
+        }
+      ],
+      title: 'title',
+      titleImage: 'image title',
+      isSubscribed: true,
+      isFavorite: true,
+      isActive: true,
+      likes: 8,
+      countComments: 9,
+      isRelevant: true
+    },
+    {
+      additionalImages: [],
+      creationDate: '2022-05-31',
+      dates: [
+        {
+          coordinates: {
+            latitude: 1,
+            longitude: 1,
+            cityEn: 'Lviv',
+            cityUa: 'Львів',
+            countryEn: 'Ukraine',
+            countryUa: 'Україна',
+            houseNumber: 55,
+            regionEn: 'Lvivska oblast',
+            regionUa: 'Львівська область',
+            streetEn: 'Svobody Ave',
+            streetUa: 'Свободи',
+            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          },
+          event: 'event',
+          finishDate: '2022-06-29T04:00:00Z',
+          id: 1,
+          onlineLink: 'http',
+          startDate: '2022-06-29T04:00:00Z'
+        }
+      ],
+      description: 'description',
+      id: 14,
+      open: true,
+      organizer: {
+        id: 12,
+        name: 'username',
+        organizerRating: 2
+      },
+      tags: [
+        {
+          id: 1,
+          nameUa: 'Укр тег',
+          nameEn: 'Eng Tag'
+        }
+      ],
+      title: 'title',
+      titleImage: 'image title',
+      isSubscribed: true,
+      isFavorite: true,
+      isActive: true,
+      likes: 8,
+      countComments: 9,
+      isRelevant: true
+    }
+  ];
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
   EventsServiceMock.getAllUserEvents = () => of(MockResult);
@@ -286,5 +391,11 @@ describe('ProfileDashboardComponent', () => {
     const spy = spyOn(component, 'dispatchNews');
     component.onScroll();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should remove unfavourite event from array', () => {
+    component.favouriteEvents = mockFavouriteEvents;
+    component.removeUnFavouriteEvent(14);
+    expect(component.favouriteEvents.length).toEqual(1);
   });
 });

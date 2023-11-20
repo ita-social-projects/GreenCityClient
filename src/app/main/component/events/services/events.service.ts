@@ -100,8 +100,12 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  public addEventToFavourites(eventId: number): Observable<any> {
-    return this.http.post<any>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
+  public addEventToFavourites(eventId: number): Observable<void> {
+    return this.http.post<void>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
+  }
+
+  public removeEventFromFavourites(eventId: number): Observable<any> {
+    return this.http.delete<any>(`${this.backEnd}events/removeFromFavorites/${eventId}`);
   }
 
   public getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {
