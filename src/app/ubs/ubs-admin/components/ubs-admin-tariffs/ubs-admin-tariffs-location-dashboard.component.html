@@ -278,7 +278,7 @@
     </tr>
   </tbody>
 </table>
-<div *ngIf="!isLoadingCards && cards.length === 0 && !isCardExist" class="create-card-field">
+<div *ngIf="!isLoadingCards && !cards.length && !isCardExist" class="create-card-field">
   <span>{{ 'ubs-tariffs.card-not-found' | translate }}</span>
   <button class="ubs-button" (click)="createTariffCard()">{{ 'ubs-tariffs-add-location-pop-up.create_button' | translate }}</button>
 </div>

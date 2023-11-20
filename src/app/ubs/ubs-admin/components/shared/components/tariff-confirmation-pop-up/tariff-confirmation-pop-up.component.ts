@@ -29,14 +29,10 @@ export class TariffConfirmationPopUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initValues();
+    this.values = this.modalData;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
-  }
-
-  initValues() {
-    this.values = this.modalData;
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

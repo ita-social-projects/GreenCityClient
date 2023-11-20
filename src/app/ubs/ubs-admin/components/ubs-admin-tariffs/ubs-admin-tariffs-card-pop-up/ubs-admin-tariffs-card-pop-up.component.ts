@@ -232,7 +232,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           )
           .flat(2);
 
-        if (this.isEdit || this.provideValues) {
+        if (this.isEdit || (this.provideValues && this.regionEnglishName)) {
           this.setSelectedCities();
         }
       }
@@ -256,10 +256,6 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   private setSelectedCities(): void {
-    if (!this.regionEnglishName || !this.regionUkrainianName) {
-      return;
-    }
-
     const currentRegion = this.locations.filter((element) =>
       element.regionTranslationDtos.find((it) => it.regionName === this.region.value)
     );
