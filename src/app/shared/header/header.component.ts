@@ -2,7 +2,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from '../../main/i18n/Language';
 import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector, AfterContentInit } from '@angular/core';
-import { NavigationStart, Router, ActivatedRoute } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
