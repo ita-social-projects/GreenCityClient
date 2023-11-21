@@ -62,7 +62,7 @@
     <button class="secondary-global-button m-btn" (click)="routeToEvent()">
       {{ 'event.btn-top' | translate }}
     </button>
-    <button *ngIf="isActive || !isOwner" class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">
+    <button *ngIf="isActive || !isOwner || isAdmin" class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">
       {{ nameBtn | translate }}
     </button>
   </div>

@@ -133,8 +133,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!this.eventService.getForm()) {
       this.eventId = this.route.snapshot.params.id;
-      const isOwner = this.route.snapshot.params.isOwner;
-      this.isActive = this.route.snapshot.params.isActive;
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
@@ -154,6 +152,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         };
         this.isRegistered = !!this.userId;
         this.isSubscribe = this.event.isSubscribed;
+        const isOwner = Number(this.userId) === this.event.organizer.id;
+        this.isActive = this.event.isRelevant;
         this.isUserCanRate = this.isSubscribe && !this.isActive && !isOwner;
         this.isUserCanJoin = !this.isSubscribe && this.isActive && !isOwner;
         this.role = this.verifyRole();

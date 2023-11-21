@@ -69,6 +69,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFileUrl: string;
   public previewDates: PagePreviewDTO | EventPageResponceDto;
   public submitSelected: boolean;
+  public nameBtn: string = 'create-event.publish';
 
   public fromPreview: boolean;
   public editorText = '';
@@ -182,6 +183,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isOpen = this.editEvent.open;
     this.oldImages = this.imagesForEdit;
     this.editorText = this.editEvent.description;
+    this.nameBtn = 'create-event.save-event';
   }
 
   public setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {

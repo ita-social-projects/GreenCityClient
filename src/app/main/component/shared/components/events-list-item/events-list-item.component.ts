@@ -69,8 +69,9 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public address;
   public addAttenderError: string;
   public isOnline: string;
-  isOwner: boolean;
-  isActive: boolean;
+  public isOwner: boolean;
+  public isAdmin: boolean;
+  public isActive: boolean;
 
   attendees = [];
   attendeesAvatars = [];
@@ -153,11 +154,10 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     const { isSubscribed, isRelevant } = this.event;
     this.isActive = isRelevant;
     this.isOwner = Number(this.userId) === this.event.organizer.id;
-
     const isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
-    console.log(this.jwtService.getUserRole());
+    this.isAdmin = isAdmin;
     switch (true) {
-      case isAdmin && !this.isOwner:
+      case isAdmin && (!this.isOwner || !isRelevant):
         this.btnStyle = this.styleBtn.secondary;
         this.nameBtn = this.btnName.delete;
         break;

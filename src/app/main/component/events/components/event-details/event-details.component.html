@@ -20,12 +20,8 @@
           </a>
         </div>
 
-        <div *ngIf="role === roles.ORGANIZER || (role === roles.ADMIN && !eventService.getForm())" class="edit-buttons">
-          <button
-            *ngIf="event.isRelevant || (role === roles.ADMIN && !eventService.getForm())"
-            class="tertiary-global-button m-btn"
-            (click)="deleteEvent()"
-          >
+        <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
+          <button *ngIf="event.isRelevant || role === roles.ADMIN" class="tertiary-global-button m-btn" (click)="deleteEvent()">
             {{ 'homepage.events.btn.delete' | translate }}
           </button>
           <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="!event.isRelevant">
@@ -142,7 +138,7 @@
           </div>
 
           <div *ngIf="!eventService.getForm()" class="save-join-event-block">
-            <button *ngIf="event.isRelevant" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
+            <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
             <button
               *ngIf="!isUserCanRate && event.isRelevant && (isEventOrginizerFriend || event.open)"
               [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
