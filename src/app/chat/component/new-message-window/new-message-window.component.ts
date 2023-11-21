@@ -62,6 +62,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
   }
 
   public sendMessage() {
+    const messageContent = this.messageControl.value.trim();
+    if (messageContent !== '') {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,
@@ -69,8 +71,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
     };
     this.socketService.sendMessage(message);
     this.messageControl.setValue('');
+   }
   }
-
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }

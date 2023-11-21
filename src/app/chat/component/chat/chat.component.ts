@@ -48,6 +48,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage() {
+    const messageContent = this.messageControl.value.trim();
+    if (messageContent !== '') {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,
@@ -55,8 +57,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     };
     this.messageControl.reset();
     this.socketService.sendMessage(message);
+   }
   }
-
   onScroll() {
     this.oldScrollHeight = this.chat.nativeElement.scrollHeight;
     this.page += 1;
