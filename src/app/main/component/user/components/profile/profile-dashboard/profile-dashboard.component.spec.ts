@@ -145,9 +145,11 @@ describe('ProfileDashboardComponent', () => {
           finishDate: '2022-06-29T04:00:00Z',
           id: 1,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z'
+          startDate: '2022-06-29T04:00:00Z',
+          valid: true
         }
       ],
+      imgArrayToPreview: [],
       description: 'description',
       id: 96,
       open: true,
@@ -196,7 +198,8 @@ describe('ProfileDashboardComponent', () => {
           finishDate: '2022-06-29T04:00:00Z',
           id: 1,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z'
+          startDate: '2022-06-29T04:00:00Z',
+          valid: true
         }
       ],
       description: 'description',
@@ -214,6 +217,7 @@ describe('ProfileDashboardComponent', () => {
           nameEn: 'Eng Tag'
         }
       ],
+      imgArrayToPreview: [],
       title: 'title',
       titleImage: 'image title',
       isSubscribed: true,
