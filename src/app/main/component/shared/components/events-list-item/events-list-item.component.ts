@@ -71,7 +71,6 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public isOnline: string;
   isOwner: boolean;
   isActive: boolean;
-  public isAdmin: boolean;
 
   attendees = [];
   attendeesAvatars = [];
@@ -150,49 +149,37 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.isRated = !!this.rate;
   }
 
-  public checkIsActive(): boolean {
-    const curentDate = new Date();
-    const eventDates = this.event.dates.find((date) => curentDate <= new Date(date.finishDate));
-    return !!eventDates;
-  }
-
   public checkButtonStatus(): void {
-    const isSubscribe = this.event.isSubscribed;
-    this.isOwner = +this.userId === this.event.organizer.id;
-    this.isActive = this.checkIsActive();
-    this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE';
-    if (this.isOwner && this.isActive && !isSubscribe) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.edit;
-      return;
-    }
-    if (this.isAdmin && !this.isActive) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.delete;
-      return;
-    }
-    if (isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.cancel;
-      return;
-    }
-    if (!isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
-      this.nameBtn = this.btnName.join;
-      return;
-    }
-    if (isSubscribe && !this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.rate;
-      return;
-    }
-    if (!isSubscribe && !this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.hiden;
-      return;
-    }
-    if (!!this.userId) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.join;
+    const { isSubscribed, isRelevant } = this.event;
+    this.isActive = isRelevant;
+    this.isOwner = Number(this.userId) === this.event.organizer.id;
+
+    const isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
+    console.log(this.jwtService.getUserRole());
+    switch (true) {
+      case isAdmin && !this.isOwner:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.delete;
+        break;
+      case (isAdmin || this.isOwner) && isRelevant:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.edit;
+        break;
+      case isSubscribed && isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.cancel;
+        break;
+      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin:
+        this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
+        this.nameBtn = this.btnName.join;
+        break;
+      case isSubscribed && !isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.primary;
+        this.nameBtn = this.btnName.rate;
+        break;
+      case !isSubscribed && !isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.hiden;
+        break;
     }
   }
 

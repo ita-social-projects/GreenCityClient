@@ -83,7 +83,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
-  public isOver: boolean;
+  public isActive: boolean;
   public currentDate = new Date();
 
   public max = 5;
@@ -133,10 +133,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!this.eventService.getForm()) {
       this.eventId = this.route.snapshot.params.id;
-      const isOwnerParams = this.route.snapshot.params.isOwner;
-      const isActiveParams = this.route.snapshot.params.isActive;
-      const isOwner = isOwnerParams ? JSON.parse(isOwnerParams) : false;
-      const isActive = isActiveParams ? JSON.parse(isActiveParams) : false;
+      const isOwner = this.route.snapshot.params.isOwner;
+      this.isActive = this.route.snapshot.params.isActive;
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
@@ -156,8 +154,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         };
         this.isRegistered = !!this.userId;
         this.isSubscribe = this.event.isSubscribed;
-        this.isUserCanRate = this.isSubscribe && !isActive && !isOwner;
-        this.isUserCanJoin = !this.isSubscribe && isActive && !isOwner;
+        this.isUserCanRate = this.isSubscribe && !this.isActive && !isOwner;
+        this.isUserCanJoin = !this.isSubscribe && this.isActive && !isOwner;
         this.role = this.verifyRole();
         this.ecoEvents$.subscribe((result: IEcoEventsState) => {
           this.addAttenderError = result.error;

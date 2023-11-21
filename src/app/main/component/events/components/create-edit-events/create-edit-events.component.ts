@@ -181,6 +181,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isTagValid = this.tags.some((el) => el.isActive);
     this.isOpen = this.editEvent.open;
     this.oldImages = this.imagesForEdit;
+    this.editorText = this.editEvent.description;
   }
 
   public setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
