@@ -81,9 +81,7 @@
         <div class="textarea-wrapper">
           <div class="title-container">
             <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-            <p [ngClass]="handleErrorClass('error') || 'textarea-description'">
-              {{ 'create-news.content-tooltip' | translate }}
-            </p>
+            <p [ngClass]="handleErrorClass('error') || 'textarea-description'">{{ 'create-event.content-tooltip' | translate }}</p>
           </div>
           <div [ngClass]="handleErrorClass('content-error') || 'content'">
             <quill-editor
@@ -93,9 +91,12 @@
               formControlName="description"
               [modules]="quillModules"
               (onEditorChanged)="changedEditor($event)"
-              placeholder="{{ 'create-news.content-placeholder' | translate }}"
+              placeholder="{{ 'create-event.content-placeholder' | translate }}"
             ></quill-editor>
           </div>
+          <p *ngIf="editorText" [ngClass]="handleErrorClass('counter-error') || 'counter-description'">
+            {{ 'create-event.counter' | translate }} {{ editorText.length }} {{ 'create-event.symbols' | translate }}
+          </p>
         </div>
       </mat-card>
       <mat-card class="event-main-block right">

@@ -82,6 +82,7 @@ describe('EventsListItemComponent', () => {
 
   const eventMock = {
     description: 'tralalalal',
+    editorText: 'tralalalal',
     additionalImages: [],
     creationDate: '2022-05-31',
     tags: [

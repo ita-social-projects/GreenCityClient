@@ -51,6 +51,7 @@ describe('LocalStorageService', () => {
     imgArray: [],
     imgArrayToPreview: [],
     description: 'Test event description',
+    editorText: 'Test event description',
     id: 123,
     open: true,
     organizer: {

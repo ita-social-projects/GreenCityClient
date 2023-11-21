@@ -193,6 +193,19 @@
   align-items: flex-end;
 }
 
+.counter-description,
+.counter-error {
+  margin-top: 5px;
+  margin-bottom: -5px;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.counter-error {
+  color: var(--error-red);
+}
+
 .error {
   color: var(--error-red);
 }

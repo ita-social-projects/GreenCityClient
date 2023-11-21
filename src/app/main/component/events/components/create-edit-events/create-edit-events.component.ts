@@ -71,7 +71,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public submitSelected: boolean;
 
   public fromPreview: boolean;
-  private editorText = '';
+  public editorText = '';
   private isDescriptionValid: boolean;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
@@ -136,14 +136,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.fromPreview = false;
       this.setDates(true);
       this.setEditValue();
-      this.editorText = this.eventFormGroup.get('description').value;
-    } else if (!this.fromPreview) {
-      this.dates = [{ ...DateObj }];
     } else if (this.eventsService.getSubmitFromPreview()) {
       this.backFromPreview();
       setTimeout(() => this.onSubmit());
-    } else {
+    } else if (this.fromPreview) {
       this.backFromPreview();
+    } else {
+      this.dates = [{ ...DateObj }];
     }
 
     if (!this.checkUserSigned()) {
@@ -211,7 +210,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   private backFromPreview(): void {
     this.previewDates = this.eventsService.getForm();
-    const { title, description, open, dates, tags, imgArray } = this.eventsService.getForm();
+    const { title, description, open, dates, tags, imgArray, editorText } = this.previewDates;
     this.setDates(false, dates);
     if (this.editMode) {
       this.imgArrayToPreview = imgArray;
@@ -227,7 +226,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       description,
       eventDuration: this.dateArrCount[dates.length - 1]
     });
-    this.editorText = this.eventFormGroup.get('description').value;
+    this.isDescriptionValid = editorText.length > 19;
+    this.editorText = editorText;
   }
 
   public toEventsList(): void {
@@ -275,18 +275,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
-      this.editorText = event.text;
+      this.editorText = event.text.substring(event.text.length, 1);
     }
   }
 
   public handleErrorClass(errorClassName: string): string {
     const descriptionControl = this.eventFormGroup.get('description');
-    this.isDescriptionValid = this.editorText.length > 20;
-    if (!this.isDescriptionValid) {
-      descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
-    } else {
-      descriptionControl.setErrors(null);
-    }
+    this.isDescriptionValid = this.editorText.length > 19;
+    this.isDescriptionValid
+      ? descriptionControl.setErrors(null)
+      : descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
     return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
@@ -397,7 +395,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
+    if (isFormValid && arePlacesFilled && this.isDescriptionValid && !this.fromPreview) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
@@ -445,13 +443,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onPreview() {
-    this.eventsService.setSubmitFromPreview(false);
+    this.eventsService.setSubmitFromPreview(this.submitSelected);
     this.imgToData();
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,
       eventDuration: this.eventFormGroup.get('eventDuration').value,
+      editorText: this.editorText,
       open: this.isOpen,
       dates: this.dates,
       tags: tagsArr,

@@ -92,6 +92,7 @@ describe('ProfileDashboardComponent', () => {
         imgArray: [],
         imgArrayToPreview: [],
         description: 'description',
+        editorText: 'description',
         id: 95,
         open: true,
         organizer: {
@@ -151,6 +152,7 @@ describe('ProfileDashboardComponent', () => {
         }
       ],
       description: 'description',
+      editorText: 'description',
       id: 96,
       open: true,
       organizer: {
@@ -204,6 +206,7 @@ describe('ProfileDashboardComponent', () => {
         }
       ],
       description: 'description',
+      editorText: 'description',
       id: 14,
       open: true,
       organizer: {

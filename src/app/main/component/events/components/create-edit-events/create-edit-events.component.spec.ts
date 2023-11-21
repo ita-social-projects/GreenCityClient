@@ -74,6 +74,7 @@ describe('CreateEditEventsComponent', () => {
     imgArrayToPreview: [],
     creationDate: '2022-05-31',
     dates: [EditDateEventMock],
+    editorText: 'any',
     description: 'any',
     id: 1,
     open: true,
