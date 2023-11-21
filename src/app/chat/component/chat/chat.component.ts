@@ -49,7 +49,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   sendMessage() {
     const messageContent = this.messageControl.value.trim();
-    if (messageContent !== '') {
+    if (messageContent !== ' ') {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,
