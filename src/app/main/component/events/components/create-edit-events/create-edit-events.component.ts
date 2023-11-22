@@ -72,6 +72,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public fromPreview: boolean;
   private editorText = '';
+  private isDescriptionValid: boolean;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
   private matSnackBar: MatSnackBarComponent;
@@ -280,17 +281,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public handleErrorClass(errorClassName: string): string {
     const descriptionControl = this.eventFormGroup.get('description');
-    const isValidDescription = this.editorText.length > 20;
-    if (!isValidDescription) {
-      descriptionControl.setErrors({ invalidDescription: isValidDescription });
+    this.isDescriptionValid = this.editorText.length > 20;
+    if (!this.isDescriptionValid) {
+      descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
     } else {
       descriptionControl.setErrors(null);
     }
-    return this.submitIsFalse && !isValidDescription ? errorClassName : '';
-  }
-
-  public escapeFromCreateEvent(): void {
-    this.router.navigate(['/events']);
+    return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
   public changeEventType(): void {
@@ -400,7 +397,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled) {
+    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
@@ -431,6 +428,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public backToEditing() {
     this.router.navigate(['/events', 'create-event']);
+  }
+
+  public escapeFromCreateEvent(): void {
+    this.router.navigate(['/events']);
+    this.eventSuccessfullyAdded();
+  }
+
+  private eventSuccessfullyAdded(): void {
+    if (this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('updatedEvent');
+    }
+    if (!this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('addedEvent');
+    }
   }
 
   public onPreview() {

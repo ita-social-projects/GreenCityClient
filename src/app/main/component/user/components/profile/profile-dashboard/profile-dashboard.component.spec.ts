@@ -123,6 +123,7 @@ describe('ProfileDashboardComponent', () => {
   const mockFavouriteEvents: EventPageResponceDto[] = [
     {
       additionalImages: [],
+      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -149,7 +150,6 @@ describe('ProfileDashboardComponent', () => {
           valid: true
         }
       ],
-      imgArrayToPreview: [],
       description: 'description',
       id: 96,
       open: true,
@@ -176,6 +176,7 @@ describe('ProfileDashboardComponent', () => {
     },
     {
       additionalImages: [],
+      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -217,7 +218,6 @@ describe('ProfileDashboardComponent', () => {
           nameEn: 'Eng Tag'
         }
       ],
-      imgArrayToPreview: [],
       title: 'title',
       titleImage: 'image title',
       isSubscribed: true,
