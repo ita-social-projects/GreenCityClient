@@ -34,13 +34,13 @@
 
   <app-spinner *ngIf="isFetching"></app-spinner>
   <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
-</div>
 
-<div *ngIf="!isFetching && !recommendedFriendsBySearch.length" class="noFriends-wraper">
-  <p *ngIf="emptySearchList" class="noFriends">
-    {{ 'search.search-not-found.not-found-friends-text' | translate }}
-  </p>
-  <div class="img-absent">
-    <img [src]="absent" alt="absent-friends" />
+  <div *ngIf="!isFetching && !recommendedFriendsBySearch.length" class="noFriends-wraper">
+    <div class="img-absent">
+      <img [src]="absent" alt="absent-friends" />
+    </div>
+    <p *ngIf="emptySearchList" class="noFriends">
+      {{ 'search.search-not-found.not-found-friends-text' | translate }}
+    </p>
   </div>
 </div>
