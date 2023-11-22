@@ -104,7 +104,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
       if (res.eventState) {
         this.eventsList = [...res.eventsList];
         this.bufferArray = [...res.eventsList];
-        console.log(res.eventsList);
         const data = res.eventState;
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
