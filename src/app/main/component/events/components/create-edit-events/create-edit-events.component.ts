@@ -69,7 +69,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFileUrl: string;
   public previewDates: PagePreviewDTO | EventPageResponceDto;
   public submitSelected: boolean;
-  public nameBtn: string = 'create-event.publish';
+  public nameBtn = 'create-event.publish';
 
   public fromPreview: boolean;
   public editorText = '';

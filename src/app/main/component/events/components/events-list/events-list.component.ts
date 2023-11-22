@@ -104,6 +104,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       if (res.eventState) {
         this.eventsList = [...res.eventsList];
         this.bufferArray = [...res.eventsList];
+        console.log(res.eventsList);
         const data = res.eventState;
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
@@ -146,7 +147,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.noEventsMatch = !this.eventsList.length;
   }
 
-  public cancelSearch() {
+  public cancelSearch(): void {
     this.searchFilterWords.setValue('');
   }
 

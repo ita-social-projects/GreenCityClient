@@ -62,7 +62,9 @@
 
           <div class="event-tags-participants">
             <div class="event-tags">
-              <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
+              <div class="event-tag" *ngFor="let tag of event.tags">
+                {{ eventService.getLangValue(tag.nameUa, tag.nameEn) | uppercase }}
+              </div>
             </div>
             <div class="event-participants">
               <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
@@ -136,15 +138,19 @@
               </div>
             </div>
           </div>
-
-          <div *ngIf="!eventService.getForm()" class="save-join-event-block">
-            <button class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
+          <div
+            *ngIf="!eventService.getForm()"
+            [ngClass]="localStorageService.getCurrentLanguage() === 'ua' ? 'save-join-event-block-ua' : 'save-join-event-block'"
+          >
+            <button class="secondary-global-button" (click)="changeFavouriteStatus($event)">
+              {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}
+            </button>
             <button
-              *ngIf="!isUserCanRate && event.isRelevant && (isEventOrginizerFriend || event.open)"
-              [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
+              *ngIf="isUserCanJoin && event.isRelevant && (isEventOrginizerFriend || event.open)"
+              [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
               (click)="buttonAction($event)"
             >
-              {{ (isUserCanJoin ? 'event.btn-join' : 'event.btn-cancel') | translate }}
+              {{ (isSubscribed ? 'event.btn-cancel' : 'event.btn-join') | translate }}
             </button>
             <button class="primary-global-button" *ngIf="isUserCanRate" (click)="openModal()">{{ 'event.btn-rate' | translate }}</button>
           </div>

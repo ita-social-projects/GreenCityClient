@@ -19,7 +19,6 @@ import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
@@ -67,11 +66,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
+  public isEventFavorite: boolean;
 
   attendees = [];
   attendeesAvatars = [];
 
-  public isAdmin = false;
   public organizerName: string;
   public event: EventPageResponceDto | PagePreviewDTO;
   public locationLink: string;
@@ -107,7 +106,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public routedFromProfile: boolean;
   public isUserCanJoin = false;
   public isUserCanRate = false;
-  public isSubscribe = false;
+  public isSubscribed = false;
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
@@ -118,8 +117,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public eventService: EventsService,
     public router: Router,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
+    public localStorageService: LocalStorageService,
     private translate: TranslateService,
     private dialog: MatDialog,
     private store: Store,
@@ -150,12 +148,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
           lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
           lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
         };
+        this.isEventFavorite = this.event.isFavorite;
         this.isRegistered = !!this.userId;
-        this.isSubscribe = this.event.isSubscribed;
+        this.isSubscribed = this.event.isSubscribed;
         const isOwner = Number(this.userId) === this.event.organizer.id;
         this.isActive = this.event.isRelevant;
-        this.isUserCanRate = this.isSubscribe && !this.isActive && !isOwner;
-        this.isUserCanJoin = !this.isSubscribe && this.isActive && !isOwner;
+        this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
+        this.isUserCanJoin = this.isActive && !isOwner;
         this.role = this.verifyRole();
         this.ecoEvents$.subscribe((result: IEcoEventsState) => {
           this.addAttenderError = result.error;
@@ -265,8 +264,26 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
+  public changeFavouriteStatus(event?: Event) {
+    event?.stopPropagation();
+    if (!this.isRegistered) {
+      this.openAuthModalWindow('sign-in');
+      return;
+    }
+
+    this.isEventFavorite = !this.isEventFavorite;
+    const operation$ = this.isEventFavorite
+      ? this.eventService.addEventToFavourites(this.event.id)
+      : this.eventService.removeEventFromFavourites(this.event.id);
+
+    operation$.subscribe({
+      error: () => {
+        this.snackBar.openSnackBar('error');
+        this.isEventFavorite = !this.isEventFavorite;
+      }
+    });
+    const buttonElement = event.target as HTMLButtonElement;
+    buttonElement.blur();
   }
 
   public buttonAction(event: Event): void {
@@ -277,16 +294,14 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.snackBar.openSnackBar('errorJoinEvent');
       this.addAttenderError = '';
     }
-    if (this.isUserCanJoin && !this.addAttenderError) {
+    if (!this.isSubscribed && !this.addAttenderError) {
       this.snackBar.openSnackBar('joinedEvent');
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
-      this.isUserCanJoin = !this.isUserCanJoin;
+      this.isSubscribed = !this.isSubscribed;
     } else {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.isUserCanJoin = !this.isUserCanJoin;
+      this.isSubscribed = !this.isSubscribed;
     }
-    const buttonElement = event.target as HTMLButtonElement;
-    buttonElement.blur();
   }
 
   public openAuthModalWindow(page: string): void {

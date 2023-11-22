@@ -261,7 +261,6 @@ describe('EventsListItemComponent', () => {
     component.isRegistered = false;
     component.isReadonly = false;
     component.isPosting = false;
-    component.isRated = false;
     component.max = 3;
     component.userId = 5;
     component.author = 'tester';
@@ -330,12 +329,6 @@ describe('EventsListItemComponent', () => {
       expect(component.activeTags).toEqual(fakeActiveTags);
     });
 
-    it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
-      spyOn(component, 'initAllStatusesOfEvent');
-      component.ngOnInit();
-      expect(component.initAllStatusesOfEvent).toHaveBeenCalled();
-    });
-
     it(`rate should be called in ngOnInit`, () => {
       component.ngOnInit();
       component.rate = Math.round(component.event.organizer.organizerRating);
@@ -369,7 +362,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.userId = eventMock.organizer.id;
       component.event.isSubscribed = false;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.event.isRelevant = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.edit);
@@ -378,7 +371,7 @@ describe('EventsListItemComponent', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is unactive', () => {
       component.event = eventMock;
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.delete);
@@ -388,7 +381,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.isSubscribed = true;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.event.isRelevant = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.cancel);
@@ -398,7 +391,7 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.event.isRelevant = true;
       component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
@@ -410,7 +403,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       component.canUserJoinCloseEvent = false;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
@@ -419,7 +412,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       eventMock.isSubscribed = true;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.rate);
@@ -429,7 +422,7 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });

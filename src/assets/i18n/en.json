@@ -152,7 +152,8 @@
       "people-joined": "people are going",
       "btn": {
         "back-route": "Back to Events",
-        "save-btn": "Save event",
+        "save-event": "Save event",
+        "unsave-event": "Unsave event",
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
