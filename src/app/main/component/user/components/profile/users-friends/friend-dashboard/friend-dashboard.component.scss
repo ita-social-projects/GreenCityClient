@@ -73,6 +73,12 @@
     }
   }
 
+  .searchForm {
+    @media (max-width: 576px) {
+      margin: 0 auto;
+    }
+  }
+
   .searchField {
     display: inline;
     position: relative;
@@ -89,14 +95,10 @@
       }
 
       @media (max-width: 768px) {
-        width: 219px;
+        width: 295px;
       }
 
       @media (max-width: 576px) {
-        width: 227px;
-      }
-
-      @media (max-width: 320px) {
         width: 256px;
       }
 
