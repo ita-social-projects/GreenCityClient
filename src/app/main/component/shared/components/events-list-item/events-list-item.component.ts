@@ -127,6 +127,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.isRegistered = !!this.userId;
+    console.log(this.isRegistered);
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -151,6 +152,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.isActive = isRelevant;
     this.isOwner = Number(this.userId) === this.event.organizer.id;
     const isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
+    const isUnauthorized = !this.jwtService.getUserRole();
     this.isAdmin = isAdmin;
     switch (true) {
       case isAdmin && (!this.isOwner || !isRelevant):
@@ -165,7 +167,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
         this.btnStyle = this.styleBtn.secondary;
         this.nameBtn = this.btnName.cancel;
         break;
-      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin:
+      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin && !isUnauthorized:
         this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
         this.nameBtn = this.btnName.join;
         break;
@@ -173,7 +175,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
         this.btnStyle = this.styleBtn.primary;
         this.nameBtn = this.btnName.rate;
         break;
-      case !isSubscribed && !isRelevant && !this.isOwner:
+      case (!isSubscribed && !isRelevant && !this.isOwner) || isUnauthorized:
         this.btnStyle = this.styleBtn.hiden;
         break;
     }
@@ -191,8 +193,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
           this.snackBar.openSnackBar('errorJoinEvent');
           this.addAttenderError = '';
         } else {
-          this.snackBar.openSnackBar('joinedEvent');
-          !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+          !!this.userId ? this.joinEvent() : this.openAuthModalWindow('sign-in');
         }
         break;
       case this.btnName.rate:
@@ -209,6 +210,11 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  private joinEvent() {
+    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.snackBar.openSnackBar('joinedEvent');
   }
 
   public openModal(): void {
@@ -278,6 +284,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public changeFavouriteStatus(event?: Event) {
     event?.stopPropagation();
     if (!this.isRegistered) {
+      console.log('here');
       this.openAuthModalWindow('sign-in');
       return;
     }
