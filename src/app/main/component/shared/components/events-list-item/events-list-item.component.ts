@@ -193,7 +193,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
           this.snackBar.openSnackBar('errorJoinEvent');
           this.addAttenderError = '';
         } else {
-          !!this.userId ? this.joinEvent() : this.openAuthModalWindow('sign-in');
+          this.userId ? this.joinEvent() : this.openAuthModalWindow('sign-in');
         }
         break;
       case this.btnName.rate:
