@@ -138,7 +138,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public routeToEvent(): void {
-    this.router.navigate(['/events', this.event.id, { isOwner: this.isOwner, isActive: this.isActive }]);
+    this.router.navigate(['/events', this.event.id]);
   }
 
   public filterTags(tags: Array<TagDto>) {
