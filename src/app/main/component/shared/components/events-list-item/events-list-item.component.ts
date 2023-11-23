@@ -127,7 +127,6 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.isRegistered = !!this.userId;
-    console.log(this.isRegistered);
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -193,7 +192,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
           this.snackBar.openSnackBar('errorJoinEvent');
           this.addAttenderError = '';
         } else {
-          this.userId ? this.joinEvent() : this.openAuthModalWindow('sign-in');
+          this.joinEvent();
         }
         break;
       case this.btnName.rate:

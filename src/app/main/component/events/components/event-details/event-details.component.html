@@ -146,7 +146,7 @@
               {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}
             </button>
             <button
-              *ngIf="isUserCanJoin && event.isRelevant && (isEventOrginizerFriend || event.open)"
+              *ngIf="isUserCanJoin && event.isRelevant && (isEventOrginizerFriend || event.open) && role !== 'UNAUTHENTICATED'"
               [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
               (click)="buttonAction($event)"
             >
