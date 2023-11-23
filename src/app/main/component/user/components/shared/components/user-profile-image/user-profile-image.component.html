@@ -1,4 +1,6 @@
-<img *ngIf="imgPath" class="profile-avatar" alt="profile avatar" [ngClass]="['profile-avatar', additionalImgClass]" [src]="imgPath" />
+<a href="#"
+  ><img *ngIf="imgPath" class="profile-avatar" alt="profile avatar" [ngClass]="['profile-avatar', additionalImgClass]" [src]="imgPath"
+/></a>
 <div *ngIf="!imgPath" [ngClass]="['profile-avatar', additionalImgClass, 'default-avatar']">
   <p>{{ getDefaultProfileImg() }}</p>
 </div>
