@@ -150,11 +150,14 @@ describe('CreateEditEventsComponent', () => {
     'setForm',
     'getBackFromPreview',
     'setBackFromPreview',
-    'transformDate'
+    'transformDate',
+    'getSubmitFromPreview',
+    'setSubmitFromPreview'
   ]);
   EventsServiceMock.createEvent = () => of(EditEventMock);
   EventsServiceMock.currentForm = () => of(EditDateEventMock);
   EventsServiceMock.editEvent = () => of(true);
+  EventsServiceMock.setSubmitFromPreview = () => of(false);
   EventsServiceMock.setArePlacesFilled = () => of('');
   EventsServiceMock.setInitialValueForPlaces = () => of('');
   EventsServiceMock.getCheckedPlacesObservable = () => of([]);
