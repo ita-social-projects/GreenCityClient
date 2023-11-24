@@ -110,8 +110,7 @@ export class MatSnackBarComponent {
     },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
-      const key = error.error ? this.errorsMap[error.error.message] : error;
-      this.getSnackBarMessage(key);
+      this.getSnackBarMessage(this.errorsMap[error?.error?.message] || error);
     },
     sendNewLetter: () => {
       this.className = 'error-snackbar';
