@@ -196,11 +196,4 @@ export class MatSnackBarComponent {
       });
     });
   }
-
-  private getErrorMessage(message: string): string {
-    switch (message) {
-      case 'This link is no longer active':
-        return;
-    }
-  }
 }
