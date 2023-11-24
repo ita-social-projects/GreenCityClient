@@ -85,7 +85,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private timeDeliveryFrom: string;
   private timeDeliveryTo: string;
   private dateExport: string;
-  private receivingStationId: any;
+  private receivingStationId: number;
   notTakenOutReasonDescription: string;
   notTakenOutReasonImages: NotTakenOutReasonImages[];
 
