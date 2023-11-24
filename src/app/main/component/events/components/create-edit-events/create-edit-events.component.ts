@@ -127,17 +127,17 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
     this.fromPreview = this.eventsService.getBackFromPreview();
+    const submitFromPreview = this.eventsService.getSubmitFromPreview();
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
-    if (this.editMode && !this.fromPreview) {
-      this.fromPreview = false;
+    if (this.editMode && !this.fromPreview && !submitFromPreview) {
       this.setDates(true);
       this.setEditValue();
-    } else if (this.eventsService.getSubmitFromPreview()) {
+    } else if (submitFromPreview) {
       this.backFromPreview();
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
@@ -369,6 +369,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public onSubmit(): void {
     this.submitSelected = true;
+    this.eventsService.setSubmitFromPreview(false);
     this.checkDates();
     const datesDto: Dates[] = this.checkdates ? this.createDates() : [];
     const tagsArr: string[] = this.tags.filter((tag) => tag.isActive).map((tag) => tag.nameEn);
@@ -398,14 +399,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled && this.isDescriptionValid && !this.fromPreview) {
+    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
       setTimeout(() => {
         const formData = this.prepareFormData(sendEventDto);
         this.createEvent(formData);
-      }, 100);
+      }, 250);
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = this.isTagValid;
@@ -446,7 +447,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onPreview() {
-    this.eventsService.setSubmitFromPreview(this.submitSelected);
+    this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {

@@ -201,7 +201,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public backToSubmit(): void {
-    this.eventService.setBackFromPreview(false);
+    this.eventService.setBackFromPreview(true);
     this.eventService.setSubmitFromPreview(true);
   }
 
