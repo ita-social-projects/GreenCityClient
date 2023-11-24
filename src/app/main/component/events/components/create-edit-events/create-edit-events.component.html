@@ -1,16 +1,12 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
   <div class="content-container">
-    <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
-      <div class="button-arrow">
-        <div class="button-arrow-container">
-          <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
-          <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
-        </div>
-      </div>
-    </a>
     <div class="event-header">
       <div class="event-header-items">
+        <a class="back" [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
+          <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
+          <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+        </a>
         <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
         <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
         <p>{{ 'create-event.description' | translate }}</p>
