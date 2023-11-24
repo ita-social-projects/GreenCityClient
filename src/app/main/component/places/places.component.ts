@@ -17,7 +17,6 @@ import { initialMoreOptionsFormValue } from './components/more-options-filter/mo
 import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
-import { Observable } from 'rxjs/Observable.js';
 
 @Component({
   selector: 'app-places',
@@ -154,12 +153,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   public toggleFavoriteFromSideBar(place) {
     if (place.isFavorite) {
-      place.isFavorite = !place.isFavorite;
       this.favoritePlaceService.deleteFavoritePlace(place.id, true);
     } else {
-      place.isFavorite = !place.isFavorite;
       this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
     }
+    place.isFavorite = !place.isFavorite;
   }
 
   public toggleFavorite(): void {

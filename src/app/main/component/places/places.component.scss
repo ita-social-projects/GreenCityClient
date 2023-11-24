@@ -280,7 +280,7 @@ $cardTextColor: #1d2830;
   width: 264px;
   height: 104px;
   flex-shrink: 0;
-  border: 1px solid var(--greyscale-02);
+  border: 1px solid var(--ubs-button-light-grey);
   background: white;
   margin: 0 24px 14px;
 
@@ -292,7 +292,7 @@ $cardTextColor: #1d2830;
 
     .content-title {
       height: 20px;
-      color: var(--greyscale-07);
+      color: var(--quaternary-dark-grey);
       font-family: var(--primary-font), sans-serif;
       font-size: 14px;
       font-style: normal;
@@ -322,7 +322,7 @@ $cardTextColor: #1d2830;
   }
 
   .content-address {
-    color: var(--greyscale-05);
+    color: var(--quintynary-light-grey);
     margin: 12px 0 0 12px;
     font-family: var(--primary-font), sans-serif;
     font-size: 10px;
