@@ -9,6 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
   providers: [TranslateService]
 })
 export class MatSnackBarComponent {
+  private errorsMap: Record<string, string> = {
+    'This link is no longer active': 'snack-bar.error.link-no-active'
+  };
+
   public message: string;
   public className: string;
   public snackType = {
@@ -106,7 +110,8 @@ export class MatSnackBarComponent {
     },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
-      this.getSnackBarMessage(error.error ? error.error.message : error);
+      const key = error.error ? this.errorsMap[error.error.message] : error;
+      this.getSnackBarMessage(key);
     },
     sendNewLetter: () => {
       this.className = 'error-snackbar';
@@ -191,5 +196,12 @@ export class MatSnackBarComponent {
         panelClass: [this.className]
       });
     });
+  }
+
+  private getErrorMessage(message: string): string {
+    switch (message) {
+      case 'This link is no longer active':
+        return;
+    }
   }
 }

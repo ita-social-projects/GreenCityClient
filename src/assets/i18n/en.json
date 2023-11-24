@@ -373,7 +373,8 @@
       "no-internet": "No internet connection",
       "unauthorised-user": "You need to be authorized to edit an event",
       "exist-address": "This address has already been added",
-      "certificate-duration": "The duration of the certificate cant be more than 12 months"
+      "certificate-duration": "The duration of the certificate cant be more than 12 months",
+      "link-no-active": "This link is no longer active"
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
