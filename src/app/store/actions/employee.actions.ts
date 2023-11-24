@@ -15,7 +15,8 @@ export enum EmployeesActions {
   ActivateEmployeeSuccess = '[Employees] Activate Employee Success',
   ReceivedFailure = '[Employees] Received Failure',
   GetEmployeesPermissions = '[Employees] Get Employees Permissions',
-  GetEmployeesPermissionsSuccess = '[Employees] Get Employees Permissions Success'
+  GetEmployeesPermissionsSuccess = '[Employees] Get Employees Permissions Success',
+  ResetEmployeePermissions = '[Employees] Reset Employees Permissions'
 }
 
 export const GetEmployees = createAction(
@@ -43,9 +44,11 @@ export const ActivateEmployeeSuccess = createAction(EmployeesActions.ActivateEmp
 
 export const ReceivedFailure = createAction(EmployeesActions.ReceivedFailure, props<{ error: string | null }>());
 
-export const GetEmployeesPermissions = createAction(EmployeesActions.GetEmployeesPermissions, props<{ email: string; reset: boolean }>());
+export const GetEmployeesPermissions = createAction(EmployeesActions.GetEmployeesPermissions, props<{ email: string }>());
 
 export const GetEmployeesPermissionsSuccess = createAction(
   EmployeesActions.GetEmployeesPermissionsSuccess,
-  props<{ positionsAuthorities: EmployeePositionsAuthorities; reset: boolean }>()
+  props<{ positionsAuthorities: EmployeePositionsAuthorities }>()
 );
+
+export const ResetEmployeePermissions = createAction(EmployeesActions.ResetEmployeePermissions, props<{ reset: boolean }>());
