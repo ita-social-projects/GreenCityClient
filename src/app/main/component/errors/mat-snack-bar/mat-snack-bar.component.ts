@@ -106,7 +106,7 @@ export class MatSnackBarComponent {
     },
     errorMessage: (error) => {
       this.className = 'error-snackbar';
-      this.getSnackBarMessage(error);
+      this.getSnackBarMessage(error.error ? error.error.message : error);
     },
     sendNewLetter: () => {
       this.className = 'error-snackbar';
