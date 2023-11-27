@@ -147,11 +147,16 @@
 }
 
 .exist-account {
+  text-align: center;
   margin-top: 70px;
   font-size: 16px;
   font-family: var(--primary-font);
   line-height: 24px;
   color: var(--quaternary-dark-grey);
+
+  a {
+    display: inline-block;
+  }
 
   .ubs-link {
     text-decoration: underline;

@@ -453,6 +453,7 @@
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
         "password-confirm": "Confirm password",
+        "password-confirm-is-required": "Please confirm your password",
         "submit": "Sign up",
         "or": "or",
         "submit-with-google": "Sign up with Google",
