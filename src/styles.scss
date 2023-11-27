@@ -390,3 +390,13 @@ body {
   border-radius: 6px;
   z-index: 1000;
 }
+
+@media screen and (min-width: 768px) {
+  .customize-mat-panel {
+    margin-left: -200px;
+  }
+}
+
+.customize-mat-panel {
+  margin-top: 15px;
+}
