@@ -152,7 +152,8 @@
       "people-joined": "people are going",
       "btn": {
         "back-route": "Back to Events",
-        "save-btn": "Save event",
+        "save-event": "Save event",
+        "unsave-event": "Unsave event",
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
@@ -1114,6 +1115,7 @@
     "btn-see": "See rating",
     "btn-rate": "Rate Organizer",
     "btn-close": "Close",
+    "btn-cancel-rate": "Cancel",
     "btn-save": "Save",
     "btn-register": "Register",
     "text-1": "Could be better",
@@ -1129,6 +1131,10 @@
     "title": "Create event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
+    "content-placeholder": "e.g. Short description of event, agenda for event",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+    "counter": "You typed",
+    "symbols": "symbols",
     "event-name": "Title",
     "event-description": "Description",
     "placeholder": "Enter a name for the event",

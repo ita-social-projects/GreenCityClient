@@ -43,6 +43,7 @@ describe('EventsListComponent', () => {
       },
       creationDate: '2023-04-10',
       description: 'efds',
+      editorText: 'efds',
       dates: [
         {
           id: null,
@@ -102,6 +103,7 @@ describe('EventsListComponent', () => {
       },
       creationDate: '2023-04-10',
       description: 'efds',
+      editorText: 'efds',
       dates: [
         {
           id: null,

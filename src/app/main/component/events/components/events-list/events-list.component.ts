@@ -146,7 +146,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.noEventsMatch = !this.eventsList.length;
   }
 
-  public cancelSearch() {
+  public cancelSearch(): void {
     this.searchFilterWords.setValue('');
   }
 

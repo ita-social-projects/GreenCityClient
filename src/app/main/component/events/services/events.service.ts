@@ -195,7 +195,7 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  private getLangValue(uaValue: string, enValue: string): string {
+  public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
   }
 
