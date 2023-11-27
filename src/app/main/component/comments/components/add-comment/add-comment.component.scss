@@ -97,7 +97,11 @@
   }
 }
 
-textarea {
+::ng-deep .app-comment-textarea {
+  width: 100%;
+}
+
+::ng-deep .comment-textarea {
   width: 100%;
   height: 72px;
   overflow: hidden;

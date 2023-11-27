@@ -94,9 +94,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatInputModule,
     MatSelectModule,
-    NgbModule,
-    MatDividerModule,
-    MatExpansionModule
+    NgbModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -124,9 +122,7 @@ registerLocaleData(ukLocale, 'ua');
     TagsSelectComponent,
     InputErrorComponent,
     SelectImagesComponent,
-    FilterSelectComponent,
-    MatDividerModule,
-    MatExpansionModule
+    FilterSelectComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

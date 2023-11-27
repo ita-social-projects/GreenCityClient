@@ -1,0 +1,32 @@
+<div class="comment-textarea-wrapper">
+  <div
+    #commentTextarea
+    contenteditable="true"
+    class="comment-textarea"
+    (input)="checkInput()"
+    (blur)="onCommentBlur($event)"
+    (keydown)="onCommentKeyDown($event)"
+    (paste)="onPaste($event)"
+    tabindex="0"
+  ></div>
+  <div
+    #dropdown
+    class="dropdown"
+    *ngIf="isDropdownVisible"
+    (keydown)="onDropdownKeyDown($event)"
+    (blur)="onDropdownBlur($event)"
+    tabindex="0"
+    [style.top.px]="cursorPosition?.top"
+    [style.left.px]="cursorPosition?.left"
+  >
+    <mat-option *ngFor="let user of suggestedUsers" [value]="user" (click)="selectSuggestion(user)">
+      <app-user-profile-image
+        [imgPath]="user.profilePicturePath || ''"
+        [firstName]="user.userName"
+        class="user-img"
+        [additionalImgClass]="'comment-tag-img'"
+      ></app-user-profile-image>
+      <div class="user-name">{{ user.userName }}</div>
+    </mat-option>
+  </div>
+</div>

@@ -90,8 +90,8 @@ export class CommentsListComponent {
     return commentAuthorId === Number(this.userId);
   }
 
-  checkTextarea(event: InputEvent): void {
-    this.content.setValue((event.target as HTMLInputElement).value);
+  setCommentText(data: { text: string; innerHTML: string }): void {
+    this.content.setValue(data.text);
     this.isEditTextValid = !!this.content.value.trim().length && this.content.value.length <= this.commentMaxLength;
   }
 }

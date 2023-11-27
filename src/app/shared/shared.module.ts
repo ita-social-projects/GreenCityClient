@@ -21,7 +21,6 @@ import { SearchPopupComponent } from './search-popup/search-popup.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
@@ -29,7 +28,6 @@ import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/fil
 import { MaxTextLengthPipe } from './max-text-length-pipe/max-text-length.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';
@@ -87,11 +85,9 @@ import { EventDescriptionTransformPipe } from './events-description-transforn/ev
     TranslateModule,
     RouterModule,
     InfiniteScrollModule,
-    MatSnackBarModule,
     NgxPageScrollModule,
     ReactiveFormsModule,
     FormsModule,
-    MatAutocompleteModule,
     MatTooltipModule,
     GooglePlaceModule,
     ImageCropperModule
@@ -125,7 +121,8 @@ import { EventDescriptionTransformPipe } from './events-description-transforn/ev
     RepeatPipe,
     CronPipe,
     ResizableBottomSheetComponent,
-    CorrectUnitPipe
+    CorrectUnitPipe,
+    MaterialModule
   ]
 })
 export class SharedModule {}

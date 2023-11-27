@@ -38,6 +38,10 @@ export class AddCommentComponent implements OnInit {
     });
   }
 
+  setContent(data: string) {
+    this.addCommentForm.controls.content.setValue(data);
+  }
+
   public onSubmit(): void {
     this.commentsService
       .addComment(this.entityId, this.addCommentForm.value.content, this.commentId)

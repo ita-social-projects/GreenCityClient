@@ -1,0 +1,43 @@
+.comment-textarea-wrapper {
+  .custom-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .dropdown {
+    position: absolute;
+    width: 320px;
+    max-height: 185px;
+    border-radius: 5px;
+    box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
+    border: 1px var(--quintynary-light-grey);
+    background-color: var(--ubs-button-light-grey);
+    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  .user-name {
+    font-family: var(--primary-font);
+    font-weight: 700;
+    color: var(--freinacht-black);
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0.2px;
+  }
+
+  ::ng-deep .mat-option {
+    height: 60px;
+  }
+
+  ::ng-deep .mat-option-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+}

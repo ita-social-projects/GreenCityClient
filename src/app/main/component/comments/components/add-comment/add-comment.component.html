@@ -8,11 +8,11 @@
     <app-user-profile-image [imgPath]="avatarImage" [firstName]="firstName" [additionalImgClass]="'comments'"> </app-user-profile-image>
   </div>
   <div class="input-submit" *ngIf="!commentId; else reply">
-    <textarea
-      class="comment-width"
-      placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
-      formControlName="content"
-    ></textarea>
+    <app-comment-textarea
+      class="app-comment-textarea"
+      placeholder="'homepage.eco-news.comment.placeholder.add-a-comment'"
+      (commentText)="setContent($event)"
+    ></app-comment-textarea>
     <button class="primary-global-button" [disabled]="!addCommentForm.valid">
       {{ 'homepage.eco-news.comment.comment' | translate }}
     </button>
@@ -20,12 +20,10 @@
   <ng-template #reply>
     <div class="input-submit">
       <div class="textarea-wrapper">
-        <textarea
-          class="reply-width"
-          placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
-          formControlName="content"
-          [ngClass]="{ invalid: addCommentForm.controls['content'].errors?.maxlength }"
-        ></textarea>
+        <app-comment-textarea
+          placeholder="'homepage.eco-news.comment.placeholder.add-a-reply'"
+          (commentText)="setContent($event)"
+        ></app-comment-textarea>
         <p *ngIf="addCommentForm.controls['content'].errors?.maxlength" class="error-message">
           {{ 'homepage.eco-news.comment.reply-error-message' | translate }}
         </p>
