@@ -37,8 +37,7 @@ export const Patterns = {
 
   isTherePlus: /^[+]/,
 
-  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/,
-  digitsOnly: /^\d+$/
+  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/
 };
 
 export const Masks = {
