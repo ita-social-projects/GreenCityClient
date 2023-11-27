@@ -6,7 +6,8 @@ import {
   UpdateEmployeeSuccess,
   ActivateEmployeeSuccess,
   ReceivedFailure,
-  GetEmployeesPermissionsSuccess
+  GetEmployeesPermissionsSuccess,
+  ResetEmployeePermissions
 } from '../actions/employee.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -63,7 +64,14 @@ export const employeesReducer = createReducer(
   on(GetEmployeesPermissionsSuccess, (state, action) => {
     return {
       ...state,
-      employeesPermissions: action.reset ? [] : action.positionsAuthorities.authorities
+      employeesPermissions: action.positionsAuthorities.authorities
+    };
+  }),
+
+  on(ResetEmployeePermissions, (state) => {
+    return {
+      ...state,
+      employeesPermissions: []
     };
   })
 );
