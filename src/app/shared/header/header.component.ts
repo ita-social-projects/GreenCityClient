@@ -1,7 +1,7 @@
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from '../../main/i18n/Language';
 import { headerIcons, ubsHeaderIcons } from '../../main/image-pathes/header-icons';
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector, AfterContentInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -29,7 +29,7 @@ import { IAppState } from 'src/app/store/state/app.state';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, AfterContentInit {
   public dropdownVisible = false;
   public langDropdownVisible = false;
   public name: string;
@@ -121,11 +121,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterContentInit(): void {
+    if (this.userRole === this.adminRoleValue) {
+      this.router.navigate(['ubs-admin', 'orders']);
+    }
+  }
+
   public defineAuthorities() {
     this.permissions$.subscribe((employeeAuthorities) => {
-      const isEmployeeHasNoAuthorities = !employeeAuthorities.length;
-      this.isAdmin = this.userRole === this.adminRoleValue && !isEmployeeHasNoAuthorities;
+      this.isAdmin = this.userRole === this.adminRoleValue && !!employeeAuthorities.length;
     });
+
+    if (this.userRole === this.adminRoleValue) {
+      this.isAdmin = true;
+    }
   }
 
   public getHeaderClass(): string {
