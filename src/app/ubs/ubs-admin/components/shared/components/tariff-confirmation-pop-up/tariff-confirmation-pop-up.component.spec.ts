@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { TariffConfirmationPopUpComponent } from './tariff-confirmation-pop-up.component';
+import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
 
 describe('TariffConfirmationPopUpComponent', () => {
   let component: TariffConfirmationPopUpComponent;
@@ -45,22 +46,21 @@ describe('TariffConfirmationPopUpComponent', () => {
   });
 
   it('should initialize component variables in ngOnInit', () => {
-    const modalData = {
+    const modalData: TariffConfirmationPopUpInterface = {
       title: 'Test Title',
-      courierName: 'Кур"єр',
-      courierEnglishName: 'Courier',
-      stationNames: 'stationName',
-      regionName: 'regionName',
-      regionEnglishName: 'regionEnglishName',
-      locationNames: 'locationNames',
+      courierNameUa: 'Кур"єр',
+      courierNameEn: 'Courier',
+      stationNames: ['stationName'],
+      regionNameUa: 'regionName',
+      regionNameEn: 'regionEnglishName',
+      locationNames: ['locationNames'],
       action: 'edit'
     };
     const firstName = 'Test Name';
     component.modalData = modalData;
     spyOn((component as any).localeStorageService.firstNameBehaviourSubject, 'pipe').and.returnValue(of(firstName));
     component.ngOnInit();
-    expect(component.title).toEqual(modalData.title);
-    expect(component.courierName).toEqual(modalData.courierName);
+    expect(component.values).toEqual(modalData);
     expect(component.name).toEqual(firstName);
   });
 

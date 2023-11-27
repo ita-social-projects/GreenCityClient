@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalTextComponent } from '../modal-text/modal-text.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
 
 @Component({
   selector: 'app-tariff-confirmation-pop-up',
@@ -17,35 +18,18 @@ export class TariffConfirmationPopUpComponent implements OnInit {
   public datePipe = new DatePipe('ua');
   public newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
   unsubscribe: Subject<any> = new Subject();
-  title: string;
-  courierName: string;
-  courierEnglishName: string;
-  stationNames: Array<string>;
-  regionName: string;
-  regionEnglishName: string;
-  regionNameUk: string;
-  locationNames: Array<string>;
-  locationEnglishNames: Array<string>;
-  action: string;
+  values: TariffConfirmationPopUpInterface;
 
   constructor(
     private localeStorageService: LocalStorageService,
-    @Inject(MAT_DIALOG_DATA) public modalData: any,
+    @Inject(MAT_DIALOG_DATA) public modalData: TariffConfirmationPopUpInterface,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<TariffConfirmationPopUpComponent>,
     public langService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.title = this.modalData.title;
-    this.courierName = this.modalData.courierName ?? '';
-    this.courierEnglishName = this.modalData.courierEnglishName ?? '';
-    this.stationNames = this.modalData.stationNames ?? '';
-    this.regionName = this.modalData.regionName ?? '';
-    this.regionEnglishName = this.modalData.regionEnglishName ?? '';
-    this.regionNameUk = this.modalData.regionNameUk ?? '';
-    this.locationNames = this.modalData.locationNames ?? '';
-    this.action = this.modalData.action;
+    this.values = this.modalData;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
     });
