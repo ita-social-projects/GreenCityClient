@@ -371,7 +371,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.jwtService.userRole$.next('');
       }
     });
-    this.store.dispatch(ResetEmployeePermissions({ reset: true }));
+    this.store.dispatch(ResetEmployeePermissions());
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {

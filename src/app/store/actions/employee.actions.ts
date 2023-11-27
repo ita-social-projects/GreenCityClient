@@ -51,4 +51,4 @@ export const GetEmployeesPermissionsSuccess = createAction(
   props<{ positionsAuthorities: EmployeePositionsAuthorities }>()
 );
 
-export const ResetEmployeePermissions = createAction(EmployeesActions.ResetEmployeePermissions, props<{ reset: boolean }>());
+export const ResetEmployeePermissions = createAction(EmployeesActions.ResetEmployeePermissions);
