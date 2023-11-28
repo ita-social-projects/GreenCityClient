@@ -53,9 +53,6 @@ export class HabitAssignService implements OnDestroy {
     habitAssignProperties: HabitAssignPropertiesDto,
     customShoppingListItemList?: Array<CustomShoppingItem>
   ): Observable<HabitAssignCustomPropertiesDto> {
-    if (!customShoppingListItemList.length) {
-      customShoppingListItemList = [];
-    }
     const body: HabitAssignCustomPropertiesDto = {
       friendsIdsList,
       habitAssignPropertiesDto: habitAssignProperties,
