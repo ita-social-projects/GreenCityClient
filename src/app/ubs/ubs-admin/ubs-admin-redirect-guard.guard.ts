@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivate } from '@angular/router';
-import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Injectable({
@@ -10,7 +9,7 @@ export class UbsAdminRedirectGuard implements CanActivate {
   isAdmin: boolean;
   private adminRoleValue = 'ROLE_UBS_EMPLOYEE';
 
-  constructor(private router: Router, private jwtService: JwtService, private userOwnAuthService: UserOwnAuthService) {}
+  constructor(private router: Router, private jwtService: JwtService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     this.checkIsAdmin();
