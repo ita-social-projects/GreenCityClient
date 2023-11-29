@@ -1,4 +1,4 @@
-import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStatuses } from '../../models/ubs-admin.interface';
@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-ubs-admin-order-history',
@@ -13,10 +14,11 @@ import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-r
   styleUrls: ['./ubs-admin-order-history.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
+export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnInit {
   @Input() orderInfo: IOrderInfo;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private currentLanguage: string;
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
   orderNotTakenOutReason: INotTakenOutReason;
@@ -25,7 +27,15 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   statusNotTakenOut = ordersStatuses.NotTakenOutUA;
   statusCancel = ordersStatuses.CancelUA;
 
-  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog, private languageService: LanguageService) {}
+
+  ngOnInit(): void {
+    this.currentLanguage = this.languageService.getCurrentLanguage();
+    this.languageService.getCurrentLangObs().subscribe((lang) => {
+      this.currentLanguage = lang;
+      this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
+    });
+  }
 
   parseEventName(eventName: string, index: number) {
     const parts = eventName.split('-').map((part) => part.trim());
@@ -105,7 +115,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
 
   getOrderHistory(orderId: number): void {
     this.orderService
-      .getOrderHistory(orderId)
+      .getOrderHistory(orderId, this.currentLanguage)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: IOrderHistory[]) => {
         this.orderHistory = data;
