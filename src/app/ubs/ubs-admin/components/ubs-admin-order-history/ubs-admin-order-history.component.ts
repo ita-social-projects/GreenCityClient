@@ -1,5 +1,5 @@
 import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStatuses } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
@@ -19,6 +19,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private currentLanguage: string;
+  changeLanguageSubscription: Subscription;
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
   orderNotTakenOutReason: INotTakenOutReason;
@@ -31,7 +32,7 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
 
   ngOnInit(): void {
     this.currentLanguage = this.languageService.getCurrentLanguage();
-    this.languageService.getCurrentLangObs().subscribe((lang) => {
+    this.changeLanguageSubscription = this.languageService.getCurrentLangObs().subscribe((lang) => {
       this.currentLanguage = lang;
       this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
     });
@@ -128,5 +129,6 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.changeLanguageSubscription.unsubscribe();
   }
 }
