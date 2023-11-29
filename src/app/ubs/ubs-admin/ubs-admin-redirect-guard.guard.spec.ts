@@ -24,16 +24,13 @@ describe('UbsAdminRedirectGuard', () => {
   it('should allow access for a non-admin user', () => {
     spyOn(jwtService, 'getUserRole').and.returnValue('ROLE_USER');
     const result = guard.canActivate(new ActivatedRouteSnapshot(), <RouterStateSnapshot>{ url: '' });
-
     expect(result).toBeTruthy();
   });
 
   it('should redirect to /ubs-admin/orders for an admin user', () => {
     spyOn(jwtService, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-
     const navigateSpy = spyOn(router, 'navigate');
     const result = guard.canActivate(new ActivatedRouteSnapshot(), <RouterStateSnapshot>{ url: '' });
-
     expect(result).toBeFalsy();
     expect(navigateSpy).toHaveBeenCalledWith(['ubs-admin', 'orders']);
   });
