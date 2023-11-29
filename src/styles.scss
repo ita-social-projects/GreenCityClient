@@ -382,13 +382,15 @@ body {
   background-color: #fff;
   text-align: center;
   max-width: 288px;
-  width: auto;
+  // width: auto;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
+  // word-break: break-word;
   padding: 5px;
   border-radius: 6px;
   z-index: 1000;
+  top: 90%;
+  left: -5px;
 }
 
 @media screen and (min-width: 768px) {

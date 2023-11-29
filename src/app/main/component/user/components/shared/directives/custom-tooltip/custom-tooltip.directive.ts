@@ -8,15 +8,15 @@ export class CustomTooltipDirective {
 
   constructor(private elRef: ElementRef, private renderer: Renderer2) {}
 
-  @HostListener('mouseover') onMouseOver() {
+  @HostListener('click') onMouseOver() {
     const customTooltip = this.createTooltip();
     this.renderer.appendChild(this.elRef.nativeElement, customTooltip);
   }
 
-  @HostListener('mouseout') onMouseOut() {
-    const tooltip = this.elRef.nativeElement.querySelector('.tooltipClass');
-    this.renderer.removeChild(this.elRef.nativeElement, tooltip);
-  }
+  // @HostListener('mouseout') onMouseOut() {
+  //   const tooltip = this.elRef.nativeElement.querySelector('.tooltipClass');
+  //   this.renderer.removeChild(this.elRef.nativeElement, tooltip);
+  // }
 
   createTooltip(): HTMLElement {
     const tooltip = this.renderer.createElement('div');
