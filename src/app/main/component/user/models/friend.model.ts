@@ -32,3 +32,9 @@ export interface SixFriendArrayModel {
     totalPages: number;
   };
 }
+
+export interface FriendProfilePicturesArrayModel {
+  id: number;
+  name: string;
+  profilePicturePath: string;
+}
