@@ -139,7 +139,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       const isCity = citiesForLocationId.includes(cityName);
 
       const [regionNameUk, regionNameEn] = this.getLangValue(newAddress.region, newAddress.regionEn);
-      const isRegion = currentRegionUk.includes(regionNameUk) || currentRegionEn.includes(regionNameEn);
+      const isRegion = currentRegionUk?.includes(regionNameUk) || currentRegionEn?.includes(regionNameEn);
 
       if (isCityAccess || this.currentLocationId === this.locationIdForKyivRegion) {
         newAddress.display = isCityAccess ? isCity : !isCity && isRegion;
@@ -231,7 +231,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAddressInPersonalData(): void {
-    this.currentLocationId = this.localService.getCurrentLocationId() ?? this.localService.getCurrentLocationId();
+    this.currentLocationId = this.localService.getCurrentLocationId();
     this.isOneAdress();
     const actualAddress = this.addresses.find((address) => address.actual);
     const activeAddress = this.checkedAddress ?? actualAddress;
@@ -269,11 +269,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   changeAnotherClientInPersonalData() {
+    this.currentLocationId = this.localService.getCurrentLocationId();
     this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
     this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;
     this.personalData.senderEmail = this.personalDataForm.get('anotherClientEmail').value;
     this.personalData.senderPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
     this.shareFormService.saveDataOnLocalStorage();
+    this.localService.setLocationId(this.currentLocationId);
   }
 
   setFormData(): void {
@@ -430,6 +432,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.shareFormService.orderDetails.pointsToUse,
       this.shouldBePaid
     );
+    console.log('this.currentLocationId', this.currentLocationId);
+    console.log('this.order', this.order);
     this.orderService.setOrder(this.order);
   }
 
