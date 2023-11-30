@@ -154,12 +154,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
 
   public toggleFavoriteFromSideBar(place) {
     if (place.isFavorite) {
-      place.isFavorite = !place.isFavorite;
       this.favoritePlaceService.deleteFavoritePlace(place.id, true);
     } else {
-      place.isFavorite = !place.isFavorite;
       this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
     }
+    place.isFavorite = !place.isFavorite;
   }
 
   public updatePlaceList(isAfterClose: boolean): void {
