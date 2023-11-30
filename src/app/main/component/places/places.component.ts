@@ -17,7 +17,6 @@ import { initialMoreOptionsFormValue } from './components/more-options-filter/mo
 import { NewsTagInterface } from '@user-models/news.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
-import { Observable } from 'rxjs/Observable.js';
 
 @Component({
   selector: 'app-places',
@@ -51,6 +50,9 @@ export class PlacesComponent implements OnInit, OnDestroy {
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
   private langChangeSub: Subscription;
+  private page = 0;
+  private totalPages: number;
+  private size = 6;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -62,9 +64,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.placeService.getAllPlaces().subscribe((item: any) => {
-      this.placesList = item.page;
-    });
+    this.getPlaceList();
     this.placeService
       .getAllPresentTags()
       .pipe(take(1))
@@ -160,6 +160,30 @@ export class PlacesComponent implements OnInit, OnDestroy {
       place.isFavorite = !place.isFavorite;
       this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
     }
+  }
+
+  public updatePlaceList(isAfterClose: boolean): void {
+    if (isAfterClose) {
+      this.page = 0;
+    } else {
+      if (this.totalPages === this.page) {
+        return;
+      }
+    }
+    this.getPlaceList();
+  }
+
+  private getPlaceList(): void {
+    this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
+      this.placesList = item.page;
+      if (this.placesList) {
+        this.drawer.toggle(true);
+      } else {
+        this.drawer.toggle(false);
+      }
+      this.totalPages = item.totalPages;
+      this.page += 1;
+    });
   }
 
   public toggleFavorite(): void {

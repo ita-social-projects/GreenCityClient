@@ -39,7 +39,7 @@
     <div class="places-map">
       <div class="place-info">
         <mat-drawer-container class="example-container sidebar-container" autosize>
-          <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed [opened]="true">
+          <mat-drawer #drawer class="example-sidenav sidebar-drawer" mode="side" closed>
             <div *ngIf="!activePlaceDetails">
               <p class="title-sidebar">Popular eco places</p>
               <div class="sidebar-content-all" *ngFor="let place of placesList" (click)="selectPlaceFromSideBar(place)">
@@ -51,9 +51,10 @@
                 </div>
                 <p class="content-address">{{ place.location.address }}</p>
               </div>
+              <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="updatePlaceList(false)"></div>
             </div>
             <div class="sidebar-content" *ngIf="activePlaceDetails">
-              <span class="close-mark" (click)="drawer.toggle(false)"></span>
+              <span class="close-mark" (click)="updatePlaceList(true)"></span>
               <div class="title-wrapper">
                 <h6 class="content-title">{{ activePlaceDetails.name }}</h6>
               </div>
