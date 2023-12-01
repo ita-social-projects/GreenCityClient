@@ -228,7 +228,7 @@ import { MatMenuModule } from '@angular/material/menu';
   ]
 })
 export class UbsAdminModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<UbsAdminModule> {
     return {
       ngModule: UbsAdminModule,
       providers: [AdminTableService]
