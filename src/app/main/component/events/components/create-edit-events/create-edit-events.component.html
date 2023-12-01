@@ -55,6 +55,7 @@
               <app-event-date-time-picker
                 (datesForm)="checkFormSetDates($event, i)"
                 (coordOffline)="setCoordsOffline($event, i)"
+                (applyCoordToAll)="applyCoordToAll($event)"
                 (linkOnline)="setOnlineLink($event, i)"
                 (status)="checkStatus($event, i)"
                 [index]="i"
@@ -66,6 +67,8 @@
                 [isDateDuplicate]="isDateDuplicate"
                 [editDates]="editDates"
                 [firstFormIsSucceed]="firstFormIsSucceed"
+                [locationForAllDays]="locationForAllDays"
+                [appliedForAllLocations]="appliedForAllLocations"
                 [submitSelected]="submitSelected"
               >
               </app-event-date-time-picker>

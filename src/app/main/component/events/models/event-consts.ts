@@ -10,6 +10,11 @@ export enum TimeFront {
   MINUTES = '00'
 }
 
+export enum Coordinates {
+  LATITUDE = 50.4501,
+  LONGITUDE = 30.5234
+}
+
 export interface OptionItem {
   nameEn: string;
   nameUa: string;
@@ -59,7 +64,7 @@ export const DateObj = {
   date: null,
   startDate: '',
   finishDate: '',
-  coordinatesDto: {
+  coordinates: {
     latitude: null,
     longitude: null
   },

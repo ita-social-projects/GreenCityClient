@@ -1153,6 +1153,7 @@
     "event-place": "Place",
     "event-start": "Start",
     "event-online": "Online",
+    "apply-location": "Apply to all days of the event",
     "event-location": "Location",
     "event-link": "Online Link",
     "event-offline-place": "Event Offline place.",

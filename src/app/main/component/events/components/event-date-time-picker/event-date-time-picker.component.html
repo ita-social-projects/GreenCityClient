@@ -34,31 +34,47 @@
   </div>
   <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
   <div class="checkbox">
-    <mat-checkbox class="example-margin" [checked]="checkOfflinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOffline()">{{
-      'create-event.event-place' | translate
-    }}</mat-checkbox>
-    <mat-checkbox class="example-margin" [checked]="checkOnlinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOnline()">{{
-      'create-event.event-online' | translate
-    }}</mat-checkbox>
+    <mat-checkbox
+      class="example-margin"
+      [checked]="checkOfflinePlace"
+      [disabled]="isPlaceDisabled || isLocationDisabled"
+      (change)="checkIfOffline()"
+    >
+      {{ 'create-event.event-place' | translate }}
+    </mat-checkbox>
+    <mat-checkbox class="example-margin" [checked]="checkOnlinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOnline()">
+      {{ 'create-event.event-online' | translate }}
+    </mat-checkbox>
   </div>
 
   <div *ngIf="dateForm.get('place')" class="active">
     <mat-label>{{ 'create-event.event-location' | translate }}</mat-label>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'create-event.event-offline-place' | translate }}</mat-label>
-      <input
-        matInput
-        #placesRef
-        matGoogleMapsAutocomplete
-        formControlName="place"
-        placeholder="{{ 'create-event.enter-location' | translate }}"
-      />
-    </mat-form-field>
-    <div *ngIf="isLocationSelected" class="location-error-messege">{{ 'create-event.location-required' | translate }}</div>
-    <div class="map-container" #map>
+    <div class="location-title">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'create-event.event-offline-place' | translate }}</mat-label>
+        <input
+          matInput
+          #placesRef
+          matGoogleMapsAutocomplete
+          formControlName="place"
+          placeholder="{{ 'create-event.enter-location' | translate }}"
+        />
+      </mat-form-field>
+      <mat-checkbox
+        *ngIf="isLocationSelected && index === 0 && !firstFormIsSucceed"
+        class="apply-location-checkbox"
+        [checked]="appliedForAllLocations"
+        [disabled]="!readyToApplyLocation"
+        (change)="applyForAllLocations()"
+      >
+        {{ 'create-event.apply-location' | translate }}
+      </mat-checkbox>
+    </div>
+    <div *ngIf="!isLocationSelected" class="location-error-messege">{{ 'create-event.location-required' | translate }}</div>
+    <div *ngIf="!isLocationDisabled || isCommonLocation" class="map-container" #map>
       <agm-map
-        [style.width.%]="91"
-        [style.height.%]="91"
+        [style.width.%]="100"
+        [style.height.%]="100"
         [latitude]="coordinates.latitude"
         [longitude]="coordinates.longitude"
         [zoom]="zoom"

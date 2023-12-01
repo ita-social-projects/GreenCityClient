@@ -78,9 +78,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public imgArrayToPreview: string[] = [];
   private matSnackBar: MatSnackBarComponent;
   public userId: number;
-  public isDateDuplicate = false;
+  public isDateDuplicate: boolean;
   private submitIsFalse = false;
   private destroy$: Subject<void> = new Subject<void>();
+  public locationForAllDays: OfflineDto;
+  public appliedForAllLocations: boolean;
 
   public previousPath = '/events';
   public isImagesArrayEmpty: boolean;
@@ -137,11 +139,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     if (this.editMode && !this.fromPreview && !submitFromPreview) {
       this.setDates(true);
       this.setEditValue();
+      this.setLocationForAllDays();
     } else if (submitFromPreview) {
       this.backFromPreview();
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
       this.backFromPreview();
+      this.setLocationForAllDays();
     } else {
       this.dates = [{ ...DateObj }];
     }
@@ -184,6 +188,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.oldImages = this.imagesForEdit;
     this.editorText = this.editEvent.description;
     this.nameBtn = 'create-event.save-event';
+  }
+
+  private setLocationForAllDays(): void {
+    if (this.editEvent.dates.length > 1) {
+      const { latitude, longitude } = this.editEvent.dates[0].coordinates;
+      const sameCoordinates = this.editEvent.dates.every((el) => {
+        return latitude === el.coordinates.latitude && longitude === el.coordinates.longitude;
+      });
+
+      if (sameCoordinates) {
+        this.locationForAllDays = this.editEvent.dates[0].coordinates;
+        this.appliedForAllLocations = true;
+      }
+    }
   }
 
   public setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
@@ -270,6 +288,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates[ind].date = null;
       this.editDates = true;
     }
+    console.log(this.dates);
   }
 
   public checkStatus(event: boolean, ind: number): void {
@@ -305,6 +324,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       const additionalDates = Array.from({ length: length - this.dates.length }, () => ({ ...DateObj }));
       this.dates.push(...additionalDates);
     }
+    if (this.dates.length === 1) {
+      this.firstFormIsSucceed = true;
+    }
     this.eventsService.setArePlacesFilled(this.dates);
   }
 
@@ -324,6 +346,17 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public setCoordsOffline(coordinates: OfflineDto, ind: number): void {
     this.dates[ind].coordinates = coordinates;
     this.updateAreAddressFilled(this.dates, false, true, ind);
+  }
+
+  public applyCoordToAll(coordinates: OfflineDto): void {
+    console.log(coordinates);
+    if (coordinates.latitude) {
+      console.log('here');
+      this.dates.forEach((date) => (date.coordinates = { ...coordinates }));
+    }
+    console.log(this.dates);
+    this.locationForAllDays = { ...coordinates };
+    this.appliedForAllLocations = !!coordinates.latitude;
   }
 
   public setOnlineLink(link: string, ind: number): void {
@@ -368,6 +401,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onSubmit(): void {
+    if (this.appliedForAllLocations) {
+      this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
+    }
     this.submitSelected = true;
     this.eventsService.setSubmitFromPreview(false);
     this.checkDates();
@@ -449,6 +485,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public onPreview() {
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
+    if (this.appliedForAllLocations) {
+      this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
+    }
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
