@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.component';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
@@ -43,7 +43,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     }
   ];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, FormsModule, TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
       declarations: [UbsAdminTableExcelPopupComponent],

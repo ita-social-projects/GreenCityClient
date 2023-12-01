@@ -5,7 +5,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HabitsListViewComponent } from './components/habits-list-view/habits-list-view.component';
 import { LocalStorageService } from '../../../../../service/localstorage/local-storage.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -94,7 +94,7 @@ describe('AllHabitsComponent', () => {
   profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
   profileServiceMock.getUserInfo = () => of(userData);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AllHabitsComponent, HabitsListViewComponent],
       imports: [TranslateModule.forRoot(), SharedMainModule, InfiniteScrollModule, RouterTestingModule, HttpClientTestingModule],

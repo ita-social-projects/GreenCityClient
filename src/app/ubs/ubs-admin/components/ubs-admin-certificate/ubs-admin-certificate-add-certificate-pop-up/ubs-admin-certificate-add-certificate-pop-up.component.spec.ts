@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -53,7 +53,7 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
@@ -11,7 +11,7 @@ describe('UbsAdminExportDetailsComponent', () => {
   let fixture: ComponentFixture<UbsAdminExportDetailsComponent>;
   const mockDate = '2022-01-01';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminExportDetailsComponent],
       imports: [TranslateModule.forRoot(), BrowserAnimationsModule, HttpClientModule],

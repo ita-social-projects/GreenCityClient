@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   MatDialogActions,
   MatDialogContent,
@@ -19,7 +19,7 @@ describe('ConfirmationDialogComponent', () => {
   const translationKeysMock = { title: 'dialog title', text: 'dialog text', confirm: 'ok', cancel: 'x' };
   const dialogRefMock = { close: () => {} };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConfirmationDialogComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { InputErrorComponent } from './input-error.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ describe('InputErrorComponent', () => {
 
   const formElementMock = new FormControl('Text');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InputErrorComponent],
       imports: [TranslateModule.forRoot()]

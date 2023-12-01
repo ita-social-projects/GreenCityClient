@@ -1,5 +1,5 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from './mat-snack-bar.component';
@@ -12,7 +12,7 @@ describe('MatSnackBarComponent', () => {
   let matSnackBarMock: MatSnackBar;
   matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MatSnackBarComponent],
       imports: [MatSnackBarModule, TranslateModule.forRoot(), BrowserAnimationsModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { HabitPopupInterface } from '../habit-popup-interface';
@@ -55,7 +55,7 @@ describe('HabitsPopupComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [HabitsPopupComponent],

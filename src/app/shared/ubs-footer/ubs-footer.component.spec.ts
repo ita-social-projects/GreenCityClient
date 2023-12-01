@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsFooterComponent } from './ubs-footer.component';
 import { of } from 'rxjs';
@@ -48,7 +48,7 @@ describe('UbsFooterComponent', () => {
   let component: UbsFooterComponent;
   let fixture: ComponentFixture<UbsFooterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsFooterComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule],

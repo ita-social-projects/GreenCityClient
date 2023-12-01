@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { UbsMainPageSpinnerComponent } from './ubs-main-page-spinner.component';
 
@@ -6,7 +6,7 @@ describe('UbsMainPageSpinnerComponent', () => {
   let component: UbsMainPageSpinnerComponent;
   let fixture: ComponentFixture<UbsMainPageSpinnerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsMainPageSpinnerComponent]
     }).compileComponents();

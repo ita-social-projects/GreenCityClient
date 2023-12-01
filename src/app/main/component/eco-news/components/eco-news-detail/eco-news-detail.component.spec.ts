@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EcoNewsDetailComponent } from './eco-news-detail.component';
 import { EcoNewsWidgetComponent } from './eco-news-widget/eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -54,7 +54,7 @@ describe('EcoNewsDetailComponent', () => {
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
   languageServiceMock.getLangValue.and.returnValue(['tagOne', 'tagTwo']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoNewsDetailComponent, EcoNewsWidgetComponent, TranslatePipeMock, DateLocalisationPipe, SafeHtmlPipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

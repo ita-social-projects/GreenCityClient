@@ -2,7 +2,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { of, BehaviorSubject } from 'rxjs';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { HttpClientModule } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileCardsComponent } from './profile-cards.component';
 
@@ -19,14 +19,14 @@ describe('ProfileCardsComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileCardsComponent],
       imports: [TranslateModule.forRoot(), HttpClientModule],
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
-        { provide: LocalStorageService, useValue: localStorageServiceMock },
-      ],
+        { provide: LocalStorageService, useValue: localStorageServiceMock }
+      ]
     }).compileComponents();
   }));
 

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FeedbackService } from '@global-service/feedbacksAdmin/feedback.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -59,7 +59,7 @@ describe('FeedbacksComponent', () => {
 
   let feedbackServiceMock: FeedbackService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule.withRoutes([]),

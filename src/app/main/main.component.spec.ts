@@ -2,7 +2,7 @@ import { MainModule } from './main.module';
 import { LayoutModule } from './component/layout/layout.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { MainComponent } from './main.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -45,7 +45,7 @@ describe('MainComponent', () => {
     nativeElement: jasmine.createSpyObj('nativeElement', ['focus'])
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MainModule, RouterTestingModule, TranslateModule.forRoot(), FormsModule, ReactiveFormsModule, BrowserModule, LayoutModule],
       providers: [

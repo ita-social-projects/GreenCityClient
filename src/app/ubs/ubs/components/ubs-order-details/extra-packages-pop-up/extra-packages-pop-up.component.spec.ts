@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -10,7 +10,7 @@ describe('ExtraPackagesPopUpComponent', () => {
   let fixture: ComponentFixture<ExtraPackagesPopUpComponent>;
   const fakeMatDialogRef = jasmine.createSpyObj(['close']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [ExtraPackagesPopUpComponent],

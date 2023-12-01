@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { DragAndDropComponent } from './drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -45,7 +45,7 @@ describe('DragAndDropComponent', () => {
     title: new FormControl('asd asd asd asd asd s')
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DragAndDropComponent, DragAndDropDirective],
       imports: [ImageCropperModule, FormsModule, HttpClientTestingModule, TranslateModule.forRoot(), ReactiveFormsModule],

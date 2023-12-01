@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsUserBonusesComponent } from './ubs-user-bonuses.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';

@@ -1,5 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StatRowComponent } from './stat-row.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -47,10 +47,15 @@ describe('StatRowComponent', () => {
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatRowComponent],
-      imports: [TranslateModule.forRoot(), RouterModule.forRoot([]), HttpClientTestingModule, MatSnackBarModule],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+        HttpClientTestingModule,
+        MatSnackBarModule
+      ],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },

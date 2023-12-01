@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileDashboardComponent } from './profile-dashboard.component';
 
@@ -235,7 +235,7 @@ describe('ProfileDashboardComponent', () => {
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
   EventsServiceMock.getAllUserEvents = () => of(MockResult);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
       imports: [
@@ -319,7 +319,7 @@ describe('ProfileDashboardComponent', () => {
     expect(spy).toHaveBeenCalledWith('');
   });
 
-  it('Should call getAllUserEvents method before subscribe', async(() => {
+  it('Should call getAllUserEvents method before subscribe', waitForAsync(() => {
     component.userId = 12;
     const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
     const spy2 = spyOn(EventsServiceMock.getAllUserEvents(), 'subscribe');

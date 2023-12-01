@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserNotificationsComponent } from './user-notifications.component';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -36,7 +36,7 @@ describe('UserNotificationsComponent', () => {
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UserNotificationsComponent, TranslatePipeMock],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],

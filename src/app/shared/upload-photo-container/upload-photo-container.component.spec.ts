@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UploadPhotoContainerComponent } from './upload-photo-container.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -9,7 +9,7 @@ describe('UploadPhotoContainerComponent', () => {
   let fixture: ComponentFixture<UploadPhotoContainerComponent>;
   let dialogRef: MatDialogRef<UploadPhotoContainerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     dialogRef = jasmine.createSpyObj('dialogRef', ['close']);
 
     TestBed.configureTestingModule({

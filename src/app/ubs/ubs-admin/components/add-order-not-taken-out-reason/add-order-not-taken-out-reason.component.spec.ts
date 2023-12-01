@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-reason.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -41,7 +41,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['firstNameBehaviourSubject']);
   localStorageServiceMock.firstNameBehaviourSubject = new BehaviorSubject('fakeName');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AddOrderNotTakenOutReasonComponent],
@@ -63,7 +63,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
     });
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AddOrderNotTakenOutReasonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

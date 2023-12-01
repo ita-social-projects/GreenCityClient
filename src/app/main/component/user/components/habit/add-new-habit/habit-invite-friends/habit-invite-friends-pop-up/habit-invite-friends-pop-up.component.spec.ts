@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of } from 'rxjs';
@@ -23,7 +23,7 @@ describe('HabitInviteFriendsPopUpComponent', () => {
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitInviteFriendsPopUpComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],

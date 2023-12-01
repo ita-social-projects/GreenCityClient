@@ -3,7 +3,7 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { async, ComponentFixture, inject, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -75,7 +75,7 @@ describe('SignIn component', () => {
   jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SignInComponent, ErrorComponent, GoogleBtnComponent],
       imports: [
@@ -158,7 +158,7 @@ describe('SignIn component', () => {
   });
 
   describe('Login functionality testing', () => {
-    it('Check what data comes on subscription', async(() => {
+    it('Check what data comes on subscription', waitForAsync(() => {
       const userOwnSignIn = new UserOwnSignIn();
       userOwnSignIn.email = '1';
       userOwnSignIn.password = '1';
@@ -177,7 +177,7 @@ describe('SignIn component', () => {
       expect(spy2).toHaveBeenCalledWith(userSuccessSignIn);
     }));
 
-    it('Test sign in method with invalid signInForm', async(
+    it('Test sign in method with invalid signInForm', waitForAsync(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
         const passwordControl = component.signInForm.get('password');
@@ -193,7 +193,7 @@ describe('SignIn component', () => {
       })
     ));
 
-    it('Test sign in method with valid signInForm', async(
+    it('Test sign in method with valid signInForm', waitForAsync(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         spyOn(service, 'signIn').and.returnValue(of(userSuccessSignIn));
         const passwordControl = component.signInForm.get('password');
@@ -209,7 +209,7 @@ describe('SignIn component', () => {
       })
     ));
 
-    it('Test sign in method with errors', async(
+    it('Test sign in method with errors', waitForAsync(
       inject([UserOwnSignInService], (service: UserOwnSignInService) => {
         const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
         spyOn(service, 'signIn').and.returnValue(throwError(errors));

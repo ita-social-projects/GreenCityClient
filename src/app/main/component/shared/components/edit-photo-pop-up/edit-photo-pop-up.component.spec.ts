@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserSharedModule } from '../../../user/components/shared/user-shared.module';
 import { SharedMainModule } from '@shared/shared-main.module';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EditPhotoPopUpComponent } from './edit-photo-pop-up.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ describe('EditPhotoPopUpComponent', () => {
   let component: EditPhotoPopUpComponent;
   let fixture: ComponentFixture<EditPhotoPopUpComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [SharedMainModule, UserSharedModule, TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProfileProgressComponent } from './profile-progress.component';
 import { ProfileService } from '../../profile-service/profile.service';
@@ -14,7 +14,7 @@ describe('ProfileProgressComponent', () => {
   let spy: jasmine.Spy;
   let mockProgress;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileProgressComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],

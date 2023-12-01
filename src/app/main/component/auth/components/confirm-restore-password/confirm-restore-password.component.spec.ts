@@ -1,6 +1,6 @@
 import { RestoreDto } from '@global-models/restroreDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { ConfirmRestorePasswordComponent } from './confirm-restore-password.component';
@@ -34,7 +34,7 @@ describe('ConfirmRestorePasswordComponent', () => {
 
   class Fake {}
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ConfirmRestorePasswordComponent],
       imports: [

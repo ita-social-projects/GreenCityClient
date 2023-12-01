@@ -1,7 +1,7 @@
 import { Language } from '../../main/i18n/Language';
 
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchPopupComponent } from './search-popup.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -64,7 +64,7 @@ describe('SearchPopupComponent', () => {
   searchMock.getAllResults = () => of(searchModelMock);
   searchMock.closeSearchSignal = () => true;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SearchPopupComponent, SearchItemComponent, SearchNotFoundComponent],
       imports: [

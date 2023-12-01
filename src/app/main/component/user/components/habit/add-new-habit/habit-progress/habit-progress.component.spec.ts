@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HabitProgressComponent } from './habit-progress.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -42,7 +42,7 @@ describe('HabitProgressComponent', () => {
 
   const fakeHabitAcquired = { ...DEFAULTFULLINFOHABIT, status: 'ACQUIRED' };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitProgressComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],

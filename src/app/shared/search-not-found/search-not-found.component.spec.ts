@@ -1,5 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SearchNotFoundComponent } from './search-not-found.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ describe('SearchNotFoundComponent', () => {
   let component: SearchNotFoundComponent;
   let fixture: ComponentFixture<SearchNotFoundComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SearchNotFoundComponent],
       imports: [RouterTestingModule, TranslateModule.forRoot()]

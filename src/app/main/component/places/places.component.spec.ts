@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PlacesComponent } from './places.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -72,7 +72,7 @@ describe('PlacesComponent', () => {
   const matDialogFake = jasmine.createSpyObj('matDialog', ['open']);
   matDialogFake.open.and.returnValue({ afterClosed: () => of(parametersToSend) });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PlacesComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule],

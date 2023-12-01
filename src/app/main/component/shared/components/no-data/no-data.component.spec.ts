@@ -1,15 +1,15 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoDataComponent } from './no-data.component';
 
 describe('NoData component', () => {
   let component: NoDataComponent;
   let fixture: ComponentFixture<NoDataComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NoDataComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

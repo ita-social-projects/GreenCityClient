@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -67,7 +67,7 @@ describe('AddPlaceComponent', () => {
   const event = [workingHour, { dayOfWeek: 'false', isSelected: false, timeFrom: '08:00', timeTo: '20:00' }];
   const addressDataEvent = 'вулиця Героїв УПА, 76, Львів, Львівська область, 79000';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const matDialogRefStub = () => ({ close: () => ({}) });
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, MatMenuModule, HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],

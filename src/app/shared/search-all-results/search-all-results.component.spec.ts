@@ -1,7 +1,7 @@
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { FormsModule } from '@angular/forms';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SearchAllResultsComponent } from './search-all-results.component';
@@ -49,7 +49,7 @@ describe('SearchAllResultsComponent', () => {
     })
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SearchAllResultsComponent, SearchItemComponent, SearchNotFoundComponent],
       imports: [

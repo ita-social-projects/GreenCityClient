@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UsersFriendsComponent } from './users-friends.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
@@ -33,7 +33,7 @@ describe('UsersFriendsComponent', () => {
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [UsersFriendsComponent, CorrectUnitPipe, FirstStringWordPipe, MaxTextLengthPipe],

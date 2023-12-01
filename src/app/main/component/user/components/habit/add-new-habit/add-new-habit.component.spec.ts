@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddNewHabitComponent } from './add-new-habit.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -99,7 +99,7 @@ describe('AddNewHabitComponent', () => {
 
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AddNewHabitComponent],
       imports: [

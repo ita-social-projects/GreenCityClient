@@ -9,7 +9,7 @@ import { NewsListListViewComponent } from './news-list-list-view/news-list-list-
 import { NewsListGalleryViewComponent } from 'src/app/shared/news-list-gallery-view/news-list-gallery-view.component';
 import { ChangeViewButtonComponent } from './change-view-button/change-view-button.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NewsListComponent } from './news-list.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RemainingCountComponent } from '../remaining-count/remaining-count.component';
@@ -56,7 +56,7 @@ describe('NewsListComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of({ ecoNews: {}, pages: [], pageNumber: 1, error: 'error' });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NewsListComponent,

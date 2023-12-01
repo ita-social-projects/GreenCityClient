@@ -1,6 +1,6 @@
 import { HabitItemsAmountStatisticDto } from './../../../../model/goal/HabitItemsAmountStatisticDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UserService } from '@global-service/user/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
@@ -35,10 +35,10 @@ describe('StatRowsComponent', () => {
       }
     ]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatRowsComponent, StatRowComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([])],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([], { relativeLinkResolution: 'legacy' })],
       providers: [
         { provide: UserService, useValue: userServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },

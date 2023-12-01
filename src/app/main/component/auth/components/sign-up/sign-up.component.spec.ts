@@ -1,7 +1,7 @@
 import { Language } from './../../../../i18n/Language';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
-import { async, ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -61,7 +61,7 @@ describe('SignUpComponent', () => {
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SignUpComponent, SubmitEmailComponent],
       imports: [

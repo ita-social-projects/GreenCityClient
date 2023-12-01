@@ -4,7 +4,7 @@ import { SocketService } from '../../../../service/socket/socket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LikeCommentComponent } from './like-comment.component';
 import { Router } from '@angular/router';
 
@@ -42,7 +42,7 @@ describe('LikeCommentComponent', () => {
     text: 'string'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LikeCommentComponent],
       imports: [SharedMainModule, HttpClientTestingModule],

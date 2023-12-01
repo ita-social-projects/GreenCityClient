@@ -1,6 +1,6 @@
 import { Language } from './../../i18n/Language';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EcoNewsComponent } from './eco-news.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -45,14 +45,14 @@ describe('EcoNewsComponent', () => {
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoNewsComponent],
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub },
-      ],
+        { provide: TranslateService, useClass: TranslationServiceStub }
+      ]
     }).compileComponents();
   }));
 

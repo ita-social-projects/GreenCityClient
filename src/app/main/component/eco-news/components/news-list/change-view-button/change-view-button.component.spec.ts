@@ -1,13 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChangeViewButtonComponent } from './change-view-button.component';
 
 describe('ChangeViewButtonComponent', () => {
   let component: ChangeViewButtonComponent;
   let fixture: ComponentFixture<ChangeViewButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ChangeViewButtonComponent],
+      declarations: [ChangeViewButtonComponent]
     }).compileComponents();
   }));
 

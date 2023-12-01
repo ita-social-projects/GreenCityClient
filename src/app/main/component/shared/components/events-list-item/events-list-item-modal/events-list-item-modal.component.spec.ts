@@ -1,5 +1,5 @@
 import { Language } from './../../../../../i18n/Language';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { EventsListItemModalComponent } from './events-list-item-modal.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
@@ -60,7 +60,7 @@ describe('EventsListItemModalComponent', () => {
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemModalComponent],
       providers: [

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -21,7 +21,7 @@ describe('EditPaymentConfirmationPopUpComponent', () => {
 
   const matDialogRef = 'matDialogRef';
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EditPaymentConfirmationPopUpComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule, BrowserDynamicTestingModule],

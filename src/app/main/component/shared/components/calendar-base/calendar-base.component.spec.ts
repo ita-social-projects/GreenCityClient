@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from './calendar-base.component';
 import { EventEmitter, Injectable } from '@angular/core';
@@ -23,7 +23,7 @@ describe('CalendarBaseComponent', () => {
   let isMonthCalendar: boolean;
   let habitsList: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, MatDialogModule],
       declarations: [CalendarBaseComponent],

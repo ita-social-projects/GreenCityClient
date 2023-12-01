@@ -1,6 +1,6 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
-import { async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -51,7 +51,7 @@ describe('RestorePasswordComponent', () => {
 
   const userOwnSignInServiceMock = jasmine.createSpyObj('userOwnSignInService', ['saveUserToLocalStorage']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RestorePasswordComponent],
       imports: [

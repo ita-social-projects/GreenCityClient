@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserSharedModule } from './../../../shared/user-shared.module';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileHeaderComponent } from './profile-header.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProfileProgressComponent } from '../profile-progress/profile-progress.component';
@@ -32,7 +32,7 @@ describe('ProfileHeaderComponent', () => {
     return valUa;
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileHeaderComponent, ProfileProgressComponent, MaxTextLengthPipe],
       imports: [UserSharedModule, RouterTestingModule.withRoutes([]), BrowserAnimationsModule, HttpClientTestingModule],

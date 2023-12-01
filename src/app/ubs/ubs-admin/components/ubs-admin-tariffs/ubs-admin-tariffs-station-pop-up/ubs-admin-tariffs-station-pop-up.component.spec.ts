@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,7 +39,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsStationPopUpComponent],
       imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule],

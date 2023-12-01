@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FilterSelectComponent } from './filter-select.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -13,7 +13,7 @@ describe('FilterSelectComponent', () => {
     return valUa;
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FilterSelectComponent],
       imports: [TranslateModule.forRoot()],

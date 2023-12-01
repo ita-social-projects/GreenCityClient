@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { CommentPaginationComponent } from './comment-pagination.component';
@@ -7,10 +7,10 @@ describe('CommentPaginationComponent', () => {
   let component: CommentPaginationComponent;
   let fixture: ComponentFixture<CommentPaginationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CommentPaginationComponent],
-      imports: [NgxPaginationModule],
+      imports: [NgxPaginationModule]
     }).compileComponents();
   }));
 
@@ -21,7 +21,7 @@ describe('CommentPaginationComponent', () => {
       id: 'string',
       itemsPerPage: 1,
       currentPage: 1,
-      totalItems: 1,
+      totalItems: 1
     };
     fixture.detectChanges();
   });

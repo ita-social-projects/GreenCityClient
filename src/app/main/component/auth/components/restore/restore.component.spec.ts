@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RestorePasswordService } from '../../../../service/auth/restore-password.service';
 import { Language } from './../../../../i18n/Language';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ describe('RestoreComponent', () => {
   restorePasswordServiceMock = jasmine.createSpyObj('RestorePasswordService', ['sendEmailForRestore']);
   restorePasswordServiceMock.sendEmailForRestore = (email, lang) => true;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RestoreComponent],
       imports: [TranslateModule.forRoot(), FormsModule, MatDialogModule, HttpClientTestingModule],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AddEditCustomHabitComponent } from './add-edit-custom-habit.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,7 +38,7 @@ describe('AddEditCustomHabitComponent', () => {
 
   const routerMock: Router = jasmine.createSpyObj('router', ['navigate']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AddEditCustomHabitComponent],
       imports: [

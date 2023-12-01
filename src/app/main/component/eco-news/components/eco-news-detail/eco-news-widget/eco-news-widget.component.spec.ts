@@ -1,6 +1,6 @@
 import { EcoNewsService } from '../../../services/eco-news.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EcoNewsWidgetComponent } from './eco-news-widget.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NewsListGalleryViewComponent } from 'src/app/shared/news-list-gallery-view/news-list-gallery-view.component';
@@ -29,7 +29,7 @@ describe('EcoNewsWidgetComponent', () => {
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getRecommendedNews']);
   ecoNewsServiceMock.getRecommendedNews = () => of([mockData]);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoNewsWidgetComponent, NewsListGalleryViewComponent],
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],

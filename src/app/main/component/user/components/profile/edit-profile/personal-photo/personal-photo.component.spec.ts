@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { UserSharedModule } from '../../../shared/user-shared.module';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PersonalPhotoComponent } from './personal-photo.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -26,7 +26,7 @@ describe('PersonalPhotoComponent', () => {
   let fixture: ComponentFixture<PersonalPhotoComponent>;
   const dialogStub = new MatDialogStub();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PersonalPhotoComponent],
       imports: [MatDialogModule, HttpClientTestingModule, TranslateModule.forRoot(), UserSharedModule, BrowserAnimationsModule],

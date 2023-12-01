@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EcoEventsComponent } from './eco-events.component';
 import { EcoEventsItemComponent } from './eco-events-item/eco-events-item.component';
@@ -14,7 +14,7 @@ describe('EcoEventsComponent', () => {
   const newsServiceMock = jasmine.createSpyObj('NewsServiceMock', ['loadLatestNews']);
   newsServiceMock.loadLatestNews.and.returnValue(of());
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoEventsComponent, EcoEventsItemComponent],
       imports: [RouterTestingModule, HttpClientModule, TranslateModule.forRoot()],

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
@@ -47,7 +47,7 @@ describe('UbsAdminOrderPaymentComponent', () => {
     style: 'green'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     storeMock = {
       dispatch: jasmine.createSpy('dispatch')
     };

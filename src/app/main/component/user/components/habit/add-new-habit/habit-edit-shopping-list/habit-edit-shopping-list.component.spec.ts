@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
@@ -39,7 +39,7 @@ describe('HabitEditShoppingListComponent', () => {
     selected: false
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitEditShoppingListComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule],

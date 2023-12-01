@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 
 import { SubmitEmailComponent } from './submit-email.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -12,11 +12,11 @@ describe('SubmitEmailComponent', () => {
     close() {}
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SubmitEmailComponent],
       imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
-      providers: [{ provide: MatDialogRef, useClass: MatDialogRefMock }],
+      providers: [{ provide: MatDialogRef, useClass: MatDialogRefMock }]
     }).compileComponents();
   }));
 

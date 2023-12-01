@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CalendarComponent } from './calendar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -28,7 +28,7 @@ describe('CalendarComponent', () => {
   };
   const event = jasmine.createSpyObj('MouseEvent', ['preventDefault']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CalendarComponent],
       imports: [MatDialogModule, TranslateModule.forRoot(), HttpClientTestingModule],

@@ -1,5 +1,5 @@
 import { UbsUserMessagesComponent } from './ubs-user-messages.component';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -39,7 +39,7 @@ describe('UbsUserMessagesComponent', () => {
   const userMessageServiceMock = jasmine.createSpyObj('UserMessagesService', ['getNotification']);
   userMessageServiceMock.getNotification = () => of(fakeNotification);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserMessagesComponent, PaginatePipe],
       imports: [MatDialogModule, TranslateModule.forRoot(), RouterTestingModule, NgxPaginationModule],

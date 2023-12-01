@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { OrderStatus } from '../../ubs/order-status.enum';
 import { UbsUserOrderDetailsComponent } from './ubs-user-order-details.component';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
@@ -57,7 +57,7 @@ describe('UbsUserOrderDetailsComponent', () => {
     return valUa;
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrderDetailsComponent, LocalizedCurrencyPipe],
       imports: [TranslateModule.forRoot()],

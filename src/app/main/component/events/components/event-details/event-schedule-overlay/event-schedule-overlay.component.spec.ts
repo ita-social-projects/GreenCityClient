@@ -1,5 +1,5 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EventScheduleOverlayComponent } from './event-schedule-overlay.component';
 
@@ -7,7 +7,7 @@ describe('EventScheduleOverlayComponent', () => {
   let component: EventScheduleOverlayComponent;
   let fixture: ComponentFixture<EventScheduleOverlayComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventScheduleOverlayComponent],
       imports: [OverlayModule]

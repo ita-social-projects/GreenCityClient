@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { UbsOrderCertificateComponent } from './ubs-order-certificate.component';
 import { FormControl, FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { ICertificateResponse, Certificate } from '../../../models/ubs.interface';
@@ -47,7 +47,7 @@ describe('UbsOrderCertificateComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderCertificateComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
       imports: [
@@ -171,7 +171,7 @@ describe('UbsOrderCertificateComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', async(() => {
+  it('method calculateCertificates with arr.length>0 should asyncly invoke certificateMatch method', waitForAsync(() => {
     const response: ICertificateResponse = {
       points: 0,
       certificateStatus: 'string'
@@ -189,7 +189,7 @@ describe('UbsOrderCertificateComponent', () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it('certificateMatch method should invoke changeAddCertButtonVisibility if status is ACTIVE', async(() => {
+  it('certificateMatch method should invoke changeAddCertButtonVisibility if status is ACTIVE', waitForAsync(() => {
     const cert: ICertificateResponse = {
       points: 100,
       certificateStatus: 'ACTIVE',
@@ -202,7 +202,7 @@ describe('UbsOrderCertificateComponent', () => {
     expect(component.certificateSum).toEqual(100);
   }));
 
-  it('method orderService.processCertificate() with no args should asyncly return error', async(() => {
+  it('method orderService.processCertificate() with no args should asyncly return error', waitForAsync(() => {
     orderService = TestBed.inject(OrderService);
     const errorResponse = new HttpErrorResponse({
       error: { code: 'some code', message: 'some message' },

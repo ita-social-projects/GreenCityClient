@@ -1,5 +1,5 @@
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AddressComponent } from './address.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -13,7 +13,7 @@ describe('AddressComponent', () => {
     return valUa;
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       providers: [{ provide: LanguageService, useValue: languageServiceMock }],

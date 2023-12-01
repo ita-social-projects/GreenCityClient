@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -544,7 +544,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     firstNameBehaviourSubject: { pipe: () => of('fakeName') }
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UbsAdminTariffsDeactivatePopUpComponent],
       imports: [MatDialogModule, TranslateModule.forRoot(), ReactiveFormsModule, BrowserAnimationsModule],

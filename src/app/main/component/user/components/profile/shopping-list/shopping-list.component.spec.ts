@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ShoppingListComponent } from './shopping-list.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -38,7 +38,7 @@ describe('ShoppingListComponent', () => {
   shoppingListServiceMock.updateStandardShopItemStatus = () => of();
   shoppingListServiceMock.updateCustomShopItemStatus = () => of();
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ShoppingListComponent, CorrectUnitPipe],
       imports: [RouterTestingModule, HttpClientTestingModule, TranslateModule.forRoot(), BrowserAnimationsModule, NoopAnimationsModule],
