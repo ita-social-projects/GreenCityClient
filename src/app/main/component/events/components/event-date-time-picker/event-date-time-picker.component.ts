@@ -284,7 +284,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     if (this.locationForAllDays !== undefined && !this.isFirstDay) {
       this.setupLocationControls();
     }
-    if (!!this.locationForAllDays?.latitude ? !this.isFirstDay && !this.locationForAllDays.latitude : null) {
+    const shouldResetLocation = this.locationForAllDays?.latitude === null ? !this.isFirstDay && !this.locationForAllDays.latitude : null;
+    if (shouldResetLocation) {
       this.resetLocationControls();
     }
   }
