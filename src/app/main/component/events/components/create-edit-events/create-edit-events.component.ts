@@ -397,7 +397,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onSubmit(): void {
-    this.appliedForAllLocations ? this.applyCommonLocation() : null;
+    this.appliedForAllLocations && this.applyCommonLocation();
     this.submitSelected = true;
     this.eventsService.setSubmitFromPreview(false);
     this.checkDates();
@@ -477,7 +477,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onPreview() {
-    this.appliedForAllLocations ? this.applyCommonLocation() : null;
+    this.appliedForAllLocations && this.applyCommonLocation();
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
