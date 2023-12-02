@@ -65,13 +65,13 @@
         class="apply-location-checkbox"
         [checked]="appliedForAllLocations"
         [disabled]="!readyToApplyLocation"
-        (change)="applyForAllLocations()"
+        (change)="toggleForAllLocations()"
       >
         {{ 'create-event.apply-location' | translate }}
       </mat-checkbox>
     </div>
     <div *ngIf="!isLocationSelected" class="location-error-messege">{{ 'create-event.location-required' | translate }}</div>
-    <div *ngIf="!isLocationDisabled || isCommonLocation" class="map-container" #map>
+    <div *ngIf="!isLocationDisabled || isFirstDay" class="map-container" #map>
       <agm-map
         [style.width.%]="100"
         [style.height.%]="100"

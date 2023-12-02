@@ -139,13 +139,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     if (this.editMode && !this.fromPreview && !submitFromPreview) {
       this.setDates(true);
       this.setEditValue();
-      this.setLocationForAllDays();
+      this.isLocationForAllDays();
     } else if (submitFromPreview) {
       this.backFromPreview();
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
       this.backFromPreview();
-      this.setLocationForAllDays();
+      this.isLocationForAllDays();
     } else {
       this.dates = [{ ...DateObj }];
     }
@@ -190,7 +190,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.nameBtn = 'create-event.save-event';
   }
 
-  private setLocationForAllDays(): void {
+  private isLocationForAllDays(): void {
     if (this.editEvent.dates.length > 1) {
       const { latitude, longitude } = this.editEvent.dates[0].coordinates;
       const sameCoordinates = this.editEvent.dates.every((el) => {
@@ -288,7 +288,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.dates[ind].date = null;
       this.editDates = true;
     }
-    console.log(this.dates);
   }
 
   public checkStatus(event: boolean, ind: number): void {
@@ -349,12 +348,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public applyCoordToAll(coordinates: OfflineDto): void {
-    console.log(coordinates);
     if (coordinates.latitude) {
-      console.log('here');
       this.dates.forEach((date) => (date.coordinates = { ...coordinates }));
     }
-    console.log(this.dates);
     this.locationForAllDays = { ...coordinates };
     this.appliedForAllLocations = !!coordinates.latitude;
   }
@@ -401,9 +397,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onSubmit(): void {
-    if (this.appliedForAllLocations) {
-      this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
-    }
+    this.appliedForAllLocations ? this.applyCommonLocation() : null;
     this.submitSelected = true;
     this.eventsService.setSubmitFromPreview(false);
     this.checkDates();
@@ -483,11 +477,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onPreview() {
+    this.appliedForAllLocations ? this.applyCommonLocation() : null;
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
-    if (this.appliedForAllLocations) {
-      this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
-    }
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
     const sendEventDto: PagePreviewDTO = {
       title: this.eventFormGroup.get('titleForm').value.trim(),
@@ -503,6 +495,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     };
     this.eventsService.setForm(sendEventDto);
     this.router.navigate(['events', 'preview']);
+  }
+
+  public applyCommonLocation(): void {
+    this.dates.forEach((date) => (date.coordinates = { ...this.locationForAllDays }));
   }
 
   private imgToData(): void {

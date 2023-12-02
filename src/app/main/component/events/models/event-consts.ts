@@ -10,7 +10,7 @@ export enum TimeFront {
   MINUTES = '00'
 }
 
-export enum Coordinates {
+export enum DefaultCoordinates {
   LATITUDE = 50.4501,
   LONGITUDE = 30.5234
 }

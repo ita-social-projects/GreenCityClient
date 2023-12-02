@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
-import { TimeFront, TimeBack, Coordinates } from '../../models/event-consts';
+import { TimeFront, TimeBack, DefaultCoordinates } from '../../models/event-consts';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -22,8 +22,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public timeArr: Array<string> = [];
 
   public coordinates: OfflineDto = {
-    latitude: Coordinates.LATITUDE,
-    longitude: Coordinates.LONGITUDE
+    latitude: DefaultCoordinates.LATITUDE,
+    longitude: DefaultCoordinates.LONGITUDE
   };
   public zoom = 8;
   address: string;
@@ -37,7 +37,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public isAllDayDisabled = false;
   public isPlaceDisabled = false;
   public isLocationDisabled: boolean;
-  public isCommonLocation: boolean;
+  public isFirstDay: boolean;
   public readyToApplyLocation: boolean;
   private regionOptions = {
     types: ['address'],
@@ -103,12 +103,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
         this.duplindex = -1;
       }
     });
-    if (((this.editDate && !this.editDates) || this.fromPreview) && this.locationForAllDays?.latitude) {
-      this.isLocationDisabled = true;
-      this.applyLocationForAllDays();
-    }
 
     if ((this.editDate && !this.editDates) || this.fromPreview) {
+      if (this.locationForAllDays?.latitude) {
+        this.isLocationDisabled = true;
+        this.applyLocationForAllDays();
+      }
       this.readyToApplyLocation = true;
       this.setDataEditing();
     }
@@ -259,41 +259,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     endTime.setValue(this.timeArr[24]);
   }
 
-  public applyForAllLocations(): void {
-    if (!this.appliedForAllLocations) {
-      this.applyCoordToAll.emit(this.coordinates);
-    } else {
-      this.applyCoordToAll.emit({ longitude: null, latitude: null });
-    }
-  }
-
-  private applyLocationForAllDays(): void {
-    this.isCommonLocation = 0 === this.index;
-
-    if (this.locationForAllDays !== undefined && !this.isCommonLocation) {
-      this.dateForm.addControl('place', new FormControl(''));
-      this.onChangePickerOnMap(this.locationForAllDays, true);
-      this.checkOfflinePlace = true;
-      this.isLocationDisabled = true;
-      this.dateForm.get('place').disable();
-    }
-
-    const shouldUpdateLocation =
-      this.locationForAllDays?.latitude === null ? !this.isCommonLocation && !this.locationForAllDays.latitude : null;
-
-    if (shouldUpdateLocation) {
-      this.checkOfflinePlace = !this.checkOfflinePlace;
-      this.coordinates.latitude = null;
-      this.coordinates.longitude = null;
-      this.coordOffline.emit(this.coordinates);
-      this.dateForm.removeControl('place');
-      this.dateForm.removeControl('coordinates');
-      this.isLocationSelected = false;
-      this.isLocationDisabled = false;
-      this.isPlaceDisabled = false;
-    }
-  }
-
   ngOnChanges(): void {
     if (this.check) {
       this.dateForm.markAllAsTouched();
@@ -304,6 +269,43 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.dateForm.get('date').markAsTouched();
     }
     this.applyLocationForAllDays();
+  }
+
+  public toggleForAllLocations(): void {
+    if (!this.appliedForAllLocations) {
+      this.applyCoordToAll.emit(this.coordinates);
+    } else {
+      this.applyCoordToAll.emit({ longitude: null, latitude: null });
+    }
+  }
+
+  private applyLocationForAllDays(): void {
+    this.isFirstDay = 0 === this.index;
+    if (this.locationForAllDays !== undefined && !this.isFirstDay) {
+      this.setupLocationControls();
+    }
+    if (!!this.locationForAllDays?.latitude ? !this.isFirstDay && !this.locationForAllDays.latitude : null) {
+      this.resetLocationControls();
+    }
+  }
+
+  private setupLocationControls(): void {
+    this.dateForm.addControl('place', new FormControl(''));
+    this.onChangePickerOnMap(this.locationForAllDays, true);
+    this.checkOfflinePlace = true;
+    this.isLocationDisabled = true;
+    this.dateForm.get('place').disable();
+  }
+
+  private resetLocationControls(): void {
+    this.checkOfflinePlace = !this.checkOfflinePlace;
+    this.coordinates = { latitude: null, longitude: null };
+    this.coordOffline.emit(this.coordinates);
+    this.dateForm.removeControl('place');
+    this.dateForm.removeControl('coordinates');
+    this.isLocationSelected = false;
+    this.isLocationDisabled = false;
+    this.isPlaceDisabled = false;
   }
 
   private setCurrentLocation(): void {
@@ -338,8 +340,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public checkIfOffline(): void {
     this.checkOfflinePlace = !this.checkOfflinePlace;
     if (this.checkOfflinePlace) {
-      this.coordinates.latitude = Coordinates.LATITUDE;
-      this.coordinates.longitude = Coordinates.LONGITUDE;
+      this.coordinates.latitude = DefaultCoordinates.LATITUDE;
+      this.coordinates.longitude = DefaultCoordinates.LONGITUDE;
       this.isLocationSelected = true;
       this.dateForm.addControl('place', new FormControl(''));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
@@ -385,9 +387,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.coordinates.longitude = !applyToAll ? event.coords.lng : event.longitude;
     this.isLocationSelected = true;
     this.getAddress(this.coordinates.latitude, this.coordinates.longitude);
-    // if (this.appliedForAllLocations) {
-    //   this.applyCoordToAll.emit(this.coordinates);
-    // }
   }
 
   private getAddress(latitude: number, longitude: number) {
