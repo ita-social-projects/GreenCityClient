@@ -11,7 +11,10 @@
       <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>
     </div>
 
-    <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ userInfo.name | maxTextLength: 15 }}</p>
+    <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">
+      <!-- {{ userInfo.name | maxTextLength: 15 }} -->
+      {{ userInfo.name }}
+    </p>
     <p class="location" appCustomTooltip [appCustomTooltip]="getUserCity(userInfo.userLocationDto)">
       {{ getUserCity(userInfo.userLocationDto) | maxTextLength: 30 }}
     </p>
@@ -23,7 +26,7 @@
         <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" [matTooltip]="item.link" />
       </a>
     </div>
-    <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
+    <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo" [isTextArea]="true">
       {{ userInfo.userCredo || mockedUserInfo.userCredo }}
     </div>
 

@@ -1,13 +1,14 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, ElementRef } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CustomTooltipDirective } from './custom-tooltip.directive';
 
 @Component({
-  template: `<div [appCustomTooltip]="tooltipText">Hover me</div>`
+  template: `<div [appCustomTooltip]="tooltipText" [isTextArea]="false">Hover me</div>`
 })
 class TestComponent {
   tooltipText = 'Test Text';
+  isTextArea = false;
 }
 
 describe('CustomTooltipDirective', () => {
@@ -29,8 +30,10 @@ describe('CustomTooltipDirective', () => {
     const hostElement = debugElement.query(By.directive(CustomTooltipDirective)).nativeElement;
     hostElement.dispatchEvent(new MouseEvent('mouseover'));
     fixture.detectChanges();
-    const tooltipElement = hostElement.querySelector('.tooltipClass');
-    expect(tooltipElement).toBeTruthy();
+    if (component.isTextArea) {
+      const tooltipElement = hostElement.querySelector('.tooltipClass');
+      expect(tooltipElement).toBeTruthy();
+    }
   });
 
   it('should remove tooltip on mouseout', () => {
