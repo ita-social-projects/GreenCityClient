@@ -19,7 +19,6 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private currentLanguage: string;
-  changeLanguageSubscription: Subscription;
   pageOpen: boolean;
   orderHistory: IOrderHistory[];
   orderNotTakenOutReason: INotTakenOutReason;
@@ -32,10 +31,13 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
 
   ngOnInit(): void {
     this.currentLanguage = this.languageService.getCurrentLanguage();
-    this.changeLanguageSubscription = this.languageService.getCurrentLangObs().subscribe((lang) => {
-      this.currentLanguage = lang;
-      this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
-    });
+    this.languageService
+      .getCurrentLangObs()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((lang) => {
+        this.currentLanguage = lang;
+        this.getOrderHistory(this.orderInfo.generalOrderInfo.id);
+      });
   }
 
   parseEventName(eventName: string, index: number) {
@@ -129,6 +131,5 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges, OnIn
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    this.changeLanguageSubscription.unsubscribe();
   }
 }
