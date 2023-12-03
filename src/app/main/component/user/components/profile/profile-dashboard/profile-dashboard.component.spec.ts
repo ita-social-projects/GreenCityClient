@@ -92,6 +92,7 @@ describe('ProfileDashboardComponent', () => {
         imgArray: [],
         imgArrayToPreview: [],
         description: 'description',
+        editorText: 'description',
         id: 95,
         open: true,
         organizer: {
@@ -123,6 +124,7 @@ describe('ProfileDashboardComponent', () => {
   const mockFavouriteEvents: EventPageResponceDto[] = [
     {
       additionalImages: [],
+      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -146,7 +148,8 @@ describe('ProfileDashboardComponent', () => {
           finishDate: '2022-06-29T04:00:00Z',
           id: 1,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z'
+          startDate: '2022-06-29T04:00:00Z',
+          valid: true
         }
       ],
       location: {
@@ -163,6 +166,7 @@ describe('ProfileDashboardComponent', () => {
       imgArray: [],
       imgArrayToPreview: [],
       description: 'description',
+      editorText: 'description',
       id: 96,
       open: true,
       organizer: {
@@ -188,6 +192,7 @@ describe('ProfileDashboardComponent', () => {
     },
     {
       additionalImages: [],
+      imgArrayToPreview: [],
       creationDate: '2022-05-31',
       dates: [
         {
@@ -211,7 +216,8 @@ describe('ProfileDashboardComponent', () => {
           finishDate: '2022-06-29T04:00:00Z',
           id: 1,
           onlineLink: 'http',
-          startDate: '2022-06-29T04:00:00Z'
+          startDate: '2022-06-29T04:00:00Z',
+          valid: true
         }
       ],
       location: {
@@ -228,6 +234,7 @@ describe('ProfileDashboardComponent', () => {
       imgArray: [],
       imgArrayToPreview: [],
       description: 'description',
+      editorText: 'description',
       id: 14,
       open: true,
       organizer: {

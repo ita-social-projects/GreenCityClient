@@ -25,7 +25,7 @@
 
   <div class="modal-bnt-group">
     <button class="secondary-global-button modal-btn modal-btn-cancel" (click)="bsModalRef.hide()">
-      {{ 'event.btn-close' | translate }}
+      {{ 'event.btn-cancel-rate' | translate }}
     </button>
     <button [ngClass]="{ disabled: !isEventRaited }" (click)="modalBtn()" class="primary-global-button modal-btn">
       {{ isRegistered ? ('event.btn-save' | translate) : ('event.btn-register' | translate) }}

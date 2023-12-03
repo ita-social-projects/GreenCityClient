@@ -69,9 +69,9 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public address;
   public addAttenderError: string;
   public isOnline: string;
-  isOwner: boolean;
-  isActive: boolean;
+  public isOwner: boolean;
   public isAdmin: boolean;
+  public isActive: boolean;
 
   attendees = [];
   attendeesAvatars = [];
@@ -126,7 +126,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.initAllStatusesOfEvent();
+    this.isRegistered = !!this.userId;
     this.checkButtonStatus();
     this.address = this.event.dates[this.event.dates.length - 1].coordinates;
     this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -145,54 +145,38 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     this.itemTags.forEach((item) => (item.isActive = tags.some((name) => name.nameEn === item.nameEn)));
     this.activeTags = this.itemTags.filter((val) => val.isActive);
   }
-  public initAllStatusesOfEvent(): void {
-    this.isRegistered = !!this.userId;
-    this.isRated = !!this.rate;
-  }
-
-  public checkIsActive(): boolean {
-    const curentDate = new Date();
-    const eventDates = this.event.dates.find((date) => curentDate <= new Date(date.finishDate));
-    return !!eventDates;
-  }
 
   public checkButtonStatus(): void {
-    const isSubscribe = this.event.isSubscribed;
-    this.isOwner = +this.userId === this.event.organizer.id;
-    this.isActive = this.checkIsActive();
-    this.isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE';
-    if (this.isOwner && this.isActive && !isSubscribe) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.edit;
-      return;
-    }
-    if (this.isAdmin && !this.isActive) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.delete;
-      return;
-    }
-    if (isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.secondary;
-      this.nameBtn = this.btnName.cancel;
-      return;
-    }
-    if (!isSubscribe && this.isActive && !this.isOwner) {
-      this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
-      this.nameBtn = this.btnName.join;
-      return;
-    }
-    if (isSubscribe && !this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.rate;
-      return;
-    }
-    if (!isSubscribe && !this.isActive && !this.isOwner) {
-      this.btnStyle = this.styleBtn.hiden;
-      return;
-    }
-    if (!!this.userId) {
-      this.btnStyle = this.styleBtn.primary;
-      this.nameBtn = this.btnName.join;
+    const { isSubscribed, isRelevant } = this.event;
+    this.isActive = isRelevant;
+    this.isOwner = Number(this.userId) === this.event.organizer.id;
+    const isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
+    const isUnauthorized = !this.jwtService.getUserRole();
+    this.isAdmin = isAdmin;
+    switch (true) {
+      case isAdmin && (!this.isOwner || !isRelevant):
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.delete;
+        break;
+      case (isAdmin || this.isOwner) && isRelevant:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.edit;
+        break;
+      case isSubscribed && isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.cancel;
+        break;
+      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin && !isUnauthorized:
+        this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
+        this.nameBtn = this.btnName.join;
+        break;
+      case isSubscribed && !isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.primary;
+        this.nameBtn = this.btnName.rate;
+        break;
+      case (!isSubscribed && !isRelevant && !this.isOwner) || isUnauthorized:
+        this.btnStyle = this.styleBtn.hiden;
+        break;
     }
   }
 
@@ -208,8 +192,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
           this.snackBar.openSnackBar('errorJoinEvent');
           this.addAttenderError = '';
         } else {
-          this.snackBar.openSnackBar('joinedEvent');
-          !!this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
+          this.joinEvent();
         }
         break;
       case this.btnName.rate:
@@ -226,6 +209,11 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  private joinEvent() {
+    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.snackBar.openSnackBar('joinedEvent');
   }
 
   public openModal(): void {
@@ -293,7 +281,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public changeFavouriteStatus(event?: Event) {
-    event.stopPropagation();
+    event?.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
     } else {

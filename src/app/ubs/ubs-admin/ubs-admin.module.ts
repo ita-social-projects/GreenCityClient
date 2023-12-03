@@ -96,6 +96,7 @@ import { UbsAdminNotificationSettingsComponent } from './components/ubs-admin-no
 import { ConfirmationDialogComponent } from './components/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { TariffSelectorComponent } from './components/ubs-admin-employee/ubs-admin-employee-edit-form/tariff-selector/tariff-selector.component';
 import { ClickOutsideDirective } from './derictives/clickOutside.directive';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -186,6 +187,7 @@ import { ClickOutsideDirective } from './derictives/clickOutside.directive';
     MatTableModule,
     MatDialogModule,
     GooglePlaceModule,
+    MatMenuModule,
     SharedMainModule,
     AgmCoreModule.forRoot({
       apiKey: environment.agmCoreModuleApiKey,

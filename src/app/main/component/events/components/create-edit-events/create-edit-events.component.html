@@ -1,16 +1,12 @@
 <app-spinner *ngIf="isPosting"></app-spinner>
 <div *ngIf="!isPosting" class="event-container" [formGroup]="eventFormGroup">
   <div class="content-container">
-    <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
-      <div class="button-arrow">
-        <div class="button-arrow-container">
-          <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
-          <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
-        </div>
-      </div>
-    </a>
     <div class="event-header">
       <div class="event-header-items">
+        <a class="back" [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
+          <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
+          <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
+        </a>
         <h3 *ngIf="!editMode">{{ 'create-event.title' | translate }}</h3>
         <h3 *ngIf="editMode">{{ 'create-event.edit' | translate }}</h3>
         <p>{{ 'create-event.description' | translate }}</p>
@@ -81,9 +77,7 @@
         <div class="textarea-wrapper">
           <div class="title-container">
             <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-            <p [ngClass]="handleErrorClass('error') || 'textarea-description'">
-              {{ 'create-news.content-tooltip' | translate }}
-            </p>
+            <p [ngClass]="handleErrorClass('error') || 'textarea-description'">{{ 'create-event.content-tooltip' | translate }}</p>
           </div>
           <div [ngClass]="handleErrorClass('content-error') || 'content'">
             <quill-editor
@@ -93,9 +87,12 @@
               formControlName="description"
               [modules]="quillModules"
               (onEditorChanged)="changedEditor($event)"
-              placeholder="{{ 'create-news.content-placeholder' | translate }}"
+              placeholder="{{ 'create-event.content-placeholder' | translate }}"
             ></quill-editor>
           </div>
+          <p *ngIf="editorText" [ngClass]="handleErrorClass('counter-error') || 'counter-description'">
+            {{ 'create-event.counter' | translate }} {{ editorText.length }} {{ 'create-event.symbols' | translate }}
+          </p>
         </div>
       </mat-card>
       <mat-card class="event-main-block right">
@@ -170,7 +167,7 @@
     <div class="submit-container">
       <button class="tertiary-global-button" (click)="cancel(true)">{{ 'create-event.cancel' | translate }}</button>
       <button class="secondary-global-button" (click)="onPreview()">{{ 'create-event.preview' | translate }}</button>
-      <button class="primary-global-button" (click)="onSubmit()">{{ 'create-event.publish' | translate }}</button>
+      <button class="primary-global-button" (click)="onSubmit()">{{ nameBtn | translate }}</button>
     </div>
   </div>
 </div>

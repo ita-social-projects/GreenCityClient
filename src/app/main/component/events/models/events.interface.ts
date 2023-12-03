@@ -88,6 +88,7 @@ export interface EventPageResponceDto {
   open: boolean;
   location?: DateFormObj;
   imgArray?: any[];
+  editorText: string;
   imgArrayToPreview: string[];
   organizer: Organizer;
   tags: Array<TagDto>;
@@ -164,6 +165,7 @@ export interface PagePreviewDTO {
   open: boolean;
   isRelevant?: boolean;
   id?: number;
+  editorText: string;
   organizer?: Organizer;
   dates: DateEvent[];
   tags: Array<string>;

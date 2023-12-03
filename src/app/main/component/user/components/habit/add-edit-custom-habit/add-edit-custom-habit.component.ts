@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntil, take } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import Quill from 'quill';
 import 'quill-emoji/dist/quill-emoji.js';
 import ImageResize from 'quill-image-resize-module';
@@ -18,11 +19,14 @@ import { FileHandle } from '@eco-news-models/create-news-interface';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
+import { TodoStatus } from '../models/todo-status.enum';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-add-edit-custom-habit',
   templateUrl: './add-edit-custom-habit.component.html',
-  styleUrls: ['./add-edit-custom-habit.component.scss']
+  styleUrls: ['./add-edit-custom-habit.component.scss'],
+  providers: [MatSnackBarComponent]
 })
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
   habitForm: FormGroup;
@@ -53,6 +57,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   private userId: number;
   private currentLang: string;
   private destroyed$: Subject<boolean> = new Subject<boolean>();
+  private editorText = '';
+  public isValidDescription: boolean;
 
   public previousPath: string;
   public popupConfig = {
@@ -77,7 +83,8 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private translate: TranslateService,
     private habitService: HabitService,
     private userFriendsService: UserFriendsService,
-    private store: Store<IAppState>
+    private store: Store<IAppState>,
+    private snackBar: MatSnackBarComponent
   ) {
     super(router, dialog);
 
@@ -88,11 +95,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
   ngOnInit(): void {
     this.getUserId();
     this.initForm();
-    this.getHabitTags();
     this.subscribeToLangChange();
     this.previousPath = `/profile/${this.userId}/allhabits`;
     this.userFriendsService.addedFriends.length = 0;
     this.isEditing = this.router.url?.includes('edit-habit');
+    this.getHabitTags();
     if (this.isEditing) {
       this.store
         .select((state) => state.habit)
@@ -101,6 +108,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
           this.habit = habitState;
           this.setEditHabit();
         });
+      this.editorText = this.habitForm.get('description').value;
     }
   }
 
@@ -131,18 +139,30 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       image: this.habit.image,
       shopList: this.habit.customShoppingListItems
     });
-
     this.habitId = this.habit.id;
-    this.shopList = this.habit.customShoppingListItems || this.habit.shoppingListItems || [];
+    this.shopList = this.habit.customShoppingListItems.length
+      ? [...this.habit.customShoppingListItems]
+      : [...this.habit.customShoppingListItems, ...this.habit.shoppingListItems];
+    this.shopList = this.shopList.map((el) => ({ ...el, selected: el.status === TodoStatus.inprogress }));
     this.initialDuration = this.habit.defaultDuration;
+  }
+
+  public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
+    if (event.event !== 'selection-change') {
+      this.editorText = event.text;
+    }
+    this.handleErrorClass('warning');
+  }
+
+  public handleErrorClass(errorClassName: string): string {
+    const descrControl = this.habitForm.get('description');
+    this.isValidDescription = this.editorText.length > 20;
+    this.isValidDescription ? descrControl.setErrors(null) : descrControl.setErrors({ invalidDescription: this.isValidDescription });
+    return !this.isValidDescription ? errorClassName : '';
   }
 
   public trimValue(control: AbstractControl): void {
     control.setValue(control.value.trim());
-  }
-
-  getControl(control: string): AbstractControl {
-    return this.habitForm.get(control);
   }
 
   public setComplexity(i: number): void {
@@ -160,10 +180,6 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     return value <= complexity ? this.greenStar : this.lineStar;
   }
 
-  getDuration(newDuration: number): void {
-    this.getControl('duration').setValue(newDuration);
-  }
-
   getShopList(list: ShoppingList[]): void {
     this.newList = list.map((item) => {
       return {
@@ -172,21 +188,31 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
         text: item.text
       };
     });
-    this.getControl('shopList').setValue(this.newList);
+    this.habitForm.get('shopList').setValue(this.newList);
   }
 
   getTagsList(list: TagInterface[]): void {
     this.selectedTagsList = list.map((el) => el.id);
-    this.getControl('tagIds').setValue(this.selectedTagsList);
+    this.habitForm.get('tagIds').setValue(this.selectedTagsList);
   }
 
   getFile(image: FileHandle[]): void {
-    this.getControl('image').setValue(image[0].file);
+    this.habitForm.get('image').setValue(image[0].file);
   }
 
   goToAllHabits(): void {
     this.userFriendsService.addedFriends.length = 0;
     this.router.navigate([`/profile/${this.userId}/allhabits`]);
+    this.habitSuccessfullyAdded();
+  }
+
+  private habitSuccessfullyAdded(): void {
+    if (this.isEditing) {
+      this.snackBar.openSnackBar('habitUpdated');
+    }
+    if (this.habitForm.valid && this.isValidDescription) {
+      this.snackBar.openSnackBar('habitAdded');
+    }
   }
 
   private getHabitTags(): void {
@@ -195,9 +221,11 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
       .pipe(take(1))
       .subscribe((tags: TagInterface[]) => {
         this.tagsList = tags;
-        this.tagsList.forEach((item) => (item.isActive = this.habitForm.value.tagIds.some((el) => el === item.name || el === item.nameUa)));
+        this.tagsList.forEach((tag) => (tag.isActive = this.habitForm.value.tagIds.some((el) => el === tag.name || el === tag.nameUa)));
         if (this.isEditing) {
-          const newList = this.tagsList.filter((el) => this.habitForm.value.tagIds.includes(el.name));
+          const newList = this.tagsList.filter((el) => {
+            return this.habitForm.value.tagIds.includes(el.name) || this.habitForm.value.tagIds.includes(el.nameUa);
+          });
           this.getTagsList(newList);
         }
       });

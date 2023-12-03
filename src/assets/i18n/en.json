@@ -152,7 +152,8 @@
       "people-joined": "people are going",
       "btn": {
         "back-route": "Back to Events",
-        "save-btn": "Save event",
+        "save-event": "Save event",
+        "unsave-event": "Unsave event",
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
@@ -453,6 +454,7 @@
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
         "password-confirm": "Confirm password",
+        "password-confirm-is-required": "Please confirm your password",
         "submit": "Sign up",
         "or": "or",
         "submit-with-google": "Sign up with Google",
@@ -997,7 +999,6 @@
     "my-habits": "My Habits",
     "my-news": "My news",
     "my-articles": "My articles",
-    "rate": "Rate",
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": { "plural": "mutual friends", "singular": "mutual friend" },
@@ -1114,6 +1115,7 @@
     "btn-see": "See rating",
     "btn-rate": "Rate Organizer",
     "btn-close": "Close",
+    "btn-cancel-rate": "Cancel",
     "btn-save": "Save",
     "btn-register": "Register",
     "text-1": "Could be better",
@@ -1129,6 +1131,10 @@
     "title": "Create event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
+    "content-placeholder": "e.g. Short description of event, agenda for event",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+    "counter": "You typed",
+    "symbols": "symbols",
     "event-name": "Title",
     "event-description": "Description",
     "placeholder": "Enter a name for the event",
@@ -1170,7 +1176,9 @@
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
     "preview-attendees": "people are going",
-    "use-greencity-pics": "Use Greencity pictures"
+    "use-greencity-pics": "Use Greencity pictures",
+    "created-event": "You have successfully added a new event",
+    "updated-event": "You have successfully updated an event"
   },
   "input-error": {
     "required": "This field is required",

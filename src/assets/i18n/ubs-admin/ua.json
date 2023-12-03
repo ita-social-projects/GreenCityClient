@@ -377,7 +377,8 @@
     "export-to-excel": "Експортувати в  Excel",
     "table-view": "Вид таблиці",
     "filters": "Фільтри",
-    "placeholder": "Пошук по імені або контактах"
+    "placeholder": "Пошук по імені або контактах",
+    "no-orders-found": "За даними критеріями замовлень не знайдено"
   },
   "ubs-customer-filters": {
     "total-customers": "Кількість користувачів:",

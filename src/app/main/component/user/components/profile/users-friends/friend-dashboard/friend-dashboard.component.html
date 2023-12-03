@@ -8,9 +8,8 @@
     </a>
     <div class="friends">
       <h1>{{ 'profile.friends.friends' | translate }}</h1>
-      <form name="searchForm" *ngIf="!hideInput">
+      <form class="searchForm" name="searchForm" *ngIf="!hideInput">
         <div class="searchField">
-          <img [src]="searchIcon" alt="search-friend" />
           <input
             class="search"
             type="text"
@@ -19,6 +18,7 @@
             (input)="onInput(search)"
             maxlength="30"
           />
+          <img [src]="searchIcon" alt="search-friend" />
         </div>
       </form>
       <div class="friend-tabs">

@@ -121,11 +121,9 @@ export class EmployeesEffects {
   getEmployeesPermissions = createEffect(() => {
     return this.actions.pipe(
       ofType(GetEmployeesPermissions),
-      mergeMap((actions: { email: string; reset: boolean }) => {
+      mergeMap((actions: { email: string }) => {
         return this.ubsAdminEmployeeService.getEmployeePositionsAuthorities(actions.email).pipe(
-          map((positionsAuthorities: EmployeePositionsAuthorities) =>
-            GetEmployeesPermissionsSuccess({ positionsAuthorities, reset: actions.reset })
-          ),
+          map((positionsAuthorities: EmployeePositionsAuthorities) => GetEmployeesPermissionsSuccess({ positionsAuthorities })),
           catchError(() => EMPTY)
         );
       })

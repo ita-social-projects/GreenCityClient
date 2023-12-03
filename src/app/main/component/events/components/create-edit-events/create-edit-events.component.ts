@@ -69,9 +69,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedFileUrl: string;
   public previewDates: PagePreviewDTO | EventPageResponceDto;
   public submitSelected: boolean;
+  public nameBtn = 'create-event.publish';
 
   public fromPreview: boolean;
-  private editorText = '';
+  public editorText = '';
+  private isDescriptionValid: boolean;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
   private matSnackBar: MatSnackBarComponent;
@@ -125,24 +127,23 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
     this.fromPreview = this.eventsService.getBackFromPreview();
+    const submitFromPreview = this.eventsService.getSubmitFromPreview();
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
-    if (this.editMode && !this.fromPreview) {
-      this.fromPreview = false;
+    if (this.editMode && !this.fromPreview && !submitFromPreview) {
       this.setDates(true);
       this.setEditValue();
-      this.editorText = this.eventFormGroup.get('description').value;
-    } else if (!this.fromPreview) {
-      this.dates = [{ ...DateObj }];
-    } else if (this.eventsService.getSubmitFromPreview()) {
+    } else if (submitFromPreview) {
       this.backFromPreview();
       setTimeout(() => this.onSubmit());
-    } else {
+    } else if (this.fromPreview) {
       this.backFromPreview();
+    } else {
+      this.dates = [{ ...DateObj }];
     }
 
     if (!this.checkUserSigned()) {
@@ -181,6 +182,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isTagValid = this.tags.some((el) => el.isActive);
     this.isOpen = this.editEvent.open;
     this.oldImages = this.imagesForEdit;
+    this.editorText = this.editEvent.description;
+    this.nameBtn = 'create-event.save-event';
   }
 
   public setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
@@ -210,7 +213,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   private backFromPreview(): void {
     this.previewDates = this.eventsService.getForm();
-    const { title, description, open, dates, tags, imgArray } = this.eventsService.getForm();
+    const { title, description, open, dates, tags, imgArray, editorText } = this.previewDates;
     this.setDates(false, dates);
     if (this.editMode) {
       this.imgArrayToPreview = imgArray;
@@ -226,7 +229,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       description,
       eventDuration: this.dateArrCount[dates.length - 1]
     });
-    this.editorText = this.eventFormGroup.get('description').value;
+    this.isDescriptionValid = editorText.length > 19;
+    this.editorText = editorText;
   }
 
   public toEventsList(): void {
@@ -274,23 +278,17 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
-      this.editorText = event.text;
+      this.editorText = event.text.substring(event.text.length, 1);
     }
   }
 
   public handleErrorClass(errorClassName: string): string {
     const descriptionControl = this.eventFormGroup.get('description');
-    const isValidDescription = this.editorText.length > 20;
-    if (!isValidDescription) {
-      descriptionControl.setErrors({ invalidDescription: isValidDescription });
-    } else {
-      descriptionControl.setErrors(null);
-    }
-    return this.submitIsFalse && !isValidDescription ? errorClassName : '';
-  }
-
-  public escapeFromCreateEvent(): void {
-    this.router.navigate(['/events']);
+    this.isDescriptionValid = this.editorText.length > 19;
+    this.isDescriptionValid
+      ? descriptionControl.setErrors(null)
+      : descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
+    return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
   public changeEventType(): void {
@@ -371,6 +369,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public onSubmit(): void {
     this.submitSelected = true;
+    this.eventsService.setSubmitFromPreview(false);
     this.checkDates();
     const datesDto: Dates[] = this.checkdates ? this.createDates() : [];
     const tagsArr: string[] = this.tags.filter((tag) => tag.isActive).map((tag) => tag.nameEn);
@@ -400,14 +399,14 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled) {
+    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
       setTimeout(() => {
         const formData = this.prepareFormData(sendEventDto);
         this.createEvent(formData);
-      }, 100);
+      }, 250);
     } else {
       this.eventFormGroup.markAllAsTouched();
       this.checkAfterSend = this.isTagValid;
@@ -433,6 +432,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.router.navigate(['/events', 'create-event']);
   }
 
+  public escapeFromCreateEvent(): void {
+    this.router.navigate(['/events']);
+    this.eventSuccessfullyAdded();
+  }
+
+  private eventSuccessfullyAdded(): void {
+    if (this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('updatedEvent');
+    }
+    if (!this.editMode && this.eventFormGroup.valid) {
+      this.snackBar.openSnackBar('addedEvent');
+    }
+  }
+
   public onPreview() {
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
@@ -441,6 +454,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,
       eventDuration: this.eventFormGroup.get('eventDuration').value,
+      editorText: this.editorText,
       open: this.isOpen,
       dates: this.dates,
       tags: tagsArr,

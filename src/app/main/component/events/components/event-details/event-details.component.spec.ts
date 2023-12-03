@@ -86,7 +86,8 @@ describe('EventDetailsComponent', () => {
     'getAllAttendees',
     'createAddresses',
     'getFormattedAddress',
-    'getForm'
+    'getForm',
+    'getLangValue'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
@@ -126,10 +127,6 @@ describe('EventDetailsComponent', () => {
   }
   LocalStorageServiceMock.getPreviousPage = () => '/profile';
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
-  languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
-    return valUa;
-  };
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const bsModalBsModalServiceMock = jasmine.createSpyObj('BsModalService', ['show']);
   let translateServiceMock: TranslateService;
@@ -159,7 +156,6 @@ describe('EventDetailsComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
-        { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: ActionsSubject, useValue: actionSub },
@@ -216,11 +212,6 @@ describe('EventDetailsComponent', () => {
     let role = 'UNAUTHENTICATED';
     role = jwtServiceFake.getUserRole() === 'ROLE_ADMIN' ? 'ADMIN' : role;
     expect(role).toBe('ADMIN');
-  });
-
-  it('should return ua value by getLangValue', () => {
-    const value = component.getLangValue('value', 'enValue');
-    expect(value).toBe('value');
   });
 
   it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {

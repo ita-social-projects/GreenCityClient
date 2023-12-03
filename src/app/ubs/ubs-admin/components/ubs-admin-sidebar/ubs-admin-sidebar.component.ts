@@ -35,7 +35,7 @@ export class UbsAdminSidebarComponent extends UbsBaseSidebarComponent implements
 
   ngOnInit() {
     const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.store.dispatch(GetEmployeesPermissions({ email: userEmail, reset: false }));
+    this.store.dispatch(GetEmployeesPermissions({ email: userEmail }));
     this.authoritiesSubscription();
   }
 
