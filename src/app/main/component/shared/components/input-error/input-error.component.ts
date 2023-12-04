@@ -25,7 +25,8 @@ export class InputErrorComponent implements OnInit {
     pattern: 'input-error.pattern',
     maxlengthEventName: 'create-event.max-length-title',
     requiredEventName: 'create-event.title-required',
-    requiredEventDate: 'create-event.date-required'
+    requiredEventDate: 'create-event.date-required',
+    negativeNumberValue: 'ubs-tariffs-add-service.negative_number_value'
   };
 
   ngOnInit(): void {
@@ -39,6 +40,9 @@ export class InputErrorComponent implements OnInit {
     Object.values(errorType).forEach((err) => {
       if (this.formElement.errors?.[err]) {
         switch (err) {
+          case errorType.pattern:
+            this.errorMessage = this.getMinValueErrorMessage(this.formElement.errors.pattern.actualValue);
+            break;
           case errorType.minlength:
             this.errorMessage = this.getMinlengthErrorMessage(this.formElement.errors.minlength.requiredLength);
             break;
@@ -58,6 +62,12 @@ export class InputErrorComponent implements OnInit {
 
   private getRequiredErrorMessage(): string {
     return this.date ? this.validationErrors.requiredEventDate : this.validationErrors.requiredEventName;
+  }
+
+  private getMinValueErrorMessage(actualValue: number): string {
+    if (actualValue < 1) {
+      return this.validationErrors.negativeNumberValue;
+    }
   }
 
   getMinlengthErrorMessage(minlength: number): string {

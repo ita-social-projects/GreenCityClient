@@ -67,12 +67,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-      capacity: new FormControl('', [
-        Validators.required,
-        Validators.pattern(Patterns.ubsServicePrice),
-        Validators.min(1),
-        Validators.max(999)
-      ]),
+      capacity: new FormControl('', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),

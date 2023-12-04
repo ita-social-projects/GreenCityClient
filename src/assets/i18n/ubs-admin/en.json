@@ -824,6 +824,7 @@
     "error_message": "Fill in the selected fields",
     "error_content": "The field must contain between 1 and 255 characters",
     "error_service_name_content": "The field must contain between 1 and 30 characters",
+    "negative_number_value": "The field value cannot be negative",
     "btn": {
       "add": "Add",
       "cancel": "Cancel",
