@@ -197,10 +197,10 @@ describe('OrderService', () => {
   });
 
   it('should return order history', () => {
-    service.getOrderHistory(1).subscribe((data) => {
+    service.getOrderHistory(1, 'ua').subscribe((data) => {
       expect(data).toBe([]);
     });
-    const req = httpMock.expectOne(`${urlMock}/order_history/1`);
+    const req = httpMock.expectOne(`${urlMock}/order_history/1?lang=ua`);
     expect(req.request.method).toBe('GET');
   });
 
