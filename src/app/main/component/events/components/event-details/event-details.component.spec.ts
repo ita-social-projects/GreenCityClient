@@ -87,13 +87,17 @@ describe('EventDetailsComponent', () => {
     'createAddresses',
     'getFormattedAddress',
     'getForm',
-    'getLangValue'
+    'getLangValue',
+    'setBackFromPreview',
+    'setSubmitFromPreview'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.createAddresses = () => of('');
   EventsServiceMock.getFormattedAddress = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of();
+  EventsServiceMock.setSubmitFromPreview = () => of();
 
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
@@ -221,5 +225,29 @@ describe('EventDetailsComponent', () => {
       component.openAuthModalWindow('sign-in');
     }
     expect(component.openAuthModalWindow).toHaveBeenCalled();
+  });
+
+  it('should call openAuthModalWindow with "sign-in" when role is UNAUTHENTICATED', () => {
+    component.role = 'UNAUTHENTICATED';
+    const spy = spyOn(component, 'openAuthModalWindow');
+    component.buttonAction({} as MouseEvent);
+    expect(spy).toHaveBeenCalledWith('sign-in');
+  });
+
+  it('should call openSnackBar with "errorJoinEvent" when isUserCanJoin is true and addAttenderError is truthy', () => {
+    component.role = 'USER';
+    component.isUserCanJoin = true;
+    component.addAttenderError = 'some error';
+    component.buttonAction({} as MouseEvent);
+    expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
+    expect(component.addAttenderError).toBe('');
+  });
+
+  it('should call setBackFromPreview and setSubmitFromPreview methods from eventService', () => {
+    const spy1 = spyOn(EventsServiceMock, 'setBackFromPreview');
+    const spy2 = spyOn(EventsServiceMock, 'setSubmitFromPreview');
+    component.backToSubmit();
+    expect(spy1).toHaveBeenCalledWith(true);
+    expect(spy2).toHaveBeenCalledWith(true);
   });
 });
