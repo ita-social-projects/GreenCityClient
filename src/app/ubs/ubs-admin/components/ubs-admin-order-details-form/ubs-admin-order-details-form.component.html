@@ -149,7 +149,9 @@
             <span class="col-sm-2 text-center" *ngIf="isVisible">{{ bagsInfo.finalSum.actual | currency | localizedCurrency }}</span>
           </li>
           <li class="d-flex justify-content-end align-items-baseline py-2">
-            <span *ngIf="isOrderDone" class="col-sm-3 text-danger pl-5">{{ 'order-details.not-enough-bags' | translate }}</span>
+            <span *ngIf="isOrderDone && showUbsCourier" class="col-sm-3 text-danger pl-5">
+              {{ 'order-details.not-enough-bags' | translate }}
+            </span>
             <span class="col-sm-3 text-danger pl-5" *ngIf="!isOrderDone && overpayment">
               {{ overpaymentMessage | translate }} {{ overpayment | localizedCurrency }}
             </span>
@@ -159,7 +161,7 @@
           </li>
           <li class="d-flex justify-content-end align-items-baseline py-2">
             <span *ngIf="updateBonusAccount" class="col-sm-3 text-danger pl-5 refund-bonuses">{{
-              'order-details.bonuses-value' | translate : { bonusesValue: updateBonusAccount }
+              'order-details.bonuses-value' | translate: { bonusesValue: updateBonusAccount }
             }}</span>
           </li>
         </ul>
