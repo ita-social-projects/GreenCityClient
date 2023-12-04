@@ -1,5 +1,5 @@
 import { Component, OnDestroy, Input, ViewEncapsulation, SimpleChanges, OnChanges, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStatuses } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
