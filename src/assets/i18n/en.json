@@ -139,8 +139,8 @@
       "time-any-time": "Any time",
       "item-found-text": "",
       "items-event-text": "Items found",
-      "no-event-left": "There's no events for now",
-      "no-matching-left": "We didn't find any results matching this search",
+      "no-event-left": "There's no more events for now",
+      "no-matching-left": "We didn't find any results matching to this search",
       "my-space": {
         "tag-title": "My Events",
         "event-type-online": "Online",
