@@ -147,7 +147,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public cancelSearch(): void {
-    this.searchFilterWords.setValue('');
+    if (this.searchFilterWords.value === '') {
+      this.searchToggle = false;
+    } else {
+      this.searchFilterWords.setValue('');
+    }
   }
 
   public updateSelectedFilters(

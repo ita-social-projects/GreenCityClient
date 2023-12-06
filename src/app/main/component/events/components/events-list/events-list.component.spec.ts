@@ -363,4 +363,17 @@ describe('EventsListComponent', () => {
     component.search();
     expect(component.searchToggle).toEqual(true);
   });
+
+  it('should hide search input if it is empty', () => {
+    component.searchToggle = true;
+    component.searchFilterWords.setValue('');
+    component.cancelSearch();
+    expect(component.searchToggle).toEqual(false);
+  });
+
+  it('should remove the value of search input if it contains text', () => {
+    component.searchFilterWords.setValue('Some test text');
+    component.cancelSearch();
+    expect(component.searchFilterWords.value).toEqual('');
+  });
 });
