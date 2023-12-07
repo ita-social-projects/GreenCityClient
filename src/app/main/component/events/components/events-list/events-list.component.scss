@@ -71,6 +71,10 @@
     width: 12px;
     height: 17px;
     background: url('src/assets/events-icons/bookmark-grey.png');
+
+    &:hover {
+      background: url('src/assets/events-icons/bookmark-active.png');
+    }
   }
 
   .bookmark-img-active {
