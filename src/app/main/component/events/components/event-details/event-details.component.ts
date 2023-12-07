@@ -142,9 +142,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       }
       this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
         this.event = res;
+        console.log(this.event);
         this.organizerName = this.event.organizer.name;
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
         this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
+        console.log(this.locationCoordinates);
         this.images = [res.titleImage, ...res.additionalImages];
         this.rate = Math.round(this.event.organizer.organizerRating);
         this.mapDialogData = {
@@ -175,6 +177,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {
       this.event = this.eventService.getForm();
+      console.log(this.event.dates);
+      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
       this.place = this.event.location.place;
       this.images = this.event.imgArrayToPreview;
       this.bindUserName();

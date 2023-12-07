@@ -16,7 +16,8 @@
         <div class="event-location-icon">
           <img [src]="icons.location" alt="" />
         </div>
-        <div>{{ day.onlineLink ? day.onlineLink : day.coordinates?.addressEn }}</div>
+        <!-- {{ eventService.getForm() ? place : getAddress() }} -->
+        <div>{{ day.coordinates?.addressEn ? day.coordinates?.addressEn : day.onlineLink }}</div>
       </div>
     </div>
   </div>

@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Coordinates } from '@global-user/models/edit-profile.model';
+import { EventsService } from '../../../services/events.service';
 
 @Component({
   selector: 'app-event-schedule',
@@ -13,4 +15,10 @@ export class EventScheduleComponent {
   };
 
   @Input() days = [];
+
+  constructor(public eventsService: EventsService) {}
+
+  // public getAddress(location: Coordinates): string {
+  //   return this.eventsService.getFormattedAddress(this.locationCoordinates);
+  // }
 }

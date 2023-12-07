@@ -21,6 +21,7 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
   isBottomSheetOpen = false;
 
   @Input() days = [];
+  @Input() place: string;
 
   @ViewChild('scheduleButton') scheduleButtonRef: ElementRef;
   @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef: TemplateRef<any>;
@@ -40,6 +41,7 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private breakpointObserver: BreakpointObserver) {}
 
   ngAfterViewInit(): void {
+    console.log(this.days);
     this.portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,

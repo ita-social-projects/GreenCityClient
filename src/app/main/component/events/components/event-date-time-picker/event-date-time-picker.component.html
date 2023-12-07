@@ -34,15 +34,10 @@
   </div>
   <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
   <div class="checkbox">
-    <mat-checkbox
-      class="example-margin"
-      [checked]="checkOfflinePlace"
-      [disabled]="isPlaceDisabled || isLocationDisabled"
-      (change)="checkIfOffline()"
-    >
+    <mat-checkbox class="example-margin" [checked]="checkOfflinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOffline()">
       {{ 'create-event.event-place' | translate }}
     </mat-checkbox>
-    <mat-checkbox class="example-margin" [checked]="checkOnlinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOnline()">
+    <mat-checkbox class="example-margin" [checked]="checkOnlinePlace" [disabled]="isLinkDisabled" (change)="checkIfOnline()">
       {{ 'create-event.event-online' | translate }}
     </mat-checkbox>
   </div>

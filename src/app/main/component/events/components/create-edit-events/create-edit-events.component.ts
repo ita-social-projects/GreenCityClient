@@ -142,9 +142,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.isLocationForAllDays();
     } else if (submitFromPreview) {
       this.backFromPreview();
+      this.isLocationForAllDays();
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
       this.backFromPreview();
+      console.log('backFromPreview');
       this.isLocationForAllDays();
     } else {
       this.dates = [{ ...DateObj }];
@@ -353,6 +355,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     }
     this.locationForAllDays = { ...coordinates };
     this.appliedForAllLocations = !!coordinates.latitude;
+    this.updateAreAddressFilled(this.dates, true);
   }
 
   public setOnlineLink(link: string, ind: number): void {
@@ -397,9 +400,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onSubmit(): void {
-    if (this.appliedForAllLocations) {
-      this.applyCommonLocation();
-    }
     this.submitSelected = true;
     this.eventsService.setSubmitFromPreview(false);
     this.checkDates();
@@ -479,9 +479,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public onPreview() {
-    if (this.appliedForAllLocations) {
-      this.applyCommonLocation();
-    }
     this.eventsService.setSubmitFromPreview(false);
     this.imgToData();
     const tagsArr: Array<string> = this.tags.filter((tag) => tag.isActive).reduce((ac, cur) => [...ac, cur], []);
