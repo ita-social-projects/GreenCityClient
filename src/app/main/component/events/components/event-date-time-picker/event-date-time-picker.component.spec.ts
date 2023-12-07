@@ -22,7 +22,7 @@ describe('EventDateTimePickerComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs', 'getCurrentLanguage']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('fakeValue'));
 
