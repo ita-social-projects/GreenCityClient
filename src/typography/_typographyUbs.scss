@@ -16,12 +16,13 @@
 
 .ubs-primary-global-button,
 .ubs-secondary-global-button,
-.ubs-danger-global-button {
+.ubs-danger-global-button,
+.ubs-employee-global-button,
+.ubs-employee-secondary-global-button {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  white-space: nowrap;
   height: 44px;
   line-height: 28px;
   font-size: 18px;
@@ -31,9 +32,20 @@
   font-style: normal;
   font-weight: 700;
   border: none;
-  outline: none;
   background: none;
   cursor: pointer;
+}
+
+.ubs-employee-global-button {
+  color: var(--ubs-quaternary-dark-grey);
+  background: var(--ubs-button-light-green);
+}
+
+.ubs-employee-secondary-global-button {
+  color: var(--ubs-quaternary-dark-grey);
+  background: transparent;
+  border: 1px solid var(--ubs-button-light-green);
+  margin-right: 15px;
 }
 
 .ubs-primary-global-button {
@@ -57,9 +69,9 @@
 }
 
 .ubs-secondary-global-button {
-  color: var(--ubs-freinacht-black);
+  color: var(--ubs-quaternary-dark-grey);
   background: transparent;
-  border: 1px solid var(--ubs-freinacht-black);
+  border: 1px solid var(--ubs-quaternary-dark-grey);
 
   &:hover,
   &:active,
@@ -89,7 +101,6 @@
 
 .ubs-link-global-button {
   color: var(--ubs-dark-purple);
-  white-space: nowrap;
   font-size: 16px;
   font-weight: 400;
 }
@@ -109,7 +120,6 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   border: 0;
-  outline: 0;
   background-color: transparent;
 
   &:hover,
@@ -131,13 +141,11 @@
 
 .ubs-primary-global-button:focus,
 .ubs-secondary-global-button:focus {
-  outline: 0;
   box-shadow: 2px 6px 10px var(--ubs-button-shadow);
 }
 
 .ubs-danger-global-button:focus,
 .ubs-link-global-button:focus {
-  outline: 0;
   text-decoration-line: underline;
   text-shadow: 2px 6px 10px var(--ubs-button-shadow);
 }
