@@ -100,6 +100,7 @@ export interface EventPageResponceDto {
   isRelevant: boolean;
   countComments: number;
   likes: number;
+  isOrganizedByFriend: boolean;
 }
 
 export interface TagDto {

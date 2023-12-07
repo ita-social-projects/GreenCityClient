@@ -127,7 +127,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false
+    isAdmin: false,
+    isOrganizedByFriend: false
   };
 
   const fakeItemTags: TagObj[] = [
@@ -345,15 +346,6 @@ describe('EventsListItemComponent', () => {
       spyOn(component, 'bindLang');
       component.ngOnInit();
       expect(component.bindLang).toHaveBeenCalled();
-    });
-  });
-
-  describe('checkCanUserJoinEvent', () => {
-    it('it should check is organizer of close event a user"s friend', () => {
-      component.event = { ...eventMock, ...{ open: false } };
-      component.userFriends = [];
-      component.ngOnChanges();
-      expect(component.canUserJoinCloseEvent).toBe(false);
     });
   });
 

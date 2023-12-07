@@ -24,9 +24,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { FriendModel } from '@global-user/models/friend.model';
-import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 
@@ -74,7 +71,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
-  userFriends: FriendModel[];
 
   constructor(
     private store: Store,
@@ -83,7 +79,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     public injector: Injector,
-    private userFriendsService: UserFriendsService,
     private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
@@ -110,21 +105,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = this.eventsList.length < data.totalElements;
       }
     });
-    this.getUserFriendsList();
     this.searchWords();
-  }
-
-  getUserFriendsList(): void {
-    if (this.userId) {
-      this.userFriendsService
-        .getAllFriendsByUserId(this.userId)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe((res: any) => {
-          this.userFriends = res.page;
-        });
-    } else {
-      this.userFriends = [];
-    }
   }
 
   searchWords(): void {

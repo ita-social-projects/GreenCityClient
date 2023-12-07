@@ -24,7 +24,6 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-event-details',
@@ -110,7 +109,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
-  public isEventOrginizerFriend: boolean;
+  public isOrganizedByFriend: boolean;
   private userNameSub: Subscription;
   private isOwner: boolean;
 
@@ -119,14 +118,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     public eventService: EventsService,
     public router: Router,
     public localStorageService: LocalStorageService,
-    private translate: TranslateService,
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService,
-    private userFriendsService: UserFriendsService
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
@@ -136,11 +133,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.userId = Number(id);
       });
       const isAuthorized = this.jwtService.getUserRole();
-      if (isAuthorized) {
-        this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res: any) => {
-          this.isEventOrginizerFriend = res.page.some((el) => el.id === this.userId);
-        });
-      }
       this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
         this.event = res;
         this.organizerName = this.event.organizer.name;
@@ -163,6 +155,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.ecoEvents$.subscribe((result: IEcoEventsState) => {
           this.addAttenderError = result.error;
         });
+        this.isOrganizedByFriend = res.isOrganizedByFriend;
       });
 
       this.localStorageService.setEditMode('canUserEdit', true);
