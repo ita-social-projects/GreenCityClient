@@ -146,7 +146,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
       this.backFromPreview();
-      console.log('backFromPreview');
       this.isLocationForAllDays();
     } else {
       this.dates = [{ ...DateObj }];

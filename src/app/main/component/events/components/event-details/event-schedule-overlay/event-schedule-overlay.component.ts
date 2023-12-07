@@ -41,7 +41,6 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef, private breakpointObserver: BreakpointObserver) {}
 
   ngAfterViewInit(): void {
-    console.log(this.days);
     this.portal = new TemplatePortal(this.scheduleInfoOverlayRef, this.viewContainerRef);
     this.overlayRef = this.overlay.create({
       hasBackdrop: true,

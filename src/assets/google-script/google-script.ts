@@ -7,15 +7,12 @@ export class GoogleScript {
   url = `https://maps.googleapis.com/maps/api/js?key=${this.apiMapKey}&callback=initMap&libraries=places&language=`;
 
   load(lang: string): void {
-    console.log('hereeeeeeeeeeeeeeee', lang);
     const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
 
     if (googleScript) {
-      console.log('heree', googleScript);
       googleScript.src = this.url + lang;
     }
     if (!googleScript) {
-      console.log('heree', googleScript);
       this.initMap();
       const google = document.createElement('script');
       google.type = 'text/javascript';

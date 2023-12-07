@@ -393,10 +393,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
           this.coordinates.latitude = locationName.geometry.location.lat();
           this.coordinates.longitude = locationName.geometry.location.lng();
           this.coordOffline.emit(this.coordinates);
-          // this.dateForm.patchValue({
-          //   place: locationName.formatted_address,
-          //   coordinates: { latitude: this.coordinates.latitude, longitude: this.coordinates.longitude }
-          // });
           this.isLocationSelected = true;
           this.readyToApplyLocation = true;
           if (this.appliedForAllLocations) {
@@ -422,7 +418,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK' && results[0]) {
         this.address = results[0].formatted_address;
-        console.log(this.address);
         this.dateForm.get('place').setValue(this.address);
         this.isLocationSelected = true;
       } else {

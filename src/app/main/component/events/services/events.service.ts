@@ -178,7 +178,6 @@ export class EventsService implements OnDestroy {
   }
 
   public getFormattedAddress(coordinates: Coordinates): string {
-    console.log(coordinates);
     return this.getLangValue(
       coordinates?.streetUa ? this.createAddresses(coordinates, 'Ua') : coordinates?.formattedAddressUa,
       coordinates?.streetEn ? this.createAddresses(coordinates, 'En') : coordinates?.formattedAddressEn
