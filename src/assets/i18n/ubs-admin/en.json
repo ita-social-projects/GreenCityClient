@@ -824,6 +824,7 @@
     "error_message": "Fill in the selected fields",
     "error_content": "The field must contain between 1 and 255 characters",
     "error_service_name_content": "The field must contain between 1 and 30 characters",
+    "negative_number_value": "The field value cannot be negative",
     "btn": {
       "add": "Add",
       "cancel": "Cancel",
@@ -1201,7 +1202,7 @@
 
       "minimum-volume": {
         "title": "Minimum volume for export:",
-        "li_1": "2 packages of 120 l in Kyiv ",
+        "li_1": "2 packages of 120 l in Kyiv",
         "li_2": "20 packages of 120 liters in the suburbs within 20 km of Kyiv"
       }
     }

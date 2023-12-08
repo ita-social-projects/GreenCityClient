@@ -138,7 +138,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public routeToEvent(): void {
-    this.router.navigate(['/events', this.event.id, { isOwner: this.isOwner, isActive: this.isActive }]);
+    this.router.navigate(['/events', this.event.id]);
   }
 
   public filterTags(tags: Array<TagDto>) {
@@ -283,27 +283,30 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
   public changeFavouriteStatus(event?: Event) {
     event?.stopPropagation();
     if (!this.isRegistered) {
-      console.log('here');
       this.openAuthModalWindow('sign-in');
-      return;
-    }
-
-    this.isEventFavorite = !this.isEventFavorite;
-    const operation = this.isEventFavorite
-      ? this.eventService.addEventToFavourites(this.event.id)
-      : this.eventService.removeEventFromFavourites(this.event.id);
-
-    operation.subscribe(
-      () => {
-        if (!this.isEventFavorite && this.isUserAssignList) {
-          this.idOfUnFavouriteEvent.emit(this.event.id);
-        }
-      },
-      () => {
-        this.snackBar.openSnackBar('error');
-        this.isEventFavorite = !this.isEventFavorite;
+    } else {
+      this.isEventFavorite = !this.isEventFavorite;
+      if (this.isEventFavorite) {
+        this.eventService.addEventToFavourites(this.event.id).subscribe({
+          error: () => {
+            this.snackBar.openSnackBar('error');
+            this.isEventFavorite = false;
+          }
+        });
+      } else {
+        this.eventService.removeEventFromFavourites(this.event.id).subscribe(
+          () => {
+            if (this.isUserAssignList) {
+              this.idOfUnFavouriteEvent.emit(this.event.id);
+            }
+          },
+          () => {
+            this.snackBar.openSnackBar('error');
+            this.isEventFavorite = true;
+          }
+        );
       }
-    );
+    }
   }
 
   public openAuthModalWindow(page: string): void {

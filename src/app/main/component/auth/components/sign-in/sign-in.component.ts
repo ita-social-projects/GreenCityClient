@@ -28,7 +28,6 @@ declare var google: any;
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() isUbs: boolean;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
@@ -41,10 +40,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
-  public isEventsDetails: boolean;
-  public eventId: string;
-  public isOwnerParams: boolean;
-  public isActiveParams: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
   private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
@@ -52,6 +47,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public generalError: string;
 
   @Output() private pageName = new EventEmitter();
+  @Input() isUbs: boolean;
 
   constructor(
     public dialog: MatDialog,
@@ -75,10 +71,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.isEventsDetails = this.router.url.includes('isOwner');
-    this.eventId = this.route.snapshot.params?.id;
-    this.isOwnerParams = this.router.url.includes('isOwner=true');
-    this.isActiveParams = this.router.url.includes('isActive=true');
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
@@ -208,9 +200,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.jwtService.userRole$.next(getUbsRoleSignIn);
     if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
       return ['ubs-admin', 'orders'];
-    }
-    if (this.isEventsDetails) {
-      return ['/events', this.eventId, { isOwner: this.isOwnerParams, isActive: this.isActiveParams }];
     }
     if (this.isUbs) {
       return ['ubs'];

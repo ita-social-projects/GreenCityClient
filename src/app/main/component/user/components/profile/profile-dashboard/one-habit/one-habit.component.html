@@ -4,9 +4,15 @@
     <div class="first-row">
       <img class="calendar" src="assets/icons/habits/calendar-green.svg" alt="calendar" />
       <p>{{ daysCounter }} / {{ habit.duration }}<span>I</span></p>
-      <div *ngIf="showPhoto" class="friends-photo">
-        <a href="#"><img class="first-photo" [src]="firstFriend" alt="First friend photo" /></a>
-        <a href="#"><img class="second-photo" [src]="secondFriend" alt="Second friend photo" /></a>
+      <div *ngFor="let friend of friends; index as i" class="friends-photo">
+        <a [routerLink]="['/profile', habit.userId, 'friends', friend.name, friend.id]">
+          <app-user-profile-image
+            [imgPath]="friend.profilePicturePath"
+            [firstName]="friend.name"
+            [additionalImgClass]="i === 0 ? 'habit-first-friend-profile-picture' : 'habit-next-friend-profile-picture'"
+          >
+          </app-user-profile-image>
+        </a>
       </div>
       <button class="edit {{ habitMark }}" (click)="goToHabitProfile()">
         <img src="/assets/img/profile/icons/edit-line.svg" alt="edit habit progress" />

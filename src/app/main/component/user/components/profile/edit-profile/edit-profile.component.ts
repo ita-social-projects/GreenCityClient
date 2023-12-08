@@ -1,5 +1,5 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -15,13 +15,14 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { Patterns } from 'src/assets/patterns/patterns';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { GoogleScript } from 'src/assets/google-script/google-script';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, AfterViewInit, OnDestroy, DoCheck {
   public editProfileForm: FormGroup;
   @ViewChild('placesRef') placesRef: ElementRef;
   private langChangeSub: Subscription;
@@ -60,6 +61,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public namePattern = Patterns.NamePattern;
   public cityPattern = Patterns.profileCityPattern;
   public builder: EditProfileFormBuilder;
+  public placeService;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;
   private snackBar: MatSnackBarComponent;
@@ -72,7 +74,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     public dialog: MatDialog,
     public router: Router,
     private langService: LanguageService,
-    private mapsAPILoader: MapsAPILoader
+    private mapsAPILoader: MapsAPILoader,
+    private googleScript: GoogleScript
   ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
@@ -89,6 +92,10 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.getInitialValue();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
+    this.setPlaceAutocomplete();
+  }
+
+  ngAfterViewInit(): void {
     this.setPlaceAutocomplete();
   }
 
@@ -118,6 +125,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public setPlaceAutocomplete(): void {
     this.mapsAPILoader.load().then(() => {
       this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.cityOptions);
+      this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
       this.autocomplete.addListener('place_changed', () => {
         const locationName = this.autocomplete.getPlace();
         if (locationName.formatted_address) {

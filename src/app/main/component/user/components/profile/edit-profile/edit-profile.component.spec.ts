@@ -89,6 +89,7 @@ describe('EditProfileComponent', () => {
 
     it('should format google api formated_adress acording to mockup', () => {
       const adress1 = 'Lviv, Lviv region, Ukraine, 79000';
+      (component as any).country = 'Ukraine';
       expect((component as any).getCityCountryFormat(adress1)).toEqual('Lviv, Ukraine');
       const adress2 = 'Kyiv, Ukraine, 01000';
       expect((component as any).getCityCountryFormat(adress2)).toEqual('Kyiv, Ukraine');

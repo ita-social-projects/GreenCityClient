@@ -112,6 +112,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public isReadonly = false;
   public isEventOrginizerFriend: boolean;
   private userNameSub: Subscription;
+  private isOwner: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -292,6 +293,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
+      return;
     }
     if (this.isUserCanJoin && this.addAttenderError) {
       this.snackBar.openSnackBar('errorJoinEvent');
@@ -308,12 +310,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.dialog.open(AuthModalComponent, {
+    const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
       data: {
         popUpName: page
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (this.userId) {
+        this.router.navigate(['/events', this.eventId]);
       }
     });
   }
