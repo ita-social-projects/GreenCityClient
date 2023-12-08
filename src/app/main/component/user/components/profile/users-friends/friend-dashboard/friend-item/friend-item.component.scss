@@ -49,6 +49,9 @@
   position: relative;
   max-width: 280px;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 
   @media (max-width: 1199px) {
     max-width: 170px;
@@ -79,7 +82,10 @@
   line-height: 20px;
   color: var(--quaternary-grey);
   margin: 2px;
-  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 
   .friend-mutual-link {
     transition: 0.2s;
@@ -142,4 +148,10 @@
 .friend-with-photo {
   display: flex;
   flex-direction: column-reverse;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
 }

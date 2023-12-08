@@ -9,8 +9,14 @@
     </app-user-profile-image>
     <div class="friend-info">
       <div class="main-info friend-with-photo">
-        <p class="friend-name" appCustomTooltip [appCustomTooltip]="friend.name">
-          <!-- {{ friend.name | maxTextLength }} -->
+        <p
+          class="friend-name"
+          #tooltipFriendName="matTooltip"
+          matTooltip="{{ friend.name }}"
+          matTooltipClass="my-custom-tooltip"
+          (mouseenter)="showTooltip($event, tooltipFriendName, 'bold 18px Lato, sans-serif')"
+          (mouseleave)="tooltipFriendName.hide()"
+        >
           {{ friend.name }}
         </p>
         <p class="friend-rate rate-with-photo">{{ 'profile.rate' | translate }}: {{ friend.rating }}</p>
@@ -22,8 +28,11 @@
       </p>
       <p
         class="friend-city"
-        appCustomTooltip
-        [appCustomTooltip]="getFriendCity(friend.userLocationDto) || ('profile.friends.no-city' | translate)"
+        #tooltipFriendCity="matTooltip"
+        matTooltip="{{ (getFriendCity(friend.userLocationDto) | maxTextLength) || ('profile.friends.no-city' | translate) }}"
+        matTooltipClass="my-custom-tooltip"
+        (mouseenter)="showTooltip($event, tooltipFriendCity, '12px Lato, sans-serif')"
+        (mouseleave)="tooltipFriendCity.hide()"
       >
         {{ (getFriendCity(friend.userLocationDto) | maxTextLength) || ('profile.friends.no-city' | translate) }}
       </p>

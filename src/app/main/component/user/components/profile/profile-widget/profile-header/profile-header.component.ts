@@ -8,6 +8,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { take } from 'rxjs/operators';
 import { ProfileService } from '../../profile-service/profile.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { MouseEvents } from 'src/app/shared/mouse-events';
 
 @Component({
   selector: 'app-profile-header',
@@ -91,7 +92,21 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
       };
     });
   }
+  showTooltip(event: any, tooltip: any, font: string): void {
+    event.stopImmediatePropagation();
+    event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip, font) : tooltip.hide();
+  }
 
+  calculateTextWidth(event: any, tooltip: any, font: string): void {
+    const textContainerWidth = event.target.offsetWidth;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = font;
+    const textWidth = Math.round(context.measureText(event.target.innerText).width);
+    if (textContainerWidth < textWidth) {
+      tooltip.show();
+    }
+  }
   ngOnDestroy() {
     this.userId$.unsubscribe();
   }
