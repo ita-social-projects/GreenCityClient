@@ -32,7 +32,6 @@ export class FriendItemComponent implements OnInit {
 
   @Output() friendEventEmit = new EventEmitter<number>();
   @Output() declineEvent = new EventEmitter<number>();
-  private font = '18px Lato, sans-serif';
 
   constructor(
     private router: Router,
