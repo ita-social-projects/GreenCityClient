@@ -376,4 +376,16 @@ describe('EventsListComponent', () => {
     component.cancelSearch();
     expect(component.searchFilterWords.value).toEqual('');
   });
+
+  it('should not be able to scroll and should show a message if no events found', () => {
+    component.sortByWord(eventsMock, ['Some', 'text']);
+    expect(component.scroll).toEqual(false);
+    expect(component.noEventsMatch).toEqual(true);
+  });
+
+  it('should not be able to scroll and should show a message if there are no more events for now', () => {
+    component.dispatchStore(false);
+    expect(component.scroll).toEqual(false);
+    expect(component.elementsArePresent).toEqual(false);
+  });
 });

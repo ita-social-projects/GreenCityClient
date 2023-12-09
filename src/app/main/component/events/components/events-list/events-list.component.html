@@ -120,8 +120,13 @@
         ></app-events-list-item>
       </mat-card>
     </div>
-    <app-spinner *ngIf="elementsArePresent"></app-spinner>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <app-spinner
+      *ngIf="scroll"
+      infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="500"
+      (scrolled)="onScroll()"
+    ></app-spinner>
     <p class="end-page" *ngIf="!elementsArePresent">{{ 'homepage.events.no-event-left' | translate }}</p>
     <p class="end-page" *ngIf="noEventsMatch">{{ 'homepage.events.no-matching-left' | translate }}</p>
   </div>

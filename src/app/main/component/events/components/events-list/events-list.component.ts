@@ -96,18 +96,23 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.scroll = false;
+    this.scroll = true;
     this.dispatchStore(true);
     this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.page = res.pageNumber;
-      if (res.eventState) {
-        this.eventsList = [...res.eventsList];
-        this.bufferArray = [...res.eventsList];
-        const data = res.eventState;
-        this.hasNext = data.hasNext;
-        this.remaining = data.totalElements;
-        this.elementsArePresent = this.eventsList.length < data.totalElements;
+      if (res.error) {
+        this.scroll = false;
+        this.elementsArePresent = false;
+      } else {
+        if (res.eventState) {
+          this.eventsList = [...res.eventsList];
+          this.bufferArray = [...res.eventsList];
+          const data = res.eventState;
+          this.hasNext = data.hasNext;
+          this.remaining = data.totalElements;
+          this.elementsArePresent = this.eventsList.length < data.totalElements;
+        }
       }
     });
     this.getUserFriendsList();
@@ -143,7 +148,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    this.noEventsMatch = !this.eventsList.length;
+    if (this.eventsList.length === 0) {
+      this.noEventsMatch = true;
+      this.scroll = false;
+    } else {
+      this.noEventsMatch = false;
+      this.scroll = true;
+    }
   }
 
   public cancelSearch(): void {
@@ -233,6 +244,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
           filter: this.eventFilterCriteria
         })
       );
+    } else {
+      this.scroll = false;
+      this.elementsArePresent = false;
     }
   }
 
@@ -364,7 +378,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public onScroll(): void {
     const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
-    this.scroll = true;
     if (this.eventsList.length) {
       this.dispatchStore(isRemovedEvents);
     }
