@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-    <div class="event-list">
+    <div class="event-list" *ngIf="eventsList.length > 0">
       <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
         <app-events-list-item
           [event]="eventItem"
