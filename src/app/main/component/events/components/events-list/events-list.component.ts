@@ -101,18 +101,16 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       this.page = res.pageNumber;
-      if (res.error) {
+      if (res.eventState) {
+        this.eventsList = [...res.eventsList];
+        this.bufferArray = [...res.eventsList];
+        const data = res.eventState;
+        this.hasNext = data.hasNext;
+        this.remaining = data.totalElements;
+        this.elementsArePresent = this.eventsList.length < data.totalElements;
+      } else {
         this.scroll = false;
         this.elementsArePresent = false;
-      } else {
-        if (res.eventState) {
-          this.eventsList = [...res.eventsList];
-          this.bufferArray = [...res.eventsList];
-          const data = res.eventState;
-          this.hasNext = data.hasNext;
-          this.remaining = data.totalElements;
-          this.elementsArePresent = this.eventsList.length < data.totalElements;
-        }
       }
     });
     this.getUserFriendsList();
