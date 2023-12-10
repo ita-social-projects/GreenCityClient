@@ -316,7 +316,7 @@
       "exists": "Already exists",
       "closeTime": "Closing time have to be later than opening time. Please, try again",
       "breakTime": "Invalid break time",
-      "photoUpload": "Download PNG or JPG only. File size should be less than 10MB"
+      "photoUpload": "Upload PNG or JPG only. File size should be less than 10MB"
     }
   },
   "users": {
@@ -653,7 +653,7 @@
       "eco-place": "Show my eco places",
       "shopping-list": "Show my shopping list",
       "to-do-list": "Show my To-do list",
-      "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+      "picture-tooltip": "Upload PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
       "notification": "Are you sure you want to delete the photo?",
@@ -1161,7 +1161,7 @@
     "enter-link": "Enter link",
     "textarea-title": "Events Description",
     "picture": "Picture",
-    "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
+    "picture-title": "Upload PNG or JPG only. File size should be less than 10MB",
     "event-theme": "Initiative type",
     "event-type-check": "You should choose at least one type",
     "event-type": "Event type",
