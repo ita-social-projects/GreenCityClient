@@ -363,16 +363,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
+
+    this.jwtService.userRole$.next('');
+
     this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
-      if (isRedirected) {
-        this.userOwnAuthService.isLoginUserSubject.next(false);
-        this.localeStorageService.clear();
-        this.habitStatisticService.onLogout();
-        this.achievementService.onLogout();
-        this.orderService.cancelUBSwithoutSaving();
-        this.userOwnAuthService.getDataFromLocalStorage();
-        this.jwtService.userRole$.next('');
-      }
+      this.userOwnAuthService.isLoginUserSubject.next(false);
+      this.localeStorageService.clear();
+      this.habitStatisticService.onLogout();
+      this.achievementService.onLogout();
+      this.orderService.cancelUBSwithoutSaving();
+      this.userOwnAuthService.getDataFromLocalStorage();
     });
     this.store.dispatch(ResetEmployeePermissions());
   }
