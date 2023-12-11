@@ -6,6 +6,7 @@
         [imgPath]="userInfo.profilePicturePath"
         [firstName]="userInfo.name"
         [additionalImgClass]="'profile-avatar'"
+        tabindex="0"
       >
       </app-user-profile-image>
       <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>

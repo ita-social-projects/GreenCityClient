@@ -19,7 +19,7 @@
         <img [src]="absent" alt="absent-friends" />
       </div>
       <p *ngIf="emptySearchList" class="noFriends">
-        {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: searchQuery } }}
+        {{ 'search.search-not-found.not-found-friends-text' | translate }}
       </p>
       <div>
         <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>
