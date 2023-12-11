@@ -1,8 +1,29 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .comment-textarea-wrapper {
-  .custom-placeholder {
-    position: absolute;
-    top: 0;
-    left: 0;
+  width: 100%;
+
+  .comment-textarea {
+    outline: none;
+    width: 100%;
+    min-height: 72px;
+    max-height: 112px;
+    padding: 10px 0 0 20px;
+    border: 1px solid var(--secondary-grey);
+    border-radius: 5px;
+    background-color: var(--primary-white);
+    overflow: auto;
+
+    &.focused {
+      border: 2px solid var(--primary-green);
+    }
+
+    &.invalid {
+      border: 2px solid var(--error-red);
+    }
   }
 
   .dropdown {
@@ -34,6 +55,15 @@
     display: flex;
     align-items: center;
     gap: 6px;
+  }
+
+  .error-message {
+    color: var(--ubs-primary-red);
+    font-size: 14px;
+    font-weight: 400;
+    min-height: 14px;
+    margin-top: 0px;
+    margin-bottom: -5px;
   }
 
   * {

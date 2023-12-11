@@ -3,12 +3,17 @@
     #commentTextarea
     contenteditable="true"
     class="comment-textarea"
-    (input)="checkInput()"
-    (blur)="onCommentBlur($event)"
+    (input)="checkInput($event)"
+    (focus)="onCommentTextareaFocus()"
+    (blur)="onCommentTextareaBlur($event)"
     (keydown)="onCommentKeyDown($event)"
     (paste)="onPaste($event)"
     tabindex="0"
+    [ngClass]="{ invalid: content.errors?.maxlength, focused: isTextareaFocused }"
   ></div>
+  <p *ngIf="content.errors?.maxlength" class="error-message">
+    {{ 'homepage.eco-news.comment.reply-error-message' | translate }}
+  </p>
   <div
     #dropdown
     class="dropdown"
@@ -19,7 +24,7 @@
     [style.top.px]="cursorPosition?.top"
     [style.left.px]="cursorPosition?.left"
   >
-    <mat-option *ngFor="let user of suggestedUsers" [value]="user" (click)="selectSuggestion(user)">
+    <mat-option *ngFor="let user of suggestedUsers" [value]="user" (click)="selectSuggestion(user)" (blur)="onDropdownBlur($event)">
       <app-user-profile-image
         [imgPath]="user.profilePicturePath || ''"
         [firstName]="user.userName"

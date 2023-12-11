@@ -152,7 +152,7 @@ describe('EventDetailsComponent', () => {
         EventDetailsComponent,
         mockPipe({ name: 'dateLocalisation' }),
         mockPipe({ name: 'translate' }),
-        mockPipe({ name: 'eventDescriptionTransform' })
+        mockPipe({ name: 'safeHtmlTransform' })
       ],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },

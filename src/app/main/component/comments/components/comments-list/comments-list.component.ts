@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
 import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comments-list',
@@ -20,6 +21,7 @@ export class CommentsListComponent {
   @Output() public changedList = new EventEmitter();
   public types = dataTypes;
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
+  private commentHtml = '';
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';
@@ -38,12 +40,12 @@ export class CommentsListComponent {
 
   public saveEditedComment(element: CommentsDTO): void {
     this.commentsService
-      .editComment(element.id, this.content.value)
+      .editComment(element.id, this.commentHtml)
       .pipe(take(1))
       .subscribe(() => this.content.reset());
 
     element.isEdit = false;
-    element.text = this.content.value;
+    element.text = this.commentHtml;
     element.status = 'EDITED';
     element.modifiedDate = String(Date.now());
   }
@@ -92,6 +94,7 @@ export class CommentsListComponent {
 
   setCommentText(data: { text: string; innerHTML: string }): void {
     this.content.setValue(data.text);
+    this.commentHtml = data.innerHTML;
     this.isEditTextValid = !!this.content.value.trim().length && this.content.value.length <= this.commentMaxLength;
   }
 }

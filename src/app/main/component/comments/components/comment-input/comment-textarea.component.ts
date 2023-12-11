@@ -9,11 +9,14 @@ import {
   Output,
   Input,
   EventEmitter,
-  AfterViewInit
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { TaggedUser } from '../../models/comments-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatOption } from '@angular/material/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,20 +24,22 @@ import { Router } from '@angular/router';
   templateUrl: './comment-textarea.component.html',
   styleUrls: ['./comment-textarea.component.scss']
 })
-export class CommentTextareaComponent implements OnInit, AfterViewInit {
+export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChanges {
   private userId: number;
   private searchQuery = '';
   private lastTagCharIndex: number;
   private charToTagUsers = ['@', '#'];
+  private range;
 
+  public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public suggestedUsers: TaggedUser[] = [];
   public isPlaceHolderVisible = true;
-  public isDropdownVisible = false;
+  public isDropdownVisible: boolean;
   public cursorPosition: {
     top: number;
     left: number;
   };
-  private range;
+  public isTextareaFocused: boolean;
 
   @ViewChild('commentTextarea') commentTextarea: ElementRef;
   @ViewChild('dropdown', { read: ElementRef, static: false }) dropdown: ElementRef;
@@ -42,6 +47,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
 
   @Output() commentText = new EventEmitter<{ text: string; innerHTML: string }>();
   @Input() commentTextToEdit: string;
+  @Input() commentHtml: string;
 
   constructor(
     private SocketService: SocketService,
@@ -55,7 +61,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
     this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`).subscribe((data: TaggedUser[]) => {
       if (data.length) {
         this.suggestedUsers = data.splice(0, 10);
-        this.isDropdownVisible = true;
+        this.isDropdownVisible = this.commentTextarea.nativeElement.classList.contains('focused');
       } else {
         this.suggestedUsers = [];
         this.isDropdownVisible = false;
@@ -69,30 +75,43 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
     }
   }
 
-  checkInput(): void {
-    this.getSelectionStart();
-    this.isDropdownVisible = false;
-    this.commentText.emit({
-      text: this.commentTextarea.nativeElement.textContent,
-      innerHTML: this.commentTextarea.nativeElement.innerHTML
-    });
-    console.log('emit', this.commentTextarea.nativeElement.innerHTML);
-    const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
-
-    this.lastTagCharIndex = Math.max(...[...this.charToTagUsers].map((char) => textBeforeCaret.lastIndexOf(char)));
-    this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
-    if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ')) {
-      this.sendSocketMessage(this.searchQuery);
-      this.updateCursorPosition();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.commentHtml?.currentValue === '') {
+      this.commentTextarea.nativeElement.innerHTML = '';
     }
   }
 
-  onCommentBlur(event: FocusEvent): void {
+  checkInput(event: InputEvent): void {
+    this.content.setValue(this.commentTextarea.nativeElement.textContent);
+    this.emitCommentText();
+
+    if (event.data) {
+      this.getSelectionStart();
+      this.isDropdownVisible = false;
+      const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
+      this.lastTagCharIndex = Math.max(...[...this.charToTagUsers].map((char) => textBeforeCaret.lastIndexOf(char)));
+      this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
+      if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ')) {
+        this.sendSocketMessage(this.searchQuery);
+        this.updateCursorPosition();
+      }
+    }
+  }
+
+  onCommentTextareaFocus(): void {
+    this.isTextareaFocused = true;
+  }
+
+  onCommentTextareaBlur(event: FocusEvent): void {
+    this.isTextareaFocused = false;
     this.isDropdownVisible = event.relatedTarget instanceof HTMLElement && event.relatedTarget.classList.contains('mat-option');
   }
 
   onDropdownBlur(event: FocusEvent): void {
     this.isDropdownVisible = event.relatedTarget instanceof HTMLElement && event.relatedTarget.classList.contains('mat-option');
+    this.isTextareaFocused =
+      (event.relatedTarget instanceof HTMLElement && event.relatedTarget.classList.contains('mat-option')) ||
+      event.relatedTarget === this.commentTextarea.nativeElement;
     document.body.style.overflow = this.isDropdownVisible ? 'hidden' : 'auto';
   }
 
@@ -117,13 +136,12 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
         this.setFocusOnOption(currentIndex);
         break;
       case 'Escape':
+      case 'Backspace': {
         this.isDropdownVisible = false;
         this.setFocusCommentTextarea();
         break;
-      case 'Backspace':
-        this.isDropdownVisible = false;
-        this.setFocusCommentTextarea();
-        break;
+      }
+
       case 'Enter':
         this.selectSuggestion(this.suggestedUsers[currentIndex]);
         break;
@@ -139,6 +157,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
   onCommentKeyDown(event: KeyboardEvent): void {
     if (this.isDropdownVisible && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
       this.dropdown.nativeElement.focus();
+      this.isTextareaFocused = true;
       this.setFocusOnOption(0);
     }
     if (event.key === 'Enter') {
@@ -150,6 +169,8 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
     event.preventDefault();
     const text = event.clipboardData?.getData('text/plain');
     this.insertTextAtCursor(text);
+    this.content.setValue(this.commentTextarea.nativeElement.textContent);
+    this.emitCommentText();
   }
 
   private insertTextAtCursor(text: string): void {
@@ -166,17 +187,8 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
     userTagNode.contentEditable = 'false';
     userTagNode.textContent = tagChar + user.userName;
     userTagNode.setAttribute('data-userId', user.userId.toString());
-    userTagNode.style.fontWeight = '500';
-    userTagNode.style.whiteSpace = 'nowrap';
-    userTagNode.addEventListener('click', () => {
-      this.router.navigate(['profile', this.userId, 'users', user.userId]);
-    });
-    const removeButton = document.createElement('sup');
-    removeButton.textContent = ' x';
-    removeButton.addEventListener('click', () => {
-      userTagNode.remove();
-    });
-    userTagNode.append(removeButton);
+    userTagNode.style.fontWeight = '700';
+    userTagNode.classList.add('user-tag');
     this.range.insertNode(userTagNode);
 
     this.range.setStartAfter(userTagNode);
@@ -226,6 +238,11 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit {
     this.isDropdownVisible = false;
     this.removeSearchQuery();
     this.insertNodeAtCursor(user, tagChar);
+    this.content.setValue(this.commentTextarea.nativeElement.textContent);
+    this.emitCommentText();
+  }
+
+  private emitCommentText(): void {
     this.commentText.emit({
       text: this.commentTextarea.nativeElement.textContent,
       innerHTML: this.commentTextarea.nativeElement.innerHTML

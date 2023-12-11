@@ -41,7 +41,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
