@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
 import { take } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comments-list',

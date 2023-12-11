@@ -124,17 +124,9 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     }
 
     const activeElement = document.activeElement as HTMLElement;
-    let currentIndex = this.options.toArray().findIndex((option) => option._getHostElement() === activeElement);
+    const currentIndex = this.options.toArray().findIndex((option) => option._getHostElement() === activeElement);
 
     switch (event.key) {
-      case 'ArrowUp':
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
-        this.setFocusOnOption(currentIndex);
-        break;
-      case 'ArrowDown':
-        currentIndex = currentIndex === this.options.length - 1 ? currentIndex : currentIndex + 1;
-        this.setFocusOnOption(currentIndex);
-        break;
       case 'Escape':
       case 'Backspace': {
         this.isDropdownVisible = false;
@@ -148,18 +140,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
-  private setFocusOnOption(index: number): void {
-    if (this.options.toArray()[index]) {
-      this.options.toArray()[index].focus();
-    }
-  }
-
   onCommentKeyDown(event: KeyboardEvent): void {
-    if (this.isDropdownVisible && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
-      this.dropdown.nativeElement.focus();
-      this.isTextareaFocused = true;
-      this.setFocusOnOption(0);
-    }
     if (event.key === 'Enter') {
       event.preventDefault();
     }

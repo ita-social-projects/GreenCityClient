@@ -13,7 +13,7 @@ import { CommentsListComponent } from './components/comments-list/comments-list.
 import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CommentTextareaComponent } from './components/comment-input/comment-textarea.component';
+import { CommentTextareaComponent } from './components/comment-textarea/comment-textarea.component';
 
 @NgModule({
   declarations: [
