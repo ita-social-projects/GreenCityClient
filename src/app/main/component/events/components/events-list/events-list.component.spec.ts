@@ -91,7 +91,8 @@ describe('EventsListComponent', () => {
       isRelevant: true,
       open: true,
       countComments: 5,
-      likes: 6
+      likes: 6,
+      isOrganizedByFriend: false
     },
     {
       id: 7,
@@ -151,7 +152,8 @@ describe('EventsListComponent', () => {
       isRelevant: true,
       open: true,
       countComments: 9,
-      likes: 2
+      likes: 2,
+      isOrganizedByFriend: false
     }
   ];
 
