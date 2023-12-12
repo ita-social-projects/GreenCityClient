@@ -158,7 +158,7 @@
 
         <div class="main-right">
           <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-          <div [innerHTML]="event.description | eventDescriptionTransform" class="description"></div>
+          <div [innerHTML]="event.description | safeHtmlTransform" class="description"></div>
         </div>
       </div>
       <app-comments-container *ngIf="!eventService.getForm()" class="event" [entityId]="eventId"></app-comments-container>

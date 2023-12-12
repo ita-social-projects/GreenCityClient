@@ -13,12 +13,14 @@ export class AddCommentComponent implements OnInit {
   @Input() public entityId: number;
   @Input() public commentId: number;
   @Output() public updateList = new EventEmitter();
+
   public userInfo;
   public avatarImage: string;
   public firstName: string;
   public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000), this.noSpaceValidator]]
   });
+  public commentHtml: string;
   public replyMaxLength = 8000;
 
   constructor(private commentsService: CommentsService, private fb: FormBuilder, private profileService: ProfileService) {}
@@ -38,14 +40,20 @@ export class AddCommentComponent implements OnInit {
     });
   }
 
+  setContent(data: { text: string; innerHTML: string }) {
+    this.addCommentForm.controls.content.setValue(data.text);
+    this.commentHtml = data.innerHTML;
+  }
+
   public onSubmit(): void {
     this.commentsService
-      .addComment(this.entityId, this.addCommentForm.value.content, this.commentId)
+      .addComment(this.entityId, this.commentHtml, this.commentId)
       .pipe(take(1))
       .subscribe(() => {
         this.updateList.emit();
         this.addCommentForm.reset();
         this.addCommentForm.controls.content.setValue('');
+        this.commentHtml = '';
       });
   }
 }
