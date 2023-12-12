@@ -227,6 +227,24 @@ describe('CommentTextareaComponent', () => {
     expect(component.isTextareaFocused).toBe(true);
   });
 
+  describe('setFocusOnOption', () => {
+    it('should focus the correct option', () => {
+      const mockOptions = [
+        jasmine.createSpyObj('Option', ['focus']),
+        jasmine.createSpyObj('Option', ['focus']),
+        jasmine.createSpyObj('Option', ['focus'])
+      ];
+      spyOn(component.options, 'toArray').and.returnValue(mockOptions);
+
+      (component as any).setFocusOnOption(1);
+
+      expect(mockOptions[0].focus).not.toHaveBeenCalled();
+      expect(mockOptions[1].focus).toHaveBeenCalled();
+      expect(mockOptions[2].focus).not.toHaveBeenCalled();
+      expect(() => (component as any).setFocusOnOption(3)).not.toThrow();
+    });
+  });
+
   it('should prevent default when Enter key is pressed', () => {
     const fakeEvent = { key: 'Enter', preventDefault: () => {} } as KeyboardEvent;
     spyOn(fakeEvent, 'preventDefault');
