@@ -127,7 +127,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    if (this.eventsList.length === 0) {
+    if (!this.eventsList.length) {
       this.noEventsMatch = true;
       this.scroll = false;
     } else {
@@ -137,7 +137,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public cancelSearch(): void {
-    if (this.searchFilterWords.value === '') {
+    if (this.searchFilterWords.value.trim() === '') {
       this.searchToggle = false;
     } else {
       this.searchFilterWords.setValue('');
