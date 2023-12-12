@@ -33,7 +33,12 @@
   <div class="comment-main-text">
     <div class="comment-text" *ngIf="!comment.isEdit" [innerHTML]="comment.text | safeHtmlTransform"></div>
     <div class="comment-edit-text" *ngIf="comment.isEdit">
-      <app-comment-textarea [commentTextToEdit]="comment.text" (commentText)="setCommentText($event)" class="edit-text-input">
+      <app-comment-textarea
+        [commentTextToEdit]="comment.text"
+        (commentText)="setCommentText($event)"
+        [placeholder]="'homepage.eco-news.comment.placeholder.new-comment'"
+        class="edit-text-input"
+      >
       </app-comment-textarea>
     </div>
   </div>

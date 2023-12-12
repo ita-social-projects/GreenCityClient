@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { SocketService } from '@global-service/socket/socket.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
-describe('CommentInputComponent', () => {
+describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
   let fixture: ComponentFixture<CommentTextareaComponent>;
 
@@ -24,7 +25,8 @@ describe('CommentInputComponent', () => {
         { provide: Router, useValue: {} },
         { provide: SocketService, useValue: socketServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock }
-      ]
+      ],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

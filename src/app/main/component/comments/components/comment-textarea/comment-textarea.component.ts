@@ -48,6 +48,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   @Output() commentText = new EventEmitter<{ text: string; innerHTML: string }>();
   @Input() commentTextToEdit: string;
   @Input() commentHtml: string;
+  @Input() placeholder: string;
 
   constructor(
     private SocketService: SocketService,

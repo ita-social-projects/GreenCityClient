@@ -1,6 +1,8 @@
 <div class="comment-textarea-wrapper">
   <div
     #commentTextarea
+    appPlaceholderForDiv
+    [placeholderText]="placeholder | translate"
     contenteditable="true"
     class="comment-textarea"
     (input)="checkInput($event)"

@@ -24,6 +24,10 @@
     &.invalid {
       border: 2px solid var(--error-red);
     }
+
+    .placeholder {
+      color: var(--secondary-grey);
+    }
   }
 
   .dropdown {
