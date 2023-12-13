@@ -1,6 +1,9 @@
 .wrapper {
   min-height: 100vh;
-  width: 100%;
+  width: 80vw;
+  margin-top: 20px;
+  margin-left: -25px;
+  padding: 0 25px;
   font-size: 16px;
   line-height: 24px;
   color: var(--ubs-primary-black);
@@ -8,12 +11,12 @@
   background-color: var(--after-primary-light-grey);
 }
 
-.main_header {
+.main-header {
   display: flex;
   justify-content: space-between;
 }
 
-.main_header-title {
+.main-header-title {
   margin: 0 0 12px 0;
   font-style: normal;
   font-weight: 700;
@@ -21,8 +24,8 @@
   line-height: 40px;
 }
 
-.if_empty {
-  margin: 16px 0 0 0;
+.if-empty {
+  margin: 16px 0 0 44px;
 
   a {
     margin-left: 13px;
@@ -36,6 +39,12 @@
   .empty {
     height: 80px;
   }
+}
+
+.ubs-primary-global-button {
+  min-width: 179px;
+  margin-right: 24px;
+  margin-top: 10px;
 }
 
 .mobile-title {
@@ -70,11 +79,11 @@
     margin-bottom: 10px;
   }
 
-  .main_header {
+  .main-header {
     padding-right: 45px;
   }
 
-  .main_header-title {
+  .main-header-title {
     margin: 0;
   }
 }
@@ -94,7 +103,11 @@
     }
   }
 
-  .main_header {
+  .wrapper {
+    padding-top: 32px;
+  }
+
+  .main-header {
     display: flex;
     flex-direction: column;
     padding-right: 0;
@@ -106,7 +119,8 @@
     margin-right: 0;
   }
 
-  .main_header-title {
+  .main-header-title {
+    margin: 0;
     font-size: 24px;
     line-height: 32px;
   }

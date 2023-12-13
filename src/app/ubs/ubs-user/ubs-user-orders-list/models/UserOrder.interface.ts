@@ -56,13 +56,13 @@ export interface ICertificate {
   points: number;
 }
 
-export enum CheckPaymentStatus {
+export enum PaymentStatusEn {
   PAID = 'Paid',
   UNPAID = 'Unpaid',
   HALFPAID = 'Half paid'
 }
 
-export enum CheckOrderStatus {
+export enum OrderStatusEn {
   DONE = 'Done',
   CANCELED = 'Canceled',
   CONFIRMED = 'Confirmed',

@@ -9,22 +9,23 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { of } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UbsProfileChangePasswordPopUpComponent', () => {
   let component: UbsProfileChangePasswordPopUpComponent;
   let fixture: ComponentFixture<UbsProfileChangePasswordPopUpComponent>;
+  const currentPassword = 'currentPassword';
   const password = 'password';
   const confirmPassword = 'confirmPassword';
 
   const changePasswordServiceFake = jasmine.createSpyObj('ChangePasswordService', ['changePassword']);
   changePasswordServiceFake.changePassword.and.returnValue(of({}));
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  const currentPassword = 'currentPassword';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsProfileChangePasswordPopUpComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, FormsModule, RouterTestingModule],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: ChangePasswordService, useValue: changePasswordServiceFake },

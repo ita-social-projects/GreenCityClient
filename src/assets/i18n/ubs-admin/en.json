@@ -256,7 +256,6 @@
     "comment-placeholder": "Any details you would like to report additionally regarding this order",
     "house": "House",
     "building": "Building",
-    "corpus": "Corp",
     "entrance": "Entrance",
     "region": "Region"
   },
@@ -380,7 +379,8 @@
     "filter": "Filter",
     "table-view": "Table view",
     "filters": "Filters",
-    "placeholder": "Search by name or contacts"
+    "placeholder": "Search by name or contacts",
+    "no-orders-found": "According to these criteria, no orders were found"
   },
   "ubs-customer-filters": {
     "total-customers": "Total customers:",
@@ -824,6 +824,7 @@
     "error_message": "Fill in the selected fields",
     "error_content": "The field must contain between 1 and 255 characters",
     "error_service_name_content": "The field must contain between 1 and 30 characters",
+    "negative_number_value": "The field value cannot be negative",
     "btn": {
       "add": "Add",
       "cancel": "Cancel",

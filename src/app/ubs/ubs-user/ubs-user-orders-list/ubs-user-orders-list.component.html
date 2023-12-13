@@ -5,7 +5,7 @@
   <div class="header header_list-status">{{ 'user-orders.order-status' | translate }}</div>
   <div class="header header_list-paymentStatus">{{ 'user-orders.order-payment-status' | translate }}</div>
   <div class="header header_list-paymentAmount">{{ 'user-orders.payment-amount' | translate }}</div>
-  <div class="header header_list-paymentAmountDue">{{ 'user-orders.amount-due' | translate }}</div>
+  <div *ngIf="!isOrderDoneOrCancel(orders[0])" class="header header_list-paymentAmountDue">{{ 'user-orders.amount-due' | translate }}</div>
 
   <div class="empty-div"></div>
 </div>
@@ -52,20 +52,20 @@
           </div>
           <div class="mobile_list">
             <div class="mobile mobile_list-amountDue">{{ 'user-orders.amount-due' | translate }}</div>
-            <mat-panel-description class="order_list-paymentAmountDue table-data">
+            <mat-panel-description *ngIf="!isOrderDoneOrCancel(order)" class="order_list-paymentAmountDue table-data">
               {{ order.amountBeforePayment | currency | localizedCurrency }}
             </mat-panel-description>
           </div>
         </div>
 
-        <div *ngIf="isOrderPaymentAccess(order)" class="btns_group">
-          <div *ngIf="canOrderBeCancel(order)" class="btn_grid_cancel">
-            <button class="btn_cancel" (click)="openOrderCancelDialog(order)">
+        <div *ngIf="isOrderPaymentAccess(order)" class="btns-group">
+          <div *ngIf="canOrderBeCancel(order)" class="btn-box">
+            <button class="ubs-secondary-global-button s-btn" (click)="openOrderCancelDialog(order)">
               {{ 'user-orders.btn.cancel' | translate }}
             </button>
           </div>
-          <div *ngIf="!isOrderCanceled(order)" class="btn_grid_pay">
-            <button class="btn_pay" (click)="openOrderPaymentDialog(order)">
+          <div *ngIf="!isOrderCanceled(order)" class="btn-box">
+            <button class="ubs-primary-global-button s-btn" (click)="openOrderPaymentDialog(order)">
               {{ 'user-orders.btn.pay' | translate }}
             </button>
           </div>
