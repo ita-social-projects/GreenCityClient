@@ -51,8 +51,8 @@
             <mat-divider></mat-divider>
             <mat-option
               [value]="location"
-              *ngFor="let location of eventLocationList"
-              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'cities', eventLocationList)"
+              *ngFor="let location of eventLocationsList"
+              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'cities', eventLocationsList)"
             >
               {{ getLangValue(location.nameUa, location.nameEn) }}
             </mat-option>

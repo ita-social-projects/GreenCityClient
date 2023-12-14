@@ -11,7 +11,7 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-consts';
+import { TagsArray, eventTimeList, OptionItem } from '../../models/event-consts';
 import { By } from '@angular/platform-browser';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
@@ -187,6 +187,36 @@ describe('EventsListComponent', () => {
       countryUa: 'Україна',
       formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
       formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
+    },
+    {
+      latitude: 49.7998806,
+      longitude: 23.9901827,
+      streetEn: 'Ivana Puliuia Street',
+      streetUa: 'вулиця Івана Пулюя',
+      houseNumber: '31',
+      cityEn: 'Lviv',
+      cityUa: 'Львів',
+      regionEn: 'Lvivska oblast',
+      regionUa: 'Львівська область',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      formattedAddressEn: `Ivana Puliuia St, 38, L'viv, L'vivs'ka oblast, Ukraine, 79000`,
+      formattedAddressUa: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
+    },
+    {
+      latitude: 49.550731,
+      longitude: 25.61935,
+      streetEn: 'Stepana Bandery Avenue',
+      streetUa: 'проспект Степана Бандери',
+      houseNumber: '58',
+      cityEn: 'Ternopil',
+      cityUa: 'Тернопіль',
+      regionEn: `Ternopil's'ka oblas`,
+      regionUa: 'Тернопільська область',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      formattedAddressEn: `Stepana Bandery Ave, 58, Ternopil, Ternopil's'ka oblast, Ukraine, 46000`,
+      formattedAddressUa: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
     }
   ];
 
@@ -205,9 +235,9 @@ describe('EventsListComponent', () => {
   const statusFilterControl = new FormControl();
   const typeFilterControl = new FormControl();
 
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAddresses', 'getAddreses']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAddresses', 'getAddresses']);
   EventsServiceMock.createAddresses = () => of('');
-  EventsServiceMock.getAddreses = () => of(addressesMock);
+  EventsServiceMock.getAddresses = () => of(addressesMock);
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });
@@ -263,7 +293,7 @@ describe('EventsListComponent', () => {
     component.eventTimeList = eventTimeList;
     component.typeList = TagsArray;
     component.statusList = eventStatusList;
-    component.eventLocationList = [];
+    component.eventLocationsList = [];
     const spy = spyOn(component, 'resetAll');
     component.resetAll();
 
@@ -286,7 +316,7 @@ describe('EventsListComponent', () => {
     component.eventTimeList = eventTimeList;
     component.typeList = TagsArray;
     component.statusList = eventStatusList;
-    component.eventLocationList = [];
+    component.eventLocationsList = [];
 
     const spy = spyOn(component, 'deleteOneFilter');
     component.deleteOneFilter(filterRemoved, 1);
@@ -295,12 +325,13 @@ describe('EventsListComponent', () => {
     expect(component.selectedFilters).toEqual(res);
   });
 
-  it('should check weather getUniqueCities works correctly', () => {
-    const expected = [
+  it('should return unique locations', () => {
+    const expectedLocations: OptionItem[] = [
       { nameEn: 'Kyiv', nameUa: 'Київ' },
-      { nameEn: 'Lviv', nameUa: 'Львів' }
+      { nameEn: 'Lviv', nameUa: 'Львів' },
+      { nameEn: 'Ternopil', nameUa: 'Тернопіль' }
     ];
-    expect(component.getUniqueCities(addressesMock)).toEqual(expected);
+    expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
   });
 
   it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {

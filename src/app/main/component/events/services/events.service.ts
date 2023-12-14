@@ -8,7 +8,8 @@ import {
   PagePreviewDTO,
   DateEvent,
   EventFilterCriteriaIntarface,
-  EventPageResponceDto
+  EventPageResponceDto,
+  Addresses
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
@@ -52,8 +53,8 @@ export class EventsService implements OnDestroy {
     this.arePlacesFilledSubject.next(newArray);
   }
 
-  public getAddreses(): Observable<any> {
-    return this.http.get(`${this.backEnd}events/addresses`);
+  public getAddresses(): Observable<Addresses[]> {
+    return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }
 
   public setBackFromPreview(val: boolean): void {
