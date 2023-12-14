@@ -69,6 +69,32 @@ describe('FriendProfileDashboardComponent', () => {
     expect(userFriendsServiceMock.getUserFriends).toHaveBeenCalledWith(1);
   });
 
+  it('should load more friends when scrolling on friends tab', () => {
+    (component as any).scroll = false;
+    (component as any).userId = 1;
+    component.selectedIndex = 3;
+    component.numberAllFriends = 10;
+    component.friendsList = [];
+    (component as any).currentFriendPage = 0;
+    const getAllFriendsSpy = spyOn(component as any, 'getAllFriends');
+    component.onScroll();
+    expect((component as any).scroll).toBe(true);
+    expect((component as any).currentFriendPage).toBe(1);
+    expect(getAllFriendsSpy).toHaveBeenCalledWith((component as any).userId, (component as any).currentFriendPage);
+  });
+
+  it('should load more mutual friends when scrolling on mutual friends tab', () => {
+    component.selectedIndex = 4;
+    (component as any).scroll = false;
+    component.mutualFriendsList = new Array(component.numberAllMutualFriends - 1);
+    (component as any).currentMutualPage = 0;
+    const getMutualFriendsSpy = spyOn(component as any, 'getMutualFriends');
+    component.onScroll();
+    expect((component as any).scroll).toBe(true);
+    expect((component as any).currentMutualPage).toBe(1);
+    expect(getMutualFriendsSpy).toHaveBeenCalledWith((component as any).currentMutualPage);
+  });
+
   it('method addFriend should userFriendsService.addFriend', () => {
     component.friendsList = FRIENDS.page;
     component.addFriend(1);
