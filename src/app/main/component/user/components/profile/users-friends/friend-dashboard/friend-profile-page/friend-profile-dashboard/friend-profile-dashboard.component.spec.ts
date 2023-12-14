@@ -13,9 +13,10 @@ describe('FriendProfileDashboardComponent', () => {
   let fixture: ComponentFixture<FriendProfileDashboardComponent>;
   let userFriendsServiceMock: UserFriendsService;
   userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', {
-    getAllFriends: of(FRIENDS),
     addFriend: of({}),
-    getNewFriends: of({})
+    getNewFriends: of({}),
+    getUserFriends: of(FRIENDS),
+    getMutualFriends: of(FRIENDS)
   });
   const activatedRouteMock = {
     snapshot: {
@@ -50,19 +51,22 @@ describe('FriendProfileDashboardComponent', () => {
   });
 
   it('method ngOnInit should call getAllFriends', () => {
-    const spy = spyOn(component as any, 'getAllFriends');
+    const spy1 = spyOn(component as any, 'getAllFriends');
+    const spy2 = spyOn(component as any, 'getMutualFriends');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it('method onScroll should call getAllFriends', () => {
     component.numberAllFriends = 24;
     component.selectedIndex = 3;
+    (component as any).userId = 1;
     const spy = spyOn(component as any, 'getAllFriends').and.callFake(() => {});
     component.onScroll();
     expect(spy).toHaveBeenCalled();
     fixture.detectChanges();
-    expect(userFriendsServiceMock.getAllFriends).toHaveBeenCalledWith(1, undefined);
+    expect(userFriendsServiceMock.getUserFriends).toHaveBeenCalledWith(1);
   });
 
   it('method addFriend should userFriendsService.addFriend', () => {
