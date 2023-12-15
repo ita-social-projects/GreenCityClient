@@ -90,7 +90,6 @@ import { environment } from '@environment/environment';
     ConfirmationDialogService,
     AdminService
   ],
-  entryComponents: [ConfirmModalComponent, UpdateCafeComponent, DialogPhotoComponent],
   bootstrap: [AdminComponent]
 })
 export class AdminModule {}

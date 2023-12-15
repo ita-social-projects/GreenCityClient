@@ -128,8 +128,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatExpansionModule
   ],
-  providers: [MatSnackBarComponent, TranslateService],
-  entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
+  providers: [MatSnackBarComponent, TranslateService]
 })
 export class SharedMainModule {}
 

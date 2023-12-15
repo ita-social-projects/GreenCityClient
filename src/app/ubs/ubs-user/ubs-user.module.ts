@@ -84,8 +84,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: true }
     }
-  ],
-  entryComponents: [UbsProfileChangePasswordPopUpComponent, UbsUserOrderPaymentPopUpComponent, UbsUserOrderCancelPopUpComponent]
+  ]
 })
 export class UbsUserModule {}
 

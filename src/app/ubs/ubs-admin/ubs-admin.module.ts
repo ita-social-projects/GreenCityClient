@@ -218,14 +218,7 @@ import { MatMenuModule } from '@angular/material/menu';
       multi: true
     }
   ],
-  exports: [UbsAdminEmployeeComponent],
-  entryComponents: [
-    UbsAdminTableComponent,
-    AddViolationsComponent,
-    UbsAdminEmployeeEditFormComponent,
-    UbsAdminCancelModalComponent,
-    UbsAdminGoBackModalComponent
-  ]
+  exports: [UbsAdminEmployeeComponent]
 })
 export class UbsAdminModule {
   static forRoot(): ModuleWithProviders<UbsAdminModule> {

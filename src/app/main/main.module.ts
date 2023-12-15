@@ -50,7 +50,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     ChatModule
   ],
-  entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -83,7 +83,6 @@ import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service
     SharedMainModule,
     SharedModule
   ],
-  entryComponents: [UbsOrderLocationPopupComponent],
   exports: [],
   providers: [
     {
