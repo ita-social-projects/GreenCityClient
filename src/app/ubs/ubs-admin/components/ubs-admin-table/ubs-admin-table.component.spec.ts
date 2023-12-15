@@ -23,7 +23,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { SelectionModel } from '@angular/cdk/collections';
 import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
@@ -89,7 +89,7 @@ describe('UsbAdminTableComponent', () => {
   const dateAdapterMock = jasmine.createSpyObj('adapter', ['setLocale']);
   dateAdapterMock.setLocale = () => of('en-GB');
 
-  const formBuilderMock: FormBuilder = new FormBuilder();
+  const formBuilderMock: UntypedFormBuilder = new UntypedFormBuilder();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -117,7 +117,7 @@ describe('UsbAdminTableComponent', () => {
         { provide: MatDialogConfig, useValue: FakeMatDialogConfig },
         { provide: ChangeDetectorRef, useValue: changeDetectorMock },
         { provide: Renderer2, useValue: rendererMock },
-        { provide: FormBuilder, useValue: formBuilderMock },
+        { provide: UntypedFormBuilder, useValue: formBuilderMock },
         { provide: DateAdapter, useValue: dateAdapterMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { FileHandle } from '../../models/file-handle.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   public notTakenOutReason: string;
   public adminName;
   private isUploading = false;
-  public addNotTakenOutForm: FormGroup;
+  public addNotTakenOutForm: UntypedFormGroup;
   maxNumberOfImgs = 6;
   name: string;
   file: File;
@@ -38,7 +38,7 @@ export class AddOrderNotTakenOutReasonComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private localStorageService: LocalStorageService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialog,
     private orderService: OrderService,
     public dialogRef: MatDialogRef<AddOrderNotTakenOutReasonComponent>

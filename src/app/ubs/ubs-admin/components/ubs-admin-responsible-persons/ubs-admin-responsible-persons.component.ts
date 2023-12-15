@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IEmployee, IResponsiblePersons } from '../../models/ubs-admin.interface';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -11,7 +11,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 })
 export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, OnChanges {
   @Input() responsiblePersonInfo: IResponsiblePersons;
-  @Input() responsiblePersonsForm: FormGroup;
+  @Input() responsiblePersonsForm: UntypedFormGroup;
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;
 

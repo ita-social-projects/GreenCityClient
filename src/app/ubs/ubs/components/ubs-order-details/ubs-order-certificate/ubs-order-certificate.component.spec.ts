@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { UbsOrderCertificateComponent } from './ubs-order-certificate.component';
-import { FormControl, FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule, UntypedFormArray } from '@angular/forms';
 import { ICertificateResponse, Certificate } from '../../../models/ubs.interface';
 import { of, throwError } from 'rxjs';
 import { OrderService } from '../../../services/order.service';
@@ -82,8 +82,8 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('method deleteCertificate should invoke method calculateCertificates', () => {
     const spy = spyOn(component, 'calculateCertificates').and.callFake(() => {});
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
-    component.formArrayCertificates.push(new FormControl('2222-2222'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('2222-2222'));
     const spy1 = spyOn(component.formArrayCertificates, 'removeAt');
     const fakeIndex = 0;
     component.certificates = mockedCert;
@@ -256,7 +256,7 @@ describe('UbsOrderCertificateComponent', () => {
   });
 
   it('getter formArrayCertificates should return formArray', () => {
-    const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
+    const formArray = component.orderDetailsForm.controls.formArrayCertificates as UntypedFormArray;
     const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
     expect(component.formArrayCertificates).toBe(formArray);
     expect(spy).toHaveBeenCalled();
@@ -277,7 +277,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('showCancelButton should return true if activatedStatus true', () => {
     component.certificates.activatedStatus = [true];
-    component.formArrayCertificates.controls.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.controls.push(new UntypedFormControl('1111-1111'));
 
     const result = component.showCancelButton(0);
     expect(result).toBe(true);
@@ -353,14 +353,14 @@ describe('UbsOrderCertificateComponent', () => {
   it('should return false if certificate is already activated', () => {
     component.certificates = mockedCert;
     component.certificates.activatedStatus = [true];
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
     const result = component.showActivateButton(0);
 
     expect(result).toBe(false);
   });
 
   it('should return false if form is not filled', () => {
-    component.formArrayCertificates.push(new FormControl(''));
+    component.formArrayCertificates.push(new UntypedFormControl(''));
     const result = component.showActivateButton(0);
 
     expect(result).toBe(false);
@@ -368,15 +368,15 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('should return false if button is disabled', () => {
     spyOn(component, 'disableAddCertificate').and.returnValue(true);
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
     const result = component.showActivateButton(0);
 
     expect(result).toBe(false);
   });
 
   it('should return false if multiple certificates are present', () => {
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
-    component.formArrayCertificates.push(new FormControl('1111-2222'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-2222'));
     const result = component.showActivateButton(0);
 
     expect(result).toBe(false);
@@ -385,7 +385,7 @@ describe('UbsOrderCertificateComponent', () => {
   it('should return false if certificate is already entered', () => {
     spyOn(component, 'showMessageForAlreadyEnteredCert').and.returnValue(true);
     component.certificates = mockedCert;
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
     const result = component.showActivateButton(0);
 
     expect(result).toBe(false);
@@ -393,7 +393,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('should return false if certificate is not already entered', () => {
     component.certificates = mockedCert;
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
     component.alreadyEnteredCert = [];
     const result = component.showMessageForAlreadyEnteredCert(0);
 
@@ -402,7 +402,7 @@ describe('UbsOrderCertificateComponent', () => {
 
   it('should return false if there are multiple certificates already entered', () => {
     component.certificates = mockedCert;
-    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new UntypedFormControl('1111-1111'));
     component.alreadyEnteredCert = ['1111-1111', '1111-1122'];
     const result = component.showMessageForAlreadyEnteredCert(0);
 

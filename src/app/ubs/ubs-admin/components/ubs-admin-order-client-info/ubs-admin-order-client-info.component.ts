@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 })
 export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() userInfo: IUserInfo;
-  @Input() userInfoDto: FormGroup;
+  @Input() userInfoDto: UntypedFormGroup;
   @Input() orderId: number;
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;

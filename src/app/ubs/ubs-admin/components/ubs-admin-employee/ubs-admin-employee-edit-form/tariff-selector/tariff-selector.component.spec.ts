@@ -2,7 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
@@ -82,7 +82,7 @@ describe('TariffSelectorComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: MatDialogRef, useValue: dialogRefMock },
         { provide: TariffsService, useValue: tariffsServiceMock }
       ]

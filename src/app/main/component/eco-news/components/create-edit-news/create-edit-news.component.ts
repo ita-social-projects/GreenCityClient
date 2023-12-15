@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
-import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     public dialog: MatDialog,
     private injector: Injector,
     private langService: LanguageService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
@@ -55,7 +55,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public isPosting = false;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public textAreasHeight: TextAreasHeight;
   public isLinkOrEmpty = true;
   public newsItemSubscription: Subscription;
@@ -69,7 +69,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public filters: FilterModel[] = [];
   public tagMaxLength = 3;
   public newsId: number;
-  public formData: FormGroup;
+  public formData: UntypedFormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
@@ -330,8 +330,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  tags(): FormArray {
-    return this.form.controls.tags as FormArray;
+  tags(): UntypedFormArray {
+    return this.form.controls.tags as UntypedFormArray;
   }
 
   getTagsList(list: FilterModel[]): void {

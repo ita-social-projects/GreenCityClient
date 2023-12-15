@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -176,7 +176,7 @@ describe('UbsAdminTariffsLocationPopUpComponent ', () => {
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
       declarations: [UbsAdminTariffsLocationPopUpComponent],
       providers: [
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef },

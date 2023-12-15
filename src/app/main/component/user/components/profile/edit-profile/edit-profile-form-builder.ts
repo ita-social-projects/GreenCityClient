@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
 export class EditProfileFormBuilder {
-  constructor(private builder: FormBuilder, private langService: LanguageService) {}
+  constructor(
+    private builder: UntypedFormBuilder,
+    private langService: LanguageService
+  ) {}
   getProfileForm() {
     return this.builder.group({
       name: ['', Validators.maxLength(30)],

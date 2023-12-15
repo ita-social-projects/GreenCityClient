@@ -4,7 +4,7 @@ import { UbsAdminEmployeePermissionsFormComponent } from './ubs-admin-employee-p
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { By } from '@angular/platform-browser';
@@ -47,7 +47,7 @@ describe('UbsAdminEmployeePermissionsFormComponent', () => {
         { provide: UbsAdminEmployeeService, useValue: employeeServiceMock },
         { provide: MatDialogRef, useValue: dialogRefStub },
         { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
-        FormBuilder
+        UntypedFormBuilder
       ]
     }).compileComponents();
   }));

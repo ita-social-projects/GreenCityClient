@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { inputsName } from '@global-user/models/error-type.model';
 
@@ -21,7 +21,7 @@ enum errorType {
   styleUrls: ['./ubs-input-error.component.scss']
 })
 export class UBSInputErrorComponent implements OnInit {
-  @Input() public formElement: FormControl;
+  @Input() public formElement: UntypedFormControl;
   @Input() public inputName: string;
   @Input() public fromEmployee: boolean;
 

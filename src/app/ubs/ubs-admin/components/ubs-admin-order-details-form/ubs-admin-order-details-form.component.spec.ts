@@ -7,7 +7,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { TranslateModule } from '@ngx-translate/core';
 import { OrderService } from '../../services/order.service';
 import { UbsAdminOrderDetailsFormComponent } from './ubs-admin-order-details-form.component';
-import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
@@ -53,11 +53,11 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
     courierPricePerPackage: 50
   };
 
-  const orderDetailsFormMock = new FormGroup({
-    storeOrderNumbers: new FormControl([777]),
-    certificates: new FormControl(''),
-    customerComment: new FormControl(''),
-    orderFullPrice: new FormControl(9999)
+  const orderDetailsFormMock = new UntypedFormGroup({
+    storeOrderNumbers: new UntypedFormControl([777]),
+    certificates: new UntypedFormControl(''),
+    customerComment: new UntypedFormControl(''),
+    orderFullPrice: new UntypedFormControl(9999)
   });
 
   const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue']);
@@ -82,7 +82,7 @@ describe('UbsAdminOrderDetailsFormComponent', () => {
         { provide: MatDialogRef, useValue: [] },
         { provide: LanguageService, useValue: languageServiceMock },
         OrderService,
-        FormBuilder
+        UntypedFormBuilder
       ]
     }).compileComponents();
   }));

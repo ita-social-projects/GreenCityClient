@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from 'src/app/ubs/ubs-admin/services/tariffs.service';
 
@@ -17,8 +17,8 @@ export class TariffSelectorComponent implements OnInit {
   tariffs = [];
   filteredTariffs = [];
 
-  search: FormControl;
-  tariffsForm: FormGroup;
+  search: UntypedFormControl;
+  tariffsForm: UntypedFormGroup;
 
   private mappers = {
     tariffs: (tariffData) =>
@@ -31,7 +31,11 @@ export class TariffSelectorComponent implements OnInit {
       }))
   };
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<TariffSelectorComponent>, private tariffsService: TariffsService) {
+  constructor(
+    private fb: UntypedFormBuilder,
+    private dialogRef: MatDialogRef<TariffSelectorComponent>,
+    private tariffsService: TariffsService
+  ) {
     this.search = this.fb.control(null);
 
     this.search.valueChanges.subscribe((term) => {

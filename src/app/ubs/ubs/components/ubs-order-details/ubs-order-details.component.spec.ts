@@ -9,7 +9,7 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject, throwError } from 'rxjs';
@@ -332,7 +332,7 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('getter formArrayCertificates should return formArray of certificates', () => {
-    const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
+    const formArray = component.orderDetailsForm.controls.formArrayCertificates as UntypedFormArray;
     const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
     expect(component.formArrayCertificates).toBe(formArray);
     expect(spy).toHaveBeenCalled();

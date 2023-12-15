@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -19,7 +19,7 @@ export class PhotoUploadComponent implements OnInit {
   @Output() loadingStatus = new EventEmitter();
   @Input() countOfPhotos = 0;
   task: AngularFireUploadTask;
-  uploadForm: FormGroup;
+  uploadForm: UntypedFormGroup;
 
   // Progress monitoring
   percentage: Observable<number>;
@@ -49,7 +49,7 @@ export class PhotoUploadComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private http: HttpClient,
     private matSnackBar: MatSnackBarComponent,
     private db: AngularFirestore,

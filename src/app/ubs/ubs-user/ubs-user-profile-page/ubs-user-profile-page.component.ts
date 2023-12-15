@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, UntypedFormArray, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -36,7 +36,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   housePredictionList: GooglePrediction[];
 
   private destroy: Subject<boolean> = new Subject<boolean>();
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   userProfile: UserProfile;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   dataDeleteAddress = {
@@ -178,93 +178,99 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   userInit(): void {
-    const addres = new FormArray([]);
+    const addres = new UntypedFormArray([]);
 
     this.userProfile.addressDto.forEach((adres) => {
-      const separateAddress = new FormGroup({
-        city: new FormControl(adres?.city, [
+      const separateAddress = new UntypedFormGroup({
+        city: new UntypedFormControl(adres?.city, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.minLength(1),
           Validators.maxLength(30)
         ]),
-        cityEn: new FormControl(adres?.cityEn, [
+        cityEn: new UntypedFormControl(adres?.cityEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.minLength(1),
           Validators.maxLength(30)
         ]),
-        street: new FormControl(adres?.street, [
+        street: new UntypedFormControl(adres?.street, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.minLength(1),
           Validators.maxLength(120)
         ]),
-        streetEn: new FormControl(adres?.streetEn, [
+        streetEn: new UntypedFormControl(adres?.streetEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.minLength(1),
           Validators.maxLength(120)
         ]),
-        houseNumber: new FormControl(adres?.houseNumber, [
+        houseNumber: new UntypedFormControl(adres?.houseNumber, [
           Validators.required,
           Validators.pattern(Patterns.ubsHousePattern),
           Validators.maxLength(10)
         ]),
-        houseCorpus: new FormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsCorpusPattern), Validators.maxLength(4)]),
-        entranceNumber: new FormControl(adres?.entranceNumber, [Validators.pattern(Patterns.ubsEntrNumPattern), Validators.maxLength(2)]),
-        region: new FormControl(adres?.region, [
+        houseCorpus: new UntypedFormControl(adres?.houseCorpus, [Validators.pattern(Patterns.ubsCorpusPattern), Validators.maxLength(4)]),
+        entranceNumber: new UntypedFormControl(adres?.entranceNumber, [
+          Validators.pattern(Patterns.ubsEntrNumPattern),
+          Validators.maxLength(2)
+        ]),
+        region: new UntypedFormControl(adres?.region, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        regionEn: new FormControl(adres?.regionEn, [
+        regionEn: new UntypedFormControl(adres?.regionEn, [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        district: new FormControl(this.convertDistrictName(adres?.district), [
+        district: new UntypedFormControl(this.convertDistrictName(adres?.district), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        districtEn: new FormControl(this.convertDistrictName(adres?.districtEn.split(`'`).join('')), [
+        districtEn: new UntypedFormControl(this.convertDistrictName(adres?.districtEn.split(`'`).join('')), [
           Validators.required,
           Validators.pattern(Patterns.ubsWithDigitPattern),
           Validators.maxLength(30)
         ]),
-        searchAddress: new FormControl(null),
-        isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
-        addressRegionDistrictList: new FormControl(this.locationService.appendDistrictLabel(adres?.addressRegionDistrictList)),
-        placeId: new FormControl(null),
-        id: new FormControl(adres?.id),
-        actual: new FormControl(adres?.actual)
+        searchAddress: new UntypedFormControl(null),
+        isHouseSelected: new UntypedFormControl(adres?.houseNumber ? true : false),
+        addressRegionDistrictList: new UntypedFormControl(this.locationService.appendDistrictLabel(adres?.addressRegionDistrictList)),
+        placeId: new UntypedFormControl(null),
+        id: new UntypedFormControl(adres?.id),
+        actual: new UntypedFormControl(adres?.actual)
       });
 
       addres.push(separateAddress);
     });
 
-    this.userForm = new FormGroup({
+    this.userForm = new UntypedFormGroup({
       address: addres,
-      recipientName: new FormControl(this.userProfile?.recipientName, [
+      recipientName: new UntypedFormControl(this.userProfile?.recipientName, [
         Validators.required,
         Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
-      recipientSurname: new FormControl(this.userProfile?.recipientSurname, [
+      recipientSurname: new UntypedFormControl(this.userProfile?.recipientSurname, [
         Validators.required,
         Validators.pattern(Patterns.NamePattern),
         Validators.maxLength(30)
       ]),
-      recipientEmail: new FormControl(this.userProfile?.recipientEmail, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      alternativeEmail: new FormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
-      recipientPhone: new FormControl(`+380${this.userProfile?.recipientPhone}`, [
+      recipientEmail: new UntypedFormControl(this.userProfile?.recipientEmail, [
+        Validators.required,
+        Validators.pattern(Patterns.ubsMailPattern)
+      ]),
+      alternativeEmail: new UntypedFormControl(this.userProfile?.alternateEmail, [Validators.pattern(Patterns.ubsMailPattern)]),
+      recipientPhone: new UntypedFormControl(`+380${this.userProfile?.recipientPhone}`, [
         Validators.required,
         Validators.minLength(12),
         PhoneNumberValidator('UA')
       ]),
-      telegramIsNotify: new FormControl(this.userProfile.telegramIsNotify),
-      viberIsNotify: new FormControl(this.userProfile.viberIsNotify)
+      telegramIsNotify: new UntypedFormControl(this.userProfile.telegramIsNotify),
+      viberIsNotify: new UntypedFormControl(this.userProfile.viberIsNotify)
     });
 
     this.isFetching = false;
@@ -651,7 +657,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   toggleAlternativeEmail() {
-    const control = new FormControl(this.userProfile?.alternateEmail, [
+    const control = new UntypedFormControl(this.userProfile?.alternateEmail, [
       Validators.pattern(Patterns.ubsMailPattern),
       Validators.minLength(3),
       Validators.maxLength(66),

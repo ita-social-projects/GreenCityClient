@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-habit-duration',
@@ -10,11 +10,14 @@ export class HabitDurationComponent implements OnInit {
   @Input() habitDurationInitial: number;
   @Output() changeDuration = new EventEmitter<number>();
   public newDuration = 0;
-  public habitDuration = new FormControl('');
+  public habitDuration = new UntypedFormControl('');
   public position: string = null;
   public thumbWidth = '12px';
 
-  constructor(private elm: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private elm: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
     this.habitDuration.setValue(this.habitDurationInitial);

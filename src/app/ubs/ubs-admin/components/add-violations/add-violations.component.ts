@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { FileHandle } from '../../models/file-handle.model';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
@@ -41,7 +41,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   isImageTypeError = false;
   isUploading = false;
   isDeleting = false;
-  addViolationForm: FormGroup;
+  addViolationForm: UntypedFormGroup;
   orderId;
   name: string;
   imagesToDelete: string[] | null = [];
@@ -70,7 +70,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
     private localStorageService: LocalStorageService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private orderService: OrderService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<AddViolationsComponent>

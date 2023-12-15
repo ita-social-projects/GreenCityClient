@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,7 +17,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() schedule = '';
   @Output() scheduleSelected = new EventEmitter<string>();
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   private destroy = new Subject<void>();
   lang = 'en';
 
@@ -34,7 +34,11 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
     month: ''
   };
 
-  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService, private cronService: CronService) {
+  constructor(
+    private fb: UntypedFormBuilder,
+    private localStorageService: LocalStorageService,
+    private cronService: CronService
+  ) {
     this.form = this.fb.group({
       time: this.fb.group({
         min: [0],

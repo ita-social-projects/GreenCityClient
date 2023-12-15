@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { By } from '@angular/platform-browser';
@@ -37,7 +37,7 @@ describe('UbsAdminNotificationEditFormComponent', () => {
       declarations: [UbsAdminNotificationEditFormComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, MatExpansionModule, NoopAnimationsModule],
       providers: [
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: ElementRef, useValue: { textUa: textUaMock, textEn: textEnMock } },
         { provide: MatSelect, useValue: { selectEn: selectEnMock, selectUa: selectUaMock } },

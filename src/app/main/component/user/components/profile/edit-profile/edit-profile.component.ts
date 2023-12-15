@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
-  public editProfileForm: FormGroup;
+  public editProfileForm: UntypedFormGroup;
   @ViewChild('placesRef') placesRef: ElementRef;
   private langChangeSub: Subscription;
   private coordinates: Coordinates = { latitude: null, longitude: null };

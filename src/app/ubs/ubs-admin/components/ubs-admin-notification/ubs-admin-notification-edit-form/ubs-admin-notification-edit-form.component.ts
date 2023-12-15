@@ -1,5 +1,5 @@
 import { Component, Inject, ViewChild, ElementRef, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 
@@ -9,12 +9,12 @@ import { MatSelect } from '@angular/material/select';
   styleUrls: ['./ubs-admin-notification-edit-form.component.scss']
 })
 export class UbsAdminNotificationEditFormComponent implements AfterViewChecked {
-  form: FormGroup;
+  form: UntypedFormGroup;
   platform = '';
   items = ['name', 'email', 'id'];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: { platform: string; text: { en: string; ua: string } },
     public dialogRef: MatDialogRef<UbsAdminNotificationEditFormComponent>,
     private cdref: ChangeDetectorRef

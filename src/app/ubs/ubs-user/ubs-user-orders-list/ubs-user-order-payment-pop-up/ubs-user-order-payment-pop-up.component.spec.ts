@@ -1,6 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -77,7 +84,7 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
         { provide: OrderService, useValue: orderServiceMock },
         { provide: DomSanitizer, useValue: sanitizerMock },
         { provide: Router, useValue: routerMock },
-        FormBuilder
+        UntypedFormBuilder
       ]
     }).compileComponents();
   }));
@@ -328,16 +335,16 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
     describe('deleteCertificate', () => {
       it('makes expected calls if certificates are more than one', () => {
         const certificate = { value: { certificateSum: 111 } };
-        const formArrayCertificatesFake = new FormArray([
-          new FormGroup({
-            certificateCode: new FormControl('fakeCode 1'),
-            certificateStatus: new FormControl('ACTIVE'),
-            certificateSum: new FormControl(0)
+        const formArrayCertificatesFake = new UntypedFormArray([
+          new UntypedFormGroup({
+            certificateCode: new UntypedFormControl('fakeCode 1'),
+            certificateStatus: new UntypedFormControl('ACTIVE'),
+            certificateSum: new UntypedFormControl(0)
           }),
-          new FormGroup({
-            certificateCode: new FormControl('fakeCode 2'),
-            certificateStatus: new FormControl('ACTIVE'),
-            certificateSum: new FormControl(100)
+          new UntypedFormGroup({
+            certificateCode: new UntypedFormControl('fakeCode 2'),
+            certificateStatus: new UntypedFormControl('ACTIVE'),
+            certificateSum: new UntypedFormControl(100)
           })
         ]);
         component.bonusInfo.used = 0;
@@ -374,11 +381,11 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
       it('makes expected calls if certificates are no more than one', () => {
         const certificate = { value: { certificateSum: 111 } };
-        const formArrayCertificatesFake = new FormArray([
-          new FormGroup({
-            certificateCode: new FormControl('fakeCode 1'),
-            certificateStatus: new FormControl('ACTIVE'),
-            certificateSum: new FormControl(111)
+        const formArrayCertificatesFake = new UntypedFormArray([
+          new UntypedFormGroup({
+            certificateCode: new UntypedFormControl('fakeCode 1'),
+            certificateStatus: new UntypedFormControl('ACTIVE'),
+            certificateSum: new UntypedFormControl(111)
           })
         ]);
         component.formBonus.setValue('yes');
@@ -408,11 +415,11 @@ describe('UbsUserOrderPaymentPopUpComponent', () => {
 
     describe('addNewCertificate', () => {
       it('makes expected calls', () => {
-        const formArrayCertificatesFake = new FormArray([
-          new FormGroup({
-            certificateCode: new FormControl(''),
-            certificateStatus: new FormControl(''),
-            certificateSum: new FormControl(0)
+        const formArrayCertificatesFake = new UntypedFormArray([
+          new UntypedFormGroup({
+            certificateCode: new UntypedFormControl(''),
+            certificateStatus: new UntypedFormControl(''),
+            certificateSum: new UntypedFormControl(0)
           })
         ]);
         component.orderDetailsForm.controls.formArrayCertificates = formArrayCertificatesFake;

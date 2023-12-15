@@ -3,7 +3,7 @@ import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-su
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -27,7 +27,7 @@ declare var google: any;
 export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isUbs: boolean;
 
-  public signUpForm: FormGroup;
+  public signUpForm: UntypedFormGroup;
   public emailControl: AbstractControl;
   public firstNameControl: AbstractControl;
   public passwordControl: AbstractControl;
@@ -57,7 +57,7 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     private matDialogRef: MatDialogRef<SignUpComponent>,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private userOwnSignInService: UserOwnSignInService,
     private userOwnSignUpService: UserOwnSignUpService,
     private router: Router,

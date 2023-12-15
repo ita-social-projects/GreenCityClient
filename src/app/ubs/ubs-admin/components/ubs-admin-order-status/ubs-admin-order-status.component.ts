@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { IGeneralOrderInfo, IPaymentStatus } from '../../models/ubs-admin.interface';
@@ -18,7 +18,7 @@ import { OrderStatusEn, PaymentStatusEn } from 'src/app/ubs/ubs-user/ubs-user-or
 })
 export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestroy {
   @Input() currentOrderPrice: number;
-  @Input() generalOrderInfo: FormGroup;
+  @Input() generalOrderInfo: UntypedFormGroup;
   @Input() totalPaid: number;
   @Input() unPaidAmount: number;
   @Input() generalInfo: IGeneralOrderInfo;
@@ -29,7 +29,11 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   @Output() cancelReason = new EventEmitter<string>();
   @Output() notTakenOutReason = new EventEmitter<FormData>();
 
-  constructor(public orderService: OrderService, private dialog: MatDialog, private langService: LanguageService) {}
+  constructor(
+    public orderService: OrderService,
+    private dialog: MatDialog,
+    private langService: LanguageService
+  ) {}
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public availableOrderStatuses;

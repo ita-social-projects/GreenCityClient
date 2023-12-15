@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup.component';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-certificate.service';
@@ -16,7 +16,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
   let component: UbsAdminTableExcelPopupComponent;
   let fixture: ComponentFixture<UbsAdminTableExcelPopupComponent>;
 
-  const FormGroupMock = new FormGroup({});
+  const FormGroupMock = new UntypedFormGroup({});
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage']);
   languageServiceMock.getCurrentLanguage.and.returnValue('en');
 
@@ -48,7 +48,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
       imports: [ReactiveFormsModule, FormsModule, TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule],
       declarations: [UbsAdminTableExcelPopupComponent],
       providers: [
-        { provide: FormGroup, useValue: FormGroupMock },
+        { provide: UntypedFormGroup, useValue: FormGroupMock },
         { provide: AdminTableService, useValue: AdminTableServiceFake },
         { provide: AdminCertificateService, useValue: AdminCertificateServiceFake },
         { provide: AdminCustomersService, useValue: AdminCustomerServiceFake },

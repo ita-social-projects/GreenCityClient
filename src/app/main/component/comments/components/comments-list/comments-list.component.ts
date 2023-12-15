@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
 import { take } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class CommentsListComponent {
   @Input() public userId: number;
   @Output() public changedList = new EventEmitter();
   public types = dataTypes;
-  public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
+  public content: UntypedFormControl = new UntypedFormControl('', [Validators.required, Validators.maxLength(8000)]);
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';

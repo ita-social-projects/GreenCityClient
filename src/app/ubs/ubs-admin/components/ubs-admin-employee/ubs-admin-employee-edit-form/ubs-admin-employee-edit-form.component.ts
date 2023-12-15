@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import {
   Employees,
@@ -34,7 +34,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     cross: 'assets/img/ubs/cross.svg'
   };
   roles: EmployeePositions[];
-  employeeForm: FormGroup;
+  employeeForm: UntypedFormGroup;
   employeePositions: EmployeePositions[];
   tariffs: TariffForEmployee[] = [];
   employeeDataToSend: EmployeeDataToSend;
@@ -54,7 +54,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
   imageName = 'Your Avatar';
   selectedFile;
   defaultPhotoURL = 'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  search: FormControl;
+  search: UntypedFormControl;
   filteredTariffs = [];
   tariffsFromEditForm = [];
 
@@ -84,7 +84,7 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     private employeeService: UbsAdminEmployeeService,
     private store: Store<IAppState>,
     public dialogRef: MatDialogRef<UbsAdminEmployeeEditFormComponent>,
-    public fb: FormBuilder,
+    public fb: UntypedFormBuilder,
     private tariffsService: TariffsService,
     private dialog: MatDialog,
     public langService: LanguageService,

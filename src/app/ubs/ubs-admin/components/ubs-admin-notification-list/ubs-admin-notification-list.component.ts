@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -21,7 +21,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   statuses = ['ALL', ...notificationStatuses];
   triggers = notificationTriggersMock;
   notifications: any[] = [];
-  filtersForm: FormGroup;
+  filtersForm: UntypedFormGroup;
   itemsPerPage = 10;
   currentPage = 1;
   totalItems: number;
@@ -30,7 +30,7 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   elementsArePresent = true;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private langService: LanguageService,
     private route: ActivatedRoute,

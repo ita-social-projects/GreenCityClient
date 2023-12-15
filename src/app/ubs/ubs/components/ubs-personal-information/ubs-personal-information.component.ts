@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { takeUntil } from 'rxjs/operators';
@@ -28,7 +28,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   addressId: number;
   orderDetails: OrderDetails;
   personalData: PersonalData;
-  personalDataForm: FormGroup;
+  personalDataForm: UntypedFormGroup;
   shouldBePaid = true;
   order: Order;
   addresses: Address[] = [];
@@ -77,7 +77,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private route: ActivatedRoute,
     public orderService: OrderService,
     private shareFormService: UBSOrderFormService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public dialog: MatDialog,
     private localService: LocalStorageService,
     private listOflocations: Locations,

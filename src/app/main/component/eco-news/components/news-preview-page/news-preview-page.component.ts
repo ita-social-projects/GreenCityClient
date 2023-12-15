@@ -2,7 +2,7 @@ import { singleNewsImages } from '../../../../image-pathes/single-news-images';
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Subscription, throwError } from 'rxjs';
 import { ACTION_TOKEN } from '../create-edit-news/action.constants';
@@ -21,7 +21,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 })
 export class NewsPreviewPageComponent implements OnInit, OnDestroy {
   public images = singleNewsImages;
-  public previewItem: FormGroup;
+  public previewItem: UntypedFormGroup;
   public actualDate = new Date();
   public userName: string;
   public isPosting = false;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
@@ -21,7 +21,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   user: string;
   receivedData;
   loadingAnim: boolean;
-  addServiceForm: FormGroup;
+  addServiceForm: UntypedFormGroup;
   private isLangEn = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
@@ -33,7 +33,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
     private tariffsService: TariffsService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private localeStorageService: LocalStorageService,
     private languageService: LanguageService
   ) {
@@ -66,29 +66,36 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
 
   createService() {
     return this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
-      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
-      description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
-      descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
+      name: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
+      nameEng: new UntypedFormControl('', [
+        Validators.required,
+        Validators.pattern(Patterns.ServiceNamePattern),
+        Validators.maxLength(255)
+      ]),
+      price: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      description: new UntypedFormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
+      descriptionEng: new UntypedFormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
     });
   }
 
   editForm(): void {
     this.addServiceForm = this.fb.group({
-      name: new FormControl({ value: this.receivedData.serviceData.name }, [
+      name: new UntypedFormControl({ value: this.receivedData.serviceData.name }, [
         Validators.required,
         Validators.pattern(Patterns.ServiceNamePattern),
         Validators.maxLength(255)
       ]),
-      nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }, [
+      nameEng: new UntypedFormControl({ value: this.receivedData.serviceData.nameEng }, [
         Validators.required,
         Validators.pattern(Patterns.ServiceNamePattern),
         Validators.maxLength(255)
       ]),
-      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
-      description: new FormControl({ value: this.receivedData.serviceData.description }, [Validators.maxLength(255), Validators.required]),
-      descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255), Validators.required])
+      price: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      description: new UntypedFormControl({ value: this.receivedData.serviceData.description }, [
+        Validators.maxLength(255),
+        Validators.required
+      ]),
+      descriptionEng: new UntypedFormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255), Validators.required])
     });
   }
 

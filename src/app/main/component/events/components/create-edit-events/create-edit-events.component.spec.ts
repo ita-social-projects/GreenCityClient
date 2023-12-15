@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -116,10 +116,10 @@ describe('CreateEditEventsComponent', () => {
     isRelevant: true
   };
 
-  const formDataMock: FormGroup = new FormGroup({
-    titleForm: new FormControl('title'),
-    description: new FormControl('1 day'),
-    eventDuration: new FormControl('titletitletitletitle')
+  const formDataMock: UntypedFormGroup = new UntypedFormGroup({
+    titleForm: new UntypedFormControl('title'),
+    description: new UntypedFormControl('1 day'),
+    eventDuration: new UntypedFormControl('titletitletitletitle')
   });
 
   const actionSub: ActionsSubject = new ActionsSubject();

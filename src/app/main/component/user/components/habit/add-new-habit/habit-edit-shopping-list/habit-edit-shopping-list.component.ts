@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ShoppingListService } from './shopping-list.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,8 +19,8 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isAcquired = false;
   @Input() isEditing = false;
 
-  public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
+  public itemForm = new UntypedFormGroup({
+    item: new UntypedFormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
   });
   public subscription: Subscription;
   public userId: number;

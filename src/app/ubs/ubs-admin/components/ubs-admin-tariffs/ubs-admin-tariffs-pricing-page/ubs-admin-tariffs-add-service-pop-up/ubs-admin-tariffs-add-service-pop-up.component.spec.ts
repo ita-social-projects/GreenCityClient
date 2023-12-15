@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UbsAdminTariffsAddServicePopUpComponent } from './ubs-admin-tariffs-add-service-pop-up.component';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -31,12 +31,16 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
     update: 'update'
   };
 
-  const fakeBagForm = new FormGroup({
-    name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
-    nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
-    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
-    description: new FormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)])),
-    descriptionEng: new FormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)]))
+  const fakeBagForm = new UntypedFormGroup({
+    name: new UntypedFormControl('fake', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
+    nameEng: new UntypedFormControl('fake', [
+      Validators.required,
+      Validators.pattern(Patterns.ServiceNamePattern),
+      Validators.maxLength(255)
+    ]),
+    price: new UntypedFormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    description: new UntypedFormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)])),
+    descriptionEng: new UntypedFormControl('fake', Validators.compose([Validators.required, Validators.maxLength(255)]))
   });
 
   const fakeService: Service = {
@@ -61,7 +65,7 @@ describe('UbsAdminTariffsAddServicePopupComponent', () => {
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: button },
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: fakeMatDialogRef },
         { provide: LanguageService, useValue: languageServiceMock }

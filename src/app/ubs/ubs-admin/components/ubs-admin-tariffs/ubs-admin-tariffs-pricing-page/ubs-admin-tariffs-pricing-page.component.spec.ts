@@ -6,7 +6,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of, Subject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -50,13 +50,13 @@ describe('UbsAdminPricingPageComponent', () => {
   storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const fakeValue = '1';
-  const fakeCourierForm = new FormGroup({
-    courierLimitsBy: new FormControl('fake'),
-    minPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxPriceOfOrder: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    minAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    maxAmountOfBigBags: new FormControl('fake', LimitsValidator.cannotBeEmpty),
-    limitDescription: new FormControl('fake')
+  const fakeCourierForm = new UntypedFormGroup({
+    courierLimitsBy: new UntypedFormControl('fake'),
+    minPriceOfOrder: new UntypedFormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxPriceOfOrder: new UntypedFormControl('fake', LimitsValidator.cannotBeEmpty),
+    minAmountOfBigBags: new UntypedFormControl('fake', LimitsValidator.cannotBeEmpty),
+    maxAmountOfBigBags: new UntypedFormControl('fake', LimitsValidator.cannotBeEmpty),
+    limitDescription: new UntypedFormControl('fake')
   });
   const fakeLocations: Locations = {
     locationsDto: [
@@ -263,7 +263,7 @@ describe('UbsAdminPricingPageComponent', () => {
         FormsModule
       ],
       providers: [
-        FormBuilder,
+        UntypedFormBuilder,
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock },

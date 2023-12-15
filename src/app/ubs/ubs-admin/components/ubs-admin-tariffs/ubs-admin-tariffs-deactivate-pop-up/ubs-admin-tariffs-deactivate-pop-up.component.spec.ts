@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -555,7 +555,7 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
         { provide: LocalStorageService, useFactory: localStorageServiceStub },
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
-        FormBuilder
+        UntypedFormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

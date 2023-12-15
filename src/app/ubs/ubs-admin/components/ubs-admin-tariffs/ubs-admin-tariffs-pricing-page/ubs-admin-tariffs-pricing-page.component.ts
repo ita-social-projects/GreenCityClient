@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,7 +41,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   description;
   servicePrice;
   couriers;
-  limitsForm: FormGroup;
+  limitsForm: UntypedFormGroup;
   currentLocation;
   locationId: number;
   bags: Bag[] = [];
@@ -63,7 +63,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private langService: LanguageService;
   private route: ActivatedRoute;
   private location: Location;
-  private fb: FormBuilder;
+  private fb: UntypedFormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
   private employeeAuthorities: string[];
@@ -72,7 +72,11 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   public isEmployeeCanActivateDeactivate: boolean;
   public isEmployeeCanUseCrumbs: boolean;
 
-  constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
+  constructor(
+    private injector: Injector,
+    private router: Router,
+    private store: Store<IAppState>
+  ) {
     this.location = injector.get(Location);
     this.dialog = injector.get(MatDialog);
     this.tariffsService = injector.get(TariffsService);
@@ -80,7 +84,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
     this.localStorageService = injector.get(LocalStorageService);
     this.langService = injector.get(LanguageService);
     this.route = injector.get(ActivatedRoute);
-    this.fb = injector.get(FormBuilder);
+    this.fb = injector.get(UntypedFormBuilder);
   }
 
   ngOnInit(): void {
@@ -126,12 +130,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.limitsForm = this.fb.group({
-      limitDescription: new FormControl(''),
-      courierLimitsBy: new FormControl({ value: this.limitStatus }),
-      minPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      maxPriceOfOrder: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      minAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
-      maxAmountOfBigBags: new FormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty])
+      limitDescription: new UntypedFormControl(''),
+      courierLimitsBy: new UntypedFormControl({ value: this.limitStatus }),
+      minPriceOfOrder: new UntypedFormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
+      maxPriceOfOrder: new UntypedFormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
+      minAmountOfBigBags: new UntypedFormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty]),
+      maxAmountOfBigBags: new UntypedFormControl(null, [Validators.required, LimitsValidator.cannotBeEmpty])
     });
   }
 

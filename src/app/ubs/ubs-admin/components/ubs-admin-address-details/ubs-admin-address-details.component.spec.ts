@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, AbstractControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -21,19 +21,19 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   let fixture: ComponentFixture<UbsAdminAddressDetailsComponent>;
 
-  const FormGroupMock = new FormGroup({
-    addressRegion: new FormControl('місто Київ'),
-    addressRegionEng: new FormControl('Kyiv'),
-    addressCity: new FormControl('Київ'),
-    addressCityEng: new FormControl('Kyiv'),
-    addressStreet: new FormControl('вулиця Михайла Ломоносова'),
-    addressStreetEng: new FormControl('Mykhaila Lomonosova Street'),
-    addressHouseNumber: new FormControl('12'),
-    addressHouseCorpus: new FormControl('2'),
-    addressEntranceNumber: new FormControl('5'),
-    addressDistrict: new FormControl('Голосіївський район'),
-    addressDistrictEng: new FormControl(`Holosiivs'kyi district`),
-    addressRegionDistrictList: new FormControl(ADDRESSESMOCK.DISTRICTSKYIVMOCK)
+  const FormGroupMock = new UntypedFormGroup({
+    addressRegion: new UntypedFormControl('місто Київ'),
+    addressRegionEng: new UntypedFormControl('Kyiv'),
+    addressCity: new UntypedFormControl('Київ'),
+    addressCityEng: new UntypedFormControl('Kyiv'),
+    addressStreet: new UntypedFormControl('вулиця Михайла Ломоносова'),
+    addressStreetEng: new UntypedFormControl('Mykhaila Lomonosova Street'),
+    addressHouseNumber: new UntypedFormControl('12'),
+    addressHouseCorpus: new UntypedFormControl('2'),
+    addressEntranceNumber: new UntypedFormControl('5'),
+    addressDistrict: new UntypedFormControl('Голосіївський район'),
+    addressDistrictEng: new UntypedFormControl(`Holosiivs'kyi district`),
+    addressRegionDistrictList: new UntypedFormControl(ADDRESSESMOCK.DISTRICTSKYIVMOCK)
   });
 
   const status = 'OK';

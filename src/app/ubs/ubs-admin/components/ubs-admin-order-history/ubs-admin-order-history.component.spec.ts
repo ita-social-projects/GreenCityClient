@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { IOrderInfo, IEmployee, INotTakenOutReason } from '../../models/ubs-admin.interface';
 import { of, Subject } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
 class MatDialogMock {
@@ -63,7 +63,7 @@ describe('UbsAdminOrderHistoryComponent', () => {
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: MatDialogRefMock },
-        FormBuilder
+        UntypedFormBuilder
       ]
     }).compileComponents();
   }));

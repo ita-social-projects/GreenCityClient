@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
 import { UbsAdminResponsiblePersonsComponent } from './ubs-admin-responsible-persons.component';
 
@@ -21,7 +21,7 @@ describe('UbsAdminResponsiblePersonsComponent', () => {
     }).compileComponents();
   }));
 
-  const FormGroupMock = new FormGroup({});
+  const FormGroupMock = new UntypedFormGroup({});
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UbsAdminResponsiblePersonsComponent);

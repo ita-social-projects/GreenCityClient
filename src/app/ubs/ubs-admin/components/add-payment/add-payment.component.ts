@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -49,7 +49,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isFileSizeWarning = false;
   isFileTypeWarning = false;
   payment: IPaymentInfoDto | null;
-  addPaymentForm: FormGroup;
+  addPaymentForm: UntypedFormGroup;
   isPhotoContainerChoosen = false;
   isLinkToBillChoosed = false;
   file: File;
@@ -80,7 +80,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {

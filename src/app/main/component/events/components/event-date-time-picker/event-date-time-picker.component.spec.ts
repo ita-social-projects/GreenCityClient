@@ -1,7 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
@@ -63,10 +63,10 @@ describe('EventDateTimePickerComponent', () => {
     startDate: '2023-05-27T15:10:00+03:00'
   };
 
-  const formDataMock: FormGroup = new FormGroup({
-    date: new FormControl('day'),
-    startTime: new FormControl('10-00'),
-    endTime: new FormControl('18-00')
+  const formDataMock: UntypedFormGroup = new UntypedFormGroup({
+    date: new UntypedFormControl('day'),
+    startTime: new UntypedFormControl('10-00'),
+    endTime: new UntypedFormControl('18-00')
   });
 
   beforeEach(waitForAsync(() => {

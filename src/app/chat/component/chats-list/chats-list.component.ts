@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { CHAT_ICONS } from '../../chat-icons';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Chat } from '../../model/Chat.model';
 
@@ -15,11 +15,14 @@ import { Chat } from '../../model/Chat.model';
 export class ChatsListComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
   public searchField = '';
-  public searchFieldControl = new FormControl();
+  public searchFieldControl = new UntypedFormControl();
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 
-  constructor(public chatService: ChatsService, private socketService: SocketService) {}
+  constructor(
+    public chatService: ChatsService,
+    private socketService: SocketService
+  ) {}
 
   ngOnInit(): void {
     this.searchFieldControl.valueChanges.pipe(debounceTime(500)).subscribe((newValue) => {

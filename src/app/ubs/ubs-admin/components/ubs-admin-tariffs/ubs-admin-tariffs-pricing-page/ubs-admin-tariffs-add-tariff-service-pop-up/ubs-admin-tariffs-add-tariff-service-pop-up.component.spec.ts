@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { UbsAdminTariffsAddTariffServicePopUpComponent } from './ubs-admin-tariffs-add-tariff-service-pop-up.component';
@@ -23,14 +23,14 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
   languageServiceMock.getLangValue.and.callFake((uaValue, enValue) => uaValue);
 
-  const fakeBagForm = new FormGroup({
-    name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-    nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-    capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
-    commission: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
-    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999999.99)]),
-    description: new FormControl('fake'),
-    descriptionEng: new FormControl('fake')
+  const fakeBagForm = new UntypedFormGroup({
+    name: new UntypedFormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+    nameEng: new UntypedFormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+    capacity: new UntypedFormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
+    commission: new UntypedFormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    price: new UntypedFormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999999.99)]),
+    description: new UntypedFormControl('fake'),
+    descriptionEng: new UntypedFormControl('fake')
   });
 
   const fakeBag: Bag = {
@@ -76,7 +76,7 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: MatDialogRef, useValue: {} },
         { provide: LanguageService, useValue: languageServiceMock }
       ],

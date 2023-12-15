@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormGroup, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of, Subject } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { GeneralInfoMock } from '../../services/orderInfoMock';
@@ -34,12 +34,12 @@ describe('UbsAdminOrderStatusComponent', () => {
     isHistory: false
   };
 
-  const FormGroupMock = new FormGroup({
-    orderStatus: new FormControl(''),
-    paymentStatus: new FormControl(''),
-    adminComment: new FormControl(''),
-    cancellationReason: new FormControl(''),
-    cancellationComment: new FormControl('')
+  const FormGroupMock = new UntypedFormGroup({
+    orderStatus: new UntypedFormControl(''),
+    paymentStatus: new UntypedFormControl(''),
+    adminComment: new UntypedFormControl(''),
+    cancellationReason: new UntypedFormControl(''),
+    cancellationComment: new UntypedFormControl('')
   });
 
   const GeneralInfoFake = GeneralInfoMock;

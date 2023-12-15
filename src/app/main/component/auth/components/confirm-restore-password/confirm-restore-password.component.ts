@@ -3,7 +3,7 @@ import { RestoreDto } from './../../../../model/restroreDto';
 import { authImages, ubsAuthImages } from './../../../../image-pathes/auth-images';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -15,11 +15,11 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./confirm-restore-password.component.scss']
 })
 export class ConfirmRestorePasswordComponent implements OnInit {
-  public confirmRestorePasswordForm: FormGroup;
+  public confirmRestorePasswordForm: UntypedFormGroup;
   public passwordField: AbstractControl;
   public confirmPasswordField: AbstractControl;
-  public password: FormControl;
-  public confirmPassword: FormControl;
+  public password: UntypedFormControl;
+  public confirmPassword: UntypedFormControl;
   public closeBtn = SignInIcons;
   public authImages = authImages;
   public emailErrorMessageBackEnd: string;
@@ -36,7 +36,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   constructor(
     private router: Router,
     private changePasswordService: ChangePasswordService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBarComponent
   ) {}
@@ -53,8 +53,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public initFormReactive(): void {
     this.confirmRestorePasswordForm = this.formBuilder.group(
       {
-        password: new FormControl('', []),
-        confirmPassword: new FormControl('', [])
+        password: new UntypedFormControl('', []),
+        confirmPassword: new UntypedFormControl('', [])
       },
       {
         validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')]

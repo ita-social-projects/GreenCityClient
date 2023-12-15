@@ -3,7 +3,7 @@ import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-inte
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
@@ -13,7 +13,7 @@ import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 })
 export class CreateEcoNewsService {
   public newsId: number;
-  public currentForm: FormGroup;
+  public currentForm: UntypedFormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
@@ -27,9 +27,12 @@ export class CreateEcoNewsService {
   };
   private tags: FilterModel[] = [];
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
-  public getFormData(): FormGroup {
+  public getFormData(): UntypedFormGroup {
     return this.currentForm;
   }
 
@@ -71,7 +74,7 @@ export class CreateEcoNewsService {
     return this.http.put<EcoNewsModel>(environment.backendLink + 'econews/update', formData, this.httpOptions);
   }
 
-  public setForm(form: FormGroup): void {
+  public setForm(form: UntypedFormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
       this.currentForm.value.image = this.files[0] ? this.files[0].url : this.fileUrl;

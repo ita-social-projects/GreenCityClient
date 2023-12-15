@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -22,7 +22,7 @@ import { IAppState } from 'src/app/store/state/app.state';
   styleUrls: ['./ubs-submit-order.component.scss']
 })
 export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit, OnDestroy {
-  paymentForm: FormGroup = this.fb.group({});
+  paymentForm: UntypedFormGroup = this.fb.group({});
   isPaymentWithMoney = false;
   shouldBePaid: boolean;
   order: Order;
@@ -65,7 +65,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private sanitizer: DomSanitizer,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store,
     router: Router,
     dialog: MatDialog

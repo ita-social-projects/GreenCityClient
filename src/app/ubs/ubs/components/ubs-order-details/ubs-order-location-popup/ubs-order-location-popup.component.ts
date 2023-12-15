@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable, of, iif } from 'rxjs';
@@ -24,7 +24,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   private currentLanguage: string;
   public currentLocation: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  public myControl = new FormControl();
+  public myControl = new UntypedFormControl();
   public filteredOptions: Observable<any>;
   courierUBS;
   courierUBSName = 'UBS';

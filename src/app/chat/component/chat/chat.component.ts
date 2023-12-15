@@ -2,7 +2,7 @@ import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@ang
 import { ChatsService } from '../../service/chats/chats.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { Message } from '../../model/Message.model';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { SocketService } from '../../service/socket/socket.service';
 import { UserService } from '@global-service/user/user.service';
 
@@ -15,7 +15,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public chatIcons = CHAT_ICONS;
   public shouldNotBeScrolled = false;
   @ViewChild('chat') chat: ElementRef;
-  public messageControl: FormControl = new FormControl();
+  public messageControl: UntypedFormControl = new UntypedFormControl();
   public isHaveMessages = true;
   public showEmojiPicker = false;
 
@@ -23,7 +23,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
-  constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
+  constructor(
+    public chatsService: ChatsService,
+    private socketService: SocketService,
+    public userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {

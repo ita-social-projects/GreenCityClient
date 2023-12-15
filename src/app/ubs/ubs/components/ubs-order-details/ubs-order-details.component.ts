@@ -5,7 +5,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Component, OnDestroy, OnInit, Renderer2, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, Validators, UntypedFormControl } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Bag, CourierLocations, OrderDetails, AllLocationsDtos } from '../../models/ubs.interface';
@@ -25,7 +25,7 @@ import { AddOrderData } from 'src/app/store/actions/order.actions';
 export class UBSOrderDetailsComponent extends FormBaseComponent implements OnInit, OnDestroy {
   orders: OrderDetails;
   bags: Bag[];
-  orderDetailsForm: FormGroup;
+  orderDetailsForm: UntypedFormGroup;
   minOrderValue: number;
   maxOrderValue: number;
   minAmountOfBigBags: number;
@@ -98,7 +98,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   @Output() secondStepDisabledChange = new EventEmitter<boolean>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
@@ -258,12 +258,14 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      orderComment: new FormControl('', Validators.maxLength(255)),
-      bonus: new FormControl('no'),
-      shop: new FormControl('no'),
-      formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])]),
+      orderComment: new UntypedFormControl('', Validators.maxLength(255)),
+      bonus: new UntypedFormControl('no'),
+      shop: new UntypedFormControl('no'),
+      formArrayCertificates: this.fb.array([
+        new UntypedFormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])
+      ]),
       additionalOrders: this.fb.array(['']),
-      orderSum: new FormControl(0, [Validators.required])
+      orderSum: new UntypedFormControl(0, [Validators.required])
     });
   }
 
@@ -381,7 +383,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
             const { id, quantity } = bag;
             const controlName = `quantity${id}`;
             bag.quantity = quantity ?? null;
-            this.orderDetailsForm.addControl(controlName, new FormControl('', [Validators.min(0), Validators.max(999)]));
+            this.orderDetailsForm.addControl(controlName, new UntypedFormControl('', [Validators.min(0), Validators.max(999)]));
             const bagQuantity = bag.quantity === null ? '' : Number(bag.quantity);
             this.orderDetailsForm.controls[controlName].setValue(bagQuantity);
           });
@@ -423,19 +425,19 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   get formArrayCertificates() {
-    return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
+    return this.orderDetailsForm.get('formArrayCertificates') as UntypedFormArray;
   }
 
   get additionalOrders() {
-    return this.orderDetailsForm.get('additionalOrders') as FormArray;
+    return this.orderDetailsForm.get('additionalOrders') as UntypedFormArray;
   }
 
   get orderComment() {
-    return this.orderDetailsForm.get('orderComment') as FormArray;
+    return this.orderDetailsForm.get('orderComment') as UntypedFormArray;
   }
 
   get shop() {
-    return this.orderDetailsForm.get('shop') as FormArray;
+    return this.orderDetailsForm.get('shop') as UntypedFormArray;
   }
 
   private calculateTotal(): void {
@@ -570,9 +572,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
 
   addOrder(): void {
     this.ecoShopOrdersNumbersCounter++;
-    const additionalOrdersArray = this.orderDetailsForm.get('additionalOrders') as FormArray;
+    const additionalOrdersArray = this.orderDetailsForm.get('additionalOrders') as UntypedFormArray;
     additionalOrdersArray.markAsUntouched();
-    const additionalOrder = new FormControl('', [Validators.minLength(10)]);
+    const additionalOrder = new UntypedFormControl('', [Validators.minLength(10)]);
     this.additionalOrders.push(additionalOrder);
     this.ecoStoreValidation();
     setTimeout(() => {

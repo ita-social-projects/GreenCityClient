@@ -18,7 +18,7 @@ import {
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateObj, TimeBack, TimeFront, TagsArray, WeekArray } from '../../models/event-consts';
@@ -59,7 +59,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public tags: Array<TagObj>;
   public isTagValid: boolean;
   public arePlacesFilled: boolean[] = [];
-  public eventFormGroup: FormGroup;
+  public eventFormGroup: UntypedFormGroup;
   public isImageSizeError: boolean;
   public isImageTypeError = false;
   public images = singleNewsImages;
@@ -129,10 +129,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.fromPreview = this.eventsService.getBackFromPreview();
     const submitFromPreview = this.eventsService.getSubmitFromPreview();
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
-    this.eventFormGroup = new FormGroup({
-      titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
-      eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
+    this.eventFormGroup = new UntypedFormGroup({
+      titleForm: new UntypedFormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
+      description: new UntypedFormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
+      eventDuration: new UntypedFormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
     if (this.editMode && !this.fromPreview && !submitFromPreview) {
       this.setDates(true);

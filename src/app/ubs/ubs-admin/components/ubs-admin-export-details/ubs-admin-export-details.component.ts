@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -13,7 +13,7 @@ import { OrderService } from '../../services/order.service';
 })
 export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() exportInfo: IExportDetails;
-  @Input() exportDetailsDto: FormGroup;
+  @Input() exportDetailsDto: UntypedFormGroup;
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;
 
@@ -33,7 +33,10 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED];
 
-  constructor(private cdr: ChangeDetectorRef, public orderService: OrderService) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public orderService: OrderService
+  ) {}
 
   ngAfterViewChecked(): void {
     const isFormRequired = !this.orderService.isStatusInArray(this.orderStatus, this.statuses);

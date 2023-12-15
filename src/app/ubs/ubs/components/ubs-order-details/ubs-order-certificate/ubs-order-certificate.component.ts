@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../services/order.service';
 import { Subject } from 'rxjs';
@@ -37,7 +37,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   };
 
   orders: OrderDetails;
-  orderDetailsForm: FormGroup;
+  orderDetailsForm: UntypedFormGroup;
   minOrderValue = 500;
   certificateSum = 0;
   total = 0;
@@ -66,7 +66,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   public isNotExistCertificate = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public orderService: OrderService,
     public shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService
@@ -92,13 +92,15 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.orderDetailsForm = this.fb.group({
-      bonus: new FormControl('no'),
-      formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])])
+      bonus: new UntypedFormControl('no'),
+      formArrayCertificates: this.fb.array([
+        new UntypedFormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])
+      ])
     });
   }
 
   get formArrayCertificates() {
-    return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
+    return this.orderDetailsForm.get('formArrayCertificates') as UntypedFormArray;
   }
 
   private certificateDateTreat(date: string): string {

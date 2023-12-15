@@ -1,8 +1,8 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];
     if (matchingControl.value === '') {
@@ -20,7 +20,7 @@ export function ConfirmPasswordValidator(controlName: string, matchingControlNam
 }
 
 export function ValidatorRegExp(controlName: string) {
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     const namePattern = Patterns.NamePattern;
     const regexpPass = Patterns.regexpPass;
     const regexp = controlName === 'firstName' ? namePattern : regexpPass;

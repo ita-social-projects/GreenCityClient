@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -40,7 +40,7 @@ export class UbsAdminTariffsStationPopUpComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private localeStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<UbsAdminTariffsStationPopUpComponent>,
     private tariffsService: TariffsService,

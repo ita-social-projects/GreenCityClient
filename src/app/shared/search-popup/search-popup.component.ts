@@ -5,7 +5,7 @@ import { searchIcons } from '../../main/image-pathes/search-icons';
 import { negate, isNil } from 'lodash';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -22,7 +22,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public isSearchClicked = false;
   public itemsFound: number = null;
   public searchModalSubscription: Subscription;
-  public searchInput = new FormControl('');
+  public searchInput = new UntypedFormControl('');
   public isLoading = false;
   public isNewsSearchFound: boolean;
   public searchValueChanges;

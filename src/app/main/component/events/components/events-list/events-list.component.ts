@@ -21,7 +21,7 @@ import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
@@ -41,11 +41,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
   @ViewChild('statusFilter') statusesList: MatSelect;
   @ViewChild('typeFilter') typesList: MatSelect;
 
-  public timeFilterControl = new FormControl();
-  public locationFilterControl = new FormControl();
-  public statusFilterControl = new FormControl();
-  public typeFilterControl = new FormControl();
-  public searchFilterWords = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  public timeFilterControl = new UntypedFormControl();
+  public locationFilterControl = new UntypedFormControl();
+  public statusFilterControl = new UntypedFormControl();
+  public typeFilterControl = new UntypedFormControl();
+  public searchFilterWords = new UntypedFormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
   public eventsList: EventPageResponceDto[] = [];
   public bufferArray: EventPageResponceDto[] = [];

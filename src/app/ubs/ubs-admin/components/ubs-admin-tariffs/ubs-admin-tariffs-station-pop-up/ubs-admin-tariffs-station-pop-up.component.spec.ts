@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
@@ -50,7 +50,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
-        FormBuilder
+        UntypedFormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

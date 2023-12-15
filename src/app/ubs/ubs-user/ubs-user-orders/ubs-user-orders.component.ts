@@ -8,7 +8,7 @@ import { BonusesService } from '../ubs-user-bonuses/services/bonuses.service';
 import { IUserOrderInfo } from '../ubs-user-orders-list/models/UserOrder.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { OrderService } from '../../ubs/services/order.service';
 import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
@@ -33,7 +33,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   totalClosedOrdersPages: number;
   orderIdToScroll: number;
   orderToScroll: any;
-  selected = new FormControl(0);
+  selected = new UntypedFormControl(0);
   public infoIcon = './assets/img/icon/info-icon.svg';
   activeCouriers;
   courierUBSName = 'UBS';

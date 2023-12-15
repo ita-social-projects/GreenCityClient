@@ -14,7 +14,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-consts';
 import { By } from '@angular/platform-browser';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Addresses, EventPageResponceDto } from '../../models/events.interface';
 
 describe('EventsListComponent', () => {
@@ -198,10 +198,10 @@ describe('EventsListComponent', () => {
     error: null
   };
 
-  const timeFilterControl = new FormControl();
-  const locationFilterControl = new FormControl();
-  const statusFilterControl = new FormControl();
-  const typeFilterControl = new FormControl();
+  const timeFilterControl = new UntypedFormControl();
+  const locationFilterControl = new UntypedFormControl();
+  const statusFilterControl = new UntypedFormControl();
+  const typeFilterControl = new UntypedFormControl();
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAddresses', 'getAddreses']);
   EventsServiceMock.createAddresses = () => of('');

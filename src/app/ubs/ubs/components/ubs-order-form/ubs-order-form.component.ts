@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ChangeDetectorRef, ViewChild, DoCheck, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
@@ -16,9 +16,9 @@ import { OrderDetails, PersonalData } from '../../models/ubs.interface';
   styleUrls: ['./ubs-order-form.component.scss']
 })
 export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
-  firstStepForm: FormGroup;
-  secondStepForm: FormGroup;
-  thirdStepForm: FormGroup;
+  firstStepForm: UntypedFormGroup;
+  secondStepForm: UntypedFormGroup;
+  thirdStepForm: UntypedFormGroup;
   completed = false;
   isSecondStepDisabled = true;
   private statePersonalData: PersonalData;

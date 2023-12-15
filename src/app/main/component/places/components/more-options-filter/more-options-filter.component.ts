@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DistanceFilter, MoreOptionsFormValue } from '../../models/more-options-filter.model';
 
 @Component({
@@ -25,20 +25,20 @@ export class MoreOptionsFilterComponent implements OnInit, OnChanges {
     'Cycling routes'
   ];
 
-  public filtersForm: FormGroup = new FormGroup({
-    baseFilters: new FormGroup(
+  public filtersForm: UntypedFormGroup = new UntypedFormGroup({
+    baseFilters: new UntypedFormGroup(
       this.baseFilters.reduce((filters: any, filterName: string) => {
-        filters[filterName] = new FormControl(false);
+        filters[filterName] = new UntypedFormControl(false);
         return filters;
       }, {})
     ),
-    distance: new FormGroup({
-      isActive: new FormControl(false),
-      value: new FormControl(5)
+    distance: new UntypedFormGroup({
+      isActive: new UntypedFormControl(false),
+      value: new UntypedFormControl(5)
     }),
-    servicesFilters: new FormGroup(
+    servicesFilters: new UntypedFormGroup(
       this.servicesFilters.reduce((filters: any, filterName: string) => {
-        filters[filterName] = new FormControl(false);
+        filters[filterName] = new UntypedFormControl(false);
         return filters;
       }, {})
     )

@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { PopUpsStyles, ActionTypeForPermissions } from '../ubs-admin-employee-ta
   styleUrls: ['./ubs-admin-employee-permissions-form.component.scss']
 })
 export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  form: UntypedFormGroup;
   employee: Page;
   panelToggler = false;
 
@@ -93,7 +93,7 @@ export class UbsAdminEmployeePermissionsFormComponent implements OnInit, OnDestr
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: Page,
     private employeeService: UbsAdminEmployeeService,

@@ -1,5 +1,5 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { takeUntil, switchMap } from 'rxjs/operators';
 import { iif, of, Subject, throwError } from 'rxjs';
@@ -30,7 +30,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   address: Address;
   formattedAddress: string;
   updatedAddresses: Address[];
-  addAddressForm: FormGroup;
+  addAddressForm: UntypedFormGroup;
   isDisabled = false;
   corpusPattern = Patterns.ubsCorpusPattern;
   housePattern = Patterns.ubsHousePattern;
@@ -50,7 +50,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   };
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private orderService: OrderService,
     public dialogRef: MatDialogRef<UBSAddAddressPopUpComponent>,
     @Inject(MAT_DIALOG_DATA)

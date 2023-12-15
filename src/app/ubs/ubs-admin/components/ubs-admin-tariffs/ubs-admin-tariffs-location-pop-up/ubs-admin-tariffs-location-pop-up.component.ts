@@ -9,7 +9,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { UntypedFormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
@@ -103,7 +103,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   constructor(
     private tariffsService: TariffsService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private localeStorageService: LocalStorageService,
     private langService: LanguageService,
     private googleScript: GoogleScript,

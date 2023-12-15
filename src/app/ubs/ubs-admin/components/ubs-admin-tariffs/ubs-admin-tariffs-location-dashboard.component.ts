@@ -5,7 +5,7 @@ import { Couriers, CreateCard, Locations, Stations, Card, DeactivateCard } from 
 import { Subject, Observable, forkJoin, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { Store } from '@ngrx/store';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -51,7 +51,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
   courierNameEng: string;
   courierNameUk: string;
   courierId;
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
   reset = true;
   selectedCities = [];
   cities = [];
@@ -105,7 +105,7 @@ export class UbsAdminTariffsLocationDashboardComponent implements OnInit, AfterV
     private router: Router,
     public dialog: MatDialog,
     private store: Store<IAppState>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, OnChanges, Optional } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
@@ -14,7 +14,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./ubs-profile-change-password-pop-up.component.scss']
 })
 export class UbsProfileChangePasswordPopUpComponent implements OnInit {
-  public formConfig: FormGroup;
+  public formConfig: UntypedFormGroup;
   private readonly passRegexp = Patterns.regexpPass;
   public updatePasswordDto: UpdatePasswordDto;
   public hasPassword: boolean;
@@ -24,7 +24,7 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     private changePasswordService: ChangePasswordService,
     @Optional() public dialogRef: MatDialogRef<UbsProfileChangePasswordPopUpComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBarComponent
   ) {}
 
@@ -45,13 +45,13 @@ export class UbsProfileChangePasswordPopUpComponent implements OnInit {
     }
   }
 
-  checkConfirmPassword(group: FormGroup): null | { [error: string]: boolean } {
+  checkConfirmPassword(group: UntypedFormGroup): null | { [error: string]: boolean } {
     const password = group.get('password').value?.trim();
     const confirmPassword = group.get('confirmPassword').value?.trim();
     return password === confirmPassword ? null : { confirmPasswordMistmatch: true };
   }
 
-  checkPasswordMatch(group: FormGroup): null | { [error: string]: boolean } {
+  checkPasswordMatch(group: UntypedFormGroup): null | { [error: string]: boolean } {
     const password = group.get('password').value?.trim();
     const currentPassword = group.get('currentPassword').value?.trim();
     return password === currentPassword ? { newPasswordMatchesOld: true } : null;

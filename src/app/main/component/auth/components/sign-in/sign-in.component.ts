@@ -1,7 +1,7 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, AbstractControl } from '@angular/forms';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -35,7 +35,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
-  public signInForm: FormGroup;
+  public signInForm: UntypedFormGroup;
   public signInFormValid: boolean;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
@@ -84,9 +84,9 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.checkIfUserId();
 
     // Initialization of reactive form
-    this.signInForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
+    this.signInForm = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
+      password: new UntypedFormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
     // Get form fields to use it in the template

@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UBSInputErrorComponent } from './ubs-input-error.component';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 describe('ErrorComponent ', () => {
@@ -12,7 +12,7 @@ describe('ErrorComponent ', () => {
   let fixture: ComponentFixture<UBSInputErrorComponent>;
   let httpTestingController: HttpTestingController;
 
-  const formElementMock = new FormControl('місто Київ');
+  const formElementMock = new UntypedFormControl('місто Київ');
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

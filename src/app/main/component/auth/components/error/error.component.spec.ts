@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ErrorComponent } from './error.component';
 
 describe('error component', () => {
@@ -6,7 +6,7 @@ describe('error component', () => {
 
   beforeEach(() => {
     component = new ErrorComponent();
-    component.formElement = new FormControl();
+    component.formElement = new UntypedFormControl();
   });
 
   it('Shoud call ngOnChanges hook', () => {

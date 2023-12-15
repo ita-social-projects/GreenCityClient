@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -19,8 +19,8 @@ describe('NewsPreviewPageComponent', () => {
   let component: NewsPreviewPageComponent;
   let fixture: ComponentFixture<NewsPreviewPageComponent>;
 
-  let currentFormWithImageMock: FormGroup;
-  let currentFormWithoutImageMock: FormGroup;
+  let currentFormWithImageMock: UntypedFormGroup;
+  let currentFormWithoutImageMock: UntypedFormGroup;
   let newsResponseMock: NewsResponseDTO;
   let router: Router;
 
@@ -83,20 +83,20 @@ describe('NewsPreviewPageComponent', () => {
     component.images.largeImage = 'assets/img/icon/econews/news-default-large.png';
     component.isPosting = false;
 
-    currentFormWithImageMock = new FormGroup({
-      content: new FormControl('content for current form with image'),
-      image: new FormControl('assets/img/icon/econews/news-default-large.png'),
-      source: new FormControl('source for current form with image'),
-      tags: new FormControl(['news, ads']),
-      title: new FormControl('title for current form with image')
+    currentFormWithImageMock = new UntypedFormGroup({
+      content: new UntypedFormControl('content for current form with image'),
+      image: new UntypedFormControl('assets/img/icon/econews/news-default-large.png'),
+      source: new UntypedFormControl('source for current form with image'),
+      tags: new UntypedFormControl(['news, ads']),
+      title: new UntypedFormControl('title for current form with image')
     });
 
-    currentFormWithoutImageMock = new FormGroup({
-      content: new FormControl('content for current form without image'),
-      image: new FormControl(''),
-      source: new FormControl('source for current form without image'),
-      tags: new FormControl(['news, ads']),
-      title: new FormControl('title for current form without image')
+    currentFormWithoutImageMock = new UntypedFormGroup({
+      content: new UntypedFormControl('content for current form without image'),
+      image: new UntypedFormControl(''),
+      source: new UntypedFormControl('source for current form without image'),
+      tags: new UntypedFormControl(['news, ads']),
+      title: new UntypedFormControl('title for current form without image')
     });
 
     newsResponseMock = {

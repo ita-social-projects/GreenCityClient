@@ -32,7 +32,7 @@ import {
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
@@ -101,7 +101,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
-  public dateForm: FormGroup;
+  public dateForm: UntypedFormGroup;
   public filters: IDateFilters[] = [];
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
@@ -117,7 +117,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dateAdapter: DateAdapter<Date>
   ) {
     this.dateAdapter.setLocale('en-GB');
@@ -271,15 +271,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   initDateForm(): void {
     this.dateForm = this.fb.group({
-      orderDateFrom: new FormControl(''),
-      orderDateTo: new FormControl(''),
-      orderDateCheck: new FormControl(false),
-      dateOfExportFrom: new FormControl(''),
-      dateOfExportTo: new FormControl(''),
-      dateOfExportCheck: new FormControl(false),
-      paymentDateFrom: new FormControl(''),
-      paymentDateTo: new FormControl(''),
-      paymentDateCheck: new FormControl(false)
+      orderDateFrom: new UntypedFormControl(''),
+      orderDateTo: new UntypedFormControl(''),
+      orderDateCheck: new UntypedFormControl(false),
+      dateOfExportFrom: new UntypedFormControl(''),
+      dateOfExportTo: new UntypedFormControl(''),
+      dateOfExportCheck: new UntypedFormControl(false),
+      paymentDateFrom: new UntypedFormControl(''),
+      paymentDateTo: new UntypedFormControl(''),
+      paymentDateCheck: new UntypedFormControl(false)
     });
     if (this.getLocalDateForm()) {
       this.dateForm.setValue(this.getLocalDateForm());

@@ -1,7 +1,7 @@
 import { Language } from 'src/app/main/i18n/Language';
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -83,7 +83,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     private localeStorageService: LocalStorageService,
     private tariffsService: TariffsService,

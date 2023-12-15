@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ChatsService } from '../../service/chats/chats.service';
 import { Subject } from 'rxjs';
@@ -19,8 +19,8 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
   public chatIcons = CHAT_ICONS;
   public userSearchField = '';
   private onDestroy$ = new Subject();
-  public userSearchControl: FormControl = new FormControl();
-  public messageControl: FormControl = new FormControl('', [Validators.max(250)]);
+  public userSearchControl: UntypedFormControl = new UntypedFormControl();
+  public messageControl: UntypedFormControl = new UntypedFormControl('', [Validators.max(250)]);
   public showEmojiPicker = false;
   public isHaveMessages = true;
   @ViewChild('chat') chat: ElementRef;
