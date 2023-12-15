@@ -38,7 +38,7 @@ describe('StatRowsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatRowsComponent, StatRowComponent],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([], { relativeLinkResolution: 'legacy' })],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterModule.forRoot([], {})],
       providers: [
         { provide: UserService, useValue: userServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },

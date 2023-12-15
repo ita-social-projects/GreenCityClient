@@ -50,12 +50,7 @@ describe('StatRowComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StatRowComponent],
-      imports: [
-        TranslateModule.forRoot(),
-        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
-        HttpClientTestingModule,
-        MatSnackBarModule
-      ],
+      imports: [TranslateModule.forRoot(), RouterModule.forRoot([], {}), HttpClientTestingModule, MatSnackBarModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MatSnackBarComponent, useValue: snackBarMock },

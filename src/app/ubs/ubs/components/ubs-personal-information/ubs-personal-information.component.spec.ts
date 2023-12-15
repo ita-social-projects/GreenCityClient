@@ -139,7 +139,7 @@ describe('UBSPersonalInformationComponent', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot([], {}),
         HttpClientTestingModule,
         MatDialogModule,
         IMaskModule,

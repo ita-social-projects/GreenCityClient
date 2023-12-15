@@ -97,7 +97,7 @@ describe('UbsUserOrdersComponent', () => {
         InfiniteScrollModule,
         MatTabsModule,
         NoopAnimationsModule,
-        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot([], {}),
         ReactiveFormsModule,
         MatDialogModule,
         StoreModule.forRoot({})
