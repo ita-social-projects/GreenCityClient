@@ -1,14 +1,14 @@
 import { MatSnackBarComponent } from './../../component/errors/mat-snack-bar/mat-snack-bar.component';
 import { AuthModalComponent } from './../../component/auth/components/auth-modal/auth-modal.component';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConfirmRestorePasswordGuard implements CanActivate {
+export class ConfirmRestorePasswordGuard {
   currenDate: number = Date.now();
   millisecondsOfDay = 86400000;
   isUbs: boolean;

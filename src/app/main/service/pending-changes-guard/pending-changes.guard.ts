@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate } from '@angular/router';
+
 import { Observable } from 'rxjs';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export interface ComponentCanDeactivate {
 }
 
 @Injectable()
-export class PendingChangesGuard implements CanDeactivate<ComponentCanDeactivate> {
+export class PendingChangesGuard {
   constructor(public dialog: MatDialog) {}
 
   canDeactivate(component: ComponentCanDeactivate): boolean | Promise<boolean> {

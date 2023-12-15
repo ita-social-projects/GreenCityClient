@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { filter } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthPageGuardService implements CanActivate {
+export class AuthPageGuardService {
   private isLoggedIn = false;
 
   constructor(
