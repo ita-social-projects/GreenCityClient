@@ -12,24 +12,29 @@
     </div>
     <p
       class="name"
+      appCustomTooltip
       #tooltip="matTooltip"
+      [appCustomTooltip]="userInfo.name"
+      [tooltip]="tooltip"
       matTooltip="{{ userInfo.name }}"
       matTooltipClass="my-custom-tooltip"
-      (mouseenter)="showTooltip($event, tooltip, 'bold 18px Lato, sans-serif')"
-      (mouseleave)="tooltip.hide()"
+      font="bold 18px Lato, sans-serif"
     >
       {{ userInfo.name }}
     </p>
     <p
       class="location"
+      appCustomTooltip
       #tooltipLocation="matTooltip"
+      [appCustomTooltip]="getUserCity(userInfo.userLocationDto)"
       matTooltip="{{ getUserCity(userInfo.userLocationDto) }}"
       matTooltipClass="my-custom-tooltip"
-      (mouseenter)="showTooltip($event, tooltipLocation, '12px Lato, sans-serif')"
-      (mouseleave)="tooltipLocation.hide()"
+      [tooltip]="tooltipLocation"
+      font="12px Lato, sans-serif"
     >
       {{ getUserCity(userInfo.userLocationDto) }}
     </p>
+
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>

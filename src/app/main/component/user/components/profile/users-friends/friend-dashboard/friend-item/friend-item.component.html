@@ -11,11 +11,13 @@
       <div class="main-info friend-with-photo">
         <p
           class="friend-name"
+          appCustomTooltip
           #tooltipFriendName="matTooltip"
           matTooltip="{{ friend.name }}"
+          [appCustomTooltip]="friend.name"
+          [tooltip]="tooltipFriendName"
           matTooltipClass="my-custom-tooltip"
-          (mouseenter)="showTooltip($event, tooltipFriendName, 'bold 18px Lato, sans-serif')"
-          (mouseleave)="tooltipFriendName.hide()"
+          font="bold 18px Lato, sans-serif"
         >
           {{ friend.name }}
         </p>
@@ -28,11 +30,13 @@
       </p>
       <p
         class="friend-city"
+        appCustomTooltip
+        [appCustomTooltip]="(getFriendCity(friend.userLocationDto) | maxTextLength) || ('profile.friends.no-city' | translate)"
         #tooltipFriendCity="matTooltip"
+        [tooltip]="tooltipFriendCity"
         matTooltip="{{ (getFriendCity(friend.userLocationDto) | maxTextLength) || ('profile.friends.no-city' | translate) }}"
         matTooltipClass="my-custom-tooltip"
-        (mouseenter)="showTooltip($event, tooltipFriendCity, '12px Lato, sans-serif')"
-        (mouseleave)="tooltipFriendCity.hide()"
+        font="bold 12px Lato, sans-serif"
       >
         {{ (getFriendCity(friend.userLocationDto) | maxTextLength) || ('profile.friends.no-city' | translate) }}
       </p>

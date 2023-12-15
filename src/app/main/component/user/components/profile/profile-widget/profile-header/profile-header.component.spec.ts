@@ -107,39 +107,4 @@ describe('ProfileHeaderComponent', () => {
 
     expect(component.getUserCity(userLocationDto)).toBe('Місто, Країна');
   });
-
-  it('should hide tooltip on MouseLeave event', () => {
-    const event = {
-      target: {
-        offsetWidth: 120,
-        innerText: 'Long text'
-      }
-    };
-    const tooltip = {
-      show: jasmine.createSpy('show')
-    };
-
-    component.calculateTextWidth(event, tooltip, '12px Lato, sans-serif');
-
-    expect(tooltip.show).not.toHaveBeenCalled();
-  });
-
-  it('should hide tooltip if lengthStr is not greater than maxLength', () => {
-    const event = {
-      stopImmediatePropagation: jasmine.createSpy('stopImmediatePropagation'),
-      target: {
-        innerText: 'Short text'
-      }
-    };
-    const tooltip = {
-      toggle: jasmine.createSpy('toggle'),
-      hide: jasmine.createSpy('hide')
-    };
-
-    component.showTooltip(event, tooltip, '12px Lato, sans-serif');
-
-    expect(event.stopImmediatePropagation).toHaveBeenCalled();
-    expect(tooltip.toggle).not.toHaveBeenCalled();
-    expect(tooltip.hide).toHaveBeenCalled();
-  });
 });

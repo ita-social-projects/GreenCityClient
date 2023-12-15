@@ -8,7 +8,6 @@ import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { UserLocationDto } from '@global-user/models/edit-profile.model';
-import { MouseEvents } from 'src/app/shared/mouse-events';
 
 @Component({
   selector: 'app-friend-item',
@@ -114,23 +113,5 @@ export class FriendItemComponent implements OnInit {
     this.dialog.closeAll();
     this.dialog.open(ChatModalComponent, this.dialogConfig);
     this.chatsService.openCurrentChat(this.friend.chatId);
-  }
-
-  showTooltip(event: any, tooltip: any, font: string): void {
-    event.stopImmediatePropagation();
-
-    event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip, font) : tooltip.hide();
-  }
-
-  calculateTextWidth(event: any, tooltip: any, font: string): void {
-    const textContainerWidth = event.target.offsetWidth;
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    context.font = font;
-    const textWidth = Math.round(context.measureText(event.target.innerText).width);
-
-    if (textContainerWidth < textWidth) {
-      tooltip.show();
-    }
   }
 }
