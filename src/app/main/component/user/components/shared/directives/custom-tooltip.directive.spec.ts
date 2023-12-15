@@ -1,57 +1,3 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { Component, DebugElement } from '@angular/core';
-// import { By } from '@angular/platform-browser';
-// import { CustomTooltipDirective } from './custom-tooltip.directive';
-
-// class TooltipServiceMock {
-//   showTooltip() {}
-//   hide() {}
-// }
-
-// @Component({
-//   template: ` <div [appCustomTooltip]="tooltipContent" [tooltip]="tooltipService" [font]="font"></div> `
-// })
-// class TestComponent {
-//   tooltipContent = 'This is a tooltip';
-//   tooltipService = new TooltipServiceMock();
-//   font = '12px Arial';
-// }
-
-// describe('CustomTooltipDirective', () => {
-//   let component: TestComponent;
-//   let fixture: ComponentFixture<TestComponent>;
-//   let directiveElement: DebugElement;
-
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [CustomTooltipDirective, TestComponent]
-//     });
-
-//     fixture = TestBed.createComponent(TestComponent);
-//     component = fixture.componentInstance;
-//     directiveElement = fixture.debugElement.query(By.directive(CustomTooltipDirective));
-
-//     fixture.detectChanges();
-//   });
-
-//   it('should create tooltip on mouseover', () => {
-//     const hostElement = directiveElement.query(By.directive(CustomTooltipDirective)).nativeElement;
-//     hostElement.dispatchEvent(new MouseEvent('mouseover'));
-//     fixture.detectChanges();
-//     const tooltipElement = hostElement.querySelector('.tooltipClass');
-//     expect(tooltipElement).toBeTruthy();
-//   });
-
-//   it('should hide tooltip on mouse leave', () => {
-//     const tooltipSpy = spyOn(component.tooltipService, 'hide');
-//     directiveElement.triggerEventHandler('mouseleave', new MouseEvent('mouseleave', { bubbles: true }));
-
-//     fixture.detectChanges();
-
-//     expect(tooltipSpy).toHaveBeenCalled();
-//   });
-// });
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -87,6 +33,14 @@ describe('CustomTooltipDirective', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should apply to elements with appCustomTooltip selector', () => {
+    const fixture = TestBed.createComponent(TestComponent);
+    const element = fixture.nativeElement.querySelector('[appCustomTooltip]');
+    expect(element).toBeTruthy();
+    const directive = fixture.debugElement.query(By.directive(CustomTooltipDirective)).injector;
+    expect(directive).toBeTruthy();
   });
 
   it('should hide tooltip on mouse enter if text width does not exceed container width', () => {
