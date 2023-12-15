@@ -5,7 +5,7 @@ import { MouseEvents } from 'src/app/shared/mouse-events';
 })
 export class CustomTooltipDirective {
   @Input('appCustomTooltip') tooltipContent = '';
-  @Input('tooltip') tooltip: any;
+  @Input() tooltip: any;
   @Input() font = '';
 
   constructor(private elRef: ElementRef, private renderer: Renderer2) {}
