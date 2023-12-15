@@ -4,7 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';

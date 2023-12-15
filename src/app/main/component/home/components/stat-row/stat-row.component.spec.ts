@@ -8,9 +8,9 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { APP_BASE_HREF } from '@angular/common';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 class MatDialogMock {
   open() {

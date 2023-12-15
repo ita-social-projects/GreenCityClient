@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from '@shared/components';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { CalendarWeekInterface } from './calendar-week-interface';
 import { Language } from 'src/app/main/i18n/Language';
 

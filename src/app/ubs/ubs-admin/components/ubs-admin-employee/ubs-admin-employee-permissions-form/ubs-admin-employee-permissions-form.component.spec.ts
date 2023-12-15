@@ -3,10 +3,15 @@ import { BehaviorSubject, of, throwError } from 'rxjs';
 import { UbsAdminEmployeePermissionsFormComponent } from './ubs-admin-employee-permissions-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule
+} from '@angular/material/legacy-dialog';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { By } from '@angular/platform-browser';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';

@@ -8,7 +8,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 

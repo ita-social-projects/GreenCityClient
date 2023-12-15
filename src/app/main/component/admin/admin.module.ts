@@ -1,11 +1,11 @@
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { IconsModule, TableModule } from 'angular-bootstrap-md';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +20,7 @@ import { AdminComponent } from './admin.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedMainModule } from '../shared/shared-main.module';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import {
   AdminNavComponent,
   ConfirmModalComponent,
@@ -32,9 +32,14 @@ import {
   UsersComponent
 } from './components/index';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS
+} from '@angular/material/legacy-dialog';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 import { environment } from '@environment/environment';
 
 @NgModule({

@@ -18,7 +18,7 @@ import { DiscountDto } from '../../../../model/discount/DiscountDto';
 import { SpecificationNameDto } from '../../../../model/specification/SpecificationNameDto';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-propose-cafe',

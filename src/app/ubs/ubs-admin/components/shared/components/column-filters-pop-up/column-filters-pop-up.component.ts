@@ -1,7 +1,7 @@
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { Component, ElementRef, HostListener, Inject, Injector, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { IFilteredColumn, IFilteredColumnValue } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DateAdapter } from '@angular/material/core';

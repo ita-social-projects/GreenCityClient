@@ -5,7 +5,11 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { LocalizedCurrencyPipe } from '../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';

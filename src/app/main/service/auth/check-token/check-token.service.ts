@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { VerifyEmailService } from '@auth-service/verify-email/verify-email.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 

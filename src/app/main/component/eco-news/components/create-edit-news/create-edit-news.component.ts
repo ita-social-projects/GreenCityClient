@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { UntypedFormArray, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarBaseComponent } from '@shared/components';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { By } from '@angular/platform-browser';
 import { fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

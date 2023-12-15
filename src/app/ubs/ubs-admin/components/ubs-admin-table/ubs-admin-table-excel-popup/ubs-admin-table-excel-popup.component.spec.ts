@@ -8,7 +8,7 @@ import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-ce
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { of } from 'rxjs';
 import * as XLSX from 'xlsx';
 

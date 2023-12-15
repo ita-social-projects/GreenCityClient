@@ -1,7 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { UbsAdminTariffsPricingPageComponent } from './ubs-admin-tariffs-pricing-page.component';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -19,8 +23,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
 import { Bag, BagLimitDto, Locations } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsLocationDashboardComponent } from '../ubs-admin-tariffs-location-dashboard.component';

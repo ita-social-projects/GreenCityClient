@@ -1,6 +1,6 @@
 import { forwardRef, Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
@@ -29,7 +29,10 @@ export class SocialNetworksComponent implements ControlValueAccessor, OnInit {
   @Input() socialNetworks = [];
   @Output() socialNetworksChange: EventEmitter<any> = new EventEmitter();
 
-  constructor(private dialog: MatDialog, private profileService: ProfileService) {}
+  constructor(
+    private dialog: MatDialog,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.icons = this.profileService.icons;

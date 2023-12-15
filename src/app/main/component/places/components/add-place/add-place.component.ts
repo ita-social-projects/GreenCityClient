@@ -5,7 +5,7 @@ import { NewsTagInterface } from '@user-models/news.model';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FilterPlaceCategories } from '../../models/place';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WorkingTime } from '../../models/week-pick-model';
 import { CreatePlaceModel, OpeningHoursDto } from '../../models/create-place.model';
 import { TranslateService } from '@ngx-translate/core';

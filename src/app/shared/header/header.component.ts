@@ -15,7 +15,7 @@ import { LanguageModel } from '../../main/component/layout/components/models/lan
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { environment } from '@environment/environment';
 import { Subject } from 'rxjs';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
@@ -73,7 +73,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
-  constructor(private dialog: MatDialog, injector: Injector, private store: Store) {
+  constructor(
+    private dialog: MatDialog,
+    injector: Injector,
+    private store: Store
+  ) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
     this.router = injector.get(Router);

@@ -1,7 +1,7 @@
 import { Language } from './../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { TagsArray } from '../../../events/models/event-consts';

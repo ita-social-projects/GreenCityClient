@@ -5,7 +5,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AgmCoreModule } from '@agm/core';
 import { IMaskModule } from 'angular-imask';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -23,10 +23,14 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS
+} from '@angular/material/legacy-dialog';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
 import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';

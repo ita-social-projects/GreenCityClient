@@ -9,7 +9,7 @@ import { StatRowComponent } from '..';
 import { StatRowsComponent } from './stat-rows.component';
 import { RouterModule } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 class MatDialogMock {
   open() {

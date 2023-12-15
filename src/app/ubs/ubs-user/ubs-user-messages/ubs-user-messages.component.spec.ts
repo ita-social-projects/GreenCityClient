@@ -2,7 +2,7 @@ import { UbsUserMessagesComponent } from './ubs-user-messages.component';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { NotificationBody, Notifications } from '../../ubs-admin/models/ubs-user.model';

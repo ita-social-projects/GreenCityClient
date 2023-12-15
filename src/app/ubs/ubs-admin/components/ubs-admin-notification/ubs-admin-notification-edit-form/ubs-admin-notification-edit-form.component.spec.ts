@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form.component';
 import { ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatSelect } from '@angular/material/select';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 
 describe('UbsAdminNotificationEditFormComponent', () => {
   let component: UbsAdminNotificationEditFormComponent;

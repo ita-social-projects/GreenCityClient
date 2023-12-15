@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SearchItemComponent } from '../search-item/search-item.component';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { SearchService } from '@global-service/search/search.service';
 import { of, Subject } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
@@ -16,7 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SearchPopupComponent', () => {

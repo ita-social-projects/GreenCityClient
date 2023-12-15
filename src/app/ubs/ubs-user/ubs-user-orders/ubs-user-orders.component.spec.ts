@@ -5,14 +5,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 import { of, throwError } from 'rxjs';
 

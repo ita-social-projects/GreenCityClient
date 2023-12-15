@@ -1,5 +1,9 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';

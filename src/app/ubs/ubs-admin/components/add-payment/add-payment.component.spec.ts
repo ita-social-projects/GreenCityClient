@@ -3,13 +3,18 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, ReactiveFormsModule, AbstractControl, FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { OrderService } from '../../services/order.service';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatLegacyRadioChange as MatRadioChange } from '@angular/material/legacy-radio';
 import { AddPaymentComponent } from './add-payment.component';
 
 describe('AddPaymentComponent', () => {

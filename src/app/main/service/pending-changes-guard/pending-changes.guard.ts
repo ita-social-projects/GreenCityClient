@@ -3,7 +3,7 @@ import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 export interface ComponentCanDeactivate {
   canDeactivate: () => boolean | Observable<boolean>;

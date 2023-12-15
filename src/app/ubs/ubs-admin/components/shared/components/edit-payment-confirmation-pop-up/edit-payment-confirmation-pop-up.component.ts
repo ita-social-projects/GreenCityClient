@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,7 +14,10 @@ export class EditPaymentConfirmationPopUpComponent implements OnInit, OnDestroy 
   popupConfirm: string;
   popupCancel: string;
 
-  constructor(private matDialogRef: MatDialogRef<EditPaymentConfirmationPopUpComponent>, @Inject(MAT_DIALOG_DATA) public modalData: any) {}
+  constructor(
+    private matDialogRef: MatDialogRef<EditPaymentConfirmationPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public modalData: any
+  ) {}
 
   ngOnInit(): void {
     this.popupTitle = this.modalData.popupTitle;

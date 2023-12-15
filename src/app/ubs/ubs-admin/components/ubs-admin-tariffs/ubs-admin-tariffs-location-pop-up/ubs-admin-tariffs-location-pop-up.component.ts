@@ -10,7 +10,11 @@ import {
   ViewChild
 } from '@angular/core';
 import { UntypedFormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -21,7 +25,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddLocations, GetLocations } from 'src/app/store/actions/tariff.actions';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';

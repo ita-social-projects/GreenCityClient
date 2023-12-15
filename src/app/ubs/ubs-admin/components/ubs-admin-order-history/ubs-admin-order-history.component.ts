@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { IOrderHistory, IOrderInfo, INotTakenOutReason, ordersStatuses } from '../../models/ubs-admin.interface';
 import { takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 
@@ -25,7 +25,10 @@ export class UbsAdminOrderHistoryComponent implements OnDestroy, OnChanges {
   statusNotTakenOut = ordersStatuses.NotTakenOutUA;
   statusCancel = ordersStatuses.CancelUA;
 
-  constructor(private orderService: OrderService, private dialog: MatDialog) {}
+  constructor(
+    private orderService: OrderService,
+    private dialog: MatDialog
+  ) {}
 
   parseEventName(eventName: string, index: number) {
     const parts = eventName.split('-').map((part) => part.trim());

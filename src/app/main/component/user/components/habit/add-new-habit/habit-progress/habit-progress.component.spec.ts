@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';

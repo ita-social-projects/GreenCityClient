@@ -1,10 +1,15 @@
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule, MatDialog } from '@angular/material/dialog';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialog as MatDialog
+} from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';

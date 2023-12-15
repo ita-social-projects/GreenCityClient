@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';

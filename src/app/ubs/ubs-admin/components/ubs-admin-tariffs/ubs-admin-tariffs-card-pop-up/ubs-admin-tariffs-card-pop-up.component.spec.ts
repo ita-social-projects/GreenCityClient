@@ -3,7 +3,12 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up.component';

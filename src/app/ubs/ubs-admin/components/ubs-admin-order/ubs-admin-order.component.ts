@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, I
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';

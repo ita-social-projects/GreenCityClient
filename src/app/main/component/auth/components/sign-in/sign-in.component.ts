@@ -5,7 +5,7 @@ import { UntypedFormGroup, UntypedFormControl, Validators, AbstractControl } fro
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { JwtService } from '@global-service/jwt/jwt.service';

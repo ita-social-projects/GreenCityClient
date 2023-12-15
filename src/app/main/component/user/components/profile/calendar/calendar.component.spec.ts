@@ -3,7 +3,7 @@ import { CalendarComponent } from './calendar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CalendarComponent', () => {

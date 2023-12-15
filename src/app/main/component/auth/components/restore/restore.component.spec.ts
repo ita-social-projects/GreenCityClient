@@ -4,7 +4,7 @@ import { Language } from './../../../../i18n/Language';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { RestoreComponent } from './restore.component';

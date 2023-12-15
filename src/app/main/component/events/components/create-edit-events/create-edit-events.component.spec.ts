@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { CreateEditEventsComponent } from './create-edit-events.component';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 describe('CreateEditEventsComponent', () => {

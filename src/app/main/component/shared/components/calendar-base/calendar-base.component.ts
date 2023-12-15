@@ -9,7 +9,7 @@ import { calendarImage } from './calendar-image';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';

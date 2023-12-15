@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';

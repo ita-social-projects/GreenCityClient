@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { UserOrdersService } from '../../services/user-orders.service';

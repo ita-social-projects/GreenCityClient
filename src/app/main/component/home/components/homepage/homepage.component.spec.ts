@@ -13,8 +13,12 @@ import { EcoEventsComponent, StatRowsComponent, SubscribeComponent } from '..';
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog
+} from '@angular/material/legacy-dialog';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';

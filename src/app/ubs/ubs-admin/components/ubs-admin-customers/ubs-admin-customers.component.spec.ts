@@ -1,8 +1,8 @@
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { UbsAdminCustomersComponent } from './ubs-admin-customers.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';

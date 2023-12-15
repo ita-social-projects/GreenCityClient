@@ -20,10 +20,10 @@ import {
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { UntypedFormControl, Validators } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
-import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
+import { MatLegacyOption as MatOption, MatLegacyOptionSelectionChange as MatOptionSelectionChange } from '@angular/material/legacy-core';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendModel } from '@global-user/models/friend.model';
 import { takeUntil } from 'rxjs/operators';

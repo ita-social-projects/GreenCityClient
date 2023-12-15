@@ -10,7 +10,11 @@ import { SignInComponent } from '@global-auth/sign-in/sign-in.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthModalComponent } from './auth-modal.component';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 
 describe('AuthModalComponent', () => {

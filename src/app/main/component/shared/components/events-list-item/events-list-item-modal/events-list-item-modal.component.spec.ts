@@ -5,7 +5,7 @@ import { EventsListItemModalComponent } from './events-list-item-modal.component
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';

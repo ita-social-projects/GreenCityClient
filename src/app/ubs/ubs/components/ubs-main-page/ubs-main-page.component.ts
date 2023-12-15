@@ -1,6 +1,6 @@
 import { CheckTokenService } from './../../../../main/service/auth/check-token/check-token.service';
 import { Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Subscription } from 'rxjs';

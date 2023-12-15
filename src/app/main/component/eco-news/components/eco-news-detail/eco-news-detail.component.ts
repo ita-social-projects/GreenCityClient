@@ -7,7 +7,7 @@ import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { Store } from '@ngrx/store';
 import { DeleteEcoNewsAction } from 'src/app/store/actions/ecoNews.actions';

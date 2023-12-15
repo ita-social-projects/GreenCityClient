@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
@@ -16,7 +16,10 @@ export class HabitInviteFriendsComponent implements OnDestroy {
   userId: number;
   addedFriends: FriendModel[] = [];
 
-  constructor(private userFriendsService: UserFriendsService, private dialog: MatDialog) {}
+  constructor(
+    private userFriendsService: UserFriendsService,
+    private dialog: MatDialog
+  ) {}
 
   openInviteFriendsDialog() {
     this.dialog.open(HabitInviteFriendsPopUpComponent, {

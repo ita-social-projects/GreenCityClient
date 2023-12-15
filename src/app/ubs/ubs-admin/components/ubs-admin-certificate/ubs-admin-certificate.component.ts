@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AdminCertificateService } from '../../services/admin-certificate.service';
 import { TableHeightService } from '../../services/table-height.service';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogConfig as MatDialogConfig,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up/ubs-admin-certificate-add-certificate-pop-up.component';
 import { UbsAdminTableExcelPopupComponent } from '../ubs-admin-table/ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
 import { columnsParamsCertificates } from '../ubs-admin-customers/columnsParams';

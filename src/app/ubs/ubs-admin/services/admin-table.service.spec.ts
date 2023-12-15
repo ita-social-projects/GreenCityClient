@@ -4,7 +4,7 @@ import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { OrderStatus } from '../../ubs/order-status.enum';
 
 describe('AdminTableService', () => {

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';

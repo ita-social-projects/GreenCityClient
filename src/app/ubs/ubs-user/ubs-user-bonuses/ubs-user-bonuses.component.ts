@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { BonusesModel } from './models/BonusesModel';
 import { BonusModel } from './models/BonusModel';
 import { BonusesService } from './services/bonuses.service';
@@ -22,7 +22,11 @@ export class UbsUserBonusesComponent implements OnInit, OnDestroy {
   bonusesList: BonusModel[] = [];
   destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private snackBar: MatSnackBarComponent, private bonusesService: BonusesService, private localStorage: LocalStorageService) {}
+  constructor(
+    private snackBar: MatSnackBarComponent,
+    private bonusesService: BonusesService,
+    private localStorage: LocalStorageService
+  ) {}
 
   @ViewChild(MatSort) sort: MatSort;
 

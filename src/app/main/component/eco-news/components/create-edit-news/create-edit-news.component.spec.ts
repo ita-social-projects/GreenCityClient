@@ -2,8 +2,12 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { UntypedFormArray, UntypedFormControl, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+  MatLegacyDialogModule as MatDialogModule
+} from '@angular/material/legacy-dialog';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { UntypedFormBuilder } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

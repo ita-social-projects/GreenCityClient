@@ -1,13 +1,13 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject, Observable, of, iif } from 'rxjs';
 import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
 import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 
 @Component({
   selector: 'app-ubs-order-location-popup',

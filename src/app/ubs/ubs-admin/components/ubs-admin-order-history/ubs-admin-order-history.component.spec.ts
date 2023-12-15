@@ -3,7 +3,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UbsAdminOrderHistoryComponent } from './ubs-admin-order-history.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

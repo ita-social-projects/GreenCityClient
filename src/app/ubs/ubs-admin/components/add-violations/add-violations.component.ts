@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+  MatLegacyDialog as MatDialog
+} from '@angular/material/legacy-dialog';
 import { FileHandle } from '../../models/file-handle.model';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';

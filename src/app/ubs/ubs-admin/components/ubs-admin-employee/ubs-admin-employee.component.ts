@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -14,8 +14,11 @@ import { Couriers, Locations, City, FilterData } from '../../models/tariffs.inte
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { TariffsService } from '../../services/tariffs.service';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import {
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
+  MatLegacyAutocompleteTrigger as MatAutocompleteTrigger
+} from '@angular/material/legacy-autocomplete';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { EmployeePositions, Employees, Page } from '../../models/ubs-admin.interface';
 import {
   selectOptions,

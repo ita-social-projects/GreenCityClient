@@ -3,7 +3,7 @@ import { AuthModalComponent } from './../../component/auth/components/auth-modal
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,11 @@ export class ConfirmRestorePasswordGuard implements CanActivate {
   currenDate: number = Date.now();
   millisecondsOfDay = 86400000;
   isUbs: boolean;
-  constructor(private router: Router, public dialog: MatDialog, private snackBar: MatSnackBarComponent) {}
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBarComponent
+  ) {}
 
   canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const token = next.queryParams.token;

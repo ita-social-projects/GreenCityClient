@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { filter } from 'rxjs/operators';
 import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class AuthPageGuardService implements CanActivate {
   private isLoggedIn = false;
 
-  constructor(private localStorageService: LocalStorageService, private router: Router, public dialog: MatDialog) {
+  constructor(
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    public dialog: MatDialog
+  ) {
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.isLoggedIn = userId !== null && !isNaN(userId)));
   }
 

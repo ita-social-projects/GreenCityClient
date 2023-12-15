@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Coords, MapMarker } from '../../models/events.interface';
@@ -25,7 +25,10 @@ export class MapEventComponent implements OnInit, OnDestroy {
     componentRestrictions: { country: 'UA' }
   };
 
-  constructor(private matDialogRef: MatDialogRef<MapEventComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    private matDialogRef: MatDialogRef<MapEventComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit(): void {
     this.adress = this.data.address;

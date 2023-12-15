@@ -3,7 +3,11 @@ import { RestorePasswordComponent } from './restore-password.component';
 import { ComponentFixture, TestBed, inject, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -14,7 +18,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 

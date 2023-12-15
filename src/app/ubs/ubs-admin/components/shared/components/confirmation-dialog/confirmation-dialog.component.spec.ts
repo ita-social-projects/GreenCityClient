@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogModule,
-  MatDialogRef,
-  MatDialogTitle,
-  MAT_DIALOG_DATA
-} from '@angular/material/dialog';
+  MatLegacyDialogActions as MatDialogActions,
+  MatLegacyDialogContent as MatDialogContent,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MatLegacyDialogTitle as MatDialogTitle,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 

@@ -9,19 +9,19 @@ import {
 } from './../../models/ubs-admin.interface';
 import { TableHeightService } from '../../services/table-height.service';
 import { UbsAdminTableExcelPopupComponent } from './ubs-admin-table-excel-popup/ubs-admin-table-excel-popup.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { nonSortableColumns } from '../../models/non-sortable-columns.model';
 import { AdminTableService } from '../../services/admin-table.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef, ElementRef, Renderer2 } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IEditCell, IAlertInfo } from '../../models/edit-cell.model';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import {

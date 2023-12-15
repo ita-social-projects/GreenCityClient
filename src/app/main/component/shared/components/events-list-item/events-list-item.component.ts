@@ -14,7 +14,7 @@ import { TagsArray } from '../../../events/models/event-consts';
 import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject, Subscription } from 'rxjs';

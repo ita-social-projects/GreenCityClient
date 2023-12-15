@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PopUpsStyles } from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
@@ -22,7 +22,10 @@ export class DialogPopUpComponent implements OnInit, OnDestroy {
   іsPermissionConfirm = false;
   isCancelButtonShow = false;
 
-  constructor(private matDialogRef: MatDialogRef<DialogPopUpComponent>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    private matDialogRef: MatDialogRef<DialogPopUpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   ngOnInit(): void {
     this.setTitles();

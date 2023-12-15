@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { ConfirmRestorePasswordGuard } from './confirm-restore-password.guard';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 describe('ConfirmRestorePasswordGuard', () => {
   let guard: ConfirmRestorePasswordGuard;

@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from './calendar-base.component';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ItemClass } from './CalendarItemStyleClasses';

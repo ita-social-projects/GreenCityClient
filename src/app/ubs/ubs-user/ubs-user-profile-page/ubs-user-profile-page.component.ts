@@ -1,6 +1,10 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, UntypedFormArray, AbstractControl } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogConfig as MatDialogConfig,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';

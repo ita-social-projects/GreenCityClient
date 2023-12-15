@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-reason.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { DeleteCommentComponent } from './delete-comment.component';
 import { of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 
 class MatDialogMock {
   open() {

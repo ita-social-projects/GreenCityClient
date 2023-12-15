@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { FeedbackService } from '@global-service/feedbacksAdmin/feedback.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -10,7 +10,7 @@ import { ConfirmationDialogService } from '../../services/confirmation-dialog-se
 import { FeedbacksComponent } from './feedbacks.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 
 class MatDialogMock {
   open() {

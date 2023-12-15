@@ -4,7 +4,7 @@ import { UserUpdateModel } from '../../../../model/user/user-update.model';
 import { JwtService } from '../../../../service/jwt/jwt.service';
 import { LocalStorageService } from '../../../../service/localstorage/local-storage.service';
 import { Router } from '@angular/router';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-user-setting',

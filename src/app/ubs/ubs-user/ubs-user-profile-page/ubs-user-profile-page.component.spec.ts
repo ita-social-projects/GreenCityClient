@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { By } from '@angular/platform-browser';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { ClientProfileService } from '../services/client-profile.service';
 import { UbsUserProfilePageComponent } from './ubs-user-profile-page.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';

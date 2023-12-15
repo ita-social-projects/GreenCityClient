@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Component, OnDestroy, OnInit, Renderer2, Output, EventEmitter } from '@angular/core';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';

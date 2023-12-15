@@ -1,6 +1,6 @@
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, OnDestroy } from '@angular/core';
 import { columnsParamsOrders } from '../columnsParams';

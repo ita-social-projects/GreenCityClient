@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import * as moment from 'moment';
 
@@ -15,7 +15,10 @@ export class AdminTableService {
   filters: any[] = [];
   url = environment.ubsAdmin.backendUbsAdminLink + '/management/';
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   getTable(columnName?: string, page?: number, filter?: string, size?: number, sortingType?: string) {
     const searchValue = filter ? filter.split(' ').reduce((values, value) => (value ? values + `search=${value}&` : values), '') : '';

@@ -3,12 +3,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 import { Store } from '@ngrx/store';
-import { MatTableModule } from '@angular/material/table';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';

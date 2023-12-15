@@ -4,14 +4,17 @@ import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Couriers, CreateCard, Locations, Stations, Card, DeactivateCard } from '../../models/tariffs.interface';
 import { Subject, Observable, forkJoin, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UbsAdminTariffsLocationPopUpComponent } from './ubs-admin-tariffs-location-pop-up/ubs-admin-tariffs-location-pop-up.component';
 import { Store } from '@ngrx/store';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
+  MatLegacyAutocompleteTrigger as MatAutocompleteTrigger
+} from '@angular/material/legacy-autocomplete';
 import { UbsAdminTariffsCourierPopUpComponent } from './ubs-admin-tariffs-courier-pop-up/ubs-admin-tariffs-courier-pop-up.component';
 import { UbsAdminTariffsStationPopUpComponent } from './ubs-admin-tariffs-station-pop-up/ubs-admin-tariffs-station-pop-up.component';
 import { UbsAdminTariffsCardPopUpComponent } from './ubs-admin-tariffs-card-pop-up/ubs-admin-tariffs-card-pop-up.component';

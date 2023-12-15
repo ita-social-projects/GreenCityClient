@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, 
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';

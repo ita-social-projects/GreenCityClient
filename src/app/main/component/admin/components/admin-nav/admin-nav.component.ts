@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-admin-nav',

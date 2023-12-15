@@ -8,8 +8,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AgmCoreModule } from '@agm/core';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import {
   ButtonComponent,
   HabitTrackersComponent,
@@ -74,11 +74,11 @@ import { FriendRequestsComponent } from './components/profile/users-friends/frie
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
 import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';

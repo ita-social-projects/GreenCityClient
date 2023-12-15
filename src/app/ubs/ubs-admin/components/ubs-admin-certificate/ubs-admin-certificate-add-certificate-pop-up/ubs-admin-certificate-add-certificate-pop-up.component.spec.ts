@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { AbstractControl, UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IMaskModule } from 'angular-imask';

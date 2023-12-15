@@ -2,7 +2,7 @@ import { of, Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';

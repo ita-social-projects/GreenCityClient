@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { DropdownModule } from 'angular-bootstrap-md';
 import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { Address, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';

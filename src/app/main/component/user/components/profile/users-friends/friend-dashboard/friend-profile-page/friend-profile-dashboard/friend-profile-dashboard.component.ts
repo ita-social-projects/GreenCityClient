@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';

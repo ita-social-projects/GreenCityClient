@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./ubs-admin-go-back-modal.component.scss']
 })
 export class UbsAdminGoBackModalComponent {
-  constructor(private router: Router, private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>) {}
+  constructor(
+    private router: Router,
+    private dialogRef: MatDialogRef<UbsAdminGoBackModalComponent>
+  ) {}
 
   doNotDiscardChanges(): void {
     this.dialogRef.close();

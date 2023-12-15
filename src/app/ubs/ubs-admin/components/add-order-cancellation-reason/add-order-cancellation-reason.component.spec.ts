@@ -1,10 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AddOrderCancellationReasonComponent } from './add-order-cancellation-reason.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';

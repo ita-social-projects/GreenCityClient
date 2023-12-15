@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, inject, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';

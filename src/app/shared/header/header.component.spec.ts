@@ -15,7 +15,7 @@ import { AchievementService } from '@global-service/achievement/achievement.serv
 import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { SearchService } from '@global-service/search/search.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { DropdownModule } from 'angular-bootstrap-md';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';

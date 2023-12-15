@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PersonalPhotoComponent } from './personal-photo.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 

@@ -12,7 +12,7 @@ import { MessageFromDayPipe } from './pipe/message-from-day/message-from-day.pip
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 

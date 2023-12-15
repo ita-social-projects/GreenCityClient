@@ -1,7 +1,11 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { iif, of, Subject } from 'rxjs';
 import { switchMap, take, takeUntil } from 'rxjs/operators';
@@ -14,7 +18,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { formatDate } from '@angular/common';
 import { DateAdapter } from '@angular/material/core';
 import { ConvertFromDateToStringService } from 'src/app/shared/convert-from-date-to-string/convert-from-date-to-string.service';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatLegacyRadioChange as MatRadioChange } from '@angular/material/legacy-radio';
 import { EditPaymentConfirmationPopUpComponent } from '../shared/components/edit-payment-confirmation-pop-up/edit-payment-confirmation-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 

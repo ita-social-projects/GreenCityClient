@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
@@ -11,7 +11,10 @@ export class UploadPhotoContainerComponent implements OnInit {
   public isHorisontalImg: boolean;
   private croppedImage: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data, public dialogRef: MatDialogRef<UploadPhotoContainerComponent>) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
+    public dialogRef: MatDialogRef<UploadPhotoContainerComponent>
+  ) {}
 
   ngOnInit(): void {
     const img = new Image();

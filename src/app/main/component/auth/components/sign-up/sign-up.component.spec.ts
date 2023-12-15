@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTas
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,7 +18,7 @@ import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 class UserOwnSignUpServiceMock {

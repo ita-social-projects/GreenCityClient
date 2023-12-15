@@ -8,7 +8,7 @@ import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 
 @Component({

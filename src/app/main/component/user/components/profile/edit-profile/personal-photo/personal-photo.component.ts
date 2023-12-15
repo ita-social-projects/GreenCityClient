@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Subscription } from 'rxjs';
 import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { ProfileService } from '../../profile-service/profile.service';
@@ -16,7 +16,10 @@ export class PersonalPhotoComponent implements OnInit, OnDestroy {
   public editIcon = './assets/img/profile/icons/edit-photo.svg';
   public userName: string;
   @ViewChild('editImage') previousActiveElement: ElementRef;
-  constructor(private profileService: ProfileService, private dialog: MatDialog) {}
+  constructor(
+    private profileService: ProfileService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.setUserAvatar();

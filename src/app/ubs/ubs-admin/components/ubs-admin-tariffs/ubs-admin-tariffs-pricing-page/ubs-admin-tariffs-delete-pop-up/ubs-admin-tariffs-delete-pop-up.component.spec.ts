@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { UbsAdminTariffsDeletePopUpComponent } from './ubs-admin-tariffs-delete-pop-up.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';

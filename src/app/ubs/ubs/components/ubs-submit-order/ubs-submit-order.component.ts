@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { finalize, map, mergeMap, takeUntil } from 'rxjs/operators';

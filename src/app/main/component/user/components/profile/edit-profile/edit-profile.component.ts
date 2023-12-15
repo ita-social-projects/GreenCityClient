@@ -1,6 +1,6 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';

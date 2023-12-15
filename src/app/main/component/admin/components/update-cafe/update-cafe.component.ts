@@ -17,7 +17,7 @@ import { UserService } from '../../../../service/user/user.service';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceUpdatedDto } from '../../models/placeUpdatedDto.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-update-cafe',
@@ -34,7 +34,11 @@ export class UpdateCafeComponent implements OnInit {
   private mapsAPILoader: MapsAPILoader;
   private ngZone: NgZone;
 
-  constructor(private injector: Injector, @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<UpdateCafeComponent>) {
+  constructor(
+    private injector: Injector,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<UpdateCafeComponent>
+  ) {
     this.modalService = injector.get(ModalService);
     this.placeService = injector.get(PlaceService);
     this.categoryService = injector.get(CategoryService);

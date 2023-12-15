@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { MoreOptionsFilterComponent } from './more-options-filter.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
 
 describe('MoreOptionsFilterComponent', () => {
   let component: MoreOptionsFilterComponent;

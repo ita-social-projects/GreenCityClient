@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HabitAssignService } from './../../../../../../service/habit-assign/habit-assign.service';
 import { CalendarBaseComponent } from '@shared/components/calendar-base/calendar-base.component';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-habit-calendar',

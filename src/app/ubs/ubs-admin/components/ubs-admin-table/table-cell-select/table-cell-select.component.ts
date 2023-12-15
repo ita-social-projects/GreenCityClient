@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { take } from 'rxjs/operators';
 import { IAlertInfo, IEditCell } from 'src/app/ubs/ubs-admin/models/edit-cell.model';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
@@ -40,7 +40,11 @@ export class TableCellSelectComponent implements OnInit {
   @Output() editButtonClick = new EventEmitter();
   @Output() orderCancellation = new EventEmitter();
 
-  constructor(private adminTableService: AdminTableService, private orderService: OrderService, public dialog: MatDialog) {}
+  constructor(
+    private adminTableService: AdminTableService,
+    private orderService: OrderService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.currentValue = this.optional.filter((item) => item.key === this.key)[0];

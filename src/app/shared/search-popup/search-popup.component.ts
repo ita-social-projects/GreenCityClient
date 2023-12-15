@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs
 import { SearchService } from '@global-service/search/search.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-search-popup',

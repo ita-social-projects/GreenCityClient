@@ -12,7 +12,7 @@ import { UbsBaseSidebarComponent } from './ubs-base-sidebar/ubs-base-sidebar.com
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { FilterListByLangPipe } from './sort-list-by-lang/filter-list-by-lang.pipe';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 
 import { HeaderComponent } from './header/header.component';
 import { SearchAllResultsComponent } from './search-all-results/search-all-results.component';
@@ -21,7 +21,7 @@ import { SearchPopupComponent } from './search-popup/search-popup.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
 import { UbsFooterComponent } from './ubs-footer/ubs-footer.component';
@@ -29,7 +29,7 @@ import { FilterLocationListByLangPipe } from './filter-location-list-by-lang/fil
 import { MaxTextLengthPipe } from './max-text-length-pipe/max-text-length.pipe';
 import { ShowImgsPopUpComponent } from './show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from './dialog-pop-up/dialog-pop-up.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { UBSInputErrorComponent } from './ubs-input-error/ubs-input-error.component';
 import { SpacePreventDirective } from './directives/space-prevent.directive';

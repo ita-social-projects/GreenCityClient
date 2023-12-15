@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { WarningPopUpComponent } from '@shared/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { OrderService } from '../../../../../ubs/ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 

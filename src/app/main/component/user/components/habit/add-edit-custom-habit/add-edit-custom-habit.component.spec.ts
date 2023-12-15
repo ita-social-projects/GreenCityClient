@@ -12,8 +12,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Router } from '@angular/router';
 import { Language } from 'src/app/main/i18n/Language';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { TodoStatus } from '../models/todo-status.enum';
 import { provideMockStore } from '@ngrx/store/testing';
 

@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { CalendarInterface } from './calendar-interface';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({

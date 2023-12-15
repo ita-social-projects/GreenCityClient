@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -170,7 +170,10 @@ export class MatSnackBarComponent {
     }
   };
 
-  constructor(public snackBar: MatSnackBar, private translate: TranslateService) {}
+  constructor(
+    public snackBar: MatSnackBar,
+    private translate: TranslateService
+  ) {}
 
   public openSnackBar(type: string, additionalValue?: string) {
     const isInclude = type.includes('400') ? this.snackType.error() : this.snackType.errorMessage(type);

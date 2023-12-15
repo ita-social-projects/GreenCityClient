@@ -3,7 +3,11 @@ import { WarningPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { of } from 'rxjs';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
+} from '@angular/material/legacy-dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';

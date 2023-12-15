@@ -25,7 +25,10 @@ import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { MaterialModule } from '../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import {
+  MatLegacyDialogRef as MatDialogRef,
+  MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS
+} from '@angular/material/legacy-dialog';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({

@@ -10,10 +10,10 @@ import { of } from 'rxjs';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-consts';
 import { By } from '@angular/platform-browser';
-import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
+import { MatLegacyOption as MatOption, MatLegacyOptionSelectionChange as MatOptionSelectionChange } from '@angular/material/legacy-core';
 import { UntypedFormControl } from '@angular/forms';
 import { Addresses, EventPageResponceDto } from '../../models/events.interface';
 

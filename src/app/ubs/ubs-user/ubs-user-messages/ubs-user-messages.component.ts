@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-ubs-user-messages',

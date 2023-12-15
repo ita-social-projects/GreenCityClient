@@ -3,7 +3,7 @@ import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
 import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
 import { take } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-delete-comment',
@@ -17,7 +17,10 @@ export class DeleteCommentComponent {
   @Output() public elementsList = new EventEmitter();
   public deleteIcon = 'assets/img/comments/delete.png';
 
-  constructor(private commentsService: CommentsService, private dialog: MatDialog) {}
+  constructor(
+    private commentsService: CommentsService,
+    private dialog: MatDialog
+  ) {}
 
   public openPopup(): void {
     const dialogRef = this.dialog.open(WarningPopUpComponent, {

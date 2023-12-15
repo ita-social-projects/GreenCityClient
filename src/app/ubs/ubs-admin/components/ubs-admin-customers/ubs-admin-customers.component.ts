@@ -10,8 +10,8 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
