@@ -8,3 +8,4 @@
 greencity-client-chart
 Dockerfile
 chart-test
+.gitignore
