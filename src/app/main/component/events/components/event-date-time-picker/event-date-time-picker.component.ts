@@ -1,5 +1,4 @@
 import { MapsAPILoader } from '@agm/core';
-import { GoogleScript } from 'src/assets/google-script/google-script';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate, DateEvent } from '../../models/events.interface';
 import { Subscription } from 'rxjs';
@@ -74,12 +73,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public arePlacesFilled: boolean[] = [];
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private mapsAPILoader: MapsAPILoader,
-    private langService: LanguageService,
-    private eventsService: EventsService,
-    private googleScript: GoogleScript
-  ) {}
+  constructor(private mapsAPILoader: MapsAPILoader, private langService: LanguageService, private eventsService: EventsService) {}
 
   ngOnInit(): void {
     const curDate = new Date();
@@ -118,13 +112,11 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       }
       this.readyToApplyLocation = true;
       this.setDataEditing();
-      this.getCoordinates();
     }
     if (this.appliedForAllLocations) {
       this.applyLocationForAllDays();
     }
 
-    this.googleScript.load(this.langService.getCurrentLanguage() === 'ua' ? 'uk' : this.langService.getCurrentLanguage());
     this.langService.getCurrentLangObs().subscribe((_) => {
       this.getCoordinates();
     });
@@ -307,9 +299,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   private setupLocationControls(): void {
     this.dateForm.addControl('place', new FormControl(''));
-    if (!this.editDate) {
-      this.onChangePickerOnMap(this.locationForAllDays, true);
-    }
+    this.onChangePickerOnMap(this.locationForAllDays, true);
     this.checkOfflinePlace = true;
     this.isLocationDisabled = true;
     this.dateForm.patchValue({
@@ -414,7 +404,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   private getAddress(latitude: number, longitude: number) {
     const geoCoder = new google.maps.Geocoder();
-    this.googleScript.load(this.langService.getCurrentLanguage() === 'ua' ? 'uk' : this.langService.getCurrentLanguage());
     geoCoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK' && results[0]) {
         this.address = results[0].formatted_address;

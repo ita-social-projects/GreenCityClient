@@ -21,7 +21,6 @@ export class EventScheduleOverlayComponent implements AfterViewInit, OnDestroy {
   isBottomSheetOpen = false;
 
   @Input() days = [];
-  @Input() place: string;
 
   @ViewChild('scheduleButton') scheduleButtonRef: ElementRef;
   @ViewChild('scheduleInfoOverlay') scheduleInfoOverlayRef: TemplateRef<any>;

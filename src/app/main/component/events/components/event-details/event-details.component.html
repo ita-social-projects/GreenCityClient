@@ -89,19 +89,19 @@
                 <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
                   <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
                     <div class="event-duration">
                       {{ event.dates[0].startDate | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | date : 'MMM d, y' }}
+                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
                     </div>
                     <div>|</div>
-                    <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
+                    <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
                     <div class="event-info-days">
-                      <app-event-schedule-overlay [days]="event.dates" [place]="place"></app-event-schedule-overlay>
+                      <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
                     </div>
                   </div>
                 </ng-template>

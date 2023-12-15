@@ -192,16 +192,18 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   private isLocationForAllDays(): void {
-    if (this.editEvent.dates.length > 1) {
-      const { latitude, longitude } = this.editEvent.dates[0].coordinates;
-      const sameCoordinates = this.editEvent.dates.every((el) => {
+    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
+    if (this[previewOrEdit].dates?.length > 1) {
+      const { latitude, longitude } = this[previewOrEdit].dates[0].coordinates;
+      const sameCoordinates = this[previewOrEdit].dates.every((el) => {
         return latitude === el.coordinates.latitude && longitude === el.coordinates.longitude;
       });
 
       if (sameCoordinates) {
-        this.locationForAllDays = this.editEvent.dates[0].coordinates;
+        this.locationForAllDays = this[previewOrEdit].dates[0].coordinates;
         this.appliedForAllLocations = true;
       }
+      this.firstFormIsSucceed = false;
     }
   }
 
