@@ -24,8 +24,11 @@
         </div>
       </div>
     </div>
+    <div *ngIf="!isHaveMessages">
+      <div class="emptyChatPic" > <img [src]="chatIcons.windowEmptyBack" alt="" /></div>
+        <span class="emptyChatText"> {{ 'chat.empty-chat' | translate }} </span>
+    </div>
   </div>
-  <div *ngIf="!isHaveMessages">Chat hasn't messages yet</div>
   <form class="message-sender" (ngSubmit)="sendMessage()">
     <div class="sender-additional-buttons">
       <button type="button">

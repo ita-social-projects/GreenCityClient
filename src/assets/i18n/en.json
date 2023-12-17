@@ -1182,5 +1182,8 @@
     "delete-message": "All created content will be lost. Do you still want to cancel creation?",
     "btn.yes": "Yes, cancel",
     "btn.no": "Continue editing"
+  },
+  "chat": {
+    "empty-chat": "Chat hasn’t got any message yet"
   }
 }
