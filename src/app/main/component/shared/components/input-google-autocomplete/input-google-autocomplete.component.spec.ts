@@ -104,7 +104,7 @@ describe('InputGoogleAutocompleteComponent', () => {
     expect(getPlacePredictionsSpy).toHaveBeenCalled();
   }));
 
-  fit('should filter unwanted results', fakeAsync(() => {
+  it('should filter unwanted results', fakeAsync(() => {
     const getPlacePredictionsSpy = spyOn(google.maps.places.AutocompleteService.prototype, 'getPlacePredictions').and.callFake(
       (request, callback) => {
         const predictionList = [
