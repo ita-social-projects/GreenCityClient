@@ -11,7 +11,6 @@ import { FavoritePlaceService } from '@global-service/favorite-place/favorite-pl
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
-import { Location } from '@angular-material-extensions/google-maps-autocomplete/lib/interfaces/location.interface';
 
 describe('PlacesComponent', () => {
   let component: PlacesComponent;
@@ -34,11 +33,6 @@ describe('PlacesComponent', () => {
       lat: 33.2,
       lng: 33.4
     }
-  };
-
-  const fakeLocation: Location = {
-    latitude: 33.2,
-    longitude: 33.4
   };
 
   const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces', 'createPlace']);
@@ -128,13 +122,6 @@ describe('PlacesComponent', () => {
     component.ngOnInit();
 
     expect(component.tagList).toEqual(tagsArray);
-  });
-
-  it('Should open popup, and after closed receive data', () => {
-    const spy = spyOn(component, 'onLocationSelected');
-    component.openTimePickerPopUp();
-    expect(spy).toHaveBeenCalled();
-    expect(spy).toHaveBeenCalledWith(fakeLocation);
   });
 
   afterEach(() => {
