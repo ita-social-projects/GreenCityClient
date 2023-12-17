@@ -10,7 +10,6 @@ import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
-import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
@@ -199,7 +198,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
       const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => {
         return filter[0] === tagName.name;
       });
-      if (tagFilter && tagFilter[1]) {
+      if (tagFilter?.[1]) {
         acc.push(tagFilter[0]);
       }
       return acc;
@@ -289,10 +288,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   onLocationSelected(event: Location) {
-    this.map.setCenter({
-      lat: event.latitude,
-      lng: event.longitude
-    });
+    // DESNOT WORK ANYWAY. NEED TO REWRITE
+    // this.map.setCenter({
+    //   lat: event.latitude,
+    //   lng: event.longitude
+    // });
   }
 
   openTimePickerPopUp() {
@@ -303,10 +303,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.placeService.createPlace(value).subscribe((resp: any) => {
-            const location: Location = {
-              latitude: resp.locationAddressAndGeoDto.lat,
-              longitude: resp.locationAddressAndGeoDto.lng
-            };
+            // SAME
+            // const location: Location = {
+            //   latitude: resp.locationAddressAndGeoDto.lat,
+            //   longitude: resp.locationAddressAndGeoDto.lng
+            // };
             this.onLocationSelected(location);
           });
         }
