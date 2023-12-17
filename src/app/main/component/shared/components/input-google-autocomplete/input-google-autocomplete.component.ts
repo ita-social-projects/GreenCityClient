@@ -20,14 +20,14 @@ import { Patterns } from 'src/assets/patterns/patterns';
   ]
 })
 export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
-  @Input('autoCompRequest') autoCompRequestProps?: google.maps.places.AutocompletionRequest;
+  @Input() autoCompRequest?: google.maps.places.AutocompletionRequest;
   @Output() predictionSelectedEvent = new EventEmitter<Coordinates>();
 
+  disabled = false;
+  touched = false;
   predictionList: GooglePrediction[];
   autocompleteService: GoogleAutoService;
   inputValue: string;
-  disabled: boolean = false;
-  touched: boolean = false;
   placeId: string;
   inputUpdate = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -88,9 +88,9 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
     this.inputUpdate.pipe(takeUntil(this.destroy$), filter(Boolean), debounceTime(400)).subscribe((input) => {
       const regex = new RegExp(Patterns.countriesRestriction);
       const request = {
-        input: input,
+        input,
         language: this.languageService.getLangValue('uk', 'en') as string,
-        ...this.autoCompRequestProps
+        ...this.autoCompRequest
       };
       this.autocompleteService.getPlacePredictions(request, (cityPredictionList) => {
         this.predictionList = cityPredictionList?.filter((city) => !regex.test(city.description)) ?? [];
