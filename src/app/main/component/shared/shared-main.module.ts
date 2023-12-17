@@ -98,9 +98,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatInputModule,
     MatSelectModule,
-    NgbModule,
-    MatDividerModule,
-    MatExpansionModule
+    NgbModule
   ],
   exports: [
     EditPhotoPopUpComponent,

@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { EventDescriptionTransformPipe } from './event-description-transform.pipe';
+import { SafeHtmlTransformPipe } from './safe-html-transform.pipe';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 
-describe('EventDescriptionTransformPipe', () => {
-  let pipe: EventDescriptionTransformPipe;
+describe('SafeHtmlTransformPipe', () => {
+  let pipe: SafeHtmlTransformPipe;
   let sanitizer: DomSanitizer;
 
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('EventDescriptionTransformPipe', () => {
       providers: [{ provide: DomSanitizer, useValue: { sanitize: () => 'safeString', bypassSecurityTrustHtml: () => 'safeString' } }]
     });
 
-    pipe = new EventDescriptionTransformPipe(TestBed.inject(DomSanitizer));
+    pipe = new SafeHtmlTransformPipe(TestBed.inject(DomSanitizer));
     sanitizer = TestBed.inject(DomSanitizer);
   });
 
