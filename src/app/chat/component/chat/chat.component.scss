@@ -13,7 +13,7 @@
   overflow-y: scroll;
 
   .emptyChatText {
-    color: var(--greyscale-07, #444E55);
+    color: var(--greyscale-07, #444e55);
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 400;
@@ -21,13 +21,14 @@
     display: flex;
     justify-content: center;
     text-align: center;
-    }
-    .emptyChatPic {
-      position: absolute;
-      top: 50%;
-      left: 66%;
-      transform: translateX(-33%) translateY(-50%);
-    }
+  }
+
+  .emptyChatPic {
+    position: absolute;
+    top: 50%;
+    left: 66%;
+    transform: translateX(-33%) translateY(-50%);
+  }
 }
 
 .chat-days-separate-line {
