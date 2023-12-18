@@ -26,7 +26,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
 
   constructor(public chatsService: ChatsService,
-              private socketService: SocketService, 
+              private socketService: SocketService,
               public userService: UserService) {}
 
   ngOnInit(): void {
