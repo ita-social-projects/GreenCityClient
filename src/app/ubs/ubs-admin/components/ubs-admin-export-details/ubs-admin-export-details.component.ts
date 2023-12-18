@@ -15,6 +15,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   @Input() exportInfo: IExportDetails;
   @Input() exportDetailsDto: FormGroup;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;
@@ -30,13 +31,12 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   public currentDate: string;
   public isOrderStatusCancelOrDone = false;
   public resetFieldImg = './assets/img/ubs-tariff/bigClose.svg';
-  private statuses = ['BROUGHT_IT_HIMSELF', 'CANCELED'];
+  private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED];
 
   constructor(private cdr: ChangeDetectorRef, public orderService: OrderService) {}
 
   ngAfterViewChecked(): void {
-    const isFormRequired = !this.statuses.includes(this.orderStatus);
-
+    const isFormRequired = !this.orderService.isStatusInArray(this.orderStatus, this.statuses);
     const everyFieldFilled = Object.keys(this.exportDetailsDto.controls).every((key) => !!this.exportDetailsDto.get(key).value);
     const someFieldFilled = Object.keys(this.exportDetailsDto.controls).some((key) => !!this.exportDetailsDto.get(key).value);
     const hasNotValidFields = (everyFieldFilled && !someFieldFilled) || (!everyFieldFilled && someFieldFilled);
@@ -54,7 +54,7 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
       this.exportDetailsDto.updateValueAndValidity();
     });
 
-    if (this.orderStatus === 'CANCELED' || this.orderStatus === 'DONE') {
+    if (this.orderStatus === OrderStatus.CANCELED || this.orderStatus === OrderStatus.DONE) {
       this.isOrderStatusCancelOrDone = true;
     }
 
@@ -84,9 +84,11 @@ export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterV
   }
 
   showTimePickerClick(): void {
-    this.showTimePicker = true;
-    this.fromInput = this.exportDetailsDto.get('timeDeliveryFrom').value;
-    this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
+    if (this.isEmployeeCanEditOrder) {
+      this.showTimePicker = true;
+      this.fromInput = this.exportDetailsDto.get('timeDeliveryFrom').value;
+      this.toInput = this.exportDetailsDto.get('timeDeliveryTo').value;
+    }
   }
 
   checkDate(event: any): void {

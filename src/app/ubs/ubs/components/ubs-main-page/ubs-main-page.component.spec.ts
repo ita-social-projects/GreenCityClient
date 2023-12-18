@@ -1,9 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UbsMainPageComponent } from './ubs-main-page.component';
 import { MatDialog } from '@angular/material/dialog';
-import { of, Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
@@ -12,6 +12,8 @@ import { OrderService } from '../../services/order.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { Store } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;
@@ -20,7 +22,11 @@ describe('UbsMainPageComponent', () => {
   jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'ROLE_UBS_EMPLOYEE';
 
-  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', ['setUbsRegistration', 'getUserId']);
+  const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
+    'setUbsRegistration',
+    'getUserId',
+    'removeUbsFondyOrderId'
+  ]);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
   const checkTokenServiceMock = jasmine.createSpyObj('CheckTokenService', ['onCheckToken']);
@@ -29,16 +35,27 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations', 'getAllActiveCouriers']);
+  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations', 'getAllActiveCouriers', 'cleanPrevOrderState']);
 
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
 
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ emplpyees: { employeesPermissions: mockData } }));
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
       declarations: [UbsMainPageComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogMock },
         { provide: Router, useValue: routerMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
@@ -121,6 +138,20 @@ describe('UbsMainPageComponent', () => {
     it('should fetch active couriers from the order service', () => {
       component.getActiveCouriers();
       expect(orderServiceMock.getAllActiveCouriers).toHaveBeenCalled();
+    });
+  });
+
+  it('should have expected activeCouriers after ngOnInit', () => {
+    expect(component.activeCouriers).toEqual(activecouriersMock);
+  });
+
+  describe('getLocations', () => {
+    it('should handle error from getLocations', () => {
+      const courierName = 'Test502';
+      orderServiceMock.getLocations.and.returnValue(throwError('error'));
+      spyOn(console, 'error');
+      component.getLocations(courierName);
+      expect(console.error).toHaveBeenCalledWith('error');
     });
   });
 });

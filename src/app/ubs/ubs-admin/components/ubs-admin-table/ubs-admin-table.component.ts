@@ -35,7 +35,7 @@ import { MouseEvents } from 'src/app/shared/mouse-events';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { TableKeys } from '../../services/table-keys.enum';
+import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-table',
@@ -63,6 +63,8 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   allElements: number;
   totalPages: number;
   currentPage = 0;
+  currentDate: Date;
+  currentDateStr: string;
   pageSize = 25;
   idsToChange: number[] = [];
   allChecked = false;
@@ -83,7 +85,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isStoreEmpty: boolean;
   isPostData = false;
   dataForPopUp = [];
-  uneditableStatuses = ['CANCELED', 'DONE'];
+  uneditableStatuses = [OrderStatus.CANCELED, OrderStatus.DONE];
   stickyColumnsAmount = 4;
   nestedSortProperty = 'title.key';
   noFiltersApplied = true;
@@ -98,8 +100,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   minColumnWidth = 50;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
-  currentDate: Date;
-  currentDateStr: string;
   isRestoredFilters = false;
   public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
@@ -133,14 +133,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       }
     });
 
+    this.currentDate = new Date();
+    this.currentDateStr = this.adminTableService.setDateFormat(this.currentDate);
+
     this.modelChanged.pipe(debounceTime(500)).subscribe((model) => {
       this.currentPage = 0;
       this.tableData = [];
       this.getTable(model, 'id', 'DESC', true);
     });
-
-    this.currentDate = new Date();
-    this.currentDateStr = this.adminTableService.setDateFormat(this.currentDate);
 
     this.ordersViewParameters$.subscribe((items: IOrdersViewParameters) => {
       if (items) {
@@ -356,17 +356,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   isStatus(row): string {
     switch (row.orderStatus) {
       case OrderStatus.CANCELED:
-        return '#CCCCCC';
-      case OrderStatus.DONE:
-        return '#6AA84F';
-      case OrderStatus.ADJUSTMENT:
-        return '#FFFF00';
       case OrderStatus.BROUGHT_IT_HIMSELF:
-        return '#CCCCCC';
+        return TableColorKeys.GRAY_300;
+      case OrderStatus.DONE:
+        return TableColorKeys.GREEN_600;
+      case OrderStatus.ADJUSTMENT:
+        return TableColorKeys.YELLOW_500;
       case OrderStatus.CONFIRMED:
-        return '#00FF00';
+        return TableColorKeys.GREEN_500;
       case OrderStatus.ON_THE_ROUTE:
-        return '#D9EAD3';
+        return TableColorKeys.GREEN_200;
     }
   }
 
@@ -673,7 +672,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   openOrder(id: number): void {
-    this.router.navigate(['ubs-admin', 'order', `${id}`]);
+    this.router
+      .navigate(['ubs-admin', 'order', `${id}`])
+      .then(() => {})
+      .catch((error) => {
+        console.error('Navigation error:', error);
+      });
   }
 
   showTooltip(event, title, tooltip) {
@@ -713,25 +717,20 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   changeInputDate(checked: boolean, currentColumn: string, suffix: string): void {
     this.noFiltersApplied = false;
     const checkControl = this.dateForm.get(`${currentColumn}Check`).value;
+
     if (suffix === 'From' || suffix === 'To') {
       const date = this.getControlValue(currentColumn, suffix);
       const value = this.adminTableService.setDateFormat(date);
       this.dateForm.get(`${currentColumn}${suffix}`).setValue(value);
       const biggerFrom = this.getControlValue(currentColumn, 'From') >= this.getControlValue(currentColumn, 'To');
-      let isSuffix;
       if (suffix === 'From' && biggerFrom) {
-        isSuffix = 'To';
         this.dateForm.get(`${currentColumn}To`).setValue(value);
       }
       if (suffix === 'To' && biggerFrom) {
-        isSuffix = 'From';
         this.dateForm.get(`${currentColumn}From`).setValue(value);
       }
-      this.dateForm.get(`${currentColumn}${isSuffix}`).setValue(value);
       this.adminTableService.changeInputDateFilters(value, currentColumn, suffix, checkControl);
       this.applyFilters();
-    }
-    if (suffix === 'Check') {
     } else if (suffix === 'Check') {
       this.dateForm.get(`${currentColumn}Check`).setValue(checked);
     }
@@ -877,7 +876,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         }
       };
       const onMouseUp = () => {
-        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
         this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
         cleanupMouseMove();
         cleanupMouseUp();
@@ -932,6 +930,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   updateColumnsWidthPreference(columnIndex: number, newWidth: number) {
     const col = this.columns[columnIndex];
     this.columnsWidthPreference.set(col.title.key, newWidth);
+
     this.adminTableService
       .setUbsAdminOrdersTableColumnsWidthPreference(this.columnsWidthPreference)
       .pipe(takeUntil(this.destroy))

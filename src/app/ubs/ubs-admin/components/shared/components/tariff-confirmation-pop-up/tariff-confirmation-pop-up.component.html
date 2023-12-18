@@ -1,5 +1,5 @@
 <div class="w-100">
-  <p class="title">{{ title | translate }}</p>
+  <p class="title">{{ values.title | translate }}</p>
 </div>
 <app-dialog-tariff [row]="form" [newDate]="newDate" [name]="name" [edit]="true" [deactivatePopup]="true"></app-dialog-tariff>
 <ng-template #form>
@@ -7,37 +7,41 @@
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p class="text">{{ getLangValue(courierName, courierEnglishName) }}</p>
+        <p class="text">{{ getLangValue(values.courierNameUa, values.courierNameEn) }}</p>
       </div>
       <div class="en-part">
         <label class="label">{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p class="text">{{ getLangValue(courierEnglishName, courierName) }}</p>
+        <p class="text">{{ getLangValue(values.courierNameEn, values.courierNameUa) }}</p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.station' | translate }}</label>
-        <p *ngFor="let stationName of stationNames" class="text">{{ stationName }}</p>
+        <p *ngFor="let stationName of values.stationNames" class="text">{{ stationName }}</p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p class="text">{{ getLangValue(regionName, regionEnglishName) }}</p>
+        <p class="text">{{ getLangValue(values.regionNameUa, values.regionNameEn) }}</p>
       </div>
       <div class="en-part">
         <label class="label">{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="text">{{ getLangValue(regionEnglishName, regionName) }}</p>
+        <p class="text">{{ getLangValue(values.regionNameEn, values.regionNameUa) }}</p>
       </div>
     </div>
-    <div *ngFor="let item of locationNames" class="form-block">
+    <div class="form-block">
       <div class="ua-part">
         <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+        <div *ngFor="let item of values.locationNames">
+          <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
+        </div>
       </div>
       <div class="en-part">
         <label class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        <div *ngFor="let item of values.locationNames">
+          <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -46,7 +50,7 @@
       {{ 'ubs-tariffs-add-location-pop-up.cancel_button' | translate }}
     </button>
     <button class="button primary-global-button" (click)="actionClick()">
-      {{ action | translate }}
+      {{ values.action | translate }}
     </button>
   </div>
 </ng-template>

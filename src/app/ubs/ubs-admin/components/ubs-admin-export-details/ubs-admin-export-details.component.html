@@ -31,6 +31,7 @@
           class="form-control"
           id="export-date"
           formControlName="dateExport"
+          [readonly]="!this.isEmployeeCanEditOrder"
         />
       </div>
       <div class="form-group export-time">
@@ -42,6 +43,7 @@
             class="form-control time-from"
             id="export-time-from"
             formControlName="timeDeliveryFrom"
+            [readonly]="!isEmployeeCanEditOrder"
             (click)="showTimePickerClick()"
           />
           <div class="hyphen">-</div>
@@ -51,18 +53,23 @@
             class="form-control time-to"
             id="export-time-to"
             formControlName="timeDeliveryTo"
+            [readonly]="!isEmployeeCanEditOrder"
             (click)="showTimePickerClick()"
           />
         </div>
       </div>
       <div class="form-group col-md-4">
         <label for="station">{{ 'export-details.station' | translate }}</label>
-        <select formControlName="receivingStationId" class="form-control" id="station">
+        <select
+          formControlName="receivingStationId"
+          id="station"
+          [ngClass]="isEmployeeCanEditOrder ? 'form-control' : 'form-control readonly'"
+        >
           <option *ngFor="let station of allReceivingStations" [value]="station">
             {{ station }}
           </option>
         </select>
-        <button class="reset-button" (click)="resetValue()">
+        <button *ngIf="isEmployeeCanEditOrder" class="reset-button" (click)="resetValue()">
           <img [src]="resetFieldImg" alt="reset field" />
         </button>
       </div>

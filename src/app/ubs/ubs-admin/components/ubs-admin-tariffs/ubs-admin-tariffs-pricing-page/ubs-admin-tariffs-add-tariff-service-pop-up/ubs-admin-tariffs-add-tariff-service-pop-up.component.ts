@@ -67,12 +67,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     return this.fb.group({
       name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
       nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-      capacity: new FormControl('', [
-        Validators.required,
-        Validators.pattern(Patterns.ubsServicePrice),
-        Validators.min(1),
-        Validators.max(999)
-      ]),
+      capacity: new FormControl('', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
       commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
       price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
       description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
@@ -109,9 +104,9 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
   }
 
   public getLangValue(uaValue: string, enValue: string): string {
-    const a = this.languageService.getLangValue(uaValue, enValue);
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
+
   getControl(control: string): AbstractControl {
     return this.addTariffServiceForm.get(control);
   }
@@ -176,13 +171,13 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     if (this.receivedData.bagData) {
       const { name, nameEng, price, capacity, commission, description, descriptionEng } = this.receivedData.bagData;
       this.addTariffServiceForm.patchValue({
-        name: this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng),
-        nameEng: this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name),
+        name: this.getLangValue(name, nameEng),
+        nameEng: this.getLangValue(nameEng, name),
         price,
         capacity,
         commission,
-        description: this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng),
-        descriptionEng: this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description)
+        description: this.getLangValue(description, descriptionEng),
+        descriptionEng: this.getLangValue(descriptionEng, description)
       });
     }
   }

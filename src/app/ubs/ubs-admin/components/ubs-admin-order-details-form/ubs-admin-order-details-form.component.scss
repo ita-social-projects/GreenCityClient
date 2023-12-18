@@ -46,6 +46,10 @@
   border: 1px solid var(--ubs-primary-light-grey);
 }
 
+.disables-input {
+  background-color: var(--ubs-ligth-grey);
+}
+
 .send__btn {
   font-size: 14px;
   color: var(--ubs-primary-green);
@@ -66,10 +70,6 @@
     font-size: 14px;
     color: var(--ubs-quaternary-dark-grey);
   }
-}
-
-.disables-input {
-  background-color: var(--ubs-ligth-grey);
 }
 
 .p-left {
@@ -101,6 +101,10 @@
   }
 }
 
+.invalid-courier-price {
+  border: 1px solid var(--error-ligh-red);
+}
+
 .shop-numbers {
   position: relative;
 
@@ -115,7 +119,6 @@
     position: absolute;
     top: 6px;
     right: 5px;
-    color: var(--ubs-quintynary-light-grey);
     font-size: 1.7em;
     padding: 0 0.2em;
     line-height: 1em;
@@ -184,4 +187,12 @@
     width: 640px;
     height: 135px;
   }
+}
+
+.readonly {
+  pointer-events: none;
+}
+
+.refund-bonuses {
+  font-size: 14px;
 }

@@ -78,6 +78,7 @@ describe('UbsAdminExportDetailsComponent', () => {
   });
 
   it('showTimePickerClick should re-assign values to properties', () => {
+    component.isEmployeeCanEditOrder = true;
     component.showTimePickerClick();
 
     expect(component.showTimePicker).toBe(true);
@@ -103,12 +104,18 @@ describe('UbsAdminExportDetailsComponent', () => {
   });
 
   it('should set isOrderStatusCancelOrDone to true if orderStatus is CANCELED or DONE', () => {
-    component.orderStatus = 'CANCELED';
+    component.orderStatus = OrderStatus.CANCELED;
     component.ngAfterViewChecked();
     expect(component.isOrderStatusCancelOrDone).toBe(true);
 
-    component.orderStatus = 'DONE';
+    component.orderStatus = OrderStatus.DONE;
     component.ngAfterViewChecked();
     expect(component.isOrderStatusCancelOrDone).toBe(true);
+  });
+
+  it('should return true when pageOpen is false, exportDetailsDto is invalid and orderStatus is not cancel or done', () => {
+    component.pageOpen = false;
+    component.isOrderStatusCancelOrDone = false;
+    expect(component.isFormRequired()).toBeTruthy();
   });
 });

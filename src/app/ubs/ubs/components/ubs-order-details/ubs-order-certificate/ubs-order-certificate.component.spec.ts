@@ -6,7 +6,6 @@ import { of, throwError } from 'rxjs';
 import { OrderService } from '../../../services/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LocalizedCurrencyPipe } from '../../../../../shared/localized-currency-pipe/localized-currency.pipe';
-import { By } from '@angular/platform-browser';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-location-popup/ubs-order-location-popup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,6 +16,8 @@ import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IMaskModule } from 'angular-imask';
+import { Store } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('UbsOrderCertificateComponent', () => {
   let component: UbsOrderCertificateComponent;
@@ -42,6 +43,10 @@ describe('UbsOrderCertificateComponent', () => {
   };
 
   const localStorageService = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'languageSubject', 'getUbsOrderData']);
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsOrderCertificateComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent],
@@ -58,7 +63,8 @@ describe('UbsOrderCertificateComponent', () => {
       providers: [
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
-        { provide: LocalStorageService, useValue: localStorageService }
+        { provide: LocalStorageService, useValue: localStorageService },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -342,5 +348,64 @@ describe('UbsOrderCertificateComponent', () => {
 
     expect(nextSpy).toHaveBeenCalled();
     expect(completeSpy).toHaveBeenCalled();
+  });
+
+  it('should return false if certificate is already activated', () => {
+    component.certificates = mockedCert;
+    component.certificates.activatedStatus = [true];
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if form is not filled', () => {
+    component.formArrayCertificates.push(new FormControl(''));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if button is disabled', () => {
+    spyOn(component, 'disableAddCertificate').and.returnValue(true);
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if multiple certificates are present', () => {
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.formArrayCertificates.push(new FormControl('1111-2222'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if certificate is already entered', () => {
+    spyOn(component, 'showMessageForAlreadyEnteredCert').and.returnValue(true);
+    component.certificates = mockedCert;
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    const result = component.showActivateButton(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if certificate is not already entered', () => {
+    component.certificates = mockedCert;
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.alreadyEnteredCert = [];
+    const result = component.showMessageForAlreadyEnteredCert(0);
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if there are multiple certificates already entered', () => {
+    component.certificates = mockedCert;
+    component.formArrayCertificates.push(new FormControl('1111-1111'));
+    component.alreadyEnteredCert = ['1111-1111', '1111-1122'];
+    const result = component.showMessageForAlreadyEnteredCert(0);
+
+    expect(result).toBe(false);
   });
 });

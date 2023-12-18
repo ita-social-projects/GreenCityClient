@@ -8,6 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ShowImgsPopUpComponent } from '../../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 interface InitialData {
   violationLevel: string;
@@ -55,12 +56,14 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   deleteDialogData = {
     popupTitle: 'add-violation-modal.delete-message',
     popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no'
+    popupCancel: 'employees.btn.no',
+    style: PopUpsStyles.red
   };
   clearChangesDialogData = {
     popupTitle: 'add-violation-modal.clear-changes',
     popupConfirm: 'employees.btn.yes',
-    popupCancel: 'employees.btn.no'
+    popupCancel: 'employees.btn.no',
+    style: PopUpsStyles.red
   };
   imageSizeLimit = 10485760;
 

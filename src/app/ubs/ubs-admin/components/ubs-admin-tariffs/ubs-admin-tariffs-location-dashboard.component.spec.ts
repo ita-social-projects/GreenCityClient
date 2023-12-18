@@ -30,13 +30,23 @@ import { TariffStatusPipe } from '@pipe/tariff-status-pipe/tariff-status.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { TariffRegionAll } from './ubs-tariffs.enum';
+import { provideMockStore } from '@ngrx/store/testing';
+import { IAppState } from 'src/app/store/state/app.state';
 
 describe('UbsAdminTariffsLocationDashboardComponent', () => {
   let component: UbsAdminTariffsLocationDashboardComponent;
   let fixture: ComponentFixture<UbsAdminTariffsLocationDashboardComponent>;
   let httpMock: HttpTestingController;
   let router: Router;
-  let store: MockStore;
+  let store: MockStore<IAppState>;
+  const initialState = {
+    employees: null,
+    error: null,
+    employeesPermissions: []
+  };
+
+  const mockData = ['SEE_BIG_ORDER_TABLE', 'SEE_CLIENTS_PAGE', 'SEE_CERTIFICATES', 'SEE_EMPLOYEES_PAGE', 'SEE_TARIFFS'];
 
   const mockRegion = [
     {
@@ -195,6 +205,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ locations: { locations: [fakeLocations] } }));
+  storeMock.select.and.returnValue(of({ employees: { employeesPermissions: mockData } }));
 
   const localStorageServiceMock = jasmine.createSpyObj('localStorageServiceMock', ['getCurrentLanguage', 'languageBehaviourSubject']);
   localStorageServiceMock.getCurrentLanguage.and.returnValue(of('ua'));
@@ -228,6 +239,8 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         MatChipsModule
       ],
       providers: [
+        provideMockStore({ initialState }),
+        { provide: Store, useValue: storeMock },
         TranslateService,
         FormBuilder,
         { provide: MatDialog, useValue: matDialogMock },
@@ -248,7 +261,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     fixture.detectChanges();
     router = TestBed.inject(Router);
     httpMock = TestBed.inject(HttpTestingController);
-    store = TestBed.inject(Store) as MockStore;
+    store = TestBed.inject(Store) as MockStore<IAppState>;
     component.locations = [fakeLocations];
   });
 
@@ -277,6 +290,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for selecting one city', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     const eventMock = {
       option: {
         value: 'First'
@@ -289,6 +305,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for selecting all cities', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     const eventMock = {
       option: {
         value: 'all'
@@ -459,7 +478,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should call method for filtering card with chosen all regions', () => {
     const eventMock = {
       option: {
-        value: 'Усі'
+        value: 'All'
       }
     };
     const fakeFilterData = {
@@ -467,6 +486,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
       region: ''
     };
     const spy = spyOn(component, 'getExistingCard');
+    component.region.setValue('All');
     component.regionSelected(eventMock);
     expect(spy).toHaveBeenCalledWith(fakeFilterData);
   });
@@ -502,6 +522,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for filtering card with chosen all cities', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     const eventMock = {
       option: {
         value: 'all'
@@ -517,6 +540,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   });
 
   it('should call method for filtering card with chosen cities', () => {
+    const panelMock = { scrollTop: 100 } as any;
+    spyOn(document, 'querySelector').and.returnValue(panelMock);
+
     component.locations = [fakeLocations];
     const eventMock = {
       option: {
@@ -723,6 +749,14 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     expect(component.selectedCities).toEqual([]);
   });
 
+  it('should call filterOption function when region value match existing region', () => {
+    component.locations = mockRegion;
+    const spy = spyOn(component, 'filterOptions');
+    component.checkRegionValue('Фейк область');
+    expect(spy).toHaveBeenCalledWith(component.city, ['Фейк1', 'Фейк2']);
+    expect(component.canRegionInputValueBeRegion).toBe(true);
+  });
+
   it('navigate to pricing page', () => {
     const spy = spyOn(router, 'navigate');
     component.page('tariff', 1);
@@ -806,6 +840,35 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
     component.checkisCardExist();
     expect(component.isFieldFilled).toBe(true);
+  });
+
+  it('should call function checkisCardExist and change isFieldFilled to false after reseting fields', () => {
+    component.region.setValue('fake');
+    component.courier.setValue('fake');
+    component.selectedStation = [{ name: 'stationItem', id: 1 }];
+    component.selectedCities = [{ name: 'fake', id: 159, englishName: 'fake' }];
+    const spy = spyOn(component, 'checkisCardExist');
+    component.resetCourierValue();
+    expect(spy).toHaveBeenCalled();
+    component.checkisCardExist();
+    expect(component.isFieldFilled).toBe(false);
+  });
+
+  it('should change not correct region input to All and find first suitable if input value not full', () => {
+    component.locations = mockRegion;
+    component.region.setValue('Фейк область5');
+    component.onChangeRegion();
+    expect(component.region.value).toBe(TariffRegionAll.ua);
+    expect(component.canRegionInputValueBeRegion).toBeTruthy();
+    component.region.setValue('Фейк обла');
+    component.onChangeRegion();
+    expect(component.region.value).toBe('Фейк область');
+  });
+
+  it('should reset region value after resetLocationValues', () => {
+    component.region.setValue('Фейк область5');
+    component.resetLocationValues('region');
+    expect(component.region.value).toBe('');
   });
 
   it('should call functions on checkisCardExist', () => {
@@ -990,6 +1053,49 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = (component as any).getLangValue('fakeValue', 'enValue');
     expect(value).toBe('fakeValue');
+  });
+
+  it('should check does chosen region equal All', () => {
+    component.region.setValue('All');
+    fixture.detectChanges();
+    const result = component.isRegionValueAll();
+    expect(result).toBe(true);
+    component.region.setValue('Kyiv');
+    const result2 = component.isRegionValueAll();
+    fixture.detectChanges();
+    expect(result2).toBe(false);
+  });
+
+  it('should change region value after input event', () => {
+    const inputRegion = fixture.nativeElement.querySelector('.region');
+    inputRegion.value = 'new value';
+    inputRegion.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.region.value).toBe('new value');
+    });
+  });
+
+  it('should update cities placeholder after input event', () => {
+    const inputRegion = fixture.nativeElement.querySelector('.region');
+    const spy = spyOn(component, 'setCountOfCheckedCity');
+    inputRegion.value = 'new value';
+    inputRegion.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  it('should change region value after input event', () => {
+    const spy = spyOn(component, 'onChangeRegion');
+    const inputRegion = fixture.nativeElement.querySelector('.region');
+    inputRegion.value = 'new value';
+    inputRegion.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {

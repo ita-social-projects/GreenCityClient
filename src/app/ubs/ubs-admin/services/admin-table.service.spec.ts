@@ -5,6 +5,7 @@ import { environment } from '@environment/environment.js';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { OrderStatus } from '../../ubs/order-status.enum';
 
 describe('AdminTableService', () => {
   let httpMock: HttpTestingController;
@@ -166,9 +167,9 @@ describe('AdminTableService', () => {
         key: 'orderStatus',
         ua: 'Статус замовлення',
         values: [
-          { en: 'Formed', filtered: false, key: 'FORMED', ua: 'Сформовано' },
-          { en: 'Canceled', filtered: false, key: 'CANCELED', ua: 'Скасовано' },
-          { en: 'Completed', filtered: false, key: 'COMPLETED', ua: 'Завершено' }
+          { en: 'Formed', filtered: false, key: OrderStatus.FORMED, ua: 'Сформовано' },
+          { en: 'Canceled', filtered: false, key: OrderStatus.CANCELED, ua: 'Скасовано' },
+          { en: 'Completed', filtered: false, key: OrderStatus.DONE, ua: 'Завершено' }
         ]
       }
     ];
@@ -182,7 +183,7 @@ describe('AdminTableService', () => {
 
   it('method changeFilters should set value to localStorageService', () => {
     let option: IFilteredColumnValue;
-    option = { key: 'FORMED', ua: 'Сформовано', en: 'Formed', filtered: false };
+    option = { key: OrderStatus.FORMED, ua: 'Сформовано', en: 'Formed', filtered: false };
     service.changeFilters(true, 'orderStatus', option);
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });
@@ -273,10 +274,9 @@ describe('AdminTableService', () => {
     spyOn(service, 'saveDateFilters');
     service.changeInputDateFilters(value, currentColumn, suffix, false);
     const keyToChange = 'orderDateFrom';
-    service.filters = [{ orderDateFrom: '2022-10-12' }];
+    service.filters = [{ orderDateFrom: '2022-10-08' }];
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
-    expect(filterToChange).toEqual({ orderDateFrom: '2022-10-12' });
-    service.saveDateFilters(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
+    expect(filterToChange).toEqual({ orderDateFrom: '2022-10-08' });
     expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
   });
 
@@ -288,7 +288,6 @@ describe('AdminTableService', () => {
     const keyToChange = 'orderDateTo';
     const filterToChange = service.filters.find((filter) => Object.keys(filter).includes(keyToChange));
     expect(filterToChange).toEqual(undefined);
-    service.saveDateFilters(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
     expect(service.saveDateFilters).toHaveBeenCalledWith(true, 'orderDate', [{ orderDateFrom: '2022-10-12', orderDateTo: '2022-10-12' }]);
   });
 
@@ -336,5 +335,37 @@ describe('AdminTableService', () => {
     spyOn(service, 'getDateChecked');
     service.getDateChecked('dateColumn');
     expect(service.getDateChecked).toHaveBeenCalledWith('dateColumn');
+  });
+
+  it('should set column width preferences', () => {
+    const preference = new Map<string, number>([
+      ['column1', 100],
+      ['column2', 200]
+    ]);
+    service.setUbsAdminOrdersTableColumnsWidthPreference(preference).subscribe((data) => {
+      expect(data).toBeDefined();
+    });
+
+    const req = httpMock.expectOne(`${urlMock}/orderTableColumnsWidth`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual({
+      column1: 100,
+      column2: 200
+    });
+  });
+
+  it('should get column width preferences', () => {
+    const preference = {
+      column1: 100,
+      column2: 200
+    };
+    service.getUbsAdminOrdersTableColumnsWidthPreference().subscribe((data) => {
+      expect(data).toBeDefined();
+      expect(data).toEqual(preference);
+    });
+
+    const req = httpMock.expectOne(`${urlMock}/orderTableColumnsWidth`);
+    expect(req.request.method).toBe('GET');
+    req.flush(preference);
   });
 });

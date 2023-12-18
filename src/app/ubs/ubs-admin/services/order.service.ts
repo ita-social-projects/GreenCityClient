@@ -13,7 +13,7 @@ import {
 } from '../models/ubs-admin.interface';
 import { environment } from '@environment/environment';
 import { IViolation } from '../models/violation.model';
-import { OrderStatus } from 'src/app/ubs/order-status.enum';
+import { OrderStatus } from '../../ubs/order-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -97,11 +97,12 @@ export class OrderService {
   public getOrderInfo(orderId) {
     return this.http.get(`${this.backend}/management/get-data-for-order/${orderId}`);
   }
+
   public updateOrderInfo(orderId: number, lang: string, data: {}, images?: NotTakenOutReasonImages[]) {
     const formData: FormData = new FormData();
     formData.append('updateOrderPageAdminDto', JSON.stringify(data));
 
-    if (images.length) {
+    if (images?.length) {
       images.forEach((img) => {
         formData.append('images', img.src);
       });
@@ -111,6 +112,7 @@ export class OrderService {
       observe: 'response'
     });
   }
+
   public isStatusInArray(status: string, statusArray: Array<string>): boolean {
     return statusArray.some((s) => s === status);
   }
@@ -159,8 +161,8 @@ export class OrderService {
     return this.http.get<any>(`${this.backend}/management/read-order-detail-status/${orderId}`);
   }
 
-  public getOrderHistory(orderId: number): Observable<IOrderHistory[]> {
-    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}`);
+  public getOrderHistory(orderId: number, lang: string): Observable<IOrderHistory[]> {
+    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}?lang=${lang}`);
   }
 
   public getNotTakenOutReason(historyId: number): Observable<INotTakenOutReason> {
@@ -170,9 +172,11 @@ export class OrderService {
   public updateRecipientsData(postData: any) {
     return this.http.put<any>(`${this.backend}`, postData);
   }
+
   public updateOrdersInfo(lang: string, data: {}) {
     return this.http.put(`${this.backend}/management/all-order-page-admin-info?lang=${lang}`, data);
   }
+
   public addPaymentManually(orderId: number, data: PaymentDetails, file?: File): Observable<IPaymentInfoDto> {
     const formData: FormData = new FormData();
     if (file) {
@@ -245,5 +249,9 @@ export class OrderService {
 
   public getOrderCancelReason(orderId: number): Observable<any> {
     return this.http.get<any>(`${this.backend}/management/get-order-cancellation-reason/${orderId}`);
+  }
+
+  public saveOrderIdForRefund(orderId: number) {
+    return this.http.post(`${this.backend}/management/save-order-for-refund/${orderId}`, orderId, { observe: 'response' });
   }
 }

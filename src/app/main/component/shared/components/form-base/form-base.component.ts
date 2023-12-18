@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../../../../ubs/ubs/services/order.service';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Component({
   selector: 'app-form-base',
@@ -34,25 +35,28 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     // TODO: add functionality to this method
   }
 
-  constructor(public router: Router, public dialog: MatDialog, public orderService?: OrderService) {}
+  constructor(
+    public router: Router,
+    public dialog: MatDialog,
+    public orderService?: OrderService,
+    private localStorage?: LocalStorageService
+  ) {}
 
   @HostListener('window:beforeunload')
   canDeactivate(): boolean | Observable<boolean> {
     return this.areChangesSaved ? true : !this.checkChanges();
   }
 
-  public cancel(): void {
-    this.cancelPopupJustifying(true);
+  public cancel(isPristine: boolean): void {
+    this.cancelPopupJustifying(isPristine);
     localStorage.removeItem('newsTags');
   }
 
   public checkChanges(): boolean {
     const body = this.getFormValues();
-    for (const key of Object.keys(body)) {
-      if (JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined) {
-        return true;
-      }
-    }
+    return Object.keys(body).some((key) => {
+      return JSON.stringify(body[key]) !== JSON.stringify(this.initialValues[key]) && this.initialValues[key] !== undefined;
+    });
   }
 
   cancelUBSwithoutSaving(): void {

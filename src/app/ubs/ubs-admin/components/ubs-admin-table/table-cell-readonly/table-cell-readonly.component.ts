@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IColumnBelonging } from '../../../models/ubs-admin.interface';
 import { MouseEvents } from 'src/app/shared/mouse-events';
-import { TableKeys } from '../../../services/table-keys.enum';
 import { Language } from 'src/app/main/i18n/Language';
+import { TableKeys } from '../../../services/table-keys.enum';
+import { Patterns } from 'src/assets/patterns/patterns';
 import { PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
@@ -34,6 +35,10 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
       this.title = !/^0\.00 (UAH|грн)$/.test(String(this.title)) ? `-${this.title}` : this.title;
     }
 
+    if (this.key === TableKeys.clientPhone || this.key === TableKeys.senderPhone) {
+      this.title = `+${this.title?.toString().replace(Patterns.isTherePlus, '')}`;
+    }
+
     const replaceRules = {
       [Language.EN]: { regex: /л|шт/gi, match: { л: 'L', шт: 'p' } },
       [Language.UA]: { regex: /[lp]/gi, match: { l: 'л', p: 'шт' } }
@@ -54,7 +59,6 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
       case PaymnetStatus.PAID:
         this.paid = true;
         break;
-        console.log(this.data);
 
       case PaymnetStatus.HALF_PAID:
         this.halfpaid = true;
@@ -64,7 +68,6 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
         this.unpaid = true;
         break;
     }
-    console.log(this.data, this.paid);
   }
 
   showTooltip(event: any, tooltip: any, maxLength: number = 50): void {

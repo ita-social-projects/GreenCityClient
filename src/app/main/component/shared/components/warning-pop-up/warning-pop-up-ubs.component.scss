@@ -1,79 +1,24 @@
 ::ng-deep .custom-ubs-style {
   .main-container {
-    position: relative;
     max-width: 509px;
-    height: 167px;
     border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     padding: 36px 20px 20px 20px;
     margin: -24px;
 
     .close {
-      position: absolute;
       margin-top: -20px;
       margin-right: -10px;
       top: 0;
       right: 0;
-      border: none;
-      background-color: transparent;
-      outline: none;
     }
 
     .warning-text {
-      display: flex;
-      flex-direction: column;
       font-family: var(--ubs-quaternary-font);
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       line-height: 24px;
       color: var(--ubs-primary-grey);
-    }
-
-    .buttons-container {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .primary-global-button,
-    .secondary-global-button {
-      height: 36px;
-      font-family: var(--ubs-quaternary-font);
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 20px;
-      padding: 6px 4px;
-    }
-
-    .primary-global-button {
-      width: 110px;
-      color: var(--ubs-quaternary-dark-grey);
-      border-color: var(--ubs-button-light-green);
-      background: var(--ubs-button-light-green);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-
-      &:disabled {
-        background: var(--ubs-quaternary-light-grey);
-        border-color: var(--ubs-quaternary-light-grey);
-        color: var(--ubs-secondary-grey);
-      }
-    }
-
-    .secondary-global-button {
-      background-color: #fff;
-      color: var(--ubs-quaternary-dark-grey);
-      border-color: var(--ubs-quaternary-dark-grey);
-      margin-right: 25px;
-      width: 120px;
-    }
-
-    .submit-cancel,
-    .submit-confirm {
-      width: 120px;
     }
   }
 
@@ -102,23 +47,6 @@
       margin-bottom: 89px;
     }
 
-    .buttons-container {
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .secondary-global-button,
-    .primary-global-button {
-      height: 44px !important;
-      width: 200px !important;
-    }
-
-    .secondary-global-button {
-      margin-right: 0 !important;
-      margin-bottom: 32px;
-    }
-
     .close {
       margin: 0 !important;
       top: 40px !important;
@@ -126,9 +54,17 @@
     }
   }
 
-  @media screen and (max-width: 319px) {
+  @media screen and (max-width: 320px) {
     .warning-text {
       text-align: center;
+    }
+
+    .ubs-secondary-global-button,
+    .ubs-primary-global-button {
+      height: 36px;
+      line-height: 20px;
+      font-size: 14px;
+      margin-bottom: 5px;
     }
   }
 }

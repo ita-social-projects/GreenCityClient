@@ -128,6 +128,7 @@
       </div>
     </ng-template>
     <div class="w-100">
+      <div *ngIf="isNotChoosedLocation" class="validate-address">{{ 'personal-info.address-doesnt-match-tariff' | translate }}</div>
       <button
         type="button"
         class="ubs-link-global-button s-link"
@@ -135,7 +136,7 @@
         (click)="addNewAddress()"
         [disabled]="addresses.length >= maxAddressLength"
       >
-        {{ (addresses.length === 0 ? 'personal-info.info-add-first-address' : 'personal-info.info-add-address') | translate }}
+        {{ (!addresses.length ? 'personal-info.info-add-address' : 'personal-info.info-add-new-address') | translate }}
       </button>
     </div>
   </div>
@@ -155,7 +156,7 @@
 </form>
 
 <div class="w-100 buttons">
-  <button class="ubs-back-link-global-button" matStepperPrevious>
+  <button class="ubs-back-link-global-button" matStepperPrevious (click)="cleanOrderDetailsState()">
     <i class="fas fa-chevron-left" aria-hidden="true"></i>
     &nbsp;
     <span class="link-underline">{{ 'personal-info.info-back' | translate }}</span>
@@ -164,7 +165,13 @@
     <button class="ubs-secondary-global-button" type="button" (click)="cancelUBS()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
-    <button type="submit" class="ubs-primary-global-button" matStepperNext [disabled]="personalDataForm.invalid">
+    <button
+      type="submit"
+      class="ubs-primary-global-button"
+      matStepperNext
+      [disabled]="personalDataForm.invalid || isNotChoosedLocation"
+      (click)="savePersonalInfoToState()"
+    >
       {{ 'personal-info.info-next' | translate }}
     </button>
   </div>

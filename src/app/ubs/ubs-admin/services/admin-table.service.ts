@@ -205,21 +205,19 @@ export class AdminTableService {
 
     if (filterToChange) {
       filterToChange[keyToChange] = value;
-      if (!check || Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`])) {
-        if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`]) && suffix === 'From') {
-          filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
-        }
-        if (Date.parse(filterToChange[`${columnName}To`]) < Date.parse(filterToChange[`${columnName}From`]) && suffix === 'To') {
-          filterToChange[`${columnName}From`] = filterToChange[`${columnName}To`];
-        }
-        const element = { ...filterToChange };
-        this.saveDateFilters(true, columnName, element);
-        this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
-      } else {
-        this.filters.push(elem);
-        this.saveDateFilters(true, columnName, this.filters);
-        this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+      if (Date.parse(filterToChange[`${columnName}From`]) > Date.parse(filterToChange[`${columnName}To`]) && suffix === 'From') {
+        filterToChange[`${columnName}To`] = filterToChange[`${columnName}From`];
       }
+      if (Date.parse(filterToChange[`${columnName}To`]) < Date.parse(filterToChange[`${columnName}From`]) && suffix === 'To') {
+        filterToChange[`${columnName}From`] = filterToChange[`${columnName}To`];
+      }
+      const element = { ...filterToChange };
+      this.saveDateFilters(true, columnName, element);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
+    } else {
+      this.filters.push(elem);
+      this.saveDateFilters(true, columnName, this.filters);
+      this.localStorageService.setUbsAdminOrdersTableTitleColumnFilter(this.filters);
     }
   }
 

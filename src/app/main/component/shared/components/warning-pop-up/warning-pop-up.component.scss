@@ -1,12 +1,13 @@
 .main-container {
-  position: relative;
-  max-width: 568px;
-  height: 256px;
-  padding: 56px;
-  border-radius: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+  max-width: 600px;
+  max-height: 324px;
+  padding: 56px;
+  border-radius: 4px;
+  gap: 24px;
 
   .close {
     position: absolute;
@@ -31,20 +32,8 @@
 
 .buttons-container {
   display: flex;
-}
-
-.primary-global-button,
-.secondary-global-button {
-  font-family: var(--primary-font);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 16px;
-  padding: 16px 40px;
-}
-
-.secondary-global-button {
-  background-color: #fff;
-  margin-right: 24px;
+  justify-content: flex-end;
+  gap: 16px;
 }
 
 @media screen and (max-width: 767px) {
@@ -55,11 +44,6 @@
   .warning-text {
     font-size: 18px;
     line-height: 24px;
-  }
-
-  .secondary-global-button,
-  .primary-global-button {
-    padding: 16px 38px;
   }
 }
 
@@ -78,24 +62,17 @@
   }
 
   .buttons-container {
-    width: 288px;
-    height: 128px;
+    align-items: center;
     flex-direction: column;
-    justify-content: space-between;
-  }
+    gap: 24px;
 
-  .secondary-global-button,
-  .primary-global-button {
-    height: 48px;
-    margin: 0;
-  }
-
-  .secondary-global-button {
-    margin-bottom: 32px;
+    button {
+      width: 200px;
+    }
   }
 }
 
-@media screen and (max-width: 319px) {
+@media screen and (max-width: 320px) {
   .warning-text {
     text-align: center;
     margin-bottom: 15px;
@@ -106,13 +83,11 @@
     right: 5px;
   }
 
-  .buttons-container {
-    width: auto;
-  }
-
   .secondary-global-button,
   .primary-global-button {
-    height: auto;
+    height: 36px;
+    line-height: 20px;
+    font-size: 14px;
     margin-bottom: 5px;
   }
 }

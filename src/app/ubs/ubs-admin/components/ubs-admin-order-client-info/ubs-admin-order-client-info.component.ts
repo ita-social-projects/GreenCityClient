@@ -7,6 +7,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
 import { Masks } from 'src/assets/patterns/patterns';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',
@@ -18,8 +19,10 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   @Input() userInfoDto: FormGroup;
   @Input() orderId: number;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   phoneMask = Masks.phoneMask;
+  isTherePlus = Patterns.isTherePlus;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   pageOpen: boolean;

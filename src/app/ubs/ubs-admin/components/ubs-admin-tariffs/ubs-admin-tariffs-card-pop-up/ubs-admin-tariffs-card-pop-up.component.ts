@@ -16,6 +16,8 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { TariffConfirmationPopUpInterface } from 'src/app/ubs/ubs-admin/models/ubs-pop-up.interface';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-card-pop-up',
@@ -73,6 +75,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   regionEng: string;
   isEdit: boolean;
   isCreate: boolean;
+  provideValues: boolean;
   tariffId: number;
   isLocationAlreadyUsed: boolean;
   cityPlaceholderTranslated: string;
@@ -88,7 +91,8 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsCardPopUpComponent>,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private snackBar: MatSnackBarComponent
   ) {}
 
   get courier() {
@@ -110,13 +114,16 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.tariffId = this.modalData.tariffId;
     this.courierNameUk = this.modalData.courierUkrainianName;
     this.courierNameEn = this.modalData.courierEnglishName;
-
-    this.currentStation = this.modalData.selectedStation;
-
-    this.regionEnglishName = this.modalData.regionEnglishName;
-    this.regionUkrainianName = this.modalData.regionUkrainianName;
-    this.cityUk = this.modalData.cityNameUk;
-    this.cityEn = this.modalData.cityNameEn;
+    this.provideValues = this.modalData.provideValues;
+    this.currentStation = this.modalData.selectedStation || '';
+    this.regionEnglishName = this.modalData.regionEnglishName || '';
+    this.regionUkrainianName = this.modalData.regionUkrainianName || '';
+    this.regionId = this.modalData.regionId || null;
+    this.cityUk = this.modalData.cityNameUk || '';
+    this.cityEn = this.modalData.cityNameEn || '';
+    this.courierId = this.modalData.courierId || null;
+    this.courierEnglishName = this.modalData.courierEnglishName || '';
+    this.courierUkrainianName = this.modalData.courierUkrainianName || '';
 
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.unsubscribe)).subscribe((firstName) => {
       this.name = firstName;
@@ -134,7 +141,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.getLocations();
     this.setCountOfSelectedCity();
 
-    if (this.isEdit) {
+    if (this.isEdit || this.provideValues) {
       this.fillFields(this.modalData);
     }
   }
@@ -196,7 +203,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       .subscribe((res: Stations[]) => {
         this.stations = res;
 
-        if (this.isEdit) {
+        if (this.isEdit || this.provideValues) {
           this.setSelectedStation();
         }
 
@@ -225,7 +232,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
           )
           .flat(2);
 
-        if (this.isEdit) {
+        if (this.isEdit || (this.provideValues && this.regionEnglishName)) {
           this.setSelectedCities();
         }
       }
@@ -344,7 +351,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
 
     this.regionId = selectedValue.find((it) => it.regionId).regionId;
     const currentRegion = this.locations.filter((element) => element.regionTranslationDtos.find((it) => it.regionName === event.value));
-    if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
+    if (!currentRegion?.length || !currentRegion[0].locationsDto) {
       return;
     }
     this.selectedCities = [];
@@ -452,9 +459,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   public createCardDto() {
     this.createCardObj = {
       courierId: this.courierId,
-      receivingStationsIdList: this.selectedStation.map((it) => it.id).sort(),
+      receivingStationsIdList: this.selectedStation.map((it) => it.id),
       regionId: this.regionId,
-      locationIdList: this.selectedCities.map((it) => it.locationId).sort()
+      locationIdList: this.selectedCities.map((it) => it.locationId)
     };
   }
 
@@ -468,6 +475,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
       locationIds: this.selectedCities.map((val) => val.locationId),
       receivingStationIds: this.selectedStation.map((station) => station.id)
     };
+
     const newValueOfCard = {
       citiesEn: this.selectedCities.map((city) => city.englishLocation),
       citiesUk: this.selectedCities.map((city) => city.location),
@@ -482,7 +490,10 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
     this.tariffsService
       .editTariffInfo(body, this.tariffId)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.dialogRef.close(newValueOfCard));
+      .subscribe(() => {
+        this.dialogRef.close(newValueOfCard);
+        this.snackBar.openSnackBar('successUpdateUbsData');
+      });
   }
 
   fillFields(modalData) {
@@ -518,18 +529,19 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
             panelClass: 'address-matDialog-styles-w-100',
             data: {
               title: 'ubs-tariffs-add-location-pop-up.create_card_title',
-              courierName: this.courierUkrainianName,
-              courierEnglishName: this.courierEnglishName,
+              courierNameUa: this.courierUkrainianName,
+              courierNameEn: this.courierEnglishName,
               stationNames: this.selectedStation.map((it) => it.name),
-              regionName: this.regionUkrainianName,
-              regionEnglishName: this.regionEnglishName,
+              regionNameUa: this.regionUkrainianName,
+              regionNameEn: this.regionEnglishName,
               locationNames: this.selectedCities,
               action: 'ubs-tariffs-add-location-pop-up.create_button'
-            }
+            } as TariffConfirmationPopUpInterface
           });
           matDialogRef.afterClosed().subscribe((res) => {
             if (res) {
               this.createCardRequest(this.createCardObj);
+              this.snackBar.openSnackBar('successUpdateUbsData');
             }
           });
         }

@@ -186,9 +186,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   }
 
   getLocations(isActive: boolean): void {
-    this.fetchLocations(isActive);
-    this.tariffsService
-      .getActiveLocations()
+    this.fetchLocations(isActive)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((res: Locations[]) => {
         this.locations = res;

@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, OnChanges, SimpleChanges } from '@
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IEmployee, IResponsiblePersons } from '../../models/ubs-admin.interface';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 
 @Component({
   selector: 'app-ubs-admin-responsible-persons',
@@ -12,6 +13,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
   @Input() responsiblePersonInfo: IResponsiblePersons;
   @Input() responsiblePersonsForm: FormGroup;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   public allCallManagers: string[];
   public allLogisticians: string[];
@@ -22,7 +24,7 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.orderStatus?.currentValue === 'CANCELED' || changes.orderStatus?.currentValue === 'DONE') {
+    if (changes.orderStatus?.currentValue === OrderStatus.CANCELED || changes.orderStatus?.currentValue === OrderStatus.DONE) {
       this.isOrderStatusCancelOrDone = true;
     }
   }
@@ -43,6 +45,14 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
     this.allDrivers = this.getEmployeesById(employees, 5);
   }
 
+  public isFormRequired(): boolean {
+    const isNotOpen = !this.pageOpen;
+    const isNotValid = !this.responsiblePersonsForm.valid;
+    const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
+
+    return isNotOpen && isNotValid && isNotCancelOrDone;
+  }
+
   public getEmployeesById(employeeObjects: Map<string, IEmployee[]>, id: number): string[] {
     for (const key of Object.keys(employeeObjects)) {
       if (key.includes(`id=${id},`)) {
@@ -54,14 +64,6 @@ export class UbsAdminResponsiblePersonsComponent implements OnInit, OnDestroy, O
       }
     }
     return [];
-  }
-
-  public isFormRequired(): boolean {
-    const isNotOpen = !this.pageOpen;
-    const isNotValid = !this.responsiblePersonsForm.valid;
-    const isNotCancelOrDone = !this.isOrderStatusCancelOrDone;
-
-    return isNotOpen && isNotValid && isNotCancelOrDone;
   }
 
   ngOnDestroy(): void {

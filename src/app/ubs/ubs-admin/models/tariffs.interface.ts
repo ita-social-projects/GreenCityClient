@@ -108,10 +108,16 @@ interface Location {
   locationName: string;
 }
 
+export interface City {
+  id: number;
+  locationTranslationDtoList: { locationName: string; languageCode: string }[];
+  name: string;
+}
+
 export interface EditLocationName {
   nameEn: string;
   nameUa: string;
-  locationId: number;
+  locationId?: number;
 }
 
 export interface CreateCard {
@@ -119,6 +125,14 @@ export interface CreateCard {
   locationIdList: Array<number>;
   receivingStationsIdList: Array<number>;
   regionId: number;
+}
+
+export interface FilterData {
+  positions: Array<number>;
+  regions: Array<number>;
+  locations: Array<number>;
+  couriers: Array<number>;
+  employeeStatus: string;
 }
 
 export interface TariffCard {
@@ -168,18 +182,4 @@ export interface TranslationDto {
   locationName?: string;
   regionName?: string;
   languageCode: string;
-}
-
-export interface City {
-  id: number;
-  locationTranslationDtoList: { locationName: string; languageCode: string }[];
-  name: string;
-}
-
-export interface FilterData {
-  positions: Array<number>;
-  regions: Array<number>;
-  locations: Array<number>;
-  couriers: Array<number>;
-  employeeStatus: string;
 }

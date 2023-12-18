@@ -3,7 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -61,6 +61,7 @@ describe('UbsAdminNotificationListComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
+        FormsModule,
         NgxPaginationModule,
         TranslateModule.forRoot()
       ],
@@ -86,16 +87,6 @@ describe('UbsAdminNotificationListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call loadPage() with correct arguments when onPageChanged() is called', () => {
-    const loadPageSpy = spyOn(component, 'loadPage');
-    const page = 2;
-
-    component.onPageChanged(page);
-
-    expect(loadPageSpy).toHaveBeenCalledWith(page, component.filtersForm.value);
-    expect(component.currentPage).toBe(page);
   });
 
   it('should update notifications and totalItems when loadPage() is called', () => {

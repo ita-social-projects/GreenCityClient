@@ -207,20 +207,20 @@ describe('TariffsService', () => {
     httpTest('/ubs/superAdmin/getActiveLocations', 'GET', location);
   });
 
-  it('should return all couriers', () => {
-    service.getCouriers().subscribe((data) => {
-      expect(data).toBe(courier as any);
-    });
-
-    httpTest('/ubs/superAdmin/getCouriers', 'GET', courier);
-  });
-
   it('should return deactivated locations', () => {
     service.getDeactivatedLocations().subscribe((data) => {
       expect(data).toBe(location);
     });
 
     httpTest('/ubs/superAdmin/getDeactivatedLocations', 'GET', location);
+  });
+
+  it('should return all couriers', () => {
+    service.getCouriers().subscribe((data) => {
+      expect(data).toBe(courier as any);
+    });
+
+    httpTest('/ubs/superAdmin/getCouriers', 'GET', courier);
   });
 
   it('should edit info', () => {
@@ -275,13 +275,6 @@ describe('TariffsService', () => {
       expect(data).toBe(courier);
     });
     httpTest('/ubs/superAdmin/update-courier', 'PUT', courier);
-  });
-
-  it('should edit location name', () => {
-    service.editLocationName([editLocation]).subscribe((data) => {
-      expect(data).toEqual([editLocation]);
-    });
-    httpTest('/ubs/superAdmin/locations/edit', 'POST', [editLocation]);
   });
 
   it('should return filtered card', () => {

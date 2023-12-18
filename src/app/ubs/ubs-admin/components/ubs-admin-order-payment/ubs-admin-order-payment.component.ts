@@ -10,6 +10,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-order-payment',
@@ -21,9 +22,11 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   @Input() actualPrice: number;
   @Input() totalPaid: number;
   @Input() orderStatus: string;
+  @Input() isEmployeeCanEditOrder: boolean;
 
   @Output() newPaymentStatus = new EventEmitter<string>();
   @Output() paymentUpdate = new EventEmitter<number>();
+  @Output() paymentToBonusAccount = new EventEmitter<number>();
 
   public message: string;
   public pageOpen: boolean;
@@ -37,19 +40,30 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   public currentOrderStatus: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public isMoneyReturning = false;
+  public isRefundApplicationCreate = false;
   private returnMoneyDialogDate = {
     popupTitle: 'return-payment.message',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
-    style: 'green'
+    style: PopUpsStyles.green
   };
 
   private refundApplicationDialogDate = {
     popupTitle: 'return-payment.accept-refund-application',
     popupConfirm: 'employees.btn.yes',
     popupCancel: 'employees.btn.no',
-    style: 'green',
-    isItrefund: true
+    style: PopUpsStyles.green,
+    isItrefund: true,
+    іsPermissionConfirm: true
+  };
+
+  private refundApplicationErrorDialogDate = {
+    popupTitle: 'return-payment.error-refund-application',
+    popupConfirm: 'employees.btn.yes',
+    popupCancel: 'employees.btn.no',
+    style: PopUpsStyles.green,
+    isItrefund: true,
+    іsPermissionConfirm: true
   };
 
   constructor(
@@ -64,7 +78,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.currentOrderStatus = this.orderStatus;
     this.orderId = this.orderInfo.generalOrderInfo.id;
     this.paymentInfo = this.orderInfo.paymentTableInfoDto;
-    this.overpayment = this.currentOrderStatus === 'CANCELED' ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
+    this.overpayment = this.currentOrderStatus === OrderStatus.CANCELED ? this.paymentInfo.paidAmount : this.paymentInfo.overpayment;
     this.paymentsArray = this.paymentInfo.paymentInfoDtos;
     this.paidAmount = this.paymentInfo.paidAmount;
     const sumDiscount = this.orderInfo.orderBonusDiscount + this.orderInfo.orderCertificateTotalDiscount;
@@ -72,7 +86,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     this.unPaidAmount = notPaid > 0 ? notPaid : 0;
     this.setDateInPaymentArray(this.paymentsArray);
     this.positivePaymentsArrayAmount();
-    this.createPaymentsIdArray();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -83,7 +96,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
 
     if (changes.orderStatus) {
       this.currentOrderStatus = changes.orderStatus.currentValue;
-      if (this.currentOrderStatus === 'CANCELED') {
+      if (this.currentOrderStatus === OrderStatus.CANCELED) {
         this.overpayment = this.totalPaid;
       }
     }
@@ -99,12 +112,6 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     });
   }
 
-  public createPaymentsIdArray(): void {
-    this.paymentsArray.forEach((payment: IPaymentInfoDto) => {
-      this.paymentsIdArray.push(payment.paymentId);
-    });
-  }
-
   public setDateInPaymentArray(paymentsArray: IPaymentInfoDto[]): void {
     paymentsArray.forEach((payment: IPaymentInfoDto) => {
       payment.settlementdate = this.formatDate(payment.settlementdate);
@@ -116,7 +123,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public isOverpaymentReturnAvailable(): boolean {
-    return this.overpayment && this.currentOrderStatus === 'CANCELED';
+    return this.overpayment && this.currentOrderStatus === OrderStatus.CANCELED;
   }
 
   public setOverpayment(overpayment: number): void {
@@ -129,7 +136,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
   }
 
   public displayUnpaidAmount(): boolean {
-    return this.unPaidAmount && this.currentOrderStatus !== 'CANCELED';
+    return this.unPaidAmount && this.currentOrderStatus !== OrderStatus.CANCELED;
   }
 
   public setCancelOrderOverpayment(sum: number): void {
@@ -140,7 +147,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
     const currentDate: string = this.getStringDate(new Date());
     const paymentDetails: PaymentDetails = {
       amount: sum,
-      receiptLink: 'Зарахування на бонусний рахунок',
+      receiptLink: 'Enrollment to the bonus account',
       settlementdate: currentDate
     };
 
@@ -150,6 +157,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       this.totalPaid -= this.overpayment;
       this.overpayment = 0;
       this.paymentUpdate.emit(this.overpayment);
+      this.paymentToBonusAccount.emit(responce.amount);
     });
   }
 
@@ -167,21 +175,21 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.isMoneyReturning = true;
-          this.creationOfRefundApplication();
-          // TO DO
+          this.orderService.saveOrderIdForRefund(id).subscribe((response) => {
+            if (response.status === 201) {
+              this.isMoneyReturning = true;
+              this.isRefundApplicationCreate = true;
+            }
+            this.dialog.open(DialogPopUpComponent, {
+              data: this.isRefundApplicationCreate ? this.refundApplicationDialogDate : this.refundApplicationErrorDialogDate,
+              hasBackdrop: true,
+              closeOnNavigation: true,
+              disableClose: true,
+              panelClass: ''
+            });
+          });
         }
       });
-  }
-
-  creationOfRefundApplication() {
-    this.dialog.open(DialogPopUpComponent, {
-      data: this.refundApplicationDialogDate,
-      hasBackdrop: true,
-      closeOnNavigation: true,
-      disableClose: true,
-      panelClass: ''
-    });
   }
 
   public recountUnpaidAmount(value: number): void {
@@ -222,7 +230,7 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
       .open(AddPaymentComponent, {
         hasBackdrop: true,
         closeOnNavigation: true,
-        disableClose: true,
+        disableClose: false,
         panelClass: 'custom-dialog-container',
         height: '100%',
         data: {

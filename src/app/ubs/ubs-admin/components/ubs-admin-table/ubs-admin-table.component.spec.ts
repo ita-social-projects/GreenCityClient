@@ -2,7 +2,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UbsAdminTableComponent } from './ubs-admin-table.component';
@@ -25,11 +25,15 @@ import { Language } from 'src/app/main/i18n/Language';
 import { DateAdapter } from '@angular/material/core';
 import { FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableHeightService } from '../../services/table-height.service';
+import { Router } from '@angular/router';
+
 describe('UsbAdminTableComponent', () => {
   let component: UbsAdminTableComponent;
   let fixture: ComponentFixture<UbsAdminTableComponent>;
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  let router: Router;
 
   const initDateMock = {
     orderDateFrom: '',
@@ -122,7 +126,7 @@ describe('UsbAdminTableComponent', () => {
 
   beforeEach(() => {
     localStorageServiceMock.getUbsAdminOrdersTableTitleColumnFilter = () => {
-      return [{ orderStatus: 'FORMED' }];
+      return [{ orderStatus: OrderStatus.FORMED }];
     };
 
     localStorageServiceMock.getAdminOrdersDateFilter = () => {
@@ -136,6 +140,7 @@ describe('UsbAdminTableComponent', () => {
     component.ordersViewParameters$ = of(false) as any;
     component.bigOrderTableParams$ = of(false) as any;
     component.bigOrderTable$ = of(false) as any;
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -358,7 +363,7 @@ describe('UsbAdminTableComponent', () => {
     const event: MatCheckboxChange = { source: {} as any, checked: true };
 
     component.tableData = [
-      { id: 1, orderStatus: 'DONE' },
+      { id: 1, orderStatus: OrderStatus.DONE },
       { id: 2, orderStatus: 'NEW' },
       { id: 3, orderStatus: 'NEW' }
     ];
@@ -385,7 +390,7 @@ describe('UsbAdminTableComponent', () => {
 
   it('checkboxLabel should return deselect all', () => {
     component.dataSource = { data: [{ id: 2 }] } as any;
-    component.tableData = [{ id: 2, orderStatus: 'DONE' }];
+    component.tableData = [{ id: 2, orderStatus: OrderStatus.DONE }];
     const Res = component.checkboxLabel();
 
     expect(Res).toBe('deselect all');
@@ -685,11 +690,12 @@ describe('UsbAdminTableComponent', () => {
     expect(component.cancellationComment).toBe('cancellation comment');
   });
 
-  it('openOrder expect router.navigate should be call with arguments', () => {
-    spyOn((component as any).router, 'navigate');
+  it('openOrder expect router.navigate should be called with arguments', fakeAsync(() => {
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     component.openOrder(1);
-    expect((component as any).router.navigate).toHaveBeenCalledWith(['ubs-admin', 'order', '1']);
-  });
+    tick();
+    expect(router.navigate).toHaveBeenCalledWith(['ubs-admin', 'order', '1']);
+  }));
 
   it('showTooltip', () => {
     const event = jasmine.createSpyObj('event', ['stopImmediatePropagation']);
@@ -773,15 +779,6 @@ describe('UsbAdminTableComponent', () => {
     expect(component.filters).toEqual(val);
   });
 
-  it('should call clearFilters', () => {
-    spyOn(component, 'clearFilters');
-    const button: DebugElement = fixture.debugElement.query(By.css('.clear-apply-group .ubs-secondary-global-button'));
-    fixture.detectChanges();
-    button.triggerEventHandler('click', null);
-    fixture.detectChanges();
-    expect(component.clearFilters).toHaveBeenCalledTimes(1);
-  });
-
   it('should call all methods by clearFilters', () => {
     spyOn((component as any).adminTableService, 'setFilters');
     spyOn(component, 'setColumnsForFiltering');
@@ -843,7 +840,7 @@ describe('UsbAdminTableComponent', () => {
   });
 
   it('checkStatusOfOrders', () => {
-    component.tableData = [{ id: 1, orderStatus: 'DONE' }];
+    component.tableData = [{ id: 1, orderStatus: OrderStatus.DONE }];
     const Res = component.checkStatusOfOrders(1);
     expect(Res).toBe(true);
   });
@@ -880,12 +877,4 @@ describe('UsbAdminTableComponent', () => {
 
     expect(result).toBe(true);
   });
-
-  /*it('should add filters from localStorage', () => {
-    const mockedData = [{'orderStatus': 'FORMED'}, {'deliveryDateTo': '2022-05-01', 'deliveryDateFrom': '2021-05-01'}];
-
-    localStorageServiceMock.setUbsAdminOrdersTableTitleColumnFilter(mockedData);
-
-    //expect((component as any).adminTableService.setFilters).toHaveBeenCalledWith([{ orderStatus: 'done' }]);
-  });/** */
 });

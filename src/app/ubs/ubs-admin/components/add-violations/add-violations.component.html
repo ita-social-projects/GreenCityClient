@@ -36,6 +36,7 @@
         class="description"
         placeholder="{{ 'add-violation-modal.placeholder' | translate }}"
         formControlName="violationDescription"
+        maxlength="256"
       ></textarea>
       <div class="row error-message" *ngIf="addViolationForm.invalid && addViolationForm.get('violationDescription').touched">
         <p>{{ 'add-violation-modal.description-error-message' | translate }}</p>
@@ -58,7 +59,7 @@
       <div class="image-container" appDrag (files)="onFilesDropped($event)" *ngFor="let img of images">
         <img class="image-preview" [src]="img.src" alt="image-of-violation" (click)="openImg(img)" />
         <div class="delete-block">
-          <div>{{ img.name | maxImageName: 12 }}</div>
+          <div>{{ img.name | maxTextLength }}</div>
           <div class="delete-image-button" (click)="deleteImage(img)">X</div>
         </div>
       </div>

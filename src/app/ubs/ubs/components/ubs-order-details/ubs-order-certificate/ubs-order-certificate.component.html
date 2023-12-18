@@ -1,6 +1,6 @@
 <div [formGroup]="orderDetailsForm">
   <div
-    class="addCertificate"
+    class="add-certificate"
     formArrayName="formArrayCertificates"
     *ngFor="let certificate of formArrayCertificates.controls; let i = index"
   >
@@ -19,7 +19,7 @@
       <button
         *ngIf="showActivateButton(i)"
         type="button"
-        class="primary-global-button btn"
+        class="ubs-primary-global-button s-btn"
         [disabled]="
           showMessageForAlreadyEnteredCert(i) ||
           formArrayCertificates['controls'][i].invalid ||
@@ -35,7 +35,7 @@
         [disabled]="cancelCertBtn"
         *ngIf="showCancelButton(i)"
         type="button"
-        class="primary-global-button btn"
+        class="ubs-secondary-global-button s-btn"
         (click)="deleteCertificate(i)"
       >
         {{ 'order-details.cancel' | translate }}
@@ -56,29 +56,14 @@
       <small class="text-danger" *ngIf="showMessageForAlreadyUsedCert(i)">
         {{ 'order-details.already-used' | translate: { certDate: certificates.dateOfUses[i] } }}
       </small>
-
       <small class="text-danger" *ngIf="showMessageForAlreadyEnteredCert(i)">
-        {{
-          'order-details.already-used'
-            | translate
-              : {
-                  certDate: formArrayCertificates.controls[i].value
-                }
-        }}
+        {{ 'order-details.already-used' | translate: { certDate: formArrayCertificates.controls[i].value } }}
       </small>
-
       <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
         {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
       </small>
       <small class="text-message" *ngIf="showActivateCetificate(i)">
-        {{
-          'order-details.activated'
-            | translate
-              : {
-                  certificateSum: certificates.points[i],
-                  certDate: certificates.expirationDates[i]
-                }
-        }}
+        {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
       </small>
       <small class="text-message" *ngIf="certSize && certificateSum > showTotal && i === certificates.codes.length - 1">
         {{
@@ -108,7 +93,7 @@
   <button
     type="button"
     *ngIf="addCert && sumForActCertificate > 0 && !certificates.failed[certificates.failed.length - 1]"
-    class="addCertificateBtn"
+    class="ubs-link-global-button s-link"
     [hidden]="certificates.codes.length > 4"
     [disabled]="
       !disableAddCertificate() ||

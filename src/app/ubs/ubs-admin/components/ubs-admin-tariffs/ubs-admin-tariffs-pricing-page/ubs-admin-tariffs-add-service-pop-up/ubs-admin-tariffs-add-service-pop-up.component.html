@@ -16,7 +16,7 @@
           class="shadow-none form-control"
           id="name"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
-          maxlength="31"
+          maxlength="256"
           required
         />
         <div class="error-message" *ngIf="getControl('name').invalid && getControl('name').touched">
@@ -31,7 +31,7 @@
           class="shadow-none form-control"
           id="nameEng"
           placeholder="{{ 'ubs-tariffs-add-service.placeholder-service' | translate }}"
-          maxlength="31"
+          maxlength="256"
           required
         />
         <div class="error-message" *ngIf="getControl('nameEng').invalid && getControl('nameEng').touched">

@@ -81,9 +81,9 @@ describe('UbsAdminCustomersComponent', () => {
   });
 
   it('method togglePopUp should toggle display', () => {
-    component.isFiltersOpened = false;
+    component.display = 'block';
     component.togglePopUp();
-    expect(component.isFiltersOpened).toBeTruthy();
+    expect(component.display).toBe('none');
   });
 
   it('method initFilterForm should assign data to filters', () => {

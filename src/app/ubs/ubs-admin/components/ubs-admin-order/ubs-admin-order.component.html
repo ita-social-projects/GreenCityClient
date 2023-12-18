@@ -18,6 +18,7 @@
           [unPaidAmount]="unPaidAmount"
           [currentLanguage]="currentLanguage"
           [additionalPayment]="additionalPayment"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
           (changedOrderStatus)="onChangedOrderStatus($event)"
           (cancelReason)="onCancelReason($event)"
           (notTakenOutReason)="onNotTakenOutReason($event)"
@@ -28,20 +29,25 @@
           [userInfo]="userInfo"
           [orderId]="orderId"
           [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
         >
         </app-ubs-admin-order-client-info>
         <app-ubs-admin-address-details
           [addressExportDetailsDto]="getFormGroup('addressExportDetailsDto')"
           [addressComment]="orderInfo.addressComment"
           [generalInfo]="generalInfo"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
         >
         </app-ubs-admin-address-details>
         <app-ubs-admin-order-details-form
           [orderDetailsForm]="getFormGroup('orderDetailsForm')"
           [orderDetailsOriginal]="orderDetails"
           [orderStatusInfo]="orderStatusInfo"
-          [generalInfo]="generalInfo"
+          [orderInfo]="orderInfo"
           [totalPaid]="totalPaid"
+          [updateBonusAccount]="updateBonusAccount"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
+          (deleteNumberOrderFromEcoShopChanged)="deleteNumberOrderFromEcoShopChange($event)"
           (changeOverpayment)="changeOverpayment($event)"
           (checkMinOrder)="setMinOrder($event)"
           (changeCurrentPrice)="onChangeCurrentPrice($event)"
@@ -54,19 +60,23 @@
           [totalPaid]="totalPaid"
           [orderInfo]="orderInfo"
           [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
           (newPaymentStatus)="onUpdatePaymentStatus($event)"
           (paymentUpdate)="onPaymentUpdate($event)"
+          (paymentToBonusAccount)="onPaymentToBonusAccount($event)"
         ></app-ubs-admin-order-payment>
         <app-ubs-admin-export-details
           [exportDetailsDto]="getFormGroup('exportDetailsDto')"
           [exportInfo]="exportInfo"
           [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
         >
         </app-ubs-admin-export-details>
         <app-ubs-admin-responsible-persons
           [responsiblePersonsForm]="getFormGroup('responsiblePersonsForm')"
           [responsiblePersonInfo]="responsiblePersonInfo"
           [orderStatus]="currentOrderStatus"
+          [isEmployeeCanEditOrder]="isEmployeeCanEditOrder"
         >
         </app-ubs-admin-responsible-persons>
         <app-ubs-admin-order-history [orderInfo]="orderInfo" (cancelReason)="onCancelReason($event)"></app-ubs-admin-order-history>

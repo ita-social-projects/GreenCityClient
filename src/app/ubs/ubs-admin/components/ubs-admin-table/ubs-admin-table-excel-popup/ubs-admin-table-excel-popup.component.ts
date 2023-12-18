@@ -4,9 +4,9 @@ import { AdminCertificateService } from 'src/app/ubs/ubs-admin/services/admin-ce
 import { AdminCustomersService } from 'src/app/ubs/ubs-admin/services/admin-customers.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from 'src/app/main/i18n/Language';
+import { IBigOrderTableOrderInfo } from '../../../models/ubs-admin.interface';
 import { tableViewParameters, nameOfTable, notTranslatedRows } from '../../../models/admin-tables.model';
 import * as XLSX from 'xlsx';
-import { IBigOrderTableOrderInfo } from '../../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-table-excel-popup',
@@ -57,10 +57,10 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
   saveTable(): void {
     this.isLoading = true;
     const isSelectedOrders = this.tableView === tableViewParameters.selectedOrders;
+
     const isOrdersTable = this.name === nameOfTable.ordersTable;
     const isCertificatesTable = this.name === nameOfTable.certificatesTable;
     const isCustomersTable = this.name === nameOfTable.customersTable;
-
     if (this.tableView === tableViewParameters.wholeTable) {
       if (isOrdersTable) {
         this.getOrdersTable(this.onePageForWholeTable, this.allElements, '', 'DESC', 'id')
@@ -134,40 +134,26 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     }
   }
 
-  getColumnValue(columnKey: string, itemKey: string, language: string): string {
+  getColumnValue(columnKey: string, itemKey: string): string {
     const column = this.dataForTranslation.find((columnItem) => columnItem.titleForSorting === columnKey);
     const item = column.checked.find((status) => status.key === itemKey);
-    return item ? item[language] : itemKey;
-  }
-
-  filterDataForDeletedColumn() {
-    this.columnTitles = this.columnTitles.filter((title, index) => this.columnToDisplay.includes(this.columnKeys[index]));
-
-    this.columnKeys = this.columnKeys.filter((key) => this.columnToDisplay.includes(key));
-
-    this.tableData = this.tableData.map((row) => {
-      const filteredRow = {};
-      this.columnKeys.forEach((key) => {
-        filteredRow[key] = row[key];
-      });
-      return filteredRow;
-    });
+    return item ? item[this.language] : itemKey;
   }
 
   getUpdatedRows(row): IBigOrderTableOrderInfo {
     return {
       ...row,
-      orderStatus: this.getColumnValue('orderStatus', row.orderStatus, this.language),
-      orderPaymentStatus: this.getColumnValue('orderPaymentStatus', row.orderPaymentStatus, this.language),
+      orderStatus: this.getColumnValue(notTranslatedRows.orderStatus, row.orderStatus),
+      orderPaymentStatus: this.getColumnValue(notTranslatedRows.orderPaymentStatus, row.orderPaymentStatus),
       address: row.address ? row.address[this.language] : row.address,
       city: row.city ? row.city[this.language] : row.city,
       region: row.region ? row.region[this.language] : row.region,
       district: row.district ? row.district[this.language] : row.district,
-      receivingStation: this.getColumnValue('receivingStation', row.receivingStation, this.language),
-      responsibleDriver: this.getColumnValue('responsibleDriver', row.responsibleDriver, this.language),
-      responsibleNavigator: this.getColumnValue('responsibleNavigator', row.responsibleNavigator, this.language),
-      responsibleCaller: this.getColumnValue('responsibleCaller', row.responsibleCaller, this.language),
-      responsibleLogicMan: this.getColumnValue('responsibleLogicMan', row.responsibleLogicMan, this.language)
+      receivingStation: this.getColumnValue(notTranslatedRows.receivingStation, row.receivingStation),
+      responsibleDriver: this.getColumnValue(notTranslatedRows.responsibleDriver, row.responsibleDriver),
+      responsibleNavigator: this.getColumnValue(notTranslatedRows.responsibleNavigator, row.responsibleNavigator),
+      responsibleCaller: this.getColumnValue(notTranslatedRows.responsibleCaller, row.responsibleCaller),
+      responsibleLogicMan: this.getColumnValue(notTranslatedRows.responsibleLogicMan, row.responsibleLogicMan)
     };
   }
 
@@ -206,14 +192,27 @@ export class UbsAdminTableExcelPopupComponent implements OnInit {
     return this.adminCustomerService.getCustomers(columnName, currentPage, filters, search, pageSize, sortingType).toPromise();
   }
 
+  filterDataForDeletedColumn() {
+    this.columnTitles = this.columnTitles.filter((title, index) => this.columnToDisplay.includes(this.columnKeys[index]));
+
+    this.columnKeys = this.columnKeys.filter((key) => this.columnToDisplay.includes(key));
+
+    this.tableData = this.tableData.map((row) => {
+      const filteredRow = {};
+      this.columnKeys.forEach((key) => {
+        filteredRow[key] = row[key];
+      });
+      return filteredRow;
+    });
+  }
+
   createXLSX() {
     this.isLoading = false;
-
     if (this.tableData) {
       const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableData, { header: this.columnKeys });
       const wst = XLSX.utils.sheet_add_aoa(ws, [this.columnTitles], { origin: 'A1' });
-
       const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
       XLSX.utils.book_append_sheet(wb, wst, 'Sheet1');
       XLSX.writeFile(wb, this.name);
     } else {

@@ -189,7 +189,8 @@ describe('AddViolationsComponent', () => {
       data: {
         popupTitle: 'add-violation-modal.delete-message',
         popupConfirm: 'employees.btn.yes',
-        popupCancel: 'employees.btn.no'
+        popupCancel: 'employees.btn.no',
+        style: 'red'
       },
       hasBackdrop: true,
       closeOnNavigation: true,

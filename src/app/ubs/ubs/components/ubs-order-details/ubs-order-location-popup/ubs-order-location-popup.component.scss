@@ -29,18 +29,26 @@
   }
 
   .form {
-    margin: 28px auto;
     font-size: 20px;
+    margin: 28px auto;
 
     .city-container {
       width: 60%;
+      position: relative;
+
+      .arrowDownImg {
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        cursor: pointer;
+      }
     }
 
     .select {
       height: 36px;
       width: 328px;
       padding: 0 10px;
-      border: 1px solid var(--ubs-grey-blue);
+      border: 1px solid var(--ubs-quintynary-light-grey);
       border-radius: 4px;
       outline: none;
     }
@@ -95,41 +103,20 @@
   }
 
   .footer-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
     margin: 20px 36px;
-
-    button {
-      margin: 0 10px;
-      padding: 8px 24px;
-      border-radius: 4px;
-      width: 9rem;
-      height: 3rem;
-    }
-
-    button:hover {
-      line-height: 1rem;
-    }
-
-    .primaryButton {
-      border: none;
-      color: var(--ubs-primary-black);
-      background: var(--ubs-button-light-green);
-    }
-
-    .secondaryButton {
-      color: var(--ubs-quaternary-dark-grey);
-      border: 1px solid var(--ubs-quaternary-dark-grey);
-    }
   }
 }
 
 @media screen and (max-width: 575px) {
   .dialog-container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100vh;
     justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
 
     .form-spinner-wrapper {
       margin: 0;
@@ -154,7 +141,7 @@
     .footer-btns {
       display: flex;
       flex-direction: row;
-      gap: 2em;
+      gap: 16px;
       align-content: space-between;
       justify-content: center;
       align-items: center;
@@ -163,7 +150,8 @@
   }
 
   .dialog-container .form {
-    width: 100%;
+    display: flex;
+    justify-content: center;
 
     .mat-form-field {
       width: 100%;

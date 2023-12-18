@@ -2,9 +2,9 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Bag, OrderBag, OrderDetails, OrderDetailsNotification, PersonalData } from '../../models/ubs.interface';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
@@ -12,6 +12,9 @@ import { OrderService } from '../../services/order.service';
 import { Order } from '../../models/ubs.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Store } from '@ngrx/store';
+import { UpdatePersonalData } from 'src/app/store/actions/order.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-ubs-submit-order',
@@ -63,10 +66,11 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
     private langService: LanguageService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
+    private store: Store,
     router: Router,
     dialog: MatDialog
   ) {
-    super(router, dialog, orderService);
+    super(router, dialog, orderService, localStorageService);
   }
 
   ngOnInit(): void {
@@ -166,9 +170,20 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isFinalSumZero = orderDetails.finalSum <= 0;
       this.isTotalAmountZero = orderDetails.total === 0;
     });
-    this.shareFormService.changedPersonalData.pipe(takeUntil(this.destroy)).subscribe((personalData: PersonalData) => {
-      this.personalData = personalData;
-    });
+
+    this.store
+      .select((state: IAppState): PersonalData => state.order.personalData)
+      .pipe(
+        takeUntil(this.destroy),
+        mergeMap((statePersonalData: PersonalData) => {
+          return this.shareFormService.changedPersonalData.pipe(
+            map((personalData: PersonalData) => {
+              this.personalData = statePersonalData || personalData;
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 
   finalizeGetOrderUrl(): void {
@@ -185,12 +200,14 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       this.isPaymentWithMoney = false;
     }
     if (!this.isPaymentWithMoney) {
-      localStorage.getItem('UBSExistingOrderId') ? this.getExistingOrderUrl() : this.getNewOrderUrl();
+      this.localStorageService.getExistingOrderId() ? this.getExistingOrderUrl() : this.getNewOrderUrl();
     }
+    this.cleanPersonalDataState();
+    this.localStorageService.removeUbsFondyOrderId();
   }
 
   public getExistingOrderUrl(): void {
-    const existingOrderId = parseInt(localStorage.getItem('UBSExistingOrderId'), 10);
+    const existingOrderId = parseInt(this.localStorageService.getExistingOrderId(), 10);
     this.orderService
       .getExistingOrderUrl(existingOrderId)
       .pipe(takeUntil(this.destroy))
@@ -201,7 +218,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
       )
       .subscribe(
         (response) => {
-          console.log('RESPONSE ', response);
           const { orderId, link } = JSON.parse(response);
           this.shareFormService.orderUrl = '';
           this.localStorageService.removeUBSExistingOrderId();
@@ -232,6 +248,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
             this.ubsOrderFormService.transferOrderId(orderId);
             this.ubsOrderFormService.setOrderResponseErrorStatus(false);
             this.ubsOrderFormService.setOrderStatus(true);
+            this.localStorageService.setUbsBonusesOrderId(orderId);
           } else {
             this.shareFormService.orderUrl = link.toString();
             this.localStorageService.setUbsFondyOrderId(orderId);
@@ -256,5 +273,9 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
 
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public cleanPersonalDataState(): void {
+    this.store.dispatch(UpdatePersonalData({ personalData: null }));
   }
 }
