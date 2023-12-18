@@ -181,7 +181,7 @@ p {
 
     .column {
       grid-template-columns: 1fr;
-      grid-template-rows: 132px 31px 7px 23px 40px 40px 62px 188px;
+      grid-template-rows: 132px 31px 7px 23px 40px 40px 62px 235px;
 
       .user-image {
         grid-area: 1 / 1 / 2 / 2;
@@ -236,6 +236,14 @@ p {
         grid-area: 8 / 1 / 9 / 2;
         justify-self: center;
       }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .profile {
+    .column {
+      grid-template-rows: 132px 31px 7px 23px 40px 40px 62px 202px;
     }
   }
 }
