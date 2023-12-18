@@ -9,27 +9,16 @@
     padding-bottom: 20px;
   }
 
-  button {
-    width: 65px;
-    margin: 5px;
-    font-family: var(--secondary-font);
-  }
-
   .action-btns {
-    float: right;
-    color: var(--ubs-tertiary-dark-grey);
+    display: flex;
+    justify-content: flex-end;
 
-    .btn-pay {
-      font-size: 14px;
-      font-weight: 600;
-      background-color: var(--ubs-button-light-green);
-    }
-
-    .btn-cancel {
-      margin-right: 5px;
-      font-size: 14px;
-      font-weight: 600;
-      outline: 1px solid var(--ubs-tertiary-dark-grey);
+    .mat-dialog-actions {
+      display: flex;
+      min-height: auto;
+      padding: 0;
+      margin: 0;
+      gap: 10px;
     }
   }
 }

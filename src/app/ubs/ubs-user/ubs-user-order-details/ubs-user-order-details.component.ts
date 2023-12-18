@@ -3,7 +3,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { IUserOrderInfo, CheckPaymentStatus } from '../ubs-user-orders-list/models/UserOrder.interface';
+import { IUserOrderInfo, PaymentStatusEn } from '../ubs-user-orders-list/models/UserOrder.interface';
 
 @Component({
   selector: 'app-ubs-user-order-details',
@@ -29,7 +29,7 @@ export class UbsUserOrderDetailsComponent implements OnDestroy, OnInit {
   }
 
   isPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatus === CheckPaymentStatus.PAID;
+    return order.paymentStatus === PaymentStatusEn.PAID;
   }
 
   public getLangValue(uaValue: string, enValue: string): string {

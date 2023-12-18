@@ -150,7 +150,7 @@
                     {{ 'ubs-client-profile.address' | translate }}
                     <span *ngIf="userForm.controls.address['controls'].length > 1">{{ i + 1 }}</span>
                   </span>
-                  <span *ngIf="address.value?.actual" class="address-header__default"> основна</span>
+                  <span *ngIf="address.value?.actual" class="address-header__default">{{ 'ubs-client-profile.default' | translate }}</span>
                 </div>
                 <div class="inline">
                   <div class="form-group input-margin localization">

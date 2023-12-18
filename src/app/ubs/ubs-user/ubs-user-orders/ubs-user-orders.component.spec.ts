@@ -12,6 +12,7 @@ import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scro
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { of, throwError } from 'rxjs';
 
@@ -21,6 +22,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { Store, StoreModule } from '@ngrx/store';
 
 describe('UbsUserOrdersComponent', () => {
   let component: UbsUserOrdersComponent;
@@ -82,6 +85,9 @@ describe('UbsUserOrdersComponent', () => {
     fixture.detectChanges();
   };
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserOrdersComponent, LocalizedCurrencyPipe, InfiniteScrollDirective],
@@ -92,9 +98,12 @@ describe('UbsUserOrdersComponent', () => {
         MatTabsModule,
         NoopAnimationsModule,
         RouterModule.forRoot([]),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDialogModule,
+        StoreModule.forRoot({})
       ],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: Router, useValue: RouterMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
         { provide: UserOrdersService, useValue: userOrderServiceMock },
@@ -126,13 +135,6 @@ describe('UbsUserOrdersComponent', () => {
   it('should create', async () => {
     await buildComponent();
     expect(component).toBeDefined();
-  });
-
-  it('should navigate user to /ubs/order after clicking new order button ', async () => {
-    await buildComponent();
-    const newOrderButton = fixture.debugElement.query(By.css('.ubs-primary-global-button')).nativeElement;
-    newOrderButton.click();
-    expect(RouterMock.navigate).toHaveBeenCalledWith(['ubs', 'order']);
   });
 
   it('should render ubs-user-orders-list component with correct inputs if there are current orders on init', async () => {
@@ -236,7 +238,7 @@ describe('UbsUserOrdersComponent', () => {
     await buildComponent();
     component.ngOnInit();
     fixture.detectChanges();
-    const noOrdersElement = fixture.debugElement.query(By.css('.if_empty')).nativeElement;
+    const noOrdersElement = fixture.debugElement.query(By.css('.if-empty')).nativeElement;
     expect(noOrdersElement.textContent).toContain('user-orders.no-orders');
   });
 

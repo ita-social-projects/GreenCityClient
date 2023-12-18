@@ -20,6 +20,8 @@ import { LocationService } from '@global-service/location/location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { Language } from 'src/app/main/i18n/Language';
 import { NotificationPlatform } from '../../ubs/notification-platform.enum';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { Store } from '@ngrx/store';
 
 describe('UbsUserProfilePageComponent', () => {
   const userProfileDataMock: UserProfile = {
@@ -104,6 +106,9 @@ describe('UbsUserProfilePageComponent', () => {
   fakeLocalStorageService.getSearchAddress = () => ADDRESSESMOCK.SEARCHADDRESS;
   fakeLocalStorageService.getRequest = () => ADDRESSESMOCK.GOOGLEREQUEST;
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsUserProfilePageComponent],
@@ -115,7 +120,8 @@ describe('UbsUserProfilePageComponent', () => {
         { provide: LocalStorageService, useValue: fakeLocalStorageService },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: GoogleScript, useValue: fakeGoogleScript },
-        { provide: LocationService, useValue: fakeLocationServiceMock }
+        { provide: LocationService, useValue: fakeLocationServiceMock },
+        { provide: Store, useValue: storeMock }
       ],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, IMaskModule, MatAutocompleteModule, HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

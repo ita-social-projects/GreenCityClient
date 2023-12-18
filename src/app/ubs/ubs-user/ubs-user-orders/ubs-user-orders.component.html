@@ -1,7 +1,9 @@
 <div class="wrapper">
-  <div class="main_header">
-    <h1 class="main_header-title">{{ 'user-orders.order-title' | translate }}</h1>
-    <button class="btn ubs-primary-global-button s-btn" (click)="redirectToOrder()">{{ 'user-orders.btn.new-order' | translate }}</button>
+  <div class="main-header">
+    <h1 class="main-header-title">{{ 'user-orders.order-title' | translate }}</h1>
+    <button *ngIf="activeCouriers" class="ubs-primary-global-button s-btn" (click)="redirectToOrder()">
+      {{ 'user-orders.btn.new-order' | translate }}
+    </button>
   </div>
   <div *ngIf="!loading; else spinner">
     <div
@@ -34,7 +36,7 @@
       </mat-tab-group>
     </div>
     <ng-template #noOrders>
-      <div class="if_empty">
+      <div class="if-empty">
         <span>{{ 'user-orders.no-orders' | translate }}</span>
       </div>
     </ng-template>

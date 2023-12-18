@@ -17,7 +17,7 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocationService } from '@global-service/location/location.service';
-import { SearchAddress, KyivNamesEnum } from '../../ubs/models/ubs.interface';
+import { SearchAddress } from '../../ubs/models/ubs.interface';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from '../../mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 import { RequiredFromDropdownValidator } from '../requiredFromDropDown.validator';
@@ -402,22 +402,13 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   inputAddress(searchAddress: string, item: AbstractControl, lang: string): void {
-    const { city, cityEn, region, regionEn } = item.value;
-    const isKyiv = city === KyivNamesEnum.KyivUa;
+    const { city, cityEn } = item.value;
 
     const request = this.locationService.getRequest(searchAddress, lang, 'address');
     this.autocompleteService.getPlacePredictions(request, (streetPredictions) => {
-      if (!isKyiv) {
-        this.streetPredictionList = streetPredictions?.filter(
-          (el) =>
-            (el.structured_formatting.secondary_text.includes(region) || el.structured_formatting.secondary_text.includes(regionEn)) &&
-            (el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn))
-        );
-      } else {
-        this.streetPredictionList = streetPredictions?.filter(
-          (el) => el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn)
-        );
-      }
+      this.streetPredictionList = streetPredictions?.filter(
+        (el) => el.structured_formatting.secondary_text.includes(city) || el.structured_formatting.secondary_text.includes(cityEn)
+      );
     });
   }
 

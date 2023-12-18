@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UbsUserOrderPaymentPopUpComponent } from './ubs-user-order-payment-pop-up/ubs-user-order-payment-pop-up.component';
 import { UbsUserOrderCancelPopUpComponent } from './ubs-user-order-cancel-pop-up/ubs-user-order-cancel-pop-up.component';
-import { IUserOrderInfo, CheckPaymentStatus, CheckOrderStatus } from './models/UserOrder.interface';
+import { IUserOrderInfo, PaymentStatusEn, OrderStatusEn } from './models/UserOrder.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { UBSOrderFormService } from '../../ubs/services/ubs-order-form.service';
 import { OrderService } from '../../ubs/services/order.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-ubs-user-orders-list',
@@ -28,6 +29,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   bags: Bag[];
   anotherClient = 'false';
   orderId: string;
+  orderDetailsForSessionStorage;
 
   constructor(
     public dialog: MatDialog,
@@ -35,7 +37,8 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     private langService: LanguageService,
     private router: Router,
     public ubsOrderService: UBSOrderFormService,
-    public orderService: OrderService
+    public orderService: OrderService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -52,15 +55,21 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public isOrderUnpaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEng === CheckPaymentStatus.UNPAID;
+    return order.paymentStatusEng === PaymentStatusEn.UNPAID;
   }
 
   public isOrderHalfPaid(order: IUserOrderInfo): boolean {
-    return order.paymentStatusEng === CheckPaymentStatus.HALFPAID;
+    return order.paymentStatusEng === PaymentStatusEn.HALFPAID;
   }
 
   public isOrderCanceled(order: IUserOrderInfo): boolean {
-    return order.orderStatusEng === CheckOrderStatus.CANCELED;
+    return order.orderStatusEng === OrderStatusEn.CANCELED;
+  }
+
+  public isOrderDoneOrCancel(order: IUserOrderInfo): boolean {
+    const isOrderDone = order.orderStatusEng === OrderStatusEn.DONE;
+    const isOrderCancelled = order.orderStatusEng === OrderStatusEn.CANCELED;
+    return isOrderDone || isOrderCancelled;
   }
 
   public isOrderPriceGreaterThenZero(order: IUserOrderInfo): boolean {
@@ -68,16 +77,19 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public isOrderPaymentAccess(order: IUserOrderInfo): boolean {
-    return this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order));
+    return (
+      this.isOrderPriceGreaterThenZero(order) && (this.isOrderUnpaid(order) || this.isOrderHalfPaid(order)) && !this.isOrderCanceled(order)
+    );
   }
 
   public canOrderBeCancel(order: IUserOrderInfo): boolean {
     return (
-      order.paymentStatusEng !== CheckPaymentStatus.HALFPAID &&
-      order.orderStatusEng !== CheckOrderStatus.ADJUSTMENT &&
-      order.orderStatusEng !== CheckOrderStatus.BROUGHT_IT_HIMSELF &&
-      order.orderStatusEng !== CheckOrderStatus.NOT_TAKEN_OUT &&
-      order.orderStatusEng !== CheckOrderStatus.CANCELED
+      order.paymentStatusEng !== PaymentStatusEn.HALFPAID &&
+      order.orderStatusEng !== OrderStatusEn.ADJUSTMENT &&
+      order.orderStatusEng !== OrderStatusEn.BROUGHT_IT_HIMSELF &&
+      order.orderStatusEng !== OrderStatusEn.NOT_TAKEN_OUT &&
+      order.orderStatusEng !== OrderStatusEn.CANCELED &&
+      order.orderStatusEng !== OrderStatusEn.DONE
     );
   }
 
@@ -85,20 +97,22 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     this.orders.forEach((order) => (order.extend = order.id === id ? !order.extend : false));
   }
 
+  private openOrderPaymentPopUp(order: IUserOrderInfo): void {
+    this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
+      maxWidth: '500px',
+      panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
+      data: {
+        orderId: order.id,
+        price: order.amountBeforePayment,
+        bonuses: this.bonuses
+      }
+    });
+  }
+
   public openOrderPaymentDialog(order: IUserOrderInfo): void {
-    if (order.paymentStatusEng === 'Unpaid') {
-      this.getDataForLocalStorage(order);
-    } else {
-      this.dialog.open(UbsUserOrderPaymentPopUpComponent, {
-        maxWidth: '500px',
-        panelClass: 'ubs-user-order-payment-pop-up-vertical-scroll',
-        data: {
-          orderId: order.id,
-          price: order.amountBeforePayment,
-          bonuses: this.bonuses
-        }
-      });
-    }
+    const isOrderFormed = order.orderStatusEng === OrderStatusEn.FORMED;
+    this.isOrderUnpaid(order) && isOrderFormed ? this.getDataForLocalStorage(order) : this.openOrderPaymentPopUp(order);
+    this.orderService.cleanOrderState();
   }
 
   public getBagsQuantity(bagTypeName: string, capacity: number, order: IUserOrderInfo): number | null {
@@ -151,6 +165,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
         pointsToUse: 0,
         total: order.orderFullPrice
       };
+
       this.personalDetails = personalDataResponse;
       this.personalDetails.senderEmail = order.sender.senderEmail !== this.personalDetails.email ? order.sender.senderEmail : null;
       this.personalDetails.senderFirstName = order.sender.senderName !== this.personalDetails.firstName ? order.sender.senderName : null;
@@ -162,6 +177,10 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
       this.orderId = order.id.toString();
       this.setDataToLocalStorage();
     });
+  }
+
+  private filterUtil(id: number) {
+    return this.bags.filter((item) => item.id === id)[0].quantity;
   }
 
   public setDataToLocalStorage(): void {

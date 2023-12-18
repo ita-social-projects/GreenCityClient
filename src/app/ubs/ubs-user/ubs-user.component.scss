@@ -1,3 +1,13 @@
 :host {
   font-family: var(--primary-font);
 }
+
+.footer {
+  display: flex;
+}
+
+@media (max-width: 480px) {
+  .footer {
+    display: none;
+  }
+}
