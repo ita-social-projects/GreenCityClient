@@ -46,14 +46,5 @@
     </tr>
   </tbody>
 </table>
-
-<pagination-controls
-  (pageChange)="onPageChanged($event)"
-  maxSize="9"
-  directionLinks="true"
-  autoHide="true"
-  responsive="true"
-  previousLabel="Previous"
-  nextLabel="Next"
->
-</pagination-controls>
+<app-spinner *ngIf="spinner"></app-spinner>
+<div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="loadPage(currentPage)"></div>

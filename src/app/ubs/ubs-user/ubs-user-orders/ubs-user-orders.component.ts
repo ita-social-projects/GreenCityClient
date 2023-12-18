@@ -97,9 +97,9 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   getLocations(courierName: string): void {
-    const courier = this.activeCouriers?.find((cour) => cour.nameEn.includes(courierName));
+    const anActiveCourier = this.activeCouriers?.find((actveCourier) => actveCourier.nameEn.includes(courierName));
     this.orderService
-      .getLocations(courier.courierId)
+      .getLocations(anActiveCourier.courierId)
       .pipe(takeUntil(this.destroy))
       .subscribe((res: any) => {
         if (res.orderIsPresent) {

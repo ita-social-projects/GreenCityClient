@@ -60,6 +60,14 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar-ubs';
       this.getSnackBarMessage('snack-bar.saved-order', additionalValue);
     },
+    successConfirmUpdateOrder: (additionalValue: string) => {
+      this.className = 'success-snackbar-ubs';
+      this.getSnackBarMessage('snack-bar.update-order');
+    },
+    successUpdateUbsData: () => {
+      this.className = 'success-snackbar-ubs';
+      this.getSnackBarMessage('snack-bar.save-employee-permissons');
+    },
     cafeNotificationsExists: () => {
       this.getSnackBarMessage('update-cafe.notifications.exists');
       this.className = 'error-snackbar';
@@ -130,7 +138,11 @@ export class MatSnackBarComponent {
     },
     addedEvent: () => {
       this.className = 'success-snackbar';
-      this.getSnackBarMessage('snack-bar.success.joined-event');
+      this.getSnackBarMessage('create-event.created-event');
+    },
+    updatedEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('create-event.updated-event');
     },
     savedChangesToUserProfile: () => {
       this.className = 'success-snackbar';
@@ -139,6 +151,22 @@ export class MatSnackBarComponent {
     updatedNotification: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.update-notification');
+    },
+    joinedEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.joined-event');
+    },
+    errorJoinEvent: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('snack-bar.success.error-joined-event');
+    },
+    tooLongInput: () => {
+      this.className = 'error-snackbar';
+      this.getSnackBarMessage('user.habit.too-long-input');
+    },
+    ratedEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.rating-send');
     }
   };
 

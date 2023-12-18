@@ -1,11 +1,10 @@
 import { DistrictsDtos } from '../../ubs/models/ubs.interface';
 
 export interface Employees {
-  page?: Page[];
+  page: Page[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
-  content?: Page[];
 }
 
 export interface Pageable {
@@ -129,7 +128,13 @@ export interface IOrderInfo {
   paymentTableInfoDto: IPaymentInfo;
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;
-  writeOffStationSum?: number;
+  writeOffStationSum: number;
+  updateResponsibleEmployeeDto?: IEmployeePositions[];
+}
+
+export interface IEmployeePositions {
+  positionId: number;
+  employeeId: number;
 }
 
 export interface ICourierInfo {

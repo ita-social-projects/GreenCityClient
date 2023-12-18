@@ -381,7 +381,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     });
     const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.store.dispatch(GetEmployeesPermissions({ email: userEmail, reset: true }));
+    this.store.dispatch(GetEmployeesPermissions({ email: userEmail }));
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {

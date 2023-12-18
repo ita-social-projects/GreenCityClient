@@ -1,22 +1,32 @@
-<div class="container">
+<div [ngClass]="{ 'history-window': isOpendFromHistory }" class="container">
   <div class="close-container">
     <button class="close-btn row justify-content-end" mat-dialog-close type="button" (click)="close()">
       <img src="{{ closeButton }}" alt="close" />
     </button>
   </div>
 
-  <label class="title" id="addReason">{{ 'order-not-taken-out.title' | translate }}</label>
+  <label class="title" id="addReason"
+    >{{ isOpendFromHistory ? ('order-not-taken-out-reason.title' | translate) : ('order-not-taken-out.title' | translate)
+    }}<span *ngIf="isOpendFromHistory">{{ orderID }}</span></label
+  >
   <form [formGroup]="addNotTakenOutForm">
-    <h6>{{ 'order-not-taken-out.label-reason' | translate }}</h6>
+    <h6>
+      {{ isOpendFromHistory ? ('order-not-taken-out-reason.label-reason' | translate) : ('order-not-taken-out.label-reason' | translate) }}
+    </h6>
     <textarea
+      [ngClass]="{ 'history-description': isOpendFromHistory }"
+      [readonly]="isOpendFromHistory"
       placeholder="{{ 'order-not-taken-out.placeholder' | translate }}"
       maxlength="256"
       cols="50"
       rows="6"
       formControlName="notTakenOutReason"
-      [(ngModel)]="notTakenOutReason"
+      [(ngModel)]="isOpendFromHistory ? reasonDescription : notTakenOutReason"
     ></textarea>
-    <div class="error-message" *ngIf="addNotTakenOutForm.invalid && addNotTakenOutForm.get('notTakenOutReason').dirty">
+    <div
+      class="error-message"
+      *ngIf="addNotTakenOutForm.invalid && addNotTakenOutForm.get('notTakenOutReason').dirty && !isOpendFromHistory"
+    >
       <p>{{ 'order-not-taken-out.reason-error-message' | translate }}</p>
     </div>
   </form>
@@ -25,60 +35,69 @@
     <div class="title-photo">
       <h6>{{ 'order-not-taken-out.title-photo' | translate }}</h6>
     </div>
-    <div class="photo-description">
-      <h6>{{ 'order-not-taken-out.label-for-photo-container' | translate }}</h6>
-    </div>
-    <div>
-      <span class="requirement">{{ 'order-not-taken-out.requirement' | translate }}</span>
-    </div>
-    <div class="row images">
-      <div class="image-container" appDrag (files)="onFilesDropped($event)" *ngFor="let img of images">
-        <img class="image-preview" [src]="img.src" alt="image-of-not-taken-out-bag" (click)="openImage(img)" />
-        <div class="delete-block">
-          <div>{{ img.name | maxImageName: 12 }}</div>
-          <div class="delete-image-button" (click)="deleteImage(img)">X</div>
+    <div class="photo-container" *ngIf="!isOpendFromHistory; else photoContainerHistory">
+      <div class="photo-description">
+        <h6>{{ 'order-not-taken-out.label-for-photo-container' | translate }}</h6>
+      </div>
+      <div>
+        <span class="requirement">{{ 'order-not-taken-out.requirement' | translate }}</span>
+      </div>
+      <div class="row images">
+        <div class="image-container" appDrag (files)="onFilesDropped($event)" *ngFor="let img of images">
+          <img class="image-preview" [src]="img.src" alt="image-of-not-taken-out-bag" (click)="openImage(img)" />
+          <div class="delete-block">
+            <div>{{ img.name | maxTextLength: 12 }}</div>
+            <div class="delete-image-button" (click)="deleteImage(img)">X</div>
+          </div>
+        </div>
+        <div
+          class="image-container"
+          appDrag
+          (files)="onFilesDropped($event)"
+          *ngFor="let placeholder of maxNumberOfImgs - images.length | repeat; index as idx"
+        >
+          <p class="drag-inscription" *ngIf="!idx">{{ 'order-not-taken-out.drag-photo' | translate }}</p>
         </div>
       </div>
-      <div
-        class="image-container"
-        appDrag
-        (files)="onFilesDropped($event)"
-        *ngFor="let placeholder of maxNumberOfImgs - images.length | repeat; index as idx"
-      >
-        <p class="drag-inscription" *ngIf="!idx">{{ 'order-not-taken-out.drag-photo' | translate }}</p>
+
+      <div class="row error-message" *ngIf="isImageSizeError">
+        <p class="error-message-file-size">{{ 'order-not-taken-out.error-message-for-size' | translate }}</p>
+      </div>
+
+      <div class="row error-message" *ngIf="isImageTypeError">
+        <p class="error-message-file-type">{{ 'order-not-taken-out.error-message-for-type' | translate }}</p>
+      </div>
+      <div class="row label-g">
+        <label for="file-upload" class="custom-file-upload" [ngClass]="{ disabled: images.length >= maxNumberOfImgs }">
+          {{ 'order-not-taken-out.file-upload' | translate }}
+        </label>
+        <input
+          #takeInput
+          id="file-upload"
+          class="d-none"
+          [disabled]="images.length >= maxNumberOfImgs"
+          type="file"
+          multiple
+          accept="image/png,image/jpeg"
+          (change)="onFilesSelected($event)"
+        />
       </div>
     </div>
-
-    <div class="row error-message" *ngIf="isImageSizeError">
-      <p class="error-message-file-size">{{ 'order-not-taken-out.error-message-for-size' | translate }}</p>
-    </div>
-
-    <div class="row error-message" *ngIf="isImageTypeError">
-      <p class="error-message-file-type">{{ 'order-not-taken-out.error-message-for-type' | translate }}</p>
-    </div>
-    <div class="row label-g">
-      <label for="file-upload" class="custom-file-upload" [ngClass]="{ disabled: images.length >= maxNumberOfImgs }">
-        {{ 'order-not-taken-out.file-upload' | translate }}
-      </label>
-      <input
-        #takeInput
-        id="file-upload"
-        class="d-none"
-        [disabled]="images.length >= maxNumberOfImgs"
-        type="file"
-        multiple
-        accept="image/png,image/jpeg"
-        (change)="onFilesSelected($event)"
-      />
-    </div>
+    <ng-template #photoContainerHistory>
+      <div class="reason-images-container">
+        <div class="image-container-reason" *ngFor="let reasonImg of reasonImages">
+          <img class="image-preview" [src]="reasonImg.src" alt="image-of-not-taken-out-bag" (click)="openImage(reasonImg)" />
+        </div>
+      </div>
+    </ng-template>
     <div class="bottom-container">
-      <div class="btn-container">
+      <div *ngIf="!isOpendFromHistory" class="btn-container">
         <button type="reset" class="disagree btn" (click)="close()">{{ 'order-not-taken-out.btn.cancel' | translate }}</button>
         <button type="submit" class="agree btn" [disabled]="!addNotTakenOutForm.valid" (click)="send()">
           {{ 'order-not-taken-out.btn.add' | translate }}
         </button>
       </div>
-      <div class="row">
+      <div [ngClass]="{ 'taken-out-history': isOpendFromHistory }" class="row">
         <span class="date">{{ 'order-not-taken-out.date' | translate }}: {{ date | date: 'dd.MM.y' }} </span>
         <span class="info">{{ 'order-not-taken-out.added' | translate }}: {{ adminName }}</span>
       </div>

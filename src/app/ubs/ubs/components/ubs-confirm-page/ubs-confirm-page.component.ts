@@ -15,8 +15,8 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 })
 export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   orderId: string;
-  orderResponseError = false;
   private routeSubscription: Subscription;
+  orderResponseError = false;
   orderStatusDone: boolean;
   isSpinner = true;
   pageReloaded = false;
@@ -27,7 +27,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
     private jwtService: JwtService,
     private ubsOrderFormService: UBSOrderFormService,
     private shareFormService: UBSOrderFormService,
-    private localStorageService: LocalStorageService,
+    public localStorageService: LocalStorageService,
     private orderService: OrderService,
     public router: Router
   ) {}
@@ -101,7 +101,11 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   renderView(): void {
     if (!this.orderResponseError && !this.orderStatusDone) {
       this.saveDataOnLocalStorage();
-      this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
+      const existingOrderId = this.localStorageService.getExistingOrderId();
+      existingOrderId
+        ? this.snackBar.openSnackBar('successConfirmUpdateOrder')
+        : this.snackBar.openSnackBar('successConfirmSaveOrder', this.orderId);
+      this.localStorageService.removeUBSExistingOrderId();
     } else if (!this.orderResponseError && this.orderStatusDone) {
       this.saveDataOnLocalStorage();
     }
@@ -110,6 +114,7 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
   saveDataOnLocalStorage(): void {
     this.shareFormService.isDataSaved = true;
     this.shareFormService.saveDataOnLocalStorage();
+    this.orderService.cleanOrderState();
   }
 
   returnToPayment(url: string): void {

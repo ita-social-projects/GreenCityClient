@@ -19,15 +19,16 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
   let component: UbsAdminTariffsAddTariffServicePopUpComponent;
   let fixture: ComponentFixture<UbsAdminTariffsAddTariffServicePopUpComponent>;
   let fakeTariffService: TariffsService;
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getCurrentLanguage', 'getLangValue']);
+  const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getCurrentLanguage', 'getLangValue']);
   languageServiceMock.getCurrentLanguage.and.returnValue('ua');
+  languageServiceMock.getLangValue.and.callFake((uaValue, enValue) => uaValue);
 
   const fakeBagForm = new FormGroup({
     name: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
     nameEng: new FormControl('fake', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-    capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    capacity: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
     commission: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
-    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice)]),
+    price: new FormControl('fake', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999999.99)]),
     description: new FormControl('fake'),
     descriptionEng: new FormControl('fake')
   });
@@ -269,5 +270,30 @@ describe('UbsAdminTariffsAddTariffServicePopupComponent', () => {
     component.setDate();
     expect(languageServiceMock.getCurrentLanguage).toHaveBeenCalled();
     expect(result).toEqual('ua');
+  });
+
+  it('should create addTariffServiceForm with correct values', () => {
+    const expectedName = 'Test Name';
+    const expectedNameEng = 'Test Name Eng';
+    const expectedDescription = 'Test Description';
+    const expectedDescriptionEng = 'Test Description Eng';
+    const expectedCapacity = 100;
+
+    component.receivedData = {
+      bagData: {
+        name: expectedName,
+        nameEng: expectedNameEng,
+        description: expectedDescription,
+        descriptionEng: expectedDescriptionEng,
+        capacity: expectedCapacity
+      }
+    };
+    component.editForm();
+
+    expect(component.addTariffServiceForm.get('name').value).toEqual({ value: expectedName });
+    expect(component.addTariffServiceForm.get('nameEng').value).toEqual({ value: expectedNameEng });
+    expect(component.addTariffServiceForm.get('description').value).toEqual({ value: expectedDescription });
+    expect(component.addTariffServiceForm.get('descriptionEng').value).toEqual({ value: expectedDescriptionEng });
+    expect(component.addTariffServiceForm.get('capacity').value).toEqual({ value: expectedCapacity });
   });
 });

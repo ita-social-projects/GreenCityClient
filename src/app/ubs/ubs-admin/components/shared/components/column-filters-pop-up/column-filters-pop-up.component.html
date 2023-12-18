@@ -8,7 +8,7 @@
     </button>
   </div>
   <ng-container *ngIf="!data.isDateFilter; else date">
-    <li *ngFor="let option of getOptionsForFiltering()" class="positioning">
+    <li *ngFor="let option of getOptionsForFiltering()" class="positioing">
       <mat-checkbox [checked]="option.filtered" (change)="changeColumnFilters($event?.checked, data.columnName, option)">
         {{ option | serverTranslate: data.currentLang }}
       </mat-checkbox>

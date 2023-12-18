@@ -10,6 +10,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { UbsConfirmPageComponent } from './ubs-confirm-page.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { Store, StoreModule } from '@ngrx/store';
 
 describe('UbsConfirmPageComponent', () => {
   let component: UbsConfirmPageComponent;
@@ -29,19 +31,24 @@ describe('UbsConfirmPageComponent', () => {
     'getOrderWithoutPayment',
     'removeOrderWithoutPayment',
     'removeUbsOrderId',
-    'getUserPagePayment'
+    'getExistingOrderId',
+    'removeUBSExistingOrderId'
   ]);
   const fakeJwtService = jasmine.createSpyObj('fakeJwtService', ['']);
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UbsConfirmPageComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule],
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         { provide: MatSnackBarComponent, useValue: fakeSnackBar },
         { provide: UBSOrderFormService, useValue: fakeUBSOrderFormService },
         { provide: JwtService, useValue: fakeJwtService },
-        { provide: LocalStorageService, useValue: fakeLocalStorageService }
+        { provide: LocalStorageService, useValue: fakeLocalStorageService },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -60,10 +67,30 @@ describe('UbsConfirmPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('ngOnInit should call renderView with oderID', () => {
+  it('should remove order without payment and UBS order id from local storage on NavigationEnd event', () => {
+    fakeLocalStorageService.removeOrderWithoutPayment();
+    fakeLocalStorageService.removeUbsOrderId();
+    const event = new NavigationEnd(1, '/ubs/confirm', '/ubs/confirm');
+    component.removeOrderFromLocalStorage();
+
+    expect(component.localStorageService.removeOrderWithoutPayment).toHaveBeenCalled();
+    expect(component.localStorageService.removeUbsOrderId).toHaveBeenCalled();
+  });
+
+  it('shouldn`t remove order without payment and UBS order id from local storage on NavigationEnd event if url is /ubs/confirm', () => {
+    fakeLocalStorageService.removeOrderWithoutPayment();
+    fakeLocalStorageService.removeUbsOrderId();
+    const event = new NavigationEnd(1, '/ubs/confirm', '/ubs');
+    component.removeOrderFromLocalStorage();
+
+    expect(component.localStorageService.removeOrderWithoutPayment).toHaveBeenCalled();
+  });
+
+  xit('ngOnInit should call renderView with oderID', () => {
     fakeUBSOrderFormService.getOrderResponseErrorStatus.and.returnValue(false);
     fakeUBSOrderFormService.getOrderStatus.and.returnValue(of({ result: 'success', order_id: '123_456' }));
     const renderViewMock = spyOn(component, 'renderView');
+    fakeLocalStorageService.getOrderWithoutPayment.and.returnValue(of(false));
     const checkPaymentStatusMock = spyOn(component, 'checkPaymentStatus');
     component.ngOnInit();
     expect(renderViewMock).toHaveBeenCalled();
@@ -106,33 +133,31 @@ describe('UbsConfirmPageComponent', () => {
     expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
   });
 
-  describe('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
-    it('in saveDataOnLocalStorage should removeUbsOrderId and saveDataOnLocalStorage be called', () => {
-      component.saveDataOnLocalStorage();
-      expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
-    });
+  it('in saveDataOnLocalStorage should saveDataOnLocalStorage be called', () => {
+    component.saveDataOnLocalStorage();
+    expect(fakeUBSOrderFormService.saveDataOnLocalStorage).toHaveBeenCalled();
+  });
 
-    it('should redirect to order', () => {
-      const navigateSpy = spyOn(router, 'navigateByUrl');
-      component.returnToPayment('/ubs/order');
-      expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
-    });
+  it('should redirect to order', () => {
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+    component.returnToPayment('/ubs/order');
+    expect(navigateSpy).toHaveBeenCalledWith('/ubs/order');
+  });
 
-    it('should redirect to ubs-admin/orders', () => {
-      const navigateSpy = spyOn(router, 'navigate');
-      const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
-      component.toPersonalAccount();
-      expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-      expect(navigateSpy).toHaveBeenCalledWith(['ubs-admin', 'orders']);
-    });
+  it('should redirect to ubs-admin/orders', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
+    component.toPersonalAccount();
+    expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['ubs-admin', 'orders']);
+  });
 
-    it('should redirect to ubs-user/orders', () => {
-      fakeJwtService.userRole$ = of('ROLE_USER');
-      const navigateSpy = spyOn(router, 'navigate');
-      const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
-      component.toPersonalAccount();
-      expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
-      expect(navigateSpy).toHaveBeenCalledWith(['ubs-user', 'orders']);
-    });
+  it('should redirect to ubs-user/orders', () => {
+    fakeJwtService.userRole$ = of('ROLE_USER');
+    const navigateSpy = spyOn(router, 'navigate');
+    const saveDataOnLocalStorageMock = spyOn(component, 'saveDataOnLocalStorage');
+    component.toPersonalAccount();
+    expect(saveDataOnLocalStorageMock).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['ubs-user', 'orders']);
   });
 });

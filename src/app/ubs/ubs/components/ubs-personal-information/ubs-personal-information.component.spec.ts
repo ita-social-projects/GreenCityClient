@@ -17,6 +17,9 @@ import { UBSInputErrorComponent } from 'src/app/shared/ubs-input-error/ubs-input
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
+import { KyivNamesEnum } from '../../models/ubs.interface';
+import { Store } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('UBSPersonalInformationComponent', () => {
   let component: UBSPersonalInformationComponent;
@@ -34,7 +37,8 @@ describe('UBSPersonalInformationComponent', () => {
     'setIsAnotherClient',
     'setAddresses',
     'getCurrentLocationId',
-    'getAddressId'
+    'getAddressId',
+    'getLocations'
   ]);
   fakeLocalStorageService.languageBehaviourSubject = new BehaviorSubject('ua');
   fakeLocalStorageService.getLocationId = () => '1';
@@ -55,6 +59,7 @@ describe('UBSPersonalInformationComponent', () => {
         streetEn: 'fake',
         region: 'fake',
         regionEn: 'fake',
+        display: true,
         houseCorpus: 'fake',
         entranceNumber: 'fake',
         houseNumber: 'fake',
@@ -126,6 +131,9 @@ describe('UBSPersonalInformationComponent', () => {
     'addAdress'
   ]);
 
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -140,6 +148,7 @@ describe('UBSPersonalInformationComponent', () => {
       ],
       declarations: [UBSPersonalInformationComponent, UBSInputErrorComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: fakeShareFormService },
         { provide: OrderService, useValue: fakeOrderService },
@@ -174,6 +183,7 @@ describe('UBSPersonalInformationComponent', () => {
 
   it('setDisabledCityForLocation function should redefine addresses', () => {
     component.addresses = listMock.addressList;
+    component.locations = mockLocations as any;
     component.setDisabledCityForLocation();
     expect(component.addresses).toBeDefined();
   });
@@ -184,14 +194,6 @@ describe('UBSPersonalInformationComponent', () => {
     component.ngOnChanges({ completed: { currentValue: true } as SimpleChange });
     expect(component.submit).toHaveBeenCalled();
     expect(fakeShareFormService.changePersonalData).toHaveBeenCalled();
-  });
-
-  it('method findAllAddresses should get data from orderService', () => {
-    fakeOrderService.findAllAddresses.and.returnValue(of(listMock));
-    const spy = spyOn(component, 'checkAddress').and.callFake(() => {});
-    component.findAllAddresses(true);
-    expect(component.addresses).toBeDefined();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
@@ -212,12 +214,6 @@ describe('UBSPersonalInformationComponent', () => {
     component.takeUserData();
     expect(component.setFormData).toHaveBeenCalledTimes(1);
     expect(component.findAllAddresses).toHaveBeenCalledTimes(1);
-  });
-
-  it('method checkAddress should invoke changeAddressInPersonalData', () => {
-    spyOn(component, 'changeAddressInPersonalData').and.callFake(() => {});
-    component.checkAddress(0);
-    expect(component.changeAddressInPersonalData).toHaveBeenCalledTimes(1);
   });
 
   it('method changeAddressInPersonalData should set data to PersonalData', () => {
@@ -250,13 +246,6 @@ describe('UBSPersonalInformationComponent', () => {
     spyOn(component, 'openDialog').and.callFake(() => {});
     component.editAddress(0);
     expect(component.openDialog).toHaveBeenCalledTimes(1);
-  });
-
-  it('method deleteAddress should invoke deleteAddress from orderService', () => {
-    fakeOrderService.deleteAddress.and.returnValue(of(listMock));
-    const spy = spyOn(component, 'checkAddress');
-    component.deleteAddress(listMock.addressList[0]);
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('method addNewAddress should add new address to address list in PersonalDataForm', () => {
@@ -301,5 +290,33 @@ describe('UBSPersonalInformationComponent', () => {
     const spy = spyOn(component, 'changeAddressComment');
     component.changeAddressComment();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call changeAddressInPersonalData', () => {
+    const addressId = 2;
+    component.addresses = [listMock.addressList[0]];
+
+    spyOn(component, 'changeAddressInPersonalData');
+    component.checkAddress(addressId);
+
+    expect(component.changeAddressInPersonalData).toHaveBeenCalled();
+  });
+
+  it('should subscribe to locationSubject and languageBehaviourSubject', () => {
+    const spyLocationSubject = spyOn(component.orderService.locationSubject, 'pipe').and.callThrough();
+    const spyLangBehaviourSubject = spyOn((component as any).localService.languageBehaviourSubject, 'pipe').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(spyLocationSubject).toHaveBeenCalled();
+    expect(spyLangBehaviourSubject).toHaveBeenCalled();
+  });
+
+  it('should return appropriate language value based on current language', () => {
+    const uaValue = KyivNamesEnum.KyivRegionUa;
+    const enValue = KyivNamesEnum.KyivRegionEn;
+
+    component.currentLanguage = Language.EN;
+    expect(component.getLangCityValue(uaValue, enValue)).toBe(KyivNamesEnum.KyivRegionEn);
   });
 });

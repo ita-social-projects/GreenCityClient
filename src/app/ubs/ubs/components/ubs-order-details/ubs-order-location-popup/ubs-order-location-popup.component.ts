@@ -7,6 +7,7 @@ import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
 import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -18,13 +19,13 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   public locations: CourierLocations;
   public cities: LocationsName[];
   public selectedLocationId: number;
+  public selectedTariffId: number;
   public isFetching = false;
   private currentLanguage: string;
   public currentLocation: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   public myControl = new FormControl();
   public filteredOptions: Observable<any>;
-  public selectedTariffId: number;
   courierUBS;
   courierUBSName = 'UBS';
 
@@ -51,6 +52,17 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     );
   }
 
+  displayFn(city: LocationsName): string {
+    return city && city.locationName ? city.locationName : '';
+  }
+
+  private _filter(value: string): LocationsName[] {
+    this.currentLocation = null;
+
+    const filterValue = value.toLowerCase();
+    return this.cities.filter((option) => option.locationName.toLowerCase().includes(filterValue));
+  }
+
   getActiveCouriers() {
     this.orderService
       .getAllActiveCouriers()
@@ -64,17 +76,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       });
   }
 
-  displayFn(city: LocationsName): string {
-    return city && city.locationName ? city.locationName : '';
-  }
-
-  private _filter(value: string): LocationsName[] {
-    this.currentLocation = null;
-
-    const filterValue = value.toLowerCase();
-    return this.cities.filter((option) => option.locationName.toLowerCase().includes(filterValue));
-  }
-
   getLocations(): void {
     this.isFetching = true;
     of(true)
@@ -84,7 +85,6 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: AllLocationsDtos) => {
         this.isFetching = false;
-
         this.cities = res.allActiveLocationsDtos.reduce(
           (acc, region) => [
             ...acc,
@@ -95,6 +95,13 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
           ],
           []
         );
+        this.cities.forEach((city) => {
+          if (city.locationId === 1) {
+            this.myControl.setValue({ locationId: city.locationId, locationName: city.locationName });
+            this.currentLocation = city.locationName;
+            this.changeLocation(city.locationId, city.locationName);
+          }
+        });
       });
   }
 
@@ -105,7 +112,11 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       .subscribe((res: AllLocationsDtos) => {
         if (res.orderIsPresent) {
           this.locations = res.tariffsForLocationDto;
-          this.selectedLocationId = res.tariffsForLocationDto.locationsDtosList[0].locationId;
+          res.tariffsForLocationDto.locationsDtosList.forEach((location) => {
+            if (location.nameEn === this.currentLocation) {
+              this.selectedLocationId = location.locationId;
+            }
+          });
           this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
           this.localStorageService.setLocationId(this.selectedLocationId);
           this.localStorageService.setTariffId(this.selectedTariffId);
@@ -117,19 +128,23 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
       });
   }
 
+  openAuto(event: Event, trigger: MatAutocompleteTrigger): void {
+    event.stopPropagation();
+    trigger.openPanel();
+  }
+
   passDataToComponent(): void {
     this.dialogRef.close({ locationId: this.selectedLocationId, currentLanguage: this.currentLanguage, data: this.locations });
   }
 
-  changeLocation(id: number, locationName: string): void {
+  changeLocation(id: number, locationName: string): number {
     this.selectedLocationId = id;
     this.currentLocation = locationName.split(',')[0];
+    return id;
   }
 
-  public redirectToUbsPage(): void {
-    if (!this.selectedLocationId) {
-      this.router.navigate(['/ubs']);
-    }
+  public closePopUp(): void {
+    this.dialogRef.close();
   }
 
   ngOnDestroy(): void {

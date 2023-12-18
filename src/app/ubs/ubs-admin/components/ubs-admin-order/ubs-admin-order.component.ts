@@ -25,6 +25,7 @@ import {
   IUpdateResponsibleEmployee,
   IUserInfo,
   ResponsibleEmployee,
+  abilityEditAuthorities,
   NotTakenOutReasonImages
 } from '../../models/ubs-admin.interface';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -33,7 +34,10 @@ import { UbsAdminOrderPaymentComponent } from '../ubs-admin-order-payment/ubs-ad
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
+import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
+import { AdminTableService } from '../../services/admin-table.service';
+import { TableKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -41,6 +45,7 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
   styleUrls: ['./ubs-admin-order.component.scss']
 })
 export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentChecked {
+  deleteNumberOrderFromEcoShop = false;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   orderForm: FormGroup;
@@ -52,6 +57,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   addressInfo: IAddressExportDetails;
   paymentInfo: IPaymentInfo;
   totalPaid: number;
+  updateBonusAccount: number;
   unPaidAmount: number;
   exportInfo: IExportDetails;
   responsiblePersonInfo: IResponsiblePersons;
@@ -74,12 +80,20 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   private orderService: OrderService;
   private statuses = [OrderStatus.BROUGHT_IT_HIMSELF, OrderStatus.CANCELED, OrderStatus.FORMED];
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
+  private employeeAuthorities: string[];
+  public isEmployeeCanEditOrder = false;
+  private timeDeliveryFrom: string;
+  private timeDeliveryTo: string;
+  private dateExport: string;
+  private receivingStationId: number;
   notTakenOutReasonDescription: string;
   notTakenOutReasonImages: NotTakenOutReasonImages[];
 
+  public permissions$ = this.store.select((state): Array<string> => state.employees?.employeesPermissions);
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
+    private adminTableService: AdminTableService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -87,7 +101,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private changeDetector: ChangeDetectorRef,
     private injector: Injector,
     private store: Store<IAppState>,
-    private googleScript: GoogleScript
+    private googleScript: GoogleScript,
+    public ubsAdminEmployeeService: UbsAdminEmployeeService
   ) {
     this.matSnackBar = injector.get<MatSnackBarComponent>(MatSnackBarComponent);
     this.orderService = injector.get<OrderService>(OrderService);
@@ -109,11 +124,34 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       this.orderId = +params.id;
     });
     this.getOrderInfo(this.orderId, false);
+    this.authoritiesSubscription();
+  }
+
+  private authoritiesSubscription() {
+    this.permissions$.subscribe((authorities) => {
+      if (authorities?.length) {
+        this.definedIsEmployeeCanEditOrder(authorities);
+      }
+    });
+  }
+
+  private definedIsEmployeeCanEditOrder(authorities: string[]) {
+    this.employeeAuthorities = authorities;
+    if (this.employeeAuthorities) {
+      this.isEmployeeCanEditOrder = !!this.employeeAuthorities.filter(
+        (authoritiesItem) => authoritiesItem === abilityEditAuthorities.orders
+      ).length;
+    }
   }
 
   public onCancelOrder(): void {
     this.isOrderStatusChanged = true;
     this.setOrderDetails();
+  }
+
+  onNotTakenOutReason(value: { description: string; images: NotTakenOutReasonImages[] }): void {
+    this.notTakenOutReasonDescription = value.description;
+    this.notTakenOutReasonImages = value.images;
   }
 
   public getOrderInfo(orderId: number, submitMode: boolean): void {
@@ -144,18 +182,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       });
   }
 
-  onNotTakenOutReason(value: { description: string; images: NotTakenOutReasonImages[] }): void {
-    this.notTakenOutReasonDescription = value.description;
-    this.notTakenOutReasonImages = value.images;
-  }
-
   private setOrderDetails() {
     this.setPreviousBagsIfEmpty(this.currentOrderStatus);
     const bagsObj = this.orderInfo.bags.map((bag) => {
       bag.planned = this.orderInfo.amountOfBagsOrdered[bag.id] || 0;
-
-      const confirmedValue = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
-      bag.confirmed = this.isOrderStatusChanged ? 0 : confirmedValue;
+      bag.confirmed = this.orderInfo.amountOfBagsConfirmed[bag.id] ?? bag.planned;
 
       const setAmountOfBagsExported = this.currentOrderStatus === OrderStatus.DONE ? bag.confirmed : 0;
       bag.actual = this.isOrderStatusChanged ? 0 : this.orderInfo.amountOfBagsExported[bag.id] ?? setAmountOfBagsExported;
@@ -172,6 +203,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     };
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
     this.isStatus = this.generalInfo.orderStatus === OrderStatus.CANCELED;
+    const paymentBonusAccount = this.paymentInfo.paymentInfoDtos.filter(
+      (paymentItem) => paymentItem.receiptLink === PaymentEnrollment.receiptLink
+    );
+    if (paymentBonusAccount.length) {
+      this.updateBonusAccount = paymentBonusAccount.reduce(
+        (accumulator, currentPaymentBonusValue) => accumulator + Math.abs(currentPaymentBonusValue.amount),
+        0
+      );
+    }
   }
 
   private setPreviousBagsIfEmpty(status) {
@@ -253,7 +293,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
           [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
         ],
         addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
-        addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }]
+        addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }],
+        addressRegionDistrictList: [this.addressInfo.addressRegionDistrictList]
       }),
       exportDetailsDto: this.fb.group({
         dateExport: [this.exportInfo.dateExport ? formatDate(this.exportInfo.dateExport, 'yyyy-MM-dd', this.currentLanguage) : ''],
@@ -276,7 +317,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     });
     const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as FormArray;
     this.orderInfo.numbersFromShop.forEach((elem) => {
-      storeOrderNumbersArr.push(new FormControl(elem, [Validators.required, Validators.pattern(Patterns.ordersPattern)]));
+      storeOrderNumbersArr.push(new FormControl(elem, [Validators.pattern(Patterns.orderEcoStorePattern)]));
     });
     this.orderDetails.bags.forEach((bag) => {
       this.getFormGroup('orderDetailsForm').addControl(
@@ -340,6 +381,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
   public onPaymentUpdate(sum: number): void {
     this.totalPaid = sum;
+  }
+
+  public onPaymentToBonusAccount(sum: number): void {
+    this.updateBonusAccount = sum;
   }
 
   public changeOverpayment(sum: number): void {
@@ -420,6 +465,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     return exportDetailsDtoValue;
   }
 
+  deleteNumberOrderFromEcoShopChange(value: boolean) {
+    this.deleteNumberOrderFromEcoShop = value;
+  }
+
   public onSubmit(): void {
     this.isSubmitted = true;
     const changedValues: any = {};
@@ -427,16 +476,21 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.exportDetailsDto || this.isFormResetted) {
       changedValues.exportDetailsDto = this.validateExportDetails();
+      this.dateExport = changedValues.exportDetailsDto.dateExport;
+      this.timeDeliveryFrom = changedValues.exportDetailsDto.timeDeliveryFrom;
+      this.timeDeliveryTo = changedValues.exportDetailsDto.timeDeliveryTo;
       this.formatExporteValue(changedValues.exportDetailsDto);
+      this.receivingStationId = changedValues.exportDetailsDto.receivingStationId;
     }
 
     if (changedValues.orderDetailsForm) {
       changedValues.orderDetailDto = this.formatBagsValue(changedValues.orderDetailsForm);
-      if (changedValues.orderDetailsForm.storeOrderNumbers) {
-        const keyEcoNumberFromShop = 'ecoNumberFromShop';
+      const keyEcoNumberFromShop = 'ecoNumberFromShop';
+      if (changedValues.orderDetailsForm.storeOrderNumbers || this.deleteNumberOrderFromEcoShop) {
         changedValues[keyEcoNumberFromShop] = {
-          ecoNumber: changedValues.orderDetailsForm.storeOrderNumbers
+          ecoNumber: this.orderForm.value.orderDetailsForm.storeOrderNumbers
         };
+        this.deleteNumberOrderFromEcoShop = false;
       }
     }
     changedValues.ubsCourierPrice = this.ubsCourierPrice;
@@ -462,6 +516,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     }
 
     this.addIdForUserAndAdress(changedValues);
+
     this.orderService
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))
@@ -469,14 +524,55 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         if (response.ok) {
           this.getOrderInfo(this.orderId, true);
-          Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
-            if (changedValues.generalOrderInfo[key]) {
-              this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
-            }
-          });
+          if (changedValues?.generalOrderInfo) {
+            Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
+              if (changedValues.generalOrderInfo[key]) {
+                this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
+              }
+            });
+          }
+          this.updateExportDataInState(changedValues);
+          this.updateResponsibleEmployeeInState(changedValues);
         }
       });
     this.statusCanceledOrDone();
+  }
+
+  private updateExportDataInState(changedValues: IOrderInfo) {
+    if (changedValues?.exportDetailsDto) {
+      if (this.dateExport) {
+        this.postDataItem([this.orderId], TableKeys.dateOfExport, this.dateExport);
+      }
+      if (this.receivingStationId) {
+        this.postDataItem([this.orderId], TableKeys.receivingStation, String(this.receivingStationId));
+      }
+      if (this.timeDeliveryFrom && this.timeDeliveryTo) {
+        this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(this.timeDeliveryFrom, this.timeDeliveryTo).join('-'));
+      }
+    }
+  }
+
+  private updateResponsibleEmployeeInState(changedValues: IOrderInfo) {
+    if (changedValues?.updateResponsibleEmployeeDto) {
+      changedValues?.updateResponsibleEmployeeDto.forEach((key) => {
+        switch (key.positionId) {
+          case 2:
+            this.postDataItem([this.orderId], TableKeys.responsibleCaller, String(key.employeeId));
+            break;
+          case 3:
+            this.postDataItem([this.orderId], TableKeys.responsibleLogicMan, String(key.employeeId));
+            break;
+          case 4:
+            this.postDataItem([this.orderId], TableKeys.responsibleNavigator, String(key.employeeId));
+            break;
+          case 5:
+            this.postDataItem([this.orderId], TableKeys.responsibleDriver, String(key.employeeId));
+            break;
+          default:
+            break;
+        }
+      });
+    }
   }
 
   private postDataItem(orderId: number[], columnName: string, newValue: string): void {
@@ -513,7 +609,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
-    date.setHours(+hours + 3);
+    date.setHours(+hours + 2);
     date.setMinutes(+minutes);
     return date ? date.toISOString().split('Z').join('') : '';
   }

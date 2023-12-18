@@ -62,16 +62,16 @@
   margin-top: 36px;
 }
 
-.title {
-  margin-left: 13px;
-  font-size: 24px;
-}
-
 .alert-message {
   line-height: 28px;
   letter-spacing: 0.002em;
   margin-left: 40px;
   color: var(--ubs-error-base);
+}
+
+.title {
+  margin-left: 13px;
+  font-size: 24px;
 }
 
 .title-comment {
@@ -134,6 +134,10 @@ select {
   width: 215px;
 
   @include input;
+}
+
+.readonly {
+  pointer-events: none;
 }
 
 .dropdown_time {

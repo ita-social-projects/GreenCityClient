@@ -17,11 +17,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
 import { LimitsValidator } from '../../shared/limits-validator/limits.validator';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-
-export enum limitStatus {
-  limitByAmountOfBag = 'LIMIT_BY_AMOUNT_OF_BAG',
-  limitByPriceOfOrder = 'LIMIT_BY_SUM_OF_ORDER'
-}
+import { limitStatus } from '../ubs-tariffs.enum';
+import { abilityDelAuthorities, abilityEditAuthorities } from '../../../models/ubs-admin.interface';
 
 @Component({
   selector: 'app-ubs-admin-tariffs-pricing-page',
@@ -42,6 +39,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   areAllCheckBoxEmpty: boolean;
   limitStatus: limitStatus = null;
   description;
+  servicePrice;
   couriers;
   limitsForm: FormGroup;
   currentLocation;
@@ -67,6 +65,12 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   private location: Location;
   private fb: FormBuilder;
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
+  permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  private employeeAuthorities: string[];
+  public isEmployeeCanControlService: boolean;
+  public isEmployeeCanEditPricingCard: boolean;
+  public isEmployeeCanActivateDeactivate: boolean;
+  public isEmployeeCanUseCrumbs: boolean;
 
   constructor(private injector: Injector, private router: Router, private store: Store<IAppState>) {
     this.location = injector.get(Location);
@@ -92,9 +96,28 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       this.getService();
       this.getCouriers();
     });
+    this.authoritiesSubscription();
   }
 
-  setMinValueValidation(minFormControl, maxFormControl) {
+  private authoritiesSubscription() {
+    this.permissions$.subscribe((authorities) => {
+      if (authorities.length) {
+        this.definedIsEmployeeCanEditNotifications(authorities);
+      }
+    });
+    if (!this.isEmployeeCanEditPricingCard) {
+      this.limitsForm.disable();
+    }
+  }
+
+  definedIsEmployeeCanEditNotifications(employeeRights) {
+    this.employeeAuthorities = employeeRights;
+    this.isEmployeeCanControlService = this.employeeAuthorities.includes(abilityEditAuthorities.controlService);
+    this.isEmployeeCanEditPricingCard = this.employeeAuthorities.includes(abilityEditAuthorities.pricingCard);
+    this.isEmployeeCanActivateDeactivate = this.employeeAuthorities.includes(abilityDelAuthorities.activateDeactivate);
+  }
+
+  setMinValueValidation(minFormControl: AbstractControl, maxFormControl: AbstractControl): void {
     minFormControl.valueChanges.pipe(startWith(minFormControl.value)).subscribe((value) => {
       maxFormControl.setValidators([Validators.min(value + 1)]);
       maxFormControl.updateValueAndValidity();
@@ -343,6 +366,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((res: Service) => {
         this.service = res;
+        this.servicePrice = this.service?.price * 100;
         this.isLoadBar1 = false;
       });
   }

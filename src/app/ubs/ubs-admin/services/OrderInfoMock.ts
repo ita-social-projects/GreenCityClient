@@ -1,6 +1,6 @@
 import { IOrderInfo, IEmployee, IPaymentInfoDto } from '../models/ubs-admin.interface';
 import { OrderStatus, PaymnetStatus } from '../../ubs/order-status.enum';
-import { limitStatus } from '../components/ubs-admin-tariffs/ubs-admin-tariffs-pricing-page/ubs-admin-tariffs-pricing-page.component';
+import { limitStatus } from '../components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 
 export const fakeAllPositionsEmployees: Map<string, IEmployee[]> = new Map();
@@ -156,7 +156,8 @@ export const OrderInfoMockedData: IOrderInfo = {
     allPositionsEmployees: fakeAllPositionsEmployees,
     currentPositionEmployees: new Map(),
     orderId: 1
-  }
+  },
+  writeOffStationSum: 0
 };
 
 export const GeneralInfoMock = {

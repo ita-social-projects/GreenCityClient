@@ -5,116 +5,123 @@
     </div>
     <div class="icon-style"><i class="fa fa-search" aria-hidden="true"></i></div>
   </div>
-  <div class="btns-box">
-    <div class="filters-dropdown-wrapper">
-      <button type="button" class="btn ubs-secondary-global-button s-btn filt-btn" (click)="toggleFilters()">
+  <div class="btn-group">
+    <div class="filters-dropdown-wrappe">
+      <button type="button" [matMenuTriggerFor]="clickMenu" #clickMenuTrigger="matMenuTrigger" class="btn btn-default filter-table-btn">
         <mat-icon>filter_list</mat-icon>
-        <span>{{ 'ubs-tables.filters' | translate }}</span>
+        {{ 'ubs-tables.filters' | translate }}
       </button>
-      <div [ngClass]="{ show: isFiltersOpened }" class="dropdown-menu">
-        <div class="sticky-top dropdown-top-panel">
-          <p class="font-weight-bold">{{ 'ubs-tables.filter' | translate }}</p>
-          <button type="button" class="reset-settings" (click)="toggleFilters()">
-            <i class="fa fa-close" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="accordion scrollbar" (click)="$event.stopPropagation()">
-          <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
-            <div class="accordion-item">
-              <div
-                [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header highlighted' : 'accordion-group-header'"
-                class="accordion-group-header"
-                data-bs-toggle="collapse"
-                attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
-                aria-expanded="false"
-                attr.aria-controls="panelsStayOpen-collapse{{ i }}"
-                (click)="toggleAccordion($event)"
-              >
-                <mat-icon>keyboard_arrow_down</mat-icon>
-                <span>{{ column | serverTranslate: currentLang }}</span>
-              </div>
-              <div
-                id="panelsStayOpen-collapse{{ i }}"
-                class="accordion-collapse collapse"
-                attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
-              >
-                <div class="accordion-body">
-                  <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
-                    <div [formGroup]="dateForm">
-                      <mat-checkbox formControlName="{{ column.key }}Check" (change)="changeInputDate($event.checked, column.key, 'Check')">
-                        {{ 'ubs-tables.date-range' | translate }}
-                      </mat-checkbox>
-                      <div class="date-range-box">
-                        <div class="input-box">
-                          <label class="date-label" for="dateFrom" *ngIf="getControlValue(column.key, 'Check')">{{
-                            'ubs-tables.date-from' | translate
-                          }}</label>
-                          <div class="data-field">
-                            <input
-                              matInput
-                              class="date-input"
-                              type="text"
-                              [matDatepicker]="picker1"
-                              [placeholder]="'ubs-tables.date-placeholder' | translate"
-                              formControlName="{{ column.key }}From"
-                              (dateChange)="changeInputDate($event.checked, column.key, 'From')"
-                              [max]="currentDate"
-                            />
-                            <button matSuffix class="calendar-btn">
-                              <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
-                            </button>
-                            <mat-datepicker #picker1></mat-datepicker>
+      <mat-menu #clickMenu="matMenu" class="customize-mat-panel">
+        <div class="dropdown-menu-container">
+          <div class="sticky-top dropdown-top-panel">
+            <p class="font-weight-bold">{{ 'ubs-tables.filter' | translate }}</p>
+            <button type="button" class="reset-settings" (click)="toggleFilters()">
+              <i class="fa fa-close" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="accordion scrollbar" (click)="$event.stopPropagation()">
+            <ng-container *ngFor="let column of getColumnsForFiltering(); index as i">
+              <div class="accordion-item">
+                <div
+                  [ngClass]="checkForCheckedBoxes(column) ? 'accordion-group-header highlighted' : 'accordion-group-header'"
+                  class="accordion-group-header"
+                  data-bs-toggle="collapse"
+                  attr.data-bs-target="#panelsStayOpen-collapse{{ i }}"
+                  aria-expanded="false"
+                  attr.aria-controls="panelsStayOpen-collapse{{ i }}"
+                  (click)="toggleAccordion($event)"
+                >
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                  <span>{{ column | serverTranslate: currentLang }}</span>
+                </div>
+                <div
+                  id="panelsStayOpen-collapse{{ i }}"
+                  class="accordion-collapse collapse"
+                  attr.aria-labelledby="panelsStayOpen-heading{{ i }}"
+                >
+                  <div class="accordion-body">
+                    <div *ngIf="column.key.toLowerCase().includes('date'); else nonDate">
+                      <div [formGroup]="dateForm">
+                        <mat-checkbox
+                          formControlName="{{ column.key }}Check"
+                          (change)="changeInputDate($event.checked, column.key, 'Check')"
+                        >
+                          {{ 'ubs-tables.date-range' | translate }}
+                        </mat-checkbox>
+                        <div class="date-range-box">
+                          <div class="input-box">
+                            <label class="date-label" for="dateFrom" *ngIf="getControlValue(column.key, 'Check')">{{
+                              'ubs-tables.date-from' | translate
+                            }}</label>
+                            <div class="data-field">
+                              <input
+                                matInput
+                                class="date-input"
+                                type="text"
+                                [matDatepicker]="picker1"
+                                [placeholder]="'ubs-tables.date-placeholder' | translate"
+                                formControlName="{{ column.key }}From"
+                                [max]="currentDate"
+                                (keydown)="(false)"
+                                (dateChange)="changeInputDate($event.checked, column.key, 'From')"
+                              />
+                              <button matSuffix class="calendar-btn">
+                                <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker1.open()" />
+                              </button>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </div>
                           </div>
-                        </div>
-                        <div class="input-box" *ngIf="getControlValue(column.key, 'Check')">
-                          <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
-                          <div class="data-field">
-                            <input
-                              matInput
-                              class="date-input"
-                              type="text"
-                              [matDatepicker]="picker2"
-                              [placeholder]="'ubs-tables.date-placeholder' | translate"
-                              formControlName="{{ column.key }}To"
-                              (dateChange)="changeInputDate($event.checked, column.key, 'To')"
-                              [max]="currentDate"
-                            />
-                            <button matSuffix class="calendar-btn">
-                              <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
-                            </button>
-                            <mat-datepicker #picker2></mat-datepicker>
+                          <div class="input-box" *ngIf="getControlValue(column.key, 'Check')">
+                            <label class="date-label" for="dateTo">{{ 'ubs-tables.date-to' | translate }}</label>
+                            <div class="data-field">
+                              <input
+                                matInput
+                                class="date-input"
+                                type="text"
+                                [matDatepicker]="picker2"
+                                [max]="currentDate"
+                                [placeholder]="'ubs-tables.date-placeholder' | translate"
+                                formControlName="{{ column.key }}To"
+                                (keydown)="(false)"
+                                (dateChange)="changeInputDate($event.checked, column.key, 'To')"
+                              />
+                              <button matSuffix class="calendar-btn">
+                                <img src="assets/img/icon/econews/calendar-icon.svg" alt="Calendar button" (click)="picker2.open()" />
+                              </button>
+                              <mat-datepicker #picker2></mat-datepicker>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <ng-template #nonDate>
+                      <li *ngFor="let option of column.values">
+                        <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
+                          {{ option | serverTranslate: currentLang }}
+                        </mat-checkbox>
+                      </li>
+                    </ng-template>
                   </div>
-                  <ng-template #nonDate>
-                    <li *ngFor="let option of column.values">
-                      <mat-checkbox [checked]="option.filtered" (change)="changeFilters($event?.checked, column.key, option)">
-                        {{ option | serverTranslate: currentLang }}
-                      </mat-checkbox>
-                    </li>
-                  </ng-template>
                 </div>
               </div>
-            </div>
-          </ng-container>
+            </ng-container>
+          </div>
+          <div class="sticky-bottom clear-apply-group">
+            <button [disabled]="noFiltersApplied" type="button" class="filter-btn bg-lime" (click)="applyFilters()">
+              {{ 'ubs-tables.apply-filters' | translate }}
+            </button>
+            <button type="button" class="filter-btn clear-filt" (click)="clearFilters()">
+              {{ 'ubs-tables.clear-filters' | translate }}
+            </button>
+          </div>
         </div>
-        <div class="sticky-bottom clear-apply-group">
-          <button [disabled]="noFiltersApplied" type="button" class="btn ubs-primary-global-button s-btn" (click)="applyFilters()">
-            {{ 'ubs-tables.apply-filters' | translate }}
-          </button>
-          <button type="button" class="btn ubs-secondary-global-button s-btn" (click)="clearFilters()">
-            {{ 'ubs-tables.clear-filters' | translate }}
-          </button>
-        </div>
-      </div>
+      </mat-menu>
     </div>
     <div class="button-group">
       <div class="table-view-dropdown-wrapper">
-        <button type="button" class="btn ubs-secondary-global-button s-btn filt-btn" (click)="toggleTableView()">
+        <button type="button" class="btn btn-default view-table-btn" (click)="toggleTableView()">
           <img src="assets/img/edit.svg" alt="edit" />
-          <span>{{ 'ubs-tables.table-view' | translate }}</span>
+          {{ 'ubs-tables.table-view' | translate }}
         </button>
         <ul class="dropdown-menu" [style.display]="display">
           <div class="sticky-top dropdown-top-panel">
@@ -172,9 +179,8 @@
           </div>
         </ul>
       </div>
-      <button type="button" class="btn ubs-secondary-global-button s-btn btn-excel" (click)="openExportExcel()">
-        <mat-icon>open_in_new</mat-icon>
-        <span>{{ 'ubs-tables.export-to-excel' | translate }}</span>
+      <button type="button" class="btn btn-default export-excel-btn" (click)="openExportExcel()">
+        {{ 'ubs-tables.export-to-excel' | translate }}
       </button>
     </div>
   </div>
@@ -320,6 +326,9 @@
     ></mat-row>
   </table>
   <app-spinner *ngIf="isUpdate"></app-spinner>
+  <div class="message-container" *ngIf="!tableData.length">
+    {{ 'ubs-tables.no-orders-found' | translate }}
+  </div>
 </div>
 <ng-template #spinner>
   <app-spinner></app-spinner>

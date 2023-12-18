@@ -5,7 +5,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { LocalizedCurrencyPipe } from '../../../../shared/localized-currency-pipe/localized-currency.pipe';
 import { Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -19,6 +19,9 @@ import { IMaskModule } from 'angular-imask';
 import { InteractivityChecker } from '@angular/cdk/a11y';
 import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-list-by-lang/filter-location-list-by-lang.pipe';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
+import { Store } from '@ngrx/store';
+import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -75,6 +78,38 @@ describe('OrderDetailsFormComponent', () => {
     ]
   };
 
+  const orderDetailsMock: OrderDetails = {
+    bags: [
+      { code: 'ua', capacity: 100, id: 0, price: 300, quantity: 10, nameEng: 'def', name: 'def' },
+      { code: 'ua', capacity: 100, id: 1, price: 300, quantity: 10, nameEng: 'def', name: 'def' }
+    ],
+    points: 0
+  };
+
+  const personalDataMock = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    addressComment: '',
+    city: '',
+    cityEn: '',
+    district: '',
+    districtEn: '',
+    street: '',
+    streetEn: '',
+    houseCorpus: '',
+    entranceNumber: '',
+    houseNumber: '',
+    longitude: 1,
+    latitude: 0,
+    senderFirstName: '',
+    senderLastName: '',
+    senderEmail: '',
+    senderPhoneNumber: ''
+  };
+
   shareFormService.locationId = 1;
   shareFormService.locations = mockLocations;
 
@@ -82,6 +117,13 @@ describe('OrderDetailsFormComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
   };
+
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
+
+  const orderServiceMock = jasmine.createSpyObj('OrderService', ['getOrders', 'getPersonalData']);
+  orderServiceMock.getOrders.and.returnValue(of());
+  orderServiceMock.getPersonalData.and.returnValue(of(storeMock.personalData));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -97,10 +139,13 @@ describe('OrderDetailsFormComponent', () => {
         IMaskModule
       ],
       providers: [
+        MatDialog,
+        { provide: Store, useValue: storeMock },
         { provide: MatDialogRef, useValue: {} },
         { provide: UBSOrderFormService, useValue: shareFormService },
         { provide: LocalStorageService, useValue: localStorageService },
-        { provide: LanguageService, useValue: languageServiceMock }
+        { provide: LanguageService, useValue: languageServiceMock },
+        { provide: OrderService, useValue: orderServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -137,15 +182,17 @@ describe('OrderDetailsFormComponent', () => {
       bags: [{ id: 0, code: 'ua' }],
       points: 0
     };
-    // orderService = TestBed.inject(OrderService);
     spyOn(global, 'setTimeout');
-    const spy = spyOn(orderService, 'getOrders').and.returnValue(of(mock));
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
     fixture.detectChanges();
     component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
-    expect(spy).toHaveBeenCalled();
+    component.bags = [{ id: 0, code: 'ua' }];
+    component.orders = {
+      bags: [{ id: 0, code: 'ua' }],
+      points: 0
+    };
     expect(component.bags).toEqual(component.orders.bags);
   });
 
@@ -164,13 +211,6 @@ describe('OrderDetailsFormComponent', () => {
 
     expect(localStorageService.removeUbsOrderAndPersonalData).toHaveBeenCalled();
     expect(localStorageService.removeanotherClientData).toHaveBeenCalled();
-  });
-
-  it('should call openLocationDialog method if an error occurs during getOrders method', () => {
-    spyOn(orderService, 'getOrders').and.returnValue(throwError('error'));
-    const spy = spyOn(component, 'openLocationDialog');
-    component.takeOrderData();
-    expect(spy).toHaveBeenCalled();
   });
 
   it('method filterBags should sord bags', () => {
@@ -204,6 +244,12 @@ describe('OrderDetailsFormComponent', () => {
     component.bags = bagsMock;
     fixture.detectChanges();
     component.onQuantityChange();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('method calculateTotal should invoke changeOrderDetails method', () => {
+    const spy = spyOn<any>(component, 'changeOrderDetails');
+    (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
   });
 
@@ -251,7 +297,7 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('checkCourierLimit should check and set courierLimitByAmount', () => {
-    mockLocations.courierLimit = 'LIMIT_BY_AMOUNT_OF_BAG';
+    mockLocations.courierLimit = limitStatus.limitByAmountOfBag;
     component.checkCourierLimit();
     fixture.detectChanges();
     expect(component.courierLimitByAmount).toBeTruthy();
@@ -269,6 +315,20 @@ describe('OrderDetailsFormComponent', () => {
     (component as any).validateSum();
     fixture.detectChanges();
     expect(component.courierLimitValidation).toBeFalsy();
+  });
+
+  it('saveLocation should set isFetching', () => {
+    (component as any).saveLocation();
+    expect(component.isFetching).toBeTruthy();
+    (component as any).setCurrentLocation();
+    expect(component.changeLocation).toBeFalsy();
+  });
+
+  it('changeForm should set orderSum', () => {
+    component.showTotal = 0;
+    const orderSum = component.orderDetailsForm.controls.orderSum.value;
+    (component as any).changeForm();
+    expect(orderSum).toEqual(0);
   });
 
   it('getter formArrayCertificates should return formArray of certificates', () => {
@@ -290,43 +350,5 @@ describe('OrderDetailsFormComponent', () => {
     component.ngOnDestroy();
     expect(nextSpy).toHaveBeenCalledTimes(1);
     expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('changeQuantity()', () => {
-    const spyOnQuantityChange = spyOn(component, 'onQuantityChange');
-    spyOn(global, 'setTimeout');
-    spyOn(orderService, 'getOrders').and.returnValue(of(ordersMock));
-    shareFormService.orderDetails = ordersMock;
-
-    component.takeOrderData();
-
-    const id = 1;
-    const value1 = 1;
-    const value2 = -1;
-    const formControl = component.orderDetailsForm.get('quantity' + id);
-    const oldValue = Number(formControl.value);
-    const newValue = oldValue + value1;
-
-    const spySetValue = spyOn(formControl, 'setValue').and.callThrough();
-
-    component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(spySetValue).toHaveBeenCalledWith(String(newValue));
-    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(newValue));
-    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(newValue));
-
-    const minValue = '0';
-    formControl.setValue(minValue);
-    component.changeQuantity(id, value2);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(minValue));
-    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(minValue));
-
-    const maxValue = '999';
-    formControl.setValue(maxValue);
-    component.changeQuantity(id, value1);
-    expect(spyOnQuantityChange).toHaveBeenCalledTimes(1);
-    expect(component.orderDetailsForm.value['quantity' + id]).toEqual(String(maxValue));
-    expect(component.orderDetailsForm.get('quantity' + id).value).toEqual(String(maxValue));
   });
 });

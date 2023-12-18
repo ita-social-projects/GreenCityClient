@@ -74,7 +74,7 @@
           </ul>
         </div>
         <div class="buttons">
-          <button type="button" (click)="cancel()">
+          <button type="button" (click)="cancel(true)">
             {{ 'user.edit-profile.btn.cancel' | translate }}
           </button>
           <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">

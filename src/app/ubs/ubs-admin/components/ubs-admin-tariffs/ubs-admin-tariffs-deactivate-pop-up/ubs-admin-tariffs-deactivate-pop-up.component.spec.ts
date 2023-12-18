@@ -591,6 +591,21 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy7).toHaveBeenCalled();
   });
 
+  it('should get all couriers', () => {
+    component.isActivatePopUp = false;
+    component.isDeactivatePopUp = true;
+    component.getCouriers();
+    expect(component.couriers).toEqual(fakeCouriers);
+    expect(component.couriersName).toEqual(['фейкКурєр1', 'фейкКурєр2']);
+  });
+
+  it('should get all stations', () => {
+    component.isDeactivatePopUp = true;
+    component.getReceivingStation();
+    expect(component.stations).toEqual([fakeStation]);
+    expect(component.stationsName).toEqual(['Фейк']);
+  });
+
   it('should get locations', () => {
     component.getLocations(true);
     expect(component.locations).toEqual([fakeLocation]);
@@ -635,7 +650,6 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     const spy1 = spyOn(component, 'selectAllStationsInTariffCards');
     const spy2 = spyOn(component, 'selectAllRegionsInTariffCards');
     const spy3 = spyOn(component, 'selectAllCitiesInTariffCards');
-    const filteredTariffCards = component.filterTariffCards();
     component.onSelectedCourier();
     expect(spy1).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
@@ -651,6 +665,16 @@ describe('UbsAdminTariffsDeactivatePopUpComponent', () => {
     expect(spy1).toHaveBeenCalledWith(eventMockStation as any);
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
+  });
+
+  it('courier and region should be enabled when selectStations is empty', () => {
+    component.stations = [{ id: 1, name: 'Фейк', stationStatus: 'ACTIVE', createdBy: 'admin', createDate: '2023-06-02' }];
+    component.selectedStations.push({ id: 1, name: 'Фейк' });
+    const spy = spyOn(component, 'onDeletedField');
+    component.selectStation(eventMockStation as any);
+    expect(spy).toHaveBeenCalled();
+    expect(component.courier.disabled).toEqual(false);
+    expect(component.region.disabled).toEqual(false);
   });
 
   it('should empty station value selectStation method', () => {

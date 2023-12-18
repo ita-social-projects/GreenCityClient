@@ -30,15 +30,15 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     {
       titleForSorting: 'column1',
       checked: [
-        { key: 'item1', en: 'value1', ua: 'value1' },
-        { key: 'item2', en: 'value2', ua: 'value2' }
+        { key: 'item1', en: 'value1', ua: 'valeur1' },
+        { key: 'item2', en: 'value2', ua: 'valeur2' }
       ]
     },
     {
       titleForSorting: 'column2',
       checked: [
-        { key: 'item3', en: 'value3', ua: 'value3' },
-        { key: 'item4', en: 'value4', ua: 'value4' }
+        { key: 'item3', en: 'value3', ua: 'valeur3' },
+        { key: 'item4', en: 'value4', ua: 'valeur4' }
       ]
     }
   ];
@@ -190,7 +190,7 @@ describe('UbsAdminTableExcelPopupComponent', () => {
     const itemKey = 'item1';
     const expectedValue = 'value1';
 
-    const result = component.getColumnValue(columnKey, itemKey, 'ua');
+    const result = component.getColumnValue(columnKey, itemKey);
     expect(result).toEqual(expectedValue);
   });
 });

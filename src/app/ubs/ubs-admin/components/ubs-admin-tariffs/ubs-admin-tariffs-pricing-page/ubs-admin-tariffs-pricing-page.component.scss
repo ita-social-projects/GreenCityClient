@@ -252,7 +252,7 @@ img,
 .image-buttons {
   display: flex;
   justify-content: space-between;
-  padding: 0 7px;
+  margin: 0 7px;
 }
 
 .form-select:empty {
@@ -320,6 +320,7 @@ button[disabled] {
   .mat-dialog-container {
     width: 572px !important;
     padding: 40px 45px 20px 45px;
+    max-height: 100vh;
   }
 }
 

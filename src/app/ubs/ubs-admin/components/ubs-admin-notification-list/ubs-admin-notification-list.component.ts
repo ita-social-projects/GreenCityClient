@@ -26,6 +26,8 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
   currentPage = 1;
   totalItems: number;
   currentLanguage: string;
+  spinner: boolean;
+  elementsArePresent = true;
 
   constructor(
     private fb: FormBuilder,
@@ -62,18 +64,20 @@ export class UbsAdminNotificationListComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
-  onPageChanged(page): void {
-    this.loadPage(page, this.filtersForm.value);
-    this.currentPage = page;
-  }
-
   loadPage(page, filters?): void {
+    this.spinner = this.elementsArePresent;
+
     this.notificationsService
       .getAllNotificationTemplates(page - 1, this.itemsPerPage)
       .pipe(take(1))
       .subscribe((data) => {
         this.notifications = data.page;
         this.totalItems = data.totalElements;
+        this.spinner = false;
+        this.elementsArePresent = this.itemsPerPage < this.totalItems;
+        if (this.elementsArePresent) {
+          this.itemsPerPage += 10;
+        }
       });
   }
 

@@ -1,6 +1,6 @@
 <div class="dialog-container">
   <div class="close-container">
-    <button class="close-btn" mat-dialog-close (click)="redirectToUbsPage()">
+    <button class="close-btn" mat-dialog-close (click)="closePopUp()">
       <img src="{{ closeButton }}" alt="close" />
     </button>
   </div>
@@ -10,28 +10,42 @@
   <div class="form-spinner-wrapper">
     <form *ngIf="!isFetching; else spinner" class="form">
       <div class="city-container">
-        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" class="shadow-none form-control" />
+        <input
+          type="text"
+          matInput
+          [formControl]="myControl"
+          [matAutocomplete]="auto"
+          class="shadow-none form-control"
+          #autocompleteTrigger="matAutocompleteTrigger"
+        />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let city of cities" [value]="city" (click)="changeLocation(city.locationId, city.locationName)">
             {{ city.locationName }}
           </mat-option>
         </mat-autocomplete>
+        <img
+          alt="arrowDown"
+          class="arrowDownImg"
+          src="./assets/img/ubs-tariff/arrow-down.svg"
+          (click)="openAuto($event, autocompleteTrigger)"
+        />
       </div>
     </form>
+    <ng-template #spinner>
+      <app-spinner class="mx-auto"></app-spinner>
+    </ng-template>
     <div class="info" *ngIf="!isFetching">
       <p class="text" *ngIf="selectedLocationId === 1">{{ 'order-details.location.info-city' | translate }}</p>
       <p class="text" *ngIf="selectedLocationId === 2">{{ 'order-details.location.info-region' | translate }}</p>
     </div>
-    <ng-template #spinner>
-      <app-spinner class="mx-auto"></app-spinner>
-    </ng-template>
   </div>
-  <mat-dialog-actions class="footer-btns" align="end">
-    <button class="btn secondaryButton secondary-global-button" mat-dialog-close (click)="redirectToUbsPage()">
+
+  <mat-dialog-actions class="footer-btns">
+    <button class="ubs-secondary-global-button" mat-dialog-close (click)="closePopUp()">
       {{ 'order-details.location.btn.back' | translate }}
     </button>
     <button
-      class="btn primaryButton primary-global-button"
+      class="ubs-primary-global-button"
       [disabled]="isFetching || !currentLocation || myControl.invalid"
       cdkFocusInitial
       (click)="saveLocation()"

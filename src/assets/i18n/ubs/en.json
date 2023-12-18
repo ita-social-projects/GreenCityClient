@@ -20,6 +20,7 @@
   },
   "snack-bar": {
     "saved-order": "Now you can find your order №{{orderId}} in your personal account and continue processing it at any time",
+    "update-order": "Your changes have been saved",
     "no-internet": "No internet connection",
     "error": {
       "not-enough-points": "There aren't enough points on your bonus account to pay for the order",
@@ -31,16 +32,17 @@
     },
     "attention": {
       "default": "Attention message. The action cannot be performed, because conditions weren’t met.",
-      "exit-confirm-restore-password": "Your password hasn`t been changed."
+      "exit-confirm-restore-password": "Your password hasn`t been changed"
     },
     "success": {
       "default": "Success message. The action was successful.",
+      "added-address": "Address is successfully added",
       "confirm-restore-password": "Your password has just been reset.",
       "confirm-email": "Your email has been verified.",
       "restore-password": "Restore password link was sent to your email address.",
       "sign-up": "Congratulations! You have successfully registered on the site. Please confirm your email address in the email box.",
-      "update-notification": "Notification was updated",
-      "added-address": "The address has been added"
+      "joined-event": "You have successfully joined the event",
+      "error-joined-event": "You can't join this event"
     }
   },
   "order-details": {
@@ -70,7 +72,7 @@
     "certificate": "Certificate:",
     "bonuses": "Bonuses: ",
     "amount-due": "Amount due: ",
-    "min-sum": "The minimum order amount must be {{minOrderValue}} UAH",
+    "min-sum": "The minimum order amount must be {{minOrderValue}} UAH for packages of 120l",
     "max-sum": "The maximum order amount is {{maxOrderValue}} UAH",
     "min-big-bags": "Please note that the minimum order must contain at least {{minAmountOfBigBags}} packages of 120l",
     "max-big-bags": "Please note that the maximum order can contain {{maxAmountOfBigBags}} packages of 120l",
@@ -136,7 +138,7 @@
     "polyfoam": "polyfoam (type of packaging - 120 l bag (we take no more than 1 bag for 1 shipment)).",
     "condition1": "Indicate in the comment that you plan to give free positions to the Courier, as well as indicate their volume and number.",
     "condition2": "Pack each type of package separately. A mix of these wastes in one bag/box will not be collected by UBS Courier. Tie up packages before handing them over.",
-    "button": "Of course"
+    "button": "OK"
   },
   "personal-info": {
     "address-city": "city",
@@ -169,14 +171,15 @@
     "info-optionally": "optionally",
     "info-address": "Garbage collection address",
     "info-no-address": "You have no addresses added. Please add an address.",
-    "info-add-address": "Add another address",
-    "info-add-first-address": "Add your address",
+    "info-add-address": "Add address",
+    "info-add-new-address": "Add another address",
     "info-address-coment": "Comment to the address",
     "info-coment-placeholder": "Any details you would like to tell us further",
     "info-back": "Back",
     "info-cancel": "Cancel",
     "info-next": "Next",
     "first-order": "Please note, the Courier picks up the packages at the entrance and does not go upstairs",
+    "address-doesnt-match-tariff": "The selected address is not serviced by this tariff. To place an order, change the location (tariff) or choose another address",
     "required-from-dropdown": "Please choose from the list"
   },
   "submit-order": {
@@ -266,7 +269,7 @@
           "li_1.2": "in dense 120 liters.",
           "li_1.3": "packages",
           "li_2": "collect and pay service online",
-          "li_3": "receive delivery within 5 working days "
+          "li_3": "receive delivery within 5 working days "
         }
       },
       "courier": {
@@ -278,7 +281,7 @@
           "li_2": "textile products for burning",
           "li_2.1": "must be in a separate package -",
           "li_2.2": "rules for preparing textiles for delivery",
-          "li_3": "we do NOT remove glass ",
+          "li_3": "we do NOT remove glass ",
           "li_3.1": "we advise you to find a green bell container for glass in your area"
         }
       },
@@ -292,9 +295,9 @@
         "title": "In addition to packages, the courier can pick up an unlimited number of extra items (except styrofoam) for FREE, these are:",
         "condition": "☝️ provided that they are clean, dry and collected in SEPARATE bags or bags",
         "items": {
-          "li_1": "aluminum cans ",
+          "li_1": "aluminum cans ",
           "li_2": "tin cans",
-          "li_3": "PET bottles are transparent from under drinks ",
+          "li_3": "PET bottles are transparent from under drinks ",
           "li_4": "corrugated board",
           "li_5": "Styrofoam (restriction - we pick up one bag of 120 l for 1 delivery free of charge)"
         }
@@ -307,7 +310,7 @@
 
       "minimum-volume": {
         "title": "Minimum volume for export:",
-        "li_1": "2 packages of 120 l in Kyiv ",
+        "li_1": "2 packages of 120 l in Kyiv ",
         "li_2": "20 packages of 120 liters in the suburbs within 20 km of Kyiv"
       }
     },
@@ -445,7 +448,7 @@
         "password": "Password",
         "password-is-required": "Password is required",
         "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters in length",
-        "too-long-password": "Password must be less than 20 characters in length without spaces.",
+        "too-long-password": "Password must be less than 20 characters long without spaces.",
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
@@ -486,6 +489,7 @@
   },
   "nav-bar": {
     "user-settings": "Settings",
+    "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
     "management": "Management"

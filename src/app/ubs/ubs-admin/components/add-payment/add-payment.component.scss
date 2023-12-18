@@ -307,16 +307,3 @@
     }
   }
 }
-
-::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-  background-color: white;
-}
-
-::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: var(--ubs-quaternary-dark-grey);
-}
-
-::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  background-color: white;
-  border-color: var(--ubs-quaternary-dark-grey);
-}

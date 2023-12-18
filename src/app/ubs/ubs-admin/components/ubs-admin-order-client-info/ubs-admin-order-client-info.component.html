@@ -27,7 +27,13 @@
             <label class="form__label" for="customer-tel">
               {{ 'customer-info.customer.tel-label' | translate }}
             </label>
-            <input class="form-control" type="tel" id="customer-tel" placeholder="{{ userInfo.customerPhoneNumber }}" disabled />
+            <input
+              class="form-control"
+              type="tel"
+              id="customer-tel"
+              placeholder="+{{ userInfo.customerPhoneNumber.replace(isTherePlus, '') }}"
+              disabled
+            />
           </div>
           <div class="form-group">
             <label class="form__label" for="customer-email">
@@ -51,7 +57,7 @@
                   class="form-control name-input"
                   type="text"
                   id="recipient-name"
-                  [readonly]="isOrderCanceled"
+                  [readonly]="isOrderCanceled || !this.isEmployeeCanEditOrder"
                   formControlName="recipientName"
                 />
                 <div *ngIf="userInfoDto.controls['recipientName'].invalid && userInfoDto.controls['recipientName'].touched">
@@ -63,7 +69,7 @@
               <div>
                 <input
                   class="form-control name-input"
-                  [readonly]="isOrderCanceled"
+                  [readonly]="isOrderCanceled || !this.isEmployeeCanEditOrder"
                   type="text"
                   id="recipient-surname"
                   formControlName="recipientSurName"
@@ -82,11 +88,11 @@
             </label>
             <input
               class="form-control"
-              [readonly]="isOrderCanceled"
+              [readonly]="isOrderCanceled || !this.isEmployeeCanEditOrder"
               type="tel"
               id="recipient-tel"
               placeholder="{{ 'customer-info.recipient.tel-placeholder' | translate }}"
-              formControlName="recipientPhoneNumber"
+              [formControl]="userInfoDto.controls['recipientPhoneNumber']"
               [unmask]="true"
               [imask]="{ mask: phoneMask }"
             />
@@ -102,7 +108,7 @@
             </label>
             <input
               class="form-control"
-              [readonly]="isOrderCanceled"
+              [readonly]="isOrderCanceled || !this.isEmployeeCanEditOrder"
               type="email"
               id="recipient-email"
               placeholder="{{ 'customer-info.recipient.email-placeholder' | translate }}"
@@ -135,7 +141,7 @@
           </div>
         </div>
         <button
-          *ngIf="isViolationBtnShowed()"
+          *ngIf="isViolationBtnShowed() && isEmployeeCanEditOrder"
           class="btn"
           [disabled]="userViolationForCurrentOrder >= 1"
           type="button"
