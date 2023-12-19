@@ -2,12 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -37,8 +38,11 @@ describe('CommentsListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsListComponent, DateLocalisationPipe],
-      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: CommentsService, useValue: commentsServiceMock }],
+      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
+      providers: [
+        { provide: CommentsService, useValue: commentsServiceMock },
+        { provide: Renderer2, useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
