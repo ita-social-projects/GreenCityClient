@@ -1,5 +1,4 @@
 import {
-  AfterContentChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -57,7 +56,6 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
 
   updateCommentsInnerHtml(elements: QueryList<ElementRef>): void {
     elements.toArray().forEach((element, index) => {
-      console.log(element.nativeElement);
       if (element.nativeElement?.childNodes?.length) {
         Array.from(element.nativeElement?.childNodes).forEach((node) => {
           this.renderer.removeChild(element.nativeElement, node);
