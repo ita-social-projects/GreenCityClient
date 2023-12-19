@@ -12,7 +12,6 @@ import { UserService } from '@global-service/user/user.service';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
-  public currentLang: string;
   public chatIcons = CHAT_ICONS;
   public shouldNotBeScrolled = false;
   @ViewChild('chat') chat: ElementRef;
@@ -24,10 +23,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
-
-  constructor(public chatsService: ChatsService,
-              private socketService: SocketService,
-              public userService: UserService) {}
+  constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
 
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
