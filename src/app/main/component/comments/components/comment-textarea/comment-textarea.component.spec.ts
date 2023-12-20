@@ -28,6 +28,10 @@ describe('CommentInputComponent', () => {
     }).compileComponents();
   }));
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(CommentTextareaComponent);
     component = fixture.componentInstance;
