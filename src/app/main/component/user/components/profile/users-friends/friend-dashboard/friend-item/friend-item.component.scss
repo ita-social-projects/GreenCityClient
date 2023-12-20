@@ -28,7 +28,7 @@
   }
 
   @media (max-width: 450px) {
-    padding: 24px 6px 16px 10px;
+    padding: 24px 6px 8px 10px;
   }
 
   @media (min-width: 280px) {
@@ -45,6 +45,12 @@
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
+
+  @media (max-width: 360px) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .friend-item-left {
