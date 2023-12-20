@@ -277,7 +277,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
         return item.date?.toLocaleDateString();
       }
     });
-    this.isDateDuplicate = datesArray.includes(date);
+    this.isDateDuplicate = datesArray.some((d) => d === date);
     if (!this.isDateDuplicate || !form.date) {
       this.dates[ind].date = form.date;
       this.dates[ind].startDate = form.startTime;
