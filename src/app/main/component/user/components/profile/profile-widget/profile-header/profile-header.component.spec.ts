@@ -13,6 +13,7 @@ import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-
 import { EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from 'src/app/main/i18n/Language';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
@@ -35,7 +36,7 @@ describe('ProfileHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileHeaderComponent, ProfileProgressComponent, MaxTextLengthPipe],
-      imports: [UserSharedModule, RouterTestingModule.withRoutes([]), BrowserAnimationsModule, HttpClientTestingModule],
+      imports: [UserSharedModule, RouterTestingModule.withRoutes([]), BrowserAnimationsModule, HttpClientTestingModule, MatTooltipModule],
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useVale: languageServiceMock },

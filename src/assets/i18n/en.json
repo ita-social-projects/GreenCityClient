@@ -810,6 +810,7 @@
         "btn-crate-habit": "Create habit",
         "btn-more": "More",
         "btn-add": "Add habit",
+        "btn-added": "Added habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
         "habit-did-not-give-up": "We glad that you change your mind",

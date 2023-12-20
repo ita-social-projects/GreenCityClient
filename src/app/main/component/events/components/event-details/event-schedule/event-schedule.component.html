@@ -7,16 +7,16 @@
           <img [src]="icons.clock" alt="" />
         </div>
         <div>
-          {{ day.startDate | date : 'MMM d, y' }} | {{ day.startDate | date : 'hh:mm a' }}&nbsp;-&nbsp;{{
-            day.finishDate | date : 'hh:mm a'
-          }}
+          {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{ day.finishDate | date: 'hh:mm a' }}
         </div>
       </div>
       <div class="event-location">
         <div class="event-location-icon">
           <img [src]="icons.location" alt="" />
         </div>
-        <div>{{ day.onlineLink ? day.onlineLink : getLangValue(day.coordinates.formattedAddressUa, day.coordinates.formattedAddressEn) }}</div>
+        <div>
+          {{ day.onlineLink ? day.onlineLink : getLangValue(day.coordinates.formattedAddressUa, day.coordinates.formattedAddressEn) }}
+        </div>
       </div>
     </div>
   </div>
@@ -28,11 +28,11 @@
       <div class="day-number">{{ idx + 1 }}&nbsp;Day</div>
       <div class="event-date-place">
         <div class="event-date">
-          {{ day.startDate | date : 'MMM d, y' }} | {{ day.startDate | date : 'hh:mm a' }}&nbsp;-&nbsp;{{
-            day.finishDate | date : 'hh:mm a'
-          }}
+          {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{ day.finishDate | date: 'hh:mm a' }}
         </div>
-        <div class="event-location">{{ day.onlineLink ? day.onlineLink : getLangValue(day.coordinates.formattedAddressUa, day.coordinates.formattedAddressEn) }}</div>
+        <div class="event-location">
+          {{ day.onlineLink ? day.onlineLink : getLangValue(day.coordinates.formattedAddressUa, day.coordinates.formattedAddressEn) }}
+        </div>
       </div>
     </div>
   </div>

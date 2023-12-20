@@ -32,6 +32,7 @@
   }
 
   @media (min-width: 280px) {
+    min-width: 280px;
     width: 100%;
   }
 }
@@ -45,6 +46,28 @@
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
+  position: relative;
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  @media (max-width: 1199px) {
+    max-width: 170px;
+  }
+
+  @media (max-width: 1023px) {
+    max-width: 100%;
+  }
+
+  @media (max-width: 991px) {
+    max-width: 450px;
+  }
+
+  @media (max-width: 767px) {
+    max-width: 290px;
+  }
 
   @media (max-width: 360px) {
     text-overflow: ellipsis;
@@ -65,6 +88,10 @@
   line-height: 20px;
   color: var(--quaternary-grey);
   margin: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 
   .friend-mutual-link {
     transition: 0.2s;
@@ -127,4 +154,10 @@
 .friend-with-photo {
   display: flex;
   flex-direction: column-reverse;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
 }
