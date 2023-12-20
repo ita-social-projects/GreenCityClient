@@ -16,7 +16,7 @@
         <div class="event-location-icon">
           <img [src]="icons.location" alt="" />
         </div>
-        <div>{{ day.onlineLink ? day.onlineLink : day.coordinates?.addressEn }}</div>
+        <div>{{ day.onlineLink ? day.onlineLink : getLangValue(day.coordinates.formattedAddressUa, day.coordinates.formattedAddressEn) }}</div>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
             day.finishDate | date : 'hh:mm a'
           }}
         </div>
-        <div class="event-location">{{ day.onlineLink ? day.onlineLink : day.coordinates?.addressEn }}</div>
+        <div class="event-location">{{ day.onlineLink ? day.onlineLink : getLangValue(day.coordinates.formattedAddressUa, day.coordinates.formattedAddressEn) }}</div>
       </div>
     </div>
   </div>
