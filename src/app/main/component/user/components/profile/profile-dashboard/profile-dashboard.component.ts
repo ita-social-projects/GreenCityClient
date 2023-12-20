@@ -157,6 +157,10 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
+  removeUnFavouriteEvent(id: number): void {
+    this.favouriteEvents = this.favouriteEvents.filter((event) => event.id !== id);
+  }
+
   onEventsPageChange(page: number, eventType?: string): void {
     this.eventsPage = page;
     this.eventService

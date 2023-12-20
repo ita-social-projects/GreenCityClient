@@ -8,6 +8,7 @@ import { HabitMark } from '@global-user/components/habit/models/HabitMark.enum';
 import { Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { FriendProfilePicturesArrayModel } from '@global-user/models/friend.model';
 
 @Component({
   selector: 'app-one-habit',
@@ -21,8 +22,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   daysCounter: number;
   habitMark: string;
   isRequest = false;
-  firstFriend = 'assets/img/kimi.png';
-  secondFriend = 'assets/img/lewis.png';
+  friends: FriendProfilePicturesArrayModel[];
   private destroy$ = new Subject<void>();
   private descriptionType = {
     acquired: () => {
@@ -51,6 +51,7 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentDate = this.datePipe.transform(new Date(), 'yyy-MM-dd');
     this.buildHabitDescription();
+    this.getUsersFriendTrakingSameHabit();
   }
 
   public goToHabitProfile(): void {
@@ -132,6 +133,13 @@ export class OneHabitComponent implements OnInit, OnDestroy {
   private setHabitValue(check: boolean): void {
     this.daysCounter = this.habit.workingDays;
     this.showPhoto = check;
+  }
+
+  public getUsersFriendTrakingSameHabit(): void {
+    this.habitService
+      .getFriendsTrakingSameHabitByHabitId(this.habit.habit.id)
+      .pipe(take(1))
+      .subscribe((resp) => (this.friends = resp));
   }
 
   ngOnDestroy() {

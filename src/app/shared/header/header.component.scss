@@ -753,8 +753,10 @@ header {
 }
 
 @media (min-width: 992px) {
-  .header_navigation-menu {
-    width: 100%;
+  .header_container {
+    .header_navigation-menu {
+      width: 100%;
+    }
   }
 
   .header_navigation-menu-ubs {

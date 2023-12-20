@@ -129,6 +129,12 @@ export interface IOrderInfo {
   exportDetailsDto: IExportDetails;
   employeePositionDtoRequest: IResponsiblePersons;
   writeOffStationSum: number;
+  updateResponsibleEmployeeDto?: IEmployeePositions[];
+}
+
+export interface IEmployeePositions {
+  positionId: number;
+  employeeId: number;
 }
 
 export interface ICourierInfo {

@@ -43,9 +43,11 @@ describe('EventsListComponent', () => {
       },
       creationDate: '2023-04-10',
       description: 'efds',
+      editorText: 'efds',
       dates: [
         {
           id: null,
+          valid: true,
           event: null,
           startDate: '2023-04-11T21:00:00Z',
           finishDate: '2023-04-12T20:59:00Z',
@@ -67,6 +69,8 @@ describe('EventsListComponent', () => {
           }
         }
       ],
+      imgArray: [],
+      imgArrayToPreview: [],
       tags: [
         {
           id: 12,
@@ -87,7 +91,8 @@ describe('EventsListComponent', () => {
       isRelevant: true,
       open: true,
       countComments: 5,
-      likes: 6
+      likes: 6,
+      isOrganizedByFriend: false
     },
     {
       id: 7,
@@ -99,9 +104,11 @@ describe('EventsListComponent', () => {
       },
       creationDate: '2023-04-10',
       description: 'efds',
+      editorText: 'efds',
       dates: [
         {
           id: null,
+          valid: true,
           event: null,
           startDate: '2023-04-11T21:00:00Z',
           finishDate: '2023-04-12T20:59:00Z',
@@ -123,6 +130,8 @@ describe('EventsListComponent', () => {
           }
         }
       ],
+      imgArray: [],
+      imgArrayToPreview: [],
       tags: [
         {
           id: 12,
@@ -143,7 +152,8 @@ describe('EventsListComponent', () => {
       isRelevant: true,
       open: true,
       countComments: 9,
-      likes: 2
+      likes: 2,
+      isOrganizedByFriend: false
     }
   ];
 
@@ -354,5 +364,30 @@ describe('EventsListComponent', () => {
     component.searchToggle = false;
     component.search();
     expect(component.searchToggle).toEqual(true);
+  });
+
+  it('should hide search input if it is empty', () => {
+    component.searchToggle = true;
+    component.searchFilterWords.setValue('');
+    component.cancelSearch();
+    expect(component.searchToggle).toEqual(false);
+  });
+
+  it('should remove the value of search input if it contains text', () => {
+    component.searchFilterWords.setValue('Some test text');
+    component.cancelSearch();
+    expect(component.searchFilterWords.value).toEqual('');
+  });
+
+  it('should not be able to scroll and should show a message if no events found', () => {
+    component.sortByWord(eventsMock, ['Some', 'text']);
+    expect(component.scroll).toEqual(false);
+    expect(component.noEventsMatch).toEqual(true);
+  });
+
+  it('should not be able to scroll and should show a message if there are no more events for now', () => {
+    component.dispatchStore(false);
+    expect(component.scroll).toEqual(false);
+    expect(component.elementsArePresent).toEqual(false);
   });
 });

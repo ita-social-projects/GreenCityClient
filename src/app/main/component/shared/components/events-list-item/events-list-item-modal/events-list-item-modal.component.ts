@@ -46,6 +46,9 @@ export class EventsListItemModalComponent implements OnInit, OnDestroy {
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.max = 3;
+    window.onpopstate = () => {
+      this.bsModalRef.hide();
+    };
   }
 
   public starsHandler(index: number, value: number): void {

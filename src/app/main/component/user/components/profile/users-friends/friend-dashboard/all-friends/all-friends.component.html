@@ -15,12 +15,12 @@
 
   <div *ngIf="friends?.length === 0 && !isFetching">
     <div class="noFriends-wraper">
-      <p *ngIf="emptySearchList" class="noFriends">
-        {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: searchQuery } }}
-      </p>
       <div class="img-absent">
         <img [src]="absent" alt="absent-friends" />
       </div>
+      <p *ngIf="emptySearchList" class="noFriends">
+        {{ 'search.search-not-found.not-found-friends-text' | translate }}
+      </p>
       <div>
         <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>
       </div>

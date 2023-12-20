@@ -26,6 +26,7 @@ img {
   display: flex;
   flex-direction: column;
   padding: 0 12px;
+  height: 110px;
 
   .first-row {
     display: flex;
@@ -62,23 +63,6 @@ img {
 
     .friends-photo {
       display: flex;
-
-      .first-photo,
-      .second-photo {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 1px solid var(--secondary-light-grey);
-      }
-
-      .first-photo {
-        z-index: 1;
-      }
-
-      .second-photo {
-        position: relative;
-        left: -5px;
-      }
     }
 
     .edit {
@@ -107,6 +91,9 @@ img {
     letter-spacing: 0.002em;
     width: 320px;
     word-wrap: break-word;
+    height: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -218,9 +205,6 @@ img {
   .description {
     .second-row {
       width: 230px;
-      word-wrap: normal;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 }

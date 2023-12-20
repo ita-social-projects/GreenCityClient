@@ -3,22 +3,35 @@
     <app-spinner *ngIf="isPosting"></app-spinner>
     <div *ngIf="event && !isPosting" class="event">
       <div class="event-nav">
-        <div class="back-button">
+        <div *ngIf="!eventService.getForm()" class="back-button">
           <a [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" class="button-link">
             <div class="button-content">
-              <img [src]="icons.arrowLeft" aria-hidden="true" alt="" class="button-arrow-img arrow" />
+              <img [src]="icons.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
               <div class="button-text">{{ 'homepage.events.btn.back-route' | translate }}</div>
+            </div>
+          </a>
+        </div>
+        <div *ngIf="eventService.getForm()" class="back-button">
+          <a class="button-link" [routerLink]="['/events', 'create-event']">
+            <div class="button-content">
+              <img [src]="icons.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img arrow" />
+              <div class="button-text" (click)="backToEdit()">{{ 'create-event.back-edit' | translate }}</div>
             </div>
           </a>
         </div>
 
         <div *ngIf="role === roles.ORGANIZER || role === roles.ADMIN" class="edit-buttons">
-          <button class="tertiary-global-button m-btn" (click)="deleteEvent()">
+          <button *ngIf="event.isRelevant || role === roles.ADMIN" class="tertiary-global-button m-btn" (click)="deleteEvent()">
             {{ 'homepage.events.btn.delete' | translate }}
           </button>
           <button class="secondary-global-button m-btn" (click)="navigateToEditEvent()" [disabled]="!event.isRelevant">
             {{ 'homepage.events.btn.edit' | translate }}
           </button>
+        </div>
+        <div *ngIf="eventService.getForm()">
+          <a class="button-link" [routerLink]="['/events', 'create-event']">
+            <button class="primary-global-button button-publish" (click)="backToSubmit()">{{ 'create-event.publish' | translate }}</button>
+          </a>
         </div>
       </div>
 
@@ -28,7 +41,7 @@
           <div class="date-author">
             <div>{{ event.dates[0].startDate | dateLocalisation }}</div>
             <div>|</div>
-            <div>{{ 'homepage.events.author' | translate }} {{ event.organizer.name }}</div>
+            <div>{{ 'homepage.events.author' | translate }} {{ organizerName }}</div>
           </div>
         </div>
         <div class="right-side">
@@ -49,7 +62,9 @@
 
           <div class="event-tags-participants">
             <div class="event-tags">
-              <div class="event-tag" *ngFor="let tag of event.tags">{{ getLangValue(tag.nameUa, tag.nameEn) | uppercase }}</div>
+              <div class="event-tag" *ngFor="let tag of event.tags">
+                {{ eventService.getLangValue(tag.nameUa, tag.nameEn) | uppercase }}
+              </div>
             </div>
             <div class="event-participants">
               <div class="event-participants-avatars" *ngIf="attendeesAvatars.length">
@@ -85,16 +100,17 @@
                     </div>
                     <div>|</div>
                     <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
+                    <div class="event-info-days">
+                      <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
+                    </div>
                   </div>
                 </ng-template>
               </div>
-              <div *ngIf="locationCoordinates" class="event-location">
+              <div *ngIf="locationCoordinates || place" class="event-location">
                 <div class="event-location-icon">
                   <img [src]="icons.location" alt="" />
                 </div>
-                <span>
-                  {{ getAddress() }}
-                </span>
+                <span>{{ eventService.getForm() ? place : getAddress() }}</span>
               </div>
               <div *ngIf="locationLink" class="event-link">
                 <div class="event-link-icon">
@@ -118,22 +134,23 @@
                 <div class="event-author-icon">
                   <img [src]="icons.user" alt="" />
                 </div>
-                <div>{{ event.organizer.name }}</div>
+                <div>{{ organizerName }}</div>
               </div>
             </div>
-            <div class="event-info-days">
-              <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
-            </div>
           </div>
-
-          <div class="save-join-event-block">
-            <button *ngIf="!isOver" class="secondary-global-button">{{ 'homepage.events.btn.save-btn' | translate }}</button>
+          <div
+            *ngIf="!eventService.getForm()"
+            [ngClass]="localStorageService.getCurrentLanguage() === 'ua' ? 'save-join-event-block-ua' : 'save-join-event-block'"
+          >
+            <button class="secondary-global-button" (click)="changeFavouriteStatus($event)">
+              {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}
+            </button>
             <button
-              *ngIf="!isUserCanRate && !isOver && (isEventOrginizerFriend || event.open)"
-              [ngClass]="isUserCanJoin ? 'primary-global-button' : 'secondary-global-button'"
+              *ngIf="isUserCanJoin && event.isRelevant && (isOrganizedByFriend || event.open) && role !== 'UNAUTHENTICATED'"
+              [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
               (click)="buttonAction($event)"
             >
-              {{ (isUserCanJoin ? 'event.btn-join' : 'event.btn-cancel') | translate }}
+              {{ (isSubscribed ? 'event.btn-cancel' : 'event.btn-join') | translate }}
             </button>
             <button class="primary-global-button" *ngIf="isUserCanRate" (click)="openModal()">{{ 'event.btn-rate' | translate }}</button>
           </div>
@@ -141,10 +158,10 @@
 
         <div class="main-right">
           <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-          <div [innerHTML]="event.description | eventDescriptionTransform"></div>
+          <div [innerHTML]="event.description | safeHtmlTransform" class="description"></div>
         </div>
       </div>
-      <app-comments-container class="event" [entityId]="eventId"></app-comments-container>
+      <app-comments-container *ngIf="!eventService.getForm()" class="event" [entityId]="eventId"></app-comments-container>
     </div>
   </div>
 </div>

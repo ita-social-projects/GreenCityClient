@@ -13,19 +13,17 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { Coordinates, EventPageResponceDto } from '../../models/events.interface';
+import { Coordinates, EventPageResponceDto, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-event-details',
@@ -67,21 +65,23 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   public bsModalRef: BsModalRef;
   public role = this.roles.UNAUTHENTICATED;
+  public isEventFavorite: boolean;
 
   attendees = [];
   attendeesAvatars = [];
 
-  public isAdmin = false;
-  public event: EventPageResponceDto;
+  public organizerName: string;
+  public event: EventPageResponceDto | PagePreviewDTO;
   public locationLink: string;
   public locationCoordinates: Coordinates;
+  public place: string;
   public addressUa: string;
   public addressEn: string;
 
   public images: string[] = [];
   public sliderIndex = 0;
   public isPosting: boolean;
-  public isOver: boolean;
+  public isActive: boolean;
   public currentDate = new Date();
 
   public max = 5;
@@ -105,71 +105,104 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public routedFromProfile: boolean;
   public isUserCanJoin = false;
   public isUserCanRate = false;
-  public isSubscribe = false;
+  public isSubscribed = false;
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
-  public isEventOrginizerFriend: boolean;
+  public isOrganizedByFriend: boolean;
+  private userNameSub: Subscription;
+  private isOwner: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventsService,
+    public eventService: EventsService,
     public router: Router,
-    private localStorageService: LocalStorageService,
-    private langService: LanguageService,
-    private translate: TranslateService,
+    public localStorageService: LocalStorageService,
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService,
-    private userFriendsService: UserFriendsService
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
-    this.eventId = this.route.snapshot.params.id;
-    const isOwnerParams = this.route.snapshot.params.isOwner;
-    const isActiveParams = this.route.snapshot.params.isActive;
-    const isOwner = isOwnerParams ? JSON.parse(isOwnerParams) : false;
-    const isActive = isActiveParams ? JSON.parse(isActiveParams) : false;
-    this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
-      this.userId = Number(id);
-    });
-    this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res: any) => {
-      this.isEventOrginizerFriend = res.page.some((el) => el.id === this.userId);
-    });
-    this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
-      this.event = res;
-      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
-      this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
-      this.images = [res.titleImage, ...res.additionalImages];
-      this.rate = Math.round(this.event.organizer.organizerRating);
-      this.mapDialogData = {
-        lat: this.event.dates[this.event.dates.length - 1].coordinates.latitude,
-        lng: this.event.dates[this.event.dates.length - 1].coordinates.longitude
-      };
-      this.isRegistered = !!this.userId;
-      this.isSubscribe = this.event.isSubscribed;
-      this.isUserCanRate = this.isSubscribe && !isActive && !isOwner;
-      this.isUserCanJoin = !this.isSubscribe && isActive && !isOwner;
-      this.role = this.verifyRole();
-      this.ecoEvents$.subscribe((result: IEcoEventsState) => {
-        this.addAttenderError = result.error;
+    if (!this.eventService.getForm()) {
+      this.eventId = this.route.snapshot.params.id;
+      this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
+        this.userId = Number(id);
       });
+      const isAuthorized = this.jwtService.getUserRole();
+      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
+        this.event = res;
+        this.organizerName = this.event.organizer.name;
+        this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
+        this.locationCoordinates = this.event.dates[this.event.dates.length - 1].coordinates;
+        this.images = [res.titleImage, ...res.additionalImages];
+        this.rate = Math.round(this.event.organizer.organizerRating);
+        this.mapDialogData = {
+          lat: this.event.dates[this.event.dates.length - 1].coordinates?.latitude,
+          lng: this.event.dates[this.event.dates.length - 1].coordinates?.longitude
+        };
+        this.isEventFavorite = this.event.isFavorite;
+        this.isRegistered = !!this.userId;
+        this.isSubscribed = this.event.isSubscribed;
+        const isOwner = Number(this.userId) === this.event.organizer.id;
+        this.isActive = this.event.isRelevant;
+        this.isUserCanRate = this.isSubscribed && !this.isActive && !isOwner;
+        this.isUserCanJoin = this.isActive && !isOwner;
+        this.role = this.verifyRole();
+        this.ecoEvents$.subscribe((result: IEcoEventsState) => {
+          this.addAttenderError = result.error;
+        });
+        this.isOrganizedByFriend = res.isOrganizedByFriend;
+      });
+
+      this.localStorageService.setEditMode('canUserEdit', true);
+      this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
+        this.attendees = attendees;
+        this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+      });
+
+      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
+      this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
+      this.backRoute = this.localStorageService.getPreviousPage();
+    } else {
+      this.event = this.eventService.getForm();
+      this.place = this.event.location.place;
+      this.images = this.event.imgArrayToPreview;
+      this.bindUserName();
+      window.onpopstate = () => {
+        this.backToEdit();
+      };
+      this.formatDates();
+    }
+  }
+
+  private formatDates(): void {
+    this.event.dates.forEach((date) => {
+      if (date.startDate) {
+        date.startDate = this.eventService.transformDate(date, 'startDate');
+      }
+      if (date.finishDate) {
+        date.finishDate = this.eventService.transformDate(date, 'finishDate');
+      }
     });
+  }
 
-    this.localStorageService.setEditMode('canUserEdit', true);
+  public backToEdit(): void {
+    this.eventService.setBackFromPreview(true);
+  }
 
-    this.eventService.getAllAttendees(this.eventId).subscribe((attendees) => {
-      this.attendees = attendees;
-      this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
+  public backToSubmit(): void {
+    this.eventService.setBackFromPreview(true);
+    this.eventService.setSubmitFromPreview(true);
+  }
+
+  public bindUserName(): void {
+    this.userNameSub = this.localStorageService.firstNameBehaviourSubject.subscribe((name) => {
+      this.organizerName = name;
     });
-
-    this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
-
-    this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
-    this.backRoute = this.localStorageService.getPreviousPage();
   }
 
   public getAddress(): string {
@@ -228,37 +261,59 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getLangValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
+  public changeFavouriteStatus(event?: Event) {
+    event?.stopPropagation();
+    if (!this.isRegistered) {
+      this.openAuthModalWindow('sign-in');
+      return;
+    }
+
+    this.isEventFavorite = !this.isEventFavorite;
+    const operation$ = this.isEventFavorite
+      ? this.eventService.addEventToFavourites(this.event.id)
+      : this.eventService.removeEventFromFavourites(this.event.id);
+
+    operation$.subscribe({
+      error: () => {
+        this.snackBar.openSnackBar('error');
+        this.isEventFavorite = !this.isEventFavorite;
+      }
+    });
+    const buttonElement = event.target as HTMLButtonElement;
+    buttonElement.blur();
   }
 
   public buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
+      return;
     }
     if (this.isUserCanJoin && this.addAttenderError) {
       this.snackBar.openSnackBar('errorJoinEvent');
       this.addAttenderError = '';
     }
-    if (this.isUserCanJoin && !this.addAttenderError) {
+    if (!this.isSubscribed && !this.addAttenderError) {
       this.snackBar.openSnackBar('joinedEvent');
       this.userId ? this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id })) : this.openAuthModalWindow('sign-in');
-      this.isUserCanJoin = !this.isUserCanJoin;
+      this.isSubscribed = !this.isSubscribed;
     } else {
       this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.isUserCanJoin = !this.isUserCanJoin;
+      this.isSubscribed = !this.isSubscribed;
     }
-    const buttonElement = event.target as HTMLButtonElement;
-    buttonElement.blur();
   }
 
   public openAuthModalWindow(page: string): void {
-    this.dialog.open(AuthModalComponent, {
+    const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
       data: {
         popUpName: page
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (this.userId) {
+        this.router.navigate(['/events', this.eventId]);
       }
     });
   }

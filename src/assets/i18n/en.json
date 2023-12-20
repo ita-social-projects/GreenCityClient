@@ -139,8 +139,8 @@
       "time-any-time": "Any time",
       "item-found-text": "",
       "items-event-text": "Items found",
-      "no-event-left": "There's no events for now",
-      "no-matching-left": "We didn't find any results matching this search",
+      "no-event-left": "There are no more events for now",
+      "no-matching-left": "We didn't find any results matching to this search",
       "my-space": {
         "tag-title": "My Events",
         "event-type-online": "Online",
@@ -152,7 +152,8 @@
       "people-joined": "people are going",
       "btn": {
         "back-route": "Back to Events",
-        "save-btn": "Save event",
+        "save-event": "Save event",
+        "unsave-event": "Unsave event",
         "join-btn": "Join event",
         "edit": "Edit",
         "delete": "Delete"
@@ -185,7 +186,7 @@
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}'. Please change the search.",
-      "not-found-friends-text": "We didn't find any results matching this search.",
+      "not-found-friends-text": "We didn't find any results matching this search",
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -315,7 +316,7 @@
       "exists": "Already exists",
       "closeTime": "Closing time have to be later than opening time. Please, try again",
       "breakTime": "Invalid break time",
-      "photoUpload": "Download PNG or JPG only. File size should be less than 10MB"
+      "photoUpload": "Upload PNG or JPG only. File size should be less than 10MB"
     }
   },
   "users": {
@@ -453,6 +454,7 @@
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
         "password-confirm": "Confirm password",
+        "password-confirm-is-required": "Please confirm your password",
         "submit": "Sign up",
         "or": "or",
         "submit-with-google": "Sign up with Google",
@@ -538,6 +540,7 @@
       "loading": "Loading...",
       "upload": "Upload",
       "you-can-upload-max": "You  can  upload max",
+      "you-can-upload-max-photos-event": "You  can  upload max 5 photos",
       "photos": "photos",
       "your-photos-successfully-upload": "Your photos successfully upload",
       "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10MB",
@@ -650,7 +653,7 @@
       "eco-place": "Show my eco places",
       "shopping-list": "Show my shopping list",
       "to-do-list": "Show my To-do list",
-      "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+      "picture-tooltip": "Upload PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
       "notification": "Are you sure you want to delete the photo?",
@@ -996,7 +999,6 @@
     "my-habits": "My Habits",
     "my-news": "My news",
     "my-articles": "My articles",
-    "rate": "Rate",
     "friends": {
       "link-to-profile": "Back to My habits",
       "mutual-friends": { "plural": "mutual friends", "singular": "mutual friend" },
@@ -1113,6 +1115,7 @@
     "btn-see": "See rating",
     "btn-rate": "Rate Organizer",
     "btn-close": "Close",
+    "btn-cancel-rate": "Cancel",
     "btn-save": "Save",
     "btn-register": "Register",
     "text-1": "Could be better",
@@ -1128,6 +1131,10 @@
     "title": "Create event",
     "edit": "Edit Event",
     "description": "Please provide as much details as you can - place and time of event, the goal of gathering etc. You can come back and update event anytime after publishing",
+    "content-placeholder": "e.g. Short description of event, agenda for event",
+    "content-tooltip": "Must be minimum 20 and maximum 63 206 symbols",
+    "counter": "You typed",
+    "symbols": "symbols",
     "event-name": "Title",
     "event-description": "Description",
     "placeholder": "Enter a name for the event",
@@ -1137,6 +1144,7 @@
     "max-length-title": "This field shouldn’t contain more than 70 symbols",
     "title-required": "This field can't be empty and should contain up to 70 symbols",
     "date-required": "This field can’t be empty",
+    "location-required": "Specify the search request or choose the location manually using the map below",
     "day": "day",
     "all-day": "All day",
     "choose-date": "Choose a date",
@@ -1153,7 +1161,7 @@
     "enter-link": "Enter link",
     "textarea-title": "Events Description",
     "picture": "Picture",
-    "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
+    "picture-title": "Upload PNG or JPG only. File size should be less than 10MB",
     "event-theme": "Initiative type",
     "event-type-check": "You should choose at least one type",
     "event-type": "Event type",
@@ -1168,7 +1176,9 @@
     "friends": "Friends",
     "add-location-error": "You should fill at least one address or link",
     "preview-attendees": "people are going",
-    "use-greencity-pics": "Use Greencity pictures"
+    "use-greencity-pics": "Use Greencity pictures",
+    "created-event": "You have successfully added a new event",
+    "updated-event": "You have successfully updated an event"
   },
   "input-error": {
     "required": "This field is required",

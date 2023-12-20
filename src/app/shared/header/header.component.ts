@@ -19,7 +19,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { HeaderService } from '@global-service/header/header.service';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { UbsPickUpServicePopUpComponent } from './../../ubs/ubs/components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
-import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
+import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions';
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -123,9 +123,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public defineAuthorities() {
     this.permissions$.subscribe((employeeAuthorities) => {
-      const isEmployeeHasNoAuthorities = !employeeAuthorities.length;
-      this.isAdmin = this.userRole === this.adminRoleValue && !isEmployeeHasNoAuthorities;
+      this.isAdmin = this.userRole === this.adminRoleValue && !!employeeAuthorities.length;
     });
+
+    if (this.userRole === this.adminRoleValue) {
+      this.isAdmin = true;
+    }
   }
 
   public getHeaderClass(): string {
@@ -360,19 +363,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public signOut(): void {
     this.dropdownVisible = false;
+
+    this.jwtService.userRole$.next('');
+
     this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
-      if (isRedirected) {
-        this.userOwnAuthService.isLoginUserSubject.next(false);
-        this.localeStorageService.clear();
-        this.habitStatisticService.onLogout();
-        this.achievementService.onLogout();
-        this.orderService.cancelUBSwithoutSaving();
-        this.userOwnAuthService.getDataFromLocalStorage();
-        this.jwtService.userRole$.next('');
-      }
+      this.userOwnAuthService.isLoginUserSubject.next(false);
+      this.localeStorageService.clear();
+      this.habitStatisticService.onLogout();
+      this.achievementService.onLogout();
+      this.orderService.cancelUBSwithoutSaving();
+      this.userOwnAuthService.getDataFromLocalStorage();
     });
-    const userEmail = this.jwtService.getEmailFromAccessToken();
-    this.store.dispatch(GetEmployeesPermissions({ email: userEmail, reset: true }));
+    this.store.dispatch(ResetEmployeePermissions());
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {

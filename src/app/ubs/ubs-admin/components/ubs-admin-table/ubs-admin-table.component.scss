@@ -60,21 +60,35 @@ input {
   border-collapse: collapse;
 }
 
-.dropdown-menu {
+.dropdown-menu,
+.dropdown-menu-container {
   position: absolute;
-  right: 0;
   height: 500px;
   width: 356px;
   overflow: scroll;
   padding: 0;
-  margin-top: 16px;
   color: var(--ubs-primary-grey);
   font-family: var(--primary-font);
   background-color: var(--ubs-secondary-white);
 }
 
-.dropdown-menu-right {
+.dropdown-menu {
+  right: 0;
+  margin-top: 16px;
+}
+
+.dropdown-menu-container {
   margin-right: 18px;
+  margin-top: -7px;
+  left: auto;
+  z-index: 1000;
+  float: left;
+  min-width: 10rem;
+  font-size: 1rem;
+  text-align: left;
+  list-style: none;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
 }
 
 .date-range-box {
@@ -611,4 +625,13 @@ input {
 
 .highlighted {
   background-color: var(--ubs-liberty-green) !important;
+}
+
+.message-container {
+  display: flex;
+  padding: 30px;
+  justify-content: center;
+  margin: 0 auto;
+  font-family: var(--primary-font);
+  font-size: 14px;
 }

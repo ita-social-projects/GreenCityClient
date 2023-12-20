@@ -31,16 +31,10 @@
     </div>
   </div>
   <div class="comment-main-text">
-    <p class="comment-text" *ngIf="!comment.isEdit">{{ comment.text }}</p>
+    <div class="comment-text" *ngIf="!comment.isEdit" [innerHTML]="comment.text | safeHtmlTransform"></div>
     <div class="comment-edit-text" *ngIf="comment.isEdit">
-      <textarea
-        type="text"
-        [value]="comment.text"
-        (input)="checkTextarea($event)"
-        class="edit-text-input"
-        [ngClass]="{ invalid: content.value.length > commentMaxLength }"
-      >
-      </textarea>
+      <app-comment-textarea [commentTextToEdit]="comment.text" (commentText)="setCommentText($event)" class="edit-text-input">
+      </app-comment-textarea>
     </div>
   </div>
   <div class="comments-elements">

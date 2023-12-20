@@ -15,7 +15,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <h5 class="time-item">--</h5>
+    <h5 class="dash">-</h5>
     <mat-form-field appearance="outline" class="time-item">
       <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
       <mat-select ngDefaultControl formControlName="endTime">
@@ -25,14 +25,14 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-checkbox class="example-margin" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" (change)="checkIfAllDay()">{{
+    <mat-checkbox class="all-day" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" (change)="checkIfAllDay()">{{
       'create-event.all-day' | translate
     }}</mat-checkbox>
   </div>
-  <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
-  <div *ngIf="dateForm?.touched && dateForm?.invalid" class="error-date">
+  <div *ngIf="dateForm?.invalid && submitSelected" class="tag-error">
     <app-input-error [formElement]="endTime" [isEvent]="true" [date]="true"></app-input-error>
   </div>
+  <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
   <div class="checkbox">
     <mat-checkbox class="example-margin" [checked]="checkOfflinePlace" [disabled]="isPlaceDisabled" (change)="checkIfOffline()">{{
       'create-event.event-place' | translate
@@ -54,13 +54,11 @@
         placeholder="{{ 'create-event.enter-location' | translate }}"
       />
     </mat-form-field>
-    <div *ngIf="isLocationSelected" class="tag-error-messege">
-      <span>Specify the search request or choose the location manually using the map below</span>
-    </div>
+    <div *ngIf="isLocationSelected" class="location-error-messege">{{ 'create-event.location-required' | translate }}</div>
     <div class="map-container" #map>
       <agm-map
-        [style.width.%]="100"
-        [style.height.%]="100"
+        [style.width.%]="91"
+        [style.height.%]="91"
         [latitude]="coordinates.latitude"
         [longitude]="coordinates.longitude"
         [zoom]="zoom"

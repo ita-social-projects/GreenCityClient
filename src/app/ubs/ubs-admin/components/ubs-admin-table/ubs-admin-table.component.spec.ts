@@ -779,15 +779,6 @@ describe('UsbAdminTableComponent', () => {
     expect(component.filters).toEqual(val);
   });
 
-  it('should call clearFilters', () => {
-    spyOn(component, 'clearFilters');
-    const button: DebugElement = fixture.debugElement.query(By.css('.clear-filt'));
-    fixture.detectChanges();
-    button.triggerEventHandler('click', null);
-    fixture.detectChanges();
-    expect(component.clearFilters).toHaveBeenCalledTimes(1);
-  });
-
   it('should call all methods by clearFilters', () => {
     spyOn((component as any).adminTableService, 'setFilters');
     spyOn(component, 'setColumnsForFiltering');

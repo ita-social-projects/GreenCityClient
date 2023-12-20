@@ -111,10 +111,12 @@
       width: 395px;
       height: 320px;
       margin-left: 25px;
+      position: relative;
+      left: -70px;
 
       .img {
-        width: 100%;
-        height: 100%;
+        width: 500px;
+        height: 260px;
         object-fit: cover;
       }
     }
@@ -228,6 +230,12 @@
 @media (max-width: 1439px) {
   .wrapper {
     max-width: 960px;
+
+    .habit-container {
+      .habit-info {
+        width: 52%;
+      }
+    }
   }
 }
 
@@ -237,6 +245,8 @@
 
     .habit-container {
       flex-direction: column;
+      justify-content: center;
+      text-align: center;
 
       .habit-info {
         width: 100%;
@@ -255,10 +265,11 @@
         width: 100%;
         height: 100%;
         margin-left: 0;
+        margin-top: 20px;
 
         .img {
-          width: 100%;
-          height: 100%;
+          position: relative;
+          left: 70px;
           object-fit: cover;
         }
       }
@@ -289,6 +300,15 @@
 @media (max-width: 767px) {
   .wrapper {
     max-width: calc(100% - 36px);
+
+    .habit-container {
+      .habit-img {
+        img {
+          position: relative;
+          left: -100px;
+        }
+      }
+    }
   }
 }
 
@@ -302,6 +322,14 @@
 
     .habit-container {
       align-items: center;
+
+      .habit-img {
+        zoom: 0.9;
+        position: relative;
+        left: -120px;
+        width: 395px;
+        height: 320px;
+      }
 
       .habit-info {
         .header {

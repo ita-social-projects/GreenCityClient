@@ -36,6 +36,8 @@ import { GoogleScript } from 'src/assets/google-script/google-script';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
+import { AdminTableService } from '../../services/admin-table.service';
+import { TableKeys } from '../../services/table-keys.enum';
 
 @Component({
   selector: 'app-ubs-admin-order',
@@ -80,6 +82,10 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   public arrowIcon = 'assets/img/icon/arrows/arrow-left.svg';
   private employeeAuthorities: string[];
   public isEmployeeCanEditOrder = false;
+  private timeDeliveryFrom: string;
+  private timeDeliveryTo: string;
+  private dateExport: string;
+  private receivingStationId: number;
   notTakenOutReasonDescription: string;
   notTakenOutReasonImages: NotTakenOutReasonImages[];
 
@@ -87,6 +93,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   constructor(
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
+    private adminTableService: AdminTableService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -469,7 +476,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
 
     if (changedValues.exportDetailsDto || this.isFormResetted) {
       changedValues.exportDetailsDto = this.validateExportDetails();
+      this.dateExport = changedValues.exportDetailsDto.dateExport;
+      this.timeDeliveryFrom = changedValues.exportDetailsDto.timeDeliveryFrom;
+      this.timeDeliveryTo = changedValues.exportDetailsDto.timeDeliveryTo;
       this.formatExporteValue(changedValues.exportDetailsDto);
+      this.receivingStationId = changedValues.exportDetailsDto.receivingStationId;
     }
 
     if (changedValues.orderDetailsForm) {
@@ -513,14 +524,55 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
         if (response.ok) {
           this.getOrderInfo(this.orderId, true);
-          Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
-            if (changedValues.generalOrderInfo[key]) {
-              this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
-            }
-          });
+          if (changedValues?.generalOrderInfo) {
+            Object.keys(changedValues?.generalOrderInfo).forEach((key: string) => {
+              if (changedValues.generalOrderInfo[key]) {
+                this.postDataItem([this.orderId], key, changedValues.generalOrderInfo[key]);
+              }
+            });
+          }
+          this.updateExportDataInState(changedValues);
+          this.updateResponsibleEmployeeInState(changedValues);
         }
       });
     this.statusCanceledOrDone();
+  }
+
+  private updateExportDataInState(changedValues: IOrderInfo) {
+    if (changedValues?.exportDetailsDto) {
+      if (this.dateExport) {
+        this.postDataItem([this.orderId], TableKeys.dateOfExport, this.dateExport);
+      }
+      if (this.receivingStationId) {
+        this.postDataItem([this.orderId], TableKeys.receivingStation, String(this.receivingStationId));
+      }
+      if (this.timeDeliveryFrom && this.timeDeliveryTo) {
+        this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(this.timeDeliveryFrom, this.timeDeliveryTo).join('-'));
+      }
+    }
+  }
+
+  private updateResponsibleEmployeeInState(changedValues: IOrderInfo) {
+    if (changedValues?.updateResponsibleEmployeeDto) {
+      changedValues?.updateResponsibleEmployeeDto.forEach((key) => {
+        switch (key.positionId) {
+          case 2:
+            this.postDataItem([this.orderId], TableKeys.responsibleCaller, String(key.employeeId));
+            break;
+          case 3:
+            this.postDataItem([this.orderId], TableKeys.responsibleLogicMan, String(key.employeeId));
+            break;
+          case 4:
+            this.postDataItem([this.orderId], TableKeys.responsibleNavigator, String(key.employeeId));
+            break;
+          case 5:
+            this.postDataItem([this.orderId], TableKeys.responsibleDriver, String(key.employeeId));
+            break;
+          default:
+            break;
+        }
+      });
+    }
   }
 
   private postDataItem(orderId: number[], columnName: string, newValue: string): void {
@@ -557,7 +609,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   parseStrToTime(dateStr: string, date: Date) {
     const hours = dateStr.split(':')[0];
     const minutes = dateStr.split(':')[1];
-    date.setHours(+hours + 3);
+    date.setHours(+hours + 2);
     date.setMinutes(+minutes);
     return date ? date.toISOString().split('Z').join('') : '';
   }

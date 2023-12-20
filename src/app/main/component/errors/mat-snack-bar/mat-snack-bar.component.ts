@@ -138,7 +138,11 @@ export class MatSnackBarComponent {
     },
     addedEvent: () => {
       this.className = 'success-snackbar';
-      this.getSnackBarMessage('snack-bar.success.joined-event');
+      this.getSnackBarMessage('create-event.created-event');
+    },
+    updatedEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('create-event.updated-event');
     },
     savedChangesToUserProfile: () => {
       this.className = 'success-snackbar';

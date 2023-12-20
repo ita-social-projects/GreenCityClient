@@ -7,8 +7,8 @@
         <span class="star {{ index < value ? 'fill' : 'empty' }}"></span>
       </ng-template>
     </div>
-    <div class="event-flags" *ngIf="event.open">
-      <span [ngClass]="event.isFavorite ? 'flag-active' : 'flag'" (click)="addToFavourite($event)"></span>
+    <div class="event-flags favourite-button" *ngIf="event.open" (click)="changeFavouriteStatus($event)">
+      <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>
     </div>
     <div class="event-participants" *ngIf="attendees.length">
       <div class="event-participants-avatars">
@@ -62,14 +62,15 @@
     <button class="secondary-global-button m-btn" (click)="routeToEvent()">
       {{ 'event.btn-top' | translate }}
     </button>
-    <button class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">{{ nameBtn | translate }}</button>
+    <button *ngIf="isActive || !isOwner || isAdmin" class="{{ btnStyle }} event-button m-btn" (click)="buttonAction(nameBtn)">
+      {{ nameBtn | translate }}
+    </button>
   </div>
 
   <div class="additional-info">
     <div class="date">
       <img src="assets/events-icons/date.png" class="date-image" alt="date" />
       <p>{{ newDate | translate }}</p>
-      <p></p>
     </div>
     <div class="author">
       <img src="assets/events-icons/author.png" class="author-image" alt="author" />
@@ -111,8 +112,12 @@
           <span class="time-divider">|</span>
           <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
         </div>
-        <div class="event-assign__content__date-container__event-flags" *ngIf="event.open">
-          <span [ngClass]="event.isFavorite ? 'flag-active' : 'flag'" (click)="addToFavourite($event)"></span>
+        <div
+          class="event-assign__content__date-container__event-flags favourite-button"
+          *ngIf="event.open"
+          (click)="changeFavouriteStatus($event)"
+        >
+          <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>
         </div>
       </div>
       <div>
@@ -134,14 +139,14 @@
         </div>
       </div>
       <div class="event-assign__content__user-info">
-        <p class="event-assign__content__user-info-date">
+        <div class="event-assign__content__user-info-date">
           <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-          {{ newDate | translate }}
-        </p>
-        <p class="event-assign__content__user-info-icon">
+          <p>{{ newDate | translate }}</p>
+        </div>
+        <div class="event-assign__content__user-info-icon">
           <img [src]="profileIcons.userIcon" class="author-image" alt="author" />
-          {{ event.organizer.name }}
-        </p>
+          <p>{{ event.organizer.name }}</p>
+        </div>
       </div>
     </div>
   </div>

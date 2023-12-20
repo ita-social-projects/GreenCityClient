@@ -14,11 +14,7 @@
   background: var(--ubs-secondary-white);
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
-  margin: 1px 1px 50px 1px;
-}
-
-.count-wrapper {
-  margin-right: 16px;
+  margin: 1px 1px 25px 1px;
 }
 
 .drag-inscription {
@@ -76,7 +72,11 @@
 .title-wrapper {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 555px;
+}
+
+.count-wrapper {
+  margin-right: 8px;
 }
 
 .image-title {
@@ -88,10 +88,6 @@
 .use-pics {
   position: relative;
   right: 15px;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 350;
-  line-height: 16px;
+  font-size: 12px;
   margin-bottom: 8px;
 }

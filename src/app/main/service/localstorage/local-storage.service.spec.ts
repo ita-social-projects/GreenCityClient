@@ -29,6 +29,7 @@ describe('LocalStorageService', () => {
           formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
           formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
+        valid: true,
         event: 'event',
         finishDate: 'finishDate',
         id: 3,
@@ -36,7 +37,21 @@ describe('LocalStorageService', () => {
         startDate: '2022-02-01T00:00:00Z'
       }
     ],
+    location: {
+      date: new Date(),
+      finishDate: 'string',
+      onlineLink: 'string',
+      place: 'string',
+      startDate: 'string',
+      coordinates: {
+        latitude: 1,
+        longitude: 1
+      }
+    },
+    imgArray: [],
+    imgArrayToPreview: [],
     description: 'Test event description',
+    editorText: 'Test event description',
     id: 123,
     open: true,
     organizer: {
@@ -52,7 +67,8 @@ describe('LocalStorageService', () => {
     isActive: true,
     countComments: 5,
     likes: 8,
-    isRelevant: true
+    isRelevant: true,
+    isOrganizedByFriend: false
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();

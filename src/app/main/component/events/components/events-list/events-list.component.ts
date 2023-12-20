@@ -24,9 +24,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { FriendModel } from '@global-user/models/friend.model';
-import { takeUntil } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 
@@ -74,7 +71,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
-  userFriends: FriendModel[];
 
   constructor(
     private store: Store,
@@ -83,7 +79,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private localStorageService: LocalStorageService,
     private router: Router,
     public injector: Injector,
-    private userFriendsService: UserFriendsService,
     private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
@@ -96,7 +91,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.scroll = false;
+    this.scroll = true;
     this.dispatchStore(true);
     this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
@@ -108,23 +103,12 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.hasNext = data.hasNext;
         this.remaining = data.totalElements;
         this.elementsArePresent = this.eventsList.length < data.totalElements;
+      } else {
+        this.scroll = false;
+        this.elementsArePresent = false;
       }
     });
-    this.getUserFriendsList();
     this.searchWords();
-  }
-
-  getUserFriendsList(): void {
-    if (this.userId) {
-      this.userFriendsService
-        .getAllFriendsByUserId(this.userId)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe((res: any) => {
-          this.userFriends = res.page;
-        });
-    } else {
-      this.userFriends = [];
-    }
   }
 
   searchWords(): void {
@@ -143,11 +127,21 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    this.noEventsMatch = !this.eventsList.length;
+    if (this.eventsList.length === 0) {
+      this.noEventsMatch = true;
+      this.scroll = false;
+    } else {
+      this.noEventsMatch = false;
+      this.scroll = true;
+    }
   }
 
-  public cancelSearch() {
-    this.searchFilterWords.setValue('');
+  public cancelSearch(): void {
+    if (this.searchFilterWords.value === '') {
+      this.searchToggle = false;
+    } else {
+      this.searchFilterWords.setValue('');
+    }
   }
 
   public updateSelectedFilters(
@@ -229,6 +223,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
           filter: this.eventFilterCriteria
         })
       );
+    } else {
+      this.scroll = false;
+      this.elementsArePresent = false;
     }
   }
 
@@ -343,6 +340,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public isUserLoggedRedirect(): void {
     this.isLoggedIn ? this.router.navigate(['/events', 'create-event']) : this.openAuthModalWindow('sign-in');
+    this.eventService.setBackFromPreview(false);
+    this.eventService.setForm(null);
   }
 
   public openAuthModalWindow(page: string): void {
@@ -358,7 +357,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   public onScroll(): void {
     const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
-    this.scroll = true;
     if (this.eventsList.length) {
       this.dispatchStore(isRemovedEvents);
     }

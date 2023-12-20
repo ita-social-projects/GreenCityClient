@@ -55,6 +55,7 @@ describe('EventDateTimePickerComponent', () => {
       formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
       formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
     },
+    valid: true,
     event: 'event',
     finishDate: '2023-05-27T15:23:59+03:00',
     id: 1,

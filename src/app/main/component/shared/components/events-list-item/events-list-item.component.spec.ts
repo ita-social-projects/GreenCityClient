@@ -82,6 +82,7 @@ describe('EventsListItemComponent', () => {
 
   const eventMock = {
     description: 'tralalalal',
+    editorText: 'tralalalal',
     additionalImages: [],
     creationDate: '2022-05-31',
     tags: [
@@ -110,9 +111,11 @@ describe('EventsListItemComponent', () => {
         event: null,
         startDate: '2022-05-31T00:00:00+03:00',
         finishDate: '2022-05-31T23:59:00+03:00',
-        onlineLink: null
+        onlineLink: null,
+        valid: true
       }
     ],
+    imgArrayToPreview: [],
     id: 307,
     organizer: { id: 5, name: 'Mykola Kovalushun', organizerRating: 3 },
     title: 'dddddddd',
@@ -124,7 +127,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false
+    isAdmin: false,
+    isOrganizedByFriend: false
   };
 
   const fakeItemTags: TagObj[] = [
@@ -165,12 +169,16 @@ describe('EventsListItemComponent', () => {
     'getEventById ',
     'deleteEvent',
     'getAllAttendees',
-    'getFormattedAddressEventsList'
+    'getFormattedAddressEventsList',
+    'setBackFromPreview',
+    'setForm'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getFormattedAddressEventsList = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of(false);
+  EventsServiceMock.setForm = () => of();
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
@@ -178,7 +186,8 @@ describe('EventsListItemComponent', () => {
     'setEditMode',
     'setEventForEdit',
     'userIdBehaviourSubject',
-    'languageSubject'
+    'languageSubject',
+    'setForm'
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
@@ -254,11 +263,10 @@ describe('EventsListItemComponent', () => {
     component.isRegistered = false;
     component.isReadonly = false;
     component.isPosting = false;
-    component.isRated = false;
     component.max = 3;
     component.userId = 5;
     component.author = 'tester';
-    component.bookmarkSelected = false;
+    component.isEventFavorite = component.event.isFavorite;
     component.currentLang = 'en';
 
     component.deleteDialogData = {
@@ -323,12 +331,6 @@ describe('EventsListItemComponent', () => {
       expect(component.activeTags).toEqual(fakeActiveTags);
     });
 
-    it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
-      spyOn(component, 'initAllStatusesOfEvent');
-      component.ngOnInit();
-      expect(component.initAllStatusesOfEvent).toHaveBeenCalled();
-    });
-
     it(`rate should be called in ngOnInit`, () => {
       component.ngOnInit();
       component.rate = Math.round(component.event.organizer.organizerRating);
@@ -348,21 +350,12 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  describe('checkCanUserJoinEvent', () => {
-    it('it should check is organizer of close event a user"s friend', () => {
-      component.event = { ...eventMock, ...{ open: false } };
-      component.userFriends = [];
-      component.ngOnChanges();
-      expect(component.canUserJoinCloseEvent).toBe(false);
-    });
-  });
-
   describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
       component.event = eventMock;
       component.userId = eventMock.organizer.id;
       component.event.isSubscribed = false;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.event.isRelevant = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.edit);
@@ -371,7 +364,7 @@ describe('EventsListItemComponent', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is unactive', () => {
       component.event = eventMock;
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.delete);
@@ -381,7 +374,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.isSubscribed = true;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.event.isRelevant = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.secondary);
       expect(component.nameBtn).toEqual(component.btnName.cancel);
@@ -391,7 +384,7 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(true);
+      component.event.isRelevant = true;
       component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
@@ -403,7 +396,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       component.canUserJoinCloseEvent = false;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
@@ -412,7 +405,7 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       eventMock.isSubscribed = true;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.rate);
@@ -422,13 +415,34 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      spyOn(component, 'checkIsActive').and.returnValue(false);
+      component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_Fake');
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.isRelevant = true;
+      component.isOwner = false;
+      component.isAdmin = false;
+      component.canUserJoinCloseEvent = false;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
+      component.canUserJoinCloseEvent = true;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
     });
   });
 
   describe('ButtonAction', () => {
+    it('should call EventsServiceMock setForm method', () => {
+      const spy = spyOn(EventsServiceMock, 'setForm');
+      component.buttonAction(component.btnName.cancel);
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+
     it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
       component.buttonAction(component.btnName.cancel);
       expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
@@ -471,12 +485,21 @@ describe('EventsListItemComponent', () => {
       component.isOwner = false;
       component.isActive = false;
       component.routeToEvent();
-      expect(routerSpy.navigate).toHaveBeenCalledWith([
-        '/events',
-        component.event.id,
-        { isOwner: component.isOwner, isActive: component.isActive }
-      ]);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
     });
+  });
+
+  it('should subscribe to language changes and update properties', () => {
+    spyOn(component, 'bindLang');
+    const langSubject = new Subject<string>();
+    const languageBehaviourSubject = new BehaviorSubject<string>('en');
+    component.subscribeToLangChange();
+    expect(component.langChangeSub).toBeDefined();
+    expect(component.langChangeSub.closed).toBeFalsy();
+    languageBehaviourSubject.next('ua');
+    expect(component.currentLang).toEqual('ua');
+    expect(component.datePipe).toBeDefined();
+    expect(component.newDate).toBeDefined();
   });
 
   describe('Filtering tags', () => {
@@ -503,13 +526,13 @@ describe('EventsListItemComponent', () => {
     expect(component.openAuthModalWindow).toHaveBeenCalled();
   });
 
-  describe('addToFavourite()', () => {
-    xit(`should be clicked and called addToFavourite method`, fakeAsync(() => {
-      spyOn(component, 'addToFavourite');
+  describe('changeFavouriteStatus()', () => {
+    it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
+      spyOn(component, 'changeFavouriteStatus');
       const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
       button.click();
       tick();
-      expect(component.addToFavourite).toHaveBeenCalled();
+      expect(component.changeFavouriteStatus).toHaveBeenCalled();
     }));
   });
 });
