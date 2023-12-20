@@ -51,8 +51,8 @@
             <mat-divider></mat-divider>
             <mat-option
               [value]="location"
-              *ngFor="let location of eventLocationList"
-              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'cities', eventLocationList)"
+              *ngFor="let location of eventLocationsList"
+              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'cities', eventLocationsList)"
             >
               {{ getLangValue(location.nameUa, location.nameEn) }}
             </mat-option>
@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-    <div class="event-list" *ngIf="eventsList.length > 0">
+    <div class="event-list" *ngIf="eventsList.length">
       <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
         <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="false"></app-events-list-item>
       </mat-card>
