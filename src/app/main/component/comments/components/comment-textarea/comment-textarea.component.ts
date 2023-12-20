@@ -169,7 +169,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     userTagNode.textContent = tagChar + user.userName;
     userTagNode.setAttribute('data-userId', user.userId.toString());
     userTagNode.style.fontWeight = '700';
-    userTagNode.classList.add('user-tag');
     this.range.insertNode(userTagNode);
 
     this.range.setStartAfter(userTagNode);

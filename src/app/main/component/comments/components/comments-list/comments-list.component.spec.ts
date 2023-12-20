@@ -2,12 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, QueryList, Renderer2, SimpleChanges } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { RouterTestingModule } from '@angular/router/testing';
+import { toArray } from 'rxjs/operators';
+import { CommentDto } from '@global-models/comment/commentDto';
+import { CommentsDTO } from '../../models/comments-model';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -37,8 +41,11 @@ describe('CommentsListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsListComponent, DateLocalisationPipe],
-      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: CommentsService, useValue: commentsServiceMock }],
+      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
+      providers: [
+        { provide: CommentsService, useValue: commentsServiceMock },
+        { provide: Renderer2, useValue: {} }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -120,5 +127,34 @@ describe('CommentsListComponent', () => {
     component.updateContentControl(1);
     expect(component.content.value).toBe(commentData.text);
     expect(component.isEditTextValid).toBeTruthy();
+  });
+
+  it('should not update comments inner HTML on the first change of elementsList', () => {
+    spyOn(component, 'updateCommentsInnerHtml');
+    const changes: SimpleChanges = {
+      elementsList: {
+        currentValue: ['element1', 'element2'],
+        firstChange: true,
+        isFirstChange: () => true,
+        previousValue: undefined
+      }
+    };
+    component.ngOnChanges(changes);
+    expect(component.updateCommentsInnerHtml).not.toHaveBeenCalled();
+  });
+
+  it('should update comments inner HTML after view initialization', () => {
+    spyOn(component, 'updateCommentsInnerHtml');
+    fixture.detectChanges();
+    component.ngAfterViewInit();
+    expect(component.updateCommentsInnerHtml).toHaveBeenCalledWith(component.commentText);
+  });
+
+  it('should render element from string', () => {
+    const elMock: ElementRef = { nativeElement: document.createElement('div') };
+    const text = '<div><span data-userid="123">@user123</span> Some text</div>';
+    (component as any).renderElemFromString(elMock, text);
+    const renderedElement = elMock.nativeElement;
+    expect(renderedElement.childNodes.length).toBeGreaterThan(0);
   });
 });
