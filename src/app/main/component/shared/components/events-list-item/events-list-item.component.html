@@ -71,7 +71,6 @@
     <div class="date">
       <img src="assets/events-icons/date.png" class="date-image" alt="date" />
       <p>{{ newDate | translate }}</p>
-      <p></p>
     </div>
     <div class="author">
       <img src="assets/events-icons/author.png" class="author-image" alt="author" />
@@ -140,14 +139,14 @@
         </div>
       </div>
       <div class="event-assign__content__user-info">
-        <p class="event-assign__content__user-info-date">
+        <div class="event-assign__content__user-info-date">
           <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-          {{ newDate | translate }}
-        </p>
-        <p class="event-assign__content__user-info-icon">
+          <p>{{ newDate | translate }}</p>
+        </div>
+        <div class="event-assign__content__user-info-icon">
           <img [src]="profileIcons.userIcon" class="author-image" alt="author" />
-          {{ event.organizer.name }}
-        </p>
+          <p>{{ event.organizer.name }}</p>
+        </div>
       </div>
     </div>
   </div>

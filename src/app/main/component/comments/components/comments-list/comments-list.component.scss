@@ -77,6 +77,11 @@
 
   .comment-text {
     word-wrap: break-word;
+    margin-bottom: 15px;
+
+    .user-tag {
+      font-weight: 700;
+    }
   }
 
   .edit-text-button {
@@ -96,33 +101,7 @@
 }
 
 .comment-edit-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   margin-bottom: 10px;
-
-  .edit-text-input {
-    width: 100%;
-    height: 72px;
-    overflow: hidden;
-    resize: none;
-    padding: 10px 0 0 20px;
-    border: 1px solid var(--secondary-grey);
-    border-radius: 5px;
-    outline: none;
-
-    &::placeholder {
-      color: var(--secondary-grey);
-    }
-
-    &:focus {
-      border: 2px solid var(--primary-green);
-    }
-
-    &.invalid {
-      border: 2px solid var(--error-red);
-    }
-  }
 }
 
 .btn-replies {

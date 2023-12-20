@@ -33,10 +33,12 @@ import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
 import { AddressInputComponent } from './components/address-input/address-input.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
   imports: [
+    InfiniteScrollModule,
     MatSidenavModule,
     SharedModule,
     SharedMainModule,

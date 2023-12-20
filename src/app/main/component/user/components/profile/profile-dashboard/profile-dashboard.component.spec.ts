@@ -114,7 +114,8 @@ describe('ProfileDashboardComponent', () => {
         isActive: true,
         likes: 8,
         countComments: 9,
-        isRelevant: true
+        isRelevant: true,
+        isOrganizedByFriend: false
       }
     ],
     totalElements: 12,
@@ -174,7 +175,8 @@ describe('ProfileDashboardComponent', () => {
       isActive: true,
       likes: 8,
       countComments: 9,
-      isRelevant: true
+      isRelevant: true,
+      isOrganizedByFriend: false
     },
     {
       additionalImages: [],
@@ -228,7 +230,8 @@ describe('ProfileDashboardComponent', () => {
       isActive: true,
       likes: 8,
       countComments: 9,
-      isRelevant: true
+      isRelevant: true,
+      isOrganizedByFriend: false
     }
   ];
 

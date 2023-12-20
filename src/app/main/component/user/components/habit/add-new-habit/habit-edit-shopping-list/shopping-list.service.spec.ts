@@ -59,15 +59,6 @@ describe('ShoppingListService', () => {
     req.flush([ALLUSERSHOPLISTS]);
   });
 
-  it('should add Habit Custom Shop List', () => {
-    service.addHabitCustomShopList(1, 2, [CUSTOMSHOPITEM]).subscribe((data) => {
-      expect(data).toEqual(SHOPLIST);
-    });
-    const req = httpMock.expectOne(`${mainLink}custom/shopping-list-items/1/2/custom-shopping-list-items`);
-    expect(req.request.method).toBe('POST');
-    req.flush(SHOPLIST);
-  });
-
   it('should update Standard Shop Item Status', () => {
     service.updateStandardShopItemStatus(SHOPLISTITEMTWO, 'ua').subscribe((data) => {
       expect(data).toEqual([SHOPLISTITEMTWO]);

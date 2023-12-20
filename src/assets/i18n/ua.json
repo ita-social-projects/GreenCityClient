@@ -139,7 +139,7 @@
       "time-any-time": "Будь-який",
       "item-found-text": "Знайдено",
       "items-event-text": "подій",
-      "no-event-left": "Подій наразі немає",
+      "no-event-left": "Інших подій наразі немає",
       "no-matching-left": "Ми не знайшли жодних результатів, що відповідають цьому запиту",
       "my-space": {
         "tag-title": "Мої події",
@@ -191,7 +191,7 @@
     },
     "search-not-found": {
       "not-found-text": "Не вдалося знайти результати за запитом '{{searchQuery}}'. Змініть запит.",
-      "not-found-friends-text": "Не вдалося знайти результати за запитом.",
+      "not-found-friends-text": "Не вдалося знайти результати за запитом",
       "choose-alternative": "Можливо, ви можете знайти тут щось цікаве:",
       "alternative-header-news": "Новини",
       "alternative-description-news": "Знайдіть останні новини, події та ініціативи тут. Знайдіть новини та створіть їх.",
@@ -1033,8 +1033,8 @@
       "requests": "Запити",
       "request-decline": "Відхилити",
       "request-accept": "Прийняти",
-      "all-friends": "Всі Друзі",
-      "search-friends": "Знайти друга",
+      "all-friends": "Мої друзі",
+      "search-friends": "Пошук",
       "find-friends": "Знайти друга",
       "found-amount": "людей знайдено",
       "no-mutual-friends": "Схоже, що у вас немає жодного спільного друга :-)"

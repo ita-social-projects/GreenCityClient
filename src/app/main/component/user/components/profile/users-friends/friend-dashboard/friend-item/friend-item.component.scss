@@ -28,7 +28,7 @@
   }
 
   @media (max-width: 450px) {
-    padding: 24px 6px 16px 10px;
+    padding: 24px 6px 8px 10px;
   }
 
   @media (min-width: 280px) {
@@ -46,6 +46,7 @@
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
+
   position: relative;
   max-width: 280px;
   white-space: nowrap;
@@ -67,6 +68,12 @@
 
   @media (max-width: 767px) {
     max-width: 290px;
+  }
+
+  @media (max-width: 360px) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 

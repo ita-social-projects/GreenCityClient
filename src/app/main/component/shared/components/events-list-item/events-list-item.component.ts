@@ -25,7 +25,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
-import { FriendModel } from '@global-user/models/friend.model';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
@@ -33,11 +32,10 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   templateUrl: './events-list-item.component.html',
   styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
 })
-export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
+export class EventsListItemComponent implements OnInit, OnDestroy {
   @Input() event: EventPageResponceDto;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
-  @Input() userFriends: FriendModel[];
 
   profileIcons = userAssignedCardsIcons;
 
@@ -114,10 +112,6 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     private jwtService: JwtService
   ) {}
 
-  ngOnChanges() {
-    this.canUserJoinCloseEvent = this.userFriends?.some((el) => el.id === this.event.organizer.id) || this.event.open;
-  }
-
   ngOnInit(): void {
     this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
@@ -135,6 +129,7 @@ export class EventsListItemComponent implements OnChanges, OnInit, OnDestroy {
     });
     this.getAddress();
     this.isEventFavorite = this.event.isFavorite;
+    this.canUserJoinCloseEvent = this.event.isOrganizedByFriend || this.event.open;
   }
 
   public routeToEvent(): void {

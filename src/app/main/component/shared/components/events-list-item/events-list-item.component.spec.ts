@@ -127,7 +127,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false
+    isAdmin: false,
+    isOrganizedByFriend: false
   };
 
   const fakeItemTags: TagObj[] = [
@@ -177,6 +178,7 @@ describe('EventsListItemComponent', () => {
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getFormattedAddressEventsList = () => of('');
   EventsServiceMock.setBackFromPreview = () => of(false);
+  EventsServiceMock.setForm = () => of();
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
@@ -348,15 +350,6 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  describe('checkCanUserJoinEvent', () => {
-    it('it should check is organizer of close event a user"s friend', () => {
-      component.event = { ...eventMock, ...{ open: false } };
-      component.userFriends = [];
-      component.ngOnChanges();
-      expect(component.canUserJoinCloseEvent).toBe(false);
-    });
-  });
-
   describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
       component.event = eventMock;
@@ -426,9 +419,30 @@ describe('EventsListItemComponent', () => {
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
+
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_Fake');
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.isRelevant = true;
+      component.isOwner = false;
+      component.isAdmin = false;
+      component.canUserJoinCloseEvent = false;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
+      component.canUserJoinCloseEvent = true;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+    });
   });
 
   describe('ButtonAction', () => {
+    it('should call EventsServiceMock setForm method', () => {
+      const spy = spyOn(EventsServiceMock, 'setForm');
+      component.buttonAction(component.btnName.cancel);
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+
     it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
       component.buttonAction(component.btnName.cancel);
       expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
@@ -473,6 +487,19 @@ describe('EventsListItemComponent', () => {
       component.routeToEvent();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
     });
+  });
+
+  it('should subscribe to language changes and update properties', () => {
+    spyOn(component, 'bindLang');
+    const langSubject = new Subject<string>();
+    const languageBehaviourSubject = new BehaviorSubject<string>('en');
+    component.subscribeToLangChange();
+    expect(component.langChangeSub).toBeDefined();
+    expect(component.langChangeSub.closed).toBeFalsy();
+    languageBehaviourSubject.next('ua');
+    expect(component.currentLang).toEqual('ua');
+    expect(component.datePipe).toBeDefined();
+    expect(component.newDate).toBeDefined();
   });
 
   describe('Filtering tags', () => {

@@ -146,7 +146,7 @@
               {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}
             </button>
             <button
-              *ngIf="isUserCanJoin && event.isRelevant && (isEventOrginizerFriend || event.open) && role !== 'UNAUTHENTICATED'"
+              *ngIf="isUserCanJoin && event.isRelevant && (isOrganizedByFriend || event.open) && role !== 'UNAUTHENTICATED'"
               [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
               (click)="buttonAction($event)"
             >
@@ -158,7 +158,7 @@
 
         <div class="main-right">
           <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-          <div [innerHTML]="event.description | eventDescriptionTransform" class="description"></div>
+          <div [innerHTML]="event.description | safeHtmlTransform" class="description"></div>
         </div>
       </div>
       <app-comments-container *ngIf="!eventService.getForm()" class="event" [entityId]="eventId"></app-comments-container>

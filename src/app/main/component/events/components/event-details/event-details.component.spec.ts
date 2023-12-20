@@ -12,9 +12,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -138,9 +136,6 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
-  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);
-  userFriendsServiceMock.getAllFriendsByUserId = () => of();
-
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -152,7 +147,7 @@ describe('EventDetailsComponent', () => {
         EventDetailsComponent,
         mockPipe({ name: 'dateLocalisation' }),
         mockPipe({ name: 'translate' }),
-        mockPipe({ name: 'eventDescriptionTransform' })
+        mockPipe({ name: 'safeHtmlTransform' })
       ],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
@@ -165,8 +160,7 @@ describe('EventDetailsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: BsModalService, useValue: bsModalBsModalServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: BsModalService, useValue: bsModalBsModalServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

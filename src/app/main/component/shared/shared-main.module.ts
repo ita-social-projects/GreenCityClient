@@ -41,7 +41,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -94,9 +93,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatInputModule,
     MatSelectModule,
-    NgbModule,
-    MatDividerModule,
-    MatExpansionModule
+    NgbModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -124,9 +121,7 @@ registerLocaleData(ukLocale, 'ua');
     TagsSelectComponent,
     InputErrorComponent,
     SelectImagesComponent,
-    FilterSelectComponent,
-    MatDividerModule,
-    MatExpansionModule
+    FilterSelectComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]
