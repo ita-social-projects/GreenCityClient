@@ -11,7 +11,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 })
 export class SubscribeComponent implements OnInit {
   readonly qrCode = 'assets/img/qr-code.png';
-  private readonly emailRegex = Patterns.ubsMailPattern;
+  private readonly emailRegex = new RegExp(Patterns.ubsMailPattern);
 
   subscriptionError: string;
   emailTouched: boolean;
