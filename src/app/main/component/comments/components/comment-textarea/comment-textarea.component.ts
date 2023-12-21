@@ -48,6 +48,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   @Output() commentText = new EventEmitter<{ text: string; innerHTML: string }>();
   @Input() commentTextToEdit: string;
   @Input() commentHtml: string;
+  @Input() placeholder: string;
 
   constructor(
     private SocketService: SocketService,
@@ -124,9 +125,17 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     }
 
     const activeElement = document.activeElement as HTMLElement;
-    const currentIndex = this.options.toArray().findIndex((option) => option._getHostElement() === activeElement);
+    let currentIndex = this.options.toArray().findIndex((option) => option._getHostElement() === activeElement);
 
     switch (event.key) {
+      case 'ArrowUp':
+        currentIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+        this.setFocusOnOption(currentIndex);
+        break;
+      case 'ArrowDown':
+        currentIndex = currentIndex === this.options.length - 1 ? currentIndex : currentIndex + 1;
+        this.setFocusOnOption(currentIndex);
+        break;
       case 'Escape':
       case 'Backspace': {
         this.isDropdownVisible = false;
@@ -140,7 +149,17 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     }
   }
 
+  private setFocusOnOption(index: number): void {
+    if (this.options.toArray()[index]) {
+      this.options.toArray()[index].focus();
+    }
+  }
+
   onCommentKeyDown(event: KeyboardEvent): void {
+    if (this.isDropdownVisible && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) {
+      this.dropdown.nativeElement.firstChild.focus();
+      this.isTextareaFocused = true;
+    }
     if (event.key === 'Enter') {
       event.preventDefault();
     }
@@ -169,7 +188,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     userTagNode.textContent = tagChar + user.userName;
     userTagNode.setAttribute('data-userId', user.userId.toString());
     userTagNode.style.fontWeight = '700';
-    userTagNode.classList.add('user-tag');
     this.range.insertNode(userTagNode);
 
     this.range.setStartAfter(userTagNode);
@@ -217,6 +235,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   selectSuggestion(user: TaggedUser): void {
     const tagChar = this.range.startContainer.textContent[this.lastTagCharIndex];
     this.isDropdownVisible = false;
+    this.isTextareaFocused = true;
     this.removeSearchQuery();
     this.insertNodeAtCursor(user, tagChar);
     this.content.setValue(this.commentTextarea.nativeElement.textContent);

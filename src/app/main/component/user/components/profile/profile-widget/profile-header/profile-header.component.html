@@ -11,11 +11,31 @@
       </app-user-profile-image>
       <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>
     </div>
-
-    <p class="name" appCustomTooltip [appCustomTooltip]="userInfo.name">{{ userInfo.name | maxTextLength: 15 }}</p>
-    <p class="location" appCustomTooltip [appCustomTooltip]="getUserCity(userInfo.userLocationDto)">
-      {{ getUserCity(userInfo.userLocationDto) | maxTextLength: 30 }}
+    <p
+      class="name"
+      appCustomTooltip
+      #tooltip="matTooltip"
+      [appCustomTooltip]="userInfo.name"
+      [tooltip]="tooltip"
+      matTooltip="{{ userInfo.name }}"
+      matTooltipClass="my-custom-tooltip"
+      font="bold 18px Lato, sans-serif"
+    >
+      {{ userInfo.name }}
     </p>
+    <p
+      class="location"
+      appCustomTooltip
+      #tooltipLocation="matTooltip"
+      [appCustomTooltip]="getUserCity(userInfo.userLocationDto)"
+      matTooltip="{{ getUserCity(userInfo.userLocationDto) }}"
+      matTooltipClass="my-custom-tooltip"
+      [tooltip]="tooltipLocation"
+      font="12px Lato, sans-serif"
+    >
+      {{ getUserCity(userInfo.userLocationDto) }}
+    </p>
+
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
@@ -24,7 +44,7 @@
         <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" [matTooltip]="item.link" />
       </a>
     </div>
-    <div *ngIf="checkUserCredo" class="credo" appCustomTooltip [appCustomTooltip]="userInfo.userCredo">
+    <div *ngIf="checkUserCredo" class="credo">
       {{ userInfo.userCredo || mockedUserInfo.userCredo }}
     </div>
 

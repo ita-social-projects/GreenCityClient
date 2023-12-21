@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Component({
   selector: 'app-event-schedule',
@@ -13,4 +14,9 @@ export class EventScheduleComponent {
   };
 
   @Input() days = [];
+  constructor(private langService: LanguageService) {}
+
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.langService.getLangValue(uaValue, enValue) as string;
+  }
 }

@@ -10,6 +10,7 @@ import { CorrectUnitPipe } from 'src/app/shared/correct-unit-pipe/correct-unit.p
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { of, BehaviorSubject } from 'rxjs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -28,7 +29,7 @@ describe('FriendItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([])],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([]), MatTooltipModule],
       providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();

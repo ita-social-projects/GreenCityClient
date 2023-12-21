@@ -84,12 +84,10 @@ describe('AddNewHabitComponent', () => {
   fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', [
     'getHabitAllShopLists',
     'getHabitShopList',
-    'addHabitCustomShopList',
     'updateHabitShopList'
   ]);
   fakeShoppingListService.getHabitAllShopLists = () => of();
   fakeShoppingListService.getHabitShopList = () => of();
-  fakeShoppingListService.addHabitCustomShopList = () => of();
   fakeShoppingListService.updateHabitShopList = () => of();
 
   matSnackBarMock.openSnackBar = (type: string) => {};
@@ -285,52 +283,12 @@ describe('AddNewHabitComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'afterHabitWasChanged');
-    const habitAssignPropertiesDto: HabitAssignPropertiesDto = { duration: 25, defaultShoppingListItems: [] };
-    const friendsIdsList = [];
-    (component as any).assignCustomHabit();
-    fakeHabitAssignService
-      .assignCustomHabit(1, friendsIdsList, habitAssignPropertiesDto)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAdded');
-      });
-  });
-
-  it('call of assignCustomHabit method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'afterHabitWasChanged');
-    const habitAssignPropertiesDto: HabitAssignPropertiesDto = { duration: 25, defaultShoppingListItems: [] };
-    const friendsIdsList = [];
-    (component as any).assignCustomHabit();
-    fakeHabitAssignService
-      .assignCustomHabit(1, friendsIdsList, habitAssignPropertiesDto)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAdded');
-      });
-  });
-
   it('call of assignStandartHabit method should invoke afterHabitWasChanged method', () => {
     const spy = spyOn(component as any, 'afterHabitWasChanged');
     (component as any).habitId = 2;
     (component as any).assignStandartHabit();
     fakeHabitAssignService
       .assignHabit((component as any).habitId)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(spy).toHaveBeenCalledWith('habitAdded');
-      });
-  });
-
-  it('call of addCustomHabitItems method should invoke afterHabitWasChanged method', () => {
-    const spy = spyOn(component as any, 'afterHabitWasChanged');
-    (component as any).habitId = 2;
-    (component as any).userId = 27;
-    (component as any).customShopList = [];
-    (component as any).addCustomHabitItems();
-    fakeShoppingListService
-      .addHabitCustomShopList((component as any).userId, (component as any).habitId, (component as any).customShopList)
       .pipe(take(1))
       .subscribe(() => {
         expect(spy).toHaveBeenCalledWith('habitAdded');

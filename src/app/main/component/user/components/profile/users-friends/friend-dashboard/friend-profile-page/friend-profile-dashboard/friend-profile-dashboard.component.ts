@@ -47,7 +47,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   private getAllFriends(id: number, page?: number): void {
     this.isFetching = true;
     this.userFriendsService
-      .getAllFriends(id, page)
+      .getUserFriends(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.numberAllFriends = data.totalElements;
@@ -60,7 +60,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   private getMutualFriends(page?: number): void {
     this.isFetching = true;
     this.userFriendsService
-      .getNewFriends('', page)
+      .getMutualFriends(this.userId, page)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.numberAllMutualFriends = data.totalElements;

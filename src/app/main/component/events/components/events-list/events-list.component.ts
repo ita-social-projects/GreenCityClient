@@ -67,7 +67,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public eventTimeList: OptionItem[] = eventTimeList;
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[];
-  public eventLocationList: OptionItem[] = [];
+  public eventLocationsList: OptionItem[] = [];
   public scroll: boolean;
   public userId: number;
   private dialog: MatDialog;
@@ -85,9 +85,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.eventService.getAddreses().subscribe((addresses) => {
-      this.eventLocationList = this.getUniqueCities(addresses);
-    });
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
@@ -108,6 +105,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
         this.elementsArePresent = false;
       }
     });
+    this.eventService.getAddresses().subscribe((addresses) => {
+      this.eventLocationsList = this.getUniqueLocations(addresses);
+    });
     this.searchWords();
   }
 
@@ -127,7 +127,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       }
       return false;
     });
-    if (this.eventsList.length === 0) {
+    if (!this.eventsList.length) {
       this.noEventsMatch = true;
       this.scroll = false;
     } else {
@@ -137,7 +137,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public cancelSearch(): void {
-    if (this.searchFilterWords.value === '') {
+    if (this.searchFilterWords.value.trim() === '') {
       this.searchToggle = false;
     } else {
       this.searchFilterWords.setValue('');
@@ -229,22 +229,19 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUniqueCities(addresses: Array<Addresses>): OptionItem[] {
-    const uniqueCities = new Set();
-
+  getUniqueLocations(addresses: Array<Addresses>): OptionItem[] {
+    const uniqueLocationsName = new Set<string>();
+    const uniqueLocations: OptionItem[] = [];
     addresses.forEach((address: Addresses) => {
-      if (address) {
-        const { cityEn, cityUa } = address;
-        if (cityEn !== null) {
-          uniqueCities.add(`${cityEn}-${cityUa}`);
+      if (address.cityEn && address.cityUa) {
+        if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUa)) {
+          uniqueLocationsName.add(address.cityEn);
+          uniqueLocationsName.add(address.cityUa);
+          uniqueLocations.push({ nameEn: address.cityEn, nameUa: address.cityUa });
         }
       }
     });
-    const cities = Array.from(uniqueCities).map((city: string) => {
-      const [nameEn, nameUa] = city.split('-');
-      return { nameEn, nameUa };
-    });
-    return cities;
+    return uniqueLocations;
   }
 
   private getStatusesForFilter(): OptionItem[] {

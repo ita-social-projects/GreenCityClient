@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { PlaceService } from '@global-service/place/place.service';
 import { BehaviorSubject, Subject, of } from 'rxjs';
-import { Place } from './models/place';
+import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
@@ -35,11 +35,22 @@ describe('PlacesComponent', () => {
     }
   };
 
-  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', ['getPlaceInfo', 'updatePlaces', 'createPlace']);
+//   const fakeLocation: Location = {
+//     latitude: 33.2,
+//     longitude: 33.4
+//   };
+
+  const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', [
+    'getPlaceInfo',
+    'updatePlaces',
+    'createPlace',
+    'getAllPlaces'
+  ]);
+
   placeServiceMock.places$ = new Subject<Place[]>();
   placeServiceMock.getAllPresentTags = () => of(tagsArray);
   placeServiceMock.createPlace = () => of(locationAddressAndGeoDtoMock);
-
+  placeServiceMock.getAllPlaces = () => of();
   const filterPlaceServiceMock: FilterPlaceService = jasmine.createSpyObj('FilterPlaceService', ['updateFiltersDto']);
   filterPlaceServiceMock.filtersDto$ = new BehaviorSubject<any>({ status: PlaceStatus.APPROVED });
   filterPlaceServiceMock.isFavoriteFilter$ = new BehaviorSubject<boolean>(true);
@@ -49,6 +60,53 @@ describe('PlacesComponent', () => {
     'deleteFavoritePlace',
     'addFavoritePlace'
   ]);
+
+  const placeMock: AllAboutPlace = {
+    id: 1,
+    name: 'test',
+    location: {
+      id: 1,
+      lat: 49.840224,
+      lng: 24.0221738,
+      address: 'Universytetska St, 1, Lviv, Lvivska oblast, Ukraine, 79000'
+    },
+    category: {
+      name: 'Charging station',
+      nameUa: 'Зарядні станції',
+      parentCategoryId: null
+    },
+    openingHoursList: [
+      {
+        breakTime: {
+          endTime: '',
+          startTime: ''
+        },
+        closeTime: {
+          hour: 0,
+          minute: 0,
+          nano: 0,
+          second: 0
+        },
+        id: 0,
+        openTime: {
+          hour: 0,
+          minute: 0,
+          nano: 0,
+          second: 0
+        },
+        weekDay: ''
+      }
+    ],
+    author: {
+      id: 19,
+      name: 'Iryna',
+      email: 'admin.greencity@starmaker.email'
+    },
+    status: 'APPROVED',
+    modifiedDate: null,
+    isFavorite: true
+  };
+
   const openingHour: OpeningHoursDto[] = [
     {
       weekDay: 'Test',
@@ -122,6 +180,26 @@ describe('PlacesComponent', () => {
     component.ngOnInit();
 
     expect(component.tagList).toEqual(tagsArray);
+  });
+
+//   it('Should open popup, and after closed receive data', () => {
+//     const spy = spyOn(component, 'onLocationSelected');
+//     component.openTimePickerPopUp();
+//     expect(spy).toHaveBeenCalled();
+//     expect(spy).toHaveBeenCalledWith(fakeLocation);
+//   });
+
+  it('should toggle the favorite status of a place correctly', () => {
+    component.toggleFavoriteFromSideBar(placeMock);
+    expect(placeMock.isFavorite).toBeFalsy();
+    component.toggleFavoriteFromSideBar(placeMock);
+    expect(placeMock.isFavorite).toBeTruthy();
+  });
+
+  it(`should select a place from the sidebar and trigger the 'selectPlace' method`, () => {
+    const spy = spyOn(component, 'selectPlace');
+    component.selectPlaceFromSideBar(placeMock);
+    expect(spy).toHaveBeenCalled();
   });
 
   afterEach(() => {

@@ -78,6 +78,10 @@
   .comment-text {
     word-wrap: break-word;
     margin-bottom: 15px;
+
+    .user-tag {
+      font-weight: 700;
+    }
   }
 
   .edit-text-button {

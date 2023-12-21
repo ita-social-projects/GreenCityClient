@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
-import { AllShoppingLists, CustomShoppingItem, HabitUpdateShopList, ShoppingList } from '../../../../models/shoppinglist.interface';
+import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '../../../../models/shoppinglist.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +20,6 @@ export class ShoppingListService {
 
   public getUserShoppingLists(lang: string): Observable<AllShoppingLists[]> {
     return this.http.get<AllShoppingLists[]>(`${mainLink}habit/assign/allUserAndCustomShoppingListsInprogress?lang=${lang}`);
-  }
-
-  public addHabitCustomShopList(userId: number, habitId: number, customShopList: CustomShoppingItem[]): Observable<ShoppingList[]> {
-    const body = {
-      customShoppingListItemSaveRequestDtoList: customShopList
-    };
-    return this.http.post<ShoppingList[]>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, body);
   }
 
   public updateStandardShopItemStatus(item: ShoppingList, lang: string): Observable<ShoppingList[]> {
