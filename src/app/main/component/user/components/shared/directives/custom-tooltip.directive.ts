@@ -29,7 +29,6 @@ export class CustomTooltipDirective {
     const context = canvas.getContext('2d');
     context.font = font;
     const textWidth = Math.round(context.measureText(event.target.innerText).width);
-    console.log(textContainerWidth < textWidth);
     if (textContainerWidth < textWidth) {
       tooltip.show();
     }

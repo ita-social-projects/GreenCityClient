@@ -10,13 +10,26 @@
           <button *ngIf="isEditing" class="check-btn" [disabled]="isAcquired" (click)="selectItem(item)">
             <img [src]="getCheckIcon(item)" alt="Check to-do item" />
           </button>
-          <span
+          <!-- <span
             class="item-text"
             [ngClass]="{ unselected: isAcquired || (!item.selected && !isEditing) }"
             ngbPopover="{{ item.text }}"
             triggers="mouseenter:mouseleave"
             placement="top"
             container="body"
+          >
+            {{ truncateShoppingItemName(item.text) }}
+          </span> -->
+          <span
+            class="item-text"
+            [ngClass]="{ unselected: isAcquired || (!item.selected && !isEditing) }"
+            appCustomTooltip
+            #tooltip="matTooltip"
+            [appCustomTooltip]="item.text"
+            [tooltip]="tooltip"
+            matTooltip="{{ item.text }}"
+            matTooltipClass="my-custom-tooltip"
+            font="bold 14px Lato, sans-serif"
           >
             {{ truncateShoppingItemName(item.text) }}
           </span>
