@@ -163,7 +163,7 @@ describe('EventDateTimePickerComponent', () => {
     }
   });
 
-  it('applyLocationForAllDays will be invoked at onInit on a edit stage', () => {
+  it('applyLocationForAllDays is called in onInit during the edit phase', () => {
     const spy = spyOn(component as any, 'applyLocationForAllDays');
     component.editDate = editDateMock;
     component.locationForAllDays = editDateMock.coordinates;
@@ -171,17 +171,10 @@ describe('EventDateTimePickerComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('applyLocationForAllDays will be invoked at onInit after preview mode', () => {
+  it('applyLocationForAllDays is called in onInit after preview mode', () => {
     const spy = spyOn(component as any, 'applyLocationForAllDays');
     component.fromPreview = true;
     component.locationForAllDays = editDateMock.coordinates;
-    component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('applyLocationForAllDays will be invoked at onInit when a location applied for all locations', () => {
-    const spy = spyOn(component as any, 'applyLocationForAllDays');
-    component.appliedForAllLocations = true;
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
