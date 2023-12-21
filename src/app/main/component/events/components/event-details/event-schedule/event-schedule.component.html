@@ -28,7 +28,6 @@
         <div class="event-date">
           {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{ day.finishDate | date: 'hh:mm a' }}
         </div>
-        <div class="event-location">{{ day.onlineLink ? day.onlineLink : day.coordinates?.addressEn }}</div>
       </div>
     </div>
   </div>

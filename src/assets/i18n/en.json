@@ -139,8 +139,8 @@
       "time-any-time": "Any time",
       "item-found-text": "",
       "items-event-text": "Items found",
-      "no-event-left": "There's no events for now",
-      "no-matching-left": "We didn't find any results matching this search",
+      "no-event-left": "There are no more events for now",
+      "no-matching-left": "We didn't find any results matching to this search",
       "my-space": {
         "tag-title": "My Events",
         "event-type-online": "Online",
@@ -186,7 +186,7 @@
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}'. Please change the search.",
-      "not-found-friends-text": "We didn't find any results matching this search.",
+      "not-found-friends-text": "We didn't find any results matching this search",
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -316,7 +316,7 @@
       "exists": "Already exists",
       "closeTime": "Closing time have to be later than opening time. Please, try again",
       "breakTime": "Invalid break time",
-      "photoUpload": "Download PNG or JPG only. File size should be less than 10MB"
+      "photoUpload": "Upload PNG or JPG only. File size should be less than 10MB"
     }
   },
   "users": {
@@ -653,7 +653,7 @@
       "eco-place": "Show my eco places",
       "shopping-list": "Show my shopping list",
       "to-do-list": "Show my To-do list",
-      "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+      "picture-tooltip": "Upload PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
       "notification": "Are you sure you want to delete the photo?",
@@ -810,6 +810,7 @@
         "btn-crate-habit": "Create habit",
         "btn-more": "More",
         "btn-add": "Add habit",
+        "btn-added": "Added habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
         "habit-did-not-give-up": "We glad that you change your mind",
@@ -1162,7 +1163,7 @@
     "enter-link": "Enter link",
     "textarea-title": "Events Description",
     "picture": "Picture",
-    "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
+    "picture-title": "Upload PNG or JPG only. File size should be less than 10MB",
     "event-theme": "Initiative type",
     "event-type-check": "You should choose at least one type",
     "event-type": "Event type",

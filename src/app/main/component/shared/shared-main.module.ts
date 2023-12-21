@@ -42,6 +42,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -65,7 +67,8 @@ registerLocaleData(ukLocale, 'ua');
     TagsSelectComponent,
     InputErrorComponent,
     SelectImagesComponent,
-    FilterSelectComponent
+    FilterSelectComponent,
+    InputGoogleAutocompleteComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -74,6 +77,7 @@ registerLocaleData(ukLocale, 'ua');
     SharedModule,
     FormsModule,
     CommonModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
@@ -94,9 +98,7 @@ registerLocaleData(ukLocale, 'ua');
     MatDividerModule,
     MatInputModule,
     MatSelectModule,
-    NgbModule,
-    MatDividerModule,
-    MatExpansionModule
+    NgbModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -126,7 +128,8 @@ registerLocaleData(ukLocale, 'ua');
     SelectImagesComponent,
     FilterSelectComponent,
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    InputGoogleAutocompleteComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

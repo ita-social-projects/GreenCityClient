@@ -5,6 +5,12 @@
   top: 0;
 }
 
+.main-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .app-container {
   min-height: calc(100% - 340px);
   background-color: var(--pre-secondary-light-grey);

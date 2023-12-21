@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { UbsUserGuardGuard } from './ubs/ubs-user/ubs-user-guard.guard';
 import { UbsAdminGuardGuard } from './ubs/ubs-admin/ubs-admin-guard.guard';
+import { UbsAdminRedirectGuard } from './ubs/ubs-admin/ubs-admin-redirect-guard.guard';
 
 export const routes: Routes = [
   {
@@ -15,7 +16,8 @@ export const routes: Routes = [
     children: [
       {
         path: 'ubs',
-        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule)
+        loadChildren: () => import('./ubs/ubs/ubs-order.module').then((mod) => mod.UbsOrderModule),
+        canActivate: [UbsAdminRedirectGuard]
       },
       {
         path: '',

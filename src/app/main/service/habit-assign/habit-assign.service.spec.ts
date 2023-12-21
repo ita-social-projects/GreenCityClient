@@ -8,6 +8,8 @@ import {
   DEFAULTFULLINFOHABIT,
   HABITSASSIGNEDLIST
 } from '../../component/user/components/habit/mocks/habit-assigned-mock';
+import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
 
 describe('HabitService', () => {
   let service: HabitAssignService;
@@ -87,6 +89,19 @@ describe('HabitService', () => {
     const req = httpMock.expectOne(`${habitAssignLink}/1/updateProgressNotificationHasDisplayed`);
     expect(req.request.method).toBe('PUT');
     req.flush({});
+  });
+
+  it('should assign custom habit', () => {
+    const spy = spyOn(service, 'assignCustomHabit');
+    const habitId = 1;
+    const friendsIdsList = [2, 3, 4];
+    const habitAssignProperties: HabitAssignPropertiesDto = {
+      defaultShoppingListItems: [],
+      duration: 15
+    };
+    const customShoppingItemList: Array<CustomShoppingItem> = [{ text: '1234567890' }];
+    service.assignCustomHabit(habitId, friendsIdsList, habitAssignProperties, customShoppingItemList);
+    expect(spy).toHaveBeenCalled();
   });
 
   afterEach(() => {

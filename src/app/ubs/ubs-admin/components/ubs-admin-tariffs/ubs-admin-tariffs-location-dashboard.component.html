@@ -71,7 +71,7 @@
             {{ region | translate }}
           </mat-option>
         </mat-autocomplete>
-        <mat-icon class="cross-img" (click)="resetLocationValues('region')">close</mat-icon>
+        <mat-icon *ngIf="this.region.value" class="cross-img" (click)="resetLocationValues('region')">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerRegion)" />
       </div>
     </div>
@@ -104,7 +104,7 @@
           </mat-option>
         </mat-autocomplete>
         <div class="input-control" *ngIf="city.enabled">
-          <mat-icon class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
+          <mat-icon *ngIf="this.city.value" class="cross-img" (click)="resetLocationValues('city')">close</mat-icon>
           <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
         </div>
       </div>
@@ -129,7 +129,7 @@
             {{ courier }}
           </mat-option>
         </mat-select>
-        <mat-icon class="cross-img" (click)="resetCourierValue()">close</mat-icon>
+        <mat-icon *ngIf="this.courier.value" class="cross-img" (click)="resetCourierValue()">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
       </div>
     </div>
@@ -153,7 +153,7 @@
             <span class="checkbox-text">{{ option }}</span>
           </mat-option>
         </mat-autocomplete>
-        <mat-icon class="cross-img" (click)="resetStationValue()">close</mat-icon>
+        <mat-icon *ngIf="this.selectedStation.length" class="cross-img" (click)="resetStationValue()">close</mat-icon>
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerStation)" />
       </div>
       <div class="city-list">

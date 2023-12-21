@@ -71,8 +71,31 @@
   margin: 0;
 }
 
+.comment-tag-img {
+  width: 42px;
+  height: 42px;
+}
+
 .center {
   margin: 0 auto;
+}
+
+.habit-first-friend-profile-picture,
+.habit-next-friend-profile-picture {
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  border-radius: 50%;
+  border: 1px solid var(--secondary-light-grey);
+}
+
+.habit-first-friend-profile-picture {
+  z-index: 1;
+}
+
+.habit-next-friend-profile-picture {
+  position: relative;
+  left: -5px;
 }
 
 @media (min-width: 768px) and (max-width: 1439px) {

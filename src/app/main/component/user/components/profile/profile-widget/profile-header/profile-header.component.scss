@@ -12,7 +12,7 @@ p {
   .column {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 132px 31px 7px 23px 32px 65px 90px;
+    grid-template-rows: 132px 31px 7px 23px 32px auto 90px;
     background: var(--primary-white);
     position: relative;
 
@@ -53,6 +53,20 @@ p {
       justify-self: center;
       letter-spacing: 0.2;
       cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 20px;
+      width: 100%;
+      text-align: center;
+
+      @media (max-width: 767px) {
+        padding: 0;
+      }
+
+      @media (max-width: 575px) {
+        padding: 0 20px;
+      }
     }
 
     .location {
@@ -64,6 +78,12 @@ p {
       color: var(--quaternary-grey);
       justify-self: center;
       cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 20px;
+      width: 100%;
+      text-align: center;
     }
 
     .rate {
@@ -105,15 +125,12 @@ p {
       line-height: 16px;
       color: var(--quaternary-grey);
       width: 288px;
-      height: 48px;
       justify-self: center;
       overflow-wrap: break-word;
       word-wrap: break-word;
       word-break: break-word;
       display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
+      margin-bottom: 10px;
     }
 
     .profile-progress {
@@ -124,11 +141,11 @@ p {
 
 @media (min-width: 576px) {
   .profile {
-    height: 276px;
+    height: 100%;
 
     .column {
       grid-template-columns: 97px 1fr;
-      grid-template-rows: 70px 33px 38px 45px 46px 91px;
+      grid-template-rows: 70px 33px 38px 45px auto 91px;
 
       .user-image {
         grid-area: 1 / 1 / 2 / 2;
@@ -181,7 +198,7 @@ p {
 
     .column {
       grid-template-columns: 1fr;
-      grid-template-rows: 132px 31px 7px 23px 40px 40px 62px 188px;
+      grid-template-rows: 132px 31px 15px 23px 40px 40px auto 188px;
 
       .user-image {
         grid-area: 1 / 1 / 2 / 2;
@@ -229,7 +246,7 @@ p {
       .credo {
         grid-area: 7 / 1 / 8 / 2;
         width: auto;
-        margin: 0 20px;
+        margin: 0 20px 10px 20px;
       }
 
       .profile-progress {
@@ -258,12 +275,7 @@ p {
 @media (max-width: 575px) {
   .profile {
     .column {
-      grid-template-rows: 137px 32px 30px 39px 43px 45px 76px;
-
-      .credo {
-        height: 34px;
-        -webkit-line-clamp: 2;
-      }
+      grid-template-rows: 137px 32px 30px 39px 43px auto 76px;
 
       .container-user-image {
         margin: 48px auto 0 auto;
@@ -274,4 +286,10 @@ p {
       }
     }
   }
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
 }

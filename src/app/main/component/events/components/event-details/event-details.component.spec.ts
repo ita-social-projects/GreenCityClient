@@ -12,9 +12,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -87,13 +85,17 @@ describe('EventDetailsComponent', () => {
     'createAddresses',
     'getFormattedAddress',
     'getForm',
-    'getLangValue'
+    'getLangValue',
+    'setBackFromPreview',
+    'setSubmitFromPreview'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.createAddresses = () => of('');
   EventsServiceMock.getFormattedAddress = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of();
+  EventsServiceMock.setSubmitFromPreview = () => of();
 
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
@@ -134,9 +136,6 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
 
-  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);
-  userFriendsServiceMock.getAllFriendsByUserId = () => of();
-
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -148,7 +147,7 @@ describe('EventDetailsComponent', () => {
         EventDetailsComponent,
         mockPipe({ name: 'dateLocalisation' }),
         mockPipe({ name: 'translate' }),
-        mockPipe({ name: 'eventDescriptionTransform' })
+        mockPipe({ name: 'safeHtmlTransform' })
       ],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
@@ -161,8 +160,7 @@ describe('EventDetailsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: BsModalService, useValue: bsModalBsModalServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: BsModalService, useValue: bsModalBsModalServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -221,5 +219,29 @@ describe('EventDetailsComponent', () => {
       component.openAuthModalWindow('sign-in');
     }
     expect(component.openAuthModalWindow).toHaveBeenCalled();
+  });
+
+  it('should call openAuthModalWindow with "sign-in" when role is UNAUTHENTICATED', () => {
+    component.role = 'UNAUTHENTICATED';
+    const spy = spyOn(component, 'openAuthModalWindow');
+    component.buttonAction({} as MouseEvent);
+    expect(spy).toHaveBeenCalledWith('sign-in');
+  });
+
+  it('should call openSnackBar with "errorJoinEvent" when isUserCanJoin is true and addAttenderError is truthy', () => {
+    component.role = 'USER';
+    component.isUserCanJoin = true;
+    component.addAttenderError = 'some error';
+    component.buttonAction({} as MouseEvent);
+    expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
+    expect(component.addAttenderError).toBe('');
+  });
+
+  it('should call setBackFromPreview and setSubmitFromPreview methods from eventService', () => {
+    const spy1 = spyOn(EventsServiceMock, 'setBackFromPreview');
+    const spy2 = spyOn(EventsServiceMock, 'setSubmitFromPreview');
+    component.backToSubmit();
+    expect(spy1).toHaveBeenCalledWith(true);
+    expect(spy2).toHaveBeenCalledWith(true);
   });
 });

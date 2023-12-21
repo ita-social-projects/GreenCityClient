@@ -1,12 +1,11 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
-import { Coordinates, EditProfileDto, EditProfileModel } from '@global-user/models/edit-profile.model';
-import { MapsAPILoader } from '@agm/core';
-import { take } from 'rxjs/operators';
+import { Coordinates, EditProfileDto, EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
+import { filter, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,25 +20,31 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy, DoCheck {
+export class EditProfileComponent extends FormBaseComponent implements OnInit, OnDestroy {
   public editProfileForm: FormGroup;
-  @ViewChild('placesRef') placesRef: ElementRef;
   private langChangeSub: Subscription;
-  private coordinates: Coordinates = { latitude: null, longitude: null };
-  private cityOptions = {
-    types: ['(cities)'],
-    componentRestrictions: { country: 'UA' },
-    language: this.getLangValue('ua', 'en')
+  private currentLocation: UserLocationDto;
+  public coordinates: Coordinates = { latitude: null, longitude: null };
+  public previousPath = '/profile';
+  public socialNetworks: Array<{ id: number; url: string }>;
+  public socialNetworksToServer: string[] = [];
+  public namePattern = Patterns.NamePattern;
+  public builder: EditProfileFormBuilder;
+  public placeService;
+  private editProfileService: EditProfileService;
+  private profileService: ProfileService;
+  private snackBar: MatSnackBarComponent;
+  private localStorageService: LocalStorageService;
+  private translate: TranslateService;
+  public cityOptions = {
+    types: ['(cities)']
   };
-  private country = this.getLangValue('Україна', 'Ukraine');
   public userInfo = {
     id: 0,
     avatarUrl: './assets/img/profileAvatarBig.png',
     status: 'online',
     rate: 658
   };
-  public autocomplete;
-  public previousPath = '/profile';
   public popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -52,28 +57,20 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       popupCancel: 'user.edit-profile.profile-popup.cancel'
     }
   };
-  public socialNetworks: Array<{ id: number; url: string }>;
-  public socialNetworksToServer: string[] = [];
-  public checkLocation = false;
-  public checkEcoPlaces = false;
-  public checkShoppingList = false;
-  public namePattern = Patterns.NamePattern;
-  public cityPattern = Patterns.profileCityPattern;
-  public builder: EditProfileFormBuilder;
-  private editProfileService: EditProfileService;
-  private profileService: ProfileService;
-  private snackBar: MatSnackBarComponent;
-  private localStorageService: LocalStorageService;
-  private translate: TranslateService;
-  private ngZone: NgZone;
 
-  constructor(
-    private injector: Injector,
-    public dialog: MatDialog,
-    public router: Router,
-    private langService: LanguageService,
-    private mapsAPILoader: MapsAPILoader
-  ) {
+  get name() {
+    return this.editProfileForm.get('name');
+  }
+
+  get city() {
+    return this.editProfileForm.get('city');
+  }
+
+  get credo() {
+    return this.editProfileForm.get('credo');
+  }
+
+  constructor(private injector: Injector, public dialog: MatDialog, public router: Router, private langService: LanguageService) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
     this.editProfileService = injector.get(EditProfileService);
@@ -81,25 +78,13 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.snackBar = injector.get(MatSnackBarComponent);
     this.localStorageService = injector.get(LocalStorageService);
     this.translate = injector.get(TranslateService);
-    this.ngZone = injector.get(NgZone);
   }
 
   ngOnInit() {
-    this.setupInitialValue();
+    this.initForm();
     this.getInitialValue();
     this.subscribeToLangChange();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.setPlaceAutocomplete();
-  }
-
-  ngDoCheck() {
-    this.checkLocation = this.editProfileForm.value.showLocation;
-    this.checkEcoPlaces = this.editProfileForm.value.showEcoPlace;
-    this.checkShoppingList = this.editProfileForm.value.showShoppingList;
-  }
-
-  getControl(control: string) {
-    return this.editProfileForm.get(control);
   }
 
   public getFormValues(): any {
@@ -115,29 +100,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     };
   }
 
-  public setPlaceAutocomplete(): void {
-    this.mapsAPILoader.load().then(() => {
-      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.cityOptions);
-      this.autocomplete.addListener('place_changed', () => {
-        const locationName = this.autocomplete.getPlace();
-        if (locationName.formatted_address) {
-          this.coordinates.latitude = locationName.geometry.location.lat();
-          this.coordinates.longitude = locationName.geometry.location.lng();
-          this.getControl('city').setValue(this.getCityCountryFormat(locationName.formatted_address));
-          this.editProfileForm.markAsDirty();
-        }
-      });
-    });
-  }
-
-  private getCityCountryFormat(address: string): string {
-    return `${address.split(', ')[0]}, ${this.country}`;
-  }
-
-  onCityChange(): void {
-    this.getControl('city').setValue('');
-    this.coordinates.latitude = null;
-    this.coordinates.longitude = null;
+  onCitySelected(coordinates: Coordinates): void {
+    this.coordinates = coordinates;
   }
 
   public getFormInitialValues(data: EditProfileModel): void {
@@ -166,7 +130,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     this.socialNetworksToServer = val;
   }
 
-  private setupInitialValue() {
+  private initForm() {
     this.editProfileForm = this.builder.getProfileForm();
   }
 
@@ -177,21 +141,16 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public getInitialValue(): void {
     this.profileService
       .getUserInfo()
-      .pipe(take(1))
+      .pipe(take(1), filter(Boolean))
       .subscribe((data: EditProfileModel) => {
-        if (data) {
-          this.setupExistingData(data);
-          this.socialNetworks = data.socialNetworks;
-          this.socialNetworksToServer = data.socialNetworks.map((sn) => sn.url);
-          this.coordinates.latitude = data.userLocationDto?.latitude || null;
-          this.coordinates.longitude = data.userLocationDto?.longitude || null;
-          this.getFormInitialValues(data);
-        }
+        this.editProfileForm = this.builder.getEditProfileForm(data);
+        this.currentLocation = data.userLocationDto;
+        this.socialNetworks = data.socialNetworks;
+        this.socialNetworksToServer = data.socialNetworks.map((sn) => sn.url);
+        this.coordinates.latitude = data.userLocationDto?.latitude || null;
+        this.coordinates.longitude = data.userLocationDto?.longitude || null;
+        this.getFormInitialValues(data);
       });
-  }
-
-  private setupExistingData(data) {
-    this.editProfileForm = this.builder.getEditProfileForm(data);
   }
 
   public onSubmit(): void {
@@ -219,6 +178,9 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
 
   private bindLang(lang: string): void {
     this.translate.setDefaultLang(lang);
+    if (this.city.pristine) {
+      this.city.setValue(this.builder.getFormatedCity(this.currentLocation));
+    }
   }
 
   private subscribeToLangChange(): void {

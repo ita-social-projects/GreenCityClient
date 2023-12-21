@@ -51,8 +51,8 @@
             <mat-divider></mat-divider>
             <mat-option
               [value]="location"
-              *ngFor="let location of eventLocationList"
-              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'cities', eventLocationList)"
+              *ngFor="let location of eventLocationsList"
+              (onSelectionChange)="updateSelectedFilters(location, $event, locationList, 'cities', eventLocationsList)"
             >
               {{ getLangValue(location.nameUa, location.nameEn) }}
             </mat-option>
@@ -110,18 +110,18 @@
         </div>
       </div>
     </div>
-    <div class="event-list">
+    <div class="event-list" *ngIf="eventsList.length">
       <mat-card class="event-list-item" *ngFor="let eventItem of eventsList">
-        <app-events-list-item
-          [event]="eventItem"
-          [userId]="userId"
-          [isUserAssignList]="false"
-          [userFriends]="userFriends"
-        ></app-events-list-item>
+        <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="false"></app-events-list-item>
       </mat-card>
     </div>
-    <app-spinner *ngIf="elementsArePresent"></app-spinner>
-    <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+    <app-spinner
+      *ngIf="scroll"
+      infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="500"
+      (scrolled)="onScroll()"
+    ></app-spinner>
     <p class="end-page" *ngIf="!elementsArePresent">{{ 'homepage.events.no-event-left' | translate }}</p>
     <p class="end-page" *ngIf="noEventsMatch">{{ 'homepage.events.no-matching-left' | translate }}</p>
   </div>

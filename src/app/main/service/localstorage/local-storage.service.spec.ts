@@ -67,7 +67,8 @@ describe('LocalStorageService', () => {
     isActive: true,
     countComments: 5,
     likes: 8,
-    isRelevant: true
+    isRelevant: true,
+    isOrganizedByFriend: false
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
