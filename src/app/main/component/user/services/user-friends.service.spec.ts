@@ -8,6 +8,24 @@ describe('UserFriendsService', () => {
   let userFriendsService: UserFriendsService;
   let httpMock: HttpTestingController;
 
+  const friends = {
+    totalElements: 18,
+    totalPages: 2,
+    currentPage: 1,
+    page: [
+      {
+        id: 1,
+        name: 'temp1',
+        profilePicture: ''
+      },
+      {
+        id: 2,
+        name: 'temp2',
+        profilePicture: ''
+      }
+    ]
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -29,107 +47,37 @@ describe('UserFriendsService', () => {
 
   describe('getAllFriends', () => {
     it('should return an FriendArrayModel', () => {
-      const recommendedFriends = {
-        totalElements: 18,
-        totalPages: 2,
-        currentPage: 1,
-        page: [
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          },
-          {
-            id: 2,
-            name: 'temp2',
-            profilePicture: ''
-          }
-        ]
-      };
       userFriendsService.getAllFriends().subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends?page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(recommendedFriends);
-    });
-  });
-
-  describe('getAllFriendsByUserId', () => {
-    it('should return an FriendArrayModel', () => {
-      const allFriendsriends = [
-        {
-          id: 5,
-          name: 'friend',
-          emal: 'friend@friend.com'
-        }
-      ];
-      userFriendsService.getAllFriendsByUserId(5).subscribe((users) => {
-        expect(users.length).toBe(1);
-      });
-
-      const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/user/5`);
-      expect(req.request.method).toBe('GET');
-      req.flush(allFriendsriends);
+      req.flush(friends);
     });
   });
 
   describe('getNewFriends', () => {
     it('should return an object on calling getNewFriends', () => {
-      const possibleFriends = {
-        totalElements: 18,
-        totalPages: 2,
-        currentPage: 1,
-        page: [
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          },
-          {
-            id: 2,
-            name: 'temp2',
-            profilePicture: ''
-          }
-        ]
-      };
       userFriendsService.getNewFriends('', 0).subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/not-friends-yet?name=&page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(possibleFriends);
+      req.flush(friends);
     });
   });
 
   describe('getRequests', () => {
     it('should return a requests', () => {
-      const requests = {
-        totalElements: 18,
-        totalPages: 2,
-        currentPage: 1,
-        page: [
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          },
-          {
-            id: 2,
-            name: 'temp2',
-            profilePicture: ''
-          }
-        ]
-      };
       userFriendsService.getRequests().subscribe((users) => {
         expect(users.page.length).toBe(2);
       });
 
       const req = httpMock.expectOne(`${userFriendsService.urlFriend}friends/friendRequests?page=0&size=10`);
       expect(req.request.method).toBe('GET');
-      req.flush(requests);
+      req.flush(friends);
     });
   });
 
@@ -183,23 +131,6 @@ describe('UserFriendsService', () => {
 
   describe('findNewFriendsByName', () => {
     it('should return an object on calling findNewFriendsByName', () => {
-      const friends = {
-        totalElements: 18,
-        totalPages: 2,
-        currentPage: 1,
-        page: [
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          },
-          {
-            id: 2,
-            name: 'temp1',
-            profilePicture: ''
-          }
-        ]
-      };
       userFriendsService.getNewFriends(friends.page[0].name, 0, 10).subscribe((users) => {
         expect(users.page.length).toBeGreaterThanOrEqual(2);
       });
@@ -212,18 +143,6 @@ describe('UserFriendsService', () => {
 
   describe('getFriendsByName', () => {
     it('should return an object on calling getFriendsByName', () => {
-      const friends = {
-        totalElements: 0,
-        totalPages: 0,
-        currentPage: 0,
-        page: [
-          {
-            id: 1,
-            name: 'temp1',
-            profilePicture: ''
-          }
-        ]
-      };
       userFriendsService.getFriendsByName(friends.page[0].name).subscribe((users) => {
         expect(users).toBeTruthy();
       });
@@ -237,20 +156,32 @@ describe('UserFriendsService', () => {
   describe('addedFriendsToHabit', () => {
     it('function addedFriendsToHabit should have been called', () => {
       const addedFriendsToHabitSpy = spyOn(userFriendsService, 'addedFriendsToHabit');
-      const friend = {
-        page: [
-          {
-            id: 1,
-            name: 'test1',
-            city: '',
-            profilePicture: '',
-            rating: 0,
-            matualFriends: 0
-          }
-        ]
-      };
-      userFriendsService.addedFriendsToHabit(friend.page[0]);
+      userFriendsService.addedFriendsToHabit(friends.page[0]);
       expect(addedFriendsToHabitSpy).toHaveBeenCalled();
     });
+  });
+
+  it('userFriends', () => {
+    userFriendsService.getUserFriends(1).subscribe((friends) => {
+      expect(friends).toEqual(friends);
+    });
+
+    const req = httpMock.expectOne(
+      `${userFriendsService.urlFriend}friends/1/all-user-friends?page=0&size=${(userFriendsService as any).size}`
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(friends);
+  });
+
+  it('mutual friends', () => {
+    userFriendsService.getMutualFriends(1).subscribe((friends) => {
+      expect(friends).toEqual(friends);
+    });
+
+    const req = httpMock.expectOne(
+      `${userFriendsService.urlFriend}friends/mutual-friends?friendId=1&page=0&size=${(userFriendsService as any).size}`
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(friends);
   });
 });

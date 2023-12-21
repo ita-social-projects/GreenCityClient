@@ -91,7 +91,6 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
       };
     });
   }
-
   ngOnDestroy() {
     this.userId$.unsubscribe();
   }

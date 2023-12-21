@@ -4,13 +4,12 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { MatDrawer } from '@angular/material/sidenav';
 import { PlaceService } from '@global-service/place/place.service';
 import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, starUnfilled } from '../../image-pathes/places-icons.js';
-import { Place } from './models/place';
+import { AllAboutPlace, Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { debounceTime, take } from 'rxjs/operators';
 import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
-import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
@@ -43,12 +42,16 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public isActivePlaceFavorite = false;
   public readonly tagFilterStorageKey = 'placesTagFilter';
   public readonly moreOptionsStorageKey = 'moreOptionsFilter';
+  public placesList: Array<AllAboutPlace>;
 
   @ViewChild('drawer') drawer: MatDrawer;
 
   private map: any;
   private googlePlacesService: google.maps.places.PlacesService;
   private langChangeSub: Subscription;
+  private page = 0;
+  private totalPages: number;
+  private size = 6;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -60,6 +63,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.getPlaceList();
     this.placeService
       .getAllPresentTags()
       .pipe(take(1))
@@ -147,6 +151,39 @@ export class PlacesComponent implements OnInit, OnDestroy {
     });
   }
 
+  public toggleFavoriteFromSideBar(place) {
+    if (place.isFavorite) {
+      this.favoritePlaceService.deleteFavoritePlace(place.id, true);
+    } else {
+      this.favoritePlaceService.addFavoritePlace({ placeId: place.id, name: place.name }, true);
+    }
+    place.isFavorite = !place.isFavorite;
+  }
+
+  public updatePlaceList(isAfterClose: boolean): void {
+    if (isAfterClose) {
+      this.page = 0;
+    } else {
+      if (this.totalPages === this.page) {
+        return;
+      }
+    }
+    this.getPlaceList();
+  }
+
+  private getPlaceList(): void {
+    this.placeService.getAllPlaces(this.page, this.size).subscribe((item: any) => {
+      this.placesList = item.page;
+      if (this.placesList) {
+        this.drawer.toggle(true);
+      } else {
+        this.drawer.toggle(false);
+      }
+      this.totalPages = item.totalPages;
+      this.page += 1;
+    });
+  }
+
   public toggleFavorite(): void {
     if (this.isActivePlaceFavorite) {
       this.favoritePlaceService.deleteFavoritePlace(this.activePlace.id);
@@ -169,6 +206,15 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.getPlaceInfoFromGoogleApi(place);
   }
 
+  public selectPlaceFromSideBar(place: AllAboutPlace) {
+    const sendingPlace = {
+      id: place.id,
+      name: place.name,
+      location: place.location
+    };
+    this.selectPlace(sendingPlace);
+  }
+
   private getPlaceInfoFromGoogleApi(place: Place) {
     const findByQueryRequest: google.maps.places.FindPlaceFromQueryRequest = {
       query: place.name,
@@ -178,7 +224,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
       },
       fields: ['ALL']
     };
-
     this.googlePlacesService.findPlaceFromQuery(findByQueryRequest, (places: google.maps.places.PlaceResult[]) => {
       const detailsRequest: google.maps.places.PlaceDetailsRequest = {
         placeId: places[0].place_id,
@@ -199,7 +244,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
       const tagFilter: [string, boolean] = allFilters.find((filter: [string, boolean]) => {
         return filter[0] === tagName.name;
       });
-      if (tagFilter && tagFilter[1]) {
+      if (tagFilter?.[1]) {
         acc.push(tagFilter[0]);
       }
       return acc;
@@ -289,10 +334,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   onLocationSelected(event: Location) {
-    this.map.setCenter({
-      lat: event.latitude,
-      lng: event.longitude
-    });
+    // DESNOT WORK ANYWAY. NEED TO REWRITE
+    // this.map.setCenter({
+    //   lat: event.latitude,
+    //   lng: event.longitude
+    // });
   }
 
   openTimePickerPopUp() {
@@ -303,10 +349,11 @@ export class PlacesComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.placeService.createPlace(value).subscribe((resp: any) => {
-            const location: Location = {
-              latitude: resp.locationAddressAndGeoDto.lat,
-              longitude: resp.locationAddressAndGeoDto.lng
-            };
+            // SAME
+            // const location: Location = {
+            //   latitude: resp.locationAddressAndGeoDto.lat,
+            //   longitude: resp.locationAddressAndGeoDto.lng
+            // };
             this.onLocationSelected(location);
           });
         }

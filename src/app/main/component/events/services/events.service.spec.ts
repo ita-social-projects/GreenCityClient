@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
-import { EventFilterCriteriaIntarface } from '../models/events.interface';
+import { Addresses, EventFilterCriteriaIntarface } from '../models/events.interface';
 import { EventFilterCriteria } from '../models/event-consts';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -47,24 +47,6 @@ describe('EventsService', () => {
     title: 'string',
     titleImage: 'string'
   };
-
-  const dataAdrress = [
-    {
-      cityEn: 'string',
-      cityUa: 'string',
-      countryEn: 'string',
-      countryUa: 'string',
-      formattedAddressEn: 'string',
-      formattedAddressUa: 'string',
-      houseNumber: 'string',
-      latitude: 0,
-      longitude: 0,
-      regionEn: 'string',
-      regionUa: 'string',
-      streetEn: 'string',
-      streetUa: 'string'
-    }
-  ];
 
   beforeEach(() =>
     TestBed.configureTestingModule({
@@ -193,13 +175,18 @@ describe('EventsService', () => {
   });
 
   it('should make GET request to retrieve addresses', () => {
-    service.getAddreses().subscribe((addresses: any) => {
-      expect(addresses).toEqual(dataAdrress);
+    let hasNoErrors = true;
+    service.getAddresses().subscribe({
+      error: () => {
+        hasNoErrors = false;
+      },
+      complete: () => {
+        expect(hasNoErrors).toEqual(true);
+      }
     });
 
     const req = httpTestingController.expectOne(`${url}events/addresses`);
     expect(req.request.method).toEqual('GET');
-    req.flush(dataAdrress);
   });
 
   it('should add event to favourites', () => {

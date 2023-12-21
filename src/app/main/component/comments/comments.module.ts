@@ -14,6 +14,7 @@ import { CommentsContainerComponent } from './components/comments-container/comm
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommentTextareaComponent } from './components/comment-textarea/comment-textarea.component';
+import { PlaceholderForDivDirective } from './directives/placeholder-for-div.directive';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CommentTextareaComponent } from './components/comment-textarea/comment-
     CommentPaginationComponent,
     CommentsListComponent,
     CommentsContainerComponent,
-    CommentTextareaComponent
+    CommentTextareaComponent,
+    PlaceholderForDivDirective
   ],
   imports: [SharedMainModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule],
   exports: [

@@ -9,7 +9,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 import { Observable } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -18,7 +17,8 @@ import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { Router } from '@angular/router';
-import { By } from '@angular/platform-browser';
+import { SharedMainModule } from '@shared/shared-main.module';
+import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 
 class Test {}
 
@@ -28,8 +28,24 @@ describe('EditProfileComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
+    (window as any).google = {
+      maps: {
+        places: {
+          AutocompleteService: class {
+            getPlacePredictions(request, callback) {
+              const predictions = [
+                { description: 'Place 1', place_id: '1' },
+                { description: 'Place 2', place_id: '2' }
+              ];
+              callback(predictions, 'OK');
+            }
+          }
+        }
+      }
+    };
+
     TestBed.configureTestingModule({
-      declarations: [EditProfileComponent],
+      declarations: [EditProfileComponent, InputGoogleAutocompleteComponent],
       imports: [
         ReactiveFormsModule,
         MatAutocompleteModule,
@@ -38,7 +54,7 @@ describe('EditProfileComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
-        AgmCoreModule,
+        SharedMainModule,
         TranslateModule.forRoot()
       ],
       providers: [
@@ -47,12 +63,7 @@ describe('EditProfileComponent', () => {
         MatSnackBarComponent,
         SocialNetworksComponent,
         ProfileService,
-        {
-          provide: MapsAPILoader,
-          useValue: {
-            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
-          }
-        }
+        { provide: 'google', useValue: google }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -71,7 +82,7 @@ describe('EditProfileComponent', () => {
   });
 
   describe('General methods:', () => {
-    const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang', 'setPlaceAutocomplete'];
+    const initMethods = ['initForm', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
     for (let i = 0; i < initMethods.length; i++) {
       it(`ngOnInit should init ${i + 1}-st element ${initMethods[i]}`, () => {
@@ -87,12 +98,29 @@ describe('EditProfileComponent', () => {
       expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
     });
 
-    it('should format google api formated_adress acording to mockup', () => {
-      const adress1 = 'Lviv, Lviv region, Ukraine, 79000';
-      (component as any).country = 'Ukraine';
-      expect((component as any).getCityCountryFormat(adress1)).toEqual('Lviv, Ukraine');
-      const adress2 = 'Kyiv, Ukraine, 01000';
-      expect((component as any).getCityCountryFormat(adress2)).toEqual('Kyiv, Ukraine');
+    it('should return the correct form values', () => {
+      component.editProfileForm.setValue({
+        name: 'John',
+        city: 'City',
+        credo: 'Some credo',
+        showLocation: true,
+        showEcoPlace: false,
+        showShoppingList: true,
+        socialNetworks: []
+      });
+      component.coordinates = { latitude: 123, longitude: 456 };
+      component.socialNetworksToServer = ['Facebook', 'Twitter'];
+
+      const result = component.getFormValues();
+
+      expect(result.firstName).toBe('John');
+      expect(result.latitude).toBe(123);
+      expect(result.longitude).toBe(456);
+      expect(result.userCredo).toBe('Some credo');
+      expect(result.showLocation).toBe(true);
+      expect(result.showEcoPlace).toBe(false);
+      expect(result.showShoppingList).toBe(true);
+      expect(result.socialNetworks).toEqual(['Facebook', 'Twitter']);
     });
   });
 
@@ -163,14 +191,6 @@ describe('EditProfileComponent', () => {
           expect(control.valid).toBeTruthy();
         });
       }
-    });
-
-    it('should set empty value to city form control when user fills field instead choosing from list', () => {
-      const cityInput = fixture.debugElement.query(By.css('.shadow-none'));
-      cityInput.nativeElement.dispatchEvent(new Event('change'));
-      fixture.whenStable().then(() => {
-        expect(component.getControl('city').value).toEqual('');
-      });
     });
   });
 

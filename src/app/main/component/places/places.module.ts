@@ -24,7 +24,6 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MoreOptionsFilterComponent } from './components/more-options-filter/more-options-filter.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -33,10 +32,12 @@ import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
 import { AddressInputComponent } from './components/address-input/address-input.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [PlacesComponent, MoreOptionsFilterComponent, AddPlaceComponent, TimePickerPopupComponent, AddressInputComponent],
   imports: [
+    InfiniteScrollModule,
     MatSidenavModule,
     SharedModule,
     SharedMainModule,
@@ -71,7 +72,6 @@ import { AddressInputComponent } from './components/address-input/address-input.
       isolate: true
     }),
     MatSliderModule,
-    MatGoogleMapsAutocompleteModule,
     MaterialModule,
     MatDatepickerModule,
     MatNativeDateModule

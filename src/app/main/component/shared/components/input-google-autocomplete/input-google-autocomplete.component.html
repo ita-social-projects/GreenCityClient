@@ -1,0 +1,18 @@
+<input
+  [(ngModel)]="inputValue"
+  (ngModelChange)="this.inputUpdate.next($event)"
+  (change)="onUserChange()"
+  matInput
+  [matAutocomplete]="autoPrediction"
+  [disabled]="disabled"
+/>
+<mat-autocomplete #autoPrediction="matAutocomplete">
+  <mat-option
+    class="autocomplete-dropdown"
+    *ngFor="let prediction of predictionList"
+    [value]="prediction.description"
+    (onSelectionChange)="onPredictionSelected(prediction)"
+  >
+    {{ prediction.description }}
+  </mat-option>
+</mat-autocomplete>

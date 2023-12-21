@@ -1,7 +1,7 @@
 export const Patterns = {
   linkPattern: /^$|^https?:\/\//,
 
-  NamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?--)(?!.*?'')[-'ʼ’ ґҐіІєЄїЇА-Яа-я+\w.]{0,29}$/,
+  NamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?--)(?!.*?'')[-'ʼ’ ґҐіІєЄїЇА-Яа-я\w.]{0,29}$/,
   ServiceNamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?--)(?!.*?'')[-'ʼ’ ґҐіІєЄїЇА-Яа-я+\w.]{0,255}$/,
   TarifNamePattern: /^[ґҐіІєЄїЇА-Яа-яa-zA-Z](?!.*\.$)(?!.*?\.\.)(?!.*?)(?!.*?)[-'ʼ’ ґҐіІєЄїЇА-Яа-я+\w.]{0,255}$/,
   NameInfoPattern: /^(?![' -])(?!.*(?:--|''|\s{2,}))[ґҐіІєЄїЇА-Яа-яa-zA-Z '-]{0,30}$/,
@@ -20,7 +20,13 @@ export const Patterns = {
   ordersPattern: /^\d{10}$/,
   orderEcoStorePattern: /^\d{4,10}$/,
 
-  ubsMailPattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+  // prettier-ignore
+  ubsMailPattern:
+    '(?:[a-zA-Z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e' +
+    '-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*")@(?:(?:[a-zA-Z0-9]' +
+    '(?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.)' +
+    '{3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]' +
+    '|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])',
 
   paymantAmountPattern: '^[0-9]+(.[0-9]{1,2})?$',
   sertificateMonthCount: '^[0-9]{1,2}$',
@@ -37,7 +43,9 @@ export const Patterns = {
 
   isTherePlus: /^[+]/,
 
-  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/
+  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/,
+
+  countriesRestriction: 'Russia|Росія|Россия'
 };
 
 export const Masks = {
