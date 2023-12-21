@@ -260,7 +260,7 @@ p {
 @media (min-width: 1200px) {
   .profile {
     .column {
-      grid-template-rows: 132px 31px 7px 23px 40px 40px 62px 202px;
+      grid-template-rows: 132px 31px 15px 23px 40px 40px auto 202px;
     }
   }
 }
