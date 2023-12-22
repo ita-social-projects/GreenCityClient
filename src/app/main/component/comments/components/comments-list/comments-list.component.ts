@@ -54,7 +54,7 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
     this.updateCommentsInnerHtml(this.commentText);
   }
 
-  updateCommentsInnerHtml(elements: QueryList<ElementRef>): void {
+  private updateCommentsInnerHtml(elements: QueryList<ElementRef>): void {
     elements.toArray().forEach((element, index) => {
       if (element.nativeElement?.childNodes?.length) {
         Array.from(element.nativeElement?.childNodes).forEach((node) => {
