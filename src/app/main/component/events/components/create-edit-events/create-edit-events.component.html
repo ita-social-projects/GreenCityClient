@@ -3,7 +3,7 @@
   <div class="content-container">
     <div class="event-header">
       <div class="event-header-items">
-        <a class="back" [routerLink]="routedFromProfile ? [backRoute, { tabId: 2 }] : [backRoute]" (click)="toEventsList()">
+        <a class="back" [routerLink]="routedFromProfile ? [previousPath, { tabId: 2 }] : [previousPath]" (click)="toEventsList()">
           <img class="arrow" [src]="images.arrowLeft" aria-hidden="true" alt="arrow" />
           <div class="back-button">{{ 'homepage.events.btn.back-route' | translate }}</div>
         </a>
