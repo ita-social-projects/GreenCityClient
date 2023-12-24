@@ -363,6 +363,10 @@ body {
 .ql-editor {
   height: 199px;
   max-width: 594px;
+
+  @media (max-width: 1199px) {
+    max-width: 100%;
+  }
 }
 
 // [END] Quill editor
