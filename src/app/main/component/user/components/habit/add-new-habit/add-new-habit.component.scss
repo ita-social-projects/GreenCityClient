@@ -72,6 +72,7 @@
           text-transform: uppercase;
           font-size: 14px;
           letter-spacing: 1px;
+
           span {
             white-space: nowrap;
           }
@@ -316,9 +317,11 @@
           left: -100px;
         }
       }
+
       .habit-info {
         .header {
           gap: 4px;
+
           .item {
             border-left: none;
             padding-left: 0;
