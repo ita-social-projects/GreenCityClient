@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
-  constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
+  constructor(public chatsService: ChatsService, public socketService: SocketService, public userService: UserService) {}
 
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
@@ -49,7 +49,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   sendMessage() {
     const messageContent = this.messageControl.value.trim();
-    if (messageContent !== '') {
+    if (messageContent) {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,

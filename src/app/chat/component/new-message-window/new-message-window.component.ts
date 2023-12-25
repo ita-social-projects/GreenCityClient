@@ -63,7 +63,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
 
   public sendMessage() {
     const messageContent = this.messageControl.value.trim();
-    if (messageContent !== '') {
+    if (messageContent) {
     const message: Message = {
       roomId: this.chatsService.currentChat.id,
       senderId: this.userService.userId,
