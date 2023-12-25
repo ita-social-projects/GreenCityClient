@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { AddedCommentDTO } from 'src/app/main/component/comments/models/comments-model';
 
 @Component({
   selector: 'app-add-comment',
@@ -12,8 +13,7 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 export class AddCommentComponent implements OnInit {
   @Input() public entityId: number;
   @Input() public commentId: number;
-  @Output() public updateList = new EventEmitter();
-
+  @Output() public updateList = new EventEmitter<AddedCommentDTO>();
   public userInfo;
   public avatarImage: string;
   public firstName: string;
@@ -49,8 +49,8 @@ export class AddCommentComponent implements OnInit {
     this.commentsService
       .addComment(this.entityId, this.commentHtml, this.commentId)
       .pipe(take(1))
-      .subscribe(() => {
-        this.updateList.emit();
+      .subscribe((coment: AddedCommentDTO) => {
+        this.updateList.emit(coment);
         this.addCommentForm.reset();
         this.addCommentForm.controls.content.setValue('');
         this.commentHtml = '';
