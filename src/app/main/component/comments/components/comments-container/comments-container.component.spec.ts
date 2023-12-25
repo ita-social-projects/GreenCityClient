@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -64,5 +64,46 @@ describe('CommentsContainerComponent', () => {
     component.updateElementsList();
     expect(component.elementsList.length).toBe(0);
     expect(component.elementsArePresent).toBeFalsy();
+  });
+
+  it('should reset userReplies when showAllRelies changes', () => {
+    component.comment = { showAllRelies: true } as any;
+    component.userReplies = [{ id: 1 }];
+
+    component.ngOnChanges({
+      comment: {
+        currentValue: { showAllRelies: false },
+        previousValue: { showAllRelies: true },
+        isFirstChange: () => false
+      } as SimpleChange
+    });
+    expect(component.userReplies).toEqual([]);
+  });
+
+  it('should not reset userReplies if not press hide replies', () => {
+    component.comment = { showAllRelies: true } as any;
+    component.userReplies = [{ id: 1 }];
+
+    component.ngOnChanges({
+      comment: {
+        currentValue: { showAllRelies: false },
+        previousValue: { showAllRelies: false },
+        isFirstChange: () => false
+      } as SimpleChange
+    });
+    expect(component.userReplies.length).toEqual(1);
+  });
+
+  it('should update userReplies when calling updateElementsListReply', () => {
+    component.comment = { id: 1 } as any;
+    component.userReplies = [{ id: 2 }];
+
+    const addedComment: any = { id: 3, text: 'New reply' };
+    component.updateElementsListReply(addedComment);
+
+    expect(component.userReplies.length).toBe(2);
+    expect(component.userReplies[0].id).toBe(3, 'newer replies should be at top');
+    expect(component.userReplies[1].id).toBe(2);
+    expect(component.userReplies[0].text).toBe('New reply');
   });
 });
