@@ -115,7 +115,7 @@ describe('CommentsContainerComponent', () => {
     });
 
     it('should call getComments if type is comment', () => {
-      let spy = spyOn(component as any, 'getComments').and.callThrough();
+      const spy = spyOn(component as any, 'getComments').and.callThrough();
       component.dataType = 'comment';
 
       component.initCommentsList();
@@ -123,7 +123,7 @@ describe('CommentsContainerComponent', () => {
     });
 
     it('should call getReplies if type is reply', () => {
-      let spy = spyOn(component as any, 'getReplies').and.callThrough();
+      const spy = spyOn(component as any, 'getReplies').and.callThrough();
       component.dataType = 'reply';
 
       component.initCommentsList();
