@@ -19,11 +19,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public isHaveMessages = true;
   public showEmojiPicker = false;
 
-  public page = 0;
+  private page = 0;
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
-  constructor(public chatsService: ChatsService, public socketService: SocketService, public userService: UserService) {}
+  constructor(public chatsService: ChatsService, private socketService: SocketService, public userService: UserService) {}
 
   ngOnInit(): void {
     this.chatsService.currentChatMessagesStream$.subscribe((messages) => {
