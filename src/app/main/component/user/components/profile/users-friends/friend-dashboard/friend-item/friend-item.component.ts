@@ -1,7 +1,7 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FriendModel } from '@global-user/models/friend.model';
+import { FriendModel, UserDashboardTab } from '@global-user/models/friend.model';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { ChatsService } from 'src/app/chat/service/chats/chats.service';
 import { ChatModalComponent } from 'src/app/chat/component/chat-modal/chat-modal.component';
@@ -24,6 +24,8 @@ export class FriendItemComponent implements OnInit {
     panelClass: 'custom-dialog-container',
     height: '80vh'
   };
+  private currentUserId: number;
+
   @Input() friend: FriendModel;
   @Input() primaryBtnName: string;
   @Input() secondaryBtnName: string;
@@ -50,6 +52,9 @@ export class FriendItemComponent implements OnInit {
         this.friend.chatId = chatInfo.chatId;
       }
     });
+    this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
+      this.currentUserId = id;
+    });
     this.getLangChange();
   }
 
@@ -67,25 +72,24 @@ export class FriendItemComponent implements OnInit {
     });
   }
 
-  private toUsersInfo(): void {
+  private toUsersInfo(tab = 'allHabits'): void {
     if (this.userId) {
-      return;
+      this.router.navigate(['profile', this.currentUserId, 'users', this.friend.id], {
+        queryParams: { tab: tab }
+      });
     }
-    this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab: 'All firends', index: 3 } });
-  }
 
-  private showMutualFriends(): void {
-    this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab: 'Mutual friends', index: 4 } });
+    if (!this.userId) {
+      this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab: tab } });
+    }
   }
 
   public clickHandler(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (target.tagName === 'BUTTON') {
       this.checkButtons(target.id);
-    } else if (target.tagName === 'SPAN' && !this.userId) {
-      this.showMutualFriends();
     } else {
-      this.toUsersInfo();
+      target.classList.contains('.friend-mutual') ? this.toUsersInfo(UserDashboardTab.mutualFriends) : this.toUsersInfo();
     }
   }
 

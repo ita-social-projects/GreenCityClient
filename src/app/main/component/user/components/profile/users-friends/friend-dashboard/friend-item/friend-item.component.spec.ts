@@ -11,6 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Language } from 'src/app/main/i18n/Language';
 import { of, BehaviorSubject } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UserDashboardTab } from '@global-user/models/friend.model';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -19,12 +20,14 @@ describe('FriendItemComponent', () => {
   const localStorageServiceMock = jasmine.createSpyObj('localStorageService', [
     'languageBehaviourSubject',
     'getCurrentLanguage',
-    'getUserId'
+    'getUserId',
+    'userIdBehaviourSubject'
   ]);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
   localStorageServiceMock.getUserId = () => 1;
+  localStorageServiceMock.userIdBehaviourSubject = of(1);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -46,7 +49,8 @@ describe('FriendItemComponent', () => {
       rating: 380,
       email: 'name@mail.com',
       friendStatus: 'FRIEND',
-      chatId: 2
+      chatId: 2,
+      requesterId: null
     };
     fixture.detectChanges();
   });
@@ -85,15 +89,17 @@ describe('FriendItemComponent', () => {
   });
 
   it('should call showMutualFriends when target is a span and userId is not set', () => {
+    const span = document.createElement('span');
+    span.className = '.friend-mutual';
     const mockEvent: Partial<MouseEvent> = {
-      target: document.createElement('span')
+      target: span
     };
     component.userId = null;
-    const spy = spyOn(component as any, 'showMutualFriends');
+    const spy = spyOn(component as any, 'toUsersInfo');
 
     component.clickHandler(mockEvent as MouseEvent);
 
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(UserDashboardTab.mutualFriends);
   });
 
   it('should call toUsersInfo when target is div', () => {

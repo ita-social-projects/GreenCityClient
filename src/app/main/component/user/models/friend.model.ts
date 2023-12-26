@@ -9,11 +9,9 @@ export interface FriendModel {
   rating: number;
   userLocationDto?: UserLocationDto | null;
   mutualFriends?: number;
-  friendStatus: string;
+  friendStatus: 'FRIEND' | 'REQUEST' | 'REJECTED' | null;
+  requesterId: number;
   chatId?: number;
-  role?: string;
-  userCredo?: string;
-  userStatus?: string;
 }
 
 export interface FriendArrayModel {
@@ -23,18 +21,16 @@ export interface FriendArrayModel {
   page: FriendModel[];
 }
 
-export interface SixFriendArrayModel {
-  amountOfFriends: number;
-  pagedFriends: {
-    currentPage: number;
-    page: FriendArrayModel[];
-    totalElements: number;
-    totalPages: number;
-  };
-}
-
 export interface FriendProfilePicturesArrayModel {
   id: number;
   name: string;
   profilePicturePath: string;
+}
+
+export enum UserDashboardTab {
+  allHabits = 'All habits',
+  mutualHabits = 'Mutual habits',
+  myHabits = 'My habits',
+  allFriends = 'All friends',
+  mutualFriends = 'Mutual friends'
 }
