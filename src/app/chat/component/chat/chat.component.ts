@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   public isHaveMessages = true;
   public showEmojiPicker = false;
 
-  private page = 0;
+  public page = 0;
   private oldScrollHeight: number;
   private isChatUpdate = false;
 
@@ -61,11 +61,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   onScroll() {
+    const currentChat = this.chatsService.currentChat;
+    if (currentChat && currentChat.id) {
     this.oldScrollHeight = this.chat.nativeElement.scrollHeight;
     this.page += 1;
     this.chatsService.updateChatMessages(this.chatsService.currentChat.id, this.page);
+   }
   }
-
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
