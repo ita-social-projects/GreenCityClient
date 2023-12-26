@@ -39,10 +39,12 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userId = +this.route.snapshot.params.userId;
     this.currentUserId = +this.route.snapshot.params.id;
-    this.selectedIndex = +Object.keys(UserDashboardTab).indexOf(this.route.snapshot.queryParams.tab);
+    this.selectedIndex = +Object.values(UserDashboardTab).indexOf(this.route.snapshot.queryParams.tab);
     this.isActiveInfinityScroll = this.selectedIndex === 3 || this.selectedIndex === 4;
     this.getAllFriends(this.userId);
-    this.getMutualFriends();
+    if (this.userId !== this.currentUserId) {
+      this.getMutualFriends();
+    }
   }
 
   private getAllFriends(id: number, page?: number): void {

@@ -1,4 +1,4 @@
-<div class="friend-item-wrapper" [style.cursor]="userId ? 'default' : 'pointer'" (click)="clickHandler($event)">
+<div class="friend-item-wrapper" (click)="clickHandler($event)">
   <div class="friend-item-left">
     <app-user-profile-image
       [imgPath]="friend.profilePicturePath"
@@ -24,7 +24,7 @@
         <p class="friend-rate rate-with-photo">{{ 'profile.rate' | translate }}: {{ friend.rating }}</p>
       </div>
       <p class="friend-mutual">
-        <span [class.friend-mutual-link]="!userId">
+        <span class="friend-mutual-link">
           {{ friend.mutualFriends }} {{ 'profile.friends.mutual-friends' | correctUnit: friend.mutualFriends:currentLang | translate }}
         </span>
       </p>

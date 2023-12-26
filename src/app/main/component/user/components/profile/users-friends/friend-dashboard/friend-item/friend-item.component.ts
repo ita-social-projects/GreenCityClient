@@ -72,15 +72,15 @@ export class FriendItemComponent implements OnInit {
     });
   }
 
-  private toUsersInfo(tab = 'allHabits'): void {
+  private toUsersInfo(tab = UserDashboardTab.allHabits): void {
     if (this.userId) {
-      this.router.navigate(['profile', this.currentUserId, 'users', this.friend.id], {
-        queryParams: { tab: tab }
+      this.router.navigate(['profile', this.currentUserId, 'users', this.friend.name, this.friend.id], {
+        queryParams: { tab }
       });
     }
 
     if (!this.userId) {
-      this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab: tab } });
+      this.router.navigate([this.friend.name, this.friend.id], { relativeTo: this.route, queryParams: { tab } });
     }
   }
 
@@ -89,7 +89,7 @@ export class FriendItemComponent implements OnInit {
     if (target.tagName === 'BUTTON') {
       this.checkButtons(target.id);
     } else {
-      target.classList.contains('.friend-mutual') ? this.toUsersInfo(UserDashboardTab.mutualFriends) : this.toUsersInfo();
+      target.classList.contains('friend-mutual-link') ? this.toUsersInfo(UserDashboardTab.mutualFriends) : this.toUsersInfo();
     }
   }
 

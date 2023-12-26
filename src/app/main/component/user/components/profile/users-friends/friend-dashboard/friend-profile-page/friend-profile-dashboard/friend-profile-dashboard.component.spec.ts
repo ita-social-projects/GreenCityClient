@@ -7,6 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of, Subject } from 'rxjs';
 import { FriendProfileDashboardComponent } from './friend-profile-dashboard.component';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
+import { UserDashboardTab } from '@global-user/models/friend.model';
 
 describe('FriendProfileDashboardComponent', () => {
   let component: FriendProfileDashboardComponent;
@@ -24,7 +25,7 @@ describe('FriendProfileDashboardComponent', () => {
         userId: 1,
         id: 2
       },
-      queryParams: { index: 4 }
+      queryParams: { tab: UserDashboardTab.mutualFriends }
     }
   };
   beforeEach(async(() => {

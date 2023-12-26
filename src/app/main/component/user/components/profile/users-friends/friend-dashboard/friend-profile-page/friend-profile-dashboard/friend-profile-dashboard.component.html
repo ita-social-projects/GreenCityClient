@@ -9,7 +9,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}">
+    <mat-tab label="{{ 'user.habit.all-habits.mutual' | translate }}" [disabled]="userId === currentUserId">
       <div class="container">
         <div class="img-absent">
           <img [src]="absentContent" alt="absent-friends" class="no-data-image" />
@@ -46,7 +46,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="{{ 'profile.friends.all-mutual-friends' | translate }}">
+    <mat-tab label="{{ 'profile.friends.all-mutual-friends' | translate }}" [disabled]="userId === currentUserId">
       <div class="friends-list">
         <div *ngFor="let friend of mutualFriendsList">
           <app-friend-item
