@@ -26,13 +26,18 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   public totalElements: number;
   public elementsArePresent = true;
   public userReplies: CommentsDTO[] = [];
-  private showAllReplies: boolean;
+  public showAllReplies: boolean;
 
   constructor(private commentsService: CommentsService, private userOwnAuthService: UserOwnAuthService) {}
 
   ngDoCheck(): void {
-    if (!this.comment?.showAllRelies && this.showAllReplies && this.userReplies.length) {
-      this.userReplies = [];
+    if (this.dataType === 'reply') {
+      if (!this.comment?.showAllRelies && this.showAllReplies) {
+        this.userReplies = [];
+      }
+      if (this.comment?.showAllRelies && !this.showAllReplies) {
+        this.initCommentsList();
+      }
     }
     this.showAllReplies = this.comment?.showAllRelies;
   }
@@ -87,7 +92,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
       .pipe(take(1))
       .subscribe((data: number) => {
         this.repliesCounter.emit(data);
-        if (data) {
+        if (data && this.comment.showAllRelies) {
           this.commentsService
             .getActiveRepliesByPage(this.comment.id, this.config.currentPage - 1, this.config.itemsPerPage)
             .subscribe((list: CommentsModel) => {
@@ -107,7 +112,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
       this.isLoggedIn = data?.userId;
-      this.userId = data.userId;
+      this.userId = data?.userId;
     });
   }
 }
