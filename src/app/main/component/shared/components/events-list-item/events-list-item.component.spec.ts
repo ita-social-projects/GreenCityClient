@@ -420,7 +420,7 @@ describe('EventsListItemComponent', () => {
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
     });
 
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_Fake');
       eventMock.isSubscribed = false;
       component.event = eventMock;
