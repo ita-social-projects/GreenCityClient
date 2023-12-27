@@ -345,6 +345,18 @@ header {
         }
       }
 
+      .search-icon {
+        margin-right: 16px;
+      }
+
+      .chat-icon {
+        img {
+          height: 14px;
+          width: 16px;
+          cursor: pointer;
+        }
+      }
+
       .bookmark-icon,
       .notification-icon {
         margin-right: 16px;
