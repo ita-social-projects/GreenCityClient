@@ -84,7 +84,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public locationForAllDays: OfflineDto;
   public appliedForAllLocations: boolean;
 
-  public previousPath = '/events';
+  public previousPath: string;
   public isImagesArrayEmpty: boolean;
   public popupConfig = {
     hasBackdrop: true,
@@ -156,7 +156,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     }
 
     this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
-    this.backRoute = this.localStorageService.getPreviousPage();
+    this.previousPath = this.localStorageService.getPreviousPage() || '/events';
     this.eventsService.setInitialValueForPlaces();
     this.subscription = this.eventsService
       .getCheckedPlacesObservable()
