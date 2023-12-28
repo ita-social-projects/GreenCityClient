@@ -9,6 +9,7 @@
   padding: 24px;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(202, 207, 211, 0.7);
+  cursor: pointer;
 
   ::ng-deep .profile-avatar {
     @media (max-width: 1200px) {
@@ -92,6 +93,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+  cursor: pointer;
 
   .friend-mutual-link {
     transition: 0.2s;
