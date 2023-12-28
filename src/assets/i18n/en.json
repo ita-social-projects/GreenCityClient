@@ -748,7 +748,7 @@
       },
       "to-do-list": "To-do list",
       "no-shopping-items": "No items to recommend",
-      "too-long-input": "The input field should contain no more than 50 characters",
+      "too-long-input": "The input field should contain no more than 2048 characters",
       "add-custom-item": "Add custom item",
       "user-log": {
         "day": "Day",
