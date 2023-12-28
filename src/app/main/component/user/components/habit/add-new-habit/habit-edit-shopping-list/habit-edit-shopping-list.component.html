@@ -18,7 +18,7 @@
             placement="top"
             container="body"
           >
-            <a [href]="getUrlFromText(item.text)" *ngIf="checkIfTextContainsUrl(item.text)" target="_blank">{{
+            <a [href]="getUrlFromText(item.text)" *ngIf="checkIfTextContainsUrl(item.text)" target="_blank" rel="noopener">{{
               truncateShoppingItemName(item.text)
             }}</a>
             <p *ngIf="!checkIfTextContainsUrl(item.text)">{{ truncateShoppingItemName(item.text) }}</p>
