@@ -9,8 +9,6 @@ export const Patterns = {
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
 
-  profileCityPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я][іІєЄїЇёЁa-zA-Zа-яА-Я\-,’')(! ]*$/,
-
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
   ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]+$/,
   ubsEntrNumPattern: /^([1-9]\d*)?$/,
@@ -36,7 +34,6 @@ export const Patterns = {
   ubsServicePrice: /^\d*[.,]?\d{0,2}$/,
   ubsServiceBasicPrice: /^[0-9.,]{1,8}$/,
 
-  ubsCityPattern: /^([a-zа-яїєґі ʼ'`ʹ-]){1,30}/iu,
   ubsWithDigitPattern: /^[іІєЄїЇёЁa-zA-Zа-яА-Я0-9][іІєЄїЇёЁa-zA-Zа-яА-Я0-9\-,.ʼ'`ʹ)(! ]*$/iu,
   ubsHouseNumberPattern: /^([a-zа-яїєґі0-9]([-,/]?))+$/iu,
   adminPhone: '^\\+?3?8?(0\\d{9})$',
@@ -45,7 +42,11 @@ export const Patterns = {
 
   isValidURL: /^(ftp|http|https):\/\/[^ "]+$/,
 
-  countriesRestriction: 'Russia|Росія|Россия'
+  countriesRestriction: 'Russia|Росія|Россия',
+
+  urlLinkifyPattern: /(\bhttps?:\/\/\S+\b)/gi,
+  emailLinkifyPattern: /\b[^@\s]+@[^\s]+\b/gi,
+  phoneLinkifyPattern: /\+\d{10,}/g
 };
 
 export const Masks = {
