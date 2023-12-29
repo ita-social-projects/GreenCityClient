@@ -91,7 +91,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public locationId: number;
   public courierLimitByAmount: boolean;
   public courierLimitBySum: boolean;
-  public courierLimitValidation: boolean;
+  public courierLimitBySumValidation: boolean;
+  public courierLimitByBagAmountValidation: boolean;
   public activeCouriers;
   courierUBSName = 'UBS';
   private totalSumOfBigBags: number;
@@ -330,7 +331,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const result = this.validateLimit(this.courierLimitBySum, this.minOrderValue, this.totalSumOfBigBags, this.maxOrderValue);
     this.displayMinOrderMes = result.min;
     this.displayMaxOrderMes = result.max;
-    this.courierLimitValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
+    this.courierLimitBySumValidation = this.displayMinOrderMes || this.displayMaxOrderMes;
     this.changeSecondStepDisabled(this.courierLimitValidation);
   }
 
@@ -338,7 +339,12 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     const result = this.validateLimit(this.courierLimitByAmount, this.minAmountOfBigBags, this.totalOfBigBags, this.maxAmountOfBigBags);
     this.displayMinBigBagsMes = result.min;
     this.displayMaxBigBagsMes = result.max;
-    this.courierLimitValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
+    this.courierLimitByBagAmountValidation = this.displayMinBigBagsMes || this.displayMaxBigBagsMes;
+    this.changeSecondStepDisabled(this.courierLimitValidation);
+  }
+
+  get courierLimitValidation() {
+    return this.courierLimitByBagAmountValidation || this.courierLimitBySumValidation;
   }
 
   private subscribeToLangChange(): void {
