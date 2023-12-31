@@ -55,4 +55,19 @@ describe('CustomTooltipDirective', () => {
     fixture.detectChanges();
     expect(component.tooltip.hide).toHaveBeenCalled();
   });
+
+  it('should show tooltip when mouse enters with wide text', () => {
+    const eventMock = {
+      target: { offsetWidth: 200, innerText: 'Some text Some text Some text Some text Some text Some text Some text Some text' }
+    };
+    const tooltip = {
+      show: jasmine.createSpy('show'),
+      hide: jasmine.createSpy('hide')
+    };
+    directiveElement.triggerEventHandler('mouseenter', eventMock);
+    fixture.detectChanges();
+    component.tooltip.showTooltip(eventMock, tooltip, component.font);
+    fixture.detectChanges();
+    expect(tooltip.show).not.toHaveBeenCalled();
+  });
 });
