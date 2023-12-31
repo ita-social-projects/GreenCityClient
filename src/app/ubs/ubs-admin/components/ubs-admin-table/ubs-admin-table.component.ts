@@ -833,6 +833,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       const resizeHandleWidth = 15; // Px
       const resizeStartX = event.pageX;
       const tableOffsetX = this.getTableOffsetX();
+      const minCellWidth = 150;
 
       const {
         left: leftColumnBoundary,
@@ -862,10 +863,14 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
           return;
         }
-        newColumnWidth = originalColumnWidth + dx;
-        newAdjColumnWidth = adjColumnOriginalWidth - dx;
-        this.setColumnWidth(columnIndex, newColumnWidth);
-        this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+        newColumnWidth = originalColumnWidth + dx >= minCellWidth ? originalColumnWidth + dx : minCellWidth;
+        newAdjColumnWidth = adjColumnOriginalWidth - dx >= minCellWidth ? adjColumnOriginalWidth - dx : minCellWidth;
+        console.log('New', newColumnWidth);
+        console.log('Adj', newAdjColumnWidth);
+        if (newColumnWidth > minCellWidth && newAdjColumnWidth > minCellWidth) {
+          this.setColumnWidth(columnIndex, newColumnWidth);
+          this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+        }
         // Move column if it is sticky
         if (isAdjColumnSticky) {
           const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
