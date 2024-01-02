@@ -11,7 +11,6 @@ export class LinkifyDirective implements OnChanges {
   constructor(private el: ElementRef, private sanitizer: DomSanitizer, private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('onChanges', changes.appLinkify);
     if (changes.appLinkify) {
       this.updateLinkify();
     }
