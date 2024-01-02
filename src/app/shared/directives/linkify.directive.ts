@@ -6,7 +6,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
   selector: '[appLinkify]'
 })
 export class LinkifyDirective implements OnChanges {
-  @Input() appLinkify: string = '';
+  @Input() appLinkify = '';
 
   constructor(private el: ElementRef, private sanitizer: DomSanitizer, private renderer: Renderer2) {}
 
