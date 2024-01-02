@@ -865,8 +865,6 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         }
         newColumnWidth = originalColumnWidth + dx >= minCellWidth ? originalColumnWidth + dx : minCellWidth;
         newAdjColumnWidth = adjColumnOriginalWidth - dx >= minCellWidth ? adjColumnOriginalWidth - dx : minCellWidth;
-        console.log('New', newColumnWidth);
-        console.log('Adj', newAdjColumnWidth);
         if (newColumnWidth > minCellWidth && newAdjColumnWidth > minCellWidth) {
           this.setColumnWidth(columnIndex, newColumnWidth);
           this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
