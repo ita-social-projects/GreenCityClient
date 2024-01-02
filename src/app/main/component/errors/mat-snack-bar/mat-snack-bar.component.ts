@@ -168,6 +168,10 @@ export class MatSnackBarComponent {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.rating-send');
     },
+    addFriend: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.add-friend');
+    },
     jointEventRequest: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.joint-event-request');
