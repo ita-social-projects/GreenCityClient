@@ -51,7 +51,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private eventFilterCriteria: EventFilterCriteriaInterface = EventFilterCriteria;
   private allSelectedFilter = allSelectedFilter;
-  public page = 0;
+  private page = 0;
   public hasNextPage = true;
   public countOfEvents = 0;
   private eventsPerPage = 6;
