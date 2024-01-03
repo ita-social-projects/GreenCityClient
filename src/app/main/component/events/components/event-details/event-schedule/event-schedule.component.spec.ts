@@ -19,9 +19,7 @@ describe('EventScheduleComponent', () => {
       declarations: [EventScheduleComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-      providers: [
-        { provide: LanguageService, useValue: languageServiceMock }
-      ]
+      providers: [{ provide: LanguageService, useValue: languageServiceMock }]
     }).compileComponents();
   }));
 

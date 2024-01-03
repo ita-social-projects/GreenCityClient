@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, QueryList, Renderer2, SimpleChanges } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -67,6 +67,14 @@ describe('CommentsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initialize property ', () => {
+    expect(component.types).toBeDefined();
+    expect(component.content).toBeDefined();
+    expect(component.content instanceof FormControl).toBe(true);
+    expect(component.content.errors).toEqual({ required: true });
+    expect((component as any).commentHtml).toBe('');
+  });
+
   it('should emit event when user delete comment', () => {
     const spy = spyOn(component.changedList, 'emit');
     component.deleteComment();
@@ -130,7 +138,7 @@ describe('CommentsListComponent', () => {
   });
 
   it('should not update comments inner HTML on the first change of elementsList', () => {
-    spyOn(component, 'updateCommentsInnerHtml');
+    spyOn(component as any, 'updateCommentsInnerHtml');
     const changes: SimpleChanges = {
       elementsList: {
         currentValue: ['element1', 'element2'],
@@ -140,14 +148,14 @@ describe('CommentsListComponent', () => {
       }
     };
     component.ngOnChanges(changes);
-    expect(component.updateCommentsInnerHtml).not.toHaveBeenCalled();
+    expect((component as any).updateCommentsInnerHtml).not.toHaveBeenCalled();
   });
 
   it('should update comments inner HTML after view initialization', () => {
-    spyOn(component, 'updateCommentsInnerHtml');
+    spyOn(component as any, 'updateCommentsInnerHtml');
     fixture.detectChanges();
     component.ngAfterViewInit();
-    expect(component.updateCommentsInnerHtml).toHaveBeenCalledWith(component.commentText);
+    expect((component as any).updateCommentsInnerHtml).toHaveBeenCalledWith(component.commentText);
   });
 
   it('should render element from string', () => {

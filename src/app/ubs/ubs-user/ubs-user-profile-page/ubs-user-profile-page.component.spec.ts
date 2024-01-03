@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
@@ -495,21 +495,27 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
-  it('method getPlacePredictions should form prediction list for Kyiv region', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv region', fakeAsync(() => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
 
     regionEn.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVREGIONSLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     const fakesearchAddress = `Київська область, Ше`;
     component.inputCity(fakesearchAddress, regionEn.value, Language.UK);
+    flush();
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
-  });
+  }));
 
-  it('method getPlacePredictions should form prediction list for Kyiv city', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv city', fakeAsync(() => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const regionEn = currentFormGroup.get('regionEn');
 
@@ -517,13 +523,19 @@ describe('UbsUserProfilePageComponent', () => {
     regionEn.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVCITYLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVCITYLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
 
     const fakesearchAddress = `Київ`;
     component.inputCity(fakesearchAddress, regionEn.value, Language.UK);
+    flush();
     expect(component.cityPredictionList).toEqual(result);
-  });
+  }));
 
   it('method onCitySelected should invoke method setValueOfCity 2 times', () => {
     const spy = spyOn(component, 'setValueOfCity');
@@ -642,20 +654,27 @@ describe('UbsUserProfilePageComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
-  it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
+  it('method getPlacePredictions should form prediction street list for Kyiv city', fakeAsync(() => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     city.setValue('Київ');
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVCITYLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.STREETSKYIVCITYLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     const fakesearchAddress = `Київ, Сі`;
     component.inputAddress(fakesearchAddress, currentFormGroup, Language.UK);
+    fixture.detectChanges();
+    flush();
     expect(component.streetPredictionList).toEqual(ADDRESSESMOCK.STREETSKYIVCITYLIST);
-  });
+  }));
 
-  it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
+  it('method getPlacePredictions should form prediction street list for Kyiv region', fakeAsync(() => {
     const currentFormGroup = component.userForm.controls.address.get('0');
     const city = currentFormGroup.get('city');
     const cityEn = currentFormGroup.get('cityEn');
@@ -669,13 +688,19 @@ describe('UbsUserProfilePageComponent', () => {
     const result = [ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]];
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.STREETSKYIVREGIONLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
 
     const fakesearchAddress = `Щасливе, Не`;
     component.inputAddress(fakesearchAddress, currentFormGroup, Language.UK);
+    flush();
     expect(component.streetPredictionList).toEqual(result);
-  });
+  }));
 
   it('method onStreetSelected should invoke method setValueOfStreet 2 times', () => {
     const spy = spyOn(component, 'setValueOfStreet');

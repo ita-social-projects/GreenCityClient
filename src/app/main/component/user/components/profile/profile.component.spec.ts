@@ -17,7 +17,7 @@ describe('ProfileComponent', () => {
     showShoppingList: false
   };
   const liveAnnouncerMock = jasmine.createSpyObj('announcer', ['announce']);
-  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage']);
+  const localStorageServiceMock = jasmine.createSpyObj('localStorageService', ['getCurrentLanguage', 'setCurentPage']);
   localStorageServiceMock.getCurrentLanguage.and.returnValue('ua');
   localStorageServiceMock.languageSubject = of('en');
   const profileServiceMock = jasmine.createSpyObj('profileService', ['getUserInfo', 'getUserProfileStatistics']);
@@ -66,6 +66,7 @@ describe('ProfileComponent', () => {
       expect(spyBindLang).toHaveBeenCalledWith('ua');
       expect(spyCheckUserActivities).toHaveBeenCalled();
       expect(component.isDesktopWidth).toBeTruthy();
+      expect(localStorageServiceMock.setCurentPage).toHaveBeenCalledWith('previousPage', '/profile');
     });
   });
 

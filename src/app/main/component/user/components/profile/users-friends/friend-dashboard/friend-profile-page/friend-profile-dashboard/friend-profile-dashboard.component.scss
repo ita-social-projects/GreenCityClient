@@ -60,6 +60,12 @@
     color: var(--quaternary-dark-grey);
   }
 
+  .mat-tab-disabled {
+    .mat-tab-label-content {
+      color: var(--quintynary-light-grey);
+    }
+  }
+
   .mat-tab-labels .mat-tab-label-active {
     border-bottom: 1px solid var(--primary-green);
 

@@ -11,20 +11,22 @@ import {
   EventEmitter,
   AfterViewInit,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  OnDestroy
 } from '@angular/core';
 import { TaggedUser } from '../../models/comments-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatOption } from '@angular/material/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comment-textarea',
   templateUrl: './comment-textarea.component.html',
   styleUrls: ['./comment-textarea.component.scss']
 })
-export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChanges {
+export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private userId: number;
   private searchQuery = '';
   private lastTagCharIndex: number;
@@ -40,6 +42,8 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     left: number;
   };
   public isTextareaFocused: boolean;
+  private localStorageServiceSubscription: Subscription;
+  private socketServiceSubscription: Subscription;
 
   @ViewChild('commentTextarea') commentTextarea: ElementRef;
   @ViewChild('dropdown', { read: ElementRef, static: false }) dropdown: ElementRef;
@@ -58,8 +62,8 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   ) {}
 
   ngOnInit(): void {
-    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
-    this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`).subscribe((data: TaggedUser[]) => {
+    this.localStorageServiceSubscription = this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
+    this.socketServiceSubscription = this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`).subscribe((data: TaggedUser[]) => {
       if (data.length) {
         this.suggestedUsers = data.splice(0, 10);
         this.isDropdownVisible = this.commentTextarea.nativeElement.classList.contains('focused');
@@ -257,5 +261,14 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
       currentNode.textContent.slice(currentStartOffset);
 
     this.range.setStart(this.range.startContainer, currentStartOffset - this.searchQuery.length - 1);
+  }
+
+  ngOnDestroy() {
+    if (this.localStorageServiceSubscription) {
+      this.localStorageServiceSubscription.unsubscribe();
+    }
+    if (this.socketServiceSubscription) {
+      this.socketServiceSubscription.unsubscribe();
+    }
   }
 }

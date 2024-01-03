@@ -102,7 +102,7 @@
         {{ 'homepage.events.items-event-text' | translate }}
       </p>
       <div class="chips">
-        <div class="active-filter" *ngFor="let filter of selectedFilters; let i = index">
+        <div class="active-filter global-tag-clicked global-tag" *ngFor="let filter of selectedFilters; let i = index">
           {{ getLangValue(filter.nameUa, filter.nameEn) }}
           <div class="cross-container" (click)="deleteOneFilter(filter, i)">
             <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />

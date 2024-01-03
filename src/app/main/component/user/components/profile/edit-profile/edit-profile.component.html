@@ -15,20 +15,17 @@
               [pattern]="namePattern"
               id="name"
             />
-            <span *ngIf="getControl('name').invalid">{{ 'user.edit-profile.name-warning' | translate }} </span>
+            <span *ngIf="name.invalid">{{ 'user.edit-profile.name-warning' | translate }} </span>
           </div>
           <div class="input-block">
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
-            <input
-              matInput
-              #placesRef
-              matGoogleMapsAutocomplete
-              class="shadow-none form-control"
+            <app-input-google-autocomplete
               formControlName="city"
-              (change)="onCityChange()"
-              placeholder="{{ 'user.edit-profile.user-location' | translate }}"
-            />
+              [autoCompRequest]="cityOptions"
+              (predictionSelectedEvent)="onCitySelected($event)"
+            ></app-input-google-autocomplete>
           </div>
+
           <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
             <textarea
@@ -37,7 +34,7 @@
               id="credo"
               maxlength="171"
             ></textarea>
-            <span *ngIf="getControl('credo').invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
+            <span *ngIf="credo.invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
           </div>
         </div>
         <div class="wrapper">
@@ -54,21 +51,21 @@
           <ul>
             <li>
               <label class="label-wrapper">
-                <input type="checkbox" formControlName="showLocation" [attr.checked]="checkLocation" />
+                <input type="checkbox" formControlName="showLocation" />
                 <span class="checkmark"></span>
                 {{ 'user.edit-profile.location' | translate }}
               </label>
             </li>
             <li>
               <label class="label-wrapper">
-                <input type="checkbox" formControlName="showEcoPlace" [attr.checked]="checkEcoPlaces" />
+                <input type="checkbox" formControlName="showEcoPlace" />
                 <span class="checkmark"></span>
                 {{ 'user.edit-profile.eco-place' | translate }}
               </label>
             </li>
             <li>
               <label class="label-wrapper">
-                <input type="checkbox" formControlName="showShoppingList" [attr.checked]="checkShoppingList" />
+                <input type="checkbox" formControlName="showShoppingList" />
                 <span class="checkmark"></span>
                 {{ 'user.edit-profile.shopping-list' | translate }}
               </label>

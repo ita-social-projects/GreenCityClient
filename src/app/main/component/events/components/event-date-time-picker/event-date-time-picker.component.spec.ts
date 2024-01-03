@@ -22,7 +22,7 @@ describe('EventDateTimePickerComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs', 'getCurrentLanguage']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('fakeValue'));
 
@@ -41,8 +41,8 @@ describe('EventDateTimePickerComponent', () => {
 
   const editDateMock = {
     coordinates: {
-      latitude: 0,
-      longitude: 0,
+      latitude: 1,
+      longitude: 1,
       cityEn: 'Lviv',
       cityUa: 'Львів',
       countryEn: 'Ukraine',
@@ -151,6 +151,32 @@ describe('EventDateTimePickerComponent', () => {
     expect(spy).toHaveBeenCalledTimes(3);
 
     component.editDate = null;
+  });
+
+  it('toggleForAllLocations should emit coordinates or null based on appliedForAllLocations', () => {
+    spyOn(component.applyCoordToAll, 'emit');
+    component.toggleForAllLocations();
+    if (!component.appliedForAllLocations) {
+      expect(component.applyCoordToAll.emit).toHaveBeenCalledWith(component.coordinates);
+    } else {
+      expect(component.applyCoordToAll.emit).toHaveBeenCalledWith({ longitude: null, latitude: null });
+    }
+  });
+
+  it('applyLocationForAllDays is called in onInit during the edit phase', () => {
+    const spy = spyOn(component as any, 'applyLocationForAllDays');
+    component.editDate = editDateMock;
+    component.locationForAllDays = editDateMock.coordinates;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('applyLocationForAllDays is called in onInit after preview mode', () => {
+    const spy = spyOn(component as any, 'applyLocationForAllDays');
+    component.fromPreview = true;
+    component.locationForAllDays = editDateMock.coordinates;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('checkIfAllDay expect startTime.disabled to be true', () => {

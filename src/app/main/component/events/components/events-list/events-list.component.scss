@@ -170,28 +170,14 @@ p {
 }
 
 .active-filter-container {
-  font-family: var(--ubs-quaternary-font);
-  font-size: 14px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
 .active-filter {
-  display: flex;
-  border-radius: 25px;
-  padding: 0 16px;
-  margin-right: 8px;
-  gap: 4px;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--primary-green);
-  color: var(--primary-white);
-  font-family: var(--primary-font);
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
+  margin-right: 10px;
+  gap: 8px;
 }
 
 .cross-container {
