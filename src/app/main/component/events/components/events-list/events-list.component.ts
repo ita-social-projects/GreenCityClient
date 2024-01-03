@@ -55,7 +55,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public hasNextPage = true;
   public countOfEvents = 0;
   private eventsPerPage = 6;
-  // public elementsArePresent = true;
   public noEventsMatch = false;
   public selectedFilters = [];
   public searchToggle = false;
