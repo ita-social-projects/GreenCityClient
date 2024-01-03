@@ -13,7 +13,7 @@ import {
   OfflineDto,
   TagObj,
   PagePreviewDTO,
-  DateEventResponceDto
+  DateEventResponseDto
 } from '../../models/events.interface';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
@@ -208,7 +208,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public setDates(init: boolean, dates?: DateEvent[] | DateEventResponseDto[]): void {
-    let datesEvent: DateEvent[] | DateEventResponceDto[];
+    let datesEvent: DateEvent[] | DateEventResponseDto[];
     if (init) {
       datesEvent = this.localStorageService.getEventForEdit().dates;
       this.editEvent = this.localStorageService.getEventForEdit();
@@ -218,7 +218,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     } else {
       datesEvent = dates;
     }
-    this.dates = (datesEvent as DateEventResponceDto[]).reduce((newDates: DateEvent[], currentDate: DateEventResponceDto) => {
+    this.dates = (datesEvent as DateEventResponseDto[]).reduce((newDates: DateEvent[], currentDate: DateEventResponseDto) => {
       const { startDate, finishDate, check, valid } = currentDate;
       const date: DateEvent = { startDate, finishDate, check: init ? false : check, valid: init ? false : valid };
       if (currentDate.onlineLink) {
