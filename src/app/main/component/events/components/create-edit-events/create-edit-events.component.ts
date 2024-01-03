@@ -9,7 +9,7 @@ import {
   DateFormObj,
   Dates,
   EventDTO,
-  EventPageResponceDto,
+  EventPageResponseDto,
   OfflineDto,
   TagObj,
   PagePreviewDTO,
