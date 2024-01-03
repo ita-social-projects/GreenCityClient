@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsListComponent } from './events-list.component';
 
-import { EventsService } from '../../services/events.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -15,7 +14,7 @@ import { TagsArray, eventTimeList, OptionItem } from '../../models/event-consts'
 import { By } from '@angular/platform-browser';
 import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl } from '@angular/forms';
-import { Addresses, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses } from '../../models/events.interface';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
@@ -26,135 +25,6 @@ describe('EventsListComponent', () => {
     { nameEn: 'Joined', nameUa: 'Вже доєднані' },
     { nameEn: 'Created', nameUa: 'Створенa' },
     { nameEn: 'Saved', nameUa: 'Збережена' }
-  ];
-  const MockReqest = {
-    page: [],
-    totalElements: 4
-  };
-
-  const eventsMock: EventPageResponceDto[] = [
-    {
-      id: 7,
-      title: 'TEst 2',
-      organizer: {
-        id: 3,
-        name: 'AdminGreenCity',
-        organizerRating: null
-      },
-      creationDate: '2023-04-10',
-      description: 'efds',
-      editorText: 'efds',
-      dates: [
-        {
-          id: null,
-          valid: true,
-          event: null,
-          startDate: '2023-04-11T21:00:00Z',
-          finishDate: '2023-04-12T20:59:00Z',
-          onlineLink: null,
-          coordinates: {
-            latitude: 0,
-            longitude: 0,
-            cityEn: 'Kyiv',
-            cityUa: 'Київ',
-            countryEn: 'Ukraine',
-            countryUa: 'Україна',
-            houseNumber: 55,
-            regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
-            streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
-            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-          }
-        }
-      ],
-      imgArray: [],
-      imgArrayToPreview: [],
-      tags: [
-        {
-          id: 12,
-          nameUa: 'Соціальний',
-          nameEn: 'Social'
-        },
-        {
-          id: 13,
-          nameUa: 'Екологічний',
-          nameEn: 'Environmental'
-        }
-      ],
-      titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
-      additionalImages: [],
-      isSubscribed: false,
-      isFavorite: false,
-      isActive: true,
-      isRelevant: true,
-      open: true,
-      countComments: 5,
-      likes: 6,
-      isOrganizedByFriend: false
-    },
-    {
-      id: 7,
-      title: 'TEst 2',
-      organizer: {
-        id: 3,
-        name: 'AdminGreenCity',
-        organizerRating: null
-      },
-      creationDate: '2023-04-10',
-      description: 'efds',
-      editorText: 'efds',
-      dates: [
-        {
-          id: null,
-          valid: true,
-          event: null,
-          startDate: '2023-04-11T21:00:00Z',
-          finishDate: '2023-04-12T20:59:00Z',
-          onlineLink: null,
-          coordinates: {
-            latitude: 50.454589,
-            longitude: 30.506723,
-            cityEn: 'Lviv',
-            cityUa: 'Львів',
-            countryEn: 'Ukraine',
-            countryUa: 'Україна',
-            houseNumber: 55,
-            regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
-            streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
-            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-          }
-        }
-      ],
-      imgArray: [],
-      imgArrayToPreview: [],
-      tags: [
-        {
-          id: 12,
-          nameUa: 'Соціальний',
-          nameEn: 'Social'
-        },
-        {
-          id: 13,
-          nameUa: 'Екологічний',
-          nameEn: 'Environmental'
-        }
-      ],
-      titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
-      additionalImages: [],
-      isSubscribed: false,
-      isFavorite: false,
-      isActive: true,
-      isRelevant: true,
-      open: true,
-      countComments: 9,
-      likes: 2,
-      isOrganizedByFriend: false
-    }
   ];
 
   const addressesMock: Array<Addresses> = [
@@ -226,7 +96,6 @@ describe('EventsListComponent', () => {
     visitedPages: [],
     totalPages: 0,
     pageNumber: 0,
-
     error: null
   };
 
@@ -234,10 +103,6 @@ describe('EventsListComponent', () => {
   const locationFilterControl = new FormControl();
   const statusFilterControl = new FormControl();
   const typeFilterControl = new FormControl();
-
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAddresses', 'getAddresses']);
-  EventsServiceMock.createAddresses = () => of('');
-  EventsServiceMock.getAddresses = () => of(addressesMock);
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });
@@ -257,7 +122,6 @@ describe('EventsListComponent', () => {
       declarations: [EventsListComponent],
       imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
       providers: [
-        { provide: EventsService, useValue: EventsServiceMock },
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogService }
@@ -399,26 +263,16 @@ describe('EventsListComponent', () => {
 
   it('should hide search input if it is empty', () => {
     component.searchToggle = true;
-    component.searchFilterWords.setValue('');
+    component.searchEventControl.setValue('');
     component.cancelSearch();
     expect(component.searchToggle).toEqual(false);
   });
 
   it('should remove the value of search input if it contains text', () => {
-    component.searchFilterWords.setValue('Some test text');
+    component.searchEventControl.setValue('Some test text');
+    component.searchToggle = true;
     component.cancelSearch();
-    expect(component.searchFilterWords.value).toEqual('');
-  });
-
-  it('should not be able to scroll and should show a message if no events found', () => {
-    component.sortByWord(eventsMock, ['Some', 'text']);
-    expect(component.scroll).toEqual(false);
-    expect(component.noEventsMatch).toEqual(true);
-  });
-
-  it('should not be able to scroll and should show a message if there are no more events for now', () => {
-    component.dispatchStore(false);
-    expect(component.scroll).toEqual(false);
-    expect(component.elementsArePresent).toEqual(false);
+    expect(component.searchEventControl.value).toEqual('');
+    expect(component.searchToggle).toEqual(true);
   });
 });

@@ -1,7 +1,7 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaInterface, EventPageResponseDto } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -42,23 +42,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public locationFilterControl = new FormControl();
   public statusFilterControl = new FormControl();
   public typeFilterControl = new FormControl();
-  public searchFilterWords = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  public searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
-  public eventsList: EventPageResponceDto[] = [];
-  public bufferArray: EventPageResponceDto[] = [];
-  public wordsToSearch: string[];
-  public showEventItem = true;
+  public eventsList: EventPageResponseDto[] = [];
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  private eventFilterCriteria: EventFilterCriteriaIntarface = EventFilterCriteria;
+  private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  private eventFilterCriteria: EventFilterCriteriaInterface = EventFilterCriteria;
   private allSelectedFilter = allSelectedFilter;
   public page = 0;
-  public hasNext = true;
-  public remaining = 0;
+  public hasNextPage = true;
+  public countOfEvents = 0;
   private eventsPerPage = 6;
-  public elementsArePresent = true;
+  // public elementsArePresent = true;
   public noEventsMatch = false;
   public selectedFilters = [];
   public searchToggle = false;
@@ -68,8 +65,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public typeList: OptionItem[] = TagsArray;
   public statusList: OptionItem[];
   public eventLocationsList: OptionItem[] = [];
-  public scroll: boolean;
   public userId: number;
+  public isLoading = true;
+  private searchResultSubscription: Subscription;
   private dialog: MatDialog;
 
   constructor(
@@ -78,7 +76,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    public injector: Injector,
+    private injector: Injector,
     private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
@@ -88,60 +86,51 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.scroll = true;
-    this.dispatchStore(true);
     this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
-      this.page = res.pageNumber;
       if (res.eventState) {
-        this.eventsList = [...res.eventsList];
-        this.bufferArray = [...res.eventsList];
-        const data = res.eventState;
-        this.hasNext = data.hasNext;
-        this.remaining = data.totalElements;
-        this.elementsArePresent = this.eventsList.length < data.totalElements;
-      } else {
-        this.scroll = false;
-        this.elementsArePresent = false;
+        this.isLoading = false;
+        this.eventsList.push(...res.eventsList);
+        this.page++;
+        this.countOfEvents = res.eventState.totalElements;
+        this.hasNextPage = res.eventState.hasNext;
       }
     });
+    this.getEvents();
     this.eventService.getAddresses().subscribe((addresses) => {
       this.eventLocationsList = this.getUniqueLocations(addresses);
     });
-    this.searchWords();
-  }
-
-  searchWords(): void {
-    this.searchFilterWords.valueChanges.subscribe((value) => {
-      this.wordsToSearch = value.split(' ');
-      this.sortByWord(this.bufferArray, this.wordsToSearch);
-    });
-  }
-
-  sortByWord(list: EventPageResponceDto[], words: string[]): void {
-    this.eventsList = list.filter((element) => {
-      for (const word of words) {
-        if (element.title.includes(word)) {
-          return true;
-        }
+    this.searchEventControl.valueChanges.subscribe((value) => {
+      if (this.searchResultSubscription) {
+        this.searchResultSubscription.unsubscribe();
       }
-      return false;
-    });
-    if (!this.eventsList.length) {
-      this.noEventsMatch = true;
-      this.scroll = false;
-    } else {
+      this.isLoading = true;
+      this.hasNextPage = true;
+      this.page = 0;
+      this.eventsList = [];
       this.noEventsMatch = false;
-      this.scroll = true;
-    }
+      this.countOfEvents = 0;
+      value.trim() !== '' ? this.searchEventsByTitle(value.trim()) : this.getEvents();
+    });
+  }
+
+  private searchEventsByTitle(searchTitle: string): void {
+    this.searchResultSubscription = this.eventService
+      .getEvents(this.page, this.eventsPerPage, this.eventFilterCriteria, searchTitle)
+      .subscribe((res) => {
+        this.countOfEvents = res.totalElements;
+        this.isLoading = false;
+        if (res.page.length > 0) {
+          this.eventsList.push(...res.page);
+          this.hasNextPage = res.hasNext;
+        } else {
+          this.noEventsMatch = true;
+        }
+      });
   }
 
   public cancelSearch(): void {
-    if (this.searchFilterWords.value.trim() === '') {
-      this.searchToggle = false;
-    } else {
-      this.searchFilterWords.setValue('');
-    }
+    this.searchEventControl.value.trim() === '' ? (this.searchToggle = false) : this.searchEventControl.setValue('');
   }
 
   public updateSelectedFilters(
@@ -172,9 +161,9 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.addToEventFilterCriteria(value, dropdownName);
       this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
     }
-    this.hasNext = true;
+    this.hasNextPage = true;
     this.page = 0;
-    this.dispatchStore(true);
+    this.getEvents();
   }
 
   private checkAllSelectedFilters(value: OptionItem, optionsList: MatSelect, dropdownName: string, filterList: Array<OptionItem>) {
@@ -213,23 +202,25 @@ export class EventsListComponent implements OnInit, OnDestroy {
     };
   }
 
-  public dispatchStore(res: boolean): void {
-    if (this.hasNext && this.page !== undefined) {
-      this.store.dispatch(
-        GetEcoEventsByPageAction({
-          currentPage: this.page,
-          numberOfEvents: this.eventsPerPage,
-          reset: res,
-          filter: this.eventFilterCriteria
-        })
-      );
-    } else {
-      this.scroll = false;
-      this.elementsArePresent = false;
+  private getEvents(): void {
+    if (this.hasNextPage) {
+      const searchTitle = this.searchEventControl.value.trim();
+      if (searchTitle.length === 0) {
+        this.store.dispatch(
+          GetEcoEventsByPageAction({
+            currentPage: this.page,
+            numberOfEvents: this.eventsPerPage,
+            reset: true,
+            filter: this.eventFilterCriteria
+          })
+        );
+      } else {
+        this.searchEventsByTitle(searchTitle);
+      }
     }
   }
 
-  getUniqueLocations(addresses: Array<Addresses>): OptionItem[] {
+  public getUniqueLocations(addresses: Array<Addresses>): OptionItem[] {
     const uniqueLocationsName = new Set<string>();
     const uniqueLocations: OptionItem[] = [];
     addresses.forEach((address: Addresses) => {
@@ -350,13 +341,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         popUpName: page
       }
     });
-  }
-
-  public onScroll(): void {
-    const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
-    if (this.eventsList.length) {
-      this.dispatchStore(isRemovedEvents);
-    }
   }
 
   ngOnDestroy(): void {

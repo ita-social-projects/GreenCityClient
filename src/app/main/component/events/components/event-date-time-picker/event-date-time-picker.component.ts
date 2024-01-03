@@ -1,6 +1,6 @@
 import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
-import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate, DateEvent } from '../../models/events.interface';
+import { DateEventResponseDto, DateFormObj, OfflineDto, InitialStartDate, DateEvent } from '../../models/events.interface';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -43,7 +43,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public duplindex: number;
 
   @Input() check: boolean;
-  @Input() editDate: DateEventResponceDto;
+  @Input() editDate: DateEventResponseDto;
   @Input() isDateDuplicate: boolean;
   @Input() editDates: boolean;
   @Input() firstFormIsSucceed: boolean;

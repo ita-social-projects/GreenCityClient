@@ -11,7 +11,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TagsArray } from '../../../events/models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
+import { EventPageResponseDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,7 +33,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
-  @Input() event: EventPageResponceDto;
+  @Input() event: EventPageResponseDto;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
 

@@ -4,7 +4,7 @@
       <p class="main-header">{{ 'homepage.events.title' | translate }}</p>
       <div class="create-container">
         <div class="container-input" *ngIf="searchToggle">
-          <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchFilterWords" placeholder="Search an event" />
+          <input type="text" *ngIf="searchToggle" class="place-input" [formControl]="searchEventControl" placeholder="Search an event" />
           <img src="../../../../../../assets/img/smallCross.svg" class="cross-position" (click)="cancelSearch()" alt="cancel search" />
         </div>
         <div class="container-img">
@@ -98,7 +98,7 @@
     <hr />
     <div class="active-filter-container">
       <p>
-        {{ 'homepage.events.item-found-text' | translate }} {{ remaining }}
+        {{ 'homepage.events.item-found-text' | translate }} {{ countOfEvents }}
         {{ 'homepage.events.items-event-text' | translate }}
       </p>
       <div class="chips">
@@ -116,13 +116,19 @@
       </mat-card>
     </div>
     <app-spinner
-      *ngIf="scroll"
+      *ngIf="hasNextPage && !noEventsMatch && !isLoading"
       infiniteScroll
       [infiniteScrollDistance]="0"
       [infiniteScrollThrottle]="500"
-      (scrolled)="onScroll()"
+      (scrolled)="getEvents()"
     ></app-spinner>
-    <p class="end-page" *ngIf="!elementsArePresent">{{ 'homepage.events.no-event-left' | translate }}</p>
-    <p class="end-page" *ngIf="noEventsMatch">{{ 'homepage.events.no-matching-left' | translate }}</p>
+    <app-spinner
+      *ngIf="isLoading && eventsList.length === 0"
+      infiniteScroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="500"
+    ></app-spinner>
+    <p class="end-page-txt" *ngIf="!hasNextPage && !noEventsMatch && !isLoading">{{ 'homepage.events.no-event-left' | translate }}</p>
+    <p class="end-page-txt" *ngIf="noEventsMatch">{{ 'homepage.events.no-matching-left' | translate }}</p>
   </div>
 </div>

@@ -9,11 +9,11 @@ import {
   DateFormObj,
   Dates,
   EventDTO,
-  EventPageResponceDto,
+  EventPageResponseDto,
   OfflineDto,
   TagObj,
   PagePreviewDTO,
-  DateEventResponceDto
+  DateEventResponseDto
 } from '../../models/events.interface';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
@@ -52,7 +52,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedDay = WeekArray[0];
   public addressForPreview: DateFormObj;
   public editMode: boolean;
-  public editEvent: EventPageResponceDto;
+  public editEvent: EventPageResponseDto;
   public imagesToDelete: string[] = [];
   public oldImages: string[] = [];
   public imagesForEdit: string[];
@@ -67,7 +67,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public routeData: any;
   public selectedFile = null;
   public selectedFileUrl: string;
-  public previewDates: PagePreviewDTO | EventPageResponceDto;
+  public previewDates: PagePreviewDTO | EventPageResponseDto;
   public submitSelected: boolean;
   public nameBtn = 'create-event.publish';
 
@@ -186,8 +186,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.nameBtn = 'create-event.save-event';
   }
 
-  public setDates(init: boolean, dates?: DateEvent[] | DateEventResponceDto[]): void {
-    let datesEvent: DateEvent[] | DateEventResponceDto[];
+  public setDates(init: boolean, dates?: DateEvent[] | DateEventResponseDto[]): void {
+    let datesEvent: DateEvent[] | DateEventResponseDto[];
     if (init) {
       datesEvent = this.localStorageService.getEventForEdit().dates;
       this.editEvent = this.localStorageService.getEventForEdit();
@@ -197,7 +197,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     } else {
       datesEvent = dates;
     }
-    this.dates = (datesEvent as DateEventResponceDto[]).reduce((newDates: DateEvent[], currentDate: DateEventResponceDto) => {
+    this.dates = (datesEvent as DateEventResponseDto[]).reduce((newDates: DateEvent[], currentDate: DateEventResponseDto) => {
       const { startDate, finishDate, check, valid } = currentDate;
       const date: DateEvent = { startDate, finishDate, check: init ? false : check, valid: init ? false : valid };
       if (currentDate.onlineLink) {
