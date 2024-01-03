@@ -52,7 +52,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public selectedDay = WeekArray[0];
   public addressForPreview: DateFormObj;
   public editMode: boolean;
-  public editEvent: EventPageResponceDto;
+  public editEvent: EventPageResponseDto;
   public imagesToDelete: string[] = [];
   public oldImages: string[] = [];
   public imagesForEdit: string[];
@@ -67,7 +67,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public routeData: any;
   public selectedFile = null;
   public selectedFileUrl: string;
-  public previewDates: PagePreviewDTO | EventPageResponceDto;
+  public previewDates: PagePreviewDTO | EventPageResponseDto;
   public submitSelected: boolean;
   public nameBtn = 'create-event.publish';
 
