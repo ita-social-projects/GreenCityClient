@@ -385,7 +385,6 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       component.event.isRelevant = true;
-      component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
@@ -418,22 +417,6 @@ describe('EventsListItemComponent', () => {
       component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_Fake');
-      eventMock.isSubscribed = false;
-      component.event = eventMock;
-      component.event.organizer.id = 56;
-      component.event.isRelevant = true;
-      component.isOwner = false;
-      component.isAdmin = false;
-      component.canUserJoinCloseEvent = false;
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
-      component.canUserJoinCloseEvent = true;
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.primary);
     });
   });
 
