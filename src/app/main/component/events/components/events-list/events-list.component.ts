@@ -202,7 +202,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     };
   }
 
-  private getEvents(): void {
+  getEvents(): void {
     if (this.hasNextPage) {
       const searchTitle = this.searchEventControl.value.trim();
       if (searchTitle.length === 0) {
