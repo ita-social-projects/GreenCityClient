@@ -390,7 +390,8 @@
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
       "update-notification": "Notification was updated",
-      "rating-send": "Rating sent"
+      "rating-send": "Rating sent",
+      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer"
     }
   },
   "user": {
@@ -1112,6 +1113,7 @@
     "btn-edit": "Edit event",
     "btn-cancel": "Cancel Request",
     "btn-join": "Join event",
+    "btn-request-sent": "Request sent",
     "btn-delete": "Delete",
     "btn-see": "See rating",
     "btn-rate": "Rate Organizer",

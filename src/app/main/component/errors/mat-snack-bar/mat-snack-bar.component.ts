@@ -167,6 +167,10 @@ export class MatSnackBarComponent {
     ratedEvent: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.rating-send');
+    },
+    jointEventRequest: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.joint-event-request');
     }
   };
 
