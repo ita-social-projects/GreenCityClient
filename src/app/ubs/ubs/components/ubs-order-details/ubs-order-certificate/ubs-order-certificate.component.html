@@ -65,7 +65,7 @@
       <small class="text-message" *ngIf="showActivateCetificate(i)">
         {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
       </small>
-      <small class="text-message" *ngIf="certSize && certificateSum > showTotal && i === certificates.codes.length - 1">
+      <small class="text-message" *ngIf="showActivateCetificateOversum(i)">
         {{
           'order-details.activated-oversum'
             | translate
@@ -75,17 +75,6 @@
                   certificateLeft: certificateSum - showTotal
                 }
         }}
-      </small>
-      <small
-        class="text-message"
-        *ngIf="
-          certificates.expirationDates[i] &&
-          (certificates.status[i] === 'NEW' || certificates.status[i] === 'ACTIVE') &&
-          !certSize &&
-          !certificates.failed[i]
-        "
-      >
-        {{ 'order-details.activated' | translate: { certificateSum: certificateSum, certDate: certificates.expirationDates[i] } }}
       </small>
     </div>
   </div>
