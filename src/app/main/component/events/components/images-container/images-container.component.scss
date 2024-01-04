@@ -20,7 +20,7 @@
 }
 
 .images-container-wrapper::-webkit-scrollbar-track {
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .images-container-wrapper:hover::-webkit-scrollbar-thumb {
@@ -137,7 +137,7 @@
   }
 
   .counter-wrapper {
-    margin-right: 0px;
+    margin-right: 0;
   }
 }
 
@@ -186,7 +186,7 @@
   }
 
   .example-card {
-    margin: 32px 0px 0px 0px;
+    margin: 32px 0 0 0;
     position: relative;
     left: 16px;
   }
