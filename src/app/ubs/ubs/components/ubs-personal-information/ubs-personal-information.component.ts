@@ -90,6 +90,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   ngOnInit() {
+    console.log('second init');
+
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       if (this.localService.getLocationId()) {
         this.currentLocationId = this.localService.getLocationId();
@@ -105,6 +107,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.anotherClient = this.localService.getIsAnotherClient();
     }
     this.takeUserData();
+    if (this.localService.getAddressId()) {
+      this.addressId = this.localService.getAddressId();
+    }
     if (this.localService.getCurrentLocationId()) {
       this.currentLocationId = this.localService.getCurrentLocationId();
       this.locations = this.localService.getLocations();
@@ -167,6 +172,8 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
         this.addresses = list.addressList;
+        console.log(this.addresses);
+
         this.localService.setAddresses(this.addresses);
         this.personalDataForm.patchValue({
           address: this.addresses
@@ -211,15 +218,21 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   checkAddress(addressId) {
+    console.log(addressId);
+
     if (addressId) {
       this.addresses.forEach((address) => {
         if (address.id === addressId) {
           this.orderService.setCurrentAddress(address);
           this.checkedAddress = address;
+          this.addresses.forEach((address) => (address.actual = false));
+          address.actual = true;
         }
       });
       this.isNotChoosedLocation = this.checkedAddress.display === false;
       this.localService.setAddressId(addressId);
+      this.localService.setAddresses(this.addresses);
+      this.orderService.setActualAddress(addressId).pipe(takeUntil(this.destroy)).subscribe();
       this.changeAddressInPersonalData();
     }
   }
@@ -432,6 +445,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.shareFormService.orderDetails.pointsToUse,
       this.shouldBePaid
     );
+    this.order.addressId = this.localService.getAddressId();
     this.orderService.setOrder(this.order);
   }
 

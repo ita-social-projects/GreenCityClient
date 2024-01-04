@@ -114,6 +114,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnInit(): void {
+    console.log('init');
+
     this.route.queryParams.subscribe((params) => {
       const key = 'isThisExistingOrder';
       this.isThisExistingOrder = !!params[key];
@@ -363,10 +365,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public takeOrderData() {
     this.isFetching = true;
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
-    if (!this.isThisExistingOrder) {
-      this.localStorageService.removeUbsOrderAndPersonalData();
-      this.localStorageService.removeanotherClientData();
-    }
+    // if (!this.isThisExistingOrder) {
+    //   this.localStorageService.removeUbsOrderAndPersonalData();
+    //   this.localStorageService.removeanotherClientData();
+    // }
     this.orderService
       .getOrders(this.localStorageService.getLocationId(), this.localStorageService.getTariffId())
       .pipe(takeUntil(this.destroy))

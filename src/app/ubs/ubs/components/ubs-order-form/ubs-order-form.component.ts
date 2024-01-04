@@ -9,6 +9,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -16,6 +17,7 @@ import { OrderDetails, PersonalData } from '../../models/ubs.interface';
   styleUrls: ['./ubs-order-form.component.scss']
 })
 export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
+  currentStepId: number;
   firstStepForm: FormGroup;
   secondStepForm: FormGroup;
   thirdStepForm: FormGroup;
@@ -33,7 +35,9 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     private cdr: ChangeDetectorRef,
     private shareFormService: UBSOrderFormService,
     private localStorageService: LocalStorageService,
-    private store: Store
+    private store: Store,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   @HostListener('window:beforeunload') onClose() {
@@ -42,11 +46,18 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   }
 
   ngOnInit() {
+    this.initStepperPosition();
     this.shareFormService.locationId = this.localStorageService.getLocationId();
     this.shareFormService.locations = this.localStorageService.getLocations();
     setTimeout(() => {
       this.getOrderDetailsFromState();
     }, 0);
+  }
+
+  initStepperPosition() {
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.currentStepId = params?.stepperId ?? 0;
+    });
   }
 
   private getOrderDetailsFromState() {
@@ -81,6 +92,16 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
 
   ngDoCheck(): void {
     this.completed = this.stepper?.selected.state === 'finalStep';
+  }
+
+  onSelectionChange($event: any) {
+    console.log($event.selectedIndex);
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: { stepperId: $event.selectedIndex },
+      queryParamsHandling: 'merge'
+    });
   }
 
   saveDataOnLocalStorage(): void {
