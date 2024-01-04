@@ -1,35 +1,39 @@
 <div [formGroup]="dateForm">
   <div class="date-container">
-    <mat-form-field appearance="outline" class="date">
-      <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
-      <input [min]="minDate" matInput [matDatepicker]="picker" formControlName="date" />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <span class="day">{{ index + 1 }} {{ 'create-event.day' | translate }}</span>
+    <div class="date-time">
+      <mat-form-field appearance="outline" class="date">
+        <mat-label>{{ 'create-event.choose-date' | translate }}</mat-label>
+        <input [min]="minDate" matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline" class="time-item">
-      <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
-      <mat-select ngDefaultControl formControlName="startTime">
-        <mat-option *ngFor="let time of timeArrStart" [value]="time">
-          {{ time }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <h5 class="dash">-</h5>
-    <mat-form-field appearance="outline" class="time-item">
-      <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
-      <mat-select ngDefaultControl formControlName="endTime">
-        <mat-option *ngFor="let time of timeArrEnd" [value]="time">
-          {{ time }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-checkbox class="all-day" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" (change)="checkIfAllDay()">{{
-      'create-event.all-day' | translate
-    }}</mat-checkbox>
+      <div class="time">
+        <mat-form-field appearance="outline" class="time-item">
+          <mat-label>{{ 'create-event.set-start-time' | translate }}</mat-label>
+          <mat-select ngDefaultControl formControlName="startTime">
+            <mat-option *ngFor="let time of timeArrStart" [value]="time">
+              {{ time }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <h5 class="dash">—</h5>
+        <mat-form-field appearance="outline" class="time-item">
+          <mat-label>{{ 'create-event.set-end-time' | translate }}</mat-label>
+          <mat-select ngDefaultControl formControlName="endTime">
+            <mat-option *ngFor="let time of timeArrEnd" [value]="time">
+              {{ time }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <mat-checkbox class="all-day" [checked]="checkedAllDay" [disabled]="isAllDayDisabled" (change)="checkIfAllDay()">{{
+        'create-event.all-day' | translate
+      }}</mat-checkbox>
+    </div>
   </div>
-  <div *ngIf="dateForm?.invalid && submitSelected" class="tag-error">
+  <div *ngIf="dateForm?.invalid && submitSelected" class="date-error">
     <app-input-error [formElement]="endTime" [isEvent]="true" [date]="true"></app-input-error>
   </div>
   <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
@@ -45,8 +49,8 @@
   <div *ngIf="dateForm.get('place')" class="active">
     <mat-label>{{ 'create-event.event-location' | translate }}</mat-label>
     <div class="location-title">
-      <mat-form-field appearance="outline">
-        <mat-label>{{ 'create-event.event-offline-place' | translate }}</mat-label>
+      <mat-form-field class="location-title" appearance="outline">
+        <mat-label class="location-title">{{ 'create-event.event-offline-place' | translate }}</mat-label>
         <input
           matInput
           #placesRef
@@ -83,8 +87,8 @@
 
   <div *ngIf="checkOnlinePlace" class="active">
     <mat-label>{{ 'create-event.event-link' | translate }}</mat-label>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ 'create-event.event-online-link' | translate }}</mat-label>
+    <mat-form-field class="link-title" appearance="outline">
+      <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
       <input matInput formControlName="onlineLink" placeholder="{{ 'create-event.enter-link' | translate }}" />
     </mat-form-field>
   </div>
