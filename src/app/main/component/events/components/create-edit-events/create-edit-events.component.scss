@@ -49,19 +49,21 @@
 
 .main-title {
   margin-bottom: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .event-header {
   margin: 24px 0;
 }
 
-.main-title {
-  display: flex;
-  align-items: center;
+.mat-form-field {
+  font-size: 12px;
+  padding-left: 0;
 }
 
 .duration-choice {
-  margin-top: 100px;
+  margin: 0 0 0 20px;
 
   .mat-form-field {
     width: 82px;
@@ -97,11 +99,6 @@
   background: var(--primary-white);
 }
 
-.mat-form-field {
-  font-size: 12px;
-  padding-left: 0;
-}
-
 .event-input {
   width: 411px;
 }
@@ -118,10 +115,6 @@
 .invite-item {
   top: -10px;
   width: 208px;
-}
-
-.duration-choice {
-  margin: 0 0 0 20px;
 }
 
 .title-error-container {
@@ -147,10 +140,6 @@
 
 .buttons-container {
   margin-bottom: 20px;
-
-  .ul-eco-buttons {
-    margin-top: 8px;
-  }
 }
 
 .tag-error {
@@ -160,7 +149,7 @@
 }
 
 .tag-error-place {
-  margin: 0px;
+  margin: 0;
   margin-top: -10px;
 }
 
@@ -177,6 +166,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-top: 8px;
   overflow: auto;
   white-space: nowrap;
   min-height: 42px;
@@ -403,8 +393,8 @@
   .main-title {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0px;
-    margin-bottom: 0px;
+    gap: 0;
+    margin-bottom: 0;
   }
 
   .buttons-container {
@@ -413,7 +403,7 @@
 
   .duration-choice,
   .event-input {
-    margin: 0px;
+    margin: 0;
   }
 
   .ul-eco-buttons {
@@ -429,7 +419,7 @@
     white-space: wrap;
     flex-wrap: wrap;
     height: fit-content;
-    gap: 0px;
+    gap: 0;
   }
 
   .type {
