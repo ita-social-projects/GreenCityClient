@@ -3,7 +3,7 @@ import { ChatComponent } from './chat.component';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from '../../service/socket/socket.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
+import { TranslateModule } from '@ngx-translate/core';
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
@@ -11,7 +11,7 @@ describe('ChatComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ChatComponent ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
       providers: [
         ChatsService,
         SocketService,
