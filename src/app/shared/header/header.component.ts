@@ -23,6 +23,7 @@ import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
+import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
 
 @Component({
   selector: 'app-header',
@@ -60,6 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public selectedIndex: number = null;
   public currentLanguage: string;
   public imgAlt: string;
+  public isOpen: boolean;
   private localeStorageService: LocalStorageService;
   private jwtService: JwtService;
   private router: Router;
@@ -72,7 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-
+  isChatPopupOpen = false;
   constructor(private dialog: MatDialog, injector: Injector, private store: Store) {
     this.localeStorageService = injector.get(LocalStorageService);
     this.jwtService = injector.get(JwtService);
@@ -361,11 +363,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
+  openChatPopUp() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.panelClass = 'dialog-chat';
+    const matDialogRef = this.dialog.open(ChatPopupComponent, dialogConfig);
+    matDialogRef
+    .afterClosed()
+    .pipe(takeUntil(this.destroySub))
+    .subscribe(() => {
+      this.isChatPopupOpen = false;
+    });
+    this.isChatPopupOpen = true;
+  }
+
+  public closeChatPopup() {
+    this.isChatPopupOpen = false;
+  }
+
   public signOut(): void {
     this.dropdownVisible = false;
-
+    
     this.jwtService.userRole$.next('');
-
+    
     this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
       this.userOwnAuthService.isLoginUserSubject.next(false);
       this.localeStorageService.clear();
@@ -376,19 +397,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     this.store.dispatch(ResetEmployeePermissions());
   }
-
+  
   public toggleLangDropdown(event: KeyboardEvent): void {
     event.preventDefault();
     this.langDropdownVisible = !this.langDropdownVisible;
   }
-
+  
   onKeydownLangOption(event: KeyboardEvent, index: number) {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.changeCurrentLanguage(this.arrayLang[index].lang, index);
     }
   }
-
+  
   public toggleScroll(): void {
     this.toggleBurgerMenu ? document.body.classList.add('modal-open') : document.body.classList.remove('modal-open');
   }

@@ -134,8 +134,7 @@
               class="chat-icon"
               role="chat"
               tabindex="0"
-              (click)="toggleSearchPage()"
-              (keydown.enter)="toggleSearchPage()"
+              (click)="isChatPopupOpen ? closeChatPopup() : openChatPopUp()"
             >
               <img [src]="headerImageList.chat" alt="Internal search button" aria-hidden="true" />
             </li>
