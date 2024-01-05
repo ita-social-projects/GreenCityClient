@@ -1,4 +1,4 @@
-<div [formGroup]="dateForm">
+<div [formGroup]="dateForm" class="date-location-container">
   <div class="date-container">
     <span class="day">{{ index + 1 }} {{ 'create-event.day' | translate }}</span>
     <div class="date-time">
@@ -49,8 +49,8 @@
   <div *ngIf="dateForm.get('place')" class="active">
     <mat-label>{{ 'create-event.event-location' | translate }}</mat-label>
     <div class="location-title">
-      <mat-form-field class="location-title" appearance="outline">
-        <mat-label class="location-title">{{ 'create-event.event-offline-place' | translate }}</mat-label>
+      <mat-form-field class="location-title-input" appearance="outline">
+        <mat-label>{{ 'create-event.event-offline-place' | translate }}</mat-label>
         <input
           matInput
           #placesRef

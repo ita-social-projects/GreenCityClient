@@ -169,8 +169,10 @@
 
     <div class="submit-container">
       <button class="tertiary-global-button" (click)="cancel(true)">{{ 'create-event.cancel' | translate }}</button>
-      <button class="secondary-global-button" (click)="onPreview()">{{ 'create-event.preview' | translate }}</button>
-      <button class="primary-global-button" (click)="onSubmit()">{{ nameBtn | translate }}</button>
+      <div class="buttons-group">
+        <button class="secondary-global-button submit-buttons" (click)="onPreview()">{{ 'create-event.preview' | translate }}</button>
+        <button class="primary-global-button submit-buttons" (click)="onSubmit()">{{ nameBtn | translate }}</button>
+      </div>
     </div>
   </div>
 </div>

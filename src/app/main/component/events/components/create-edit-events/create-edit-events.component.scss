@@ -34,7 +34,6 @@
   justify-content: center;
   margin-right: 18px;
   margin-left: 18px;
-  overflow-x: auto;
 }
 
 .content-container {
@@ -210,6 +209,11 @@
   }
 }
 
+.buttons-group {
+  display: flex;
+  flex-direction: row;
+}
+
 .title-container {
   display: flex;
   justify-content: space-between;
@@ -291,6 +295,10 @@
     top: 2px;
     text-align: right;
   }
+
+  .error {
+    text-align: right;
+  }
 }
 
 @media (max-width: 1023px) {
@@ -341,6 +349,11 @@
     width: 540px;
   }
 
+  .textarea-title {
+    width: fit-content;
+    white-space: nowrap;
+  }
+
   .event-input {
     width: 364px;
   }
@@ -371,13 +384,15 @@
   .right,
   .title-input,
   .main-title,
-  .title-wrapper,
   .event-input,
   .duration-choice,
   .date-item,
   .flex-container,
   .ul-eco-buttons,
-  .textarea-wrapper {
+  .textarea-wrapper,
+  .date-container,
+  .event-day,
+  .date-event-block {
     width: 100%;
   }
 
@@ -446,17 +461,6 @@
   }
 }
 
-@media (max-width: 418px) {
-  .title-error-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .tag-error {
-    margin: 0;
-  }
-}
-
 @media (max-width: 535px) {
   .title-container,
   .textarea-description {
@@ -479,6 +483,67 @@
     white-space: wrap;
     text-overflow: ellipsis;
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 524px) {
+  .submit-container {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+  }
+
+  .secondary-global-button {
+    margin-bottom: 16px;
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 424px) {
+  .error {
+    text-align: left;
+  }
+}
+
+@media (max-width: 418px) {
+  .title-error-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tag-error {
+    margin: 0;
+  }
+}
+
+@media (max-width: 370px) {
+  .submit-container,
+  .tertiary-global-button,
+  .secondary-global-button,
+  .primary-global-button,
+  .buttons-group {
+    width: 100%;
+  }
+
+  .submit-container {
+    align-items: center;
+  }
+
+  .tertiary-global-button,
+  .primary-global-button {
+    margin-left: 0 !important;
+  }
+
+  .primary-global-button {
+    margin-bottom: 16px !important;
+  }
+
+  .submit-container {
+    flex-direction: column-reverse;
+  }
+
+  .buttons-group {
+    flex-direction: column;
   }
 }
 
