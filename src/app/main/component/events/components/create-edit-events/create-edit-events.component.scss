@@ -527,6 +527,7 @@
 
   .submit-container {
     align-items: center;
+    flex-direction: column-reverse;
   }
 
   .tertiary-global-button,
@@ -536,10 +537,6 @@
 
   .primary-global-button {
     margin-bottom: 16px !important;
-  }
-
-  .submit-container {
-    flex-direction: column-reverse;
   }
 
   .buttons-group {
