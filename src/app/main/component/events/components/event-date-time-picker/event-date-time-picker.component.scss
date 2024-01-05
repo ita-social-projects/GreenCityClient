@@ -163,6 +163,8 @@
 
   .map-container {
     height: 410px;
+    margin-left: 0;
+    width: 672px;
   }
 
   .time-item {
@@ -173,11 +175,6 @@
   .location-title-input,
   .link-title {
     width: 672px !important;
-  }
-
-  .map-container {
-    margin-left: 0;
-    width: 672px;
   }
 
   .duplix-error,
