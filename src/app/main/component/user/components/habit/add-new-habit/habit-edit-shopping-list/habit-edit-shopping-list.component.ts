@@ -19,13 +19,14 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isEditing = false;
 
   public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(2048)])
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
   public subscription: Subscription;
   public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
   public shoppingItemNameLimit = 20;
+  private fieldSymbolsLimit = 2048;
 
   public img = {
     doneCheck: 'assets/icons/habits/filled-check-circle.svg',
@@ -139,7 +140,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   }
 
   checkItemValidity(): void {
-    if (!this.itemForm.valid && this.itemForm.get('item').value.length > 2048) {
+    if (!this.itemForm.valid && this.itemForm.get('item').value.length > this.fieldSymbolsLimit) {
       this.snackBar.openSnackBar('tooLongInput');
     }
   }
