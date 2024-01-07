@@ -491,7 +491,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.orderDetails$.subscribe((stateOrderDetails: OrderDetails) => {
       this.stateOrderDetails = stateOrderDetails;
     });
-    let bag = this.bags?.find((bag) => bag.id === id);
+    const bag = this.bags?.find((bag) => bag.id === id);
     const valueName = 'quantity' + String(bag.id);
     const orderFormBagController = this.orderDetailsForm.controls[valueName];
     const inputValue = `${Number(orderFormBagController.value)}`;
