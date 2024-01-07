@@ -15,7 +15,8 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { Store } from '@ngrx/store';
-import { AddOrderData } from 'src/app/store/actions/order.actions';
+import { AddOrderData, UpdateBagsOrderDetails, UpdateTotalOrderDetails } from 'src/app/store/actions/order.actions';
+import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
   selector: 'app-ubs-order-details',
@@ -95,6 +96,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   public activeCouriers;
   courierUBSName = 'UBS';
   private totalSumOfBigBags: number;
+  private orderDetails$ = this.store.select((state: IAppState): OrderDetails => state.order.orderDetails);
+  private stateOrderDetails: OrderDetails;
   @Output() secondStepDisabledChange = new EventEmitter<boolean>();
 
   constructor(
@@ -372,25 +375,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (orderData: OrderDetails) => {
-          this.orders = this.shareFormService.orderDetails;
-          this.bags = this.orders.bags;
-          this.points = this.orders.points;
-          this.defaultPoints = this.points;
-          this.certificateLeft = orderData.points;
-          this.bags.forEach((bag) => {
-            const { id, quantity } = bag;
-            const controlName = `quantity${id}`;
-            bag.quantity = quantity ?? null;
-            this.orderDetailsForm.addControl(controlName, new FormControl('', [Validators.min(0), Validators.max(999)]));
-            const bagQuantity = bag.quantity === null ? '' : Number(bag.quantity);
-            this.orderDetailsForm.controls[controlName].setValue(bagQuantity);
-          });
-          this.filterBags();
-          this.isFetching = false;
-          setTimeout(() => {
-            this.shareFormService.changeOrderDetails();
-            this.checkTotalBigBags();
-          }, 0);
+          this.updateOrderDetails(orderData);
         },
         (error) => {
           this.openLocationDialog();
@@ -503,24 +488,70 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   onQuantityChange(id?: number): void {
-    this.bags?.forEach((bag) => {
-      const valueName = 'quantity' + String(bag.id);
-      const orderFormBagController = this.orderDetailsForm.controls[valueName];
-      const inputValue = `${Number(orderFormBagController.value)}`;
-      orderFormBagController.setValue(inputValue);
+    this.orderDetails$.subscribe((stateOrderDetails: OrderDetails) => {
+      this.stateOrderDetails = stateOrderDetails;
+    });
+    let bag = this.bags?.find((bag) => bag.id === id);
+    const valueName = 'quantity' + String(bag.id);
+    const orderFormBagController = this.orderDetailsForm.controls[valueName];
+    const inputValue = `${Number(orderFormBagController.value)}`;
+    orderFormBagController.setValue(inputValue);
+
+    if (!this.stateOrderDetails) {
       if (Number(orderFormBagController.value) > 0) {
         bag.quantity = orderFormBagController.value;
       } else {
         orderFormBagController.setValue('');
         bag.quantity = null;
       }
-    });
+    }
+
+    if (!this.isThisExistingOrder && this.stateOrderDetails) {
+      this.store.dispatch(UpdateBagsOrderDetails({ bagId: bag.id, bagValue: orderFormBagController.value }));
+      this.orderDetails$.subscribe((orderDetails) => {
+        this.updateBagsQuantyty(orderDetails);
+      });
+      this.calculateTotal();
+      this.store.dispatch(UpdateTotalOrderDetails({ total: this.total, finalSum: this.finalSum }));
+    }
+
     document.getElementById(`quantity${id}`).focus();
     this.checkTotalBigBags();
     this.calculateTotal();
     if (this.isBonus === 'yes') {
       this.calculatePoints();
     }
+  }
+
+  updateBagsQuantyty(stateOrderDetails: OrderDetails): void {
+    this.orderService
+      .setOrderDetailsFromState(stateOrderDetails)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((orderData: OrderDetails) => {
+        this.updateOrderDetails(orderData);
+      });
+  }
+
+  updateOrderDetails(orderData: OrderDetails): void {
+    this.orders = this.shareFormService.orderDetails;
+    this.bags = this.orders.bags;
+    this.points = this.orders.points;
+    this.defaultPoints = this.points;
+    this.certificateLeft = orderData.points;
+    this.bags.forEach((bag) => {
+      const { id, quantity } = bag;
+      const controlName = `quantity${id}`;
+      bag.quantity = quantity ?? null;
+      this.orderDetailsForm.addControl(controlName, new FormControl('', [Validators.min(0), Validators.max(999)]));
+      const bagQuantity = bag.quantity === null ? '' : Number(bag.quantity);
+      this.orderDetailsForm.controls[controlName].setValue(bagQuantity);
+    });
+    this.filterBags();
+    this.isFetching = false;
+    setTimeout(() => {
+      this.shareFormService.changeOrderDetails();
+      this.checkTotalBigBags();
+    }, 0);
   }
 
   calculatePoints(): void {
@@ -632,7 +663,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   saveOrderDetailsToState(): void {
-    if (!this.isThisExistingOrder) {
+    if (!this.isThisExistingOrder && !this.stateOrderDetails) {
       const details = this.shareFormService.getOrderDetails();
       this.store.dispatch(AddOrderData({ orderDetails: details }));
     }

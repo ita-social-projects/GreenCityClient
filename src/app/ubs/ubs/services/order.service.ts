@@ -6,7 +6,8 @@ import {
   CourierLocations,
   ActiveCourierDto,
   DistrictEnum,
-  PersonalData
+  PersonalData,
+  Bag
 } from '../models/ubs.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -20,7 +21,7 @@ import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { UpdateOrderData, UpdatePersonalData } from 'src/app/store/actions/order.actions';
+import { ClearOrderDetails, ClearPersonalData } from 'src/app/store/actions/order.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -225,6 +226,7 @@ export class OrderService {
     this.shareFormService.personalData = null;
     this.localStorageService.removeUbsFondyOrderId();
     this.shareFormService.saveDataOnLocalStorage();
+    this.cleanOrderState();
   }
 
   saveOrderData(): void {
@@ -232,13 +234,24 @@ export class OrderService {
   }
 
   cleanOrderState(): void {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
+    this.store.dispatch(ClearOrderDetails());
+    this.store.dispatch(ClearPersonalData());
   }
 
   cleanPrevOrderState(): void {
     this.cleanOrderState();
     localStorage.removeItem('UBSExistingOrderId');
     this.localStorageService.removeUbsFondyOrderId();
+  }
+
+  setOrderDetailsFromState(stateOrderDetails: OrderDetails): Observable<any> {
+    const savedOrderDetails = { ...stateOrderDetails };
+    const stateBags = stateOrderDetails.bags?.map((bag: Bag) => ({
+      ...bag,
+      quantity: Number(bag.quantity)
+    }));
+    savedOrderDetails.bags = stateBags;
+    const observable = new Observable((observer) => observer.next(savedOrderDetails));
+    return observable.pipe(tap((orderDetails: OrderDetails) => (this.shareFormService.orderDetails = orderDetails)));
   }
 }
