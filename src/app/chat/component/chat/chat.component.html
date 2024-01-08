@@ -21,9 +21,10 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!isHaveMessages"> 
-    <div class="emptyChatPic" > <img [src]="chatIcons.emptyChatBack" alt="" />
-     <span class="emptyChatText"> {{ 'chat.empty-chat' | translate }} </span>
+  <div *ngIf="!isHaveMessages">
+    <div class="emptyChatPic">
+      <img [src]="chatIcons.emptyChatBack" alt="" />
+      <span class="emptyChatText"> {{ 'chat.empty-chat' | translate }} </span>
     </div>
   </div>
 </div>
