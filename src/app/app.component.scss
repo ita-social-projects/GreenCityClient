@@ -14,3 +14,7 @@
 ::ng-deep .mat-select:focus-visible {
   outline: 2px solid currentColor !important;
 }
+
+::ng-deep .mat-slider-thumb-label {
+  background-color: var(--primary-green);
+}
