@@ -42,6 +42,7 @@ import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-transform.pipe';
+import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-
     ResizableBottomSheetComponent,
     CorrectUnitPipe,
     UploadPhotoContainerComponent,
-    SafeHtmlTransformPipe
+    SafeHtmlTransformPipe,
+    LinkifyDirective
   ],
   imports: [
     CommonModule,
@@ -122,7 +124,8 @@ import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-
     CronPipe,
     ResizableBottomSheetComponent,
     CorrectUnitPipe,
-    MaterialModule
+    MaterialModule,
+    LinkifyDirective
   ]
 })
 export class SharedModule {}
