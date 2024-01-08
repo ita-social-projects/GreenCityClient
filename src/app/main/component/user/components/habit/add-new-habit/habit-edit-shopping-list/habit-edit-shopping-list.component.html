@@ -21,7 +21,10 @@
             matTooltipClass="my-custom-tooltip"
             font="bold 14px Lato, sans-serif"
           >
-            {{ truncateShoppingItemName(item.text) }}
+            <a [href]="getUrlFromText(item.text)" *ngIf="checkIfTextContainsUrl(item.text)" target="_blank" rel="noopener">{{
+              truncateShoppingItemName(item.text)
+            }}</a>
+            <p *ngIf="!checkIfTextContainsUrl(item.text)">{{ truncateShoppingItemName(item.text) }}</p>
           </span>
         </div>
         <button *ngIf="item.custom && !isAcquired" class="del-btn" type="button" (click)="deleteItem(item.text)"></button>
