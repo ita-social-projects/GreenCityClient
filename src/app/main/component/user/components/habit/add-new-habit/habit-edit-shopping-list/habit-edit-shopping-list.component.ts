@@ -18,6 +18,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isAcquired = false;
   @Input() isEditing = false;
 
+  private fieldSymbolsLimit = 2048;
   public itemForm = new FormGroup({
     item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
@@ -26,7 +27,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
   public shoppingItemNameLimit = 20;
-  private fieldSymbolsLimit = 2048;
 
   public img = {
     doneCheck: 'assets/icons/habits/filled-check-circle.svg',
