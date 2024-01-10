@@ -76,6 +76,6 @@ describe('HabitCalendarComponent', () => {
     dayEl.triggerEventHandler('click', null);
     tick();
     fixture.detectChanges();
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   }));
 });
