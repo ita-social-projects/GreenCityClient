@@ -8,8 +8,6 @@ export class CustomTooltipDirective {
   @Input() tooltip: any;
   @Input() font = '';
 
-  constructor(private elRef: ElementRef, private renderer: Renderer2) {}
-
   @HostListener('mouseenter', ['$event']) onMouseOver() {
     this.showTooltip(event, this.tooltip, this.font);
   }
@@ -29,7 +27,6 @@ export class CustomTooltipDirective {
     const context = canvas.getContext('2d');
     context.font = font;
     const textWidth = Math.round(context.measureText(event.target.innerText).width);
-    console.log(textContainerWidth < textWidth);
     if (textContainerWidth < textWidth) {
       tooltip.show();
     }

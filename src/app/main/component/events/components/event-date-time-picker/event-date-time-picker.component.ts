@@ -113,6 +113,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.readyToApplyLocation = true;
       this.setDataEditing();
     }
+    if (this.appliedForAllLocations) {
+      this.applyLocationForAllDays();
+    }
 
     this.langService.getCurrentLangObs().subscribe((_) => {
       this.getCoordinates();

@@ -8,15 +8,12 @@
   <div class="habit-container" *ngIf="habitResponse">
     <div class="habit-info">
       <div class="header">
-        <div class="item">
+        <div class="tags">
           <span *ngFor="let tag of habitResponse.tags; let last = last">
-            {{ tag }}
-            <ng-container *ngIf="!last">,&nbsp;</ng-container>
+            {{ last ? tag : tag + ',&nbsp;' }}
           </span>
         </div>
-        <div class="line"></div>
         <div class="item acquired-by">{{ 'user.habit.header.aсquired' | translate }} {{ habitResponse.amountAcquiredUsers }}</div>
-        <div class="line"></div>
         <div class="item">
           <div>{{ 'user.habit.header.difficulty' | translate }}</div>
           <div class="stars">

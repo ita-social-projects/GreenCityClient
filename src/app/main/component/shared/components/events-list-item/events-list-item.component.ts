@@ -95,7 +95,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     delete: 'event.btn-delete',
     rate: 'event.btn-rate',
     cancel: 'event.btn-cancel',
-    join: 'event.btn-join'
+    join: 'event.btn-join',
+    requestSent: 'event.btn-request-sent'
   };
 
   constructor(
@@ -129,7 +130,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     });
     this.getAddress();
     this.isEventFavorite = this.event.isFavorite;
-    this.canUserJoinCloseEvent = this.event.isOrganizedByFriend || this.event.open;
   }
 
   public routeToEvent(): void {
@@ -162,7 +162,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.nameBtn = this.btnName.cancel;
         break;
       case !isSubscribed && isRelevant && !this.isOwner && !isAdmin && !isUnauthorized:
-        this.btnStyle = this.canUserJoinCloseEvent ? this.styleBtn.primary : this.styleBtn.hiden;
+        this.btnStyle = this.styleBtn.primary;
         this.nameBtn = this.btnName.join;
         break;
       case isSubscribed && !isRelevant && !this.isOwner:
@@ -186,6 +186,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         if (this.addAttenderError) {
           this.snackBar.openSnackBar('errorJoinEvent');
           this.addAttenderError = '';
+        } else if (!this.event.open && !this.event.isOrganizedByFriend) {
+          this.snackBar.openSnackBar('jointEventRequest');
+          this.nameBtn = this.btnName.requestSent;
         } else {
           this.joinEvent();
         }

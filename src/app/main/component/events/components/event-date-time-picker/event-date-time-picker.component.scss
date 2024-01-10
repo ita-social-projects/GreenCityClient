@@ -1,8 +1,26 @@
 .date-container {
-  width: 500px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+
+.day {
+  background-color: #e3e6e8;
+  color: var(--quaternary-grey);
+  width: 64px;
+  height: 32px;
+  padding: 5px 0;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-right: 13px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.date-time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .time-container {
@@ -10,9 +28,15 @@
   width: 100%;
 }
 
+.time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .time-item {
-  max-width: 102px;
-  margin-right: 10px;
+  max-width: 90px;
+  margin-right: 5px;
 }
 
 .time-button {
@@ -20,8 +44,8 @@
 }
 
 .date {
-  max-width: 124px;
-  margin-right: 20px;
+  max-width: 115px;
+  margin-right: 13px;
 }
 
 .mat-form-field {
@@ -37,10 +61,13 @@
   }
 }
 
-.tag-error {
+.checkbox {
+  margin: -6px 0 8px;
+}
+
+.date-error {
   color: var(--error-red);
-  margin-top: -18px;
-  margin-bottom: 30px;
+  margin: -18px 0 30px 77px;
 }
 
 .all-day {
@@ -51,30 +78,34 @@
 
 .dash {
   position: relative;
-  bottom: 5px;
-  margin-right: 10px;
+  bottom: 3px;
+  font-weight: 200;
+  margin-right: 5px;
+  scale: 0.8;
+  opacity: 50%;
 }
 
 .example-margin {
   margin-right: 20px;
 }
 
-.map-container {
-  width: 550px;
-  height: 374px;
-  margin-bottom: 16px;
+.location-title-input,
+.link-title {
+  width: 515px !important;
+  margin-bottom: -3px;
 }
 
-.apply-location-checkbox {
-  padding-top: -20px;
-  padding-bottom: 30px;
+.map-container {
+  width: 515px;
+  height: 338px;
+  margin-top: 12px;
+  margin-bottom: 8px;
 }
 
 .location-error-messege {
   font-size: 12px;
   color: var(--error-red);
   margin-top: -8px;
-  margin-bottom: 12px;
 }
 
 .checkbox-error ::ng-deep .mat-checkbox-frame {
@@ -84,11 +115,150 @@
 .duplix-error {
   font-size: 12px;
   color: var(--error-red);
-  margin-top: -5px;
-  margin-bottom: 10px;
+  margin: -12px 0 10px 77px;
 }
 
 .error-date {
   margin-top: -18px;
   margin-bottom: 20px;
+}
+
+@media (max-width: 1199px) {
+  .day {
+    margin-bottom: 16px;
+  }
+
+  .date-container {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .time-item {
+    max-width: 100px;
+  }
+
+  .location-title-input,
+  .link-title {
+    width: 462px !important;
+  }
+
+  .map-container {
+    margin-left: 0;
+    width: 462px;
+  }
+
+  .date-error {
+    margin: -18px 0 30px 0;
+  }
+
+  .duplix-error {
+    margin-left: -18px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .date-container {
+    flex-direction: row;
+  }
+
+  .map-container {
+    height: 410px;
+    margin-left: 0;
+    width: 672px;
+  }
+
+  .time-item {
+    max-width: 150px;
+    margin-right: 8px;
+  }
+
+  .location-title-input,
+  .link-title {
+    width: 672px !important;
+  }
+
+  .duplix-error,
+  .date-error {
+    margin: -18px 0 30px 77px;
+  }
+}
+
+@media (max-width: 767px) {
+  .date-container {
+    flex-direction: column;
+  }
+
+  .time-item {
+    max-width: 102px;
+    margin-right: 8px;
+  }
+
+  .location-title-input,
+  .link-title {
+    width: 492px !important;
+  }
+
+  .map-container {
+    width: 492px;
+  }
+
+  .duplix-error,
+  .date-error {
+    margin: -18px 0 30px 0;
+  }
+}
+
+@media (max-width: 575px) {
+  .date-container {
+    flex-direction: row;
+  }
+
+  .location-title-input,
+  .link-title,
+  .map-container,
+  .date-time,
+  .date-container {
+    width: 100% !important;
+  }
+
+  .date-time {
+    white-space: wrap;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .day {
+    min-width: 64px;
+    margin-right: 16px;
+  }
+
+  .date {
+    max-width: 180px;
+    position: relative;
+  }
+
+  .time,
+  .all-day {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: -80px;
+  }
+
+  .time-item {
+    min-width: 117px;
+    margin-right: 5px;
+  }
+
+  .duplix-error {
+    position: relative;
+    top: -99px;
+  }
+
+  .date-error {
+    position: relative;
+    top: -58px;
+    margin: 0;
+  }
 }

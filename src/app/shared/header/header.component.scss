@@ -240,7 +240,7 @@ header {
 }
 
 .header_navigation-menu-left-col {
-  padding-top: 25px;
+  padding-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -252,7 +252,6 @@ header {
   background: $white-color;
   transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
   box-shadow: 0 4px 5px -2px rgba(73, 74, 73, 0.2);
-  overflow-y: auto;
 
   ul {
     display: flex;
@@ -269,7 +268,7 @@ header {
     }
 
     li {
-      height: 52px;
+      margin: 11px 0;
       width: 100%;
       max-width: 300px;
       display: flex;
@@ -1208,5 +1207,16 @@ header {
   a.header_sign-in-link,
   .header_navigation-menu-right-list .ubs-header-sign-in {
     display: flex;
+  }
+}
+
+@media (max-height: 585px) {
+  .header_navigation-menu-left-col {
+    align-items: unset;
+  }
+
+  .header_navigation-menu-left-col > ul {
+    overflow-y: auto;
+    height: calc(100vh - 40px);
   }
 }

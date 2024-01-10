@@ -70,6 +70,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public previewDates: PagePreviewDTO | EventPageResponceDto;
   public submitSelected: boolean;
   public nameBtn = 'create-event.publish';
+  public isSmallScreen = false;
 
   public fromPreview: boolean;
   public editorText = '';
@@ -128,6 +129,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   ngOnInit(): void {
     this.editMode = this.localStorageService.getEditMode();
+    this.isSmallScreen = window.innerWidth <= 576;
     this.fromPreview = this.eventsService.getBackFromPreview();
     const submitFromPreview = this.eventsService.getSubmitFromPreview();
     this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);

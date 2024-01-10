@@ -71,11 +71,10 @@ describe('HabitCalendarComponent', () => {
 
   it('should show habits if day has habits in progress', fakeAsync(() => {
     const spy = spyOn(component, 'openDialogDayHabits');
-    fixture.detectChanges();
     const dayEl = fixture.debugElement.query(By.css('.calendar-grid-day'));
     dayEl.triggerEventHandler('click', null);
     tick();
     fixture.detectChanges();
-    expect(spy).not.toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   }));
 });
