@@ -201,3 +201,9 @@ export interface Addresses {
   streetEn: string;
   streetUa: string;
 }
+
+export interface FilterItem {
+  type: string;
+  nameUa: string;
+  nameEn: string;
+}

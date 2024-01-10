@@ -21,7 +21,7 @@ import { EventsService } from '../../../events/services/events.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DateObj, TimeBack, TimeFront, TagsArray, WeekArray } from '../../models/event-consts';
+import { DateObj, TimeBack, TimeFront, typeFiltersData, WeekArray } from '../../models/event-consts';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
@@ -128,7 +128,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.editMode = this.localStorageService.getEditMode();
     this.fromPreview = this.eventsService.getBackFromPreview();
     const submitFromPreview = this.eventsService.getSubmitFromPreview();
-    this.tags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
+    this.tags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
       description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),

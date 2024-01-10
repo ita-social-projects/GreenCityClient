@@ -10,22 +10,11 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { TagsArray, eventTimeList, OptionItem } from '../../models/event-consts';
-import { By } from '@angular/platform-browser';
-import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
-import { FormControl } from '@angular/forms';
-import { Addresses } from '../../models/events.interface';
+import { Addresses, FilterItem } from '../../models/events.interface';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
-  const eventStatusList = [
-    { nameEn: 'Open', nameUa: 'Відкритa' },
-    { nameEn: 'Closed', nameUa: 'Закритa' },
-    { nameEn: 'Joined', nameUa: 'Вже доєднані' },
-    { nameEn: 'Created', nameUa: 'Створенa' },
-    { nameEn: 'Saved', nameUa: 'Збережена' }
-  ];
 
   const addressesMock: Array<Addresses> = [
     {
@@ -99,11 +88,6 @@ describe('EventsListComponent', () => {
     error: null
   };
 
-  const timeFilterControl = new FormControl();
-  const locationFilterControl = new FormControl();
-  const statusFilterControl = new FormControl();
-  const typeFilterControl = new FormControl();
-
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });
 
@@ -153,112 +137,10 @@ describe('EventsListComponent', () => {
     expect(component.isLoggedIn).toBe(3 as any);
   });
 
-  it('should reset all filters', () => {
-    component.eventTimeList = eventTimeList;
-    component.typeList = TagsArray;
-    component.statusList = eventStatusList;
-    component.eventLocationsList = [];
-    const spy = spyOn(component, 'resetAll');
-    component.resetAll();
-
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(component.selectedFilters).toEqual([]);
-  });
-
-  it('should check weather deleteOneFilter works correctly', () => {
-    component.selectedFilters = [
-      { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'two', nameUa: 'два' },
-      { nameEn: 'three', nameUa: 'три' }
-    ];
-    const filterRemoved = { nameEn: 'three', nameUa: 'три' };
-    const res = [
-      { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'two', nameUa: 'два' }
-    ];
-
-    component.eventTimeList = eventTimeList;
-    component.typeList = TagsArray;
-    component.statusList = eventStatusList;
-    component.eventLocationsList = [];
-
-    const spy = spyOn(component, 'deleteOneFilter');
-    component.deleteOneFilter(filterRemoved, 1);
-    component.selectedFilters.pop();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(component.selectedFilters).toEqual(res);
-  });
-
-  it('should return unique locations', () => {
-    const expectedLocations: OptionItem[] = [
-      { nameEn: 'Kyiv', nameUa: 'Київ' },
-      { nameEn: 'Lviv', nameUa: 'Львів' },
-      { nameEn: 'Ternopil', nameUa: 'Тернопіль' }
-    ];
-    expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
-  });
-
-  it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {
-    const key = 'dropdown1';
-    component.allSelectedFlags[key] = true;
-
-    const options = fixture.debugElement.queryAll(By.directive(MatOption));
-    options.forEach((option) => {
-      spyOn(option.componentInstance, 'select');
-      spyOn(component.selectedFilters, 'push');
-
-      option.triggerEventHandler('click', null);
-
-      expect(option.componentInstance.select).toHaveBeenCalled();
-      expect(component.selectedFilters.push).toHaveBeenCalledWith(option.componentInstance.value);
-    });
-  });
-
-  it('should deselect all options and remove them from selectedFilters when allSelectedFlags is false', () => {
-    const key = 'dropdown1';
-    component.allSelectedFlags[key] = false;
-
-    const options = fixture.debugElement.queryAll(By.directive(MatOption));
-    options.forEach((option) => {
-      spyOn(option.componentInstance, 'deselect');
-      spyOn(component.selectedFilters, 'filter');
-
-      option.triggerEventHandler('click', null);
-
-      expect(option.componentInstance.deselect).toHaveBeenCalled();
-      expect(component.selectedFilters.filter).toHaveBeenCalledWith((value) => value !== option.componentInstance.value);
-    });
-  });
-
-  it('should remove existing filter when deselected', () => {
-    let mockEvent: MatOptionSelectionChange = {
-      isUserInput: true,
-      source: { selected: true } as MatOption
-    };
-    component.updateSelectedFilters(eventStatusList[0], mockEvent, component.statusesList, 'statuses', component.statusList);
-    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
-    mockEvent = { isUserInput: true, source: { selected: false } as MatOption };
-    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
-    expect(component.selectedFilters).toEqual([{ nameEn: 'Open', nameUa: 'Відкритa' }]);
-  });
-
-  it('should add new filter when selected', () => {
-    const mockEvent: MatOptionSelectionChange = {
-      isUserInput: true,
-      source: { selected: true } as MatOption
-    };
-    component.updateSelectedFilters(eventStatusList[0], mockEvent, component.statusesList, 'statuses', component.statusList);
-    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
-    expect(component.selectedFilters).toEqual([
-      { nameEn: 'Open', nameUa: 'Відкритa' },
-      { nameEn: 'Closed', nameUa: 'Закритa' }
-    ]);
-  });
-
-  it('should check weather search works correctly', () => {
-    component.searchToggle = false;
+  it('should close search toggle when it opened', () => {
+    component.searchToggle = true;
     component.search();
-    expect(component.searchToggle).toEqual(true);
+    expect(component.searchToggle).toEqual(false);
   });
 
   it('should hide search input if it is empty', () => {
@@ -274,5 +156,57 @@ describe('EventsListComponent', () => {
     component.cancelSearch();
     expect(component.searchEventControl.value).toEqual('');
     expect(component.searchToggle).toEqual(true);
+  });
+
+  it('should show selected events', () => {
+    component.bookmarkSelected = false;
+    component.showSelectedEvents();
+    expect(component.bookmarkSelected).toEqual(true);
+  });
+
+  it('should return unique locations', () => {
+    const expectedLocations: FilterItem[] = [
+      { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
+      { type: 'location', nameEn: 'Ternopil', nameUa: 'Тернопіль' }
+    ];
+    expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
+  });
+
+  it('should update selected filters list', () => {
+    const clickedFiltersList: FilterItem[] = [
+      { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
+      { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутній' },
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
+    ];
+    component.selectedFilters = [];
+    clickedFiltersList.forEach((clickedFilter) => {
+      component.updateListOfFilters(clickedFilter);
+    });
+    expect(component.selectedFilters).toEqual(clickedFiltersList);
+  });
+
+  it('should remove all selection in type', () => {
+    component.selectedFilters = [
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
+    ];
+    const expectedSelectedFiltersList: FilterItem[] = [{ type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' }];
+    component.selectedEventTimeStatusFiltersList = ['Past'];
+    component.selectedLocationFiltersList = ['Lviv'];
+    component.unselectAllFiltersInType('location');
+    expect(component.selectedFilters).toEqual(expectedSelectedFiltersList);
+  });
+
+  it('should reset all filters', () => {
+    component.selectedFilters = [
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
+      { type: 'type', nameEn: 'Economic', nameUa: 'Економічний' },
+      { type: 'status', nameEn: 'Closed', nameUa: 'Закритa' }
+    ];
+    component.resetAllFilters();
+    expect(component.selectedFilters.length).toEqual(0);
   });
 });

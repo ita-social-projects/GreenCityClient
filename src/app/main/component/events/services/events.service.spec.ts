@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
-import { Addresses, EventFilterCriteriaInterface } from '../models/events.interface';
+import { EventFilterCriteriaInterface } from '../models/events.interface';
 import { EventFilterCriteria } from '../models/event-consts';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,7 +11,7 @@ describe('EventsService', () => {
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
   const formData = new FormData();
-  const eventFilterCriteria: EventFilterCriteriaInterface = EventFilterCriteria;
+  const eventFilterCriteriaConst: EventFilterCriteriaInterface = EventFilterCriteria;
   const data: any = {
     additionalImages: ['string'],
     dates: [
@@ -90,12 +90,12 @@ describe('EventsService', () => {
   });
 
   it('should make GET request to get all events', () => {
-    service.getEvents(0, 1, eventFilterCriteria).subscribe((event: any) => {
+    service.getEvents(0, 1, eventFilterCriteriaConst).subscribe((event: any) => {
       expect(event).toEqual(data);
     });
     const req = httpTestingController.expectOne(
-      `${url}events?page=0&size=1&cities=${eventFilterCriteria.cities}&tags=${eventFilterCriteria.tags}` +
-        `&eventTime=${eventFilterCriteria.eventTime}&statuses=${eventFilterCriteria.statuses}`
+      `${url}events?page=0&size=1&cities=${eventFilterCriteriaConst.cities}&tags=${eventFilterCriteriaConst.tags}` +
+        `&eventTime=${eventFilterCriteriaConst.eventTime}&statuses=${eventFilterCriteriaConst.statuses}`
     );
     expect(req.request.method).toEqual('GET');
     req.flush(data);

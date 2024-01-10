@@ -53,12 +53,6 @@
     min-height: 20px;
     background: url('src/assets/events-icons/search.png');
     display: inline-block;
-
-    &:hover {
-      min-width: 20px;
-      min-height: 20px;
-      background: url('src/assets/events-icons/search-hover.png');
-    }
   }
 
   .search-img-active {
@@ -71,10 +65,6 @@
     width: 12px;
     height: 17px;
     background: url('src/assets/events-icons/bookmark-grey.png');
-
-    &:hover {
-      background: url('src/assets/events-icons/bookmark-active.png');
-    }
   }
 
   .bookmark-img-active {
@@ -154,7 +144,7 @@ p {
   margin-top: 16px;
 }
 
-.sort-by {
+.filter-by {
   display: flex;
   align-items: center;
   margin-right: 20px;
@@ -200,6 +190,7 @@ p {
   align-items: center;
   width: 8px;
   height: 8px;
+  cursor: pointer;
 }
 
 .cross-img {
@@ -268,4 +259,8 @@ p {
 ::ng-deep .cdk-overlay-pane {
   min-width: 165px !important;
   transform: translateX(-35px) translateY(10px) !important;
+}
+
+::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
+  display: none;
 }
