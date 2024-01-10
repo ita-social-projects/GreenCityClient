@@ -123,7 +123,7 @@
       (scrolled)="getEvents()"
     ></app-spinner>
     <app-spinner
-      *ngIf="isLoading && eventsList.length === 0"
+      *ngIf="isLoading && !eventsList.length"
       infiniteScroll
       [infiniteScrollDistance]="0"
       [infiniteScrollThrottle]="500"

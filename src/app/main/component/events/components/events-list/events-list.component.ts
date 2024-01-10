@@ -105,7 +105,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
       this.getUserFavoriteEvents();
     } else {
       const searchTitle = this.searchEventControl.value.trim();
-      if (searchTitle.length === 0) {
+      if (!searchTitle.length) {
         const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
         this.store.dispatch(
           GetEcoEventsByPageAction({
