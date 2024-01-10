@@ -257,4 +257,12 @@ describe('CommentTextareaComponent', () => {
 
     expect(fakeEvent.preventDefault).toHaveBeenCalled();
   });
+
+  it('should unsubscribe from the subscription on ngOnDestroy', () => {
+    spyOn((component as any).localStorageServiceSubscription, 'unsubscribe');
+    spyOn((component as any).socketServiceSubscription, 'unsubscribe');
+    fixture.destroy();
+    expect((component as any).socketServiceSubscription.unsubscribe).toHaveBeenCalled();
+    expect((component as any).localStorageServiceSubscription.unsubscribe).toHaveBeenCalled();
+  });
 });

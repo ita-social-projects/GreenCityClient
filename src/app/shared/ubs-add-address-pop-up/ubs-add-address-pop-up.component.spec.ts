@@ -2,7 +2,7 @@ import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-ba
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -215,15 +215,21 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
-  it('method getPlacePredictions should form prediction list for Kyiv region', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv region', fakeAsync(() => {
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVREGIONSLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     const fakesearchAddress = `Київська область, Ше`;
     component.inputCity(fakesearchAddress, Language.UK);
+    flush();
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
-  });
+  }));
 
   it('method onCitySelected should invoke method setValueOfCity 2 times', () => {
     const spy = spyOn(component, 'setValueOfCity');
@@ -308,28 +314,40 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.autocompleteService.getPlacePredictions).toHaveBeenCalled();
   });
 
-  it('method getPlacePredictions should form prediction street list for Kyiv city', () => {
+  it('method getPlacePredictions should form prediction street list for Kyiv city', fakeAsync(() => {
     component.city.setValue(`Київ`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVCITYLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.STREETSKYIVCITYLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     const fakesearchAddress = `Київ, Сі`;
     component.inputAddress(fakesearchAddress, Language.UK);
+    flush();
     expect(component.streetPredictionList).toEqual(ADDRESSESMOCK.STREETSKYIVCITYLIST);
-  });
-  it('method getPlacePredictions should form prediction street list for Kyiv region', () => {
+  }));
+  it('method getPlacePredictions should form prediction street list for Kyiv region', fakeAsync(() => {
     const result = ADDRESSESMOCK.STREETSKYIVREGIONLIST;
     component.city.setValue('Щасливе');
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.STREETSKYIVREGIONLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
 
     const fakesearchAddress = 'Щасливе, Не';
     component.inputAddress(fakesearchAddress, Language.UK);
+    flush();
     expect(component.streetPredictionList).toEqual(result);
-  });
+  }));
 
   it('method onStreetSelected should invoke method setValueOfStreet 2 times', () => {
     const spy = spyOn(component, 'setValueOfStreet');
@@ -412,17 +430,23 @@ describe('UBSAddAddressPopUpComponent', () => {
     expect(component.updatedAddresses).toEqual(response.addressList);
   });
 
-  it('method setPredictHouseNumbers should set place id and isHouseSelected', () => {
+  it('method setPredictHouseNumbers should set place id and isHouseSelected', fakeAsync(() => {
     const houseValue = { value: '1A' };
     spyOn(houseValue.value, 'toLowerCase').and.returnValue('1a');
     component.houseNumber.setValue(houseValue.value);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.STREETSKYIVREGIONLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.STREETSKYIVREGIONLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     component.setPredictHouseNumbers();
+    flush();
     expect(component.isHouseSelected).toBeFalsy();
-  });
+  }));
 
   it('method onHouseSelected should set place id and isHouseSelected', () => {
     component.onHouseSelected(ADDRESSESMOCK.STREETSKYIVREGIONLIST[0]);

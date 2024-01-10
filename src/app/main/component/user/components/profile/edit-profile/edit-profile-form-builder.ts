@@ -11,9 +11,9 @@ export class EditProfileFormBuilder {
       name: ['', Validators.maxLength(30)],
       city: ['', Validators.maxLength(85)],
       credo: ['', Validators.maxLength(170)],
-      showLocation: [''],
-      showEcoPlace: [''],
-      showShoppingList: [''],
+      showLocation: [false],
+      showEcoPlace: [false],
+      showShoppingList: [false],
       socialNetworks: ['']
     });
   }

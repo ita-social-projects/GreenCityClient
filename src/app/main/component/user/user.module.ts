@@ -1,4 +1,3 @@
-import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +6,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AgmCoreModule } from '@agm/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
@@ -170,10 +168,6 @@ import { UserNotificationsPopUpComponent } from './components/profile/user-notif
     MatTooltipModule,
     DragDropModule,
     HttpClientModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places']
-    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

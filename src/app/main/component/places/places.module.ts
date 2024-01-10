@@ -24,7 +24,6 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MoreOptionsFilterComponent } from './components/more-options-filter/more-options-filter.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -73,7 +72,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
       isolate: true
     }),
     MatSliderModule,
-    MatGoogleMapsAutocompleteModule,
     MaterialModule,
     MatDatepickerModule,
     MatNativeDateModule

@@ -17,6 +17,11 @@ export const timeStatusFiltersData: FilterItem[] = [
   { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' }
 ];
 
+export enum DefaultCoordinates {
+  LATITUDE = 50.4501,
+  LONGITUDE = 30.5234
+}
+
 export const statusFiltersData: FilterItem[] = [
   { type: 'status', nameEn: 'Open', nameUa: 'Відкритa' },
   { type: 'status', nameEn: 'Closed', nameUa: 'Закритa' },
@@ -35,7 +40,7 @@ export const DateObj = {
   date: null,
   startDate: '',
   finishDate: '',
-  coordinatesDto: {
+  coordinates: {
     latitude: null,
     longitude: null
   },

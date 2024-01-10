@@ -310,7 +310,7 @@ header {
       a {
         font-size: 14px;
         line-height: 16px;
-        color: var(--primary-dark-grey);
+        color: var(--quaternary-dark-grey);
         text-transform: capitalize;
       }
     }
@@ -364,6 +364,7 @@ header {
         .lang-option {
           span {
             font-size: 14px;
+            color: var(--quaternary-grey);
           }
         }
       }

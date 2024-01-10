@@ -810,6 +810,7 @@
         "btn-crate-habit": "Create habit",
         "btn-more": "More",
         "btn-add": "Add habit",
+        "btn-added": "Added habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
         "habit-did-not-give-up": "We glad that you change your mind",
@@ -1153,6 +1154,7 @@
     "event-place": "Place",
     "event-start": "Start",
     "event-online": "Online",
+    "apply-location": "Apply to all days of the event",
     "event-location": "Location",
     "event-link": "Online Link",
     "event-offline-place": "Event Offline place.",
@@ -1192,5 +1194,8 @@
     "delete-message": "All created content will be lost. Do you still want to cancel creation?",
     "btn.yes": "Yes, cancel",
     "btn.no": "Continue editing"
+  },
+  "chat": {
+    "empty-chat": "Chat hasn’t got any message yet"
   }
 }

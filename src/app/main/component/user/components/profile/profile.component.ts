@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.localStorageService.setCurentPage('previousPage', '/profile');
     this.isDesktopWidth = this.isDeskWidth();
     this.announce();
     this.showUserInfo();
