@@ -61,10 +61,11 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (response) => {
-              this.orderResponseError = response?.result === 'error' ? true : false;
+              this.orderResponseError = response?.result === 'error';
               this.orderStatusDone = !this.orderResponseError;
               this.orderId = response.order_id ? response.order_id.split('_')[0] : this.localStorageService.getUbsFondyOrderId();
               this.renderView();
+              this.clenupLocalStorage();
               this.isSpinner = false;
             },
             (error) => {
@@ -75,6 +76,11 @@ export class UbsConfirmPageComponent implements OnInit, OnDestroy {
           );
       }
     });
+  }
+
+  clenupLocalStorage() {
+    this.localStorageService.removeUbsOrderAndPersonalData();
+    this.localStorageService.removeanotherClientData();
   }
 
   public removeOrderFromLocalStorage(): void {
