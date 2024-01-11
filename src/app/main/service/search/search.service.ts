@@ -33,23 +33,6 @@ export class SearchService {
     );
   }
 
-  private getResultsByCat(searchType: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(switchMap((res) => of(res)));
-  }
-
-  public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
-    switch (searchType) {
-      case 'relevance':
-        return this.getResultsByCat('search');
-      case 'newest':
-        return this.getResultsByCat('newest');
-      case 'latest':
-        return this.getResultsByCat('noresults');
-      default:
-        return this.getResultsByCat('search');
-    }
-  }
-
   public toggleSearchModal() {
     this.searchSubject.next(true);
   }
