@@ -17,13 +17,13 @@ export class SearchService {
   public allSearchSubject = new Subject<boolean>();
   public allElements: SearchDto;
 
-  public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search?lang=${lang}&searchQuery=${encodeURI(searchQuery)}`);
+  public getAllResults(searchQuery: string, category, lang: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.backEndLink}search/${category}?lang=${lang}&searchQuery=${encodeURI(searchQuery)}`);
   }
 
   public getAllResultsByCat(
     query: string,
-    category: string = 'econews',
+    category: string = 'news',
     page: number = 0,
     sort: string = '',
     items: number = 9
