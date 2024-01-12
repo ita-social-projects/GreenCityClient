@@ -127,7 +127,7 @@ describe('SearchPopupComponent', () => {
 
       component.searchInput.setValue('test');
       tick(300);
-      expect(getSearchSpy).toHaveBeenCalledWith('test', 'ua');
+      expect(getSearchSpy).toHaveBeenCalledWith('test', 'econews', 'ua');
     }));
 
     it('should call resetData', () => {

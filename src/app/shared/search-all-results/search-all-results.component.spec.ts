@@ -110,9 +110,9 @@ describe('SearchAllResultsComponent', () => {
       expect(component.displayedElements).toEqual([]);
     });
 
-    it('should change current sorting to creation_date,desc', () => {
+    it('should change current sorting to desc', () => {
       component.changeCurrentSorting(1);
-      expect(component.sortType).toBe('creation_date,desc');
+      expect(component.sortType).toBe('desc');
     });
 
     it('should change current sorting to default', () => {
@@ -120,9 +120,9 @@ describe('SearchAllResultsComponent', () => {
       expect(component.sortType).toBe('');
     });
 
-    it('should change current sorting to creation_date,asc', () => {
+    it('should change current sorting to asc', () => {
       component.changeCurrentSorting(2);
-      expect(component.sortType).toBe('creation_date,asc');
+      expect(component.sortType).toBe('asc');
     });
 
     it('should on update page url if current filter is same', () => {
