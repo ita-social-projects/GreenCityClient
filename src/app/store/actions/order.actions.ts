@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Bag, OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
+import { OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
 
 export enum OrderActions {
   AddOrderDetails = '[Order] Add Order Details',
