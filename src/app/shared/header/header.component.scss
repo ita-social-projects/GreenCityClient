@@ -16,6 +16,10 @@ $ubs-header-height: 86px;
   padding: 0;
 }
 
+::ng-deep .dialog-chat .mat-dialog-container {
+  padding: 0;
+}
+
 .active-link {
   color: var(--primary-green) !important;
 
@@ -350,6 +354,8 @@ header {
       }
 
       .chat-icon {
+        outline: none;
+
         img {
           height: 14px;
           width: 16px;

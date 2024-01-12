@@ -18,7 +18,6 @@ import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 })
 export class ChatPopupComponent implements OnInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
-  isChatPopupOpen = false;
   private onDestroy$ = new Subject();
   private userId: number;
 
@@ -78,12 +77,5 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
-
-  closeChatPopup(chats) {
-    this.dialogRef.close();
-  }
-
-  public openChatPopUp() {
-    this.isChatPopupOpen = true;
-  }
 }
+

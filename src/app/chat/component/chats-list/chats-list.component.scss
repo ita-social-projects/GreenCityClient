@@ -47,7 +47,8 @@
   overflow-y: auto;
   flex: 1;
   width: 100%;
-  max-height: 490px;
+  max-height: 550px;
+
   @include flex(column, flex-start, flex-start);
 
   .search-container {
@@ -61,6 +62,7 @@
   column-gap: 10px;
   cursor: pointer;
   max-height: 490px;
+
   @include flex(row, flex-start, center);
 
   &:hover {
