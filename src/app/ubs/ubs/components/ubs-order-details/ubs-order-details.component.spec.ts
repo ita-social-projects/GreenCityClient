@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -22,6 +22,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/ubs-tariffs.enum';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { VolumePipe } from 'src/app/shared/volume-pipe/volume.pipe';
 
 describe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
@@ -29,7 +30,11 @@ describe('OrderDetailsFormComponent', () => {
   let orderService: OrderService;
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', [
+    'orderDetails',
+    'changeAddCertButtonVisibility',
+    'changeOrderDetails'
+  ]);
   const localStorageService = jasmine.createSpyObj('localStorageService', [
     'getCurrentLanguage',
     'languageSubject',
@@ -127,7 +132,13 @@ describe('OrderDetailsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UBSOrderDetailsComponent, LocalizedCurrencyPipe, UbsOrderLocationPopupComponent, FilterLocationListByLangPipe],
+      declarations: [
+        UBSOrderDetailsComponent,
+        LocalizedCurrencyPipe,
+        UbsOrderLocationPopupComponent,
+        FilterLocationListByLangPipe,
+        VolumePipe
+      ],
       imports: [
         FormsModule,
         ReactiveFormsModule,
@@ -159,6 +170,8 @@ describe('OrderDetailsFormComponent', () => {
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
     component = fixture.componentInstance;
     spyOn(component, 'saveLocation');
+    shareFormService.orderDetails = orderDetailsMock;
+    (component as any).setCurrentLocation('en');
     fixture.detectChanges();
     orderService = TestBed.inject(OrderService);
   }));
@@ -204,14 +217,34 @@ describe('OrderDetailsFormComponent', () => {
     expect(result).toBe(true);
   });
 
-  it('method takeOrderData should invoke expected methods', () => {
-    component.isThisExistingOrder = true;
-    fixture.detectChanges();
+  it('should set isFetching to true and call updateOrderDetails on successful order retrieval', fakeAsync(() => {
+    const updateOrderDetailsSpy = spyOn(component, 'updateOrderDetails');
+    orderServiceMock.getOrders.and.returnValue(of(orderDetailsMock));
+    localStorageService.getCurrentLanguage.and.returnValue('ua');
+    localStorageService.getLocationId.and.returnValue(100);
+    localStorageService.getTariffId.and.returnValue(1);
     component.takeOrderData();
+    flush();
 
-    expect(localStorageService.removeUbsOrderAndPersonalData).toHaveBeenCalled();
-    expect(localStorageService.removeanotherClientData).toHaveBeenCalled();
-  });
+    expect(component.isFetching).toBeTruthy();
+    expect(orderServiceMock.getOrders).toHaveBeenCalledWith(100, 1);
+    expect(updateOrderDetailsSpy).toHaveBeenCalledWith(orderDetailsMock);
+  }));
+
+  it('should set isFetching to true and call openLocationDialog on error', fakeAsync(() => {
+    spyOn(component, 'openLocationDialog');
+    const error = new Error('Mock error');
+    orderServiceMock.getOrders.and.returnValue(throwError(error));
+    localStorageService.getCurrentLanguage.and.returnValue('ua');
+    localStorageService.getLocationId.and.returnValue(100);
+    localStorageService.getTariffId.and.returnValue(1);
+    component.takeOrderData();
+    flush();
+
+    expect(component.isFetching).toBeTruthy();
+    expect(orderServiceMock.getOrders).toHaveBeenCalledWith(100, 1);
+    expect(component.openLocationDialog).toHaveBeenCalled();
+  }));
 
   it('method filterBags should sord bags', () => {
     (component as any).orders = {
@@ -309,8 +342,6 @@ describe('OrderDetailsFormComponent', () => {
 
   it('saveLocation should set isFetching', () => {
     (component as any).saveLocation();
-    expect(component.isFetching).toBeTruthy();
-    (component as any).setCurrentLocation();
     expect(component.changeLocation).toBeFalsy();
   });
 

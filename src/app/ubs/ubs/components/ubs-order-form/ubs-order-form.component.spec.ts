@@ -8,6 +8,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('UBSOrderFormComponent ', () => {
   let component: UBSOrderFormComponent;
@@ -18,7 +19,14 @@ describe('UBSOrderFormComponent ', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MatStepperModule, TranslateModule.forRoot(), BrowserAnimationsModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatStepperModule,
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule,
+        RouterTestingModule
+      ],
       declarations: [UBSOrderFormComponent],
       providers: [{ provide: Store, useValue: storeMock }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

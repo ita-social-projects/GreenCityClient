@@ -95,8 +95,6 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   }
 
   onSelectionChange($event: any) {
-    console.log($event.selectedIndex);
-
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: { stepperId: $event.selectedIndex },

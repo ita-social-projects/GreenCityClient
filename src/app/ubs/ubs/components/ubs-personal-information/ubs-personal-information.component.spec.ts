@@ -128,8 +128,10 @@ describe('UBSPersonalInformationComponent', () => {
     'setOrder',
     'setCurrentAddress',
     'setLocationData',
-    'addAdress'
+    'addAdress',
+    'setActualAddress'
   ]);
+  fakeOrderService.setActualAddress.and.returnValue(of());
 
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));

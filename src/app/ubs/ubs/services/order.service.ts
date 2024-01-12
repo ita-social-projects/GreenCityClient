@@ -111,8 +111,6 @@ export class OrderService {
   }
 
   processOrder(order: Order): Observable<Order> {
-    console.log(order);
-
     return this.http.post<Order>(`${this.url}/processOrder`, order, { responseType: 'text' as 'json' });
   }
 
@@ -163,8 +161,6 @@ export class OrderService {
   }
 
   setActualAddress(adressId: number): Observable<any> {
-    console.log(adressId);
-
     return this.http.patch(`${this.url}/makeAddressActual/${adressId}`, null);
   }
 

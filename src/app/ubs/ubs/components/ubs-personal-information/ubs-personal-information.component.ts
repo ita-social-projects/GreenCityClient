@@ -90,8 +90,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   ngOnInit() {
-    console.log('second init');
-
     this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
       if (this.localService.getLocationId()) {
         this.currentLocationId = this.localService.getLocationId();
@@ -172,8 +170,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       .pipe(takeUntil(this.destroy))
       .subscribe((list) => {
         this.addresses = list.addressList;
-        console.log(this.addresses);
-
         this.localService.setAddresses(this.addresses);
         this.personalDataForm.patchValue({
           address: this.addresses
@@ -218,8 +214,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   }
 
   checkAddress(addressId) {
-    console.log(addressId);
-
     if (addressId) {
       this.addresses.forEach((address) => {
         if (address.id === addressId) {
