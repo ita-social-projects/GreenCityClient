@@ -38,9 +38,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private localeStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<ChatPopupComponent>
-  ) {
-    console.log('ChatPopupComponent created');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.userId = this.localeStorageService.getUserId();
