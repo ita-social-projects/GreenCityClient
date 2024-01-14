@@ -47,7 +47,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
     this.dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(takeUntil(this.onDestroy$));
   }
 
   public openNewMessageWindow(isEmpty: boolean) {
