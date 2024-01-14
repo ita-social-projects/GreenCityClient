@@ -50,9 +50,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((result) => {
-        console.log('Dialog closed with result:', result);
-      });
   }
 
   public openNewMessageWindow(isEmpty: boolean) {
