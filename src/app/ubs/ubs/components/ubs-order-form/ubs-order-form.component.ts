@@ -10,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { OrderDetails, PersonalData } from '../../models/ubs.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -94,7 +95,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
     this.completed = this.stepper?.selected.state === 'finalStep';
   }
 
-  onSelectionChange($event: any) {
+  onSelectionChange($event: StepperSelectionEvent) {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: { stepperId: $event.selectedIndex },
