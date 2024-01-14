@@ -45,7 +45,7 @@
   <div class="comments-elements">
     <div class="btn-wrapper" *ngIf="isLoggedIn && checkCommentAuthor(comment.author.id) && !comment.isEdit; else editComment">
       <app-edit-comment (isEditing)="showElements(comment.id, 'isEdit')"></app-edit-comment>
-      <app-delete-comment [element]="comment" [dataType]="dataType" (elementsList)="deleteComment()"> </app-delete-comment>
+      <app-delete-comment [element]="comment" [dataType]="dataType" (elementsList)="deleteComment($event)"> </app-delete-comment>
     </div>
     <ng-template #editComment>
       <div class="save-cancel-wrapper" *ngIf="isLoggedIn && checkCommentAuthor(comment.author.id)">
