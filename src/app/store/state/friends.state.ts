@@ -1,17 +1,17 @@
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 
 export interface IFriendState {
-  FriendList: FriendArrayModel | null;
-  FriendRequestList: FriendArrayModel | null;
-  FriendsStayInRequestList: FriendModel[] | null;
-  FriendsStayInFriendsList: FriendModel[] | null;
+  FriendState: FriendArrayModel;
+  FriendList: FriendModel[];
+  FriendRequestState: FriendArrayModel;
+  FriendRequestList: FriendModel[];
   error: string | null;
 }
 
 export const initialFriendState: IFriendState = {
+  FriendState: null,
   FriendList: null,
+  FriendRequestState: null,
   FriendRequestList: null,
-  FriendsStayInRequestList: null,
-  FriendsStayInFriendsList: null,
   error: null
 };
