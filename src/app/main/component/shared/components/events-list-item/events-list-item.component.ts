@@ -10,8 +10,8 @@ import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { TagsArray } from '../../../events/models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
+import { typeFiltersData } from '../../../events/models/event-consts';
+import { EventPageResponseDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,7 +33,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
   styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
-  @Input() event: EventPageResponceDto;
+  @Input() event: EventPageResponseDto;
   @Input() userId: number;
   @Input() isUserAssignList: boolean;
 
@@ -114,7 +114,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
+    this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
     this.userOwnAuthService.getDataFromLocalStorage();

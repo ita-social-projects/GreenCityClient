@@ -13,7 +13,7 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { Coordinates, EventPageResponceDto, PagePreviewDTO } from '../../models/events.interface';
+import { Coordinates, EventPageResponseDto, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -71,7 +71,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   attendeesAvatars = [];
 
   public organizerName: string;
-  public event: EventPageResponceDto | PagePreviewDTO;
+  public event: EventPageResponseDto | PagePreviewDTO;
   public locationLink: string;
   public locationCoordinates: Coordinates;
   public place: string;
@@ -133,7 +133,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.userId = Number(id);
       });
       const isAuthorized = this.jwtService.getUserRole();
-      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
+      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
         this.event = res;
         this.organizerName = this.event.organizer.name;
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;

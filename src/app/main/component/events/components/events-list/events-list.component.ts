@@ -1,31 +1,22 @@
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Addresses, EventFilterCriteriaIntarface, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, EventFilterCriteriaInterface, EventPageResponseDto, FilterItem } from '../../models/events.interface';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { GetEcoEventsByPageAction } from 'src/app/store/actions/ecoEvents.actions';
-import {
-  TagsArray,
-  eventTimeList,
-  eventStatusList,
-  OptionItem,
-  allSelectedFlags,
-  AllSelectedFlags,
-  EventFilterCriteria,
-  allSelectedFilter
-} from '../../models/event-consts';
+import { typeFiltersData, timeStatusFiltersData, statusFiltersData } from '../../models/event-consts';
 import { LanguageService } from '../../../../i18n/language.service';
 import { Router } from '@angular/router';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-events-list',
@@ -33,43 +24,41 @@ import { EventsService } from '../../services/events.service';
   styleUrls: ['./events-list.component.scss']
 })
 export class EventsListComponent implements OnInit, OnDestroy {
-  @ViewChild('timeFilter') timeList: MatSelect;
-  @ViewChild('locationFilter') locationList: MatSelect;
-  @ViewChild('statusFilter') statusesList: MatSelect;
-  @ViewChild('typeFilter') typesList: MatSelect;
+  @ViewChild('timeFilter') eventTimeStatusOptionList: MatSelect;
+  @ViewChild('locationFilter') locationOptionList: MatSelect;
+  @ViewChild('statusFilter') statusOptionList: MatSelect;
+  @ViewChild('typeFilter') typeOptionList: MatSelect;
 
-  public timeFilterControl = new FormControl();
+  public eventTimeStatusFilterControl = new FormControl();
   public locationFilterControl = new FormControl();
   public statusFilterControl = new FormControl();
   public typeFilterControl = new FormControl();
-  public searchFilterWords = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
+  public searchEventControl = new FormControl('', [Validators.maxLength(30), Validators.pattern(Patterns.NameInfoPattern)]);
 
-  public eventsList: EventPageResponceDto[] = [];
-  public bufferArray: EventPageResponceDto[] = [];
-  public wordsToSearch: string[];
-  public showEventItem = true;
+  public eventsList: EventPageResponseDto[] = [];
 
   public isLoggedIn: string;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
-  private eventFilterCriteria: EventFilterCriteriaIntarface = EventFilterCriteria;
-  private allSelectedFilter = allSelectedFilter;
-  public page = 0;
-  public hasNext = true;
-  public remaining = 0;
+  private ecoEvents$: Observable<IEcoEventsState> = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
+  public selectedEventTimeStatusFiltersList: string[] = [];
+  public selectedLocationFiltersList: string[] = [];
+  public selectedStatusFiltersList: string[] = [];
+  public selectedTypeFiltersList: string[] = [];
+  private page = 0;
+  public hasNextPage = true;
+  public countOfEvents = 0;
   private eventsPerPage = 6;
-  public elementsArePresent = true;
   public noEventsMatch = false;
-  public selectedFilters = [];
+  public selectedFilters: FilterItem[] = [];
   public searchToggle = false;
   public bookmarkSelected = false;
-  public allSelectedFlags: AllSelectedFlags = allSelectedFlags;
-  public eventTimeList: OptionItem[] = eventTimeList;
-  public typeList: OptionItem[] = TagsArray;
-  public statusList: OptionItem[];
-  public eventLocationsList: OptionItem[] = [];
-  public scroll: boolean;
+  public eventTimeStatusFiltersList: FilterItem[] = timeStatusFiltersData;
+  public locationFiltersList: FilterItem[] = [];
+  public statusFiltersList: FilterItem[] = [];
+  public typeFiltersList: FilterItem[] = typeFiltersData;
   public userId: number;
+  public isLoading = true;
+  private searchResultSubscription: Subscription;
   private dialog: MatDialog;
 
   constructor(
@@ -78,7 +67,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    public injector: Injector,
+    private injector: Injector,
     private eventService: EventsService
   ) {
     this.dialog = injector.get(MatDialog);
@@ -88,246 +77,284 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.localStorageService.setEditMode('canUserEdit', false);
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.scroll = true;
-    this.dispatchStore(true);
     this.localStorageService.setCurentPage('previousPage', '/events');
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
-      this.page = res.pageNumber;
       if (res.eventState) {
-        this.eventsList = [...res.eventsList];
-        this.bufferArray = [...res.eventsList];
-        const data = res.eventState;
-        this.hasNext = data.hasNext;
-        this.remaining = data.totalElements;
-        this.elementsArePresent = this.eventsList.length < data.totalElements;
-      } else {
-        this.scroll = false;
-        this.elementsArePresent = false;
+        this.isLoading = false;
+        this.eventsList.push(...res.eventsList);
+        this.page++;
+        this.countOfEvents = res.eventState.totalElements;
+        this.hasNextPage = res.eventState.hasNext;
       }
     });
+    this.getEvents();
     this.eventService.getAddresses().subscribe((addresses) => {
-      this.eventLocationsList = this.getUniqueLocations(addresses);
+      this.locationFiltersList = this.getUniqueLocations(addresses);
     });
-    this.searchWords();
-  }
-
-  searchWords(): void {
-    this.searchFilterWords.valueChanges.subscribe((value) => {
-      this.wordsToSearch = value.split(' ');
-      this.sortByWord(this.bufferArray, this.wordsToSearch);
-    });
-  }
-
-  sortByWord(list: EventPageResponceDto[], words: string[]): void {
-    this.eventsList = list.filter((element) => {
-      for (const word of words) {
-        if (element.title.includes(word)) {
-          return true;
-        }
+    this.searchEventControl.valueChanges.subscribe((value) => {
+      if (this.searchResultSubscription) {
+        this.searchResultSubscription.unsubscribe();
       }
-      return false;
+      this.cleanEventList();
+      value.trim() !== '' ? this.searchEventsByTitle(value.trim()) : this.getEvents();
     });
-    if (!this.eventsList.length) {
-      this.noEventsMatch = true;
-      this.scroll = false;
+  }
+
+  public getEvents(): void {
+    if (this.bookmarkSelected) {
+      this.getUserFavoriteEvents();
     } else {
-      this.noEventsMatch = false;
-      this.scroll = true;
-    }
-  }
-
-  public cancelSearch(): void {
-    if (this.searchFilterWords.value.trim() === '') {
-      this.searchToggle = false;
-    } else {
-      this.searchFilterWords.setValue('');
-    }
-  }
-
-  public updateSelectedFilters(
-    value: OptionItem,
-    event: MatOptionSelectionChange,
-    optionsList: MatSelect,
-    dropdownName: string,
-    filterList: Array<OptionItem>
-  ): void {
-    const existingFilterIndex = this.selectedFilters.indexOf(value);
-    const isUserInput = event.isUserInput && existingFilterIndex !== -1;
-    if (isUserInput && !event.source.selected) {
-      this.selectedFilters.splice(existingFilterIndex, 1);
-      this.deleteFromEventFilterCriteria(value, dropdownName);
-      this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    }
-
-    if (event.isUserInput && !event.source.selected) {
-      this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    }
-
-    if (!event.source.selected) {
-      this.deleteFromEventFilterCriteria(value, dropdownName);
-    }
-
-    if (!isUserInput && event.source.selected) {
-      this.selectedFilters.push(value);
-      this.addToEventFilterCriteria(value, dropdownName);
-      this.checkAllSelectedFilters(value, optionsList, dropdownName, filterList);
-    }
-    this.hasNext = true;
-    this.page = 0;
-    this.dispatchStore(true);
-  }
-
-  private checkAllSelectedFilters(value: OptionItem, optionsList: MatSelect, dropdownName: string, filterList: Array<OptionItem>) {
-    if (this.allSelectedFlags[dropdownName]) {
-      optionsList.options.first.deselect();
-      filterList.forEach((item) => {
-        if (item.nameEn !== value.nameEn) {
-          this.addToEventFilterCriteria(item, dropdownName);
-        }
-      });
-      this.selectedFilters = this.selectedFilters.filter((item) => this.allSelectedFilter[dropdownName].nameEn !== item.nameEn);
-      this.selectedFilters = [...this.selectedFilters, ...filterList.filter((item) => item.nameEn !== value.nameEn)];
-    }
-
-    this.allSelectedFlags[dropdownName] = this.eventFilterCriteria[dropdownName].length >= filterList.length;
-
-    if (this.allSelectedFlags[dropdownName]) {
-      optionsList.options.first.select();
-      this.selectedFilters = this.selectedFilters.filter((item1) => !filterList.some((item2) => item2.nameEn === item1.nameEn));
-      this.selectedFilters.push(this.allSelectedFilter[dropdownName]);
-      this.eventFilterCriteria[dropdownName] = [];
-    }
-  }
-
-  private deleteFromEventFilterCriteria(value: OptionItem, dropdownName: string) {
-    this.eventFilterCriteria = {
-      ...this.eventFilterCriteria,
-      [dropdownName]: this.eventFilterCriteria[dropdownName].filter((item) => item !== value.nameEn)
-    };
-  }
-
-  private addToEventFilterCriteria(value: OptionItem, dropdownName: string) {
-    this.eventFilterCriteria = {
-      ...this.eventFilterCriteria,
-      [dropdownName]: [...this.eventFilterCriteria[dropdownName], value.nameEn]
-    };
-  }
-
-  public dispatchStore(res: boolean): void {
-    if (this.hasNext && this.page !== undefined) {
-      this.store.dispatch(
-        GetEcoEventsByPageAction({
-          currentPage: this.page,
-          numberOfEvents: this.eventsPerPage,
-          reset: res,
-          filter: this.eventFilterCriteria
-        })
-      );
-    } else {
-      this.scroll = false;
-      this.elementsArePresent = false;
-    }
-  }
-
-  getUniqueLocations(addresses: Array<Addresses>): OptionItem[] {
-    const uniqueLocationsName = new Set<string>();
-    const uniqueLocations: OptionItem[] = [];
-    addresses.forEach((address: Addresses) => {
-      if (address.cityEn && address.cityUa) {
-        if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUa)) {
-          uniqueLocationsName.add(address.cityEn);
-          uniqueLocationsName.add(address.cityUa);
-          uniqueLocations.push({ nameEn: address.cityEn, nameUa: address.cityUa });
-        }
+      const searchTitle = this.searchEventControl.value.trim();
+      if (!searchTitle.length) {
+        const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
+        this.store.dispatch(
+          GetEcoEventsByPageAction({
+            currentPage: this.page,
+            numberOfEvents: this.eventsPerPage,
+            reset: true,
+            filter: eventListFilterCriterias
+          })
+        );
+      } else {
+        this.searchEventsByTitle(searchTitle);
       }
-    });
-    return uniqueLocations;
-  }
-
-  private getStatusesForFilter(): OptionItem[] {
-    return this.userId ? eventStatusList : eventStatusList.slice(0, 2);
-  }
-
-  public toggleAllSelection(optionsList: MatSelect, dropdownName: string): void {
-    this.allSelectedFlags[dropdownName] = !this.allSelectedFlags[dropdownName];
-    if (this.allSelectedFlags[dropdownName]) {
-      optionsList.options.forEach((item: MatOption) => {
-        if (item.value === 0) {
-          this.selectedFilters.push(allSelectedFilter[dropdownName]);
-        }
-        if (!this.eventFilterCriteria[dropdownName]) {
-          this.eventFilterCriteria[dropdownName] = [];
-        }
-        this.selectedFilters = this.selectedFilters.filter((value) => value !== item.value);
-        item.select();
-      });
-    } else {
-      optionsList.options.forEach((item: MatOption) => {
-        item.deselect();
-        this.selectedFilters = this.selectedFilters.filter((value) => value !== item.value && value !== allSelectedFilter[dropdownName]);
-      });
     }
+  }
+
+  private searchEventsByTitle(searchTitle: string): void {
+    const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
+    this.searchResultSubscription = this.eventService
+      .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
+      .subscribe((res) => {
+        this.isLoading = false;
+        if (res.page.length > 0) {
+          this.countOfEvents = res.totalElements;
+          this.eventsList.push(...res.page);
+          this.hasNextPage = res.hasNext;
+        } else {
+          this.noEventsMatch = true;
+        }
+      });
   }
 
   public search(): void {
     this.searchToggle = !this.searchToggle;
   }
 
-  public deleteOneFilter(filter: OptionItem, index: number): void {
-    let deleted = true;
-    const keyMapping = {
-      eventTime: 0,
-      statuses: 1,
-      cities: 2,
-      tags: 3
-    };
-    [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list, arrayIndex) => {
-      Object.keys(this.allSelectedFilter).forEach((dropdownName) => {
-        if (this.allSelectedFilter[dropdownName].nameEn === filter.nameEn) {
-          list.options.forEach((item) => {
-            if (arrayIndex === keyMapping[dropdownName]) {
-              item.deselect();
-              this.allSelectedFlags[dropdownName] = false;
-            }
-          });
-          if (deleted) {
-            this.selectedFilters.splice(index, 1);
-            deleted = false;
-          }
-        }
-      });
-      const item2 = list.options.find((option: MatOption) => filter.nameEn === option.value.nameEn);
-      if (item2) {
-        this.selectedFilters.splice(index, 1);
-        item2.deselect();
-      }
+  public cancelSearch(): void {
+    this.searchEventControl.value.trim() === '' ? this.searchToggle = false : this.searchEventControl.setValue('');
+  }
+
+  public showSelectedEvents(): void {
+    this.bookmarkSelected = !this.bookmarkSelected;
+    if (this.bookmarkSelected) {
+      this.cleanEventList();
+      this.getUserFavoriteEvents();
+    } else {
+      this.cleanEventList();
+      this.getEvents();
+    }
+  }
+
+  private getUserFavoriteEvents(): void {
+    this.eventService.getUserFavoriteEvents(this.page, this.eventsPerPage).subscribe((res) => {
+      this.isLoading = false;
+      this.eventsList.push(...res.page);
+      this.page++;
+      this.countOfEvents = res.totalElements;
+      this.hasNextPage = res.hasNext;
     });
   }
 
-  public resetAll(): void {
-    [this.timeList, this.statusesList, this.locationList, this.typesList].forEach((list) => {
-      list.options.forEach((item: MatOption) => {
-        item.deselect();
-      });
-    });
-    this.selectedFilters.splice(0, this.selectedFilters.length);
-    Object.keys(this.eventFilterCriteria).forEach((dropdownName) => {
-      if (this.eventFilterCriteria[dropdownName].length) {
-        this.eventFilterCriteria[dropdownName] = [];
+  public getUniqueLocations(addresses: Array<Addresses>): FilterItem[] {
+    const uniqueLocationsName = new Set<string>();
+    const uniqueLocations: FilterItem[] = [];
+    addresses.forEach((address: Addresses) => {
+      if (address.cityEn && address.cityUa) {
+        if (!uniqueLocationsName.has(address.cityEn) && !uniqueLocationsName.has(address.cityUa)) {
+          uniqueLocationsName.add(address.cityEn);
+          uniqueLocationsName.add(address.cityUa);
+          uniqueLocations.push({ type: 'location', nameEn: address.cityEn, nameUa: address.cityUa });
+        }
       }
     });
-    Object.keys(this.allSelectedFlags).forEach((dropdownName) => {
-      if (this.allSelectedFlags[dropdownName].length) {
-        this.allSelectedFlags[dropdownName] = false;
+    return uniqueLocations;
+  }
+
+  public updateListOfFilters(filter: FilterItem): void {
+    switch (filter.type) {
+      case 'eventTimeStatus':
+        if (this.selectedEventTimeStatusFiltersList.includes(filter.nameEn)) {
+          const indexOfCriteria = this.selectedEventTimeStatusFiltersList.indexOf(filter.nameEn);
+          this.selectedEventTimeStatusFiltersList.splice(indexOfCriteria, 1);
+          [this.eventTimeStatusOptionList].forEach((optionList) => {
+            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+          });
+          this.updateSelectedFiltersList(filter.nameEn);
+        } else {
+          this.selectedEventTimeStatusFiltersList.push(filter.nameEn);
+          this.selectedFilters.push(filter);
+        }
+        break;
+      case 'location':
+        if (this.selectedLocationFiltersList.includes(filter.nameEn)) {
+          const indexOfCriteria = this.selectedLocationFiltersList.indexOf(filter.nameEn);
+          this.selectedLocationFiltersList.splice(indexOfCriteria, 1);
+          [this.locationOptionList].forEach((optionList) => {
+            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+          });
+          this.updateSelectedFiltersList(filter.nameEn);
+        } else {
+          this.selectedLocationFiltersList.push(filter.nameEn);
+          this.selectedFilters.push(filter);
+        }
+        break;
+      case 'status':
+        if (this.selectedStatusFiltersList.includes(filter.nameEn)) {
+          const indexOfCriteria = this.selectedStatusFiltersList.indexOf(filter.nameEn);
+          this.selectedStatusFiltersList.splice(indexOfCriteria, 1);
+          [this.statusOptionList].forEach((optionList) => {
+            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+          });
+          this.updateSelectedFiltersList(filter.nameEn);
+        } else {
+          this.selectedStatusFiltersList.push(filter.nameEn);
+          this.selectedFilters.push(filter);
+        }
+        break;
+      case 'type':
+        if (this.selectedTypeFiltersList.includes(filter.nameEn)) {
+          const indexOfCriteria = this.selectedTypeFiltersList.indexOf(filter.nameEn);
+          this.selectedTypeFiltersList.splice(indexOfCriteria, 1);
+          [this.typeOptionList].forEach((optionList) => {
+            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+          });
+          this.updateSelectedFiltersList(filter.nameEn);
+        } else {
+          this.selectedTypeFiltersList.push(filter.nameEn);
+          this.selectedFilters.push(filter);
+        }
+        break;
+    }
+    this.cleanEventList();
+    this.getEvents();
+  }
+
+  public removeItemFromSelectedFiltersList(filter: FilterItem, index?: number): void {
+    this.updateSelectedFiltersList(filter.nameEn, index);
+    this.updateListOfFilters(filter);
+  }
+
+  private updateSelectedFiltersList(filterName: string, index?: number): void {
+    if (index) {
+      this.selectedFilters.splice(index, 1);
+    } else {
+      if (this.selectedFilters.find((item) => item.nameEn === filterName)) {
+        const indexOfItem = this.selectedFilters.findIndex((item) => item.nameEn === filterName);
+        this.selectedFilters.splice(indexOfItem, 1);
       }
+    }
+  }
+
+  public unselectAllFiltersInType(filterType: string): void {
+    switch (filterType) {
+      case 'eventTimeStatus':
+        this.selectedEventTimeStatusFiltersList.forEach((item) => {
+          this.updateSelectedFiltersList(item);
+        });
+        [this.eventTimeStatusOptionList].forEach((optionList) => {
+          optionList.options
+            ?.filter((option: MatOption) => option.selected)
+            .forEach((option: MatOption) => {
+              option.deselect();
+            });
+        });
+        this.selectedEventTimeStatusFiltersList = [];
+        break;
+      case 'location':
+        this.selectedLocationFiltersList.forEach((item) => {
+          this.updateSelectedFiltersList(item);
+        });
+        [this.locationOptionList].forEach((optionList) => {
+          optionList.options
+            ?.filter((option: MatOption) => option.selected)
+            .forEach((option: MatOption) => {
+              option.deselect();
+            });
+        });
+        this.selectedLocationFiltersList = [];
+        break;
+      case 'status':
+        this.selectedStatusFiltersList.forEach((item) => {
+          this.updateSelectedFiltersList(item);
+        });
+        [this.statusOptionList].forEach((optionList) => {
+          optionList.options
+            ?.filter((option: MatOption) => option.selected)
+            .forEach((option: MatOption) => {
+              option.deselect();
+            });
+        });
+        this.selectedStatusFiltersList = [];
+        break;
+      case 'type':
+        this.selectedTypeFiltersList.forEach((item) => {
+          this.updateSelectedFiltersList(item);
+        });
+        [this.typeOptionList].forEach((optionList) => {
+          optionList.options
+            ?.filter((option: MatOption) => option.selected)
+            .forEach((option: MatOption) => {
+              option.deselect();
+            });
+        });
+        this.selectedTypeFiltersList = [];
+        break;
+    }
+    this.cleanEventList();
+    this.getEvents();
+  }
+
+  public resetAllFilters(): void {
+    this.selectedFilters = [];
+    this.selectedEventTimeStatusFiltersList = [];
+    this.selectedLocationFiltersList = [];
+    this.selectedStatusFiltersList = [];
+    this.selectedTypeFiltersList = [];
+    [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
+      optionList.options
+        ?.filter((option: MatOption) => option.selected)
+        .forEach((option: MatOption) => {
+          option.deselect();
+        });
     });
+    this.cleanEventList();
+    this.getEvents();
+  }
+
+  private cleanEventList(): void {
+    this.isLoading = true;
+    this.hasNextPage = true;
+    this.page = 0;
+    this.eventsList = [];
+    this.noEventsMatch = false;
+    this.countOfEvents = 0;
+  }
+
+  private createEventListFilterCriteriasObject(): EventFilterCriteriaInterface {
+    return {
+      eventTime: [...this.selectedEventTimeStatusFiltersList],
+      cities: [...this.selectedLocationFiltersList],
+      statuses: [...this.selectedStatusFiltersList],
+      tags: [...this.selectedTypeFiltersList]
+    };
   }
 
   private checkUserSingIn(): void {
     this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
       this.isLoggedIn = data && data.userId;
       this.userId = data.userId;
-      this.statusList = this.getStatusesForFilter();
+      this.statusFiltersList = this.userId ? statusFiltersData : statusFiltersData.slice(0, 2);
     });
   }
 
@@ -350,13 +377,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
         popUpName: page
       }
     });
-  }
-
-  public onScroll(): void {
-    const isRemovedEvents = this.page * this.eventsPerPage !== this.eventsList.length;
-    if (this.eventsList.length) {
-      this.dispatchStore(isRemovedEvents);
-    }
   }
 
   ngOnDestroy(): void {
