@@ -48,7 +48,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     this.onAddSearchInputListener();
   }
 
-  public handleInputChanges(event): void {
+  public handleInputChanges(event: any): void {
     this.inputValue = event.target.value;
     this.onSearchUpdateQuery();
   }
