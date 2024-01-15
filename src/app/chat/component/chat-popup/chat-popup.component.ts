@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-chat-popup',
