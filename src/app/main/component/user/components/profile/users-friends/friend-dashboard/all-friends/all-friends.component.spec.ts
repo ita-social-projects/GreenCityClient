@@ -68,12 +68,4 @@ describe('AllFriendsComponent', () => {
     component.ngOnInit();
     expect(getUsersFriendsSpy).toHaveBeenCalled();
   });
-
-  // it('should call getFriends on scroll', () => {
-  //   // @ts-ignore
-  //   const dispatchAllFriendSpy = spyOn(storeMock, 'dispatch');
-  //   component.onScroll();
-  //   // component.getAllFriends();
-  //   expect(dispatchAllFriendSpy).toHaveBeenCalled();
-  // });
 });

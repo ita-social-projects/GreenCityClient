@@ -5,7 +5,7 @@ import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { GetAllFriends, DeleteFriend } from 'src/app/store/actions/friends.actions';
+import { GetAllFriends } from 'src/app/store/actions/friends.actions';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
