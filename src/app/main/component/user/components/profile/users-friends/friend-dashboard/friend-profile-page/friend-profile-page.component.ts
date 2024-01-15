@@ -22,7 +22,6 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
   public userInfo: EditProfileModel;
   public progress: ProfileStatistics;
   public isRequest: boolean;
-  public isRecommended: boolean;
   public showButtons = true;
 
   constructor(
@@ -38,7 +37,6 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.bindLang();
     this.userId = this.route.snapshot.params.userId;
     this.isRequest = this.router.url?.includes('requests');
-    this.isRecommended = this.router.url?.includes('recommended');
     this.getUserInfo(this.userId);
     this.getUserActivities();
     this.getRequests();

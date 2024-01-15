@@ -1,4 +1,4 @@
-<div *ngIf="requests !== null; else spinner" class="friend-requests-container">
+<div *ngIf="requests !== null" class="friend-requests-container">
   <div class="requests-box">
     <div *ngIf="requests?.length === 0">
       <div class="noRequests-wraper">
@@ -18,6 +18,4 @@
     </div>
   </div>
 </div>
-<ng-template #spinner>
-  <app-spinner></app-spinner>
-</ng-template>
+<app-spinner *ngif="scroll"></app-spinner>

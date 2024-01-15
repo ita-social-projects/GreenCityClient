@@ -48,6 +48,28 @@
       text-align: center;
     }
   }
+
+  .request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media (min-width: 576px) {
+      gap: 32px;
+      row-gap: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      display: grid;
+      max-width: 870px;
+      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+    }
+  }
 }
 
 .img-absent img {

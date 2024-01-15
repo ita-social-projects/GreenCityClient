@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
+import { FriendModel } from '@global-user/models/friend.model';
 import { Subject } from 'rxjs';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';
+import { IFriendState } from 'src/app/store/state/friends.state';
 
 @Component({
   selector: 'app-friend-requests',
@@ -21,24 +22,20 @@ export class FriendRequestsComponent implements OnInit {
   public currentPage = 0;
   private size = 10;
   public totalPages: number;
-  friendRequestList$ = this.store.select((state: IAppState): FriendModel[] => state.friend.FriendRequestList);
-  friendRequestState$ = this.store.select((state: IAppState): FriendArrayModel => state.friend.FriendRequestState);
+  friendsStore$ = this.store.select((state: IAppState): IFriendState => state.friend);
   readonly absent = 'assets/img/noNews.svg';
 
   constructor(private localStorageService: LocalStorageService, private userFriendsService: UserFriendsService, private store: Store) {}
 
   ngOnInit() {
     this.initUser();
-    this.friendRequestList$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendModel[]) => {
-      if (data) {
-        this.requests = data;
-        this.scroll = false;
+    this.scroll = true;
+    this.friendsStore$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      if (data.FriendRequestList) {
+        this.requests = data.FriendRequestList;
+        this.totalPages = data.FriendRequestState?.totalPages;
       }
-    });
-    this.friendRequestState$.pipe(takeUntil(this.destroy$)).subscribe((data: FriendArrayModel) => {
-      if (data) {
-        this.totalPages = data.totalPages;
-      }
+      this.scroll = false;
     });
   }
 
@@ -47,9 +44,9 @@ export class FriendRequestsComponent implements OnInit {
   }
 
   public onScroll(): void {
-    this.scroll = true;
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage += 1;
+      this.scroll = true;
       this.store.dispatch(GetAllFriendsRequests({ page: this.currentPage, size: this.size }));
     }
   }

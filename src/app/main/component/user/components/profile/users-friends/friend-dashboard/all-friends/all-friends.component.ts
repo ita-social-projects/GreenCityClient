@@ -3,7 +3,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { GetAllFriends } from 'src/app/store/actions/friends.actions';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,6 @@ export class AllFriendsComponent implements OnInit {
   public userId: number;
   public friends: FriendModel[] = [];
   private destroy$ = new Subject();
-  public scroll = false;
   public currentPage = 0;
   private size = 10;
   public totalPages: number;
@@ -27,8 +26,7 @@ export class AllFriendsComponent implements OnInit {
   public isFetching = false;
   public searchMode = false;
   readonly absent = 'assets/img/noNews.svg';
-  friendsList$ = this.store.select((state: IAppState): FriendModel[] => state.friend.FriendList);
-  friendsState$ = this.store.select((state: IAppState): FriendArrayModel => state.friend.FriendState);
+  friendsStore$ = this.store.select((state: IAppState) => state.friend);
 
   constructor(
     private userFriendsService: UserFriendsService,
@@ -43,17 +41,12 @@ export class AllFriendsComponent implements OnInit {
   }
 
   public getAllFriends() {
-    this.friendsList$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+    this.isFetching = true;
+    this.friendsStore$.pipe(takeUntil(this.destroy$), delay(200)).subscribe((data) => {
       this.isFetching = false;
-      if (data) {
-        this.friends = [...data];
-        this.emptySearchList = false;
-        this.scroll = false;
-      }
-    });
-    this.friendsState$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      if (data) {
-        this.totalPages = data.totalPages;
+      if (data.FriendList) {
+        this.friends = [...data.FriendList];
+        this.totalPages = data.FriendState?.totalPages;
       }
     });
   }
@@ -62,29 +55,35 @@ export class AllFriendsComponent implements OnInit {
     this.isFetching = true;
     this.searchQuery = value;
     this.searchMode = true;
-    this.userFriendsService
-      .getFriendsByName(value)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: FriendArrayModel) => {
-          this.emptySearchList = !data.page.length;
-          this.friends = data.page;
-          this.isFetching = false;
-          this.searchMode = false;
-        },
-        (error) => {
-          this.matSnackBar.openSnackBar('snack-bar.error.default');
-          this.isFetching = false;
-          this.searchMode = false;
-        }
-      );
+    if (value) {
+      this.userFriendsService
+        .getFriendsByName(value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data: FriendArrayModel) => {
+            this.emptySearchList = !data.page.length;
+            this.friends = data.page;
+            this.isFetching = false;
+            this.searchMode = false;
+          },
+          (error) => {
+            this.matSnackBar.openSnackBar('snack-bar.error.default');
+            this.isFetching = false;
+            this.searchMode = false;
+          }
+        );
+    } else {
+      this.searchMode = false;
+      this.emptySearchList = false;
+      this.currentPage = 0;
+      this.store.dispatch(GetAllFriends({ page: this.currentPage, size: this.size }));
+    }
   }
 
   public onScroll(): void {
-    if (this.scroll || this.emptySearchList) {
+    if (this.emptySearchList) {
       return;
     }
-    this.scroll = true;
     if (this.currentPage < this.totalPages - 1) {
       this.currentPage += 1;
       this.isFetching = true;
