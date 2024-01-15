@@ -11,8 +11,8 @@ export class FriendsEffects {
   LoadFriendsRequests = createEffect(() =>
     this.actions$.pipe(
       ofType(friendActions.GetAllFriendsRequests),
-      exhaustMap((actions: { page: number }) =>
-        this.userFriendService.getRequests(actions.page).pipe(
+      exhaustMap((actions: { page: number; size: number }) =>
+        this.userFriendService.getRequests(actions.page, actions.size).pipe(
           map((friends: FriendArrayModel) => friendActions.GetAllFriendsRequestsSuccess({ FriendRequestList: friends })),
           catchError((error) => of(friendActions.ReceivedFailureAction(error)))
         )

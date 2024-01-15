@@ -10,8 +10,8 @@ export interface IFriendState {
 
 export const initialFriendState: IFriendState = {
   FriendState: null,
-  FriendList: null,
+  FriendList: [],
   FriendRequestState: null,
-  FriendRequestList: null,
+  FriendRequestList: [],
   error: null
 };

@@ -68,9 +68,9 @@ export const friendsReducers = createReducer(
   on(ResetFriends, (state: IFriendState, action) => {
     return {
       ...state,
-      FriendList: null,
+      FriendList: [],
       FriendState: null,
-      FriendRequestList: null,
+      FriendRequestList: [],
       FriendRequestState: null
     };
   })
