@@ -23,6 +23,7 @@ import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
+import { ResetFriends } from 'src/app/store/actions/friends.actions';
 
 @Component({
   selector: 'app-header',
@@ -375,6 +376,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userOwnAuthService.getDataFromLocalStorage();
     });
     this.store.dispatch(ResetEmployeePermissions());
+    this.store.dispatch(ResetFriends());
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {
