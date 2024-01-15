@@ -372,9 +372,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       top: '55px'
     };
     const matDialogRef = this.dialog.open(ChatPopupComponent, dialogConfig);
-    matDialogRef
-    .afterClosed()
-    .pipe(takeUntil(this.destroySub));
   }
 
   public signOut(): void {

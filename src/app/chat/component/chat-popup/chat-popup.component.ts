@@ -46,9 +46,6 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     this.socketService.connect();
     this.chatsService.getAllUserChats(this.userId);
     this.commonService.newMessageWindowRequireCloseStream$.pipe(takeUntil(this.onDestroy$)).subscribe(() => this.closeNewMessageWindow());
-    this.dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.onDestroy$));
   }
 
   public openNewMessageWindow(isEmpty: boolean) {
