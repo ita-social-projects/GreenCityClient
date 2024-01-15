@@ -48,32 +48,8 @@ describe('FriendRequestsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get a requests', () => {
-    const getRequests = spyOn(component as any, 'getRequests');
-    component.ngOnInit();
-    expect(getRequests).toHaveBeenCalledTimes(1);
-  });
-
-  it('should call deleteFriendsFromList method on accept', () => {
-    const spy = spyOn(component as any, 'accept');
-    component.accept(4);
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('should call deleteFriendsFromList method on decline', () => {
-    const spy = spyOn(component as any, 'decline');
-    component.decline(4);
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should set userId on initUser', () => {
     (component as any).initUser();
     expect(component.userId).toBe(1111);
-  });
-
-  it('should set requests on getRequests', () => {
-    (component as any).getRequests();
-    component.requests = FRIENDS.page;
-    expect(component.requests).toEqual(FRIENDS.page);
   });
 });

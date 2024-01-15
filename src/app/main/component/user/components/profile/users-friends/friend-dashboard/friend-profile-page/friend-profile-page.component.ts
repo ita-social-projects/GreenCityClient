@@ -8,6 +8,7 @@ import { FriendModel, FriendArrayModel } from '@global-user/models/friend.model'
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-friend-profile-page',
@@ -21,6 +22,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
   public userInfo: EditProfileModel;
   public progress: ProfileStatistics;
   public isRequest: boolean;
+  public isRecommended: boolean;
   public showButtons = true;
 
   constructor(
@@ -36,6 +38,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.bindLang();
     this.userId = this.route.snapshot.params.userId;
     this.isRequest = this.router.url?.includes('requests');
+    this.isRecommended = this.router.url?.includes('recommended');
     this.getUserInfo(this.userId);
     this.getUserActivities();
     this.getRequests();

@@ -13,6 +13,8 @@ import { of, BehaviorSubject } from 'rxjs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FriendModel, UserDashboardTab } from '@global-user/models/friend.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 describe('FriendItemComponent', () => {
   let component: FriendItemComponent;
@@ -32,11 +34,21 @@ describe('FriendItemComponent', () => {
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.userIdBehaviourSubject = of(1);
 
+  const storeMock = jasmine.createSpyObj('Store', ['dispatch']);
+  storeMock.dispatch = () => {};
+
+  const matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  matSnackBarMock.openSnackBar = () => {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FriendItemComponent, MaxTextLengthPipe, CorrectUnitPipe],
       imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatDialogModule, RouterTestingModule.withRoutes([]), MatTooltipModule],
-      providers: [{ provide: LocalStorageService, useValue: localStorageServiceMock }],
+      providers: [
+        { provide: LocalStorageService, useValue: localStorageServiceMock },
+        { provide: Store, useValue: storeMock },
+        { provide: MatSnackBarComponent, useValue: matSnackBarMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
@@ -68,18 +80,6 @@ describe('FriendItemComponent', () => {
     const spy = spyOn(component as any, 'getLangChange');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('it should call friendEvent on click', () => {
-    const spy = spyOn(component.friendEventEmit, 'emit');
-    component.friendEvent();
-    expect(spy).toHaveBeenCalledWith(1);
-  });
-
-  it('it should call declineEvent on click', () => {
-    const spy = spyOn(component.declineEvent, 'emit');
-    component.declineFriend();
-    expect(spy).toHaveBeenCalledWith(1);
   });
 
   it('should call checkButtons when target is a button', () => {
