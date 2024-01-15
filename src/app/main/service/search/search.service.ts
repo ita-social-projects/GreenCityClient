@@ -17,13 +17,13 @@ export class SearchService {
   public allSearchSubject = new Subject<boolean>();
   public allElements: SearchDto;
 
-  public getAllResults(searchQuery: string, lang: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.backEndLink}search?lang=${lang}&searchQuery=${encodeURI(searchQuery)}`);
+  public getAllResults(searchQuery: string, category, lang: string): Observable<SearchModel> {
+    return this.http.get<SearchModel>(`${this.backEndLink}search/${category}?lang=${lang}&searchQuery=${encodeURI(searchQuery)}`);
   }
 
   public getAllResultsByCat(
     query: string,
-    category: string = 'econews',
+    category: string = 'news',
     page: number = 0,
     sort: string = '',
     items: number = 9
@@ -31,23 +31,6 @@ export class SearchService {
     return this.http.get<SearchDataModel>(
       `${this.backEndLink}search/${category}?searchQuery=${query}&sort=${sort}&page=${page}&size=${items}`
     );
-  }
-
-  private getResultsByCat(searchType: string): Observable<SearchModel> {
-    return this.http.get<SearchModel>(`${this.apiUrl}/${searchType}`).pipe(switchMap((res) => of(res)));
-  }
-
-  public getAllSearch(searchQuery: string, searchType: string): Observable<SearchModel> {
-    switch (searchType) {
-      case 'relevance':
-        return this.getResultsByCat('search');
-      case 'newest':
-        return this.getResultsByCat('newest');
-      case 'latest':
-        return this.getResultsByCat('noresults');
-      default:
-        return this.getResultsByCat('search');
-    }
   }
 
   public toggleSearchModal() {

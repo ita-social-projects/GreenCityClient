@@ -7,6 +7,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { map, distinctUntilChanged, tap, debounceTime, take, takeUntil } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { FilterByitem } from '../../main/component/layout/components/models/search-dto';
+import { SearchCategory } from '../search-popup/search-consts';
 
 @Component({
   selector: 'app-search-all-results',
@@ -29,19 +30,27 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   public inputValue: string;
   public isLoading = true;
   public searchIcons = searchIcons;
-  public filterByItems: FilterByitem[] = [{ category: 'econews', name: 'news' }];
+  public filterByItems: FilterByitem[] = [
+    { category: SearchCategory.NEWS, name: 'news' },
+    { category: SearchCategory.EVENTS, name: 'events' }
+  ];
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private search: SearchService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private searchService: SearchService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.route.queryParams.pipe(takeUntil(this.destroySub)).subscribe((params) => {
       this.inputValue = params.query;
-      this.searchCategory = params.category || 'econews';
+      this.searchCategory = params.category || SearchCategory.NEWS;
     });
 
     this.getSearchResults();
     this.onAddSearchInputListener();
+  }
+
+  public handleInputChanges(event: any): void {
+    this.inputValue = event.target.value;
+    this.onSearchUpdateQuery();
   }
 
   private onAddSearchInputListener() {
@@ -61,7 +70,7 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
   }
 
   private getSearchResults(): void {
-    this.search
+    this.searchService
       .getAllResultsByCat(this.inputValue, this.searchCategory, this.currentPage, this.sortType)
       .pipe(takeUntil(this.destroySub))
       .subscribe((data) => this.setElems(data));
@@ -113,13 +122,13 @@ export class SearchAllResultsComponent implements OnInit, OnDestroy {
     ];
     switch (this.sortTypes[0]) {
       case 'Relevance':
-        this.sortType = ``;
+        this.sortType = '';
         break;
       case 'Newest':
-        this.sortType = `creation_date,desc`;
+        this.sortType = 'desc';
         break;
       case 'Oldest':
-        this.sortType = `creation_date,asc`;
+        this.sortType = 'asc';
         break;
       default:
         this.sortType = '';

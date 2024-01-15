@@ -9,6 +9,9 @@ export enum EventsActions {
   GetEcoEventsByPage = '[Events] Get events by page',
   GetEcoEventsByPageSuccess = '[Events] Get events by page Success',
 
+  GetEcoEventsById = '[Events] Get events by ID',
+  GetEcoEventsByIdSuccess = '[Events] Get events by ID Success',
+
   EditEcoEvent = '[Events] Edit event',
   EditEcoEventSuccess = '[Events] Edit event Success',
 
@@ -46,6 +49,13 @@ export const GetEcoEventsByPageAction = createAction(
 
 export const GetEcoEventsByPageSuccessAction = createAction(
   EventsActions.GetEcoEventsByPageSuccess,
+  props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
+);
+
+export const GetEcoEventsByIdAction = createAction(EventsActions.GetEcoEventsById, props<{ eventId: number; reset: boolean }>());
+
+export const GetEcoEventsByIdSuccessAction = createAction(
+  EventsActions.GetEcoEventsByIdSuccess,
   props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
 );
 

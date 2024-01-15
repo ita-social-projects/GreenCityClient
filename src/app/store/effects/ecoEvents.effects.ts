@@ -18,6 +18,8 @@ import {
   EditEcoEventSuccessAction,
   GetEcoEventsByPageAction,
   GetEcoEventsByPageSuccessAction,
+  GetEcoEventsByIdAction,
+  GetEcoEventsByIdSuccessAction,
   RateEcoEventsByIdAction,
   RateEcoEventsByIdSuccessAction,
   AddAttenderEcoEventsByIdAction,
@@ -39,6 +41,18 @@ export class EventsEffects {
       mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaInterface }) => {
         return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents, actions.filter).pipe(
           map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, reset: actions.reset })),
+          catchError((error) => of(ReceivedFailureAction(error)))
+        );
+      })
+    );
+  });
+
+  getEcoEventsById = createEffect(() => {
+    return this.actions.pipe(
+      ofType(GetEcoEventsByIdAction),
+      mergeMap((actions: { eventId: number; reset: boolean }) => {
+        return this.eventsService.getEventById(actions.eventId).pipe(
+          map((ecoEvents: EventResponseDto) => GetEcoEventsByIdSuccessAction({ ecoEvents, reset: actions.reset })),
           catchError((error) => of(ReceivedFailureAction(error)))
         );
       })
