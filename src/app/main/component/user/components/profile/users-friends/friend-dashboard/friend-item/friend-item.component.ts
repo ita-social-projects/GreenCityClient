@@ -47,6 +47,7 @@ export class FriendItemComponent implements OnInit {
   public currentUserId: number;
 
   @Input() friend: FriendModel;
+  @Output() friendDelete = new EventEmitter<number>();
 
   constructor(
     private router: Router,
@@ -134,6 +135,7 @@ export class FriendItemComponent implements OnInit {
       .subscribe((confirm) => {
         if (confirm) {
           this.store.dispatch(DeleteFriend({ id: this.friend.id }));
+          this.friendDelete.emit(this.friend.id);
         }
       });
   }
@@ -160,6 +162,8 @@ export class FriendItemComponent implements OnInit {
         break;
       case 'openChatButton':
         this.onOpenChat();
+        break;
+      default:
         break;
     }
   }
