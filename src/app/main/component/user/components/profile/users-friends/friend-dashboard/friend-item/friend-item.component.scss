@@ -81,6 +81,13 @@
   display: flex;
 }
 
+.photo-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .friend-city,
 .friend-mutual {
   font-style: normal;
@@ -139,14 +146,14 @@
 .buttons {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 114px;
+  justify-content: end;
+  gap: 20px;
 }
 
 .friend-btn {
   button {
     line-height: 16px;
-    white-space: nowrap;
     width: 100%;
     margin-bottom: 20px;
   }
@@ -163,7 +170,6 @@
   border: none;
   background: url('src/assets/img/chat/open-chat.png');
   background-size: 100% 100%;
-  align-self: end;
 }
 
 ::ng-deep .mat-tooltip {
