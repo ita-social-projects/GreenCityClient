@@ -3,13 +3,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FriendRequestsComponent } from './friend-requests.component';
-import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
+import { FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('FriendRequestsComponent', () => {
   let component: FriendRequestsComponent;
@@ -46,6 +45,7 @@ describe('FriendRequestsComponent', () => {
     const initUserSpy = spyOn(component as any, 'initUser');
     component.ngOnInit();
     expect(initUserSpy).toHaveBeenCalledTimes(1);
+    expect(component.scroll).toBeFalsy();
   });
 
   it('should set userId on initUser', () => {

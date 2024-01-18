@@ -184,15 +184,15 @@ export class FriendItemComponent implements OnInit {
     this.chatsService.openCurrentChat(this.friend.chatId);
   }
 
-  isAbleToAdd(): boolean {
+  public isAbleToAdd(): boolean {
     return (!this.friend.friendStatus || this.friend.friendStatus === 'REJECTED') && this.friend.id !== this.currentUserId;
   }
 
-  isCurrentUserRequested(): boolean {
+  public isCurrentUserRequested(): boolean {
     return this.friend.friendStatus === 'REQUEST' && this.friend.requesterId === this.currentUserId;
   }
 
-  isFriendRequest(): boolean {
+  public isFriendRequest(): boolean {
     return this.friend.friendStatus === 'REQUEST' && this.friend.requesterId === this.friend.id;
   }
 }

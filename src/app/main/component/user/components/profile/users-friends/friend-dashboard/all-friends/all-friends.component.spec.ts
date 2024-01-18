@@ -10,7 +10,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AllFriendsComponent } from './all-friends.component';
-import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
+import { FIRSTFRIEND, FRIENDS, SECONDFRIEND } from '@global-user/mocks/friends-mock';
 
 describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
@@ -67,5 +67,33 @@ describe('AllFriendsComponent', () => {
     const getUsersFriendsSpy = spyOn(component as any, 'getAllFriends');
     component.ngOnInit();
     expect(getUsersFriendsSpy).toHaveBeenCalled();
+  });
+
+  it('should fetch friends and update properties', () => {
+    const mockFriendsData = {
+      FriendList: [FIRSTFRIEND, SECONDFRIEND],
+      FriendState: FRIENDS
+    };
+    spyOn(component.friendsStore$, 'pipe').and.returnValue(of(mockFriendsData));
+    component.getAllFriends();
+    expect(component.isFetching).toBeFalsy();
+    expect(component.friends).toEqual(mockFriendsData.FriendList);
+    expect(component.totalPages).toBe(1);
+  });
+
+  it('should fetch friends by name and update properties', () => {
+    spyOn((component as any).userFriendsService, 'getFriendsByName').and.returnValue(of(FRIENDS));
+    component.findFriendByName('name');
+    expect(component.emptySearchList).toBeFalsy();
+    expect(component.friends).toEqual(FRIENDS.page);
+    expect(component.isFetching).toBeFalsy();
+    expect(component.searchMode).toBeFalsy();
+  });
+
+  it('should handle empty search query', () => {
+    component.findFriendByName('');
+    expect(component.searchMode).toBeFalsy();
+    expect(component.emptySearchList).toBeFalsy();
+    expect(component.currentPage).toBe(0);
   });
 });

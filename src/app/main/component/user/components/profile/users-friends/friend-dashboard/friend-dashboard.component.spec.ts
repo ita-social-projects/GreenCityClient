@@ -9,6 +9,7 @@ import { FriendDashboardComponent } from './friend-dashboard.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
 import { Store } from '@ngrx/store';
+import { GetAllFriends, GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';
 
 @Injectable()
 class TranslationServiceStub {
@@ -123,5 +124,13 @@ describe('FriendDashboardComponent', () => {
     const outlet = componentRefMock;
     component.onActivate(outlet);
     expect((component as any).componentRef).toEqual(outlet);
+  });
+
+  it('should dispatch GetAllFriends and GetAllFriendsRequests actions when userId is truthy', () => {
+    component.userId = 3;
+    (component as any).getFriends();
+
+    expect((component as any).store.dispatch).toHaveBeenCalledWith(GetAllFriends({ page: 0, size: (component as any).size }));
+    expect((component as any).store.dispatch).toHaveBeenCalledWith(GetAllFriendsRequests({ page: 0, size: (component as any).size }));
   });
 });

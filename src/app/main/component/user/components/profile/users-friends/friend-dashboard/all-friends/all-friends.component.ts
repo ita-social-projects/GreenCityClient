@@ -3,7 +3,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { Subject } from 'rxjs';
-import { delay, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { GetAllFriends } from 'src/app/store/actions/friends.actions';
 import { Store } from '@ngrx/store';
@@ -42,7 +42,7 @@ export class AllFriendsComponent implements OnInit {
 
   public getAllFriends() {
     this.isFetching = true;
-    this.friendsStore$.pipe(takeUntil(this.destroy$), delay(200)).subscribe((data) => {
+    this.friendsStore$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.isFetching = false;
       if (data.FriendList) {
         this.friends = [...data.FriendList];
