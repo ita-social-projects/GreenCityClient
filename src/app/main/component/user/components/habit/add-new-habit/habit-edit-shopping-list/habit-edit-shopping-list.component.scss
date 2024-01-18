@@ -138,3 +138,9 @@ form {
     font-size: 12px;
   }
 }
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
+}

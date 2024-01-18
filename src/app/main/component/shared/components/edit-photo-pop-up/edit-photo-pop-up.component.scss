@@ -2,7 +2,7 @@
   position: relative;
   width: 615px;
   height: 376px;
-  font-family: var(--primary-font);
+  font-family: var(--tertiary-font);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,6 +57,11 @@
     .buttons {
       display: flex;
       align-items: center;
+
+      button {
+        font-family: var(--tertiary-font);
+        letter-spacing: 0.1px;
+      }
 
       .primary-global-button,
       .secondary-global-button {

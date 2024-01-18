@@ -42,7 +42,7 @@
     (updateList)="updateElementsListReply($event)"
   ></app-add-comment>
   <div *ngIf="comment.showAllRelies || userReplies.length">
-    <mat-spinner class="spinner" *ngIf="elementsList.length < 1 && elementsArePresent; else reply"></mat-spinner>
+    <mat-spinner class="spinner" *ngIf="comment.showAllRelies && !elementsList.length && elementsArePresent; else reply"></mat-spinner>
     <ng-template #reply>
       <app-comments-list
         dataType="reply"
@@ -52,7 +52,7 @@
         [config]="config"
         [isLoggedIn]="isLoggedIn"
         [userId]="userId"
-        (changedList)="initCommentsList()"
+        (changedList)="updateRepliesList($event)"
         class="list"
       >
       </app-comments-list>

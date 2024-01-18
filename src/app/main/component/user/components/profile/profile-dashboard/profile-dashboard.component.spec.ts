@@ -11,7 +11,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
@@ -122,7 +122,7 @@ describe('ProfileDashboardComponent', () => {
     totalPages: 1
   };
 
-  const mockFavouriteEvents: EventPageResponceDto[] = [
+  const mockFavouriteEvents: EventPageResponseDto[] = [
     {
       additionalImages: [],
       imgArrayToPreview: [],

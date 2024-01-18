@@ -1,7 +1,7 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { EventPageResponceDto, PagePreviewDTO } from '../../component/events/models/events.interface';
+import { EventPageResponseDto, PagePreviewDTO } from '../../component/events/models/events.interface';
 import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
@@ -47,7 +47,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
-  public setEventForEdit(key: string, event: EventPageResponceDto | PagePreviewDTO) {
+  public setEventForEdit(key: string, event: EventPageResponseDto | PagePreviewDTO) {
     localStorage.setItem(key, JSON.stringify(event));
   }
 

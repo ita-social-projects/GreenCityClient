@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
-import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { EventPageResponseDto } from '../../component/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 
-  const mockEvent: EventPageResponceDto = {
+  const mockEvent: EventPageResponseDto = {
     additionalImages: ['image1.jpg', 'image2.jpg'],
     creationDate: '2022-05-31',
     dates: [

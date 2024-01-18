@@ -17,7 +17,7 @@ import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Store } from '@ngrx/store';
-import { AddPersonalData, UpdateOrderData } from 'src/app/store/actions/order.actions';
+import { AddPersonalData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -452,9 +452,5 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (!this.isThisExistingOrder) {
       this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
     }
-  }
-
-  cleanOrderDetailsState(): void {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
   }
 }

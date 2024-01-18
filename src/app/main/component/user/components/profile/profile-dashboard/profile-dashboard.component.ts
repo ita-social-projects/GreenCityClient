@@ -10,7 +10,7 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
@@ -42,8 +42,8 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   public isOnlineChecked = false;
   public isOfflineChecked = false;
 
-  public eventsList: EventPageResponceDto[] = [];
-  public favouriteEvents: EventPageResponceDto[] = [];
+  public eventsList: EventPageResponseDto[] = [];
+  public favouriteEvents: EventPageResponseDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
   public totalEvents = 0;

@@ -35,11 +35,6 @@ describe('PlacesComponent', () => {
     }
   };
 
-  //   const fakeLocation: Location = {
-  //     latitude: 33.2,
-  //     longitude: 33.4
-  //   };
-
   const placeServiceMock: PlaceService = jasmine.createSpyObj('PlaceService', [
     'getPlaceInfo',
     'updatePlaces',
@@ -181,13 +176,6 @@ describe('PlacesComponent', () => {
 
     expect(component.tagList).toEqual(tagsArray);
   });
-
-  //   it('Should open popup, and after closed receive data', () => {
-  //     const spy = spyOn(component, 'onLocationSelected');
-  //     component.openTimePickerPopUp();
-  //     expect(spy).toHaveBeenCalled();
-  //     expect(spy).toHaveBeenCalledWith(fakeLocation);
-  //   });
 
   it('should toggle the favorite status of a place correctly', () => {
     component.toggleFavoriteFromSideBar(placeMock);

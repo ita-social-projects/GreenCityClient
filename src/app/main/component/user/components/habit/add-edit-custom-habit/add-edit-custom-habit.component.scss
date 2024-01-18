@@ -223,7 +223,8 @@ input[type='radio'] + img {
   }
 
   .ql-container {
-    height: 120px;
+    min-height: 120px;
+    max-height: 210px;
     border-radius: 0 0 4px 4px;
   }
 }

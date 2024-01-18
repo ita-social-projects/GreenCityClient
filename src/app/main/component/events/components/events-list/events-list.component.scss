@@ -14,14 +14,14 @@
   text-align: left;
 }
 
-.end-page {
+.end-page-txt {
   font-family: var(--primary-font);
   font-size: 48px;
   font-weight: 700;
   line-height: 56px;
   letter-spacing: 0.2px;
   text-align: center;
-  margin: 3rem auto;
+  margin: 0 auto 2rem;
 }
 
 .create-container {
@@ -53,12 +53,6 @@
     min-height: 20px;
     background: url('src/assets/events-icons/search.png');
     display: inline-block;
-
-    &:hover {
-      min-width: 20px;
-      min-height: 20px;
-      background: url('src/assets/events-icons/search-hover.png');
-    }
   }
 
   .search-img-active {
@@ -71,10 +65,6 @@
     width: 12px;
     height: 17px;
     background: url('src/assets/events-icons/bookmark-grey.png');
-
-    &:hover {
-      background: url('src/assets/events-icons/bookmark-active.png');
-    }
   }
 
   .bookmark-img-active {
@@ -154,7 +144,7 @@ p {
   margin-top: 16px;
 }
 
-.sort-by {
+.filter-by {
   display: flex;
   align-items: center;
   margin-right: 20px;
@@ -172,7 +162,7 @@ p {
 .active-filter-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .active-filter {
@@ -186,6 +176,7 @@ p {
   align-items: center;
   width: 8px;
   height: 8px;
+  cursor: pointer;
 }
 
 .cross-img {
@@ -254,4 +245,8 @@ p {
 ::ng-deep .cdk-overlay-pane {
   min-width: 165px !important;
   transform: translateX(-35px) translateY(10px) !important;
+}
+
+::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
+  display: none;
 }
