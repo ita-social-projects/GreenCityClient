@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ElementRef } from '@angular/core';
 import { of } from 'rxjs';
 
-fdescribe('HabitDurationComponent', () => {
+describe('HabitDurationComponent', () => {
   let component: HabitDurationComponent;
   let fixture: ComponentFixture<HabitDurationComponent>;
 
