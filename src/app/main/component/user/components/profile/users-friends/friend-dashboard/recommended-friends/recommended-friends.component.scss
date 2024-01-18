@@ -3,6 +3,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+
+  & div {
+    width: 100%;
+  }
 
   @media (min-width: 576px) {
     flex-direction: column;
