@@ -546,9 +546,9 @@
       "you-can-upload-max-photos-event": "You  can  upload max 5 photos",
       "photos": "photos",
       "your-photos-successfully-upload": "Your photos successfully upload",
-      "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10MB",
+      "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10 MB",
       "error-img-type": "Incorrect image type. Use file format JPG or PNG",
-      "error-img-size": "Incorrect image size. Image cannot be bigger than 10MB"
+      "error-img-size": "Incorrect image size. Maximum allowed size is 10 MB"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
