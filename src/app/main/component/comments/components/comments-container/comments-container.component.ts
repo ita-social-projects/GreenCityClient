@@ -23,8 +23,8 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   public elementsList: CommentsDTO[] = [];
   public isLoggedIn: boolean;
   public userId: number;
-  public totalElements: number;
-  public elementsArePresent = true;
+  public totalElements = 0;
+  public elementsArePresent = false;
   public userReplies: CommentsDTO[] = [];
   public showAllReplies: boolean;
 
@@ -55,6 +55,11 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
     this.dataType === 'comment' ? this.getComments() : this.getReplies();
   }
 
+  public updateRepliesList(commentId: number) {
+    this.initCommentsList();
+    this.userReplies = this.userReplies.filter((comment) => comment.id !== commentId);
+  }
+
   public updateElementsListReply(comment: AddedCommentDTO): void {
     const reply: CommentsDTO = {
       ...comment,
@@ -82,6 +87,8 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
               this.elementsList = list.page;
               this.setData(list);
             });
+        } else {
+          this.setNoData();
         }
       });
   }
@@ -99,6 +106,8 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
               this.elementsList = list.page;
               this.setData(list);
             });
+        } else {
+          this.setNoData();
         }
       });
   }
@@ -107,6 +116,12 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
     this.config.totalItems = data.totalElements;
     this.elementsArePresent = data.totalElements > 0;
     this.elementsList = [...data.page];
+  }
+
+  private setNoData() {
+    this.config.totalItems = 0;
+    this.elementsArePresent = false;
+    this.elementsList = [];
   }
 
   private checkUserSingIn(): void {

@@ -4,7 +4,7 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
-import { TagsArray } from '../../../events/models/event-consts';
+import { typeFiltersData } from '../../../events/models/event-consts';
 import { Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -256,7 +256,6 @@ describe('EventsListItemComponent', () => {
     fixture = TestBed.createComponent(EventsListItemComponent);
     component = fixture.componentInstance;
     component.event = eventMock as any;
-    component.itemTags = TagsArray;
     component.btnStyle = '';
     component.nameBtn = '';
     component.rate = 3;
@@ -385,7 +384,6 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       component.event.isRelevant = true;
-      component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
@@ -418,22 +416,6 @@ describe('EventsListItemComponent', () => {
       component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
-    });
-
-    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_Fake');
-      eventMock.isSubscribed = false;
-      component.event = eventMock;
-      component.event.organizer.id = 56;
-      component.event.isRelevant = true;
-      component.isOwner = false;
-      component.isAdmin = false;
-      component.canUserJoinCloseEvent = false;
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
-      component.canUserJoinCloseEvent = true;
-      component.checkButtonStatus();
-      expect(component.btnStyle).toEqual(component.styleBtn.primary);
     });
   });
 

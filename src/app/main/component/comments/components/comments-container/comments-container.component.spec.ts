@@ -199,5 +199,27 @@ describe('CommentsContainerComponent', () => {
       expect(commentsServiceMock.getRepliesAmount).toHaveBeenCalledWith(0);
       expect(commentsServiceMock.getActiveCommentsByPage).not.toHaveBeenCalled();
     });
+
+    it('should set replies to empty if amount became 0', () => {
+      component.elementsList = [MOCK_COMMENTS_DTO];
+      component.elementsArePresent = true;
+
+      component.dataType = 'reply';
+      component.ngOnInit();
+
+      expect(component.elementsList.length).toBe(0);
+      expect(component.elementsArePresent).toBeFalsy();
+    });
+
+    it('should set comments to empty if amount became 0', () => {
+      component.elementsList = [MOCK_COMMENTS_DTO];
+      component.elementsArePresent = true;
+
+      component.dataType = 'comment';
+      component.ngOnInit();
+
+      expect(component.elementsList.length).toBe(0);
+      expect(component.elementsArePresent).toBeFalsy();
+    });
   });
 });

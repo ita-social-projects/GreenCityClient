@@ -1,5 +1,12 @@
 import { initialOrderState } from '../state/order.state';
-import { AddOrderData, AddPersonalData, UpdateOrderData, UpdatePersonalData } from '../actions/order.actions';
+import {
+  AddOrderData,
+  AddPersonalData,
+  ClearPersonalData,
+  ClearOrderDetails,
+  UpdateBagsOrderDetails,
+  UpdateTotalOrderDetails
+} from '../actions/order.actions';
 import { createReducer, on } from '@ngrx/store';
 
 export const orderReducer = createReducer(
@@ -18,17 +25,39 @@ export const orderReducer = createReducer(
     };
   }),
 
-  on(UpdateOrderData, (state, action) => {
+  on(UpdateBagsOrderDetails, (state, action) => {
+    const newBagVal = state.orderDetails.bags.map((item) => ({
+      ...item,
+      quantity: item.id === action.bagId ? action.bagValue : item.quantity
+    }));
     return {
       ...state,
-      orderDetails: action.orderDetails
+      orderDetails: {
+        ...state.orderDetails,
+        bags: newBagVal
+      }
     };
   }),
-
-  on(UpdatePersonalData, (state, action) => {
+  on(UpdateTotalOrderDetails, (state, action) => {
     return {
       ...state,
-      personalData: action.personalData
+      orderDetails: {
+        ...state.orderDetails,
+        total: action.total,
+        finalSum: action.finalSum
+      }
+    };
+  }),
+  on(ClearPersonalData, (state) => {
+    return {
+      ...state,
+      personalData: null
+    };
+  }),
+  on(ClearOrderDetails, (state) => {
+    return {
+      ...state,
+      orderDetails: null
     };
   })
 );

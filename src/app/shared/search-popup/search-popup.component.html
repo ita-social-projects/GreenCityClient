@@ -1,5 +1,4 @@
 <section *ngIf="isSearchClicked">
-  <!-- search bar -->
   <div class="search_bar-wrapper">
     <div class="container search_bar-container">
       <img class="search_search-icon" [src]="searchIcons.search" alt="search" />
@@ -21,7 +20,6 @@
       />
     </div>
   </div>
-  <!-- search results -->
   <div class="search_body-wrapper">
     <div class="search-content-wrapper container">
       <div class="search_remaining-items" *ngIf="!isLoading && searchInput.value">
@@ -32,12 +30,37 @@
           <h3 class="search-title">{{ 'search.search-popup.news' | translate }}</h3>
         </a>
         <div class="list-search-items">
-          <app-search-item *ngFor="let element of newsElements" [searchModel]="element" (closeSearch)="closeSearch()" class="search-item">
+          <app-search-item
+            *ngFor="let element of newsElements | slice: 0:3"
+            [searchModel]="element"
+            [type]="'news'"
+            (closeSearch)="closeSearch()"
+            class="search-item"
+          >
+          </app-search-item>
+        </div>
+      </div>
+      <div *ngIf="eventsElements && eventsElements.length > 0">
+        <a [routerLink]="['/events']" (click)="closeSearch()">
+          <h3 class="search-title">{{ 'search.search-popup.events' | translate }}</h3>
+        </a>
+        <div class="list-search-items">
+          <app-search-item
+            *ngFor="let element of eventsElements | slice: 0:3"
+            [searchModel]="element"
+            [type]="'events'"
+            (closeSearch)="closeSearch()"
+            class="search-item"
+          >
           </app-search-item>
         </div>
       </div>
       <div class="search_see-all" *ngIf="itemsFound">
-        <a [routerLink]="['/search']" [queryParams]="{ query: searchInput.value, category: 'econews' }" class="all-results-link">
+        <a
+          [routerLink]="['/search']"
+          [queryParams]="{ query: searchInput.value, category: newsElements && newsElements.length > 0 ? 'econews' : 'events' }"
+          class="all-results-link"
+        >
           {{ 'search.search-popup.see-all-results' | translate }}
         </a>
       </div>

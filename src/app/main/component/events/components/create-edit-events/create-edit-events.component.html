@@ -18,15 +18,15 @@
           <div class="title-input">
             <div class="title-wrapper">
               <mat-label>{{ 'create-event.event-name' | translate }}</mat-label>
-              <mat-label>{{ titleForm?.value.length }}/70</mat-label>
+              <mat-label class="counter-wrapper">{{ titleForm?.value.length }}/70</mat-label>
             </div>
             <mat-form-field appearance="outline" class="event-input">
               <mat-label>{{ 'create-event.placeholder' | translate }}</mat-label>
               <input matInput placeholder="title" formControlName="titleForm" />
-              <div *ngIf="titleForm?.touched && titleForm?.invalid" class="error-title">
-                <app-input-error [formElement]="titleForm" [isEvent]="true"></app-input-error>
-              </div>
             </mat-form-field>
+            <div *ngIf="titleForm?.touched && titleForm?.invalid" class="error-title">
+              <app-input-error [formElement]="titleForm" [isEvent]="true"></app-input-error>
+            </div>
           </div>
 
           <div class="duration-choice">
@@ -48,32 +48,60 @@
           </div>
         </div>
 
-        <div class="dateContainer">
-          <div *ngFor="let date of dates; index as i" class="dateEvent">
-            <span class="date-day">{{ i + 1 }} {{ 'create-event.day' | translate }}</span>
-            <div class="date-event-block">
-              <app-event-date-time-picker
-                (datesForm)="checkFormSetDates($event, i)"
-                (coordOffline)="setCoordsOffline($event, i)"
-                (applyCoordToAll)="applyCoordToAll($event)"
-                (linkOnline)="setOnlineLink($event, i)"
-                (status)="checkStatus($event, i)"
-                [index]="i"
-                [duplindx]="duplindx"
-                [check]="date.check"
-                [fromPreview]="fromPreview"
-                [previewData]="previewDates?.dates[i]"
-                [editDate]="editEvent?.dates[i]"
-                [isDateDuplicate]="isDateDuplicate"
-                [editDates]="editDates"
-                [firstFormIsSucceed]="firstFormIsSucceed"
-                [locationForAllDays]="locationForAllDays"
-                [appliedForAllLocations]="appliedForAllLocations"
-                [submitSelected]="submitSelected"
-              >
-              </app-event-date-time-picker>
-            </div>
-            <p *ngIf="!!arePlacesFilled[i]" class="tag-error">{{ 'create-event.add-location-error' | translate }}</p>
+        <div class="buttons-container">
+          <div class="title-error-container">
+            <mat-label>{{ 'create-event.event-theme' | translate }}</mat-label>
+            <div *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</div>
+          </div>
+          <div>
+            <ul class="ul-eco-buttons" aria-label="filter by items">
+              <li *ngFor="let tag of tags">
+                <a
+                  role="button"
+                  [attr.aria-pressed]="tag.isActive"
+                  class="custom-chip global-tag tag"
+                  [ngClass]="{ 'global-tag-clicked': tag.isActive }"
+                  tabindex="0"
+                  (click)="checkTab(tag)"
+                >
+                  <span class="text">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
+                  <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="buttons-container event-type-buttons">
+          <mat-label>{{ 'create-event.event-type' | translate }}</mat-label>
+          <div class="flex-container">
+            <a
+              role="button"
+              class="custom-chip global-tag type"
+              [ngClass]="{ 'global-tag-clicked': isOpen }"
+              tabindex="0"
+              (click)="changeEventType()"
+            >
+              <span class="text">{{ 'create-event.open' | translate }}</span>
+              <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
+            </a>
+            <a
+              role="button"
+              class="custom-chip global-tag type second-type"
+              [ngClass]="{ 'global-tag-clicked': !isOpen }"
+              tabindex="0"
+              (click)="changeEventType()"
+            >
+              <span class="text">{{ 'create-event.close' | translate }}</span>
+              <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
+            </a>
+            <mat-form-field appearance="outline" class="invite-item">
+              <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
+              <mat-select ngDefaultControl required>
+                <mat-option value="All">{{ 'create-event.all' | translate }}</mat-option>
+                <mat-option value="Frends">{{ 'create-event.friends' | translate }}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
 
@@ -97,8 +125,7 @@
             {{ 'create-event.counter' | translate }} {{ editorText.length }} {{ 'create-event.symbols' | translate }}
           </p>
         </div>
-      </mat-card>
-      <mat-card class="event-main-block right">
+
         <app-images-container
           [imgArray]="imgArray"
           [imagesEditArr]="imagesForEdit"
@@ -108,69 +135,44 @@
           (oldImagesOutput)="getOldImages($event)"
         >
         </app-images-container>
-
-        <div class="buttons-container">
-          <mat-label>{{ 'create-event.event-theme' | translate }}</mat-label>
-          <span *ngIf="!checkAfterSend" [ngClass]="{ 'tag-error': !isTagValid }">{{ 'create-event.event-type-check' | translate }}</span>
-          <div>
-            <ul class="ul-eco-buttons" aria-label="filter by items">
-              <li *ngFor="let tag of tags">
-                <a
-                  role="button"
-                  [attr.aria-pressed]="tag.isActive"
-                  class="custom-chip global-tag"
-                  [ngClass]="{ 'global-tag-clicked': tag.isActive }"
-                  tabindex="0"
-                  (click)="checkTab(tag)"
-                >
-                  <span class="text">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
-                  <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
-                </a>
-              </li>
-            </ul>
+      </mat-card>
+      <mat-card class="event-main-block right">
+        <div class="date-container">
+          <div *ngFor="let date of dates; index as i" class="event-day">
+            <div class="date-event-block">
+              <app-event-date-time-picker
+                (datesForm)="checkFormSetDates($event, i)"
+                (coordOffline)="setCoordsOffline($event, i)"
+                (applyCoordToAll)="applyCoordToAll($event)"
+                (linkOnline)="setOnlineLink($event, i)"
+                (status)="checkStatus($event, i)"
+                [index]="i"
+                [duplindx]="duplindx"
+                [check]="date.check"
+                [fromPreview]="fromPreview"
+                [previewData]="previewDates?.dates[i]"
+                [editDate]="editEvent?.dates[i]"
+                [isDateDuplicate]="isDateDuplicate"
+                [editDates]="editDates"
+                [firstFormIsSucceed]="firstFormIsSucceed"
+                [locationForAllDays]="locationForAllDays"
+                [appliedForAllLocations]="appliedForAllLocations"
+                [submitSelected]="submitSelected"
+              >
+              </app-event-date-time-picker>
+            </div>
+            <p *ngIf="!!arePlacesFilled[i]" class="tag-error tag-error-place">{{ 'create-event.add-location-error' | translate }}</p>
           </div>
         </div>
-
-        <div class="buttons-container">
-          <mat-label>{{ 'create-event.event-type' | translate }}</mat-label>
-          <div class="flex-container">
-            <a
-              role="button"
-              class="custom-chip global-tag"
-              [ngClass]="{ 'global-tag-clicked': isOpen }"
-              tabindex="0"
-              (click)="changeEventType()"
-            >
-              <span class="text">{{ 'create-event.open' | translate }}</span>
-              <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
-            </a>
-            <a
-              role="button"
-              class="custom-chip global-tag"
-              [ngClass]="{ 'global-tag-clicked': !isOpen }"
-              tabindex="0"
-              (click)="changeEventType()"
-            >
-              <span class="text">{{ 'create-event.close' | translate }}</span>
-              <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>
-            </a>
-          </div>
-        </div>
-
-        <mat-form-field appearance="outline" class="date-item">
-          <mat-label>{{ 'create-event.invite' | translate }}</mat-label>
-          <mat-select ngDefaultControl required>
-            <mat-option value="All">{{ 'create-event.all' | translate }}</mat-option>
-            <mat-option value="Frends">{{ 'create-event.friends' | translate }}</mat-option>
-          </mat-select>
-        </mat-form-field>
       </mat-card>
     </div>
 
     <div class="submit-container">
       <button class="tertiary-global-button" (click)="cancel(true)">{{ 'create-event.cancel' | translate }}</button>
-      <button class="secondary-global-button" (click)="onPreview()">{{ 'create-event.preview' | translate }}</button>
-      <button class="primary-global-button" (click)="onSubmit()">{{ nameBtn | translate }}</button>
+      <div class="buttons-group">
+        <button class="secondary-global-button submit-buttons" (click)="onPreview()">{{ 'create-event.preview' | translate }}</button>
+        <button class="primary-global-button submit-buttons" (click)="onSubmit()">{{ nameBtn | translate }}</button>
+      </div>
     </div>
   </div>
 </div>

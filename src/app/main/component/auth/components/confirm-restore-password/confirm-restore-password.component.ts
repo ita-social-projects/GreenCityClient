@@ -87,7 +87,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
       },
       (error) => {
         this.form = error;
-        this.snackBar.openSnackBar('errorMessage', error);
+        this.snackBar.openSnackBar('sendNewLetter');
       }
     );
   }

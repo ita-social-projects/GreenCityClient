@@ -30,7 +30,7 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
   @Input() public config: PaginationConfig;
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
-  @Output() public changedList = new EventEmitter();
+  @Output() public changedList = new EventEmitter<number>();
   public types = dataTypes;
   public commentMaxLength = 8000;
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(this.commentMaxLength)]);
@@ -89,8 +89,8 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  public deleteComment(): void {
-    this.changedList.emit();
+  public deleteComment($event): void {
+    this.changedList.emit($event);
   }
 
   public isCommentEdited(element: CommentsDTO): boolean {

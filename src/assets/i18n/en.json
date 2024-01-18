@@ -127,7 +127,7 @@
       "delete-title-admin": "Event will be deleted. Do you want to continue?",
       "delete-yes": "Yes",
       "delete-no": "No",
-      "filter-title": "Sort By",
+      "filter-title": "Filter",
       "filter-location": "Location",
       "filter-location-аny-location": "(Select All)",
       "filter-status": "Status",
@@ -181,6 +181,7 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
+      "events": "Events",
       "see-all-news": "See all News",
       "see-all-results": "See all results"
     },
@@ -196,6 +197,7 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
+      "events": "Events",
       "sort": "Sort by:",
       "filter": "Filter by:",
       "relevance": "Relevance",
@@ -390,7 +392,8 @@
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
       "update-notification": "Notification was updated",
-      "rating-send": "Rating sent"
+      "rating-send": "Rating sent",
+      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer"
     }
   },
   "user": {
@@ -748,7 +751,7 @@
       },
       "to-do-list": "To-do list",
       "no-shopping-items": "No items to recommend",
-      "too-long-input": "The input field should contain no more than 50 characters",
+      "too-long-input": "The input field should contain no more than 2048 characters",
       "add-custom-item": "Add custom item",
       "user-log": {
         "day": "Day",
@@ -1112,6 +1115,7 @@
     "btn-edit": "Edit event",
     "btn-cancel": "Cancel Request",
     "btn-join": "Join event",
+    "btn-request-sent": "Request sent",
     "btn-delete": "Delete",
     "btn-see": "See rating",
     "btn-rate": "Rate Organizer",
@@ -1157,8 +1161,8 @@
     "apply-location": "Apply to all days of the event",
     "event-location": "Location",
     "event-link": "Online Link",
-    "event-offline-place": "Event Offline place.",
-    "event-online-link": "EventOnline link (should start with http:// or https://).",
+    "event-offline-place": "Event Offline place",
+    "event-online-link": "EventOnline link (should start with http:// or https://)",
     "enter-location": "Enter a location",
     "enter-link": "Enter link",
     "textarea-title": "Events Description",
