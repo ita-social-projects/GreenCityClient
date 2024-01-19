@@ -4,17 +4,25 @@ import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from '../../service/socket/socket.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { OverlayRef } from '@angular/cdk/overlay';
+
 describe('ChatComponent', () => {
   let component: ChatComponent;
   let fixture: ComponentFixture<ChatComponent>;
+  const matDialogRefStub = {};
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ChatComponent ],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      imports: [HttpClientTestingModule, MatDialogModule, TranslateModule.forRoot()],
       providers: [
         ChatsService,
         SocketService,
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: OverlayRef, useValue: {} },
+        MatDialog
       ],
     })
     .compileComponents();

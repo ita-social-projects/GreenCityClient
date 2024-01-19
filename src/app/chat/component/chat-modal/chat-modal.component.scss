@@ -8,6 +8,7 @@
 .chats {
   height: 100%;
   width: 300px;
+  max-height: 625px;
 
   @include flex(column, center, center);
 }
