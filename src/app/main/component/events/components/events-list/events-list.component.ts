@@ -142,7 +142,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public cancelSearch(): void {
-    this.searchEventControl.value.trim() === '' ? this.searchToggle = false : this.searchEventControl.setValue('');
+    this.searchEventControl.value.trim() === '' ? (this.searchToggle = false) : this.searchEventControl.setValue('');
   }
 
   public showSelectedEvents(): void {
@@ -188,7 +188,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           const indexOfCriteria = this.selectedEventTimeStatusFiltersList.indexOf(filter.nameEn);
           this.selectedEventTimeStatusFiltersList.splice(indexOfCriteria, 1);
           [this.eventTimeStatusOptionList].forEach((optionList) => {
-            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+            this.unselectCheckbox(optionList, filter.nameEn);
           });
           this.updateSelectedFiltersList(filter.nameEn);
         } else {
@@ -201,7 +201,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           const indexOfCriteria = this.selectedLocationFiltersList.indexOf(filter.nameEn);
           this.selectedLocationFiltersList.splice(indexOfCriteria, 1);
           [this.locationOptionList].forEach((optionList) => {
-            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+            this.unselectCheckbox(optionList, filter.nameEn);
           });
           this.updateSelectedFiltersList(filter.nameEn);
         } else {
@@ -214,7 +214,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           const indexOfCriteria = this.selectedStatusFiltersList.indexOf(filter.nameEn);
           this.selectedStatusFiltersList.splice(indexOfCriteria, 1);
           [this.statusOptionList].forEach((optionList) => {
-            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+            this.unselectCheckbox(optionList, filter.nameEn);
           });
           this.updateSelectedFiltersList(filter.nameEn);
         } else {
@@ -227,7 +227,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           const indexOfCriteria = this.selectedTypeFiltersList.indexOf(filter.nameEn);
           this.selectedTypeFiltersList.splice(indexOfCriteria, 1);
           [this.typeOptionList].forEach((optionList) => {
-            optionList.options.find((option: MatOption) => option.value === filter.nameEn).deselect();
+            this.unselectCheckbox(optionList, filter.nameEn);
           });
           this.updateSelectedFiltersList(filter.nameEn);
         } else {
@@ -263,11 +263,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.eventTimeStatusOptionList].forEach((optionList) => {
-          optionList.options
-            ?.filter((option: MatOption) => option.selected)
-            .forEach((option: MatOption) => {
-              option.deselect();
-            });
+          this.unselectCheckboxesInList(optionList);
         });
         this.selectedEventTimeStatusFiltersList = [];
         break;
@@ -276,11 +272,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.locationOptionList].forEach((optionList) => {
-          optionList.options
-            ?.filter((option: MatOption) => option.selected)
-            .forEach((option: MatOption) => {
-              option.deselect();
-            });
+          this.unselectCheckboxesInList(optionList);
         });
         this.selectedLocationFiltersList = [];
         break;
@@ -289,11 +281,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.statusOptionList].forEach((optionList) => {
-          optionList.options
-            ?.filter((option: MatOption) => option.selected)
-            .forEach((option: MatOption) => {
-              option.deselect();
-            });
+          this.unselectCheckboxesInList(optionList);
         });
         this.selectedStatusFiltersList = [];
         break;
@@ -302,17 +290,25 @@ export class EventsListComponent implements OnInit, OnDestroy {
           this.updateSelectedFiltersList(item);
         });
         [this.typeOptionList].forEach((optionList) => {
-          optionList.options
-            ?.filter((option: MatOption) => option.selected)
-            .forEach((option: MatOption) => {
-              option.deselect();
-            });
+          this.unselectCheckboxesInList(optionList);
         });
         this.selectedTypeFiltersList = [];
         break;
     }
     this.cleanEventList();
     this.getEvents();
+  }
+
+  private unselectCheckbox(checkboxList: MatSelect, optionName: string): void {
+    checkboxList.options.find((option: MatOption) => option.value === optionName).deselect();
+  }
+
+  private unselectCheckboxesInList(checkboxList: MatSelect): void {
+    checkboxList.options
+      ?.filter((option: MatOption) => option.selected)
+      .forEach((option: MatOption) => {
+        option.deselect();
+      });
   }
 
   public resetAllFilters(): void {
@@ -322,11 +318,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.selectedStatusFiltersList = [];
     this.selectedTypeFiltersList = [];
     [this.eventTimeStatusOptionList, this.statusOptionList, this.locationOptionList, this.typeOptionList].forEach((optionList) => {
-      optionList.options
-        ?.filter((option: MatOption) => option.selected)
-        .forEach((option: MatOption) => {
-          option.deselect();
-        });
+      this.unselectCheckboxesInList(optionList);
     });
     this.cleanEventList();
     this.getEvents();
