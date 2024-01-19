@@ -163,9 +163,9 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
       coordinates: { longitude: this.coordinates.longitude, latitude: this.coordinates.latitude },
       name: form.value.name,
       userCredo: form.value.credo,
-      showLocation: form.value.showLocation,
-      showEcoPlace: form.value.showEcoPlace,
-      showShoppingList: form.value.showShoppingList,
+      showLocation: !!form.value.showLocation,
+      showEcoPlace: !!form.value.showEcoPlace,
+      showShoppingList: !!form.value.showShoppingList,
       socialNetworks: this.socialNetworksToServer
     };
 
