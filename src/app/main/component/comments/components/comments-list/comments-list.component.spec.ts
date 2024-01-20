@@ -2,16 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, QueryList, Renderer2, SimpleChanges } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Renderer2, SimpleChanges } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
-import { toArray } from 'rxjs/operators';
-import { CommentDto } from '@global-models/comment/commentDto';
-import { CommentsDTO } from '../../models/comments-model';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -20,6 +18,13 @@ describe('CommentsListComponent', () => {
   let commentsServiceMock: CommentsService;
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['editComment']);
   commentsServiceMock.editComment = () => of();
+  const matDialogMock = {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  };
 
   const commentData = {
     author: {
@@ -44,7 +49,8 @@ describe('CommentsListComponent', () => {
       imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
-        { provide: Renderer2, useValue: {} }
+        { provide: Renderer2, useValue: {} },
+        { provide: MatDialog, useValue: matDialogMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

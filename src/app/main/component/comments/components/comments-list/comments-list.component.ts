@@ -16,6 +16,8 @@ import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-comments-list',
@@ -39,10 +41,21 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';
   public isEditTextValid: boolean;
+  private confirmDialogConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: `homepage.eco-news.comment.comment-popup-cancel-edit.title`,
+      popupConfirm: `homepage.eco-news.comment.comment-popup-cancel-edit.confirm`,
+      popupCancel: `homepage.eco-news.comment.comment-popup-cancel-edit.cancel`
+    }
+  };
 
   @ViewChildren('commentText') commentText: QueryList<ElementRef>;
 
-  constructor(private commentsService: CommentsService, private renderer: Renderer2, private router: Router) {}
+  constructor(private commentsService: CommentsService, private renderer: Renderer2, private router: Router, private dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.elementsList && !changes.elementsList.firstChange) {
@@ -115,7 +128,15 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
   }
 
   public cancelEditedComment(element: CommentsDTO): void {
-    element.isEdit = false;
+    const dialogRef = this.dialog.open(WarningPopUpComponent, this.confirmDialogConfig);
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          element.isEdit = false;
+        }
+      });
   }
 
   public changeCounter(counter: number, id: number, key: string): void {
