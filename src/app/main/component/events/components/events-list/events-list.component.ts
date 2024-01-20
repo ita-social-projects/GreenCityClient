@@ -81,7 +81,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.ecoEvents$.subscribe((res: IEcoEventsState) => {
       if (res.eventState) {
         this.isLoading = false;
-        this.eventsList.push(...res.eventsList);
+        this.eventsList.push(...res.eventsList.slice(this.page * this.eventsPerPage));
         this.page++;
         this.countOfEvents = res.eventState.totalElements;
         this.hasNextPage = res.eventState.hasNext;
@@ -111,7 +111,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
           GetEcoEventsByPageAction({
             currentPage: this.page,
             numberOfEvents: this.eventsPerPage,
-            reset: true,
+            reset: false,
             filter: eventListFilterCriterias
           })
         );

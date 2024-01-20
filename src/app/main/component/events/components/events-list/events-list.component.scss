@@ -166,8 +166,20 @@ p {
 }
 
 .active-filter {
+  display: flex;
+  height: 24px;
+  border-radius: 25px;
+  padding: 0 16px;
   margin-right: 10px;
   gap: 8px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-green);
+  color: var(--primary-white);
+  font-family: var(--primary-font);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
 }
 
 .cross-container {
@@ -190,7 +202,6 @@ p {
   justify-content: flex-end;
   align-items: center;
   height: 24px;
-  border-radius: 25px;
 }
 
 .event-header {
