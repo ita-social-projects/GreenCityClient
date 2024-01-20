@@ -135,9 +135,10 @@
   flex: 3;
   margin-left: 5px;
 
-  // @media (max-width: 450px) {
-  //   max-width: 160px;
-  // }
+  @media (max-width: 450px) {
+    max-width: 160px;
+    overflow: hidden;
+  }
 
   @media (max-width: 360px) {
     max-width: 100px;

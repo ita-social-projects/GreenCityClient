@@ -32,6 +32,7 @@ describe('CommentTextareaComponent', () => {
 
   afterEach(() => {
     TestBed.resetTestingModule();
+    document.body.style.overflow = 'visible';
   });
 
   beforeEach(() => {
