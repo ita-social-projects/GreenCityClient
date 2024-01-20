@@ -160,7 +160,7 @@ describe('CommentsListComponent', () => {
 
   it('should render element from string', () => {
     const elMock: ElementRef = { nativeElement: document.createElement('div') };
-    const text = '<div><span data-userid="123">@user123</span> Some text</div>';
+    const text = '<span data-userid="123">@user123</span> Some text';
     (component as any).renderElemFromString(elMock, text);
     const renderedElement = elMock.nativeElement;
     expect(renderedElement.childNodes.length).toBeGreaterThan(0);

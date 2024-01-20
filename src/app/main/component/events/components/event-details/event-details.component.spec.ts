@@ -221,6 +221,7 @@ describe('EventDetailsComponent', () => {
   it('should prioritize organizer role over user role', () => {
     (component as any).userId = 123;
     (component as any).event = { organizer: { id: 123 } };
+    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_USER');
     expect((component as any).verifyRole()).toBe(component.roles.ORGANIZER);
   });
 
