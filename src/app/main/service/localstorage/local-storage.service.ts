@@ -1,7 +1,7 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { EventPageResponseDto, PagePreviewDTO } from '../../component/events/models/events.interface';
 import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class LocalStorageService {
   private readonly PREVIOUS_PAGE = 'previousPage';
   private readonly CAN_USER_EDIT_EVENT = 'canUserEdit';
   private readonly EDIT_EVENT = 'editEvent';
+  private EDIT_HABIT = '';
   private readonly ORDER_TO_REDIRECT = 'orderIdToRedirect';
   private readonly HABITS_GALLERY_VIEW = 'habitsGalleryView';
 
@@ -46,7 +47,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
-  public setEventForEdit(key: string, event: EventPageResponceDto) {
+  public setEventForEdit(key: string, event: EventPageResponseDto | PagePreviewDTO) {
     localStorage.setItem(key, JSON.stringify(event));
   }
 
@@ -340,7 +341,7 @@ export class LocalStorageService {
   }
 
   public setAddresses(addresses: Address[]) {
-    localStorage.setItem('addresses', String(addresses));
+    localStorage.setItem('addresses', JSON.stringify(addresses));
   }
 
   public getCurrentLocationId(): number {

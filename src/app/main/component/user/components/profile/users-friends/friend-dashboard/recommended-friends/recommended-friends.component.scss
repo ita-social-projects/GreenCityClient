@@ -1,43 +1,60 @@
-.friends-recommended-list {
-  margin-top: 50px;
-}
-
-.container {
+.friend-recommended-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding: 0;
-  min-width: 95%;
-}
 
-.search_not-found-text {
-  color: var(--secondary-dark-grey);
-  font-family: var(--secondary-font);
-  font-size: 1.3rem;
-  margin: 0 auto 40px;
-}
-
-.noFriends-wraper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-
-  .noFriends {
-    font-family: var(--secondary-font);
-    font-size: 32px;
-    font-weight: 500;
-    font-style: normal;
-    line-height: 48px;
+  @media (min-width: 576px) {
+    flex-direction: column;
   }
-}
 
-@media only screen and (min-width: 1224px) {
-  .container {
+  .cards-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media (min-width: 576px) {
+      gap: 32px;
+    }
+
+    @media (min-width: 1024px) {
+      display: grid;
+      max-width: 870px;
+      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+      row-gap: 16px;
+    }
+  }
+
+  .user-card {
+    @media (max-width: 1000px) {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  .noFriends-wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    margin-bottom: 30px;
+
+    .noFriends {
+      font-family: var(--secondary-font);
+      font-size: 32px;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 48px;
+      text-align: center;
+    }
   }
+}
+
+.img-absent img {
+  max-width: 100%;
 }

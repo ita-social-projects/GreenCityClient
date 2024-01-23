@@ -37,6 +37,8 @@ import { LocalizedDatePipe } from './localized-date-pipe/localized-date.pipe';
 import { TranslateDatePipe } from './translate-date-pipe/translate-date.pipe';
 import { RepeatPipe } from './repeat-pipe/repeat.pipe';
 import { CronPipe } from './cron-pipe/cron.pipe';
+import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
+import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-transform.pipe';
 import { MaxTextLengthPipe } from './max-text-length-pipe/max-text-length.pipe';
 import { ResizableBottomSheetComponent } from './resizable-bottom-sheet/resizable-bottom-sheet.component';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
@@ -74,7 +76,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     CronPipe,
     MaxTextLengthPipe,
     ResizableBottomSheetComponent,
-    UploadPhotoContainerComponent
+    UploadPhotoContainerComponent,
+    CorrectUnitPipe,
+    SafeHtmlTransformPipe
   ],
   imports: [
     CommonModule,
@@ -118,6 +122,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     RepeatPipe,
     CronPipe,
     MaxTextLengthPipe,
+    CorrectUnitPipe,
+    SafeHtmlTransformPipe,
     ResizableBottomSheetComponent
   ]
 })

@@ -5,6 +5,7 @@ import {
   DeleteEcoEventSuccessAction,
   EditEcoEventSuccessAction,
   GetEcoEventsByPageSuccessAction,
+  GetEcoEventsByIdSuccessAction,
   RateEcoEventsByIdSuccessAction,
   ReceivedFailureAction,
   RemoveAttenderEventsByIdSuccessAction
@@ -14,52 +15,69 @@ import { initialEventsState } from '../state/ecoEvents.state';
 export const EcoEventsReducer = createReducer(
   initialEventsState,
   on(GetEcoEventsByPageSuccessAction, (state, action) => {
-    const newstate = [...state.eventsList];
-    let pages = [...state.visitedPages];
-    let totPages = state.totalPages;
-    if (action.ecoEvents) {
-      newstate[action.ecoEvents.currentPage] = action.ecoEvents.page;
-      pages = [...state.visitedPages, action.ecoEvents.currentPage];
-      totPages = action.ecoEvents.totalPages;
+    let prevList = state.eventsList;
+    let prevNumber = state.pageNumber;
+    if (action.reset) {
+      prevList = [];
+      prevNumber = 0;
     }
     return {
       ...state,
-      eventsList: newstate,
-      eventState: action.ecoEvents,
-      visitedPages: pages,
-      totalPages: totPages,
-      pageNumber: action.currentPage
+      eventsList: [...prevList, ...action.ecoEvents.page],
+      eventState: { ...action.ecoEvents },
+      pageNumber: prevNumber + 1
+    };
+  }),
+
+  on(GetEcoEventsByIdSuccessAction, (state, action) => {
+    let prevList = state.eventsList;
+    if (action.reset) {
+      prevList = [];
+    }
+    return {
+      ...state,
+      eventsList: [...prevList, action.ecoEvents]
     };
   }),
 
   on(EditEcoEventSuccessAction, (state, action) => {
-    const newstate = state.eventsList.reduce((ac, cur, ind) => {
-      const newItem = cur.map((item) => (item.id === action.event.id ? action.event : item));
-      ac[ind] = newItem;
-      return ac;
-    }, []);
+    const newstate = state.eventsList.filter((it) => (it.id === action.event.id ? action.event : it));
     return {
       ...state,
       eventsList: newstate
     };
   }),
 
-  on(
-    DeleteEcoEventSuccessAction,
-    CreateEcoEventSuccessAction,
-    AddAttenderEventsByIdSuccessAction,
-    RemoveAttenderEventsByIdSuccessAction,
-    RateEcoEventsByIdSuccessAction,
-    (state) => {
-      return {
-        ...state,
-        eventsList: [],
-        pageNumber: 0,
-        visitedPages: [],
-        totalPages: 0
-      };
-    }
-  ),
+  on(CreateEcoEventSuccessAction, RateEcoEventsByIdSuccessAction, (state) => {
+    return {
+      ...state,
+      eventsList: [],
+      pageNumber: 0,
+      visitedPages: [],
+      totalPages: 0
+    };
+  }),
+  on(DeleteEcoEventSuccessAction, (state, action) => {
+    const prevList = state.eventsList;
+    const newState = prevList.filter((event) => event.id !== action.id);
+    return {
+      ...state,
+      eventsList: newState
+    };
+  }),
+
+  on(AddAttenderEventsByIdSuccessAction, RemoveAttenderEventsByIdSuccessAction, (state, action) => {
+    const newState = state.eventsList.map((val) => {
+      if (action.id === val.id) {
+        return val.isSubscribed ? { ...val, isSubscribed: false } : { ...val, isSubscribed: true };
+      }
+      return val;
+    });
+    return {
+      ...state,
+      eventsList: newState
+    };
+  }),
 
   on(ReceivedFailureAction, (state, action) => ({
     ...state,

@@ -1,64 +1,118 @@
 <div class="wrapper">
   <div class="back-to-my-habits" (click)="onGoBack()">
-    <div class="arrow"></div>
-    <div class="text">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
+    <div class="button-arrow">
+      <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+      <div class="back-button">{{ 'user.habit.btn.back-to-habit' | translate }}</div>
+    </div>
   </div>
-  <div class="habit-container">
+  <div class="habit-container" *ngIf="habitResponse">
     <div class="habit-info">
       <div class="header">
-        <div class="tags">{{ 'user.habit.header.tags' | translate }}</div>
-        <div class="line"></div>
-        <div class="aquired">{{ 'user.habit.header.aquired' | translate }}</div>
-        <div class="line"></div>
-        <div class="stars">
-          <img *ngFor="let star of stars" alt="star" [src]="star" />
+        <div class="tags">
+          <span *ngFor="let tag of habitResponse.tags; let last = last">
+            {{ last ? tag : tag + ',&nbsp;' }}
+          </span>
+        </div>
+        <div class="item acquired-by">{{ 'user.habit.header.aсquired' | translate }} {{ habitResponse.amountAcquiredUsers }}</div>
+        <div class="item">
+          <div>{{ 'user.habit.header.difficulty' | translate }}</div>
+          <div class="stars">
+            <img *ngFor="let star of stars" alt="star" [src]="star" />
+          </div>
         </div>
       </div>
       <div class="habit-title">
-        {{ habitResponse?.habitTranslation.name }}
+        {{ habitResponse.habitTranslation.name }}
       </div>
-      <div class="description">
-        <p>
-          {{ habitResponse?.habitTranslation.description }}
-        </p>
-      </div>
+      <div class="description" [innerHTML]="habitResponse.habitTranslation.description"></div>
     </div>
     <div class="habit-img">
-      <img class="img" [src]="habitResponse?.image" alt="" />
+      <img class="img" [src]="habitImage" (error)="habitImage = defaultImage" alt="habit picture" />
     </div>
   </div>
-  <div class="habit-edit">{{ 'user.habit.info' | translate }}</div>
+  <div class="habit-info-divider">
+    <h3>{{ 'user.habit.info' | translate }}</h3>
+    <div class="lock-icon"></div>
+  </div>
   <div class="divider"></div>
-  <div class="container-habit-edit">
-    <div class="habit-progress">
-      <app-habit-progress [habit]="habit"></app-habit-progress>
-    </div>
-    <div class="habit-info-right-block">
-      <div class="invite-friends">
-        <app-habit-invite-friends></app-habit-invite-friends>
+  <div class="container-bottom">
+    <div class="habit-info-block">
+      <div class="habit-progress">
+        <app-habit-progress
+          [habit]="assignedHabit"
+          class="progress-container"
+          (progressValue)="getProgressValue($event)"
+          [duration]="newDuration"
+        ></app-habit-progress>
       </div>
-      <div class="duration-shoping">
-        <div class="duration" *ngIf="habitResponse">
-          <app-habit-duration [habitDurationInitial]="initialDuration" (changeDuration)="getDuration($event)"></app-habit-duration>
+      <div class="habit-second-block">
+        <div class="duration-shoping">
+          <div class="duration">
+            <app-habit-duration
+              *ngIf="initialDuration"
+              [habitDurationInitial]="initialDuration"
+              (changeDuration)="getDuration($event)"
+            ></app-habit-duration>
+          </div>
+          <div class="shopping">
+            <app-habit-edit-shopping-list
+              *ngIf="initialShoppingList"
+              (newList)="getList($event)"
+              [shopList]="initialShoppingList"
+              [isAcquired]="isAcquired"
+              [isEditing]="isEditing"
+            ></app-habit-edit-shopping-list>
+          </div>
         </div>
-        <div class="shopping">
-          <app-habit-edit-shopping-list (newList)="getList($event)"></app-habit-edit-shopping-list>
+        <div class="invite-friends">
+          <app-habit-invite-friends class="invite-friends-container"></app-habit-invite-friends>
         </div>
       </div>
     </div>
-    <div *ngIf="!isAssigned" class="add-habit-container">
-      <button class="primary-global-button cancel-habit-button" (click)="cancel()">{{ 'user.habit.btn.cancel' | translate }}</button>
-      <button class="primary-global-button add-habit-button" type="submit" (click)="addHabit()">
+    <div *ngIf="!isEditing" class="add-habit-container">
+      <button class="tertiary-global-button habit-btn" type="button" (click)="goToProfile()">
+        {{ 'user.habit.btn.cancel' | translate }}
+      </button>
+      <button class="primary-global-button habit-btn" type="button" (click)="addHabit()">
         {{ 'user.habit.btn.add' | translate }}
       </button>
+      <button
+        class="primary-global-button habit-btn"
+        type="button"
+        *ngIf="wasCustomHabitCreatedByUser"
+        (click)="editUsersCustomHabit(habitAssignId ? 'edithabit' : 'addhabit', habitResponse.id)"
+      >
+        {{ 'user.habit.btn.edit' | translate }}
+      </button>
     </div>
-    <div *ngIf="isAssigned" class="add-habit-container">
-      <button class="primary-global-button delete-habit-button" type="submit" (click)="deleteHabit()">
+    <div *ngIf="isEditing && !isAcquired" class="add-habit-container">
+      <button class="tertiary-global-button habit-btn" (click)="giveUpHabit()">
         {{ 'user.habit.btn.give-up' | translate }}
       </button>
-      <button class="primary-global-button save-habit-button" type="submit" (click)="updateHabit()">
+      <button *ngIf="canAcquire" class="secondary-global-button habit-btn" type="button" (click)="openAcquireConfirm()">
+        {{ 'user.habit.btn.acquire' | translate }}
+      </button>
+      <button class="primary-global-button habit-btn" type="button" (click)="updateHabit()">
         {{ 'user.habit.btn.save' | translate }}
+      </button>
+      <button
+        class="primary-global-button habit-btn"
+        type="button"
+        *ngIf="wasCustomHabitCreatedByUser"
+        (click)="editUsersCustomHabit('edithabit', habitAssignId ? habitAssignId : habitResponse.id)"
+      >
+        {{ 'user.habit.btn.edit' | translate }}
       </button>
     </div>
   </div>
+  <app-habits-widget
+    *ngIf="recommendedHabits && recommendedHabits.length"
+    [isHabit]="true"
+    [recommendedHabits]="recommendedHabits"
+  ></app-habits-widget>
+  <app-habits-widget
+    *ngIf="recommendedNews && recommendedNews.length"
+    [isHabit]="false"
+    [recommendedNews]="recommendedNews"
+  ></app-habits-widget>
 </div>

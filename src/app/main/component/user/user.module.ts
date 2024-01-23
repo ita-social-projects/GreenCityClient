@@ -1,4 +1,3 @@
-import { environment } from '@environment/environment';
 import { UserSharedModule } from './components/shared/user-shared.module';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +6,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AgmCoreModule } from '@agm/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
@@ -71,21 +69,24 @@ import { AllFriendsComponent } from './components/profile/users-friends/friend-d
 import { RecommendedFriendsComponent } from './components/profile/users-friends/friend-dashboard/recommended-friends/recommended-friends.component';
 import { FriendItemComponent } from './components/profile/users-friends/friend-dashboard/friend-item/friend-item.component';
 import { FriendRequestsComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/friend-requests.component';
-import { RequestItemComponent } from './components/profile/users-friends/friend-dashboard/friend-requests/request-item/request-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { HabitInviteFriendsPopUpComponent } from './components/habit/add-new-habit/habit-invite-friends/habit-invite-friends-pop-up/habit-invite-friends-pop-up.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { OneNewsComponent } from './components/profile/profile-dashboard/one-news/one-news.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
 import { FriendProfilePageComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-page.component';
 import { FriendProfileDashboardComponent } from './components/profile/users-friends/friend-dashboard/friend-profile-page/friend-profile-dashboard/friend-profile-dashboard.component';
 import { SetCountComponent } from './components/profile/profile-dashboard/set-count/set-count.component';
-import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { HabitsWidgetComponent } from './components/habit/add-new-habit/habits-widget/habits-widget.component';
+import { AddEditCustomHabitComponent } from './components/habit/add-edit-custom-habit/add-edit-custom-habit.component';
+import { QuillModule } from 'ngx-quill';
+import { UserNotificationsComponent } from './components/profile/user-notifications/user-notifications.component';
+import { UserNotificationsPopUpComponent } from './components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
+import { CommentsModule } from '../comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -144,12 +145,14 @@ import { MatExpansionModule } from '@angular/material/expansion';
     RecommendedFriendsComponent,
     FriendItemComponent,
     FriendRequestsComponent,
-    RequestItemComponent,
     HabitInviteFriendsPopUpComponent,
     OneNewsComponent,
     FriendProfilePageComponent,
     FriendProfileDashboardComponent,
     SetCountComponent,
+    HabitsWidgetComponent,
+    AddEditCustomHabitComponent,
+    UserNotificationsComponent,
     UserNotificationsPopUpComponent
   ],
   imports: [
@@ -159,16 +162,14 @@ import { MatExpansionModule } from '@angular/material/expansion';
     CommonModule,
     SharedMainModule,
     SharedModule,
+    CommentsModule,
     MatButtonModule,
+    MatAutocompleteModule,
     MatRadioModule,
     MatSliderModule,
     MatTooltipModule,
     DragDropModule,
     HttpClientModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places']
-    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -180,11 +181,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
     InfiniteScrollModule,
     UserSharedModule,
     MatTabsModule,
-    MatDividerModule,
-    MatExpansionModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    QuillModule.forRoot()
   ],
-  exports: [MatDividerModule, MatExpansionModule],
+  exports: [MatAutocompleteModule, FriendItemComponent, HabitProgressComponent, HabitsWidgetComponent, AllFriendsComponent, SharedModule],
   providers: [EditProfileFormBuilder]
 })
 export class UserModule {}

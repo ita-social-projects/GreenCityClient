@@ -5,10 +5,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 import { Observable } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
@@ -17,6 +17,8 @@ import { EditProfileModel } from '@global-user/models/edit-profile.model';
 import { EditProfileComponent } from './edit-profile.component';
 import { SocialNetworksComponent } from './social-networks/social-networks.component';
 import { Router } from '@angular/router';
+import { SharedMainModule } from '@shared/shared-main.module';
+import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 
 class Test {}
 
@@ -26,16 +28,33 @@ describe('EditProfileComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
+    (window as any).google = {
+      maps: {
+        places: {
+          AutocompleteService: class {
+            getPlacePredictions(request, callback) {
+              const predictions = [
+                { description: 'Place 1', place_id: '1' },
+                { description: 'Place 2', place_id: '2' }
+              ];
+              callback(predictions, 'OK');
+            }
+          }
+        }
+      }
+    };
+
     TestBed.configureTestingModule({
-      declarations: [EditProfileComponent],
+      declarations: [EditProfileComponent, InputGoogleAutocompleteComponent],
       imports: [
         ReactiveFormsModule,
+        MatAutocompleteModule,
         MatDialogModule,
         MatSnackBarModule,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
-        AgmCoreModule,
+        SharedMainModule,
         TranslateModule.forRoot()
       ],
       providers: [
@@ -44,12 +63,7 @@ describe('EditProfileComponent', () => {
         MatSnackBarComponent,
         SocialNetworksComponent,
         ProfileService,
-        {
-          provide: MapsAPILoader,
-          useValue: {
-            load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
-          }
-        }
+        { provide: 'google', useValue: google }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -68,7 +82,7 @@ describe('EditProfileComponent', () => {
   });
 
   describe('General methods:', () => {
-    const initMethods = ['setupInitialValue', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
+    const initMethods = ['initForm', 'getInitialValue', 'subscribeToLangChange', 'bindLang'];
 
     for (let i = 0; i < initMethods.length; i++) {
       it(`ngOnInit should init ${i + 1}-st element ${initMethods[i]}`, () => {
@@ -83,6 +97,31 @@ describe('EditProfileComponent', () => {
       component.ngOnDestroy();
       expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalledTimes(1);
     });
+
+    it('should return the correct form values', () => {
+      component.editProfileForm.setValue({
+        name: 'John',
+        city: 'City',
+        credo: 'Some credo',
+        showLocation: true,
+        showEcoPlace: false,
+        showShoppingList: true,
+        socialNetworks: []
+      });
+      component.coordinates = { latitude: 123, longitude: 456 };
+      component.socialNetworksToServer = ['Facebook', 'Twitter'];
+
+      const result = component.getFormValues();
+
+      expect(result.firstName).toBe('John');
+      expect(result.latitude).toBe(123);
+      expect(result.longitude).toBe(456);
+      expect(result.userCredo).toBe('Some credo');
+      expect(result.showLocation).toBe(true);
+      expect(result.showEcoPlace).toBe(false);
+      expect(result.showShoppingList).toBe(true);
+      expect(result.socialNetworks).toEqual(['Facebook', 'Twitter']);
+    });
   });
 
   describe('Testing of warnings in cases of user leaves the page', () => {
@@ -94,7 +133,7 @@ describe('EditProfileComponent', () => {
         showLocation: '',
         showEcoPlace: '',
         showShoppingList: '',
-        socialNetworks: ''
+        socialNetworks: []
       };
       component.editProfileForm.value.city = '';
       component.editProfileForm.value.name = '';
@@ -102,7 +141,7 @@ describe('EditProfileComponent', () => {
       component.editProfileForm.value.showLocation = '';
       component.editProfileForm.value.showEcoPlace = '';
       component.editProfileForm.value.showShoppingList = '';
-      component.editProfileForm.value.socialNetworks = '';
+      component.socialNetworksToServer = [];
     });
 
     it('should return false in case of form fields were not changed', () => {
@@ -139,7 +178,7 @@ describe('EditProfileComponent', () => {
         it(`${i + 1}-st - ${invalidCity[i]}.`, () => {
           const control = component.editProfileForm.get('city');
           control.setValue(invalidCity[i]);
-          expect(control.valid).toBeFalsy();
+          expect(control.valid).toBeTruthy();
         });
       }
     });
@@ -164,7 +203,7 @@ describe('EditProfileComponent', () => {
       editProfileService = fixture.debugElement.injector.get(EditProfileService);
       profileService = fixture.debugElement.injector.get(ProfileService);
       mockUserInfo = {
-        city: 'Lviv',
+        userLocationDto: { cityEn: 'Lviv' },
         name: 'John',
         userCredo: 'My Credo is to make small steps that leads to huge impact. Let’s change the world together.',
         profilePicturePath: './assets/img/profileAvatarBig.png',
@@ -173,7 +212,7 @@ describe('EditProfileComponent', () => {
         showLocation: true,
         showShoppingList: true,
         socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
-      };
+      } as EditProfileModel;
     });
 
     it('getInitialValue should call ProfileService', () => {

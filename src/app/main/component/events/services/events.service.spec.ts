@@ -2,12 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { environment } from '@environment/environment';
+import { EventFilterCriteriaInterface } from '../models/events.interface';
+import { EventFilterCriteria } from '../models/event-consts';
+import { TranslateService } from '@ngx-translate/core';
 
 describe('EventsService', () => {
   let service: EventsService;
   let httpTestingController: HttpTestingController;
   const url = environment.backendLink;
   const formData = new FormData();
+  const eventFilterCriteriaConst: EventFilterCriteriaInterface = EventFilterCriteria;
   const data: any = {
     additionalImages: ['string'],
     dates: [
@@ -43,10 +47,11 @@ describe('EventsService', () => {
     title: 'string',
     titleImage: 'string'
   };
+
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [EventsService]
+      providers: [EventsService, { provide: TranslateService, useValue: {} }]
     })
   );
 
@@ -85,10 +90,13 @@ describe('EventsService', () => {
   });
 
   it('should make GET request to get all events', () => {
-    service.getEvents(0, 1).subscribe((event: any) => {
+    service.getEvents(0, 1, eventFilterCriteriaConst).subscribe((event: any) => {
       expect(event).toEqual(data);
     });
-    const req = httpTestingController.expectOne(`${url}events?page=0&size=1`);
+    const req = httpTestingController.expectOne(
+      `${url}events?page=0&size=1&cities=${eventFilterCriteriaConst.cities}&tags=${eventFilterCriteriaConst.tags}` +
+        `&eventTime=${eventFilterCriteriaConst.eventTime}&statuses=${eventFilterCriteriaConst.statuses}`
+    );
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });
@@ -111,10 +119,12 @@ describe('EventsService', () => {
     req.flush(data);
   });
   it('should make GET request to get all events of user', () => {
-    service.getAllUserEvents(0, 1).subscribe((event: any) => {
+    service.getAllUserEvents(0, 1, 50.58, 42.38, 'ONLINE').subscribe((event: any) => {
       expect(event).toEqual(data);
     });
-    const req = httpTestingController.expectOne(`${url}events/myEvents/relatedEvents?page=0&size=1`);
+    const req = httpTestingController.expectOne(
+      `${url}events/myEvents?eventType=ONLINE&page=0&size=1&userLatitude=50.58&userLongitude=42.38`
+    );
     expect(req.request.method).toEqual('GET');
     req.flush(data);
   });
@@ -162,5 +172,50 @@ describe('EventsService', () => {
     const req = httpTestingController.expectOne(`${url}events/removeAttender/156`);
     expect(req.request.method).toEqual('DELETE');
     req.flush(data);
+  });
+
+  it('should make GET request to retrieve addresses', () => {
+    let hasNoErrors = true;
+    service.getAddresses().subscribe({
+      error: () => {
+        hasNoErrors = false;
+      },
+      complete: () => {
+        expect(hasNoErrors).toEqual(true);
+      }
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/addresses`);
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should add event to favourites', () => {
+    let hasNoErrors = true;
+    service.addEventToFavourites(156).subscribe({
+      error: () => {
+        hasNoErrors = false;
+      },
+      complete: () => {
+        expect(hasNoErrors).toEqual(true);
+      }
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/addToFavorites/156`);
+    expect(req.request.method).toEqual('POST');
+  });
+
+  it('should remove event to favourites', () => {
+    let hasNoErrors = true;
+    service.removeEventFromFavourites(156).subscribe({
+      error: () => {
+        hasNoErrors = false;
+      },
+      complete: () => {
+        expect(hasNoErrors).toEqual(true);
+      }
+    });
+
+    const req = httpTestingController.expectOne(`${url}events/removeFromFavorites/156`);
+    expect(req.request.method).toEqual('DELETE');
   });
 });

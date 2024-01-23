@@ -34,6 +34,7 @@ import { EventScheduleOverlayComponent } from './components/event-details/event-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { EventScheduleComponent } from './components/event-details/event-schedule/event-schedule.component';
+import { CommentsModule } from '../comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { EventScheduleComponent } from './components/event-details/event-schedul
     MatSelectModule,
     SharedMainModule,
     SharedModule,
+    CommentsModule,
     InfiniteScrollModule,
     TranslateModule.forChild({
       loader: {

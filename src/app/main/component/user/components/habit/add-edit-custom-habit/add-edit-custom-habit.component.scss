@@ -1,0 +1,389 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0;
+
+  .create-habit-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 24px 0 4px 0;
+
+    .header-title {
+      font-family: var(--secondary-font);
+    }
+  }
+
+  .create-habit-main {
+    display: flex;
+    width: 100%;
+
+    .habit-form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 28px;
+    }
+  }
+}
+
+.container-top {
+  display: flex;
+  width: 100%;
+
+  .block-width {
+    width: 50%;
+  }
+}
+
+.container-bottom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .habit-info-block {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .habit-progress,
+    .habit-second-block {
+      width: calc(50% - 16px);
+    }
+
+    .habit-progress {
+      padding: 36px;
+      background-color: var(--secondary-light-grey);
+      border-radius: 8px;
+      align-self: flex-start;
+    }
+
+    .habit-second-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .invite-friends {
+        display: flex;
+        width: 100%;
+        height: 172px;
+        padding: 24px;
+        background: var(--secondary-light-grey);
+        border-radius: 8px;
+
+        .invite-friends-container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+      }
+
+      .duration-shoping {
+        display: flex;
+        height: 268px;
+        width: 100%;
+        justify-content: space-between;
+        gap: 32px;
+
+        .duration,
+        .shopping {
+          width: 50%;
+          background: var(--secondary-light-grey);
+          border-radius: 8px;
+          padding: 24px;
+          font-family: var(--secondary-font);
+        }
+      }
+    }
+  }
+}
+
+.first-block {
+  border-radius: 8px;
+  background-color: var(--secondary-light-grey);
+
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    padding: 36px;
+    gap: 42px;
+
+    .inputs-block {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .title-box,
+      .difficulty-box {
+        display: flex;
+        flex-direction: column;
+
+        .title-labels {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: 4px;
+        }
+      }
+
+      .title-box {
+        width: 70%;
+      }
+    }
+
+    .tags-section {
+      display: flex;
+      flex-direction: column;
+
+      .tags-block {
+        display: flex;
+        overflow-x: scroll;
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+.difficulty-input {
+  display: flex;
+  list-style-type: none;
+  margin-top: 10px;
+  padding: 0;
+  gap: 18px;
+
+  .star-button {
+    border: 0;
+    outline: 0;
+    background: none;
+    padding: 0;
+  }
+}
+
+input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type='radio'] + img {
+  cursor: pointer;
+}
+
+.habit-tooltip {
+  margin: 0;
+  font-size: 12px;
+  font-family: var(--primary-font);
+}
+
+.image-block {
+  display: flex;
+  height: 100%;
+  margin-top: 12px;
+}
+
+.habit-column-block {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.habit-block {
+  width: 100%;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: var(--secondary-light-grey);
+}
+
+.textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--secondary-font);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-white);
+  z-index: 2;
+}
+
+:host ::ng-deep {
+  .ql-toolbar {
+    border-radius: 4px 4px 0 0;
+  }
+
+  .ql-container {
+    min-height: 120px;
+    max-height: 210px;
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+.select-image {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.add-habit-container {
+  margin: 32px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 32px;
+
+  button {
+    width: 180px;
+  }
+}
+
+.warning {
+  color: var(--error-red);
+}
+
+@media (max-width: 1439px) {
+  .wrapper {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .wrapper {
+    max-width: calc(100% - 64px);
+  }
+
+  .container-top {
+    flex-direction: column;
+
+    .block-width {
+      width: 100%;
+    }
+  }
+
+  .container-bottom .habit-info-block {
+    flex-direction: column;
+    gap: 32px;
+
+    .habit-progress,
+    .habit-second-block {
+      width: 100%;
+    }
+
+    .habit-second-block {
+      gap: 32px;
+    }
+  }
+
+  .habit-block {
+    padding: 0 36px 36px 36px;
+  }
+
+  .select-image {
+    width: 482px;
+  }
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .select-image {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .wrapper {
+    max-width: calc(100% - 32px);
+
+    .create-habit-header {
+      margin: 40px 0 8px 0;
+
+      .header-title {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      p {
+        font-size: 12px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .first-block .text-section {
+    padding: 24px 16px;
+    gap: 24px;
+
+    .inputs-block {
+      flex-direction: column;
+      gap: 24px;
+
+      .title-box,
+      .difficulty-box {
+        width: 100%;
+      }
+    }
+  }
+
+  .container-bottom .habit-info-block {
+    gap: 24px;
+
+    .habit-progress {
+      padding: 24px 16px;
+    }
+
+    .habit-second-block {
+      padding: 0;
+      gap: 24px;
+
+      .duration-shoping {
+        flex-direction: column;
+        height: auto;
+        gap: 24px;
+
+        .duration,
+        .shopping {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .habit-block {
+    padding: 0 16px 24px 16px;
+  }
+
+  .add-habit-container {
+    flex-direction: column;
+    gap: 24px;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .label {
+    font-size: 16px;
+  }
+
+  .difficulty-input {
+    margin-bottom: 0;
+  }
+}

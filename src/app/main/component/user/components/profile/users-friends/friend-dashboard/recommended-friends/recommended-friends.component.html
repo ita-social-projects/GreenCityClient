@@ -1,22 +1,46 @@
-<div>
-  <div class="friends-recommended-list">
-    <div *ngIf="!searchMode || !isFetching" class="container">
-      <div *ngFor="let item of recommendedFriends">
-        <app-friend-item [friend]="item" (friendEventEmit)="addFriend($event)" btnName="{{ 'profile.friends.add-new-friend' | translate }}">
-        </app-friend-item>
+<div class="friend-recommended-container">
+  <div *ngIf="!searchQuery">
+    <div *ngIf="!searchMode || !isFetching" class="cards-list">
+      <div class="cards-box">
+        <div *ngFor="let item of recommendedFriends" class="user-card">
+          <app-friend-item
+            [friend]="item"
+            (friendEventEmit)="addFriend($event)"
+            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+          >
+          </app-friend-item>
+        </div>
       </div>
     </div>
-    <app-spinner *ngIf="isFetching"></app-spinner>
-    <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
 
-  <div *ngIf="!isFetching && emptySearchList && recommendedFriends.length === 0" class="noFriends-wraper">
-    <p *ngIf="emptySearchList" class="noFriends">
-      {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: searchQuery } }}
-    </p>
+  <div *ngIf="searchQuery">
+    <div *ngIf="amountOfFriends">
+      <p>{{ amountOfFriends }} {{ 'profile.friends.found-amount' | translate }}</p>
+    </div>
+    <div *ngIf="!searchMode || !isFetching" class="cards-list">
+      <div class="cards-box">
+        <div *ngFor="let item of recommendedFriendsBySearch" class="user-card">
+          <app-friend-item
+            [friend]="item"
+            (friendEventEmit)="addFriend($event)"
+            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
+          >
+          </app-friend-item>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-spinner *ngIf="isFetching"></app-spinner>
+  <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
+
+  <div *ngIf="!isFetching && emptySearchList" class="noFriends-wraper">
     <div class="img-absent">
       <img [src]="absent" alt="absent-friends" />
     </div>
-    <div></div>
+    <p class="noFriends">
+      {{ 'search.search-not-found.not-found-friends-text' | translate }}
+    </p>
   </div>
 </div>

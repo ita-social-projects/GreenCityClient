@@ -23,17 +23,25 @@ export class FavoritePlaceService {
       });
   }
 
-  public addFavoritePlace(favoritePlaceSave: FavoritePlace): void {
+  public addFavoritePlace(favoritePlaceSave: FavoritePlace, isFromSideBar?: boolean): void {
     this.http
       .post<FavoritePlace>(placeLink + 'save/favorite/', favoritePlaceSave)
       .pipe(take(1))
-      .subscribe(() => this.updateFavoritePlaces());
+      .subscribe(() => {
+        if (!isFromSideBar) {
+          this.updateFavoritePlaces();
+        }
+      });
   }
 
-  public deleteFavoritePlace(placeId: number): void {
+  public deleteFavoritePlace(placeId: number, isFromSideBar?: boolean): void {
     this.http
       .delete<any>(`${favoritePlaceLink}${placeId}`)
       .pipe(take(1))
-      .subscribe(() => this.updateFavoritePlaces());
+      .subscribe(() => {
+        if (!isFromSideBar) {
+          this.updateFavoritePlaces();
+        }
+      });
   }
 }

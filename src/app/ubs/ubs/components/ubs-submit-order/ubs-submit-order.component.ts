@@ -13,7 +13,7 @@ import { Order } from '../../models/ubs.model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Store } from '@ngrx/store';
-import { UpdatePersonalData } from 'src/app/store/actions/order.actions';
+import { ClearPersonalData } from 'src/app/store/actions/order.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 
 @Component({
@@ -276,6 +276,6 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   public cleanPersonalDataState(): void {
-    this.store.dispatch(UpdatePersonalData({ personalData: null }));
+    this.store.dispatch(ClearPersonalData());
   }
 }

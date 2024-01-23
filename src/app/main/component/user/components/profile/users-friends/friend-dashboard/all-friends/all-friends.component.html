@@ -1,28 +1,29 @@
-<div>
+<div class="all-friends-container">
   <div class="friends-list">
-    <div *ngIf="!searchMode || !isFetching" class="container">
-      <div *ngFor="let friend of friends">
+    <div *ngIf="!searchMode || !isFetching" class="cards-box">
+      <div *ngFor="let friend of friends" class="user-card">
         <app-friend-item
           [friend]="friend"
           (friendEventEmit)="handleDeleteFriend($event)"
-          btnName="{{ 'profile.friends.delete-friend' | translate }}"
+          primaryBtnName="{{ 'profile.friends.delete-friend' | translate }}"
         ></app-friend-item>
       </div>
     </div>
-    <app-spinner *ngIf="isFetching"></app-spinner>
     <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
   </div>
-</div>
-<div *ngIf="friends?.length === 0 && !isFetching">
-  <div class="noFriends-wraper">
-    <p *ngIf="emptySearchList" class="noFriends">
-      {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: searchQuery } }}
-    </p>
-    <div class="img-absent">
-      <img [src]="absent" alt="absent-friends" />
-    </div>
-    <div>
-      <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>
+  <app-spinner *ngIf="isFetching"></app-spinner>
+
+  <div *ngIf="friends?.length === 0 && !isFetching">
+    <div class="noFriends-wraper">
+      <div class="img-absent">
+        <img [src]="absent" alt="absent-friends" />
+      </div>
+      <p *ngIf="emptySearchList" class="noFriends">
+        {{ 'search.search-not-found.not-found-friends-text' | translate }}
+      </p>
+      <div>
+        <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>
+      </div>
     </div>
   </div>
 </div>

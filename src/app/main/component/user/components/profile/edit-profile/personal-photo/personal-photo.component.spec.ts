@@ -60,7 +60,7 @@ describe('PersonalPhotoComponent', () => {
 
     it('Should set user data', () => {
       const userData: EditProfileModel = {
-        city: '',
+        userLocationDto: { cityEn: 'city' },
         name: '',
         userCredo: '',
         profilePicturePath: 'test',
@@ -69,7 +69,7 @@ describe('PersonalPhotoComponent', () => {
         showLocation: true,
         showShoppingList: true,
         socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
-      };
+      } as EditProfileModel;
       // @ts-ignore
       spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
       // @ts-ignore

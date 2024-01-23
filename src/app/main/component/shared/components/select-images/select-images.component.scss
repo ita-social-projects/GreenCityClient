@@ -1,0 +1,18 @@
+.images-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 94px;
+  width: 30%;
+  border: 1px solid var(--quintynary-light-grey);
+  border-radius: 4px;
+  background: var(--primary-white);
+
+  &:hover {
+    border: 2px solid var(--primary-green);
+  }
+
+  .image {
+    max-height: 90%;
+  }
+}

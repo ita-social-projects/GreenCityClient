@@ -1,33 +1,49 @@
 <div class="profile" *ngIf="userInfo">
-  <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']">
-    <div class="edit-icon"></div>
-  </a>
   <div class="column">
-    <app-user-profile-image
-      class="user-image"
-      [imgPath]="userInfo.profilePicturePath"
-      [firstName]="userInfo.name"
-      [additionalImgClass]="'center'"
+    <div class="container-user-image">
+      <app-user-profile-image
+        class="user-image"
+        [imgPath]="userInfo.profilePicturePath"
+        [firstName]="userInfo.name"
+        [additionalImgClass]="'profile-avatar'"
+        tabindex="0"
+      >
+      </app-user-profile-image>
+      <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>
+    </div>
+    <p
+      class="name"
+      appCustomTooltip
+      #tooltip="matTooltip"
+      matTooltip="{{ userInfo.name }}"
+      matTooltipClass="my-custom-tooltip"
+      font="bold 18px Lato, sans-serif"
     >
-    </app-user-profile-image>
-    <p class="name">
       {{ userInfo.name }}
     </p>
-    <p class="location" *ngIf="userInfo.showLocation">
-      {{ userInfo.city || mockedUserInfo.city }}
+    <p
+      class="location"
+      appCustomTooltip
+      #tooltipLocation="matTooltip"
+      matTooltip="{{ getUserCity(userInfo.userLocationDto) }}"
+      matTooltipClass="my-custom-tooltip"
+      font="12px Lato, sans-serif"
+    >
+      {{ getUserCity(userInfo.userLocationDto) }}
     </p>
-    <div class="online">
-      {{ 'profile.online' | translate }}
-    </div>
+
     <div class="rate">
       <p>{{ 'profile.rate' | translate }}: {{ userInfo.rating || mockedUserInfo.rating }}</p>
     </div>
-    <div *ngIf="checkUserCredo" class="credo">{{ userInfo.userCredo || mockedUserInfo.userCredo }}</div>
     <div class="social" *ngIf="userSocialNetworks">
       <a *ngFor="let item of userSocialNetworks" [href]="item.link">
-        <div [class]="item.name"></div>
+        <img [src]="getSocialImage(item.link)" class="social-img" alt="Social image" [matTooltip]="item.link" />
       </a>
     </div>
+    <div *ngIf="checkUserCredo" class="credo">
+      {{ userInfo.userCredo || mockedUserInfo.userCredo }}
+    </div>
+
     <div class="profile-progress">
       <app-profile-progress [progress]="progress"></app-profile-progress>
     </div>

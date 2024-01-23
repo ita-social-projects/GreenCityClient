@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <p>
+    {{ (isHabit ? 'user.habit.habit-widget.title' : 'user.habit.habit-widget.title-news') | translate }}
+    <span *ngIf="isHabit">{{ recommendedHabits[0].tags[0] }}</span>
+  </p>
+  <hr />
+  <div *ngIf="isHabit && recommendedHabits" class="habits-recomended">
+    <div class="cards-container">
+      <div class="card-box" *ngFor="let habit of recommendedHabits; index as i">
+        <app-habits-gallery-view [habit]="habit" [routerLink]="['/allhabits/addhabit', habit.id]"> </app-habits-gallery-view>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isHabit && recommendedNews" class="habits-recomended">
+    <div class="cards-container">
+      <div class="card-box" *ngFor="let news of recommendedNews; index as i">
+        <app-news-list-gallery-view
+          [ecoNewsModel]="news"
+          [routerLink]="['/news', news.id]"
+          [class.last-item]="i === 2"
+          [class.recommended-item]="true"
+        >
+        </app-news-list-gallery-view>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,20 +4,20 @@ import { environment } from '@environment/environment';
 @Injectable({ providedIn: 'root' })
 export class GoogleScript {
   apiMapKey = environment.apiMapKey;
-  url = `https://maps.googleapis.com/maps/api/js?key=${this.apiMapKey}&callback=initMap&libraries=places&language=`;
+  url = `https://maps.googleapis.com/maps/api/js?key=${this.apiMapKey}&callback=initMap&libraries=places`;
 
   load(lang: string): void {
     const googleScript: HTMLScriptElement = document.querySelector('#googleMaps');
 
     if (googleScript) {
-      googleScript.src = this.url + lang;
+      googleScript.src = this.url;
     }
     if (!googleScript) {
       this.initMap();
       const google = document.createElement('script');
       google.type = 'text/javascript';
       google.id = 'googleMaps';
-      google.setAttribute('src', this.url + lang);
+      google.setAttribute('src', this.url);
       document.getElementsByTagName('head')[0].appendChild(google);
     }
   }

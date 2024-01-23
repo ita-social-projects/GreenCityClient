@@ -1,7 +1,8 @@
 .card-wrapper {
   display: flex;
   flex-direction: column;
-  max-width: 486px;
+  justify-content: space-around;
+  max-width: 348px;
   height: 100%;
   flex: 1 0 auto;
   font-family: var(--primary-font);
@@ -12,18 +13,45 @@
   }
 }
 
+.additional-info {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--primary-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  color: var(--quaternary-grey);
+
+  div {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
 .image-container {
-  width: 359px;
-  height: 204px;
+  width: 348px;
+  height: 200px;
   overflow: hidden;
   position: relative;
 
   .event-image {
     width: 100%;
-    height: 204px;
+    height: 100%;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .event-participants {
@@ -39,7 +67,7 @@
     border-radius: 4px;
     padding: 10px 8px 10px 8px;
     background: rgba(255, 255, 255, 0.8);
-    box-shadow: 1px 4px 8px rgba(100, 114, 125, 0.18);
+    box-shadow: 0 0 2px 0 var(--primary-grey);
 
     .event-participants-avatar {
       width: 19px;
@@ -85,6 +113,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 5px;
+    box-shadow: 0 0 1px 0 var(--primary-grey);
 
     .star {
       display: inline-block;
@@ -116,15 +145,22 @@
     padding: 8px;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 1px 0 var(--primary-grey);
+    cursor: pointer;
 
     span {
       display: inline-block;
       width: 25px;
       height: 25px;
+      transition: all 0.3s;
     }
 
     .flag {
       background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
+    }
+
+    .flag-active {
+      background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
     }
   }
 
@@ -135,6 +171,13 @@
     text-align: center;
     position: absolute;
   }
+}
+
+.event-name {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+  margin-top: 8px;
 }
 
 .main-container {
@@ -149,10 +192,20 @@
     display: flex;
     align-items: center;
 
-    .main-container .date-container span {
-      display: inline-block;
+    p {
+      padding: 0;
+      margin: 0;
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .location {
+      margin-right: 11px;
       width: 25px;
       height: 25px;
+      background: url('src/assets/img/events/location.svg') no-repeat center;
     }
 
     .clock {
@@ -160,6 +213,13 @@
       width: 12px;
       height: 12px;
       background: url('src/assets/events-icons/clock.png') no-repeat center;
+    }
+
+    .place {
+      margin-right: 13px;
+      width: 14px;
+      height: 14px;
+      background: url('src/assets/events-icons/place.png') no-repeat center;
     }
 
     .lock-open {
@@ -175,6 +235,12 @@
       height: 16px;
       background: url('src/assets/events-icons/lock-closed.png') no-repeat center;
     }
+  }
+
+  .main-container .date-container span {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
   }
 }
 
@@ -229,6 +295,8 @@
 }
 
 .description {
+  font-size: 14px;
+  line-height: 20px;
   max-height: 100px;
   overflow: hidden;
 }
@@ -248,57 +316,10 @@
   height: 40px;
 }
 
-.additional-info {
-  padding: 16px 16px 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--primary-font);
+.m-btn {
   font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left;
-  color: var(--quaternary-grey);
+}
 
-  .date {
-    display: flex;
-    height: 50%;
-  }
-
-  .date-image {
-    align-content: center;
-    width: 16px;
-    height: 16px;
-  }
-
-  .author {
-    display: flex;
-    height: 50%;
-  }
-
-  .author-image {
-    width: 16px;
-    height: 16px;
-  }
-
-  .frame {
-    display: flex;
-    height: 50%;
-  }
-
-  .frame-image {
-    width: 16px;
-    height: 16px;
-  }
-
-  .like {
-    display: flex;
-    height: 50%;
-  }
-
-  .like-image {
-    width: 16px;
-    height: 16px;
-  }
+.event-button-hiden {
+  display: none;
 }

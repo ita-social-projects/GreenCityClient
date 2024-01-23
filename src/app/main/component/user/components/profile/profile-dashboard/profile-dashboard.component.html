@@ -1,9 +1,9 @@
 <div class="main">
   <div class="menu">
-    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedIndex">
       <mat-tab label="{{ 'profile.dashboard.my-habits' | translate }}">
         <div *ngIf="!loading; else spinner">
-          <div *ngIf="habitAssignService.habitsInProgress.length !== 0">
+          <div *ngIf="habitAssignService.habitsInProgress.length || habitsAcquired.length">
             <div class="in-progress header">
               <p>
                 <app-set-count [remainingCount]="habitAssignService.habitsInProgress.length" [tabName]="'habits'">
@@ -11,14 +11,14 @@
                 </app-set-count>
               </p>
               <a [routerLink]="['/profile', userId, 'allhabits']">
-                <div id="create-button" class="secondary-global-button">
+                <div id="create-button" class="secondary-global-button s-btn">
                   <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
                 </div>
               </a>
             </div>
-            <div class="body" *ngIf="this.habitAssignService.habitsInProgress">
+            <div class="body" *ngIf="habitAssignService.habitsInProgress">
               <app-one-habit
-                *ngFor="let habit of this.habitAssignService.habitsInProgressToView"
+                *ngFor="let habit of habitAssignService.habitsInProgressToView"
                 [habit]="habit"
                 (nowAcquiredHabit)="changeStatus($event)"
               >
@@ -26,7 +26,7 @@
             </div>
             <button
               class="btn-view-more"
-              *ngIf="this.habitAssignService.habitsInProgress.length > this.habitAssignService.habitsInProgressToView.length"
+              *ngIf="habitAssignService.habitsInProgress.length > habitAssignService.habitsInProgressToView.length"
               (click)="getMoreHabitsInProgressForView()"
             >
               {{ 'profile.dashboard.habits-view-more' | translate }}
@@ -49,11 +49,11 @@
           >
             {{ 'profile.dashboard.habits-view-more' | translate }}
           </button>
-          <div class="no-data" *ngIf="this.habitAssignService.habitsInProgress.length === 0">
+          <div class="no-data" *ngIf="!(habitAssignService.habitsInProgress.length || habitsAcquired.length)">
             <app-no-data [title]="'profile.dashboard.no-habits-in-progress'" [text]="'profile.dashboard.no-habits-in-progress-advice'">
             </app-no-data>
             <a [routerLink]="['/profile', userId, 'allhabits']">
-              <div id="create-button" class="secondary-global-button">
+              <div id="create-button" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.add-new-habit' | translate }}</span>
               </div>
             </a>
@@ -70,7 +70,7 @@
               </app-set-count>
             </p>
             <a [routerLink]="['/news/create-news']">
-              <div id="create-button" class="secondary-global-button">
+              <div id="create-button" class="secondary-global-button s-btn">
                 <span>{{ 'profile.dashboard.add-news' | translate }}</span>
               </div>
             </a>
@@ -96,34 +96,78 @@
 
       <mat-tab label="{{ 'homepage.events.my-space.tag-title' | translate }}">
         <div *ngIf="!loading; else spinner">
-          <ul class="news-list" *ngIf="this.eventsTotal">
+          <div class="in-progress header" *ngIf="!isFavoriteBtnClicked">
+            <div class="buttons-wrapper">
+              <a [routerLink]="['/events/create-event']">
+                <div id="create-button" class="secondary-global-button s-btn">
+                  <span>{{ 'profile.dashboard.add-event' | translate }}</span>
+                </div>
+              </a>
+              <div class="favourites" (click)="goToFavorites()">
+                <span class="flag-active"></span>
+              </div>
+            </div>
+            <div class="events-filter">
+              <div class="events-types">
+                <mat-checkbox [(ngModel)]="isOnlineChecked" (ngModelChange)="onCheckboxChange('ONLINE')">
+                  {{ 'homepage.events.my-space.event-type-online' | translate }}
+                </mat-checkbox>
+                <mat-checkbox [(ngModel)]="isOfflineChecked" (ngModelChange)="onCheckboxChange('OFFLINE')"
+                  >{{ 'homepage.events.my-space.event-type-offline' | translate }}
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isFavoriteBtnClicked" class="in-progress header">
+            <div class="button-arrow" (click)="escapeFromFavorites()">
+              <img [src]="images.arrowLeft" aria-hidden="true" alt="arrow" class="button-arrow-img" />
+              <div class="edit-events">{{ 'create-event.back' | translate }}</div>
+            </div>
+          </div>
+          <ul class="news-list" *ngIf="totalEvents && !isFavoriteBtnClicked">
             <li
               *ngFor="
-                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: eventsTotal }
+                let eventItem of eventsList | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
               "
             >
-              <app-events-list-item [event]="eventItem"></app-events-list-item>
+              <app-events-list-item [event]="eventItem" [userId]="userId" [isUserAssignList]="true"></app-events-list-item>
+            </li>
+          </ul>
+          <ul class="news-list" *ngIf="isFavoriteBtnClicked">
+            <li
+              *ngFor="
+                let eventItem of favouriteEvents
+                  | paginate: { itemsPerPage: eventsPerPage, currentPage: eventsPage, totalItems: totalEvents }
+              "
+            >
+              <app-events-list-item
+                [event]="eventItem"
+                [userId]="userId"
+                [isUserAssignList]="true"
+                (idOfUnFavouriteEvent)="removeUnFavouriteEvent($event)"
+              ></app-events-list-item>
             </li>
           </ul>
           <pagination-controls
             class="events-pagination"
-            (pageChange)="onEventsPageChange($event)"
-            (pageBoundsCorrection)="onEventsPageChange($event)"
+            (pageChange)="onEventsPageChange($event, eventType)"
+            (pageBoundsCorrection)="onEventsPageChange($event, eventType)"
             maxSize="7"
             autoHide="true"
             responsive="true"
-            *ngIf="this.eventsTotal"
+            *ngIf="this.totalEvents"
           ></pagination-controls>
-          <div class="no-data" *ngIf="!this.eventsTotal">
+          <div class="no-data" *ngIf="!this.totalEvents">
             <app-no-data [title]="'profile.dashboard.no-events'" [text]="'profile.dashboard.no-events-advice'"> </app-no-data>
             <a [routerLink]="['/events']">
-              <div id="create-button" class="secondary-global-button">
+              <div id="create-button" class="secondary-global-button m-btn">
                 <span>{{ 'profile.dashboard.join-event' | translate }}</span>
               </div>
             </a>
           </div>
         </div>
       </mat-tab>
+      <mat-tab disabled> </mat-tab>
     </mat-tab-group>
   </div>
 

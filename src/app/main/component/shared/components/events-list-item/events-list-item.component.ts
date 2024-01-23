@@ -3,13 +3,15 @@ import {
   DeleteEcoEventAction,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { TagsArray } from '../../../events/models/event-consts';
-import { EventPageResponceDto, TagDto, TagObj } from '../../../events/models/events.interface';
+import { typeFiltersData } from '../../../events/models/event-consts';
+import { EventPageResponseDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,33 +22,39 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { DatePipe } from '@angular/common';
 import { EventsService } from '../../../events/services/events.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Component({
   selector: 'app-events-list-item',
   templateUrl: './events-list-item.component.html',
-  styleUrls: ['./events-list-item.component.scss']
+  styleUrls: ['./events-list-item.component.scss', './events-list-item-user.component.scss']
 })
 export class EventsListItemComponent implements OnInit, OnDestroy {
-  @Input() event: EventPageResponceDto;
+  @Input() event: EventPageResponseDto;
+  @Input() userId: number;
+  @Input() isUserAssignList: boolean;
+
+  profileIcons = userAssignedCardsIcons;
+
+  ecoEvents$ = this.store.select((state: IAppState): IEcoEventsState => state.ecoEventsState);
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public itemTags: Array<TagObj>;
   public activeTags: Array<TagObj>;
 
-  public nameBtn: string;
-  public styleBtn: string;
-  public isJoinBtnHidden = false;
   public rate: number;
-  public userId: number;
   public author: string;
 
-  public isJoined: boolean;
-  public isEventOpen: boolean;
-  public isOwner: boolean;
+  public isRated: boolean;
+
   public isRegistered: boolean;
-  public isFinished: boolean;
   public isReadonly = false;
   public isPosting: boolean;
-  public isRated: boolean;
+  public isEventFavorite: boolean;
+  public btnStyle: string;
+  public nameBtn: string;
 
   public max = 3;
 
@@ -56,17 +64,40 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   public currentLang: string;
   public datePipe;
   public newDate;
+  public address;
+  public addAttenderError: string;
+  public isOnline: string;
+  public isOwner: boolean;
+  public isAdmin: boolean;
+  public isActive: boolean;
 
   attendees = [];
   attendeesAvatars = [];
-
   deleteDialogData = {
-    popupTitle: 'homepage.events.delete-title',
+    popupTitle: 'homepage.events.delete-title-admin',
     popupConfirm: 'homepage.events.delete-yes',
-    popupCancel: 'homepage.events.delete-no'
+    popupCancel: 'homepage.events.delete-no',
+    style: 'green'
   };
+  public canUserJoinCloseEvent: boolean;
 
   @Output() public isLoggedIn: boolean;
+  @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
+
+  public styleBtn = {
+    secondary: 'secondary-global-button',
+    primary: 'primary-global-button',
+    hiden: 'event-button-hiden'
+  };
+
+  public btnName = {
+    edit: 'event.btn-edit',
+    delete: 'event.btn-delete',
+    rate: 'event.btn-rate',
+    cancel: 'event.btn-cancel',
+    join: 'event.btn-join',
+    requestSent: 'event.btn-request-sent'
+  };
 
   constructor(
     public router: Router,
@@ -77,22 +108,28 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private store: Store,
     private eventService: EventsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private snackBar: MatSnackBarComponent,
+    private jwtService: JwtService
   ) {}
 
   ngOnInit(): void {
-    this.itemTags = TagsArray.reduce((ac, cur) => [...ac, { ...cur }], []);
+    this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.filterTags(this.event.tags);
     this.rate = Math.round(this.event.organizer.organizerRating);
-    this.getUserId();
     this.userOwnAuthService.getDataFromLocalStorage();
-    this.checkUserSingIn();
-    this.initAllStatusesOfEvent();
-    this.checkAllStatusesOfEvent();
     this.subscribeToLangChange();
     this.getAllAttendees();
     this.bindLang(this.localStorageService.getCurrentLanguage());
-    this.author = this.event.organizer.name;
+    this.isRegistered = !!this.userId;
+    this.checkButtonStatus();
+    this.address = this.event.dates[this.event.dates.length - 1].coordinates;
+    this.isOnline = this.event.dates[this.event.dates.length - 1].onlineLink;
+    this.ecoEvents$.subscribe((res: IEcoEventsState) => {
+      this.addAttenderError = res.error;
+    });
+    this.getAddress();
+    this.isEventFavorite = this.event.isFavorite;
   }
 
   public routeToEvent(): void {
@@ -104,113 +141,77 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.activeTags = this.itemTags.filter((val) => val.isActive);
   }
 
-  public initAllStatusesOfEvent(): void {
-    this.isJoined = this.event.isSubscribed;
-    this.isEventOpen = this.event.open;
-    this.isOwner = this.userId === this.event.organizer.id;
-    this.isRegistered = !!this.userId;
-    this.isFinished = Date.parse(this.event.dates[0].finishDate) < Date.parse(new Date().toString());
-    this.isRated = !!this.rate;
-  }
-
-  public getUserId(): void {
-    this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
-  }
-
-  private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => {
-      this.isLoggedIn = data && data.userId;
-      this.userId = data.userId;
-      this.handleUserAuthorization();
-    });
-  }
-
-  public handleUserAuthorization(): void {
-    if (this.isLoggedIn) {
-      if (this.isOwner) {
-        return;
-      }
-      this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
-      this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
-      return;
-    }
-    this.isJoinBtnHidden = true;
-  }
-
-  public checkAllStatusesOfEvent(): void {
-    if (this.isEventOpen && !this.isFinished) {
-      this.checkIsOwner(this.isOwner);
-    } else {
-      if (this.isOwner) {
-        this.nameBtn = 'event.btn-delete';
-        this.styleBtn = 'secondary-global-button';
-      } else {
-        this.checkIsRate(this.isRated);
-      }
+  public checkButtonStatus(): void {
+    const { isSubscribed, isRelevant } = this.event;
+    this.isActive = isRelevant;
+    this.isOwner = Number(this.userId) === this.event.organizer.id;
+    const isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
+    const isUnauthorized = !this.jwtService.getUserRole();
+    this.isAdmin = isAdmin;
+    switch (true) {
+      case isAdmin && (!this.isOwner || !isRelevant):
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.delete;
+        break;
+      case (isAdmin || this.isOwner) && isRelevant:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.edit;
+        break;
+      case isSubscribed && isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.secondary;
+        this.nameBtn = this.btnName.cancel;
+        break;
+      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin && !isUnauthorized:
+        this.btnStyle = this.styleBtn.primary;
+        this.nameBtn = this.btnName.join;
+        break;
+      case isSubscribed && !isRelevant && !this.isOwner:
+        this.btnStyle = this.styleBtn.primary;
+        this.nameBtn = this.btnName.rate;
+        break;
+      case (!isSubscribed && !isRelevant && !this.isOwner) || isUnauthorized:
+        this.btnStyle = this.styleBtn.hiden;
+        break;
     }
   }
 
-  public checkIsOwner(isOwner: boolean): void {
-    if (isOwner) {
-      this.nameBtn = 'event.btn-edit';
-      this.styleBtn = 'secondary-global-button';
-    } else {
-      this.nameBtn = this.isJoined ? 'event.btn-cancel' : 'event.btn-join';
-      this.styleBtn = this.isJoined ? 'secondary-global-button' : 'primary-global-button';
-    }
-  }
-
-  public checkIsRate(isRated: boolean): void {
-    if (isRated) {
-      this.nameBtn = 'event.btn-see';
-      this.styleBtn = 'secondary-global-button';
-    } else {
-      this.isJoinBtnHidden = this.isJoined && !this.isLoggedIn;
-      this.nameBtn = !this.isEventOpen ? 'event.btn-see' : 'event.btn-rate';
-      this.styleBtn = !this.isRated ? 'primary-global-button' : 'secondary-global-button';
-    }
-  }
-
-  public buttonAction(): void {
-    switch (this.isRegistered) {
-      case this.isEventOpen && !this.isFinished:
-        if (this.isOwner) {
-          this.localStorageService.setEditMode('canUserEdit', true);
-          this.localStorageService.setEventForEdit('editEvent', this.event);
-          this.router.navigate(['events/', 'create-event']);
+  public buttonAction(buttonName: string): void {
+    this.eventService.setBackFromPreview(false);
+    this.eventService.setForm(null);
+    switch (buttonName) {
+      case this.btnName.cancel:
+        this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        break;
+      case this.btnName.join:
+        if (this.addAttenderError) {
+          this.snackBar.openSnackBar('errorJoinEvent');
+          this.addAttenderError = '';
+        } else if (!this.event.open && !this.event.isOrganizedByFriend) {
+          this.snackBar.openSnackBar('jointEventRequest');
+          this.nameBtn = this.btnName.requestSent;
         } else {
-          this.actionIsJoined(this.isJoined);
+          this.joinEvent();
         }
         break;
-
-      case false:
-        if (this.isOwner) {
-          this.deleteEvent();
-        } else {
-          if (!this.isRated && this.isEventOpen) {
-            this.openModal();
-          }
-        }
+      case this.btnName.rate:
+        this.openModal();
+        break;
+      case this.btnName.delete:
+        this.deleteEvent();
+        break;
+      case this.btnName.edit:
+        this.localStorageService.setEditMode('canUserEdit', true);
+        this.localStorageService.setEventForEdit('editEvent', this.event);
+        this.router.navigate(['/events', 'create-event']);
         break;
       default:
-        this.openModal();
+        break;
     }
   }
 
-  public actionIsJoined(isJoined: boolean) {
-    if (isJoined) {
-      this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.nameBtn = 'event.btn-join';
-      this.styleBtn = 'primary-global-button';
-      this.isReadonly = true;
-      this.isJoined = false;
-    } else {
-      this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
-      this.nameBtn = 'event.btn-cancel';
-      this.styleBtn = 'secondary-global-button';
-      this.isReadonly = !this.event.organizer.organizerRating ? false : true;
-      this.isJoined = true;
-    }
+  private joinEvent() {
+    this.store.dispatch(AddAttenderEcoEventsByIdAction({ id: this.event.id }));
+    this.snackBar.openSnackBar('joinedEvent');
   }
 
   public openModal(): void {
@@ -256,32 +257,79 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.localStorageService.languageBehaviourSubject.subscribe((lang: string) => {
       this.currentLang = lang;
       this.datePipe = new DatePipe(this.currentLang);
-      this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
+      this.newDate = this.datePipe.transform(this.event.creationDate, 'MMM dd, yyyy');
     });
   }
 
-  cutTitle(): string {
-    return this.event.title.length > 40 ? this.event.title.slice(0, 30) + '...' : this.event.title;
-  }
-
-  cutDescription(): string {
-    return this.event.description.length > 90 ? this.event.description.slice(0, 90) + '...' : this.event.description;
-  }
-
-  getAllAttendees() {
+  getAllAttendees(): void {
     this.eventService.getAllAttendees(this.event.id).subscribe((attendees) => {
       this.attendees = attendees;
       this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
     });
   }
 
+  public getAddress(): string {
+    if (this.address) {
+      return this.eventService.getFormattedAddressEventsList(this.address);
+    }
+  }
+
   public getLangValue(uaValue: string, enValue: string): string {
     return this.langService.getLangValue(uaValue, enValue) as string;
+  }
+
+  public changeFavouriteStatus(event?: Event) {
+    event?.stopPropagation();
+    if (!this.isRegistered) {
+      this.openAuthModalWindow('sign-in');
+    } else {
+      this.isEventFavorite = !this.isEventFavorite;
+      if (this.isEventFavorite) {
+        this.eventService.addEventToFavourites(this.event.id).subscribe({
+          error: () => {
+            this.snackBar.openSnackBar('error');
+            this.isEventFavorite = false;
+          }
+        });
+      } else {
+        this.eventService.removeEventFromFavourites(this.event.id).subscribe(
+          () => {
+            if (this.isUserAssignList) {
+              this.idOfUnFavouriteEvent.emit(this.event.id);
+            }
+          },
+          () => {
+            this.snackBar.openSnackBar('error');
+            this.isEventFavorite = true;
+          }
+        );
+      }
+    }
+  }
+
+  public openAuthModalWindow(page: string): void {
+    this.dialog
+      .open(AuthModalComponent, {
+        hasBackdrop: true,
+        closeOnNavigation: true,
+        panelClass: ['custom-dialog-container'],
+        data: {
+          popUpName: page
+        }
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.isRegistered = !!result;
+        if (this.isRegistered) {
+          this.changeFavouriteStatus();
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+    this.destroyed$.unsubscribe();
     this.langChangeSub.unsubscribe();
   }
 }

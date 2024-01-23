@@ -1,75 +1,88 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { ShoppingListService } from './shopping-list.service';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { environment } from '@environment/environment.js';
+import {
+  ALLUSERSHOPLISTS,
+  CUSTOMSHOPITEM,
+  SHOPLIST,
+  SHOPLISTITEMONE,
+  SHOPLISTITEMTWO,
+  UPDATEHABITSHOPLIST
+} from '../../mocks/shopping-list-mock';
 
 describe('ShoppingListService', () => {
   let service: ShoppingListService;
+  let httpMock: HttpTestingController;
 
-  const mockItem: ShoppingList = {
-    id: 1,
-    status: 'string',
-    text: 'string',
-    selected: false
-  };
-
-  const mockList: ShoppingList[] = [
-    {
-      id: 1,
-      status: 'INPROGRESS',
-      text: 'Item 1',
-      selected: false
-    },
-    {
-      id: 2,
-      status: 'ACTIVE',
-      text: 'Item 2',
-      selected: false
-    }
-  ];
+  const mainLink = environment.backendLink;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ShoppingListService],
-      imports: [HttpClientModule]
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
+      providers: [ShoppingListService, TranslateService]
     });
 
     service = TestBed.inject(ShoppingListService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('shopping-list.service should create', () => {
-    expect(service).toBeDefined();
+  it('should return allShopList by habitId on getHabitAllShopLists', () => {
+    service.getHabitAllShopLists(2, 'en').subscribe((data) => {
+      expect(data).toEqual(ALLUSERSHOPLISTS);
+    });
+
+    const req = httpMock.expectOne(`${mainLink}habit/assign/2/allUserAndCustomList?lang=en`);
+    expect(req.request.responseType).toEqual('json');
+    expect(req.request.method).toBe('GET');
+    req.flush(ALLUSERSHOPLISTS);
   });
 
-  it('select() should invoke placeItemInOrder() method', () => {
-    spyOn(service, 'placeItemInOrder');
-    service.select(mockItem);
-    expect(service.placeItemInOrder).toHaveBeenCalled();
+  it('should return all user shopList by lang on getUserShoppingLists', () => {
+    service.getUserShoppingLists('ua').subscribe((data) => {
+      expect(data).toEqual([ALLUSERSHOPLISTS]);
+    });
+
+    const req = httpMock.expectOne(`${mainLink}habit/assign/allUserAndCustomShoppingListsInprogress?lang=ua`);
+    expect(req.request.responseType).toEqual('json');
+    expect(req.request.method).toBe('GET');
+    req.flush([ALLUSERSHOPLISTS]);
   });
 
-  it('addItem() should invoke placeItemInOrder() method', () => {
-    spyOn(service, 'placeItemInOrder');
-    service.addItem('New item');
-    expect(service.placeItemInOrder).toHaveBeenCalled();
+  it('should update Standard Shop Item Status', () => {
+    service.updateStandardShopItemStatus(SHOPLISTITEMTWO, 'ua').subscribe((data) => {
+      expect(data).toEqual([SHOPLISTITEMTWO]);
+    });
+    const req = httpMock.expectOne(`${mainLink}user/shopping-list-items/2/status/INPROGRESS?lang=ua`);
+    expect(req.request.method).toBe('PATCH');
+    req.flush([SHOPLISTITEMTWO]);
   });
 
-  it('placeItemInOrder() should place item in correct order', () => {
-    service.fillList(mockList);
-    service.list[1].selected = true;
-    service.placeItemInOrder();
-    expect(service.list[0].text).toEqual('Item 2');
+  it('should update Custom Shop Item Status', () => {
+    service.updateCustomShopItemStatus(1, SHOPLISTITEMTWO).subscribe((data) => {
+      expect(data).toEqual(SHOPLISTITEMTWO);
+    });
+    const req = httpMock.expectOne(`${mainLink}custom/shopping-list-items/1/custom-shopping-list-items?itemId=2&status=INPROGRESS`);
+    expect(req.request.method).toBe('PATCH');
+    req.flush(SHOPLISTITEMTWO);
   });
 
-  it('select() should change item prooerty selected from true to false', () => {
-    service.fillList(mockList);
-    const item = mockList[1];
-    item.selected = true;
-    service.select(item);
-    expect(service.list[1].selected).toBeFalsy();
+  it('should update Habit Shop List', () => {
+    service.updateHabitShopList(UPDATEHABITSHOPLIST).subscribe((data) => {
+      expect(data).toEqual(null);
+    });
+    const req = httpMock.expectOne(`${mainLink}habit/assign/2/allUserAndCustomList?lang=ua`);
+    expect(req.request.method).toBe('PUT');
+    req.flush(null);
   });
 });

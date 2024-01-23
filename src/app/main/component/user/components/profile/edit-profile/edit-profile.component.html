@@ -6,36 +6,35 @@
       <form #formEditProf [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
         <div class="wrapper">
           <p>{{ 'user.edit-profile.info' | translate }}</p>
-          <div class="input-block" [ngStyle]="{ 'margin-bottom': '41px' }">
+          <div class="input-block">
             <label for="name">{{ 'user.edit-profile.name' | translate }}</label>
             <input
               type="text"
               formControlName="name"
-              placeholder="{{ userInfo.name.first + ' ' + userInfo.name.last }}"
+              placeholder="{{ 'user.edit-profile.user-name' | translate }}"
               [pattern]="namePattern"
               id="name"
             />
-            <span>{{ 'user.edit-profile.name-warning' | translate }}</span>
-          </div>
-          <div class="input-block" [ngStyle]="{ 'margin-bottom': '53px' }">
-            <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
-            <input
-              type="text"
-              formControlName="city"
-              placeholder="{{ userInfo.location }}"
-              autocorrect="off"
-              autocapitalize="off"
-              spellcheck="false"
-              #search
-              [pattern]="cityPattern"
-              id="city"
-            />
-            <span>{{ 'user.edit-profile.city-warning' | translate }}</span>
+            <span *ngIf="name.invalid">{{ 'user.edit-profile.name-warning' | translate }} </span>
           </div>
           <div class="input-block">
+            <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
+            <app-input-google-autocomplete
+              formControlName="city"
+              [autoCompRequest]="cityOptions"
+              (predictionSelectedEvent)="onCitySelected($event)"
+            ></app-input-google-autocomplete>
+          </div>
+
+          <div class="input-block">
             <label for="credo">{{ 'user.edit-profile.title' | translate }}</label>
-            <textarea placeholder="{{ userInfo.userCredo }}" formControlName="credo" id="credo"></textarea>
-            <span>{{ 'user.edit-profile.title-warning' | translate }}</span>
+            <textarea
+              placeholder="{{ 'user.edit-profile.user-credo' | translate }}"
+              formControlName="credo"
+              id="credo"
+              maxlength="171"
+            ></textarea>
+            <span *ngIf="credo.invalid">{{ 'user.edit-profile.title-warning' | translate }}</span>
           </div>
         </div>
         <div class="wrapper">
@@ -52,32 +51,32 @@
           <ul>
             <li>
               <label class="label-wrapper">
-                <input type="checkbox" formControlName="showLocation" [attr.checked]="checkLocation" />
+                <input type="checkbox" formControlName="showLocation" />
                 <span class="checkmark"></span>
                 {{ 'user.edit-profile.location' | translate }}
               </label>
             </li>
             <li>
               <label class="label-wrapper">
-                <input type="checkbox" formControlName="showEcoPlace" [attr.checked]="checkEcoPlaces" />
+                <input type="checkbox" formControlName="showEcoPlace" />
                 <span class="checkmark"></span>
                 {{ 'user.edit-profile.eco-place' | translate }}
               </label>
             </li>
             <li>
               <label class="label-wrapper">
-                <input type="checkbox" formControlName="showShoppingList" [attr.checked]="checkShoppingList" />
+                <input type="checkbox" formControlName="showShoppingList" />
                 <span class="checkmark"></span>
-                {{ 'user.edit-profile.to-do-list' | translate }}
+                {{ 'user.edit-profile.shopping-list' | translate }}
               </label>
             </li>
           </ul>
         </div>
         <div class="buttons">
-          <button type="button" (click)="cancel(true)">
+          <button class="secondary-global-button" type="button" (click)="cancel(checkChanges())">
             {{ 'user.edit-profile.btn.cancel' | translate }}
           </button>
-          <button type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
+          <button class="primary-global-button" type="submit" [disabled]="!editProfileForm.valid || editProfileForm.pristine">
             {{ 'user.edit-profile.btn.save' | translate }}
           </button>
         </div>

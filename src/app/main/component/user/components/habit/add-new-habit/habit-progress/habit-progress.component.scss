@@ -1,30 +1,48 @@
-.progressHabit {
+.progress-habit {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: 40px;
   height: 32px;
+  font-family: var(--secondary-font);
+  font-style: normal;
+  line-height: 24px;
 
-  .progressText {
-    font-family: var(--secondary-font);
-    font-style: normal;
+  .progress-text {
     font-weight: 600;
     font-size: 18px;
-    line-height: 24px;
     display: flex;
     align-items: center;
   }
 
-  .markAsDone {
-    font-family: var(--secondary-font);
-    font-style: normal;
+  .mark-done {
     font-weight: 500;
     font-size: 16px;
-    line-height: 24px;
     display: flex;
     align-items: center;
     color: var(--primary-green);
+
+    div:first-child,
+    button:first-child {
+      width: 32px;
+      height: 32px;
+      margin-right: 8px;
+      border-radius: 50%;
+      border: 0;
+    }
+
+    .done {
+      background: url('~/assets/img/icon/chek-circle.png') no-repeat center;
+    }
+
+    .undone {
+      background: url('~/assets/icons/habits/plus-circle-green.svg') no-repeat center;
+    }
+
+    .acquired {
+      background: url('~/assets/img/icon/star-circle.png') no-repeat center;
+    }
 
     img {
       margin-right: 9px;
@@ -36,8 +54,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
 
-  .daysDuration {
+  .calendar-container {
+    width: calc(100% - 66px);
+  }
+
+  .days-duration {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -47,11 +70,12 @@
     background: #e6ebea;
     border-radius: 4px;
 
-    .thumbLabel {
+    .thumb-label,
+    .thumb-label-mobile {
       width: 80px;
       height: 50px;
       position: absolute;
-      background-image: url('../../../../../../../../assets/img/duration-thumb-label-progress.svg');
+      background-image: url('~/assets/img/duration-thumb-label-progress.svg');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -72,11 +96,68 @@
       }
     }
 
-    .startLine {
+    .indicator-mobile,
+    .thumb-label-mobile {
+      display: none;
+    }
+
+    .start-line {
       width: 38px;
       height: 4px;
       background-color: rgba(215, 254, 60, 0.47);
       border-radius: 0 0 4px 4px;
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .progress-habit {
+    margin: 0;
+  }
+
+  .calendar {
+    flex-direction: column;
+    gap: 24px;
+
+    .app-calendar-week {
+      display: flex;
+      width: 100%;
+    }
+
+    .days-duration {
+      width: 100%;
+      height: 38px;
+
+      .indicator {
+        display: none;
+      }
+
+      .start-line {
+        height: 38px;
+        width: 4px;
+      }
+
+      .indicator-mobile {
+        display: block;
+        background: linear-gradient(270deg, var(--primary-green), rgba(215, 254, 60, 0.47));
+        height: 38px;
+      }
+
+      .thumb-label-mobile {
+        display: block;
+      }
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .progress-habit {
+    .progress-text {
+      font-size: 16px;
+    }
+
+    .mark-done {
+      font-size: 12px;
     }
   }
 }

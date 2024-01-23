@@ -3,7 +3,6 @@ import { take, takeUntil } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitAssignInterface } from '../../../../../interface/habit/habit-assign.interface';
 import { HabitStatus } from '../../../../../model/habit/HabitStatus.enum';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
@@ -11,8 +10,13 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByAuthorAction } from 'src/app/store/actions/ecoNews.actions';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { EventPageResponceDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ShoppingListService } from '@global-user/components/habit/add-new-habit/habit-edit-shopping-list/shopping-list.service';
+import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
+import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
+import { singleNewsImages } from 'src/app/main/image-pathes/single-news-images';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -25,6 +29,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   numberOfHabitsOnView = 3;
   habitsAcquired: Array<HabitAssignInterface> = [];
   habitsAcquiredToView: Array<HabitAssignInterface> = [];
+  public selectedIndex = 0;
   public tabs = {
     habits: true,
     news: false,
@@ -34,10 +39,14 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
   userId: number;
   news: EcoNewsModel[];
 
-  public eventsList: EventPageResponceDto[] = [];
+  public isOnlineChecked = false;
+  public isOfflineChecked = false;
+
+  public eventsList: EventPageResponseDto[] = [];
+  public favouriteEvents: EventPageResponseDto[] = [];
   public eventsPerPage = 6;
   public eventsPage = 1;
-  public eventsTotal = 0;
+  public totalEvents = 0;
 
   private hasNext = true;
   private currentPage: number;
@@ -45,19 +54,29 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
 
   public totalNews = 0;
 
+  public eventType = '';
+  public isFavoriteBtnClicked = false;
+
+  public userLatitude = 0;
+  public userLongitude = 0;
+
+  public images = singleNewsImages;
+
   authorNews$ = this.store.select((state: IAppState): IEcoNewsState => state.ecoNewsState);
 
   constructor(
     private localStorageService: LocalStorageService,
     public habitAssignService: HabitAssignService,
+    public shoppingService: ShoppingListService,
     private store: Store,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
     this.getUserId();
-    this.dispatchNews(false);
 
     this.authorNews$.subscribe((val: IEcoNewsState) => {
       this.currentPage = val.authorNewsPage;
@@ -69,23 +88,83 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     });
 
     this.initGetUserEvents();
+    this.dispatchNews(true);
+    this.getUserLocation();
+
     this.localStorageService.setCurentPage('previousPage', '/profile');
+
+    this.route.params.subscribe((params) => {
+      const tabId = +params?.tabId;
+
+      if (!isNaN(tabId)) {
+        this.selectedIndex = tabId;
+      }
+    });
   }
 
-  initGetUserEvents(): void {
+  getUserLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position) {
+        this.userLatitude = position.coords.latitude;
+        this.userLongitude = position.coords.longitude;
+      }
+    });
+  }
+
+  onCheckboxChange(EventTypeChecked?: string) {
+    if (EventTypeChecked === EventType.ONLINE) {
+      this.isOfflineChecked = false; // Uncheck checkbox2 when checkbox1 is checked
+    } else {
+      this.isOnlineChecked = false; // Uncheck checkbox1 when checkbox2 is checked
+    }
+
+    if (this.isOnlineChecked) {
+      this.eventType = EventType.ONLINE;
+    } else if (this.isOfflineChecked) {
+      this.eventType = EventType.OFFLINE;
+    } else {
+      this.eventType = '';
+    }
+
+    this.initGetUserEvents(this.eventType);
+  }
+
+  public escapeFromFavorites(): void {
+    this.isFavoriteBtnClicked = !this.isFavoriteBtnClicked;
+  }
+
+  public goToFavorites(): void {
+    this.isFavoriteBtnClicked = true;
+    this.getUserFavouriteEvents();
+  }
+
+  initGetUserEvents(eventType?: string): void {
     this.eventService
-      .getAllUserEvents(0, this.eventsPerPage)
+      .getAllUserEvents(0, this.eventsPerPage, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
       .subscribe((res: EventResponseDto) => {
         this.eventsList = res.page;
-        this.eventsTotal = res.totalElements;
+        this.totalEvents = res.totalElements;
       });
   }
 
-  onEventsPageChange(page: number): void {
+  getUserFavouriteEvents(): void {
+    this.eventService
+      .getUserFavoriteEvents(0, this.eventsPerPage)
+      .pipe(take(1))
+      .subscribe((res: EventResponseDto) => {
+        this.favouriteEvents = res.page;
+      });
+  }
+
+  removeUnFavouriteEvent(id: number): void {
+    this.favouriteEvents = this.favouriteEvents.filter((event) => event.id !== id);
+  }
+
+  onEventsPageChange(page: number, eventType?: string): void {
     this.eventsPage = page;
     this.eventService
-      .getAllUserEvents(this.eventsPage - 1, 6)
+      .getAllUserEvents(this.eventsPage - 1, 6, this.userLatitude, this.userLongitude, eventType)
       .pipe(take(1))
       .subscribe((res) => {
         this.eventsList = res.page;
@@ -123,7 +202,7 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
       .getAssignedHabits()
       .pipe(take(1))
       .subscribe((response: Array<HabitAssignInterface>) => {
-        const sortedHabits = this.sortHabitsAsc(response);
+        const sortedHabits = this.sortHabitsData(response);
         this.habitAssignService.habitsInProgress = sortedHabits.filter((habit) => habit.status === HabitStatus.INPROGRESS);
         this.habitsAcquired = sortedHabits.filter((habit) => habit.status === HabitStatus.ACQUIRED);
         this.setHabitsForView();
@@ -152,15 +231,9 @@ export class ProfileDashboardComponent implements OnInit, OnDestroy {
     return [...habitsOnView, ...allHabits.slice(currentNumberOfHabitsOnView, currentNumberOfHabitsOnView + this.numberOfHabitsOnView)];
   }
 
-  private sortHabitsAsc(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
+  private sortHabitsData(habitsArray: HabitAssignInterface[]): Array<HabitAssignInterface> {
     return habitsArray.sort((firstHabit, secondHabit) => {
-      if (firstHabit.habit.id > secondHabit.habit.id) {
-        return 1;
-      }
-      if (secondHabit.habit.id > firstHabit.habit.id) {
-        return -1;
-      }
-      return 0;
+      return firstHabit.createDateTime > secondHabit.createDateTime ? -1 : 1;
     });
   }
 

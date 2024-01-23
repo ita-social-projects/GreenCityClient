@@ -2,36 +2,47 @@ $bp-smallest: 320px;
 $bp-phone: 576px;
 $bp-tablet: 768px;
 $bp-desktop: 1080px;
-$bp-largest: 1440px;
+$bp-largest: 1199px;
 
 .outer {
   background-color: var(--primary-white);
   display: flex;
 }
 
-.shoppingList-block {
-  padding: 20px;
+.shopping-list-block {
+  width: 213px;
+  margin: 0 auto;
   border-top: 1px solid var(--quaternary-light-grey);
-  width: 100%;
 }
 
 .shopping-list-content {
-  margin: 0 auto;
-  font-family: var(--secondary-font);
+  padding-top: 24px;
+  font-family: var(--primary-font);
   font-style: normal;
+
+  &:last-child {
+    padding-bottom: 24px;
+  }
 }
 
 .header-position {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  .btn-see-all {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--tertiary-light-grey);
+    line-height: 16px;
+  }
 }
 
 .header {
-  text-align: left;
-  font-weight: 600;
-  font-size: 12px;
-  padding-bottom: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--quaternary-dark-grey);
 }
 
 h2 > span {
@@ -49,7 +60,11 @@ h2 > span {
 }
 
 .items-count {
-  font-size: 0.8em;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  margin-top: -12px;
+  color: var(--quintynary-light-grey);
 }
 
 .item {
@@ -100,12 +115,6 @@ h2 > span {
   }
 }
 
-.btn-see-all {
-  text-decoration: none;
-  font-weight: normal;
-  font-size: 12px;
-}
-
 .checkbox {
   float: right;
 }
@@ -127,20 +136,8 @@ h2 > span {
   margin: 0 auto;
 }
 
-@media only screen and (max-width: $bp-desktop) {
-  .header,
-  .text-number {
-    font-size: 12px;
-    line-height: 15px;
-  }
-
-  .text-more {
-    font-size: 11px;
-    line-height: 13px;
-  }
-
-  .item {
-    font-size: 11px;
-    line-height: 16px;
+@media (min-width: $bp-tablet) and (max-width: $bp-largest) {
+  .shopping-list-block {
+    width: 184px;
   }
 }

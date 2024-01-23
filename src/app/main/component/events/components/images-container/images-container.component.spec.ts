@@ -1,13 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TranslateService } from '@ngx-translate/core';
 import { ImagesContainerComponent } from './images-container.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { FileHandle } from 'src/app/ubs/ubs-admin/models/file-handle.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+@Pipe({ name: 'translate' })
+class TranslatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
 
 describe('ImagesContainerComponent', () => {
   let component: ImagesContainerComponent;
   let fixture: ComponentFixture<ImagesContainerComponent>;
+
+  const translateServiceMock = {
+    setDefaultLang: () => {},
+    use: () => {}
+  };
 
   const files: FileHandle[] = [
     { url: 'http://', file: new File(['some content'], 'text-file.jpeg', { type: 'image/jpeg' }) },
@@ -21,8 +34,12 @@ describe('ImagesContainerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ImagesContainerComponent],
-      providers: [{ provide: MatSnackBarComponent, useValue: MatSnackBarMock }],
+      declarations: [ImagesContainerComponent, TranslatePipeMock],
+      imports: [HttpClientTestingModule],
+      providers: [
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: TranslateService, useValue: translateServiceMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   });
@@ -69,7 +86,6 @@ describe('ImagesContainerComponent', () => {
     component.editMode = true;
 
     expect((component as any).imgArray.length).toBe(1);
-    console.log(component.editMode);
   });
 
   it('assignImage expect images.src to be imageSrc', () => {

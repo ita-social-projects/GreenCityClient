@@ -2,6 +2,29 @@
   padding-top: 24px;
   background-color: var(--pre-secondary-light-grey);
 
+  .button-text {
+    display: inline-flex;
+    gap: 10px;
+    color: var(--quaternary-dark-grey);
+    margin-top: 2px;
+  }
+
+  .secondary-global-button {
+    padding: 8px 21px;
+  }
+
+  @media (max-width: 360px) {
+    .secondary-global-button {
+      padding: 8px 10px;
+    }
+  }
+
+  @media (max-width: 338px) {
+    .secondary-global-button {
+      font-size: 16px;
+    }
+  }
+
   @media (min-width: 576px) and (max-width: 767px) {
     padding-left: 18px;
     padding-right: 18px;
@@ -10,6 +33,33 @@
   @media (max-width: 575px) {
     padding-left: 16px;
     padding-right: 16px;
+
+    .save-join-event-block-ua {
+      flex-direction: column;
+    }
+  }
+
+  @media (min-width: 430px) and (max-width: 575px) {
+    .save-join-event-block-ua {
+      display: flex;
+      align-items: flex-end;
+      gap: 23px;
+    }
+
+    .secondary-global-button {
+      align-items: flex-end;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .save-join-event-block-ua {
+      flex-direction: column;
+      width: auto;
+    }
+
+    .save-join-event-block {
+      flex-direction: column;
+    }
   }
 
   .event {
@@ -20,6 +70,15 @@
 
     @media (min-width: 1024px) and (max-width: 1439px) {
       width: 960px;
+    }
+
+    @media (min-width: 1024px) {
+      .save-join-event-block-ua {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 23px;
+      }
     }
 
     @media (min-width: 768px) and (max-width: 1023px) {
@@ -44,42 +103,6 @@
           display: inline-flex;
           gap: 5px;
           color: var(--quaternary-dark-grey);
-        }
-      }
-
-      .edit-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        // cursor: pointer;
-        @media (max-width: 575px) {
-          width: 100%;
-        }
-
-        .delete-button {
-          border: none;
-          padding: 8px 24px;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 24px;
-
-          @media (max-width: 575px) {
-            width: 100%;
-          }
-        }
-
-        .edit-button {
-          padding: 8px 24px;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 24px;
-          color: var(--primary-green);
-          border: 1px solid var(--primary-green);
-          border-radius: 5px;
-
-          @media (max-width: 575px) {
-            width: 100%;
-          }
         }
       }
     }
@@ -277,6 +300,7 @@
 
             .event-date,
             .event-location,
+            .event-link,
             .event-status-access,
             .event-author {
               display: grid;
@@ -284,6 +308,16 @@
               column-gap: 18px;
               font-size: 16px;
               font-weight: 400;
+            }
+
+            .event-link {
+              a {
+                color: inherit;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 100%;
+              }
             }
 
             .event-date {
@@ -316,6 +350,12 @@
                 img {
                   display: block;
                 }
+              }
+
+              span {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
               }
             }
 
@@ -355,26 +395,13 @@
         .save-join-event-block {
           display: flex;
           justify-content: flex-end;
-          gap: 24px;
-          font-size: 18px;
-          line-height: 28px;
-          font-weight: 700;
+          gap: 23px;
+        }
 
-          .save-event {
-            padding: 8px 24px;
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            border-radius: 5px;
-            background-color: transparent;
-          }
-
-          .join-event {
-            padding: 8px 24px;
-            color: var(--primary-white);
-            background-color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            border-radius: 5px;
-          }
+        .save-join-event-block-ua {
+          display: flex;
+          justify-content: flex-end;
+          gap: 23px;
         }
 
         .event-tags-status {
@@ -434,6 +461,11 @@
           line-height: 28px;
           color: var(--freinacht-black);
         }
+
+        .description {
+          word-wrap: break-word;
+          overflow: hidden;
+        }
       }
 
       .event-place {
@@ -463,5 +495,18 @@
         }
       }
     }
+  }
+}
+
+.edit-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+@media screen and (max-width: 575px) {
+  .edit-buttons,
+  .m-btn {
+    width: 100%;
   }
 }

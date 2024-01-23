@@ -4,26 +4,32 @@
   [ngClass]="!commentId ? 'wrapper-comment' : 'wrapper-reply'"
   (ngSubmit)="onSubmit()"
 >
-  <app-user-profile-image [imgPath]="avatarImage" [firstName]="firstName" [additionalImgClass]="'comments'"> </app-user-profile-image>
+  <div class="user-image">
+    <app-user-profile-image [imgPath]="avatarImage" [firstName]="firstName" [additionalImgClass]="'comments'"> </app-user-profile-image>
+  </div>
   <div class="input-submit" *ngIf="!commentId; else reply">
-    <textarea
+    <app-comment-textarea
       class="comment-width"
-      placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-comment' | translate }}"
-      formControlName="content"
-    ></textarea>
+      [placeholder]="'homepage.eco-news.comment.placeholder.add-a-comment'"
+      (commentText)="setContent($event)"
+      [commentHtml]="commentHtml"
+    ></app-comment-textarea>
     <button class="primary-global-button" [disabled]="!addCommentForm.valid">
       {{ 'homepage.eco-news.comment.comment' | translate }}
     </button>
   </div>
   <ng-template #reply>
     <div class="input-submit">
-      <textarea
-        class="reply-width"
-        placeholder="{{ 'homepage.eco-news.comment.placeholder.add-a-reply' | translate }}"
-        formControlName="content"
-        [maxlength]="replyMaxLength"
-      ></textarea>
-      <button class="primary-global-button" [disabled]="!addCommentForm.valid">
+      <div class="textarea-wrapper">
+        <app-comment-textarea
+          class="reply-width"
+          [placeholder]="'homepage.eco-news.comment.placeholder.add-a-reply'"
+          (commentText)="setContent($event)"
+          [commentHtml]="commentHtml"
+        ></app-comment-textarea>
+      </div>
+
+      <button class="primary-global-button primary-global-button__reply" [disabled]="!addCommentForm.valid">
         {{ 'homepage.eco-news.comment.reply' | translate }}
       </button>
     </div>

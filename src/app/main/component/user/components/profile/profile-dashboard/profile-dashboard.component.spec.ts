@@ -11,7 +11,10 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
+import { HttpClient } from '@angular/common/http';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EventType } from 'src/app/ubs/ubs/services/event-type.enum';
 
 describe('ProfileDashboardComponent', () => {
   let component: ProfileDashboardComponent;
@@ -33,7 +36,10 @@ describe('ProfileDashboardComponent', () => {
     userId: 10,
     duration: 20,
     workingDays: 2,
-    habitStreak: 10
+    habitStreak: 10,
+    habit: {
+      shoppingListItems: [{ id: 1, status: 'INPROGRESS', text: 'text', selected: true, custom: true }]
+    }
   };
 
   const MockResult: EventResponseDto = {
@@ -46,14 +52,25 @@ describe('ProfileDashboardComponent', () => {
     page: [
       {
         additionalImages: [],
+        creationDate: '2022-05-31',
         dates: [
           {
             coordinates: {
-              addressEn: 'first',
-              addressUa: 'second',
               latitude: 1,
-              longitude: 1
+              longitude: 1,
+              cityEn: 'Lviv',
+              cityUa: 'Львів',
+              countryEn: 'Ukraine',
+              countryUa: 'Україна',
+              houseNumber: 55,
+              regionEn: 'Lvivska oblast',
+              regionUa: 'Львівська область',
+              streetEn: 'Svobody Ave',
+              streetUa: 'Свободи',
+              formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+              formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
             },
+            valid: true,
             event: 'event',
             finishDate: '2022-06-29T04:00:00Z',
             id: 1,
@@ -61,7 +78,21 @@ describe('ProfileDashboardComponent', () => {
             startDate: '2022-06-29T04:00:00Z'
           }
         ],
+        location: {
+          date: new Date(),
+          finishDate: 'string',
+          onlineLink: 'string',
+          place: 'string',
+          startDate: 'string',
+          coordinates: {
+            latitude: 1,
+            longitude: 1
+          }
+        },
+        imgArray: [],
+        imgArrayToPreview: [],
         description: 'description',
+        editorText: 'description',
         id: 95,
         open: true,
         organizer: {
@@ -78,12 +109,131 @@ describe('ProfileDashboardComponent', () => {
         ],
         title: 'title',
         titleImage: 'image title',
-        isSubscribed: true
+        isSubscribed: true,
+        isFavorite: false,
+        isActive: true,
+        likes: 8,
+        countComments: 9,
+        isRelevant: true,
+        isOrganizedByFriend: false
       }
     ],
     totalElements: 12,
     totalPages: 1
   };
+
+  const mockFavouriteEvents: EventPageResponseDto[] = [
+    {
+      additionalImages: [],
+      imgArrayToPreview: [],
+      creationDate: '2022-05-31',
+      dates: [
+        {
+          coordinates: {
+            latitude: 1,
+            longitude: 1,
+            cityEn: 'Lviv',
+            cityUa: 'Львів',
+            countryEn: 'Ukraine',
+            countryUa: 'Україна',
+            houseNumber: 55,
+            regionEn: 'Lvivska oblast',
+            regionUa: 'Львівська область',
+            streetEn: 'Svobody Ave',
+            streetUa: 'Свободи',
+            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          },
+          event: 'event',
+          finishDate: '2022-06-29T04:00:00Z',
+          id: 1,
+          onlineLink: 'http',
+          startDate: '2022-06-29T04:00:00Z',
+          valid: true
+        }
+      ],
+      description: 'description',
+      editorText: 'description',
+      id: 96,
+      open: true,
+      organizer: {
+        id: 12,
+        name: 'username',
+        organizerRating: 2
+      },
+      tags: [
+        {
+          id: 1,
+          nameUa: 'Укр тег',
+          nameEn: 'Eng Tag'
+        }
+      ],
+      title: 'title',
+      titleImage: 'image title',
+      isSubscribed: true,
+      isFavorite: true,
+      isActive: true,
+      likes: 8,
+      countComments: 9,
+      isRelevant: true,
+      isOrganizedByFriend: false
+    },
+    {
+      additionalImages: [],
+      imgArrayToPreview: [],
+      creationDate: '2022-05-31',
+      dates: [
+        {
+          coordinates: {
+            latitude: 1,
+            longitude: 1,
+            cityEn: 'Lviv',
+            cityUa: 'Львів',
+            countryEn: 'Ukraine',
+            countryUa: 'Україна',
+            houseNumber: 55,
+            regionEn: 'Lvivska oblast',
+            regionUa: 'Львівська область',
+            streetEn: 'Svobody Ave',
+            streetUa: 'Свободи',
+            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
+          },
+          event: 'event',
+          finishDate: '2022-06-29T04:00:00Z',
+          id: 1,
+          onlineLink: 'http',
+          startDate: '2022-06-29T04:00:00Z',
+          valid: true
+        }
+      ],
+      description: 'description',
+      editorText: 'description',
+      id: 14,
+      open: true,
+      organizer: {
+        id: 12,
+        name: 'username',
+        organizerRating: 2
+      },
+      tags: [
+        {
+          id: 1,
+          nameUa: 'Укр тег',
+          nameEn: 'Eng Tag'
+        }
+      ],
+      title: 'title',
+      titleImage: 'image title',
+      isSubscribed: true,
+      isFavorite: true,
+      isActive: true,
+      likes: 8,
+      countComments: 9,
+      isRelevant: true,
+      isOrganizedByFriend: false
+    }
+  ];
 
   const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getAllUserEvents']);
   EventsServiceMock.getAllUserEvents = () => of(MockResult);
@@ -91,12 +241,20 @@ describe('ProfileDashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileDashboardComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule, InfiniteScrollModule, NgxPaginationModule],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        InfiniteScrollModule,
+        NgxPaginationModule,
+        BrowserAnimationsModule,
+        NoopAnimationsModule
+      ],
       providers: [
         { provide: HabitAssignService, useValue: HabitAssignServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: LocalStorageService, useValue: LocalStorageServiceMock },
-        { provide: EventsService, useValue: EventsServiceMock }
+        { provide: EventsService, useValue: EventsServiceMock },
+        { provide: HttpClient, useValue: HttpClient }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -133,6 +291,37 @@ describe('ProfileDashboardComponent', () => {
     });
   });
 
+  it('should update eventType and call initGetUserEvents when online event is checked', () => {
+    const eventType = EventType.ONLINE;
+    component.isOnlineChecked = true;
+    const spy = spyOn(component, 'initGetUserEvents');
+    component.onCheckboxChange(eventType);
+    expect(component.isOnlineChecked).toBe(true);
+    expect(component.isOfflineChecked).toBe(false);
+    expect(component.eventType).toBe(eventType);
+    expect(spy).toHaveBeenCalledWith(eventType);
+  });
+
+  it('should update eventType and call initGetUserEvents when offline event is checked', () => {
+    const eventType = EventType.OFFLINE;
+    component.isOfflineChecked = true;
+    const spy = spyOn(component, 'initGetUserEvents');
+    component.onCheckboxChange(eventType);
+    expect(component.isOnlineChecked).toBe(false);
+    expect(component.isOfflineChecked).toBe(true);
+    expect(component.eventType).toBe(eventType);
+    expect(spy).toHaveBeenCalledWith(eventType);
+  });
+
+  it('should update eventType and call initGetUserEvents when both checkboxes are unchecked', () => {
+    const spy = spyOn(component, 'initGetUserEvents');
+    component.onCheckboxChange();
+    expect(component.isOnlineChecked).toBe(false);
+    expect(component.isOfflineChecked).toBe(false);
+    expect(component.eventType).toBe('');
+    expect(spy).toHaveBeenCalledWith('');
+  });
+
   it('Should call getAllUserEvents method before subscribe', async(() => {
     component.userId = 12;
     const spy1 = spyOn(EventsServiceMock, 'getAllUserEvents').and.returnValue(of(MockResult));
@@ -141,7 +330,7 @@ describe('ProfileDashboardComponent', () => {
     expect(spy1).toHaveBeenCalledBefore(spy2);
     expect(spy2).toHaveBeenCalled();
     expect(component.eventsList).toEqual(MockResult.page);
-    expect(component.eventsTotal).toEqual(MockResult.totalElements);
+    expect(component.totalEvents).toEqual(MockResult.totalElements);
   }));
 
   it('dispatchNews expect store.dispatch have been called', () => {
@@ -207,9 +396,13 @@ describe('ProfileDashboardComponent', () => {
     expect(res.join('')).toEqual('HABIT');
   });
 
-  it('sortHabitsAsc', () => {
-    const res = (component as any).sortHabitsAsc([{ habit: { id: 2 } }, { habit: { id: 4 } }, { habit: { id: 1 } }]);
-    expect(res[0].habit.id).toBe(1);
+  it('sortHabitsData', () => {
+    const res = (component as any).sortHabitsData([
+      { habit: { id: 2 }, createDateTime: '2023-03-20T04:00:00Z' },
+      { habit: { id: 4 }, createDateTime: '2023-03-22T04:00:00Z' }
+    ]);
+    expect(res[0].habit.id).toBe(4);
+    expect(res[1].habit.id).toBe(2);
   });
 
   it('tabChanged', () => {
@@ -222,5 +415,11 @@ describe('ProfileDashboardComponent', () => {
     const spy = spyOn(component, 'dispatchNews');
     component.onScroll();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should remove unfavourite event from array', () => {
+    component.favouriteEvents = mockFavouriteEvents;
+    component.removeUnFavouriteEvent(14);
+    expect(component.favouriteEvents.length).toEqual(1);
   });
 });

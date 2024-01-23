@@ -2,13 +2,11 @@ import { EcoPlaces } from '@user-models/ecoPlaces.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CardModel } from '@user-models/card.model';
-import { ShoppingList } from '@user-models/shoppinglist.model';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { UserFriendsInterface } from '../../../../../interface/user/user-friends.interface';
 import { mainLink, mainUserLink } from '../../../../../links';
 
 @Injectable({
@@ -16,6 +14,17 @@ import { mainLink, mainUserLink } from '../../../../../links';
 })
 export class ProfileService {
   public userId: number;
+  public icons = {
+    edit: './assets/img/profile/icons/edit.svg',
+    add: './assets/img/profile/icons/add.svg',
+    delete: './assets/img/profile/icons/delete.svg',
+    defaultIcon: './assets/img/profile/icons/default_social.svg',
+    facebook: './assets/img/icon/facebook-icon.svg',
+    linkedin: './assets/img/icon/linkedin-icon.svg',
+    instagram: './assets/img/icon/instagram-icon.svg',
+    twitter: './assets/img/icon/twitter-icon.svg',
+    youtube: './assets/img/icon/youtube-icon.svg'
+  };
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService, private languageService: LanguageService) {}
 
@@ -34,14 +43,6 @@ export class ProfileService {
     return this.http.get<EditProfileModel>(`${mainUserLink}user/${this.userId}/profile/`);
   }
 
-  public getShoppingList(): Observable<ShoppingList[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    this.setUserId();
-    return this.http.get<ShoppingList[]>(`
-    ${mainLink}custom/shopping-list-items/${this.userId}/custom-shopping-list-items?lang=${currentLang}
-    `);
-  }
-
   public getUserProfileStatistics(): Observable<ProfileStatistics> {
     this.setUserId();
     return this.http.get<ProfileStatistics>(`${mainUserLink}user/${this.userId}/profileStatistics/`);
@@ -51,17 +52,17 @@ export class ProfileService {
     return this.http.get<EcoPlaces[]>(`${mainLink}favorite_place/`);
   }
 
-  public getUserFriends(): Observable<UserFriendsInterface> {
-    this.setUserId();
-    return this.http.get<UserFriendsInterface>(`${mainUserLink}user/${this.userId}/sixUserFriends/`);
-  }
-
-  public toggleStatusOfShoppingItem(item): Observable<object[]> {
-    const currentLang = this.languageService.getCurrentLanguage();
-    this.setUserId();
-    const body = {};
-    const { status: prevStatus } = item;
-    const newStatus = prevStatus === 'DONE' ? 'INPROGRESS' : 'DONE';
-    return this.http.patch<object[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${newStatus}?lang=${currentLang}`, body);
+  public getSocialImage(socialNetwork: string): string {
+    const icons = JSON.parse(JSON.stringify(this.icons));
+    delete icons.edit;
+    delete icons.add;
+    delete icons.delete;
+    let imgPath = icons.defaultIcon;
+    Object.keys(icons).forEach((icon) => {
+      if (socialNetwork.toLowerCase().includes(icon)) {
+        imgPath = icons[icon];
+      }
+    });
+    return imgPath;
   }
 }

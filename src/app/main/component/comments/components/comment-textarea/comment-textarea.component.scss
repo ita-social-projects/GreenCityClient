@@ -1,0 +1,77 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.comment-textarea-wrapper {
+  width: 100%;
+
+  .comment-textarea {
+    outline: none;
+    width: 100%;
+    min-height: 72px;
+    max-height: 112px;
+    padding: 10px 0 0 20px;
+    border: 1px solid var(--secondary-grey);
+    border-radius: 5px;
+    background-color: var(--primary-white);
+    overflow: auto;
+
+    &.focused {
+      border: 2px solid var(--primary-green);
+    }
+
+    &.invalid {
+      border: 2px solid var(--error-red);
+    }
+
+    .placeholder {
+      color: var(--secondary-grey);
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+    width: 320px;
+    max-height: 185px;
+    border-radius: 5px;
+    box-shadow: 1px 4px 8px 0 var(--shadow-dark-grey);
+    border: 1px var(--quintynary-light-grey);
+    background-color: var(--ubs-button-light-grey);
+    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  .user-name {
+    font-family: var(--primary-font);
+    font-weight: 700;
+    color: var(--freinacht-black);
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0.2px;
+  }
+
+  ::ng-deep .mat-option {
+    height: 60px;
+  }
+
+  ::ng-deep .mat-option-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .error-message {
+    color: var(--ubs-primary-red);
+    font-size: 14px;
+    font-weight: 400;
+    min-height: 14px;
+    margin-top: 0;
+    margin-bottom: -5px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+  }
+}

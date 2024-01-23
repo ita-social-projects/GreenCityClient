@@ -38,7 +38,7 @@ export class ChatsListComponent implements OnInit {
     return isToday ? 'HH:mm' : 'dd/MM';
   }
 
-  public checkChat(friend: FriendModel) {
+  public checkChat(friend: any) {
     if (friend.friendsChatDto.chatExists) {
       const userChat = this.chatService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
       this.chatService.setCurrentChat(userChat);
