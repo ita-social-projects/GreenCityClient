@@ -19,7 +19,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { MatOption } from '@angular/material/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent } from 'rxjs';
+import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-comment-textarea',
@@ -44,6 +45,9 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   public isTextareaFocused: boolean;
   private localStorageServiceSubscription: Subscription;
   private socketServiceSubscription: Subscription;
+  private counterRequest = 0;
+  private counterResponse = 0;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('commentTextarea') commentTextarea: ElementRef;
   @ViewChild('dropdown', { read: ElementRef, static: false }) dropdown: ElementRef;
@@ -62,44 +66,55 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   ) {}
 
   ngOnInit(): void {
-    this.localStorageServiceSubscription = this.localStorageService.userIdBehaviourSubject.subscribe((id) => (this.userId = id));
-    this.socketServiceSubscription = this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`).subscribe((data: TaggedUser[]) => {
-      if (data.length) {
-        this.suggestedUsers = data.splice(0, 10);
-        this.isDropdownVisible = this.commentTextarea.nativeElement.classList.contains('focused');
-      } else {
-        this.suggestedUsers = [];
-        this.isDropdownVisible = false;
-      }
-    });
+    this.localStorageServiceSubscription = this.localStorageService.userIdBehaviourSubject
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((id) => (this.userId = id));
+    this.socketServiceSubscription = this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: TaggedUser[]) => {
+        this.counterResponse++;
+        if (data.length && this.counterRequest === this.counterResponse) {
+          this.suggestedUsers = data.splice(0, 10);
+        } else {
+          this.suggestedUsers = [];
+          this.isDropdownVisible = false;
+        }
+      });
   }
 
   ngAfterViewInit(): void {
     if (this.commentTextToEdit) {
       this.commentTextarea.nativeElement.innerHTML = this.commentTextToEdit;
     }
+    fromEvent(this.commentTextarea.nativeElement, 'input')
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        tap(() => {
+          this.isDropdownVisible = false;
+          this.suggestedUsers = [];
+          this.content.setValue(this.commentTextarea.nativeElement.textContent);
+          this.emitCommentText();
+        }),
+        filter((el: InputEvent) => !!el.data)
+      )
+      .subscribe(() => {
+        this.getSelectionStart();
+        const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
+        this.lastTagCharIndex = Math.max(...[...this.charToTagUsers].map((char) => textBeforeCaret.lastIndexOf(char)));
+        this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
+        this.updateCursorPosition();
+
+        if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ')) {
+          this.sendSocketMessage(this.searchQuery);
+          this.isDropdownVisible = true;
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.commentHtml?.currentValue === '') {
       this.commentTextarea.nativeElement.innerHTML = '';
-    }
-  }
-
-  checkInput(event: InputEvent): void {
-    this.content.setValue(this.commentTextarea.nativeElement.textContent);
-    this.emitCommentText();
-
-    if (event.data) {
-      this.getSelectionStart();
-      this.isDropdownVisible = false;
-      const textBeforeCaret = this.range.startContainer.textContent.slice(0, this.range.startOffset);
-      this.lastTagCharIndex = Math.max(...[...this.charToTagUsers].map((char) => textBeforeCaret.lastIndexOf(char)));
-      this.searchQuery = textBeforeCaret.slice(this.lastTagCharIndex + 1);
-      if (this.lastTagCharIndex !== -1 && !this.searchQuery.includes(' ')) {
-        this.sendSocketMessage(this.searchQuery);
-        this.updateCursorPosition();
-      }
     }
   }
 
@@ -224,6 +239,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
 
   sendSocketMessage(query: string): void {
     this.SocketService.send('/app/getUsersToTagInComment', { currentUserId: this.userId, searchQuery: query });
+    this.counterRequest++;
   }
 
   setFocusCommentTextarea(): void {
@@ -264,11 +280,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   }
 
   ngOnDestroy() {
-    if (this.localStorageServiceSubscription) {
-      this.localStorageServiceSubscription.unsubscribe();
-    }
-    if (this.socketServiceSubscription) {
-      this.socketServiceSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

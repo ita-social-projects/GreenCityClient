@@ -45,73 +45,42 @@ describe('CommentTextareaComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('checkInput', () => {
-    it('should update content and emit comment text', () => {
-      const inputEvent = new InputEvent('some data');
-      component.checkInput(inputEvent);
-      expect(component.content.value).toBe(component.commentTextarea.nativeElement.textContent);
-    });
-
-    it('should send socket message, update cursor position if input includes tagChar', () => {
-      spyOn(component, 'getSelectionStart');
-      spyOn(component, 'sendSocketMessage');
-      spyOn(component, 'updateCursorPosition');
-      spyOn(component as any, 'emitCommentText');
-      const inputEvent = { data: 'a' } as InputEvent;
-      component.commentTextarea.nativeElement.textContent = 'hello, @yul';
-      (component as any).range = { startContainer: { textContent: 'hello, @yul' }, startOffset: 11 } as Range;
-      component.checkInput(inputEvent);
-      expect(component.getSelectionStart).toHaveBeenCalled();
-      expect(component.sendSocketMessage).toHaveBeenCalledWith('yul');
-      expect(component.updateCursorPosition).toHaveBeenCalled();
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect((component as any).searchQuery).toBe('yul');
-      expect((component as any).lastTagCharIndex).toBe(7);
-    });
-
-    it('should not send socket message, update cursor position if input doesn"t includes tagChar', () => {
-      spyOn(component, 'getSelectionStart');
-      spyOn(component, 'sendSocketMessage');
-      spyOn(component, 'updateCursorPosition');
-      spyOn(component as any, 'emitCommentText');
-      const inputEvent = { data: 'a' } as InputEvent;
-      (component as any).lastTagCharIndex = 5;
-      component.commentTextarea.nativeElement.textContent = 'hello, yul';
-      (component as any).range = { startContainer: { textContent: 'hello, yul' }, startOffset: 11 } as Range;
-      component.checkInput(inputEvent);
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect(component.getSelectionStart).toHaveBeenCalled();
-      expect(component.sendSocketMessage).not.toHaveBeenCalled();
-      expect(component.updateCursorPosition).not.toHaveBeenCalled();
-      expect((component as any).lastTagCharIndex).toBe(-1);
-    });
-
-    it('should not send socket message, update cursor position if input data = null', () => {
-      spyOn(component, 'getSelectionStart');
-      spyOn(component, 'sendSocketMessage');
-      spyOn(component, 'updateCursorPosition');
-      spyOn(component as any, 'emitCommentText');
-      const inputEvent = { data: null } as InputEvent;
-      component.commentTextarea.nativeElement.textContent = 'hello, yul';
-      (component as any).range = { startContainer: { textContent: 'hello, yul' }, startOffset: 11 } as Range;
-      component.checkInput(inputEvent);
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect(component.getSelectionStart).not.toHaveBeenCalled();
-      expect(component.sendSocketMessage).not.toHaveBeenCalled();
-      expect(component.updateCursorPosition).not.toHaveBeenCalled();
-    });
-  });
-
   describe('ngAfterViewInit', () => {
     it('should set innerHTML if commentTextToEdit is provided', () => {
       component.commentTextToEdit = '<p>This is some edited text.</p>';
       component.ngAfterViewInit();
       expect(component.commentTextarea.nativeElement.innerHTML).toBe('<p>This is some edited text.</p>');
     });
+
     it('should not set innerHTML if commentTextToEdit is provided', () => {
       component.commentTextToEdit = null;
       component.ngAfterViewInit();
       expect(component.commentTextarea.nativeElement.innerHTML).toBe('');
+    });
+
+    it('should set initial text content', () => {
+      component.commentTextToEdit = 'Initial text';
+      component.ngAfterViewInit();
+      fixture.detectChanges();
+
+      expect(component.commentTextarea.nativeElement.textContent).toBe('Initial text');
+    });
+
+    it('should subscribe to input events and emit comment text', () => {
+      spyOn(component.content, 'setValue');
+      spyOn(component as any, 'emitCommentText');
+
+      component.ngAfterViewInit();
+      fixture.detectChanges();
+
+      const textarea = component.commentTextarea.nativeElement as HTMLTextAreaElement;
+      textarea.value = 'New text';
+      textarea.dispatchEvent(new Event('input'));
+
+      fixture.whenStable().then(() => {
+        expect(component.content.setValue).toHaveBeenCalledWith('New text');
+        expect((component as any).emitCommentText).toHaveBeenCalled();
+      });
     });
   });
 
