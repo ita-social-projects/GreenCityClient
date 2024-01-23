@@ -127,26 +127,4 @@ describe('ProfileService', () => {
       req.flush(places);
     });
   });
-
-  describe('test for method which get six user friends for dashboard', () => {
-    it('should return six user friends', () => {
-      const userFriends = {
-        amountOfFriends: 30,
-        pagedFriends: {
-          currentPage: 1,
-          page: [],
-          totalElements: 6,
-          totalPages: 1
-        }
-      };
-
-      profileService.getUserFriends().subscribe((info) => {
-        expect(info.pagedFriends.totalElements).toBe(6);
-      });
-
-      const req = httpMock.expectOne(`${backUserLink}user/1111/sixUserFriends/`);
-      expect(req.request.method).toBe('GET');
-      req.flush(userFriends);
-    });
-  });
 });

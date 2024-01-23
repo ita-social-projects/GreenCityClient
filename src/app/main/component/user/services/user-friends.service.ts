@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environment/environment';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
-import { FriendArrayModel, FriendModel, SixFriendArrayModel } from '@global-user/models/friend.model';
+import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { ProfileStatistics } from '@global-user/models/profile-statistiscs';
 import { Observable } from 'rxjs';
 
@@ -11,8 +11,10 @@ import { Observable } from 'rxjs';
 })
 export class UserFriendsService {
   addedFriends: FriendModel[] = [];
+  allUserFriends: FriendModel[] = [];
   private size = 10;
   public url: string = environment.backendUserLink;
+  public urlFriend: string = environment.backendLink;
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -33,63 +35,46 @@ export class UserFriendsService {
     return this.http.get<boolean>(`${this.url}user/isOnline/${id}/`);
   }
 
-  public getRecommendedFriends(id: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${id}/recommendedFriends/?page=${page}&size=${size}`);
+  public getRequests(page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/friendRequests?page=${page}&size=${size}`);
   }
 
-  public getRequests(id: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${id}/friendRequests/?page=${page}&size=${size}`);
+  public getAllFriends(page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
   }
 
-  public getSixFriends(userId: number): Observable<SixFriendArrayModel> {
-    return this.http.get<SixFriendArrayModel>(`${this.url}user/${userId}/sixUserFriends/`);
+  public getNewFriends(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(
+      `${this.urlFriend}friends/not-friends-yet?name=${encodeURIComponent(name)}&page=${page}&size=${size}`
+    );
   }
 
-  public getAllFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/findAll/friends/?page=${page}&size=${size}`);
+  public getFriendsByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${encodeURIComponent(name)}&page=${page}&size=${size}`);
   }
 
-  public getPossibleFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/${userId}/findAll/friendsWithoutExist/?page=${page}&size=${size}`);
+  public getUserFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/${userId}/all-user-friends?page=${page}&size=${size}`);
   }
 
-  public findNewFriendsByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/findNewFriendsByName?name=${name}&page=${page}&size=${size}`);
+  public getMutualFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/mutual-friends?friendId=${userId}&page=${page}&size=${size}`);
   }
 
-  public findFriendByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.url}user/findFriendByName?name=${name}&page=${page}&size=${size}`);
+  public addFriend(idFriend: number): Observable<object> {
+    return this.http.post<object>(`${this.urlFriend}friends/${idFriend}`, {});
   }
 
-  public addFriend(idUser: number, idFriend: number): Observable<object> {
-    const body = {
-      friendId: idFriend,
-      userId: idUser
-    };
-
-    return this.http.post<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, body);
+  public acceptRequest(idFriend: number): Observable<object> {
+    return this.http.patch<object>(`${this.urlFriend}friends/${idFriend}/acceptFriend`, {});
   }
 
-  public acceptRequest(idUser: number, idFriend: number): Observable<object> {
-    const body = {
-      friendId: idFriend,
-      userId: idUser
-    };
-
-    return this.http.post<object>(`${this.url}user/${idUser}/acceptFriend/${idFriend}`, body);
+  public declineRequest(idFriend: number): Observable<object> {
+    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/declineFriend`, {});
   }
 
-  public declineRequest(idUser: number, idFriend: number): Observable<object> {
-    const body = {
-      friendId: idFriend,
-      userId: idUser
-    };
-
-    return this.http.post<object>(`${this.url}user/${idUser}/declineFriend/${idFriend}`, body);
-  }
-
-  public deleteFriend(idUser: number, idFriend: number): Observable<object> {
-    return this.http.delete<object>(`${this.url}user/${idUser}/userFriend/${idFriend}`, this.httpOptions);
+  public deleteFriend(idFriend: number): Observable<object> {
+    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}`, this.httpOptions);
   }
 
   addedFriendsToHabit(friend) {

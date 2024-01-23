@@ -17,7 +17,7 @@ import { Locations } from 'src/assets/locations/locations';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Store } from '@ngrx/store';
-import { AddPersonalData, UpdateOrderData } from 'src/app/store/actions/order.actions';
+import { AddPersonalData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-personal-information',
@@ -108,7 +108,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (this.localService.getCurrentLocationId()) {
       this.currentLocationId = this.localService.getCurrentLocationId();
       this.locations = this.localService.getLocations();
-
       this.currentLocation = this.locations.locationsDtosList[0].nameEn;
     }
     this.orderService.locationSub.subscribe((data) => {
@@ -333,7 +332,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   activeAddressId() {
     this.isOneAdress();
     const activeAddress = this.addresses.find((address) => address.actual);
-
     this.addressId = this.checkedAddress?.id ?? activeAddress?.id;
   }
 
@@ -397,6 +395,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.firstOrder = false;
     this.activeAddressId();
     this.changeAddressInPersonalData();
+
     this.orderDetails = this.shareFormService.orderDetails;
     let orderBags: OrderBag[] = [];
     this.orderDetails.bags.forEach((bagItem: Bag, index: number) => {
@@ -453,9 +452,5 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     if (!this.isThisExistingOrder) {
       this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
     }
-  }
-
-  cleanOrderDetailsState(): void {
-    this.store.dispatch(UpdateOrderData({ orderDetails: null }));
   }
 }

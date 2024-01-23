@@ -13,6 +13,9 @@ import { CommentsListComponent } from './components/comments-list/comments-list.
 import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NewsListGalleryViewComponent } from '../eco-news/components';
+import { CommentTextareaComponent } from './components/comment-textarea/comment-textarea.component';
+import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({
   declarations: [
@@ -25,9 +28,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
+    NewsListGalleryViewComponent,
+    CommentTextareaComponent,
     CommentsContainerComponent
   ],
-  imports: [SharedMainModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule],
+  imports: [SharedMainModule, SharedModule, CommonModule, NgxPaginationModule, MatProgressSpinnerModule, MaterialModule],
   exports: [
     AddCommentComponent,
     ViewRepliesComponent,
@@ -38,7 +43,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditCommentComponent,
     CommentPaginationComponent,
     CommentsListComponent,
-    CommentsContainerComponent
+    CommentTextareaComponent,
+    CommentsContainerComponent,
+    NewsListGalleryViewComponent
   ]
 })
 export class CommentsModule {}

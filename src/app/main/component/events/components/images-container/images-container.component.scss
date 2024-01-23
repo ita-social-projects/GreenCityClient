@@ -1,11 +1,30 @@
+.example-card {
+  margin-left: 15px;
+  margin-top: 12px;
+}
+
+.images-container-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
 .image-container {
   position: relative;
-  width: 108px;
+  width: 101px;
   height: 64px;
-  background: var(--ubs-secondary-white);
+  background: var(--primary-white) !important;
+  border-radius: 4px;
   border: 1px solid var(--ubs-primary-light-grey);
   box-sizing: border-box;
-  margin: 1px 1px 50px 1px;
+  margin: 1px 1px 1px 1px;
+}
+
+.images-container-wrapper::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+.images-container-wrapper:hover::-webkit-scrollbar-thumb {
+  background-color: #555;
 }
 
 .drag-inscription {
@@ -16,7 +35,11 @@
   left: 50%;
   text-align: center;
   transform: translate(-50%, -50%);
-  cursor: pointer;
+
+  :hover {
+    display: flex;
+    cursor: pointer;
+  }
 }
 
 .delete-block {
@@ -59,10 +82,112 @@
 .title-wrapper {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 555px;
+}
+
+.counter-wrapper {
+  margin-right: 16px;
+  margin-top: 5px;
+  font-size: 10px;
 }
 
 .image-title {
   font-size: 12px;
   width: 100%;
+  margin-bottom: 6px;
+}
+
+.use-pics {
+  position: relative;
+  right: 15px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 1199px) {
+  .images-container-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    flex-direction: row;
+    height: 75px;
+    width: 428px;
+  }
+
+  .image-container {
+    margin: 1px 5px 1px 1px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .images-container-wrapper {
+    width: 672px;
+    height: 80px;
+  }
+
+  .image-container {
+    width: 110px;
+    height: 67px;
+    margin-right: 20px;
+  }
+
+  .title-wrapper {
+    width: 672px;
+  }
+
+  .counter-wrapper {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .images-container-wrapper {
+    width: 486px;
+  }
+
+  .image-container {
+    width: 108px;
+    height: 64px;
+    margin-right: 12.5px;
+    margin-bottom: 5px;
+  }
+
+  .title-wrapper {
+    width: 492px;
+  }
+}
+
+@media (max-width: 767px) {
+  .images-container-wrapper {
+    width: 486px;
+  }
+
+  .image-container {
+    width: 108px;
+    height: 64px;
+    margin-right: 12.5px;
+    margin-bottom: 5px;
+  }
+
+  .title-wrapper {
+    width: 492px;
+  }
+}
+
+@media (max-width: 575px) {
+  .row,
+  .images-row {
+    width: 100%;
+  }
+
+  .horizontal {
+    width: 90%;
+  }
+
+  .example-card {
+    margin: 32px 0 0 0;
+    position: relative;
+    left: 16px;
+  }
 }

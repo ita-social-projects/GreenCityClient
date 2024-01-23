@@ -1,39 +1,45 @@
-.friend-item {
+.friend-item-wrapper {
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  max-width: 554px;
+  justify-content: space-between;
+  width: 100%;
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 0 7px var(--tertiary-light-grey);
-  // color: rgba(202, 207, 211, 0.5);
-  margin: 7px 16px;
-}
+  box-shadow: 0 5px 10px rgba(202, 207, 211, 0.7);
+  cursor: pointer;
 
-button {
-  font-weight: bold;
-  font-family: var(--primary-font);
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: 104px;
-  height: 40px;
-  color: var(--primary-green);
-  border: 1px solid var(--primary-green);
-  background: var(--primary-white);
+  ::ng-deep .profile-avatar {
+    @media (max-width: 1200px) {
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    width: 417px;
+    height: 176px;
+  }
+
+  @media (max-width: 1000px) {
+    width: 603px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 450px) {
+    padding: 24px 6px 8px 10px;
+  }
+
+  @media (min-width: 280px) {
+    min-width: 280px;
+    width: 100%;
+  }
 }
 
 .rate-with-photo {
   background: rgba(19, 170, 87, 0.12);
-
-  &::before {
-    content: 'Rate:';
-  }
 }
 
 .friend-name {
@@ -41,6 +47,38 @@ button {
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
+  position: relative;
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  @media (max-width: 1199px) {
+    max-width: 170px;
+  }
+
+  @media (max-width: 1023px) {
+    max-width: 100%;
+  }
+
+  @media (max-width: 991px) {
+    max-width: 450px;
+  }
+
+  @media (max-width: 767px) {
+    max-width: 290px;
+  }
+
+  @media (max-width: 360px) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.friend-item-left {
+  display: flex;
 }
 
 .friend-city,
@@ -51,6 +89,11 @@ button {
   line-height: 20px;
   color: var(--quaternary-grey);
   margin: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  cursor: pointer;
 
   .friend-mutual-link {
     transition: 0.2s;
@@ -81,21 +124,33 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   flex: 3;
-  margin-left: 28px;
+  margin-left: 5px;
+
+  @media (max-width: 360px) {
+    max-width: 100px;
+    overflow: hidden;
+  }
+
+  @media (min-width: 450px) {
+    margin-left: 10px;
+  }
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 114px;
 }
 
 .friend-btn {
   margin-bottom: 20px;
-}
 
-.friend-img {
-  flex: 1;
+  button {
+    line-height: 16px;
+    white-space: nowrap;
+    width: 100%;
+  }
 }
 
 .friend-with-photo {
@@ -103,15 +158,8 @@ button {
   flex-direction: column-reverse;
 }
 
-@media only screen and (min-width: 768px) {
-  .friend-item {
-    width: 554px;
-    flex-direction: row;
-  }
-}
-
-@media only screen and (min-width: 576px) {
-  .friend-item {
-    justify-content: center;
-  }
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
 }

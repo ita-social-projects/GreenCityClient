@@ -1,24 +1,55 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
-
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.noRequests-wraper {
+.friend-requests-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
 
-  .noRequests {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 32px;
-    font-weight: 500;
-    font-style: normal;
-    line-height: 48px;
+  .cards-box {
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+    column-gap: 32px;
+
+    @media (max-width: 1200px) {
+      gap: 32px;
+    }
+
+    @media (min-width: 1024px) {
+      display: grid;
+      max-width: 870px;
+      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+    }
   }
+
+  .user-card {
+    @media (max-width: 1000px) {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  .noRequests-wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    .noRequests {
+      font-family: Montserrat, sans-serif;
+      font-size: 32px;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 48px;
+      text-align: center;
+    }
+  }
+}
+
+.img-absent img {
+  max-width: 100%;
 }

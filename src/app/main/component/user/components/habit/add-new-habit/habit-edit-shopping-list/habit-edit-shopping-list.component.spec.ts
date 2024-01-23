@@ -2,9 +2,11 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { HabitService } from '@global-service/habit/habit.service';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TodoStatus } from '../../models/todo-status.enum';
 
 import { HabitEditShoppingListComponent } from './habit-edit-shopping-list.component';
 import { ShoppingListService } from './shopping-list.service';
@@ -19,29 +21,33 @@ describe('HabitEditShoppingListComponent', () => {
   const mockList: ShoppingList[] = [
     {
       id: 1,
-      status: 'INPROGRESS',
+      status: TodoStatus.active,
       text: 'Item 1',
       selected: false
     },
     {
       id: 2,
-      status: 'ACTIVE',
+      status: TodoStatus.active,
       text: 'Item 2',
       selected: false
     }
   ];
   const mockItem: ShoppingList = {
     id: 234,
-    status: 'ACTIVE',
+    status: TodoStatus.active,
     text: 'Item 2',
     selected: false
   };
 
+  const mockText1 = 'This text does not contain any urls';
+  const mockText2 = 'This text contains http://softserveinc.com/ link';
+  const mockText3 = 'This text contains https://softserveinc.com/ link';
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitEditShoppingListComponent],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [ShoppingListService, HabitService, { provide: ActivatedRoute, useValue: mockActivatedRoute }]
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), MatSnackBarModule],
+      providers: [ShoppingListService, HabitService, { provide: ActivatedRoute, useValue: mockActivatedRoute }, MatSnackBar]
     }).compileComponents();
   }));
 
@@ -49,7 +55,7 @@ describe('HabitEditShoppingListComponent', () => {
     fixture = TestBed.createComponent(HabitEditShoppingListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.list = [];
+    component.shopList = [];
   });
 
   it('should create', () => {
@@ -60,26 +66,6 @@ describe('HabitEditShoppingListComponent', () => {
     spyOn((component as any).translate, 'setDefaultLang').and.returnValue('test');
     (component as any).bindLang('en');
     expect((component as any).translate.setDefaultLang).toHaveBeenCalledWith('en');
-  });
-
-  it('getListItems should invoke getDefaultItems method', () => {
-    const isAssigned = false;
-    spyOn(component, 'getDefaultItems').and.returnValue();
-    component.getListItems(isAssigned);
-    expect(component.getDefaultItems).toHaveBeenCalled();
-  });
-
-  it('getListItems should invoke getCustomItems() method', () => {
-    const isAssigned = true;
-    spyOn(component, 'getCustomItems').and.returnValue();
-    component.getListItems(isAssigned);
-    expect(component.getCustomItems).toHaveBeenCalled();
-  });
-
-  it('getCustomItems should invoke shoppinglistService.getCustomItems method', () => {
-    spyOn(component.shoppinglistService, 'getCustomItems');
-    component.getCustomItems();
-    expect(component.shoppinglistService.getCustomItems).toHaveBeenCalled();
   });
 
   it('truncateShoppingItemName should return shortened string', () => {
@@ -104,48 +90,60 @@ describe('HabitEditShoppingListComponent', () => {
     expect(result).not.toBe(name);
   });
 
-  it('openCloseList should change toggle status', () => {
-    component.seeAllShopingList = false;
-    component.openCloseList();
-    expect(component.seeAllShopingList).toBe(true);
+  it('should call placeItemInOrder on additem', () => {
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    component.addItem('test');
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('select() should change status of shopping list item', () => {
-    const item = mockItem;
-    component.shoppinglistService.fillList(mockList);
-    component.select(item);
-    expect(component.list[0].selected).toBeTruthy();
+  it('should add item to shop list on additem', () => {
+    const newList = [
+      {
+        id: null,
+        status: TodoStatus.active,
+        text: 'test',
+        custom: true,
+        selected: true
+      }
+    ];
+    component.shopList = [];
+    component.addItem('test');
+    expect(component.shopList).toEqual(newList);
   });
 
-  it('fillList() should fill the list', () => {
-    component.shoppinglistService.fillList(mockList);
-    expect(component.list[0].text).toEqual('Item 1');
+  it('should setValue empty string on additem', () => {
+    component.item.setValue('test');
+    component.addItem('test');
+    expect(component.item.value).toBe('');
   });
 
-  it('add() should add new item to the list', () => {
-    component.shoppinglistService.fillList(mockList);
-    component.add('New Item');
-    expect(component.list.length).toEqual(3);
+  it('should call placeItemInOrder on selectItem', () => {
+    const spy = spyOn(component as any, 'placeItemInOrder');
+    component.selectItem(mockItem);
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('deleteItem() should delete item from the list', () => {
-    const item = {
-      text: 'Item 1'
-    };
-    component.shoppinglistService.fillList(mockList);
-    component.delete(item);
-    expect(component.list[0].text).not.toBe('Item 1');
+  it('shoulddelete item from shopList on deleteItem', () => {
+    component.shopList = mockList;
+    component.deleteItem('Item 1');
+    expect(component.shopList).toEqual([mockList[1]]);
+  });
+
+  it('should check if text contains url', () => {
+    expect(component.checkIfTextContainsUrl(mockText1)).toEqual(false);
+    expect(component.checkIfTextContainsUrl(mockText2)).toEqual(true);
+    expect(component.checkIfTextContainsUrl(mockText3)).toEqual(true);
+  });
+
+  it('should get url from text', () => {
+    expect(component.getUrlFromText(mockText1)).toEqual(undefined);
+    expect(component.getUrlFromText(mockText2)).toEqual('http://softserveinc.com/');
+    expect(component.getUrlFromText(mockText3)).toEqual('https://softserveinc.com/');
   });
 
   it('ngOnDestroy should unsubscribe from subscription', () => {
     spyOn((component as any).langChangeSub, 'unsubscribe');
     component.ngOnDestroy();
     expect((component as any).langChangeSub.unsubscribe).toHaveBeenCalled();
-  });
-
-  it('ngOnDestroy should unsubscribe from subscription', () => {
-    spyOn((component as any).subscription, 'unsubscribe');
-    component.ngOnDestroy();
-    expect((component as any).subscription.unsubscribe).toHaveBeenCalled();
   });
 });

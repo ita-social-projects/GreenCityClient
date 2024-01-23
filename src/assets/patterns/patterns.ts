@@ -37,7 +37,8 @@ export const Patterns = {
 
   isTherePlus: /^[+]/,
 
-  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/
+  isValidURL: /^(ftp|http|https):\/\/[^ "]+$/,
+  countriesRestriction: 'Russia|Росія|Россия'
 };
 
 export const Masks = {

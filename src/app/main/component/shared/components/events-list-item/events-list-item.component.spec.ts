@@ -4,7 +4,7 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
-import { TagsArray } from '../../../events/models/event-consts';
+import { typeFiltersData } from '../../../events/models/event-consts';
 import { Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,12 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
+import { JwtService } from '@global-service/jwt/jwt.service';
 
 @Injectable()
 class TranslationServiceStub {
@@ -55,10 +61,30 @@ describe('EventsListItemComponent', () => {
   let component: EventsListItemComponent;
   let fixture: ComponentFixture<EventsListItemComponent>;
   let translate: TranslateService;
+  const jwtServiceMock = jasmine.createSpyObj('jwtService', ['getUserRole']);
+  jwtServiceMock.getUserRole = () => 'true';
+  jwtServiceMock.userRole$ = new BehaviorSubject('ROLE_UBS_EMPLOYEE');
+
+  const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const styleBtnMock = {
+    secondary: 'secondary-global-button',
+    primary: 'primary-global-button',
+    hiden: 'event-button-hiden'
+  };
+
+  const btnNameMock = {
+    edit: 'event.btn-edit',
+    delete: 'event.btn-delete',
+    rate: 'event.btn-rate',
+    cancel: 'event.btn-cancel',
+    join: 'event.btn-join'
+  };
 
   const eventMock = {
     description: 'tralalalal',
+    editorText: 'tralalalal',
     additionalImages: [],
+    creationDate: '2022-05-31',
     tags: [
       { id: 1, nameUa: 'Соціальний', nameEn: 'Social' },
       { id: 13, nameUa: 'Екологічний', nameEn: 'Environmental' },
@@ -67,24 +93,42 @@ describe('EventsListItemComponent', () => {
     dates: [
       {
         coordinates: {
-          addressEn: 'address',
-          addressUa: 'address',
           latitude: 0,
-          longitude: 0
+          longitude: 0,
+          cityEn: 'Lviv',
+          cityUa: 'Львів',
+          countryEn: 'Ukraine',
+          countryUa: 'Україна',
+          houseNumber: 55,
+          regionEn: 'Lvivska oblast',
+          regionUa: 'Львівська область',
+          streetEn: 'Svobody Ave',
+          streetUa: 'Свободи',
+          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
         id: null,
         event: null,
         startDate: '2022-05-31T00:00:00+03:00',
         finishDate: '2022-05-31T23:59:00+03:00',
-        onlineLink: null
+        onlineLink: null,
+        valid: true
       }
     ],
+    imgArrayToPreview: [],
     id: 307,
     organizer: { id: 5, name: 'Mykola Kovalushun', organizerRating: 3 },
     title: 'dddddddd',
     titleImage: 'https://-fc27f19b10e0apl',
     isSubscribed: true,
-    open: true
+    isFavorite: false,
+    isActive: true,
+    isRelevant: true,
+    open: true,
+    likes: 5,
+    countComments: 7,
+    isAdmin: false,
+    isOrganizedByFriend: false
   };
 
   const fakeItemTags: TagObj[] = [
@@ -119,13 +163,22 @@ describe('EventsListItemComponent', () => {
   ];
 
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
-  const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['getEventById ', 'deleteEvent', 'getAllAttendees']);
+  const EventsServiceMock = jasmine.createSpyObj('EventsService', [
+    'getEventById ',
+    'deleteEvent',
+    'getAllAttendees',
+    'getFormattedAddressEventsList',
+    'setBackFromPreview',
+    'setForm'
+  ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.deleteEvent = () => of(true);
+  EventsServiceMock.getFormattedAddressEventsList = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of(false);
+  EventsServiceMock.setForm = () => of();
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
@@ -133,7 +186,8 @@ describe('EventsListItemComponent', () => {
     'setEditMode',
     'setEventForEdit',
     'userIdBehaviourSubject',
-    'languageSubject'
+    'languageSubject',
+    'setForm'
   ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(5);
@@ -143,6 +197,19 @@ describe('EventsListItemComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     return valUa;
   };
+
+  const MockData = {
+    eventState: {},
+    eventsList: [],
+    visitedPages: [],
+    totalPages: 0,
+    pageNumber: 0,
+
+    error: null
+  };
+
+  const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
+  storeMock.select = () => of(MockData);
 
   let translateServiceMock: TranslateService;
   translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
@@ -158,7 +225,7 @@ describe('EventsListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EventsListItemComponent, DatePipeMock],
+      declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
       providers: [
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: Store, useValue: storeMock },
@@ -167,9 +234,19 @@ describe('EventsListItemComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub },
-        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock }
+        { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
+        { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
+        { provide: JwtService, useValue: jwtServiceMock }
       ],
-      imports: [RouterTestingModule, MatDialogModule, TranslateModule.forRoot(), RatingModule.forRoot(), ModalModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        RatingModule.forRoot(),
+        ModalModule.forRoot(),
+        BrowserAnimationsModule,
+        NoopAnimationsModule
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -179,25 +256,23 @@ describe('EventsListItemComponent', () => {
     fixture = TestBed.createComponent(EventsListItemComponent);
     component = fixture.componentInstance;
     component.event = eventMock as any;
-    component.itemTags = TagsArray;
-    component.styleBtn = 'string';
-    component.nameBtn = 'string';
-    component.isJoinBtnHidden = false;
+    component.btnStyle = '';
+    component.nameBtn = '';
     component.rate = 3;
-    component.isJoined = false;
-    component.isEventOpen = false;
-    component.isOwner = false;
     component.isRegistered = false;
-    component.isFinished = false;
     component.isReadonly = false;
     component.isPosting = false;
-    component.isRated = false;
     component.max = 3;
+    component.userId = 5;
+    component.author = 'tester';
+    component.isEventFavorite = component.event.isFavorite;
+    component.currentLang = 'en';
 
     component.deleteDialogData = {
       popupTitle: 'homepage.events.delete-title',
       popupConfirm: 'homepage.events.delete-yes',
-      popupCancel: 'homepage.events.delete-no'
+      popupCancel: 'homepage.events.delete-no',
+      style: 'red'
     };
 
     fixture.detectChanges();
@@ -213,6 +288,12 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('ngOnInit should be called', () => {
+      const spyOnInit = spyOn(component, 'ngOnInit');
+      component.ngOnInit();
+      expect(spyOnInit).toHaveBeenCalled();
+    });
+
     it('tags.length shoud be 3 in ngOnInit', () => {
       component.itemTags = [];
       component.ngOnInit();
@@ -231,39 +312,28 @@ describe('EventsListItemComponent', () => {
       expect(component.attendees).toEqual([]);
     });
 
+    it(`getAllAttendees should be called in ngOnInit`, () => {
+      spyOn(component, 'getAllAttendees');
+      component.ngOnInit();
+      expect(component.getAllAttendees).toHaveBeenCalled();
+    });
+
+    it(`filterTags should be called in ngOnInit`, () => {
+      spyOn(component, 'filterTags');
+      component.ngOnInit();
+      expect(component.filterTags).toHaveBeenCalled();
+    });
+
     it(`should check whether active tags are filtered properly`, () => {
       component.itemTags = fakeItemTags;
       component.filterTags(component.event.tags);
       expect(component.activeTags).toEqual(fakeActiveTags);
     });
 
-    it(`initAllStatusesOfEvent should be called in ngOnInit`, () => {
-      spyOn(component, 'initAllStatusesOfEvent');
-      component.ngOnInit();
-      expect(component.initAllStatusesOfEvent).toHaveBeenCalled();
-    });
-
     it(`rate should be called in ngOnInit`, () => {
       component.ngOnInit();
       component.rate = Math.round(component.event.organizer.organizerRating);
       expect(component.rate).toBe(3);
-    });
-
-    it('getUserId user ID should be 5', () => {
-      component.getUserId();
-      expect(component.userId).toBe(5);
-    });
-
-    it('getUserId should be called in ngOnInit', () => {
-      spyOn(component, 'getUserId');
-      component.ngOnInit();
-      expect(component.getUserId).toHaveBeenCalled();
-    });
-
-    it(`checkAllStatusesOfEvent should be called in ngOnInit`, () => {
-      spyOn(component, 'checkAllStatusesOfEvent');
-      component.ngOnInit();
-      expect(component.checkAllStatusesOfEvent).toHaveBeenCalled();
     });
 
     it(`subscribeToLangChange should be called in ngOnInit`, () => {
@@ -279,6 +349,112 @@ describe('EventsListItemComponent', () => {
     });
   });
 
+  describe('CheckButtonStatus', () => {
+    it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
+      component.event = eventMock;
+      component.userId = eventMock.organizer.id;
+      component.event.isSubscribed = false;
+      component.event.isRelevant = true;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
+      expect(component.nameBtn).toEqual(component.btnName.edit);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is owner and event is unactive', () => {
+      component.event = eventMock;
+      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
+      component.event.isRelevant = false;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
+      expect(component.nameBtn).toEqual(component.btnName.delete);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is subscribe and event is active', () => {
+      component.event = eventMock;
+      component.event.isSubscribed = true;
+      component.event.organizer.id = 56;
+      component.event.isRelevant = true;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.secondary);
+      expect(component.nameBtn).toEqual(component.btnName.cancel);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is active', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.event.isRelevant = true;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+      expect(component.nameBtn).toEqual(component.btnName.join);
+    });
+
+    it('should set btnStyle  correctly when user can"t joint close event', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.canUserJoinCloseEvent = false;
+      component.event.isRelevant = false;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is subscribed and event is unactive', () => {
+      component.event = eventMock;
+      eventMock.isSubscribed = true;
+      component.event.organizer.id = 56;
+      component.event.isRelevant = false;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+      expect(component.nameBtn).toEqual(component.btnName.rate);
+    });
+
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.event.isRelevant = false;
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.hiden);
+    });
+  });
+
+  describe('ButtonAction', () => {
+    it('should call EventsServiceMock setForm method', () => {
+      const spy = spyOn(EventsServiceMock, 'setForm');
+      component.buttonAction(component.btnName.cancel);
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+
+    it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
+      component.buttonAction(component.btnName.cancel);
+      expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
+    });
+
+    it('should dispatch AddAttenderEcoEventsByIdAction when join button is clicked', () => {
+      component.buttonAction(component.btnName.join);
+      expect(storeMock.dispatch).toHaveBeenCalledWith(AddAttenderEcoEventsByIdAction({ id: component.event.id }));
+    });
+
+    it('should call openModal method when rate button is clicked', () => {
+      spyOn(component, 'openModal');
+      component.buttonAction(component.btnName.rate);
+      expect(component.openModal).toHaveBeenCalled();
+    });
+
+    it('should call deleteEvent method when delete button is clicked', () => {
+      spyOn(component, 'deleteEvent');
+      component.buttonAction(component.btnName.delete);
+      expect(component.deleteEvent).toHaveBeenCalled();
+    });
+
+    it('should set edit mode and navigate to create event page when edit button is clicked', () => {
+      component.buttonAction(component.btnName.edit);
+      expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
+      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
+    });
+  });
+
   describe('Routing', () => {
     it(`should be clicked and called routeToEvent method`, fakeAsync(() => {
       spyOn(component, 'routeToEvent');
@@ -289,9 +465,24 @@ describe('EventsListItemComponent', () => {
     }));
 
     it(`should navigate to events`, () => {
+      component.isOwner = false;
+      component.isActive = false;
       component.routeToEvent();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
     });
+  });
+
+  it('should subscribe to language changes and update properties', () => {
+    spyOn(component, 'bindLang');
+    const langSubject = new Subject<string>();
+    const languageBehaviourSubject = new BehaviorSubject<string>('en');
+    component.subscribeToLangChange();
+    expect(component.langChangeSub).toBeDefined();
+    expect(component.langChangeSub.closed).toBeFalsy();
+    languageBehaviourSubject.next('ua');
+    expect(component.currentLang).toEqual('ua');
+    expect(component.datePipe).toBeDefined();
+    expect(component.newDate).toBeDefined();
   });
 
   describe('Filtering tags', () => {
@@ -301,257 +492,30 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  describe('Initializing all statuses of even', () => {
-    it(`should be initialized if user subscribed to the event`, () => {
-      component.isJoined = component.event.isSubscribed ? true : false;
-      expect(component.isJoined).toBe(true);
-    });
-
-    it(`should be initialized if event opened`, () => {
-      component.isEventOpen = component.event.open;
-      expect(component.isEventOpen).toBe(true);
-    });
-
-    it(`should be initialized if user is owner of the event`, () => {
-      component.isOwner = Number(localStorageServiceMock.userIdBehaviourSubject) === Number(component.event.organizer.id);
-      expect(component.isOwner).toBe(false);
-    });
-
-    it(`should be initialized if user is registered of the event`, () => {
-      component.isRegistered = localStorageServiceMock.userIdBehaviourSubject ? true : false;
-      expect(component.isOwner).toBe(true);
-    });
-
-    it(`should be initialized the event finished`, () => {
-      component.isFinished = Date.parse(component.event.dates[0].finishDate) < Date.parse(new Date().toString());
-      expect(component.isFinished).toBe(true);
-    });
-
-    it(`should be initialized the event rated is rated`, () => {
-      component.isRated = component.rate ? true : false;
-      expect(component.isRated).toBe(true);
-    });
-  });
-
-  describe('Checking all statuses of event', () => {
-    it('checkIsOwner should be called when event opened and not closed ', () => {
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      spyOn(component, 'checkIsOwner');
-      if (component.isEventOpen && !component.isFinished) {
-        component.checkIsOwner(component.isOwner);
-      } else {
-        if (component.isOwner) {
-          component.nameBtn = 'event.btn-delete';
-          component.styleBtn = 'secondary-global-button';
-        } else {
-          component.checkIsRate(component.isRated);
-        }
-      }
-      expect(component.checkIsOwner).toHaveBeenCalled();
-    });
-
-    beforeEach(() => {
-      component.isEventOpen = false;
-      component.isFinished = true;
-      component.isOwner = true;
-
-      if (component.isEventOpen && !component.isFinished) {
-        component.checkIsOwner(component.isOwner);
-      } else {
-        if (component.isOwner) {
-          component.nameBtn = 'event.btn-delete';
-          component.styleBtn = 'secondary-global-button';
-        } else {
-          component.checkIsRate(component.isRated);
-        }
-      }
-    });
-
-    it('should be changed name of button when event not opened and closed', () => {
-      expect(component.nameBtn).toBe('event.btn-delete');
-    });
-
-    it('should be changed style of button when event not opened and closed ', () => {
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it('checkIsOwner should be called when event not opened and closed and not owner ', () => {
-      component.isEventOpen = false;
-      component.isFinished = true;
-      component.isOwner = false;
-      spyOn(component, 'checkIsRate');
-
-      if (component.isEventOpen && !component.isFinished) {
-        component.checkIsOwner(component.isOwner);
-      } else {
-        if (component.isOwner) {
-          component.nameBtn = 'event.btn-delete';
-          component.styleBtn = 'secondary-global-button';
-        } else {
-          component.checkIsRate(component.isRated);
-        }
-      }
-      expect(component.checkIsRate).toHaveBeenCalled();
-    });
-  });
-
-  describe('checkIsOwner', () => {
-    it(`should be checked name of button if is the owner`, () => {
-      component.checkIsOwner(true);
-      expect(component.nameBtn).toBe('event.btn-edit');
-    });
-
-    it(`should be checked style of button if is the owner`, () => {
-      component.checkIsOwner(true);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be checked name of button if is not the owner`, () => {
-      component.checkIsOwner(false);
-      expect(component.nameBtn).toBe('event.btn-cancel');
-    });
-
-    it(`should be checked style of button if is not the owner`, () => {
-      component.checkIsOwner(false);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-  });
-
-  describe('checkIsRate', () => {
-    it(`should be checked name of button if is rated`, () => {
-      component.checkIsRate(true);
-      expect(component.nameBtn).toBe('event.btn-see');
-    });
-
-    it(`should be checked style of button if is rated`, () => {
-      component.checkIsRate(true);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be checked name of button if is not rated`, () => {
-      component.checkIsRate(false);
-      expect(component.nameBtn).toBe('event.btn-rate');
-    });
-
-    it(`should be checked style of button if is not rated`, () => {
-      component.checkIsRate(false);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be checked of button if is not rated`, () => {
-      component.checkIsRate(false);
-      expect(component.isJoinBtnHidden).toBe(true);
-    });
-  });
-
-  describe('buttonAction', () => {
-    it(`should be clicked and called buttonAction method`, fakeAsync(() => {
-      spyOn(component, 'buttonAction');
-      const button = fixture.debugElement.nativeElement.querySelector('button:nth-child(2)');
-      button.click();
-      tick();
-      expect(component.buttonAction).toHaveBeenCalled();
-    }));
-
-    it(`should be set mode for editing`, () => {
-      component.isRegistered = true;
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      component.buttonAction();
-      expect(localStorageServiceMock.setEditMode).toHaveBeenCalled();
-    });
-
-    it(`should be set event for editing`, () => {
-      component.isRegistered = true;
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      component.buttonAction();
-      expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalled();
-    });
-
-    it(`should navigate to create-event`, () => {
-      component.isRegistered = true;
-      component.isEventOpen = true;
-      component.isFinished = false;
-      component.isOwner = true;
-      component.buttonAction();
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['events/', 'create-event']);
-    });
-  });
-
-  describe('actionIsJoined', () => {
-    it(`should be changed name of button if user is joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.nameBtn).toBe('event.btn-join');
-    });
-
-    it(`should be changed style of button if user is joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.styleBtn).toBe('primary-global-button');
-    });
-
-    it(`should be changed isReadonly if user is  joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.isReadonly).toBe(true);
-    });
-
-    it(`should be changed isJoined if user is joined`, () => {
-      component.actionIsJoined(true);
-      expect(component.isJoined).toBe(false);
-    });
-
-    it(`should be changed name of button if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.nameBtn).toBe('event.btn-cancel');
-    });
-
-    it(`should be changed style of button if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.styleBtn).toBe('secondary-global-button');
-    });
-
-    it(`should be changed isReadonly if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.isReadonly).toBe(true);
-    });
-
-    it(`should be changed isJoined if user is not joined`, () => {
-      component.actionIsJoined(false);
-      expect(component.isJoined).toBe(true);
-    });
-  });
-
-  it('should check weather title which length is shorter than 40 characters cut correctly', () => {
-    component.event.title = 'title';
-    expect(component.cutTitle()).toEqual('title');
-  });
-
-  it('should check weather title which length is longer than 30 characters cut correctly', () => {
-    component.event.title = '40 characters long title has to be cut as it is to long';
-    const newTitle = component.event.title.slice(0, 30) + '...';
-    expect(component.cutTitle()).toEqual(newTitle);
-  });
-
-  it('should check weather description which length is shorter than 40 characters cut correctly', () => {
-    component.event.description = 'description';
-    expect(component.cutDescription()).toEqual('description');
-  });
-
-  it('should check weather description which length is longer than 90 characters cut correctly', () => {
-    component.event.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos exercitationem fugiat incidunt';
-    const newDescription = component.event.description.slice(0, 90) + '...';
-    expect(component.cutDescription()).toEqual(newDescription);
-  });
-
   describe('ngOnDestroy', () => {
     it('should unsubscribe of language change', () => {
       component.langChangeSub = of(true).subscribe();
       component.ngOnDestroy();
       expect(component.langChangeSub.closed).toBeTruthy();
     });
+  });
+
+  it('openAuthModalWindow should be called when add to favorite clicked and not raited', () => {
+    component.isRegistered = false;
+    spyOn(component, 'openAuthModalWindow');
+    if (!component.isRegistered) {
+      component.openAuthModalWindow('sign-in');
+    }
+    expect(component.openAuthModalWindow).toHaveBeenCalled();
+  });
+
+  describe('changeFavouriteStatus()', () => {
+    it(`should be clicked and called changeFavouriteStatus method`, fakeAsync(() => {
+      spyOn(component, 'changeFavouriteStatus');
+      const button = fixture.debugElement.nativeElement.querySelector('.favourite-button');
+      button.click();
+      tick();
+      expect(component.changeFavouriteStatus).toHaveBeenCalled();
+    }));
   });
 });

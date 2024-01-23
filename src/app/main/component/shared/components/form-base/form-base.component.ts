@@ -85,6 +85,7 @@ export class FormBaseComponent implements ComponentCanDeactivate {
           }
           if (confirm && isUbsOrderSubmit) {
             this.orderService.saveOrderData();
+            this.orderService.cleanOrderState();
             this.router.navigate(['ubs', 'confirm']);
           }
           if (confirm && !isUbsOrderSubmit && isUBS) {
@@ -94,6 +95,9 @@ export class FormBaseComponent implements ComponentCanDeactivate {
             this.router.navigate([this.previousPath]);
           }
           if (confirm === null && isUbsOrderSubmit) {
+            this.cancelUBSwithoutSaving();
+          }
+          if (!confirm && isUbsOrderSubmit && isUBS) {
             this.cancelUBSwithoutSaving();
           }
         });

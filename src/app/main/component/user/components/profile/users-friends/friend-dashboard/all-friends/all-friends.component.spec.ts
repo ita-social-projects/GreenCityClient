@@ -4,13 +4,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { FriendModel } from '@global-user/models/friend.model';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, of } from 'rxjs';
-
+import { Store } from '@ngrx/store';
 import { AllFriendsComponent } from './all-friends.component';
+import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 
 describe('AllFriendsComponent', () => {
   let component: AllFriendsComponent;
@@ -20,78 +20,14 @@ describe('AllFriendsComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   let userFriendsServiceMock: UserFriendsService;
 
-  const response = {
-    id: 1,
-    name: 'Name',
-    profilePicturePath: '',
-    added: false
-  };
-  const userFriendsArray: FriendModel[] = [
-    {
-      id: 1,
-      name: 'Name',
-      profilePicturePath: '',
-      added: true,
-      rating: 380,
-      city: 'Lviv',
-      mutualFriends: 5,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 2
-      }
-    },
-    {
-      id: 2,
-      name: 'Name2',
-      profilePicturePath: '',
-      added: true,
-      rating: 380,
-      city: 'Lviv',
-      mutualFriends: 5,
-      friendsChatDto: {
-        chatExists: true,
-        chatId: 3
-      }
-    }
-  ];
-  const userFriends = {
-    totalElements: 1,
-    totalPages: 1,
-    currentPage: 1,
-    page: [
-      {
-        id: 1,
-        name: 'Name',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 5
-        }
-      },
-      {
-        id: 2,
-        name: 'Name2',
-        profilePicturePath: '',
-        added: true,
-        rating: 380,
-        city: 'Lviv',
-        mutualFriends: 5,
-        friendsChatDto: {
-          chatExists: true,
-          chatId: 2
-        }
-      }
-    ]
-  };
+  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getFriendsByName', 'getAllFriends', 'deleteFriend', 'addFriend']);
+  userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
+  userFriendsServiceMock.getFriendsByName = () => of(FRIENDS);
+  userFriendsServiceMock.deleteFriend = (idFriend) => of(FIRSTFRIEND);
+  userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);
 
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'deleteFriend', 'addFriend']);
-  userFriendsServiceMock.getAllFriends = () => of(userFriends);
-  userFriendsServiceMock.deleteFriend = (idUser, idFriend) => of(response);
-  userFriendsServiceMock.addFriend = (idUser, idFriend) => of(response);
+  const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -100,7 +36,8 @@ describe('AllFriendsComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent }
+        { provide: MatSnackBarComponent, useValue: MatSnackBarComponent },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -110,10 +47,6 @@ describe('AllFriendsComponent', () => {
     fixture = TestBed.createComponent(AllFriendsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
@@ -136,17 +69,17 @@ describe('AllFriendsComponent', () => {
     expect(getUsersFriendsSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should call method deleteFriend', () => {
-    // @ts-ignore
-    const deleteFriendSpy = spyOn(component.userFriendsService, 'deleteFriend').and.returnValue(of(true));
+  it('should call method deleteFriendsFromList on handleDeleteFriend', () => {
+    const spy = spyOn(component, 'handleDeleteFriend');
     component.handleDeleteFriend(4);
-    expect(deleteFriendSpy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should call getFriends on scroll', () => {
     // @ts-ignore
-    const getAllFriendSpy = spyOn(component.userFriendsService, 'getAllFriends').and.returnValue(of(userFriends));
+    const getAllFriendSpy = spyOn(component, 'getAllFriends').and.returnValue(of(FRIENDS));
     component.onScroll();
+    component.getAllFriends(1);
     expect(getAllFriendSpy).toHaveBeenCalled();
   });
 });

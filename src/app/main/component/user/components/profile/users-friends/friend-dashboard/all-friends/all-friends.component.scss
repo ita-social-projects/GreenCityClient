@@ -1,36 +1,61 @@
-.container {
+.all-friends-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding: 0;
-  min-width: 95%;
-}
 
-@media only screen and (min-width: 1224px) {
-  .container {
+  @media (min-width: 576px) {
+    flex-direction: column;
+  }
+
+  .cards-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media (min-width: 576px) {
+      gap: 32px;
+      row-gap: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      display: grid;
+      max-width: 870px;
+      margin: 0 auto;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 1200px) {
+      max-width: 1140px;
+    }
+  }
+
+  .user-card {
+    @media (max-width: 1000px) {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  .noFriends-wraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    margin-bottom: 30px;
+    word-break: break-word;
+
+    .noFriends {
+      font-family: var(--secondary-font);
+      font-size: 32px;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 48px;
+      text-align: center;
+    }
   }
 }
 
-.noFriends-wraper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-
-  .noFriends {
-    font-family: var(--secondary-font);
-    font-size: 32px;
-    font-weight: 500;
-    font-style: normal;
-    line-height: 48px;
-  }
-}
-
-.friends-list {
-  margin: 44px auto 30px;
+.img-absent img {
+  max-width: 100%;
 }

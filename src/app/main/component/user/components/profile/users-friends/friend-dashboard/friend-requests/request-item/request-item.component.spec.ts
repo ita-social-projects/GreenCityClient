@@ -35,7 +35,7 @@ describe('RequestItemComponent', () => {
         chatExists: true,
         chatId: 2
       }
-    };
+    } as any;
     fixture.detectChanges();
   });
 

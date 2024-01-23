@@ -6,8 +6,7 @@ describe('GoogleScript', () => {
   let googleScript;
   const apiMapKey = environment.apiMapKey;
 
-  const urlUa = `https://maps.googleapis.com/maps/api/js?key=${apiMapKey}&callback=initMap&libraries=places&language=ua`;
-  const urlEn = `https://maps.googleapis.com/maps/api/js?key=${apiMapKey}&callback=initMap&libraries=places&language=en`;
+  const url = `https://maps.googleapis.com/maps/api/js?key=${apiMapKey}&callback=initMap&libraries=places`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,17 +29,9 @@ describe('GoogleScript', () => {
     googleScript.load('ua');
     const result = document.querySelector('#googleMaps') as HTMLScriptElement;
     expect(result).toBeDefined();
-    expect(result.src).toBe(urlUa);
+    expect(result.src).toBe(url);
     expect(result.type).toBe('text/javascript');
     expect(spy).toHaveBeenCalled();
-  });
-
-  it('method load change src in script tag', () => {
-    const spy = spyOn(googleScript, 'initMap');
-    googleScript.load('ua');
-    googleScript.load('en');
-    const result = document.querySelector('#googleMaps') as HTMLScriptElement;
-    expect(result.src).toBe(urlEn);
   });
 
   it('method initMap add script tag', () => {

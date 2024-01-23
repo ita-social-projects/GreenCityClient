@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HabitProgressComponent } from './habit-progress.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -6,7 +6,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { DEFAULTFULLINFOHABIT, DEFAULTFULLINFOHABIT_2 } from '../../mocks/habit-assigned-mock';
+
+@Pipe({ name: 'datePipe' })
+class DatePipeMock implements PipeTransform {
+  transform(value: Date): string {
+    return '2022-02-20';
+  }
+}
 
 describe('HabitProgressComponent', () => {
   let component: HabitProgressComponent;
@@ -14,58 +23,33 @@ describe('HabitProgressComponent', () => {
   const habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', [
     'getAssignHabitsByPeriod',
     'enrollByHabit',
-    'unenrollByHabit'
+    'unenrollByHabit',
+    'habitChangesFromCalendarSubj'
   ]);
-
-  const fakeHabitStatusCalendarList = {
-    enrollDate: '2022-06-19',
-    id: 333
-  };
-
-  const fakeHabitAcquired = {
-    id: 333,
-    status: 'ACQUIRED',
-    habit: {
-      id: 333,
-      habitTranslation: {
-        name: 'fakeName'
+  habitAssignServiceMock.habitsFromDashBoard = JSON.parse(
+    JSON.stringify([
+      {
+        enrollDate: '2022-02-10',
+        habitAssigns: [
+          {
+            habitId: 123,
+            enrolled: false
+          }
+        ]
       }
-    },
-    duration: 44,
-    workingDays: 3,
-    habitStreak: 2,
-    habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
-  };
+    ])
+  );
 
-  const fakeHabitInProgress = {
-    id: 333,
-    status: 'INPROGRESS',
-    createDateTime: new Date('2021-06-19'),
-    duration: 10,
-    habit: {
-      id: 321,
-      defaultDuration: 14,
-      habitTranslation: {
-        name: 'fakeName',
-        description: 'Test',
-        habitItem: 'Test',
-        languageCode: 'en'
-      },
-      image: '',
-      tags: []
-    },
-    habitStreak: 5,
-    lastEnrollmentDate: new Date('2021-06-19'),
-    userId: 333,
-    workingDays: 4,
-    habitStatusCalendarDtoList: [fakeHabitStatusCalendarList]
-  };
+  const fakeHabitAcquired = { ...DEFAULTFULLINFOHABIT, status: 'ACQUIRED' };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HabitProgressComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot(), MatDialogModule],
-      providers: [{ provide: HabitAssignService, useValue: habitAssignServiceMock }]
+      providers: [
+        { provide: HabitAssignService, useValue: habitAssignServiceMock },
+        { provide: DatePipe, useClass: DatePipeMock }
+      ]
     }).compileComponents();
   }));
 
@@ -74,6 +58,7 @@ describe('HabitProgressComponent', () => {
     component = fixture.componentInstance;
     component.habit = fakeHabitAcquired as any;
     habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
+    habitAssignServiceMock.habitChangesFromCalendarSubj = of({});
     fixture.detectChanges();
   });
 
@@ -85,24 +70,48 @@ describe('HabitProgressComponent', () => {
     const spy = spyOn(component, 'countProgressBar');
     component.ngOnChanges();
     expect(spy).toHaveBeenCalled();
+    expect(habitAssignServiceMock.habitForEdit).toEqual(component.habit);
+  });
+
+  it('ngOnInit should call updateHabitSteak and countProgressBar', () => {
+    const spy1 = spyOn(component, 'updateHabitSteak');
+    const spy2 = spyOn(component, 'countProgressBar');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('should call isDeskWidth while ngOnInit', () => {
+    const spy = spyOn(component, 'isDeskWidth');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should update habitSteak', () => {
+    const spy = spyOn(component, 'countDifferenceInDays');
+    component.currentDate = '2023-04-16';
+    component.habit = DEFAULTFULLINFOHABIT_2 as any;
+    component.updateHabitSteak({ date: '2023-04-16', isEnrolled: true });
+    expect(component.habit.workingDays).toBe(3);
+    expect(component.habit.habitStreak).toBe(1);
+    component.updateHabitSteak({ date: '2023-04-14', isEnrolled: false });
+    expect(component.habit.workingDays).toBe(2);
+    expect(component.habit.habitStreak).toBe(1);
+    expect(spy).toHaveBeenCalled();
   });
 
   describe('buildHabitDescription', () => {
-    it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
-      component.currentDate = '2022-06-19';
-      component.habit = fakeHabitInProgress as any;
+    it('should set habitMark done', () => {
+      component.currentDate = '2023-04-14';
+      component.habit = DEFAULTFULLINFOHABIT as any;
       component.buildHabitDescription();
-      expect(component.daysCounter).toBe(4);
-      expect(component.showPhoto).toBe(false);
       expect(component.habitMark).toBe('done');
     });
 
-    it('makes expected calls if status is inprogress and habit doest have not the current date equals to registration date', () => {
-      component.currentDate = '2022-02-19';
-      component.habit = fakeHabitInProgress as any;
+    it('should set habitMark undone', () => {
+      component.currentDate = '2022-04-12';
+      component.habit = DEFAULTFULLINFOHABIT as any;
       component.buildHabitDescription();
-      expect(component.daysCounter).toBe(4);
-      expect(component.showPhoto).toBe(true);
       expect(component.habitMark).toBe('undone');
     });
   });
@@ -111,45 +120,43 @@ describe('HabitProgressComponent', () => {
     it('makes expected calls if status is acquired', () => {
       habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitAcquired));
       component.enroll();
-      expect(component.daysCounter).toBe(44);
-      expect(component.showPhoto).toBeFalsy();
-      expect(component.habitMark).toBe('aquired');
+      expect(component.habitMark).toBe('acquired');
     });
 
-    it('makes expected calls if status is not acquired', () => {
-      habitAssignServiceMock.enrollByHabit.and.returnValue(of(fakeHabitInProgress));
-      const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
+    it('makes expected on enroll call updateHabit if status is not acquired', () => {
+      habitAssignServiceMock.enrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
+      const spy = spyOn(component as any, 'updateHabit');
       component.enroll();
-      expect(buildHabitDescriptionSpy).toHaveBeenCalled();
-      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
-      expect(component.habit.workingDays).toBe(4);
-      expect(component.habit.habitStreak).toBe(5);
-      expect(component.isRequest).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
-  describe('unenroll', () => {
-    it('makes expected calls', () => {
-      habitAssignServiceMock.unenrollByHabit.and.returnValue(of(fakeHabitInProgress));
-      const buildHabitDescriptionSpy = spyOn(component, 'buildHabitDescription');
-      component.unenroll();
-      expect(buildHabitDescriptionSpy).toHaveBeenCalled();
-      expect(component.habit.habitStatusCalendarDtoList).toEqual([fakeHabitStatusCalendarList]);
-      expect(component.habit.workingDays).toBe(4);
-      expect(component.habit.habitStreak).toBe(5);
-      expect(component.isRequest).toBeFalsy();
-    });
+  it('shoud call updateHabit on unenroll', () => {
+    habitAssignServiceMock.unenrollByHabit.and.returnValue(of(DEFAULTFULLINFOHABIT));
+    const spy = spyOn(component as any, 'updateHabit');
+    component.unenroll();
+    expect(spy).toHaveBeenCalled();
+  });
 
-    it('should get right description for one day in row on getDayName', () => {
-      component.habit.habitStreak = 1;
-      const value = component.getDayName();
-      expect(value).toBe('user.habit.one-habit.good-day');
-    });
+  it('should set values on updateHabit', () => {
+    const countProgressSpy = spyOn(component, 'buildHabitDescription');
+    (component as any).updateHabit(DEFAULTFULLINFOHABIT);
+    expect(countProgressSpy).toHaveBeenCalled();
+    expect(component.habit.habitStatusCalendarDtoList).toEqual(DEFAULTFULLINFOHABIT.habitStatusCalendarDtoList);
+    expect(component.habit.workingDays).toBe(6);
+    expect(component.habit.habitStreak).toBe(5);
+    expect(component.isRequest).toBeFalsy();
+  });
 
-    it('should get right description for days in row on getDayName', () => {
-      component.habit.habitStreak = 2;
-      const value = component.getDayName();
-      expect(value).toBe('user.habit.one-habit.good-days');
-    });
+  it('should get right description for one day in row on getDayName', () => {
+    component.habit.habitStreak = 1;
+    const value = component.getDayName();
+    expect(value).toBe('user.habit.one-habit.good-day');
+  });
+
+  it('should get right description for days in row on getDayName', () => {
+    component.habit.habitStreak = 2;
+    const value = component.getDayName();
+    expect(value).toBe('user.habit.one-habit.good-days');
   });
 });

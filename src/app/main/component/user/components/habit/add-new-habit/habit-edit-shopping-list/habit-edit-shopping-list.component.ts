@@ -1,92 +1,75 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
-import { ShoppingListService } from './shopping-list.service';
-import { ActivatedRoute } from '@angular/router';
-import { HabitService } from '@global-service/habit/habit.service';
-import { take, takeUntil } from 'rxjs/operators';
-import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { HabitAssignInterface } from 'src/app/main/interface/habit/habit-assign.interface';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingList } from '../../../../models/shoppinglist.interface';
+import { TodoStatus } from '../../models/todo-status.enum';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-habit-edit-shopping-list',
   templateUrl: './habit-edit-shopping-list.component.html',
-  styleUrls: ['./habit-edit-shopping-list.component.scss']
+  styleUrls: ['./habit-edit-shopping-list.component.scss'],
+  providers: [MatSnackBarComponent]
 })
-export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
+export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked, OnDestroy {
+  @Input() shopList: ShoppingList[] = [];
+  @Input() isAcquired = false;
+  @Input() isEditing = false;
+
+  private fieldSymbolsLimit = 2048;
   public itemForm = new FormGroup({
-    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
-  public list: ShoppingList[] = [];
   public subscription: Subscription;
-  public habitId: number;
+  public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
   public shoppingItemNameLimit = 20;
-  public seeAllShopingList: boolean;
-  public minNumberOfItems = 3;
-  public isEditing: boolean;
 
   public img = {
-    arrowDown: 'assets/img/comments/arrow_down.png',
-    arrowUp: 'assets/img/comments/arrow_up.png',
-    back: 'assets/img/comments/reply.png'
+    doneCheck: 'assets/icons/habits/filled-check-circle.svg',
+    inprogressCheck: 'assets/icons/habits/lined-green-circle.svg',
+    plusCheck: 'assets/icons/habits/doted-plus-green-circle.svg',
+    minusCheck: 'assets/icons/habits/doted-minus-green-circle.svg',
+    disableCheck: 'assets/icons/habits/circle-grey.svg'
   };
 
   @Output() newList = new EventEmitter<ShoppingList[]>();
 
   constructor(
-    public shoppinglistService: ShoppingListService,
-    private route: ActivatedRoute,
-    private habitService: HabitService,
-    private habitAssignService: HabitAssignService,
+    private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.subscribeToLangChange();
-    this.route.params.subscribe((params) => {
-      this.habitId = +params.habitId;
-    });
-    this.checkIfAssigned();
-    this.subscription = this.shoppinglistService
-      .getList()
-      .pipe(takeUntil(this.destroySub))
-      .subscribe((data) => {
-        this.list = data;
-        this.newList.emit(this.list);
-      });
+    this.userId = this.localStorageService.getUserId();
+    this.newList.emit(this.shopList);
   }
 
-  getListItems(isAssigned: boolean) {
-    isAssigned ? this.getCustomItems() : this.getDefaultItems();
-    this.getDefaultItems();
-    this.isEditing = isAssigned;
+  ngAfterViewChecked(): void {
+    if (this.shopList) {
+      this.shopList.forEach((el) => (el.selected = el.status === TodoStatus.inprogress));
+      this.newList.emit(this.shopList);
+    }
+    this.placeItemInOrder();
+    this.cdr.detectChanges();
   }
 
-  public truncateShoppingItemName(name: string) {
+  get item(): AbstractControl {
+    return this.itemForm.get('item');
+  }
+
+  public truncateShoppingItemName(name: string): string {
     if (name.length >= this.shoppingItemNameLimit) {
       return name.slice(0, this.shoppingItemNameLimit) + '...';
     }
 
     return name;
-  }
-
-  public getDefaultItems() {
-    this.habitService
-      .getHabitById(this.habitId)
-      .pipe(take(1))
-      .subscribe((habit) => {
-        this.shoppinglistService.fillList(habit.shoppingListItems);
-      });
-  }
-
-  public getCustomItems() {
-    this.shoppinglistService.getCustomItems(localStorage.getItem('userId'), this.habitId);
   }
 
   private bindLang(lang: string): void {
@@ -96,38 +79,81 @@ export class HabitEditShoppingListComponent implements OnInit, OnDestroy {
   private subscribeToLangChange(): void {
     this.langChangeSub = this.localStorageService.languageSubject.subscribe((lang) => {
       this.bindLang(lang);
-      this.checkIfAssigned();
     });
   }
 
-  public openCloseList() {
-    this.seeAllShopingList = !this.seeAllShopingList;
+  public getCheckIcon(item: ShoppingList): string {
+    if (this.isAcquired) {
+      return this.img.disableCheck;
+    }
+    if (item.status === TodoStatus.done) {
+      return this.img.doneCheck;
+    }
+    return item.selected ? this.img.minusCheck : this.img.plusCheck;
   }
 
-  public checkIfAssigned() {
-    this.habitAssignService
-      .getAssignedHabits()
-      .pipe(take(1))
-      .subscribe((response: Array<HabitAssignInterface>) => {
-        response.some((assigned) => assigned.habit.id === this.habitId) ? this.getListItems(true) : this.getListItems(false);
-      });
+  public addItem(value: string): void {
+    const newItem = {
+      id: null,
+      status: TodoStatus.active,
+      text: value.trim(),
+      custom: true,
+      selected: true
+    };
+    if (newItem.text) {
+      this.shopList = [newItem, ...this.shopList];
+    }
+    this.item.setValue('');
+    this.placeItemInOrder();
+    this.newList.emit(this.shopList);
   }
 
-  public add(value: string) {
-    this.shoppinglistService.addItem(value);
-    this.itemForm.setValue({ item: '' });
+  public selectItem(item: ShoppingList): void {
+    this.shopList = this.shopList.map((element) => {
+      if (element.text === item.text) {
+        element.selected = !item.selected;
+        element.status = item.selected ? TodoStatus.inprogress : TodoStatus.active;
+      }
+      return element;
+    });
+    if (item.selected) {
+      const index = this.shopList.indexOf(item);
+      this.shopList.splice(index, 1);
+      this.shopList = [item, ...this.shopList];
+    }
+    this.placeItemInOrder();
+    this.newList.emit(this.shopList);
   }
 
-  public delete(item) {
-    this.shoppinglistService.deleteItem(item);
+  private placeItemInOrder(): void {
+    const statusOrder = { DONE: 1, INPROGRESS: 2, ACTIVE: 3 };
+    this.shopList.sort((a, b) => {
+      const statusDifference = statusOrder[a.status] - statusOrder[b.status];
+      const orderCustom = a.custom && !b.custom ? -1 : 1;
+      return statusDifference ? statusDifference : orderCustom;
+    });
   }
 
-  public select(item) {
-    this.shoppinglistService.select(item);
+  public deleteItem(text: string): void {
+    this.shopList = this.shopList.filter((elem) => elem.text !== text);
+    this.newList.emit(this.shopList);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  checkItemValidity(): void {
+    if (!this.itemForm.valid && this.itemForm.get('item').value.length > this.fieldSymbolsLimit) {
+      this.snackBar.openSnackBar('tooLongInput');
+    }
+  }
+
+  public checkIfTextContainsUrl(text: string): boolean {
+    return text.includes('http://') || text.includes('https://');
+  }
+
+  public getUrlFromText(text: string): string {
+    return text.split(' ').find((value) => value.startsWith('http://') || value.startsWith('https://'));
+  }
+
+  ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
     this.destroySub.complete();

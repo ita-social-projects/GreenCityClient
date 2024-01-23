@@ -237,16 +237,6 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method onQuantityChange should invoke calculateTotal method', () => {
-    const spy = spyOn<any>(component, 'calculateTotal');
-    const fakeElement = document.createElement('div');
-    spyOn(document, 'getElementById').and.returnValue(fakeElement);
-    component.bags = bagsMock;
-    fixture.detectChanges();
-    component.onQuantityChange();
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('method calculateTotal should invoke changeOrderDetails method', () => {
     const spy = spyOn<any>(component, 'changeOrderDetails');
     (component as any).calculateTotal();

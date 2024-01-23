@@ -19,6 +19,37 @@ a {
     p {
       color: var(--primary-dark-grey);
     }
+
+    .buttons-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .favourites {
+        margin: 0 10px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-white);
+        border-radius: 5px;
+        display: flex;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 1px 0 var(--primary-grey);
+        cursor: pointer;
+
+        span {
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          transition: all 0.3s;
+        }
+
+        .flag-active {
+          background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+        }
+      }
+    }
   }
 
   .in-progress {
@@ -29,23 +60,12 @@ a {
   }
 
   .secondary-global-button {
-    padding: 0 15px;
-    height: 36px;
     min-width: 145px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.1px;
   }
 
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-row-gap: 24px;
   }
 
   .acquired {
@@ -73,15 +93,32 @@ a {
   }
 }
 
+.events-filter {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  .events-types {
+    * {
+      margin: 0 5px;
+      color: var(--primary-green);
+    }
+  }
+}
+
 .news-list {
   list-style: none;
   padding-left: 0;
   overflow: hidden;
 }
 
-::ng-deep {
+:host ::ng-deep {
   .mat-tab-header {
     margin-bottom: 24px;
+
+    .mat-tab-label-container {
+      width: 100%;
+    }
   }
 
   .mat-tab-header,
@@ -94,11 +131,16 @@ a {
     display: none;
   }
 
-  .mat-tab-labels .mat-tab-label {
-    height: 40px;
-    min-width: auto;
-    border-bottom: 1px solid var(--quintynary-light-grey);
-    opacity: 1;
+  .mat-tab-labels {
+    width: 100%;
+
+    .mat-tab-label {
+      height: 40px;
+      min-width: auto;
+      flex: 0 0 25%;
+      border-bottom: 1px solid var(--quintynary-light-grey);
+      opacity: 1;
+    }
   }
 
   .mat-tab-label-content {
@@ -161,6 +203,21 @@ a {
       margin-left: -16px;
     }
   }
+
+  :host ::ng-deep {
+    .mat-tab-labels {
+      padding-left: 16px;
+      padding-right: 10px;
+
+      .mat-tab-label {
+        flex: 0 0 33%;
+      }
+
+      .mat-tab-disabled {
+        display: none;
+      }
+    }
+  }
 }
 
 @media (min-width: 576px) {
@@ -202,5 +259,18 @@ a {
   li:not(:first-child):not(:last-child) {
     border: 2px var(--primary-green) solid;
     border-radius: 10%;
+  }
+}
+
+.button-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  cursor: pointer;
+
+  .edit-events {
+    margin: 0 5px;
+    color: var(--primary-green);
   }
 }

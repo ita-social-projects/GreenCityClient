@@ -52,7 +52,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
     this.commonService.newMessageWindowRequireCloseStream$.next(true);
   }
 
-  public checkChat(friend: FriendModel) {
+  public checkChat(friend: any) {
     if (friend.friendsChatDto.chatExists) {
       const userChat = this.chatsService.userChats.find((chat) => chat.id === friend.friendsChatDto.chatId);
       this.chatsService.setCurrentChat(userChat);

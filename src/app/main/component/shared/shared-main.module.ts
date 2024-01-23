@@ -33,6 +33,16 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { EventsListItemModalComponent } from './components/events-list-item/events-list-item-modal/events-list-item-modal.component';
 import { InputErrorComponent } from './components/input-error/input-error.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TagsSelectComponent } from '@shared/components/tags-select/tags-select.component';
+import { SelectImagesComponent } from '@shared/components/select-images/select-images.component';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -53,7 +63,10 @@ registerLocaleData(ukLocale, 'ua');
     HabitsPopupComponent,
     EventsListItemComponent,
     EventsListItemModalComponent,
-    InputErrorComponent
+    InputErrorComponent,
+    InputGoogleAutocompleteComponent,
+    TagsSelectComponent,
+    SelectImagesComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -62,6 +75,7 @@ registerLocaleData(ukLocale, 'ua');
     SharedModule,
     FormsModule,
     CommonModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
@@ -77,7 +91,12 @@ registerLocaleData(ukLocale, 'ua');
     MatCheckboxModule,
     MatProgressSpinnerModule,
     UserSharedModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatOptionModule,
+    MatDividerModule,
+    MatInputModule,
+    MatSelectModule,
+    NgbModule
   ],
   exports: [
     EditPhotoPopUpComponent,
@@ -102,7 +121,12 @@ registerLocaleData(ukLocale, 'ua');
     FormBaseComponent,
     EventsListItemComponent,
     EventsListItemModalComponent,
-    InputErrorComponent
+    InputErrorComponent,
+    MatDividerModule,
+    MatExpansionModule,
+    InputGoogleAutocompleteComponent,
+    TagsSelectComponent,
+    SelectImagesComponent
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

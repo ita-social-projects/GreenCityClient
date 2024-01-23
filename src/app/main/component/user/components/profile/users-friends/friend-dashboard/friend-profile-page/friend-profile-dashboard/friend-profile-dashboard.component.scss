@@ -5,14 +5,19 @@
 
 .friends-list {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-direction: column;
   margin-top: 25px;
+  gap: 16px;
+}
+
+.friends-item {
+  width: 100%;
 }
 
 .img-absent {
-  display: inline-block;
-  width: 50%;
+  max-width: 625px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -55,11 +60,35 @@
     color: var(--quaternary-dark-grey);
   }
 
+  .mat-tab-disabled {
+    .mat-tab-label-content {
+      color: var(--quintynary-light-grey);
+    }
+  }
+
   .mat-tab-labels .mat-tab-label-active {
     border-bottom: 1px solid var(--primary-green);
 
     .mat-tab-label-content {
       color: var(--primary-green);
     }
+  }
+}
+
+.no-data-image {
+  padding: 0 18px;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .friends-item {
+    width: 469px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .friends-list {
+    display: grid;
+    grid-template-columns: 417px 417px;
   }
 }

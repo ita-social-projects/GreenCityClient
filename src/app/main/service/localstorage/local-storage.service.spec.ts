@@ -2,23 +2,34 @@ import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
-import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { EventPageResponseDto } from '../../component/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 
-  const mockEvent: EventPageResponceDto = {
+  const mockEvent: EventPageResponseDto = {
     additionalImages: ['image1.jpg', 'image2.jpg'],
+    creationDate: '2022-05-31',
     dates: [
       {
         coordinates: {
-          addressEn: 'address',
-          addressUa: 'адреса',
           latitude: 0,
-          longitude: 0
+          longitude: 0,
+          cityEn: 'cityUa',
+          cityUa: 'cityEn',
+          countryEn: 'Ukraine',
+          countryUa: 'Україна',
+          houseNumber: 55,
+          regionEn: 'Lvivska oblast',
+          regionUa: 'Львівська область',
+          streetEn: 'Svobody Ave',
+          streetUa: 'Свободи',
+          formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
+          formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
         },
+        valid: true,
         event: 'event',
         finishDate: 'finishDate',
         id: 3,
@@ -26,7 +37,21 @@ describe('LocalStorageService', () => {
         startDate: '2022-02-01T00:00:00Z'
       }
     ],
+    location: {
+      date: new Date(),
+      finishDate: 'string',
+      onlineLink: 'string',
+      place: 'string',
+      startDate: 'string',
+      coordinates: {
+        latitude: 1,
+        longitude: 1
+      }
+    },
+    imgArray: [],
+    imgArrayToPreview: [],
     description: 'Test event description',
+    editorText: 'Test event description',
     id: 123,
     open: true,
     organizer: {
@@ -37,7 +62,13 @@ describe('LocalStorageService', () => {
     tags: [{ id: 789, nameUa: 'Test tag UA', nameEn: 'Test tag EN' }],
     title: 'Test event title',
     titleImage: 'testImage.jpg',
-    isSubscribed: true
+    isSubscribed: true,
+    isFavorite: false,
+    isActive: true,
+    countComments: 5,
+    likes: 8,
+    isRelevant: true,
+    isOrganizedByFriend: false
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
@@ -60,7 +91,7 @@ describe('LocalStorageService', () => {
 
   describe('setUbsOrderId and getUbsOrderId', () => {
     it('should set the orderId to localStorage', () => {
-      const orderId = 12345;
+      const orderId = '12345';
       service.setUbsOrderId(orderId);
       expect(localStorage.getItem('UbsOrderId')).toEqual(String(orderId));
     });
@@ -257,7 +288,7 @@ describe('LocalStorageService', () => {
 
   describe('UbsFondyOrderId', () => {
     it('should set the UbsFondyOrderId in local storage', () => {
-      const orderId = 123;
+      const orderId = '123';
       service.setUbsFondyOrderId(orderId);
       expect(localStorage.getItem('UbsFondyOrderId')).toEqual(String(orderId));
     });

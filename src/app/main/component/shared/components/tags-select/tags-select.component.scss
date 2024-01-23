@@ -1,0 +1,13 @@
+.tag-button {
+  border: 0;
+  background: none;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2px;
+
+  .text {
+    white-space: nowrap;
+    font-size: 14px;
+  }
+}

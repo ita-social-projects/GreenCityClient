@@ -12,7 +12,6 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
-import { KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 
@@ -198,27 +197,41 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.isStatus).toBe(false);
   });
 
-  it('method getPlacePredictions should form prediction list for Kyiv region', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv region', async () => {
     component.addressRegionEng.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVREGIONSLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     const fakesearchAddress = `Київська область, Ше`;
     component.inputCity(fakesearchAddress, Language.UK);
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
   });
 
-  it('method getPlacePredictions should form prediction list for Kyiv city', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv city', async () => {
     const result = [ADDRESSESMOCK.KYIVCITYLIST[0]];
     component.addressRegionEng.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVCITYLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVCITYLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
 
     const fakesearchAddress = `Київ`;
     component.inputCity(fakesearchAddress, Language.UK);
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.cityPredictionList).toEqual(result);
   });
 

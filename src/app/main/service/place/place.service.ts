@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { FilterPlaceCategories, Place } from '../../component/places/models/place';
+import { AllAboutPlace, FilterPlaceCategories, Place } from '../../component/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { PlacePageableDto } from '../../model/place/place-pageable-dto.model';
@@ -31,6 +31,10 @@ export class PlaceService {
   private tagsType = 'PLACES_FILTER';
 
   constructor(private http: HttpClient, private filterService: FilterPlaceService) {}
+
+  public getAllPlaces(page: number, size: number) {
+    return this.http.get(`${this.baseUrl}all?page=${page}&size=${size}`);
+  }
 
   getFilteredPlaces() {
     const filterDto = this.filterService.getFilters();

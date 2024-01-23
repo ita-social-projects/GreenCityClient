@@ -1,79 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { ShoppingList } from '@global-user/models/shoppinglist.model';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { mainLink } from '../../../../../../links';
+import { AllShoppingLists, HabitUpdateShopList, ShoppingList } from '../../../../models/shoppinglist.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingListService {
-  public list = [];
-  public list$ = new Subject();
-
-  private customList = [];
-
   constructor(private http: HttpClient) {}
 
-  public fillList(data: ShoppingList[]) {
-    this.list = data;
-    this.list$.next(this.list);
+  public getHabitShopList(habitId: number): Observable<ShoppingList[]> {
+    return this.http.get<ShoppingList[]>(`${mainLink}habit/${habitId}/shopping-list`);
   }
 
-  public getList(): Observable<any> {
-    return this.list$.asObservable();
+  public getHabitAllShopLists(habitAssignId: number, lang: string): Observable<AllShoppingLists> {
+    return this.http.get<AllShoppingLists>(`${mainLink}habit/assign/${habitAssignId}/allUserAndCustomList?lang=${lang}`);
   }
 
-  public addItem(value: string) {
-    const newItem = {
-      status: 'ACTIVE',
-      text: value,
-      selected: false,
-      custom: true
+  public getUserShoppingLists(lang: string): Observable<AllShoppingLists[]> {
+    return this.http.get<AllShoppingLists[]>(`${mainLink}habit/assign/allUserAndCustomShoppingListsInprogress?lang=${lang}`);
+  }
+
+  public updateStandardShopItemStatus(item: ShoppingList, lang: string): Observable<ShoppingList[]> {
+    const body = {};
+    return this.http.patch<ShoppingList[]>(`${mainLink}user/shopping-list-items/${item.id}/status/${item.status}?lang=${lang}`, body);
+  }
+
+  public updateCustomShopItemStatus(userId: number, item: ShoppingList): Observable<ShoppingList> {
+    const body = {};
+    return this.http.patch<ShoppingList>(
+      `${mainLink}custom/shopping-list-items/${userId}/custom-shopping-list-items?itemId=${item.id}&status=${item.status}`,
+      body
+    );
+  }
+
+  public updateHabitShopList(habitShopList: HabitUpdateShopList) {
+    const assignId = habitShopList.habitAssignId;
+    const body = {
+      customShoppingListItemDto: habitShopList.customShopList,
+      userShoppingListItemDto: habitShopList.standartShopList
     };
-    this.list = [newItem, ...this.list];
-    this.placeItemInOrder();
-    this.customList.push(newItem);
-    this.list$.next(this.list);
-  }
-
-  public deleteItem(item) {
-    this.list = this.list.filter((elem) => elem.text !== item.text);
-    this.customList = this.customList.filter((elem) => elem.text !== item.text);
-    this.list$.next(this.list);
-  }
-
-  placeItemInOrder(): void {
-    const trueList = this.list.filter((element) => element.selected);
-    const falseList = this.list.filter((element) => !element.selected);
-    this.list = [...trueList, ...falseList];
-  }
-
-  public select(item: ShoppingList) {
-    this.list = this.list.map((element) => {
-      if (element.text === item.text) {
-        element.selected = !item.selected;
-      }
-      return element;
-    });
-    if (item.selected) {
-      const index = this.list.indexOf(item);
-      this.list.splice(index, 1);
-      this.list = [item, ...this.list];
-    }
-    this.placeItemInOrder();
-    this.list$.next(this.list);
-  }
-
-  public saveCustomItems(userId: string, habitId: number) {
-    return this.http.post<Array<ShoppingList>>(`${mainLink}custom/shopping-list-items/${userId}/${habitId}/custom-shopping-list-items`, {
-      customShoppingListItemSaveRequestDtoList: this.customList
-    });
-  }
-
-  public getCustomItems(userId: string, habitId: number) {
-    this.http.get(`${mainLink}custom/shopping-list-items/${userId}/${habitId}`).subscribe((res: ShoppingList[]) => {
-      this.fillList(res);
-    });
+    return this.http.put(`${mainLink}habit/assign/${assignId}/allUserAndCustomList?lang=${habitShopList.lang}`, body);
   }
 }
