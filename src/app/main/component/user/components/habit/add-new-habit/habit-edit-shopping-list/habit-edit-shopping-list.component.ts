@@ -145,14 +145,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     }
   }
 
-  public checkIfTextContainsUrl(text: string): boolean {
-    return text.includes('http://') || text.includes('https://');
-  }
-
-  public getUrlFromText(text: string): string {
-    return text.split(' ').find((value) => value.startsWith('http://') || value.startsWith('https://'));
-  }
-
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
