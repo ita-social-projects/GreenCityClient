@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CustomTooltipDirective } from './custom-tooltip.directive';
@@ -43,12 +43,13 @@ describe('CustomTooltipDirective', () => {
     expect(directive).toBeTruthy();
   });
 
-  it('should hide tooltip on mouse enter if text width does not exceed container width', () => {
+  it('should hide tooltip on mouse enter if text width does not exceed container width', fakeAsync(() => {
     const eventMock = { target: { offsetWidth: 200, innerText: 'Some text' } };
     directiveElement.triggerEventHandler('mouseenter', eventMock);
+    flush();
     fixture.detectChanges();
     expect(component.tooltip.hide).toHaveBeenCalled();
-  });
+  }));
 
   it('should hide tooltip on mouse leave', () => {
     directiveElement.triggerEventHandler('mouseleave', null);
