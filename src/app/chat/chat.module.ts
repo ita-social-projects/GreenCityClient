@@ -17,7 +17,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../ubs/ubs/ubs-order.module';
-import { NO_ERRORS_SCHEMA } from '@angular/compiler/public_api';
 
 @NgModule({
   declarations: [
