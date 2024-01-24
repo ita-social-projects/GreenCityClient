@@ -7,7 +7,6 @@ import { Message } from '../../model/Message.model';
 import { FriendArrayModel, FriendModel } from '@global-user/models/friend.model';
 import { Messages } from './../../model/Message.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ChatPopupComponent } from '../../component/chat-popup/chat-popup.component';
 
 @Injectable({
   providedIn: 'root'
