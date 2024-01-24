@@ -304,11 +304,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private unselectCheckboxesInList(checkboxList: MatSelect): void {
-    checkboxList.options
-      ?.filter((option: MatOption) => option.selected)
-      .forEach((option: MatOption) => {
+    checkboxList.options.forEach((option) => {
+      if (option.selected) {
         option.deselect();
-      });
+      }
+    });
   }
 
   public resetAllFilters(): void {
