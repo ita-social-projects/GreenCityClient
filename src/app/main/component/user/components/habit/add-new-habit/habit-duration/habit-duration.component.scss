@@ -104,3 +104,29 @@ input[type='range'].form-control-range::-moz-range-thumb {
   background-color: #bbbebd;
   border-radius: 52px;
 }
+
+::ng-deep .mat-slider-thumb {
+  background-color: var(--primary-green) !important;
+}
+
+::ng-deep .mat-slider-thumb-label {
+  width: 58px !important;
+  height: 28px !important;
+  top: -45px !important;
+  right: -28px !important;
+  transform: none !important;
+  border-radius: 3px !important;
+  background: #fff !important;
+}
+
+::ng-deep .mat-slider-thumb-label-text {
+  transform: none !important;
+  font-family: var(--secondary-font) !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 16px !important;
+  text-align: center !important;
+  opacity: 1 !important;
+  color: black !important;
+}

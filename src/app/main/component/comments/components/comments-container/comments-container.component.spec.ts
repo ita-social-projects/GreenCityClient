@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -200,26 +200,29 @@ describe('CommentsContainerComponent', () => {
       expect(commentsServiceMock.getActiveCommentsByPage).not.toHaveBeenCalled();
     });
 
-    it('should set replies to empty if amount became 0', () => {
+    it('should set replies to empty if amount became 0', fakeAsync(() => {
       component.elementsList = [MOCK_COMMENTS_DTO];
       component.elementsArePresent = true;
+      component.comment.showAllRelies = true;
 
       component.dataType = 'reply';
       component.ngOnInit();
+      flush();
 
       expect(component.elementsList.length).toBe(0);
       expect(component.elementsArePresent).toBeFalsy();
-    });
+    }));
 
-    it('should set comments to empty if amount became 0', () => {
+    it('should set comments to empty if amount became 0', fakeAsync(() => {
       component.elementsList = [MOCK_COMMENTS_DTO];
       component.elementsArePresent = true;
 
       component.dataType = 'comment';
       component.ngOnInit();
+      flush();
 
       expect(component.elementsList.length).toBe(0);
       expect(component.elementsArePresent).toBeFalsy();
-    });
+    }));
   });
 });

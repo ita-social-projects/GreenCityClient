@@ -10,14 +10,10 @@ describe('ChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatComponent ],
+      declarations: [ChatComponent],
       imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [
-        ChatsService,
-        SocketService,
-      ],
-    })
-    .compileComponents();
+      providers: [ChatsService, SocketService]
+    }).compileComponents();
   });
 
   beforeEach(() => {

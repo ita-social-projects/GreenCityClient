@@ -1,16 +1,15 @@
 <div class="title">{{ 'user.habit.duration.title' | translate }}</div>
-<div class="thumbLabel">{{ habitDuration.value }} {{ 'user.habit.duration.day' | translate }}</div>
-<input
-  [formControl]="habitDuration"
+<mat-slider
   class="form-control-range"
-  type="range"
+  [(ngModel)]="newDuration"
+  (change)="updateDuration()"
+  (input)="updateInput($event)"
   min="7"
   max="56"
   step="1"
-  appGradient
-  (input)="updateDuration()"
   #range
-/>
+  thumbLabel
+></mat-slider>
 <div class="rangeLabel">
   <div class="text">{{ range.min }} {{ 'user.habit.duration.day' | translate }}</div>
   <div class="text">{{ range.max }} {{ 'user.habit.duration.day' | translate }}</div>
