@@ -142,7 +142,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   public cancelSearch(): void {
-    this.searchEventControl.value.trim() === '' ? this.searchToggle = false : this.searchEventControl.setValue('');
+    this.searchEventControl.value.trim() === '' ? (this.searchToggle = false) : this.searchEventControl.setValue('');
   }
 
   public showSelectedEvents(): void {
