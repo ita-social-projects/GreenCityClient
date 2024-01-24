@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChatPopupComponent } from './component/chat-popup/chat-popup.component';
 import { ChatsListComponent } from './component/chats-list/chats-list.component';
