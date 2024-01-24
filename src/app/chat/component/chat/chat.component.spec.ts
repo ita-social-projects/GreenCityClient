@@ -26,6 +26,7 @@ describe('ChatComponent', () => {
       ],
     })
     .compileComponents();
+
   });
 
   beforeEach(() => {
