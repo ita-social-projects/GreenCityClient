@@ -304,7 +304,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   }
 
   private unselectCheckboxesInList(checkboxList: MatSelect): void {
-    checkboxList.options.forEach((option) => {
+    checkboxList.options?.forEach((option) => {
       if (option.selected) {
         option.deselect();
       }
