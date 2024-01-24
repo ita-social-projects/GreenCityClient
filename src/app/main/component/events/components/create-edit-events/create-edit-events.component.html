@@ -144,6 +144,7 @@
                 (datesForm)="checkFormSetDates($event, i)"
                 (coordOffline)="setCoordsOffline($event, i)"
                 (applyCoordToAll)="applyCoordToAll($event)"
+                (applyLinkToAll)="applyLinkToAll($event)"
                 (linkOnline)="setOnlineLink($event, i)"
                 (status)="checkStatus($event, i)"
                 [index]="i"
@@ -157,6 +158,7 @@
                 [firstFormIsSucceed]="firstFormIsSucceed"
                 [locationForAllDays]="locationForAllDays"
                 [appliedForAllLocations]="appliedForAllLocations"
+                [appliedForAllLink]="appliedForAllLink"
                 [submitSelected]="submitSelected"
               >
               </app-event-date-time-picker>

@@ -83,7 +83,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private submitIsFalse = false;
   private destroy$: Subject<void> = new Subject<void>();
   public locationForAllDays: OfflineDto;
+  public linkForAllDays: string;
   public appliedForAllLocations: boolean;
+  public appliedForAllLink: boolean;
 
   public previousPath: string;
   public isImagesArrayEmpty: boolean;
@@ -353,12 +355,21 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public applyCoordToAll(coordinates: OfflineDto): void {
+    console.log(2);
     if (coordinates.latitude) {
       this.dates.forEach((date) => (date.coordinates = { ...coordinates }));
     }
     this.locationForAllDays = { ...coordinates };
     this.appliedForAllLocations = !!coordinates.latitude;
     this.updateAreAddressFilled(this.dates, true);
+  }
+
+  public applyLinkToAll(link: string): void {
+    // this.dates.forEach((date) => (date.onlineLink = link));
+    this.dates.forEach((_, i) => this.setOnlineLink(link, i));
+    this.appliedForAllLink = !!link;
+    this.linkForAllDays = link;
+    this.eventsService.setArePlacesFilled(this.dates);
   }
 
   public setOnlineLink(link: string, ind: number): void {

@@ -25,6 +25,8 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     latitude: DefaultCoordinates.LATITUDE,
     longitude: DefaultCoordinates.LONGITUDE
   };
+  public onlineLink = '';
+
   public zoom = 8;
   address: string;
 
@@ -40,6 +42,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public isLocationDisabled: boolean;
   public isFirstDay: boolean;
   public readyToApplyLocation: boolean;
+  public readyToApplyLink: boolean;
   private regionOptions = {
     types: ['address'],
     componentRestrictions: { country: 'UA' }
@@ -58,12 +61,14 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   @Input() fromPreview: boolean;
   @Input() previewData: DateEvent;
   @Input() submitSelected: boolean;
+  @Input() appliedForAllLink: boolean;
 
   @Output() status = new EventEmitter<boolean>();
   @Output() datesForm = new EventEmitter<DateFormObj>();
   @Output() coordOffline = new EventEmitter<OfflineDto>();
   @Output() linkOnline = new EventEmitter<string>();
   @Output() applyCoordToAll = new EventEmitter<OfflineDto>();
+  @Output() applyLinkToAll = new EventEmitter<string>();
 
   @ViewChild('placesRef') placesRef: ElementRef;
 
@@ -87,7 +92,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       startTime: new FormControl(initialStartTime, [Validators.required]),
       endTime: new FormControl('', [Validators.required]),
       coordinates: new FormControl(this.coordinates),
-      onlineLink: new FormControl('', [Validators.pattern(Patterns.linkPattern)])
+      onlineLink: new FormControl(this.onlineLink, [Validators.pattern(Patterns.linkPattern)])
     });
     const startTime = this.dateForm.get('startTime').value;
     const endTime = this.dateForm.get('endTime').value;
@@ -228,7 +233,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
   private handleOnlineLink(): void {
     this.checkOnlinePlace = true;
-    this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
+    this.dateForm.addControl('onlineLink', new FormControl(this.onlineLink, [Validators.pattern(Patterns.linkPattern)]));
     this.dateForm.patchValue({
       onlineLink: this.fromPreview ? this.previewData.onlineLink : this.editDate.onlineLink
     });
@@ -279,8 +284,22 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public toggleForAllLocations(): void {
     if (!this.appliedForAllLocations) {
       this.applyCoordToAll.emit(this.coordinates);
+      console.log(1);
     } else {
       this.applyCoordToAll.emit({ longitude: null, latitude: null });
+    }
+  }
+
+  public toggleForAllLinks(): void {
+    console.log(this.appliedForAllLink);
+    console.log(this.appliedForAllLocations);
+
+    const link = this.dateForm.get('onlineLink').value;
+    this.checkOnlinePlace = true;
+    if (!this.appliedForAllLink) {
+      this.applyLinkToAll.emit(link);
+    } else {
+      this.applyLinkToAll.emit('');
     }
   }
 
@@ -341,7 +360,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public checkIfOnline(): void {
     this.checkOnlinePlace = !this.checkOnlinePlace;
     if (this.checkOnlinePlace) {
-      this.dateForm.addControl('onlineLink', new FormControl('', [Validators.pattern(Patterns.linkPattern)]));
+      this.dateForm.addControl('onlineLink', new FormControl(this.onlineLink, [Validators.pattern(Patterns.linkPattern)]));
       this.dateForm.get('onlineLink').valueChanges.subscribe((newValue) => {
         this.linkOnline.emit(newValue);
       });
