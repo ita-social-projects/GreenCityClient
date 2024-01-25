@@ -393,6 +393,7 @@
       "added-address": "The address has been added",
       "update-notification": "Notification was updated",
       "rating-send": "Rating sent",
+      "add-friend": "Friend request sent",
       "joint-event-request": "The request to join the closed event has been successfully sent to the organizer"
     }
   },
@@ -1009,6 +1010,7 @@
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
+      "cancel-friend-request": " Cancel request",
       "no-city": "City is not selected",
       "open-chat": "Open chat",
       "create-chat": "Create chat",
@@ -1020,7 +1022,12 @@
       "search-friends": "Search",
       "find-friends": "Find a friend",
       "found-amount": "of people found",
-      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)"
+      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)",
+      "unfriend-popup": {
+        "title": "Are you sure you want to remove this user from your friends?",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      }
     }
   },
   "create-news": {

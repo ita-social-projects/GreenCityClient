@@ -8,6 +8,7 @@ import { FriendModel, FriendArrayModel } from '@global-user/models/friend.model'
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-friend-profile-page',

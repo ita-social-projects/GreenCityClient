@@ -1,6 +1,7 @@
 <div class="comment-textarea-wrapper">
   <div
     #commentTextarea
+    (drop)="$event.preventDefault()"
     appPlaceholderForDiv
     [placeholderText]="placeholder | translate"
     contenteditable="true"

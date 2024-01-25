@@ -399,6 +399,7 @@
       "added-address": "Адресу додано",
       "update-notification": "Повідомлення було оновлено",
       "rating-send": "Рейтинг надіслано",
+      "add-friend": "Запит на дружбу надіслано",
       "joint-event-request": "Запит на приєднання до закритої події надіслано"
     }
   },
@@ -1029,6 +1030,7 @@
       "all-mutual-friends": "Спільні друзі",
       "friends": "Друзі",
       "add-new-friend": "Додати",
+      "cancel-friend-request": "Скасувати запит",
       "no-city": "Місто не обране",
       "open-chat": "Відкрити чат",
       "create-chat": "Створити чат",
@@ -1040,7 +1042,12 @@
       "search-friends": "Пошук",
       "find-friends": "Знайти друга",
       "found-amount": "людей знайдено",
-      "no-mutual-friends": "Схоже, що у вас немає жодного спільного друга :-)"
+      "no-mutual-friends": "Схоже, що у вас немає жодного спільного друга :-)",
+      "unfriend-popup": {
+        "title": "Ви впевнені, що хочете видалити користувача з друзів?",
+        "confirm": "Підтвердити",
+        "cancel": "Скасувати"
+      }
     },
     "acquired-habits": "набуті звички",
     "written-articles": "мої статті",

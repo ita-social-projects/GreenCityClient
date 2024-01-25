@@ -30,13 +30,7 @@
     <mat-tab label="{{ 'user.habit.invite.all' | translate }}">
       <div class="friends-list">
         <div *ngFor="let friend of friendsList">
-          <app-friend-item
-            [friend]="friend"
-            (friendEventEmit)="addFriend($event)"
-            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-            class="friends-item"
-          >
-          </app-friend-item>
+          <app-friend-item [friend]="friend" class="friends-item"> </app-friend-item>
         </div>
         <app-spinner *ngIf="isFetching"></app-spinner>
       </div>
@@ -49,13 +43,7 @@
     <mat-tab label="{{ 'profile.friends.all-mutual-friends' | translate }}" [disabled]="userId === currentUserId">
       <div class="friends-list">
         <div *ngFor="let friend of mutualFriendsList">
-          <app-friend-item
-            [friend]="friend"
-            (friendEventEmit)="addFriend($event)"
-            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-            class="friends-item"
-          >
-          </app-friend-item>
+          <app-friend-item [friend]="friend" class="friends-item"> </app-friend-item>
         </div>
         <app-spinner *ngIf="isFetching"></app-spinner>
       </div>

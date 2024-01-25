@@ -3,12 +3,7 @@
     <div *ngIf="!searchMode || !isFetching" class="cards-list">
       <div class="cards-box">
         <div *ngFor="let item of recommendedFriends" class="user-card">
-          <app-friend-item
-            [friend]="item"
-            (friendEventEmit)="addFriend($event)"
-            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-          >
-          </app-friend-item>
+          <app-friend-item [friend]="item"> </app-friend-item>
         </div>
       </div>
     </div>
@@ -21,12 +16,7 @@
     <div *ngIf="!searchMode || !isFetching" class="cards-list">
       <div class="cards-box">
         <div *ngFor="let item of recommendedFriendsBySearch" class="user-card">
-          <app-friend-item
-            [friend]="item"
-            (friendEventEmit)="addFriend($event)"
-            primaryBtnName="{{ 'profile.friends.add-new-friend' | translate }}"
-          >
-          </app-friend-item>
+          <app-friend-item [friend]="item"> </app-friend-item>
         </div>
       </div>
     </div>

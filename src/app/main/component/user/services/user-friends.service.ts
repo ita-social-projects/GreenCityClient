@@ -77,6 +77,10 @@ export class UserFriendsService {
     return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}`, this.httpOptions);
   }
 
+  public unsendFriendRequest(idFriend: number): Observable<object> {
+    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/cancelRequest`, {});
+  }
+
   addedFriendsToHabit(friend) {
     this.addedFriends.push(friend);
   }
