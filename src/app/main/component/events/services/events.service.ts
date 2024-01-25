@@ -53,12 +53,6 @@ export class EventsService implements OnDestroy {
     this.arePlacesFilledSubject.next(newArray);
   }
 
-  public setLinksFilled(dates: DateEvent[]) {
-    let newArray;
-    newArray = dates.map((nextValue) => console.log(nextValue));
-    this.arePlacesFilledSubject.next(newArray);
-  }
-
   public getAddresses(): Observable<Addresses[]> {
     return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }

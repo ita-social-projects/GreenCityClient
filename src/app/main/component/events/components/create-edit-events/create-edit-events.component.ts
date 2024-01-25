@@ -144,13 +144,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.setDates(true);
       this.setEditValue();
       this.isLocationForAllDays();
+      this.isLinkForAllDays();
     } else if (submitFromPreview) {
       this.backFromPreview();
       this.isLocationForAllDays();
+      this.isLinkForAllDays();
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
       this.backFromPreview();
       this.isLocationForAllDays();
+      this.isLinkForAllDays();
     } else {
       this.dates = [{ ...DateObj }];
     }
@@ -208,6 +211,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
         this.appliedForAllLocations = true;
       }
       this.firstFormIsSucceed = false;
+    }
+  }
+
+  private isLinkForAllDays(): void {
+    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
+    if (this[previewOrEdit].dates?.length > 1) {
+      const link = this[previewOrEdit].dates[0].onlineLink;
+      const sameLink = this[previewOrEdit].dates.every((el) => {
+        return link === el.onlineLink;
+      });
+      if (sameLink) {
+        this.linkForAllDays = this[previewOrEdit].dates[0].onlineLink;
+        this.appliedForAllLink = true;
+      }
     }
   }
 
@@ -355,7 +372,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public applyCoordToAll(coordinates: OfflineDto): void {
-    console.log(2);
     if (coordinates.latitude) {
       this.dates.forEach((date) => (date.coordinates = { ...coordinates }));
     }
@@ -365,10 +381,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   }
 
   public applyLinkToAll(link: string): void {
-    // this.dates.forEach((date) => (date.onlineLink = link));
-    this.dates.forEach((_, i) => this.setOnlineLink(link, i));
-    this.appliedForAllLink = !!link;
+    this.dates.forEach((date) => (date.onlineLink = link));
     this.linkForAllDays = link;
+    this.appliedForAllLink = !!link;
     this.eventsService.setArePlacesFilled(this.dates);
   }
 

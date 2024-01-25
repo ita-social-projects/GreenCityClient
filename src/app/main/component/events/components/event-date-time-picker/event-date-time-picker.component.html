@@ -89,27 +89,8 @@
     <mat-label>{{ 'create-event.event-link' | translate }}</mat-label>
     <mat-form-field class="link-title" appearance="outline">
       <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
-
-      <!-- <input
-      matInput
-      #placesRef
-      matGoogleMapsAutocomplete
-      formControlName="place"
-      placeholder="{{ 'create-event.enter-location' | translate }}"
-    /> -->
-
       <input matInput formControlName="onlineLink" placeholder="{{ 'create-event.enter-link' | translate }}" />
     </mat-form-field>
-
-    <!-- <mat-checkbox
-    *ngIf="isLocationSelected && index === 0 && !firstFormIsSucceed"
-    class="apply-location-checkbox"
-    [checked]="appliedForAllLocations"
-    [disabled]="!readyToApplyLocation"
-    (change)="toggleForAllLocations()"
-  >
-    {{ 'create-event.apply-location' | translate }}
-  </mat-checkbox> -->
     <mat-checkbox
       *ngIf="index === 0 && !firstFormIsSucceed"
       class="apply-location-checkbox"
