@@ -9,7 +9,7 @@ import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -25,6 +25,9 @@ describe('CommentsListComponent', () => {
       };
     }
   };
+
+  const matDialogRefMock = jasmine.createSpyObj(['close', 'afterClosed']);
+  matDialogRefMock.afterClosed.and.returnValue(of(true));
 
   const commentData = {
     author: {
@@ -50,7 +53,8 @@ describe('CommentsListComponent', () => {
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: Renderer2, useValue: {} },
-        { provide: MatDialog, useValue: matDialogMock }
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialogRef, useValue: matDialogRefMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -102,6 +106,24 @@ describe('CommentsListComponent', () => {
   it('should cancel edit comment', () => {
     component.cancelEditedComment(commentData);
     expect(commentData.isEdit).toBeFalsy();
+  });
+
+  it('should cancel edited comment when user confirms', () => {
+    spyOn((component as any).dialog, 'open').and.returnValue({ afterClosed: () => of(true) });
+
+    component.cancelEditedComment(commentData);
+
+    expect((component as any).isEdit).toBeFalsy();
+  });
+
+  it('should not cancel edited comment when user cancels', () => {
+    (component as any).isEdit = true;
+    spyOn((component as any).dialog, 'open').and.returnValue({
+      afterClosed: () => of(false)
+    } as any);
+    component.cancelEditedComment(commentData);
+
+    expect((component as any).isEdit).toBeTruthy();
   });
 
   it('should change counter if user clicks like', () => {
