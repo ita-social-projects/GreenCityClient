@@ -1,4 +1,4 @@
-<div *ngIf="requests !== null; else spinner" class="friend-requests-container">
+<div *ngIf="requests !== null" class="friend-requests-container">
   <div class="requests-box">
     <div *ngIf="requests?.length === 0">
       <div class="noRequests-wraper">
@@ -12,19 +12,10 @@
     </div>
     <div *ngIf="requests?.length" class="request-list">
       <div *ngFor="let request of requests" class="user-card">
-        <app-friend-item
-          [friend]="request"
-          primaryBtnName="{{ 'profile.friends.request-accept' | translate }}"
-          secondaryBtnName="{{ 'profile.friends.request-decline' | translate }}"
-          isFriendRequest="true"
-          (friendEventEmit)="accept($event)"
-          (declineEvent)="decline($event)"
-        ></app-friend-item>
+        <app-friend-item [friend]="request"></app-friend-item>
       </div>
       <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
     </div>
   </div>
 </div>
-<ng-template #spinner>
-  <app-spinner></app-spinner>
-</ng-template>
+<app-spinner *ngif="scroll"></app-spinner>

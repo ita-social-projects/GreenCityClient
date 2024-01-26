@@ -149,6 +149,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     return this.dateForm.get('endTime');
   }
 
+  get date() {
+    return this.dateForm.get('date');
+  }
+
   private initialStartTime(editMode?: boolean): InitialStartDate {
     let initialDate;
     let initialStartTime = '';

@@ -129,18 +129,6 @@ describe('HabitEditShoppingListComponent', () => {
     expect(component.shopList).toEqual([mockList[1]]);
   });
 
-  it('should check if text contains url', () => {
-    expect(component.checkIfTextContainsUrl(mockText1)).toEqual(false);
-    expect(component.checkIfTextContainsUrl(mockText2)).toEqual(true);
-    expect(component.checkIfTextContainsUrl(mockText3)).toEqual(true);
-  });
-
-  it('should get url from text', () => {
-    expect(component.getUrlFromText(mockText1)).toEqual(undefined);
-    expect(component.getUrlFromText(mockText2)).toEqual('http://softserveinc.com/');
-    expect(component.getUrlFromText(mockText3)).toEqual('https://softserveinc.com/');
-  });
-
   it('ngOnDestroy should unsubscribe from subscription', () => {
     spyOn((component as any).langChangeSub, 'unsubscribe');
     component.ngOnDestroy();

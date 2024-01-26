@@ -80,7 +80,8 @@
               class="custom-chip global-tag type"
               [ngClass]="{ 'global-tag-clicked': isOpen }"
               tabindex="0"
-              (click)="changeEventType()"
+              (click)="changeEventType($event)"
+              (keypress)="changeEventType($event)"
             >
               <span class="text">{{ 'create-event.open' | translate }}</span>
               <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
@@ -90,7 +91,8 @@
               class="custom-chip global-tag type second-type"
               [ngClass]="{ 'global-tag-clicked': !isOpen }"
               tabindex="0"
-              (click)="changeEventType()"
+              (click)="changeEventType($event)"
+              (keypress)="changeEventType($event)"
             >
               <span class="text">{{ 'create-event.close' | translate }}</span>
               <div [ngClass]="{ 'global-tag-close-icon': !isOpen }"></div>

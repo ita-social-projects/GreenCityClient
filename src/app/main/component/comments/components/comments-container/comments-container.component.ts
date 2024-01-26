@@ -24,7 +24,7 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
   public isLoggedIn: boolean;
   public userId: number;
   public totalElements = 0;
-  public elementsArePresent = false;
+  public elementsArePresent = true;
   public userReplies: CommentsDTO[] = [];
   public showAllReplies: boolean;
 
@@ -99,15 +99,17 @@ export class CommentsContainerComponent implements OnInit, DoCheck {
       .pipe(take(1))
       .subscribe((data: number) => {
         this.repliesCounter.emit(data);
-        if (data && this.comment.showAllRelies) {
-          this.commentsService
-            .getActiveRepliesByPage(this.comment.id, this.config.currentPage - 1, this.config.itemsPerPage)
-            .subscribe((list: CommentsModel) => {
-              this.elementsList = list.page;
-              this.setData(list);
-            });
-        } else {
-          this.setNoData();
+        if (this.comment.showAllRelies) {
+          if (data) {
+            this.commentsService
+              .getActiveRepliesByPage(this.comment.id, this.config.currentPage - 1, this.config.itemsPerPage)
+              .subscribe((list: CommentsModel) => {
+                this.elementsList = list.page;
+                this.setData(list);
+              });
+          } else {
+            this.setNoData();
+          }
         }
       });
   }

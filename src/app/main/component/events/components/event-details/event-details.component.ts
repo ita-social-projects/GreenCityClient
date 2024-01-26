@@ -109,7 +109,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
-  public isOrganizedByFriend: boolean;
   private userNameSub: Subscription;
   private isOwner: boolean;
 
@@ -155,7 +154,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.ecoEvents$.subscribe((result: IEcoEventsState) => {
           this.addAttenderError = result.error;
         });
-        this.isOrganizedByFriend = res.isOrganizedByFriend;
       });
 
       this.localStorageService.setEditMode('canUserEdit', true);
