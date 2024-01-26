@@ -11,6 +11,7 @@ export class InputErrorComponent implements OnInit {
   @Input() public formElement: FormControl;
   @Input() public isEvent: boolean;
   @Input() public date: boolean;
+  @Input() public numberDate: boolean;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -26,7 +27,9 @@ export class InputErrorComponent implements OnInit {
     maxlengthEventName: 'create-event.max-length-title',
     requiredEventName: 'create-event.title-required',
     requiredEventDate: 'create-event.date-required',
-    negativeNumberValue: 'ubs-tariffs-add-service.negative_number_value'
+    negativeNumberValue: 'ubs-tariffs-add-service.negative_number_value',
+    datepickerNotCorrect: 'create-event.datepicker-not-correct',
+    datepickerAndEventDateNotCorrect: 'create-event.datepicker-not-correct-date-required'
   };
 
   ngOnInit(): void {
@@ -52,12 +55,19 @@ export class InputErrorComponent implements OnInit {
           default:
             if (this.isEvent) {
               this.errorMessage = this.getRequiredErrorMessage();
+              if (this.numberDate) {
+                this.errorMessage = this.validationErrors.datepickerAndEventDateNotCorrect;
+              }
               break;
             }
             this.errorMessage = this.validationErrors[err];
         }
       }
     });
+
+    if (this.numberDate && !this.date) {
+      this.errorMessage = this.validationErrors.datepickerNotCorrect;
+    }
   }
 
   private getRequiredErrorMessage(): string {

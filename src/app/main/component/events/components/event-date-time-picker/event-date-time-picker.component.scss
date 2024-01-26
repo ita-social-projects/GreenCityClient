@@ -67,7 +67,7 @@
 
 .date-error {
   color: var(--error-red);
-  margin: -18px 0 30px 77px;
+  margin: -18px 0 40px 77px;
 }
 
 .all-day {
@@ -246,6 +246,11 @@
     left: -80px;
   }
 
+  .all-day {
+    margin-top: 25px;
+    top: -5px;
+  }
+
   .time-item {
     min-width: 117px;
     margin-right: 5px;
@@ -258,7 +263,7 @@
 
   .date-error {
     position: relative;
-    top: -58px;
+    top: -78px;
     margin: 0;
   }
 }
