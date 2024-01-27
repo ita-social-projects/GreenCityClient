@@ -50,7 +50,7 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
   private getAllFriends(id: number, page?: number): void {
     this.isFetching = true;
     this.userFriendsService
-      .getUserFriends(id)
+      .getUserFriends(id, page)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.numberAllFriends = data.totalElements;
@@ -91,18 +91,6 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     const url = this.router.createUrlTree([], { relativeTo: this.route, queryParams: { tab: tabName } }).toString();
     this.location.replaceState(url);
     this.isActiveInfinityScroll = tabChangeEvent.index === 3 || tabChangeEvent.index === 4;
-  }
-
-  public addFriend(id: number): void {
-    this.userFriendsService
-      .addFriend(id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        () => {
-          this.friendsList = this.friendsList.filter((user) => user.id !== id);
-        },
-        (err) => console.error(err.message)
-      );
   }
 
   ngOnDestroy(): void {

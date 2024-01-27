@@ -90,12 +90,6 @@ describe('RecommendedFriendsComponent', () => {
     expect(getRecommendedFriendSpy).toHaveBeenCalled();
   });
 
-  it('should call deleteFriendsFromList method on addFriend', () => {
-    const spy = spyOn(component as any, 'deleteFriendsFromList');
-    component.addFriend(4);
-    expect(spy).toHaveBeenCalled();
-  });
-
   it('should set userId on initUser', () => {
     (component as any).initUser();
     expect(component.userId).toBe(1111);

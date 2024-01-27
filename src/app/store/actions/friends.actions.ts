@@ -14,7 +14,8 @@ export enum FriendsListActions {
   GetAllFriendsSuccess = '[Friends] Get list of all friends Success',
   GetAllFriendsRequestsSuccess = '[Friends] Get list of all friends requests Success',
 
-  ReceivedFailure = '[Friends] Received Failure'
+  ReceivedFailure = '[Friends] Received Failure',
+  ResetFriends = '[Friends] Reset friends list'
 }
 
 export const DeleteFriend = createAction(FriendsListActions.DeleteFriend, props<{ id: number }>());
@@ -36,3 +37,4 @@ export const GetAllFriendsRequestsSuccess = createAction(
 );
 
 export const ReceivedFailureAction = createAction(FriendsListActions.ReceivedFailure, props<{ error: string | null }>());
+export const ResetFriends = createAction(FriendsListActions.ResetFriends);

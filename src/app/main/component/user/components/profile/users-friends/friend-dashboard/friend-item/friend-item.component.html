@@ -1,12 +1,22 @@
 <div class="friend-item-wrapper" (click)="clickHandler($event)">
   <div class="friend-item-left">
-    <app-user-profile-image
-      [imgPath]="friend.profilePicturePath"
-      [firstName]="friend.name"
-      class="friend-img"
-      [additionalImgClass]="'friend-item'"
-    >
-    </app-user-profile-image>
+    <div class="photo-column">
+      <app-user-profile-image
+        [imgPath]="friend.profilePicturePath"
+        [firstName]="friend.name"
+        class="friend-img"
+        [additionalImgClass]="'friend-item'"
+      >
+      </app-user-profile-image>
+      <button
+        *ngIf="friend.id !== currentUserId"
+        [id]="friend.chatId ? 'openChatButton' : 'createChatButton'"
+        class="chat-btn"
+        [ngbPopover]="(friend.chatId ? 'profile.friends.open-chat' : 'profile.friends.create-chat') | translate"
+        triggers="mouseenter:mouseleave"
+      ></button>
+    </div>
+
     <div class="friend-info">
       <div class="main-info friend-with-photo">
         <p
@@ -44,22 +54,21 @@
   </div>
   <div class="buttons">
     <div class="friend-btn">
-      <button id="addButton" class="secondary-global-button m-btn" (click)="friendEvent()">
-        {{ primaryBtnName }}
+      <button id="addFriend" *ngIf="isAbleToAdd()" class="secondary-global-button m-btn">
+        {{ 'profile.friends.add-new-friend' | translate }}
+      </button>
+      <button id="cancelRequest" *ngIf="isCurrentUserRequested()" class="secondary-global-button m-btn">
+        {{ 'profile.friends.cancel-friend-request' | translate }}
+      </button>
+      <button id="deleteFriend" *ngIf="friend.friendStatus === 'FRIEND'" class="secondary-global-button m-btn">
+        {{ 'profile.friends.delete-friend' | translate }}
+      </button>
+      <button id="declineRequest" *ngIf="isFriendRequest()" class="secondary-global-button m-btn">
+        {{ 'profile.friends.request-decline' | translate }}
+      </button>
+      <button id="acceptRequest" *ngIf="isFriendRequest()" class="secondary-global-button m-btn">
+        {{ 'profile.friends.request-accept' | translate }}
       </button>
     </div>
-    <div *ngIf="!isFriendRequest; else isRequest" class="friend-btn">
-      <button *ngIf="friend.chatId" id="openChatButton" class="secondary-global-button m-btn">
-        {{ 'profile.friends.open-chat' | translate }}
-      </button>
-      <button *ngIf="!friend.chatId" id="createChatButton" class="secondary-global-button m-btn">
-        {{ 'profile.friends.create-chat' | translate }}
-      </button>
-    </div>
-    <ng-template class="friend-btn" #isRequest>
-      <button class="secondary-global-button m-btn" (click)="declineFriend()">
-        {{ secondaryBtnName }}
-      </button>
-    </ng-template>
   </div>
 </div>

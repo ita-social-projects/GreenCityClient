@@ -314,8 +314,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
-  public changeEventType(): void {
-    this.isOpen = !this.isOpen;
+  public changeEventType(event: KeyboardEvent | MouseEvent): void {
+    if (event.type === 'click' || (event instanceof KeyboardEvent && event.key === 'Enter')) {
+      this.isOpen = !this.isOpen;
+    }
   }
 
   public setDateCount(length: number): void {

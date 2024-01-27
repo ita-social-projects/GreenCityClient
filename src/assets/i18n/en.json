@@ -393,6 +393,7 @@
       "added-address": "The address has been added",
       "update-notification": "Notification was updated",
       "rating-send": "Rating sent",
+      "add-friend": "Friend request sent",
       "joint-event-request": "The request to join the closed event has been successfully sent to the organizer"
     }
   },
@@ -546,9 +547,9 @@
       "you-can-upload-max-photos-event": "You  can  upload max 5 photos",
       "photos": "photos",
       "your-photos-successfully-upload": "Your photos successfully upload",
-      "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10MB",
-      "error-img-type": "Incorrect image type. Use file format JPG or PNG",
-      "error-img-size": "Incorrect image size. Image cannot be bigger than 10MB"
+      "error-img-type-and-size": "Incorrect image type and size. Use files in JPG or PNG format instead and not bigger than 10 MB",
+      "error-img-type": "Incorrect image type. Use files in JPG or PNG format instead",
+      "error-img-size": "Incorrect image size. Maximum allowed size is 10 MB"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
@@ -1009,6 +1010,7 @@
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
+      "cancel-friend-request": " Cancel request",
       "no-city": "City is not selected",
       "open-chat": "Open chat",
       "create-chat": "Create chat",
@@ -1020,7 +1022,12 @@
       "search-friends": "Search",
       "find-friends": "Find a friend",
       "found-amount": "of people found",
-      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)"
+      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)",
+      "unfriend-popup": {
+        "title": "Are you sure you want to remove this user from your friends?",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      }
     }
   },
   "create-news": {
@@ -1148,7 +1155,9 @@
     "duplicate-event-date": "You can't enter the same date for two days",
     "max-length-title": "This field shouldn’t contain more than 70 symbols",
     "title-required": "This field can't be empty and should contain up to 70 symbols",
-    "date-required": "This field can’t be empty",
+    "date-required": "End time field can’t be empty",
+    "datepicker-not-correct": "Enter correct date",
+    "datepicker-not-correct-date-required": "Enter correct date. End time field can’t be empty.",
     "location-required": "Specify the search request or choose the location manually using the map below",
     "day": "day",
     "all-day": "All day",

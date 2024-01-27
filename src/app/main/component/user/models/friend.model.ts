@@ -10,7 +10,7 @@ export interface FriendModel {
   userLocationDto?: UserLocationDto | null;
   mutualFriends?: number;
   friendStatus: 'FRIEND' | 'REQUEST' | 'REJECTED' | null;
-  requesterId: number;
+  requesterId: number | null;
   chatId?: number;
 }
 

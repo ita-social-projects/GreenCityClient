@@ -6,7 +6,7 @@
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
-  padding: 24px;
+  padding: 24px 24px 10px 24px;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(202, 207, 211, 0.7);
   cursor: pointer;
@@ -81,6 +81,13 @@
   display: flex;
 }
 
+.photo-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
 .friend-city,
 .friend-mutual {
   font-style: normal;
@@ -139,23 +146,30 @@
 .buttons {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 114px;
+  justify-content: end;
+  gap: 20px;
 }
 
 .friend-btn {
-  margin-bottom: 20px;
-
   button {
     line-height: 16px;
-    white-space: nowrap;
     width: 100%;
+    margin-bottom: 20px;
   }
 }
 
 .friend-with-photo {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.chat-btn {
+  width: 45px;
+  height: 40px;
+  border: none;
+  background: url('src/assets/img/chat/open-chat.png');
+  background-size: 100% 100%;
 }
 
 ::ng-deep .mat-tooltip {

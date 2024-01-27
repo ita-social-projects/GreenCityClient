@@ -59,17 +59,6 @@ describe('FriendProfileDashboardComponent', () => {
     expect(spy2).toHaveBeenCalled();
   });
 
-  it('method onScroll should call getAllFriends', () => {
-    component.numberAllFriends = 24;
-    component.selectedIndex = 3;
-    (component as any).userId = 1;
-    const spy = spyOn(component as any, 'getAllFriends').and.callFake(() => {});
-    component.onScroll();
-    expect(spy).toHaveBeenCalled();
-    fixture.detectChanges();
-    expect(userFriendsServiceMock.getUserFriends).toHaveBeenCalledWith(1);
-  });
-
   it('should load more friends when scrolling on friends tab', () => {
     (component as any).scroll = false;
     (component as any).userId = 1;
@@ -94,13 +83,6 @@ describe('FriendProfileDashboardComponent', () => {
     expect((component as any).scroll).toBe(true);
     expect((component as any).currentMutualPage).toBe(1);
     expect(getMutualFriendsSpy).toHaveBeenCalledWith((component as any).currentMutualPage);
-  });
-
-  it('method addFriend should userFriendsService.addFriend', () => {
-    component.friendsList = FRIENDS.page;
-    component.addFriend(1);
-    expect(userFriendsServiceMock.addFriend).toHaveBeenCalled();
-    expect(userFriendsServiceMock.addFriend).toHaveBeenCalledWith(1);
   });
 
   it('should unsubscribe on destroy', () => {

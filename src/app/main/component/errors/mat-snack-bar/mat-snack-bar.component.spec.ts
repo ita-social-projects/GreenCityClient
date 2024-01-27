@@ -255,5 +255,23 @@ describe('MatSnackBarComponent', () => {
       component.snackType[`tooLongInput`]();
       expect(spy).toHaveBeenCalled();
     });
+
+    it('should call the function  ratedEvent to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'ratedEvent').and.callThrough();
+      component.snackType[`ratedEvent`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  addFriend to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'addFriend').and.callThrough();
+      component.snackType[`addFriend`]();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call the function  jointEventRequest to get type of snackBar', () => {
+      const spy = spyOn(component.snackType, 'jointEventRequest').and.callThrough();
+      component.snackType[`jointEventRequest`]();
+      expect(spy).toHaveBeenCalled();
+    });
   });
 });

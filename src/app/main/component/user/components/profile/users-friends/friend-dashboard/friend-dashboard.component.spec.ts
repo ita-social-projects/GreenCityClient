@@ -8,6 +8,8 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { FriendDashboardComponent } from './friend-dashboard.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
+import { Store } from '@ngrx/store';
+import { GetAllFriends, GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';
 
 @Injectable()
 class TranslationServiceStub {
@@ -55,6 +57,9 @@ describe('FriendDashboardComponent', () => {
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
   userFriendsServiceMock.getRequests = () => of(FRIENDS);
 
+  const storeMock: Store = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+  storeMock.select = () => of();
+
   componentRefMock = {
     findUserByName: jasmine.createSpy('findUserByName'),
     findFriendByName: jasmine.createSpy('findFriendByName')
@@ -67,7 +72,8 @@ describe('FriendDashboardComponent', () => {
       providers: [
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: UserFriendsService, useValue: userFriendsServiceMock },
-        { provide: TranslateService, useClass: TranslationServiceStub }
+        { provide: TranslateService, useClass: TranslationServiceStub },
+        { provide: Store, useValue: storeMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -91,8 +97,7 @@ describe('FriendDashboardComponent', () => {
     const spyLang = spyOn(component as any, 'bindLang');
     const spyQuery = spyOn(component, 'preventFrequentQuery');
     const spyInptu = spyOn(component, 'hideInputField');
-    const spyAllFriends = spyOn(component as any, 'getAllFriends');
-    const spyFriendReq = spyOn(component as any, 'getFriendsRequests');
+    const spyAllFriends = spyOn(component as any, 'getFriends');
     component.ngOnInit();
     expect(spyUser).toHaveBeenCalled();
     expect(spySub).toHaveBeenCalled();
@@ -100,21 +105,10 @@ describe('FriendDashboardComponent', () => {
     expect(spyQuery).toHaveBeenCalled();
     expect(spyInptu).toHaveBeenCalled();
     expect(spyAllFriends).toHaveBeenCalled();
-    expect(spyFriendReq).toHaveBeenCalled();
   });
 
   it('should get userId', () => {
     expect(localStorageServiceMock.userIdBehaviourSubject.value).toBe(1111);
-  });
-
-  it('should set allFriendsAmount on getAllFriends', () => {
-    (component as any).getAllFriends(1111);
-    expect(component.allFriendsAmount).toBe(2);
-  });
-
-  it('should set requestFriendsAmount on getFriendsRequests', () => {
-    (component as any).getFriendsRequests(1111);
-    expect(component.requestFriendsAmount).toBe(2);
   });
 
   it('should emit the input value through searchTerm$', () => {
@@ -130,5 +124,13 @@ describe('FriendDashboardComponent', () => {
     const outlet = componentRefMock;
     component.onActivate(outlet);
     expect((component as any).componentRef).toEqual(outlet);
+  });
+
+  it('should dispatch GetAllFriends and GetAllFriendsRequests actions when userId is truthy', () => {
+    component.userId = 3;
+    (component as any).getFriends();
+
+    expect((component as any).store.dispatch).toHaveBeenCalledWith(GetAllFriends({ page: 0, size: (component as any).size }));
+    expect((component as any).store.dispatch).toHaveBeenCalledWith(GetAllFriendsRequests({ page: 0, size: (component as any).size }));
   });
 });

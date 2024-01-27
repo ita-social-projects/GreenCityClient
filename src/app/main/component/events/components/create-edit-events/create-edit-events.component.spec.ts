@@ -322,15 +322,24 @@ describe('CreateEditEventsComponent', () => {
   });
 
   it('changeEventType expect isOpen to be true', () => {
+    const mouseEvent = { type: 'click' } as MouseEvent;
     component.isOpen = false;
-    component.changeEventType();
+    component.changeEventType(mouseEvent);
     expect(component.isOpen).toBeTruthy();
   });
 
   it('changeEventType expect isOpen to be false', () => {
+    const keyboardEnterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     component.isOpen = true;
-    component.changeEventType();
+    component.changeEventType(keyboardEnterEvent);
     expect(component.isOpen).toBeFalsy();
+  });
+
+  it('changeEventType should not change isOpen value', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', { key: 'P' });
+    component.isOpen = true;
+    component.changeEventType(keyboardEvent);
+    expect(component.isOpen).toBeTruthy();
   });
 
   describe('setOnlineLink', () => {

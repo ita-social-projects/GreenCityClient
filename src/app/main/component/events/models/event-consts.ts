@@ -7,7 +7,7 @@ export enum TimeBack {
 
 export enum TimeFront {
   START = '0:00',
-  END = '00:00',
+  END = '23:59',
   DIVIDER = ':',
   MINUTES = '00'
 }
