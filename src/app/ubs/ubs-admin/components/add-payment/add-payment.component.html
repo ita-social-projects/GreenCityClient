@@ -7,7 +7,7 @@
       <h3 *ngIf="!viewMode" class="title label" id="addDocument">{{ 'add-payment.title' | translate }}</h3>
       <h3 *ngIf="viewMode" class="title label" id="addDocument">{{ 'add-payment.title-2' | translate }}</h3>
       <div class="row justify-content-end edit-payment">
-        <button *ngIf="viewMode" class="edit-payment-btn" [disabled]="editMode" (click)="editPayment()">
+        <button *ngIf="viewMode && isCanPaymentEdit" class="edit-payment-btn" [disabled]="editMode" (click)="editPayment()">
           <mat-icon class="mat-icon">edit</mat-icon>
           {{ 'add-payment.edit' | translate }}
         </button>
@@ -118,7 +118,7 @@
         </div>
       </mat-radio-group>
       <div class="btn-container block">
-        <button *ngIf="viewMode && !editMode" class="delete-payment" [disabled]="isDeleting" (click)="deletePayment()">
+        <button *ngIf="viewMode && !editMode && isCanPaymentEdit" class="delete-payment" [disabled]="isDeleting" (click)="deletePayment()">
           <img *ngIf="!isDeleting" src="assets/img/icon/bin.svg" alt="delete-icon" class="delete-icon" />
           <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
           {{ 'add-payment.btn.delete' | translate }}

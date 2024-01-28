@@ -355,6 +355,7 @@
   },
   "order-payment": {
     "title": "Order payment",
+    "payment-link": "Order payment",
     "order-size": "The order is paid in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",

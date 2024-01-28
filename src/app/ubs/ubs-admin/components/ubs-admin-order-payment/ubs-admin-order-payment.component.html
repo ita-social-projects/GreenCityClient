@@ -13,7 +13,7 @@
         <span class="price">{{ totalPaid | currency | localizedCurrency }}</span>
       </div>
       <div>
-        <button *ngIf="isEmployeeCanEditOrder" class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
+        <button *ngIf="isOrderCanBePaid" class="btn button-payment-operations btn-add-payment" (click)="openPopup(false)">
           <span class="plus">+</span>{{ 'order-payment.add-payment-btn' | translate }}
         </button>
       </div>
@@ -41,7 +41,14 @@
             <td *ngIf="payment.paymentId" class="paymentId" (click)="openPopup(true, i)">№{{ payment.paymentId }}</td>
             <td *ngIf="!payment.paymentId"></td>
             <td>{{ payment.amount | currency | localizedCurrency }}</td>
-            <td *ngIf="payment.receiptLink">{{ 'user-orders.enroll-bonuses' | translate }}</td>
+            <td *ngIf="payment.receiptLink">
+              <div *ngIf="payment.receiptLink === returnToBonusAccount; else paymentLink">
+                {{ 'user-orders.enroll-bonuses' | translate }}
+              </div>
+              <ng-template #paymentLink>
+                <div (click)="openPopup(true, i)">{{ 'order-payment.title' | translate }}</div>
+              </ng-template>
+            </td>
           </tr>
         </tbody>
       </table>
