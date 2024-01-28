@@ -12,7 +12,7 @@ import { MessageFromDayPipe } from './pipe/message-from-day/message-from-day.pip
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -49,6 +49,6 @@ import { createTranslateLoader } from '../ubs/ubs/ubs-order.module';
     })
   ],
   exports: [ChatPopupComponent],
-  providers: []
+  providers: [MatDialog]
 })
 export class ChatModule {}

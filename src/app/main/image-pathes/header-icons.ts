@@ -4,7 +4,8 @@ export const headerIcons = {
   notification: 'assets/img/icon/notifications-default.svg',
   search: 'assets/img/search.svg',
   arrowDown: 'assets/img/arrow_down.svg',
-  arrowDownGreen: 'assets/img/arrow_down-green.svg'
+  arrowDownGreen: 'assets/img/arrow_down-green.svg',
+  chat: 'assets/img/icon/chats.svg'
 };
 
 export const ubsHeaderIcons = {

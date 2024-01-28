@@ -127,6 +127,17 @@
             >
               <img [src]="headerImageList.search" alt="Internal search button" aria-hidden="true" />
             </li>
+            <!-- Chat icon -->
+            <li
+              *ngIf="!isAllSearchOpen && !isUBS"
+              aria-label="site search"
+              class="chat-icon"
+              role="chat"
+              tabindex="0"
+              (click)="openChatPopUp()"
+            >
+              <img [src]="headerImageList.chat" alt="Internal search button" aria-hidden="true" />
+            </li>
             <!-- Lang switcher -->
             <ul
               appCloseDropdown
