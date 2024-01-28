@@ -18,8 +18,7 @@ import { TaggedUser } from '../../models/comments-model';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatOption } from '@angular/material/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject, Subscription, fromEvent } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, filter, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
@@ -43,10 +42,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
     left: number;
   };
   public isTextareaFocused: boolean;
-  private localStorageServiceSubscription: Subscription;
-  private socketServiceSubscription: Subscription;
-  private counterRequest = 0;
-  private counterResponse = 0;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('commentTextarea') commentTextarea: ElementRef;
@@ -58,23 +53,15 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   @Input() commentHtml: string;
   @Input() placeholder: string;
 
-  constructor(
-    private SocketService: SocketService,
-    private localStorageService: LocalStorageService,
-    public elementRef: ElementRef,
-    private router: Router
-  ) {}
+  constructor(private SocketService: SocketService, private localStorageService: LocalStorageService, public elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.localStorageServiceSubscription = this.localStorageService.userIdBehaviourSubject
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((id) => (this.userId = id));
-    this.socketServiceSubscription = this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`)
+    this.localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((id) => (this.userId = id));
+    this.SocketService.onMessage(`/topic/${this.userId}/searchUsers`)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: TaggedUser[]) => {
-        this.counterResponse++;
-        if (data.length && this.counterRequest === this.counterResponse) {
-          this.suggestedUsers = data.splice(0, 10);
+        if (data.length) {
+          this.suggestedUsers = data.filter((el) => el.userName.toLowerCase().includes(this.searchQuery.toLowerCase()));
         } else {
           this.suggestedUsers = [];
           this.isDropdownVisible = false;
@@ -239,7 +226,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
 
   sendSocketMessage(query: string): void {
     this.SocketService.send('/app/getUsersToTagInComment', { currentUserId: this.userId, searchQuery: query });
-    this.counterRequest++;
   }
 
   setFocusCommentTextarea(): void {

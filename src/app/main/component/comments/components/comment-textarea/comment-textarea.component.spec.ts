@@ -229,10 +229,11 @@ describe('CommentTextareaComponent', () => {
   });
 
   it('should unsubscribe from the subscription on ngOnDestroy', () => {
-    spyOn((component as any).localStorageServiceSubscription, 'unsubscribe');
-    spyOn((component as any).socketServiceSubscription, 'unsubscribe');
-    fixture.destroy();
-    expect((component as any).socketServiceSubscription.unsubscribe).toHaveBeenCalled();
-    expect((component as any).localStorageServiceSubscription.unsubscribe).toHaveBeenCalled();
+    const destroy$ = 'destroy$';
+    const nextSpy = spyOn(component[destroy$], 'next');
+    const completeSpy = spyOn(component[destroy$], 'complete');
+    component.ngOnDestroy();
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
   });
 });
