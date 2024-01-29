@@ -91,5 +91,13 @@
       <mat-label class="link-title">{{ 'create-event.event-online-link' | translate }}</mat-label>
       <input matInput formControlName="onlineLink" placeholder="{{ 'create-event.enter-link' | translate }}" />
     </mat-form-field>
+    <mat-checkbox
+      *ngIf="index === 0 && !firstFormIsSucceed"
+      class="apply-location-checkbox"
+      [checked]="appliedForAllLink"
+      (change)="toggleForAllLinks()"
+    >
+      {{ 'create-event.apply-location' | translate }}
+    </mat-checkbox>
   </div>
 </div>

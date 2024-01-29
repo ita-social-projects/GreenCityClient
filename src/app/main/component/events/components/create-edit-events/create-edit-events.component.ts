@@ -83,7 +83,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   private submitIsFalse = false;
   private destroy$: Subject<void> = new Subject<void>();
   public locationForAllDays: OfflineDto;
+  public linkForAllDays: string;
   public appliedForAllLocations: boolean;
+  public appliedForAllLink: boolean;
 
   public previousPath: string;
   public isImagesArrayEmpty: boolean;
@@ -142,13 +144,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       this.setDates(true);
       this.setEditValue();
       this.isLocationForAllDays();
+      this.isLinkForAllDays();
     } else if (submitFromPreview) {
       this.backFromPreview();
       this.isLocationForAllDays();
+      this.isLinkForAllDays();
       setTimeout(() => this.onSubmit());
     } else if (this.fromPreview) {
       this.backFromPreview();
       this.isLocationForAllDays();
+      this.isLinkForAllDays();
     } else {
       this.dates = [{ ...DateObj }];
     }
@@ -206,6 +211,20 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
         this.appliedForAllLocations = true;
       }
       this.firstFormIsSucceed = false;
+    }
+  }
+
+  private isLinkForAllDays(): void {
+    const previewOrEdit = this.fromPreview ? 'previewDates' : 'editEvent';
+    if (this[previewOrEdit].dates?.length > 1) {
+      const link = this[previewOrEdit].dates[0].onlineLink;
+      const sameLink = this[previewOrEdit].dates.every((el) => {
+        return link === el.onlineLink;
+      });
+      if (sameLink) {
+        this.linkForAllDays = this[previewOrEdit].dates[0].onlineLink;
+        this.appliedForAllLink = true;
+      }
     }
   }
 
@@ -361,6 +380,13 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.locationForAllDays = { ...coordinates };
     this.appliedForAllLocations = !!coordinates.latitude;
     this.updateAreAddressFilled(this.dates, true);
+  }
+
+  public applyLinkToAll(link: string): void {
+    this.dates.forEach((date) => (date.onlineLink = link));
+    this.linkForAllDays = link;
+    this.appliedForAllLink = !!link;
+    this.eventsService.setArePlacesFilled(this.dates);
   }
 
   public setOnlineLink(link: string, ind: number): void {
