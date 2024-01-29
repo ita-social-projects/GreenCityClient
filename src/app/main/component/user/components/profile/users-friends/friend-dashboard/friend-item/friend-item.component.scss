@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  max-width: 603px;
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
@@ -79,6 +80,7 @@
 
 .friend-item-left {
   display: flex;
+  max-width: 60%;
 }
 
 .photo-column {
@@ -132,6 +134,11 @@
   justify-content: flex-start;
   flex: 3;
   margin-left: 5px;
+
+  @media (max-width: 450px) {
+    max-width: 160px;
+    overflow: hidden;
+  }
 
   @media (max-width: 360px) {
     max-width: 100px;
