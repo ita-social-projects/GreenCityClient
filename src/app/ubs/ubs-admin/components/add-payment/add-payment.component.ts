@@ -22,6 +22,7 @@ interface InputData {
   orderId: number;
   viewMode: boolean;
   payment: IPaymentInfoDto | null;
+  isCanPaymentEdit?: boolean;
 }
 
 interface PostData {
@@ -76,6 +77,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     popupCancel: 'employees.btn.no'
   };
   public paymentSum: string;
+  public isCanPaymentEdit: boolean;
   constructor(
     private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
@@ -96,6 +98,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.orderId = this.data.orderId;
     this.viewMode = this.data.viewMode;
     this.payment = this.data.payment;
+    this.isCanPaymentEdit = this.data.isCanPaymentEdit;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });
