@@ -24,6 +24,7 @@
   line-height: 20px;
   text-align: left;
   color: var(--quaternary-grey);
+  white-space: nowrap;
 
   div {
     display: flex;
@@ -37,6 +38,13 @@
     p {
       margin: 0;
     }
+  }
+
+  .author p {
+    max-width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 

@@ -2,16 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, QueryList, Renderer2, SimpleChanges } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Renderer2, SimpleChanges } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
-import { toArray } from 'rxjs/operators';
-import { CommentDto } from '@global-models/comment/commentDto';
-import { CommentsDTO } from '../../models/comments-model';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -20,6 +18,16 @@ describe('CommentsListComponent', () => {
   let commentsServiceMock: CommentsService;
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['editComment']);
   commentsServiceMock.editComment = () => of();
+  const matDialogMock = {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  };
+
+  const matDialogRefMock = jasmine.createSpyObj(['close', 'afterClosed']);
+  matDialogRefMock.afterClosed.and.returnValue(of(true));
 
   const commentData = {
     author: {
@@ -44,7 +52,9 @@ describe('CommentsListComponent', () => {
       imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
       providers: [
         { provide: CommentsService, useValue: commentsServiceMock },
-        { provide: Renderer2, useValue: {} }
+        { provide: Renderer2, useValue: {} },
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialogRef, useValue: matDialogRefMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -96,6 +106,24 @@ describe('CommentsListComponent', () => {
   it('should cancel edit comment', () => {
     component.cancelEditedComment(commentData);
     expect(commentData.isEdit).toBeFalsy();
+  });
+
+  it('should cancel edited comment when user confirms', () => {
+    spyOn((component as any).dialog, 'open').and.returnValue({ afterClosed: () => of(true) });
+
+    component.cancelEditedComment(commentData);
+
+    expect((component as any).isEdit).toBeFalsy();
+  });
+
+  it('should not cancel edited comment when user cancels', () => {
+    (component as any).isEdit = true;
+    spyOn((component as any).dialog, 'open').and.returnValue({
+      afterClosed: () => of(false)
+    } as any);
+    component.cancelEditedComment(commentData);
+
+    expect((component as any).isEdit).toBeTruthy();
   });
 
   it('should change counter if user clicks like', () => {

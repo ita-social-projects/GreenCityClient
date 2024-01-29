@@ -68,6 +68,11 @@
           "confirm": "Так, видалити",
           "cancel": "Скасувати"
         },
+        "comment-popup-cancel-edit": {
+          "title": "Ви дійсно бажаєте відмінити редагування",
+          "confirm": "Так",
+          "cancel": "Ні"
+        },
         "reply": "Відповісти",
         "replies": {
           "zero-reply": "відповідей",
