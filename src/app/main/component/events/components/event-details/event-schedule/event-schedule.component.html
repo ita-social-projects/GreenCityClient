@@ -10,11 +10,17 @@
           {{ day.startDate | date: 'MMM d, y' }} | {{ day.startDate | date: 'hh:mm a' }}&nbsp;-&nbsp;{{ day.finishDate | date: 'hh:mm a' }}
         </div>
       </div>
-      <div class="event-location">
+      <div class="event-location" *ngIf="day.coordinates?.latitude">
         <div class="event-location-icon">
           <img [src]="icons.location" alt="" />
         </div>
-        <div>{{ day.coordinates?.latitude ? getAddress(day.coordinates) : day.onlineLink }}</div>
+        <div>{{ day.coordinates?.latitude && getAddress(day.coordinates) }}</div>
+      </div>
+      <div class="event-link" *ngIf="day.onlineLink">
+        <div class="event-link-icon">
+          <img [src]="icons.link" alt="" />
+        </div>
+        <div>{{ day.onlineLink }}</div>
       </div>
     </div>
   </div>
