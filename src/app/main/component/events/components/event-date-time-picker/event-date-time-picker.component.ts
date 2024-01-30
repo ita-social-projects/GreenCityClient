@@ -149,6 +149,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     return this.dateForm.get('endTime');
   }
 
+  get startTime() {
+    return this.dateForm.get('startTime');
+  }
+
   get date() {
     return this.dateForm.get('date');
   }
