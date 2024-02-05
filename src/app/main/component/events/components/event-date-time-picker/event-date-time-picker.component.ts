@@ -423,7 +423,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.coordinates.latitude = DefaultCoordinates.LATITUDE;
       this.coordinates.longitude = DefaultCoordinates.LONGITUDE;
       this.isLocationSelected = true;
-      this.dateForm.addControl('place', new FormControl('',[Validators.required]));
+      this.dateForm.addControl('place', new FormControl('', [Validators.required]));
       setTimeout(() => this.setPlaceAutocomplete(), 0);
     } else {
       if (this.appliedForAllLocations) {
