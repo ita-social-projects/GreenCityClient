@@ -110,9 +110,11 @@
         <div class="textarea-wrapper">
           <div class="title-container">
             <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-            <p [ngClass]="handleErrorClass('error') || 'textarea-description'">{{ 'create-event.content-tooltip' | translate }}</p>
+             <div [class.error]="description?.touched && description?.invalid">
+               <p class="textarea-description">{{ 'create-event.content-tooltip' | translate }}</p>
+             </div>
           </div>
-          <div [ngClass]="handleErrorClass('content-error') || 'content'">
+          <div [class.content-error]="description?.touched && description?.invalid" class="content">
             <quill-editor
               minlength="20"
               class="editor"
@@ -123,9 +125,11 @@
               placeholder="{{ 'create-event.content-placeholder' | translate }}"
             ></quill-editor>
           </div>
+          <div [class.counter-error]="description?.invalid">
           <p *ngIf="editorText" [ngClass]="handleErrorClass('counter-error') || 'counter-description'">
             {{ 'create-event.counter' | translate }} {{ editorText.length }} {{ 'create-event.symbols' | translate }}
           </p>
+         </div>
         </div>
 
         <app-images-container
