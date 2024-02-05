@@ -16,7 +16,7 @@ export class EventScheduleComponent {
   };
 
   @Input() days = [];
-  constructor(private langService: LanguageService, public eventService: EventsService) {}
+  constructor(public eventService: EventsService) {}
 
   public getAddress(location: Coordinates): string {
     return this.eventService.getFormattedAddress(location);
