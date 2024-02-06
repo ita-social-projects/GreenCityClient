@@ -10,7 +10,6 @@ import { CategoryService } from '../../../../service/category.service';
 import { UserService } from '../../../../service/user/user.service';
 import { NgForm } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceService } from '../../../../service/place/place.service';
 import { BreakTimes } from '../../../../model/breakTimes.model';
 import { SpecificationService } from '../../../../service/specification.service';

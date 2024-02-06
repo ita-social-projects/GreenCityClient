@@ -3,9 +3,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
-import { AgmCoreModule } from '@agm/core';
+
 import { IMaskModule } from 'angular-imask';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -19,18 +19,17 @@ import { AddressComponent } from './components/ubs-personal-information/address/
 import { UbsConfirmPageComponent } from './components/ubs-confirm-page/ubs-confirm-page.component';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.component';
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS
-} from '@angular/material/legacy-dialog';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DEFAULT_OPTIONS
+} from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
 import { UbsOrderCertificateComponent } from './components/ubs-order-details/ubs-order-certificate/ubs-order-certificate.component';
 import { ExtraPackagesPopUpComponent } from './components/ubs-order-details/extra-packages-pop-up/extra-packages-pop-up.component';
@@ -39,7 +38,7 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
 import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
-
+import { GoogleMapsModule } from '@angular/google-maps';
 @NgModule({
   declarations: [
     UbsOrderComponent,
@@ -71,11 +70,7 @@ import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service
     FormsModule,
     ReactiveFormsModule,
     IMaskModule,
-    GooglePlaceModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.agmCoreModuleApiKey,
-      libraries: ['places']
-    }),
+    GoogleMapsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -85,7 +80,8 @@ import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service
       isolate: true
     }),
     SharedMainModule,
-    SharedModule
+    SharedModule,
+    
   ],
   exports: [],
   providers: [

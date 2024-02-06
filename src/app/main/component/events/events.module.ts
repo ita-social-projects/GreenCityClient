@@ -8,7 +8,7 @@ import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { environment } from '@environment/environment.js';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedMainModule } from '@shared/shared-main.module';
@@ -67,11 +67,7 @@ import { EventsCommentsService } from './services/events-comments.service';
     MatButtonModule,
     MatGridListModule,
     NgxPaginationModule,
-    AgmCoreModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.apiMapKey,
-      libraries: ['places']
-    }),
+    GoogleMapsModule,
     MatFormFieldModule,
     MatNativeDateModule,
     MatSelectModule,

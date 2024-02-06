@@ -1,4 +1,3 @@
-import { MapsAPILoader } from '@agm/core';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate, DateEvent } from '../../models/events.interface';
 import { Subscription } from 'rxjs';

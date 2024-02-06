@@ -5,7 +5,7 @@ import { AgmDirectionModule } from 'agm-direction';
 import { CommonModule } from '@angular/common';
 import { PlacesRoutesModule } from './places-routing.module';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -42,7 +42,6 @@ import { AddressInputComponent } from './components/address-input/address-input.
     SharedMainModule,
     CommonModule,
     PlacesRoutesModule,
-    AgmDirectionModule,
     Ng2SearchPipeModule,
     MatTableModule,
     FormsModule,
@@ -50,9 +49,7 @@ import { AddressInputComponent } from './components/address-input/address-input.
     MatMenuModule,
     ReactiveFormsModule,
     GooglePlaceModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.apiMapKey
-    }),
+    GoogleMapsModule,
     MatIconModule,
     MatButtonModule,
     MatAutocompleteModule,
@@ -71,7 +68,7 @@ import { AddressInputComponent } from './components/address-input/address-input.
       isolate: true
     }),
     MatSliderModule,
-    MatGoogleMapsAutocompleteModule,
+    // MatGoogleMapsAutocompleteModule,
     MaterialModule,
     MatDatepickerModule,
     MatNativeDateModule

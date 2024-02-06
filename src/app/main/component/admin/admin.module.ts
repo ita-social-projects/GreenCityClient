@@ -1,16 +1,16 @@
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { IconsModule, TableModule } from 'angular-bootstrap-md';
+import { CdkTableModule } from '@angular/cdk/table';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMap, GoogleMapsModule, MapMarker } from '@angular/google-maps';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminService } from '../../service/admin/admin.service';
@@ -20,41 +20,41 @@ import { AdminComponent } from './admin.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedMainModule } from '../shared/shared-main.module';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import {
   AdminNavComponent,
   ConfirmModalComponent,
   ErrorComponent,
   DialogPhotoComponent,
   FeedbacksComponent,
-  OldPlacesComponent,
-  UpdateCafeComponent,
+  // OldPlacesComponent,
+  // UpdateCafeComponent,
   UsersComponent
 } from './components/index';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS
-} from '@angular/material/legacy-dialog';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MAT_DIALOG_DEFAULT_OPTIONS
+} from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from '@environment/environment';
 
 @NgModule({
   declarations: [
     AdminNavComponent,
     AdminComponent,
-    OldPlacesComponent,
+    // OldPlacesComponent,
     UsersComponent,
     ErrorComponent,
     ConfirmModalComponent,
-    UpdateCafeComponent,
+    // UpdateCafeComponent,
     FeedbacksComponent,
     DialogPhotoComponent
   ],
-  exports: [AdminNavComponent, AdminComponent, UsersComponent, OldPlacesComponent, ErrorComponent, BrowserModule, TableModule],
+  exports: [AdminNavComponent, AdminComponent, UsersComponent, ErrorComponent, BrowserModule, CdkTableModule],
   imports: [
     AdminRoutingModule,
     CommonModule,
@@ -71,16 +71,14 @@ import { environment } from '@environment/environment';
     FormsModule,
     MatMenuModule,
     MatIconModule,
-    IconsModule,
     NgbModule,
     MatDialogModule,
     NgSelectModule,
     MatCheckboxModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.apiMapKey,
-      libraries: ['places']
-    }),
-    TranslateModule
+    GoogleMapsModule,
+    TranslateModule,
+    GoogleMap,
+    MapMarker,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

@@ -57,7 +57,7 @@ import { UbsAdminCustomerDetailsComponent } from './components/ubs-admin-custome
 import { UbsAdminOrderHistoryComponent } from './components/ubs-admin-order-history/ubs-admin-order-history.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-import { AgmCoreModule } from '@agm/core';
+import {Go}
 import { environment } from '@environment/environment';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { UbsAdminCustomerOrdersComponent } from './components/ubs-admin-customers/ubs-admin-customer-orders/ubs-admin-customer-orders.component';

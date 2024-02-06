@@ -5,15 +5,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+// import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WarningPopUpComponent, PhotoUploadComponent, EditPhotoPopUpComponent } from './components';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
 import { DragAndDropComponent } from './components/drag-and-drop/drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -22,7 +22,7 @@ import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisa
 import { NoDataComponent } from './components/no-data/no-data.component';
 import { TagFilterComponent } from './components/tag-filter/tag-filter.component';
 import { CalendarBaseComponent } from '@shared/components';
-import usLocale from '@angular/common/locales/en-US-POSIX';
+import usLocale from '@angular/common/locales/en';
 import ruLocale from '@angular/common/locales/ru';
 import ukLocale from '@angular/common/locales/uk';
 import { FormBaseComponent } from './components/form-base/form-base.component';
@@ -36,10 +36,10 @@ import { TagsSelectComponent } from './components/tags-select/tags-select.compon
 import { InputErrorComponent } from './components/input-error/input-error.component';
 import { SelectImagesComponent } from './components/select-images/select-images.component';
 import { FilterSelectComponent } from './components/filter-select/filter-select.component';
-import { MatLegacyOptionModule as MatOptionModule } from '@angular/material/legacy-core';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
 
@@ -82,7 +82,7 @@ registerLocaleData(ukLocale, 'ua');
         deps: [HttpClient]
       }
     }),
-    MDBBootstrapModule,
+    // MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,
@@ -104,7 +104,7 @@ registerLocaleData(ukLocale, 'ua');
     PhotoUploadComponent,
     FormsModule,
     ReactiveFormsModule,
-    MDBBootstrapModule,
+    // MDBBootstrapModule,
     FileUploadModule,
     MatCardModule,
     MatDialogModule,

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProposeCafeComponent } from './components';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedMainModule } from '../shared/shared-main.module';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
@@ -20,10 +20,7 @@ import { environment } from '@environment/environment';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.apiMapKey,
-      libraries: ['places', 'geometry']
-    }),
+    GoogleMapsModule,
     NgSelectModule,
 
     NgxPageScrollModule
@@ -36,7 +33,7 @@ import { environment } from '@environment/environment';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AgmCoreModule,
+    GoogleMapsModule,
     NgSelectModule
   ],
   providers: []

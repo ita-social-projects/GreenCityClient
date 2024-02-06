@@ -86,15 +86,15 @@ import { EventDescriptionTransformPipe } from './events-description-transforn/ev
     MaterialModule,
     TranslateModule,
     RouterModule,
-    InfiniteScrollModule,
+    // InfiniteScrollModule,
     MatSnackBarModule,
     NgxPageScrollModule,
     ReactiveFormsModule,
     FormsModule,
     MatAutocompleteModule,
     MatTooltipModule,
-    GooglePlaceModule,
-    ImageCropperModule
+    // GooglePlaceModule,
+    // ImageCropperModule
   ],
   exports: [
     SpinnerComponent,

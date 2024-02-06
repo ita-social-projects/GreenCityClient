@@ -62,21 +62,21 @@
         <br />
 
         <div class="sub-2" #map>
-          <agm-map
-            [latitude]="latitude"
-            [longitude]="longitude"
+          <google-map
+            [center]="center"
             [zoom]="zoom"
+            
             [style.width.px]="map.offsetWidth"
             [style.height.px]="map.offsetHeight"
             class="agm-map"
           >
-            <agm-marker
+            <map-marker
               [latitude]="latitude"
               [longitude]="longitude"
               [markerDraggable]="true"
               (dragEnd)="markerDragEnd($event)"
-            ></agm-marker>
-          </agm-map>
+            />
+          </google-map>
         </div>
 
         <div>

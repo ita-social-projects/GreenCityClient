@@ -14,7 +14,6 @@ import { PlaceService } from '../../../../service/place/place.service';
 import { CategoryService } from '../../../../service/category.service';
 import { SpecificationService } from '../../../../service/specification.service';
 import { UserService } from '../../../../service/user/user.service';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { PlaceUpdatedDto } from '../../models/placeUpdatedDto.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
@@ -33,7 +32,7 @@ export class UpdateCafeComponent implements OnInit {
   private matSnackBar: MatSnackBarComponent;
   private mapsAPILoader: MapsAPILoader;
   private ngZone: NgZone;
-
+  
   constructor(
     private injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -76,6 +75,7 @@ export class UpdateCafeComponent implements OnInit {
   specifications: any;
   category: CategoryDto;
   string: null;
+  public center: google.maps.LatLngLiteral = {lat: 49.841795, lng: 24.031706} 
   latitude = 49.841795;
   longitude = 24.031706;
   zoom = 13;
@@ -239,9 +239,10 @@ export class UpdateCafeComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  markerDragEnd($event: MouseEvent) {
-    this.latitude = $event.coords.lat;
-    this.longitude = $event.coords.lng;
+  markerDragEnd($event: google.maps.MapMouseEvent) {
+    const parametrs = $event.latLng.toJSON();
+    this.latitude = parametrs.lat;
+    this.longitude = parametrs.lng;
     this.getAddress(this.latitude, this.longitude);
   }
 

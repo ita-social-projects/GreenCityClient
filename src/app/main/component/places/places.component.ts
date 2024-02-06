@@ -7,10 +7,9 @@ import { greenIcon, notification, redIcon, searchIcon, share, star, starHalf, st
 import { Place } from './models/place';
 import { FilterPlaceService } from '@global-service/filtering/filter-place.service';
 import { debounceTime, take } from 'rxjs/operators';
-import { LatLngBounds, LatLngLiteral } from '@agm/core/services/google-maps-types';
 import { MapBoundsDto } from './models/map-bounds-dto';
 import { MoreOptionsFormValue } from './models/more-options-filter.model';
-import { Location } from '@angular-material-extensions/google-maps-autocomplete';
+// import { Location } from '@angular-material-extensions/google-maps-autocomplete';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
