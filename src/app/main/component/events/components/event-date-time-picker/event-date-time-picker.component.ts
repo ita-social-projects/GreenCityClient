@@ -335,7 +335,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       if (this.linkForAllDays && !this.isFirstDay) {
         this.setupLinkControls();
       }
-      if (!this.appliedForAllLink && !this.isFirstDay) {
+      if (this.linkForAllDays === '' ? !this.isFirstDay && !this.linkForAllDays : '') {
         this.resetLinkControls();
       }
     }
