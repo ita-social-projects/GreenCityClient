@@ -12,6 +12,7 @@ export class InputErrorComponent implements OnInit {
   @Input() public isEvent: boolean;
   @Input() public date: boolean;
   @Input() public numberDate: boolean;
+  @Input() public isStartEventError: boolean;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -29,7 +30,11 @@ export class InputErrorComponent implements OnInit {
     requiredEventDate: 'create-event.date-required',
     negativeNumberValue: 'ubs-tariffs-add-service.negative_number_value',
     datepickerNotCorrect: 'create-event.datepicker-not-correct',
-    datepickerAndEventDateNotCorrect: 'create-event.datepicker-not-correct-date-required'
+    startTimeRequiered: 'create-event.start-time-required',
+    datepickerAndStartTimeRequiered: 'create-event.datepicker-and-start-time-not-correct',
+    datepickerAndEndTimeRequiered: 'create-event.datepicker-not-correct-date-required',
+    startTimeAndEndTimeRequiered: 'create-event.start-time-and-end-time-not-correct',
+    datepickerStartTimeAndEndTimeRequiered: 'create-event.start-time-end-time-and-datepicker-not-correct'
   };
 
   ngOnInit(): void {
@@ -55,9 +60,6 @@ export class InputErrorComponent implements OnInit {
           default:
             if (this.isEvent) {
               this.errorMessage = this.getRequiredErrorMessage();
-              if (this.numberDate) {
-                this.errorMessage = this.validationErrors.datepickerAndEventDateNotCorrect;
-              }
               break;
             }
             this.errorMessage = this.validationErrors[err];
@@ -65,8 +67,25 @@ export class InputErrorComponent implements OnInit {
       }
     });
 
-    if (this.numberDate && !this.date) {
-      this.errorMessage = this.validationErrors.datepickerNotCorrect;
+    switch (true) {
+      case this.numberDate && this.isStartEventError && this.date:
+        this.errorMessage = this.validationErrors.datepickerStartTimeAndEndTimeRequiered;
+        break;
+      case this.numberDate && this.isStartEventError:
+        this.errorMessage = this.validationErrors.datepickerAndStartTimeRequiered;
+        break;
+      case this.numberDate && this.date:
+        this.errorMessage = this.validationErrors.datepickerAndEndTimeRequiered;
+        break;
+      case this.isStartEventError && this.date:
+        this.errorMessage = this.validationErrors.startTimeAndEndTimeRequiered;
+        break;
+      case this.numberDate:
+        this.errorMessage = this.validationErrors.datepickerNotCorrect;
+        break;
+      case this.isStartEventError:
+        this.errorMessage = this.validationErrors.startTimeRequiered;
+        break;
     }
   }
 

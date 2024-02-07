@@ -149,6 +149,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     return this.dateForm.get('endTime');
   }
 
+  get startTime() {
+    return this.dateForm.get('startTime');
+  }
+
   get date() {
     return this.dateForm.get('date');
   }
@@ -331,7 +335,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       if (this.linkForAllDays && !this.isFirstDay) {
         this.setupLinkControls();
       }
-      if (!this.appliedForAllLink && !this.isFirstDay) {
+      if (this.linkForAllDays === '' ? !this.isFirstDay && !this.linkForAllDays : '') {
         this.resetLinkControls();
       }
     }
