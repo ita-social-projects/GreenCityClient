@@ -66,7 +66,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private mapsAPILoader: MapsAPILoader,
+    // private mapsAPILoader: MapsAPILoader,
     private langService: LanguageService,
     private eventsService: EventsService
   ) {}
@@ -104,7 +104,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.setDataEditing();
     }
 
-    this.langService.getCurrentLangObs().subscribe((_) => {
+    this.langService.getCurrentLangObs().subscribe(() => {
       this.getCoordinates();
     });
 
@@ -304,26 +304,24 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
   }
 
-  private setPlaceAutocomplete(): void {
-    this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
-      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
-      this.autocomplete.addListener('place_changed', () => {
-        const locationName = this.autocomplete.getPlace();
-        if (locationName.formatted_address) {
-          this.coordinates.latitude = locationName.geometry.location.lat();
-          this.coordinates.longitude = locationName.geometry.location.lng();
-          this.coordOffline.emit(this.coordinates);
-          this.dateForm.patchValue({
-            place: locationName.formatted_address,
-            coordinatesDto: { latitude: this.coordinates.latitude, longitude: this.coordinates.longitude }
-          });
+  public setPlaceAutocomplete($event?): void {
+    this.setCurrentLocation();
+    this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
+    this.autocomplete.addListener('place_changed', () => {
+      const locationName = this.autocomplete.getPlace();
+      if (locationName.formatted_address) {
+        this.coordinates.latitude = locationName.geometry.location.lat();
+        this.coordinates.longitude = locationName.geometry.location.lng();
+        this.coordOffline.emit(this.coordinates);
+        this.dateForm.patchValue({
+          place: locationName.formatted_address,
+          coordinatesDto: { latitude: this.coordinates.latitude, longitude: this.coordinates.longitude }
+        });
 
-          this.isLocationSelected = false;
-        } else {
-          this.isLocationSelected = true;
-        }
-      });
+        this.isLocationSelected = false;
+      } else {
+        this.isLocationSelected = true;
+      }
     });
   }
 

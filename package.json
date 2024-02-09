@@ -63,7 +63,6 @@
     "ngx-page-scroll-core": "11.0.0",
     "ngx-pagination": "^6.0.0",
     "ngx-quill": "23.0.2",
-    "ngx-swiper-wrapper": "^10.0.0",
     "quill": "^1.3.7",
     "quill-blot-formatter": "^1.0.5",
     "quill-emoji": "^0.2.0",
