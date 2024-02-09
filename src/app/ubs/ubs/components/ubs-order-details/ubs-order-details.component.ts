@@ -412,7 +412,9 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     matDialogRef
       .afterClosed()
       .pipe(take(1), filter(Boolean))
-      .subscribe(() => this.router.navigate(['ubs']));
+      .subscribe(() => {
+        this.router.navigate(['ubs']);
+      });
   }
 
   ngOnDestroy(): void {

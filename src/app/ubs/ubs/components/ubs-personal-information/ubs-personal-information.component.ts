@@ -403,7 +403,9 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     matDialogRef
       .afterClosed()
       .pipe(take(1), filter(Boolean))
-      .subscribe(() => this.router.navigate(['ubs']));
+      .subscribe(() => {
+        this.router.navigate(['ubs']);
+      });
   }
 
   ngOnDestroy(): void {
