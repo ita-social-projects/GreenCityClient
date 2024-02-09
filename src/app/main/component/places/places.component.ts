@@ -102,14 +102,14 @@ export class PlacesComponent implements OnInit, OnDestroy {
     this.googlePlacesService = new google.maps.places.PlacesService(this.map);
   }
 
-  public mapCenterChange(newValue: LatLngLiteral): void {
+  public mapCenterChange(newValue: google.maps.LatLngLiteral): void {
     this.position = {
       latitude: newValue.lat,
       longitude: newValue.lng
     };
   }
 
-  public mapBoundsChange(newValue: LatLngBounds): void {
+  public mapBoundsChange(newValue: google.maps.LatLngBounds): void {
     this.mapBoundsDto = {
       northEastLat: newValue.getNorthEast().lat(),
       northEastLng: newValue.getNorthEast().lng(),
@@ -287,7 +287,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onLocationSelected(event: Location) {
+  onLocationSelected(event: any) {
     this.map.setCenter({
       lat: event.latitude,
       lng: event.longitude
@@ -302,7 +302,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.placeService.createPlace(value).subscribe((resp: any) => {
-            const location: Location = {
+            const location: any = {
               latitude: resp.locationAddressAndGeoDto.lat,
               longitude: resp.locationAddressAndGeoDto.lng
             };

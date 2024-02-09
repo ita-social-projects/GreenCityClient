@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Coords, MapMarker } from '../../models/events.interface';
+import { Coords, MapMarker as MapMarkerInterface } from '../../models/events.interface';
 
 @Component({
   selector: 'app-map-event',
@@ -13,7 +13,7 @@ export class MapEventComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private map: any;
 
-  public eventPlace: MapMarker;
+  public eventPlace: MapMarkerInterface;
   public adress: string;
   public markerContent = 'Event Address';
   public mapDeactivate: boolean;
@@ -57,10 +57,10 @@ export class MapEventComponent implements OnInit, OnDestroy {
     }
   }
 
-  public markerOver(marker: MapMarker): void {
+  public markerOver(marker: MapMarkerInterface): void {
     marker.animation = 'BOUNCE';
   }
-  public markerOut(marker: MapMarker): void {
+  public markerOut(marker: MapMarkerInterface): void {
     marker.animation = '';
   }
 
@@ -69,7 +69,7 @@ export class MapEventComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

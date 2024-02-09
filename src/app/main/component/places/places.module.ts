@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { AgmDirectionModule } from 'agm-direction';
+// import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CommonModule } from '@angular/common';
 import { PlacesRoutesModule } from './places-routing.module';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { RatingModule } from 'ngx-bootstrap/rating';
-import { Ng5SliderModule } from 'ng5-slider';
+// import { Ng5SliderModule } from 'ng5-slider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { SharedMainModule } from '@shared/shared-main.module';
@@ -24,11 +23,11 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MoreOptionsFilterComponent } from './components/more-options-filter/more-options-filter.component';
 import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+// import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+// import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MaterialModule } from '../../../material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TimePickerPopupComponent } from './components/time-picker-pop-up/time-picker-popup.component';
@@ -42,19 +41,19 @@ import { AddressInputComponent } from './components/address-input/address-input.
     SharedMainModule,
     CommonModule,
     PlacesRoutesModule,
-    Ng2SearchPipeModule,
+    // Ng2SearchPipeModule,
     MatTableModule,
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
     ReactiveFormsModule,
-    GooglePlaceModule,
+    // GooglePlaceModule,
     GoogleMapsModule,
     MatIconModule,
     MatButtonModule,
     MatAutocompleteModule,
     RatingModule,
-    Ng5SliderModule,
+    // Ng5SliderModule,
     MatDialogModule,
     NgbModule,
     MatRippleModule,

@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { environment } from '@environment/environment.js';
@@ -25,11 +25,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { EventDateTimePickerComponent } from './components/event-date-time-picker/event-date-time-picker.component';
 import { MapEventComponent } from './components/map-event/map-event.component';
 import { ImagesContainerComponent } from './components/images-container/images-container.component';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { ImagesSliderComponent } from './components/event-details/images-slider/images-slider.component';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { EventScheduleOverlayComponent } from './components/event-details/event-schedule-overlay/event-schedule-overlay.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -37,7 +36,7 @@ import { EventScheduleComponent } from './components/event-details/event-schedul
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CommentsModule } from '../comments/comments.module';
 import { CommentsService } from '../comments/services/comments.service';
 import { EventsCommentsService } from './services/events-comments.service';
@@ -59,7 +58,6 @@ import { EventsCommentsService } from './services/events-comments.service';
     MatDialogModule,
     RatingModule.forRoot(),
     ReactiveFormsModule,
-    GooglePlaceModule,
     CommonModule,
     EventsRoutingModule,
     MatDatepickerModule,

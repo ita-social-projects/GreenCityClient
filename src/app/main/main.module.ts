@@ -5,13 +5,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFireModule } from '@angular/fire';
+import { FirestoreModule } from '@angular/fire/firestore';
+import { StorageModule } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '@environment/environment';
-import { ProposeCafeComponent } from '@global-core/components';
+// import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from '@global-auth/restore/restore.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
@@ -25,10 +25,7 @@ import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';
 import { MaterialModule } from '../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DEFAULT_OPTIONS as MAT_DIALOG_DEFAULT_OPTIONS
-} from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -45,8 +42,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AdminModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
+    FirestoreModule,
+    StorageModule,
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,

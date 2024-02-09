@@ -33,12 +33,7 @@ import {
 } from './components/index';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {
-  MatDialogModule,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MAT_DIALOG_DEFAULT_OPTIONS
-} from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from '@environment/environment';
 
@@ -76,9 +71,7 @@ import { environment } from '@environment/environment';
     NgSelectModule,
     MatCheckboxModule,
     GoogleMapsModule,
-    TranslateModule,
-    GoogleMap,
-    MapMarker,
+    TranslateModule
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

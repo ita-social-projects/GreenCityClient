@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { HttpClient } from '@angular/common/http';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -45,6 +45,7 @@ export class PhotoUploadComponent implements OnInit {
   private storageBucket = environment.firebaseConfig.storageBucket;
 
   public uploader: FileUploader = new FileUploader({
+    url: '',
     isHTML5: true
   });
 

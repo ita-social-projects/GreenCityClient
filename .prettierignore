@@ -1,4 +1,6 @@
 *.ts_
+*.html_
+*.scss_
 *.png
 *.jpg
 *.svg

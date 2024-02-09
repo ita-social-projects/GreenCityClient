@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProposeCafeComponent } from './components';
+// import { ProposeCafeComponent } from './components';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedMainModule } from '../shared/shared-main.module';
@@ -12,7 +12,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { environment } from '@environment/environment';
 
 @NgModule({
-  declarations: [ProposeCafeComponent],
+  declarations: [],
   imports: [
     AppRoutingModule,
     CommonModule,
@@ -27,7 +27,7 @@ import { environment } from '@environment/environment';
   ],
   exports: [
     NgxPageScrollModule,
-    ProposeCafeComponent,
+    // ProposeCafeComponent,
     CommonModule,
     TranslateModule,
     AppRoutingModule,

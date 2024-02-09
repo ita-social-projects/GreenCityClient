@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
+// import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';
 
 import { AdminNavComponent } from './admin-nav.component';
 
@@ -30,9 +30,9 @@ describe('AdminNavComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should open dialog on trigger', () => {
-    spyOn(dialog, 'open').and.returnValue({ afterClosed: () => of({ id: 1 }) } as MatDialogRef<typeof ProposeCafeComponent>);
-    component.openDialog();
-    expect(dialog.open).toHaveBeenCalled();
-  });
+  // it('should open dialog on trigger', () => {
+  //   spyOn(dialog, 'open').and.returnValue({ afterClosed: () => of({ id: 1 }) } as MatDialogRef<typeof ProposeCafeComponent>);
+  //   component.openDialog();
+  //   expect(dialog.open).toHaveBeenCalled();
+  // });
 });

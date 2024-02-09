@@ -86,7 +86,7 @@
         </mat-drawer-container>
       </div>
       <div class="google-map" #map>
-        <agm-map
+        <google-map
           [style.width.%]="100"
           [style.height.%]="100"
           [zoom]="zoom"
@@ -95,15 +95,14 @@
           (idle)="onMapIdle()"
           (mapReady)="onMapReady($event)"
         >
-          <agm-marker
+          <map-marker
             *ngFor="let place of places"
-            [latitude]="place.location.lat"
-            [longitude]="place.location.lng"
+            [position]="place.location"
             (markerClick)="selectPlace(place)"
-            [iconUrl]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
+            [icon]="place.id === activePlace?.id ? greenIconUrl : redIconUrl"
             class="marker"
-          ></agm-marker>
-        </agm-map>
+          />
+        </google-map>
       </div>
     </div>
   </div>
