@@ -240,6 +240,10 @@ input[type='number'] {
   }
 }
 
+.validMes {
+  height: 20px;
+}
+
 .totalInfo {
   text-align: right;
 
@@ -264,10 +268,6 @@ input[type='number'] {
     margin-top: -1rem;
     margin-bottom: 1rem;
   }
-}
-
-.validMes {
-  height: 20px;
 }
 
 .user-location {
