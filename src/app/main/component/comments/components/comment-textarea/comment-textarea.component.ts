@@ -35,7 +35,6 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
 
   public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
   public suggestedUsers: TaggedUser[] = [];
-  public isPlaceHolderVisible = true;
   public isDropdownVisible: boolean;
   public cursorPosition: {
     top: number;

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
@@ -6,6 +6,9 @@ import { SocketService } from '@global-service/socket/socket.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { By } from '@angular/platform-browser';
+import { MatOption } from '@angular/material/core';
+import { QueryList, TemplateRef } from '@angular/core';
 
 describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
@@ -43,6 +46,31 @@ describe('CommentTextareaComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should define elementRef', () => {
+    component.isDropdownVisible = true;
+    component.suggestedUsers = [
+      {
+        userId: 1,
+        userName: 'User Name 1',
+        profilePicture: null
+      },
+      {
+        userId: 2,
+        userName: 'User Name 2',
+        profilePicture: null
+      }
+    ];
+    fixture.detectChanges();
+    const commentTextarea = component.commentTextarea;
+    const dropdown = component.dropdown;
+    const options = component.options;
+
+    expect(commentTextarea).toBeDefined();
+    expect(dropdown).toBeDefined();
+    expect(options).toBeDefined();
+    expect(fixture.debugElement.queryAll(By.css('mat-option')).length).toBe(2);
   });
 
   describe('ngAfterViewInit', () => {
@@ -110,6 +138,36 @@ describe('CommentTextareaComponent', () => {
       component.ngOnChanges({ commentHtml: { currentValue: 'a' } as any });
       const textareaElement = component.commentTextarea.nativeElement;
       expect(textareaElement.innerHTML).toBe(innerHTML);
+    });
+  });
+
+  describe('onDropdownKeyDown', () => {
+    it('should prevent default on key down event', () => {
+      const event = new KeyboardEvent('keydown');
+      spyOn(event, 'preventDefault');
+      component.onDropdownKeyDown(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('should call onDropdownKeyDown keydown event', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = [
+        {
+          userId: 1,
+          userName: 'User Name 1',
+          profilePicture: null
+        },
+        {
+          userId: 2,
+          userName: 'User Name 2',
+          profilePicture: null
+        }
+      ];
+      fixture.detectChanges();
+      spyOn(component, 'onDropdownKeyDown');
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      component.dropdown.nativeElement.dispatchEvent(event);
+      expect(component.onDropdownKeyDown).toHaveBeenCalledWith(event);
     });
   });
 
