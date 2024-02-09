@@ -1,20 +1,129 @@
 import { createAction, props } from '@ngrx/store';
-import { OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
+import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { Address, AddressData, CourierLocations, OrderDetails, PersonalData } from 'src/app/ubs/ubs/models/ubs.interface';
+import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
 
 export enum OrderActions {
-  AddOrderDetails = '[Order] Add Order Details',
-  AddPersonalData = '[Order] Add Personal Data',
-  UpdateBagsOrderDetails = '[Order] Update Bags Order Details',
-  UpdateTotalOrderDetails = '[Order] Update Total Order Details',
+  SetBags = '[Order] Set Bags',
+  SetOrderSum = '[Order] Set Order Sum',
+  SetPointsUsed = '[Order] Set Points Used',
+  SetCertificates = '[Order] Set Certificates',
+  SetCertificateUsed = '[Order] Set Certificate Used',
+  SetFirstFormStatus = '[Order] Set First Form Status',
+  SetPersonalData = '[Order] Set Personal Data Client',
+  SetAddressId = '[Order] Set Address Id',
+  SetAdditionalOrders = '[Order] Set Additional Orders',
+  SetOrderComment = '[Order] Set Order Comment',
+  AddCertificate = '[Order] Add Certificate',
+  RemoveCertificate = '[Order] Remove Certificate',
+
+  GetUbsCourierId = '[Order] Get Ubs Courier Id',
+  GetUbsCourierIdSuccess = '[Order] Get Ubs Courier Id Success',
+
+  GetLocationId = '[Order] Get Location Id',
+  GetLocationIdSuccess = '[Order] Get Location Id Success',
+
+  GetOrderDetails = '[Order] Get Order Details',
+  GetOrderDetailsSuccess = '[Order] Get Order Details Success',
+
+  GetCourierLocations = '[Order] Get Courier Locations',
+  GetCourierLocationsSuccess = '[Order] Get Courier Locations Success',
+
+  ChangeCourierLocation = '[Order] Change Courier Location',
+  ChangeCourierLocationSuccess = '[Order] Change Courier Location Success',
+
+  GetExistingOrderDetails = '[Order] Get Existing Order Details',
+  GetExistingOrderDetailsSuccess = '[Order] Get Existing Order Details Success',
+
+  GetExistingOrderTariff = '[Order] Get Existing Order Tariff',
+  GetExistingOrderTariffSuccess = '[Order] Get Existing Order Tariff Success',
+
+  GetExistingOrderInfo = '[Order] Get Existing Order Personal Data',
+  GetExistingOrderInfoSuccess = '[Order] Get Existing Order Personal Data Success',
+
+  GetPersonalData = '[Order] Get Personal Data',
+  GetPersonalDataSuccess = '[Order] Get Personal Data Success',
+
+  GetAddresses = '[Order] Get User Locations',
+  GetAddressesSuccess = '[Order] Get User Locations Success',
+
+  CreateAddress = '[Order] Create Address',
+  CreateAddressSuccess = '[Order] Create Address Success',
+
+  UpdateAddress = '[Order] Update Address',
+  UpdateAddressSuccess = '[Order] Update Address Success',
+
+  DeleteAddress = '[Order] Delete Address',
+  DeleteAddressSuccess = '[Order] Delete Address Success',
+
   ClearOrderDetails = '[Order] Clear Order Details',
-  ClearPersonalData = '[Order] Clear Personal Data'
+  ClearPersonalData = '[Order] Clear Personal Data',
+
+  ClearOrderData = '[Order] Clear Order Data'
 }
 
-export const AddOrderData = createAction(OrderActions.AddOrderDetails, props<{ orderDetails: OrderDetails }>());
-export const AddPersonalData = createAction(OrderActions.AddPersonalData, props<{ personalData: PersonalData }>());
+export const SetBags = createAction(OrderActions.SetBags, props<{ bagId: number; bagValue: number }>());
+export const SetOrderSum = createAction(OrderActions.SetOrderSum, props<{ orderSum: number }>());
+export const SetPointsUsed = createAction(OrderActions.SetPointsUsed, props<{ pointsUsed: number }>());
+export const SetCertificates = createAction(OrderActions.SetCertificates, props<{ certificates: string[] }>());
+export const SetCertificateUsed = createAction(OrderActions.SetCertificateUsed, props<{ certificateUsed: number }>());
+export const SetFirstFormStatus = createAction(OrderActions.SetFirstFormStatus, props<{ isValid: boolean }>());
+export const SetPersonalData = createAction(OrderActions.SetPersonalData, props<{ personalData: PersonalData }>());
+export const SetAdditionalOrders = createAction(OrderActions.SetAdditionalOrders, props<{ orders: string[] }>());
+export const SetOrderComment = createAction(OrderActions.SetOrderComment, props<{ comment: string }>());
+export const SetAddressId = createAction(OrderActions.SetAddressId, props<{ addressId: number }>());
+export const AddCertificate = createAction(OrderActions.AddCertificate, props<{ certificate: CCertificate }>());
+export const RemoveCertificate = createAction(OrderActions.RemoveCertificate, props<{ code: string }>());
 
-export const UpdateBagsOrderDetails = createAction(OrderActions.UpdateBagsOrderDetails, props<{ bagId: number; bagValue: number }>());
-export const UpdateTotalOrderDetails = createAction(OrderActions.UpdateTotalOrderDetails, props<{ total: number; finalSum: number }>());
+export const GetUbsCourierId = createAction(OrderActions.GetUbsCourierId, props<{ name: string }>());
+export const GetUbsCourierIdSuccess = createAction(OrderActions.GetUbsCourierIdSuccess, props<{ courierId: number }>());
+
+export const GetLocationId = createAction(OrderActions.GetLocationId, props<{ courierId: number }>());
+export const GetLocationIdSuccess = createAction(OrderActions.GetLocationIdSuccess, props<{ locationId: number }>());
+
+export const GetOrderDetails = createAction(OrderActions.GetOrderDetails, props<{ locationId: number; tariffId: number }>());
+export const GetOrderDetailsSuccess = createAction(OrderActions.GetOrderDetailsSuccess, props<{ orderDetails: OrderDetails }>());
+
+export const GetCourierLocations = createAction(OrderActions.GetCourierLocations, props<{ courierId?: number; locationId?: number }>());
+export const GetCourierLocationsSuccess = createAction(OrderActions.GetCourierLocationsSuccess, props<{ locations: CourierLocations }>());
+
+export const ChangeCourierLocation = createAction(OrderActions.ChangeCourierLocation, props<{ courierId: number }>());
+export const ChangeCourierLocationSuccess = createAction(
+  OrderActions.ChangeCourierLocationSuccess,
+  props<{ locations: CourierLocations }>()
+);
+
+export const GetPersonalData = createAction(OrderActions.GetPersonalData);
+export const GetPersonalDataSuccess = createAction(OrderActions.GetPersonalDataSuccess, props<{ personalData: PersonalData }>());
+
+export const GetExistingOrderDetails = createAction(OrderActions.GetExistingOrderDetails, props<{ orderId: number }>());
+export const GetExistingOrderDetailsSuccess = createAction(
+  OrderActions.GetExistingOrderDetailsSuccess,
+  props<{ orderDetails: OrderDetails }>()
+);
+
+export const GetExistingOrderTariff = createAction(OrderActions.GetExistingOrderTariff, props<{ orderId: number }>());
+export const GetExistingOrderTariffSuccess = createAction(
+  OrderActions.GetExistingOrderTariffSuccess,
+  props<{ locations: CourierLocations }>()
+);
+
+export const GetExistingOrderInfo = createAction(OrderActions.GetExistingOrderInfo, props<{ orderId: number }>());
+export const GetExistingOrderInfoSuccess = createAction(OrderActions.GetExistingOrderInfoSuccess, props<{ orderInfo: IUserOrderInfo }>());
+
+export const GetAddresses = createAction(OrderActions.GetAddresses);
+export const GetAddressesSuccess = createAction(OrderActions.GetAddressesSuccess, props<{ locations: Address[] }>());
+
+export const CreateAddress = createAction(OrderActions.CreateAddress, props<{ address: AddressData }>());
+export const CreateAddressSuccess = createAction(OrderActions.CreateAddressSuccess, props<{ addresses: Address[] }>());
+
+export const UpdateAddress = createAction(OrderActions.UpdateAddress, props<{ address: Address }>());
+export const UpdateAddressSuccess = createAction(OrderActions.UpdateAddressSuccess, props<{ addresses: Address[] }>());
+
+export const DeleteAddress = createAction(OrderActions.DeleteAddress, props<{ address: Address }>());
+export const DeleteAddressSuccess = createAction(OrderActions.DeleteAddressSuccess, props<{ addresses: Address[] }>());
 
 export const ClearPersonalData = createAction(OrderActions.ClearPersonalData);
 export const ClearOrderDetails = createAction(OrderActions.ClearOrderDetails);
+
+export const ClearOrderData = createAction(OrderActions.ClearOrderData);

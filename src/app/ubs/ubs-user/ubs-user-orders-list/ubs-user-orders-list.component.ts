@@ -130,7 +130,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
     let personalDataResponse: PersonalData;
 
     const orderDataRequest: Observable<OrderDetails> = this.orderService
-      .getExistingOrder(order.id)
+      .getExistingOrderDetails(order.id)
       .pipe(takeUntil(this.destroy$))
       .pipe(
         tap((orderData) => {
@@ -191,7 +191,7 @@ export class UbsUserOrdersListComponent implements OnInit, OnDestroy {
   }
 
   public redirectToStepOne(): void {
-    this.router.navigate(['ubs/order'], { queryParams: { isThisExistingOrder: true } });
+    this.router.navigate(['ubs/order'], { queryParams: { existingOrderId: this.orderId } });
   }
 
   public openOrderCancelDialog(order: IUserOrderInfo): void {
