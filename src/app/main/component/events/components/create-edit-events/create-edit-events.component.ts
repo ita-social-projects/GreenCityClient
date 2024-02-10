@@ -181,6 +181,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.eventFormGroup.get('titleForm');
   }
 
+  get description() {
+    return this.eventFormGroup.get('description');
+  }
+
   public setEditValue(): void {
     this.eventFormGroup.patchValue({
       titleForm: this.editEvent.title,

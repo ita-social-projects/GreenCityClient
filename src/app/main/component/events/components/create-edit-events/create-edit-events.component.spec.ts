@@ -13,6 +13,7 @@ import { CreateEditEventsComponent } from './create-edit-events.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
