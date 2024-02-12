@@ -67,7 +67,7 @@
 
 .date-error {
   color: var(--error-red);
-  margin: -18px 0 40px 77px;
+  margin: -18px 0 40px 290px;
 }
 
 .all-day {
@@ -82,7 +82,7 @@
   font-weight: 200;
   margin-right: 5px;
   scale: 0.8;
-  opacity: 50%;
+  opacity: 50% !important;
 }
 
 .example-margin {
@@ -100,6 +100,12 @@
   height: 338px;
   margin-top: 12px;
   margin-bottom: 8px;
+}
+
+.tag-place {
+  font-size: 12px;
+  color: var(--quaternary-grey);
+  margin-top: -8px;
 }
 
 .location-error-messege {

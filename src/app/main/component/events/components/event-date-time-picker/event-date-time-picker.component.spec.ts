@@ -6,7 +6,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventDateTimePickerComponent } from './event-date-time-picker.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from '../../services/events.service';
