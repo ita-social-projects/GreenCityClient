@@ -69,4 +69,3 @@ describe('HabitCalendarComponent', () => {
     expect(spy).toHaveBeenCalled();
   }));
 });
-

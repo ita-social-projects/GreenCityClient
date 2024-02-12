@@ -111,10 +111,12 @@
   }
 
   .centered {
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
+    line-height: 24px;
     width: 250px;
-    font-family: var(--primary-font);
+    font-weight: 700;
+    font-family: var(--tertiary-font);
 
     label > [browse] {
       color: var(--primary-green);
@@ -124,6 +126,7 @@
   }
 
   .download-info {
+    line-height: 24px;
     color: var(--quaternary-grey);
     font-size: 12px;
   }
@@ -169,6 +172,21 @@
           width: 288px;
         }
       }
+    }
+
+    .dropzone {
+      margin-bottom: 16px;
+      width: 227px;
+    }
+
+    .download-info {
+      width: 232px;
+      text-align: left;
+    }
+
+    .text-wrapper {
+      width: 227px;
+      height: 259px;
     }
   }
 }
