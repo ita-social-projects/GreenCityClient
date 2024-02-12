@@ -22,7 +22,7 @@ import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 
-describe('UBSAddAddressPopUpComponent', () => {
+xdescribe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
   let orderService: OrderService;

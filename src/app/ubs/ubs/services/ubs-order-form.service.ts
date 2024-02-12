@@ -64,17 +64,6 @@ export class UBSOrderFormService {
       this.orderStatusDone = false;
     }
   }
-
-  saveDataOnLocalStorage() {
-    if (!this.isDataSaved) {
-      const personalData = JSON.stringify(this.getPersonalData());
-      const orderData = JSON.stringify(this.getOrderDetails());
-      this.localStorageService.setUbsOrderData(personalData, orderData);
-    } else {
-      this.localStorageService.removeUbsOrderData();
-    }
-  }
-
   getPersonalData() {
     return this.personalData;
   }

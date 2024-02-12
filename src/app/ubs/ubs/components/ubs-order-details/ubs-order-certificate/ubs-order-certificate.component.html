@@ -1,4 +1,4 @@
-<div [formGroup]="orderDetailsForm">
+<div *ngIf="orderBonusesForm" [formGroup]="orderBonusesForm">
   <div
     class="add-certificate"
     formArrayName="formArrayCertificates"
@@ -12,67 +12,48 @@
       [unmask]="false"
       [imask]="{ mask: certificateMask }"
       [formControlName]="i"
-      [readonly]="certificates.activatedStatus[i]"
-      (keydown.enter)="certificateSubmit(i)"
+      [readonly]="certificates[i]"
+      (keydown.enter)="onActivateCertififcate(i)"
     />
     <div class="form-group">
       <button
-        *ngIf="showActivateButton(i)"
+        *ngIf="!certificates[i]"
         type="button"
         class="ubs-primary-global-button s-btn"
-        [disabled]="
-          showMessageForAlreadyEnteredCert(i) ||
-          formArrayCertificates['controls'][i].invalid ||
-          formArrayCertificates['controls'][i].pristine ||
-          !certificate.value.length ||
-          showTotal < minOrderValue
-        "
-        (click)="certificateSubmit(i)"
+        [disabled]="isActivateCertificateDisabled(i)"
+        (click)="onActivateCertififcate(i)"
       >
         {{ 'order-details.activate' | translate }}
       </button>
-      <button
-        [disabled]="cancelCertBtn"
-        *ngIf="showCancelButton(i)"
-        type="button"
-        class="ubs-secondary-global-button s-btn"
-        (click)="deleteCertificate(i)"
-      >
+      <button *ngIf="certificates[i]" type="button" class="ubs-secondary-global-button s-btn" (click)="deleteCertificate(i)">
         {{ 'order-details.cancel' | translate }}
       </button>
     </div>
-    <div class="validMessages">
-      <small class="text-danger" *ngIf="certificate.invalid && certificate.touched && certificates.error[i]">
-        {{ 'order-details.failed-certificate' | translate }}
-      </small>
-    </div>
+    <div class="validMessages"></div>
     <div class="messages-container">
-      <small class="text-danger" *ngIf="isNotExistCertificate">
-        {{ 'order-details.certificate-not-exist' | translate }}
-      </small>
-      <small class="text-danger" *ngIf="certificates.error[i]">
+      <small class="text-danger" *ngIf="certificates[i]?.isFailed()">
         {{ 'order-details.failed-certificate' | translate }}
       </small>
-      <small class="text-danger" *ngIf="showMessageForAlreadyUsedCert(i)">
-        {{ 'order-details.already-used' | translate: { certDate: certificates.dateOfUses[i] } }}
+      <small class="text-danger" *ngIf="certificates[i]?.isUsed()">
+        {{ 'order-details.already-used' | translate: { certDate: certificates[i].dateOfUse } }}
       </small>
-      <small class="text-danger" *ngIf="showMessageForAlreadyEnteredCert(i)">
+      <small class="text-danger" *ngIf="isCertificateAlreadyEntered(i)">
         {{ 'order-details.already-used' | translate: { certDate: formArrayCertificates.controls[i].value } }}
       </small>
-      <small class="text-danger" *ngIf="certificates.status[i] === 'EXPIRED' && certificates.failed[i]">
-        {{ 'order-details.expired' | translate: { certDate: certificates.expirationDates[i] } }}
+      <small class="text-danger" *ngIf="certificates[i]?.isExpired()">
+        {{ 'order-details.expired' | translate: { certDate: certificates[i].expirationDate } }}
       </small>
-      <small class="text-message" *ngIf="showActivateCetificate(i)">
-        {{ 'order-details.activated' | translate: { certificateSum: certificates.points[i], certDate: certificates.expirationDates[i] } }}
+      <small class="text-message" *ngIf="certificates[i]?.isValid() && (certificateSum <= orderSum || i !== certificates.length - 1)">
+        {{ 'order-details.activated' | translate: { certificateSum: certificates[i].points, certDate: certificates[i].expirationDate } }}
       </small>
-      <small class="text-message" *ngIf="showActivateCetificateOversum(i)">
+      <small class="text-message" *ngIf="certificates[i]?.isValid() && i === certificates.length - 1 && certificateSum > orderSum">
         {{
           'order-details.activated-oversum'
             | translate
               : {
-                  certificateSum: certificates.points[i],
-                  certDate: certificates.expirationDates[i],
-                  certificateLeft: certificateSum - showTotal
+                  certificateSum: certificates[i].points,
+                  certDate: certificates[i].expirationDate,
+                  certificateLeft: certificateSum - orderSum
                 }
         }}
       </small>
@@ -81,15 +62,9 @@
 
   <button
     type="button"
-    *ngIf="addCert && sumForActCertificate > 0 && !certificates.failed[certificates.failed.length - 1]"
+    *ngIf="isCanAddCertificate()"
     class="ubs-link-global-button s-link"
-    [hidden]="certificates.codes.length > 4"
-    [disabled]="
-      !disableAddCertificate() ||
-      cancelCertBtn ||
-      certificates.error[certificates.codes.length - 1] ||
-      certificates.failed[certificates.codes.length - 1]
-    "
+    [hidden]="certificates.length > 4"
     (click)="addNewCertificate()"
   >
     {{ 'order-details.add-certificate' | translate }}
@@ -97,17 +72,17 @@
 
   <div class="points">
     <h5>{{ 'order-details.bonus-need' | translate }}</h5>
-    <p>{{ 'order-details.bonus-left' | translate }} {{ defaultPoints | currency | localizedCurrency }}</p>
-    <div class="radio-btn" *ngIf="defaultPoints !== 0 && showTotal !== 0" appSpacePrevent>
-      <label class="custom-radio-btn"
-        >{{ 'order-details.no' | translate }}
-        <input formControlName="bonus" type="radio" value="no" tabindex="-1" (click)="resetPoints()" />
-        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'no')"></span>
+    <p>{{ 'order-details.bonus-left' | translate }} {{ points | currency | localizedCurrency }}</p>
+    <div class="radio-btn" *ngIf="points !== 0 && orderSum - certificateSum > 0" appSpacePrevent>
+      <label class="custom-radio-btn">
+        {{ 'order-details.no' | translate }}
+        <input formControlName="bonus" type="radio" [value]="false" tabindex="-1" />
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, false)"></span>
       </label>
-      <label class="custom-radio-btn"
-        >{{ 'order-details.yes' | translate }}
-        <input formControlName="bonus" type="radio" value="yes" tabindex="-1" (click)="calculatePoints()" />
-        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, 'yes')"></span>
+      <label class="custom-radio-btn">
+        {{ 'order-details.yes' | translate }}
+        <input formControlName="bonus" type="radio" [value]="true" tabindex="-1" />
+        <span class="checkmark" tabindex="0" (keyup)="selectPointsRadioBtn($event, true)"></span>
       </label>
     </div>
     <div class="points-balance">
@@ -115,7 +90,7 @@
         <span>{{ 'order-details.used' | translate }} {{ pointsUsed | currency | localizedCurrency }}</span>
       </small>
       <small class="text-message" [class.d-none]="pointsUsed === 0">
-        <span>{{ 'order-details.balance' | translate }} {{ points | currency | localizedCurrency }}</span>
+        <span>{{ 'order-details.balance' | translate }} {{ points - pointsUsed | currency | localizedCurrency }}</span>
       </small>
     </div>
   </div>

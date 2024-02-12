@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../services/order.service';
-import { Subject } from 'rxjs';
-import { CertificateStatus } from '../../../certificate-status.enum';
-import { Bag, ICertificateResponse, Locations, OrderDetails, Certificate } from '../../../models/ubs.interface';
-import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
-import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
+import { Subject, combineLatest } from 'rxjs';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
+import { Store, select } from '@ngrx/store';
+import { certificatesSelector, isFirstFormValidSelector, orderSumSelector, pointsSelector } from 'src/app/store/selectors/order.selectors';
+import { CCertificate } from 'src/app/ubs/ubs/models/ubs.model';
+import { AddCertificate, RemoveCertificate, SetCertificateUsed, SetCertificates, SetPointsUsed } from 'src/app/store/actions/order.actions';
+import { ICertificateResponse } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Component({
   selector: 'app-ubs-order-certificate',
@@ -15,440 +16,153 @@ import { Masks, Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./ubs-order-certificate.component.scss']
 })
 export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
-  @Input() showTotal;
-  @Input() bags: Bag[];
-  @Input() defaultPoints: number;
-  @Input() points: number;
-  @Input() pointsUsed: number;
-  @Input() sumForActCertificate: number;
-  @Output() newItemEvent = new EventEmitter<object>();
-  fullCertificate: number;
-
-  public certificates: Certificate = {
-    codes: [],
-    points: [],
-    activatedStatus: [],
-    creationDates: [],
-    dateOfUses: [],
-    expirationDates: [],
-    failed: [],
-    status: [],
-    error: []
-  };
-
-  orders: OrderDetails;
-  orderDetailsForm: FormGroup;
-  minOrderValue = 500;
+  orderBonusesForm: FormGroup;
+  certificates: CCertificate[] = [];
+  orderSum = 0;
+  points: number;
+  pointsUsed = 0;
   certificateSum = 0;
-  total = 0;
-  finalSum = 0;
-  cancelCertBtn = false;
-  displayMinOrderMes = false;
-  displayCert = false;
-  addCert: boolean;
-  onSubmit = true;
-  order: {};
+  isFirstFormValid = false;
   certificateMask = Masks.certificateMask;
-  ecoStoreMask = Masks.ecoStoreMask;
-  servicesMask = Masks.servicesMask;
   certificatePattern = Patterns.serteficatePattern;
-  commentPattern = Patterns.ubsCommentPattern;
-  additionalOrdersPattern = Patterns.ordersPattern;
-  certSize = false;
-  showCertificateUsed = 0;
-  certificateLeft = 0;
-  public destroy: Subject<boolean> = new Subject<boolean>();
-  bonusesRemaining: boolean;
-  public locations: Locations[];
-  clickOnYes = true;
-  clickOnNo = true;
-  public alreadyEnteredCert: string[] = [];
-  public isNotExistCertificate = false;
+  private $destroy: Subject<void> = new Subject<void>();
 
-  constructor(
-    private fb: FormBuilder,
-    public orderService: OrderService,
-    public shareFormService: UBSOrderFormService,
-    private localStorageService: LocalStorageService
-  ) {
-    this.initForm();
-  }
-
-  ngOnInit(): void {
-    localStorage.removeItem('UBSorderData');
-    this.shareFormService.addCert.pipe(takeUntil(this.destroy)).subscribe((item: boolean) => {
-      this.addCert = item;
-    });
-    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      if (this.localStorageService.getUbsOrderData()) {
-        this.calculateTotal();
-      }
-    });
-  }
-
-  public disableAddCertificate() {
-    return this.certificates.codes.length === this.formArrayCertificates.length;
-  }
-
-  initForm() {
-    this.orderDetailsForm = this.fb.group({
-      bonus: new FormControl('no'),
-      formArrayCertificates: this.fb.array([new FormControl('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)])])
-    });
+  get bonus() {
+    return this.orderBonusesForm?.controls.bonus;
   }
 
   get formArrayCertificates() {
-    return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
+    return this.orderBonusesForm.get('formArrayCertificates') as FormArray;
   }
 
-  private certificateDateTreat(date: string): string {
-    return date?.split('-').reverse().join('.');
+  getCertificateValue(index: number) {
+    return this.formArrayCertificates.value[index];
   }
 
-  public setNewValue(value: object) {
-    this.newItemEvent.emit(value);
+  getFinalSum() {
+    return Math.max(this.orderSum - this.certificateSum - this.pointsUsed, 0);
   }
 
-  sendDataToParents() {
-    const certificateObj = {
-      certificates: this.formArrayCertificates.value[0] ? this.formArrayCertificates.value : [],
-      showCertificateUsed: this.showCertificateUsed,
-      certificateSum: this.fullCertificate,
-      displayCert: this.displayCert,
-      finalSum: this.finalSum,
-      pointsUsed: this.pointsUsed,
-      points: this.points,
-      isBonus: this.orderDetailsForm.get('bonus').value
-    };
-    this.setNewValue(certificateObj);
+  constructor(private fb: FormBuilder, public orderService: OrderService, private store: Store) {}
+
+  ngOnInit(): void {
+    this.initForm();
+    this.initListeners();
   }
 
-  certificateMatch(cert: ICertificateResponse): void {
-    if (cert.certificateStatus === CertificateStatus.ACTIVE || cert.certificateStatus === CertificateStatus.NEW) {
-      this.certificateSum += cert.points;
-      this.displayCert = true;
-      this.shareFormService.changeAddCertButtonVisibility(true);
-    }
-    this.certificates.failed.push(
-      cert.certificateStatus === CertificateStatus.EXPIRED || cert.certificateStatus === CertificateStatus.USED
-    );
-    if (this.certificates.failed[this.certificates.failed.length - 1]) {
-      this.certificates.codes.splice(-1);
-    }
-    this.certificateSum =
-      this.certificates.failed[this.certificates.failed.length - 1] && this.formArrayCertificates.length === 1 ? 0 : this.certificateSum;
-    this.certificates.creationDates.push(this.certificateDateTreat(cert.creationDate));
-    this.certificates.dateOfUses.push(this.certificateDateTreat(cert.dateOfUse));
-    this.certificates.expirationDates.push(this.certificateDateTreat(cert.expirationDate));
-    this.certificates.points.push(cert.points);
-    this.certificates.status.push(cert.certificateStatus);
-    this.fullCertificate = this.certificateSum;
-  }
-
-  public calculateTotal(): void {
-    this.total = 0;
-    this.bags.forEach((bag) => {
-      this.total += bag.price * bag.quantity;
+  initForm(): void {
+    this.orderBonusesForm = this.fb.group({
+      bonus: new FormControl(false),
+      formArrayCertificates: this.fb.array([])
     });
-    this.showTotal = this.total;
-    this.displayMinOrderMes = this.total < this.minOrderValue && this.orderDetailsForm.dirty;
-    this.onSubmit = this.displayMinOrderMes;
-    this.finalSum = this.total - this.pointsUsed;
-    if (this.certificateSum > 0) {
-      if (this.total > this.certificateSum) {
-        this.certificateLeft = 0;
-        if (this.finalSum <= this.certificateSum && this.pointsUsed > 0) {
-          this.points = this.pointsUsed - this.finalSum;
-          this.pointsUsed = this.finalSum;
-          this.finalSum = 0;
-        } else {
-          this.finalSum = this.total - this.certificateSum - this.pointsUsed;
-        }
-        this.showCertificateUsed = this.certificateSum;
-      } else {
-        this.finalSum = 0;
-        this.points = this.points + this.pointsUsed;
-        this.pointsUsed = 0;
-        this.orderDetailsForm.controls.bonus.setValue('no');
-        this.certificateLeft = this.certificateSum - this.total;
-        this.showCertificateUsed = this.total;
-      }
-      this.bonusesRemaining = this.certificateSum > 0;
-    } else {
-      this.certificateLeft = 0;
-      this.finalSum = this.total - this.pointsUsed;
-      this.showCertificateUsed = this.certificateSum;
-      if (this.finalSum < 0) {
-        this.points = -this.finalSum;
-        this.pointsUsed = this.total;
-        this.finalSum = 0;
-      }
-    }
-    if (this.orderDetailsForm.controls.bonus.value === 'yes') {
-      this.resetPoints();
-      this.calculatePoints();
-    } else {
-      this.sendDataToParents();
-    }
-    this.changeOrderDetails();
+    this.addNewCertificate();
+
+    this.bonus.valueChanges.pipe(takeUntil(this.$destroy)).subscribe(() => this.calculateAll());
   }
 
-  changeOrderDetails() {
-    this.shareFormService.orderDetails.pointsToUse = this.pointsUsed;
-    this.shareFormService.orderDetails.certificates = this.certificates.codes;
-    this.shareFormService.orderDetails.certificatesSum = this.showCertificateUsed;
-    this.shareFormService.orderDetails.pointsSum = this.pointsUsed;
-    this.shareFormService.orderDetails.total = this.showTotal;
-    this.shareFormService.orderDetails.finalSum = this.finalSum;
-    this.shareFormService.changeOrderDetails();
-  }
-
-  public particalResetStoragedCertificates(): void {
-    this.certificates.creationDates = [];
-    this.certificates.dateOfUses = [];
-    this.certificates.expirationDates = [];
-    this.certificates.points = [];
-    this.certificates.failed = [];
-    this.certificates.status = [];
-  }
-
-  calculateCertificates(): void {
-    if (this.certificates.codes.length) {
-      this.cancelCertBtn = true;
-      this.particalResetStoragedCertificates();
-
-      this.certificates.codes.forEach((certificate, index) => {
-        this.orderService
-          .processCertificate(certificate)
-          .pipe(takeUntil(this.destroy))
-          .subscribe(
-            (cert) => {
-              this.certificateMatch(cert);
-              if (this.total < this.certificateSum) {
-                this.certSize = true;
-              }
-              this.calculateTotal();
-              this.cancelCertBtn = false;
-            },
-            (error) => {
-              this.cancelCertBtn = false;
-              if (error.status === 404) {
-                this.isNotExistCertificate = true;
-                this.certificates.codes.splice(index, 1);
-                this.certificates.activatedStatus.splice(index, 1);
-                this.certificates.creationDates.splice(index, 1);
-                this.certificates.dateOfUses.splice(index, 1);
-                this.certificates.expirationDates.splice(index, 1);
-
-                this.certificates.points.splice(index, 1);
-                this.certificates.status.splice(index, 1);
-
-                this.certificates.error.push(true);
-                this.certificates.failed.push(true);
-              }
-            }
-          );
+  initListeners(): void {
+    combineLatest([
+      this.store.pipe(select(orderSumSelector)),
+      this.store.pipe(select(certificatesSelector)),
+      this.store.pipe(select(pointsSelector))
+    ])
+      .pipe(takeUntil(this.$destroy))
+      .subscribe(([orderSum, certificates, points]) => {
+        this.orderSum = orderSum;
+        this.certificates = certificates;
+        this.points = points;
+        this.calculateAll();
       });
-    } else {
-      this.calculateTotal();
-    }
-    this.certificateSum = 0;
+
+    this.store.pipe(select(isFirstFormValidSelector), takeUntil(this.$destroy)).subscribe((isValid) => {
+      this.isFirstFormValid = isValid;
+    });
+  }
+
+  onActivateCertififcate(index: number): void {
+    const code = this.getCertificateValue(index);
+
+    this.orderService
+      .processCertificate(code)
+      .pipe(take(1))
+      .subscribe(
+        (response: ICertificateResponse) => {
+          this.store.dispatch(AddCertificate({ certificate: CCertificate.ofResponse(response) }));
+        },
+        () => {
+          this.store.dispatch(AddCertificate({ certificate: CCertificate.ofError(code) }));
+        }
+      );
   }
 
   addNewCertificate(): void {
-    this.formArrayCertificates.push(this.fb.control('', [Validators.minLength(8), Validators.pattern(this.certificatePattern)]));
-  }
-
-  certificateReset(): void {
-    const fullBonus = this.pointsUsed + this.points;
-    if (this.finalSum === 0 && this.pointsUsed + this.points >= this.certificateSum && this.pointsUsed !== 0) {
-      this.finalSum = this.showTotal;
-      this.finalSum -= fullBonus;
-      this.pointsUsed = fullBonus;
-      this.points = 0;
-    }
-    this.clickOnYes = true;
-    this.bonusesRemaining = false;
-    this.showCertificateUsed = null;
-    this.shareFormService.changeAddCertButtonVisibility(false);
-    this.displayCert = false;
-
-    for (const key of Object.keys(this.certificates)) {
-      this.certificates[key] = [];
-    }
-
-    this.certSize = false;
-    this.certificateLeft = 0;
-    this.certificateSum = 0;
-    this.fullCertificate = 0;
-    this.formArrayCertificates.patchValue(['']);
-    this.formArrayCertificates.markAsUntouched();
-  }
-
-  deleteCertificate(index: number): void {
-    for (const key of Object.keys(this.certificates)) {
-      this.certificates[key].splice(index, 1);
-    }
-
-    if (this.formArrayCertificates.length > 1) {
-      this.formArrayCertificates.removeAt(index);
-    } else {
-      this.certificateReset();
-    }
-    this.calculateCertificates();
-    this.isNotExistCertificate = false;
-  }
-
-  showCancelButton(i: number): boolean {
-    const isCertActivated = this.certificates.activatedStatus[i];
-    const isCertFilled = this.formArrayCertificates.controls[i].value.length > 0;
-    const hasMultipleCertificates = this.formArrayCertificates.controls.length > 1;
-    const isCertAlreadyEntered = this.showMessageForAlreadyEnteredCert(i);
-
-    return (
-      (isCertActivated && isCertFilled) || (hasMultipleCertificates && !isCertFilled) || isCertAlreadyEntered || this.isNotExistCertificate
+    this.formArrayCertificates.push(
+      this.fb.control('', [Validators.required, Validators.minLength(8), Validators.pattern(this.certificatePattern)])
     );
   }
 
-  certificateSubmit(index: number): void {
-    if (!this.certificates.codes.includes(this.formArrayCertificates.value[index])) {
-      this.particalResetStoragedCertificates();
-
-      this.certificates.codes.push(this.formArrayCertificates.value[index]);
-      this.certificates.activatedStatus.push(true);
-      this.certificates.error.push(false);
-      this.calculateCertificates();
-      this.alreadyEnteredCert.splice(0, this.alreadyEnteredCert.length);
-    } else {
-      this.alreadyEnteredCert.push(this.formArrayCertificates.value[index]);
+  deleteCertificate(index: number): void {
+    this.store.dispatch(RemoveCertificate({ code: this.getCertificateValue(index) }));
+    this.formArrayCertificates.removeAt(index);
+    if (this.formArrayCertificates.length === 0) {
+      this.addNewCertificate();
     }
   }
 
-  showMessageForAlreadyEnteredCert(i: number): boolean {
-    const isCertificateExists = this.certificates.codes.includes(this.formArrayCertificates.value[i]);
-    const isAlreadyEnteredCert = this.alreadyEnteredCert.length === 1;
-
-    return isCertificateExists && isAlreadyEnteredCert && !this.showActivateCetificate(i);
+  isCertificateAlreadyEntered(index: number): boolean {
+    return !this.certificates[index] && !!this.certificates.find((cert) => cert.code === this.getCertificateValue(index));
   }
 
-  showMessageForAlreadyUsedCert(i: number): boolean {
-    const isUsed = this.certificates.status[i] === 'USED';
-    const hasFailed = !!this.certificates.failed[i];
-    const isAlreadyEntered = this.showMessageForAlreadyEnteredCert(i);
-    const isNotInclude = !this.certificates.codes.includes(this.formArrayCertificates.value[i]);
-
-    return isUsed && hasFailed && !isAlreadyEntered && isNotInclude;
+  isActivateCertificateDisabled(index: number): boolean {
+    return (
+      this.isCertificateAlreadyEntered(index) ||
+      this.formArrayCertificates.controls[index].invalid ||
+      !this.isFirstFormValid ||
+      this.getFinalSum() === 0
+    );
   }
 
-  showActivateButton(i: number): boolean {
-    const isNotActivated = !this.certificates.activatedStatus[i];
-    const isFilled = this.formArrayCertificates.controls[i].value;
-    const isNotDisabledBtn = !this.disableAddCertificate();
-    const isSingleCertificate = this.formArrayCertificates.controls.length === 1;
-    const isAlreadyEnteredCert = !this.showMessageForAlreadyEnteredCert(i);
-
-    const shouldShowButton = isNotActivated && isFilled && isNotDisabledBtn && !this.isNotExistCertificate;
-    const isSingleCertificateAndEmpty = isSingleCertificate && !isFilled;
-
-    return (shouldShowButton || isSingleCertificateAndEmpty) && isAlreadyEnteredCert;
+  isCanAddCertificate(): boolean {
+    return (
+      this.certificates.length && this.certificates[this.formArrayCertificates.value.length - 1]?.isValid() && this.getFinalSum() !== 0
+    );
   }
 
-  public selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: string) {
+  selectPointsRadioBtn(event: KeyboardEvent, radioButtonValue: boolean): void {
     if (['Enter', 'Space', 'NumpadEnter'].includes(event.code)) {
-      this.orderDetailsForm.controls.bonus.setValue(radioButtonValue);
-      if (radioButtonValue === 'yes') {
-        this.calculatePoints();
-      } else {
-        this.resetPoints();
-      }
+      this.bonus.setValue(radioButtonValue);
     }
   }
 
-  public calculatePointsWithoutCertificate() {
-    this.finalSum = this.showTotal;
-    const totalSumIsBiggerThanPoints = this.defaultPoints > this.showTotal;
-    if (totalSumIsBiggerThanPoints) {
-      this.pointsUsed += this.finalSum;
-      this.points = this.defaultPoints - this.finalSum;
-      this.finalSum = 0;
+  calculateAll(): void {
+    this.calculateCertificates();
+
+    if (!this.bonus?.value) {
+      this.pointsUsed = 0;
+      this.store.dispatch(SetPointsUsed({ pointsUsed: 0 }));
       return;
     }
-    this.pointsUsed = this.defaultPoints;
-    this.points = 0;
-    this.finalSum = this.showTotal - this.pointsUsed;
-  }
 
-  public calculatePointsWithCertificate() {
-    this.finalSum = this.showTotal;
-    const totalSumIsBiggerThanPoints = this.defaultPoints > this.finalSum - this.certificateSum;
-    if (totalSumIsBiggerThanPoints) {
-      this.pointsUsed = this.finalSum - this.certificateSum;
-      this.points = this.defaultPoints - this.pointsUsed;
-      this.finalSum = 0;
+    const leftToPay = this.orderSum - this.certificateSum;
+    if (leftToPay <= 0) {
+      this.bonus.setValue(false);
+      this.pointsUsed = 0;
     } else {
-      this.pointsUsed = this.defaultPoints;
-      this.finalSum = this.finalSum - this.pointsUsed - this.certificateSum;
-      this.points = 0;
+      this.pointsUsed = Math.min(leftToPay, this.points);
     }
-    if (this.finalSum < 0) {
-      this.finalSum = 0;
-    }
+
+    this.store.dispatch(SetPointsUsed({ pointsUsed: this.pointsUsed }));
   }
 
-  calculatePoints(): void {
-    this.fullCertificate = this.certificateSum;
-    if (this.certificateSum >= this.showTotal) {
-      this.orderDetailsForm.controls.bonus.setValue('no');
-    }
-    if (this.clickOnYes && this.certificateSum < this.showTotal) {
-      this.orderDetailsForm.controls.bonus.setValue('yes');
-      this.clickOnNo = true;
-      if (this.certificateSum <= 0) {
-        this.calculatePointsWithoutCertificate();
-      } else {
-        this.calculatePointsWithCertificate();
-      }
-      if (this.finalSum < 0) {
-        this.finalSum = 0;
-      }
-      this.sendDataToParents();
-      this.clickOnYes = false;
-    }
+  calculateCertificates() {
+    const validCertificates = this.certificates.filter((certificate) => certificate.isValid());
+    this.certificateSum = validCertificates.reduce((sum, certificate) => sum + certificate.points, 0);
+    this.store.dispatch(SetCertificateUsed({ certificateUsed: Math.min(this.orderSum, this.certificateSum) }));
+    this.store.dispatch(SetCertificates({ certificates: validCertificates.map((certificate) => certificate.code) }));
   }
 
-  resetPoints(): void {
-    if (this.clickOnNo) {
-      if (this.certificateSum < this.showTotal) {
-        this.orderDetailsForm.get('bonus').setValue('no');
-        this.clickOnYes = true;
-        this.finalSum = this.showTotal;
-        this.points = this.pointsUsed + this.points;
-        this.pointsUsed = 0;
-        if (this.certificateSum > 0) {
-          this.finalSum -= this.certificateSum;
-        }
-        this.sendDataToParents();
-        this.points = this.showTotal + this.points;
-      }
-      this.clickOnNo = false;
-    }
-  }
-
-  public showActivateCetificate(i: number): boolean {
-    const isCertificateNotExpired = !!this.certificates.expirationDates[i];
-    const isCertSize = !!this.certSize;
-    const isCertNotFailed = !this.certificates.failed[i];
-    const isShowTotal = this.certificateSum <= this.showTotal;
-
-    return isCertificateNotExpired && isCertSize && isCertNotFailed && isShowTotal;
-  }
-
-  public showActivateCetificateOversum(i: number): boolean {
-    return this.certSize && this.certificateSum > this.showTotal && i === this.certificates.codes.length - 1;
-  }
-
-  ngOnDestroy() {
-    this.destroy.next();
-    this.destroy.unsubscribe();
+  ngOnDestroy(): void {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

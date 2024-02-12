@@ -59,16 +59,6 @@ export class FormBaseComponent implements ComponentCanDeactivate {
     });
   }
 
-  cancelUBSwithoutSaving(): void {
-    this.orderService.cancelUBSwithoutSaving();
-    this.router.navigateByUrl('/ubs');
-  }
-
-  cancelUBS(isUbsOrderSubmit?: boolean): void {
-    const condition = this.getFormValues();
-    this.cancelPopupJustifying(condition, isUbsOrderSubmit);
-  }
-
   private cancelPopupJustifying(condition: boolean, isUbsOrderSubmit?: boolean) {
     if (condition) {
       const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
@@ -83,22 +73,8 @@ export class FormBaseComponent implements ComponentCanDeactivate {
           if (confirm) {
             this.areChangesSaved = true;
           }
-          if (confirm && isUbsOrderSubmit) {
-            this.orderService.saveOrderData();
-            this.orderService.cleanOrderState();
-            this.router.navigate(['ubs', 'confirm']);
-          }
-          if (confirm && !isUbsOrderSubmit && isUBS) {
-            this.cancelUBSwithoutSaving();
-          }
           if (confirm && !isUbsOrderSubmit && !isUBS) {
             this.router.navigate([this.previousPath]);
-          }
-          if (confirm === null && isUbsOrderSubmit) {
-            this.cancelUBSwithoutSaving();
-          }
-          if (!confirm && isUbsOrderSubmit && isUBS) {
-            this.cancelUBSwithoutSaving();
           }
         });
       return;
