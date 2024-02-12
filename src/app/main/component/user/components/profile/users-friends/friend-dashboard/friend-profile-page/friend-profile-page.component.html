@@ -1,6 +1,7 @@
 <div class="profile-wrapper" *ngIf="userInfo">
   <div class="side-bar">
     <app-profile-header class="app-profile-header" [userInfo]="userInfo" [progress]="progress"></app-profile-header>
+    <button (click)="sendSocketMessage()">IS ONLINE</button>
     <hr *ngIf="isRequest && showButtons" />
     <div class="friend-request" *ngIf="isRequest && showButtons">
       <button class="secondary-global-button m-btn" (click)="accept(userId)">{{ 'profile.friends.request-accept' | translate }}</button>
