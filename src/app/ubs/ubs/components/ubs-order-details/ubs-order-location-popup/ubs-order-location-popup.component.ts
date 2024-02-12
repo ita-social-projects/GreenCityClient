@@ -6,8 +6,9 @@ import { Subject, Observable, of, iif } from 'rxjs';
 import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
 import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
-import { Router } from '@angular/router';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Store } from '@ngrx/store';
+import { GetCourierLocations, GetOrderDetails } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -33,8 +34,8 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private dialogRef: MatDialogRef<UbsOrderLocationPopupComponent>,
     private localStorageService: LocalStorageService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private router: Router
+    private store: Store,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
   }
@@ -53,7 +54,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   displayFn(city: LocationsName): string {
-    return city && city.locationName ? city.locationName : '';
+    return city?.locationName ? city.locationName : '';
   }
 
   private _filter(value: string): LocationsName[] {
@@ -106,6 +107,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   saveLocation(): void {
+    this.store.dispatch(GetCourierLocations({ courierId: this.courierUBS.courierId, locationId: this.selectedLocationId }));
     this.orderService
       .getInfoAboutTariff(this.courierUBS.courierId, this.selectedLocationId)
       .pipe(takeUntil(this.destroy$))
@@ -118,6 +120,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
             }
           });
           this.selectedTariffId = res.tariffsForLocationDto.tariffInfoId;
+          this.store.dispatch(GetOrderDetails({ locationId: this.selectedLocationId, tariffId: this.selectedTariffId }));
           this.localStorageService.setLocationId(this.selectedLocationId);
           this.localStorageService.setTariffId(this.selectedTariffId);
           this.localStorageService.setLocations(this.locations);

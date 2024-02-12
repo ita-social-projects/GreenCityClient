@@ -9,6 +9,7 @@ import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { ClearOrderData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -64,7 +65,6 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
       if (orderDetails && this.statePersonalData) {
         this.stepper.linear = false;
         this.completed = true;
-        this.stepper.selectedIndex = 2;
         setTimeout(() => {
           this.stepper.linear = true;
         });
@@ -85,10 +85,10 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
 
   saveDataOnLocalStorage(): void {
     this.shareFormService.isDataSaved = false;
-    this.shareFormService.saveDataOnLocalStorage();
   }
 
   ngOnDestroy() {
+    this.store.dispatch(ClearOrderData());
     this.saveDataOnLocalStorage();
   }
 }

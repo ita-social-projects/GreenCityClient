@@ -1,61 +1,62 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
+import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { Address, Bag, CourierLocations, OrderBag, OrderDetails, PersonalData } from '../../models/ubs.interface';
-import { Order } from '../../models/ubs.model';
+import { Address, CourierLocations, PersonalData } from '../../models/ubs.interface';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { Locations } from 'src/assets/locations/locations';
-import { GoogleScript } from 'src/assets/google-script/google-script';
-import { LanguageService } from 'src/app/main/i18n/language.service';
-import { Store } from '@ngrx/store';
-import { AddPersonalData } from 'src/app/store/actions/order.actions';
+import { Store, select } from '@ngrx/store';
+import {
+  DeleteAddress,
+  GetPersonalData,
+  GetAddresses,
+  SetPersonalData,
+  UpdateAddress,
+  GetExistingOrderInfo,
+  SetAddressId
+} from 'src/app/store/actions/order.actions';
+import {
+  existingOrderInfoSelector,
+  locationIdSelector,
+  personalDataSelector,
+  addressesSelector
+} from 'src/app/store/selectors/order.selectors';
+import { Language } from 'src/app/main/i18n/Language';
+import { IAddressExportDetails, IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-ubs-personal-information',
   templateUrl: './ubs-personal-information.component.html',
   styleUrls: ['./ubs-personal-information.component.scss']
 })
-export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy, OnChanges {
-  addressId: number;
-  orderDetails: OrderDetails;
+export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy {
   personalData: PersonalData;
   personalDataForm: FormGroup;
-  shouldBePaid = true;
-  order: Order;
+  locations: CourierLocations;
   addresses: Address[] = [];
+  currentLocation = {};
+  currentLocationId: number;
+  currentLanguage: string;
+  cities: string[];
+  existingOrderId: number;
+  existingOrderInfo: IUserOrderInfo;
+
   maxAddressLength = 4;
+  locationIdForKyiv = 1;
+  locationIdForKyivRegion = 2;
   namePattern = Patterns.NamePattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
-  firstOrder = true;
-  isThisExistingOrder: boolean;
-  anotherClient = false;
-  currentLocation = {};
-  citiesForLocationId = [];
-  currentLocationId: number;
-  locations: CourierLocations;
-  currentLanguage: string;
-  checkedAddress: Address;
-  private destroy: Subject<boolean> = new Subject<boolean>();
-  private personalDataFormValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.pattern(this.namePattern),
-    Validators.minLength(1),
-    Validators.maxLength(30)
-  ];
-  locationIdForKyiv = 1;
-  locationIdForKyivRegion = 2;
-  isNotChoosedLocation: boolean;
-  private anotherClientValidators: ValidatorFn[] = [Validators.maxLength(30), Validators.pattern(this.namePattern)];
+  private $destroy: Subject<void> = new Subject<void>();
+  private nameValidators = [Validators.required, Validators.pattern(this.namePattern), Validators.maxLength(30)];
   popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -70,301 +71,306 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     }
   };
 
-  @Input() completed;
+  get firstName() {
+    return this.personalDataForm.controls.firstName;
+  }
+
+  get lastName() {
+    return this.personalDataForm.controls.lastName;
+  }
+
+  get phoneNumber() {
+    return this.personalDataForm.controls.phoneNumber;
+  }
+
+  get email() {
+    return this.personalDataForm.controls.email;
+  }
+
+  get senderFirstName() {
+    return this.personalDataForm.controls.senderFirstName;
+  }
+
+  get senderLastName() {
+    return this.personalDataForm.controls.senderLastName;
+  }
+
+  get senderPhoneNumber() {
+    return this.personalDataForm.controls.senderPhoneNumber;
+  }
+
+  get senderEmail() {
+    return this.personalDataForm.controls.senderEmail;
+  }
+
+  get isAnotherClient() {
+    return this.personalDataForm.controls.isAnotherClient;
+  }
+
+  get address() {
+    return this.personalDataForm?.controls.address;
+  }
+
+  get addressComment() {
+    return this.personalDataForm?.controls.addressComment;
+  }
+
+  getAddress(addressId: number) {
+    return this.addresses.find((address) => address.id === addressId) ?? null;
+  }
 
   constructor(
     public router: Router,
     private route: ActivatedRoute,
     public orderService: OrderService,
-    private shareFormService: UBSOrderFormService,
     private fb: FormBuilder,
     public dialog: MatDialog,
     private localService: LocalStorageService,
     private listOflocations: Locations,
-    private googleScript: GoogleScript,
-    private langService: LanguageService,
     private store: Store
   ) {
     super(router, dialog, orderService, localService);
-    this.initForm();
   }
 
-  ngOnInit() {
-    this.orderService.locationSubject.pipe(takeUntil(this.destroy)).subscribe(() => {
-      if (this.localService.getLocationId()) {
-        this.currentLocationId = this.localService.getLocationId();
-        this.setDisabledCityForLocation();
-      }
-    });
-    this.localService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
-      this.currentLanguage = lang;
-      this.googleScript.load(lang);
-    });
-
-    if (this.localService.getIsAnotherClient()) {
-      this.anotherClient = this.localService.getIsAnotherClient();
-    }
-    this.takeUserData();
-    if (this.localService.getCurrentLocationId()) {
-      this.currentLocationId = this.localService.getCurrentLocationId();
-      this.locations = this.localService.getLocations();
-      this.currentLocation = this.locations.locationsDtosList[0].nameEn;
-    }
-    this.orderService.locationSub.subscribe((data) => {
-      this.currentLocation = data;
-      this.locations = this.localService.getLocations();
-    });
-    this.orderService.currentAddress.subscribe((data: Address) => {
-      this.personalDataForm.controls.address.setValue(data);
-      this.personalDataForm.controls.addressComment.setValue(data.addressComment);
-    });
-    this.route.queryParams.subscribe((params) => {
-      const key = 'isThisExistingOrder';
-      this.isThisExistingOrder = !!params[key];
-    });
-  }
-
-  public getLangCityValue(uaValue: string, enValue: string): string {
-    return this.langService.getLangValue(uaValue, enValue) as string;
-  }
-
-  setDisabledCityForLocation(): void {
-    const isCityAccess = this.currentLocationId === this.locationIdForKyiv;
-    const [currentRegionUk, currentRegionEn] = this.getLangValue(this.locations?.regionDto.nameUk, this.locations?.regionDto.nameEn);
-    const citiesForLocationId = this.listOflocations.getCity(this.currentLanguage).map((city) => city.cityName);
-
-    this.addresses = this.addresses.map((address) => {
-      const newAddress = { ...address };
-      const cityName = this.getLangCityValue(newAddress.city, newAddress.cityEn);
-      const isCity = citiesForLocationId.includes(cityName);
-
-      const [regionNameUk, regionNameEn] = this.getLangValue(newAddress.region, newAddress.regionEn);
-      const isRegion = currentRegionUk?.includes(regionNameUk) || currentRegionEn?.includes(regionNameEn);
-
-      if (isCityAccess || this.currentLocationId === this.locationIdForKyivRegion) {
-        newAddress.display = isCityAccess ? isCity : !isCity && isRegion;
+  ngOnInit(): void {
+    this.cities = this.listOflocations.getCity(Language.EN).map((city) => city.cityName);
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      this.existingOrderId = params.existingOrderId;
+      if (this.existingOrderId >= 0) {
+        this.store.dispatch(GetExistingOrderInfo({ orderId: this.existingOrderId }));
+        this.initListenersForExistingOrder();
       } else {
-        newAddress.display = isRegion;
+        this.initListenersForNewOrder();
       }
-      return newAddress;
+    });
+    this.store.dispatch(GetAddresses());
+    this.store.dispatch(GetPersonalData());
+    this.localService.languageBehaviourSubject.pipe(takeUntil(this.$destroy)).subscribe((lang: string) => {
+      this.currentLanguage = lang;
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.shareFormService.changePersonalData();
-    if (changes.completed?.currentValue) {
-      this.submit();
-    }
-  }
+  initListenersForExistingOrder(): void {
+    combineLatest([
+      this.store.pipe(select(existingOrderInfoSelector), filter(Boolean), take(1)),
+      this.store.pipe(select(personalDataSelector), filter(Boolean), take(1))
+    ]).subscribe(([orderInfo, personalData]: [IUserOrderInfo, PersonalData]) => {
+      this.personalData = personalData;
+      this.existingOrderInfo = orderInfo;
+      this.initForm();
+      this.initPersonalDataForExistingOrder();
+      if (this.addresses) {
+        this.initLocationForExistingOrder();
+      }
+    });
 
-  getFormValues(): boolean {
-    return true;
-  }
-
-  findAllAddresses(isCheck: boolean) {
-    this.orderService
-      .findAllAddresses()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((list) => {
-        this.addresses = list.addressList;
-        this.localService.setAddresses(this.addresses);
-        this.personalDataForm.patchValue({
-          address: this.addresses
-        });
-        if (this.addresses.length) {
-          this.setDisabledCityForLocation();
+    combineLatest([
+      this.store.pipe(
+        select(locationIdSelector),
+        filter((value) => value !== null)
+      ),
+      this.store.pipe(select(addressesSelector), filter(Boolean))
+    ])
+      .pipe(takeUntil(this.$destroy))
+      .subscribe(([locationId, addresses]: [number, Address[]]) => {
+        this.addresses = addresses;
+        this.currentLocationId = locationId;
+        if (this.personalDataForm) {
+          this.initLocationForExistingOrder();
         }
-        const actualAddress = this.addresses.find((address) => address.actual === true);
-        this.checkAddress(actualAddress?.id);
       });
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next();
-    this.destroy.unsubscribe();
+  initPersonalDataForExistingOrder(): void {
+    const sender = this.existingOrderInfo.sender;
+    const isSameSender =
+      this.personalData.firstName === sender.senderName &&
+      this.personalData.lastName === sender.senderSurname &&
+      this.personalData.phoneNumber === sender.senderPhone &&
+      this.personalData.email === sender.senderEmail;
+
+    if (isSameSender) {
+      return;
+    }
+    this.isAnotherClient.setValue(true);
+    this.senderFirstName.setValue(sender.senderName);
+    this.senderLastName.setValue(sender.senderSurname);
+    this.senderEmail.setValue(sender.senderEmail);
+    this.senderPhoneNumber.setValue(sender.senderPhone);
   }
 
-  initForm() {
+  initListenersForNewOrder(): void {
+    this.store.pipe(select(personalDataSelector), filter(Boolean), take(1)).subscribe((personalData: PersonalData) => {
+      this.personalData = personalData;
+      this.initForm();
+      this.initLocations();
+    });
+
+    combineLatest([
+      this.store.pipe(
+        select(locationIdSelector),
+        filter((value) => value !== null)
+      ),
+      this.store.pipe(select(addressesSelector), filter(Boolean))
+    ])
+      .pipe(takeUntil(this.$destroy))
+      .subscribe(([locationId, addresses]: [number, Address[]]) => {
+        this.addresses = addresses;
+        this.currentLocationId = locationId;
+        if (this.personalDataForm) {
+          this.initLocations();
+        }
+      });
+  }
+
+  initForm(): void {
     this.personalDataForm = this.fb.group({
-      firstName: ['', this.personalDataFormValidators],
-      lastName: ['', this.personalDataFormValidators],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
-      phoneNumber: ['+38 0', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      anotherClientFirstName: ['', this.anotherClientValidators],
-      anotherClientLastName: ['', this.anotherClientValidators],
-      anotherClientEmail: ['', [Validators.email, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
-      anotherClientPhoneNumber: ['+38 0'],
+      firstName: [this.personalData.firstName ?? '', this.nameValidators],
+      lastName: [this.personalData.lastName ?? '', this.nameValidators],
+      email: [this.personalData.email ?? '', [Validators.required, Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
+      phoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
+      senderFirstName: [this.personalData.firstName ?? '', this.nameValidators],
+      senderLastName: [this.personalData.lastName ?? '', this.nameValidators],
+      senderEmail: [this.personalData.email ?? '', [Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
+      senderPhoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
+      isAnotherClient: [this.personalData.isAnotherClient ?? false],
       address: ['', Validators.required],
       addressComment: ['', Validators.maxLength(255)]
     });
-  }
 
-  public takeUserData() {
-    this.orderService
-      .getPersonalData()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((personalData: PersonalData) => {
-        this.personalData = this.shareFormService.personalData;
-        this.setFormData();
-        this.findAllAddresses(true);
-      });
-  }
-
-  checkAddress(addressId) {
-    if (addressId) {
-      this.addresses.forEach((address) => {
-        if (address.id === addressId) {
-          this.orderService.setCurrentAddress(address);
-          this.checkedAddress = address;
-        }
-      });
-      this.isNotChoosedLocation = this.checkedAddress.display === false;
-      this.localService.setAddressId(addressId);
-      this.changeAddressInPersonalData();
-    }
-  }
-
-  isOneAdress() {
-    if (this.addresses.length === 1) {
-      this.addresses[0].actual = true;
-    }
-  }
-
-  changeAddressInPersonalData(): void {
-    this.currentLocationId = this.localService.getCurrentLocationId();
-    this.isOneAdress();
-    const actualAddress = this.addresses.find((address) => address.actual);
-    const activeAddress = this.checkedAddress ?? actualAddress;
-    if (this.personalData && activeAddress) {
-      const {
-        city,
-        cityEn,
-        district,
-        districtEn,
-        region,
-        regionEn,
-        street,
-        streetEn,
-        houseNumber,
-        houseCorpus,
-        entranceNumber,
-        coordinates
-      } = activeAddress;
-      this.personalData.city = city;
-      this.personalData.cityEn = cityEn;
-      this.personalData.district = district;
-      this.personalData.districtEn = districtEn;
-      this.personalData.region = region;
-      this.personalData.regionEn = regionEn;
-      this.personalData.street = street;
-      this.personalData.streetEn = streetEn;
-      this.personalData.houseNumber = houseNumber;
-      this.personalData.houseCorpus = houseCorpus;
-      this.personalData.entranceNumber = entranceNumber;
-      this.personalData.latitude = coordinates.latitude;
-      this.personalData.longitude = coordinates.longitude;
-    }
-    this.shareFormService.saveDataOnLocalStorage();
-    this.localService.setLocationId(this.currentLocationId);
-  }
-
-  changeAnotherClientInPersonalData() {
-    this.currentLocationId = this.localService.getCurrentLocationId();
-    this.personalData.senderFirstName = this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.senderLastName = this.personalDataForm.get('anotherClientLastName').value;
-    this.personalData.senderEmail = this.personalDataForm.get('anotherClientEmail').value;
-    this.personalData.senderPhoneNumber = this.personalDataForm.get('anotherClientPhoneNumber').value;
-    this.shareFormService.saveDataOnLocalStorage();
-    this.localService.setLocationId(this.currentLocationId);
-  }
-
-  setFormData(): void {
-    this.personalDataForm.patchValue({
-      firstName: this.personalData.firstName,
-      lastName: this.personalData.lastName,
-      email: this.personalData.email,
-      phoneNumber: this.personalData.phoneNumber,
-      anotherClientFirstName: this.personalData.senderFirstName,
-      anotherClientLastName: this.personalData.senderLastName,
-      anotherClientEmail: this.personalData.senderEmail,
-      anotherClientPhoneNumber: this.personalData.senderPhoneNumber,
-      addressComment: this.addresses.length > 0 ? this.personalData.addressComment : ''
+    this.address.valueChanges.subscribe(() => {
+      this.address.value ? this.addressComment.enable() : this.addressComment.disable();
+      this.store.dispatch(SetAddressId({ addressId: this.address.value.id }));
     });
-    this.personalDataForm.markAllAsTouched();
+
+    this.isAnotherClient.valueChanges.pipe(distinctUntilChanged(), filter(Boolean), takeUntil(this.$destroy)).subscribe((val) => {
+      this.senderFirstName.setValue('');
+      this.senderLastName.setValue('');
+      this.senderPhoneNumber.setValue('');
+      this.senderEmail.setValue('');
+    });
+
+    this.personalDataForm.valueChanges.pipe(debounceTime(400), takeUntil(this.$destroy)).subscribe(() => {
+      if (!this.isAnotherClient.value) {
+        this.senderFirstName.setValue(this.firstName.value, { emitEvent: false });
+        this.senderLastName.setValue(this.lastName.value, { emitEvent: false });
+        this.senderPhoneNumber.setValue(this.phoneNumber.value, { emitEvent: false });
+        this.senderEmail.setValue(this.email.value, { emitEvent: false });
+      }
+      this.dispatchPersonalData();
+    });
   }
 
-  togglClient(): void {
-    const anotherClientFirstName = this.getControl('anotherClientFirstName');
-    const anotherClientLastName = this.getControl('anotherClientLastName');
-    const anotherClientPhoneNumber = this.getControl('anotherClientPhoneNumber');
-    const anotherClientEmail = this.getControl('anotherClientEmail');
-    this.anotherClient = !this.anotherClient;
-    if (this.anotherClient) {
-      anotherClientFirstName.markAsUntouched();
-      anotherClientLastName.markAsUntouched();
-      anotherClientPhoneNumber.markAsUntouched();
-      anotherClientEmail.markAsUntouched();
-      anotherClientFirstName.setValidators(this.personalDataFormValidators);
-      anotherClientLastName.setValidators(this.personalDataFormValidators);
-      anotherClientPhoneNumber.setValidators([Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]);
-      anotherClientPhoneNumber.setValue('+380');
-      this.localService.setIsAnotherClient(true);
-    } else {
-      anotherClientFirstName.setValue('');
-      anotherClientFirstName.clearValidators();
-      anotherClientLastName.setValue('');
-      anotherClientLastName.clearValidators();
-      anotherClientPhoneNumber.setValue('');
-      anotherClientPhoneNumber.clearValidators();
-      anotherClientEmail.setValue('');
-      this.localService.removeIsAnotherClient();
+  dispatchPersonalData(): void {
+    const personalData: PersonalData = {
+      ...this.personalData,
+      firstName: this.firstName.value,
+      lastName: this.lastName.value,
+      email: this.email.value,
+      phoneNumber: this.phoneNumber.value,
+      isAnotherClient: this.isAnotherClient.value,
+      senderEmail: this.senderEmail.value,
+      senderFirstName: this.senderFirstName.value,
+      senderLastName: this.senderLastName.value,
+      senderPhoneNumber: this.senderPhoneNumber.value,
+      addressComment: this.addressComment.value,
+      city: this.address.value?.city ?? '',
+      cityEn: this.address.value?.cityEn ?? '',
+      district: this.address.value?.district ?? '',
+      districtEn: this.address.value?.districtEn ?? '',
+      street: this.address.value?.street ?? '',
+      streetEn: this.address.value?.streetEn ?? '',
+      region: this.address.value?.region ?? '',
+      regionEn: this.address.value?.regionEn ?? '',
+      houseCorpus: this.address.value?.houseCorpus ?? '',
+      entranceNumber: this.address.value?.entranceNumber ?? '',
+      houseNumber: this.address.value?.houseNumber ?? ''
+    };
+
+    this.store.dispatch(SetPersonalData({ personalData }));
+  }
+
+  initLocations(): void {
+    let address = this.checkIfAddressCanBeSelected(this.address.value.id);
+
+    if (!address) {
+      const actualAddressId = this.addresses.find((address) => address.actual)?.id;
+      address = this.checkIfAddressCanBeSelected(actualAddressId);
     }
-    anotherClientFirstName.updateValueAndValidity();
-    anotherClientLastName.updateValueAndValidity();
-    anotherClientPhoneNumber.updateValueAndValidity();
-    this.changeAnotherClientInPersonalData();
+
+    if (address) {
+      this.checkAddress(address);
+      return;
+    }
+
+    this.findAvailableAddress();
   }
 
-  editAddress(addressId: number) {
-    this.openDialog(true, addressId);
+  checkIfAddressCanBeSelected(id: number): Address | null {
+    if (!id) {
+      return null;
+    }
+
+    const address = this.getAddress(id);
+    return address && !this.isAddressDisabledForCurrentLocation(address) ? address : null;
   }
 
-  activeAddressId() {
-    this.isOneAdress();
-    const activeAddress = this.addresses.find((address) => address.actual);
-    this.addressId = this.checkedAddress?.id ?? activeAddress?.id;
+  findAvailableAddress(): void {
+    for (const address of this.addresses) {
+      if (!this.isAddressDisabledForCurrentLocation(address)) {
+        this.checkAddress(address);
+        return;
+      }
+    }
+    this.address.patchValue('');
   }
 
-  deleteAddress(address: Address) {
-    this.orderService
-      .deleteAddress(address)
-      .pipe(takeUntil(this.destroy))
-      .subscribe((list: { addressList: Address[] }) => {
-        this.addresses = list.addressList;
-        if (this.addresses[0]) {
-          this.setDisabledCityForLocation();
-          this.checkAddress(this.addresses[0].id);
-        } else {
-          this.personalDataForm.patchValue({
-            address: ''
-          });
-        }
-      });
+  initLocationForExistingOrder(): void {
+    const addressDetails: IAddressExportDetails = this.existingOrderInfo.address;
+    const address = this.addresses.find(
+      (address) =>
+        address.cityEn === addressDetails.addressCityEng &&
+        address.regionEn === addressDetails.addressRegionEng &&
+        address.streetEn === addressDetails.addressStreetEng &&
+        address.districtEn === addressDetails.addressDistinctEng &&
+        address.houseNumber === addressDetails.houseNumber
+    );
+
+    address && !this.isAddressDisabledForCurrentLocation(address) ? this.checkAddress(address) : this.initLocations();
   }
 
-  addNewAddress() {
+  checkAddress(address): void {
+    this.address.patchValue(address);
+    this.addressComment.patchValue(address.addressComment ?? '');
+  }
+
+  isAddressDisabledForCurrentLocation(address: Address): boolean {
+    const isCity = this.currentLocationId === this.locationIdForKyiv;
+
+    if (address) {
+      const isAddressInCity = this.cities.includes(address.cityEn);
+      return isCity ? !isAddressInCity : isAddressInCity;
+    }
+
+    return false;
+  }
+
+  deleteAddress(address: Address): void {
+    this.store.dispatch(DeleteAddress({ address }));
+  }
+
+  changeAddressComment(): void {
+    if (this.addressComment.value !== this.address.value.addressComment) {
+      this.store.dispatch(UpdateAddress({ address: { ...this.address.value, addressComment: this.addressComment.value } }));
+    }
+  }
+
+  addNewAddress(): void {
     this.openDialog(false);
-    this.personalDataForm.patchValue({
-      address: this.addresses
-    });
   }
 
-  getControl(control: string) {
-    return this.personalDataForm.get(control);
-  }
-
-  public getLangValue(uaName: string, enName: string): [string, string] {
-    return [this.langService.getLangValue(uaName, enName) as string, this.langService.getLangValue(enName, uaName) as string];
+  editAddress(addressId: number): void {
+    this.openDialog(true, addressId);
   }
 
   openDialog(isEdit: boolean, addressId?: number): void {
@@ -383,74 +389,27 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        if (res) {
-          this.findAllAddresses(false);
-        }
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((res) => {});
+  }
+
+  getFormValues(): boolean {
+    return true;
+  }
+
+  onCancel(): void {
+    const matDialogRef = this.dialog.open(WarningPopUpComponent, this.popupConfig);
+
+    matDialogRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe(() => {
+        this.router.navigate(['ubs']);
       });
   }
 
-  submit(): void {
-    this.firstOrder = false;
-    this.activeAddressId();
-    this.changeAddressInPersonalData();
-
-    this.orderDetails = this.shareFormService.orderDetails;
-    let orderBags: OrderBag[] = [];
-    this.orderDetails.bags.forEach((bagItem: Bag, index: number) => {
-      if (bagItem.quantity !== null) {
-        const bag: OrderBag = { amount: bagItem.quantity, id: bagItem.id };
-        orderBags.push(bag);
-      }
-    });
-    orderBags = orderBags.filter((bag) => bag.amount && bag.amount !== 0);
-    const isAnotherClient = !!this.personalDataForm.get('anotherClientFirstName').value;
-    this.personalData.firstName = this.personalDataForm.get('firstName').value;
-    this.personalData.lastName = this.personalDataForm.get('lastName').value;
-    this.personalData.email = this.personalDataForm.get('email').value;
-    this.personalData.phoneNumber = this.personalDataForm.get('phoneNumber').value;
-    this.personalData.addressComment = this.personalDataForm.get('addressComment').value;
-    this.personalData.senderFirstName = isAnotherClient
-      ? this.personalDataForm.get('anotherClientFirstName').value
-      : this.personalData.firstName;
-    this.personalData.senderLastName = isAnotherClient
-      ? this.personalDataForm.get('anotherClientLastName').value
-      : this.personalData.lastName;
-    this.personalData.senderEmail = isAnotherClient ? this.personalDataForm.get('anotherClientEmail').value : this.personalData.email;
-    this.personalData.senderPhoneNumber = isAnotherClient
-      ? this.personalDataForm.get('anotherClientPhoneNumber').value
-      : this.personalData.phoneNumber;
-    this.order = new Order(
-      this.shareFormService.orderDetails.additionalOrders[0] !== '' ? this.shareFormService.orderDetails.additionalOrders : null,
-      this.addressId,
-      orderBags,
-      this.shareFormService.orderDetails.certificates,
-      this.currentLocationId,
-      this.shareFormService.orderDetails.orderComment,
-      this.personalData,
-      this.shareFormService.orderDetails.pointsToUse,
-      this.shouldBePaid
-    );
-    this.orderService.setOrder(this.order);
-  }
-
-  changeAddressComment() {
-    this.isOneAdress();
-    this.addresses.forEach((address) => {
-      if (address.actual) {
-        address.addressComment = this.personalDataForm.controls.addressComment.value;
-        this.orderService.updateAdress(address).subscribe(() => {
-          this.orderService.setCurrentAddress(address);
-          this.findAllAddresses(false);
-        });
-      }
-    });
-  }
-
-  savePersonalInfoToState(): void {
-    if (!this.isThisExistingOrder) {
-      this.store.dispatch(AddPersonalData({ personalData: { ...this.personalData } }));
-    }
+  ngOnDestroy(): void {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

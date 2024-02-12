@@ -34,13 +34,7 @@
     </div>
   </div>
   <div *ngIf="dateForm?.invalid && submitSelected" class="date-error">
-    <app-input-error
-      [formElement]="endTime"
-      [isEvent]="true"
-      [date]="endTime.invalid"
-      [numberDate]="date.invalid"
-      [isStartEventError]="startTime.invalid"
-    ></app-input-error>
+    <app-input-error [formElement]="endTime" [isEvent]="true" [date]="endTime.invalid" [numberDate]="date.invalid"></app-input-error>
   </div>
   <div *ngIf="index === this.duplindex" class="duplix-error">{{ 'create-event.duplicate-event-date' | translate }}</div>
   <div class="checkbox">
@@ -52,7 +46,7 @@
     </mat-checkbox>
   </div>
 
-  <div *ngIf="dateForm.get('place')" class="active">
+  <div *ngIf="checkOfflinePlace" class="active">
     <mat-label>{{ 'create-event.event-location' | translate }}</mat-label>
     <div class="location-title">
       <mat-form-field class="location-title-input" appearance="outline">
@@ -75,7 +69,9 @@
         {{ 'create-event.apply-location' | translate }}
       </mat-checkbox>
     </div>
-    <div *ngIf="!isLocationSelected" class="location-error-messege">{{ 'create-event.location-required' | translate }}</div>
+    <div class="tag-place" [class.location-error-messege]="place?.touched && place?.invalid">
+      {{ 'create-event.location-required' | translate }}
+    </div>
     <div *ngIf="!isLocationDisabled || isFirstDay" class="map-container" #map>
       <agm-map
         [style.width.%]="100"
