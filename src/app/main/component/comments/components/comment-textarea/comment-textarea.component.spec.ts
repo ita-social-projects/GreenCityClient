@@ -7,8 +7,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
+import { QueryList } from '@angular/core';
 import { MatOption } from '@angular/material/core';
-import { QueryList, TemplateRef } from '@angular/core';
 
 describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
@@ -20,6 +20,19 @@ describe('CommentTextareaComponent', () => {
   let localStorageServiceMock: jasmine.SpyObj<LocalStorageService>;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
+
+  const users = [
+    {
+      userId: 1,
+      userName: 'User Name 1',
+      profilePicture: null
+    },
+    {
+      userId: 2,
+      userName: 'User Name 2',
+      profilePicture: null
+    }
+  ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -50,26 +63,11 @@ describe('CommentTextareaComponent', () => {
 
   it('should define elementRef', () => {
     component.isDropdownVisible = true;
-    component.suggestedUsers = [
-      {
-        userId: 1,
-        userName: 'User Name 1',
-        profilePicture: null
-      },
-      {
-        userId: 2,
-        userName: 'User Name 2',
-        profilePicture: null
-      }
-    ];
+    component.suggestedUsers = users;
     fixture.detectChanges();
-    const commentTextarea = component.commentTextarea;
-    const dropdown = component.dropdown;
-    const options = component.options;
-
-    expect(commentTextarea).toBeDefined();
-    expect(dropdown).toBeDefined();
-    expect(options).toBeDefined();
+    expect(component.commentTextarea).toBeDefined();
+    expect(component.dropdown).toBeDefined();
+    expect(component.options).toBeDefined();
     expect(fixture.debugElement.queryAll(By.css('mat-option')).length).toBe(2);
   });
 
@@ -142,6 +140,20 @@ describe('CommentTextareaComponent', () => {
   });
 
   describe('onDropdownKeyDown', () => {
+    const div = document.createElement('div');
+    const option1 = new MatOption(null, null, null, null);
+    option1._getHostElement = () => {
+      return div;
+    };
+    const option2 = new MatOption(null, null, null, null);
+    option2._getHostElement = () => {
+      return null;
+    };
+    const options = Object.assign(new QueryList(), {
+      _results: [option1, option2],
+      length: 2
+    }) as QueryList<MatOption>;
+
     it('should prevent default on key down event', () => {
       const event = new KeyboardEvent('keydown');
       spyOn(event, 'preventDefault');
@@ -149,25 +161,66 @@ describe('CommentTextareaComponent', () => {
       expect(event.preventDefault).toHaveBeenCalled();
     });
 
-    it('should call onDropdownKeyDown keydown event', () => {
+    it('should call onDropdownKeyDown on keydown event', () => {
       component.isDropdownVisible = true;
-      component.suggestedUsers = [
-        {
-          userId: 1,
-          userName: 'User Name 1',
-          profilePicture: null
-        },
-        {
-          userId: 2,
-          userName: 'User Name 2',
-          profilePicture: null
-        }
-      ];
+      component.suggestedUsers = users;
       fixture.detectChanges();
       spyOn(component, 'onDropdownKeyDown');
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
       component.dropdown.nativeElement.dispatchEvent(event);
       expect(component.onDropdownKeyDown).toHaveBeenCalledWith(event);
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is Escape', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusCommentTextarea');
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is Backspace', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusCommentTextarea');
+      const event = new KeyboardEvent('keydown', { key: 'Backspace', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is ArrowUp', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusOnOption');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeTruthy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is ArrowDown', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusOnOption');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeTruthy();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -228,9 +281,11 @@ describe('CommentTextareaComponent', () => {
       } as ClipboardEvent;
       spyOn(clipboardEvent, 'preventDefault');
       spyOn(component as any, 'insertTextAtCursor');
+      spyOn(component as any, 'emitCommentText');
       component.onPaste(clipboardEvent);
       expect(clipboardEvent.preventDefault).toHaveBeenCalled();
       expect((component as any).insertTextAtCursor).toHaveBeenCalledWith('pasted text');
+      expect((component as any).emitCommentText).toHaveBeenCalled();
       expect(component.content.value).toBe(component.commentTextarea.nativeElement.textContent);
     });
   });
@@ -254,7 +309,8 @@ describe('CommentTextareaComponent', () => {
     });
   });
 
-  it('should call onCommentTextareaFocus method', () => {
+  it('should change isTextareaFocused to true', () => {
+    component.isTextareaFocused = false;
     component.onCommentTextareaFocus();
     expect(component.isTextareaFocused).toBe(true);
   });
