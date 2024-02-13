@@ -10,6 +10,7 @@ import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface'
 import { CalendarInterface } from '../calendar-interface';
 import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-calendar-week',
@@ -29,9 +30,10 @@ export class CalendarWeekComponent extends CalendarBaseComponent implements OnIn
     public translate: TranslateService,
     public languageService: LanguageService,
     public dialog: MatDialog,
-    public breakpointObserver: BreakpointObserver
+    public breakpointObserver: BreakpointObserver,
+    public socketService: SocketService
   ) {
-    super(translate, languageService, habitAssignService, dialog, breakpointObserver);
+    super(translate, languageService, habitAssignService, dialog, breakpointObserver, socketService);
   }
 
   ngOnInit() {

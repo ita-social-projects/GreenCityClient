@@ -124,11 +124,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.managementLink = `${this.backEndLink}token?accessToken=${token}`;
     });
     this.onConnectedtoSocket();
+    this.socketService.sendSocketCheckAchievement();
   }
 
   public onConnectedtoSocket(): void {
-    this.socketService.onMessage(`/topic/${this.userId}/notifications`).subscribe((msg) => {
-      this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
+    this.socketService.onMessage(`/topic/${this.userId}/notification`).subscribe((msg) => {
+      console.log(msg);
+      if (msg && !this.isUBS) {
+        this.notificationIconRef.nativeElement.srcset = this.headerImageList.notificationHasNew;
+      }
     });
   }
 

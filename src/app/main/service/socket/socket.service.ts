@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import * as SockJS from 'sockjs-client';
 import { Stomp, StompSubscription } from '@stomp/stompjs';
 import { SocketClientState } from './socket-state.enum';
-import { filter, first, switchMap } from 'rxjs/operators';
+import { filter, first, switchMap, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
@@ -13,11 +13,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 export class SocketService implements OnDestroy {
   private state: BehaviorSubject<SocketClientState>;
   private webSocket: any;
+  private userId: number;
 
   constructor(private localStorageService: LocalStorageService) {
     this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
     this.webSocket = Stomp.over(() => new SockJS(environment.socket));
     this.localStorageService.userIdBehaviourSubject.subscribe((userId) => {
+      this.userId = userId;
       if (userId) {
         this.webSocket.connect({}, () => {
           this.state.next(SocketClientState.CONNECTED);
@@ -56,6 +58,12 @@ export class SocketService implements OnDestroy {
     this.connect()
       .pipe(first())
       .subscribe((client) => client.send(topic, {}, JSON.stringify(payload)));
+  }
+
+  sendSocketCheckAchievement() {
+    this.send('/app/notifications', {
+      userId: this.userId
+    });
   }
 
   ngOnDestroy() {

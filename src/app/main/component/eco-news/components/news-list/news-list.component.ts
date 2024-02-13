@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByTagsAction, GetEcoNewsByPageAction } from 'src/app/store/actions/ecoNews.actions';
+import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-news-list',
@@ -43,7 +44,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
-    private store: Store
+    private store: Store,
+    private socketService: SocketService
   ) {}
 
   ngOnInit() {
@@ -69,6 +71,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
       }
     });
     this.localStorageService.setCurentPage('previousPage', '/news');
+    this.onConnectedtoSocket();
   }
 
   private setLocalizedTags(): void {
@@ -127,6 +130,18 @@ export class NewsListComponent implements OnInit, OnDestroy {
 
   private setDefaultNumberOfNews(quantity: number): void {
     this.numberOfNews = quantity;
+  }
+
+  sendSocketMessage(): void {
+    this.socketService.sendSocketCheckAchievement();
+  }
+
+  public onConnectedtoSocket(): void {
+    this.socketService.onMessage(`/topic/${this.localStorageService.getUserId()}/notification`).subscribe((msg) => {
+      if (msg) {
+        this.snackBar.openSnackBar('from socket');
+      }
+    });
   }
 
   ngOnDestroy(): void {
