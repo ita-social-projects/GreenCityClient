@@ -8,6 +8,8 @@ import { AddCommentComponent } from './add-comment.component';
 import { UserProfileImageComponent } from '@global-user/components/shared/components/user-profile-image/user-profile-image.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
+// import { SocketService } from '@global-service/socket/socket.service';
+// import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
 const COMMENT_MOCK = {
@@ -51,6 +53,13 @@ describe('AddCommentComponent', () => {
   commentsServiceMock = jasmine.createSpyObj('CommentsService', ['addComment']);
   commentsServiceMock.addComment.and.returnValue(of(COMMENT_MOCK));
 
+  // let localStorage = jasmine.createSpyObj('LocalStorageService', ['getUserId']);
+  // localStorage.getUserId = () => 1;
+
+  // let socketServiceMock: SocketService;
+  // socketServiceMock = jasmine.createSpyObj('SocketService', ['send']);
+  // socketServiceMock.send = () => {};
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddCommentComponent, UserProfileImageComponent],
@@ -58,6 +67,8 @@ describe('AddCommentComponent', () => {
       providers: [
         { provide: ProfileService, useValue: profileServiceMock },
         { provide: CommentsService, useValue: commentsServiceMock }
+        // { provide: SocketService, useValue: socketServiceMock },
+        // { provide: LocalStorageService, useValue: localStorage }
       ]
     }).compileComponents();
   }));
