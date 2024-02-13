@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
@@ -6,6 +6,9 @@ import { SocketService } from '@global-service/socket/socket.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { By } from '@angular/platform-browser';
+import { QueryList } from '@angular/core';
+import { MatOption } from '@angular/material/core';
 
 describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
@@ -17,6 +20,19 @@ describe('CommentTextareaComponent', () => {
   let localStorageServiceMock: jasmine.SpyObj<LocalStorageService>;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
+
+  const users = [
+    {
+      userId: 1,
+      userName: 'User Name 1',
+      profilePicture: null
+    },
+    {
+      userId: 2,
+      userName: 'User Name 2',
+      profilePicture: null
+    }
+  ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,61 +61,14 @@ describe('CommentTextareaComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('checkInput', () => {
-    it('should update content and emit comment text', () => {
-      const inputEvent = new InputEvent('some data');
-      component.checkInput(inputEvent);
-      expect(component.content.value).toBe(component.commentTextarea.nativeElement.textContent);
-    });
-
-    it('should send socket message, update cursor position if input includes tagChar', () => {
-      spyOn(component, 'getSelectionStart');
-      spyOn(component, 'sendSocketMessage');
-      spyOn(component, 'updateCursorPosition');
-      spyOn(component as any, 'emitCommentText');
-      const inputEvent = { data: 'a' } as InputEvent;
-      component.commentTextarea.nativeElement.textContent = 'hello, @yul';
-      (component as any).range = { startContainer: { textContent: 'hello, @yul' }, startOffset: 11 } as Range;
-      component.checkInput(inputEvent);
-      expect(component.getSelectionStart).toHaveBeenCalled();
-      expect(component.sendSocketMessage).toHaveBeenCalledWith('yul');
-      expect(component.updateCursorPosition).toHaveBeenCalled();
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect((component as any).searchQuery).toBe('yul');
-      expect((component as any).lastTagCharIndex).toBe(7);
-    });
-
-    it('should not send socket message, update cursor position if input doesn"t includes tagChar', () => {
-      spyOn(component, 'getSelectionStart');
-      spyOn(component, 'sendSocketMessage');
-      spyOn(component, 'updateCursorPosition');
-      spyOn(component as any, 'emitCommentText');
-      const inputEvent = { data: 'a' } as InputEvent;
-      (component as any).lastTagCharIndex = 5;
-      component.commentTextarea.nativeElement.textContent = 'hello, yul';
-      (component as any).range = { startContainer: { textContent: 'hello, yul' }, startOffset: 11 } as Range;
-      component.checkInput(inputEvent);
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect(component.getSelectionStart).toHaveBeenCalled();
-      expect(component.sendSocketMessage).not.toHaveBeenCalled();
-      expect(component.updateCursorPosition).not.toHaveBeenCalled();
-      expect((component as any).lastTagCharIndex).toBe(-1);
-    });
-
-    it('should not send socket message, update cursor position if input data = null', () => {
-      spyOn(component, 'getSelectionStart');
-      spyOn(component, 'sendSocketMessage');
-      spyOn(component, 'updateCursorPosition');
-      spyOn(component as any, 'emitCommentText');
-      const inputEvent = { data: null } as InputEvent;
-      component.commentTextarea.nativeElement.textContent = 'hello, yul';
-      (component as any).range = { startContainer: { textContent: 'hello, yul' }, startOffset: 11 } as Range;
-      component.checkInput(inputEvent);
-      expect((component as any).emitCommentText).toHaveBeenCalled();
-      expect(component.getSelectionStart).not.toHaveBeenCalled();
-      expect(component.sendSocketMessage).not.toHaveBeenCalled();
-      expect(component.updateCursorPosition).not.toHaveBeenCalled();
-    });
+  it('should define elementRef', () => {
+    component.isDropdownVisible = true;
+    component.suggestedUsers = users;
+    fixture.detectChanges();
+    expect(component.commentTextarea).toBeDefined();
+    expect(component.dropdown).toBeDefined();
+    expect(component.options).toBeDefined();
+    expect(fixture.debugElement.queryAll(By.css('mat-option')).length).toBe(2);
   });
 
   describe('ngAfterViewInit', () => {
@@ -108,10 +77,36 @@ describe('CommentTextareaComponent', () => {
       component.ngAfterViewInit();
       expect(component.commentTextarea.nativeElement.innerHTML).toBe('<p>This is some edited text.</p>');
     });
+
     it('should not set innerHTML if commentTextToEdit is provided', () => {
       component.commentTextToEdit = null;
       component.ngAfterViewInit();
       expect(component.commentTextarea.nativeElement.innerHTML).toBe('');
+    });
+
+    it('should set initial text content', () => {
+      component.commentTextToEdit = 'Initial text';
+      component.ngAfterViewInit();
+      fixture.detectChanges();
+
+      expect(component.commentTextarea.nativeElement.textContent).toBe('Initial text');
+    });
+
+    it('should subscribe to input events and emit comment text', () => {
+      spyOn(component.content, 'setValue');
+      spyOn(component as any, 'emitCommentText');
+
+      component.ngAfterViewInit();
+      fixture.detectChanges();
+
+      const textarea = component.commentTextarea.nativeElement as HTMLTextAreaElement;
+      textarea.value = 'New text';
+      textarea.dispatchEvent(new Event('input'));
+
+      fixture.whenStable().then(() => {
+        expect(component.content.setValue).toHaveBeenCalledWith('New text');
+        expect((component as any).emitCommentText).toHaveBeenCalled();
+      });
     });
   });
 
@@ -141,6 +136,91 @@ describe('CommentTextareaComponent', () => {
       component.ngOnChanges({ commentHtml: { currentValue: 'a' } as any });
       const textareaElement = component.commentTextarea.nativeElement;
       expect(textareaElement.innerHTML).toBe(innerHTML);
+    });
+  });
+
+  describe('onDropdownKeyDown', () => {
+    const div = document.createElement('div');
+    const option1 = new MatOption(null, null, null, null);
+    option1._getHostElement = () => {
+      return div;
+    };
+    const option2 = new MatOption(null, null, null, null);
+    option2._getHostElement = () => {
+      return null;
+    };
+    const options = Object.assign(new QueryList(), {
+      _results: [option1, option2],
+      length: 2
+    }) as QueryList<MatOption>;
+
+    it('should prevent default on key down event', () => {
+      const event = new KeyboardEvent('keydown');
+      spyOn(event, 'preventDefault');
+      component.onDropdownKeyDown(event);
+      expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('should call onDropdownKeyDown on keydown event', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      spyOn(component, 'onDropdownKeyDown');
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      component.dropdown.nativeElement.dispatchEvent(event);
+      expect(component.onDropdownKeyDown).toHaveBeenCalledWith(event);
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is Escape', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusCommentTextarea');
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is Backspace', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusCommentTextarea');
+      const event = new KeyboardEvent('keydown', { key: 'Backspace', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeFalsy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is ArrowUp', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusOnOption');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeTruthy();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call setFocusCommentTextarea if keydown event key is ArrowDown', () => {
+      component.isDropdownVisible = true;
+      component.suggestedUsers = users;
+      fixture.detectChanges();
+      component.options = options;
+      const spy = spyOn(component as any, 'setFocusOnOption');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true });
+      fixture.debugElement.query(By.css('mat-option:first-child')).nativeElement.dispatchEvent(event);
+
+      expect(component.isDropdownVisible).toBeTruthy();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -201,9 +281,11 @@ describe('CommentTextareaComponent', () => {
       } as ClipboardEvent;
       spyOn(clipboardEvent, 'preventDefault');
       spyOn(component as any, 'insertTextAtCursor');
+      spyOn(component as any, 'emitCommentText');
       component.onPaste(clipboardEvent);
       expect(clipboardEvent.preventDefault).toHaveBeenCalled();
       expect((component as any).insertTextAtCursor).toHaveBeenCalledWith('pasted text');
+      expect((component as any).emitCommentText).toHaveBeenCalled();
       expect(component.content.value).toBe(component.commentTextarea.nativeElement.textContent);
     });
   });
@@ -227,7 +309,8 @@ describe('CommentTextareaComponent', () => {
     });
   });
 
-  it('should call onCommentTextareaFocus method', () => {
+  it('should change isTextareaFocused to true', () => {
+    component.isTextareaFocused = false;
     component.onCommentTextareaFocus();
     expect(component.isTextareaFocused).toBe(true);
   });
@@ -260,10 +343,11 @@ describe('CommentTextareaComponent', () => {
   });
 
   it('should unsubscribe from the subscription on ngOnDestroy', () => {
-    spyOn((component as any).localStorageServiceSubscription, 'unsubscribe');
-    spyOn((component as any).socketServiceSubscription, 'unsubscribe');
-    fixture.destroy();
-    expect((component as any).socketServiceSubscription.unsubscribe).toHaveBeenCalled();
-    expect((component as any).localStorageServiceSubscription.unsubscribe).toHaveBeenCalled();
+    const destroy$ = 'destroy$';
+    const nextSpy = spyOn(component[destroy$], 'next');
+    const completeSpy = spyOn(component[destroy$], 'complete');
+    component.ngOnDestroy();
+    expect(nextSpy).toHaveBeenCalled();
+    expect(completeSpy).toHaveBeenCalled();
   });
 });
