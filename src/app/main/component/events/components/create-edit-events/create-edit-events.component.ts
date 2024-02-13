@@ -32,6 +32,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
+import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-create-edit-events',
@@ -119,7 +120,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     private snackBar: MatSnackBarComponent,
     public dialogRef: MatDialogRef<DialogPopUpComponent>,
     private languageService: LanguageService,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private socketService: SocketService
   ) {
     super(router, dialog);
     this.quillModules = quillConfig;
@@ -557,6 +559,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     this.actionsSubj.pipe(ofType(EventsActions.CreateEcoEventSuccess, EventsActions.EditEcoEventSuccess)).subscribe(() => {
       this.isPosting = false;
+      this.socketService.sendSocketCheckAchievement();
       this.eventsService.setForm(null);
       this.escapeFromCreateEvent();
     });

@@ -25,6 +25,7 @@ import { CreateEcoNewsAction, EditEcoNewsAction, NewsActions } from 'src/app/sto
 import { ofType } from '@ngrx/effects';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { SocketService } from '@global-service/socket/socket.service';
 import { tagsListEcoNewsData } from '@eco-news-models/eco-news-consts';
 
 @Component({
@@ -41,6 +42,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     private injector: Injector,
     private langService: LanguageService,
     private fb: FormBuilder,
+    private socketService: SocketService,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
