@@ -5,7 +5,7 @@ import { EventsListItemModalComponent } from './events-list-item-modal.component
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { of, Subject } from 'rxjs';
 import { EventEmitter, Injectable } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -44,20 +44,20 @@ describe('EventsListItemModalComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['dispatch']);
   const mockLang = 'ua';
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of();
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageSubject', 'getCurrentLanguage']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'languageSubject',
+    'getCurrentLanguage'
+  ]);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
 
-  let MatSnackBarMock: MatSnackBarComponent;
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(waitForAsync(() => {

@@ -29,8 +29,7 @@ describe('HabitFactService', () => {
       habitDictionaryName: 'fake'
     };
 
-    // @ts-ignore
-    service.getHabitFact(1, 'english').subscribe((info) => {
+    (service as any).getHabitFact(1, 'english').subscribe((info) => {
       expect(info.id).toBe(1);
     });
 

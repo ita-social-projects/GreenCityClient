@@ -11,8 +11,7 @@ import { FRIENDS } from '@global-user/mocks/friends-mock';
 describe('FriendProfileDashboardComponent', () => {
   let component: FriendProfileDashboardComponent;
   let fixture: ComponentFixture<FriendProfileDashboardComponent>;
-  let userFriendsServiceMock: UserFriendsService;
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', {
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', {
     getAllFriends: of(FRIENDS),
     addFriend: of({}),
     getNewFriends: of({})
@@ -73,12 +72,11 @@ describe('FriendProfileDashboardComponent', () => {
   });
 
   it('should unsubscribe on destroy', () => {
-    // @ts-ignore
-    component.destroy$ = new Subject();
-    // @ts-ignore
-    spyOn(component.destroy$, 'complete');
-    component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy$.complete).toHaveBeenCalled();
+    (component as any).destroy$ = new Subject();
+
+    spyOn((component as any).destroy$, 'complete');
+    (component as any).ngOnDestroy();
+
+    expect((component as any).destroy$.complete).toHaveBeenCalled();
   });
 });

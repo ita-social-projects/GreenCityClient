@@ -8,9 +8,9 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { APP_BASE_HREF } from '@angular/common';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 class MatDialogMock {
   open() {
@@ -24,16 +24,13 @@ describe('StatRowComponent', () => {
   let component: StatRowComponent;
   let fixture: ComponentFixture<StatRowComponent>;
 
-  let snackBarMock: MatSnackBarComponent;
-  snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
 
-  let checkTokenServiceMock: CheckTokenService;
-  checkTokenServiceMock = jasmine.createSpyObj('checkTokenservice', ['openAuthModalWindow']);
+  const checkTokenServiceMock: CheckTokenService = jasmine.createSpyObj('checkTokenservice', ['openAuthModalWindow']);
 
   const activatedRouteMock = {
     queryParams: of({

@@ -9,8 +9,9 @@
     <div class="d-flex first-row">
       <div>
         <div class="form-group">
-          <label>{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
+          <label for="region-options">{{ 'ubs-tariffs-add-location-pop-up.region' | translate }}</label>
           <input
+            id="region-options"
             *ngIf="!data.edit"
             ngx-google-places-autocomplete
             type="text"
@@ -55,8 +56,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.region_translate' | translate }}</label>
+        <label for="english-region">{{ 'ubs-tariffs-add-location-pop-up.region_translate' | translate }}</label>
         <input
+          id="english-region"
           type="text"
           class="shadow-none form-control"
           required
@@ -88,8 +90,9 @@
     <div class="d-flex">
       <div>
         <div class="form-group">
-          <label>{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
+          <label for="location">{{ 'ubs-tariffs-add-location-pop-up.locality' | translate }}</label>
           <input
+            id="location"
             *ngIf="!data.edit"
             #locationInput
             class="shadow-none form-control mb-1"
@@ -140,8 +143,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label>{{ 'ubs-tariffs-add-location-pop-up.locality_translate' | translate }}</label>
+        <label for="locality-translate">{{ 'ubs-tariffs-add-location-pop-up.locality_translate' | translate }}</label>
         <input
+          id="locality-translate"
           class="shadow-none form-control mb-1"
           formControlName="englishLocation"
           [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_location_translate' | translate"

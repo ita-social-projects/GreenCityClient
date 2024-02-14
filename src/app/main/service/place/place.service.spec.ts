@@ -118,7 +118,6 @@ describe('PlaceService', () => {
   it('getFilteredPlaces: should call dependency methods', () => {
     service.getFilteredPlaces();
     expect(filterServiceMock.getFilters).toHaveBeenCalled();
-    // @ts-ignore
     expect(filterServiceMock.getFilters.calls.count()).toBe(1);
 
     httpTest('filter', 'POST', {});

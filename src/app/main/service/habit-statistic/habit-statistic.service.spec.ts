@@ -39,42 +39,40 @@ describe('HabitStatisticService', () => {
 
   describe('basic functional testing', () => {
     it('should load data into dataStore.habitStatistics in loadHabitStatistics method', fakeAsync(() => {
-      // @ts-ignore
-      const spy = spyOn(service.http, 'get').and.returnValue(of(habitStatArrayMock));
+      const spy = spyOn((service as any).http, 'get').and.returnValue(of(habitStatArrayMock));
       service.loadHabitStatistics('english');
       tick(50);
 
       expect(spy).toHaveBeenCalled();
-      // @ts-ignore
-      expect(service.dataStore.habitStatistics).toEqual(habitStatArrayMock);
+
+      expect((service as any).dataStore.habitStatistics).toEqual(habitStatArrayMock);
     }));
 
     it('should load data into dataStore.availableHabits in loadAvailableHabits method', fakeAsync(() => {
-      // @ts-ignore
-      const spy = spyOn(service.http, 'get').and.returnValue(of(availHabitArrayMock));
+      const spy = spyOn((service as any).http, 'get').and.returnValue(of(availHabitArrayMock));
       service.loadAvailableHabits('english');
       tick(50);
 
       expect(spy).toHaveBeenCalled();
-      // @ts-ignore
-      expect(service.dataStore.availableHabits).toEqual(availHabitArrayMock);
+
+      expect((service as any).dataStore.availableHabits).toEqual(availHabitArrayMock);
     }));
 
     it('should update newHabit field in setNewHabitsState method', () => {
       const newHabitStub = new NewHabitDto(argsWithIdMock.id);
       service.setNewHabitsState(argsWithIdMock);
-      // @ts-ignore
-      expect(service.dataStore.newHabits).toContain(newHabitStub);
+
+      expect((service as any).dataStore.newHabits).toContain(newHabitStub);
 
       service.setNewHabitsState(argsWithIdMock);
-      // @ts-ignore
-      expect(service.dataStore.newHabits).not.toContain(newHabitStub);
+
+      expect((service as any).dataStore.newHabits).not.toContain(newHabitStub);
     });
 
     it('should execute clearDataStore method inside createHabits', fakeAsync(() => {
       const spy = spyOn(service, 'clearDataStore');
-      // @ts-ignore
-      spyOn(service.http, 'post').and.returnValue(of(service.dataStore.newHabits));
+
+      spyOn((service as any).http, 'post').and.returnValue(of((service as any).dataStore.newHabits));
       service.createHabits('english');
       tick(50);
 
@@ -84,8 +82,8 @@ describe('HabitStatisticService', () => {
     it('should execute both loadAvailableHabits and loadHabitStatistics in deleteHabit', fakeAsync(() => {
       const statisticSpy = spyOn(service, 'loadHabitStatistics');
       const availableSpy = spyOn(service, 'loadAvailableHabits');
-      // @ts-ignore
-      spyOn(service.http, 'delete').and.returnValue(of(PLACEHOLDER));
+
+      spyOn((service as any).http, 'delete').and.returnValue(of(PLACEHOLDER));
       service.deleteHabit(1, 'english');
       tick(50);
 
@@ -102,20 +100,17 @@ describe('HabitStatisticService', () => {
     });
 
     it('should return habitStatistics length', () => {
-      // @ts-ignore
-      service.dataStore.habitStatistics = habitStatArrayMock;
+      (service as any).dataStore.habitStatistics = habitStatArrayMock;
       const habitStatLength = service.getNumberOfHabits();
 
       expect(habitStatLength).toEqual(habitStatArrayMock.length);
     });
 
     it('should reset newHabits in clearDataStore', () => {
-      // @ts-ignore
-      service.dataStore.newHabits = newHabitArrayMock;
+      (service as any).dataStore.newHabits = newHabitArrayMock;
       service.clearDataStore('english');
 
-      // @ts-ignore
-      expect(service.dataStore.newHabits).toEqual(EMPTY_ARRAY);
+      expect((service as any).dataStore.newHabits).toEqual(EMPTY_ARRAY);
     });
 
     it('should execute loadAvailableHabits and loadHabitStatistics inside clearDataStore', fakeAsync(() => {
@@ -129,20 +124,18 @@ describe('HabitStatisticService', () => {
     }));
 
     it('should reset newHabits, availableHabits, habitStatistics fields inside onLogout', () => {
-      // @ts-ignore
-      service.dataStore.habitStatistics = habitStatArrayMock;
-      // @ts-ignore
-      service.dataStore.availableHabits = availHabitArrayMock;
-      // @ts-ignore
-      service.dataStore.newHabits = newHabitArrayMock;
+      (service as any).dataStore.habitStatistics = habitStatArrayMock;
+
+      (service as any).dataStore.availableHabits = availHabitArrayMock;
+
+      (service as any).dataStore.newHabits = newHabitArrayMock;
       service.onLogout();
 
-      // @ts-ignore
-      expect(service.dataStore.habitStatistics).toEqual(EMPTY_ARRAY);
-      // @ts-ignore
-      expect(service.dataStore.availableHabits).toEqual(EMPTY_ARRAY);
-      // @ts-ignore
-      expect(service.dataStore.newHabits).toEqual(EMPTY_ARRAY);
+      expect((service as any).dataStore.habitStatistics).toEqual(EMPTY_ARRAY);
+
+      expect((service as any).dataStore.availableHabits).toEqual(EMPTY_ARRAY);
+
+      expect((service as any).dataStore.newHabits).toEqual(EMPTY_ARRAY);
     });
   });
 });

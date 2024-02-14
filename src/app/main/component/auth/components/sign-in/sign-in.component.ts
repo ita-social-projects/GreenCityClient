@@ -5,7 +5,7 @@ import { UntypedFormGroup, UntypedFormControl, Validators, AbstractControl } fro
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -21,7 +21,7 @@ import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admi
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
-declare var google: any;
+declare let google: any;
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',

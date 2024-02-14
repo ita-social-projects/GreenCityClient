@@ -98,7 +98,7 @@ export const notificationStatuses = ['ACTIVE', 'INACTIVE'];
 export class NotificationsService {
   constructor(private http: HttpClient) {}
 
-  getAllNotificationTemplates(page: number = 0, size: number = 10): Observable<NotificationTemplatesPage> {
+  getAllNotificationTemplates(page = 0, size = 10): Observable<NotificationTemplatesPage> {
     return this.http.get<NotificationTemplatesPage>(`${ubsAdminNotificationLink}/get-all-templates?page=${page}&size=${size}`);
   }
 

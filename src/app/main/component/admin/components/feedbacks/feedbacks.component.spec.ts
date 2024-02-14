@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FeedbackService } from '@global-service/feedbacksAdmin/feedback.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -10,7 +10,7 @@ import { ConfirmationDialogService } from '../../services/confirmation-dialog-se
 import { FeedbacksComponent } from './feedbacks.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 
 class MatDialogMock {
   open() {
@@ -24,7 +24,9 @@ class TranslationServiceStub {
   public onLangChange = new EventEmitter<any>();
   public onTranslationChange = new EventEmitter<any>();
   public onDefaultLangChange = new EventEmitter<any>();
-  public addLangs(langs: string[]) {}
+  public addLangs(langs: string[]) {
+    return langs;
+  }
   public getLangs() {
     return 'en-us';
   }
@@ -35,7 +37,7 @@ class TranslationServiceStub {
     return '';
   }
   public use(lang: string) {
-    return '';
+    return lang;
   }
   public get(key: any): any {
     return of(key);
@@ -49,12 +51,10 @@ describe('FeedbacksComponent', () => {
   let component: FeedbacksComponent;
   let fixture: ComponentFixture<FeedbacksComponent>;
 
-  let confirmationDialogServiceMock: ConfirmationDialogService;
-  confirmationDialogServiceMock = jasmine.createSpyObj('ConfirmationDialogService', ['confirm']);
+  const confirmationDialogServiceMock: ConfirmationDialogService = jasmine.createSpyObj('ConfirmationDialogService', ['confirm']);
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of();
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = () => of();
   translateServiceMock.get = () => of(true);
 
   let feedbackServiceMock: FeedbackService;

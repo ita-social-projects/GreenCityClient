@@ -9,7 +9,7 @@ import { calendarImage } from './calendar-image';
 import { HabitsPopupComponent } from '@global-user/components/profile/calendar/habits-popup/habits-popup.component';
 import { HabitsForDateInterface } from '@global-user/components/profile/calendar/habit-popup-interface';
 import { ItemClass } from './CalendarItemStyleClasses';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Breakpoints } from 'src/app/main/config/breakpoints.constants';
 import { HabitAssignInterface } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
@@ -305,8 +305,6 @@ export class CalendarBaseComponent implements OnDestroy {
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {
     const dateForHabitPopup = `${dayItem.year}-${dayItem.month + 1}-${dayItem.numberOfDate}`;
-    let horisontalPositioning: string;
-    let verticalPosition: string;
     if (dayItem.numberOfDate) {
       this.habitAssignService.habitDate = new Date(dateForHabitPopup);
     } else {
@@ -326,9 +324,9 @@ export class CalendarBaseComponent implements OnDestroy {
     this.breakpointObserver.observe([`(max-width: ${Breakpoints.pcLow}px)`]).subscribe((result: BreakpointState) => {
       space = result.matches ? 20 : 40;
     });
-    horisontalPositioning =
+    const horisontalPositioning =
       window.innerWidth - pos.left > dialogBoxSize.width ? pos.left + space : window.innerWidth - (dialogBoxSize.width + space);
-    verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
+    const verticalPosition = window.innerHeight - pos.top < dialogHeight ? window.innerHeight - dialogHeight : pos.top + space;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;

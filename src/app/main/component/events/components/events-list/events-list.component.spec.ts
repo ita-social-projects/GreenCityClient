@@ -10,10 +10,10 @@ import { of } from 'rxjs';
 import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { eventStatusList, TagsArray, eventTimeList } from '../../models/event-consts';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { TagsArray, eventTimeList } from '../../models/event-consts';
 import { By } from '@angular/platform-browser';
-import { MatLegacyOption as MatOption, MatLegacyOptionSelectionChange as MatOptionSelectionChange } from '@angular/material/legacy-core';
+import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Addresses, EventPageResponceDto } from '../../models/events.interface';
 
@@ -217,8 +217,7 @@ describe('EventsListComponent', () => {
   languageServiceMock.getLangValue = (valUa: string, valEn: string) => {
     of(valEn);
   };
-  let matDialogService: jasmine.SpyObj<MatDialog>;
-  matDialogService = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+  const matDialogService: jasmine.SpyObj<MatDialog> = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

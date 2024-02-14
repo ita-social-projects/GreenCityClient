@@ -37,8 +37,7 @@ describe('SearchAllResultsComponent', () => {
     totalPages: 1
   };
 
-  let searchMock: SearchService;
-  searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
+  const searchMock: SearchService = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
   searchMock.getAllResultsByCat = () => of(searchDataMock);
   searchMock.closeSearchSignal = () => true;
@@ -96,16 +95,16 @@ describe('SearchAllResultsComponent', () => {
       component.inputValue = 'test';
       component.searchCategory = 'tetCat';
       spyOn(mockRouter, 'navigate').and.returnValue(new Promise((res) => res(true)));
-      // @ts-ignore
-      component.onSearchUpdateQuery();
+
+      (component as any).onSearchUpdateQuery();
       expect(mockRouter.navigate).toHaveBeenCalled();
     }));
 
     it('should toogle dropdown', () => {
       component.itemsFound = 1;
       component.displayedElements = [mockNewsData];
-      // @ts-ignore
-      component.resetData();
+
+      (component as any).resetData();
       expect(component.itemsFound).toBe(0);
       expect(component.displayedElements).toEqual([]);
     });
@@ -127,8 +126,8 @@ describe('SearchAllResultsComponent', () => {
 
     it('should on update page url if current filter is same', () => {
       component.searchCategory = 'econews';
-      // @ts-ignore
-      const spy = spyOn(component, 'onSearchUpdateQuery').and.returnValue(true);
+
+      const spy = spyOn(component as any, 'onSearchUpdateQuery').and.returnValue(true);
       component.onFilterByClick({ category: 'econews', name: 'news' });
       expect(spy).not.toHaveBeenCalled();
     });

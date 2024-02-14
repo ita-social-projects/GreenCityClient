@@ -4,8 +4,8 @@ import { FeedbackService } from '../../../../service/feedbacksAdmin/feedback.ser
 import { ConfirmationDialogService } from '../../services/confirmation-dialog-service.service';
 import { DialogPhotoComponent } from './dialog-photo/dialog-photo.component';
 import { TranslateService } from '@ngx-translate/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-feedbacks',

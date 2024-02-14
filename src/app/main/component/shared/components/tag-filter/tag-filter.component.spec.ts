@@ -32,8 +32,7 @@ describe('TagFilterComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    // @ts-ignore
-    component.storageKey = 'Test';
+    (component as any).storageKey = 'Test';
     component.tagsListData = tagsListDataMock;
   });
 
@@ -59,8 +58,7 @@ describe('TagFilterComponent', () => {
     });
 
     it('Should call setTags method inside ngOnChanges', () => {
-      // @ts-ignore
-      const spy = spyOn(component, 'setTags');
+      const spy = spyOn(component as any, 'setTags');
       component.ngOnChanges({ tagsListData: new SimpleChange(null, tagsListDataMock, null) });
 
       expect(spy).toHaveBeenCalledWith(tagsListDataMock);
@@ -68,8 +66,8 @@ describe('TagFilterComponent', () => {
 
     it('Should create new filters array', () => {
       sessionStorage.removeItem('Test');
-      // @ts-ignore
-      component.setTags(tagsListDataMock);
+
+      (component as any).setTags(tagsListDataMock);
       expect(component.filters.length).toBeGreaterThan(0);
     });
 
@@ -81,8 +79,7 @@ describe('TagFilterComponent', () => {
 
     it('Should return null if there is no data in sessionStorage', () => {
       spyOn(sessionStorage, 'getItem').and.returnValue(null);
-      // @ts-ignore
-      const val = component.getSessionStorageFilters();
+      const val = (component as any).getSessionStorageFilters();
       expect(val).toEqual([]);
     });
 

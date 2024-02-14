@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { DeleteCommentComponent } from './delete-comment.component';
 import { of } from 'rxjs';
 import { CommentsService } from '../../services/comments.service';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 class MatDialogMock {
   open() {
@@ -22,8 +22,7 @@ describe('DeleteCommentComponent', () => {
   let component: DeleteCommentComponent;
   let fixture: ComponentFixture<DeleteCommentComponent>;
 
-  let commentsServiceMock: CommentsService;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['deleteComments']);
+  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['deleteComments']);
   commentsServiceMock.deleteComments = () => of(true);
 
   beforeEach(waitForAsync(() => {

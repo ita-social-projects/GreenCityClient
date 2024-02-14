@@ -13,8 +13,7 @@ describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
   let fixture: ComponentFixture<CommentsListComponent>;
 
-  let commentsServiceMock: CommentsService;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['editComment']);
+  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['editComment']);
   commentsServiceMock.editComment = () => of();
 
   const commentData = {
@@ -72,8 +71,7 @@ describe('CommentsListComponent', () => {
 
   it('should send data when user save edited content', () => {
     component.content.setValue('some test text');
-    // @ts-ignore
-    const spy = spyOn(component.commentsService, 'editComment').and.returnValue(of());
+    const spy = spyOn((component as any).commentsService, 'editComment').and.returnValue(of());
     component.saveEditedComment(commentData);
     expect(spy).toHaveBeenCalled();
   });

@@ -12,7 +12,7 @@ export class UbsSubmitOrderNotificationComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((val) => {
+    this.route.params.subscribe(() => {
       this.orderId = +this.route.snapshot.paramMap.get('orderId');
     });
   }

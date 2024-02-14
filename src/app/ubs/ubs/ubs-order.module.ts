@@ -6,7 +6,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 
 import { IMaskModule } from 'angular-imask';
 import { MatSelectModule } from '@angular/material/select';
-import { environment } from '@environment/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { UbsRoutingModule } from './ubs-routing.module';
@@ -23,11 +22,7 @@ import { UbsMainPageComponent } from './components/ubs-main-page/ubs-main-page.c
 import { UbsOrderLocationPopupComponent } from './components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  MatDialogModule,
-  MatDialogRef,
-  MAT_DIALOG_DEFAULT_OPTIONS
-} from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { UbsSubmitOrderNotificationComponent } from './components/ubs-submit-order/ubs-submit-order-notification/ubs-submit-order-notification.component';
@@ -38,7 +33,7 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
 import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
-import { GoogleMapsModule } from '@angular/google-maps';
+// import { GoogleMapsModule } from '@angular/google-maps';
 @NgModule({
   declarations: [
     UbsOrderComponent,
@@ -70,7 +65,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     FormsModule,
     ReactiveFormsModule,
     IMaskModule,
-    GoogleMapsModule,
+    // GoogleMapsModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -80,8 +75,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
       isolate: true
     }),
     SharedMainModule,
-    SharedModule,
-    
+    SharedModule
   ],
   exports: [],
   providers: [

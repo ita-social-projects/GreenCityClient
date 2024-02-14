@@ -10,9 +10,9 @@
       </div>
       <div formGroupName="distance">
         <mat-checkbox class="checkbox" formControlName="isActive">Distance</mat-checkbox>
-        <label class="within">Within</label>
-        <label class="example-value-label"></label>
-        <mat-slider class="slider" formControlName="value" min="0" max="20" step="0.1"></mat-slider>
+        <label for="slider" class="within">Within</label>
+        <label for="slider" class="example-value-label"></label>
+        <mat-slider id="slider" class="slider" formControlName="value" min="0" max="20" step="0.1"></mat-slider>
         <span>{{ value?.distance.value }} km</span>
       </div>
       <div formGroupName="servicesFilters" class="services-group">

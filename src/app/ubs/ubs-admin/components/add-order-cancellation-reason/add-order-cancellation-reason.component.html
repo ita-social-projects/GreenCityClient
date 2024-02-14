@@ -5,11 +5,11 @@
     </button>
   </div>
   <div>
-    <label class="title" id="addReason"
+    <label for="addReason" class="title" id="addReason"
       >{{ isHistory ? ('order-cancel.cancel-reason' | translate) : ('order-cancel.title' | translate) }}
       <span *ngIf="isHistory"> № {{ orderID }}</span></label
     >
-    <mat-radio-group aria-label="addReason" [(ngModel)]="cancellationReason">
+    <mat-radio-group id="addReason" aria-label="addReason" [(ngModel)]="cancellationReason">
       <mat-radio-button *ngFor="let option of reasonList" value="{{ option.value }}">
         {{ option.translation | translate }}</mat-radio-button
       >

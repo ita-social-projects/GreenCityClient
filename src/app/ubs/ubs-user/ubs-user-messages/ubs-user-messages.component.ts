@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ShowImgsPopUpComponent } from '../../../shared/show-imgs-pop-up/show-imgs-pop-up.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ubs-user-messages',
@@ -73,8 +73,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
 
   setRead(notificationId: number, isRead: boolean) {
     let isGetNotificationBody = true;
-    let notificationItem: NotificationBody;
-    notificationItem = this.notifications.find((item) => item.id === notificationId);
+    const notificationItem: NotificationBody = this.notifications.find((item) => item.id === notificationId);
     if (notificationItem.body) {
       isGetNotificationBody = false;
     }
@@ -121,7 +120,7 @@ export class UbsUserMessagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

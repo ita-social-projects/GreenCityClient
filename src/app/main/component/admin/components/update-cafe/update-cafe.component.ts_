@@ -16,7 +16,7 @@ import { SpecificationService } from '../../../../service/specification.service'
 import { UserService } from '../../../../service/user/user.service';
 import { PlaceUpdatedDto } from '../../models/placeUpdatedDto.model';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-update-cafe',
@@ -32,7 +32,7 @@ export class UpdateCafeComponent implements OnInit {
   private matSnackBar: MatSnackBarComponent;
   private mapsAPILoader: MapsAPILoader;
   private ngZone: NgZone;
-  
+
   constructor(
     private injector: Injector,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -75,7 +75,7 @@ export class UpdateCafeComponent implements OnInit {
   specifications: any;
   category: CategoryDto;
   string: null;
-  public center: google.maps.LatLngLiteral = {lat: 49.841795, lng: 24.031706} 
+  public center: google.maps.LatLngLiteral = {lat: 49.841795, lng: 24.031706}
   latitude = 49.841795;
   longitude = 24.031706;
   zoom = 13;

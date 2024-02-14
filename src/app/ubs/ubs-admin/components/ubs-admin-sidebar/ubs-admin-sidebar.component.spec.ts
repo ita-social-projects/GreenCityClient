@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { UbsAdminSidebarComponent } from './ubs-admin-sidebar.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';

@@ -1,4 +1,4 @@
-<ng-container *ngIf="userRole == 'ROLE_UBS_EMPLOYEE' || userRole == 'ROLE_MODERATOR'; else forbidden">
+<ng-container *ngIf="userRole === 'ROLE_UBS_EMPLOYEE' || userRole === 'ROLE_MODERATOR'; else forbidden">
   <app-admin-nav></app-admin-nav>
   <router-outlet></router-outlet>
 </ng-container>

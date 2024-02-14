@@ -17,7 +17,7 @@ import { DiscountDto } from '../../../../model/discount/DiscountDto';
 import { SpecificationNameDto } from '../../../../model/specification/SpecificationNameDto';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-propose-cafe',
@@ -26,11 +26,11 @@ import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALO
 })
 export class ProposeCafeComponent implements OnInit {
   photoLoadingStatus = false;
-  name: any;
-  nameOfSpecification: any;
-  value: any;
+  name: unknown;
+  nameOfSpecification: unknown;
+  value: unknown;
   discountsNumber = 101;
-  placeName: any;
+  placeName: unknown;
   place: PlaceAddDto;
   location: LocationDto;
   discountValues: DiscountDto[] = [];
@@ -48,8 +48,8 @@ export class ProposeCafeComponent implements OnInit {
   openingHours: OpeningHours = new OpeningHours();
   breakTimes: BreakTimes = new BreakTimes();
   discount: DiscountDto;
-  categories: any;
-  specifications: any;
+  categories: unknown;
+  specifications: unknown;
   category: CategoryDto;
   string: null;
   latitude: number;
@@ -74,7 +74,7 @@ export class ProposeCafeComponent implements OnInit {
   private specificationService: SpecificationService;
   private uService: UserService;
   private matSnackBar: MatSnackBarComponent;
-  private mapsAPILoader: MapsAPILoader;
+  // private mapsAPILoader: MapsAPILoader;
   private ngZone: NgZone;
 
   constructor(
@@ -88,7 +88,7 @@ export class ProposeCafeComponent implements OnInit {
     this.specificationService = injector.get(SpecificationService);
     this.uService = injector.get(UserService);
     this.matSnackBar = injector.get(MatSnackBarComponent);
-    this.mapsAPILoader = injector.get(MapsAPILoader);
+    // this.mapsAPILoader = injector.get(MapsAPILoader);
     this.ngZone = injector.get(NgZone);
     this.category = new CategoryDto();
     this.discount = new DiscountDto();
@@ -109,32 +109,33 @@ export class ProposeCafeComponent implements OnInit {
       this.specifications = data;
     });
 
+    // eslint-disable-next-line prefer-spread
     this.discountsNumber = Array.apply(null, { length: this.discountsNumber }).map(Number.call, Number);
 
     // load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder();
+    // this.mapsAPILoader.load().then(() => {
+    //   this.setCurrentLocation();
+    //   this.geoCoder = new google.maps.Geocoder();
 
-      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
-      });
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+    //   const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+    //     types: ['address']
+    //   });
+    //   autocomplete.addListener('place_changed', () => {
+    //     this.ngZone.run(() => {
+    //       // get the place result
+    //       const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          //  set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 15;
-        });
-      });
-    });
+    //       // verify result
+    //       if (place.geometry === undefined || place.geometry === null) {
+    //         return;
+    //       }
+    //       //  set latitude, longitude and zoom
+    //       this.latitude = place.geometry.location.lat();
+    //       this.longitude = place.geometry.location.lng();
+    //       this.zoom = 15;
+    //     });
+    //   });
+    // });
   }
 
   addDiscountAndSpecification(nameOfSpecification: string, value: number) {
@@ -207,20 +208,20 @@ export class ProposeCafeComponent implements OnInit {
     this.submitButtonEnabled = false;
     this.place.openingHoursList = this.openingHoursList;
     this.place.discountValues = this.discountValues;
-    this.place.category.name = this.name;
+    // this.place.category.name = this.name;
     this.place.discountValues = this.discountValues;
     this.location.address = this.address;
     this.location.lat = this.latitude;
     this.location.lng = this.longitude;
     this.place.location = this.location;
-    this.place.name = this.placeName;
+    // this.place.name = this.placeName;
     this.placeService.save(this.place);
     this.dialogRef.close();
   }
 
   markerDragEnd($event: MouseEvent) {
-    this.latitude = $event.coords.lat;
-    this.longitude = $event.coords.lng;
+    // this.latitude = $event.coords.lat;
+    // this.longitude = $event.coords.lng;
     this.getAddress(this.latitude, this.longitude);
   }
 

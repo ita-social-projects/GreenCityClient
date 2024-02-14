@@ -27,7 +27,10 @@ export class EventsService implements OnDestroy {
   private divider = `, `;
   private pipe = new DatePipe('en-US');
 
-  constructor(private http: HttpClient, private langService: LanguageService) {}
+  constructor(
+    private http: HttpClient,
+    private langService: LanguageService
+  ) {}
 
   public setArePlacesFilled(dates: DateEvent[], submit?: boolean, check?: boolean, ind?: number): void {
     const currentValues = this.arePlacesFilledSubject.getValue();
@@ -133,7 +136,7 @@ export class EventsService implements OnDestroy {
     quantity: number,
     userLatitude: number,
     userLongitude: number,
-    eventType: string = ''
+    eventType = ''
   ): Observable<EventResponseDto> {
     return this.http.get<EventResponseDto>(
       `${this.backEnd}events/myEvents?eventType=${eventType}&page=${page}&size=${quantity}&` +

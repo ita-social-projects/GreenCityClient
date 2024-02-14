@@ -20,12 +20,12 @@
   </div>
   <form [formGroup]="addViolationForm">
     <div class="row custom-control custom-radio mb-2">
-      <input class="radio" name="violationLevel" type="radio" value="LOW" formControlName="violationLevel" />
-      <label class="label-y">{{ 'add-violation-modal.easy-violation' | translate }}</label>
+      <input id="label-y" class="radio" name="violationLevel" type="radio" value="LOW" formControlName="violationLevel" />
+      <label for="label-y" class="label-y">{{ 'add-violation-modal.easy-violation' | translate }}</label>
     </div>
     <div class="row custom-control custom-radio mb-3">
-      <input class="radio" name="violationLevel" type="radio" value="MAJOR" formControlName="violationLevel" />
-      <label class="label-p">{{ 'add-violation-modal.serious-violation' | translate }}</label>
+      <input id="label-p" class="radio" name="violationLevel" type="radio" value="MAJOR" formControlName="violationLevel" />
+      <label for="label-p" class="label-p">{{ 'add-violation-modal.serious-violation' | translate }}</label>
     </div>
     <div class="row mb-3">
       <h6 *ngIf="!viewMode">{{ 'add-violation-modal.description' | translate }}</h6>

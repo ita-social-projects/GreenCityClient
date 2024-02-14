@@ -5,7 +5,6 @@ import { ServerTranslatePipe } from 'src/app/shared/translate-pipe/translate-pip
 import { TableCellReadonlyComponent } from './table-cell-readonly.component';
 import { Language } from 'src/app/main/i18n/Language';
 import { TableKeys } from '../../../services/table-keys.enum';
-import { MouseEvents } from 'src/app/shared/mouse-events';
 
 describe('TableCellReadonlyComponent', () => {
   let component: TableCellReadonlyComponent;

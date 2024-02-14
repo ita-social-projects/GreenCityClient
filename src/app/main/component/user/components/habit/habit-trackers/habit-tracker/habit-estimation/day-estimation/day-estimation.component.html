@@ -2,7 +2,7 @@
   <button
     type="button"
     class="estimation-button super-button"
-    [ngClass]="{ 'active-button': dayEstimation == 'GOOD', 'non-active-button': habitDto.id === null }"
+    [ngClass]="{ 'active-button': dayEstimation === 'GOOD', 'non-active-button': habitDto.id === null }"
     (click)="update('GOOD')"
   >
     {{ 'user.habit-statistic.day-estimation.super' | translate }}
@@ -11,7 +11,7 @@
   <button
     type="button"
     class="estimation-button normal-button"
-    [ngClass]="{ 'active-button': dayEstimation == 'NORMAL', 'non-active-button': habitDto.id === null }"
+    [ngClass]="{ 'active-button': dayEstimation === 'NORMAL', 'non-active-button': habitDto.id === null }"
     (click)="update('NORMAL')"
   >
     {{ 'user.habit-statistic.day-estimation.normal' | translate }}
@@ -20,7 +20,7 @@
   <button
     type="button"
     class="estimation-button bad-button"
-    [ngClass]="{ 'active-button': dayEstimation == 'BAD', 'non-active-button': habitDto.id === null }"
+    [ngClass]="{ 'active-button': dayEstimation === 'BAD', 'non-active-button': habitDto.id === null }"
     (click)="update('BAD')"
   >
     {{ 'user.habit-statistic.day-estimation.bad' | translate }}

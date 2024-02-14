@@ -1,10 +1,6 @@
-import { AgmCoreModule } from '@agm/core';
+// import { AgmCoreModule } from '@agm/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
-} from '@angular/material/legacy-dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -34,7 +30,12 @@ describe('MapEventComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), RouterTestingModule, MatDialogModule, AgmCoreModule.forRoot()],
+      imports: [
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+        MatDialogModule
+        //  AgmCoreModule.forRoot()
+      ],
       providers: [
         { provide: MatDialogRef, useValue: MatDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: matDialogDataMock }

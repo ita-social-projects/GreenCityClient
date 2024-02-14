@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { NotificationsService } from './notifications.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { catchError } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
 import { NotificationTemplatesMock, NotificationMock } from './notificationsMock';
 import { ubsAdminNotificationLink } from 'src/app/main/links';
 

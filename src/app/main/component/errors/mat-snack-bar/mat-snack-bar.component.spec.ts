@@ -1,7 +1,7 @@
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from './mat-snack-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,8 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('MatSnackBarComponent', () => {
   let component: MatSnackBarComponent;
   let fixture: ComponentFixture<MatSnackBarComponent>;
-  let matSnackBarMock: MatSnackBar;
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
+  const matSnackBarMock: MatSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

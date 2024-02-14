@@ -1,10 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, UntypedFormArray, AbstractControl } from '@angular/forms';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogConfig as MatDialogConfig,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Address, UserProfile } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -169,7 +165,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     this.setTranslation(event.place_id, regionEn, Language.EN);
   }
 
-  setTranslation(id: string, abstractControl: any, lang: string): void {
+  setTranslation(id: string, abstractControl: AbstractControl, lang: string): void {
     this.placeService = new google.maps.places.PlacesService(document.createElement('div'));
     const request = {
       placeId: id,
@@ -317,14 +313,14 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     const city = currentFormGroup.get('city');
 
     if (this.currentLanguage === Language.UA && city.value) {
-      this.inputCity(`${region.value}, ${city.value}`, regionEn.value, Language.UK);
+      this.inputCity(`${region.value}, ${city.value}`, regionEn.value);
     }
     if (this.currentLanguage === Language.EN && cityEn.value) {
-      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value, Language.EN);
+      this.inputCity(`${regionEn.value},${cityEn.value}`, regionEn.value);
     }
   }
 
-  inputCity(searchAddress: string, regionEnName: string, lang: string): void {
+  inputCity(searchAddress: string, regionEnName: string): void {
     const request = {
       input: searchAddress,
       bounds: this.regionBounds,
@@ -711,7 +707,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngOnDestroy(): void {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

@@ -7,13 +7,16 @@ import { take } from 'rxjs/operators';
 
 @Injectable()
 export class ConfirmationDialogService {
-  constructor(private modalService: NgbModal, private translation: TranslateService) {}
+  constructor(
+    private modalService: NgbModal,
+    private translation: TranslateService
+  ) {}
 
   public confirm(
     title: string,
     message: string,
-    btnOkText: string = 'Delete',
-    btnCancelText: string = 'Cancel',
+    btnOkText: 'Delete',
+    btnCancelText: 'Cancel',
     dialogSize: 'sm' | 'lg' = 'sm'
   ): Promise<boolean> {
     const modalRef = this.modalService.open(ConfirmModalComponent, { size: dialogSize });

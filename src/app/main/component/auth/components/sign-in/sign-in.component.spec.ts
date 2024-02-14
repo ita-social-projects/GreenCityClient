@@ -3,9 +3,9 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, inject, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -23,18 +23,12 @@ import { ErrorComponent } from '../error/error.component';
 import { SignInComponent } from './sign-in.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IAppState } from 'src/app/store/state/app.state';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('SignIn component', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  let matDialogMock: MatDialogRef<SignInComponent>;
-  let signInServiceMock: UserOwnSignInService;
   let router: Router;
-  let googleServiceMock: GoogleSignInService;
-  let userSuccessSignIn;
   const initialState = {
     employees: null,
     error: null,
@@ -45,32 +39,31 @@ describe('SignIn component', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
   localStorageServiceMock.getUserId = () => 1;
   localStorageServiceMock.getAccessToken = () => '1';
 
-  matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+  const matDialogMock: MatDialogRef<SignInComponent> = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
 
-  userSuccessSignIn = new UserSuccessSignIn();
-  userSuccessSignIn.userId = 1;
+  const userSuccessSignIn = new UserSuccessSignIn();
+  userSuccessSignIn.userId = '1';
   userSuccessSignIn.name = '1';
   userSuccessSignIn.accessToken = '1';
   userSuccessSignIn.refreshToken = '1';
 
-  signInServiceMock = jasmine.createSpyObj('UserOwnSignInService', ['signIn']);
+  const signInServiceMock: UserOwnSignInService = jasmine.createSpyObj('UserOwnSignInService', ['signIn']);
   signInServiceMock.signIn = () => {
     return of(userSuccessSignIn);
   };
   signInServiceMock.saveUserToLocalStorage = () => true;
 
-  googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
+  const googleServiceMock: GoogleSignInService = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
-  let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
+  const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole', 'getEmailFromAccessToken']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.getEmailFromAccessToken = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
@@ -129,11 +122,9 @@ describe('SignIn component', () => {
     });
 
     it('should emit "sign-up" after calling openSignInWindowp', () => {
-      // @ts-ignore
-      spyOn(component.pageName, 'emit');
+      spyOn((component as any).pageName, 'emit');
       component.onOpenModalWindow('sign-up');
-      // @ts-ignore
-      expect(component.pageName.emit).toHaveBeenCalledWith('sign-up');
+      expect((component as any).pageName.emit).toHaveBeenCalledWith('sign-up');
     });
   });
 
@@ -288,8 +279,7 @@ describe('SignIn component', () => {
     it('Should return an generalError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      (component as any).onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.generalError).toBe('user.auth.sign-in.bad-email-or-password');
     });
@@ -297,24 +287,21 @@ describe('SignIn component', () => {
     it('Should return an generalError when login failed with deleted user', () => {
       errors = new HttpErrorResponse({ error: { error: 'Unauthorized' } });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      (component as any).onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.generalError).toBe('user.auth.sign-in.account-has-been-deleted');
     });
 
     it('Should reset error messages', () => {
       component.generalError = 'I am error message';
-      // @ts-ignore
       component.configDefaultErrorMessage();
 
       expect(component.generalError).toBeNull();
     });
 
     it('onSignInFailure should set errors', () => {
-      // @ts-ignore
-      const result = component.onSignInFailure('User cancelled login or did not fully authorize');
-      expect(result).toBe();
+      const result = (component as any).onSignInFailure('User cancelled login or did not fully authorize');
+      expect(result).toBe(null);
     });
   });
 

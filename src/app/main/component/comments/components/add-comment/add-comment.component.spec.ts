@@ -32,12 +32,10 @@ describe('AddCommentComponent', () => {
     socialNetworks: [{ id: 1, url: defaultImagePath }]
   } as EditProfileModel;
 
-  let profileServiceMock: ProfileService;
-  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
+  const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
   profileServiceMock.getUserInfo = () => of(userData);
 
-  let commentsServiceMock: CommentsService;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['addComment']);
+  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['addComment']);
   commentsServiceMock.addComment = () =>
     of({
       author: {

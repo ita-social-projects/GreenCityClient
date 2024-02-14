@@ -9,8 +9,9 @@
   <form [formGroup]="CardForm">
     <div class="d-flex first-row">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs.courier' | translate }}</label>
+        <label for="courierName">{{ 'ubs-tariffs.courier' | translate }}</label>
         <mat-select
+          id="courierName"
           #courierSelect
           formControlName="courierName"
           class="form-control"
@@ -24,14 +25,15 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="courierSelect.open()" />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p class="english-name">{{ currentCourierNameTranslated }}</p>
+        <label for="current-courier-name">{{ 'ubs-tariffs.courier-translate' | translate }}</label>
+        <p id="current-courier-name" class="english-name">{{ currentCourierNameTranslated }}</p>
       </div>
     </div>
     <div [ngClass]="selectedStation.length ? 'd-flex' : 'd-flex first-row'">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs.station' | translate }}</label>
+        <label for="station">{{ 'ubs-tariffs.station' | translate }}</label>
         <input
+          id="station"
           formControlName="station"
           [ngClass]="{ 'form-control': true, onBlurSelectionPanel: blurOnOption }"
           [placeholder]="stationPlaceholder"
@@ -57,8 +59,9 @@
     </div>
     <div class="d-flex first-row">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs.region' | translate }}</label>
+        <label for="region-name">{{ 'ubs-tariffs.region' | translate }}</label>
         <mat-select
+          id="region-name"
           #regionSelect
           formControlName="regionName"
           class="form-control"
@@ -72,14 +75,15 @@
         <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="regionSelect.open()" />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="english-name">{{ currentRegionTranslated }}</p>
+        <label for="region-translate">{{ 'ubs-tariffs.region-translate' | translate }}</label>
+        <p id="region-translate" class="english-name">{{ currentRegionTranslated }}</p>
       </div>
     </div>
     <div class="d-flex">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs.city' | translate }}</label>
+        <label for="city">{{ 'ubs-tariffs.city' | translate }}</label>
         <input
+          id="city"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
           [placeholder]="cityPlaceholder"
@@ -101,8 +105,8 @@
         />
       </div>
       <div class="english-part">
-        <label>{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <p *ngIf="citySelected" class="english-name">{{ cityPlaceholderTranslated }}</p>
+        <label for="city-selected">{{ 'ubs-tariffs.city-translate' | translate }}</label>
+        <p id="city-selected" *ngIf="citySelected" class="english-name">{{ cityPlaceholderTranslated }}</p>
       </div>
     </div>
     <div class="list">

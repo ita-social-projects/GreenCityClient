@@ -10,8 +10,10 @@ describe('UbsAdminCustomerDetailsComponent', () => {
   let component: UbsAdminCustomerDetailsComponent;
   let fixture: ComponentFixture<UbsAdminCustomerDetailsComponent>;
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCustomer', 'removeCurrentCustomer']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCustomer',
+    'removeCurrentCustomer'
+  ]);
   let locationMock: Location;
 
   beforeEach(waitForAsync(() => {

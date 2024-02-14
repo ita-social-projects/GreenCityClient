@@ -5,7 +5,7 @@ import { HabitService } from '@global-service/habit/habit.service';
 import { ShoppingList } from '@global-user/models/shoppinglist.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoStatus } from '../../models/todo-status.enum';
 
 import { HabitEditShoppingListComponent } from './habit-edit-shopping-list.component';

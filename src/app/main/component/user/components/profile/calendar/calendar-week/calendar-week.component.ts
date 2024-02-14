@@ -8,7 +8,7 @@ import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CalendarWeekInterface } from '../calendar-week/calendar-week-interface';
 import { CalendarInterface } from '../calendar-interface';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({

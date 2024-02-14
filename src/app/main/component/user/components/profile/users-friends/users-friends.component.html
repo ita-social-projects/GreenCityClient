@@ -1,5 +1,5 @@
 <div class="main-container outer">
-  <div class="friends" *ngIf="amountOfFriends != 0">
+  <div class="friends" *ngIf="amountOfFriends !== 0">
     <div class="friends-text">
       <div class="text-main-content">
         <p class="text-title">
@@ -11,7 +11,7 @@
       </div>
       <div>
         <span class="text-number">
-          {{ amountOfFriends }} {{ 'profile.friends-quantity' | correctUnit: amountOfFriends:currentLang | translate }}</span
+          {{ amountOfFriends }} {{ 'profile.friends-quantity' | correctUnit: amountOfFriends : currentLang | translate }}</span
         >
       </div>
     </div>
@@ -31,7 +31,7 @@
   <div class="friends-error" *ngIf="amountOfFriends === 0">
     <div class="text-title">
       <p>{{ 'profile.my-eco-friends' | translate }}</p>
-      <span class="text-number">0 {{ 'profile.friends-quantity' | correctUnit: 0:currentLang | translate }}</span>
+      <span class="text-number">0 {{ 'profile.friends-quantity' | correctUnit: 0 : currentLang | translate }}</span>
       <div class="error-message">
         <div class="add-friends">
           <a [routerLink]="['/profile', userId, 'friends', 'recommended']">+</a>

@@ -1,13 +1,9 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { RestorePasswordComponent } from './restore-password.component';
-import { ComponentFixture, TestBed, inject, fakeAsync, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -18,39 +14,34 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { RestorePasswordService } from '@auth-service/restore-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GoogleSignInService } from '@auth-service/google-sign-in.service';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnSignInService } from '@global-service/auth/user-own-sign-in.service';
 
 describe('RestorePasswordComponent', () => {
   let component: RestorePasswordComponent;
   let fixture: ComponentFixture<RestorePasswordComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  let googleServiceMock: GoogleSignInService;
   let router: Router;
-  let matDialogMock: MatDialogRef<RestorePasswordComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
-  let userSuccessSignIn;
   let dialog: MatDialog;
 
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
-  userSuccessSignIn = new UserSuccessSignIn();
+  const userSuccessSignIn = new UserSuccessSignIn();
   userSuccessSignIn.userId = '13';
   userSuccessSignIn.name = 'Name';
   userSuccessSignIn.accessToken = '13';
   userSuccessSignIn.refreshToken = '13';
 
-  matDialogMock = jasmine.createSpyObj('MatDialogRef', ['close']);
+  const matDialogMock: MatDialogRef<RestorePasswordComponent> = jasmine.createSpyObj('MatDialogRef', ['close']);
   matDialogMock.close = () => 'Close the window please';
 
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
 
-  googleServiceMock = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
+  const googleServiceMock: GoogleSignInService = jasmine.createSpyObj('GoogleSignInService', ['signIn']);
   googleServiceMock.signIn = () => of(userSuccessSignIn);
 
   const userOwnSignInServiceMock = jasmine.createSpyObj('userOwnSignInService', ['saveUserToLocalStorage']);
@@ -143,17 +134,13 @@ describe('RestorePasswordComponent', () => {
     });
 
     it('Test sendEmailForRestore method', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine
-        .createSpy('sendEmail')
-        .and.returnValue(Observable.of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
       restorePasswordService.sendEmailForRestore(mockFormData);
       expect(spy).toHaveBeenCalled();
     });
 
     it('sentEmail should call sendEmailForRestore', () => {
-      const spy = (restorePasswordService.sendEmailForRestore = jasmine
-        .createSpy('sendEmail')
-        .and.returnValue(Observable.of(mockFormData)));
+      const spy = (restorePasswordService.sendEmailForRestore = jasmine.createSpy('sendEmail').and.returnValue(of(mockFormData)));
       component.sentEmail();
       expect(spy).toHaveBeenCalled();
     });
@@ -185,8 +172,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
 
-      // @ts-ignore
-      component.onSentEmailBadMessage(errors);
+      (component as any).onSentEmailBadMessage(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('email-not-exist');
     });
@@ -194,8 +180,7 @@ describe('RestorePasswordComponent', () => {
     it('Should return an emailErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      (component as any).onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('Ups');
     });
@@ -203,17 +188,14 @@ describe('RestorePasswordComponent', () => {
     it('Should return an passwordErrorMessageBackEnd when login failed', () => {
       errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
 
-      // @ts-ignore
-      component.onSignInFailure(errors);
+      (component as any).onSignInFailure(errors);
       fixture.detectChanges();
       expect(component.passwordErrorMessageBackEnd).toBe('Ups');
     });
 
     it('Should return an backEndError when login failed', () => {
       errors = new HttpErrorResponse({ error: { message: 'Ups' } });
-
-      // @ts-ignore
-      component.onSignInFailure(errors.error);
+      (component as any).onSignInFailure(errors.error);
       fixture.detectChanges();
       expect(component.backEndError).toBe('Ups');
     });

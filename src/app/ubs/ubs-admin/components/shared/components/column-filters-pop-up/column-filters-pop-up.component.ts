@@ -1,7 +1,7 @@
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.service';
 import { Component, ElementRef, HostListener, Inject, Injector, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IFilteredColumn, IFilteredColumnValue } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { DateAdapter } from '@angular/material/core';
@@ -88,9 +88,7 @@ export class ColumnFiltersPopUpComponent implements OnInit {
 
   getOptionsForFiltering() {
     const columnsForFiltering = this.getColumnsForFiltering();
-    let filteredCol: IFilteredColumn;
-
-    filteredCol = columnsForFiltering.find((column) => column.key === this.data.columnName);
+    const filteredCol: IFilteredColumn = columnsForFiltering.find((column) => column.key === this.data.columnName);
 
     return filteredCol.values;
   }

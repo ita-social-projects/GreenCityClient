@@ -11,8 +11,12 @@
     <div class="question">{{ 'ubs-client-profile.payment.question-certificate' | translate }}</div>
 
     <div class="form-field-container">
-      <label class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</label>
-      <div formArrayName="formArrayCertificates" *ngFor="let certificate of formArrayCertificates.controls; let i = index">
+      <label for="certificate-title" class="certificate-title">{{ 'ubs-client-profile.payment.certificate-number' | translate }}</label>
+      <div
+        id="certificate-title"
+        formArrayName="formArrayCertificates"
+        *ngFor="let certificate of formArrayCertificates.controls; let i = index"
+      >
         <div [formGroupName]="i" class="dialog-container-certificate">
           <fieldset [disabled]="!certificateStatus[i]">
             <legend style="display: none">Certificate Code Input</legend>

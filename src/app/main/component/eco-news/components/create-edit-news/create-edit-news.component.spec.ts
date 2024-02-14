@@ -2,12 +2,8 @@ import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/cor
 import { UntypedFormArray, UntypedFormControl, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogRef as MatDialogRef,
-  MatLegacyDialogModule as MatDialogModule
-} from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UntypedFormBuilder } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -43,9 +39,6 @@ import { FIRSTECONEWS } from '../../mocks/eco-news-mock';
 describe('CreateEditNewsComponent', () => {
   let component: CreateEditNewsComponent;
   let fixture: ComponentFixture<CreateEditNewsComponent>;
-  let ecoNewsServiceMock: EcoNewsService;
-  let createEcoNewsServiceMock: CreateEcoNewsService;
-  let createEditNewsFormBuilderMock: CreateEditNewsFormBuilder;
   let router: Router;
   let location: Location;
 
@@ -80,7 +73,7 @@ describe('CreateEditNewsComponent', () => {
     { name: 'Education', nameUa: 'Освіта', isActive: true }
   ];
 
-  createEcoNewsServiceMock = jasmine.createSpyObj('CreateEcoNewsService', [
+  const createEcoNewsServiceMock: CreateEcoNewsService = jasmine.createSpyObj('CreateEcoNewsService', [
     'sendFormData',
     'editNews',
     'setForm',
@@ -100,13 +93,16 @@ describe('CreateEditNewsComponent', () => {
   createEcoNewsServiceMock.sendImagesData = () => of(['image']);
   createEcoNewsServiceMock.getTags = () => [];
 
-  ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
+  const ecoNewsServiceMock: EcoNewsService = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsById', 'getAllPresentTags']);
   ecoNewsServiceMock.getEcoNewsById = (id) => {
     return of(FIRSTECONEWS);
   };
   ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
 
-  createEditNewsFormBuilderMock = jasmine.createSpyObj('CreateEditNewsFormBuilder', ['getSetupForm', 'getEditForm']);
+  const createEditNewsFormBuilderMock: CreateEditNewsFormBuilder = jasmine.createSpyObj('CreateEditNewsFormBuilder', [
+    'getSetupForm',
+    'getEditForm'
+  ]);
   createEditNewsFormBuilderMock.getSetupForm = () => {
     return new UntypedFormGroup({
       title: new UntypedFormControl('', [Validators.required, Validators.maxLength(170)]),

@@ -1,4 +1,4 @@
-import { RestoreDto } from '@global-models/restroreDto';
+// import { RestoreDto } from '@global-models/restroreDto';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
@@ -9,16 +9,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { of } from 'rxjs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 describe('ConfirmRestorePasswordComponent', () => {
   let component: ConfirmRestorePasswordComponent;
   let fixture: ComponentFixture<ConfirmRestorePasswordComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
   let router: Router;
 
   const MatDialogRefMock = {
@@ -29,8 +28,8 @@ describe('ConfirmRestorePasswordComponent', () => {
     restorePassword: jasmine.createSpy('restorePassword')
   };
 
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
-  MatSnackBarMock.openSnackBar = (type: string) => {};
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  MatSnackBarMock.openSnackBar = () => {};
 
   class Fake {}
 
@@ -93,7 +92,6 @@ describe('ConfirmRestorePasswordComponent', () => {
 
   describe('Check confirm restore password methods', () => {
     let changePasswordServiceMock: ChangePasswordService;
-    let mockRestoreDto: RestoreDto;
     let mockFormData;
 
     beforeEach(() => {
@@ -103,24 +101,17 @@ describe('ConfirmRestorePasswordComponent', () => {
         confirmPassword: 'Password13.',
         token: 'token'
       };
-
-      mockRestoreDto = {
-        password: 'Password13.',
-        confirmPassword: 'Password13.',
-        token: 'token',
-        isUbs: false
-      };
     });
 
     it('sendPasswords should call ChangePasswordService', () => {
-      const spy = ChangePasswordServiceStub.restorePassword.and.returnValue(Observable.of(mockFormData));
+      const spy = ChangePasswordServiceStub.restorePassword.and.returnValue(of(mockFormData));
       ChangePasswordServiceStub.restorePassword(mockFormData);
       expect(spy).toHaveBeenCalledWith(mockFormData);
     });
 
     it('Test sendPasswords method', () => {
       spyOn(global, 'setTimeout');
-      const spy = (changePasswordServiceMock.restorePassword = jasmine.createSpy('restore').and.returnValue(Observable.of(mockFormData)));
+      const spy = (changePasswordServiceMock.restorePassword = jasmine.createSpy('restore').and.returnValue(of(mockFormData)));
       component.sendPasswords();
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();

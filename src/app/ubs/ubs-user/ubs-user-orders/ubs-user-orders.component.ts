@@ -12,7 +12,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { OrderService } from '../../ubs/services/order.service';
 import { UbsOrderLocationPopupComponent } from '../../ubs/components/ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { AllLocationsDtos } from '../../ubs/models/ubs.interface';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -232,7 +232,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

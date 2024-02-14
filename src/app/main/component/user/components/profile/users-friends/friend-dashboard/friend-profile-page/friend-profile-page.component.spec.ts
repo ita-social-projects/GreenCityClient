@@ -11,15 +11,15 @@ import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 describe('FriendProfilePageComponent', () => {
   let component: FriendProfilePageComponent;
   let fixture: ComponentFixture<FriendProfilePageComponent>;
-  let translateServiseMock: TranslateService;
-  translateServiseMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  const translateServiseMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'languageSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'languageSubject'
+  ]);
   localStorageServiceMock.languageSubject = new Subject();
 
-  let userFriendsServiceMock: UserFriendsService;
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', [
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', [
     'getUserProfileStatistics',
     'getUserInfo',
     'getRequests',
@@ -64,6 +64,7 @@ describe('FriendProfilePageComponent', () => {
   });
 
   it('methd ngOnInit should set default language', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     localStorageServiceMock.getCurrentLanguage.and.returnValue('ua');
     const value = localStorageServiceMock.getCurrentLanguage();
@@ -82,24 +83,22 @@ describe('FriendProfilePageComponent', () => {
   it('method getUserInfo should have been called', () => {
     spyOn(component as any, 'getUserInfo').and.callFake(() => {});
     component.ngOnInit();
-    // @ts-ignore
-    expect(component.getUserInfo).toHaveBeenCalled();
+
+    expect((component as any).getUserInfo).toHaveBeenCalled();
   });
 
   it('method getUserActivities should get user info', () => {
     spyOn(component as any, 'getUserActivities').and.callFake(() => {});
     component.ngOnInit();
-    // @ts-ignore
-    expect(component.getUserActivities).toHaveBeenCalled();
+    expect((component as any).getUserActivities).toHaveBeenCalled();
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy$ = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy$, 'complete');
+    (component as any).destroy$ = new Subject<boolean>();
+
+    spyOn((component as any).destroy$, 'complete');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy$.complete).toHaveBeenCalledTimes(1);
+
+    expect((component as any).destroy$.complete).toHaveBeenCalledTimes(1);
   });
 });

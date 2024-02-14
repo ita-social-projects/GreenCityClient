@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HabitsGalleryViewComponent } from './habits-gallery-view.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -17,16 +17,13 @@ import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomP
 describe('HabitsGalleryViewComponent', () => {
   let component: HabitsGalleryViewComponent;
   let fixture: ComponentFixture<HabitsGalleryViewComponent>;
-  let matSnackBarMock: MatSnackBarComponent;
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
   let httpTestingController: HttpTestingController;
-  let habitAssignServiceMock: HabitAssignService;
-  habitAssignServiceMock = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
+  const habitAssignServiceMock: HabitAssignService = jasmine.createSpyObj('HabitAssignService', ['assignHabit']);
   habitAssignServiceMock.assignHabit = () => new Observable();
 
-  let fakeHabitAssignService: HabitAssignService;
-  fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', ['assignCustomHabit', 'assignHabit']);
+  const fakeHabitAssignService: HabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', ['assignCustomHabit', 'assignHabit']);
   fakeHabitAssignService.assignCustomHabit = () => of();
   fakeHabitAssignService.assignHabit = () => of();
 

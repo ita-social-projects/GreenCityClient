@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed, inject, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from './calendar-base.component';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarInterface } from '@global-user/components/profile/calendar/calendar-interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { ItemClass } from './CalendarItemStyleClasses';
@@ -264,8 +264,8 @@ describe('CalendarBaseComponent', () => {
 
   it('should return current day of week', () => {
     component.markCurrentDayOfWeek();
-    // @ts-ignore
-    component.calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
+
+    (component as any).calendarDay[4].date = { getMonth: () => 5, getFullYear: () => 2021 };
     expect(component.currentDayName).toEqual('monday');
   });
 

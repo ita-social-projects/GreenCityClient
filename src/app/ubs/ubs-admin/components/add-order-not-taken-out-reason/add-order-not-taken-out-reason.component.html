@@ -5,11 +5,11 @@
     </button>
   </div>
 
-  <label class="title" id="addReason"
+  <label class="title" id="addReason" for="title"
     >{{ isOpendFromHistory ? ('order-not-taken-out-reason.title' | translate) : ('order-not-taken-out.title' | translate)
     }}<span *ngIf="isOpendFromHistory">{{ orderID }}</span></label
   >
-  <form [formGroup]="addNotTakenOutForm">
+  <form id="title" [formGroup]="addNotTakenOutForm">
     <h6>
       {{ isOpendFromHistory ? ('order-not-taken-out-reason.label-reason' | translate) : ('order-not-taken-out.label-reason' | translate) }}
     </h6>

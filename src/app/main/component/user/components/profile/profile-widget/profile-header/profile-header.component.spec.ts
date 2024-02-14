@@ -17,10 +17,10 @@ import { Language } from 'src/app/main/i18n/Language';
 describe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
   let fixture: ComponentFixture<ProfileHeaderComponent>;
-  let localStorageServiceMock: LocalStorageService;
+
   let profileService: ProfileService;
   const mockId = 123;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getUserId = () => mockId;
   localStorageServiceMock.getCurrentLanguage = () => {

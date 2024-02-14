@@ -9,8 +9,7 @@ describe('SubscribeComponent', () => {
   let component: SubscribeComponent;
   let fixture: ComponentFixture<SubscribeComponent>;
 
-  let fakeSubscriptionService: SubscriptionService;
-  fakeSubscriptionService = jasmine.createSpyObj('fakeSub', ['subscribeToNewsletter']);
+  const fakeSubscriptionService: SubscriptionService = jasmine.createSpyObj('fakeSub', ['subscribeToNewsletter']);
   fakeSubscriptionService.subscriptionError = of('sth');
 
   const emailMock = 'example12@gamil.com';

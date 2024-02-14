@@ -1,12 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { AddOrderNotTakenOutReasonComponent } from './add-order-not-taken-out-reason.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
-} from '@angular/material/legacy-dialog';
+import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -130,8 +125,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
   });
 
   it('open ShowImgsPopUpComponent', () => {
-    let a: NotTakenOutReasonImage;
-    a = component.images[0];
+    const a: NotTakenOutReasonImage = component.images[0];
     component.openImage(a);
     expect(matDialogStub.open).toHaveBeenCalled();
   });
@@ -153,8 +147,7 @@ describe('AddOrderNotTakenOutReasonComponent', () => {
 
     it('deleteImage', () => {
       component.images = [{ src: 'imageSrc', name: 'nameImg', file: dataFileMock }];
-      let a: NotTakenOutReasonImage;
-      a = component.images[0];
+      const a: NotTakenOutReasonImage = component.images[0];
       component.deleteImage(a);
       expect(component.images).toEqual([]);
     });

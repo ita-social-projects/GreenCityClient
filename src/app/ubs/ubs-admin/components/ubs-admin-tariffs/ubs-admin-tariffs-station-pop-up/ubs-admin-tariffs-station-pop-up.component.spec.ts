@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
-} from '@angular/material/legacy-dialog';
+  // MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, Subject } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -54,7 +54,14 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
-        { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
+        {
+          provide: MatSnackBarComponent,
+          useValue: {
+            openSnackBar: () => {
+              ('');
+            }
+          }
+        },
         UntypedFormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

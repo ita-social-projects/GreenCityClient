@@ -11,7 +11,6 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { GetEmployeesPermissions } from 'src/app/store/actions/employee.actions';
 
-// @ts-ignore
 @Component({
   selector: 'app-ubs-admin-sidebar',
   templateUrl: './ubs-admin-sidebar.component.html'

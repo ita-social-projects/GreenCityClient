@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { IGeneralOrderInfo, IPaymentStatus } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddOrderCancellationReasonComponent } from '../add-order-cancellation-reason/add-order-cancellation-reason.component';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -194,7 +194,7 @@ export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestro
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

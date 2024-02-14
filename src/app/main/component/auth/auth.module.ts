@@ -8,7 +8,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { ConfirmRestorePasswordComponent } from './components/confirm-restore-password/confirm-restore-password.component';
 import { GoogleBtnComponent } from './components/google-btn/google-btn.component';
 import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({

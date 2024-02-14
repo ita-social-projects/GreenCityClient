@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PersonalPhotoComponent } from './personal-photo.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
 
@@ -50,10 +50,9 @@ describe('PersonalPhotoComponent', () => {
         profilePicturePath: 'test',
         name: 'test'
       };
-      // @ts-ignore
-      spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
-      // @ts-ignore
-      component.setUserAvatar();
+      spyOn((component as any).profileService, 'getUserInfo').and.returnValue(of(userData));
+
+      (component as any).setUserAvatar();
 
       expect(component.userName).toBe(userData.name);
     });
@@ -70,10 +69,8 @@ describe('PersonalPhotoComponent', () => {
         showShoppingList: true,
         socialNetworks: [{ id: 220, url: 'http://instagram.com/profile' }]
       } as EditProfileModel;
-      // @ts-ignore
-      spyOn(component.profileService, 'getUserInfo').and.returnValue(of(userData));
-      // @ts-ignore
-      component.setUserAvatar();
+      spyOn((component as any).profileService, 'getUserInfo').and.returnValue(of(userData));
+      (component as any).setUserAvatar();
 
       expect(component.userName).toBe(userData.name);
     });
@@ -83,8 +80,7 @@ describe('PersonalPhotoComponent', () => {
       component.avatarImg = 'test';
 
       dialogStub.setResult(true);
-      // @ts-ignore
-      const spy = spyOn(component, 'setUserAvatar');
+      const spy = spyOn(component as any, 'setUserAvatar');
       component.openEditPhoto();
 
       expect(spy).toHaveBeenCalled();
