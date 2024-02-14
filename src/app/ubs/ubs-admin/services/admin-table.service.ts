@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAlertInfo } from '../models/edit-cell.model';
 import { environment } from '@environment/environment.js';
 import { IBigOrderTable, IFilteredColumn, IFilteredColumnValue } from '../models/ubs-admin.interface';
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import * as moment from 'moment';
 
@@ -268,12 +268,11 @@ export class AdminTableService {
     const year = today.getFullYear();
     let month = (today.getMonth() + 1).toString();
     let day = today.getDate().toString();
-    let todayDate: string;
 
     month = +month >= 10 ? month : `0${month}`;
     day = +day >= 10 ? day : `0${day}`;
 
-    todayDate = `${year}-${month}-${day}`;
+    const todayDate = `${year}-${month}-${day}`;
 
     return todayDate;
   }

@@ -110,7 +110,7 @@ export class UbsAdminOrderClientInfoComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

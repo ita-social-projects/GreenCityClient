@@ -1,5 +1,5 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, ComponentFactoryResolver, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CHAT_ICONS } from '../../chat-icons';
 import { ChatsService } from '../../service/chats/chats.service';
 import { NewMessageWindowComponent } from '../new-message-window/new-message-window.component';
@@ -8,7 +8,7 @@ import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 
 @Component({
@@ -67,7 +67,7 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
+    this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
 }

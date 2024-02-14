@@ -10,8 +10,9 @@
       <div>
         <div class="d-flex">
           <div class="form-group">
-            <label>{{ 'ubs-tariffs.courier' | translate }}</label>
+            <label for="choose-courier">{{ 'ubs-tariffs.courier' | translate }}</label>
             <input
+              id="choose-courier"
               formControlName="courier"
               class="form-control"
               placeholder="{{ 'ubs-tariffs.placeholder-choose-courier' | translate }}"
@@ -34,16 +35,17 @@
         </div>
       </div>
       <div class="translation">
-        <label class="label">{{ getLangValue(courierLabelEn, courierLabelUa) }}</label>
-        <p class="text">{{ selectedValue ? getLangValue(selectedValue.nameEn, selectedValue.nameUk) : '' }}</p>
+        <label for="selected-name" class="label">{{ getLangValue(courierLabelEn, courierLabelUa) }}</label>
+        <p id="selected-name" class="text">{{ selectedValue ? getLangValue(selectedValue.nameEn, selectedValue.nameUk) : '' }}</p>
       </div>
     </div>
     <!-- Station -->
     <div>
       <div [ngClass]="selectedStations.length ? 'd-flex' : 'd-flex first-row'">
         <div class="form-group">
-          <label>{{ 'ubs-tariffs.station' | translate }}</label>
+          <label for="station">{{ 'ubs-tariffs.station' | translate }}</label>
           <input
+            id="station"
             formControlName="station"
             class="form-control"
             [placeholder]="stationPlaceholder"
@@ -76,8 +78,9 @@
     <!-- Region -->
     <div class="form-wrapper">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs.region' | translate }}</label>
+        <label for="region">{{ 'ubs-tariffs.region' | translate }}</label>
         <input
+          id="region"
           #autocompleteTriggerRegion="matAutocompleteTrigger"
           formControlName="region"
           [placeholder]="regionPlaceholder"
@@ -99,8 +102,8 @@
         </div>
       </div>
       <div class="translation">
-        <label class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
-        <div class="select-count" *ngIf="selectedRegions.length">
+        <label for="select-count" class="label">{{ getLangValue(regionLabelEn, regionLabelUa) }}</label>
+        <div id="select-count" class="select-count" *ngIf="selectedRegions.length">
           {{ selectedRegions.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
         </div>
         <div *ngFor="let item of selectedRegions">
@@ -111,8 +114,9 @@
     <!-- City -->
     <div class="form-wrapper">
       <div class="form-group">
-        <label>{{ 'ubs-tariffs.city' | translate }}</label>
+        <label for="city">{{ 'ubs-tariffs.city' | translate }}</label>
         <input
+          id="city"
           #autocompleteTriggerCity="matAutocompleteTrigger"
           formControlName="city"
           [placeholder]="cityPlaceholder"
@@ -139,8 +143,8 @@
         </div>
       </div>
       <div class="translation">
-        <label class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
-        <div class="select-count" *ngIf="selectedCities.length">
+        <label for="selected-cities" class="label">{{ getLangValue(cityLabelEn, cityLabelUa) }}</label>
+        <div id="selected-cities" class="select-count" *ngIf="selectedCities.length">
           {{ selectedCities.length }} {{ getLangValue(placeholderSelectedEn, placeholderSelectedUa) }}
         </div>
         <div *ngFor="let item of selectedCities">

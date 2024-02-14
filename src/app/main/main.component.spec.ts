@@ -30,8 +30,7 @@ describe('MainComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ emplpyees: { emplpyeesPermissions: mockData } }));
 
-  let jwtServiceMock: JwtService;
-  jwtServiceMock = jasmine.createSpyObj('JwtService', ['getUserRole']);
+  const jwtServiceMock: JwtService = jasmine.createSpyObj('JwtService', ['getUserRole']);
   jwtServiceMock.getUserRole = () => 'true';
   jwtServiceMock.userRole$ = new BehaviorSubject('test');
 

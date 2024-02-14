@@ -4,15 +4,16 @@
       <h2 class="personal-data-title">{{ 'personal-info.info-personal-data' | translate }}</h2>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label>{{ 'personal-info.info-name' | translate }}</label>
-      <input formControlName="firstName" type="text" class="shadow-none form-control" />
+      <label for="info-name">{{ 'personal-info.info-name' | translate }}</label>
+      <input id="info-name" formControlName="firstName" type="text" class="shadow-none form-control" />
       <div class="validation" *ngIf="getControl('firstName').invalid && getControl('firstName').touched">
         <app-ubs-input-error [formElement]="getControl('firstName')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label>{{ 'personal-info.info-phone' | translate }}</label>
+      <label for="">{{ 'personal-info.info-phone' | translate }}</label>
       <input
+        id="info-phone"
         formControlName="phoneNumber"
         type="text"
         class="shadow-none form-control"
@@ -25,15 +26,15 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label>{{ 'personal-info.info-surname' | translate }}</label>
-      <input formControlName="lastName" type="text" class="shadow-none form-control" />
+      <label for="info-surname">{{ 'personal-info.info-surname' | translate }}</label>
+      <input id="info-surname" formControlName="lastName" type="text" class="shadow-none form-control" />
       <div class="validation" *ngIf="getControl('lastName').invalid && getControl('lastName').touched">
         <app-ubs-input-error [formElement]="getControl('lastName')"> </app-ubs-input-error>
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label>Email</label>
-      <input formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="text" class="shadow-none form-control" placeholder="example@email.com" />
       <div class="validation" *ngIf="getControl('email').invalid && getControl('email').touched">
         <app-ubs-input-error [formElement]="getControl('email')"> </app-ubs-input-error>
       </div>
@@ -47,8 +48,9 @@
   </div>
   <div class="row personal-data" *ngIf="anotherClient" (change)="changeAnotherClientInPersonalData()">
     <div class="col-12 col-sm-6 form-group">
-      <label>{{ 'personal-info.info-name' | translate }}</label>
+      <label for="nother-client-first-name">{{ 'personal-info.info-name' | translate }}</label>
       <input
+        id="nother-client-first-name"
         formControlName="anotherClientFirstName"
         type="text"
         class="shadow-none form-control"
@@ -59,8 +61,9 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group">
-      <label>{{ 'personal-info.info-phone' | translate }}</label>
+      <label for="another-client-phone">{{ 'personal-info.info-phone' | translate }}</label>
       <input
+        id="another-client-phone"
         formControlName="anotherClientPhoneNumber"
         type="text"
         class="shadow-none form-control"
@@ -73,8 +76,9 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label>{{ 'personal-info.info-surname' | translate }}</label>
+      <label for="info-surname">{{ 'personal-info.info-surname' | translate }}</label>
       <input
+        id="info-surname"
         formControlName="anotherClientLastName"
         type="text"
         class="shadow-none form-control"
@@ -85,8 +89,14 @@
       </div>
     </div>
     <div class="col-12 col-sm-6 form-group mt-2">
-      <label>Email ({{ 'personal-info.info-optionally' | translate }})</label>
-      <input formControlName="anotherClientEmail" type="text" class="shadow-none form-control" placeholder="example@email.com" />
+      <label for="info-optionally">Email ({{ 'personal-info.info-optionally' | translate }})</label>
+      <input
+        id="info-optionally"
+        formControlName="anotherClientEmail"
+        type="text"
+        class="shadow-none form-control"
+        placeholder="example@email.com"
+      />
       <div class="validation" *ngIf="getControl('anotherClientEmail').invalid && getControl('anotherClientEmail').touched">
         <app-ubs-input-error [formElement]="getControl('anotherClientEmail')"> </app-ubs-input-error>
       </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ofType } from '@ngrx/effects';
@@ -331,7 +331,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

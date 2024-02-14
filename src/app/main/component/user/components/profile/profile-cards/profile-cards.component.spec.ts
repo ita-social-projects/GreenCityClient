@@ -11,12 +11,10 @@ describe('ProfileCardsComponent', () => {
   let fixture: ComponentFixture<ProfileCardsComponent>;
 
   const cardModelMock = { id: 1, content: 'Hello' };
-  let profileServiceMock: ProfileService;
-  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getFactsOfTheDay']);
+  const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getFactsOfTheDay']);
   profileServiceMock.getFactsOfTheDay = () => of(cardModelMock);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['languageBehaviourSubject']);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
   beforeEach(waitForAsync(() => {
@@ -42,8 +40,7 @@ describe('ProfileCardsComponent', () => {
 
   it('should get language', () => {
     let mockLang = null;
-    // @ts-ignore
-    component.localStorageService.languageBehaviourSubject.subscribe((language) => (mockLang = language));
+    (component as any).localStorageService.languageBehaviourSubject.subscribe((language) => (mockLang = language));
     expect(mockLang).toBe('ua');
   });
 

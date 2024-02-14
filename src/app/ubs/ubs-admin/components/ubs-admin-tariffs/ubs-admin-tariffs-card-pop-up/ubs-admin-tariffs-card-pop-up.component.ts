@@ -10,15 +10,8 @@ import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { Locations, CreateCard, Couriers, Stations } from '../../../models/tariffs.interface';
 import { GetLocations } from 'src/app/store/actions/tariff.actions';
-import {
-  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
-  MatLegacyAutocompleteTrigger as MatAutocompleteTrigger
-} from '@angular/material/legacy-autocomplete';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TariffConfirmationPopUpComponent } from '../../shared/components/tariff-confirmation-pop-up/tariff-confirmation-pop-up.component';
@@ -154,7 +147,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribe.next();
+    this.unsubscribe.next(true);
     this.unsubscribe.complete();
   }
 

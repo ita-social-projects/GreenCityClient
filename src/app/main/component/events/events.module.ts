@@ -9,7 +9,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { environment } from '@environment/environment.js';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedMainModule } from '@shared/shared-main.module';
 import { SharedModule } from 'src/app/shared/shared.module';

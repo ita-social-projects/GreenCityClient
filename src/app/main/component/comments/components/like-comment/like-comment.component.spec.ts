@@ -12,17 +12,14 @@ describe('LikeCommentComponent', () => {
   let component: LikeCommentComponent;
   let fixture: ComponentFixture<LikeCommentComponent>;
 
-  let commentsServiceMock: CommentsService;
-  commentsServiceMock = jasmine.createSpyObj('CommentsService', ['postLike']);
+  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['postLike']);
   commentsServiceMock.postLike = () => new Observable();
 
-  let socketServiceMock: SocketService;
-  socketServiceMock = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
+  const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
   socketServiceMock.onMessage = () => new Observable();
   socketServiceMock.send = () => {};
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
 
   const routerMock = { url: '' };
@@ -58,8 +55,7 @@ describe('LikeCommentComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LikeCommentComponent);
     component = fixture.componentInstance;
-    // @ts-ignore
-    component.comment = commentData;
+    (component as any).comment = commentData;
     fixture.detectChanges();
   });
 
@@ -74,18 +70,15 @@ describe('LikeCommentComponent', () => {
   });
 
   it('should get user id', () => {
-    // @ts-ignore
-    component.userId = null;
+    (component as any).userId = null;
     component.getUserId();
-    // @ts-ignore
-    expect(component.userId).toBe(1111);
+    expect((component as any).userId).toBe(1111);
   });
 
   it('should set initial view for like-component elements', () => {
     component.likeState = true;
     const state = component.likeState;
-    // @ts-ignore
-    component.setStartingElements(state);
+    (component as any).setStartingElements(state);
     expect(component.like.nativeElement.srcset).toEqual(component.commentsImages.liked);
   });
 
@@ -102,14 +95,11 @@ describe('LikeCommentComponent', () => {
   });
 
   it('should set userId and send data to backend if user press like button', () => {
-    // @ts-ignore
-    component.userId = null;
-    // @ts-ignore
-    const spy = spyOn(component.commentsService, 'postLike').and.returnValue(of({}));
+    (component as any).userId = null;
+    const spy = spyOn((component as any).commentsService, 'postLike').and.returnValue(of({}));
     component.pressLike();
     expect(spy).toHaveBeenCalled();
-    // @ts-ignore
-    expect(component.userId).toBe(1111);
+    expect((component as any).userId).toBe(1111);
   });
 
   it('should connect to socket and change view of like button', () => {
@@ -119,8 +109,8 @@ describe('LikeCommentComponent', () => {
       liked: true,
       userId: 1111
     };
-    // @ts-ignore
-    spyOn(component.socketService, 'onMessage').and.returnValue(of(msg));
+
+    spyOn((component as any).socketService, 'onMessage').and.returnValue(of(msg));
     const spy = spyOn(component, 'changeLkeBtn');
     component.onConnectedtoSocket();
     expect(spy).toHaveBeenCalledWith(msg);
@@ -134,8 +124,8 @@ describe('LikeCommentComponent', () => {
       userId: 1111
     };
     let likeCount = null;
-    // @ts-ignore
-    spyOn(component.socketService, 'onMessage').and.returnValue(of(msg));
+
+    spyOn((component as any).socketService, 'onMessage').and.returnValue(of(msg));
     component.likesCounter.subscribe((amountLikes) => (likeCount = amountLikes));
     component.onConnectedtoSocket();
     expect(likeCount).toBe(1);

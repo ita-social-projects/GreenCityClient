@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSSubmitOrderComponent } from './ubs-submit-order.component';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { LanguageService } from 'src/app/main/i18n/language.service';

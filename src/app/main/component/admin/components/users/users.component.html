@@ -109,7 +109,7 @@
             <th mat-header-cell scope="col" *matHeaderCellDef>{{ 'users.actions' | translate }}</th>
             <td mat-cell *matCellDef="let element">
               <button
-                *ngIf="element.userStatus != 'BLOCKED' && element.userStatus != 'DEACTIVATED'"
+                *ngIf="element.userStatus !== 'BLOCKED' && element.userStatus !== 'DEACTIVATED'"
                 mat-raised-button
                 class="btn btn-outline-warning"
                 (click)="updateUserStatus(element.id, 'BLOCKED', element.email)"
@@ -118,7 +118,7 @@
                 {{ 'users.block' | translate }}
               </button>
               <button
-                *ngIf="element.userStatus == 'BLOCKED'"
+                *ngIf="element.userStatus === 'BLOCKED'"
                 mat-raised-button
                 class="btn btn-outline-warning"
                 (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)"
@@ -133,7 +133,7 @@
             <th mat-header-cell scope="col" *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
               <button
-                *ngIf="element.userStatus != 'DEACTIVATED'"
+                *ngIf="element.userStatus !== 'DEACTIVATED'"
                 mat-raised-button
                 class="btn btn-outline-danger"
                 (click)="updateUserStatus(element.id, 'DEACTIVATED', element.email)"
@@ -142,7 +142,7 @@
                 {{ 'users.deactivate' | translate }}
               </button>
               <button
-                *ngIf="element.userStatus == 'DEACTIVATED'"
+                *ngIf="element.userStatus === 'DEACTIVATED'"
                 mat-raised-button
                 class="btn btn-outline-danger"
                 (click)="updateUserStatus(element.id, 'ACTIVATED', element.email)"
@@ -163,8 +163,8 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{ hide: users != null }"></mat-footer-row>
-          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{ hide: users != null && users.length != 0 }"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{ hide: users !== null }"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{ hide: users !== null && users.length !== 0 }"></mat-footer-row>
         </table>
       </div>
       <br />

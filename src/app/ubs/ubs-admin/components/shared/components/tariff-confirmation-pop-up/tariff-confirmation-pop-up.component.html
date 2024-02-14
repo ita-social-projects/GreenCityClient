@@ -6,40 +6,40 @@
   <div class="form">
     <div class="form-block">
       <div class="ua-part">
-        <label class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
-        <p class="text">{{ getLangValue(values.courierNameUa, values.courierNameEn) }}</p>
+        <label for="ua-part" class="label">{{ 'ubs-tariffs.courier' | translate }}</label>
+        <p id="ua-part" class="text">{{ getLangValue(values.courierNameUa, values.courierNameEn) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">{{ 'ubs-tariffs.courier-translate' | translate }}</label>
-        <p class="text">{{ getLangValue(values.courierNameEn, values.courierNameUa) }}</p>
+        <label for="en-part" class="label">{{ 'ubs-tariffs.courier-translate' | translate }}</label>
+        <p id="en-part" class="text">{{ getLangValue(values.courierNameEn, values.courierNameUa) }}</p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
-        <label class="label">{{ 'ubs-tariffs.station' | translate }}</label>
-        <p *ngFor="let stationName of values.stationNames" class="text">{{ stationName }}</p>
+        <label for="stationName" class="label">{{ 'ubs-tariffs.station' | translate }}</label>
+        <p id="stationName" *ngFor="let stationName of values.stationNames" class="text">{{ stationName }}</p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
-        <label class="label">{{ 'ubs-tariffs.region' | translate }}</label>
-        <p class="text">{{ getLangValue(values.regionNameUa, values.regionNameEn) }}</p>
+        <label for="regionNameUa" class="label">{{ 'ubs-tariffs.region' | translate }}</label>
+        <p id="regionNameUa" class="text">{{ getLangValue(values.regionNameUa, values.regionNameEn) }}</p>
       </div>
       <div class="en-part">
-        <label class="label">{{ 'ubs-tariffs.region-translate' | translate }}</label>
-        <p class="text">{{ getLangValue(values.regionNameEn, values.regionNameUa) }}</p>
+        <label for="regionName" class="label">{{ 'ubs-tariffs.region-translate' | translate }}</label>
+        <p id="regionName" class="text">{{ getLangValue(values.regionNameEn, values.regionNameUa) }}</p>
       </div>
     </div>
     <div class="form-block">
       <div class="ua-part">
-        <label class="label">{{ 'ubs-tariffs.city' | translate }}</label>
-        <div *ngFor="let item of values.locationNames">
+        <label for="locationName" class="label">{{ 'ubs-tariffs.city' | translate }}</label>
+        <div id="locationNames" *ngFor="let item of values.locationNames">
           <div class="itemList">{{ getLangValue(item.location, item.englishLocation) }}</div>
         </div>
       </div>
       <div class="en-part">
-        <label class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
-        <div *ngFor="let item of values.locationNames">
+        <label for="locationNames" class="label">{{ 'ubs-tariffs.city-translate' | translate }}</label>
+        <div id="locationNames" *ngFor="let item of values.locationNames">
           <div class="itemList">{{ getLangValue(item.englishLocation, item.location) }}</div>
         </div>
       </div>

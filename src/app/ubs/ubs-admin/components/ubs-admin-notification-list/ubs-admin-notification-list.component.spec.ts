@@ -4,10 +4,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacySelectHarness as MatSelectHarness } from '@angular/material/legacy-select/testing';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSelectHarness } from '@angular/material/select/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { UbsAdminNotificationListComponent } from './ubs-admin-notification-list.component';
@@ -36,9 +36,7 @@ describe('UbsAdminNotificationListComponent', () => {
   let notificationsService: NotificationsService;
   let langService: LanguageService;
   let router;
-  let localStorageServiceMock: LocalStorageService;
-
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getUserId']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getUserId']);
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
   const notificationsServiceMock = {

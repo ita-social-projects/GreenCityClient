@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Router } from '@angular/router';

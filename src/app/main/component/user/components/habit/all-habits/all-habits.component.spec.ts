@@ -52,8 +52,7 @@ describe('AllHabitsComponent', () => {
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
     'languageBehaviourSubject',
     'getCurrentLanguage',
@@ -66,12 +65,10 @@ describe('AllHabitsComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.getUserId = () => 1;
 
-  let assignHabitServiceMock: HabitAssignService;
-  assignHabitServiceMock = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
+  const assignHabitServiceMock: HabitAssignService = jasmine.createSpyObj('HabitAssignService', ['getAssignedHabits']);
   assignHabitServiceMock.getAssignedHabits = () => of(HABITSASSIGNEDLIST);
 
-  let habitServiceMock: HabitService;
-  habitServiceMock = jasmine.createSpyObj('HabitService', ['getAllHabits', 'getHabitsByFilters', 'getAllTags']);
+  const habitServiceMock: HabitService = jasmine.createSpyObj('HabitService', ['getAllHabits', 'getHabitsByFilters', 'getAllTags']);
   habitServiceMock.getAllHabits = () => of(HABITLIST);
   habitServiceMock.getHabitsByFilters = () => of(HABITLIST);
   habitServiceMock.getAllTags = () => of(TAGLIST);
@@ -90,8 +87,7 @@ describe('AllHabitsComponent', () => {
     socialNetworks: [{ id: 1, url: defaultImagePath }]
   } as EditProfileModel;
 
-  let profileServiceMock: ProfileService;
-  profileServiceMock = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
+  const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
   profileServiceMock.getUserInfo = () => of(userData);
 
   beforeEach(waitForAsync(() => {

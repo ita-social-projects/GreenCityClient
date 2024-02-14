@@ -1,9 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogRef as MatDialogRef,
-  MatLegacyDialog as MatDialog
-} from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { UbsAdminEmployeeService } from '../../../services/ubs-admin-employee.service';
 import {

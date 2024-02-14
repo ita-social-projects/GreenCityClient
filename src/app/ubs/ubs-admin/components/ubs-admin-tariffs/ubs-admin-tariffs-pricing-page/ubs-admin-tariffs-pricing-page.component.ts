@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TariffsService } from '../../../services/tariffs.service';
@@ -567,7 +567,7 @@ export class UbsAdminTariffsPricingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next();
+    this.destroy.next(true);
     if (this.destroy) {
       this.destroy.unsubscribe();
     }

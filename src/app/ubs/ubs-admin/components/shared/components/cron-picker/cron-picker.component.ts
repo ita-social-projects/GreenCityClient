@@ -84,7 +84,7 @@ export class CronPickerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe((value) => {
+    this.form.valueChanges.pipe(takeUntil(this.destroy)).subscribe(() => {
       this.setDescription();
     });
     this.setDescription();

@@ -40,12 +40,10 @@ describe('AboutPageComponent', () => {
   const routerSpy = { navigate: jasmine.createSpy('navigate') };
   const mockLang = 'ru';
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageSubject = new Subject();
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;

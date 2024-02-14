@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -36,7 +36,6 @@ describe('UbsAdminNotificationComponent', () => {
   let component: UbsAdminNotificationComponent;
   let fixture: ComponentFixture<UbsAdminNotificationComponent>;
   let notificationsService: NotificationsService;
-  let MatSnackBarMock: MatSnackBarComponent;
   const initialState = {
     employees: null,
     error: null,
@@ -56,7 +55,7 @@ describe('UbsAdminNotificationComponent', () => {
     changeStatusOfNotificationTemplate: jasmine.createSpy('changeStatusOfNotificationTemplate')
   };
 
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
   const activatedRouteMock = { params: of({ id: 1 }) };
 

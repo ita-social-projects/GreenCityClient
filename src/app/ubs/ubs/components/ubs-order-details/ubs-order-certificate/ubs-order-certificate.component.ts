@@ -47,7 +47,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   displayCert = false;
   addCert: boolean;
   onSubmit = true;
-  order: {};
+  order: object;
   certificateMask = Masks.certificateMask;
   ecoStoreMask = Masks.ecoStoreMask;
   servicesMask = Masks.servicesMask;
@@ -446,7 +446,7 @@ export class UbsOrderCertificateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

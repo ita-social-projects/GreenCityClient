@@ -3,7 +3,7 @@ import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO } from '../../models/comments-model';
 import { WarningPopUpComponent } from '@shared/components/warning-pop-up/warning-pop-up.component';
 import { take } from 'rxjs/operators';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-comment',

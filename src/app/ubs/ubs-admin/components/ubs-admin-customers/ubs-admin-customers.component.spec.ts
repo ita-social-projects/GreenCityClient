@@ -1,8 +1,8 @@
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { UbsAdminCustomersComponent } from './ubs-admin-customers.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
@@ -58,14 +58,10 @@ describe('UbsAdminCustomersComponent', () => {
   });
 
   it('method ngOnInit should invoke methods', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'setDisplayedColumns');
-    // @ts-ignore
-    const spy1 = spyOn(component, 'getTable');
-    // @ts-ignore
-    const spy2 = spyOn(component, 'initFilterForm');
-    // @ts-ignore
-    const spy3 = spyOn(component, 'onCreateGroupFormValueChange');
+    const spy = spyOn(component as any, 'setDisplayedColumns');
+    const spy1 = spyOn(component as any, 'getTable');
+    const spy2 = spyOn(component as any, 'initFilterForm');
+    const spy3 = spyOn(component as any, 'onCreateGroupFormValueChange');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
     expect(spy1).toHaveBeenCalled();
@@ -74,8 +70,7 @@ describe('UbsAdminCustomersComponent', () => {
   });
 
   it('method getSortingData should invoke methods', () => {
-    // @ts-ignore
-    const spy = spyOn(component, 'getTable');
+    const spy = spyOn(component as any, 'getTable');
     component.getSortingData('', '');
     expect(spy).toHaveBeenCalled();
   });
@@ -99,26 +94,21 @@ describe('UbsAdminCustomersComponent', () => {
 
   it('method onClearFilters should reset filterForm', () => {
     component.onClearFilters();
-    // @ts-ignore
-    expect(component.filterForm.getRawValue()).toEqual(component.initialFilterValues);
+    expect((component as any).filterForm.getRawValue()).toEqual((component as any).initialFilterValues);
   });
 
   it('onScroll should add 1 to currentPage', () => {
     component.isUpdate = false;
     component.currentPage = 1;
-    // @ts-ignore
-    component.totalPages = 2;
+    (component as any).totalPages = 2;
     component.onScroll();
     expect(component.currentPage).toBe(2);
   });
 
   it('destroy Subject should be closed after ngOnDestroy()', () => {
-    // @ts-ignore
-    component.destroy = new Subject<boolean>();
-    // @ts-ignore
-    spyOn(component.destroy$, 'unsubscribe');
+    (component as any).destroy = new Subject<boolean>();
+    spyOn((component as any).destroy$, 'unsubscribe');
     component.ngOnDestroy();
-    // @ts-ignore
-    expect(component.destroy$.unsubscribe).toHaveBeenCalledTimes(1);
+    expect((component as any).destroy$.unsubscribe).toHaveBeenCalledTimes(1);
   });
 });

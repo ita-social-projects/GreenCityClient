@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, 
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ConfirmPasswordValidator, ValidatorRegExp } from './sign-up.validator';
@@ -18,7 +18,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 
-declare var google: any;
+declare let google: any;
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',

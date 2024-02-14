@@ -92,11 +92,11 @@
                 </div>
               </div>
             </div>
-            <label *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
+            <label for="form-group" *ngIf="userProfile?.alternateEmail && !isEditing" class="form-label">{{
               'ubs-client-profile.alternative-email' | translate
             }}</label>
             <p *ngIf="!isEditing">{{ userProfile?.alternateEmail }}</p>
-            <div class="form-group col-sm-6">
+            <div class="form-group col-sm-6" id="form-group">
               <label for="recipientPhone" class="form-label">{{ 'ubs-client-profile.phone' | translate }}</label>
               <input
                 *ngIf="isEditing"
@@ -117,7 +117,7 @@
               <label for="recipientNotification" [ngClass]="{ notificationEdit: isEditing }" class="form-label">{{
                 'ubs-client-profile.get-notification-in' | translate
               }}</label>
-              <div role="checkbox" class="checkbox-wrapper">
+              <div role="checkbox" aria-checked="true" class="checkbox-wrapper">
                 <div class="social-media">Telegram</div>
                 <app-ubs-switcher
                   class="ubs-switcher"
@@ -302,7 +302,7 @@
                       <app-ubs-input-error [formElement]="address.get('entranceNumber')"> </app-ubs-input-error>
                     </div>
                   </div>
-                  <div class="delete-address" (click)="openDeleteAddressDialog(address)">
+                  <div class="delete-address" (click)="openDeleteAddressDialog(address)" role="button" tabindex="0">
                     <img src="assets/img/icon/trash-bin.svg" alt="delete address" />
                   </div>
                 </div>

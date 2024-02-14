@@ -974,7 +974,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     return this.displayedColumns.length > 1 ? 'block' : 'none';
   }
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

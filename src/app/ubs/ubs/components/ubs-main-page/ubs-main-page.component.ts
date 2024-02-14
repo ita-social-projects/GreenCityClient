@@ -139,7 +139,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
   }

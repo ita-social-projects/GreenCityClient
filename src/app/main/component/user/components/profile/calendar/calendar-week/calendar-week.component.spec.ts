@@ -1,10 +1,10 @@
 import { CalendarWeekComponent } from './calendar-week.component';
-import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { CalendarBaseComponent } from '@shared/components';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarWeekInterface } from './calendar-week-interface';
 import { Language } from 'src/app/main/i18n/Language';
 

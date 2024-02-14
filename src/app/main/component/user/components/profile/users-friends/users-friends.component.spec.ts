@@ -28,9 +28,7 @@ describe('UsersFriendsComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageSubject = of('en');
 
-  let userFriendsServiceMock: UserFriendsService;
-
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends']);
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', ['getAllFriends']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
 
   beforeEach(waitForAsync(() => {

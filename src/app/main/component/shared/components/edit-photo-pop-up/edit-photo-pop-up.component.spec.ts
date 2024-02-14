@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EditPhotoPopUpComponent } from './edit-photo-pop-up.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 describe('EditPhotoPopUpComponent', () => {
   let component: EditPhotoPopUpComponent;

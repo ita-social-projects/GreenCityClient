@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit, OnChanges, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UpdatePasswordDto } from '@global-models/updatePasswordDto';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';

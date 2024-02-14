@@ -10,16 +10,15 @@ import { StorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire/compat';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { environment } from '@environment/environment';
 // import { ProposeCafeComponent } from '@global-core/components';
 import { AdminModule } from './component/admin/admin.module';
-import { RestoreComponent } from '@global-auth/restore/restore.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { LayoutModule } from './component/layout/layout.module';
-import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ErrorComponent } from '@global-errors/error/error.component';
 import { PendingChangesGuard } from '@global-service/pending-changes-guard/pending-changes.guard';

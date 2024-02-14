@@ -45,7 +45,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   defaultPoints: number;
   displayCert = false;
   onSubmit = true;
-  order: {};
+  order: object;
 
   public SHOP_NUMBER_MASK = Masks.ecoStoreMask;
   certificateMask = Masks.certificateMask;
@@ -60,7 +60,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   certDate: string;
   ecoShopOrdersNumbersCounter = 1;
   limitOfEcoShopOrdersNumbers = 5;
-  object: {};
+  object: object;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public currentLanguage: string;
   public certificateError = false;
@@ -641,7 +641,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

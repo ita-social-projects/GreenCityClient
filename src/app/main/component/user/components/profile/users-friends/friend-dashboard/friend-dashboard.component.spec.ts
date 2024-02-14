@@ -39,9 +39,11 @@ describe('FriendDashboardComponent', () => {
   let component: FriendDashboardComponent;
   let fixture: ComponentFixture<FriendDashboardComponent>;
   let searchTerm$: Subject<string>;
-  let componentRefMock: any;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  const componentRefMock = {
+    findUserByName: jasmine.createSpy('findUserByName'),
+    findFriendByName: jasmine.createSpy('findFriendByName')
+  };
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'userIdBehaviourSubject',
     'languageSubject'
@@ -50,15 +52,9 @@ describe('FriendDashboardComponent', () => {
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('ua');
 
-  let userFriendsServiceMock: UserFriendsService;
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'getRequests']);
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', ['getAllFriends', 'getRequests']);
   userFriendsServiceMock.getAllFriends = () => of(FRIENDS);
   userFriendsServiceMock.getRequests = () => of(FRIENDS);
-
-  componentRefMock = {
-    findUserByName: jasmine.createSpy('findUserByName'),
-    findFriendByName: jasmine.createSpy('findFriendByName')
-  };
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

@@ -70,7 +70,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     }
   }
 
-  showTooltip(event: any, tooltip: any, maxLength: number = 50): void {
+  showTooltip(event: any, tooltip: any, maxLength = 50): void {
     event.stopImmediatePropagation();
     const lengthStr = event.target?.innerText.split('').length;
     if (lengthStr > maxLength) {
@@ -80,7 +80,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
     event.type === MouseEvents.MouseEnter ? this.calculateTextWidth(event, tooltip) : tooltip.hide();
   }
 
-  calculateTextWidth(event: any, tooltip: any, maxLength: number = 40): void {
+  calculateTextWidth(event: any, tooltip: any, maxLength = 40): void {
     const textContainerWidth = event.target.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');

@@ -78,7 +78,7 @@ export const WeekArray = [
   { nameEn: '7 days', nameUa: '7 днів' }
 ];
 
-export let EventFilterCriteria = {
+export const EventFilterCriteria = {
   eventTime: [],
   cities: [],
   statuses: [],

@@ -12,7 +12,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CommentsListComponent } from './components/comments-list/comments-list.component';
 import { CommentsContainerComponent } from './components/comments-container/comments-container.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [

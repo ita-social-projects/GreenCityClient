@@ -101,7 +101,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

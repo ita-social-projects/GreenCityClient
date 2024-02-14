@@ -27,11 +27,10 @@
 
     <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
       <div class="labels-box">
-        <label class="label">{{ 'order-details.service' | translate }}</label>
-        <label class="label">{{ 'order-details.volume' | translate }}</label>
-        <label class="label">{{ 'order-details.cost' | translate }}</label>
-        <label class="label">{{ 'order-details.number-of-packages' | translate }}</label>
-        <label class="label label-total">{{ 'order-details.sum' | translate }}</label>
+        <label for="title-service" class="label">{{ 'order-details.service' | translate }}</label>
+        <label for="title-volume" class="label">{{ 'order-details.volume' | translate }}</label>
+        <label for="title-cost" class="label">{{ 'order-details.cost' | translate }}</label>
+        <label for="title-sum'" class="label label-total">{{ 'order-details.sum' | translate }}</label>
       </div>
       <div class="main">
         <ul class="main-box">
@@ -121,7 +120,7 @@
                 class="eco-store"
                 [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
               >
-                <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
+                <label for="index{{ i }}" class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
                 <input
                   id="index{{ i }}"
                   [imask]="{ mask: SHOP_NUMBER_MASK }"

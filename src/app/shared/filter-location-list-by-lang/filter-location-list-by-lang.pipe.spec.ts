@@ -3,8 +3,10 @@ import { of } from 'rxjs';
 import { FilterLocationListByLangPipe } from './filter-location-list-by-lang.pipe';
 
 describe('FilterLocationListByLangPipe', () => {
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage', 'getCurrentLanguage']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
+    'getCurrentLanguage',
+    'getCurrentLanguage'
+  ]);
   localStorageServiceMock.getCurrentLanguage = () => 'fakeLanguage' as any;
   localStorageServiceMock.languageSubject = of('fakeLanguage') as any;
 

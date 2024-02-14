@@ -3,11 +3,7 @@ import { WarningPopUpComponent } from '@shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { of } from 'rxjs';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
-} from '@angular/material/legacy-dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
@@ -60,16 +56,14 @@ describe('WarningPopUpComponent', () => {
 
   describe('Testing the basic functionality', () => {
     it('should create keyboard event inside ngOnInit', () => {
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'keydownEvents').and.returnValue(of());
+      const spy = spyOn((component as any).matDialogRef, 'keydownEvents').and.returnValue(of());
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
     });
 
     it('should call setTitles inside ngOnInit', () => {
-      // @ts-ignore
-      const spy = spyOn(component, 'setTitles');
+      const spy = spyOn(component as any, 'setTitles');
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
@@ -86,8 +80,7 @@ describe('WarningPopUpComponent', () => {
 
     it('should call close method inside userReply if isUbsOrderSubmit is false', () => {
       component.isUbsOrderSubmit = false;
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'close');
+      const spy = spyOn((component as any).matDialogRef, 'close');
       component.userReply(true);
 
       expect(spy).toHaveBeenCalled();
@@ -114,10 +107,8 @@ describe('WarningPopUpComponent', () => {
     });
 
     it('should cancel streams after ngOnDestroy', () => {
-      // @ts-ignore
-      const nextSpy = spyOn(component.destroyed$, 'next');
-      // @ts-ignore
-      const completeSpy = spyOn(component.destroyed$, 'complete');
+      const nextSpy = spyOn((component as any).destroyed$, 'next');
+      const completeSpy = spyOn((component as any).destroyed$, 'complete');
       component.ngOnDestroy();
 
       expect(nextSpy).toHaveBeenCalled();

@@ -1,7 +1,7 @@
 import { Language } from './../../../../i18n/Language';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { TagsArray } from '../../../events/models/event-consts';
@@ -20,7 +20,6 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
@@ -178,8 +177,7 @@ describe('EventsListItemComponent', () => {
   EventsServiceMock.getFormattedAddressEventsList = () => of('');
   EventsServiceMock.setBackFromPreview = () => of(false);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
     'setEditMode',
     'setEventForEdit',
@@ -209,14 +207,12 @@ describe('EventsListItemComponent', () => {
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
   storeMock.select = () => of(MockData);
 
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
   translateServiceMock.setDefaultLang = (lang: string) => of();
   translateServiceMock.get = () => of(true);
   localStorageServiceMock.getCurrentLanguage = () => mockLang as Language;
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
+  const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);

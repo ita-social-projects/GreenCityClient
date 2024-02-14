@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
+// import { MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 // import { ProposeCafeComponent } from '../../../core/components/propose-cafe/propose-cafe.component';

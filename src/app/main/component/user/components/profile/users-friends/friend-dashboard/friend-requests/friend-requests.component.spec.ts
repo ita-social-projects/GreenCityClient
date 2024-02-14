@@ -14,8 +14,7 @@ import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 describe('FriendRequestsComponent', () => {
   let component: FriendRequestsComponent;
   let fixture: ComponentFixture<FriendRequestsComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ friendsList: FRIENDS }));

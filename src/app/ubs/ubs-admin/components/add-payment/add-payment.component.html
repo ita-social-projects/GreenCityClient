@@ -52,9 +52,9 @@
         </div>
       </div>
       <mat-radio-group class="custom-radio-btn radio-group" (change)="onChoosePayment($event)">
-        <label class="add-confirmation">{{ 'add-payment.confirm-payment' | translate }}</label>
+        <label for="radio-btn-group" class="add-confirmation">{{ 'add-payment.confirm-payment' | translate }}</label>
         <div>
-          <div class="radio-btn-group">
+          <div id="radio-btn-group" class="radio-btn-group">
             <mat-radio-button name="linkToBill" value="linkToBill" [checked]="isLinkToBillChoosed"></mat-radio-button>
             <label class="label" for="link">{{ 'add-payment.link-to-bill' | translate }}</label>
           </div>

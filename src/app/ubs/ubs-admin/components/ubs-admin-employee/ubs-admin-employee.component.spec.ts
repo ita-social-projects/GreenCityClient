@@ -1,31 +1,23 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { TariffsService } from '../../services/tariffs.service';
 import { UbsAdminEmployeeComponent } from './ubs-admin-employee.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import {
-  MatLegacyAutocomplete as MatAutocomplete,
-  MatLegacyAutocompleteModule as MatAutocompleteModule,
-  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
-} from '@angular/material/legacy-autocomplete';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BehaviorSubject, of } from 'rxjs';
 import { Locations } from '../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { environment } from '@environment/environment.js';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';

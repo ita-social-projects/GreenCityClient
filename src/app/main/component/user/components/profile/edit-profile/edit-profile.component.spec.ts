@@ -1,16 +1,16 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AgmCoreModule, MapsAPILoader } from '@agm/core';
-import { Observable } from 'rxjs';
+// import { AgmCoreModule, MapsAPILoader } from '@agm/core';
+import { of } from 'rxjs';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
@@ -38,7 +38,7 @@ describe('EditProfileComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([{ path: '**', component: Test }]),
         HttpClientTestingModule,
-        AgmCoreModule,
+        // AgmCoreModule,
         TranslateModule.forRoot()
       ],
       providers: [
@@ -48,7 +48,7 @@ describe('EditProfileComponent', () => {
         SocialNetworksComponent,
         ProfileService,
         {
-          provide: MapsAPILoader,
+          // provide: MapsAPILoader,
           useValue: {
             load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
           }
@@ -195,13 +195,13 @@ describe('EditProfileComponent', () => {
     });
 
     it('getInitialValue should call ProfileService', () => {
-      const spy = spyOn(profileService, 'getUserInfo').and.returnValue(Observable.of(mockUserInfo));
+      const spy = spyOn(profileService, 'getUserInfo').and.returnValue(of(mockUserInfo));
       component.getInitialValue();
       expect(spy.calls.any()).toBeTruthy();
     });
 
     it('onSubmit should call EditProfileService', () => {
-      const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(Observable.of(mockUserInfo));
+      const spy = spyOn(editProfileService, 'postDataUserProfile').and.returnValue(of(mockUserInfo));
       component.onSubmit();
       expect(spy).toHaveBeenCalled();
     });

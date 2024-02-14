@@ -42,7 +42,7 @@
               {{ 'feedbacks.attachments' | translate }}
             </th>
             <td mat-cell id="photosColumn" style="text-align: center" *matCellDef="let element" class="attachments">
-              <p *ngIf="element.photos.length == 0" style="font-size: 13px">{{ 'feedbacks.no-attachment' | translate }}</p>
+              <p *ngIf="element.photos.length === 0" style="font-size: 13px">{{ 'feedbacks.no-attachment' | translate }}</p>
               <h6 *ngFor="let link of element.photos">
                 <a id="photoIcon" class="image-comment">
                   <mdb-icon far icon="image" (click)="openDialog(link.name)"></mdb-icon>
@@ -71,8 +71,8 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{ hide: comments != null }"></mat-footer-row>
-          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{ hide: comments != null && comments.length != 0 }"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{ hide: comments !== null }"></mat-footer-row>
+          <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{ hide: comments !== null && comments.length !== 0 }"></mat-footer-row>
         </table>
       </div>
       <br />

@@ -9,7 +9,7 @@ import { FilterPlaceService } from '@global-service/filtering/filter-place.servi
 import { PlaceStatus } from '@global-models/placeStatus.model';
 import { FavoritePlaceService } from '@global-service/favorite-place/favorite-place.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreatePlaceModel, OpeningHoursDto } from './models/create-place.model';
 import { Location } from '@angular-material-extensions/google-maps-autocomplete/lib/interfaces/location.interface';
 

@@ -94,7 +94,7 @@ export class HabitInviteFriendsPopUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed$.next();
+    this.destroyed$.next(true);
     this.destroyed$.complete();
   }
 }

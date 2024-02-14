@@ -14,7 +14,7 @@ import { FavoritePlaceService } from '@global-service/favorite-place/favorite-pl
 import { combineLatest, Subscription } from 'rxjs';
 import { initialMoreOptionsFormValue } from './components/more-options-filter/more-options-filter.constant.js';
 import { NewsTagInterface } from '@user-models/news.model';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddPlaceComponent } from './components/add-place/add-place.component';
 
 @Component({

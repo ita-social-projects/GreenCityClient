@@ -10,7 +10,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { GoogleMap, GoogleMapsModule, MapMarker } from '@angular/google-maps';
+import { GoogleMapsModule } from '@angular/google-maps';
+// import { GoogleMap,MapMarker } from '@angular/google-maps';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminService } from '../../service/admin/admin.service';
@@ -35,7 +36,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { environment } from '@environment/environment';
+// import { environment } from '@environment/environment';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,8 @@ import { environment } from '@environment/environment';
     MatCheckboxModule,
     GoogleMapsModule,
     TranslateModule
+    // GoogleMap,
+    // MapMarker,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

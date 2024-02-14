@@ -18,8 +18,7 @@ describe('LanguageService', () => {
   const getLanguageByString = 'getLanguageByString';
   const defaultLanguage = 'defaultLanguage';
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['isLoginUserSubject']);
+  const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', ['isLoginUserSubject']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

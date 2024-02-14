@@ -9,7 +9,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedMainModule } from '../shared/shared-main.module';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { environment } from '@environment/environment';
 
 @NgModule({
   declarations: [],

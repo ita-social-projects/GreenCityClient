@@ -1,11 +1,13 @@
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { Component, NgZone, OnInit, OnDestroy, DoCheck, Injector, ViewChild, ElementRef } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EditProfileFormBuilder } from '@global-user/components/profile/edit-profile/edit-profile-form-builder';
 import { EditProfileService } from '@global-user/services/edit-profile.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { Coordinates, EditProfileDto, EditProfileModel } from '@global-user/models/edit-profile.model';
-import { MapsAPILoader } from '@agm/core';
+// import { MapsAPILoader } from '@agm/core';
+// import { MapsAPILoader } from '@ng-maps/core';
+// import { Ma} from '@angular/google-maps/esm2022/google-map';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -71,8 +73,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     private injector: Injector,
     public dialog: MatDialog,
     public router: Router,
-    private langService: LanguageService,
-    private mapsAPILoader: MapsAPILoader
+    private langService: LanguageService
+    // private mapsAPILoader: MapsAPILoader
   ) {
     super(router, dialog);
     this.builder = injector.get(EditProfileFormBuilder);
@@ -116,18 +118,18 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   }
 
   public setPlaceAutocomplete(): void {
-    this.mapsAPILoader.load().then(() => {
-      this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.cityOptions);
-      this.autocomplete.addListener('place_changed', () => {
-        const locationName = this.autocomplete.getPlace();
-        if (locationName.formatted_address) {
-          this.coordinates.latitude = locationName.geometry.location.lat();
-          this.coordinates.longitude = locationName.geometry.location.lng();
-          this.getControl('city').setValue(this.getCityCountryFormat(locationName.formatted_address));
-          this.editProfileForm.markAsDirty();
-        }
-      });
-    });
+    // this.mapsAPILoader.load().then(() => {
+    //   this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.cityOptions);
+    //   this.autocomplete.addListener('place_changed', () => {
+    //     const locationName = this.autocomplete.getPlace();
+    //     if (locationName.formatted_address) {
+    //       this.coordinates.latitude = locationName.geometry.location.lat();
+    //       this.coordinates.longitude = locationName.geometry.location.lng();
+    //       this.getControl('city').setValue(this.getCityCountryFormat(locationName.formatted_address));
+    //       this.editProfileForm.markAsDirty();
+    //     }
+    //   });
+    // });
   }
 
   private getCityCountryFormat(address: string): string {

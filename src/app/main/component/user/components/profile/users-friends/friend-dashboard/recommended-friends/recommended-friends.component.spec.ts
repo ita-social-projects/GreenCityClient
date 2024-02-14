@@ -15,14 +15,16 @@ import { FIRSTFRIEND, FRIENDS } from '@global-user/mocks/friends-mock';
 describe('RecommendedFriendsComponent', () => {
   let component: RecommendedFriendsComponent;
   let fixture: ComponentFixture<RecommendedFriendsComponent>;
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
-  let userFriendsServiceMock: UserFriendsService;
 
   const userFriendsService = 'userFriendsService';
 
-  userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getPossibleFriends', 'findNewFriendsByName', 'addFriend']);
+  const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', [
+    'getPossibleFriends',
+    'findNewFriendsByName',
+    'addFriend'
+  ]);
   userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
   userFriendsServiceMock.getNewFriends = () => of(FRIENDS);
   userFriendsServiceMock.addFriend = (idFriend) => of(FIRSTFRIEND);

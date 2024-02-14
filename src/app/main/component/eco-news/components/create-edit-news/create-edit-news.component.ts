@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
 import { UntypedFormArray, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
 import { QueryParams, TextAreasHeight } from '../../models/create-news-interface';
 import { EcoNewsService } from '../../services/eco-news.service';
@@ -121,7 +121,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     if (!this.createEcoNewsService.isBackToEditing) {
       this.initialValues = this.getFormValues();
     }
-    this.isFormInvalid = !!!this.newsId;
+    this.isFormInvalid = !this.newsId;
     this.onValueChanges();
   }
 

@@ -4,7 +4,7 @@
     <h2 *ngIf="data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title-edit' | translate }}</h2>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
-    <label>{{ 'personal-info.pop-up-region' | translate }}</label>
+    <label for="regionInput">{{ 'personal-info.pop-up-region' | translate }}</label>
     <input
       id="regionInput"
       [formControlName]="getLangValue('region', 'regionEn')"
@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
-    <label>{{ 'personal-info.pop-up-city' | translate }}</label>
+    <label for="cityInput">{{ 'personal-info.pop-up-city' | translate }}</label>
     <input
       id="cityInput"
       [formControlName]="getLangValue('city', 'cityEn')"
@@ -52,7 +52,7 @@
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-    <label>{{ 'personal-info.pop-up-street' | translate }}</label>
+    <label for="streetInput">{{ 'personal-info.pop-up-street' | translate }}</label>
     <input
       id="streetInput"
       [formControlName]="getLangValue('street', 'streetEn')"
@@ -79,8 +79,9 @@
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
     <div class="item col-sm-4">
-      <label>{{ 'personal-info.pop-up-house' | translate }}</label>
+      <label for="houseNumber">{{ 'personal-info.pop-up-house' | translate }}</label>
       <input
+        id="houseNumber"
         formControlName="houseNumber"
         type="text"
         class="shadow-none form-control"
@@ -105,8 +106,9 @@
       </div>
     </div>
     <div class="item col-sm-4">
-      <label>{{ 'personal-info.pop-up-corps' | translate }}</label>
+      <label for="houseCorpus">{{ 'personal-info.pop-up-corps' | translate }}</label>
       <input
+        id="houseCorpus"
         formControlName="houseCorpus"
         type="text"
         class="shadow-none form-control"
@@ -117,8 +119,9 @@
       </div>
     </div>
     <div class="item col-sm-4">
-      <label>{{ 'personal-info.pop-up-entrance' | translate }}</label>
+      <label for="entranceNumber">{{ 'personal-info.pop-up-entrance' | translate }}</label>
       <input
+        id="entranceNumber"
         formControlName="entranceNumber"
         type="text"
         class="shadow-none form-control"
@@ -131,8 +134,13 @@
   </div>
 
   <div class="col-md-6 col-sm-6 form-group">
-    <label>{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select [formControlName]="getLangValue('district', 'districtEn')" class="shadow-none form-control" (change)="onDistrictSelected()">
+    <label for="sel">{{ 'personal-info.pop-up-district' | translate }}</label>
+    <select
+      id="sel"
+      [formControlName]="getLangValue('district', 'districtEn')"
+      class="shadow-none form-control"
+      (change)="onDistrictSelected()"
+    >
       <option *ngFor="let district of districtList" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
         {{ getLangValue(district.nameUa, district.nameEn) }}
       </option>
@@ -148,8 +156,9 @@
     </div>
   </div>
   <div class="form-group comment-section">
-    <label>{{ 'personal-info.info-address-coment' | translate }}</label>
+    <label for="addressComment">{{ 'personal-info.info-address-coment' | translate }}</label>
     <textarea
+      id="addressComment"
       class="form-control"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"

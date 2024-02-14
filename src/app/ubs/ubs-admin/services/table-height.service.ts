@@ -6,10 +6,9 @@ import { Injectable } from '@angular/core';
 export class TableHeightService {
   setTableHeightToContainerHeight(table, tableContainer) {
     if (table) {
-      let isHeightSet: boolean;
       const tableHeight = table.getBoundingClientRect().height;
       const tableContainerHeight = this.setTableContainerHeight(tableContainer).getBoundingClientRect().height;
-      isHeightSet = tableHeight >= tableContainerHeight;
+      const isHeightSet: boolean = tableHeight >= tableContainerHeight;
       return isHeightSet;
     }
   }

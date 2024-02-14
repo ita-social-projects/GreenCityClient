@@ -10,8 +10,8 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
-import { MatLegacyTable as MatTable, MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -67,7 +67,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   private isResizingRight: boolean;
   private totalPages = 1;
   private isTableHeightSet = false;
-  private initialFilterValues: {};
+  private initialFilterValues: object;
   private queryString = '';
   private resizableMousemove: () => void;
   private resizableMouseup: () => void;

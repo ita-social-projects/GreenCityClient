@@ -23,8 +23,9 @@
   <div *ngIf="pageOpen">
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
+        <label for="responsible-caller" class="form__label">{{ 'responsible-persons.call-manager' | translate }}</label>
         <select
+          id="responsible-caller"
           formControlName="responsibleCaller"
           class="form-control form__select"
           [ngClass]="isEmployeeCanEditOrder ? 'form-control form__select' : 'form-control form__select readonly'"
@@ -37,8 +38,9 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
+        <label for="logistician" class="form__label">{{ 'responsible-persons.logistician' | translate }}</label>
         <select
+          id="logistician"
           formControlName="responsibleLogicMan"
           [ngClass]="isEmployeeCanEditOrder ? 'form-control form__select' : 'form-control form__select readonly'"
         >
@@ -50,8 +52,9 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
+        <label for="navigator" class="form__label">{{ 'responsible-persons.navigator' | translate }}</label>
         <select
+          id="navigator"
           formControlName="responsibleNavigator"
           [ngClass]="isEmployeeCanEditOrder ? 'form-control form__select' : 'form-control form__select readonly'"
         >
@@ -63,8 +66,9 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <label class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
+        <label for="driver" class="form__label">{{ 'responsible-persons.driver' | translate }}</label>
         <select
+          id="driver"
           formControlName="responsibleDriver"
           [ngClass]="isEmployeeCanEditOrder ? 'form-control form__select' : 'form-control form__select readonly'"
         >

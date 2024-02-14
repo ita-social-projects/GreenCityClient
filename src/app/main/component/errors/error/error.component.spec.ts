@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { ErrorComponent } from './error.component';
 
@@ -25,6 +25,7 @@ describe('ErrorComponent', () => {
   });
 
   it('should call closePopup', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const spy = spyOn(component.matDialogRef, 'close');
     component.closePopup();

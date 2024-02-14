@@ -2,7 +2,7 @@ import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 
-declare var google: any;
+declare let google: any;
 
 @Component({
   selector: 'app-restore-password',

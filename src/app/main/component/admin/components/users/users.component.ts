@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PaginationComponent } from 'ngx-bootstrap/pagination';
 import { JwtService } from '../../../../service/jwt/jwt.service';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatIconRegistry } from '@angular/material/icon';
 

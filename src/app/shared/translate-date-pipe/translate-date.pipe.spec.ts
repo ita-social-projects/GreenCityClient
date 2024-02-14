@@ -27,8 +27,7 @@ describe('VolumePipe', () => {
     const localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
     localStorageServiceMock.getCurrentLanguage = () => 'en';
 
-    let userOwnAuthServiceMock: UserOwnAuthService;
-    userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['isLoginUserSubject']);
+    const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', ['isLoginUserSubject']);
 
     TestBed.configureTestingModule({
       imports: [

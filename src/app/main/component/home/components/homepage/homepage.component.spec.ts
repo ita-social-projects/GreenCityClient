@@ -11,14 +11,9 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { HomepageComponent } from './homepage.component';
 import { EcoEventsComponent, StatRowsComponent, SubscribeComponent } from '..';
 import { EcoEventsItemComponent } from '../eco-events/eco-events-item/eco-events-item.component';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FormsModule } from '@angular/forms';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog
-} from '@angular/material/legacy-dialog';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
@@ -29,7 +24,6 @@ import { AuthModule } from 'src/app/main/component/auth/auth.module';
 import { EcoNewsModule } from 'src/app/main/component/eco-news/eco-news.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { APP_BASE_HREF } from '@angular/common';
-import { CheckTokenService } from '@global-service/auth/check-token/check-token.service';
 
 class MatDialogMock {
   open() {
@@ -42,21 +36,17 @@ class MatDialogMock {
 describe('HomepageComponent', () => {
   let component: HomepageComponent;
   let fixture: ComponentFixture<HomepageComponent>;
-  let snackBarMock: MatSnackBarComponent;
-  snackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const snackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   snackBarMock.openSnackBar = () => true;
 
-  let verifyEmailServiceMock: VerifyEmailService;
-  verifyEmailServiceMock = jasmine.createSpyObj('VerifyEmailService', ['onCheckToken']);
+  const verifyEmailServiceMock: VerifyEmailService = jasmine.createSpyObj('VerifyEmailService', ['onCheckToken']);
   verifyEmailServiceMock.onCheckToken = () => of(true);
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject', 'getUserId']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviorSubject', 'getUserId']);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1111);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
-  let userServiceMock: UserService;
-  userServiceMock = jasmine.createSpyObj('UserService', ['countActivatedUsers']);
+  const userServiceMock: UserService = jasmine.createSpyObj('UserService', ['countActivatedUsers']);
   userServiceMock.countActivatedUsers = () => of(1111);
   userServiceMock.getTodayStatisticsForAllHabitItems = () => of([]);
   const activatedRouteMock = {
@@ -72,7 +62,6 @@ describe('HomepageComponent', () => {
       imports: [
         TranslateModule.forRoot(),
         RouterTestingModule.withRoutes([]),
-        SwiperModule,
         FormsModule,
         HttpClientTestingModule,
         MatSnackBarModule,

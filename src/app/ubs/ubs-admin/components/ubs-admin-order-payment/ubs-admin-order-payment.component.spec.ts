@@ -1,13 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
-import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
+import { IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
 import { OrderInfoMockedData, IPaymentInfoDtoMock } from './../../services/orderInfoMock';

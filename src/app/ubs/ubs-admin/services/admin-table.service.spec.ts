@@ -4,7 +4,7 @@ import { AdminTableService } from './admin-table.service';
 import { environment } from '@environment/environment.js';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { OrderStatus } from '../../ubs/order-status.enum';
 
 describe('AdminTableService', () => {
@@ -182,8 +182,7 @@ describe('AdminTableService', () => {
   });
 
   it('method changeFilters should set value to localStorageService', () => {
-    let option: IFilteredColumnValue;
-    option = { key: OrderStatus.FORMED, ua: 'Сформовано', en: 'Formed', filtered: false };
+    const option: IFilteredColumnValue = { key: OrderStatus.FORMED, ua: 'Сформовано', en: 'Formed', filtered: false };
     service.changeFilters(true, 'orderStatus', option);
     expect(localStorageService.getUbsAdminOrdersTableTitleColumnFilter()).toContain({ orderStatus: option.key });
   });

@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, I
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
@@ -428,11 +428,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const keyUserInfo = 'userInfoDto';
     const keyAddressExportDetails = 'addressExportDetailsDto';
 
-    if (order.hasOwnProperty(keyUserInfo)) {
+    if (Object.prototype.hasOwnProperty.call(order, keyUserInfo)) {
       order[keyUserInfo][recipientId] = this.userInfo.recipientId;
     }
 
-    if (order.hasOwnProperty(keyAddressExportDetails)) {
+    if (Object.prototype.hasOwnProperty.call(order, keyAddressExportDetails)) {
       order[keyAddressExportDetails][addressId] = this.addressInfo.addressId;
     }
   }
@@ -547,7 +547,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         this.postDataItem([this.orderId], TableKeys.receivingStation, String(this.receivingStationId));
       }
       if (this.timeDeliveryFrom && this.timeDeliveryTo) {
-        this.postDataItem([this.orderId], TableKeys.timeOfExport, new Array(this.timeDeliveryFrom, this.timeDeliveryTo).join('-'));
+        this.postDataItem([this.orderId], TableKeys.timeOfExport, [this.timeDeliveryFrom, this.timeDeliveryTo].join('-'));
       }
     }
   }
@@ -589,7 +589,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       }
     } else {
       for (const formControlName in formItem.controls) {
-        if (formItem.controls.hasOwnProperty(formControlName)) {
+        if (Object.prototype.hasOwnProperty.call(formItem.controls, formControlName)) {
           const formControl = formItem.controls[formControlName];
 
           if (formControl instanceof UntypedFormControl) {
@@ -709,7 +709,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }

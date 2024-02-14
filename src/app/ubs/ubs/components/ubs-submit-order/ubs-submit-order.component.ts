@@ -153,7 +153,7 @@ export class UBSSubmitOrderComponent extends FormBaseComponent implements OnInit
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 

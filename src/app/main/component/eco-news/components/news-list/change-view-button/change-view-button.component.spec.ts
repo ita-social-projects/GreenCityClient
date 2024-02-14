@@ -27,8 +27,7 @@ describe('ChangeViewButtonComponent', () => {
       const spy = spyOn(sessionStorage, 'setItem').and.callFake((key: string, value: string): string => {
         return (store[key] = value);
       });
-      // @ts-ignore
-      component.setSessionStorageView();
+      (component as any).setSessionStorageView();
       expect(spy('viewGallery', 'true')).toBe('true');
     });
 
@@ -37,8 +36,8 @@ describe('ChangeViewButtonComponent', () => {
       const spy = spyOn(sessionStorage, 'getItem').and.callFake((key) => {
         return store[key];
       });
-      // @ts-ignore
-      component.getSessionStorageView();
+
+      (component as any).getSessionStorageView();
       expect(spy('viewGallery')).toBe('true');
     });
 
@@ -46,22 +45,20 @@ describe('ChangeViewButtonComponent', () => {
       let result = null;
       const gallery = true;
       component.view.subscribe((value) => (result = value));
-      // @ts-ignore
-      component.changeGalleryViewEmit(gallery);
+
+      (component as any).changeGalleryViewEmit(gallery);
       expect(result).toBeTruthy();
     });
 
     it('should change view to gallery-view', () => {
-      // @ts-ignore
-      const spy = spyOn(component, 'setSessionStorageView');
+      const spy = spyOn(component as any, 'setSessionStorageView');
       component.changeGalleryView();
       expect(component.gallery).toBeTruthy();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should change view to list-view', () => {
-      // @ts-ignore
-      const spy = spyOn(component, 'setSessionStorageView');
+      const spy = spyOn(component as any, 'setSessionStorageView');
       component.changeListView();
       expect(component.gallery).toBeFalsy();
       expect(spy).toHaveBeenCalled();

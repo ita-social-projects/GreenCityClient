@@ -23,8 +23,11 @@ describe('NewsListComponent', () => {
   let component: NewsListComponent;
   let fixture: ComponentFixture<NewsListComponent>;
 
-  let ecoNewsServiceMock: EcoNewsService;
-  ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getAllPresentTags', 'getNewsListByTags', 'getEcoNewsListByPage']);
+  const ecoNewsServiceMock: EcoNewsService = jasmine.createSpyObj('EcoNewsService', [
+    'getAllPresentTags',
+    'getNewsListByTags',
+    'getEcoNewsListByPage'
+  ]);
   ecoNewsServiceMock.getAllPresentTags = () =>
     of([
       { id: 1, name: 'News', nameUa: 'Новини' },
@@ -36,8 +39,7 @@ describe('NewsListComponent', () => {
   ecoNewsServiceMock.getNewsListByTags = () => new Observable();
   ecoNewsServiceMock.getEcoNewsListByPage = () => new Observable();
 
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', [
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'userIdBehaviourSubject',
     'languageBehaviourSubject',
     'setCurentPage',
@@ -47,8 +49,7 @@ describe('NewsListComponent', () => {
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
 
-  let userOwnAuthServiceMock: UserOwnAuthService;
-  userOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
+  const userOwnAuthServiceMock: UserOwnAuthService = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage']);
   userOwnAuthServiceMock.getDataFromLocalStorage = () => true;
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);

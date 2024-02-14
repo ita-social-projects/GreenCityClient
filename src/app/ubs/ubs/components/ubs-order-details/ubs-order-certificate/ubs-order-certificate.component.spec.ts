@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, tick, fakeAsync, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UbsOrderCertificateComponent } from './ubs-order-certificate.component';
 import { UntypedFormControl, FormsModule, ReactiveFormsModule, UntypedFormArray } from '@angular/forms';
 import { ICertificateResponse, Certificate } from '../../../models/ubs.interface';
@@ -10,7 +10,7 @@ import { UbsOrderLocationPopupComponent } from '../ubs-order-location-popup/ubs-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UBSOrderFormService } from '../../../services/ubs-order-form.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';

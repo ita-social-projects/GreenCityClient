@@ -1,16 +1,17 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UbsUserBonusesComponent } from './ubs-user-bonuses.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BonusesService } from './services/bonuses.service';
 import { BonusesModel } from './models/BonusesModel';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { throwError } from 'rxjs';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { of, Subject } from 'rxjs';
 import { EMPTY } from 'rxjs';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { error } from 'console';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -26,13 +27,11 @@ const testBonuses: BonusesModel = {
 describe('UbsUserBonusesComponent', () => {
   let component: UbsUserBonusesComponent;
   let fixture: ComponentFixture<UbsUserBonusesComponent>;
-  let bonusesServiceMock: BonusesService;
-  let matSnackBarMock: MatSnackBarComponent;
   let router: Router;
 
-  bonusesServiceMock = jasmine.createSpyObj('BonusesService', ['getUserBonusesWithPaymentHistory']);
+  const bonusesServiceMock: BonusesService = jasmine.createSpyObj('BonusesService', ['getUserBonusesWithPaymentHistory']);
   bonusesServiceMock.getUserBonusesWithPaymentHistory = () => of(testBonuses);
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   matSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(async () => {
@@ -78,14 +77,14 @@ describe('UbsUserBonusesComponent', () => {
 
   it('should call getBonusesData and return error', async () => {
     await buildComponent();
-    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => ErrorObservable.create('error');
+    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => throwError(error);
     component.getBonusesData();
     expect(component.isLoading).toEqual(false);
   });
 
   it('should call openSnackBar in case error', async () => {
     await buildComponent();
-    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => ErrorObservable.create('error');
+    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => throwError('error');
     const spy = spyOn(matSnackBarMock, 'openSnackBar').and.callFake(() => {
       return EMPTY;
     });

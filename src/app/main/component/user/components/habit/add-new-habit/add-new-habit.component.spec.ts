@@ -13,7 +13,7 @@ import { of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DEFAULTFULLINFOHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { ECONEWSMOCK } from 'src/app/main/component/eco-news/mocks/eco-news-mock';
 import { EcoNewsService } from '@eco-news-service/eco-news.service';
@@ -30,11 +30,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 describe('AddNewHabitComponent', () => {
   let component: AddNewHabitComponent;
   let fixture: ComponentFixture<AddNewHabitComponent>;
-  let matSnackBarMock: MatSnackBarComponent;
-  let fakeHabitAssignService: HabitAssignService;
-  let fakeShoppingListService: ShoppingListService;
-  let fakeHabitService: HabitService;
-  let fakeLocalStorageService: LocalStorageService;
 
   const initialState = { habit: { defaultDuration: 1 } };
 
@@ -51,7 +46,7 @@ describe('AddNewHabitComponent', () => {
     }
   }
 
-  fakeHabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', [
+  const fakeHabitAssignService: HabitAssignService = jasmine.createSpyObj('fakeHabitAssignService', [
     'getHabitByAssignId',
     'deleteHabitById',
     'assignCustomHabit',
@@ -68,20 +63,20 @@ describe('AddNewHabitComponent', () => {
   fakeHabitAssignService.assignHabit = () => of();
   fakeHabitAssignService.updateHabit = () => of();
 
-  fakeHabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
+  const fakeHabitService: HabitService = jasmine.createSpyObj('fakeHabitService', ['getHabitById', 'getHabitsByTagAndLang']);
   fakeHabitService.getHabitById = () => of(DEFAULTHABIT);
   fakeHabitService.getHabitsByTagAndLang = () => of(HABITLIST);
 
-  fakeLocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
+  const fakeLocalStorageService: LocalStorageService = jasmine.createSpyObj('fakeLocalStorageService', {
     getCurrentLanguage: () => 'ua'
   });
   fakeLocalStorageService.getUserId = () => 2;
   fakeLocalStorageService.languageSubject = new Subject<string>();
   fakeLocalStorageService.languageSubject.next('ua');
 
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const matSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
-  fakeShoppingListService = jasmine.createSpyObj('fakeShoppingListService', [
+  const fakeShoppingListService: ShoppingListService = jasmine.createSpyObj('fakeShoppingListService', [
     'getHabitAllShopLists',
     'getHabitShopList',
     'addHabitCustomShopList',
@@ -92,7 +87,9 @@ describe('AddNewHabitComponent', () => {
   fakeShoppingListService.addHabitCustomShopList = () => of();
   fakeShoppingListService.updateHabitShopList = () => of();
 
-  matSnackBarMock.openSnackBar = (type: string) => {};
+  matSnackBarMock.openSnackBar = (type: string) => {
+    return type;
+  };
 
   const ecoNewsServiceMock = jasmine.createSpyObj('EcoNewsService', ['getEcoNewsListByPage']);
   ecoNewsServiceMock.getEcoNewsListByPage = () => of(ECONEWSMOCK);
@@ -463,13 +460,6 @@ describe('AddNewHabitComponent', () => {
   });
 
   it('call of getStandartShopList method should change initialShoppingList', () => {
-    const customShopListMock = {
-      id: 7,
-      status: 'fake string',
-      text: 'fake custom text',
-      selected: false,
-      custom: true
-    };
     (component as any).habitId = 2;
     (component as any).getStandartShopList();
     fakeShoppingListService

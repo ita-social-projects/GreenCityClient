@@ -5,14 +5,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/localized-currency.pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InfiniteScrollDirective, InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UbsUserOrdersComponent } from './ubs-user-orders.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { of, throwError } from 'rxjs';
 
@@ -47,9 +47,9 @@ describe('UbsUserOrdersComponent', () => {
   };
 
   const fakeCurrentOrdersData = new Array(10).fill(fakeOrder1);
-  const fakeCurrentOrdersDataPage2 = new Array().fill(fakeOrder2);
+  const fakeCurrentOrdersDataPage2 = [].fill(fakeOrder2);
   const fakeClosedOrdersData = new Array(10).fill(fakeOrder2);
-  const fakeClosedOrdersDataPage2 = new Array().fill(fakeOrder1);
+  const fakeClosedOrdersDataPage2 = [].fill(fakeOrder1);
 
   const RouterMock = jasmine.createSpyObj('Router', ['navigate']);
 

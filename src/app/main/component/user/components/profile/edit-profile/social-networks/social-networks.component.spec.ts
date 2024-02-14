@@ -70,51 +70,47 @@ describe('SocialNetworksComponent', () => {
     });
 
     it('check if string is url', () => {
-      // @ts-ignore
-      expect(component.checkIsUrl('https://www.facebook.com/')).toBeTruthy();
-      // @ts-ignore
-      expect(component.checkIsUrl('www.facebook.com')).toBeFalsy();
+      expect((component as any).checkIsUrl('https://www.facebook.com/')).toBeTruthy();
+      expect((component as any).checkIsUrl('www.facebook.com')).toBeFalsy();
     });
 
     it('Check for existing url', () => {
-      // @ts-ignore
-      expect(component.onCheckForExisting('https://www.facebook.com/')).toBeTruthy();
-      // @ts-ignore
-      expect(component.onCheckForExisting('https://www.pinterest.com/')).toBeFalsy();
+      expect((component as any).onCheckForExisting('https://www.facebook.com/')).toBeTruthy();
+
+      expect((component as any).onCheckForExisting('https://www.pinterest.com/')).toBeFalsy();
     });
 
     it('Should add link to arr', () => {
       component.onAddLink('https://www.pinterest.com/');
-      // @ts-ignore
-      expect(component.socialNetworks.length).toBe(2);
+
+      expect((component as any).socialNetworks.length).toBe(2);
     });
 
     it('Should add link to arr', () => {
       component.inputTextValue = 'https://www.pinterest.com/';
       component.onAddLink();
-      // @ts-ignore
-      expect(component.socialNetworks.length).toBe(2);
+
+      expect((component as any).socialNetworks.length).toBe(2);
     });
 
     it('Should delete link', () => {
       component.onDeleteLink({ url: 'https://www.facebook.com/' });
       spyOn(dialog, 'open').and.callThrough();
-      // @ts-ignore
 
-      expect(component.socialNetworks.length).toBe(0);
+      expect((component as any).socialNetworks.length).toBe(0);
     });
 
     it('Should delete link on edit and add it to input', () => {
       component.onEditLink({ url: 'https://www.facebook.com/' });
-      // @ts-ignore
-      expect(component.inputTextValue).toBe('https://www.facebook.com/');
+
+      expect((component as any).inputTextValue).toBe('https://www.facebook.com/');
     });
 
     it('Should change input visibility state', () => {
       component.showInput = true;
       component.onToggleInput();
-      // @ts-ignore
-      expect(component.showInput).toBeFalsy();
+
+      expect((component as any).showInput).toBeFalsy();
     });
 
     it('Should return default image', () => {

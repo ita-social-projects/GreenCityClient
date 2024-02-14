@@ -7,7 +7,7 @@ import { CronService } from '../cron/cron.service';
 export class CronPipe implements PipeTransform {
   constructor(private cronService: CronService) {}
 
-  transform(value: string, lang: string = 'en'): string {
+  transform(value: string, lang = 'en'): string {
     if (!value) {
       return null;
     }

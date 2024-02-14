@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MapBounds } from '../../model/map/map-bounds';
 import { CategoryDto } from '../../model/category.model';
 import { Specification } from '../../model/specification/specification';
-import { LatLngBounds } from '@agm/core';
+// import { LatLngBounds } from '@agm/core';
 import { FilterDiscountDtoModel } from '../../model/filtering/filter-discount-dto.model';
 import { FilterPlaceDtoModel } from '../../model/filtering/filter-place-dto.model';
 import { PlaceStatus } from '../../model/placeStatus.model';
@@ -42,12 +42,12 @@ export class FilterPlaceService {
     this.specification.name = name;
   }
 
-  setMapBounds(latLngBounds: LatLngBounds) {
-    this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
-    this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
-    this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
-    this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
-  }
+  // setMapBounds(latLngBounds: LatLngBounds) {
+  //   this.mapBounds.northEastLat = latLngBounds.getNorthEast().lat();
+  //   this.mapBounds.northEastLng = latLngBounds.getNorthEast().lng();
+  //   this.mapBounds.southWestLat = latLngBounds.getSouthWest().lat();
+  //   this.mapBounds.southWestLng = latLngBounds.getSouthWest().lng();
+  // }
 
   setDiscountBounds(discountMin: number, discountMax: number) {
     this.discountMin = discountMin;
@@ -71,7 +71,7 @@ export class FilterPlaceService {
       status: PlaceStatus.APPROVED,
       mapBoundsDto: placesFilter.mapBoundsDto
     };
-    if (Boolean(placesFilter.searchName)) {
+    if (placesFilter.searchName) {
       filtersDto.searchReg = placesFilter.searchName;
     }
 

@@ -3,16 +3,15 @@ import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { EventDetailsComponent } from './event-details.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { BsModalRef, ModalModule, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { EventsService } from '../../services/events.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 
@@ -129,9 +128,8 @@ describe('EventDetailsComponent', () => {
 
   const bsModalRefMock = jasmine.createSpyObj('bsModalRef', ['hide']);
   const bsModalBsModalServiceMock = jasmine.createSpyObj('BsModalService', ['show']);
-  let translateServiceMock: TranslateService;
-  translateServiceMock = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
-  translateServiceMock.setDefaultLang = (lang: string) => of();
+  const translateServiceMock: TranslateService = jasmine.createSpyObj('TranslateService', ['setDefaultLang']);
+  translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
   const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);

@@ -1,24 +1,24 @@
 import { Language } from './../../../../i18n/Language';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
-import { ComponentFixture, TestBed, inject, fakeAsync, flush, discardPeriodicTasks, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule, By } from '@angular/platform-browser';
-import { AgmCoreModule } from '@agm/core';
+// import { AgmCoreModule } from '@agm/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { UserOwnSignUpService } from '@auth-service/user-own-sign-up.service';
 import { SubmitEmailComponent } from '@global-auth/submit-email/submit-email.component';
 import { SignUpComponent } from './sign-up.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 class UserOwnSignUpServiceMock {
@@ -36,10 +36,9 @@ class UserOwnSignUpServiceMock {
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
-  let MatSnackBarMock: MatSnackBarComponent;
   let localStorageServiceMock: LocalStorageService;
   let router: Router;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  // localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
   localStorageServiceMock.setFirstName = () => true;
   localStorageServiceMock.setFirstSignIn = () => true;
@@ -58,7 +57,7 @@ describe('SignUpComponent', () => {
     password: '123456qW@'
   };
 
-  MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
+  const MatSnackBarMock: MatSnackBarComponent = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
   MatSnackBarMock.openSnackBar = (type: string) => {};
 
   beforeEach(waitForAsync(() => {
@@ -69,7 +68,7 @@ describe('SignUpComponent', () => {
         MatDialogModule,
         RouterTestingModule.withRoutes([]),
         HttpClientTestingModule,
-        AgmCoreModule,
+        // AgmCoreModule,
         TranslateModule.forRoot(),
         BrowserAnimationsModule,
         MatSnackBarModule
@@ -81,9 +80,7 @@ describe('SignUpComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .overrideModule(BrowserModule, { set: { entryComponents: [SubmitEmailComponent] } })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -97,8 +94,7 @@ describe('SignUpComponent', () => {
 
   describe('Basic tests', () => {
     beforeEach(() => {
-      // @ts-ignore
-      spyOn(component.pageName, 'emit');
+      spyOn((component as any).pageName, 'emit');
     });
 
     it('should create SignUpComponent', () => {
@@ -106,17 +102,14 @@ describe('SignUpComponent', () => {
     });
 
     it('should call closeSignUpWindow ', () => {
-      // @ts-ignore
-      const spy = spyOn(component.matDialogRef, 'close').and.callThrough();
-      // @ts-ignore
-      component.closeSignUpWindow();
+      const spy = spyOn((component as any).matDialogRef, 'close').and.callThrough();
+      (component as any).closeSignUpWindow();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should emit "sign-in" after calling openSignInWindow', () => {
       component.openSignInWindow();
-      // @ts-ignore
-      expect(component.pageName.emit).toHaveBeenCalledWith('sign-in');
+      expect((component as any).pageName.emit).toHaveBeenCalledWith('sign-in');
     });
   });
 
@@ -126,8 +119,7 @@ describe('SignUpComponent', () => {
       component.emailErrorMessageBackEnd = 'I am error message';
       component.passwordErrorMessageBackEnd = 'I am error message';
       component.passwordConfirmErrorMessageBackEnd = 'I am error message';
-      // @ts-ignore
-      component.setNullAllMessage();
+      (component as any).setNullAllMessage();
       expect(component.firstNameErrorMessageBackEnd).toBeNull();
       expect(component.passwordErrorMessageBackEnd).toBeNull();
       expect(component.emailErrorMessageBackEnd).toBeNull();
@@ -242,27 +234,22 @@ describe('SignUpComponent', () => {
     });
 
     it('onSubmit should call userOwnSignUpService', () => {
-      // @ts-ignore
-      component.onSubmitSuccess = () => true;
-      // @ts-ignore
-      const spy = spyOn(component.userOwnSignUpService, 'signUp').and.returnValue(of(mockFormData));
+      (component as any).onSubmitSuccess = () => true;
+      const spy = spyOn((component as any).userOwnSignUpService, 'signUp').and.returnValue(of(mockFormData));
       component.onSubmit(mockFormData as UserOwnSignUp);
       expect(spy).toHaveBeenCalledWith(mockFormData, 'ua');
     });
 
     it('onSubmit should call onSubmitError', () => {
       const errors = new HttpErrorResponse({ error: [{ name: 'name', message: 'Ups' }] });
-      // @ts-ignore
-      const spy = spyOn(component.userOwnSignUpService, 'signUp').and.returnValue(throwError(errors));
+      const spy = spyOn((component as any).userOwnSignUpService, 'signUp').and.returnValue(throwError(errors));
       component.onSubmit(mockFormData as UserOwnSignUp);
-      // @ts-ignore
       expect(spy).toHaveBeenCalled();
     });
 
     describe('Check sign up with signInWithGoogle', () => {
       it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
-        // @ts-ignore
-        component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
+        (component as any).signUpWithGoogleSuccess(mockUserSuccessSignIn);
         fixture.ngZone.run(() => {
           expect(router.navigate).toHaveBeenCalledWith(['profile', mockUserSuccessSignIn.userId]);
         });
@@ -282,8 +269,7 @@ describe('SignUpComponent', () => {
           { name: 'passwordConfirm', message: 'Ups' }
         ]
       });
-      // @ts-ignore
-      component.onSubmitError(errors);
+      (component as any).onSubmitError(errors);
       fixture.detectChanges();
       expect(component.firstNameErrorMessageBackEnd).toBe('Ups');
       expect(component.emailErrorMessageBackEnd).toBe('Ups');
@@ -293,16 +279,14 @@ describe('SignUpComponent', () => {
 
     it('should return emailErrorMessageBackEnd when login failed', () => {
       const errors = new HttpErrorResponse({ error: [{ name: 'email', message: 'Ups' }] });
-      // @ts-ignore
-      component.signUpWithGoogleError(errors);
+      (component as any).signUpWithGoogleError(errors);
       fixture.detectChanges();
       expect(component.emailErrorMessageBackEnd).toBe('Ups');
     });
 
     it('should return passwordConfirmErrorMessageBackEnd when login failed', () => {
       const errors = new HttpErrorResponse({ error: [{ name: 'password', message: 'Ups' }] });
-      // @ts-ignore
-      component.signUpWithGoogleError(errors);
+      (component as any).signUpWithGoogleError(errors);
       fixture.detectChanges();
       expect(component.passwordConfirmErrorMessageBackEnd).toBe('Ups');
     });
@@ -313,9 +297,8 @@ describe('SignUpComponent', () => {
     });
 
     it('signUpWithGoogleError should set errors', () => {
-      // @ts-ignore
-      const result = component.signUpWithGoogleError('User cancelled login or did not fully authorize');
-      expect(result).toBe();
+      const result = (component as any).signUpWithGoogleError('User cancelled login or did not fully authorize');
+      expect(result).toBe(null);
     });
 
     it('signUpWithGoogleError should set errors', () => {
@@ -324,8 +307,7 @@ describe('SignUpComponent', () => {
           message: 'Ups'
         }
       };
-      // @ts-ignore
-      component.signUpWithGoogleError(errors);
+      (component as any).signUpWithGoogleError(errors);
       expect(component.backEndError).toBe('Ups');
     });
   });

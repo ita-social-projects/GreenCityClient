@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SearchItemComponent } from '../search-item/search-item.component';
 import { SearchNotFoundComponent } from '../search-not-found/search-not-found.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SearchService } from '@global-service/search/search.service';
 import { of, Subject } from 'rxjs';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
@@ -16,16 +16,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('SearchPopupComponent', () => {
   let component: SearchPopupComponent;
   let fixture: ComponentFixture<SearchPopupComponent>;
-  let matSnackBarMock: MatSnackBar;
-  matSnackBarMock = jasmine.createSpyObj('MatSnackBar', ['open']);
-  let localStorageServiceMock: LocalStorageService;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
+  const matSnackBarMock: MatSnackBar = jasmine.createSpyObj('MatSnackBar', ['open']);
+  const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', ['getCurrentLanguage']);
   localStorageServiceMock.getCurrentLanguage = () => 'ua' as Language;
 
   const mockTipData = {
@@ -58,8 +56,7 @@ describe('SearchPopupComponent', () => {
     tipsAndTricks: [mockTipData]
   };
 
-  let searchMock: SearchService;
-  searchMock = jasmine.createSpyObj('SearchService', ['getAllResults']);
+  const searchMock: SearchService = jasmine.createSpyObj('SearchService', ['getAllResults']);
   searchMock.searchSubject = new Subject();
   searchMock.getAllResults = () => of(searchModelMock);
   searchMock.closeSearchSignal = () => true;

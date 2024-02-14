@@ -7,7 +7,7 @@ import { takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
 import { CourierLocations, AllLocationsDtos, LocationsName } from '../../../models/ubs.interface';
 import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
-import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-ubs-order-location-popup',
@@ -148,7 +148,7 @@ export class UbsOrderLocationPopupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroy$.next(true);
     this.destroy$.complete();
   }
 }
