@@ -8,6 +8,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from 'src/app/main/component/events/services/events.service';
 import { TimeFront, TimeBack, DefaultCoordinates } from '../../models/event-consts';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-event-date-time-picker',
@@ -79,7 +80,12 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   public arePlacesFilled: boolean[] = [];
   private subscriptions: Subscription[] = [];
 
-  constructor(private mapsAPILoader: MapsAPILoader, private langService: LanguageService, private eventsService: EventsService) {}
+  constructor(
+    private mapsAPILoader: MapsAPILoader,
+    private langService: LanguageService,
+    private eventsService: EventsService,
+    private adapter: DateAdapter<any>
+  ) {}
 
   ngOnInit(): void {
     const curDate = new Date();
@@ -132,7 +138,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       this.applyLinkForAllDays();
     }
 
-    this.langService.getCurrentLangObs().subscribe((_) => {
+    this.langService.getCurrentLangObs().subscribe((lang) => {
+      const locale = lang !== 'ua' ? 'en-GB' : 'uk-UA';
+      this.adapter.setLocale(locale);
       this.getCoordinates();
     });
 
