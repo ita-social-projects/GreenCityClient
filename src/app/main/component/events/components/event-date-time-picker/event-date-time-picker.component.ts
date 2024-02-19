@@ -105,7 +105,6 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
     this.dateForm.valueChanges.subscribe((value) => {
       this.updateTimeArrays(value.startTime, value.endTime);
-      console.log(this.dateForm.valid);
       this.status.emit(this.dateForm.valid);
       this.datesForm.emit(this.dateForm.getRawValue());
       if (this.dateForm.get('date').value) {
