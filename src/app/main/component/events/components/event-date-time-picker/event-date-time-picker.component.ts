@@ -92,9 +92,9 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
       date: new FormControl(initialDate, [Validators.required]),
       startTime: new FormControl(initialStartTime, [Validators.required]),
       endTime: new FormControl('', [Validators.required]),
-      coordinates: new FormControl(this.coordinates, [Validators.required]),
+      coordinates: new FormControl({ latitude: null, longitude: null }),
       onlineLink: new FormControl(this.onlineLink, [Validators.pattern(Patterns.linkPattern)]),
-      place: new FormControl('', [Validators.required])
+      place: new FormControl('')
     });
     const startTime = this.dateForm.get('startTime').value;
     const endTime = this.dateForm.get('endTime').value;
@@ -105,6 +105,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
 
     this.dateForm.valueChanges.subscribe((value) => {
       this.updateTimeArrays(value.startTime, value.endTime);
+      console.log(this.dateForm.valid);
       this.status.emit(this.dateForm.valid);
       this.datesForm.emit(this.dateForm.getRawValue());
       if (this.dateForm.get('date').value) {
