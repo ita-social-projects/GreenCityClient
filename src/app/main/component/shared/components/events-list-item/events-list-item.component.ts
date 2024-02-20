@@ -7,7 +7,7 @@ import {
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { ActionsSubject, Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
@@ -116,7 +116,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private actionsSubj: ActionsSubject
   ) {
     this.subsOnAttendEvent = this.actionsSubj
-      .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess))
+      .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess), takeUntil(this.destroyed$))
       .subscribe((action: { id: number; type: string }) => {
         if (action.id === this.event.id) {
           this.nameBtn = this.btnName.cancel;
