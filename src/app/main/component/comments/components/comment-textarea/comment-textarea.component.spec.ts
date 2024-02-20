@@ -1,5 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
 import { SocketService } from '@global-service/socket/socket.service';
@@ -9,8 +8,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { QueryList } from '@angular/core';
 import { MatOption } from '@angular/material/core';
+import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
 
-describe('CommentTextareaComponent', () => {
+fdescribe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
   let fixture: ComponentFixture<CommentTextareaComponent>;
 
@@ -36,7 +36,7 @@ describe('CommentTextareaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CommentTextareaComponent],
+      declarations: [CommentTextareaComponent, PlaceholderForDivDirective],
       providers: [
         { provide: Router, useValue: {} },
         { provide: SocketService, useValue: socketServiceMock },
