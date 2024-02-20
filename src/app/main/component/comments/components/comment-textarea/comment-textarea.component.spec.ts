@@ -10,7 +10,7 @@ import { QueryList } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
 
-fdescribe('CommentTextareaComponent', () => {
+describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
   let fixture: ComponentFixture<CommentTextareaComponent>;
 
@@ -79,9 +79,11 @@ fdescribe('CommentTextareaComponent', () => {
     });
 
     it('should not set innerHTML if commentTextToEdit is provided', () => {
+      const placeholderPattern = /<span[^>]*>.*?<\/span>/g;
       component.commentTextToEdit = null;
       component.ngAfterViewInit();
-      expect(component.commentTextarea.nativeElement.innerHTML).toBe('');
+      const innerHTML = component.commentTextarea.nativeElement.innerHTML.replace(placeholderPattern, '');
+      expect(innerHTML).toBe('');
     });
 
     it('should set initial text content', () => {
