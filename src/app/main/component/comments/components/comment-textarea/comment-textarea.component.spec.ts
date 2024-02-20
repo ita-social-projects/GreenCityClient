@@ -335,6 +335,27 @@ describe('CommentTextareaComponent', () => {
     });
   });
 
+  it('should be valid when inner HTML length is within limit', () => {
+    component.content.patchValue('a');
+    component.commentTextarea.nativeElement.innerHTML = 'a';
+    component.content.updateValueAndValidity();
+    expect(component.content.hasError('maxlength')).toBeFalsy();
+    expect(component.content.valid).toBeTruthy();
+
+    component.content.patchValue('a'.repeat(8000));
+    component.commentTextarea.nativeElement.innerHTML = 'a'.repeat(8000);
+    component.content.updateValueAndValidity();
+    expect(component.content.hasError('maxlength')).toBeFalsy();
+    expect(component.content.valid).toBeTruthy();
+  });
+
+  it('should be invalid when inner HTML length exceeds the limit', () => {
+    component.content.patchValue('a'.repeat(8001));
+    component.commentTextarea.nativeElement.innerHTML = 'a'.repeat(8001);
+    component.content.updateValueAndValidity();
+    expect(component.content.hasError('maxlength')).toBeTruthy();
+  });
+
   it('should prevent default when Enter key is pressed', () => {
     const fakeEvent = { key: 'Enter', preventDefault: () => {} } as KeyboardEvent;
     spyOn(fakeEvent, 'preventDefault');
