@@ -14,34 +14,35 @@
     </div>
     <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
   </div>
-  <div *ngIf="!notifications.length" class="no-notifications">
+  <div *ngIf="!isLoading && !notifications.length" class="no-notifications">
     <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data>
   </div>
   <div *ngIf="notifications.length">
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
       <mat-expansion-panel
         class="notification"
-        [ngClass]="notification.read ? 'notification-read' : 'notification-unread'"
+        [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
         *ngFor="let notification of notifications"
         hideToggle
       >
         <mat-expansion-panel-header class="notification-header"
           ><div class="d-flex justify-content-between align-items-center">
             <div class="notification-header-project">
-              {{ notification.project }}
+              {{ notification.projectName }}
             </div>
             <div class="notification-header-time body-2">
               {{ notification.time }}
             </div>
           </div>
           <div class="notification-header-title body-1">
-            {{ notification.title }}
+            {{ notification.titleText }}
           </div>
           <div class="notification-header-content body-2">
-            {{ notification.content }}
+            {{ notification.message }}
           </div>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
+  <app-spinner *ngIf="isLoading" infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500"></app-spinner>
 </div>
