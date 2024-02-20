@@ -118,7 +118,9 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.subsOnAttendEvent = this.actionsSubj
       .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess))
       .subscribe((action: { id: number; type: string }) => {
-        if (action.id === this.event.id) this.nameBtn = this.btnName.cancel;
+        if (action.id === this.event.id) {
+          this.nameBtn = this.btnName.cancel;
+        }
       });
   }
 
