@@ -2,7 +2,6 @@
   width: 100%;
   height: 100%;
 
-  // overflow: hidden;
   position: relative;
 
   .img {
@@ -33,13 +32,11 @@
       height: 8px;
       border-radius: 100%;
       background-color: var(--primary-white);
-      // opacity: 0.4;
       transition: 0.3s;
     }
 
     .dot-active,
     .dot:hover {
-      // opacity: 1;
       background-color: var(--primary-green);
     }
   }

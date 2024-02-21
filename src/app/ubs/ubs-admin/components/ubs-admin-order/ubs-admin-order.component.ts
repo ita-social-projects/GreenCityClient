@@ -5,7 +5,7 @@ import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UbsAdminCancelModalComponent } from '../ubs-admin-cancel-modal/ubs-admin-cancel-modal.component';
@@ -195,7 +195,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     });
     this.orderDetails = {
       bags: bagsObj,
-      courierInfo: Object.assign({}, this.orderInfo.courierInfo),
+      courierInfo: { ...this.orderInfo.courierInfo },
       bonuses: this.orderInfo.orderBonusDiscount,
       certificateDiscount: this.orderInfo.orderCertificateTotalDiscount,
       paidAmount: this.orderInfo.paymentTableInfoDto.paidAmount,
@@ -218,11 +218,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const actualStage = this.getOrderStatusInfo(status).ableActualChange;
     if (actualStage) {
       if (!Object.keys(this.orderInfo.amountOfBagsExported).length) {
-        this.orderInfo.amountOfBagsExported = Object.assign({}, this.orderInfo.amountOfBagsConfirmed);
+        this.orderInfo.amountOfBagsExported = { ...this.orderInfo.amountOfBagsConfirmed };
       }
     } else {
       if (!Object.keys(this.orderInfo.amountOfBagsConfirmed).length) {
-        this.orderInfo.amountOfBagsConfirmed = Object.assign({}, this.orderInfo.amountOfBagsOrdered);
+        this.orderInfo.amountOfBagsConfirmed = { ...this.orderInfo.amountOfBagsOrdered };
       }
     }
   }

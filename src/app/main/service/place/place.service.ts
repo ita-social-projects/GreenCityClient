@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { AllAboutPlace, FilterPlaceCategories, Place } from '../../component/places/models/place';
+import { FilterPlaceCategories, Place } from '../../component/places/models/place';
 import { PlaceInfo } from '../../model/place/place-info';
 import { UpdatePlaceStatus } from '../../model/place/update-place-status.model';
 import { PlacePageableDto } from '../../model/place/place-pageable-dto.model';
@@ -104,13 +104,11 @@ export class PlaceService {
   filterByRegex(paginationSettings: string, filterDto: FilterPlaceDtoModel): Observable<PlacePageableDto> {
     if (filterDto.searchReg === undefined) {
       filterDto.searchReg = '%%';
-      // tslint:disable-next-line:max-line-length
       return this.http.post<PlacePageableDto>(
         `${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`,
         filterDto
       );
     } else {
-      // tslint:disable-next-line:max-line-length
       return this.http.post<PlacePageableDto>(
         `${this.baseUrl}filter/predicate` + paginationSettings + `&sort=modifiedDate,desc`,
         filterDto

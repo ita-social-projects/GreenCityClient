@@ -16,7 +16,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
 
-declare var google: any;
+declare let google: any;
 
 @Component({
   selector: 'app-restore-password',

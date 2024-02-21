@@ -130,7 +130,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.shopList.sort((a, b) => {
       const statusDifference = statusOrder[a.status] - statusOrder[b.status];
       const orderCustom = a.custom && !b.custom ? -1 : 1;
-      return statusDifference ? statusDifference : orderCustom;
+      return statusDifference || orderCustom;
     });
   }
 

@@ -6,8 +6,7 @@ import { take } from 'rxjs/operators';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { AddViolationsComponent } from '../add-violations/add-violations.component';
 import { IUserInfo } from '../../models/ubs-admin.interface';
-import { Masks } from 'src/assets/patterns/patterns';
-import { Patterns } from 'src/assets/patterns/patterns';
+import { Masks, Patterns } from 'src/assets/patterns/patterns';
 
 @Component({
   selector: 'app-ubs-admin-order-client-info',

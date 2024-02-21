@@ -49,14 +49,14 @@ export const GetEcoEventsByPageAction = createAction(
 
 export const GetEcoEventsByPageSuccessAction = createAction(
   EventsActions.GetEcoEventsByPageSuccess,
-  props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
+  props<{ ecoEvents: EventResponseDto; reset: boolean }>()
 );
 
 export const GetEcoEventsByIdAction = createAction(EventsActions.GetEcoEventsById, props<{ eventId: number; reset: boolean }>());
 
 export const GetEcoEventsByIdSuccessAction = createAction(
   EventsActions.GetEcoEventsByIdSuccess,
-  props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
+  props<{ ecoEvents: EventResponseDto; reset: boolean }>()
 );
 
 export const RateEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number; grade: number }>());

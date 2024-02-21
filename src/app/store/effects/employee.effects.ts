@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect } from '@ngrx/effects';
-import { ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
   GetEmployees,

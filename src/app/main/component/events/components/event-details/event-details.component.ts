@@ -18,7 +18,6 @@ import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
@@ -131,7 +130,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
-      const isAuthorized = this.jwtService.getUserRole();
       this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
         this.event = res;
         this.organizerName = this.event.organizer.name;
@@ -162,7 +160,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
       });
 
-      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
+      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
+        this.router.navigate(['/events']);
+      });
+
       this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from '../../../services/events.service';
 import { Coordinates } from '../../../models/events.interface';
 @Component({

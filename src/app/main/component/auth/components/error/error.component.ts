@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-error',

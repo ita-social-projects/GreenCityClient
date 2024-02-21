@@ -180,7 +180,7 @@ export class AddNewHabitComponent implements OnInit {
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.isCustom = habit.isCustomHabit;
     this.getStars(habit.complexity);
-    if (this.habitResponse.tags && this.habitResponse.tags.length) {
+    if (this.habitResponse.tags?.length) {
       this.getRecommendedHabits(this.page, this.size, [this.habitResponse.tags[0]]);
     }
   }

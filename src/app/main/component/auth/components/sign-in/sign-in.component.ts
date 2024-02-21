@@ -21,7 +21,7 @@ import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admi
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 
-declare var google: any;
+declare let google: any;
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
