@@ -16,8 +16,6 @@ import {
   DeleteEcoEventSuccessAction,
   EditEcoEventAction,
   EditEcoEventSuccessAction,
-  GetEcoEventsByPageAction,
-  GetEcoEventsByPageSuccessAction,
   GetEcoEventsByIdAction,
   GetEcoEventsByIdSuccessAction,
   RateEcoEventsByIdAction,
@@ -28,24 +26,10 @@ import {
   RemoveAttenderEventsByIdSuccessAction,
   ReceivedFailureAction
 } from '../actions/ecoEvents.actions';
-import { IAppState } from '../state/app.state';
-import { IEcoEventsState } from '../state/ecoEvents.state';
 
 @Injectable()
 export class EventsEffects {
   constructor(private actions: Actions, private eventsService: EventsService, private store: Store) {}
-
-  getEcoEventsByPage = createEffect(() => {
-    return this.actions.pipe(
-      ofType(GetEcoEventsByPageAction),
-      mergeMap((actions: { currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaInterface }) => {
-        return this.eventsService.getEvents(actions.currentPage, actions.numberOfEvents, actions.filter).pipe(
-          map((ecoEvents: EventResponseDto) => GetEcoEventsByPageSuccessAction({ ecoEvents, reset: actions.reset })),
-          catchError((error) => of(ReceivedFailureAction(error)))
-        );
-      })
-    );
-  });
 
   getEcoEventsById = createEffect(() => {
     return this.actions.pipe(
