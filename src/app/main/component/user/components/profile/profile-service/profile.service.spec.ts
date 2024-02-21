@@ -127,4 +127,50 @@ describe('ProfileService', () => {
       req.flush(places);
     });
   });
+
+  describe('social media recognition test', () => {
+    it('should return the default icon when the social network is not provided or invalid', () => {
+      expect(profileService.getSocialImage('')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://someMedia.com')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://test?test=twitter')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://test?testfacebook')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://test?testx')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://test?test.com&=youtube')).toBe(profileService.icons.defaultIcon);
+      expect(profileService.getSocialImage('https://test/linkedin')).toBe(profileService.icons.defaultIcon);
+    });
+
+    it('should return the facebook icon when the url belongs to facebook', () => {
+      expect(profileService.getSocialImage('https://facebook.com')).toBe(profileService.socialMedia.facebook);
+      expect(profileService.getSocialImage('https://facebook.com/twitter')).toBe(profileService.socialMedia.facebook);
+      expect(profileService.getSocialImage('https://facebook.com?test=youtube&val=instagram')).toBe(profileService.socialMedia.facebook);
+    });
+
+    it('should return the linkedin icon when the url belongs to linkedin', () => {
+      expect(profileService.getSocialImage('https://linkedin.com')).toBe(profileService.socialMedia.linkedin);
+      expect(profileService.getSocialImage('https://linkedin.com/twitter')).toBe(profileService.socialMedia.linkedin);
+      expect(profileService.getSocialImage('https://linkedin.com?test=youtube&val=instagram')).toBe(profileService.socialMedia.linkedin);
+    });
+
+    it('should return the instagram icon when the url belongs to instagram', () => {
+      expect(profileService.getSocialImage('https://instagram.com')).toBe(profileService.socialMedia.instagram);
+      expect(profileService.getSocialImage('https://instagram.com/twitter')).toBe(profileService.socialMedia.instagram);
+      expect(profileService.getSocialImage('https://instagram.com?test=youtube&val=linkedin')).toBe(profileService.socialMedia.instagram);
+    });
+
+    it('should return the twitter icon when the url belongs to twitter', () => {
+      expect(profileService.getSocialImage('https://twitter.com')).toBe(profileService.socialMedia.twitter);
+      expect(profileService.getSocialImage('https://twitter.com/facebook')).toBe(profileService.socialMedia.twitter);
+      expect(profileService.getSocialImage('https://twitter.com?test=youtube&val=linkedin')).toBe(profileService.socialMedia.twitter);
+      expect(profileService.getSocialImage('https://x.com')).toBe(profileService.socialMedia.twitter);
+      expect(profileService.getSocialImage('https://x.com/facebook')).toBe(profileService.socialMedia.twitter);
+      expect(profileService.getSocialImage('https://x.com?test=youtube&val=instagram')).toBe(profileService.socialMedia.twitter);
+    });
+
+    it('should youtube the instagram icon when the url belongs to youtube', () => {
+      expect(profileService.getSocialImage('https://www.youtube.com')).toBe(profileService.socialMedia.youtube);
+      expect(profileService.getSocialImage('https://www.youtube.com/twitter')).toBe(profileService.socialMedia.youtube);
+      expect(profileService.getSocialImage('https://www.youtube.com?test=instagram&val=linkedin')).toBe(profileService.socialMedia.youtube);
+    });
+  });
 });
