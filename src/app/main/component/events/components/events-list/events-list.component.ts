@@ -16,6 +16,7 @@ import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
+import { switchAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-events-list',
@@ -110,8 +111,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   private searchEventsByTitle(searchTitle: string): void {
     const eventListFilterCriterias = this.createEventListFilterCriteriasObject();
+    console.log('=======================');
+    console.log(this.page);
+    console.log(this.eventsPerPage);
+    console.log('=======================');
     this.searchResultSubscription = this.eventService
       .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
+      //.pipe(switchAll())
       .subscribe((res) => {
         this.isLoading = false;
         if (res.page.length > 0) {
@@ -225,6 +231,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
     }
     this.cleanEventList();
     this.getEvents();
+    this.page++;
   }
 
   public removeItemFromSelectedFiltersList(filter: FilterItem, index?: number): void {

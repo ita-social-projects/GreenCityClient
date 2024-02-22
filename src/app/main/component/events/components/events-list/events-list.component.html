@@ -29,7 +29,11 @@
         <div class="dropdown" (click)="timeFilter.open()">
           <mat-label class="filter">{{ 'homepage.events.time' | translate }}</mat-label>
           <mat-select #timeFilter [formControl]="eventTimeStatusFilterControl" multiple>
-            <mat-option [value]="'homepage.events.time-any-time' | translate" (click)="unselectAllFiltersInType('eventTimeStatus')">
+            <mat-option
+              [value]="'homepage.events.time-any-time' | translate"
+              (click)="unselectAllFiltersInType('eventTimeStatus')"
+              [disabled]="isLoading"
+            >
               {{ 'homepage.events.time-any-time' | translate }}
             </mat-option>
             <mat-divider></mat-divider>
@@ -37,6 +41,7 @@
               [value]="eventTimeStatusFilter.nameEn"
               *ngFor="let eventTimeStatusFilter of eventTimeStatusFiltersList"
               (click)="updateListOfFilters(eventTimeStatusFilter)"
+              [disabled]="isLoading"
             >
               {{ getLangValue(eventTimeStatusFilter.nameUa, eventTimeStatusFilter.nameEn) }}
             </mat-option>
