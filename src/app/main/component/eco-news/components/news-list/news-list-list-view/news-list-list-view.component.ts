@@ -13,12 +13,12 @@ import {
 } from '@angular/core';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { TranslateService } from '@ngx-translate/core';
-
 import { possibleDescHeight, possibleTitleHeight } from './breakpoints';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -35,7 +35,6 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
 
   private smallHeight = 'smallHeight';
   private bigHeight = 'bigHeight';
-
   public profileIcons = userAssignedCardsIcons;
   public newsImage: string;
   public tags: Array<string>;
@@ -43,6 +42,7 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
+    public router: Router,
     private renderer: Renderer2,
     public translate: TranslateService,
     public localStorageService: LocalStorageService,
@@ -84,6 +84,10 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
 
   private getDomWidth(): string {
     return window.innerWidth <= 768 ? this.smallHeight : this.bigHeight;
+  }
+
+  public routeToNews(): void {
+    this.router.navigate(['/news', this.ecoNewsModel.id]);
   }
 
   private getHeightOfDesc(titleHeight: number): string {
