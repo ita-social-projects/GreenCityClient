@@ -16,7 +16,6 @@ import { MatSelect } from '@angular/material/select';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { EventsService } from '../../services/events.service';
 import { MatOption } from '@angular/material/core';
-import { switchAll, take, takeLast } from 'rxjs/operators';
 
 @Component({
   selector: 'app-events-list',
