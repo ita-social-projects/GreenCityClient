@@ -250,7 +250,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   private emitCommentText(): void {
     this.commentText.emit({
       text: this.commentTextarea.nativeElement.textContent,
-      innerHTML: this.commentTextarea.nativeElement.innerHTML
+      innerHTML: this.commentTextarea.nativeElement.innerHTML.replace('&nbsp;', ' ')
     });
   }
 
