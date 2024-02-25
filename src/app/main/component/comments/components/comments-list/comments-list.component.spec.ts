@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Renderer2, SimpleChanges } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -46,6 +47,8 @@ describe('CommentsListComponent', () => {
     showRelyButton: true
   };
 
+  const routerMock = jasmine.createSpyObj('router', ['navigate']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsListComponent, DateLocalisationPipe],
@@ -54,7 +57,8 @@ describe('CommentsListComponent', () => {
         { provide: CommentsService, useValue: commentsServiceMock },
         { provide: Renderer2, useValue: {} },
         { provide: MatDialog, useValue: matDialogMock },
-        { provide: MatDialogRef, useValue: matDialogRefMock }
+        { provide: MatDialogRef, useValue: matDialogRefMock },
+        { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -165,32 +169,15 @@ describe('CommentsListComponent', () => {
     expect(component.isEditTextValid).toBeTruthy();
   });
 
-  it('should not update comments inner HTML on the first change of elementsList', () => {
-    spyOn(component as any, 'updateCommentsInnerHtml');
-    const changes: SimpleChanges = {
-      elementsList: {
-        currentValue: ['element1', 'element2'],
-        firstChange: true,
-        isFirstChange: () => true,
-        previousValue: undefined
-      }
-    };
-    component.ngOnChanges(changes);
-    expect((component as any).updateCommentsInnerHtml).not.toHaveBeenCalled();
-  });
+  it('should call router navigate if onComment click event is user-tag', async () => {
+    component.userId = 1;
+    const target = document.createElement('a');
+    target.setAttribute('data-userid', '5');
+    const event = {
+      target: target as HTMLElement
+    } as unknown as MouseEvent;
 
-  it('should update comments inner HTML after view initialization', () => {
-    spyOn(component as any, 'updateCommentsInnerHtml');
-    fixture.detectChanges();
-    component.ngAfterViewInit();
-    expect((component as any).updateCommentsInnerHtml).toHaveBeenCalledWith(component.commentText);
-  });
-
-  it('should render element from string', () => {
-    const elMock: ElementRef = { nativeElement: document.createElement('div') };
-    const text = '<span data-userid="123">@user123</span> Some text';
-    (component as any).renderElemFromString(elMock, text);
-    const renderedElement = elMock.nativeElement;
-    expect(renderedElement.childNodes.length).toBeGreaterThan(0);
+    component.onCommentClick(event);
+    expect(routerMock.navigate).toHaveBeenCalled();
   });
 });

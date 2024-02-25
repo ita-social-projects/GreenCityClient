@@ -84,7 +84,7 @@ export class CommentsListComponent {
     });
   }
 
-  onCommentClick(event: MouseEvent): void {
+  public onCommentClick(event: MouseEvent): void {
     const userId = (event.target as HTMLElement).getAttribute('data-userid');
     const userName = (event.target as HTMLElement).textContent;
     if (userId) {
