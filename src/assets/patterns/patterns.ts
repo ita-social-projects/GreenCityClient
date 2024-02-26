@@ -46,8 +46,8 @@ export const Patterns = {
 
   countriesRestriction: 'Russia|Росія|Россия',
 
-  urlLinkifyPattern: /(\bhttps?:\/\/\S+\b)/gi,
-  emailLinkifyPattern: /\b[^@\s]+@[^\s]+\b/gi,
+  urlLinkifyPattern: /(\bhttps?:\/\/[^<>\s]+\b)/gi,
+  emailLinkifyPattern: /\b[^<>@\s]+@[^<>\s]+\b/gi,
   phoneLinkifyPattern: /\+\d{10,}/g
 };
 
