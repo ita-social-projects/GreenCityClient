@@ -330,7 +330,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public handleErrorClass(errorClassName: string): string {
     const descriptionControl = this.eventFormGroup.get('description');
-    this.isDescriptionValid = this.editorText.length > 19;
+    this.isDescriptionValid = this.editorText.length > 19 && this.editorText.length <= 63206;
     this.isDescriptionValid
       ? descriptionControl.setErrors(null)
       : descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
