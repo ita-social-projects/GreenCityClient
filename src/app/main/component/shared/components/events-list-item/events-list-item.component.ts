@@ -81,7 +81,8 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-  subsOnAttendEvent = new Subscription();
+  private subsOnAttendEvent = new Subscription();
+  private dialogRef;
 
   @Output() public isLoggedIn: boolean;
   @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
@@ -172,7 +173,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.btnStyle = this.styleBtn.secondary;
         this.nameBtn = this.btnName.cancel;
         break;
-      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin && !isUnauthorized:
+      case !isSubscribed && isRelevant && !this.isOwner && !isAdmin:
         this.btnStyle = this.styleBtn.primary;
         this.nameBtn = this.btnName.join;
         break;
@@ -180,7 +181,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         this.btnStyle = this.styleBtn.primary;
         this.nameBtn = this.btnName.rate;
         break;
-      case (!isSubscribed && !isRelevant && !this.isOwner) || isUnauthorized:
+      case !isSubscribed && !isRelevant && !this.isOwner:
         this.btnStyle = this.styleBtn.hiden;
         break;
     }
@@ -197,6 +198,17 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
         if (this.addAttenderError) {
           this.snackBar.openSnackBar('errorJoinEvent');
           this.addAttenderError = '';
+        } else if (!this.isRegistered) {
+          this.openAuthModalWindow('sign-in');
+          this.dialogRef
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe((result) => {
+              this.isRegistered = !!result;
+              if (result) {
+                this.router.navigate(['events']);
+              }
+            });
         } else if (!this.event.open && !this.event.isOrganizedByFriend) {
           this.snackBar.openSnackBar('jointEventRequest');
           this.nameBtn = this.btnName.requestSent;
@@ -293,6 +305,15 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     event?.stopPropagation();
     if (!this.isRegistered) {
       this.openAuthModalWindow('sign-in');
+      this.dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          this.isRegistered = !!result;
+          if (this.isRegistered) {
+            this.changeFavouriteStatus();
+          }
+        });
     } else {
       this.isEventFavorite = !this.isEventFavorite;
       if (this.isEventFavorite) {
@@ -319,22 +340,14 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.dialog
-      .open(AuthModalComponent, {
-        hasBackdrop: true,
-        closeOnNavigation: true,
-        panelClass: ['custom-dialog-container'],
-        data: {
-          popUpName: page
-        }
-      })
-      .afterClosed()
-      .subscribe((result) => {
-        this.isRegistered = !!result;
-        if (this.isRegistered) {
-          this.changeFavouriteStatus();
-        }
-      });
+    this.dialogRef = this.dialog.open(AuthModalComponent, {
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      panelClass: ['custom-dialog-container'],
+      data: {
+        popUpName: page
+      }
+    });
   }
 
   ngOnDestroy(): void {
