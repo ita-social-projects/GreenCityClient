@@ -18,7 +18,7 @@ import {
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateObj, TimeBack, TimeFront, typeFiltersData, WeekArray } from '../../models/event-consts';
@@ -74,7 +74,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public fromPreview: boolean;
   public editorText = '';
-  private isDescriptionValid: boolean;
+  private descriptionMinLenght = 20;
+  private descriptionMaxLenght = 63206;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
   private matSnackBar: MatSnackBarComponent;
@@ -137,7 +138,11 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.tags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
+      description: new FormControl('', [
+        Validators.required,
+        this.minLenghtTrimValidator(),
+        Validators.maxLength(this.descriptionMaxLenght)
+      ]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
     if (this.editMode && !this.fromPreview && !submitFromPreview) {
@@ -174,6 +179,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
     window.onpopstate = () => {
       this.toEventsList();
+    };
+  }
+
+  private minLenghtTrimValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return (this.editorText || '').trim().length < this.descriptionMinLenght ? { minLength: true } : null;
     };
   }
 
@@ -275,7 +286,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       description,
       eventDuration: this.dateArrCount[dates.length - 1]
     });
-    this.isDescriptionValid = editorText.length > 19;
     this.editorText = editorText;
   }
 
@@ -324,17 +334,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
-      this.editorText = event.text.substring(event.text.length, 1);
+      this.editorText = event.text.trim();
     }
-  }
-
-  public handleErrorClass(errorClassName: string): string {
-    const descriptionControl = this.eventFormGroup.get('description');
-    this.isDescriptionValid = this.editorText.length > 19 && this.editorText.length <= 63206;
-    this.isDescriptionValid
-      ? descriptionControl.setErrors(null)
-      : descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
-    return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
   public changeEventType(event: KeyboardEvent | MouseEvent): void {
@@ -466,7 +467,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
+    if (isFormValid && arePlacesFilled && this.description.valid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
