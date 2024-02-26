@@ -114,7 +114,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.searchResultSubscription = this.eventService
       .getEvents(this.page, this.eventsPerPage, eventListFilterCriterias, searchTitle)
       .subscribe((res) => {
-        this.cleanEventList();
         this.isLoading = false;
         if (res.page.length > 0) {
           this.countOfEvents = res.totalElements;
