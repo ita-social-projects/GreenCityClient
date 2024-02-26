@@ -33,7 +33,7 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
   private charToTagUsers = ['@', '#'];
   private range;
 
-  public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(8000)]);
+  public content: FormControl = new FormControl('', [Validators.required, this.innerHtmlMaxLengthValidator(8000)]);
   public suggestedUsers: TaggedUser[] = [];
   public isDropdownVisible: boolean;
   public cursorPosition: {
@@ -262,6 +262,17 @@ export class CommentTextareaComponent implements OnInit, AfterViewInit, OnChange
       currentNode.textContent.slice(currentStartOffset);
 
     this.range.setStart(this.range.startContainer, currentStartOffset - this.searchQuery.length - 1);
+  }
+
+  private innerHtmlMaxLengthValidator(maxLength: number) {
+    return () => {
+      if (this.commentTextarea) {
+        const isValid = this.commentTextarea.nativeElement.innerHTML.length <= maxLength;
+        return isValid ? null : { maxlength: true };
+      } else {
+        return null;
+      }
+    };
   }
 
   ngOnDestroy() {

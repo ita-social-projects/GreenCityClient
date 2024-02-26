@@ -1,5 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommentTextareaComponent } from './comment-textarea.component';
 import { Router } from '@angular/router';
 import { SocketService } from '@global-service/socket/socket.service';
@@ -9,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { QueryList } from '@angular/core';
 import { MatOption } from '@angular/material/core';
+import { PlaceholderForDivDirective } from 'src/app/main/component/comments/directives/placeholder-for-div.directive';
 
 describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
@@ -36,7 +36,7 @@ describe('CommentTextareaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CommentTextareaComponent],
+      declarations: [CommentTextareaComponent, PlaceholderForDivDirective],
       providers: [
         { provide: Router, useValue: {} },
         { provide: SocketService, useValue: socketServiceMock },
@@ -79,9 +79,11 @@ describe('CommentTextareaComponent', () => {
     });
 
     it('should not set innerHTML if commentTextToEdit is provided', () => {
+      const placeholderPattern = /<span[^>]*>.*?<\/span>/g;
       component.commentTextToEdit = null;
       component.ngAfterViewInit();
-      expect(component.commentTextarea.nativeElement.innerHTML).toBe('');
+      const innerHTML = component.commentTextarea.nativeElement.innerHTML.replace(placeholderPattern, '');
+      expect(innerHTML).toBe('');
     });
 
     it('should set initial text content', () => {
@@ -331,6 +333,27 @@ describe('CommentTextareaComponent', () => {
       expect(mockOptions[2].focus).not.toHaveBeenCalled();
       expect(() => (component as any).setFocusOnOption(3)).not.toThrow();
     });
+  });
+
+  it('should be valid when inner HTML length is within limit', () => {
+    component.content.patchValue('a');
+    component.commentTextarea.nativeElement.innerHTML = 'a';
+    component.content.updateValueAndValidity();
+    expect(component.content.hasError('maxlength')).toBeFalsy();
+    expect(component.content.valid).toBeTruthy();
+
+    component.content.patchValue('a'.repeat(8000));
+    component.commentTextarea.nativeElement.innerHTML = 'a'.repeat(8000);
+    component.content.updateValueAndValidity();
+    expect(component.content.hasError('maxlength')).toBeFalsy();
+    expect(component.content.valid).toBeTruthy();
+  });
+
+  it('should be invalid when inner HTML length exceeds the limit', () => {
+    component.content.patchValue('a'.repeat(8001));
+    component.commentTextarea.nativeElement.innerHTML = 'a'.repeat(8001);
+    component.content.updateValueAndValidity();
+    expect(component.content.hasError('maxlength')).toBeTruthy();
   });
 
   it('should prevent default when Enter key is pressed', () => {
