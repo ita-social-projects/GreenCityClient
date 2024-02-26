@@ -1,17 +1,17 @@
 <p class="warning" [ngClass]="{ 'warning-color': isWarning }">{{ 'drag-and-drop.picture-tooltip' | translate }}</p>
-<div *ngIf="!files.length" class="dropzone" appDragAndDrop (files)="filesDropped($event)">
+<div *ngIf="!files.length && !isWarning" class="dropzone" appDragAndDrop (files)="filesDropped($event)">
   <div class="text-wrapper">
     <div class="centered">
       {{ 'drag-and-drop.picture-description' | translate }}
-      <label for="upload"
-        ><span>{{ 'drag-and-drop.browse' | translate }}</span></label
-      >
+      <label for="upload">
+        <span>{{ 'drag-and-drop.browse' | translate }}</span>
+      </label>
       <input type="file" id="upload" (change)="onFileSelected($event)" />
     </div>
   </div>
 </div>
-<div *ngFor="let file of files">
-  <div *ngIf="!isWarning; else elseBlock">
+<div *ngIf="!isWarning; else elseBlock">
+  <div *ngFor="let file of files">
     <div *ngIf="!isCropper" class="image-preview">
       <img [src]="file.url" appDragAndDrop (files)="filesDropped($event)" alt="image-cropper" />
     </div>
@@ -44,9 +44,9 @@
         <p>{{ 'drag-and-drop.not-uploaded-warning' | translate }}</p>
         <p>
           {{ 'drag-and-drop.picture-description' | translate }}
-          <label for="upload"
-            ><span>{{ 'drag-and-drop.browse' | translate }}</span></label
-          >
+          <label for="upload">
+            <span>{{ 'drag-and-drop.browse' | translate }}</span>
+          </label>
           <input type="file" id="upload" (change)="onFileSelected($event)" />
         </p>
       </div>

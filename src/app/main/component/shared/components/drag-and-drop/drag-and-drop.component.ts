@@ -15,7 +15,7 @@ export class DragAndDropComponent implements OnInit {
   public imageChangedEvent: FileHandle[];
   public isCropper = true;
   public files: FileHandle[] = [];
-  public isWarning = true;
+  public isWarning = false;
   private croppedImage: string;
   @Input() public formData: FormGroup;
 
@@ -40,7 +40,6 @@ export class DragAndDropComponent implements OnInit {
     this.files = [];
     this.createEcoNewsService.files = [];
     this.isCropper = true;
-    this.isWarning = true;
     this.croppedImage = null;
   }
 
@@ -90,6 +89,7 @@ export class DragAndDropComponent implements OnInit {
     this.files.forEach((item) => {
       const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
       this.isWarning = !(item && imageValCondition);
+      this.files.pop();
     });
     return this.files;
   }
