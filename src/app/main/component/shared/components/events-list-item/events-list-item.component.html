@@ -98,7 +98,7 @@
 </div>
 
 <div *ngIf="isUserAssignList">
-  <div class="event-assign" (click)="routeToEvent()">
+  <div class="event-assign">
     <div class="event-assign__image-container">
       <img class="event-assign__image-container-image" src="{{ event.titleImage }}" alt="event" />
       <div class="event-assign__image-container__participants" *ngIf="attendees.length">
@@ -147,6 +147,11 @@
             {{ address.houseNumber }}
           </p>
         </div>
+      </div>
+      <div class="button-event-card">
+        <button class="secondary-global-button m-btn" (click)="routeToEvent()">
+          {{ 'event.btn-top' | translate }}
+        </button>
       </div>
       <div class="event-assign__content__user-info">
         <div class="event-assign__content__user-info-date">

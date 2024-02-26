@@ -16,6 +16,11 @@
         <div #ecoNewsText></div>
       </div>
     </div>
+    <div class="button-news-card">
+      <button class="secondary-global-button m-btn" (click)="routeToNews()">
+        {{ 'event.btn-top' | translate }}
+      </button>
+    </div>
     <div class="eco-news_list-authors">
       <p class="eco-news_data-text-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
