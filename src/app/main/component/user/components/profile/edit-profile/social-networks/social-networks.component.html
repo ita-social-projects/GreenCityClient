@@ -29,6 +29,7 @@
         class="form-control"
         [pattern]="urlValidationRegex"
         #socialLink="ngModel"
+        minlength="9"
         required
       />
       <span *ngIf="socialLink.errors !== null && socialLink.touched" class="social_network-input-error">

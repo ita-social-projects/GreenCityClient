@@ -8,6 +8,7 @@ import { ProfileStatistics } from '@user-models/profile-statistiscs';
 import { EditProfileModel } from '@user-models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { mainLink, mainUserLink } from '../../../../../links';
+import { Patterns } from 'src/assets/patterns/patterns';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,15 @@ export class ProfileService {
     edit: './assets/img/profile/icons/edit.svg',
     add: './assets/img/profile/icons/add.svg',
     delete: './assets/img/profile/icons/delete.svg',
-    defaultIcon: './assets/img/profile/icons/default_social.svg',
+    defaultIcon: './assets/img/profile/icons/default_social.svg'
+  };
+
+  public socialMedia = {
     facebook: './assets/img/icon/facebook-icon.svg',
     linkedin: './assets/img/icon/linkedin-icon.svg',
     instagram: './assets/img/icon/instagram-icon.svg',
     twitter: './assets/img/icon/twitter-icon.svg',
+    x: './assets/img/icon/twitter-icon.svg',
     youtube: './assets/img/icon/youtube-icon.svg'
   };
 
@@ -53,16 +58,19 @@ export class ProfileService {
   }
 
   public getSocialImage(socialNetwork: string): string {
-    const icons = JSON.parse(JSON.stringify(this.icons));
-    delete icons.edit;
-    delete icons.add;
-    delete icons.delete;
-    let imgPath = icons.defaultIcon;
-    Object.keys(icons).forEach((icon) => {
-      if (socialNetwork.toLowerCase().includes(icon)) {
-        imgPath = icons[icon];
-      }
-    });
-    return imgPath;
+    const domain = this.getDomainFromUrl(socialNetwork);
+
+    if (!domain) {
+      return this.icons.defaultIcon;
+    }
+
+    return this.socialMedia[domain] || this.icons.defaultIcon;
+  }
+
+  private getDomainFromUrl(url: string): string | null {
+    const regex = Patterns.socialMediaPattern;
+    const match = regex.exec(url);
+
+    return match?.[1] || null;
   }
 }

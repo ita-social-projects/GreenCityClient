@@ -21,7 +21,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     rating: 0,
     userCredo: 'User credo'
   };
-  socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
+  socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city', 'x'];
   userSocialNetworks: Array<any>;
   public userId: number;
   public icons: Record<string, string> = {};

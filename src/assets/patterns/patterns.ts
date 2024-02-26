@@ -9,6 +9,8 @@ export const Patterns = {
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
 
+  socialMediaPattern: /^(?:https?:\/\/)?(?:www\.)?([^\/?]+)\.com/,
+
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
   ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]+$/,
   ubsEntrNumPattern: /^([1-9]\d*)?$/,
