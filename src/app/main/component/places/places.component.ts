@@ -163,10 +163,8 @@ export class PlacesComponent implements OnInit, OnDestroy {
   public updatePlaceList(isAfterClose: boolean): void {
     if (isAfterClose) {
       this.page = 0;
-    } else {
-      if (this.totalPages === this.page) {
-        return;
-      }
+    } else if (this.totalPages === this.page) {
+      return;
     }
     this.getPlaceList();
   }
@@ -334,11 +332,7 @@ export class PlacesComponent implements OnInit, OnDestroy {
   }
 
   onLocationSelected(event: Location) {
-    // DESNOT WORK ANYWAY. NEED TO REWRITE
-    // this.map.setCenter({
-    //   lat: event.latitude,
-    //   lng: event.longitude
-    // });
+    return;
   }
 
   openTimePickerPopUp() {
@@ -349,11 +343,6 @@ export class PlacesComponent implements OnInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.placeService.createPlace(value).subscribe((resp: any) => {
-            // SAME
-            // const location: Location = {
-            //   latitude: resp.locationAddressAndGeoDto.lat,
-            //   longitude: resp.locationAddressAndGeoDto.lng
-            // };
             this.onLocationSelected(location);
           });
         }

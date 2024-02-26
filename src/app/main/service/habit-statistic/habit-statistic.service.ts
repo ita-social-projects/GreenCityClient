@@ -12,7 +12,7 @@ import { HabitStatisticLogDto } from '@global-models/habit/HabitStatisticLogDto'
 import { OnLogout } from '../OnLogout';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class HabitStatisticService implements OnLogout {
   private userId: number;
@@ -25,7 +25,7 @@ export class HabitStatisticService implements OnLogout {
   } = {
     habitStatistics: [],
     availableHabits: [],
-    newHabits: [],
+    newHabits: []
   };
   readonly habitStatistics = this.$habitStatistics.asObservable();
   readonly availableHabits = this.$availableHabits.asObservable();
@@ -38,7 +38,7 @@ export class HabitStatisticService implements OnLogout {
     this.http.get<HabitDto[]>(`${userLink}/${this.userId}/habits?language=${language}`).subscribe(
       (data) => {
         this.dataStore.habitStatistics = data;
-        this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+        this.$habitStatistics.next({ ...this.dataStore }.habitStatistics);
       },
       () => console.log('Can not load habit statistic.')
     );
@@ -48,7 +48,7 @@ export class HabitStatisticService implements OnLogout {
     this.http.get<AvailableHabitDto[]>(`${userLink}/${this.userId}/habit-dictionary/available?language=${language}`).subscribe(
       (data) => {
         this.dataStore.availableHabits = data;
-        this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
+        this.$availableHabits.next({ ...this.dataStore }.availableHabits);
       },
       () => console.log('Can not load available habits.')
     );
@@ -97,7 +97,7 @@ export class HabitStatisticService implements OnLogout {
               data.habitId
             );
 
-            this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+            this.$habitStatistics.next({ ...this.dataStore }.habitStatistics);
           }
         });
       },
@@ -121,7 +121,7 @@ export class HabitStatisticService implements OnLogout {
                   data.amountOfItems,
                   data.habitId
                 );
-                this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
+                this.$habitStatistics.next({ ...this.dataStore }.habitStatistics);
               }
             });
           }
@@ -163,7 +163,7 @@ export class HabitStatisticService implements OnLogout {
     this.dataStore.newHabits = [];
     this.dataStore.availableHabits = [];
     this.dataStore.habitStatistics = [];
-    this.$habitStatistics.next(Object.assign({}, this.dataStore).habitStatistics);
-    this.$availableHabits.next(Object.assign({}, this.dataStore).availableHabits);
+    this.$habitStatistics.next({ ...this.dataStore }.habitStatistics);
+    this.$availableHabits.next({ ...this.dataStore }.availableHabits);
   }
 }

@@ -122,7 +122,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data?.userId));
   }
 
   private setDefaultNumberOfNews(quantity: number): void {

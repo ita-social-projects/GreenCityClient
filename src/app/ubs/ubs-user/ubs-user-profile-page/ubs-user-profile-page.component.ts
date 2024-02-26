@@ -234,7 +234,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
           Validators.maxLength(30)
         ]),
         searchAddress: new FormControl(null),
-        isHouseSelected: new FormControl(adres?.houseNumber ? true : false),
+        isHouseSelected: new FormControl(!!adres?.houseNumber),
         addressRegionDistrictList: new FormControl(this.locationService.appendDistrictLabel(adres?.addressRegionDistrictList)),
         placeId: new FormControl(null),
         id: new FormControl(adres?.id),
@@ -640,7 +640,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   formatedPhoneNumber(num: string): string | void {
-    const match = num?.match(/^(\d{2})(\d{3})(\d{2})(\d{2})$/);
+    const match = RegExp(/^(\d{2})(\d{3})(\d{2})(\d{2})$/).exec(num);
     if (match) {
       return ` +380 (${match[1]}) ${match[2]} ${match[3]} ${match[4]}`;
     }

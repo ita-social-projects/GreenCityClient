@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { CHAT_ICONS } from '../../chat-icons';
 import { MatDialogRef } from '@angular/material/dialog';

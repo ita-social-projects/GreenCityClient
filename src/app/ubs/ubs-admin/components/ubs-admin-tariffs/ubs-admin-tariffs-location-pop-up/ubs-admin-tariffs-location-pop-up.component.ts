@@ -160,7 +160,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   selectCities(currentRegion): void {
-    if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
+    if (!currentRegion?.length || !currentRegion[0].locationsDto) {
       return;
     }
     this.regionId = currentRegion[0].regionId;

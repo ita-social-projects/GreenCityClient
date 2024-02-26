@@ -90,14 +90,14 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     const result = possibleDescHeight[this.getDomWidth()][titleHeight];
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'tree-row';
     const midTitleHeight = titleHeight > 52 ? 'one-row' : smallTitleHeight;
-    return result ? result : midTitleHeight;
+    return result || midTitleHeight;
   }
 
   private getHeightOfTitle(titleHeight: number): string {
     const result = possibleTitleHeight[this.getDomWidth()][titleHeight];
     const smallTitleHeight = titleHeight > 26 ? 'two-row' : 'one-row';
     const midTitleHeight = titleHeight > 52 ? 'tree-row' : smallTitleHeight;
-    return result ? result : midTitleHeight;
+    return result || midTitleHeight;
   }
 
   ngOnDestroy() {

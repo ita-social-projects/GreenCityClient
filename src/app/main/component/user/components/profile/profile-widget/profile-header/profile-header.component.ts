@@ -48,7 +48,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   }
 
   get checkUserCredo(): number {
-    if (this.userInfo && this.userInfo.userCredo) {
+    if (this.userInfo?.userCredo) {
       return this.userInfo.userCredo.length;
     }
     return 0;

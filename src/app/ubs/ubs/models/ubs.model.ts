@@ -1,5 +1,5 @@
 import { CertificateStatus } from 'src/app/ubs/ubs/certificate-status.enum';
-import { Bag, ICertificateResponse, PersonalData } from './ubs.interface';
+import { ICertificateResponse } from './ubs.interface';
 
 export class CCertificate {
   get code(): string {

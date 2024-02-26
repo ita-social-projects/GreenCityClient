@@ -71,7 +71,7 @@ export class FilterPlaceService {
       status: PlaceStatus.APPROVED,
       mapBoundsDto: placesFilter.mapBoundsDto
     };
-    if (Boolean(placesFilter.searchName)) {
+    if (placesFilter.searchName) {
       filtersDto.searchReg = placesFilter.searchName;
     }
 
