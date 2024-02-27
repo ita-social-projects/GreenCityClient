@@ -42,11 +42,24 @@ export const CreateEcoEventSuccessAction = createAction(EventsActions.CreateEcoE
 export const DeleteEcoEventAction = createAction(EventsActions.DeleteEcoEvent, props<{ id: number }>());
 export const DeleteEcoEventSuccessAction = createAction(EventsActions.DeleteEcoEventSuccess, props<{ id: number }>());
 
+
+
+export const GetEcoEventsByPageAction = createAction(
+  EventsActions.GetEcoEventsByPage,
+  props<{ currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaInterface }>()
+);
+
+export const GetEcoEventsByPageSuccessAction = createAction(
+  EventsActions.GetEcoEventsByPageSuccess,
+  props<{ ecoEvents: EventResponseDto; reset: boolean }>()
+);
+
+
 export const GetEcoEventsByIdAction = createAction(EventsActions.GetEcoEventsById, props<{ eventId: number; reset: boolean }>());
 
 export const GetEcoEventsByIdSuccessAction = createAction(
   EventsActions.GetEcoEventsByIdSuccess,
-  props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
+  props<{ ecoEvents: EventResponseDto; reset: boolean }>()
 );
 
 export const RateEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number; grade: number }>());

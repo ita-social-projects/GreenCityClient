@@ -1,17 +1,18 @@
 import {
   AddAttenderEcoEventsByIdAction,
   DeleteEcoEventAction,
+  EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
-import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { take, takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import { EventPageResponseDto, TagDto, TagObj, EventDTO } from '../../../events/models/events.interface';
+import { EventPageResponseDto, TagDto, TagObj } from '../../../events/models/events.interface';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EventsListItemModalComponent } from './events-list-item-modal/events-list-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,6 +27,7 @@ import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { userAssignedCardsIcons } from 'src/app/main/image-pathes/profile-icons';
 import { JwtService } from '@global-service/jwt/jwt.service';
+import { ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-events-list-item',
@@ -79,7 +81,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     popupCancel: 'homepage.events.delete-no',
     style: 'green'
   };
-  public canUserJoinCloseEvent: boolean;
+  subsOnAttendEvent = new Subscription();
 
   @Output() public isLoggedIn: boolean;
   @Output() idOfUnFavouriteEvent = new EventEmitter<number>();
@@ -110,8 +112,17 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     private eventService: EventsService,
     private translate: TranslateService,
     private snackBar: MatSnackBarComponent,
-    private jwtService: JwtService
-  ) {}
+    private jwtService: JwtService,
+    private actionsSubj: ActionsSubject
+  ) {
+    this.subsOnAttendEvent = this.actionsSubj
+      .pipe(ofType(EventsActions.AddAttenderEcoEventsByIdSuccess), takeUntil(this.destroyed$))
+      .subscribe((action: { id: number; type: string }) => {
+        if (action.id === this.event.id) {
+          this.nameBtn = this.btnName.cancel;
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.itemTags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);

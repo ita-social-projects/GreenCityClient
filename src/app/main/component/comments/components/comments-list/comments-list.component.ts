@@ -1,16 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  QueryList,
-  Renderer2,
-  SimpleChanges,
-  ViewChildren
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
@@ -24,7 +12,7 @@ import { WarningPopUpComponent } from '@shared/components';
   templateUrl: './comments-list.component.html',
   styleUrls: ['./comments-list.component.scss']
 })
-export class CommentsListComponent implements OnChanges, AfterViewInit {
+export class CommentsListComponent {
   @Input() public entityId: number;
   @Input() public elementsList: CommentsDTO[] = [];
   @Input() public dataType: string;
@@ -53,54 +41,7 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
     }
   };
 
-  @ViewChildren('commentText') commentText: QueryList<ElementRef>;
-
   constructor(private commentsService: CommentsService, private renderer: Renderer2, private router: Router, private dialog: MatDialog) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.elementsList && !changes.elementsList.firstChange) {
-      setTimeout(() => this.updateCommentsInnerHtml(this.commentText), 0);
-    }
-  }
-
-  ngAfterViewInit(): void {
-    this.updateCommentsInnerHtml(this.commentText);
-  }
-
-  private updateCommentsInnerHtml(elements: QueryList<ElementRef>): void {
-    elements.toArray().forEach((element, index) => {
-      if (element.nativeElement?.childNodes?.length) {
-        Array.from(element.nativeElement?.childNodes).forEach((node) => {
-          this.renderer.removeChild(element.nativeElement, node);
-        });
-      }
-
-      this.renderElemFromString(element, this.elementsList[index].text);
-    });
-  }
-
-  private renderElemFromString(el: ElementRef, text: string): void {
-    const div = this.renderer.createElement('div');
-    this.renderer.setProperty(div, 'innerHTML', text);
-
-    for (const child of div.childNodes) {
-      if (child.nodeType === Node.ELEMENT_NODE) {
-        const link = this.renderer.createElement('a');
-        const linkText = this.renderer.createText(child.textContent);
-        const userName = child.textContent.slice(1);
-        this.renderer.listen(link, 'click', () => {
-          this.router.navigate(['profile', this.userId, 'users', userName, `${child.getAttribute('data-userid')}`]);
-        });
-        this.renderer.appendChild(link, linkText);
-        this.renderer.addClass(link, 'user-tag');
-        this.renderer.appendChild(el.nativeElement, link);
-      }
-      if (child.nodeType === Node.TEXT_NODE) {
-        const textNode = this.renderer.createText(child.textContent);
-        this.renderer.appendChild(el.nativeElement, textNode);
-      }
-    }
-  }
 
   public deleteComment($event): void {
     this.changedList.emit($event);
@@ -120,11 +61,6 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
     element.text = this.commentHtml;
     element.status = 'EDITED';
     element.modifiedDate = String(Date.now());
-
-    setTimeout(() => {
-      const index = this.elementsList.findIndex((el) => el.id === element.id);
-      this.renderElemFromString(this.commentText.toArray()[index], this.commentHtml);
-    }, 0);
   }
 
   public cancelEditedComment(element: CommentsDTO): void {
@@ -146,6 +82,14 @@ export class CommentsListComponent implements OnChanges, AfterViewInit {
       }
       return item;
     });
+  }
+
+  public onCommentClick(event: MouseEvent): void {
+    const userId = (event.target as HTMLElement).getAttribute('data-userid');
+    const userName = (event.target as HTMLElement).textContent;
+    if (userId) {
+      this.router.navigate(['profile', this.userId, 'users', userName, userId]);
+    }
   }
 
   public showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {

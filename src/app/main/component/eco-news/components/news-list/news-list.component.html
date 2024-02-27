@@ -35,7 +35,6 @@
             'list-view-li-active': !view
           }"
           *ngFor="let data of elements"
-          [routerLink]="['/news', data.id]"
         >
           <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
           <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data"> </app-news-list-list-view>

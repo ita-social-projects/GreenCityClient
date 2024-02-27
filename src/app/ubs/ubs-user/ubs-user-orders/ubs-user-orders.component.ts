@@ -178,7 +178,7 @@ export class UbsUserOrdersComponent implements OnInit, OnDestroy {
   }
 
   checkOrderStatus(order): void {
-    const orderStatus: boolean = order.orderStatusEng === 'Done' || order.orderStatusEng === 'Canceled' ? true : false;
+    const orderStatus: boolean = order.orderStatusEng === 'Done' || order.orderStatusEng === 'Canceled';
     this.chooseTab(orderStatus);
   }
 

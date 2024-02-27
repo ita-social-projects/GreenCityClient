@@ -8,9 +8,8 @@ import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel, TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -121,7 +120,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     if (!this.createEcoNewsService.isBackToEditing) {
       this.initialValues = this.getFormValues();
     }
-    this.isFormInvalid = !!!this.newsId;
+    this.isFormInvalid = !this.newsId;
     this.onValueChanges();
   }
 

@@ -21,7 +21,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     rating: 0,
     userCredo: 'User credo'
   };
-  socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city'];
+  socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city', 'x'];
   userSocialNetworks: Array<any>;
   public userId: number;
   public icons: Record<string, string> = {};
@@ -48,7 +48,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   }
 
   get checkUserCredo(): number {
-    if (this.userInfo && this.userInfo.userCredo) {
+    if (this.userInfo?.userCredo) {
       return this.userInfo.userCredo.length;
     }
     return 0;

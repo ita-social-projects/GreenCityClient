@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environment/environment';
-import { Observable, of, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { SearchDataModel, SearchModel } from '../../model/search/search.model';
 import { SearchDto } from 'src/app/main/component/layout/components/models/search-dto';
 
@@ -10,7 +9,6 @@ import { SearchDto } from 'src/app/main/component/layout/components/models/searc
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl = 'http://localhost:3000';
   private backEndLink = environment.backendLink;
   private allElemsSubj = new Subject<any>();
   public searchSubject = new Subject<boolean>();

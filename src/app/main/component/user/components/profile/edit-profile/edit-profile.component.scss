@@ -4,21 +4,6 @@
   height: 16px;
   width: 16px;
   margin-right: 8px;
-
-  &::after {
-    border: solid var(--primary-white);
-    border-width: 0 2px 2px 0;
-    content: '';
-    display: none;
-    height: 10px;
-    left: 5px;
-    position: absolute;
-    top: 4px;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    width: 7px;
-  }
 }
 
 input[type='checkbox'] {
@@ -33,7 +18,12 @@ input:checked ~ .checkmark {
 }
 
 input:checked ~ .checkmark::after {
+  content: '';
   display: block;
+  width: 11px;
+  height: 8px;
+  margin: 4px auto 0;
+  background-image: url('/assets/img/profile/icons/checkmark.svg');
 }
 
 .edit_prof-container {

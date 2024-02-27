@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
 import { typeFiltersData } from '../../../events/models/event-consts';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -17,10 +17,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
+import { AddAttenderEcoEventsByIdAction, EventsActions, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
 import { JwtService } from '@global-service/jwt/jwt.service';
 
@@ -223,6 +222,8 @@ describe('EventsListItemComponent', () => {
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
+  const actionsSubj: ActionsSubject = new ActionsSubject();
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
@@ -236,7 +237,8 @@ describe('EventsListItemComponent', () => {
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: JwtService, useValue: jwtServiceMock }
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: ActionsSubject, useValue: actionsSubj }
       ],
       imports: [
         RouterTestingModule,
@@ -285,6 +287,12 @@ describe('EventsListItemComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  it('shoud update button name after succsess attention for event', () => {
+    const action = { id: 307, type: EventsActions.AddAttenderEcoEventsByIdSuccess };
+    actionsSubj.next(action);
+    expect(component.nameBtn).toEqual(btnNameMock.cancel);
   });
 
   describe('ngOnInit', () => {
@@ -393,7 +401,6 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      component.canUserJoinCloseEvent = false;
       component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);

@@ -68,11 +68,14 @@ describe('ProfileHeaderComponent', () => {
       edit: './assets/img/profile/icons/edit.svg',
       add: './assets/img/profile/icons/add.svg',
       delete: './assets/img/profile/icons/delete.svg',
-      defaultIcon: './assets/img/profile/icons/default_social.svg',
+      defaultIcon: './assets/img/profile/icons/default_social.svg'
+    };
+    profileService.socialMedia = {
       facebook: './assets/img/icon/facebook-icon.svg',
       linkedin: './assets/img/icon/linked-icon.svg',
       instagram: './assets/img/icon/instagram-icon.svg',
       twitter: './assets/img/icon/twitter-icon.svg',
+      x: './assets/img/icon/twitter-icon.svg',
       youtube: './assets/img/icon/youtube-icon.svg'
     };
   });
@@ -90,7 +93,7 @@ describe('ProfileHeaderComponent', () => {
 
   it('Should return facebook image', () => {
     const socialNetwork = 'https://www.facebook.com/';
-    const imgPath = profileService.icons.facebook;
+    const imgPath = profileService.socialMedia.facebook;
     const result = component.getSocialImage(socialNetwork);
 
     expect(result).toBe(imgPath);

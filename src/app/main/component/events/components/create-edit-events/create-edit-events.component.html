@@ -56,8 +56,7 @@
           <div>
             <ul class="ul-eco-buttons" aria-label="filter by items">
               <li *ngFor="let tag of tags">
-                <a
-                  role="button"
+                <button
                   [attr.aria-pressed]="tag.isActive"
                   class="custom-chip global-tag tag"
                   [ngClass]="{ 'global-tag-clicked': tag.isActive }"
@@ -66,7 +65,7 @@
                 >
                   <span class="text">{{ getLangValue(tag.nameUa, tag.nameEn) }}</span>
                   <div [ngClass]="{ 'global-tag-close-icon': tag.isActive }"></div>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -75,8 +74,7 @@
         <div class="buttons-container event-type-buttons">
           <mat-label>{{ 'create-event.event-type' | translate }}</mat-label>
           <div class="flex-container">
-            <a
-              role="button"
+            <button
               class="custom-chip global-tag type"
               [ngClass]="{ 'global-tag-clicked': isOpen }"
               tabindex="0"
@@ -85,7 +83,7 @@
             >
               <span class="text">{{ 'create-event.open' | translate }}</span>
               <div [ngClass]="{ 'global-tag-close-icon': isOpen }"></div>
-            </a>
+            </button>
             <a
               role="button"
               class="custom-chip global-tag type second-type"

@@ -1,3 +1,4 @@
+import { QuillModules } from 'ngx-quill';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 export const checkImages = (editorContent: string) => {
@@ -25,7 +26,7 @@ export const dataURLtoFile = (dataUrl) => {
   });
 };
 
-export const quillConfig = {
+export const quillConfig: QuillModules = {
   'emoji-shortname': true,
   'emoji-textarea': false,
   'emoji-toolbar': true,
@@ -50,6 +51,14 @@ export const quillConfig = {
       ['link', 'image', 'video'], // link and image, video
       ['emoji']
     ]
+  },
+  keyboard: {
+    bindings: {
+      tab: {
+        key: 9,
+        handler: () => true
+      }
+    }
   },
   imageResize: true
 };

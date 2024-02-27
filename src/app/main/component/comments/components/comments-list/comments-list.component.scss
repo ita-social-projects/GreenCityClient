@@ -9,7 +9,7 @@
 
 .wrapper-reply {
   width: 90%;
-  padding-left: 28px;
+  padding-left: 22px;
 }
 
 .author-name {
@@ -57,7 +57,7 @@
 
 .comment-details {
   display: flex;
-  margin: 32px 0 8px 63px;
+  margin: 32px 0 8px 73px;
 
   .comment-date-likes {
     display: flex;
@@ -67,7 +67,7 @@
 }
 
 .comment-main-text {
-  margin-left: 62px;
+  margin-left: 73px;
   font-family: var(--primary-font);
   font-size: 16px;
   line-height: 24px;
@@ -92,7 +92,7 @@
 
 .comments-elements {
   display: flex;
-  padding-left: 55px;
+  padding-left: 73px;
   justify-content: space-between;
 
   .btn-wrapper {
@@ -181,11 +181,19 @@
   .btn-text {
     font-size: 12px;
   }
+
+  .wrapper-reply {
+    padding-left: 18px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .comment-body-wrapper {
     width: 100%;
+  }
+
+  .wrapper-reply {
+    padding-left: 63px;
   }
 }
 
@@ -224,6 +232,10 @@
   .comment-main-text {
     margin-left: 0;
   }
+
+  .wrapper-reply {
+    padding-left: 28px;
+  }
 }
 
 @media screen and (max-width: 320px) {
@@ -250,12 +262,6 @@
       display: inline-block;
       margin: 0 8px;
     }
-  }
-}
-
-@media screen and (min-width: 576px) {
-  .wrapper-reply {
-    padding-left: 64px;
   }
 }
 

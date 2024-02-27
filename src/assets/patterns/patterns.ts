@@ -9,6 +9,8 @@ export const Patterns = {
 
   Base64Regex: /data:image\/([a-zA-Z]*);base64,([^"]*)/g,
 
+  socialMediaPattern: /^(?:https?:\/\/)?(?:www\.)?([^\/?]+)\.com/,
+
   ubsCorpusPattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9]{0,4}$/,
   ubsHousePattern: /^[A-Za-zА-Яа-яїЇіІєЄёЁ0-9\-\\\/]+$/,
   ubsEntrNumPattern: /^([1-9]\d*)?$/,
@@ -44,8 +46,8 @@ export const Patterns = {
 
   countriesRestriction: 'Russia|Росія|Россия',
 
-  urlLinkifyPattern: /(\bhttps?:\/\/\S+\b)/gi,
-  emailLinkifyPattern: /\b[^@\s]+@[^\s]+\b/gi,
+  urlLinkifyPattern: /(\bhttps?:\/\/[^<>\s]+\b)/gi,
+  emailLinkifyPattern: /\b[^<>@\s]+@[^<>\s]+\b/gi,
   phoneLinkifyPattern: /\+\d{10,}/g
 };
 

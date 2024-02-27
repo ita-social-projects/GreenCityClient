@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import { map, exhaustMap, catchError, mergeMap } from 'rxjs/operators';
 import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { FriendArrayModel } from '@global-user/models/friend.model';

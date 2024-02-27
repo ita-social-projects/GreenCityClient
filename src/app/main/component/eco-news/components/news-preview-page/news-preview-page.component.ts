@@ -1,5 +1,5 @@
 import { singleNewsImages } from '../../../../image-pathes/single-news-images';
-import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
@@ -66,7 +66,9 @@ export class NewsPreviewPageComponent implements OnInit, OnDestroy {
           return throwError(err);
         })
       )
-      .subscribe(() => this.router.navigate(['/news']));
+      .subscribe(() => {
+        this.router.navigate(['/news']);
+      });
   }
 
   public isBackToEdit(): void {
