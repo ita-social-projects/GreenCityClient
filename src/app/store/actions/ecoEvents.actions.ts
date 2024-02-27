@@ -1,9 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  EventFilterCriteriaInterface,
-  EventPageResponseDto,
-  EventResponseDto
-} from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 export enum EventsActions {
   GetEcoEventsByPage = '[Events] Get events by page',
@@ -41,11 +37,6 @@ export const CreateEcoEventSuccessAction = createAction(EventsActions.CreateEcoE
 
 export const DeleteEcoEventAction = createAction(EventsActions.DeleteEcoEvent, props<{ id: number }>());
 export const DeleteEcoEventSuccessAction = createAction(EventsActions.DeleteEcoEventSuccess, props<{ id: number }>());
-
-export const GetEcoEventsByPageAction = createAction(
-  EventsActions.GetEcoEventsByPage,
-  props<{ currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaInterface }>()
-);
 
 export const GetEcoEventsByPageSuccessAction = createAction(
   EventsActions.GetEcoEventsByPageSuccess,

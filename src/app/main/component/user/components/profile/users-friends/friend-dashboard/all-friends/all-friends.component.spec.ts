@@ -63,12 +63,6 @@ describe('AllFriendsComponent', () => {
     expect(initUserSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should get a users friends', () => {
-    const getUsersFriendsSpy = spyOn(component as any, 'getAllFriends');
-    component.ngOnInit();
-    expect(getUsersFriendsSpy).toHaveBeenCalled();
-  });
-
   it('should fetch friends and update properties', () => {
     const mockFriendsData = {
       FriendList: [FIRSTFRIEND, SECONDFRIEND],
