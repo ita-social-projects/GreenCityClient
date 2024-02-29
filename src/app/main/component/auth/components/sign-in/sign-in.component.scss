@@ -28,6 +28,12 @@ $inputHeight: 36px;
   text-underline-offset: 3px;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 h1 {
   margin-bottom: 8px;
   font-family: var(--primary-font);
@@ -214,6 +220,6 @@ h2 {
 @media screen and (max-width: 1620px) {
   .missing-account {
     margin-top: 40px;
-    text-align: center;
+    text-align: left;
   }
 }
