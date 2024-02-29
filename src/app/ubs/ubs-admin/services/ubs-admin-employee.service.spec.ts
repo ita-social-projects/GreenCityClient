@@ -110,7 +110,7 @@ describe('UbsAdminEmployeeService', () => {
     service.getAllEmployeePermissions(email).subscribe((data) => {
       expect(data).toBe(allPermissionsMock);
     });
-    const req = httpMock.expectOne(`${urlMock}/get-all-authorities/?email=${email}`);
+    const req = httpMock.expectOne(`${urlMock}/get-all-authorities?email=${email}`);
     expect(req.request.method).toBe('GET');
     req.flush(allPermissionsMock);
   });
@@ -120,7 +120,7 @@ describe('UbsAdminEmployeeService', () => {
     service.getEmployeePositionsAuthorities(email).subscribe((data) => {
       expect(data).toBe(positionsAuthoritiesMock);
     });
-    const req = httpMock.expectOne(`${urlMock}/get-positions-authorities/?email=${email}`);
+    const req = httpMock.expectOne(`${urlMock}/get-positions-authorities?email=${email}`);
     expect(req.request.method).toBe('GET');
     req.flush(positionsAuthoritiesMock);
   });
