@@ -72,7 +72,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
-  public previousPath = '/news';
+  public previousPath: string;
   public popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -98,14 +98,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorText = '';
   public editorHTML = '';
   public savingImages = false;
-  public backRoute: string;
   public updatedEcoNewsTags: Array<string>;
   public currentLang: string;
 
   // TODO: add types | DTO to service
 
   ngOnInit() {
-    this.backRoute = this.localStorageService.getPreviousPage();
+    this.previousPath = this.localStorageService.getPreviousPage() || '/news';
     this.getNewsIdFromQueryParams();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
@@ -257,7 +256,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public escapeFromCreatePage(): void {
     this.isPosting = false;
     this.allowUserEscape();
-    this.router.navigate([this.backRoute]).catch((err) => console.error(err));
+    this.router.navigate([this.previousPath]).catch((err) => console.error(err));
   }
 
   public editData(text: string): void {
