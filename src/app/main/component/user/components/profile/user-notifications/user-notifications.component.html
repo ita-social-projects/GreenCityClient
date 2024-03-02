@@ -6,8 +6,8 @@
       <div class="filter-button">
         <button class="global-tag global-tag-clicked">{{ 'homepage.notifications.filterAll' | translate }}</button>
         <button *ngFor="let project of projects" class="tag-button">
-          <a class="custom-chip global-tag">
-            <span class="text">{{ getLangValue(project.ua, project.en) }}</span>
+          <a class="custom-chip global-tag global-tag-clicked">
+            <span class="text">{{ project.name }}</span>
           </a>
         </button>
       </div>
@@ -21,28 +21,48 @@
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
       <mat-expansion-panel
         class="notification"
+        *ngFor="let notification of notifications | paginate: config"
         [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
-        *ngFor="let notification of notifications"
+        (click)="readNotification($event)"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
         hideToggle
       >
-        <mat-expansion-panel-header class="notification-header"
-          ><div class="d-flex justify-content-between align-items-center">
-            <div class="notification-header-project">
-              {{ notification.projectName }}
+        <mat-expansion-panel-header class="notification-header">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column">
+              <div class="notification-header-project">
+                {{ notification.projectName }}
+              </div>
+              <div class="notification-header-title body-1">
+                {{ notification.titleText }}
+              </div>
+              <div></div>
             </div>
-            <div class="notification-header-time body-2">
-              {{ notification.time }}
+            <div class="justify-content-between h-100">
+              <div class="notification-header-time body-2">
+                {{ notification.time | localizedDate | date: 'MMM dd, yyyy hh:mm a' }}
+              </div>
+              <button class="secondary-global-button btn" (click)="deleteNotification($event)">
+                {{ 'homepage.notifications.delete' | translate }}
+              </button>
             </div>
-          </div>
-          <div class="notification-header-title body-1">
-            {{ notification.titleText }}
-          </div>
-          <div class="notification-header-content body-2">
-            {{ notification.message }}
           </div>
         </mat-expansion-panel-header>
+        <div class="load-spinner small" *ngIf="isSmallSpinnerVisible && !notification.isOpen">
+          <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
+        </div>
+        <div class="notification-header-content body-2" *ngIf="!isSmallSpinnerVisible">
+          {{ notification.message }}
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <app-spinner *ngIf="isLoading" infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500"></app-spinner>
+  <app-spinner
+    *ngIf="isLoading"
+    infiniteScroll
+    [infiniteScrollDistance]="0"
+    [infiniteScrollThrottle]="500"
+    (scrolled)="onScroll()"
+  ></app-spinner>
 </div>

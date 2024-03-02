@@ -17,11 +17,15 @@ export class UserNotificationService {
     return this.http.get<NotificationArrayModel>(`${this.url}notification/all?page=${page}&size=${size}`);
   }
 
-  public getThreeNewNotification(): Observable<NotificationModel> {
-    return this.http.get<NotificationModel>(`${this.url}notification/new`);
+  public getThreeNewNotification(): Observable<NotificationModel[]> {
+    return this.http.get<NotificationModel[]>(`${this.url}notification/new`);
   }
 
-  public readNotification(notificationId): Observable<object> {
-    return this.http.patch<object>(`${this.url}notification/view/${notificationId}`, {});
+  public readNotification(id: number): Observable<object> {
+    return this.http.patch<object>(`${this.url}notification/view/${id}`, {});
+  }
+
+  public deleteNotification(id: number): Observable<object> {
+    return this.http.delete<object>(`${this.url}notification/${id}`);
   }
 }

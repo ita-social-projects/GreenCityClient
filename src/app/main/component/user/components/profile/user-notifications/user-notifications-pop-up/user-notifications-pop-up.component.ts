@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 export class UserNotificationsPopUpComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   limitNotifications = 3;
-  notifications;
+  notifications = [];
 
   constructor(public dialogRef: MatDialogRef<UserNotificationsPopUpComponent>, private notificatioService: UserNotificationService) {}
 

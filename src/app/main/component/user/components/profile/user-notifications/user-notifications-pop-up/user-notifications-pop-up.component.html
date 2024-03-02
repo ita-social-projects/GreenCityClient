@@ -9,19 +9,19 @@
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
       <mat-expansion-panel
         class="notification"
-        [ngClass]="notifications.viewed ? 'notification-read' : 'notification-unread'"
         *ngFor="let notification of notifications; let i = index"
+        [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
         hideToggle
       >
         <mat-expansion-panel-header class="notification-header">
           <div class="notification-header-project">
-            {{ notification.project }}
+            {{ notification.projectName }}
           </div>
           <div class="notification-header-title body-1">
-            {{ notification.title }}
+            {{ notification.titleText }}
           </div>
           <div class="notification-header-content body-2">
-            {{ notification.content }}
+            {{ notification.bodyText }}
           </div>
         </mat-expansion-panel-header>
       </mat-expansion-panel>

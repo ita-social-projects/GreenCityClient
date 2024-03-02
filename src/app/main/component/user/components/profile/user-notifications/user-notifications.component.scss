@@ -163,10 +163,10 @@
   padding: 0 20px 16px;
 }
 
-::ng-deep .notification.mat-expanded .mat-expansion-panel-body {
-  height: 0;
-  padding: 0;
-}
+// ::ng-deep .notification.mat-expanded .mat-expansion-panel-body {
+//   height: 0;
+//   padding: 0;
+// }
 
 .notification.mat-expanded .notification-header-content {
   white-space: wrap;

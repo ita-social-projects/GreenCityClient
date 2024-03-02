@@ -122,7 +122,8 @@
       "no-new-notifications": "Нових сповіщень не знайдено.",
       "no-notifications": "На жаль, сповіщень не знайдено.",
       "filter": "Фільтрувати за",
-      "filterAll": "Усі"
+      "filterAll": "Усі",
+      "delete": "Видалити"
     },
     "events": {
       "title": "Події",
