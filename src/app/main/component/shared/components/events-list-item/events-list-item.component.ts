@@ -158,7 +158,6 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     this.isActive = isRelevant;
     this.isOwner = Number(this.userId) === this.event.organizer.id;
     const isAdmin = this.jwtService.getUserRole() === 'ROLE_UBS_EMPLOYEE' || this.jwtService.getUserRole() === 'ROLE_ADMIN';
-    const isUnauthorized = !this.jwtService.getUserRole();
     this.isAdmin = isAdmin;
     switch (true) {
       case isAdmin && (!this.isOwner || !isRelevant):

@@ -4,7 +4,6 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
-import { typeFiltersData } from '../../../events/models/event-consts';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -416,6 +415,17 @@ describe('EventsListItemComponent', () => {
       expect(component.nameBtn).toEqual(component.btnName.rate);
     });
 
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed,event is relevant', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.event.isRelevant = true;
+      jwtServiceMock.userRole$ = new BehaviorSubject('user');
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+      expect(component.nameBtn).toEqual(component.btnName.join);
+    });
+
     it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
@@ -427,6 +437,13 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('ButtonAction', () => {
+    it('should call buttonAction if button is clicked', () => {
+      const spy = spyOn(component, 'buttonAction');
+      fixture.nativeElement.querySelector('.event-button').dispatchEvent(new Event('click'));
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalled();
+    });
+
     it('should call EventsServiceMock setForm method', () => {
       const spy = spyOn(EventsServiceMock, 'setForm');
       component.buttonAction(component.btnName.cancel);
@@ -459,6 +476,14 @@ describe('EventsListItemComponent', () => {
       component.buttonAction(component.btnName.edit);
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
       expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
+    });
+
+    it('should call openAuthModalWindow', () => {
+      component.isRegistered = false;
+      (component as any).dialogRef = { afterClosed: () => of(true) };
+      spyOn(component, 'openAuthModalWindow');
+      component.buttonAction(component.btnName.join);
+      expect(component.openAuthModalWindow).toHaveBeenCalledWith('sign-in');
     });
   });
 
