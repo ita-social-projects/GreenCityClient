@@ -95,10 +95,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToNews(id: number): void {
-    this.router.navigate(['/news', id]);
-  }
-
   public onScroll(): void {
     this.scroll = true;
     this.dispatchStore(false);
