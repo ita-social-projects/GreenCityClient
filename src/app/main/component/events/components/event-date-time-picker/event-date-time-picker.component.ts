@@ -146,6 +146,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  get startTime() {
+    return this.dateForm.get('startTime');
+  }
+
   get endTime() {
     return this.dateForm.get('endTime');
   }
@@ -377,7 +381,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
   }
 
   private resetLinkControls(): void {
-    this.checkOnlinePlace = !this.checkOnlinePlace;
+    if (this.onlineLink.trim().length) {
+      this.checkOnlinePlace = !this.checkOnlinePlace;
+    }
+
     this.linkForAllDays = '';
     this.dateForm.patchValue({
       onlineLink: this.linkForAllDays
