@@ -1,18 +1,13 @@
 .main {
   width: 99vw;
-  overflow-y: auto;
-  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
-  height: 100%;
 }
 
 .wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
   max-width: 960px;
   background-color: white;
@@ -20,15 +15,15 @@
   overflow: scroll;
 
   .left-side {
-    display: flex;
-    align-items: center;
-    height: 100%;
+    display: block;
+    max-height: 100vh;
   }
 
   .right-side {
     width: 100%;
     max-width: 480px;
     max-height: 100vh;
+    height: 768px;
     display: flex;
     flex-direction: column;
     padding-bottom: 48px;
@@ -49,6 +44,7 @@
     div {
       align-self: center;
       width: 370px;
+      height: 100%;
     }
   }
 }
@@ -60,6 +56,10 @@
 
     .left-side {
       display: none;
+    }
+
+    .right-side {
+      height: 620px;
     }
   }
 }

@@ -85,7 +85,7 @@
           "confirm": "Yes, delete",
           "cancel": "Cancel"
         },
-        "reply-error-message": "Comment is too long",
+        "reply-error-message": "Comment is too long. The maximum number of characters is 8000",
         "btn": {
           "reply": "Reply",
           "like": "Like",
