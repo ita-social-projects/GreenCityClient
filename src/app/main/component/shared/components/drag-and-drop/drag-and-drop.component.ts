@@ -85,12 +85,13 @@ export class DragAndDropComponent implements OnInit {
     this.createEcoNewsService.fileUrl = this.selectedFileUrl;
   }
 
-  public showWarning(): FileHandle[] {
+  public showWarning(): void {
     this.files.forEach((item) => {
       const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
       this.isWarning = !(item && imageValCondition);
-      this.files.pop();
+      if (this.isWarning) {
+        this.files.pop();
+      }
     });
-    return this.files;
   }
 }
