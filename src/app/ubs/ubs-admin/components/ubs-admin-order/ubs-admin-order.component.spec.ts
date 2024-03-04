@@ -14,12 +14,11 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
-import { GeneralInfoMock } from '../../services/orderInfoMock';
 import { Language } from 'src/app/main/i18n/Language';
 import { employeePositionsName } from '../../models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
+import { GeneralInfoMock, OrderInfoMockedData } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 describe('UbsAdminOrderComponent', () => {
   let component: UbsAdminOrderComponent;

@@ -7,11 +7,11 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angu
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { OrderInfoMockedData } from './../../services/orderInfoMock';
 import { IOrderInfo, IEmployee, INotTakenOutReason } from '../../models/ubs-admin.interface';
 import { of, Subject } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { AddOrderNotTakenOutReasonComponent } from '../add-order-not-taken-out-reason/add-order-not-taken-out-reason.component';
+import { OrderInfoMockedData } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 class MatDialogMock {
   open() {

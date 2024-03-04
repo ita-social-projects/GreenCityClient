@@ -10,7 +10,7 @@ import { UbsAdminOrderDetailsFormComponent } from './ubs-admin-order-details-for
 import { FormGroup, FormControl, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { OrderInfoMockedData } from './../../services/orderInfoMock';
+import { OrderInfoMockedData } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 describe('UbsAdminOrderDetailsFormComponent', () => {
   let component: UbsAdminOrderDetailsFormComponent;

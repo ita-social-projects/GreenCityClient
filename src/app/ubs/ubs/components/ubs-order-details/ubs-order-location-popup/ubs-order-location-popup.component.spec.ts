@@ -10,7 +10,7 @@ import { FilterLocationListByLangPipe } from 'src/app/shared/filter-location-lis
 import { OrderService } from '../../../services/order.service';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup.component';
 import { Router } from '@angular/router';
-import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
+import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 describe('UbsOrderLocationPopupComponent', () => {
   let component: UbsOrderLocationPopupComponent;
