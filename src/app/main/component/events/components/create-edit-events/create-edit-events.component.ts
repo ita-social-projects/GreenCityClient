@@ -18,7 +18,7 @@ import {
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 import { Router } from '@angular/router';
 import { EventsService } from '../../../events/services/events.service';
-import { FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DateObj, TimeBack, TimeFront, typeFiltersData, WeekArray } from '../../models/event-consts';
@@ -42,7 +42,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public title = '';
   public dates: DateEvent[] = [];
   public quillModules = {};
-  public editorHTML = '';
   public isOpen = true;
   public places: Place[] = [];
   public checkdates: boolean;
@@ -73,7 +72,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public isSmallScreen = false;
 
   public fromPreview: boolean;
-  public editorText = '';
   private descriptionMinLenght = 20;
   private descriptionMaxLenght = 63206;
   public imgArray: Array<File> = [];
@@ -138,9 +136,10 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.tags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
-      description: new FormControl('', [
+      description: new FormControl(''),
+      editorText: new FormControl('', [
         Validators.required,
-        this.minLenghtTrimValidator(),
+        Validators.minLength(this.descriptionMinLenght),
         Validators.maxLength(this.descriptionMaxLenght)
       ]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
@@ -182,12 +181,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     };
   }
 
-  private minLenghtTrimValidator(): ValidatorFn {
-    return (): ValidationErrors | null => {
-      return (this.editorText || '').trim().length < this.descriptionMinLenght ? { minLength: true } : null;
-    };
-  }
-
   get titleForm() {
     return this.eventFormGroup.get('titleForm');
   }
@@ -196,11 +189,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.eventFormGroup.get('description');
   }
 
+  get editorText() {
+    return this.eventFormGroup.get('editorText');
+  }
+
   public setEditValue(): void {
     this.eventFormGroup.patchValue({
       titleForm: this.editEvent.title,
       eventDuration: this.dateArrCount[this.editEvent.dates.length - 1],
-      description: this.editEvent.description
+      description: this.editEvent.description,
+      editorText: this.editEvent.editorText
     });
     this.imgArrayToPreview = [this.editEvent.titleImage, ...this.editEvent.additionalImages];
     this.setDateCount(this.editEvent.dates.length);
@@ -209,7 +207,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isTagValid = this.tags.some((el) => el.isActive);
     this.isOpen = this.editEvent.open;
     this.oldImages = this.imagesForEdit;
-    this.editorText = this.editEvent.description;
     this.nameBtn = 'create-event.save-event';
   }
 
@@ -284,9 +281,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.eventFormGroup.patchValue({
       titleForm: title,
       description,
+      editorText,
       eventDuration: this.dateArrCount[dates.length - 1]
     });
-    this.editorText = editorText;
   }
 
   public toEventsList(): void {
@@ -334,7 +331,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
-      this.editorText = event.text.trim();
+      this.editorText.setValue(event.text.trim());
     }
   }
 
@@ -467,7 +464,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled && this.description.valid) {
+    if (isFormValid && arePlacesFilled && this.editorText.valid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
@@ -522,7 +519,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,
       eventDuration: this.eventFormGroup.get('eventDuration').value,
-      editorText: this.editorText,
+      editorText: this.editorText.value,
       open: this.isOpen,
       dates: this.dates,
       tags: tagsArr,
