@@ -28,12 +28,6 @@ select {
   height: 36px;
 }
 
-textarea:focus {
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-}
-
 textarea.ng-touched.ng-invalid,
 input.ng-touched.ng-invalid {
   border: 1px solid var(--ubs-error-ligh-red);
@@ -57,6 +51,12 @@ textarea {
     @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
 
     margin-bottom: 3rem;
+  }
+
+  &:focus {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
   }
 }
 
