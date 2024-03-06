@@ -16,6 +16,12 @@ form {
   }
 }
 
+textarea:focus {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
 input,
 select {
   border: 1px solid var(--ubs-quintynary-light-grey);

@@ -28,6 +28,13 @@ select {
   height: 36px;
 }
 
+textarea:focus {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+textarea.ng-touched.ng-invalid,
 input.ng-touched.ng-invalid {
   border: 1px solid var(--ubs-error-ligh-red);
   font-size: 14px;
@@ -63,6 +70,10 @@ label,
   line-height: 18px;
   font-weight: 400;
   color: var(--ubs-secondary-grey);
+}
+
+.validation {
+  margin-top: 4px;
 }
 
 .personal-data-title,
