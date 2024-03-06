@@ -151,10 +151,6 @@ input {
   flex: none;
   display: inline;
   line-height: 2.9;
-
-  &:hover {
-    cursor: auto;
-  }
 }
 
 .primary-color {
@@ -538,7 +534,7 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0;
-  cursor: default;
+  cursor: col-resize;
 }
 
 .pointer {
