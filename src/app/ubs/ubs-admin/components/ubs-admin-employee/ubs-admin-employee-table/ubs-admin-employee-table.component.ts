@@ -1,28 +1,32 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, take, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { FormBuilder } from '@angular/forms';
 
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
 import { UbsAdminEmployeeService } from 'src/app/ubs/ubs-admin/services/ubs-admin-employee.service';
-import { UbsAdminEmployeeEditFormComponent } from '../ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
-import { PopUpsStyles, EmployeeStatus } from './employee-models.enum';
-import { DeleteEmployee, GetEmployees, ActivateEmployee } from 'src/app/store/actions/employee.actions';
-import { DialogPopUpComponent } from '../../../../../shared/dialog-pop-up/dialog-pop-up.component';
+import { DeleteEmployee, GetEmployees, ActivateEmployee, AddEmployeeSuccess } from 'src/app/store/actions/employee.actions';
 import { UbsAdminEmployeePermissionsFormComponent } from '../ubs-admin-employee-permissions-form/ubs-admin-employee-permissions-form.component';
-import { FilterData } from '../../../models/tariffs.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { modifiedEmployee } from 'src/app/store/selectors/employee';
+import { Actions, ofType } from '@ngrx/effects';
+import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
+import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
+import { UbsAdminEmployeeEditFormComponent } from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
+import {
+  EmployeeStatus,
+  PopUpsStyles
+} from 'src/app/ubs/ubs-admin/components/ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
 @Component({
   selector: 'app-ubs-admin-employee-table',
   templateUrl: './ubs-admin-employee-table.component.html',
   styleUrls: ['./ubs-admin-employee-table.component.scss']
 })
-export class UbsAdminEmployeeTableComponent implements OnInit {
+export class UbsAdminEmployeeTableComponent implements OnInit, OnDestroy {
   @Input() public isThisUserCanEditEmployee: boolean;
   @Input() public isThisUserCanEditEmployeeAuthorities: boolean;
   @Input() public isThisUserCanDeleteEmployee: boolean;
@@ -42,6 +46,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
   filterDatas: FilterData = { positions: [], regions: [], locations: [], couriers: [], employeeStatus: 'ACTIVE' };
   employees$ = this.store.select((state: IAppState): Employees => state.employees.employees);
   employeesData$ = this.store.select(modifiedEmployee);
+  private destroy$: Subject<void> = new Subject();
   public isTooltipOpened: boolean;
   public isStatusActive = EmployeeStatus.active;
   public isStatusInactive = EmployeeStatus.inactive;
@@ -79,19 +84,22 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     private languageService: LanguageService,
     private dialog: MatDialog,
     private store: Store<IAppState>,
+    private actions$: Actions,
     public fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.ubsAdminEmployeeService.filterDataSubject$.subscribe((filterList: FilterData) => {
+    this.ubsAdminEmployeeService.filterDataSubject$.pipe(takeUntil(this.destroy$)).subscribe((filterList: FilterData) => {
       this.filterDatas = { ...filterList };
       this.initSearch();
     });
     this.initSearch();
+
+    this.actions$.pipe(ofType(AddEmployeeSuccess), takeUntil(this.destroy$)).subscribe(() => this.updateTable());
   }
 
   initSearch(): void {
-    this.ubsAdminEmployeeService.searchValue.pipe(debounceTime(500), distinctUntilChanged()).subscribe((item) => {
+    this.ubsAdminEmployeeService.searchValue.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((item) => {
       this.search = item;
       this.currentPageForTable = 0;
       this.reset = true;
@@ -104,7 +112,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     this.isLoading = true;
     this.getEmployeesPages();
 
-    this.employees$.subscribe((item: Employees) => {
+    this.employees$.pipe(takeUntil(this.destroy$)).subscribe((item: Employees) => {
       if (item) {
         this.totalPagesForTable = item[`totalPages`];
         if (this.firstPageLoad) {
@@ -207,5 +215,10 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
 
   getLangValue(uaValue: string, enValue: string): string {
     return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
