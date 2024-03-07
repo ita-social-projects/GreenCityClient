@@ -901,7 +901,8 @@
     "user-notifications": "Notifications",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
-    "management": "Management"
+    "management": "Management",
+    "my-profile": "My profile"
   },
   "footer": {
     "station": "Station",

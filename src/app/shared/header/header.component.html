@@ -215,7 +215,7 @@
                   <a [routerLink]="['/ubs-admin/orders']"> UBS-admin </a>
                 </li>
                 <li *ngIf="isLoggedIn && !isAdmin" [ngClass]="dropdownVisible ? 'drop-down-item' : 'text-hidde'" role="navigation to ubs">
-                  <a [routerLink]="['/ubs-user/orders']">UBS-user</a>
+                  <a [routerLink]="['/ubs-user/orders']">{{ 'nav-bar.my-profile' | translate }}</a>
                 </li>
               </ul>
             </ng-container>
