@@ -7,13 +7,13 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocationService } from '@global-service/location/location.service';
-import { OrderInfoMockedData } from '../../services/orderInfoMock';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
+import { OrderInfoMockedData } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 describe('UbsAdminAddressDetailsComponent', () => {
   let component: UbsAdminAddressDetailsComponent;

@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
     window.addEventListener('online', this.onNetworkStatusChange.bind(this));
     window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
     this.googleScript.load('uk');
-    console.log('App init');
   }
 
   onNetworkStatusChange(): void {

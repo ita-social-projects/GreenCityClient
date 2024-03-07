@@ -5,7 +5,6 @@ import { LocalizedCurrencyPipe } from 'src/app/shared/localized-currency-pipe/lo
 import { IEmployee, IOrderInfo, IPaymentInfoDto } from '../../models/ubs-admin.interface';
 import { OrderService } from '../../services/order.service';
 import { Store, StoreModule } from '@ngrx/store';
-import { OrderInfoMockedData, IPaymentInfoDtoMock } from './../../services/orderInfoMock';
 import { UbsAdminOrderPaymentComponent } from './ubs-admin-order-payment.component';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { Observable, of } from 'rxjs';
@@ -13,6 +12,7 @@ import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up
 import { HttpClient } from '@angular/common/http';
 import { SimpleChange } from '@angular/core';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
+import { IPaymentInfoDtoMock, OrderInfoMockedData } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 describe('UbsAdminOrderPaymentComponent', () => {
   let component: UbsAdminOrderPaymentComponent;

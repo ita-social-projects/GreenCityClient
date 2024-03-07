@@ -10,10 +10,10 @@ import { CheckTokenService } from '@global-service/auth/check-token/check-token.
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OrderService } from '../../services/order.service';
 import { JwtService } from '@global-service/jwt/jwt.service';
-import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/orderInfoMock';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
+import { activeCouriersMock } from 'src/app/ubs/ubs-admin/services/OrderInfoMock';
 
 describe('UbsMainPageComponent', () => {
   let component: UbsMainPageComponent;

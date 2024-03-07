@@ -97,7 +97,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   cancellationComment: string;
   @ViewChild(MatTable, { read: ElementRef }) private matTableRef: ElementRef;
   defaultColumnWidth = 120; // In px
-  minColumnWidth = 50;
+  minColumnWidth = 100;
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
@@ -693,11 +693,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   calculateTextWidth(event, tooltip): void {
-    const textContainerWidth = event.toElement.offsetWidth;
+    const textContainerWidth = event.target.offsetWidth;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = '14.8px Lato, sans-serif';
-    const textWidth = Math.round(context.measureText(event.toElement.innerText).width);
+    const textWidth = Math.round(context.measureText(event.target.innerText).width);
 
     if (textContainerWidth < textWidth) {
       tooltip.show();
@@ -830,10 +830,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   public onResizeColumn(event: MouseEvent, columnIndex: number): void {
     if (!this.isTimePickerOpened) {
-      const resizeHandleWidth = 15; // Px
+      const resizeHandleWidth = 15;
       const resizeStartX = event.pageX;
-      const tableOffsetX = this.getTableOffsetX();
-      const minCellWidth = 150;
+      let lastStickyOffsetShift = 0;
+
+      columnIndex = this.isResizingTargetColumn(event) ? columnIndex : columnIndex - 1;
 
       const {
         left: leftColumnBoundary,
@@ -843,49 +844,56 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
       const isResizingLeft = resizeStartX <= leftColumnBoundary + resizeHandleWidth;
       const isResizingRight = resizeStartX >= rightColumnBoundary - resizeHandleWidth;
+
       if (!isResizingLeft && !isResizingRight) {
         return;
       }
 
       event.preventDefault();
 
-      const adjColumnIndex = isResizingRight ? columnIndex + 1 : columnIndex - 1;
-      const isAdjColumnSticky = adjColumnIndex < this.stickyColumnsAmount;
-      const { width: adjColumnOriginalWidth, left: adjColumnLeftBoundary } = this.getColumnHeaderBoundaries(adjColumnIndex);
-
       let newColumnWidth = originalColumnWidth;
-      let newAdjColumnWidth = adjColumnOriginalWidth;
-      let cleanupMouseMove = () => {};
-      let cleanupMouseUp = () => {};
+      let cleanupMouseMoveFn;
+      let cleanupMouseUpFn;
+
       const onMouseMove = (moveEvent) => {
         const movedToX = moveEvent.pageX;
-        const dx = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
-        if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
-          return;
-        }
-        newColumnWidth = originalColumnWidth + dx >= minCellWidth ? originalColumnWidth + dx : minCellWidth;
-        newAdjColumnWidth = adjColumnOriginalWidth - dx >= minCellWidth ? adjColumnOriginalWidth - dx : minCellWidth;
-        if (newColumnWidth > minCellWidth && newAdjColumnWidth > minCellWidth) {
-          this.setColumnWidth(columnIndex, newColumnWidth);
-          this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
-        }
-        // Move column if it is sticky
-        if (isAdjColumnSticky) {
-          const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;
-          const newLeftColumnWidth = isResizingRight ? newColumnWidth : newAdjColumnWidth;
-          const rightColumnIndex = isResizingRight ? adjColumnIndex : columnIndex;
-          const rightColumnOffsetX = leftColumnLeftBoundary + newLeftColumnWidth - tableOffsetX;
-          this.setStickyColumnOffsetX(rightColumnIndex, rightColumnOffsetX);
+        const diffX = isResizingRight ? movedToX - resizeStartX : -movedToX + resizeStartX;
+
+        newColumnWidth = originalColumnWidth + diffX > 100 ? originalColumnWidth + diffX : 100;
+
+        this.setColumnWidth(columnIndex, newColumnWidth);
+
+        if (columnIndex < this.stickyColumnsAmount - 1) {
+          const actualResize = newColumnWidth - originalColumnWidth;
+
+          for (let i = columnIndex + 1; i < this.stickyColumnsAmount; i++) {
+            this.shiftStickyColumnX(i, actualResize - lastStickyOffsetShift);
+          }
+
+          lastStickyOffsetShift = actualResize;
         }
       };
       const onMouseUp = () => {
-        this.updateColumnsWidthPreference(adjColumnIndex, newAdjColumnWidth);
-        cleanupMouseMove();
-        cleanupMouseUp();
+        this.updateColumnsWidthPreference(columnIndex, newColumnWidth);
+        cleanupMouseMoveFn();
+        cleanupMouseUpFn();
       };
-      cleanupMouseMove = this.renderer.listen('document', 'mousemove', onMouseMove);
-      cleanupMouseUp = this.renderer.listen('document', 'mouseup', onMouseUp);
+      cleanupMouseMoveFn = this.renderer.listen('document', 'mousemove', onMouseMove);
+      cleanupMouseUpFn = this.renderer.listen('document', 'mouseup', onMouseUp);
     }
+  }
+
+  private isResizingTargetColumn(event: MouseEvent) {
+    const column = event.target as HTMLElement;
+
+    if (!column) {
+      return;
+    }
+
+    const columnBounds = column.getBoundingClientRect();
+    const columnMidpoint = columnBounds.left + columnBounds.width / 2;
+
+    return event.clientX > columnMidpoint;
   }
 
   private getTableOffsetX(): number | undefined {
@@ -904,6 +912,16 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
     columnCells.forEach((cell) => {
       this.renderer.setStyle(cell, 'left', `${offset}px`);
+    });
+  }
+
+  private shiftStickyColumnX(index: number, shift: number): void {
+    const columnKey = this.columns[index].title.key;
+    const columnCells = Array.from(document.getElementsByClassName('mat-column-' + columnKey));
+    columnCells.forEach((cell) => {
+      const currentLeft = parseInt((cell as HTMLElement).style.left, 10) || 100;
+      const newLeft = currentLeft + shift;
+      this.renderer.setStyle(cell, 'left', `${newLeft}px`);
     });
   }
 
@@ -973,9 +991,11 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   checkStatusOfOrders(id: number): boolean {
     return this.uneditableStatuses.includes(this.tableData.find((el) => el.id === id).orderStatus);
   }
+
   showTable(): string {
     return this.displayedColumns.length > 1 ? 'block' : 'none';
   }
+
   ngOnDestroy() {
     this.destroy.next();
     this.destroy.unsubscribe();
