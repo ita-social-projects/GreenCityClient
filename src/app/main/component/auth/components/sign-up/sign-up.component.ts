@@ -1,7 +1,8 @@
+import { Patterns } from './../../../../../../assets/patterns/patterns';
 import { UserSuccessSignIn, SuccessSignUpDto } from './../../../../model/user-success-sign-in';
 import { UserOwnSignUp } from './../../../../model/user-own-sign-up';
 import { authImages } from './../../../../image-pathes/auth-images';
-import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,15 +17,16 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { environment } from '@environment/environment';
 import { accounts } from 'google-one-tap';
-import { Patterns } from 'src/assets/patterns/patterns';
 
-declare var google: any;
+declare let google: any;
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() isUbs: boolean;
+
   public signUpForm: FormGroup;
   public emailControl: AbstractControl;
   public firstNameControl: AbstractControl;
@@ -42,10 +44,9 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   public nameFieldValue: string;
   public passwordFieldValue: string;
   public passwordConfirmFieldValue: string;
-  public currentLanguage: string;
-  public isUbs = true;
-  private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
+  public currentLanguage: string;
+  private destroy: Subject<boolean> = new Subject<boolean>();
   private errorsType = {
     name: (error: string) => (this.firstNameErrorMessageBackEnd = error),
     email: (error: string) => (this.emailErrorMessageBackEnd = error),
@@ -111,7 +112,9 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
       cancel_on_tap_outside: true,
       callback: this.handleGgOneTap.bind(this)
     });
-    gAccounts.id.prompt();
+    gAccounts.id.prompt(() => {
+      document.cookie = `g_state=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+    });
   }
 
   public handleGgOneTap(resp): void {
@@ -223,27 +226,27 @@ export class SignUpComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public emailClassCheck(): string {
-    return (this.emailControl.invalid && this.emailControl.touched) || this.emailErrorMessageBackEnd || this.backEndError
+    return (this.emailControl?.invalid && this.emailControl.touched) || this.emailErrorMessageBackEnd || this.backEndError
       ? 'main-data-input wrong-input'
       : 'main-data-input';
   }
 
   public firstNameClassCheck(): string {
-    return (this.firstNameControl.invalid && this.firstNameControl.touched) || this.backEndError
+    return (this.firstNameControl?.invalid && this.firstNameControl.touched) || this.backEndError
       ? 'main-data-input wrong-input'
       : 'main-data-input';
   }
 
   public passwordClassCheck(): string {
-    return (this.passwordControl.invalid && this.passwordControl.touched) || this.backEndError
+    return (this.passwordControl?.invalid && this.passwordControl.touched) || this.backEndError
       ? 'main-data-input-password wrong-input'
       : 'main-data-input-password';
   }
 
   public passwordConfirmClassCheck(): string {
-    return (this.passwordControlConfirm.invalid && this.passwordControlConfirm.touched) ||
+    return (this.passwordControlConfirm?.invalid && this.passwordControlConfirm.touched) ||
       this.backEndError ||
-      (this.passwordControl.value !== this.passwordControlConfirm.value && this.passwordControlConfirm.value !== '')
+      (this.passwordControl?.value !== this.passwordControlConfirm?.value && this.passwordControlConfirm?.value !== '')
       ? 'main-data-input-password wrong-input'
       : 'main-data-input-password';
   }
