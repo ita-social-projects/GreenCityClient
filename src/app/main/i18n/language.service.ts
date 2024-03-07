@@ -14,9 +14,9 @@ import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
   providedIn: 'root'
 })
 export class LanguageService {
-  private defaultLanguage = Language.EN;
+  private defaultLanguage = Language.UA;
   private monthMap = new Map<Language, string[]>();
-  private languageSubj = new BehaviorSubject(Language.EN);
+  private languageSubj = new BehaviorSubject(Language.UA);
   private langMap = new Map();
   public isLoggedIn: boolean;
   public synqLanguageArr: LanguageId[] = [
@@ -113,7 +113,7 @@ export class LanguageService {
   }
 
   setBrowserLang() {
-    const language = navigator.language !== 'en' ? 'ua' : 'en';
+    const language = navigator.language === 'en' ? 'en' : 'ua';
     this.translate.setDefaultLang(this.getLanguageByString(language));
     this.localStorageService.setCurrentLanguage(this.getLanguageByString(language));
   }
