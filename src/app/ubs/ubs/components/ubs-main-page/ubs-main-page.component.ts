@@ -6,7 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
-import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
+import { AllLocationsDtos, CourierLocations, Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
@@ -36,6 +36,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ubsCourierName = 'UBS';
   private userId: number;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  public bags$: Bag[];
 
   priceCard = [
     {
@@ -123,7 +124,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ngOnInit(): void {
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
-
+    this.getbags();
     if (this.userId && !this.isAdmin) {
       this.getActiveCouriers();
     }
@@ -143,6 +144,31 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+  }
+  getbags() {
+    let locationId = this.localStorageService.getLocationId();
+    let tariffId = this.localStorageService.getTariffId();
+    if (!tariffId) {
+      tariffId = 1;
+      locationId = 1;
+    }
+    console.log('locationId', locationId);
+    console.log('tariffId', tariffId);
+
+    this.orderService
+      .getOrders(locationId, tariffId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (orderData: OrderDetails) => {
+          console.log('orderData==========================', orderData);
+          this.bags$ = orderData.bags;
+          console.log('this.bags$', this.bags$);
+        },
+        (error) => {
+          console.log('ERRORRRRRRRRRRRRRR');
+          console.error(error);
+        }
+      );
   }
 
   calcLineSize() {

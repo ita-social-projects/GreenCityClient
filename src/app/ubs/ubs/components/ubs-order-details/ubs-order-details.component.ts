@@ -375,6 +375,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (orderData: OrderDetails) => {
+          console.log('orderData==========================', orderData);
           this.updateOrderDetails(orderData);
         },
         (error) => {
