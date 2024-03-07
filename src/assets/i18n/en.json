@@ -304,7 +304,8 @@
     "user-settings": "Settings",
     "sign-out": "Sign out",
     "sign-in": "Sign in",
-    "management": "Management"
+    "management": "Management",
+    "my-profile": "My profile"
   },
   "admin": {
     "errorMessage": "Forbidden"
