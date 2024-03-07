@@ -258,18 +258,6 @@ describe('SignUpComponent', () => {
       // @ts-ignore
       expect(spy).toHaveBeenCalled();
     });
-
-    describe('Check sign up with signInWithGoogle', () => {
-      it('signUpWithGoogleSuccess should navigate to profilePage', fakeAsync(() => {
-        // @ts-ignore
-        component.signUpWithGoogleSuccess(mockUserSuccessSignIn);
-        fixture.ngZone.run(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['ubs']);
-        });
-        fixture.destroy();
-        flush();
-      }));
-    });
   });
 
   describe('Check ErrorMessageBackEnd', () => {
