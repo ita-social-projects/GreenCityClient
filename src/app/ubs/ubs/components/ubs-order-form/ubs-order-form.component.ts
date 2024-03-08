@@ -6,6 +6,10 @@ import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
 import { MatHorizontalStepper } from '@angular/material/stepper';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
+import { Store, select } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { OrderDetails, PersonalData } from '../../models/ubs.interface';
+import { ClearOrderData } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-order-form',
@@ -17,6 +21,9 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   secondStepForm: FormGroup;
   thirdStepForm: FormGroup;
   completed = false;
+  isSecondStepDisabled = true;
+  private statePersonalData: PersonalData;
+  private stateOrderDetails: OrderDetails;
 
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
   @ViewChild('secondStep') stepTwoComponent: UBSPersonalInformationComponent;
@@ -26,7 +33,8 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   constructor(
     private cdr: ChangeDetectorRef,
     private shareFormService: UBSOrderFormService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private store: Store
   ) {}
 
   @HostListener('window:beforeunload') onClose() {
@@ -37,6 +45,31 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   ngOnInit() {
     this.shareFormService.locationId = this.localStorageService.getLocationId();
     this.shareFormService.locations = this.localStorageService.getLocations();
+    setTimeout(() => {
+      this.getOrderDetailsFromState();
+    }, 0);
+  }
+
+  private getOrderDetailsFromState() {
+    this.store.pipe(select((state: IAppState): OrderDetails => state.order.orderDetails)).subscribe((stateOrderDetails: OrderDetails) => {
+      this.stateOrderDetails = stateOrderDetails;
+      if (this.stateOrderDetails) {
+        this.getPersonalDataFromState(this.stateOrderDetails);
+      }
+    });
+  }
+
+  private getPersonalDataFromState(orderDetails: OrderDetails): void {
+    this.store.pipe(select((state: IAppState): PersonalData => state.order.personalData)).subscribe((statePersonalData: PersonalData) => {
+      this.statePersonalData = statePersonalData;
+      if (orderDetails && this.statePersonalData) {
+        this.stepper.linear = false;
+        this.completed = true;
+        setTimeout(() => {
+          this.stepper.linear = true;
+        });
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -52,10 +85,10 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
 
   saveDataOnLocalStorage(): void {
     this.shareFormService.isDataSaved = false;
-    this.shareFormService.saveDataOnLocalStorage();
   }
 
   ngOnDestroy() {
+    this.store.dispatch(ClearOrderData());
     this.saveDataOnLocalStorage();
   }
 }
