@@ -70,7 +70,10 @@ export const orderReducer = createReducer(
   on(GetOrderDetailsSuccess, (state, action) => {
     return {
       ...state,
-      orderDetails: action.orderDetails,
+      orderDetails: {
+        ...action.orderDetails,
+        bags: action.orderDetails.bags ? [...action.orderDetails.bags].sort((a, b) => b.capacity - a.capacity) : []
+      },
       isOrderDetailsLoading: false
     };
   }),
@@ -83,7 +86,10 @@ export const orderReducer = createReducer(
   on(GetExistingOrderDetailsSuccess, (state, action) => {
     return {
       ...state,
-      orderDetails: action.orderDetails,
+      orderDetails: {
+        ...action.orderDetails,
+        bags: action.orderDetails.bags ? [...action.orderDetails.bags].sort((a, b) => b.capacity - a.capacity) : []
+      },
       isOrderDetailsLoading: false
     };
   }),
