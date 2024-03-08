@@ -135,7 +135,9 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
       cancel_on_tap_outside: true,
       callback: this.handleGgOneTap.bind(this)
     });
-    gAccounts.id.prompt();
+    gAccounts.id.prompt(() => {
+      document.cookie = `g_state=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+    });
   }
 
   public handleGgOneTap(resp): void {
