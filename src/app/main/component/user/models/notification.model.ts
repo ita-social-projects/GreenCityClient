@@ -25,3 +25,11 @@ export interface NotificationModel {
   titleText: string;
   viewed: boolean;
 }
+
+export enum FilterApproach {
+  ALL = 'all',
+  ORIGIN = 'origin',
+  TYPE = 'type'
+}
+
+export enum NotificationType {}

@@ -2,10 +2,25 @@ export const Notific = [
   {
     actionUserId: 2,
     actionUserText: '',
-    bodyText:
-      'stristrinstringstringstring stringgstrinstringstringstringstringgstrinstringstringstringstrinstrinsstrinstringsstrinsstrinstringstringstringstringgst rinstringstringstringstring gstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringstringgtringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringsstrinsstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringstringstrinsstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringstringggtringgggng',
-    message:
-      'strinsstrinstringststrin sstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringg strinstringstringstringstringgtri ngstringstringstringgringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringstrinstrinsstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringstrinstrinsstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgstrinstringstringstringstringgtringstringstringstringggggg',
+    bodyText: `stristrinstringstringstring stringgstrinstringstringst
+      ringstringgstrinstringstringstringstrinstrinsstrinstringsstrinsstrinstringstringstringstr
+      inggst rinstringstringstringstring gstrinstringstringstring stringgstrinstringst ringstring
+      strin ggstrinstringstringstringstringgtringstrin gstringstringgtringstringstringgstri nstrin
+      gstringstringstringgstrinstringstringst ringstringg strinstri ngstringstringstringgstrinstrings
+      tringstringstringgtringstr ingstringss trinsstrinstringstringstringstringgstrinstringst ringstring
+      string gstrinstringstringstringstringgstrinstringstrings tringstringgstrinstringstringstringstring
+      gtrings tringstringstrings trinsstrinstringstringstringstringgstrinstri ngstringstrin gstringgstrin
+      stringstringstringstr inggst
+      rinstringstring stringstringgstrinstringst ringstringstringgtrin
+      stringstr ingstringggtringgggng`,
+    message: `strinsstrinstringststrin sstrinstringstringstringstringgstrinstringstringstringstringgstri
+      nstringstringstringstringgstrinstringstringstringstringg strinstringstringstringstringgtri n
+      gstringstringstring gringstringstringgstr instringstring stringstringgstrinstringstringstrings
+      tring gstrinstringstringstringstringgstrinstringstri ngstringstringgtringstringstringstrinst rinss
+      trinstrin gstringstringstringgstrinstringstringstringstring gstrinstringstringstring stringgstrins
+      tringstringstringstringgstrinstrin gstringstringstring gtringstringstringstrinstrinsstrinstringstring
+      str ingstringgstrinstringstringstringstringgstrinstringstringst ringstringgstrinstringstringstringstri
+      nggs trinstringstringstr ingstringgtringstring stringstringggggg`,
     notificationId: 23,
     notificationType: 'string',
     projectName: 'Greencity',
@@ -14,7 +29,7 @@ export const Notific = [
     targetId: 3,
     time: new Date(),
     titleText: 'new friend request',
-    viewed: false
+    viewed: true
   },
   {
     actionUserId: 2,
