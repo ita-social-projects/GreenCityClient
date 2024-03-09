@@ -1,18 +1,46 @@
-<div class="container" aria-label="user-notification">
+<div class="container notification-wrapper" aria-label="user-notification">
   <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
-  <div *ngIf="notifications.length" class="filter-search-wrapper d-flex">
-    <div class="filter-wrapper d-flex">
-      <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
-      <div class="filter-button">
-        <button class="global-tag global-tag-clicked">{{ 'homepage.notifications.filterAll' | translate }}</button>
-        <button *ngFor="let project of projects" class="tag-button">
-          <a class="custom-chip global-tag global-tag-clicked">
-            <span class="text">{{ project.name }}</span>
-          </a>
+  <div *ngIf="notifications.length">
+    <div class="filter-wrapper">
+      <div class="filter-search-wrapper">
+        <div class="filter-approach-wrapper">
+          <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
+          <div class="filter-buttons filter-approach-buttons">
+            <button
+              *ngFor="let approach of filterApproaches"
+              class="global-tag custom-chip"
+              [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
+              (click)="changefilterApproach(approach.approachType)"
+            >
+              {{ getLangValue(approach.nameUa, approach.nameEn) }}
+            </button>
+          </div>
+        </div>
+        <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
+      </div>
+
+      <div *ngIf="checkSelectedFilter(filterApproach.TYPE)" class="filter-buttons">
+        <button
+          *ngFor="let type of notificationTypes"
+          class="global-tag custom-chip"
+          [ngClass]="{ 'global-tag-clicked': type.isSelected }"
+          (click)="changeFilter(type, filterApproach.TYPE)"
+        >
+          {{ getLangValue(type.filterName.ua, type.filterName.en) }}
+        </button>
+      </div>
+
+      <div *ngIf="checkSelectedFilter(filterApproach.ORIGIN)" class="filter-buttons">
+        <button
+          *ngFor="let project of projects"
+          class="global-tag custom-chip"
+          (click)="changeFilter(project, filterApproach.ORIGIN)"
+          [ngClass]="{ 'global-tag-clicked': project.isSelected }"
+        >
+          {{ project.name }}
         </button>
       </div>
     </div>
-    <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
   </div>
   <div *ngIf="!isLoading && !notifications.length" class="no-notifications">
     <app-no-data [title]="'homepage.notifications.no-notifications'"></app-no-data>
@@ -21,9 +49,9 @@
     <mat-accordion class="list-wrapper" multi="false" [togglePosition]="'before'">
       <mat-expansion-panel
         class="notification"
-        *ngFor="let notification of notifications | paginate: config"
+        *ngFor="let notification of notifications"
         [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
-        (click)="readNotification($event)"
+        (click)="readNotification(notification)"
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
         hideToggle
@@ -39,11 +67,11 @@
               </div>
               <div></div>
             </div>
-            <div class="justify-content-between h-100">
+            <div class="notific-right-column">
               <div class="notification-header-time body-2">
                 {{ notification.time | localizedDate | date: 'MMM dd, yyyy hh:mm a' }}
               </div>
-              <button class="secondary-global-button btn" (click)="deleteNotification($event)">
+              <button class="secondary-global-button btn" (click)="deleteNotification(notification)">
                 {{ 'homepage.notifications.delete' | translate }}
               </button>
             </div>
@@ -57,6 +85,13 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <div
+      infinite-scroll
+      [infiniteScrollDistance]="0"
+      [infiniteScrollThrottle]="100"
+      (scrolled)="onScroll()"
+      [infiniteScrollDisabled]="!hasNextPage"
+    ></div>
   </div>
   <app-spinner
     *ngIf="isLoading"
