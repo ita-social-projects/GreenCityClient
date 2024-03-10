@@ -115,10 +115,6 @@
     margin-bottom: 40px;
   }
 
-  ::ng-deep .notification-header > .mat-content {
-    display: block;
-  }
-
   .notification {
     margin: 0;
     border-radius: 10px !important;
@@ -146,6 +142,7 @@
 
       &-title {
         color: var(--ubs-primary-black);
+        font-weight: 600;
         margin: 10px 0;
       }
 
@@ -155,15 +152,11 @@
         text-overflow: ellipsis;
         overflow: hidden;
       }
-
-      &-time {
-        // margin-top: 13px;
-
-        @media screen and (max-width: 768px) {
-          margin-top: 8;
-        }
-      }
     }
+  }
+
+  ::ng-deep .notification-header > .mat-content {
+    display: block;
   }
 
   ::ng-deep .notification.mat-expanded .mat-expansion-panel-body {

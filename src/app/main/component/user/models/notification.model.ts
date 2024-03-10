@@ -27,9 +27,15 @@ export interface NotificationModel {
 }
 
 export enum FilterApproach {
-  ALL = 'all',
-  ORIGIN = 'origin',
-  TYPE = 'type'
+  ALL = 'All',
+  ORIGIN = 'Origin',
+  TYPE = 'Type'
 }
 
-export enum NotificationType {}
+export interface NotificationFilter {
+  name: string;
+  nameEn?: string;
+  nameUa?: string;
+  isSelected;
+  filterArr?: string[];
+}

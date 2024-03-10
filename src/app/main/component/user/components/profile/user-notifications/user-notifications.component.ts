@@ -3,11 +3,12 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserNotificationService } from '@global-user/services/user-notification.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject, Subscribable, Subscription } from 'rxjs';
-import { NotificationArrayModel, NotificationModel } from '@global-user/models/notification.model';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { NotificationFilter, NotificationModel } from '@global-user/models/notification.model';
 import { Notific } from './notific';
 import { FilterApproach } from '@global-user/models/notification.model';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Component({
   selector: 'app-user-notifications',
@@ -19,114 +20,124 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   public currentLang: string;
   public filterApproach = FilterApproach;
   public filterApproaches = [
-    { approachType: FilterApproach.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
-    { approachType: FilterApproach.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
-    { approachType: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
+    { name: FilterApproach.ALL, isSelected: true, nameUa: 'Усі', nameEn: 'All' },
+    { name: FilterApproach.TYPE, isSelected: false, nameUa: 'Типом', nameEn: 'Type' },
+    { name: FilterApproach.ORIGIN, isSelected: false, nameUa: 'Джерелом', nameEn: 'Origin' }
   ];
-  public notificationTypes = [
+  public notificationTypes: NotificationFilter[] = [
     {
       name: 'All',
-      filterName: { en: 'All', ua: 'Усі' },
+      nameEn: 'All',
+      nameUa: 'Усі',
       isSelected: true
     },
     {
       name: 'COMMENT_LIKE',
-      filterName: { en: 'Comment like', ua: 'Вподобання коментаря' },
+      nameEn: 'Comment like',
+      nameUa: 'Вподобання коментаря',
       filterArr: ['ECONEWS_COMMENT_LIKE', 'EVENT_COMMENT_LIKE'],
       isSelected: true
     },
     {
       name: 'COMMENT_REPLY',
-      filterName: { en: 'Comment reply', ua: 'Відповідь на коментар' },
+      nameEn: 'Comment reply',
+      nameUa: 'Відповідь на коментар',
       filterArr: ['ECONEWS_COMMENT_REPLY', 'EVENT_COMMENT_REPLY'],
       isSelected: true
     },
-    { name: 'ECONEWS_LIKE', filterName: { en: ' News Like', ua: 'Вподобання новини' }, isSelected: true },
-    { name: 'ECONEWS_CREATED', filterName: { en: ' News Created', ua: 'Створення новини' }, isSelected: true },
-    { name: 'ECONEWS_COMMENT', filterName: { en: ' News Commented', ua: 'Коментарі новин' }, isSelected: true },
-    { name: 'EVENT_CREATED', filterName: { en: 'Event created', ua: 'Створення події' }, isSelected: true },
-    { name: 'EVENT_CANCELED', filterName: { en: 'Event canceled', ua: 'Скасування події' }, isSelected: true },
-    { name: 'EVENT_UPDATED', filterName: { en: 'Event updated', ua: 'Зміни у подіях' }, isSelected: true },
-    { name: 'EVENT_JOINED', filterName: { en: 'Event joined', ua: 'приєднання до події' }, isSelected: true },
-    { name: 'EVENT_COMMENT', filterName: { en: 'Event commented', ua: 'Коментарі подій' }, isSelected: true },
-    { name: 'FRIEND_REQUEST_RECEIVED', filterName: { en: 'Friend request received', ua: 'Нові запити дружити' }, isSelected: true },
-    {
-      name: 'FRIEND_REQUEST_ACCEPTED',
-      filterName: { en: 'Friend request accepted', ua: 'Підтверджені запити дружити' },
-      isSelected: true
-    }
+    { name: 'ECONEWS_LIKE', nameEn: ' News Like', nameUa: 'Вподобання новини', isSelected: true },
+    { name: 'ECONEWS_CREATED', nameEn: ' News Created', nameUa: 'Створення новини', isSelected: true },
+    { name: 'ECONEWS_COMMENT', nameEn: ' News Commented', nameUa: 'Коментарі новин', isSelected: true },
+    { name: 'EVENT_CREATED', nameEn: 'Event created', nameUa: 'Створення події', isSelected: true },
+    { name: 'EVENT_CANCELED', nameEn: 'Event canceled', nameUa: 'Скасування події', isSelected: true },
+    { name: 'EVENT_UPDATED', nameEn: 'Event updated', nameUa: 'Зміни у подіях', isSelected: true },
+    { name: 'EVENT_JOINED', nameEn: 'Event joined', nameUa: 'приєднання до події', isSelected: true },
+    { name: 'EVENT_COMMENT', nameEn: 'Event commented', nameUa: 'Коментарі подій', isSelected: true },
+    { name: 'FRIEND_REQUEST_RECEIVED', nameEn: 'Friend request received', nameUa: 'Нові запити дружити', isSelected: true },
+    { name: 'FRIEND_REQUEST_ACCEPTED', nameEn: 'Friend request accepted', nameUa: 'Підтверджені запити дружити', isSelected: true }
   ];
-  public projects = [
+  public projects: NotificationFilter[] = [
     { name: 'All', isSelected: true },
     { name: 'GreenCity', isSelected: false },
     { name: 'Pick up', isSelected: false }
   ];
 
   public notifications: NotificationModel[] = [];
-  public panelOpenState = false;
   public currentPage = 0;
+  public itemsPerPage = 10;
   public hasNextPage: boolean;
-  public config = {
-    itemsPerPage: 10,
-    currentPage: 0,
-    totalItems: null
-  };
   private getNotificationSubs: Subscription;
+  private filterChangeSubs$ = new Subject();
 
   public isLoading = true;
   public isSmallSpinnerVisible = false;
+  private filterAll = 'All';
 
   constructor(
     private languageService: LanguageService,
     private localStorageService: LocalStorageService,
     public translate: TranslateService,
-    private userNotificationService: UserNotificationService
+    private userNotificationService: UserNotificationService,
+    private matSnackBar: MatSnackBarComponent
   ) {}
 
-  ngOnInit(): void {
-    this.localStorageService.languageBehaviourSubject.subscribe((lang) => {
+  ngOnInit() {
+    this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => {
       this.currentLang = lang;
       this.translate.use(lang);
+    });
+    this.filterChangeSubs$.pipe(debounceTime(300), takeUntil(this.destroy$)).subscribe((value) => {
+      this.notifications = [];
+      this.currentPage = 0;
+      this.hasNextPage = false;
+      this.isLoading = true;
+      this.getNotification();
     });
     this.getNotification();
   }
 
-  public changefilterApproach(approach) {
-    this.filterApproaches.forEach((el) => (el.isSelected = el.approachType === approach));
+  public changefilterApproach(approach: string): void {
+    this.filterApproaches.forEach((el) => (el.isSelected = el.name === approach));
+    if (approach === this.filterAll) {
+      this.notificationTypes.forEach((el) => (el.isSelected = true));
+      this.projects.forEach((el) => (el.isSelected = true));
+    }
   }
 
-  public changeFilter(type, approach) {
+  public changeFilter(type: NotificationFilter, approach: string): void {
+    this.filterChangeSubs$.next({ type, approach });
     const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypes : this.projects;
 
     const notificationType = filterArr.filter((el) => el.name === type.name)[0];
-    const notificationTypeAll = filterArr.filter((el) => el.name === 'All')[0];
+    const notificationTypeAll = filterArr.filter((el) => el.name === this.filterAll)[0];
     notificationType.isSelected = !notificationType.isSelected;
 
-    if (notificationType.name === 'All') {
+    if (notificationType.name === this.filterAll) {
       filterArr.forEach((el) => (el.isSelected = notificationType.isSelected));
     } else {
-      notificationTypeAll.isSelected = filterArr.filter((el) => el.name !== 'All').every((el) => el.isSelected);
+      notificationTypeAll.isSelected = filterArr.filter((el) => el.name !== this.filterAll).every((el) => el.isSelected);
     }
-    this.getNotification();
   }
 
   checkSelectedFilter(approachType: string): boolean {
-    return this.filterApproaches.filter((el) => el.approachType === approachType)[0].isSelected;
+    return this.filterApproaches.filter((el) => {
+      return el.name === approachType;
+    })[0].isSelected;
   }
 
-  getAllSelectedFilters(approach) {
+  private getAllSelectedFilters(approach: string): NotificationFilter[] {
     const filterArr = approach === this.filterApproach.TYPE ? this.notificationTypes : this.projects;
-    const allOption = filterArr.filter((el) => el.name === 'All')[0];
+    const allOption = filterArr.filter((el) => el.name === this.filterAll)[0];
     return allOption.isSelected
       ? []
       : [
           ...filterArr.filter((el) => {
-            return el.isSelected === true && el.name !== 'All';
+            return el.isSelected === true && el.name !== this.filterAll;
           })
         ];
   }
 
-  public getNotification(page?: number) {
+  public getNotification(page?: number): void {
     const filtersSelected = {
       projectName: this.getAllSelectedFilters(this.filterApproach.ORIGIN),
       notificationType: this.getAllSelectedFilters(this.filterApproach.TYPE)
@@ -135,7 +146,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       this.getNotificationSubs.unsubscribe();
     }
     this.getNotificationSubs = this.userNotificationService
-      .getAllNotification(page, this.config.itemsPerPage, filtersSelected)
+      .getAllNotification(page, this.itemsPerPage, filtersSelected)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -158,7 +169,7 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public readNotification(notification) {
+  public readNotification(notification: NotificationModel): void {
     this.userNotificationService
       .readNotification(notification.notificationId)
       .pipe(takeUntil(this.destroy$))
@@ -167,16 +178,27 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public deleteNotification(notification) {
+  public deleteNotification(event: Event, notification: NotificationModel): void {
+    event.stopPropagation();
     this.userNotificationService
       .deleteNotification(notification.notificationId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        this.notifications.filter((el) => el.notificationId !== notification.notificationId);
-      });
+      .subscribe(
+        () => {
+          this.notifications = this.notifications.filter((el) => {
+            return el.notificationId !== notification.notificationId;
+          });
+          if (this.notifications.length < this.itemsPerPage && this.hasNextPage) {
+            this.getNotification(this.currentPage + 1);
+          }
+        },
+        () => {
+          this.matSnackBar.openSnackBar('error');
+        }
+      );
   }
 
-  public onScroll() {
+  public onScroll(): void {
     this.isLoading = true;
     if (this.hasNextPage) {
       this.getNotification(this.currentPage + 1);
