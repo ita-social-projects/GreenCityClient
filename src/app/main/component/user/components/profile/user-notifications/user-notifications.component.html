@@ -1,6 +1,6 @@
 <div class="container notification-wrapper" aria-label="user-notification">
   <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
-  <div *ngIf="notifications.length">
+  <div *ngIf="notifications.length || isLoading">
     <div class="filter-wrapper">
       <div class="filter-search-wrapper">
         <div class="filter-approach-wrapper">
@@ -10,7 +10,7 @@
               *ngFor="let approach of filterApproaches"
               class="global-tag custom-chip"
               [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
-              (click)="changefilterApproach(approach.approachType)"
+              (click)="changefilterApproach(approach.name)"
             >
               {{ getLangValue(approach.nameUa, approach.nameEn) }}
             </button>
@@ -26,7 +26,7 @@
           [ngClass]="{ 'global-tag-clicked': type.isSelected }"
           (click)="changeFilter(type, filterApproach.TYPE)"
         >
-          {{ getLangValue(type.filterName.ua, type.filterName.en) }}
+          {{ getLangValue(type.nameUa, type.nameEn) }}
         </button>
       </div>
 
@@ -52,8 +52,6 @@
         *ngFor="let notification of notifications"
         [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
         (click)="readNotification(notification)"
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
         hideToggle
       >
         <mat-expansion-panel-header class="notification-header">
@@ -69,9 +67,9 @@
             </div>
             <div class="notific-right-column">
               <div class="notification-header-time body-2">
-                {{ notification.time | localizedDate | date: 'MMM dd, yyyy hh:mm a' }}
+                {{ notification.time | localizedDate | date : 'MMM dd, yyyy hh:mm a' }}
               </div>
-              <button class="secondary-global-button btn" (click)="deleteNotification(notification)">
+              <button class="secondary-global-button btn" (click)="deleteNotification($event, notification)">
                 {{ 'homepage.notifications.delete' | translate }}
               </button>
             </div>
@@ -81,7 +79,7 @@
           <mat-spinner class="custom-spinner" diameter="60"></mat-spinner>
         </div>
         <div class="notification-header-content body-2" *ngIf="!isSmallSpinnerVisible">
-          {{ notification.message }}
+          {{ notification.bodyText }}
         </div>
       </mat-expansion-panel>
     </mat-accordion>
