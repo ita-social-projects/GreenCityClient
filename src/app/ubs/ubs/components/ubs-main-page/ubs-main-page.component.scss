@@ -27,7 +27,9 @@
     .box-card {
       display: flex;
       height: 264px;
-      justify-content: space-between;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
 
       #price-frame {
         height: 100%;

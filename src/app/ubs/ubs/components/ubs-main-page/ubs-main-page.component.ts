@@ -124,7 +124,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ngOnInit(): void {
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
-    this.getbags();
+    this.getBags();
     if (this.userId && !this.isAdmin) {
       this.getActiveCouriers();
     }
@@ -145,7 +145,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
   }
-  getbags() {
+  getBags() {
     let locationId = this.localStorageService.getLocationId();
     let tariffId = this.localStorageService.getTariffId();
     if (!tariffId) {
