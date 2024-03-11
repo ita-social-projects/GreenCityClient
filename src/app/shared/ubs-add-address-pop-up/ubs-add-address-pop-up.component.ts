@@ -14,6 +14,8 @@ import { LocationService } from '@global-service/location/location.service';
 import { GoogleAutoService, GooglePlaceResult, GooglePlaceService, GooglePrediction } from 'src/app/ubs/mocks/google-types';
 import { Language } from 'src/app/main/i18n/Language';
 import { RequiredFromDropdownValidator } from 'src/app/ubs/ubs-user/requiredFromDropDown.validator';
+import { Store } from '@ngrx/store';
+import { CreateAddress, DeleteAddress, UpdateAddress } from 'src/app/store/actions/order.actions';
 
 @Component({
   selector: 'app-ubs-add-address-pop-up',
@@ -63,7 +65,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
     private localStorageService: LocalStorageService,
     private langService: LanguageService,
     private googleScript: GoogleScript,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private store: Store
   ) {}
 
   get region() {
@@ -457,16 +460,8 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
   }
 
   public deleteAddress(): void {
-    this.isDeleting = true;
-    this.isDisabled = true;
-    this.orderService
-      .deleteAddress(this.addAddressForm.value)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        this.dialogRef.close('Deleted');
-        this.isDisabled = false;
-        this.isDeleting = false;
-      });
+    this.store.dispatch(DeleteAddress({ address: this.addAddressForm.value }));
+    this.dialogRef.close('Deleted');
   }
 
   addAdress(): void {
@@ -495,29 +490,10 @@ export class UBSAddAddressPopUpComponent implements OnInit, AfterViewInit {
       cityEn: this.cityEn.value
     };
 
-    of(true)
-      .pipe(
-        takeUntil(this.destroy),
-        switchMap(() =>
-          iif(() => this.data.edit, this.orderService.updateAdress(this.addAddressForm.value), this.orderService.addAdress(addressData))
-        )
-      )
-      .subscribe(
-        (list: { addressList: Address[] }) => {
-          this.orderService.setCurrentAddress(this.addAddressForm.value);
-
-          this.updatedAddresses = list.addressList;
-          this.dialogRef.close('Added');
-          this.isDisabled = false;
-        },
-        (error) => {
-          this.snackBar.openSnackBar('existAddress');
-          this.dialogRef.close();
-          this.isDisabled = false;
-          return throwError(error);
-        }
-      );
-    this.snackBar.openSnackBar('addedAddress');
+    this.data.edit
+      ? this.store.dispatch(UpdateAddress({ address: this.addAddressForm.value }))
+      : this.store.dispatch(CreateAddress({ address: addressData }));
+    this.dialogRef.close('Added');
   }
 
   isSubmitBtnDisabled(): boolean {

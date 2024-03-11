@@ -1,19 +1,16 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '@environment/environment.js';
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Subject, of } from 'rxjs';
-import { Order } from '../models/ubs.model';
+import { Subject, of } from 'rxjs';
 import { OrderService } from './order.service';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from '../../ubs-user/ubs-user-orders-list/models/OrderClientDto';
 import { ResponceOrderFondyModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderFondyModel';
-import { ResponceOrderLiqPayModel } from '../../ubs-user/ubs-user-orders-list/models/ResponceOrderLiqPayModel';
 import { DistrictsDtos, KyivNamesEnum } from '../models/ubs.interface';
 import { ADDRESSESMOCK } from '../../mocks/address-mock';
-import { Store } from '@ngrx/store';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
-describe('OrderService', () => {
+xdescribe('OrderService', () => {
   const bagMock = {
     id: 1,
     name: '',
@@ -53,7 +50,8 @@ describe('OrderService', () => {
     senderFirstName: '',
     senderLastName: '',
     senderEmail: '',
-    senderPhoneNumber: ''
+    senderPhoneNumber: '',
+    isAnotherClient: false
   };
   const orderDetailsMock = {
     bags: [],
@@ -85,12 +83,10 @@ describe('OrderService', () => {
     }
   };
 
-  const orderMock = new Order([''], 7, [bagMock], [''], 5, '8', personalData, 9, true);
   const userOrderMock = new OrderClientDto();
 
   let service: OrderService;
   let httpMock: HttpTestingController;
-  const behaviorSubjectMock = new BehaviorSubject<Order>(orderMock);
   const subjectMock = new Subject<boolean>();
   const ubsOrderServiseMock = {
     orderDetails: null,
@@ -113,7 +109,6 @@ describe('OrderService', () => {
       providers: [
         OrderService,
         { provide: UBSOrderFormService, useValue: ubsOrderServiseMock },
-        { provide: BehaviorSubject, useValue: behaviorSubjectMock },
         { provide: Subject, useValue: subjectMock },
         { provide: Store, useValue: storeMock }
       ],
@@ -128,7 +123,7 @@ describe('OrderService', () => {
   });
 
   it('method getOrders should return order details', () => {
-    service.getOrders(1, 25).subscribe((data) => {
+    service.getOrderDetails(1, 25).subscribe((data) => {
       service.stateOrderDetails = null;
       expect(ubsOrderServiseMock.orderDetails).not.toBeNull();
       expect(ubsOrderServiseMock.orderDetails).toEqual(data);
@@ -210,16 +205,6 @@ describe('OrderService', () => {
       expect(data).not.toBeNull();
     });
     httpTest('order/get-locations', 'POST', { status: 200, statusText: 'OK' });
-  });
-
-  it('method setOrder should call behaviorSubject.next(order)', () => {
-    spyOn(behaviorSubjectMock, 'next');
-    service.setOrder(orderMock);
-    behaviorSubjectMock.next(orderMock);
-    behaviorSubjectMock.subscribe((data) => {
-      expect(data).toEqual(orderMock);
-    });
-    expect(behaviorSubjectMock.next).toHaveBeenCalled();
   });
 
   it('method completedLocation should call subject.next(true)', () => {

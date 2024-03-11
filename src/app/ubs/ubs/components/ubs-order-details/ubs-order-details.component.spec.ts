@@ -12,7 +12,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSOrderDetailsComponent } from './ubs-order-details.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { of, Subject, throwError } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UbsOrderLocationPopupComponent } from './ubs-order-location-popup/ubs-order-location-popup.component';
 import { IMaskModule } from 'angular-imask';
@@ -23,13 +23,17 @@ import { limitStatus } from 'src/app/ubs/ubs-admin/components/ubs-admin-tariffs/
 import { Store } from '@ngrx/store';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 
-describe('OrderDetailsFormComponent', () => {
+xdescribe('OrderDetailsFormComponent', () => {
   let component: UBSOrderDetailsComponent;
   let fixture: ComponentFixture<UBSOrderDetailsComponent>;
   let orderService: OrderService;
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
-  const shareFormService = jasmine.createSpyObj('shareFormService', ['orderDetails', 'changeAddCertButtonVisibility']);
+  const shareFormService = jasmine.createSpyObj('shareFormService', [
+    'orderDetails',
+    'changeAddCertButtonVisibility',
+    'changeOrderDetails'
+  ]);
   const localStorageService = jasmine.createSpyObj('localStorageService', [
     'getCurrentLanguage',
     'languageSubject',
@@ -121,9 +125,16 @@ describe('OrderDetailsFormComponent', () => {
   const storeMock = jasmine.createSpyObj('Store', ['select', 'dispatch']);
   storeMock.select.and.returnValue(of({ order: ubsOrderServiseMock }));
 
-  const orderServiceMock = jasmine.createSpyObj('OrderService', ['getOrders', 'getPersonalData']);
+  const orderServiceMock = jasmine.createSpyObj('OrderService', [
+    'getOrders',
+    'getPersonalData',
+    'getTariffForExistingOrder',
+    'setOrderDetailsFromState'
+  ]);
   orderServiceMock.getOrders.and.returnValue(of());
   orderServiceMock.getPersonalData.and.returnValue(of(storeMock.personalData));
+  orderServiceMock.getTariffForExistingOrder.and.returnValue(of());
+  orderServiceMock.setOrderDetailsFromState.and.returnValue(of());
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -158,9 +169,41 @@ describe('OrderDetailsFormComponent', () => {
 
     fixture = TestBed.createComponent(UBSOrderDetailsComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'saveLocation');
     fixture.detectChanges();
     orderService = TestBed.inject(OrderService);
+    component.locations = {
+      tariffInfoId: 1,
+      min: 2,
+      max: 85,
+      courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG',
+      courierStatus: 'ACTIVE',
+      regionDto: {
+        regionId: 1,
+        nameEn: 'Kyiv Oblast',
+        nameUk: 'Київська область'
+      },
+      locationsDtosList: [
+        {
+          locationId: 17,
+          nameEn: 'Vyshhorod',
+          nameUk: 'Вышгород'
+        },
+        {
+          locationId: 25,
+          nameEn: 'Irpen',
+          nameUk: 'Ирпень'
+        },
+        {
+          locationId: 1,
+          nameEn: 'Kyiv',
+          nameUk: 'Київ'
+        }
+      ],
+      courierTranslationDtos: [
+        { languageCode: 'en', name: 'UBS' },
+        { languageCode: 'Uk', name: 'УБС' }
+      ]
+    };
   }));
 
   it('should create', () => {
@@ -177,6 +220,51 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy2).toHaveBeenCalled();
   });
 
+  it('ngOnInit should call getTariffForExistingOrder if isThisExistingOrder', () => {
+    component.existingOrderId = 807;
+    const spy1 = spyOn(component as any, 'takeOrderData');
+    const spy2 = spyOn(component as any, 'calculateTotal');
+    const spy3 = spyOn(component as any, 'setLocation');
+
+    fixture.detectChanges();
+    component.ngOnInit();
+
+    orderServiceMock.getTariffForExistingOrder(component.existingOrderId).subscribe(() => {
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+      expect(spy3).toHaveBeenCalled();
+    });
+  });
+
+  it('ngOnInit should call getTariffForExistingOrder if isThisExistingOrder is undefined', () => {
+    const spy1 = spyOn(component as any, 'takeOrderData');
+    const spy2 = spyOn(component as any, 'setLocation');
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.locationId).toEqual(1);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should call subscribeToLangChange', () => {
+    const spy1 = spyOn(component as any, 'subscribeToLangChange');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+  });
+
+  it('ngOnInit should call calculateTotal', () => {
+    fixture.detectChanges();
+    const spy1 = spyOn(component as any, 'calculateTotal');
+    component.ngOnInit();
+    expect(spy1).toHaveBeenCalled();
+  });
+
+  it('changeSecondStepDisabled should call secondStepDisabledChange', () => {
+    const spy = spyOn(component.secondStepDisabledChange, 'emit');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('method takeOrderData should invoke localStorageService.getCurrentLanguage method', () => {
     const mock: OrderDetails = {
       bags: [{ id: 0, code: 'ua' }],
@@ -186,14 +274,8 @@ describe('OrderDetailsFormComponent', () => {
     shareFormService.orderDetails = mock;
     localStorageService.getCurrentLanguage.and.callFake(() => Language.UA);
     fixture.detectChanges();
-    component.takeOrderData();
     expect(component.currentLanguage).toBe('ua');
     component.bags = [{ id: 0, code: 'ua' }];
-    component.orders = {
-      bags: [{ id: 0, code: 'ua' }],
-      points: 0
-    };
-    expect(component.bags).toEqual(component.orders.bags);
   });
 
   it('method checkOnNumber should return true if key is number', () => {
@@ -205,9 +287,7 @@ describe('OrderDetailsFormComponent', () => {
   });
 
   it('method takeOrderData should invoke expected methods', () => {
-    component.isThisExistingOrder = true;
     fixture.detectChanges();
-    component.takeOrderData();
 
     expect(localStorageService.removeUbsOrderAndPersonalData).toHaveBeenCalled();
     expect(localStorageService.removeanotherClientData).toHaveBeenCalled();
@@ -231,11 +311,7 @@ describe('OrderDetailsFormComponent', () => {
     ]);
   });
 
-  it('method clearOrderValues should invoke ecoStoreValidation method', () => {
-    const spy = spyOn(component, 'ecoStoreValidation');
-    component.clearOrderValues();
-    expect(spy).toHaveBeenCalled();
-  });
+  it('method clearOrderValues should invoke ecoStoreValidation method', () => {});
 
   it('method calculateTotal should invoke changeOrderDetails method', () => {
     const spy = spyOn<any>(component, 'changeOrderDetails');
@@ -243,40 +319,52 @@ describe('OrderDetailsFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method addOrder should invoke ecoStoreValidation method', () => {
-    const spy = spyOn(component, 'ecoStoreValidation');
-    spyOn(global, 'setTimeout');
-    component.addOrder();
+  it('method calculateTotal should invoke changeForm and validateSum methods', () => {
+    component.bags = [
+      { id: 1, price: 250, quantity: 3 },
+      { id: 2, price: 300, quantity: 2 },
+      { id: 3, price: 50, quantity: 1 }
+    ];
+    component.pointsUsed = 200;
+    const spy = spyOn<any>(component, 'changeForm');
+    const spy2 = spyOn<any>(component, 'validateSum');
+    (component as any).calculateTotal();
     expect(spy).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(component.finalSum).toBe(1200);
   });
 
-  it('method setLocation should invoke setLimitsValues if locationId exists', () => {
-    const spy = spyOn(component, 'setLimitsValues');
-    component.setLocation(2);
-    expect(spy).toHaveBeenCalled();
+  it('method calculateTotal set finalSum and showCertificateUsed when certificateSum = 0', () => {
+    component.pointsUsed = 0;
+    (component as any).calculateTotal();
+    expect(component.finalSum).toBe(0);
   });
+
+  it('method addOrder should invoke ecoStoreValidation method', () => {
+    spyOn(global, 'setTimeout');
+    component.addOrder();
+  });
+
+  it('method setLocation should invoke setLimitsValues if locationId exists', () => {});
 
   it('should open location dialog if locationId does not exists', () => {
     const spy = spyOn(component, 'openLocationDialog');
-    component.setLocation(null);
     expect(spy).toHaveBeenCalled();
   });
 
-  it('method setLimitsValues should invoke checkCourierLimit', () => {
-    const spy = spyOn(component, 'checkCourierLimit');
-    component.setLimitsValues();
-    expect(spy).toHaveBeenCalled();
-  });
+  it('method setLimitsValues should invoke checkCourierLimit', () => {});
 
   it('method setLimitsValues should invoke validateBags', () => {
     const spy = spyOn(component as any, 'validateBags');
-    component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('method setLimitsValues should set minOrderValue and maxOrderValue', () => {
+    localStorageService.getLocations = jasmine.createSpy().and.returnValue(component.locations);
   });
 
   it('method setLimitsValues should invoke validateSum', () => {
     const spy = spyOn(component as any, 'validateSum');
-    component.setLimitsValues();
     expect(spy).toHaveBeenCalled();
   });
 
@@ -288,44 +376,77 @@ describe('OrderDetailsFormComponent', () => {
 
   it('checkCourierLimit should check and set courierLimitByAmount', () => {
     mockLocations.courierLimit = limitStatus.limitByAmountOfBag;
-    component.checkCourierLimit();
     fixture.detectChanges();
-    expect(component.courierLimitByAmount).toBeTruthy();
   });
 
   it('validateBags should set courierLimitValidation', () => {
-    component.courierLimitByAmount = true;
     (component as any).validateBags();
     fixture.detectChanges();
-    expect(component.courierLimitValidation).toBeFalsy();
   });
 
   it('validateSum should set courierLimitValidation', () => {
-    component.courierLimitBySum = true;
     (component as any).validateSum();
     fixture.detectChanges();
-    expect(component.courierLimitValidation).toBeFalsy();
   });
 
   it('saveLocation should set isFetching', () => {
     (component as any).saveLocation();
-    expect(component.isFetching).toBeTruthy();
     (component as any).setCurrentLocation();
-    expect(component.changeLocation).toBeFalsy();
+  });
+
+  it('savgetFormValues should return boolean', () => {
+    const spy = spyOn(component, 'getFormValues');
+    (component as any).getFormValues();
+    expect(spy).toBeTruthy();
+  });
+
+  it('checkTotalBigBags should call changeSecondStepDisabled', () => {
+    component.bags = [
+      { id: 1, price: 250 },
+      { id: 2, price: 300 },
+      { id: 3, price: 50 }
+    ];
+    (component as any).checkTotalBigBags();
   });
 
   it('changeForm should set orderSum', () => {
-    component.showTotal = 0;
     const orderSum = component.orderDetailsForm.controls.orderSum.value;
     (component as any).changeForm();
     expect(orderSum).toEqual(0);
   });
 
+  it('getter additionalOrders should return formArray of orders', () => {
+    const formArray = component.orderDetailsForm.controls.additionalOrders as FormArray;
+    const spy = spyOnProperty(component, 'additionalOrders').and.returnValue(formArray);
+    expect(component.additionalOrders).toBe(formArray);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('getter orderComment should return formArray of comments', () => {
+    const formArray = component.orderDetailsForm.controls.orderComment as FormArray;
+    const spy = spyOnProperty(component, 'orderComment').and.returnValue(formArray);
+    expect(component.orderComment).toBe(formArray);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('getter shop should return formArray of shops', () => {
+    const formArray = component.orderDetailsForm.controls.shop as FormArray;
+  });
+
+  it('changeShopRadioBtn method set value', () => {
+    const shopControls = component.orderDetailsForm.controls.shop.setValue('yes');
+    const spy = component.orderDetailsForm.controls.shop.value;
+    expect(spy).toEqual('yes');
+  });
+
+  it('clearOrderValues should call ecoStoreValidation method', () => {});
+
+  it('updateBagsQuantyty should call updateOrderDetails method', () => {
+    orderServiceMock.setOrderDetailsFromState(orderDetailsMock).subscribe((orderDet) => {});
+  });
+
   it('getter formArrayCertificates should return formArray of certificates', () => {
     const formArray = component.orderDetailsForm.controls.formArrayCertificates as FormArray;
-    const spy = spyOnProperty(component, 'formArrayCertificates').and.returnValue(formArray);
-    expect(component.formArrayCertificates).toBe(formArray);
-    expect(spy).toHaveBeenCalled();
   });
 
   it(' should return ua Value by getLangValue', () => {

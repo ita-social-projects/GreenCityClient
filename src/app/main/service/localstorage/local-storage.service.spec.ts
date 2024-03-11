@@ -456,12 +456,6 @@ describe('LocalStorageService', () => {
     expect(personalData).toEqual({ name: 'John Doe' });
   });
 
-  it('should get UBS order data', () => {
-    localStorage.setItem('UBSorderData', JSON.stringify({ orderId: 123 }));
-    const orderData = service.getUbsOrderData();
-    expect(orderData).toEqual({ orderId: 123 });
-  });
-
   it('should get current location id', () => {
     localStorage.setItem('currentLocationId', '1');
     const locationId = service.getLocationId();
