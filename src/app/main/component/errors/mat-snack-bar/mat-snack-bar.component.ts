@@ -175,6 +175,10 @@ export class MatSnackBarComponent {
     jointEventRequest: () => {
       this.className = 'success-snackbar';
       this.getSnackBarMessage('snack-bar.success.joint-event-request');
+    },
+    createEvent: () => {
+      this.className = 'success-snackbar';
+      this.getSnackBarMessage('snack-bar.success.create-news');
     }
   };
 
