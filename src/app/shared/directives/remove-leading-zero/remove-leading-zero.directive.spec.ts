@@ -8,7 +8,7 @@ import { RemoveLeadingZeroDirective } from './remove-leading-zero.directive';
 })
 class TestComponent {}
 
-fdescribe('Directive: RemoveLeadingZero', () => {
+describe('Directive: RemoveLeadingZero', () => {
   let fixture: ComponentFixture<TestComponent>;
   let inputElement: DebugElement;
 
