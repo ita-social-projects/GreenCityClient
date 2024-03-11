@@ -22,7 +22,7 @@ export class UserNotificationService {
     ];
     const filtersString = [...projectsString, ...typesString].join('&');
     return this.http.get<NotificationArrayModel>(
-      `${this.url}notification/all?page=${page}&size=${size}${filtersString.length ? '?' : ''}${filtersString}`
+      `${this.url}notification/all${filtersString.length ? '?' : ''}${filtersString}&page=${page}&size=${size}`
     );
   }
 
