@@ -33,7 +33,6 @@ export class MatSnackBarComponent {
     cafeNotificationsPhotoUpload: { classname: SnackbarClassName.error, key: 'update-cafe.notifications.photoUpload' },
     habitDeleted: { classname: SnackbarClassName.error, key: 'user.habit.all-habits.habit-was-deleted' },
     habitAdded: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.new-habit-added' },
-
     habitDidNotGiveUp: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.habit-did-not-give-up' },
     habitUpdated: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.new-habit-updated' },
     habitAcquired: { classname: SnackbarClassName.success, key: 'user.habit.all-habits.habit-acquired' },
