@@ -125,7 +125,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    if (!this.eventService.getForm()) {
+    if (this.route.snapshot.params.id) {
       this.eventId = this.route.snapshot.params.id;
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);

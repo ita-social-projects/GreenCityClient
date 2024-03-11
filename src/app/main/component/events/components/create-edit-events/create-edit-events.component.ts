@@ -42,7 +42,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public title = '';
   public dates: DateEvent[] = [];
   public quillModules = {};
-  public editorHTML = '';
   public isOpen = true;
   public places: Place[] = [];
   public checkdates: boolean;
@@ -73,8 +72,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
   public isSmallScreen = false;
 
   public fromPreview: boolean;
-  public editorText = '';
-  private isDescriptionValid: boolean;
+  private descriptionMinLenght = 20;
+  private descriptionMaxLenght = 63206;
   public imgArray: Array<File> = [];
   public imgArrayToPreview: string[] = [];
   private matSnackBar: MatSnackBarComponent;
@@ -137,7 +136,12 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.tags = typeFiltersData.reduce((ac, cur) => [...ac, { ...cur }], []);
     this.eventFormGroup = new FormGroup({
       titleForm: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(70)]),
-      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
+      description: new FormControl(''),
+      editorText: new FormControl('', [
+        Validators.required,
+        Validators.minLength(this.descriptionMinLenght),
+        Validators.maxLength(this.descriptionMaxLenght)
+      ]),
       eventDuration: new FormControl(this.selectedDay, [Validators.required, Validators.minLength(2)])
     });
     if (this.editMode && !this.fromPreview && !submitFromPreview) {
@@ -185,11 +189,16 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     return this.eventFormGroup.get('description');
   }
 
+  get editorText() {
+    return this.eventFormGroup.get('editorText');
+  }
+
   public setEditValue(): void {
     this.eventFormGroup.patchValue({
       titleForm: this.editEvent.title,
       eventDuration: this.dateArrCount[this.editEvent.dates.length - 1],
-      description: this.editEvent.description
+      description: this.editEvent.description,
+      editorText: this.editEvent.editorText
     });
     this.imgArrayToPreview = [this.editEvent.titleImage, ...this.editEvent.additionalImages];
     this.setDateCount(this.editEvent.dates.length);
@@ -198,7 +207,6 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.isTagValid = this.tags.some((el) => el.isActive);
     this.isOpen = this.editEvent.open;
     this.oldImages = this.imagesForEdit;
-    this.editorText = this.editEvent.description;
     this.nameBtn = 'create-event.save-event';
   }
 
@@ -273,10 +281,9 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     this.eventFormGroup.patchValue({
       titleForm: title,
       description,
+      editorText,
       eventDuration: this.dateArrCount[dates.length - 1]
     });
-    this.isDescriptionValid = editorText.length > 19;
-    this.editorText = editorText;
   }
 
   public toEventsList(): void {
@@ -324,17 +331,8 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
 
   public changedEditor(event: EditorChangeContent | EditorChangeSelection): void {
     if (event.event !== 'selection-change') {
-      this.editorText = event.text.substring(event.text.length, 1);
+      this.editorText.setValue(event.text.trim());
     }
-  }
-
-  public handleErrorClass(errorClassName: string): string {
-    const descriptionControl = this.eventFormGroup.get('description');
-    this.isDescriptionValid = this.editorText.length > 19 && this.editorText.length <= 63206;
-    this.isDescriptionValid
-      ? descriptionControl.setErrors(null)
-      : descriptionControl.setErrors({ invalidDescription: this.isDescriptionValid });
-    return this.submitIsFalse && !this.isDescriptionValid ? errorClassName : '';
   }
 
   public changeEventType(event: KeyboardEvent | MouseEvent): void {
@@ -466,7 +464,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
     const arePlacesFilled = this.arePlacesFilled.every((el) => !el);
     this.checkAfterSend = this.tags.some((t) => t.isActive);
 
-    if (isFormValid && arePlacesFilled && this.isDescriptionValid) {
+    if (isFormValid && arePlacesFilled && this.editorText.valid) {
       this.checkAfterSend = true;
       this.isImagesArrayEmpty = this.editMode ? !this.imgArray.length && !this.imagesForEdit.length : !this.imgArray.length;
 
@@ -521,7 +519,7 @@ export class CreateEditEventsComponent extends FormBaseComponent implements OnIn
       title: this.eventFormGroup.get('titleForm').value.trim(),
       description: this.eventFormGroup.get('description').value,
       eventDuration: this.eventFormGroup.get('eventDuration').value,
-      editorText: this.editorText,
+      editorText: this.editorText.value,
       open: this.isOpen,
       dates: this.dates,
       tags: tagsArr,

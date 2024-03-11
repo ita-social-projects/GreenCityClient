@@ -234,8 +234,7 @@
   align-items: flex-end;
 }
 
-.counter-description,
-.counter-error {
+.counter-description {
   margin-top: 5px;
   margin-bottom: -5px;
   font-size: 12px;
@@ -243,12 +242,12 @@
   justify-content: flex-end;
 }
 
-.counter-error {
+.error {
   color: var(--error-red);
 }
 
-.error {
-  color: var(--error-red);
+.hidden {
+  visibility: hidden;
 }
 
 @media (max-width: 1199px) {

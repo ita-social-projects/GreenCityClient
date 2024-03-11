@@ -110,13 +110,12 @@
         <div class="textarea-wrapper">
           <div class="title-container">
             <h3 class="textarea-title">{{ 'create-event.textarea-title' | translate }}</h3>
-            <div [class.error]="description?.touched && description?.invalid">
-              <p class="textarea-description">{{ 'create-event.content-tooltip' | translate }}</p>
-            </div>
+            <p class="textarea-description" [class.error]="description?.touched && editorText?.invalid">
+              {{ 'create-event.content-tooltip' | translate }}
+            </p>
           </div>
-          <div [class.content-error]="description?.touched && description?.invalid" class="content">
+          <div [class.content-error]="description?.touched && editorText?.invalid" class="content">
             <quill-editor
-              minlength="20"
               class="editor"
               ngDefaultControl
               formControlName="description"
@@ -125,11 +124,10 @@
               placeholder="{{ 'create-event.content-placeholder' | translate }}"
             ></quill-editor>
           </div>
-          <div [class.counter-error]="description?.invalid">
-            <p *ngIf="editorText" [ngClass]="handleErrorClass('counter-error') || 'counter-description'">
-              {{ 'create-event.counter' | translate }} {{ editorText.length }} {{ 'create-event.symbols' | translate }}
-            </p>
-          </div>
+          <p [ngClass]="{ 'counter-description': true, error: editorText?.invalid, hidden: !editorText.value.length }">
+            {{ 'create-event.counter' | translate }} {{ editorText.value.length }}
+            {{ 'create-event.symbols' | translate }}
+          </p>
         </div>
 
         <app-images-container
