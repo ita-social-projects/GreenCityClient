@@ -13,7 +13,7 @@ import { JwtService } from '@global-service/jwt/jwt.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-
+import { LanguageService } from 'src/app/main/i18n/language.service';
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
@@ -118,7 +118,8 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
     private jwtService: JwtService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -210,6 +211,14 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
         popUpName: 'sign-in'
       }
     });
+  }
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+  public getElementDescription(nameUk, nameEng, capacity) {
+    let ukrDescription = `${nameUk} об'ємом ${capacity} л.`;
+    let engDescription = `With ${nameEng} with a volume of ${capacity} l.`;
+    return this.getLangValue(ukrDescription, engDescription);
   }
 
   public checkIsAdmin(): boolean {

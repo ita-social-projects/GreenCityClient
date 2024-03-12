@@ -77,10 +77,10 @@
       <div class="box-card">
         <div id="price-frame" *ngFor="let elemPrice of bags$">
           <div class="content-price">
-            <div>{{ elemPrice.name }}</div>
+            <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
-            <div class="price">{{ elemPrice.price }}</div>
+            <div class="price">{{ getLangValue(elemPrice.price.toString() + ' грн', elemPrice.price.toString() + ' UAH') }}</div>
             <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>
