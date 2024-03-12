@@ -6,14 +6,14 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { ubsMainPageImages } from '../../../../main/image-pathes/ubs-main-page-images';
-import { AllLocationsDtos, CourierLocations } from '../../models/ubs.interface';
+import { AllLocationsDtos, CourierLocations, Bag, OrderDetails } from '../../models/ubs.interface';
 import { OrderService } from '../../services/order.service';
 import { UbsOrderLocationPopupComponent } from '../ubs-order-details/ubs-order-location-popup/ubs-order-location-popup.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-
+import { LanguageService } from 'src/app/main/i18n/language.service';
 @Component({
   selector: 'app-ubs-main-page',
   templateUrl: './ubs-main-page.component.html',
@@ -36,6 +36,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
   ubsCourierName = 'UBS';
   private userId: number;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
+  public bags$: Bag[];
 
   priceCard = [
     {
@@ -117,13 +118,14 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     private localStorageService: LocalStorageService,
     private orderService: OrderService,
     private jwtService: JwtService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     this.userId = this.localStorageService.getUserId();
     this.isAdmin = this.checkIsAdmin();
-
+    this.getBags();
     if (this.userId && !this.isAdmin) {
       this.getActiveCouriers();
     }
@@ -143,6 +145,27 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.next();
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
+  }
+
+  getBags() {
+    let locationId = this.localStorageService.getLocationId();
+    let tariffId = this.localStorageService.getTariffId();
+    if (!tariffId) {
+      tariffId = 1;
+      locationId = 1;
+    }
+
+    this.orderService
+      .getOrders(locationId, tariffId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        (orderData: OrderDetails) => {
+          this.bags$ = orderData.bags;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 
   calcLineSize() {
@@ -184,6 +207,17 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
         popUpName: 'sign-in'
       }
     });
+  }
+  public getLangValue(uaValue: string, enValue: string): string {
+    return this.languageService.getLangValue(uaValue, enValue) as string;
+  }
+  public getElementDescription(nameUk: string, nameEng: string, capacity: number) {
+    let nameUk1 = nameUk.toLowerCase();
+    nameUk1 = nameUk1.charAt(0).toUpperCase() + nameUk1.slice(1);
+
+    const ukrDescription = `${nameUk1} об'ємом ${capacity} л.`;
+    const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l.`;
+    return this.getLangValue(ukrDescription, engDescription);
   }
 
   public checkIsAdmin(): boolean {

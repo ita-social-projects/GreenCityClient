@@ -75,12 +75,12 @@
     <div class="price-section">
       <h2>{{ 'ubs-homepage.ubs-courier.price.caption' | translate }}</h2>
       <div class="box-card">
-        <div id="price-frame" *ngFor="let elemPrice of priceCard">
+        <div id="price-frame" *ngFor="let elemPrice of bags$">
           <div class="content-price">
-            <div>{{ elemPrice.content | translate }}</div>
+            <div>{{ getElementDescription(elemPrice.name, elemPrice.nameEng, elemPrice.capacity) }}</div>
           </div>
           <div class="header-price">
-            <div class="price">{{ elemPrice.header | translate }}</div>
+            <div class="price">{{ getLangValue(elemPrice.price.toString() + ' грн', elemPrice.price.toString() + ' UAH') }}</div>
             <div>{{ perPackageTitle | translate }}</div>
           </div>
         </div>
