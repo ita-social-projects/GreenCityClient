@@ -25,7 +25,9 @@ describe('UbsMainPageComponent', () => {
   const localeStorageServiceMock = jasmine.createSpyObj('localeStorageService', [
     'setUbsRegistration',
     'getUserId',
-    'removeUbsFondyOrderId'
+    'removeUbsFondyOrderId',
+    'getLocationId',
+    'getTariffId'
   ]);
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
   const matDialogMock = jasmine.createSpyObj('matDialog', ['open']);
@@ -35,7 +37,60 @@ describe('UbsMainPageComponent', () => {
       return of({ data: true });
     }
   };
-  const orderServiceMock = jasmine.createSpyObj('orderService', ['getLocations', 'getAllActiveCouriers', 'cleanPrevOrderState']);
+  const orderServiceMock = jasmine.createSpyObj('orderService', [
+    'getLocations',
+    'getAllActiveCouriers',
+    'cleanPrevOrderState',
+    'getOrders'
+  ]);
+  const orderData = [
+    {
+      id: 2,
+      name: 'Текстильні відходи',
+      capacity: 20,
+      price: 110,
+      nameEng: 'Textile waste',
+      limitedIncluded: false,
+      quantity: null
+    },
+    {
+      id: 3,
+      name: 'Текстильні відходи',
+      capacity: 60,
+      price: 220,
+      nameEng: 'Textile waste',
+      limitedIncluded: false,
+      quantity: null
+    },
+    {
+      id: 1,
+      name: 'Мікс відходів',
+      capacity: 120,
+      price: 285,
+      nameEng: 'Mix waste',
+      limitedIncluded: true,
+      quantity: null
+    },
+    {
+      id: 7,
+      name: 'Текстильні відходи',
+      capacity: 30,
+      price: 260,
+      nameEng: 'Textile waste',
+      limitedIncluded: false,
+      quantity: null
+    },
+    {
+      id: 8,
+      name: 'Мікс відходів',
+      capacity: 3,
+      price: 473,
+      nameEng: 'Mix Waste',
+      limitedIncluded: false,
+      quantity: null
+    }
+  ];
+  orderServiceMock.getOrders.and.returnValue(of(orderData));
 
   const activecouriersMock = activeCouriersMock;
   orderServiceMock.getAllActiveCouriers.and.returnValue(of(activecouriersMock));
