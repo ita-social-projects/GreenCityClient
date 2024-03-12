@@ -146,7 +146,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
   }
-  
+
   getBags() {
     let locationId = this.localStorageService.getLocationId();
     let tariffId = this.localStorageService.getTariffId();
@@ -212,7 +212,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
   public getElementDescription(nameUk: string, nameEng: string, capacity: number) {
-    const ukrDescription = `${nameUk.toLowerCase()} об'ємом ${capacity} л.`;
+    const ukrDescription = `${nameUk} об'ємом ${capacity} л.`;
     const engDescription = `With ${nameEng.toLowerCase()} with a volume of ${capacity} l.`;
     return this.getLangValue(ukrDescription, engDescription);
   }
