@@ -146,6 +146,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.destroy.unsubscribe();
     this.subs.unsubscribe();
   }
+  
   getBags() {
     let locationId = this.localStorageService.getLocationId();
     let tariffId = this.localStorageService.getTariffId();
@@ -153,20 +154,15 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
       tariffId = 1;
       locationId = 1;
     }
-    console.log('locationId', locationId);
-    console.log('tariffId', tariffId);
 
     this.orderService
       .getOrders(locationId, tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (orderData: OrderDetails) => {
-          console.log('orderData==========================', orderData);
           this.bags$ = orderData.bags;
-          console.log('this.bags$', this.bags$);
         },
         (error) => {
-          console.log('ERRORRRRRRRRRRRRRR');
           console.error(error);
         }
       );
