@@ -156,7 +156,7 @@ export class UbsMainPageComponent implements OnInit, OnDestroy, AfterViewChecked
     }
 
     this.orderService
-      .getOrders(locationId, tariffId)
+      .getOrderDetails(locationId, tariffId)
       .pipe(takeUntil(this.destroy))
       .subscribe(
         (orderData: OrderDetails) => {
