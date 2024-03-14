@@ -86,13 +86,13 @@ div hr {
   }
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1023px) {
   .wrapper {
     margin: 0 2.43%;
   }
 
   .gallery-view-active {
-    grid-template-columns: repeat(2, 353px);
+    grid-template-columns: repeat(2, 345px);
   }
 }
 

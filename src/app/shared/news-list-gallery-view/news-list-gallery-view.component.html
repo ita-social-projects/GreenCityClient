@@ -17,22 +17,26 @@
       </div>
     </div>
     <div class="user-data-added-news">
-      <p class="user-data-text-date">
-        <img class="icon" [src]="profileIcons.calendarIcon" alt="date of creation" />
-        {{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}
-      </p>
-      <p class="user-data-text-date user">
-        <img class="icon" role="img" [src]="profileIcons.userIcon" alt="created by" />
-        {{ ecoNewsModel.author.name }}
-      </p>
-      <p class="user-data-like">
-        <mat-icon>chat_bubble_outline</mat-icon>
-        <span class="numerosity">{{ ecoNewsModel.countComments }}</span>
-      </p>
-      <p class="user-data-like">
-        <img [src]="likeImg" role="img" alt="likes" class="icon" />
-        <span class="numerosity">{{ ecoNewsModel.likes }}</span>
-      </p>
+      <div class="user-data">
+        <p class="user-data-text-date">
+          <img class="icon" [src]="profileIcons.calendarIcon" alt="date of creation" />
+          <span>{{ ecoNewsModel.creationDate | date: undefined:undefined:translate.defaultLang }}</span>
+        </p>
+        <p class="user-data-text-date user">
+          <img class="icon" role="img" [src]="profileIcons.userIcon" alt="created by" />
+          <span>{{ ecoNewsModel.author.name }}</span>
+        </p>
+      </div>
+      <div>
+        <p class="user-data-like">
+          <img [src]="commentImg" role="img" alt="comments" class="icon" />
+          <span class="numerosity">{{ ecoNewsModel.countComments }}</span>
+        </p>
+        <p class="user-data-like">
+          <img [src]="likeImg" role="img" alt="likes" class="icon" />
+          <span class="numerosity">{{ ecoNewsModel.likes }}</span>
+        </p>
+      </div>
     </div>
   </div>
 </div>

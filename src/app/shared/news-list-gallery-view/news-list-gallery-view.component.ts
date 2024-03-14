@@ -20,7 +20,8 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
 
   public profileIcons = userAssignedCardsIcons;
   public newsImage: string;
-  public likeImg = 'assets/img/comments/like.png';
+  public likeImg = 'assets/events-icons/like.png';
+  public commentImg = 'assets/events-icons/frame.png';
   public tags: Array<string>;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
