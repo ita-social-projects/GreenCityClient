@@ -1,7 +1,15 @@
+$bp-smallest: 575px;
+$bp-phone: 767px;
+$bp-tablet: 1023px;
+$bp-notebook: 1199px;
+$bp-desktop: 1439px;
+
 .cont {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 40px;
+  align-items: center;
 }
 
 div hr {
@@ -9,13 +17,12 @@ div hr {
 }
 
 .main-header {
-  font-family: var(--secondary-font);
-  font-size: 42px;
+  font-family: var(--primary-font);
+  font-size: 48px;
   line-height: 56px;
-  width: 201px;
   white-space: nowrap;
-  font-weight: 500;
-  margin: 0 0 34px -3px;
+  font-weight: 700;
+  margin-bottom: 0;
 }
 
 .flex-container {
@@ -111,9 +118,16 @@ div hr {
     margin: 0 2.4%;
   }
 
+  .cont {
+    flex-direction: column;
+    margin-bottom: 20px;
+    align-items: normal;
+  }
+
   .main-header {
     font-size: 24px;
     line-height: 32px;
+    margin-bottom: 20px;
   }
 
   .gallery-view-active {
@@ -122,13 +136,9 @@ div hr {
   }
 
   #create-button {
-    width: 122px;
+    width: 100%;
+    min-width: unset;
     min-height: 32px;
     padding: 0;
-
-    span {
-      font-size: 12px;
-      line-height: 12px;
-    }
   }
 }
