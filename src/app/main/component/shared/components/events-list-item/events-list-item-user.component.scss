@@ -114,7 +114,6 @@
       overflow: hidden;
       word-wrap: break-word;
       height: 90px;
-      overflow: hidden;
       text-overflow: ellipsis;
 
       h3 {
@@ -126,15 +125,8 @@
       }
     }
 
-    //
-
-    .button-event-card {
-      // display: none;
-    }
-
     &__user-info {
       display: flex;
-      // flex-direction: column;
       justify-content: space-between;
 
       &-date {
@@ -148,7 +140,7 @@
 
         p {
           font-size: 14px;
-          margin: 0px;
+          margin: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -167,7 +159,7 @@
 
         p {
           font-size: 14px;
-          margin: 0px;
+          margin: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

@@ -27,7 +27,6 @@
         overflow: hidden;
         word-wrap: break-word;
         height: 90px;
-        overflow: hidden;
         text-overflow: ellipsis;
 
         h3 {
@@ -52,7 +51,7 @@
 
         p {
           font-size: 14px;
-          margin: 0px;
+          margin-bottom: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
