@@ -94,7 +94,7 @@ export class InterceptorService implements HttpInterceptor {
                 case error?.error?.length > 0:
                   message = error?.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ');
                   break;
-                case !!error.error?.message.length:
+                case !!error.error?.message?.length:
                   message = error.error?.message;
                   break;
                 default:

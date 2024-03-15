@@ -20,7 +20,7 @@ export function uniqueArrayValidator(): ValidatorFn {
 
 export function courierLimitValidator(bags: Bag[], courierInfo: ICourierInfo): ValidatorFn {
   return (group: FormGroup): ValidationErrors | null => {
-    for (const bag of bags.filter((bag) => bag.limitedIncluded)) {
+    for (const bag of bags.filter((el) => el.limitedIncluded)) {
       if (group.get(`quantity${bag.id}`)) {
         const quantity = +group.get(`quantity${bag.id}`)?.value;
         const validationError = validate(bag, courierInfo, quantity);

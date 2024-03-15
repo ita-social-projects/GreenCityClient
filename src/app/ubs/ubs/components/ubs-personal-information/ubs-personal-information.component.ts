@@ -294,7 +294,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     let address = this.checkIfAddressCanBeSelected(this.address.value.id);
 
     if (!address) {
-      const actualAddressId = this.addresses.find((address) => address.actual)?.id;
+      const actualAddressId = this.addresses.find((el) => el.actual)?.id;
       address = this.checkIfAddressCanBeSelected(actualAddressId);
     }
 
@@ -328,12 +328,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   initLocationForExistingOrder(): void {
     const addressDetails: IAddressExportDetails = this.existingOrderInfo.address;
     const address = this.addresses.find(
-      (address) =>
-        address.cityEn === addressDetails.addressCityEng &&
-        address.regionEn === addressDetails.addressRegionEng &&
-        address.streetEn === addressDetails.addressStreetEng &&
-        address.districtEn === addressDetails.addressDistinctEng &&
-        address.houseNumber === addressDetails.houseNumber
+      (el) =>
+        el.cityEn === addressDetails.addressCityEng &&
+        el.regionEn === addressDetails.addressRegionEng &&
+        el.streetEn === addressDetails.addressStreetEng &&
+        el.districtEn === addressDetails.addressDistinctEng &&
+        el.houseNumber === addressDetails.houseNumber
     );
 
     address && !this.isAddressDisabledForCurrentLocation(address) ? this.checkAddress(address) : this.initLocations();

@@ -289,7 +289,7 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   }
 
   initLocation(): void {
-    const location = this.locations?.locationsDtosList.find((location) => location.locationId === this.locationId);
+    const location = this.locations?.locationsDtosList.find((el) => el.locationId === this.locationId);
 
     if (!location) {
       return;
