@@ -89,10 +89,19 @@ export class InterceptorService implements HttpInterceptor {
         return next.handle(req).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status !== UNAUTHORIZED) {
-              const message =
-                error?.error?.length > 0
-                  ? error.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ')
-                  : 'Error';
+              let message: string;
+              switch (true) {
+                case error?.error?.length > 0:
+                  message = error?.error.map((errorItem: EmployeesError) => `${errorItem.name}: ${errorItem.message}`).join(', ');
+                  break;
+                case !!error.error?.message?.length:
+                  message = error.error?.message;
+                  break;
+                default:
+                  message = 'Error';
+                  break;
+              }
+
               this.openErrorWindow(message);
               return throwError(error);
             }

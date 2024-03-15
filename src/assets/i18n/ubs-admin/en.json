@@ -1001,7 +1001,8 @@
     "number-format": "Only 9 digits starting with: +380",
     "password-requirements": "Password must contain: minimum 8 symbols, 1 special symbol, 1 digit, 1 upper and lower cased characters. No spaces.",
     "newPassword-MatchesOld": "Enter the new password!",
-    "password-error-confirm": "Passwords do not match!"
+    "password-error-confirm": "Passwords do not match!",
+    "email-exist": "Active employee with this email already exists"
   },
   "ubs-notifications": {
     "page-title": "Notifications",
