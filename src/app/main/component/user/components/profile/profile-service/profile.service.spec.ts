@@ -57,7 +57,7 @@ describe('ProfileService', () => {
         expect(info.content).toBe('Great day!');
       });
 
-      const req = httpMock.expectOne(`${backLink}factoftheday?lang=en`);
+      const req = httpMock.expectOne(`${backLink}factoftheday/?lang=en`);
       expect(req.request.method).toBe('GET');
       req.flush(fact);
     });
