@@ -19,6 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-news-list-list-view',
@@ -41,6 +42,9 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
+  public newDate;
+  public datePipe;
+
   constructor(
     public router: Router,
     private renderer: Renderer2,
@@ -52,6 +56,8 @@ export class NewsListListViewComponent implements AfterViewChecked, AfterViewIni
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn) as string[];
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(this.ecoNewsModel.creationDate, 'MMM dd, yyyy');
     });
   }
 

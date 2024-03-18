@@ -1,25 +1,37 @@
 <div class="news">
   <img class="news-image" [src]="checkNewsImage()" alt="news image" />
   <div class="news-content">
-    <div class="tags">
-      <div class="tag-btn" *ngFor="let tag of ecoNewsModel.tags">
-        {{ tag }}
+    <div class="info">
+      <div class="tags">
+        <div class="tag-btn" *ngFor="let tag of tags">
+          {{ tag }}
+        </div>
+      </div>
+      <div class="title">
+        <h3>
+          {{ ecoNewsModel.title }}
+        </h3>
       </div>
     </div>
-    <div class="title">
-      <h3>
-        {{ ecoNewsModel.title }}
-      </h3>
-    </div>
     <div class="user-info">
-      <p class="user-info-date">
+      <div class="user-info-date">
         <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-        {{ ecoNewsModel.creationDate | date }}
-      </p>
-      <p class="user-info-icon">
+        <p>{{ ecoNewsModel.creationDate | date }}</p>
+      </div>
+      <div class="user-info-icon">
         <img class="icon" [src]="profileIcons.userIcon" alt="user icon" />
-        {{ ecoNewsModel.author.name }}
-      </p>
+        <p
+          appCustomTooltip
+          #tooltipFriendName="matTooltip"
+          matTooltip="{{ ecoNewsModel.author.name }}"
+          [appCustomTooltip]="ecoNewsModel.author.name"
+          [tooltip]="tooltipFriendName"
+          matTooltipClass="my-custom-tooltip"
+          font="bold 14px Lato, sans-serif"
+        >
+          {{ ecoNewsModel.author.name }}
+        </p>
+      </div>
     </div>
   </div>
 </div>
