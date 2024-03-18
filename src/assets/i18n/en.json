@@ -123,7 +123,9 @@
       "no-notifications": "Unfortunately, no more notifications found.",
       "filter": "Filter by",
       "filterAll": "All",
-      "delete": "Видалити"
+      "delete": "Delete",
+      "mark-as-read": "Mark as read",
+      "mark-as-unread": "Mark as unread"
     },
     "events": {
       "title": "Events",
