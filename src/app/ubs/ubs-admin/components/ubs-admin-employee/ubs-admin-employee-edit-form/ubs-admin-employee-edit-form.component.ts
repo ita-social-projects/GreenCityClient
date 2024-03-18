@@ -145,7 +145,8 @@ export class UbsAdminEmployeeEditFormComponent implements OnInit, OnDestroy {
     this.store
       .select((state: IAppState): string | null => state.employees.error)
       .pipe(skip(1))
-      .subscribe(() => {
+      .subscribe((err: any) => {
+        this.email.setErrors({ emailExist: /email already exists/.test(err.message) });
         this.isUploading = false;
       });
 

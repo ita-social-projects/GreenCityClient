@@ -124,8 +124,8 @@
               placeholder="{{ 'create-event.content-placeholder' | translate }}"
             ></quill-editor>
           </div>
-          <p [ngClass]="{ 'counter-description': true, error: editorText?.invalid, hidden: !editorText.value.length }">
-            {{ 'create-event.counter' | translate }} {{ editorText.value.length }}
+          <p [ngClass]="{ 'counter-description': true, error: editorText?.invalid, hidden: !editorText.value?.length }">
+            {{ 'create-event.counter' | translate }} {{ editorText.value?.length }}
             {{ 'create-event.symbols' | translate }}
           </p>
         </div>
