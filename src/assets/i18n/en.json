@@ -399,7 +399,8 @@
       "update-notification": "Notification was updated",
       "rating-send": "Rating sent",
       "add-friend": "Friend request sent",
-      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer"
+      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer",
+      "create-news": "Your news has been successfully published"
     }
   },
   "user": {

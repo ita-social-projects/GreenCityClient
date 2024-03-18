@@ -229,7 +229,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(err);
         })
       )
-      .subscribe(() => this.escapeFromCreatePage());
+      .subscribe(() => {
+        this.snackBar.openSnackBar('createEvent');
+        this.escapeFromCreatePage();
+      });
   }
 
   public createNews(): void {
