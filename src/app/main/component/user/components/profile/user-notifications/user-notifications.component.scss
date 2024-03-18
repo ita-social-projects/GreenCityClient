@@ -151,6 +151,7 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        align-self: flex-end;
       }
     }
   }
@@ -178,5 +179,19 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 15px;
+  }
+
+  .notific-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    background-color: transparent;
+  }
+
+  @media screen and (min-width: 576px) {
+    ::ng-deep .popover {
+      display: none;
+    }
   }
 }
