@@ -57,9 +57,9 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     { name: 'FRIEND_REQUEST_ACCEPTED', nameEn: 'Friend request accepted', nameUa: 'Підтверджені запити дружити', isSelected: true }
   ];
   public projects: NotificationFilter[] = [
-    { name: 'All', isSelected: true },
-    { name: 'GreenCity', isSelected: false },
-    { name: 'Pick up', isSelected: false }
+    { name: 'All', nameEn: 'All', nameUa: 'Усі', isSelected: true },
+    { name: 'GREENCITY', nameEn: 'GreenCity', isSelected: false },
+    { name: 'PICKUP', nameEn: 'Pick up', isSelected: false }
   ];
 
   public notifications: NotificationModel[] = [];
@@ -72,6 +72,8 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
   public isLoading = true;
   public isSmallSpinnerVisible = false;
   private filterAll = 'All';
+  public deleteIcon = 'assets/img/comments/delete.png';
+  public markAsReadIcon = 'assets/img/comments/mark-read.svg';
 
   constructor(
     private languageService: LanguageService,
@@ -169,13 +171,23 @@ export class UserNotificationsComponent implements OnInit, OnDestroy {
     return this.languageService.getLangValue(uaValue, enValue) as string;
   }
 
-  public readNotification(notification: NotificationModel): void {
-    this.userNotificationService
-      .readNotification(notification.notificationId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = true;
-      });
+  public changeViewedStatus(event: Event, notification: NotificationModel): void {
+    event.stopPropagation();
+    if (notification.viewed) {
+      this.userNotificationService
+        .unReadNotification(notification.notificationId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = false;
+        });
+    } else {
+      this.userNotificationService
+        .readNotification(notification.notificationId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.notifications.filter((el) => el.notificationId === notification.notificationId)[0].viewed = true;
+        });
+    }
   }
 
   public deleteNotification(event: Event, notification: NotificationModel): void {

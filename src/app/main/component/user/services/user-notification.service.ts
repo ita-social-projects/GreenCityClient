@@ -20,10 +20,9 @@ export class UserNotificationService {
         el.filterArr ? [...el.filterArr.map((el) => 'notificationType=' + el)].join('&') : 'notificationType=' + el.name
       )
     ];
-    const filtersString = [...projectsString, ...typesString].join('&');
-    return this.http.get<NotificationArrayModel>(
-      `${this.url}notification/all${filtersString.length ? '?' : ''}${filtersString}&page=${page}&size=${size}`
-    );
+    const filtersStringsArr = [...projectsString, ...typesString];
+    const filtersString = filtersStringsArr.join('&') + (filtersStringsArr.length ? '&' : '');
+    return this.http.get<NotificationArrayModel>(`${this.url}notification/all?${filtersString}page=${page}&size=${size}`);
   }
 
   public getThreeNewNotification(): Observable<NotificationModel[]> {
@@ -32,6 +31,9 @@ export class UserNotificationService {
 
   public readNotification(id: number): Observable<object> {
     return this.http.patch<object>(`${this.url}notification/view/${id}`, {});
+  }
+  public unReadNotification(id: number): Observable<object> {
+    return this.http.patch<object>(`${this.url}notification/unread/${id}`, {});
   }
 
   public deleteNotification(id: number): Observable<object> {

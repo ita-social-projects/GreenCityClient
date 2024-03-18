@@ -1,45 +1,46 @@
 <div class="container notification-wrapper" aria-label="user-notification">
   <h1 class="heading h5">{{ 'homepage.notifications.title' | translate }}</h1>
-  <div *ngIf="notifications.length || isLoading">
-    <div class="filter-wrapper">
-      <div class="filter-search-wrapper">
-        <div class="filter-approach-wrapper">
-          <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
-          <div class="filter-buttons filter-approach-buttons">
-            <button
-              *ngFor="let approach of filterApproaches"
-              class="global-tag custom-chip"
-              [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
-              (click)="changefilterApproach(approach.name)"
-            >
-              {{ getLangValue(approach.nameUa, approach.nameEn) }}
-            </button>
-          </div>
+  <div class="filter-wrapper">
+    <div class="filter-search-wrapper">
+      <div class="filter-approach-wrapper">
+        <span class="filter-header h6">{{ 'homepage.notifications.filter' | translate }}</span>
+        <div class="filter-buttons filter-approach-buttons">
+          <button
+            *ngFor="let approach of filterApproaches"
+            class="global-tag custom-chip"
+            [ngClass]="{ 'global-tag-clicked': approach.isSelected }"
+            (click)="changefilterApproach(approach.name)"
+            [disabled]="!(notifications.length || isLoading)"
+          >
+            {{ getLangValue(approach.nameUa, approach.nameEn) }}
+          </button>
         </div>
-        <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
       </div>
+      <input class="notification-search" type="text" placeholder="{{ 'search.search-all-results.placeholder' | translate }}" />
+    </div>
 
-      <div *ngIf="checkSelectedFilter(filterApproach.TYPE)" class="filter-buttons">
-        <button
-          *ngFor="let type of notificationTypes"
-          class="global-tag custom-chip"
-          [ngClass]="{ 'global-tag-clicked': type.isSelected }"
-          (click)="changeFilter(type, filterApproach.TYPE)"
-        >
-          {{ getLangValue(type.nameUa, type.nameEn) }}
-        </button>
-      </div>
+    <div *ngIf="checkSelectedFilter(filterApproach.TYPE)" class="filter-buttons">
+      <button
+        *ngFor="let type of notificationTypes"
+        class="global-tag custom-chip"
+        [ngClass]="{ 'global-tag-clicked': type.isSelected }"
+        (click)="changeFilter(type, filterApproach.TYPE)"
+        [disabled]="!(notifications.length || isLoading)"
+      >
+        {{ getLangValue(type.nameUa, type.nameEn) }}
+      </button>
+    </div>
 
-      <div *ngIf="checkSelectedFilter(filterApproach.ORIGIN)" class="filter-buttons">
-        <button
-          *ngFor="let project of projects"
-          class="global-tag custom-chip"
-          (click)="changeFilter(project, filterApproach.ORIGIN)"
-          [ngClass]="{ 'global-tag-clicked': project.isSelected }"
-        >
-          {{ project.name }}
-        </button>
-      </div>
+    <div *ngIf="checkSelectedFilter(filterApproach.ORIGIN)" class="filter-buttons">
+      <button
+        *ngFor="let project of projects"
+        class="global-tag custom-chip"
+        (click)="changeFilter(project, filterApproach.ORIGIN)"
+        [ngClass]="{ 'global-tag-clicked': project.isSelected }"
+        [disabled]="!(notifications.length || isLoading)"
+      >
+        {{ project.nameEn }}
+      </button>
     </div>
   </div>
   <div *ngIf="!isLoading && !notifications.length" class="no-notifications">
@@ -51,7 +52,7 @@
         class="notification"
         *ngFor="let notification of notifications"
         [ngClass]="notification.viewed ? 'notification-read' : 'notification-unread'"
-        (click)="readNotification(notification)"
+        (click)="changeViewedStatus($event, notification)"
         hideToggle
       >
         <mat-expansion-panel-header class="notification-header">
@@ -67,11 +68,29 @@
             </div>
             <div class="notific-right-column">
               <div class="notification-header-time body-2">
-                {{ notification.time | localizedDate | date : 'MMM dd, yyyy hh:mm a' }}
+                {{ notification.time | localizedDate | date: 'MMM dd, yyyy hh:mm a' }}
               </div>
-              <button class="secondary-global-button btn" (click)="deleteNotification($event, notification)">
-                {{ 'homepage.notifications.delete' | translate }}
-              </button>
+              <div class="d-flex justify-content-around">
+                <button class="notific-action-btn" (click)="deleteNotification($event, notification)">
+                  <img [src]="deleteIcon" class="btn-img" aria-hidden="true" alt="delete icon" />
+                  <span class="d-none d-sm-block btn-text">{{ 'homepage.notifications.delete' | translate }}</span>
+                </button>
+                <button class="notific-action-btn" (click)="changeViewedStatus($event, notification)">
+                  <span
+                    class="material-icons"
+                    style="color: rgb(128, 128, 128)"
+                    ngbPopover="{{
+                      (notification.viewed ? 'homepage.notifications.mark-as-unread' : 'homepage.notifications.mark-as-read') | translate
+                    }}"
+                    triggers="mouseenter:mouseleave"
+                    placement="left"
+                    >{{ notification.viewed ? 'mark_as_unread' : 'mark_email_read' }}</span
+                  >
+                  <span class="d-none d-sm-block">{{
+                    (notification.viewed ? 'homepage.notifications.mark-as-unread' : 'homepage.notifications.mark-as-read') | translate
+                  }}</span>
+                </button>
+              </div>
             </div>
           </div>
         </mat-expansion-panel-header>
