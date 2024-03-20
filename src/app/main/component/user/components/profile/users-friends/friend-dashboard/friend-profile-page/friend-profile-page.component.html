@@ -1,5 +1,6 @@
 <div class="profile-wrapper" *ngIf="userInfo">
   <div class="side-bar">
+    <div class="gree-dot" #greenDot></div>
     <app-profile-header class="app-profile-header" [userInfo]="userInfo" [progress]="progress"></app-profile-header>
     <button (click)="sendSocketMessage()">IS ONLINE</button>
     <hr *ngIf="isRequest && showButtons" />

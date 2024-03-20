@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
@@ -23,6 +23,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
   public progress: ProfileStatistics;
   public isRequest: boolean;
   public showButtons = true;
+  @ViewChild('greenDot') greenDot: ElementRef;
 
   constructor(
     private userFriendsService: UserFriendsService,
@@ -43,6 +44,11 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.getRequests();
     this.SocketService.onMessage(`/topic/${this.userId}/onlineStatus/`).subscribe((data) => {
       console.log(`${this.userId} is ${data.isOnline ? 'online' : 'offline'}`);
+      if (data.isOnline) {
+        this.greenDot.nativeElement.setAttribute('style', 'background-color: green;');
+      } else {
+        this.greenDot.nativeElement.setAttribute('style', 'background-color: grey;');
+      }
     });
   }
 
@@ -50,7 +56,7 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => this.translate.setDefaultLang(lang));
   }
   sendSocketMessage() {
-    this.SocketService.send(`/app/friends/isOnline/${this.userId}`, {});
+    this.SocketService.send(`/app/isOnline/${this.userId}`, {});
   }
 
   private getUserInfo(id: number): void {
