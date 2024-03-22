@@ -21,12 +21,17 @@ export class ErrorComponent implements OnChanges {
         return 'user.auth.sign-in.email-is-required';
       } else if (this.controlName === 'firstName') {
         return 'user.auth.sign-up.first-name-is-required';
-      } else if (this.controlName === 'password') {
-        return 'user.auth.sign-up.password-is-required';
-      } else {
+      } else if (this.controlName === 'repeatPassword') {
         return 'user.auth.sign-up.password-confirm-is-required';
       }
     },
+
+    // else if (this.controlName === 'password') {
+    //   return 'user.auth.sign-up.password-is-required';
+    // } else {
+    //   return 'user.auth.sign-up.password-confirm-is-required';
+    // }
+
     email: () => 'user.auth.sign-in.email-is-required',
     pattern: () => 'user.auth.sign-in.this-is-not-email',
     passwordMismatch: () => 'user.auth.sign-up.password-match',

@@ -78,14 +78,17 @@
         />
       </div>
       <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error-message" id="password-err-msg">
-        <app-error
+        <!-- <app-error
           [formElement]="passwordControl"
           [isSignInPassword]="isSignInPage"
           [controlName]="'password'"
           [nameFieldValue]="passwordControl.value"
           tabindex="0"
-        ></app-error>
+        ></app-error> -->
       </div>
+      <p [ngClass]="passwordControl.invalid && passwordControl.touched && 'password-not-valid'">
+        {{ 'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate }}
+      </p>
       <label class="content-label under-error" for="repeatPassword">
         {{ 'user.auth.sign-up.password-confirm' | translate }}
       </label>
