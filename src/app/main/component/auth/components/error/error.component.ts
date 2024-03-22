@@ -26,12 +26,6 @@ export class ErrorComponent implements OnChanges {
       }
     },
 
-    // else if (this.controlName === 'password') {
-    //   return 'user.auth.sign-up.password-is-required';
-    // } else {
-    //   return 'user.auth.sign-up.password-confirm-is-required';
-    // }
-
     email: () => 'user.auth.sign-in.email-is-required',
     pattern: () => 'user.auth.sign-in.this-is-not-email',
     passwordMismatch: () => 'user.auth.sign-up.password-match',

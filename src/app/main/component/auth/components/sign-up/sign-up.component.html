@@ -77,15 +77,7 @@
           aria-label="Password Visiable Button"
         />
       </div>
-      <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error-message" id="password-err-msg">
-        <!-- <app-error
-          [formElement]="passwordControl"
-          [isSignInPassword]="isSignInPage"
-          [controlName]="'password'"
-          [nameFieldValue]="passwordControl.value"
-          tabindex="0"
-        ></app-error> -->
-      </div>
+      <div *ngIf="passwordControl.invalid && passwordControl.touched" class="error-message" id="password-err-msg"></div>
       <p [ngClass]="passwordControl.invalid && passwordControl.touched && 'password-not-valid'">
         {{ 'user.auth.sign-in.password-must-be-at-least-8-characters-long' | translate }}
       </p>
