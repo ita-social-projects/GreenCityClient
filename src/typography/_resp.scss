@@ -1,13 +1,36 @@
-$breakpoints: (
-  small: 480px,
-  medium: 768px,
-  large: 1024px,
-  xl: 1440px
+$breakpointsMobile: (
+  xs: 320px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1024px,
+  2xl: 1200px,
+  3xl: 1440px
+);
+
+$breakpointsPC: (
+  xs: 319px,
+  sm: 575px,
+  md: 767px,
+  lg: 991px,
+  xl: 1023px,
+  2xl: 1199px,
+  3xl: 1439px
 );
 
 @mixin responsiveMobileFirst($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    @media (min-width: map-get($breakpoints, $breakpoint)) {
+  @if map-has-key($breakpointsMobile, $breakpoint) {
+    @media (min-width: map-get($breakpointsMobile, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "No breakpoint defined for #{$breakpoint}.";
+  }
+}
+
+@mixin responsivePCFirst($breakpoint) {
+  @if map-has-key($breakpointsPC, $breakpoint) {
+    @media (min-width: map-get($breakpointsPC, $breakpoint)) {
       @content;
     }
   } @else {

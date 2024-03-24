@@ -1,5 +1,3 @@
-@import 'src/typography/_resp.scss';
-
 @mixin height-and-width($height, $width) {
   height: $height;
   width: $width;
@@ -17,10 +15,6 @@
     font-size: 60px;
     text-align: center;
     color: var(--ubs-primary-black);
-
-    @include responsiveMobileFirst(xl) {
-      color: red;
-    }
   }
 
   .price-section {
