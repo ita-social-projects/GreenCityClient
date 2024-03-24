@@ -22,7 +22,9 @@
             <app-input-google-autocomplete
               formControlName="city"
               [autoCompRequest]="cityOptions"
-              (predictionSelectedEvent)="onCitySelected($event)"
+              [isReturnCoordinates]="true"
+              [isInitAutoTranslate]="true"
+              (selectedPredictionCoordinates)="onCitySelected($event)"
             ></app-input-google-autocomplete>
           </div>
 

@@ -17,6 +17,8 @@ export const courierLocationsSelector = createSelector(orderSelectors, (order) =
 
 export const addressesSelector = createSelector(orderSelectors, (order) => order.addresses);
 
+export const addressIdSelector = createSelector(orderSelectors, (order) => order.addressId);
+
 export const existingOrderInfoSelector = createSelector(orderSelectors, (order) => order.existingOrderInfo);
 
 export const orderSumSelector = createSelector(orderSelectors, (order) => order.orderSum);
@@ -30,5 +32,7 @@ export const pointsUsedSelector = createSelector(orderSelectors, (order) => orde
 export const pointsSelector = createSelector(orderSelectors, (order) => order.orderDetails?.points);
 
 export const isFirstFormValidSelector = createSelector(orderSelectors, (order) => order.firstFormValid);
+
+export const isAddressLoadingSelector = createSelector(orderSelectors, (order) => order.isAddressLoading);
 
 export const isOrderDetailsLoadingSelector = createSelector(orderSelectors, (order) => order.isOrderDetailsLoading);

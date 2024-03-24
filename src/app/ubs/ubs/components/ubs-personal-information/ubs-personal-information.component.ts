@@ -5,31 +5,15 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
 import { Subject, combineLatest } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { Address, CourierLocations, PersonalData } from '../../models/ubs.interface';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PersonalData } from '../../models/ubs.interface';
+import { MatDialog } from '@angular/material/dialog';
 import { PhoneNumberValidator } from 'src/app/shared/phone-validator/phone.validator';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UBSAddAddressPopUpComponent } from 'src/app/shared/ubs-add-address-pop-up/ubs-add-address-pop-up.component';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
-import { Locations } from 'src/assets/locations/locations';
 import { Store, select } from '@ngrx/store';
-import {
-  DeleteAddress,
-  GetPersonalData,
-  GetAddresses,
-  SetPersonalData,
-  UpdateAddress,
-  GetExistingOrderInfo,
-  SetAddressId
-} from 'src/app/store/actions/order.actions';
-import {
-  existingOrderInfoSelector,
-  locationIdSelector,
-  personalDataSelector,
-  addressesSelector
-} from 'src/app/store/selectors/order.selectors';
-import { Language } from 'src/app/main/i18n/Language';
-import { IAddressExportDetails, IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
+import { GetPersonalData, SetPersonalData, GetExistingOrderInfo } from 'src/app/store/actions/order.actions';
+import { addressIdSelector, existingOrderInfoSelector, personalDataSelector } from 'src/app/store/selectors/order.selectors';
+import { IUserOrderInfo } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/UserOrder.interface';
 import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
@@ -40,18 +24,10 @@ import { WarningPopUpComponent } from '@shared/components';
 export class UBSPersonalInformationComponent extends FormBaseComponent implements OnInit, OnDestroy {
   personalData: PersonalData;
   personalDataForm: FormGroup;
-  locations: CourierLocations;
-  addresses: Address[] = [];
-  currentLocation = {};
-  currentLocationId: number;
-  currentLanguage: string;
-  cities: string[];
   existingOrderId: number;
   existingOrderInfo: IUserOrderInfo;
+  $address = this.store.pipe(select(addressIdSelector));
 
-  maxAddressLength = 4;
-  locationIdForKyiv = 1;
-  locationIdForKyivRegion = 2;
   namePattern = Patterns.NamePattern;
   emailPattern = Patterns.ubsMailPattern;
   phoneMask = Masks.phoneMask;
@@ -107,18 +83,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     return this.personalDataForm.controls.isAnotherClient;
   }
 
-  get address() {
-    return this.personalDataForm?.controls.address;
-  }
-
-  get addressComment() {
-    return this.personalDataForm?.controls.addressComment;
-  }
-
-  getAddress(addressId: number) {
-    return this.addresses.find((address) => address.id === addressId) ?? null;
-  }
-
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -126,14 +90,13 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     private fb: FormBuilder,
     public dialog: MatDialog,
     private localService: LocalStorageService,
-    private listOflocations: Locations,
     private store: Store
   ) {
     super(router, dialog, orderService, localService);
   }
 
   ngOnInit(): void {
-    this.cities = this.listOflocations.getCity(Language.EN).map((city) => city.cityName);
+    this.store.dispatch(GetPersonalData());
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       this.existingOrderId = params.existingOrderId;
       if (this.existingOrderId >= 0) {
@@ -143,10 +106,12 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
         this.initListenersForNewOrder();
       }
     });
-    this.store.dispatch(GetAddresses());
-    this.store.dispatch(GetPersonalData());
-    this.localService.languageBehaviourSubject.pipe(takeUntil(this.$destroy)).subscribe((lang: string) => {
-      this.currentLanguage = lang;
+  }
+
+  initListenersForNewOrder(): void {
+    this.store.pipe(select(personalDataSelector), filter(Boolean), take(1)).subscribe((personalData: PersonalData) => {
+      this.personalData = personalData;
+      this.initForm();
     });
   }
 
@@ -159,26 +124,7 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       this.existingOrderInfo = orderInfo;
       this.initForm();
       this.initPersonalDataForExistingOrder();
-      if (this.addresses) {
-        this.initLocationForExistingOrder();
-      }
     });
-
-    combineLatest([
-      this.store.pipe(
-        select(locationIdSelector),
-        filter((value) => value !== null)
-      ),
-      this.store.pipe(select(addressesSelector), filter(Boolean))
-    ])
-      .pipe(takeUntil(this.$destroy))
-      .subscribe(([locationId, addresses]: [number, Address[]]) => {
-        this.addresses = addresses;
-        this.currentLocationId = locationId;
-        if (this.personalDataForm) {
-          this.initLocationForExistingOrder();
-        }
-      });
   }
 
   initPersonalDataForExistingOrder(): void {
@@ -199,30 +145,6 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
     this.senderPhoneNumber.setValue(sender.senderPhone);
   }
 
-  initListenersForNewOrder(): void {
-    this.store.pipe(select(personalDataSelector), filter(Boolean), take(1)).subscribe((personalData: PersonalData) => {
-      this.personalData = personalData;
-      this.initForm();
-      this.initLocations();
-    });
-
-    combineLatest([
-      this.store.pipe(
-        select(locationIdSelector),
-        filter((value) => value !== null)
-      ),
-      this.store.pipe(select(addressesSelector), filter(Boolean))
-    ])
-      .pipe(takeUntil(this.$destroy))
-      .subscribe(([locationId, addresses]: [number, Address[]]) => {
-        this.addresses = addresses;
-        this.currentLocationId = locationId;
-        if (this.personalDataForm) {
-          this.initLocations();
-        }
-      });
-  }
-
   initForm(): void {
     this.personalDataForm = this.fb.group({
       firstName: [this.personalData.firstName ?? '', this.nameValidators],
@@ -233,17 +155,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
       senderLastName: [this.personalData.lastName ?? '', this.nameValidators],
       senderEmail: [this.personalData.email ?? '', [Validators.maxLength(40), Validators.pattern(this.emailPattern)]],
       senderPhoneNumber: [this.personalData.phoneNumber ?? '', [Validators.required, Validators.minLength(12), PhoneNumberValidator('UA')]],
-      isAnotherClient: [this.personalData.isAnotherClient ?? false],
-      address: ['', Validators.required],
-      addressComment: ['', Validators.maxLength(255)]
+      isAnotherClient: [this.personalData.isAnotherClient ?? false]
     });
 
-    this.address.valueChanges.subscribe(() => {
-      this.address.value ? this.addressComment.enable() : this.addressComment.disable();
-      this.store.dispatch(SetAddressId({ addressId: this.address.value.id }));
-    });
-
-    this.isAnotherClient.valueChanges.pipe(distinctUntilChanged(), filter(Boolean), takeUntil(this.$destroy)).subscribe((val) => {
+    this.isAnotherClient.valueChanges.pipe(distinctUntilChanged(), filter(Boolean), takeUntil(this.$destroy)).subscribe(() => {
       this.senderFirstName.setValue('');
       this.senderLastName.setValue('');
       this.senderPhoneNumber.setValue('');
@@ -264,133 +179,10 @@ export class UBSPersonalInformationComponent extends FormBaseComponent implement
   dispatchPersonalData(): void {
     const personalData: PersonalData = {
       ...this.personalData,
-      firstName: this.firstName.value,
-      lastName: this.lastName.value,
-      email: this.email.value,
-      phoneNumber: this.phoneNumber.value,
-      isAnotherClient: this.isAnotherClient.value,
-      senderEmail: this.senderEmail.value,
-      senderFirstName: this.senderFirstName.value,
-      senderLastName: this.senderLastName.value,
-      senderPhoneNumber: this.senderPhoneNumber.value,
-      addressComment: this.addressComment.value,
-      city: this.address.value?.city ?? '',
-      cityEn: this.address.value?.cityEn ?? '',
-      district: this.address.value?.district ?? '',
-      districtEn: this.address.value?.districtEn ?? '',
-      street: this.address.value?.street ?? '',
-      streetEn: this.address.value?.streetEn ?? '',
-      region: this.address.value?.region ?? '',
-      regionEn: this.address.value?.regionEn ?? '',
-      houseCorpus: this.address.value?.houseCorpus ?? '',
-      entranceNumber: this.address.value?.entranceNumber ?? '',
-      houseNumber: this.address.value?.houseNumber ?? ''
+      ...this.personalDataForm.value
     };
 
     this.store.dispatch(SetPersonalData({ personalData }));
-  }
-
-  initLocations(): void {
-    let address = this.checkIfAddressCanBeSelected(this.address.value.id);
-
-    if (!address) {
-      const actualAddressId = this.addresses.find((address) => address.actual)?.id;
-      address = this.checkIfAddressCanBeSelected(actualAddressId);
-    }
-
-    if (address) {
-      this.checkAddress(address);
-      return;
-    }
-
-    this.findAvailableAddress();
-  }
-
-  checkIfAddressCanBeSelected(id: number): Address | null {
-    if (!id) {
-      return null;
-    }
-
-    const address = this.getAddress(id);
-    return address && !this.isAddressDisabledForCurrentLocation(address) ? address : null;
-  }
-
-  findAvailableAddress(): void {
-    for (const address of this.addresses) {
-      if (!this.isAddressDisabledForCurrentLocation(address)) {
-        this.checkAddress(address);
-        return;
-      }
-    }
-    this.address.patchValue('');
-  }
-
-  initLocationForExistingOrder(): void {
-    const addressDetails: IAddressExportDetails = this.existingOrderInfo.address;
-    const address = this.addresses.find(
-      (address) =>
-        address.cityEn === addressDetails.addressCityEng &&
-        address.regionEn === addressDetails.addressRegionEng &&
-        address.streetEn === addressDetails.addressStreetEng &&
-        address.districtEn === addressDetails.addressDistinctEng &&
-        address.houseNumber === addressDetails.houseNumber
-    );
-
-    address && !this.isAddressDisabledForCurrentLocation(address) ? this.checkAddress(address) : this.initLocations();
-  }
-
-  checkAddress(address): void {
-    this.address.patchValue(address);
-    this.addressComment.patchValue(address.addressComment ?? '');
-  }
-
-  isAddressDisabledForCurrentLocation(address: Address): boolean {
-    const isCity = this.currentLocationId === this.locationIdForKyiv;
-
-    if (address) {
-      const isAddressInCity = this.cities.includes(address.cityEn);
-      return isCity ? !isAddressInCity : isAddressInCity;
-    }
-
-    return false;
-  }
-
-  deleteAddress(address: Address): void {
-    this.store.dispatch(DeleteAddress({ address }));
-  }
-
-  changeAddressComment(): void {
-    if (this.addressComment.value !== this.address.value.addressComment) {
-      this.store.dispatch(UpdateAddress({ address: { ...this.address.value, addressComment: this.addressComment.value } }));
-    }
-  }
-
-  addNewAddress(): void {
-    this.openDialog(false);
-  }
-
-  editAddress(addressId: number): void {
-    this.openDialog(true, addressId);
-  }
-
-  openDialog(isEdit: boolean, addressId?: number): void {
-    const currentAddress = this.addresses.find((address) => address.id === addressId);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.panelClass = 'address-matDialog-styles';
-    dialogConfig.data = {
-      edit: isEdit,
-      currentLocation: this.currentLocation
-    };
-    if (isEdit) {
-      dialogConfig.data.address = currentAddress;
-    } else {
-      dialogConfig.data.address = {};
-    }
-    const dialogRef = this.dialog.open(UBSAddAddressPopUpComponent, dialogConfig);
-    dialogRef
-      .afterClosed()
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((res) => {});
   }
 
   getFormValues(): boolean {

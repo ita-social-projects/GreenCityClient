@@ -43,6 +43,8 @@ import { UploadPhotoContainerComponent } from './upload-photo-container/upload-p
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SafeHtmlTransformPipe } from './events-description-transforn/safe-html-transform.pipe';
 import { LinkifyDirective } from 'src/app/shared/directives/linkify.directive';
+import { SharedMainModule } from '@shared/shared-main.module';
+import { InputGoogleAutocompleteComponent } from '@shared/components/input-google-autocomplete/input-google-autocomplete.component';
 import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-leading-zero/remove-leading-zero.directive';
 
 @NgModule({
@@ -81,6 +83,7 @@ import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-lea
     UploadPhotoContainerComponent,
     SafeHtmlTransformPipe,
     LinkifyDirective,
+    InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective
   ],
   imports: [
@@ -128,6 +131,7 @@ import { RemoveLeadingZeroDirective } from 'src/app/shared/directives/remove-lea
     CorrectUnitPipe,
     MaterialModule,
     LinkifyDirective,
+    InputGoogleAutocompleteComponent,
     RemoveLeadingZeroDirective
   ]
 })

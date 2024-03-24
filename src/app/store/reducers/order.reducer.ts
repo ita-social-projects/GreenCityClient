@@ -29,8 +29,11 @@ import {
   DeleteAddressSuccess,
   GetExistingOrderInfoSuccess,
   ClearOrderData,
-  SetAddressId,
-  SetCertificates
+  SetCertificates,
+  SetAddress,
+  UpdateAddress,
+  DeleteAddress,
+  CreateAddress
 } from '../actions/order.actions';
 import { createReducer, on } from '@ngrx/store';
 
@@ -116,25 +119,50 @@ export const orderReducer = createReducer(
   on(GetAddressesSuccess, (state, action) => {
     return {
       ...state,
+      addressId: null,
       addresses: action.locations
+    };
+  }),
+  on(CreateAddress, (state, action) => {
+    return {
+      ...state,
+      isAddressLoading: true
     };
   }),
   on(CreateAddressSuccess, (state, action) => {
     return {
       ...state,
-      addresses: action.addresses
+      addressId: null,
+      addresses: action.addresses,
+      isAddressLoading: false
+    };
+  }),
+  on(UpdateAddress, (state, action) => {
+    return {
+      ...state,
+      isAddressLoading: true
     };
   }),
   on(UpdateAddressSuccess, (state, action) => {
     return {
       ...state,
-      addresses: action.addresses
+      addressId: null,
+      addresses: action.addresses,
+      isAddressLoading: false
+    };
+  }),
+  on(DeleteAddress, (state, action) => {
+    return {
+      ...state,
+      isAddressLoading: true
     };
   }),
   on(DeleteAddressSuccess, (state, action) => {
     return {
       ...state,
-      addresses: action.addresses
+      addressId: null,
+      addresses: action.addresses,
+      isAddressLoading: false
     };
   }),
   on(GetPersonalDataSuccess, (state, action) => {
@@ -212,10 +240,26 @@ export const orderReducer = createReducer(
       orderDetails: { ...state.orderDetails, orderComment: action.comment }
     };
   }),
-  on(SetAddressId, (state, action) => {
+  on(SetAddress, (state, action) => {
     return {
       ...state,
-      addressId: action.addressId
+      addressId: action.address?.id ?? null,
+      personalData: {
+        ...state.personalData,
+        city: action.address?.city ?? '',
+        cityEn: action.address?.cityEn ?? '',
+        district: action.address?.district ?? '',
+        districtEn: action.address?.districtEn ?? '',
+        street: action.address?.street ?? '',
+        streetEn: action.address?.streetEn ?? '',
+        region: action.address?.region ?? '',
+        regionEn: action.address?.regionEn ?? '',
+        houseCorpus: action.address?.houseCorpus ?? '',
+        houseNumber: action.address?.houseNumber ?? '',
+        entranceNumber: action.address?.entranceNumber ?? null,
+        longitude: action.address?.coordinates.longitude ?? null,
+        latitude: action.address?.coordinates.latitude ?? null
+      }
     };
   }),
   on(AddCertificate, (state, action) => {

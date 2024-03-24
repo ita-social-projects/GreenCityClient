@@ -35,6 +35,8 @@ import { PendingChangesGuard } from '@global-service/pending-changes-guard/pendi
 import { ConfirmRestorePasswordGuard } from '@global-service/route-guards/confirm-restore-password.guard';
 import { UbsMainPageSpinnerComponent } from './components/ubs-main-page-spinner/ubs-main-page-spinner.component';
 import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service-pop-up/ubs-pick-up-service-pop-up.component';
+import { UbsOrderAddressComponent } from './components/ubs-personal-information/ubs-order-address/ubs-order-address.component';
+import { ValidateAddressDirective } from 'src/app/ubs/ubs/directives/validate-address/validate-address.directive';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { UbsPickUpServicePopUpComponent } from './components/ubs-pick-up-service
     UbsOrderCertificateComponent,
     ExtraPackagesPopUpComponent,
     UbsMainPageSpinnerComponent,
-    UbsPickUpServicePopUpComponent
+    UbsPickUpServicePopUpComponent,
+    UbsOrderAddressComponent,
+    ValidateAddressDirective
   ],
   imports: [
     MatAutocompleteModule,

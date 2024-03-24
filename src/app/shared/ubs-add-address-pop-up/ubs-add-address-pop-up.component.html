@@ -4,108 +4,58 @@
     <h2 *ngIf="data.edit" class="personal-info-pop-up-title">{{ 'personal-info.pop-up-title-edit' | translate }}</h2>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
-    <label>{{ 'personal-info.pop-up-region' | translate }}</label>
-    <input
-      id="regionInput"
-      [formControlName]="getLangValue('region', 'regionEn')"
-      class="shadow-none form-control"
-      (input)="setPredictRegions()"
-      matInput
-      [matAutocomplete]="autoRegion"
-    />
-    <mat-autocomplete #autoRegion="matAutocomplete">
-      <mat-option
-        class="autocomplete-dropdown"
-        *ngFor="let region of regionPredictionList"
-        [value]="region.description"
-        (onSelectionChange)="onRegionSelected(region)"
-      >
-        {{ region.description }}
-      </mat-option>
-    </mat-autocomplete>
-    <div *ngIf="isErrorMessageShown(region, regionEn)">
-      <app-ubs-input-error [formElement]="getLangValue(region, regionEn)"></app-ubs-input-error>
+    <label for="region">{{ 'personal-info.pop-up-region' | translate }}</label>
+    <app-input-google-autocomplete
+      formControlName="region"
+      [autoCompRequest]="autocompleteRegionRequest"
+      (predictionSelected)="onRegionSelected($event)"
+      [isInvalid]="region.invalid"
+    ></app-input-google-autocomplete>
+    <div *ngIf="isErrorMessageShown(region)">
+      <app-ubs-input-error [formElement]="region"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-md-6 col-sm-6 form-group">
-    <label>{{ 'personal-info.pop-up-city' | translate }}</label>
-    <input
-      id="cityInput"
-      [formControlName]="getLangValue('city', 'cityEn')"
-      class="shadow-none form-control"
-      (input)="setPredictCities()"
-      matInput
-      [matAutocomplete]="autoCity"
-    />
-    <mat-autocomplete #autoCity="matAutocomplete">
-      <mat-option
-        class="autocomplete-dropdown"
-        *ngFor="let cityName of cityPredictionList"
-        [value]="cityName.description"
-        (onSelectionChange)="onCitySelected(cityName)"
-      >
-        {{ cityName.description }}
-      </mat-option>
-    </mat-autocomplete>
-    <div *ngIf="isErrorMessageShown(city, cityEn)">
-      <app-ubs-input-error [formElement]="getLangValue(city, cityEn)"></app-ubs-input-error>
+    <label for="city">{{ 'personal-info.pop-up-city' | translate }}</label>
+    <app-input-google-autocomplete
+      [formControlName]="'city'"
+      [requestPrefix]="region.value + ', ' + getLangValue('місто, ', 'city, ')"
+      [autoCompRequest]="autocompleteCityRequest"
+      (predictionSelected)="onCitySelected($event)"
+      [isInvalid]="city.invalid"
+    ></app-input-google-autocomplete>
+    <div *ngIf="isErrorMessageShown(city)">
+      <app-ubs-input-error [formElement]="city"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-    <label>{{ 'personal-info.pop-up-street' | translate }}</label>
-    <input
-      id="streetInput"
-      [formControlName]="getLangValue('street', 'streetEn')"
-      type="text"
-      class="shadow-none form-control"
-      placeholder="{{ 'personal-info.pop-up-enter-you-location' | translate }}"
-      (input)="setPredictStreets()"
-      matInput
-      [matAutocomplete]="autoStreet"
-    />
-    <mat-autocomplete #autoStreet="matAutocomplete">
-      <mat-option
-        class="autocomplete-dropdown"
-        *ngFor="let streetName of streetPredictionList"
-        [value]="streetName.description"
-        (onSelectionChange)="onStreetSelected(streetName)"
-      >
-        {{ streetName.description }}
-      </mat-option>
-    </mat-autocomplete>
-    <div *ngIf="isErrorMessageShown(street, streetEn)">
-      <app-ubs-input-error [formElement]="getLangValue(street, streetEn)"></app-ubs-input-error>
+    <label for="street">{{ 'personal-info.pop-up-street' | translate }}</label>
+    <app-input-google-autocomplete
+      [formControlName]="'street'"
+      [requestPrefix]="city.value + ', '"
+      [autoCompRequest]="autocompleteStreetRequest"
+      (predictionSelected)="onStreetSelected($event)"
+      [isInvalid]="street.invalid"
+    ></app-input-google-autocomplete>
+    <div *ngIf="isErrorMessageShown(street)">
+      <app-ubs-input-error [formElement]="street"></app-ubs-input-error>
     </div>
   </div>
   <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap form-group house-details-wrapper">
     <div class="item col-sm-4">
-      <label>{{ 'personal-info.pop-up-house' | translate }}</label>
+      <label for="houseNumber">{{ 'personal-info.pop-up-house' | translate }}</label>
       <input
         formControlName="houseNumber"
         type="text"
         class="shadow-none form-control"
         placeholder="{{ 'personal-info.pop-up-house' | translate }}"
-        (input)="setPredictHouseNumbers()"
-        (focusout)="checkHouseInput()"
-        matInput
-        [matAutocomplete]="autoHouse"
       />
-      <mat-autocomplete #autoHouse="matAutocomplete">
-        <mat-option
-          class="autocomplete-dropdown"
-          *ngFor="let house of housePredictionList"
-          [value]="house.structured_formatting.main_text"
-          (onSelectionChange)="onHouseSelected(house)"
-        >
-          {{ house.structured_formatting.main_text }}
-        </mat-option>
-      </mat-autocomplete>
       <div class="validation" *ngIf="houseNumber.invalid && houseNumber.touched">
         <app-ubs-input-error [formElement]="houseNumber" [inputName]="'requiredHouseNumber'"></app-ubs-input-error>
       </div>
     </div>
     <div class="item col-sm-4">
-      <label>{{ 'personal-info.pop-up-corps' | translate }}</label>
+      <label for="houseCorpus">{{ 'personal-info.pop-up-corps' | translate }}</label>
       <input
         formControlName="houseCorpus"
         type="text"
@@ -117,7 +67,7 @@
       </div>
     </div>
     <div class="item col-sm-4">
-      <label>{{ 'personal-info.pop-up-entrance' | translate }}</label>
+      <label for="entranceNumber">{{ 'personal-info.pop-up-entrance' | translate }}</label>
       <input
         formControlName="entranceNumber"
         type="text"
@@ -131,43 +81,41 @@
   </div>
 
   <div class="col-md-6 col-sm-6 form-group">
-    <label>{{ 'personal-info.pop-up-district' | translate }}</label>
-    <select [formControlName]="getLangValue('district', 'districtEn')" class="shadow-none form-control" (change)="onDistrictSelected()">
-      <option *ngFor="let district of districtList" [ngValue]="getLangValue(district.nameUa, district.nameEn)">
-        {{ getLangValue(district.nameUa, district.nameEn) }}
-      </option>
+    <label for="district">{{ 'personal-info.pop-up-district' | translate }}</label>
+    <select class="shadow-none form-control" formControlName="district" [compareWith]="districtComparator">
+      <option
+        *ngFor="let districtElem of districtList"
+        [ngValue]="districtElem"
+        [label]="getLangValue(districtElem.nameUa, districtElem.nameEn)"
+      ></option>
     </select>
-    <div
-      class="validation"
-      *ngIf="
-        addAddressForm.get(this.getLangValue('district', 'districtEn')).invalid &&
-        addAddressForm.get(this.getLangValue('district', 'districtEn')).touched
-      "
-    >
-      <app-ubs-input-error [formElement]="getLangValue(district, districtEn)"></app-ubs-input-error>
+    <div class="validation" *ngIf="addAddressForm.get('district').invalid && addAddressForm.get('district').touched">
+      <app-ubs-input-error [formElement]="district"></app-ubs-input-error>
     </div>
   </div>
   <div class="form-group comment-section">
-    <label>{{ 'personal-info.info-address-coment' | translate }}</label>
+    <label for="addressComment">{{ 'personal-info.info-address-coment' | translate }}</label>
     <textarea
       class="form-control"
       formControlName="addressComment"
       placeholder="{{ 'personal-info.pop-up-comment-placeholder' | translate }}"
     ></textarea>
     <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
-      <app-ubs-input-error [formElement]="addressComment"> </app-ubs-input-error>
+      <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>
     </div>
   </div>
 </form>
+<div class="address-exists" *ngIf="addAddressForm?.errors?.addressAlreadyExists">
+  {{ 'personal-info.address-already-exist' | translate }}
+</div>
 <div class="buttons" mat-dialog-actions>
-  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()" [disabled]="isDisabled">
-    <span *ngIf="isDeleting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
+  <button *ngIf="data.edit" class="ubs-danger-global-button m-btn delete-btn" (click)="deleteAddress()">
     {{ 'personal-info.pop-up-delete' | translate }}
   </button>
   <button class="ubs-secondary-global-button m-btn" (click)="onNoClick()">
     {{ 'personal-info.pop-up-cancel' | translate }}
   </button>
-  <button class="ubs-primary-global-button m-btn" (click)="addAdress()" [disabled]="isSubmitBtnDisabled()">
+  <button class="ubs-primary-global-button m-btn" (click)="addAdress()" [disabled]="addAddressForm.invalid || !addressData.isValid()">
     {{ (data.edit ? 'personal-info.pop-up-save-changes' : 'personal-info.pop-up-add-address') | translate }}
   </button>
 </div>

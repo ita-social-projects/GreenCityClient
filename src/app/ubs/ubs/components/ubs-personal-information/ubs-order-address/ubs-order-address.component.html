@@ -1,0 +1,69 @@
+<div class="row adress-section">
+  <div class="w-100">
+    <h2 class="address-title">{{ 'personal-info.info-address' | translate }}</h2>
+    <p class="ml-3">{{ 'personal-info.first-order' | translate }}</p>
+  </div>
+
+  <div *ngIf="$isAddressLoading | async; else addressesList" class="spinner-wrapper">
+    <app-spinner></app-spinner>
+  </div>
+  <ng-template #addressesList>
+    <div *ngIf="!addresses?.length" class="no-addresses">
+      <p>{{ 'personal-info.info-no-address' | translate }}</p>
+    </div>
+
+    <div class="w-50 d-flex mt-2 mb-2 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let address of addresses">
+      <label class="adress-position" [for]="'address' + address.id">
+        <div class="custom-radio d-flex">
+          <input
+            [id]="'address' + address.id"
+            class="checkmark"
+            name="addressId"
+            type="radio"
+            [value]="address"
+            [checked]="address.id === selectedAddress?.id"
+            (click)="setCurrentAddress(address)"
+            appValidateAddress
+            [currentLocationId]="currentLocationId"
+            [address]="address"
+          />
+        </div>
+        <app-address [address]="address" class="col-md-6"></app-address>
+      </label>
+      <div class="edit-address" (click)="editAddress(address.id)">
+        <img src="assets/img/comments/edit.png" alt="edit" />
+      </div>
+      <div class="edit-address" (click)="deleteAddress(address)">
+        <img src="assets/img/comments/delete.png" alt="delete" />
+      </div>
+    </div>
+
+    <div class="w-100">
+      <div *ngIf="!selectedAddress && addresses?.length" class="validate-address">
+        {{ 'personal-info.no-any-address-for-current-tariff' | translate }}
+      </div>
+      <button
+        type="button"
+        class="ubs-link-global-button s-link"
+        mat-raised-button
+        (click)="addNewAddress()"
+        [disabled]="addresses.length >= maxAddressLength"
+      >
+        {{ (!addresses.length ? 'personal-info.info-add-address' : 'personal-info.info-add-new-address') | translate }}
+      </button>
+    </div>
+  </ng-template>
+</div>
+<hr />
+<div class="address-comment">
+  <h5 class="comment-title">{{ 'personal-info.info-address-coment' | translate }}</h5>
+  <textarea
+    class="form-control"
+    placeholder="{{ 'personal-info.info-coment-placeholder' | translate }}"
+    [formControl]="addressComment"
+    (blur)="changeAddressComment()"
+  ></textarea>
+  <div class="validation" *ngIf="addressComment.invalid && addressComment.touched">
+    <app-ubs-input-error [formElement]="addressComment"></app-ubs-input-error>
+  </div>
+</div>

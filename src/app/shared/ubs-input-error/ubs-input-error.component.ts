@@ -44,9 +44,7 @@ export class UBSInputErrorComponent implements OnInit {
     wrongName: 'input-error.name-wrong',
     wrongNumber: 'input-error.number-wrong',
     wrongCity: 'input-error.city-wrong',
-    wrongHouse: 'input-error.house-wrong',
-    wrongCorpus: 'input-error.corpus-wrong',
-    wrongEntrance: 'input-error.entrance-wrong',
+    lettersAndNumbericOnly: 'input-error.letters-and-numeric-only',
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
@@ -99,12 +97,8 @@ export class UBSInputErrorComponent implements OnInit {
     switch (pattern) {
       case Patterns.ubsWithDigitPattern.toString():
         return this.validationErrors.wrongCity;
-      case Patterns.ubsHousePattern.toString():
-        return this.validationErrors.wrongHouse;
-      case Patterns.ubsCorpusPattern.toString():
-        return this.validationErrors.wrongCorpus;
-      case Patterns.ubsEntrNumPattern.toString():
-        return this.validationErrors.wrongEntrance;
+      case Patterns.numericAndAlphabetic.toString():
+        return this.validationErrors.lettersAndNumbericOnly;
       case Patterns.NamePattern.toString():
         return this.validationErrors.wrongName;
       case Patterns.ubsMailPattern.toString():
