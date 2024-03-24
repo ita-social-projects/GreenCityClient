@@ -17,6 +17,7 @@ $breakpointsPC: (
   2xl: 1199px,
   3xl: 1439px
 );
+/* stylelint-disable */
 
 @mixin responsiveMobileFirst($breakpoint) {
   @if map-has-key($breakpointsMobile, $breakpoint) {
@@ -37,3 +38,4 @@ $breakpointsPC: (
     @warn "No breakpoint defined for #{$breakpoint}.";
   }
 }
+/* stylelint-enable */
