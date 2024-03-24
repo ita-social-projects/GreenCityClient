@@ -326,7 +326,7 @@
     ></mat-row>
   </table>
   <app-spinner *ngIf="isUpdate"></app-spinner>
-  <div class="message-container" *ngIf="!tableData?.length">
+  <div class="message-container" *ngIf="!isUpdate && !tableData?.length">
     {{ 'ubs-tables.no-orders-found' | translate }}
   </div>
 </div>
