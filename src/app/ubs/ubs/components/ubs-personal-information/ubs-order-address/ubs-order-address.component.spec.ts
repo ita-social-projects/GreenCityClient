@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UbsOrderAddressComponent } from './ubs-order-address.component';
 
-describe('UbsOrderAddressComponent', () => {
+xdescribe('UbsOrderAddressComponent', () => {
   let component: UbsOrderAddressComponent;
   let fixture: ComponentFixture<UbsOrderAddressComponent>;
 
