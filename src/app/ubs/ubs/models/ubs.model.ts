@@ -217,7 +217,7 @@ export class CAddressData {
   }
 
   public isValid(): boolean {
-    let data = this.getValues();
+    const data = this.getValues();
     delete data.addressComment;
     delete data.houseCorpus;
     delete data.entranceNumber;

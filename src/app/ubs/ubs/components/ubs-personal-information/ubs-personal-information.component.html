@@ -106,7 +106,12 @@
     <button class="ubs-secondary-global-button" type="button" (click)="onCancel()">
       {{ 'personal-info.info-cancel' | translate }}
     </button>
-    <button type="submit" class="ubs-primary-global-button" matStepperNext [disabled]="personalDataForm.invalid || !($address | async)">
+    <button
+      type="submit"
+      class="ubs-primary-global-button"
+      matStepperNext
+      [disabled]="personalDataForm.invalid || ($address | async) === null"
+    >
       {{ 'personal-info.info-next' | translate }}
     </button>
   </div>

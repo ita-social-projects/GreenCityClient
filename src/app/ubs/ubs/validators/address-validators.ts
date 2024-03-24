@@ -10,22 +10,6 @@ enum ValidatorsRegion {
   KYIV_REGION = 2
 }
 
-const validationStrategies: Record<number, (injector: Injector) => CityValidationStrategy> = {
-  [ValidatorsRegion.KYIV]: (injector: Injector) => new KyivValidator(injector),
-  [ValidatorsRegion.KYIV_REGION]: (injector: Injector) => new KyivRegionValidator(injector)
-};
-
-@Injectable({ providedIn: 'any' })
-export class AddressValidator {
-  constructor(private injector: Injector) {}
-
-  isAvailable(locationId: number, address: Address): boolean {
-    const strategy = validationStrategies[locationId];
-    const validator = strategy(this.injector) || new DefaultCityValidator(this.injector);
-    return validator.isValid(address);
-  }
-}
-
 abstract class CityValidationStrategy {
   constructor(protected injector: Injector) {}
 
@@ -93,5 +77,21 @@ class DefaultCityValidator extends CityValidationStrategy {
 
   isValid(address: Address): boolean {
     return true;
+  }
+}
+
+const validationStrategies: Record<number, (injector: Injector) => CityValidationStrategy> = {
+  [ValidatorsRegion.KYIV]: (injector: Injector) => new KyivValidator(injector),
+  [ValidatorsRegion.KYIV_REGION]: (injector: Injector) => new KyivRegionValidator(injector)
+};
+
+@Injectable({ providedIn: 'any' })
+export class AddressValidator {
+  constructor(private injector: Injector) {}
+
+  isAvailable(locationId: number, address: Address): boolean {
+    const strategy = validationStrategies[locationId];
+    const validator = strategy(this.injector) || new DefaultCityValidator(this.injector);
+    return validator.isValid(address);
   }
 }

@@ -116,7 +116,7 @@ export class UbsOrderAddressComponent implements OnInit, OnDestroy {
   setCurrentAddress(address): void {
     this.selectedAddress = address;
     this.addressComment.patchValue(address?.addressComment ?? '');
-    this.store.dispatch(SetAddress({ address: address }));
+    this.store.dispatch(SetAddress({ address }));
 
     address ? this.addressComment.enable() : this.addressComment.disable();
   }

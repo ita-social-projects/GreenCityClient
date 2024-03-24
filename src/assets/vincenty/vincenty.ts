@@ -54,7 +54,9 @@ export class VincentySerivce {
       lambda = L + (1 - C) * f * sinAlpha * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
     } while (Math.abs(lambda - lambdaP) > 1e-12 && --iterLimit > 0);
 
-    if (iterLimit === 0) return NaN;
+    if (iterLimit === 0) {
+      return NaN;
+    }
 
     const uSq = (cosSqAlpha * (a * a - b * b)) / (b * b);
     const A = 1 + (uSq / 16384) * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));

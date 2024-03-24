@@ -30,8 +30,6 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Output() selectedPredictionCoordinates = new EventEmitter<Coordinates>();
   @Output() predictionSelected = new EventEmitter<GooglePrediction | null>();
 
-  onChange = (quantity) => {};
-  onTouched = () => {};
   disabled = false;
   touched = false;
   predictionList: GooglePrediction[];
@@ -39,8 +37,10 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   placeId: string;
   inputUpdate = new Subject<string>();
   inputValue: FormControl = new FormControl('');
-
   private destroy$ = new Subject<void>();
+
+  onChange = (quantity) => {};
+  onTouched = () => {};
 
   constructor(private languageService: LanguageService) {}
 

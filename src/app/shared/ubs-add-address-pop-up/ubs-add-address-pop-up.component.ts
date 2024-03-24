@@ -291,7 +291,7 @@ export class UBSAddAddressPopUpComponent implements OnInit, OnDestroy {
       }
 
       const district = this.districtList.find(
-        (d) => d.nameEn.startsWith(districtAuto.long_name?.split("'")[0]) || d.nameUa === districtAuto.long_name
+        (d) => d.nameEn.startsWith(districtAuto.long_name?.split(`'`)[0]) || d.nameUa === districtAuto.long_name
       );
       this.district.setValue(district ?? '');
     });

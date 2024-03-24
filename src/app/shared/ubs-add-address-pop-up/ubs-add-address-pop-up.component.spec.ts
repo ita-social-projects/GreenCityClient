@@ -2,7 +2,7 @@ import { MatSnackBarComponent } from 'src/app/main/component/errors/mat-snack-ba
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UBSAddAddressPopUpComponent } from './ubs-add-address-pop-up.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -12,7 +12,6 @@ import { Language } from 'src/app/main/i18n/Language';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
-import { Address, KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LocationService } from '@global-service/location/location.service';
@@ -25,7 +24,6 @@ import { Store } from '@ngrx/store';
 xdescribe('UBSAddAddressPopUpComponent', () => {
   let component: UBSAddAddressPopUpComponent;
   let fixture: ComponentFixture<UBSAddAddressPopUpComponent>;
-  let orderService: OrderService;
   let MatSnackBarMock: MatSnackBarComponent;
 
   MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
