@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
@@ -8,7 +8,6 @@ import { FriendModel, FriendArrayModel } from '@global-user/models/friend.model'
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-friend-profile-page',
@@ -23,15 +22,13 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
   public progress: ProfileStatistics;
   public isRequest: boolean;
   public showButtons = true;
-  @ViewChild('greenDot') greenDot: ElementRef;
 
   constructor(
     private userFriendsService: UserFriendsService,
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
-    private localStorageService: LocalStorageService,
-    private SocketService: SocketService
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -42,21 +39,10 @@ export class FriendProfilePageComponent implements OnInit, OnDestroy {
     this.getUserInfo(this.userId);
     this.getUserActivities();
     this.getRequests();
-    this.SocketService.onMessage(`/topic/${this.userId}/onlineStatus/`).subscribe((data) => {
-      console.log(`${this.userId} is ${data.isOnline ? 'online' : 'offline'}`);
-      if (data.isOnline) {
-        this.greenDot.nativeElement.setAttribute('style', 'background-color: green;');
-      } else {
-        this.greenDot.nativeElement.setAttribute('style', 'background-color: grey;');
-      }
-    });
   }
 
   private bindLang(): void {
     this.localStorageService.languageSubject.pipe(takeUntil(this.destroy$)).subscribe((lang) => this.translate.setDefaultLang(lang));
-  }
-  sendSocketMessage() {
-    this.SocketService.send(`/app/isOnline/${this.userId}`, {});
   }
 
   private getUserInfo(id: number): void {

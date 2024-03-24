@@ -33,17 +33,18 @@ export class UserOnlineStatusService implements OnDestroy {
       .subscribe(() => {
         const usersIdArray = Object.values(this.usersToCheckOnlineStatus).flat();
         const uniqueIdSet = [...new Set(usersIdArray)];
-        console.log('sending message with', uniqueIdSet);
+        console.log('sending message with', this.socketService.userId, uniqueIdSet);
         if (uniqueIdSet.length) {
-          this.socketService.send(`/app/isOnline`, { userId: uniqueIdSet });
+          this.socketService.send(`/app/usersOnlineStatus`, { currentUserId: this.socketService.userId, usersId: uniqueIdSet });
         }
       });
   }
   public subscribeToSocketResponse(): void {
     this.socketService
-      .onMessage(`/topic/${this.socketService.userId}/onlineStatus/`)
+      .onMessage(`/topic/${this.socketService.userId}/usersOnlineStatus`)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
+        console.log('socket response', res);
         this.usersOnlineStatus$.next(res);
       });
   }
