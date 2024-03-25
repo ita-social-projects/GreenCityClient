@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WarningPopUpComponent, PhotoUploadComponent, EditPhotoPopUpComponent } from './components';
+import { WarningPopUpComponent, EditPhotoPopUpComponent } from './components';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
@@ -51,7 +51,6 @@ registerLocaleData(ukLocale, 'ua');
 
 @NgModule({
   declarations: [
-    PhotoUploadComponent,
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
@@ -103,7 +102,6 @@ registerLocaleData(ukLocale, 'ua');
   exports: [
     EditPhotoPopUpComponent,
     TranslateModule,
-    PhotoUploadComponent,
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule,
