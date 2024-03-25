@@ -1,0 +1,45 @@
+$breakpointsMobile: (
+  xs: 320px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1024px,
+  2xl: 1200px,
+  3xl: 1440px
+);
+
+$breakpointsPC: (
+  xs: 319px,
+  sm: 575px,
+  md: 767px,
+  lg: 991px,
+  xl: 1023px,
+  2xl: 1199px,
+  3xl: 1439px
+);
+/* stylelint-disable */
+
+@mixin responsiveMobileFirst($breakpoint) {
+  @if map-has-key($breakpointsMobile, $breakpoint) {
+    @media (min-width: map-get($breakpointsMobile, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "No breakpoint defined for #{$breakpoint}.";
+  }
+}
+
+@mixin responsivePCFirst($breakpoint) {
+  @if map-has-key($breakpointsPC, $breakpoint) {
+    @media (max-width: map-get($breakpointsPC, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "No breakpoint defined for #{$breakpoint}.";
+  }
+}
+/* stylelint-enable */
+
+:root {
+  @include responsiveMobileFirst(3xl);
+}
