@@ -11,7 +11,7 @@ import { Coords, MapMarker as MapMarkerInterface } from '../../models/events.int
 })
 export class MapEventComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  private map: unknown;
+  private map: google.maps.Map;
 
   public eventPlace: MapMarkerInterface;
   public adress: string;

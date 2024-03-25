@@ -25,7 +25,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { AddLocations, GetLocations } from 'src/app/store/actions/tariff.actions';
 import { ModalTextComponent } from '../../shared/components/modal-text/modal-text.component';
-import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { GoogleScript } from 'src/assets/google-script/google-script';
 import { LanguageService } from 'src/app/main/i18n/language.service';
@@ -105,6 +105,8 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
     cross: '././assets/img/ubs/cross.svg'
   };
 
+  @ViewChild('#regionInput', { static: true }) regionInputRef: ElementRef<HTMLInputElement>;
+
   constructor(
     private tariffsService: TariffsService,
     private fb: UntypedFormBuilder,
@@ -141,6 +143,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   ngOnInit(): void {
+    this.setupAutocomplete();
     this.currentLang = this.localeStorageService.getCurrentLanguage();
     this.googleScript.load(this.currentLang);
     this.getLocations();
@@ -161,6 +164,10 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
       this.datePipe = new DatePipe(this.currentLang);
       this.newDate = this.datePipe.transform(new Date(), 'MMM dd, yyyy');
     });
+  }
+
+  private setupAutocomplete() {
+    const autocomplete = new google.maps.places.Autocomplete(this.regionInputRef.nativeElement, this.regionOptions);
   }
 
   selectCities(currentRegion): void {

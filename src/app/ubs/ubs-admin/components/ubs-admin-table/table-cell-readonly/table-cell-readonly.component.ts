@@ -23,6 +23,7 @@ export class TableCellReadonlyComponent implements OnInit, OnChanges {
   public dataObj: IColumnBelonging = null;
   public data: string | number | { ua: string; en: string } | null;
   private font = '12px Lato, sans-serif';
+  typeof: any;
 
   ngOnInit(): void {
     if (this.optional?.length) {

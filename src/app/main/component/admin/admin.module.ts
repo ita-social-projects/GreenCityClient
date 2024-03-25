@@ -42,11 +42,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   declarations: [
     AdminNavComponent,
     AdminComponent,
-    // OldPlacesComponent,
     UsersComponent,
     ErrorComponent,
     ConfirmModalComponent,
-    // UpdateCafeComponent,
     FeedbacksComponent,
     DialogPhotoComponent
   ],
@@ -73,8 +71,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatCheckboxModule,
     GoogleMapsModule,
     TranslateModule
-    // GoogleMap,
-    // MapMarker,
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

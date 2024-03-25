@@ -25,7 +25,11 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public translate: TranslateService, private localStorageService: LocalStorageService, private langService: LanguageService) {}
+  constructor(
+    public translate: TranslateService,
+    private localStorageService: LocalStorageService,
+    private langService: LanguageService
+  ) {}
   ngOnInit() {
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
@@ -46,7 +50,7 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

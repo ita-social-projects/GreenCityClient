@@ -45,7 +45,7 @@
               <p *ngIf="element.photos.length === 0" style="font-size: 13px">{{ 'feedbacks.no-attachment' | translate }}</p>
               <h6 *ngFor="let link of element.photos">
                 <a id="photoIcon" class="image-comment">
-                  <mdb-icon far icon="image" (click)="openDialog(link.name)"></mdb-icon>
+                  <mat-icon far icon="image" (click)="openDialog(link.name)"></mat-icon>
                 </a>
               </h6>
             </td>
@@ -55,7 +55,7 @@
             <th mat-header-cell *matHeaderCellDef scope="col" class="delete"></th>
             <td mat-cell *matCellDef="let element" class="delete">
               <a id="trashIcon" (click)="confirmDelete(element.id, element.place.name)">
-                <mdb-icon far icon="trash-alt"></mdb-icon>
+                <mat-icon far icon="trash-alt"></mat-icon>
               </a>
             </td>
           </ng-container>

@@ -42,6 +42,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 registerLocaleData(usLocale, 'en');
 registerLocaleData(ruLocale, 'ru');
@@ -70,6 +71,7 @@ registerLocaleData(ukLocale, 'ua');
   imports: [
     ModalModule.forRoot(),
     RatingModule.forRoot(),
+    MatIconModule,
     ImageCropperModule,
     SharedModule,
     FormsModule,

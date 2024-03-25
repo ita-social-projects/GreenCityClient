@@ -52,7 +52,6 @@
         matGoogleMapsAutocomplete
         formControlName="place"
         placeholder="{{ 'create-event.enter-location' | translate }}"
-        (input)="setPlaceAutocomplete($event)"
       />
     </mat-form-field>
     <div *ngIf="isLocationSelected" class="location-error-messege">{{ 'create-event.location-required' | translate }}</div>

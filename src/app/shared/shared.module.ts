@@ -20,7 +20,7 @@ import { SearchItemComponent } from './search-item/search-item.component';
 import { SearchPopupComponent } from './search-popup/search-popup.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { SearchNotFoundComponent } from './search-not-found/search-not-found.component';
@@ -42,7 +42,7 @@ import { NewsListGalleryViewComponent } from './news-list-gallery-view/news-list
 // import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CorrectUnitPipe } from './correct-unit-pipe/correct-unit.pipe';
 import { UploadPhotoContainerComponent } from './upload-photo-container/upload-photo-container.component';
-// import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { EventDescriptionTransformPipe } from './events-description-transforn/event-description-transform.pipe';
 
 @NgModule({
@@ -86,15 +86,15 @@ import { EventDescriptionTransformPipe } from './events-description-transforn/ev
     MaterialModule,
     TranslateModule,
     RouterModule,
-    // InfiniteScrollModule,
+    InfiniteScrollModule,
     MatSnackBarModule,
-    NgxPageScrollModule,
+    // NgxPageScrollModule,
     ReactiveFormsModule,
     FormsModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
     // GooglePlaceModule,
-    // ImageCropperModule
+    ImageCropperModule
   ],
   exports: [
     SpinnerComponent,

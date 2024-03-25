@@ -13,12 +13,11 @@
           <input
             id="region-options"
             *ngIf="!data.edit"
-            ngx-google-places-autocomplete
             type="text"
             [ngClass]="{ 'error-input': regionExist }"
             class="shadow-none form-control"
             required
-            [options]="regionOptions"
+            #regionInput
             formControlName="region"
             [placeholder]="'ubs-tariffs-add-location-pop-up.placeholder_enter_region' | translate"
             (onAddressChange)="onRegionSelected($event)"

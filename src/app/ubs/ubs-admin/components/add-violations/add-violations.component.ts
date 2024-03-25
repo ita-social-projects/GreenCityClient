@@ -297,7 +297,7 @@ export class AddViolationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe.next();
+    this.unsubscribe.next(true);
     this.unsubscribe.complete();
   }
 }

@@ -198,11 +198,10 @@
                   <div class="form-group input-margin region">
                     <label for="region" class="form-label">{{ 'ubs-client-profile.region' | translate }}</label>
                     <input
-                      ngx-google-places-autocomplete
                       type="text"
                       class="shadow-none form-control"
                       required
-                      [options]="regionOptions"
+                      #regionInput
                       formControlName="{{ getLangValue('region', 'regionEn') }}"
                       (input)="setRegionValue(i)"
                       (onAddressChange)="onRegionSelected($event, i)"

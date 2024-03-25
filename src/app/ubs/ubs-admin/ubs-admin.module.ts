@@ -183,13 +183,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatNativeDateModule,
     MatTableModule,
     MatDialogModule,
-    // GooglePlaceModule,
     MatMenuModule,
     SharedMainModule,
-    // AgmCoreModule.forRoot({
-    //   apiKey: environment.agmCoreModuleApiKey,
-    //   libraries: ['places']
-    // }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

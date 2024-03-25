@@ -3,7 +3,7 @@
     <mat-card-content>
       <br />
       <label class="btn btn-primary" *ngIf="uploadButton">
-        <mdb-icon fas icon="folder-open" size="lg" aria-hidden="true"></mdb-icon>
+        <mat-icon fas icon="folder-open" size="lg" aria-hidden="true"></mat-icon>
         {{ 'user.photo-upload.add-photo' | translate }}
         <input type="file" hidden formControlName="document" id="file" ng2FileSelect [uploader]="uploader" multiple />
       </label>
@@ -31,12 +31,12 @@
         <tbody>
           <tr *ngFor="let item of uploader.queue">
             <th class="photo-file-image" scope="row">
-              <mdb-icon fas icon="file-image" size="2x" class="cyan-text pr-3" aria-hidden="true"></mdb-icon>
+              <mat-icon fas icon="file-image" size="2x" class="cyan-text pr-3" aria-hidden="true"></mat-icon>
               {{ item.file.name }}({{ item.file.size / 1000000 }} MB)
             </th>
             <th class="text-center" class="image-trash-icon" scope="row" *ngIf="uploadButton">
               <a id="trashIcon" (click)="item.remove()" style="padding-left: 2%; color: red">
-                <mdb-icon far icon="trash-alt"></mdb-icon>
+                <mat-icon far icon="trash-alt"></mat-icon>
               </a>
               <span class="sr-only">{{ 'user.photo-upload.loading' | translate }}</span>
             </th>

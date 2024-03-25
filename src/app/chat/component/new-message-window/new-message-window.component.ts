@@ -81,7 +81,7 @@ export class NewMessageWindowComponent implements OnInit, AfterViewChecked, OnDe
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
+    this.onDestroy$.next(true);
     this.onDestroy$.complete();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, UntypedFormArray, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SignInIcons } from 'src/app/main/image-pathes/sign-in-icons';
@@ -71,6 +71,8 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
     componentRestrictions: { country: 'UA' }
   };
 
+  @ViewChild('#regionInput', { static: true }) regionInputRef: ElementRef<HTMLInputElement>;
+
   constructor(
     public dialog: MatDialog,
     private clientProfileService: ClientProfileService,
@@ -86,6 +88,7 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
   ngOnInit(): void {
     this.currentLanguage = this.localStorageService.getCurrentLanguage();
     this.getUserData();
+    this.setupAutocomplete();
   }
 
   ngAfterViewInit(): void {
@@ -100,6 +103,10 @@ export class UbsUserProfilePageComponent implements OnInit, AfterViewInit, OnDes
       ...data,
       recipientPhone: data.recipientPhone?.slice(-9)
     };
+  }
+
+  private setupAutocomplete() {
+    const autocomplete = new google.maps.places.Autocomplete(this.regionInputRef.nativeElement, this.regionOptions);
   }
 
   getUserData(): void {

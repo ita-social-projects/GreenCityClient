@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, OnDestroy, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { DateEventResponceDto, DateFormObj, OfflineDto, InitialStartDate, DateEvent } from '../../models/events.interface';
 import { Subscription } from 'rxjs';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { TimeFront, TimeBack } from '../../models/event-consts';
   templateUrl: './event-date-time-picker.component.html',
   styleUrls: ['./event-date-time-picker.component.scss']
 })
-export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestroy {
+export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   public minDate = new Date();
   public timeArrStart = [];
   public timeArrEnd = [];
@@ -249,6 +249,10 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     endTime.setValue(this.timeArr[24]);
   }
 
+  ngAfterViewInit() {
+    this.setPlaceAutocomplete();
+  }
+
   ngOnChanges(): void {
     if (this.check) {
       this.dateForm.markAllAsTouched();
@@ -304,7 +308,7 @@ export class EventDateTimePickerComponent implements OnInit, OnChanges, OnDestro
     }
   }
 
-  public setPlaceAutocomplete($event?): void {
+  public setPlaceAutocomplete(): void {
     this.setCurrentLocation();
     this.autocomplete = new google.maps.places.Autocomplete(this.placesRef.nativeElement, this.regionOptions);
     this.autocomplete.addListener('place_changed', () => {

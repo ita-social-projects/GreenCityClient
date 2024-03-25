@@ -13,5 +13,5 @@
   {{ (dataObj ? dataObj : data) | serverTranslate: lang }}
 </div>
 <div class="readonly_date" *ngIf="date === 'orderDate' || date === 'paymentDate'">
-  <span>{{ title | date: 'dd/MM/y' }}</span>
+  <span>{{ title.toString() | date: 'dd/MM/y' }}</span>
 </div>

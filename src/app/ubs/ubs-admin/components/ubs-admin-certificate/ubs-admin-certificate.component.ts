@@ -310,7 +310,7 @@ export class UbsAdminCertificateComponent implements OnInit, AfterViewChecked, O
   }
 
   ngOnDestroy() {
-    this.destroy.next();
+    this.destroy.next(true);
     this.destroy.unsubscribe();
   }
 }

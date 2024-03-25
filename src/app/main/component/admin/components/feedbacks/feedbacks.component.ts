@@ -57,7 +57,7 @@ export class FeedbacksComponent implements OnInit {
 
   confirmDelete(id: number, commentName: string) {
     this.confirmationDialogService
-      .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + commentName + ' ?')
+      .confirm(this.deleteTranslation, this.deleteMessageTranslation + ' ' + commentName + ' ?', 'Delete', 'Cancel')
       .then((confirmed) => {
         if (confirmed) {
           this.delete(id);

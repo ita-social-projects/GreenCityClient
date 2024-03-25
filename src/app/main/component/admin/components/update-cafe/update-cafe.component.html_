@@ -174,7 +174,7 @@
           <div class="choice" *ngFor="let list of discountValues" style="margin-top: 3%">
             <strong>{{ list.specification.name }}</strong> discount: <strong>{{ list.value }}</strong>
             <a id="trashIcon2" (click)="delete(list)" style="padding-left: 2%; color: red">
-              <mdb-icon far icon="trash-alt"></mdb-icon>
+              <mat-icon far icon="trash-alt"></mat-icon>
             </a>
           </div>
         </div>
@@ -275,7 +275,7 @@
             {{ 'update-cafe.end' | translate }} <strong>{{ list.breakTime.endTime }}</strong>
           </div>
           <a id="trashIcon" (click)="deleteDay(list)" style="padding-left: 2%; color: red">
-            <mdb-icon far icon="trash-alt"></mdb-icon>
+            <mat-icon far icon="trash-alt"></mat-icon>
           </a>
         </div>
       </div>

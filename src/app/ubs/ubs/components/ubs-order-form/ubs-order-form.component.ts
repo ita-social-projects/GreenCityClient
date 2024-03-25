@@ -4,7 +4,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { UBSSubmitOrderComponent } from '../ubs-submit-order/ubs-submit-order.component';
 import { UBSPersonalInformationComponent } from '../ubs-personal-information/ubs-personal-information.component';
 import { UBSOrderDetailsComponent } from '../ubs-order-details/ubs-order-details.component';
-import { MatHorizontalStepper } from '@angular/material/stepper';
+import { MatStepper } from '@angular/material/stepper';
 import { UBSOrderFormService } from '../../services/ubs-order-form.service';
 import { Store, select } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -27,7 +27,7 @@ export class UBSOrderFormComponent implements OnInit, AfterViewInit, DoCheck, On
   @ViewChild('firstStep') stepOneComponent: UBSOrderDetailsComponent;
   @ViewChild('secondStep') stepTwoComponent: UBSPersonalInformationComponent;
   @ViewChild('thirdStep') stepThreeComponent: UBSSubmitOrderComponent;
-  @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
+  @ViewChild(MatStepper) stepper: MatStepper;
 
   constructor(
     private cdr: ChangeDetectorRef,
