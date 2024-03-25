@@ -1,10 +1,10 @@
 <input
-  [(ngModel)]="inputValue"
-  (ngModelChange)="this.inputUpdate.next($event)"
+  class="shadow-none form-control"
+  [class.ng-invalid]="isInvalid"
+  [class.ng-valid]="!isInvalid"
+  [formControl]="inputValue"
   (change)="onUserChange()"
-  matInput
   [matAutocomplete]="autoPrediction"
-  [disabled]="disabled"
 />
 <mat-autocomplete #autoPrediction="matAutocomplete">
   <mat-option

@@ -396,6 +396,8 @@
       "joined-event": "You have successfully joined the event",
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
+      "updated-address": "The address has been updated",
+      "deleted-address": "The address has been deleted",
       "update-notification": "Notification was updated",
       "rating-send": "Rating sent",
       "add-friend": "Friend request sent",

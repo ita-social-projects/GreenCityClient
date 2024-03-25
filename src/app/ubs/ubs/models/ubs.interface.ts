@@ -108,16 +108,20 @@ export interface Address {
 }
 
 export interface AddressData {
-  addressComment: string;
+  searchAddress: string;
   districtEn: string;
   district: string;
-  entranceNumber: string;
-  houseCorpus: string;
-  houseNumber: string;
   regionEn: string;
   region: string;
-  searchAddress: string;
+  houseNumber: string;
+  entranceNumber: string;
+  houseCorpus: string;
+  addressComment: string;
   placeId: string;
+  city: string;
+  cityEn: string;
+  street: string;
+  streetEn: string;
 }
 
 export interface CourierTranslationDtos {

@@ -41,6 +41,8 @@ export class MatSnackBarComponent {
     changesSaved: { classname: SnackbarClassName.success, key: 'user.edit-profile.profile-changes-saved' },
     existAddress: { classname: SnackbarClassName.error, key: 'snack-bar.error.exist-address' },
     addedAddress: { classname: SnackbarClassName.success, key: 'snack-bar.success.added-address' },
+    updatedAddress: { classname: SnackbarClassName.success, key: 'snack-bar.success.updated-address' },
+    deletedAddress: { classname: SnackbarClassName.success, key: 'snack-bar.success.deleted-address' },
     userUnauthorised: { classname: SnackbarClassName.error, key: 'snack-bar.error.unauthorised-user' },
     lessPoints: { classname: SnackbarClassName.error, key: 'snack-bar.error.not-enough-points' },
     CartValidation: { classname: SnackbarClassName.error, key: 'snack-bar.error.cartificate-not-valid' },

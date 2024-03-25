@@ -31,10 +31,16 @@ import {
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Address, AddressData } from 'src/app/ubs/ubs/models/ubs.interface';
+import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 
 @Injectable()
 export class OrderEffects {
-  constructor(private actions: Actions, private orderService: OrderService, private localStorageService: LocalStorageService) {}
+  constructor(
+    private actions: Actions,
+    private orderService: OrderService,
+    private localStorageService: LocalStorageService,
+    private snackBar: MatSnackBarComponent
+  ) {}
 
   getOrderDetails = createEffect(() => {
     return this.actions.pipe(
@@ -115,10 +121,14 @@ export class OrderEffects {
   createAddress = createEffect(() => {
     return this.actions.pipe(
       ofType(CreateAddress),
+      tap(() => this.snackBar.openSnackBar('addedAddress')),
       mergeMap((action: { address: AddressData }) => {
         return this.orderService.addAdress(action.address).pipe(
           map((response) => CreateAddressSuccess({ addresses: response.addressList })),
-          catchError(() => EMPTY)
+          catchError(() => {
+            this.snackBar.openSnackBar('existAddess');
+            return EMPTY;
+          })
         );
       })
     );
@@ -127,10 +137,14 @@ export class OrderEffects {
   updateAddress = createEffect(() => {
     return this.actions.pipe(
       ofType(UpdateAddress),
+      tap(() => this.snackBar.openSnackBar('updatedAddress')),
       mergeMap((action: { address: Address }) => {
         return this.orderService.updateAdress(action.address).pipe(
           map((response) => UpdateAddressSuccess({ addresses: response.addressList })),
-          catchError(() => EMPTY)
+          catchError(() => {
+            this.snackBar.openSnackBar('existAddess');
+            return EMPTY;
+          })
         );
       })
     );
@@ -139,6 +153,7 @@ export class OrderEffects {
   deleteAddress = createEffect(() => {
     return this.actions.pipe(
       ofType(DeleteAddress),
+      tap(() => this.snackBar.openSnackBar('deletedAddress')),
       mergeMap((action: { address: Address }) => {
         return this.orderService.deleteAddress(action.address).pipe(
           map((response) => DeleteAddressSuccess({ addresses: response.addressList })),

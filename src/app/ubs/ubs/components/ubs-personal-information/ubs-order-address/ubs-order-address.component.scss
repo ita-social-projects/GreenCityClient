@@ -1,0 +1,210 @@
+@mixin text_style($font, $color, $size, $weight) {
+  font-family: $font;
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
+form {
+  box-shadow: 1px 4px 8px rgb(100 114 125 / 18%);
+  padding: 10px 25px 40px;
+}
+
+hr {
+  margin: 24px 15px 32px;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--ubs-quintynary-light-grey);
+  padding: 0 0 0 24px;
+  color: var(--ubs-primary-grey);
+  font-size: 14px;
+}
+
+input,
+select {
+  height: 36px;
+}
+
+input.ng-touched.ng-invalid {
+  border: 1px solid var(--ubs-error-ligh-red);
+  font-size: 14px;
+}
+
+.validate-address {
+  color: var(--ubs-error-ligh-red);
+  font-size: 14px;
+  margin: 12px 0 0 28px;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 100px;
+  padding: 12px 24px;
+  resize: none;
+
+  &::placeholder {
+    @include text_style(var(--ubs-quaternary-font), var(--ubs-primary-light-grey), 14px, 400);
+
+    margin-bottom: 3rem;
+  }
+}
+
+label,
+.adress-title,
+.adress-notice,
+.comment-title,
+.city-notice {
+  font-family: var(--ubs-tertiary-font);
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--ubs-secondary-grey);
+}
+
+input:disabled {
+  cursor: not-allowed;
+}
+
+.comment-title,
+.address-title {
+  margin: 0 0 20px 15px;
+  font-family: var(--ubs-tertiary-font);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.002em;
+  color: var(--ubs-primary-grey);
+}
+
+.comment-title {
+  margin: 0 0 20px 0;
+}
+
+.adress-section {
+  max-width: 100%;
+  margin: 0 auto;
+
+  .no-addresses {
+    margin: 0 0 0 15px;
+    font-size: 14px;
+  }
+
+  .adress {
+    margin: 0 0 32px;
+
+    .item {
+      width: 48%;
+    }
+
+    .adress-title {
+      margin: 5px 0 20px 15px;
+    }
+
+    .adress-notice {
+      margin: 15px 0 15px 15px;
+    }
+
+    .city-notice {
+      margin: 5px 0 0 0;
+    }
+  }
+}
+
+.address-comment {
+  padding: 0 15px;
+}
+
+.form-check {
+  margin: 0 0 0 25px;
+
+  .form-check-input {
+    top: -1px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .form-check-label {
+    margin-left: 5px;
+    font-size: 14px;
+    color: var(--ubs-primary-grey);
+  }
+}
+
+.s-link {
+  margin: 12px 0 0 28px;
+}
+
+.edit-address {
+  height: 100%;
+  margin: 14px 3px 5px 10px;
+  cursor: pointer;
+}
+
+.address {
+  width: 500px;
+  padding-bottom: 2rem;
+}
+
+.ml-3 {
+  color: var(--ubs-secondary-grey);
+}
+
+.fas {
+  font-size: 0.8rem;
+}
+
+.checkmark {
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  height: 16px;
+  width: 16px;
+  background-color: var(--ubs-primary-white);
+  border-radius: 50%;
+  border: 1px solid var(--ubs-quaternary-dark-grey);
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+}
+
+.custom-radio input[name='address'] {
+  accent-color: var(--ubs-quaternary-dark-grey);
+  margin-top: 14px;
+}
+
+.adress-position {
+  margin-left: 5%;
+}
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  p,
+  a,
+  textarea,
+  small,
+  input {
+    font-size: 0.8rem;
+  }
+}
