@@ -31,7 +31,7 @@ $breakpointsPC: (
 
 @mixin responsivePCFirst($breakpoint) {
   @if map-has-key($breakpointsPC, $breakpoint) {
-    @media (min-width: map-get($breakpointsPC, $breakpoint)) {
+    @media (max-width: map-get($breakpointsPC, $breakpoint)) {
       @content;
     }
   } @else {
@@ -39,3 +39,7 @@ $breakpointsPC: (
   }
 }
 /* stylelint-enable */
+
+:root {
+  @include responsiveMobileFirst(3xl);
+}

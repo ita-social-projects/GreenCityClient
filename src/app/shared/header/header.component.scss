@@ -1218,19 +1218,6 @@ header {
   }
 }
 
-// @media (min-width: 1440px) {
-//   .ubs-header-sing-in-img {
-//     display: none;
-//   }
-
-//   .ubs-header-sign-in,
-//   .header_sign-in-link,
-//   a.header_sign-in-link,
-//   .header_navigation-menu-right-list .ubs-header-sign-in {
-//     display: flex;
-//   }
-// }
-
 @include responsiveMobileFirst(3xl) {
   .ubs-header-sing-in-img {
     display: none;
