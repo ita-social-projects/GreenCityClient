@@ -6,6 +6,7 @@
   [ngClass]="['profile-avatar', additionalImgClass]"
   [src]="imgPath"
 />
+<div class="status-indicator" *ngIf="isOnline" #onlineStatusIndicator></div>
 <div *ngIf="!imgPath" [ngClass]="['profile-avatar', additionalImgClass, 'default-avatar']">
   <p>{{ getDefaultProfileImg() }}</p>
 </div>
