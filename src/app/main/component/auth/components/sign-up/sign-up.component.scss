@@ -144,6 +144,16 @@
     text-align: center;
     color: var(--quaternary-dark-grey);
   }
+
+  p {
+    font-size: 10px;
+    line-height: 12px;
+    margin: 5px 0;
+  }
+
+  .password-not-valid {
+    color: red;
+  }
 }
 
 .exist-account {
