@@ -26,6 +26,8 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   socialNetworksList = ['facebook', 'instagram', 'linked', 'twitter', 'green-city', 'x'];
   userSocialNetworks: Array<any>;
   public userId: number;
+  public profileUserId: number;
+  private isCurrentUserProfile: boolean;
   public icons: Record<string, string> = {};
   private userId$: Subscription;
 
@@ -49,15 +51,16 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.buildSocialNetworksChart();
     this.showEditButton = this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
-    if (this.route.snapshot.params.userId) {
+    this.profileUserId = +this.route.snapshot.params.userId;
+    this.isCurrentUserProfile = !this.profileUserId || this.profileUserId === this.userId;
+
+    if (!this.isCurrentUserProfile) {
       this.userOnlineStatusService.addUsersId(UsersCategOnlineStatus.profile, [+this.route.snapshot.params.userId]);
-      this.userOnlineStatusService.usersOnlineStatus$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-        console.log(res);
-        //handle isonline status
-      });
-    } else {
-      this.isUserOnline = true;
     }
+  }
+
+  public checkIsOnline(): boolean {
+    return this.isCurrentUserProfile || this.userOnlineStatusService.checkIsOnline(this.profileUserId);
   }
 
   get checkUserCredo(): number {

@@ -47,9 +47,6 @@ export class FriendProfileDashboardComponent implements OnInit, OnDestroy {
     if (this.userId !== this.currentUserId) {
       this.getMutualFriends();
     }
-    this.userOnlineStatusService.usersOnlineStatus$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      //handle isonline status
-    });
   }
 
   private getAllFriends(id: number, page?: number): void {

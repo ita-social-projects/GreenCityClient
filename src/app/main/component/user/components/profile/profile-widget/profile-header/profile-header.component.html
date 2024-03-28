@@ -7,7 +7,7 @@
         [firstName]="userInfo.name"
         [additionalImgClass]="'profile-avatar'"
         tabindex="0"
-        [isOnline]="isUserOnline"
+        [isOnline]="checkIsOnline()"
       >
       </app-user-profile-image>
       <a *ngIf="!showEditButton" [routerLink]="['/profile', userId, 'edit']" class="edit-icon"> </a>

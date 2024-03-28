@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { FriendModel, UsersCategOnlineStatus } from '@global-user/models/friend.model';
 import { Subject } from 'rxjs';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 import { takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
@@ -45,9 +44,6 @@ export class FriendRequestsComponent implements OnInit, OnDestroy {
         );
       }
       this.scroll = false;
-    });
-    this.userOnlineStatusService.usersOnlineStatus$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      //handle isonline status
     });
   }
 

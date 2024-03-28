@@ -46,3 +46,8 @@ export enum UsersCategOnlineStatus {
 }
 
 export type UserCateg = keyof typeof UsersCategOnlineStatus;
+
+export interface UserOnlineStatus {
+  id: number;
+  onlineStatus: boolean;
+}

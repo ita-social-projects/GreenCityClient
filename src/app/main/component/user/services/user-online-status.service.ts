@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { SocketService } from '@global-service/socket/socket.service';
-import { UserCateg, UsersCategOnlineStatus } from '@global-user/models/friend.model';
+import { UserCateg, UserOnlineStatus, UsersCategOnlineStatus } from '@global-user/models/friend.model';
 import { BehaviorSubject, Subject, interval, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -17,36 +18,47 @@ export class UserOnlineStatusService implements OnDestroy {
     [UsersCategOnlineStatus.usersFriends]: [],
     [UsersCategOnlineStatus.mutualFriends]: []
   };
-  private timeInterval = 300000;
+  private timeInterval = 60000;
   public timer$ = interval(this.timeInterval);
   public usersIdToCheck$ = new BehaviorSubject({});
-  public usersOnlineStatus$ = new BehaviorSubject({});
+  public usersOnlineStatus$: BehaviorSubject<UserOnlineStatus[]> = new BehaviorSubject([]);
+  private userId: number;
 
-  constructor(private socketService: SocketService) {
-    this.sendRequestMessage();
-    this.subscribeToSocketResponse();
+  constructor(private localStorageService: LocalStorageService, private socketService: SocketService) {
+    this.socketService.initiateConnection(this.socketService.connection.greenCityUser);
+    this.localStorageService.userIdBehaviourSubject.subscribe((userId) => {
+      this.userId = userId;
+      this.subscribeToSocketResponse();
+      this.sendRequestMessage();
+    });
   }
 
-  public sendRequestMessage() {
+  public sendRequestMessage(): void {
     merge(this.timer$, this.usersIdToCheck$)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const usersIdArray = Object.values(this.usersToCheckOnlineStatus).flat();
         const uniqueIdSet = [...new Set(usersIdArray)];
-        console.log('sending message with', this.socketService.userId, uniqueIdSet);
         if (uniqueIdSet.length) {
-          this.socketService.send(`/app/usersOnlineStatus`, { currentUserId: this.socketService.userId, usersId: uniqueIdSet });
+          this.socketService.send(this.socketService.connection.greenCityUser, `/app/usersOnlineStatus`, {
+            currentUserId: this.userId,
+            usersId: uniqueIdSet
+          });
         }
       });
   }
   public subscribeToSocketResponse(): void {
     this.socketService
-      .onMessage(`/topic/${this.socketService.userId}/usersOnlineStatus`)
+      .onMessage(this.socketService.connection.greenCityUser, `/topic/${this.userId}/usersOnlineStatus`)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((res) => {
-        console.log('socket response', res);
+      .subscribe((res: UserOnlineStatus[]) => {
         this.usersOnlineStatus$.next(res);
       });
+  }
+  public checkIsOnline(friendId: number): boolean {
+    const usersOnlineStatus = this.usersOnlineStatus$.getValue();
+    const user = usersOnlineStatus.find((el) => el.id === friendId);
+    return user ? user.onlineStatus : false;
   }
 
   public addUsersId(type: UserCateg, value: Array<number>): void {

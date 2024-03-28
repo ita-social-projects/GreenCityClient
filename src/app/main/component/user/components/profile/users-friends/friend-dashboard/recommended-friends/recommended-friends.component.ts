@@ -38,9 +38,6 @@ export class RecommendedFriendsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initUser();
     this.getNewFriends(this.currentPage);
-    this.userOnlineStatusService.usersOnlineStatus$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      //handle isonline status
-    });
   }
 
   public findUserByName(value: string) {

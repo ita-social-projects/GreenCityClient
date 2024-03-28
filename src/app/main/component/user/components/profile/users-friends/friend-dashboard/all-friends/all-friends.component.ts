@@ -40,9 +40,6 @@ export class AllFriendsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initUser();
     this.getAllFriends();
-    this.userOnlineStatusService.usersOnlineStatus$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      //handle isonline status
-    });
   }
 
   public getAllFriends() {
