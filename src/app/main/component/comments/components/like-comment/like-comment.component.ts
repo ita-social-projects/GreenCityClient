@@ -1,9 +1,9 @@
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { SocketService } from '../../../../service/socket/socket.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, SocketAmountLikes } from '../../models/comments-model';
 import { Router } from '@angular/router';
+import { SocketService } from '@global-service/socket/socket.service';
 
 @Component({
   selector: 'app-like-comment',
@@ -30,7 +30,9 @@ export class LikeCommentComponent implements OnInit {
     private socketService: SocketService,
     private localStorageService: LocalStorageService,
     private router: Router
-  ) {}
+  ) {
+    this.socketService.initiateConnection(this.socketService.connection.greenCity);
+  }
 
   ngOnInit() {
     this.likeState = this.comment.currentUserLiked;
@@ -51,7 +53,7 @@ export class LikeCommentComponent implements OnInit {
   }
 
   public onConnectedtoSocket(): void {
-    this.socketService.onMessage(this.socketMessageToSubscribe).subscribe((msg) => {
+    this.socketService.onMessage(this.socketService.connection.greenCity, this.socketMessageToSubscribe).subscribe((msg) => {
       this.changeLkeBtn(msg);
       this.likesCounter.emit(msg.amountLikes);
     });
@@ -69,7 +71,7 @@ export class LikeCommentComponent implements OnInit {
   public pressLike(): void {
     this.commentsService.postLike(this.comment.id).subscribe(() => {
       this.getUserId();
-      this.socketService.send(this.socketMessageToSend, {
+      this.socketService.send(this.socketService.connection.greenCity, this.socketMessageToSend, {
         id: this.comment.id,
         amountLikes: this.likeState ? 0 : 1,
         userId: this.userId
