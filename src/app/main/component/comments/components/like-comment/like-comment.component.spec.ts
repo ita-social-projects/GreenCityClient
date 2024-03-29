@@ -20,6 +20,11 @@ describe('LikeCommentComponent', () => {
   socketServiceMock = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
   socketServiceMock.onMessage = () => new Observable();
   socketServiceMock.send = () => {};
+  socketServiceMock.connection = {
+    greenCity: { url: '', socket: null, state: null },
+    greenCityUser: { url: '', socket: null, state: null }
+  };
+  socketServiceMock.initiateConnection = () => {};
 
   let localStorageServiceMock: LocalStorageService;
   localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
