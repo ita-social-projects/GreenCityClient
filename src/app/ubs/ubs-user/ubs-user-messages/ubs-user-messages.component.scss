@@ -279,7 +279,6 @@
 
   .header-list {
     display: flex;
-    // justify-content: space-between;
     margin-top: -32px;
 
     div {
@@ -340,10 +339,6 @@
 @media (max-width: 420px) {
   .theme {
     margin-left: 10px;
-  }
-
-  .id {
-    // margin-left: -50px;
   }
 
   .time {
