@@ -43,8 +43,14 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userId$ = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
     this.buildSocialNetworksChart();
-    this.showEditButton = this.route.snapshot.params.userName === this.userInfo.name;
+    this.showEditButton =
+      this.route.snapshot.params.userName[0] === '@'
+        ? this.route.snapshot.params.userName === '@' + this.userInfo.name
+        : this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
+
+    console.log('snapshot', this.route.snapshot.params.userName);
+    console.log('userInfo', this.userInfo.name);
   }
 
   get checkUserCredo(): number {
