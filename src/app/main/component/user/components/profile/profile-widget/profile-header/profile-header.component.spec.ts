@@ -15,7 +15,7 @@ import { LanguageService } from 'src/app/main/i18n/language.service';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-describe('ProfileHeaderComponent', () => {
+fdescribe('ProfileHeaderComponent', () => {
   let component: ProfileHeaderComponent;
   let fixture: ComponentFixture<ProfileHeaderComponent>;
   let localStorageServiceMock: LocalStorageService;

@@ -44,7 +44,7 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
     this.userId$ = this.localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
     this.buildSocialNetworksChart();
     this.showEditButton =
-      this.route.snapshot.params.userName[0] === '@'
+      this.route.snapshot.params.userName && this.route.snapshot.params.userName[0] === '@'
         ? this.route.snapshot.params.userName === '@' + this.userInfo.name
         : this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
