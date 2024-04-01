@@ -48,9 +48,6 @@ export class ProfileHeaderComponent implements OnInit, OnDestroy {
         ? this.route.snapshot.params.userName === '@' + this.userInfo.name
         : this.route.snapshot.params.userName === this.userInfo.name;
     this.icons = this.profileService.icons;
-
-    console.log('snapshot', this.route.snapshot.params.userName);
-    console.log('userInfo', this.userInfo.name);
   }
 
   get checkUserCredo(): number {
