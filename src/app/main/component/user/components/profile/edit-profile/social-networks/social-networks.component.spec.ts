@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SocialNetworksComponent } from './social-networks.component';
 import { WarningPopUpComponent } from '@shared/components';
 import { of } from 'rxjs';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ProfileService } from 'src/app/main/component/user/components/profile/profile-service/profile.service';
 
 class MatDialogMock {

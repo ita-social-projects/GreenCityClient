@@ -89,7 +89,7 @@
           height: 12px;
           margin-right: 2px;
           align-self: center;
-          background: url('src/assets/events-icons/clock.png') no-repeat center;
+          background: url('/assets/events-icons/clock.png') no-repeat center;
         }
 
         .time-divider {
@@ -112,11 +112,11 @@
         }
 
         .flag {
-          background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
+          background: url('/assets/events-icons/bookmark-set.png') no-repeat center;
         }
 
         .flag-active {
-          background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+          background: url('/assets/events-icons/bookmark-active.png') no-repeat center;
         }
       }
     }
@@ -129,7 +129,7 @@
         align-self: center;
         width: 16px;
         height: 16px;
-        background: url('src/assets/events-icons/lock-open.png') no-repeat center;
+        background: url('/assets/events-icons/lock-open.png') no-repeat center;
       }
 
       .lock-closed {
@@ -137,7 +137,7 @@
         align-self: center;
         width: 16px;
         height: 16px;
-        background: url('src/assets/events-icons/lock-closed.png') no-repeat center;
+        background: url('/assets/events-icons/lock-closed.png') no-repeat center;
       }
     }
 
@@ -149,7 +149,7 @@
         align-self: center;
         width: 14px;
         height: 14px;
-        background: url('src/assets/events-icons/place.png') no-repeat center;
+        background: url('/assets/events-icons/place.png') no-repeat center;
       }
     }
 

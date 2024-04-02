@@ -108,11 +108,11 @@
           <img [src]="icons.arrowDown" class="arrowDown-img" alt="arrowDown" (click)="openAuto($event, autocompleteTriggerCity)" />
         </div>
       </div>
-      <mat-chip-list #chipListCity aria-label="City selection">
+      <mat-chip-listbox #chipListCity aria-label="City selection">
         <div class="city-list">
           <span *ngFor="let city of selectedCities" class="city-item">{{ city.name }}</span>
         </div>
-      </mat-chip-list>
+      </mat-chip-listbox>
     </div>
     <div class="col-item">
       <p class="col-text">{{ 'ubs-tariffs.courier' | translate }}</p>

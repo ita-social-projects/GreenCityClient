@@ -21,7 +21,10 @@ export class UserService {
   filterDto: UserFilterDtoModel;
   userId: number;
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     localStorageService.userIdBehaviourSubject.subscribe((userId) => (this.userId = userId));
   }
 
@@ -36,7 +39,7 @@ export class UserService {
     return this.http.patch<any>(`${userLink}/status`, this.dto);
   }
 
-  updateUserRole(id: number, role: string) {
+  updateUserRole(id: number, role: string): Observable<any> {
     this.roleDto = new UserRoleModel();
     this.roleDto.id = id;
     this.roleDto.role = role;

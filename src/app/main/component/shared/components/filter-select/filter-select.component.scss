@@ -26,7 +26,7 @@
         border-right: 0;
         border-top: 0;
         border-image-source: none !important;
-        background-image: url('~/assets/icons/arrow-down-grey.svg');
+        background-image: url('/assets/icons/arrow-down-grey.svg');
       }
     }
   }
@@ -38,7 +38,7 @@
 
     .mat-select {
       &::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
-        background-image: url('~/assets/icons/arrow-down-green.svg');
+        background-image: url('/assets/icons/arrow-down-green.svg');
       }
     }
   }

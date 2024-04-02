@@ -9,7 +9,7 @@ import { BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../../main/http-response-s
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { UBSOrderFormService } from 'src/app/ubs/ubs/services/ubs-order-form.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 
 interface NewTokenPair {

@@ -5,7 +5,7 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PaginationComponent } from 'ngx-bootstrap/pagination';
 import { JwtService } from '../../../../service/jwt/jwt.service';
-import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+// import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -92,7 +92,7 @@ export class UsersComponent implements OnInit {
 
   changeRole(id: number, role: string, email: string) {
     this.userService.updateUserRole(id, role).subscribe(
-      (data) => {
+      () => {
         this.successfulAction('Role for ' + email + ' is updated to ' + role.substr(5));
       },
       (error: HttpErrorResponse) => {

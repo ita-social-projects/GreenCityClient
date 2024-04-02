@@ -96,11 +96,11 @@
     }
 
     .fill {
-      background: url('src/assets/events-icons/star-filled.png') no-repeat center;
+      background: url('/assets/events-icons/star-filled.png') no-repeat center;
     }
 
     .empty {
-      background: url('src/assets/events-icons/Vector.png') no-repeat center;
+      background: url('/assets/events-icons/Vector.png') no-repeat center;
     }
   }
 
@@ -129,11 +129,11 @@
     }
 
     .flag {
-      background: url('src/assets/events-icons/bookmark-set.png') no-repeat center;
+      background: url('/assets/events-icons/bookmark-set.png') no-repeat center;
     }
 
     .flag-active {
-      background: url('src/assets/events-icons/bookmark-active.png') no-repeat center;
+      background: url('/assets/events-icons/bookmark-active.png') no-repeat center;
     }
   }
 
@@ -178,35 +178,35 @@
       margin-right: 11px;
       width: 25px;
       height: 25px;
-      background: url('src/assets/img/events/location.svg') no-repeat center;
+      background: url('/assets/img/events/location.svg') no-repeat center;
     }
 
     .clock {
       margin-right: 15px;
       width: 12px;
       height: 12px;
-      background: url('src/assets/events-icons/clock.png') no-repeat center;
+      background: url('/assets/events-icons/clock.png') no-repeat center;
     }
 
     .place {
       margin-right: 13px;
       width: 14px;
       height: 14px;
-      background: url('src/assets/events-icons/place.png') no-repeat center;
+      background: url('/assets/events-icons/place.png') no-repeat center;
     }
 
     .lock-open {
       margin-right: 11px;
       width: 16px;
       height: 16px;
-      background: url('src/assets/events-icons/lock-open.png') no-repeat center;
+      background: url('/assets/events-icons/lock-open.png') no-repeat center;
     }
 
     .lock-closed {
       margin-right: 11px;
       width: 16px;
       height: 16px;
-      background: url('src/assets/events-icons/lock-closed.png') no-repeat center;
+      background: url('/assets/events-icons/lock-closed.png') no-repeat center;
     }
   }
 

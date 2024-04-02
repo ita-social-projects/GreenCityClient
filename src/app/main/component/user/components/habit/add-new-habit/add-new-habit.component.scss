@@ -84,7 +84,7 @@
           width: 1px;
           height: 18px;
           margin: 0 18px;
-          background-image: url('~/assets/img/profile/icons/line.svg');
+          background-image: url('/assets/img/profile/icons/line.svg');
         }
       }
 
@@ -140,7 +140,7 @@
     .lock-icon {
       height: 24px;
       width: 23px;
-      background: url('~/assets/icons/habits/lock-icon-closed.svg') center no-repeat;
+      background: url('/assets/icons/habits/lock-icon-closed.svg') center no-repeat;
     }
   }
 

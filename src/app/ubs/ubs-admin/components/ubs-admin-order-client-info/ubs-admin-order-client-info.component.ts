@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup, AbstractControl } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';

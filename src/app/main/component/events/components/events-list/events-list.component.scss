@@ -50,32 +50,32 @@
   .search-img {
     min-width: 20px;
     min-height: 20px;
-    background: url('src/assets/events-icons/search.png');
+    background: url('/assets/events-icons/search.png');
     display: inline-block;
 
     &:hover {
       min-width: 20px;
       min-height: 20px;
-      background: url('src/assets/events-icons/search-hover.png');
+      background: url('/assets/events-icons/search-hover.png');
     }
   }
 
   .search-img-active {
     min-width: 20px;
     min-height: 20px;
-    background: url('src/assets/events-icons/search-active.png');
+    background: url('/assets/events-icons/search-active.png');
   }
 
   .bookmark-img {
     width: 12px;
     height: 17px;
-    background: url('src/assets/events-icons/bookmark-grey.png');
+    background: url('/assets/events-icons/bookmark-grey.png');
   }
 
   .bookmark-img-active {
     width: 12px;
     height: 17px;
-    background: url('src/assets/events-icons/bookmark-active.png');
+    background: url('/assets/events-icons/bookmark-active.png');
   }
 }
 

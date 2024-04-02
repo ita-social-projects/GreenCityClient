@@ -160,11 +160,11 @@
           }
 
           .fill {
-            background: url('src/assets/events-icons/star-filled.png') no-repeat center;
+            background: url('/assets/events-icons/star-filled.png') no-repeat center;
           }
 
           .empty {
-            background: url('src/assets/events-icons/Vector.png') no-repeat center;
+            background: url('/assets/events-icons/Vector.png') no-repeat center;
           }
         }
       }
@@ -489,7 +489,7 @@
             display: inline-block;
             width: 30px;
             height: 30px;
-            background: url('src/assets/events-icons/place2.png') no-repeat center;
+            background: url('/assets/events-icons/place2.png') no-repeat center;
             background-size: cover;
           }
         }

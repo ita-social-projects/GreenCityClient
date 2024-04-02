@@ -33,15 +33,15 @@
     }
 
     .done {
-      background: url('~/assets/img/icon/chek-circle.png') no-repeat center;
+      background: url('/assets/img/icon/chek-circle.png') no-repeat center;
     }
 
     .undone {
-      background: url('~/assets/icons/habits/plus-circle-green.svg') no-repeat center;
+      background: url('/assets/icons/habits/plus-circle-green.svg') no-repeat center;
     }
 
     .acquired {
-      background: url('~/assets/img/icon/star-circle.png') no-repeat center;
+      background: url('/assets/img/icon/star-circle.png') no-repeat center;
     }
 
     img {
@@ -75,7 +75,7 @@
       width: 80px;
       height: 50px;
       position: absolute;
-      background-image: url('~/assets/img/duration-thumb-label-progress.svg');
+      background-image: url('/assets/img/duration-thumb-label-progress.svg');
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;

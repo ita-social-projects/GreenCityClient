@@ -13,7 +13,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { ICertificateResponse, OrderDetails, DistrictsDtos } from '../models/ubs.interface';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { Order } from '../models/ubs.model';
 import { UBSOrderFormService } from './ubs-order-form.service';
 import { OrderClientDto } from 'src/app/ubs/ubs-user/ubs-user-orders-list/models/OrderClientDto';

@@ -54,12 +54,12 @@ img {
   }
 
   padding-bottom: 250px;
-  background-image: url('~/assets/img/curly-line.png');
+  background-image: url('/assets/img/curly-line.png');
   background-size: 100% 100%;
 }
 
 .vision {
-  background-image: url('~/assets/img/wave-line.png');
+  background-image: url('/assets/img/wave-line.png');
   background-size: 100% 100%;
   margin-bottom: 100px;
 }
@@ -117,7 +117,7 @@ img {
 
 .card-store {
   .card-title-number::before {
-    content: url('~/assets/img/1.png');
+    content: url('/assets/img/1.png');
   }
 
   margin-bottom: 175px;
@@ -125,7 +125,7 @@ img {
 
 .card-eco-products {
   .card-title-number::before {
-    content: url('~/assets/img/2.png');
+    content: url('/assets/img/2.png');
   }
 
   margin-top: 216px;
@@ -138,7 +138,7 @@ img {
 
 .card-story {
   .card-title-number::before {
-    content: url('~/assets/img/3.png');
+    content: url('/assets/img/3.png');
   }
 
   margin-top: 300px;
@@ -146,7 +146,7 @@ img {
 
 .card-people {
   .card-title-number::before {
-    content: url('~/assets/img/4.png');
+    content: url('/assets/img/4.png');
   }
 
   margin-top: 320px;
@@ -154,7 +154,7 @@ img {
 
 .dashed-line {
   position: relative;
-  background: url('~/assets/img/dashed-line.png');
+  background: url('/assets/img/dashed-line.png');
   width: 832px;
   height: 2926px;
   margin: auto;
@@ -165,7 +165,7 @@ img {
   position: relative;
   top: 12px;
   left: 107px;
-  background: url('~/assets/img/leaves.png') no-repeat;
+  background: url('/assets/img/leaves.png') no-repeat;
   width: 641px;
   height: 2564px;
   z-index: -1;

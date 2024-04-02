@@ -1,6 +1,6 @@
 import { forwardRef, Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { ControlValueAccessor, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
 import { take } from 'rxjs/operators';
 import { Patterns } from 'src/assets/patterns/patterns';

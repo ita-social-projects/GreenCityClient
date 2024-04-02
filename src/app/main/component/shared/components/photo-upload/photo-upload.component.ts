@@ -7,7 +7,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/
 import { Observable } from 'rxjs';
 import { Photo } from '../../../../model/photo/photo';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-photo-upload',

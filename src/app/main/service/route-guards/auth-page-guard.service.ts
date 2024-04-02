@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../localstorage/local-storage.service';
 import { filter } from 'rxjs/operators';
 import { AuthModalComponent } from '../../component/auth/components/auth-modal/auth-modal.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'

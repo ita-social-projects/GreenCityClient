@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AdminCertificateService } from '../../../services/admin-certificate.service';
 import { takeUntil } from 'rxjs/operators';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
