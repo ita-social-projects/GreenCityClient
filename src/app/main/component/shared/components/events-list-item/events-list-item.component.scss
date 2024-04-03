@@ -122,21 +122,6 @@
     align-items: center;
     padding: 0 5px;
     box-shadow: 0 0 1px 0 var(--primary-grey);
-
-    .star {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
-      transition: all 0.3s;
-    }
-
-    .fill {
-      background: url('src/assets/events-icons/star-filled.png') no-repeat center;
-    }
-
-    .empty {
-      background: url('src/assets/events-icons/Vector.png') no-repeat center;
-    }
   }
 
   .event-flags {
