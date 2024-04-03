@@ -3,7 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -64,7 +64,7 @@ describe('UbsAdminNotificationListComponent', () => {
         TranslateModule.forRoot()
       ],
       providers: [
-        UntypedFormBuilder,
+        FormBuilder,
         { provide: NotificationsService, useValue: notificationsServiceMock },
         { provide: LanguageService, useValue: langServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock }

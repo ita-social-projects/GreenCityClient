@@ -1,10 +1,10 @@
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormArray, UntypedFormControl, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormsModule, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Location } from '@angular/common';
@@ -54,12 +54,12 @@ describe('CreateEditNewsComponent', () => {
     image: ''
   };
   const emptyForm = () => {
-    return new UntypedFormGroup({
-      title: new UntypedFormControl(''),
-      content: new UntypedFormControl(''),
-      tags: new UntypedFormArray([]),
-      image: new UntypedFormControl(''),
-      source: new UntypedFormControl('')
+    return new FormGroup({
+      title: new FormControl(''),
+      content: new FormControl(''),
+      tags: new FormArray([]),
+      image: new FormControl(''),
+      source: new FormControl('')
     });
   };
 
@@ -104,22 +104,22 @@ describe('CreateEditNewsComponent', () => {
     'getEditForm'
   ]);
   createEditNewsFormBuilderMock.getSetupForm = () => {
-    return new UntypedFormGroup({
-      title: new UntypedFormControl('', [Validators.required, Validators.maxLength(170)]),
-      content: new UntypedFormControl('', [Validators.required, Validators.minLength(20)]),
-      tags: new UntypedFormArray([]),
-      image: new UntypedFormControl(''),
-      source: new UntypedFormControl('')
+    return new FormGroup({
+      title: new FormControl('', [Validators.required, Validators.maxLength(170)]),
+      content: new FormControl('', [Validators.required, Validators.minLength(20)]),
+      tags: new FormArray([]),
+      image: new FormControl(''),
+      source: new FormControl('')
     });
   };
 
   createEditNewsFormBuilderMock.getEditForm = (data) => {
-    return new UntypedFormGroup({
-      title: new UntypedFormControl(data.title, [Validators.required, Validators.maxLength(170)]),
-      content: new UntypedFormControl(data.content, [Validators.required, Validators.minLength(20)]),
-      tags: new UntypedFormArray([new UntypedFormControl(data.tags)]),
-      image: new UntypedFormControl(data.imagePath),
-      source: new UntypedFormControl(data.source)
+    return new FormGroup({
+      title: new FormControl(data.title, [Validators.required, Validators.maxLength(170)]),
+      content: new FormControl(data.content, [Validators.required, Validators.minLength(20)]),
+      tags: new FormArray([new FormControl(data.tags)]),
+      image: new FormControl(data.imagePath),
+      source: new FormControl(data.source)
     });
   };
 
@@ -179,7 +179,7 @@ describe('CreateEditNewsComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: LanguageService, useVale: languageServiceMock },
         MatSnackBarComponent,
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -258,7 +258,7 @@ describe('CreateEditNewsComponent', () => {
   function updateForm(news) {
     component.form.controls.title.setValue(news.title);
     component.form.controls.content.setValue(news.content);
-    (component.form.controls.tags as UntypedFormArray).push(new UntypedFormControl(news.tags[0]));
+    (component.form.controls.tags as FormArray).push(new FormControl(news.tags[0]));
     component.form.controls.image.setValue(news.image);
     component.form.controls.source.setValue(news.source);
   }

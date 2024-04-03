@@ -6,7 +6,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {
@@ -171,7 +170,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatTooltipModule,
     DragDropModule,
     HttpClientModule,
-    // GooglePlaceModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

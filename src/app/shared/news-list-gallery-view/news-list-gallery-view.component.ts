@@ -6,6 +6,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-news-list-gallery-view',
@@ -20,10 +21,14 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
 
   public profileIcons = userAssignedCardsIcons;
   public newsImage: string;
-  public likeImg = 'assets/img/comments/like.png';
+  public likeImg = 'assets/events-icons/like.png';
+  public commentImg = 'assets/events-icons/frame.png';
   public tags: Array<string>;
   public currentLang: string;
   private destroy: Subject<boolean> = new Subject<boolean>();
+
+  public newDate;
+  public datePipe;
 
   constructor(
     public translate: TranslateService,
@@ -34,6 +39,8 @@ export class NewsListGalleryViewComponent implements AfterViewInit, OnInit, OnDe
     this.localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroy)).subscribe((lang: string) => {
       this.currentLang = lang;
       this.tags = this.langService.getLangValue(this.ecoNewsModel.tagsUa, this.ecoNewsModel.tagsEn) as string[];
+      this.datePipe = new DatePipe(this.currentLang);
+      this.newDate = this.datePipe.transform(this.ecoNewsModel.creationDate, 'MMM dd, yyyy');
     });
   }
 

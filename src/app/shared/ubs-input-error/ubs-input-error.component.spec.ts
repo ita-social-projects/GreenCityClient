@@ -1,10 +1,9 @@
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UBSInputErrorComponent } from './ubs-input-error.component';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 
 describe('ErrorComponent ', () => {
@@ -12,7 +11,7 @@ describe('ErrorComponent ', () => {
   let fixture: ComponentFixture<UBSInputErrorComponent>;
   let httpTestingController: HttpTestingController;
 
-  const formElementMock = new UntypedFormControl('місто Київ');
+  const formElementMock = new FormControl('місто Київ');
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -103,24 +102,6 @@ describe('ErrorComponent ', () => {
     const pattern = Patterns.ubsWithDigitPattern.toString();
     const result = component.getPatternErrorMessage(pattern);
     expect(result).toEqual('input-error.city-wrong');
-  });
-
-  it('getPatternErrorMessage should have return correct error for wrong house input', () => {
-    const pattern = Patterns.ubsHousePattern.toString();
-    const result = component.getPatternErrorMessage(pattern);
-    expect(result).toEqual('input-error.house-wrong');
-  });
-
-  it('getPatternErrorMessage should have return correct error for wrong corpus input', () => {
-    const pattern = Patterns.ubsCorpusPattern.toString();
-    const result = component.getPatternErrorMessage(pattern);
-    expect(result).toEqual('input-error.corpus-wrong');
-  });
-
-  it('getPatternErrorMessage should have return correct error for wrong entrance input', () => {
-    const pattern = Patterns.ubsEntrNumPattern.toString();
-    const result = component.getPatternErrorMessage(pattern);
-    expect(result).toEqual('input-error.entrance-wrong');
   });
 
   it('getPatternErrorMessage should have return correct error for wrong name input', () => {

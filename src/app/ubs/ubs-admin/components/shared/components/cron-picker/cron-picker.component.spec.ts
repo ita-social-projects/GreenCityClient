@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -58,7 +58,7 @@ describe('CronPickerComponent', () => {
         MatButtonModule,
         NoopAnimationsModule
       ],
-      providers: [UntypedFormBuilder, { provide: CronService, useValue: cronServiceMock }]
+      providers: [FormBuilder, { provide: CronService, useValue: cronServiceMock }]
     }).compileComponents();
   }));
 

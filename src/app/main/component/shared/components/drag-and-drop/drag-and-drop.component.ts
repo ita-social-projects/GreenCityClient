@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { FileHandle } from '@eco-news-models/create-news-interface';
@@ -15,9 +15,9 @@ export class DragAndDropComponent implements OnInit {
   public imageChangedEvent: FileHandle[];
   public isCropper = true;
   public files: FileHandle[] = [];
-  public isWarning = true;
+  public isWarning = false;
   private croppedImage: string;
-  @Input() public formData: UntypedFormGroup;
+  @Input() public formData: FormGroup;
 
   @Output() newFile = new EventEmitter<FileHandle[]>();
 
@@ -40,7 +40,6 @@ export class DragAndDropComponent implements OnInit {
     this.files = [];
     this.createEcoNewsService.files = [];
     this.isCropper = true;
-    this.isWarning = true;
     this.croppedImage = null;
   }
 
@@ -86,11 +85,13 @@ export class DragAndDropComponent implements OnInit {
     this.createEcoNewsService.fileUrl = this.selectedFileUrl;
   }
 
-  public showWarning(): FileHandle[] {
+  public showWarning(): void {
     this.files.forEach((item) => {
       const imageValCondition = (item.file.type === 'image/jpeg' || item.file.type === 'image/png') && item.file.size < 10485760;
       this.isWarning = !(item && imageValCondition);
+      if (this.isWarning) {
+        this.files.pop();
+      }
     });
-    return this.files;
   }
 }

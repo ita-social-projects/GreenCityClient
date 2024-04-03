@@ -8,14 +8,17 @@ import { LocalStorageService } from '../localstorage/local-storage.service';
 import { OnLogout } from '../OnLogout';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AchievementService implements OnLogout {
   private $achievements = new BehaviorSubject<AchievementDto[]>([]);
   private dataStore: { achievements: AchievementDto[] } = { achievements: [] };
   readonly achievements = this.$achievements.asObservable();
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   loadAchievements() {
     this.dataStore.achievements = [];
@@ -23,7 +26,7 @@ export class AchievementService implements OnLogout {
     http$.pipe(catchError(() => of([]))).subscribe(
       (data) => {
         this.dataStore.achievements = data;
-        this.$achievements.next(Object.assign({}, this.dataStore).achievements);
+        this.$achievements.next({ ...this.dataStore }.achievements);
         this.localStorageService.unsetFirstSignIn();
       },
       (error) => {
@@ -34,6 +37,6 @@ export class AchievementService implements OnLogout {
 
   onLogout(): void {
     this.dataStore.achievements = [];
-    this.$achievements.next(Object.assign({}, this.dataStore).achievements);
+    this.$achievements.next({ ...this.dataStore }.achievements);
   }
 }

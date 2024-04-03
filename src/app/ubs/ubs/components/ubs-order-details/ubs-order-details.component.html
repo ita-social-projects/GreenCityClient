@@ -1,38 +1,31 @@
-<div class="container">
-  <div *ngIf="bags && !isFetching && !isDialogOpen; else spinner">
+<div class="container" *ngIf="(isOrderDetailsLoading | async) === false && isFormInitialized(); else spinner">
+  <div>
     <div class="header">
       <h3 class="font-bolt order-title">{{ 'order-details.order-title' | translate }}</h3>
       <div class="user-location">
         <div>
           <h5 *ngIf="currentLocation">{{ 'order-details.current-location' | translate: { currentLocation: currentLocation } }}</h5>
           <h5 *ngIf="!currentLocation" class="error-text">{{ 'order-details.title-without-location' | translate }}</h5>
-          <button class="ubs-link-global-button s-link add-order-btn" (click)="redirectToZeroStep()">
+          <button class="ubs-link-global-button s-link add-order-btn" (click)="openLocationDialog()">
             {{ 'order-details.choose-location' | translate }}
           </button>
         </div>
       </div>
-      <div *ngIf="courierLimitBySum && displayMinOrderMes" class="validMes">
-        <small class="text-danger">{{ 'order-details.min-sum' | translate: { minOrderValue: minOrderValue } }}</small>
-      </div>
-      <div *ngIf="courierLimitBySum && displayMaxOrderMes" class="validMes">
-        <small class="text-danger">{{ 'order-details.max-sum' | translate: { maxOrderValue: maxOrderValue } }}</small>
-      </div>
-      <div *ngIf="courierLimitByAmount && displayMinBigBagsMes" class="validMes">
-        <small class="text-danger">{{ 'order-details.min-big-bags' | translate: { minAmountOfBigBags: minAmountOfBigBags } }}</small>
-      </div>
-      <div *ngIf="courierLimitByAmount && displayMaxBigBagsMes" class="validMes">
-        <small class="text-danger">{{ 'order-details.max-big-bags' | translate: { maxAmountOfBigBags: maxAmountOfBigBags } }}</small>
+      <div class="validMes">
+        <small class="text-danger" *ngIf="orderDetailsForm?.controls.bags.errors as errors">{{
+          errors.message | translate: { value: errors.value }
+        }}</small>
       </div>
     </div>
 
-    <form class="form" [formGroup]="orderDetailsForm" (change)="changeOrderDetails()">
+    <form class="form" [formGroup]="orderDetailsForm">
       <div class="labels-box">
         <label for="title-service" class="label">{{ 'order-details.service' | translate }}</label>
         <label for="title-volume" class="label">{{ 'order-details.volume' | translate }}</label>
         <label for="title-cost" class="label">{{ 'order-details.cost' | translate }}</label>
         <label for="title-sum'" class="label label-total">{{ 'order-details.sum' | translate }}</label>
       </div>
-      <div class="main">
+      <div class="main" formGroupName="bags">
         <ul class="main-box">
           <li *ngFor="let bag of bags" class="main-list-item">
             <span class="bag-name">{{ getLangValue(bag.name, bag.nameEng) }}</span>
@@ -44,6 +37,7 @@
                   <mat-icon>remove</mat-icon>
                 </button>
                 <input
+                  appRemoveLeadingZero
                   formControlName="quantity{{ bag.id }}"
                   class="shadow-none form-control input"
                   type="number"
@@ -53,7 +47,7 @@
                   placeholder="0"
                   [unmask]="false"
                   [imask]="{ mask: servicesMask }"
-                  (change)="onQuantityChange(bag.id)"
+                  (change)="calculateOrderSum()"
                   (keypress)="checkOnNumber($event)"
                 />
                 <button (click)="changeQuantity(bag.id, 1)" type="button">
@@ -61,7 +55,7 @@
                 </button>
               </div>
             </div>
-            <span class="bag-name label-total"> {{ bag.quantity * bag.price | currency | localizedCurrency }}</span>
+            <span class="bag-name label-total"> {{ getBagQuantity(bag.id) * bag.price | currency | localizedCurrency }}</span>
           </li>
         </ul>
       </div>
@@ -69,16 +63,16 @@
         <div class="middle-container">
           <div class="showTotal">
             <div class="totalInfo">
-              <p class="total-content" [class.d-none]="showTotal === 0">
+              <p class="total-content" [class.d-none]="orderSum === 0">
                 <span>{{ 'order-details.order-amount' | translate }}</span>
                 <span>
-                  <strong>{{ showTotal | currency | localizedCurrency }}</strong>
+                  <strong>{{ orderSum | currency | localizedCurrency }}</strong>
                 </span>
               </p>
-              <p class="total-content" *ngIf="displayCert">
+              <p class="total-content" *ngIf="certificateUsed">
                 <span>{{ 'order-details.certificate' | translate }} </span>
                 <span>
-                  <strong class="money-saved">-{{ showCertificateUsed | currency | localizedCurrency }}</strong>
+                  <strong class="money-saved">-{{ certificateUsed | currency | localizedCurrency }}</strong>
                 </span>
               </p>
               <p class="total-content" *ngIf="pointsUsed">
@@ -96,16 +90,7 @@
             </div>
           </div>
           <h5>{{ 'order-details.question-certificate' | translate }}</h5>
-          <app-ubs-order-certificate
-            [showTotal]="showTotal"
-            [bags]="bags"
-            [defaultPoints]="defaultPoints"
-            [points]="points"
-            [pointsUsed]="pointsUsed"
-            [sumForActCertificate]="finalSum"
-            (newItemEvent)="setNewValue($event)"
-          >
-          </app-ubs-order-certificate>
+          <app-ubs-order-certificate></app-ubs-order-certificate>
         </div>
       </div>
       <div class="bottom">
@@ -114,43 +99,36 @@
         <div class="form-group shop-submit">
           <div class="shop-submit-box">
             <div class="inputs-box">
-              <div
-                formArrayName="additionalOrders"
-                *ngFor="let order of additionalOrders.controls; let i = index"
-                class="eco-store"
-                [class.inactive]="orderDetailsForm.controls.shop.value === 'no'"
-              >
-                <label for="index{{ i }}" class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
+              <div formArrayName="additionalOrders" *ngFor="let order of additionalOrders.controls; let i = index" class="eco-store">
+                <label class="eco-label">{{ 'order-details.enter-order-num' | translate }}</label>
                 <input
                   id="index{{ i }}"
                   [imask]="{ mask: SHOP_NUMBER_MASK }"
                   [unmask]="false"
                   placeholder="XXXXXXXXXX"
-                  tabindex="{{ isDisabled() }}"
                   [formControlName]="i"
                   class="shadow-none form-control my-1 border-input p-2 eco-store-input"
                   type="text"
                   [pattern]="additionalOrdersPattern"
-                  (click)="changeShopRadioBtn()"
-                  (ngModelChange)="ecoStoreValidation()"
                 />
-                <span input-close-button tabindex="{{ isDisabled() }}" (click)="deleteOrder(i)" (keyup)="removeOrder($event, i)"
-                  >&times;</span
-                >
+                <span input-close-button (click)="deleteOrder(i)" (keyup)="removeOrder($event, i)">&times;</span>
+                <div class="order-notification">
+                  <small class="text-danger" *ngIf="additionalOrders.controls[i]?.invalid && additionalOrders.controls[i].touched">
+                    {{ 'order-details.order-error' | translate }}
+                  </small>
+                  <small class="text-danger" *ngIf="isAlreadyEntered(i)">
+                    {{ 'order-details.order-already-entered' | translate: { order: additionalOrders.value[i] } }}
+                  </small>
+                </div>
               </div>
             </div>
             <div class="bottom-text">
               <p class="p-text">{{ 'order-details.cant-found-order' | translate }}</p>
             </div>
           </div>
-          <div class="order-notification">
-            <small class="text-danger" *ngIf="!displayOrderBtn && additionalOrders.touched && shop.value !== 'no' && !checkOrderValueEmpty">
-              {{ 'order-details.order-error' | translate }}
-            </small>
-          </div>
           <button
-            *ngIf="canAddEcoShopOrderNumber()"
-            [disabled]="additionalOrders.controls.length >= 5"
+            *ngIf="isCanAddEcoShopOrderNumber()"
+            [disabled]="additionalOrders.controls.length >= limitOfEcoShopOrdersQuantity"
             class="ubs-link-global-button s-link add-order-btn"
             (click)="addOrder()"
           >
@@ -180,22 +158,17 @@
       </div>
     </form>
   </div>
-  <ng-template #spinner>
-    <app-spinner></app-spinner>
-  </ng-template>
+
+  <div class="buttons">
+    <button type="button" class="ubs-secondary-global-button" (click)="onCancel()">
+      {{ 'order-details.cancel' | translate }}
+    </button>
+    <button class="ubs-primary-global-button" [disabled]="orderDetailsForm?.invalid" type="submit" matStepperNext>
+      {{ 'order-details.next' | translate }}
+    </button>
+  </div>
 </div>
 
-<div class="buttons">
-  <button type="button" class="ubs-secondary-global-button" (click)="cancelUBS()">
-    {{ 'order-details.cancel' | translate }}
-  </button>
-  <button
-    [disabled]="courierLimitValidation || orderComment.invalid"
-    type="submit"
-    class="ubs-primary-global-button"
-    matStepperNext
-    (click)="saveOrderDetailsToState()"
-  >
-    {{ 'order-details.next' | translate }}
-  </button>
-</div>
+<ng-template #spinner>
+  <app-spinner></app-spinner>
+</ng-template>

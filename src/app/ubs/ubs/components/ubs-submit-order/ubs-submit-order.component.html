@@ -1,7 +1,4 @@
-<div class="load-spinner" *ngIf="isNotification && !isDownloadDataNotification">
-  <mat-spinner class="custom-spinner"></mat-spinner>
-</div>
-<div class="container" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
+<div class="container" *ngIf="bags.length && personalData?.district">
   <div class="header">
     <h3 class="font-bolt order-title">{{ 'order-details.your-order' | translate }}</h3>
   </div>
@@ -32,30 +29,28 @@
       <div class="middle-container">
         <div class="showTotal">
           <div class="totalInfo">
-            <p class="total-content" [class.d-none]="orderDetails.total === 0">
+            <p class="total-content" [class.d-none]="!orderSum">
               <span>{{ 'order-details.order-amount' | translate }} </span>
               <span>
-                <strong>{{ orderDetails.total | currency }} {{ 'order-details.currency' | translate }}</strong>
+                <strong>{{ orderSum | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
-            <p class="total-content" *ngIf="orderDetails.certificatesSum">
+            <p class="total-content" *ngIf="certificateUsed">
               <span>{{ 'order-details.certificate' | translate }} </span>
               <span>
-                <strong class="money-saved"
-                  >-{{ orderDetails.certificatesSum | currency }} {{ 'order-details.currency' | translate }}
-                </strong>
+                <strong class="money-saved">-{{ certificateUsed | currency }} {{ 'order-details.currency' | translate }} </strong>
               </span>
             </p>
-            <p class="total-content" *ngIf="orderDetails.pointsToUse">
+            <p class="total-content" *ngIf="pointsUsed">
               <span>{{ 'order-details.bonuses' | translate }} </span>
               <span>
-                <strong class="money-saved">-{{ orderDetails.pointsToUse }} {{ 'order-details.currency' | translate }}</strong>
+                <strong class="money-saved">-{{ pointsUsed }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
             <p class="total-content">
               <span class="bold">{{ 'order-details.amount-due' | translate }} </span>
               <span>
-                <strong class="total-sum">{{ orderDetails.finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
+                <strong class="total-sum">{{ finalSum | currency }} {{ 'order-details.currency' | translate }}</strong>
               </span>
             </p>
           </div>
@@ -129,17 +124,17 @@
   </form>
 </div>
 
-<div class="w-100 buttons" *ngIf="(bags.length && personalData) || (isNotification && isDownloadDataNotification)">
-  <button *ngIf="!isNotification" class="ubs-back-link-global-button" matStepperPrevious (click)="cleanPersonalDataState()">
+<div class="w-100 buttons" *ngIf="bags.length && personalData?.district">
+  <button class="ubs-back-link-global-button" matStepperPrevious>
     <i class="fas fa-chevron-left" aria-hidden="true"></i> &nbsp; <span class="link-underline">{{ 'submit-order.back' | translate }}</span>
   </button>
   <div class="btn-canc-sub">
-    <button class="ubs-secondary-global-button" (click)="cancelUBS(true)">
+    <button class="ubs-secondary-global-button" (click)="onCancel()">
       {{ 'order-details.cancel' | translate }}
     </button>
-    <button [disabled]="isTotalAmountZero || loadingAnim" (click)="redirectToOrder()" type="submit" class="ubs-primary-global-button">
-      <span *ngIf="loadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"> </span>
-      {{ isFinalSumZero ? ('submit-order.to-order' | translate) : ('submit-order.to-pay' | translate) }}
+    <button [disabled]="!isFirstFormValid || isLoadingAnim" (click)="processOrder()" type="submit" class="ubs-primary-global-button">
+      <span *ngIf="isLoadingAnim" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      {{ (isShouldBePaid ? 'submit-order.to-pay' : 'submit-order.to-order') | translate }}
     </button>
   </div>
 </div>

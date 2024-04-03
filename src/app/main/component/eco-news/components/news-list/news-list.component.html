@@ -26,19 +26,19 @@
       <app-change-view-button [gallery]="view" (view)="changeView($event)"></app-change-view-button>
     </div>
     <div class="list-wrapper">
-      <ul role="tablist" tabindex="0" class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }" aria-label="news list">
+      <ul class="list" *ngIf="remaining" [ngClass]="{ 'gallery-view-active': view }" aria-label="news list">
         <li
           role="listitem"
-          tabindex="0"
           [ngClass]="{
             'gallery-view-li-active': view,
             'list-view-li-active': !view
           }"
           *ngFor="let data of elements"
-          [routerLink]="['/news', data.id]"
         >
-          <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
-          <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data"> </app-news-list-list-view>
+          <a [routerLink]="['/news', data.id]" tabindex="0">
+            <app-news-list-gallery-view *ngIf="view" [ecoNewsModel]="data"> </app-news-list-gallery-view>
+            <app-news-list-list-view *ngIf="!view" [ecoNewsModel]="data"> </app-news-list-list-view>
+          </a>
         </li>
       </ul>
     </div>

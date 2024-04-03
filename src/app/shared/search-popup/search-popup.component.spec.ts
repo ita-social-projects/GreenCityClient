@@ -34,8 +34,7 @@ describe('SearchPopupComponent', () => {
       name: 'test'
     },
     creationDate: '0101',
-    tags: ['test'],
-    text: 'test'
+    tags: ['test']
   };
 
   const mockNewsData = {
@@ -46,13 +45,20 @@ describe('SearchPopupComponent', () => {
       name: 'test'
     },
     creationDate: '0101',
-    tags: ['test'],
-    text: 'test'
+    tags: ['test']
+  };
+
+  const mockEventsData = {
+    id: 1,
+    title: 'test',
+    creationDate: '0101',
+    tags: ['test']
   };
 
   const searchModelMock = {
     countOfResults: 2,
     ecoNews: [mockNewsData],
+    events: [mockEventsData],
     tipsAndTricks: [mockTipData]
   };
 
@@ -113,12 +119,12 @@ describe('SearchPopupComponent', () => {
 
   describe('Testing services:', () => {
     it('should handle search value changes', fakeAsync(() => {
-      const getSearchSpy = spyOn(component.search, 'getAllResults').and.returnValue(of(searchModelMock));
+      const getSearchSpy = spyOn(component.searchService, 'getAllResults').and.returnValue(of(searchModelMock));
       component.ngOnInit();
 
       component.searchInput.setValue('test');
       tick(300);
-      expect(getSearchSpy).toHaveBeenCalledWith('test', 'ua');
+      expect(getSearchSpy).toHaveBeenCalledWith('test', 'econews', 'ua');
     }));
 
     it('should call resetData', () => {
@@ -130,7 +136,7 @@ describe('SearchPopupComponent', () => {
     });
 
     it('closeSearch should open SearchService/closeSearchSignal', () => {
-      const spy = spyOn(component.search, 'closeSearchSignal');
+      const spy = spyOn(component.searchService, 'closeSearchSignal');
       component.closeSearch();
       expect(spy).toHaveBeenCalled();
     });
@@ -138,14 +144,14 @@ describe('SearchPopupComponent', () => {
     it('should setup Initial Value', () => {
       const subscribeToSignalSpy = spyOn(component as any, 'subscribeToSignal');
       component.setupInitialValue();
-      component.search.searchSubject.next(true);
+      component.searchService.searchSubject.next(true);
       expect(subscribeToSignalSpy).toHaveBeenCalledWith(true);
     });
 
     it('should reset input value', () => {
       component.setupInitialValue();
       component.searchInput.setValue('test', { emitEvent: false });
-      component.search.searchSubject.next(false);
+      component.searchService.searchSubject.next(false);
       expect(component.searchInput.value).toBe('');
     });
   });

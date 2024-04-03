@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -131,11 +131,11 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
     cityNameUk: 'cityNameEn'
   };
 
-  const fakeCardForm = new UntypedFormGroup({
-    courierName: new UntypedFormControl(modalData.courierEnglishName),
-    regionName: new UntypedFormControl(modalData.regionEnglishName),
-    station: new UntypedFormControl(modalData.selectedStation),
-    city: new UntypedFormControl(modalData.cityNameEn)
+  const fakeCardForm = new FormGroup({
+    courierName: new FormControl(modalData.courierEnglishName),
+    regionName: new FormControl(modalData.regionEnglishName),
+    station: new FormControl(modalData.selectedStation),
+    city: new FormControl(modalData.cityNameEn)
   });
 
   const eventMockCity = {
@@ -201,7 +201,7 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         { provide: TariffsService, useValue: tariffsServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

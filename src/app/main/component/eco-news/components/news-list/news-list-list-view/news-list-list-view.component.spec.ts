@@ -8,6 +8,8 @@ import { Language } from '../../../../../i18n/Language';
 import { BehaviorSubject } from 'rxjs';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { FIRSTECONEWS } from '../../../mocks/eco-news-mock';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockRenderer {
   addClass(document: string, cssClass: string): boolean {
@@ -18,6 +20,7 @@ class MockRenderer {
 describe('NewsListListViewComponent', () => {
   let component: NewsListListViewComponent;
   let fixture: ComponentFixture<NewsListListViewComponent>;
+  let router: Router;
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
 
@@ -30,7 +33,7 @@ describe('NewsListListViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
       declarations: [NewsListListViewComponent],
       providers: [
         { provide: Renderer2, useClass: MockRenderer },
@@ -44,6 +47,7 @@ describe('NewsListListViewComponent', () => {
     fixture = TestBed.createComponent(NewsListListViewComponent);
     component = fixture.componentInstance;
     component.ecoNewsModel = FIRSTECONEWS;
+    router = TestBed.inject(Router);
     component.profileIcons.newsDefaultPictureList = defaultImagePath;
     fixture.detectChanges();
   });
@@ -64,5 +68,28 @@ describe('NewsListListViewComponent', () => {
     component.ecoNewsModel = FIRSTECONEWS;
     component.checkNewsImage();
     expect(component.newsImage).toBe(defaultImagePath);
+  });
+
+  it('should navigate to news route', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    component.ecoNewsModel = {
+      id: 123,
+      author: { id: 1, name: 'Author Name' },
+      content: 'News content',
+      countComments: 5,
+      creationDate: '2024-02-22',
+      imagePath: 'path/to/image',
+      likes: 10,
+      shortInfo: 'Short info',
+      source: 'News source',
+      tags: ['tag1', 'tag2'],
+      tagsEn: ['tag1', 'tag2'],
+      tagsUa: ['tag1', 'tag2'],
+      title: 'News Title'
+    };
+
+    component.routeToNews();
+
+    expect(navigateSpy).toHaveBeenCalledWith(['/news', 123]);
   });
 });

@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'src/app/store/state/app.state';
 import { IEcoNewsState } from 'src/app/store/state/ecoNews.state';
 import { GetEcoNewsByTagsAction, GetEcoNewsByPageAction } from 'src/app/store/actions/ecoNews.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news-list',
@@ -43,7 +44,8 @@ export class NewsListComponent implements OnInit, OnDestroy {
     private userOwnAuthService: UserOwnAuthService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -122,7 +124,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
   }
 
   private checkUserSingIn(): void {
-    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data && data.userId));
+    this.userOwnAuthService.credentialDataSubject.subscribe((data) => (this.isLoggedIn = data?.userId));
   }
 
   private setDefaultNumberOfNews(quantity: number): void {

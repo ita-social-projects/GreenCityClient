@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalStorageService } from './local-storage.service';
 import { Subject } from 'rxjs';
-import { EventPageResponceDto } from '../../component/events/models/events.interface';
+import { EventPageResponseDto } from '../../component/events/models/events.interface';
 import { CourierLocations } from 'src/app/ubs/ubs/models/ubs.interface';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
   const ACCESS_TOKEN = 'accessToken';
 
-  const mockEvent: EventPageResponceDto = {
+  const mockEvent: EventPageResponseDto = {
     additionalImages: ['image1.jpg', 'image2.jpg'],
     creationDate: '2022-05-31',
     dates: [
@@ -67,7 +67,8 @@ describe('LocalStorageService', () => {
     isActive: true,
     countComments: 5,
     likes: 8,
-    isRelevant: true
+    isRelevant: true,
+    isOrganizedByFriend: false
   };
 
   const fakeLanguageSubject: Subject<string> = new Subject<string>();
@@ -453,12 +454,6 @@ describe('LocalStorageService', () => {
     localStorage.setItem('UBSpersonalData', JSON.stringify({ name: 'John Doe' }));
     const personalData = service.getUbsPersonalData();
     expect(personalData).toEqual({ name: 'John Doe' });
-  });
-
-  it('should get UBS order data', () => {
-    localStorage.setItem('UBSorderData', JSON.stringify({ orderId: 123 }));
-    const orderData = service.getUbsOrderData();
-    expect(orderData).toEqual({ orderId: 123 });
   });
 
   it('should get current location id', () => {

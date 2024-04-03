@@ -13,7 +13,8 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { ActionsSubject, Store } from '@ngrx/store';
 import { Language } from 'src/app/main/i18n/Language';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
+import { MapEventComponent } from '../map-event/map-event.component';
+import { EventPageResponseDto } from '../../models/events.interface';
 
 export function mockPipe(options: Pipe): Pipe {
   const metadata: Pipe = {
@@ -86,13 +87,17 @@ describe('EventDetailsComponent', () => {
     'createAddresses',
     'getFormattedAddress',
     'getForm',
-    'getLangValue'
+    'getLangValue',
+    'setBackFromPreview',
+    'setSubmitFromPreview'
   ]);
   EventsServiceMock.getEventById = () => of(eventMock);
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getAllAttendees = () => of([]);
   EventsServiceMock.createAddresses = () => of('');
   EventsServiceMock.getFormattedAddress = () => of('');
+  EventsServiceMock.setBackFromPreview = () => of();
+  EventsServiceMock.setSubmitFromPreview = () => of();
 
   const jwtServiceFake = jasmine.createSpyObj('jwtService', ['getUserRole']);
   jwtServiceFake.getUserRole = () => '123';
@@ -132,9 +137,6 @@ describe('EventDetailsComponent', () => {
   translateServiceMock.setDefaultLang = (lang: string) => of(lang);
   translateServiceMock.get = () => of(true);
 
-  const userFriendsServiceMock = jasmine.createSpyObj('UserFriendsService', ['getAllFriendsByUserId']);
-  userFriendsServiceMock.getAllFriendsByUserId = () => of();
-
   const MatSnackBarMock = jasmine.createSpyObj('MatSnackBarComponent', ['openSnackBar']);
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -146,7 +148,7 @@ describe('EventDetailsComponent', () => {
         EventDetailsComponent,
         mockPipe({ name: 'dateLocalisation' }),
         mockPipe({ name: 'translate' }),
-        mockPipe({ name: 'eventDescriptionTransform' })
+        mockPipe({ name: 'safeHtmlTransform' })
       ],
       providers: [
         { provide: JwtService, useValue: jwtServiceFake },
@@ -159,8 +161,7 @@ describe('EventDetailsComponent', () => {
         { provide: ActionsSubject, useValue: actionSub },
         { provide: BsModalRef, useValue: bsModalRefMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: BsModalService, useValue: bsModalBsModalServiceMock },
-        { provide: UserFriendsService, useValue: userFriendsServiceMock }
+        { provide: BsModalService, useValue: bsModalBsModalServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -179,10 +180,48 @@ describe('EventDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should inject dependencies correctly', () => {
+    expect(component.eventService).toBe(EventsServiceMock);
+    expect(component.localStorageService).toBe(LocalStorageServiceMock);
+    expect((component as any).store).toBe(storeMock);
+    expect((component as any).modalService).toBe(bsModalBsModalServiceMock);
+    expect((component as any).snackBar).toBe(MatSnackBarMock);
+    expect((component as any).jwtService).toBe(jwtServiceFake);
+    expect((component as any).actionsSubj).toBe(actionSub);
+  });
+
   it('should call verifyRole on ngOnInit', () => {
     const spy1 = spyOn(component as any, 'verifyRole');
     component.ngOnInit();
     expect(spy1).toHaveBeenCalled();
+  });
+
+  it('should return the formatted address from the event service', () => {
+    const expectedAddress = 'fake address';
+    spyOn(component.eventService, 'getFormattedAddress').and.returnValue(expectedAddress);
+    expect(component.getAddress()).toBe(expectedAddress);
+    expect(component.eventService.getFormattedAddress).toHaveBeenCalledWith(component.locationCoordinates);
+  });
+
+  it('should return USER for regular users', () => {
+    (component as any).userId = 123;
+    (component as any).event = { organizer: { id: 1 } };
+    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_USER');
+    expect((component as any).verifyRole()).toBe(component.roles.USER);
+  });
+
+  it('should return ADMIN for admin users', () => {
+    (component as any).userId = 123;
+    (component as any).event = { organizer: { id: 1 } };
+    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_ADMIN');
+    expect((component as any).verifyRole()).toBe(component.roles.ADMIN);
+  });
+
+  it('should prioritize organizer role over user role', () => {
+    (component as any).userId = 123;
+    (component as any).event = { organizer: { id: 123 } };
+    spyOn((component as any).jwtService, 'getUserRole').and.returnValue('ROLE_USER');
+    expect((component as any).verifyRole()).toBe(component.roles.ORGANIZER);
   });
 
   it('should verify unauthenticated role', () => {
@@ -219,5 +258,29 @@ describe('EventDetailsComponent', () => {
       component.openAuthModalWindow('sign-in');
     }
     expect(component.openAuthModalWindow).toHaveBeenCalled();
+  });
+
+  it('should call openAuthModalWindow with "sign-in" when role is UNAUTHENTICATED', () => {
+    component.role = 'UNAUTHENTICATED';
+    const spy = spyOn(component, 'openAuthModalWindow');
+    component.buttonAction({} as MouseEvent);
+    expect(spy).toHaveBeenCalledWith('sign-in');
+  });
+
+  it('should call openSnackBar with "errorJoinEvent" when isUserCanJoin is true and addAttenderError is truthy', () => {
+    component.role = 'USER';
+    component.isUserCanJoin = true;
+    component.addAttenderError = 'some error';
+    component.buttonAction({} as MouseEvent);
+    expect(MatSnackBarMock.openSnackBar).toHaveBeenCalledWith('errorJoinEvent');
+    expect(component.addAttenderError).toBe('');
+  });
+
+  it('should call setBackFromPreview and setSubmitFromPreview methods from eventService', () => {
+    const spy1 = spyOn(EventsServiceMock, 'setBackFromPreview');
+    const spy2 = spyOn(EventsServiceMock, 'setSubmitFromPreview');
+    component.backToSubmit();
+    expect(spy1).toHaveBeenCalledWith(true);
+    expect(spy2).toHaveBeenCalledWith(true);
   });
 });

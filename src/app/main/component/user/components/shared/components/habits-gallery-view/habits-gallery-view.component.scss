@@ -72,11 +72,13 @@
 
   .tags {
     display: flex;
+    flex-wrap: wrap;
     font-family: var(--primary-font);
-    font-size: 14px;
+    font-size: 12px;
     line-height: 16px;
     color: var(--primary-green);
     text-transform: uppercase;
+    height: 32px;
   }
 
   .title {

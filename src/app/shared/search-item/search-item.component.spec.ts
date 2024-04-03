@@ -36,16 +36,4 @@ describe('SearchItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should emit close event', () => {
-    spyOn(component.closeSearch, 'emit');
-    // trigger the click
-    const nativeElement = fixture.nativeElement;
-    const button = nativeElement.querySelector('.search_item-title a');
-    button.dispatchEvent(new Event('click'));
-
-    fixture.detectChanges();
-
-    expect(component.closeSearch.emit).toHaveBeenCalled();
-  });
 });

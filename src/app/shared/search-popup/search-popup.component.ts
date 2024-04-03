@@ -1,16 +1,18 @@
 import { NewsSearchModel } from '@global-models/search/newsSearch.model';
-import { SearchModel } from '@global-models/search/search.model';
+import { EventsSearchModel } from '@global-models/search/eventsSearch.model';
+import { SearchDataModel } from '@global-models/search/search.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { searchIcons } from '../../main/image-pathes/search-icons';
 import { negate, isNil } from 'lodash';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { UntypedFormControl } from '@angular/forms';
+import { Subscription, forkJoin } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap, switchMap, filter } from 'rxjs/operators';
 import { SearchService } from '@global-service/search/search.service';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { MatDialog } from '@angular/material/dialog';
+import { SearchCategory } from './search-consts';
 
 @Component({
   selector: 'app-search-popup',
@@ -19,10 +21,11 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SearchPopupComponent implements OnInit, OnDestroy {
   public newsElements: NewsSearchModel[] = [];
+  public eventsElements: EventsSearchModel[] = [];
   public isSearchClicked = false;
   public itemsFound: number = null;
   public searchModalSubscription: Subscription;
-  public searchInput = new UntypedFormControl('');
+  public searchInput = new FormControl('');
   public isLoading = false;
   public isNewsSearchFound: boolean;
   public searchValueChanges;
@@ -31,7 +34,7 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   public searctabindex: SearchService;
 
   constructor(
-    public search: SearchService,
+    public searchService: SearchService,
     public dialog: MatDialog,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
@@ -52,10 +55,15 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
         }),
         switchMap((val: string) => {
           this.currentLanguage = this.localStorageService.getCurrentLanguage();
-          return this.search.getAllResults(val, this.currentLanguage);
+          return forkJoin([
+            this.searchService.getAllResults(val, SearchCategory.NEWS, this.currentLanguage),
+            this.searchService.getAllResults(val, SearchCategory.EVENTS, this.currentLanguage)
+          ]);
         })
       )
-      .subscribe((data) => this.setData(data));
+      .subscribe((data: SearchDataModel[]) => {
+        this.setData(data);
+      });
 
     this.searchValueChanges.pipe(filter(negate(isNil))).subscribe(() => this.resetData());
   }
@@ -65,18 +73,19 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public setupInitialValue(): void {
-    this.searchModalSubscription = this.search.searchSubject.subscribe((signal) => this.subscribeToSignal(signal));
+    this.searchModalSubscription = this.searchService.searchSubject.subscribe((signal) => this.subscribeToSignal(signal));
   }
 
   public openErrorPopup(): void {
     this.snackBar.openSnackBar('error');
   }
 
-  private setData({ ecoNews, countOfResults }: SearchModel): void {
+  private setData(data: SearchDataModel[]): void {
     this.isLoading = false;
 
-    this.newsElements = ecoNews;
-    this.itemsFound = countOfResults;
+    this.newsElements = data[0].page;
+    this.eventsElements = data[1].page;
+    this.itemsFound = data[0].totalElements + data[1].totalElements;
   }
 
   private subscribeToSignal(signal: boolean): void {
@@ -87,13 +96,14 @@ export class SearchPopupComponent implements OnInit, OnDestroy {
   }
 
   public closeSearch(): void {
-    this.search.closeSearchSignal();
+    this.searchService.closeSearchSignal();
     this.isSearchClicked = false;
     this.resetData();
   }
 
   private resetData(): void {
     this.newsElements = [];
+    this.eventsElements = [];
     this.itemsFound = null;
   }
 

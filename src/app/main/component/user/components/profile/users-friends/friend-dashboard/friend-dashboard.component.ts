@@ -7,8 +7,11 @@ import { AllFriendsComponent } from './all-friends/all-friends.component';
 import { RecommendedFriendsComponent } from './recommended-friends/recommended-friends.component';
 import { FriendRequestsComponent } from './friend-requests/friend-requests.component';
 import { searchIcon } from '../../../../../../image-pathes/places-icons';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
-import { FriendArrayModel } from '@global-user/models/friend.model';
+
+import { Store } from '@ngrx/store';
+import { IAppState } from 'src/app/store/state/app.state';
+import { IFriendState } from 'src/app/store/state/friends.state';
+import { GetAllFriends, GetAllFriendsRequests } from 'src/app/store/actions/friends.actions';
 
 @Component({
   selector: 'app-friend-dashboard',
@@ -24,11 +27,13 @@ export class FriendDashboardComponent implements OnInit {
   allFriendsAmount: number;
   requestFriendsAmount: number;
   private componentRef;
+  private size = 10;
+  friendsList$ = this.store.select((state: IAppState): IFriendState => state.friend);
 
   constructor(
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
-    private userFriendsService: UserFriendsService
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -37,8 +42,7 @@ export class FriendDashboardComponent implements OnInit {
     this.bindLang(this.localStorageService.getCurrentLanguage());
     this.preventFrequentQuery();
     this.hideInputField();
-    this.getAllFriends(this.userId);
-    this.getFriendsRequests(this.userId);
+    this.getFriends();
   }
 
   preventFrequentQuery() {
@@ -47,22 +51,18 @@ export class FriendDashboardComponent implements OnInit {
     });
   }
 
-  private getAllFriends(userId: number): void {
-    this.userFriendsService
-      .getAllFriends(userId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: FriendArrayModel) => {
-        this.allFriendsAmount = data.totalElements;
-      });
-  }
+  private getFriends() {
+    if (this.userId) {
+      this.store.dispatch(GetAllFriends({ page: 0, size: this.size }));
+      this.store.dispatch(GetAllFriendsRequests({ page: 0, size: this.size }));
 
-  private getFriendsRequests(userId: number): void {
-    this.userFriendsService
-      .getRequests(userId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: FriendArrayModel) => {
-        this.requestFriendsAmount = data.totalElements;
+      this.friendsList$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+        if (data.FriendState && data.FriendRequestState) {
+          this.allFriendsAmount = data.FriendState?.totalElements;
+          this.requestFriendsAmount = data.FriendRequestState?.totalElements;
+        }
       });
+    }
   }
 
   public onInput(input): void {

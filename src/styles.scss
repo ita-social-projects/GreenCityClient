@@ -3,6 +3,7 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import 'typography/typography';
 @import 'typography/typographyUbs';
+@import 'typography/resp';
 
 .hide {
   display: none;
@@ -363,6 +364,10 @@ body {
 .ql-editor {
   height: 199px;
   max-width: 594px;
+
+  @media (max-width: 1199px) {
+    max-width: 100%;
+  }
 }
 
 // [END] Quill editor
@@ -381,14 +386,36 @@ body {
   position: absolute;
   background-color: #fff;
   text-align: center;
-  max-width: 288px;
-  width: auto;
+  width: fit-content;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-word;
   padding: 5px;
   border-radius: 6px;
   z-index: 1000;
+  top: 100%;
+  left: -5px;
+}
+
+.tooltipClass-textArea {
+  top: 62%;
+  left: 15px;
+  max-width: 221px;
+
+  @media (max-width: 1199px) {
+    max-width: 189px;
+  }
+
+  @media (max-width: 767px) {
+    top: 70%;
+    left: 90px;
+    max-width: 457px;
+  }
+
+  @media (max-width: 567px) {
+    top: 78%;
+    left: calc((100% - 305px) / 2);
+    max-width: 295px;
+  }
 }
 
 @media screen and (min-width: 768px) {

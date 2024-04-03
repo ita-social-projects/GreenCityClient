@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { UbsAdminOrderComponent } from './ubs-admin-order.component';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -78,7 +78,7 @@ describe('UbsAdminOrderComponent', () => {
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
         MatSnackBarComponent,
-        UntypedFormBuilder,
+        FormBuilder,
         OrderService,
         provideMockStore({}),
         { provide: LocalStorageService, useValue: localStorageServiceMock },
@@ -93,14 +93,14 @@ describe('UbsAdminOrderComponent', () => {
     localStorageService = TestBed.inject(LocalStorageService);
     translate = TestBed.inject(TranslateService);
     orderService = TestBed.inject(OrderService);
-    component.orderForm = new UntypedFormGroup({
-      exportDetailsDto: new UntypedFormGroup({
-        field1: new UntypedFormControl(),
-        field2: new UntypedFormControl()
+    component.orderForm = new FormGroup({
+      exportDetailsDto: new FormGroup({
+        field1: new FormControl(),
+        field2: new FormControl()
       }),
-      responsiblePersonsForm: new UntypedFormGroup({
-        name1: new UntypedFormControl(),
-        name2: new UntypedFormControl()
+      responsiblePersonsForm: new FormGroup({
+        name1: new FormControl(),
+        name2: new FormControl()
       })
     });
 

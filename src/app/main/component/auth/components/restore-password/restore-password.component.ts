@@ -3,7 +3,7 @@ import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
@@ -26,7 +26,7 @@ declare let google: any;
 export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isUbs: boolean;
 
-  public restorePasswordForm: UntypedFormGroup;
+  public restorePasswordForm: FormGroup;
   public emailField: AbstractControl;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
@@ -66,8 +66,8 @@ export class RestorePasswordComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public initFormReactive(): void {
-    this.restorePasswordForm = new UntypedFormGroup({
-      email: new UntypedFormControl(null, [Validators.required, Validators.email])
+    this.restorePasswordForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email])
     });
   }
 

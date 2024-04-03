@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { IGeneralOrderInfo, IPaymentStatus } from '../../models/ubs-admin.interface';
@@ -18,7 +18,7 @@ import { OrderStatusEn, PaymentStatusEn } from 'src/app/ubs/ubs-user/ubs-user-or
 })
 export class UbsAdminOrderStatusComponent implements OnChanges, OnInit, OnDestroy {
   @Input() currentOrderPrice: number;
-  @Input() generalOrderInfo: UntypedFormGroup;
+  @Input() generalOrderInfo: FormGroup;
   @Input() totalPaid: number;
   @Input() unPaidAmount: number;
   @Input() generalInfo: IGeneralOrderInfo;

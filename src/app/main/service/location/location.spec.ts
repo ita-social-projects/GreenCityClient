@@ -3,7 +3,7 @@ import { LocationService } from './location.service';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { LanguageService } from '../../i18n/language.service';
 import { of } from 'rxjs';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Language } from '../../i18n/Language';
 
 describe('LocationService', () => {
@@ -24,8 +24,8 @@ describe('LocationService', () => {
 
   const languageServiceMock = jasmine.createSpyObj('LanguageService', ['getLangValue']);
 
-  const districtUa = new UntypedFormControl();
-  const districtEn = new UntypedFormControl();
+  const districtUa = new FormControl();
+  const districtEn = new FormControl();
 
   const mockPlaceDetails = {
     geometry: {

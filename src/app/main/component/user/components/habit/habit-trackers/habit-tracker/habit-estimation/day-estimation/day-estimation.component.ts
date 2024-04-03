@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HabitDto } from '../../../../../../../../model/habit/HabitDto';
-import { HabitStatisticsDto } from '../../../../../../../../model/habit/HabitStatisticsDto';
-import { HabitStatisticService } from '../../../../../../../../service/habit-statistic/habit-statistic.service';
-import { DayEstimation } from '../../../../../../../../model/habit/DayEstimation';
 import { filter, map } from 'rxjs/operators';
+import { HabitDto } from '@global-models/habit/HabitDto';
+import { HabitStatisticsDto } from '@global-models/habit/HabitStatisticsDto';
+import { HabitStatisticService } from '@global-service/habit-statistic/habit-statistic.service';
+import { DayEstimation } from '@global-models/habit/DayEstimation';
 
 @Component({
   selector: 'app-day-estimation',
   templateUrl: './day-estimation.component.html',
-  styleUrls: ['./day-estimation.component.scss'],
+  styleUrls: ['./day-estimation.component.scss']
 })
 export class DayEstimationComponent implements OnInit {
   @Input()
@@ -33,7 +33,7 @@ export class DayEstimationComponent implements OnInit {
   }
 
   update(estimation: string) {
-    const newEstimation = Object.assign({}, this.habitStatisticsDto);
+    const newEstimation = { ...this.habitStatisticsDto };
     newEstimation.habitRate = DayEstimation[estimation];
     newEstimation.habitId = this.habitDto.id;
 

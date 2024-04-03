@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterContentChecked, ChangeDetectorRef, Injector, ViewChild } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -48,7 +48,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
   deleteNumberOrderFromEcoShop = false;
   currentLanguage: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  orderForm: UntypedFormGroup;
+  orderForm: FormGroup;
   isDataLoaded = false;
   orderId: number;
   orderInfo: IOrderInfo;
@@ -94,7 +94,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     private translate: TranslateService,
     private localStorageService: LocalStorageService,
     private adminTableService: AdminTableService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
@@ -195,7 +195,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     });
     this.orderDetails = {
       bags: bagsObj,
-      courierInfo: Object.assign({}, this.orderInfo.courierInfo),
+      courierInfo: { ...this.orderInfo.courierInfo },
       bonuses: this.orderInfo.orderBonusDiscount,
       certificateDiscount: this.orderInfo.orderCertificateTotalDiscount,
       paidAmount: this.orderInfo.paymentTableInfoDto.paidAmount,
@@ -218,11 +218,11 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     const actualStage = this.getOrderStatusInfo(status).ableActualChange;
     if (actualStage) {
       if (!Object.keys(this.orderInfo.amountOfBagsExported).length) {
-        this.orderInfo.amountOfBagsExported = Object.assign({}, this.orderInfo.amountOfBagsConfirmed);
+        this.orderInfo.amountOfBagsExported = { ...this.orderInfo.amountOfBagsConfirmed };
       }
     } else {
       if (!Object.keys(this.orderInfo.amountOfBagsConfirmed).length) {
-        this.orderInfo.amountOfBagsConfirmed = Object.assign({}, this.orderInfo.amountOfBagsOrdered);
+        this.orderInfo.amountOfBagsConfirmed = { ...this.orderInfo.amountOfBagsOrdered };
       }
     }
   }
@@ -285,12 +285,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         ],
         addressHouseNumber: [
           this.addressInfo.addressHouseNumber,
-          [Validators.required, Validators.maxLength(10), Validators.pattern(Patterns.ubsHousePattern)]
+          [Validators.required, Validators.maxLength(10), Validators.pattern(Patterns.numericAndAlphabetic)]
         ],
-        addressHouseCorpus: [this.addressInfo.addressHouseCorpus, [Validators.maxLength(4), Validators.pattern(Patterns.ubsCorpusPattern)]],
+        addressHouseCorpus: [
+          this.addressInfo.addressHouseCorpus,
+          [Validators.maxLength(4), Validators.pattern(Patterns.numericAndAlphabetic)]
+        ],
         addressEntranceNumber: [
           this.addressInfo.addressEntranceNumber,
-          [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
+          [Validators.maxLength(2), Validators.pattern(Patterns.numericAndAlphabetic)]
         ],
         addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
         addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }],
@@ -315,22 +318,22 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         orderFullPrice: this.orderInfo.orderFullPrice
       })
     });
-    const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as UntypedFormArray;
+    const storeOrderNumbersArr = this.getFormGroup('orderDetailsForm').controls.storeOrderNumbers as FormArray;
     this.orderInfo.numbersFromShop.forEach((elem) => {
-      storeOrderNumbersArr.push(new UntypedFormControl(elem, [Validators.pattern(Patterns.orderEcoStorePattern)]));
+      storeOrderNumbersArr.push(new FormControl(elem, [Validators.pattern(Patterns.orderEcoStorePattern)]));
     });
     this.orderDetails.bags.forEach((bag) => {
       this.getFormGroup('orderDetailsForm').addControl(
         'plannedQuantity' + String(bag.id),
-        new UntypedFormControl(bag.planned, [Validators.min(0), Validators.max(999)])
+        new FormControl(bag.planned, [Validators.min(0), Validators.max(999)])
       );
       this.getFormGroup('orderDetailsForm').addControl(
         'confirmedQuantity' + String(bag.id),
-        new UntypedFormControl(bag.confirmed, [Validators.min(0), Validators.max(999)])
+        new FormControl(bag.confirmed, [Validators.min(0), Validators.max(999)])
       );
       this.getFormGroup('orderDetailsForm').addControl(
         'actualQuantity' + String(bag.id),
-        new UntypedFormControl(bag.actual, [Validators.min(0), Validators.max(999)])
+        new FormControl(bag.actual, [Validators.min(0), Validators.max(999)])
       );
     });
     this.statusCanceledOrDone();
@@ -344,8 +347,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     return key ? allCurrentEmployees[key] : '';
   }
 
-  getFormGroup(name: string): UntypedFormGroup {
-    return this.orderForm.get(name) as UntypedFormGroup;
+  getFormGroup(name: string): FormGroup {
+    return this.orderForm.get(name) as FormGroup;
   }
 
   openCancelModal() {
@@ -422,7 +425,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.orderStatusInfo = this.getOrderStatusInfo(this.currentOrderStatus);
   }
 
-  public addIdForUserAndAdress(order: UntypedFormGroup): void {
+  public addIdForUserAndAdress(order: FormGroup): void {
     const addressId = 'addressId';
     const recipientId = 'recipientId';
     const keyUserInfo = 'userInfoDto';
@@ -521,7 +524,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
+        this.matSnackBar.openSnackBar(response.ok ? 'changesSaved' : 'error');
         if (response.ok) {
           this.getOrderInfo(this.orderId, true);
           if (changedValues?.generalOrderInfo) {
@@ -579,8 +582,8 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
     this.store.dispatch(ChangingOrderData({ orderData: [{ orderId, columnName, newValue }] }));
   }
 
-  private getUpdates(formItem: UntypedFormGroup | UntypedFormArray | UntypedFormControl, changedValues: IOrderInfo, name?: string) {
-    if (formItem instanceof UntypedFormControl) {
+  private getUpdates(formItem: FormGroup | FormArray | FormControl, changedValues: IOrderInfo, name?: string) {
+    if (formItem instanceof FormControl) {
       if (name?.includes('confirmedQuantity') || name?.includes('actualQuantity')) {
         formItem.markAsDirty();
       }
@@ -592,12 +595,12 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         if (Object.prototype.hasOwnProperty.call(formItem.controls, formControlName)) {
           const formControl = formItem.controls[formControlName];
 
-          if (formControl instanceof UntypedFormControl) {
+          if (formControl instanceof FormControl) {
             this.getUpdates(formControl, changedValues, formControlName);
-          } else if (formControl instanceof UntypedFormArray && formControl.dirty && formControl.controls.length > 0) {
+          } else if (formControl instanceof FormArray && formControl.dirty && formControl.controls.length > 0) {
             changedValues[formControlName] = [];
             this.getUpdates(formControl, changedValues[formControlName]);
-          } else if (formControl instanceof UntypedFormGroup && formControl.dirty) {
+          } else if (formControl instanceof FormGroup && formControl.dirty) {
             changedValues[formControlName] = {};
             this.getUpdates(formControl, changedValues[formControlName]);
           }

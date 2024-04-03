@@ -9,7 +9,7 @@
     "build-prod": "ng build --configuration production",
     "build-stage": "ng build --configuration=stage",
     "test": "ng test",
-    "coverage": "ng test --codeCoverage",
+    "coverage": "ng test --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "stylelint": "npx stylelint \"src/**/*.scss\"",

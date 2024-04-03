@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -22,6 +22,7 @@ interface InputData {
   orderId: number;
   viewMode: boolean;
   payment: IPaymentInfoDto | null;
+  isCanPaymentEdit?: boolean;
 }
 
 interface PostData {
@@ -49,7 +50,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
   isFileSizeWarning = false;
   isFileTypeWarning = false;
   payment: IPaymentInfoDto | null;
-  addPaymentForm: UntypedFormGroup;
+  addPaymentForm: FormGroup;
   isPhotoContainerChoosen = false;
   isLinkToBillChoosed = false;
   file: File;
@@ -76,11 +77,12 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     popupCancel: 'employees.btn.no'
   };
   public paymentSum: string;
+  public isCanPaymentEdit: boolean;
   constructor(
     private injector: Injector,
     private dialogRef: MatDialogRef<AddPaymentComponent>,
     private dialog: MatDialog,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private adapter: DateAdapter<any>,
     @Inject(MAT_DIALOG_DATA) public data: InputData
   ) {
@@ -96,6 +98,7 @@ export class AddPaymentComponent implements OnInit, OnDestroy {
     this.orderId = this.data.orderId;
     this.viewMode = this.data.viewMode;
     this.payment = this.data.payment;
+    this.isCanPaymentEdit = this.data.isCanPaymentEdit;
     this.localeStorageService.firstNameBehaviourSubject.pipe(takeUntil(this.destroySub)).subscribe((firstName) => {
       this.adminName = firstName;
     });

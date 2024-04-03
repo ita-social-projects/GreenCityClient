@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { EditProfileModel, UserLocationDto } from '@global-user/models/edit-profile.model';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 
 @Injectable()
 export class EditProfileFormBuilder {
   constructor(
-    private builder: UntypedFormBuilder,
+    private builder: FormBuilder,
     private langService: LanguageService
   ) {}
   getProfileForm() {
@@ -14,9 +14,9 @@ export class EditProfileFormBuilder {
       name: ['', Validators.maxLength(30)],
       city: ['', Validators.maxLength(85)],
       credo: ['', Validators.maxLength(170)],
-      showLocation: [''],
-      showEcoPlace: [''],
-      showShoppingList: [''],
+      showLocation: [false],
+      showEcoPlace: [false],
+      showShoppingList: [false],
       socialNetworks: ['']
     });
   }

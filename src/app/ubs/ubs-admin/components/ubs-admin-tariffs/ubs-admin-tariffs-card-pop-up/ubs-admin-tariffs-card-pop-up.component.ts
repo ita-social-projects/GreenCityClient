@@ -1,7 +1,7 @@
 import { Language } from 'src/app/main/i18n/Language';
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -83,7 +83,7 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public modalData: any,
     private localeStorageService: LocalStorageService,
     private tariffsService: TariffsService,
@@ -240,7 +240,9 @@ export class UbsAdminTariffsCardPopUpComponent implements OnInit, OnDestroy {
   }
 
   setSelectedStation() {
-    this.selectedStation = this.station.value.map((stationName) => {
+    const stationNames: string[] = Array.isArray(this.station.value) ? this.station.value : this.station.value.split(',');
+
+    this.selectedStation = stationNames.map((stationName) => {
       const selectedStationValue = this.stations.find((ob) => ob.name === stationName);
 
       return {

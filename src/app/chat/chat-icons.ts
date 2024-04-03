@@ -16,5 +16,7 @@ export const CHAT_ICONS = {
   search: 'assets/img/chat/search.svg',
   chats: 'assets/img/chat/chats.svg',
   setting: 'assets/img/chat/setting.svg',
-  profile: 'assets/img/chat/profile.svg'
+  profile: 'assets/img/chat/profile.svg',
+  emptyChatBack: 'assets/img/chat/chat-backround.png',
+  windowEmptyBack: 'assets/img/chat/windowBack.png'
 };

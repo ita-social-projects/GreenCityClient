@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UntypedFormGroup, UntypedFormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { UbsAdminAddressDetailsComponent } from './ubs-admin-address-details.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -12,7 +12,6 @@ import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { ADDRESSESMOCK } from 'src/app/ubs/mocks/address-mock';
 import { of } from 'rxjs';
 import { Language } from 'src/app/main/i18n/Language';
-import { KyivNamesEnum } from 'src/app/ubs/ubs/models/ubs.interface';
 import { ubsOrderServiseMock } from 'src/app/ubs/mocks/order-data-mock';
 import { Store } from '@ngrx/store';
 
@@ -21,19 +20,19 @@ describe('UbsAdminAddressDetailsComponent', () => {
 
   let fixture: ComponentFixture<UbsAdminAddressDetailsComponent>;
 
-  const FormGroupMock = new UntypedFormGroup({
-    addressRegion: new UntypedFormControl('місто Київ'),
-    addressRegionEng: new UntypedFormControl('Kyiv'),
-    addressCity: new UntypedFormControl('Київ'),
-    addressCityEng: new UntypedFormControl('Kyiv'),
-    addressStreet: new UntypedFormControl('вулиця Михайла Ломоносова'),
-    addressStreetEng: new UntypedFormControl('Mykhaila Lomonosova Street'),
-    addressHouseNumber: new UntypedFormControl('12'),
-    addressHouseCorpus: new UntypedFormControl('2'),
-    addressEntranceNumber: new UntypedFormControl('5'),
-    addressDistrict: new UntypedFormControl('Голосіївський район'),
-    addressDistrictEng: new UntypedFormControl(`Holosiivs'kyi district`),
-    addressRegionDistrictList: new UntypedFormControl(ADDRESSESMOCK.DISTRICTSKYIVMOCK)
+  const FormGroupMock = new FormGroup({
+    addressRegion: new FormControl('місто Київ'),
+    addressRegionEng: new FormControl('Kyiv'),
+    addressCity: new FormControl('Київ'),
+    addressCityEng: new FormControl('Kyiv'),
+    addressStreet: new FormControl('вулиця Михайла Ломоносова'),
+    addressStreetEng: new FormControl('Mykhaila Lomonosova Street'),
+    addressHouseNumber: new FormControl('12'),
+    addressHouseCorpus: new FormControl('2'),
+    addressEntranceNumber: new FormControl('5'),
+    addressDistrict: new FormControl('Голосіївський район'),
+    addressDistrictEng: new FormControl(`Holosiivs'kyi district`),
+    addressRegionDistrictList: new FormControl(ADDRESSESMOCK.DISTRICTSKYIVMOCK)
   });
 
   const status = 'OK';
@@ -198,27 +197,41 @@ describe('UbsAdminAddressDetailsComponent', () => {
     expect(component.isStatus).toBe(false);
   });
 
-  it('method getPlacePredictions should form prediction list for Kyiv region', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv region', async () => {
     component.addressRegionEng.setValue(`Kyivs'ka oblast`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVREGIONSLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVREGIONSLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
     const fakesearchAddress = `Київська область, Ше`;
     component.inputCity(fakesearchAddress, Language.UK);
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
   });
 
-  it('method getPlacePredictions should form prediction list for Kyiv city', () => {
+  it('method getPlacePredictions should form prediction list for Kyiv city', async () => {
     const result = [ADDRESSESMOCK.KYIVCITYLIST[0]];
     component.addressRegionEng.setValue(`Kyiv`);
     component.autocompleteService = { getPlacePredictions: () => {} } as any;
     spyOn(component.autocompleteService, 'getPlacePredictions').and.callFake((request, callback) => {
-      callback(ADDRESSESMOCK.KYIVCITYLIST, status as any);
+      const promise = Promise.resolve({
+        predictions: ADDRESSESMOCK.KYIVCITYLIST,
+        status: status as any
+      });
+      promise.then((response) => callback(response.predictions, response.status));
+      return promise;
     });
 
     const fakesearchAddress = `Київ`;
     component.inputCity(fakesearchAddress, Language.UK);
+    fixture.detectChanges();
+    await fixture.whenStable();
     expect(component.cityPredictionList).toEqual(result);
   });
 

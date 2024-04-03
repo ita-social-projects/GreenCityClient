@@ -20,6 +20,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -43,7 +47,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatRadioModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatDividerModule,
+    MatExpansionModule
   ],
   exports: [
     MatTableModule,
@@ -66,7 +74,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatRadioModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatDividerModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule {}

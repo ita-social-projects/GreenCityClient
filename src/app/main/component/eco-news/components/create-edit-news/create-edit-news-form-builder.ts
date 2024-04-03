@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class CreateEditNewsFormBuilder {
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     public localStorageService: LocalStorageService
   ) {}
 
@@ -32,7 +32,7 @@ export class CreateEditNewsFormBuilder {
     });
   }
 
-  public noWhitespaceValidator(control: UntypedFormControl) {
+  public noWhitespaceValidator(control: FormControl) {
     const isWhiteSpace = (control.value || '').trim().length === 0;
     const isValid = !isWhiteSpace;
     return isValid ? null : { whitespace: true };

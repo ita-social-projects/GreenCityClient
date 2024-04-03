@@ -54,6 +54,10 @@
     margin: 0 16px;
     font-size: 16px;
     line-height: 18.75px;
+
+    @media screen and (max-width: 576px) {
+      margin: 0 6px;
+    }
   }
 
   .friend-tabs {

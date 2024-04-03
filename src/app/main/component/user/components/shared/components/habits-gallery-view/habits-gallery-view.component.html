@@ -14,7 +14,9 @@
     </div>
     <div class="habit-info">
       <div class="tags">
-        <span *ngFor="let tag of habit.tags; let last = last"> {{ tag }}<ng-container *ngIf="!last">,&nbsp;</ng-container> </span>
+        <span *ngFor="let tag of habit.tags; let last = last">
+          {{ last ? tag : tag + ',&nbsp;' }}
+        </span>
       </div>
       <div class="title">
         <h2>{{ habit.habitTranslation.name }}</h2>
@@ -31,7 +33,7 @@
       </div>
       <div>
         <button [disabled]="habit.isAssigned" class="primary-global-button m-btn" (click)="addHabit()">
-          {{ 'user.habit.all-habits.btn-add' | translate }}
+          {{ habit.isAssigned ? ('user.habit.all-habits.btn-added' | translate) : ('user.habit.all-habits.btn-add' | translate) }}
         </button>
       </div>
     </div>

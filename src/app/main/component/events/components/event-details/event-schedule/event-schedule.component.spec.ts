@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventScheduleComponent } from './event-schedule.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('EventScheduleComponent', () => {
   let component: EventScheduleComponent;
@@ -8,7 +10,10 @@ describe('EventScheduleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [EventScheduleComponent]
+      declarations: [EventScheduleComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: []
     }).compileComponents();
   }));
 

@@ -14,7 +14,7 @@ export class DeleteCommentComponent {
   @Input() public entityId: number;
   @Input() public element: CommentsDTO;
   @Input() public dataType: string;
-  @Output() public elementsList = new EventEmitter();
+  @Output() public elementsList = new EventEmitter<number>();
   public deleteIcon = 'assets/img/comments/delete.png';
 
   constructor(
@@ -45,7 +45,7 @@ export class DeleteCommentComponent {
             .pipe(take(1))
             .subscribe((success) => {
               if (success) {
-                this.elementsList.emit();
+                this.elementsList.emit(this.element.id);
               }
             });
         }

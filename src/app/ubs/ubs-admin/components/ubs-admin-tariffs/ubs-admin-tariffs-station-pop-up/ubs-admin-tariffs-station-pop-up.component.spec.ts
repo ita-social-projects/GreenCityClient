@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   // MatDialog,
   MatDialogModule,
@@ -62,7 +62,7 @@ describe('UbsAdminTariffsStationPopUpComponent', () => {
             }
           }
         },
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

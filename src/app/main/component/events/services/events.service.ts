@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { environment } from '@environment/environment';
 import {
@@ -7,8 +7,9 @@ import {
   Coordinates,
   PagePreviewDTO,
   DateEvent,
-  EventFilterCriteriaIntarface,
-  EventPageResponceDto
+  EventFilterCriteriaInterface,
+  EventPageResponseDto,
+  Addresses
 } from '../models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { DatePipe } from '@angular/common';
@@ -18,7 +19,7 @@ import { TimeFront } from '../models/event-consts';
   providedIn: 'root'
 })
 export class EventsService implements OnDestroy {
-  public currentForm: PagePreviewDTO | EventPageResponceDto;
+  public currentForm: PagePreviewDTO | EventPageResponseDto;
   public backFromPreview: boolean;
   public submitFromPreview: boolean;
   private backEnd = environment.backendLink;
@@ -55,8 +56,8 @@ export class EventsService implements OnDestroy {
     this.arePlacesFilledSubject.next(newArray);
   }
 
-  public getAddreses(): Observable<any> {
-    return this.http.get(`${this.backEnd}events/addresses`);
+  public getAddresses(): Observable<Addresses[]> {
+    return this.http.get<Addresses[]>(`${this.backEnd}events/addresses`);
   }
 
   public setBackFromPreview(val: boolean): void {
@@ -100,11 +101,11 @@ export class EventsService implements OnDestroy {
     );
   }
 
-  public setForm(form: PagePreviewDTO | EventPageResponceDto): void {
+  public setForm(form: PagePreviewDTO | EventPageResponseDto): void {
     this.currentForm = form;
   }
 
-  public getForm(): PagePreviewDTO | EventPageResponceDto {
+  public getForm(): PagePreviewDTO | EventPageResponseDto {
     return this.currentForm;
   }
 
@@ -116,11 +117,23 @@ export class EventsService implements OnDestroy {
     return this.http.put<any>(`${this.backEnd}events/update`, formData);
   }
 
-  public getEvents(page: number, quantity: number, filter: EventFilterCriteriaIntarface): Observable<any> {
-    return this.http.get(
-      `${this.backEnd}events?page=${page}&size=${quantity}&cities=${filter.cities}` +
-        `&tags=${filter.tags}&eventTime=${filter.eventTime}&statuses=${filter.statuses}`
-    );
+  public getEvents(
+    page: number,
+    quantity: number,
+    filter: EventFilterCriteriaInterface,
+    searchTitle?: string
+  ): Observable<EventResponseDto> {
+    let requestParams = new HttpParams();
+    requestParams = requestParams.append('page', page.toString());
+    requestParams = requestParams.append('size', quantity.toString());
+    requestParams = requestParams.append('cities', filter.cities.toString());
+    requestParams = requestParams.append('tags', filter.tags.toString());
+    requestParams = requestParams.append('eventTime', filter.eventTime.toString());
+    requestParams = requestParams.append('statuses', filter.statuses.toString());
+    if (searchTitle) {
+      requestParams = requestParams.append('title', searchTitle);
+    }
+    return this.http.get<EventResponseDto>(`${this.backEnd}events`, { params: requestParams });
   }
 
   public getSubscribedEvents(page: number, quantity: number): Observable<EventResponseDto> {
@@ -148,8 +161,8 @@ export class EventsService implements OnDestroy {
     return this.http.post<void>(`${this.backEnd}events/addToFavorites/${eventId}`, eventId);
   }
 
-  public removeEventFromFavourites(eventId: number): Observable<any> {
-    return this.http.delete<any>(`${this.backEnd}events/removeFromFavorites/${eventId}`);
+  public removeEventFromFavourites(eventId: number): Observable<void> {
+    return this.http.delete<void>(`${this.backEnd}events/removeFromFavorites/${eventId}`);
   }
 
   public getUserFavoriteEvents(page: number, quantity: number): Observable<EventResponseDto> {

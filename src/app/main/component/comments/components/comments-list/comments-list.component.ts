@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { CommentsDTO, dataTypes, PaginationConfig } from '../../models/comments-model';
 import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningPopUpComponent } from '@shared/components';
 
 @Component({
   selector: 'app-comments-list',
@@ -17,19 +20,36 @@ export class CommentsListComponent {
   @Input() public config: PaginationConfig;
   @Input() public isLoggedIn: boolean;
   @Input() public userId: number;
-  @Output() public changedList = new EventEmitter();
+  @Output() public changedList = new EventEmitter<number>();
   public types = dataTypes;
-  public content: UntypedFormControl = new UntypedFormControl('', [Validators.required, Validators.maxLength(8000)]);
+  public commentMaxLength = 8000;
+  public content: FormControl = new FormControl('', [Validators.required, Validators.maxLength(this.commentMaxLength)]);
+  private commentHtml = '';
   public editIcon = 'assets/img/comments/edit.png';
   public cancelIcon = 'assets/img/comments/cancel-comment-edit.png';
   public likeImg = 'assets/img/comments/like.png';
   public isEditTextValid: boolean;
-  public commentMaxLength = 8000;
+  private confirmDialogConfig = {
+    hasBackdrop: true,
+    closeOnNavigation: true,
+    disableClose: true,
+    panelClass: 'popup-dialog-container',
+    data: {
+      popupTitle: `homepage.eco-news.comment.comment-popup-cancel-edit.title`,
+      popupConfirm: `homepage.eco-news.comment.comment-popup-cancel-edit.confirm`,
+      popupCancel: `homepage.eco-news.comment.comment-popup-cancel-edit.cancel`
+    }
+  };
 
-  constructor(private commentsService: CommentsService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private renderer: Renderer2,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
 
-  public deleteComment(): void {
-    this.changedList.emit();
+  public deleteComment($event): void {
+    this.changedList.emit($event);
   }
 
   public isCommentEdited(element: CommentsDTO): boolean {
@@ -38,18 +58,26 @@ export class CommentsListComponent {
 
   public saveEditedComment(element: CommentsDTO): void {
     this.commentsService
-      .editComment(element.id, this.content.value)
+      .editComment(element.id, this.commentHtml)
       .pipe(take(1))
       .subscribe(() => this.content.reset());
 
     element.isEdit = false;
-    element.text = this.content.value;
+    element.text = this.commentHtml;
     element.status = 'EDITED';
     element.modifiedDate = String(Date.now());
   }
 
   public cancelEditedComment(element: CommentsDTO): void {
-    element.isEdit = false;
+    const dialogRef = this.dialog.open(WarningPopUpComponent, this.confirmDialogConfig);
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((confirm) => {
+        if (confirm) {
+          element.isEdit = false;
+        }
+      });
   }
 
   public changeCounter(counter: number, id: number, key: string): void {
@@ -59,6 +87,14 @@ export class CommentsListComponent {
       }
       return item;
     });
+  }
+
+  public onCommentClick(event: MouseEvent): void {
+    const userId = (event.target as HTMLElement).getAttribute('data-userid');
+    const userName = (event.target as HTMLElement).textContent;
+    if (userId) {
+      this.router.navigate(['profile', this.userId, 'users', userName, userId]);
+    }
   }
 
   public showElements(id: number, key: 'isEdit' | 'showAllRelies' | 'showRelyButton'): void {
@@ -90,8 +126,9 @@ export class CommentsListComponent {
     return commentAuthorId === Number(this.userId);
   }
 
-  checkTextarea(event: InputEvent): void {
-    this.content.setValue((event.target as HTMLInputElement).value);
+  setCommentText(data: { text: string; innerHTML: string }): void {
+    this.content.setValue(data.text);
+    this.commentHtml = data.innerHTML;
     this.isEditTextValid = !!this.content.value.trim().length && this.content.value.length <= this.commentMaxLength;
   }
 }

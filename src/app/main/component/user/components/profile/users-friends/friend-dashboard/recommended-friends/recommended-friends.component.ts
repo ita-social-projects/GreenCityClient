@@ -61,11 +61,6 @@ export class RecommendedFriendsComponent implements OnInit {
       );
   }
 
-  private deleteFriendsFromList(id, array) {
-    const indexAddedFriend = array.findIndex((item) => item.id === id);
-    array.splice(indexAddedFriend, 1);
-  }
-
   public getNewFriends(currentPage: number) {
     this.isFetching = true;
     this.userFriendsService
@@ -95,15 +90,6 @@ export class RecommendedFriendsComponent implements OnInit {
       this.currentPage += 1;
       this.getNewFriends(this.currentPage);
     }
-  }
-
-  public addFriend(id: number) {
-    this.userFriendsService
-      .addFriend(id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.deleteFriendsFromList(id, this.recommendedFriends);
-      });
   }
 
   private initUser(): void {

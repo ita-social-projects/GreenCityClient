@@ -68,7 +68,7 @@ export interface EventResponseDto {
   hasPrevious: boolean;
   last: boolean;
   number: number;
-  page: Array<EventPageResponceDto>;
+  page: Array<EventPageResponseDto>;
   totalElements: number;
   totalPages: number;
 }
@@ -79,9 +79,9 @@ export interface Organizer {
   organizerRating: number;
 }
 
-export interface EventPageResponceDto {
+export interface EventPageResponseDto {
   additionalImages: Array<string>;
-  dates: Array<DateEventResponceDto>;
+  dates: Array<DateEventResponseDto>;
   creationDate: string;
   description: any;
   id: number;
@@ -100,6 +100,7 @@ export interface EventPageResponceDto {
   isRelevant: boolean;
   countComments: number;
   likes: number;
+  isOrganizedByFriend: boolean;
 }
 
 export interface TagDto {
@@ -124,7 +125,7 @@ export interface Coordinates {
   formattedAddressUa: string;
 }
 
-export interface DateEventResponceDto {
+export interface DateEventResponseDto {
   coordinates: Coordinates;
   event: string;
   finishDate: string;
@@ -178,7 +179,7 @@ export interface InitialStartDate {
   initialDate: Date;
   initialStartTime: string;
 }
-export interface EventFilterCriteriaIntarface {
+export interface EventFilterCriteriaInterface {
   eventTime: Array<string>;
   cities: Array<string>;
   statuses: Array<string>;
@@ -199,4 +200,10 @@ export interface Addresses {
   regionUa: string;
   streetEn: string;
   streetUa: string;
+}
+
+export interface FilterItem {
+  type: string;
+  nameUa: string;
+  nameEn: string;
 }

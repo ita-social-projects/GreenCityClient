@@ -52,13 +52,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage() {
-    const message: Message = {
-      roomId: this.chatsService.currentChat.id,
-      senderId: this.userService.userId,
-      content: this.messageControl.value
-    };
-    this.messageControl.reset();
-    this.socketService.sendMessage(message);
+    const messageContent = this.messageControl.value.trim();
+    if (messageContent) {
+      const message: Message = {
+        roomId: this.chatsService.currentChat.id,
+        senderId: this.userService.userId,
+        content: this.messageControl.value
+      };
+      this.messageControl.reset();
+      this.socketService.sendMessage(message);
+    }
   }
 
   onScroll() {

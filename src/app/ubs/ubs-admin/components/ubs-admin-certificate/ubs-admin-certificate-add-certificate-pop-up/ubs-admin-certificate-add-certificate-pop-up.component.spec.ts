@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { UbsAdminCertificateAddCertificatePopUpComponent } from './ubs-admin-certificate-add-certificate-pop-up.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IMaskModule } from 'angular-imask';
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Injectable } from '@angular/core';
@@ -56,7 +56,7 @@ describe('UbsAdminCertificateAddCertificatePopUpComponent', () => {
       declarations: [UbsAdminCertificateAddCertificatePopUpComponent],
       imports: [TranslateModule.forRoot(), MatDialogModule, HttpClientTestingModule, ReactiveFormsModule, IMaskModule],
       providers: [
-        UntypedFormBuilder,
+        FormBuilder,
         { provide: MatDialogRef, useValue: {} },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: TranslateService, useClass: TranslationServiceStub }

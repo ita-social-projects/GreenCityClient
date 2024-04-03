@@ -19,6 +19,13 @@
   }
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .title-text {
   font-family: var(--primary-font);
   font-style: normal;
@@ -144,6 +151,16 @@
     text-align: center;
     color: var(--quaternary-dark-grey);
   }
+
+  p {
+    font-size: 10px;
+    line-height: 12px;
+    margin: 5px 0;
+  }
+
+  .password-not-valid {
+    color: red;
+  }
 }
 
 .exist-account {
@@ -175,5 +192,6 @@
 @media screen and (max-width: 1620px) {
   .exist-account {
     margin-top: 40px;
+    text-align: left;
   }
 }

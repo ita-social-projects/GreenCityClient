@@ -9,7 +9,7 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { UntypedFormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
@@ -105,7 +105,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
 
   constructor(
     private tariffsService: TariffsService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private langService: LanguageService,
     private googleScript: GoogleScript,
@@ -167,7 +167,7 @@ export class UbsAdminTariffsLocationPopUpComponent implements OnInit, AfterViewC
   }
 
   selectCities(currentRegion): void {
-    if (!currentRegion || !currentRegion.length || !currentRegion[0].locationsDto) {
+    if (!currentRegion?.length || !currentRegion[0].locationsDto) {
       return;
     }
     this.regionId = currentRegion[0].regionId;

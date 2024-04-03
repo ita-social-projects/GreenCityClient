@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 import { IAppState } from 'src/app/store/state/app.state';
 import { Employees, Page } from 'src/app/ubs/ubs-admin/models/ubs-admin.interface';
@@ -79,7 +79,7 @@ export class UbsAdminEmployeeTableComponent implements OnInit {
     private languageService: LanguageService,
     private dialog: MatDialog,
     private store: Store<IAppState>,
-    public fb: UntypedFormBuilder
+    public fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

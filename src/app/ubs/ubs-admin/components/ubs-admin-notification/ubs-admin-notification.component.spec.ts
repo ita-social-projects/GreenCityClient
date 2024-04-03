@@ -9,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, throwError } from 'rxjs';
-import { ConfirmationDialogService } from 'src/app/main/component/admin/services/confirmation-dialog-service.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { UbsAdminNotificationEditFormComponent } from './ubs-admin-notification-edit-form/ubs-admin-notification-edit-form.component';
 import { UbsAdminNotificationSettingsComponent } from './ubs-admin-notification-settings/ubs-admin-notification-settings.component';
@@ -71,7 +70,6 @@ describe('UbsAdminNotificationComponent', () => {
   languageServiceMock.getLangValue.and.returnValue('value');
 
   const routerMock = { navigate: () => {} };
-  const confirmationDialogServiceMock = { confirm: () => {} };
   const dialogMock = {
     open: () => {
       return {
@@ -92,7 +90,6 @@ describe('UbsAdminNotificationComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: Router, useValue: routerMock },
-        { provide: ConfirmationDialogService, useValue: confirmationDialogServiceMock },
         { provide: MatDialog, useValue: dialogMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock }
       ]

@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
-import { UntypedFormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { IExportDetails } from '../../models/ubs-admin.interface';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -13,7 +13,7 @@ import { OrderService } from '../../services/order.service';
 })
 export class UbsAdminExportDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() exportInfo: IExportDetails;
-  @Input() exportDetailsDto: UntypedFormGroup;
+  @Input() exportDetailsDto: FormGroup;
   @Input() orderStatus: string;
   @Input() isEmployeeCanEditOrder: boolean;
 

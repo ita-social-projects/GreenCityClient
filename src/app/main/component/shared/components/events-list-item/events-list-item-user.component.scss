@@ -1,24 +1,34 @@
 .event-assign {
-  height: 206px;
+  height: 192px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: var(--primary-white);
   border-radius: 4px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 192px calc(100% - 192px);
   margin-bottom: 24px;
-  cursor: pointer;
+
+  @media (max-width: 575px) {
+    grid-template-columns: 0 auto;
+  }
 
   &__image-container {
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 192px;
     position: relative;
-    max-width: 200px;
-    max-height: 200px;
 
     &-image {
-      width: 100%;
-      height: 100%;
+      display: block;
+      width: 192px;
+      background-position: left center;
+      background-size: cover;
       border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-      object-fit: contain;
+      border-bottom-left-radius: 4px;
+
+      @media (max-width: 575px) {
+        display: none;
+      }
     }
 
     &__participants {
@@ -70,119 +80,92 @@
   }
 
   &__content {
-    width: 100%;
-    padding: 0 10px;
-    margin: 7px 2px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     &__date-container {
       display: flex;
-      position: relative;
+      font-size: 14px;
+      padding-bottom: 2px;
 
-      &__date {
-        display: flex;
-
-        .clock {
-          width: 12px;
-          height: 12px;
-          margin-right: 2px;
-          align-self: center;
-          background: url('/assets/events-icons/clock.png') no-repeat center;
-        }
-
-        .time-divider {
-          margin: 0 5px;
-        }
+      .clock {
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        align-self: center;
+        background: url('/assets/events-icons/clock.png') no-repeat center;
       }
 
-      &__event-flags {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        display: flex;
-        flex-direction: row;
+      p {
+        margin: 0;
+      }
 
-        span {
-          display: inline-block;
-          width: 25px;
-          height: 25px;
-          transition: all 0.3s;
-        }
-
-        .flag {
-          background: url('/assets/events-icons/bookmark-set.png') no-repeat center;
-        }
-
-        .flag-active {
-          background: url('/assets/events-icons/bookmark-active.png') no-repeat center;
-        }
+      @media (max-width: 575px) {
+        align-self: flex-end;
       }
     }
 
     &__status-container {
-      display: flex;
-
-      .lock-open {
-        margin-right: 2px;
-        align-self: center;
-        width: 16px;
-        height: 16px;
-        background: url('/assets/events-icons/lock-open.png') no-repeat center;
-      }
-
-      .lock-closed {
-        margin-right: 2px;
-        align-self: center;
-        width: 16px;
-        height: 16px;
-        background: url('/assets/events-icons/lock-closed.png') no-repeat center;
-      }
+      font-size: 14px;
     }
 
-    &__address-container {
-      display: flex;
+    .title {
+      overflow: hidden;
+      word-wrap: break-word;
+      height: 90px;
+      text-overflow: ellipsis;
 
-      .place {
-        margin-right: 2px;
-        align-self: center;
-        width: 14px;
-        height: 14px;
-        background: url('/assets/events-icons/place.png') no-repeat center;
+      h3 {
+        font-family: var(--primary-font);
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 28px;
+        color: var(--quaternary-dark-grey);
       }
-    }
-
-    p {
-      padding: 0;
-      margin: 0;
     }
 
     &__user-info {
-      margin: 2px 0;
       display: flex;
       justify-content: space-between;
-      color: var(--quaternary-grey);
 
       &-date {
-        font-size: 12px;
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 12px;
+          margin-right: 5px;
+        }
+
+        p {
+          font-size: 14px;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
       }
 
       &-icon {
-        font-size: 12px;
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 12px;
+          margin-right: 5px;
+        }
+
+        p {
+          font-size: 14px;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
       }
-    }
-  }
-}
-
-@media (max-width: 700px) {
-  .event-assign {
-    height: auto;
-    margin: 0 auto 24px;
-    display: block;
-
-    &__image-container-image {
-      width: 100%;
     }
   }
 }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ShoppingListService } from './shopping-list.service';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ShoppingList } from '../../../../models/shoppinglist.interface';
@@ -19,16 +18,15 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Input() isAcquired = false;
   @Input() isEditing = false;
 
-  public itemForm = new UntypedFormGroup({
-    item: new UntypedFormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)])
+  private fieldSymbolsLimit = 2048;
+  public itemForm = new FormGroup({
+    item: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(this.fieldSymbolsLimit)])
   });
   public subscription: Subscription;
   public userId: number;
   private destroySub: Subject<boolean> = new Subject<boolean>();
   private langChangeSub: Subscription;
   public shoppingItemNameLimit = 20;
-  public seeAllShopingList: boolean;
-  public minNumberOfItems = 3;
 
   public img = {
     doneCheck: 'assets/icons/habits/filled-check-circle.svg',
@@ -41,7 +39,6 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
   @Output() newList = new EventEmitter<ShoppingList[]>();
 
   constructor(
-    public shoppinglistService: ShoppingListService,
     private snackBar: MatSnackBarComponent,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
@@ -133,7 +130,7 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.shopList.sort((a, b) => {
       const statusDifference = statusOrder[a.status] - statusOrder[b.status];
       const orderCustom = a.custom && !b.custom ? -1 : 1;
-      return statusDifference ? statusDifference : orderCustom;
+      return statusDifference || orderCustom;
     });
   }
 
@@ -142,15 +139,15 @@ export class HabitEditShoppingListComponent implements OnInit, AfterViewChecked,
     this.newList.emit(this.shopList);
   }
 
+  checkItemValidity(): void {
+    if (!this.itemForm.valid && this.itemForm.get('item').value.length > this.fieldSymbolsLimit) {
+      this.snackBar.openSnackBar('tooLongInput');
+    }
+  }
+
   ngOnDestroy(): void {
     this.langChangeSub.unsubscribe();
     this.destroySub.next(true);
     this.destroySub.complete();
-  }
-
-  checkItemValidity(): void {
-    if (!this.itemForm.valid && this.itemForm.get('item').value.length > 50) {
-      this.snackBar.openSnackBar('tooLongInput');
-    }
   }
 }

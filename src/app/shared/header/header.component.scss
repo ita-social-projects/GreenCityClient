@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 $header-height: 54px;
 $white-color: var(--ubs-primary-white);
 $ubs-header-height: 86px;
@@ -13,6 +15,10 @@ $ubs-header-height: 86px;
 }
 
 ::ng-deep .dialog-notification .mat-dialog-container {
+  padding: 0;
+}
+
+::ng-deep .dialog-chat .mat-dialog-container {
   padding: 0;
 }
 
@@ -250,7 +256,9 @@ header {
   width: 100%;
   height: 100%;
   background: $white-color;
-  transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
+  transition:
+    transform 0.2s ease-in,
+    top 0.2s linear 0.2s;
   box-shadow: 0 4px 5px -2px rgba(73, 74, 73, 0.2);
   overflow-y: auto;
 
@@ -310,7 +318,7 @@ header {
       a {
         font-size: 14px;
         line-height: 16px;
-        color: var(--primary-dark-grey);
+        color: var(--quaternary-dark-grey);
         text-transform: capitalize;
       }
     }
@@ -345,6 +353,20 @@ header {
         }
       }
 
+      .search-icon {
+        margin-right: 16px;
+      }
+
+      .chat-icon {
+        outline: none;
+
+        img {
+          height: 14px;
+          width: 16px;
+          cursor: pointer;
+        }
+      }
+
       .bookmark-icon,
       .notification-icon {
         margin-right: 16px;
@@ -364,6 +386,7 @@ header {
         .lang-option {
           span {
             font-size: 14px;
+            color: var(--quaternary-grey);
           }
         }
       }
@@ -481,7 +504,9 @@ header {
         height: 2px;
         border-radius: 14px;
         background-color: var(--quaternary-grey);
-        transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
+        transition:
+          transform 0.2s ease-in,
+          top 0.2s linear 0.2s;
       }
 
       &::after {
@@ -493,7 +518,9 @@ header {
         height: 2px;
         border-radius: 14px;
         background-color: var(--quaternary-grey);
-        transition: transform 0.2s ease-in, top 0.2s linear 0.2s;
+        transition:
+          transform 0.2s ease-in,
+          top 0.2s linear 0.2s;
       }
     }
 
@@ -503,13 +530,17 @@ header {
       &::before {
         transform: rotate(45deg);
         top: 0;
-        transition: top 0.2s linear, transform 0.2s ease-in 0.2s;
+        transition:
+          top 0.2s linear,
+          transform 0.2s ease-in 0.2s;
       }
 
       &::after {
         transform: rotate(-45deg);
         top: 0;
-        transition: top 0.2s linear, transform 0.2s ease-in 0.2s;
+        transition:
+          top 0.2s linear,
+          transform 0.2s ease-in 0.2s;
       }
     }
   }
@@ -1197,7 +1228,7 @@ header {
   }
 }
 
-@media (min-width: 1440px) {
+@include responsiveMobileFirst(3xl) {
   .ubs-header-sing-in-img {
     display: none;
   }

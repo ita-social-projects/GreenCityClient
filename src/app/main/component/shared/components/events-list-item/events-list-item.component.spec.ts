@@ -4,8 +4,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BsModalRef, ModalModule } from 'ngx-bootstrap/modal';
-import { TagsArray } from '../../../events/models/event-consts';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { EventsListItemComponent } from './events-list-item.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -17,7 +16,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { UserOwnAuthService } from '@auth-service/user-own-auth.service';
 import { TagObj } from '../../../events/models/events.interface';
 import { LanguageService } from 'src/app/main/i18n/language.service';
-import { AddAttenderEcoEventsByIdAction, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
+import { AddAttenderEcoEventsByIdAction, EventsActions, RemoveAttenderEcoEventsByIdAction } from 'src/app/store/actions/ecoEvents.actions';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { MaxTextLengthPipe } from 'src/app/shared/max-text-length-pipe/max-text-length.pipe';
@@ -126,7 +125,8 @@ describe('EventsListItemComponent', () => {
     open: true,
     likes: 5,
     countComments: 7,
-    isAdmin: false
+    isAdmin: false,
+    isOrganizedByFriend: false
   };
 
   const fakeItemTags: TagObj[] = [
@@ -176,6 +176,7 @@ describe('EventsListItemComponent', () => {
   EventsServiceMock.deleteEvent = () => of(true);
   EventsServiceMock.getFormattedAddressEventsList = () => of('');
   EventsServiceMock.setBackFromPreview = () => of(false);
+  EventsServiceMock.setForm = () => of();
 
   const localStorageServiceMock: LocalStorageService = jasmine.createSpyObj('LocalStorageService', [
     'getCurrentLanguage',
@@ -217,6 +218,8 @@ describe('EventsListItemComponent', () => {
   userOwnAuthServiceMock.credentialDataSubject = new Subject();
   userOwnAuthServiceMock.isLoginUserSubject = new BehaviorSubject(true);
 
+  const actionsSubj: ActionsSubject = new ActionsSubject();
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EventsListItemComponent, DatePipeMock, MaxTextLengthPipe],
@@ -230,7 +233,8 @@ describe('EventsListItemComponent', () => {
         { provide: TranslateService, useClass: TranslationServiceStub },
         { provide: UserOwnAuthService, useValue: userOwnAuthServiceMock },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        { provide: JwtService, useValue: jwtServiceMock }
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: ActionsSubject, useValue: actionsSubj }
       ],
       imports: [
         RouterTestingModule,
@@ -250,7 +254,6 @@ describe('EventsListItemComponent', () => {
     fixture = TestBed.createComponent(EventsListItemComponent);
     component = fixture.componentInstance;
     component.event = eventMock as any;
-    component.itemTags = TagsArray;
     component.btnStyle = '';
     component.nameBtn = '';
     component.rate = 3;
@@ -280,6 +283,12 @@ describe('EventsListItemComponent', () => {
   it('should return ua value by getLangValue', () => {
     const value = component.getLangValue('value', 'enValue');
     expect(value).toBe('value');
+  });
+
+  it('shoud update button name after succsess attention for event', () => {
+    const action = { id: 307, type: EventsActions.AddAttenderEcoEventsByIdSuccess };
+    actionsSubj.next(action);
+    expect(component.nameBtn).toEqual(btnNameMock.cancel);
   });
 
   describe('ngOnInit', () => {
@@ -344,15 +353,6 @@ describe('EventsListItemComponent', () => {
     });
   });
 
-  describe('checkCanUserJoinEvent', () => {
-    it('it should check is organizer of close event a user"s friend', () => {
-      component.event = { ...eventMock, ...{ open: false } };
-      component.userFriends = [];
-      component.ngOnChanges();
-      expect(component.canUserJoinCloseEvent).toBe(false);
-    });
-  });
-
   describe('CheckButtonStatus', () => {
     it('should set btnStyle and nameBtn correctly when user is owner and event is active', () => {
       component.event = eventMock;
@@ -388,7 +388,6 @@ describe('EventsListItemComponent', () => {
       component.event = eventMock;
       component.event.organizer.id = 56;
       component.event.isRelevant = true;
-      component.canUserJoinCloseEvent = true;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.primary);
       expect(component.nameBtn).toEqual(component.btnName.join);
@@ -398,7 +397,6 @@ describe('EventsListItemComponent', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
       component.event.organizer.id = 56;
-      component.canUserJoinCloseEvent = false;
       component.event.isRelevant = false;
       component.checkButtonStatus();
       expect(component.btnStyle).toEqual(component.styleBtn.hiden);
@@ -414,6 +412,17 @@ describe('EventsListItemComponent', () => {
       expect(component.nameBtn).toEqual(component.btnName.rate);
     });
 
+    it('should set btnStyle and nameBtn correctly when user is unsubscribed,event is relevant', () => {
+      eventMock.isSubscribed = false;
+      component.event = eventMock;
+      component.event.organizer.id = 56;
+      component.event.isRelevant = true;
+      jwtServiceMock.userRole$ = new BehaviorSubject('user');
+      component.checkButtonStatus();
+      expect(component.btnStyle).toEqual(component.styleBtn.primary);
+      expect(component.nameBtn).toEqual(component.btnName.join);
+    });
+
     it('should set btnStyle and nameBtn correctly when user is unsubscribed and event is unactive', () => {
       eventMock.isSubscribed = false;
       component.event = eventMock;
@@ -425,6 +434,19 @@ describe('EventsListItemComponent', () => {
   });
 
   describe('ButtonAction', () => {
+    it('should call buttonAction if button is clicked', () => {
+      const spy = spyOn(component, 'buttonAction');
+      fixture.nativeElement.querySelector('.event-button').dispatchEvent(new Event('click'));
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should call EventsServiceMock setForm method', () => {
+      const spy = spyOn(EventsServiceMock, 'setForm');
+      component.buttonAction(component.btnName.cancel);
+      expect(spy).toHaveBeenCalledWith(null);
+    });
+
     it('should dispatch RemoveAttenderEcoEventsByIdAction when cancel button is clicked', () => {
       component.buttonAction(component.btnName.cancel);
       expect(storeMock.dispatch).toHaveBeenCalledWith(RemoveAttenderEcoEventsByIdAction({ id: component.event.id }));
@@ -452,6 +474,14 @@ describe('EventsListItemComponent', () => {
       expect(localStorageServiceMock.setEditMode).toHaveBeenCalledWith('canUserEdit', true);
       expect(localStorageServiceMock.setEventForEdit).toHaveBeenCalledWith('editEvent', component.event);
     });
+
+    it('should call openAuthModalWindow', () => {
+      component.isRegistered = false;
+      (component as any).dialogRef = { afterClosed: () => of(true) };
+      spyOn(component, 'openAuthModalWindow');
+      component.buttonAction(component.btnName.join);
+      expect(component.openAuthModalWindow).toHaveBeenCalledWith('sign-in');
+    });
   });
 
   describe('Routing', () => {
@@ -467,12 +497,21 @@ describe('EventsListItemComponent', () => {
       component.isOwner = false;
       component.isActive = false;
       component.routeToEvent();
-      expect(routerSpy.navigate).toHaveBeenCalledWith([
-        '/events',
-        component.event.id,
-        { isOwner: component.isOwner, isActive: component.isActive }
-      ]);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/events', component.event.id]);
     });
+  });
+
+  it('should subscribe to language changes and update properties', () => {
+    spyOn(component, 'bindLang');
+    const langSubject = new Subject<string>();
+    const languageBehaviourSubject = new BehaviorSubject<string>('en');
+    component.subscribeToLangChange();
+    expect(component.langChangeSub).toBeDefined();
+    expect(component.langChangeSub.closed).toBeFalsy();
+    languageBehaviourSubject.next('ua');
+    expect(component.currentLang).toEqual('ua');
+    expect(component.datePipe).toBeDefined();
+    expect(component.newDate).toBeDefined();
   });
 
   describe('Filtering tags', () => {

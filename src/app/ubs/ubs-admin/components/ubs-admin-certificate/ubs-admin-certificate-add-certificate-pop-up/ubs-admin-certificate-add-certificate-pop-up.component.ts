@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CreateCertificate } from '../../../models/ubs-admin.interface';
 import { Subject, Subscription } from 'rxjs';
-import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdminCertificateService } from '../../../services/admin-certificate.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 })
 export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, OnDestroy {
   certificate: CreateCertificate;
-  addCertificateForm: UntypedFormGroup;
+  addCertificateForm: FormGroup;
   certificatePattern = Patterns.serteficatePattern;
   certificateMask = Masks.certificateMask;
   monthCountDisabled: boolean;
@@ -26,7 +26,7 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
   private destroy: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private adminCertificateService: AdminCertificateService,
     public dialog: MatDialog,
     private translate: TranslateService,
@@ -50,14 +50,14 @@ export class UbsAdminCertificateAddCertificatePopUpComponent implements OnInit, 
 
   public initForm(): void {
     this.addCertificateForm = this.fb.group({
-      code: new UntypedFormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
-      monthCount: new UntypedFormControl('', [
+      code: new FormControl('', [Validators.required, Validators.pattern(this.certificatePattern)]),
+      monthCount: new FormControl('', [
         Validators.required,
         Validators.pattern(Patterns.sertificateMonthCount),
         Validators.max(12),
         Validators.min(1)
       ]),
-      initialPointsValue: new UntypedFormControl('', [
+      initialPointsValue: new FormControl('', [
         Validators.required,
         Validators.pattern(Patterns.sertificateInitialValue),
         Validators.min(1),

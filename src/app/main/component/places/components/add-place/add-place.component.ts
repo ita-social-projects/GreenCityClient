@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PlaceService } from '@global-service/place/place.service';
 import { NewsTagInterface } from '@user-models/news.model';
 import { take } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { Patterns } from 'src/assets/patterns/patterns';
   styleUrls: ['./add-place.component.scss']
 })
 export class AddPlaceComponent implements OnInit {
-  public addPlaceForm: UntypedFormGroup;
+  public addPlaceForm: FormGroup;
   public workingHours = '';
   public tagList: NewsTagInterface[];
   public filterCategories: FilterPlaceCategories[];
@@ -29,7 +29,7 @@ export class AddPlaceComponent implements OnInit {
   @Output() getAddressData: any = new EventEmitter<any>();
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private placeService: PlaceService,
     public localStorageService: LocalStorageService,
     public matDialogRef: MatDialogRef<AddPlaceComponent>,
@@ -37,15 +37,15 @@ export class AddPlaceComponent implements OnInit {
   ) {}
 
   get type() {
-    return this.addPlaceForm.get('type') as UntypedFormControl;
+    return this.addPlaceForm.get('type') as FormControl;
   }
 
   get name() {
-    return this.addPlaceForm.get('name') as UntypedFormControl;
+    return this.addPlaceForm.get('name') as FormControl;
   }
 
   get address() {
-    return this.addPlaceForm.get('address') as UntypedFormControl;
+    return this.addPlaceForm.get('address') as FormControl;
   }
 
   ngOnInit(): void {

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventsListComponent } from './events-list.component';
 
-import { EventsService } from '../../services/events.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -11,149 +10,11 @@ import { UserOwnAuthService } from '@global-service/auth/user-own-auth.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { TagsArray, eventTimeList } from '../../models/event-consts';
-import { By } from '@angular/platform-browser';
-import { MatOption, MatOptionSelectionChange } from '@angular/material/core';
-import { UntypedFormControl } from '@angular/forms';
-import { Addresses, EventPageResponceDto } from '../../models/events.interface';
+import { Addresses, FilterItem } from '../../models/events.interface';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
   let fixture: ComponentFixture<EventsListComponent>;
-  const eventStatusList = [
-    { nameEn: 'Open', nameUa: 'Відкритa' },
-    { nameEn: 'Closed', nameUa: 'Закритa' },
-    { nameEn: 'Joined', nameUa: 'Вже доєднані' },
-    { nameEn: 'Created', nameUa: 'Створенa' },
-    { nameEn: 'Saved', nameUa: 'Збережена' }
-  ];
-  const MockReqest = {
-    page: [],
-    totalElements: 4
-  };
-
-  const eventsMock: EventPageResponceDto[] = [
-    {
-      id: 7,
-      title: 'TEst 2',
-      organizer: {
-        id: 3,
-        name: 'AdminGreenCity',
-        organizerRating: null
-      },
-      creationDate: '2023-04-10',
-      description: 'efds',
-      editorText: 'efds',
-      dates: [
-        {
-          id: null,
-          valid: true,
-          event: null,
-          startDate: '2023-04-11T21:00:00Z',
-          finishDate: '2023-04-12T20:59:00Z',
-          onlineLink: null,
-          coordinates: {
-            latitude: 0,
-            longitude: 0,
-            cityEn: 'Kyiv',
-            cityUa: 'Київ',
-            countryEn: 'Ukraine',
-            countryUa: 'Україна',
-            houseNumber: 55,
-            regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
-            streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
-            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-          }
-        }
-      ],
-      imgArray: [],
-      imgArrayToPreview: [],
-      tags: [
-        {
-          id: 12,
-          nameUa: 'Соціальний',
-          nameEn: 'Social'
-        },
-        {
-          id: 13,
-          nameUa: 'Екологічний',
-          nameEn: 'Environmental'
-        }
-      ],
-      titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
-      additionalImages: [],
-      isSubscribed: false,
-      isFavorite: false,
-      isActive: true,
-      isRelevant: true,
-      open: true,
-      countComments: 5,
-      likes: 6
-    },
-    {
-      id: 7,
-      title: 'TEst 2',
-      organizer: {
-        id: 3,
-        name: 'AdminGreenCity',
-        organizerRating: null
-      },
-      creationDate: '2023-04-10',
-      description: 'efds',
-      editorText: 'efds',
-      dates: [
-        {
-          id: null,
-          valid: true,
-          event: null,
-          startDate: '2023-04-11T21:00:00Z',
-          finishDate: '2023-04-12T20:59:00Z',
-          onlineLink: null,
-          coordinates: {
-            latitude: 50.454589,
-            longitude: 30.506723,
-            cityEn: 'Lviv',
-            cityUa: 'Львів',
-            countryEn: 'Ukraine',
-            countryUa: 'Україна',
-            houseNumber: 55,
-            regionEn: 'Lvivska oblast',
-            regionUa: 'Львівська область',
-            streetEn: 'Svobody Ave',
-            streetUa: 'Свободи',
-            formattedAddressEn: 'Свободи, 55, Львів, Львівська область, Україна',
-            formattedAddressUa: 'Svobody Ave, 55, Lviv, Lvivska oblast, Ukraine'
-          }
-        }
-      ],
-      imgArray: [],
-      imgArrayToPreview: [],
-      tags: [
-        {
-          id: 12,
-          nameUa: 'Соціальний',
-          nameEn: 'Social'
-        },
-        {
-          id: 13,
-          nameUa: 'Екологічний',
-          nameEn: 'Environmental'
-        }
-      ],
-      titleImage: 'https://csb10032000a548f571.blob.core.windows.net/allfiles/73ef8707-3630-4cfc-a4a0-631e86bcfc7dbackground.jpg',
-      additionalImages: [],
-      isSubscribed: false,
-      isFavorite: false,
-      isActive: true,
-      isRelevant: true,
-      open: true,
-      countComments: 9,
-      likes: 2
-    }
-  ];
 
   const addressesMock: Array<Addresses> = [
     {
@@ -185,6 +46,36 @@ describe('EventsListComponent', () => {
       countryUa: 'Україна',
       formattedAddressEn: 'Zavodska St, 31, Lviv, Lvivska oblast, Ukraine, 79000',
       formattedAddressUa: 'вулиця Заводська, 31, Львів, Львівська область, Україна, 79000'
+    },
+    {
+      latitude: 49.7998806,
+      longitude: 23.9901827,
+      streetEn: 'Ivana Puliuia Street',
+      streetUa: 'вулиця Івана Пулюя',
+      houseNumber: '31',
+      cityEn: 'Lviv',
+      cityUa: 'Львів',
+      regionEn: 'Lvivska oblast',
+      regionUa: 'Львівська область',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      formattedAddressEn: `Ivana Puliuia St, 38, L'viv, L'vivs'ka oblast, Ukraine, 79000`,
+      formattedAddressUa: 'вулиця Івана Пулюя, 38, Львів, Львівська область, Україна, 79000'
+    },
+    {
+      latitude: 49.550731,
+      longitude: 25.61935,
+      streetEn: 'Stepana Bandery Avenue',
+      streetUa: 'проспект Степана Бандери',
+      houseNumber: '58',
+      cityEn: 'Ternopil',
+      cityUa: 'Тернопіль',
+      regionEn: `Ternopil's'ka oblas`,
+      regionUa: 'Тернопільська область',
+      countryEn: 'Ukraine',
+      countryUa: 'Україна',
+      formattedAddressEn: `Stepana Bandery Ave, 58, Ternopil, Ternopil's'ka oblast, Ukraine, 46000`,
+      formattedAddressUa: 'проспект Степана Бандери, 58, Тернопіль, Тернопільська область, Україна, 46000'
     }
   ];
 
@@ -194,18 +85,8 @@ describe('EventsListComponent', () => {
     visitedPages: [],
     totalPages: 0,
     pageNumber: 0,
-
     error: null
   };
-
-  const timeFilterControl = new UntypedFormControl();
-  const locationFilterControl = new UntypedFormControl();
-  const statusFilterControl = new UntypedFormControl();
-  const typeFilterControl = new UntypedFormControl();
-
-  const EventsServiceMock = jasmine.createSpyObj('EventsService', ['createAddresses', 'getAddreses']);
-  EventsServiceMock.createAddresses = () => of('');
-  EventsServiceMock.getAddreses = () => of(addressesMock);
 
   const UserOwnAuthServiceMock = jasmine.createSpyObj('UserOwnAuthService', ['getDataFromLocalStorage', 'credentialDataSubject']);
   UserOwnAuthServiceMock.credentialDataSubject = of({ userId: 3 });
@@ -224,7 +105,6 @@ describe('EventsListComponent', () => {
       declarations: [EventsListComponent],
       imports: [TranslateModule.forRoot(), NgxPaginationModule, HttpClientTestingModule, RouterTestingModule, MatDialogModule],
       providers: [
-        { provide: EventsService, useValue: EventsServiceMock },
         { provide: UserOwnAuthService, useValue: UserOwnAuthServiceMock },
         { provide: Store, useValue: storeMock },
         { provide: MatDialog, useValue: matDialogService }
@@ -256,110 +136,76 @@ describe('EventsListComponent', () => {
     expect(component.isLoggedIn).toBe(3 as any);
   });
 
-  it('should reset all filters', () => {
-    component.eventTimeList = eventTimeList;
-    component.typeList = TagsArray;
-    component.statusList = eventStatusList;
-    component.eventLocationList = [];
-    const spy = spyOn(component, 'resetAll');
-    component.resetAll();
-
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(component.selectedFilters).toEqual([]);
-  });
-
-  it('should check weather deleteOneFilter works correctly', () => {
-    component.selectedFilters = [
-      { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'two', nameUa: 'два' },
-      { nameEn: 'three', nameUa: 'три' }
-    ];
-    const filterRemoved = { nameEn: 'three', nameUa: 'три' };
-    const res = [
-      { nameEn: 'one', nameUa: 'один' },
-      { nameEn: 'two', nameUa: 'два' }
-    ];
-
-    component.eventTimeList = eventTimeList;
-    component.typeList = TagsArray;
-    component.statusList = eventStatusList;
-    component.eventLocationList = [];
-
-    const spy = spyOn(component, 'deleteOneFilter');
-    component.deleteOneFilter(filterRemoved, 1);
-    component.selectedFilters.pop();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(component.selectedFilters).toEqual(res);
-  });
-
-  it('should check weather getUniqueCities works correctly', () => {
-    const expected = [
-      { nameEn: 'Kyiv', nameUa: 'Київ' },
-      { nameEn: 'Lviv', nameUa: 'Львів' }
-    ];
-    expect(component.getUniqueCities(addressesMock)).toEqual(expected);
-  });
-
-  it('should select all options and push them to selectedFilters when allSelectedFlags is true', () => {
-    const key = 'dropdown1';
-    component.allSelectedFlags[key] = true;
-
-    const options = fixture.debugElement.queryAll(By.directive(MatOption));
-    options.forEach((option) => {
-      spyOn(option.componentInstance, 'select');
-      spyOn(component.selectedFilters, 'push');
-
-      option.triggerEventHandler('click', null);
-
-      expect(option.componentInstance.select).toHaveBeenCalled();
-      expect(component.selectedFilters.push).toHaveBeenCalledWith(option.componentInstance.value);
-    });
-  });
-
-  it('should deselect all options and remove them from selectedFilters when allSelectedFlags is false', () => {
-    const key = 'dropdown1';
-    component.allSelectedFlags[key] = false;
-
-    const options = fixture.debugElement.queryAll(By.directive(MatOption));
-    options.forEach((option) => {
-      spyOn(option.componentInstance, 'deselect');
-      spyOn(component.selectedFilters, 'filter');
-
-      option.triggerEventHandler('click', null);
-
-      expect(option.componentInstance.deselect).toHaveBeenCalled();
-      expect(component.selectedFilters.filter).toHaveBeenCalledWith((value) => value !== option.componentInstance.value);
-    });
-  });
-
-  it('should remove existing filter when deselected', () => {
-    let mockEvent: MatOptionSelectionChange = {
-      isUserInput: true,
-      source: { selected: true } as MatOption
-    };
-    component.updateSelectedFilters(eventStatusList[0], mockEvent, component.statusesList, 'statuses', component.statusList);
-    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
-    mockEvent = { isUserInput: true, source: { selected: false } as MatOption };
-    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
-    expect(component.selectedFilters).toEqual([{ nameEn: 'Open', nameUa: 'Відкритa' }]);
-  });
-
-  it('should add new filter when selected', () => {
-    const mockEvent: MatOptionSelectionChange = {
-      isUserInput: true,
-      source: { selected: true } as MatOption
-    };
-    component.updateSelectedFilters(eventStatusList[0], mockEvent, component.statusesList, 'statuses', component.statusList);
-    component.updateSelectedFilters(eventStatusList[1], mockEvent, component.statusesList, 'statuses', component.statusList);
-    expect(component.selectedFilters).toEqual([
-      { nameEn: 'Open', nameUa: 'Відкритa' },
-      { nameEn: 'Closed', nameUa: 'Закритa' }
-    ]);
-  });
-
-  it('should check weather search works correctly', () => {
-    component.searchToggle = false;
+  it('should close search toggle when it opened', () => {
+    component.searchToggle = true;
     component.search();
+    expect(component.searchToggle).toEqual(false);
+  });
+
+  it('should hide search input if it is empty', () => {
+    component.searchToggle = true;
+    component.searchEventControl.setValue('');
+    component.cancelSearch();
+    expect(component.searchToggle).toEqual(false);
+  });
+
+  it('should remove the value of search input if it contains text', () => {
+    component.searchEventControl.setValue('Some test text');
+    component.searchToggle = true;
+    component.cancelSearch();
+    expect(component.searchEventControl.value).toEqual('');
     expect(component.searchToggle).toEqual(true);
+  });
+
+  it('should show selected events', () => {
+    component.bookmarkSelected = false;
+    component.showSelectedEvents();
+    expect(component.bookmarkSelected).toEqual(true);
+  });
+
+  it('should return unique locations', () => {
+    const expectedLocations: FilterItem[] = [
+      { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
+      { type: 'location', nameEn: 'Ternopil', nameUa: 'Тернопіль' }
+    ];
+    expect(component.getUniqueLocations(addressesMock)).toEqual(expectedLocations);
+  });
+
+  it('should update selected filters list', () => {
+    const clickedFiltersList: FilterItem[] = [
+      { type: 'location', nameEn: 'Kyiv', nameUa: 'Київ' },
+      { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутній' },
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
+    ];
+    component.selectedFilters = [];
+    clickedFiltersList.forEach((clickedFilter) => {
+      component.updateListOfFilters(clickedFilter);
+    });
+    expect(component.selectedFilters).toEqual(clickedFiltersList);
+  });
+
+  it('should remove all selection in type', () => {
+    component.selectedFilters = [
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' }
+    ];
+    const expectedSelectedFiltersList: FilterItem[] = [{ type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' }];
+    component.selectedEventTimeStatusFiltersList = ['Past'];
+    component.selectedLocationFiltersList = ['Lviv'];
+    component.unselectAllFiltersInType('location');
+    expect(component.selectedFilters).toEqual(expectedSelectedFiltersList);
+  });
+
+  it('should reset all filters', () => {
+    component.selectedFilters = [
+      { type: 'eventTimeStatus', nameEn: 'Past', nameUa: 'Завершений' },
+      { type: 'location', nameEn: 'Lviv', nameUa: 'Львів' },
+      { type: 'type', nameEn: 'Economic', nameUa: 'Економічний' },
+      { type: 'status', nameEn: 'Closed', nameUa: 'Закритa' }
+    ];
+    component.resetAllFilters();
+    expect(component.selectedFilters.length).toEqual(0);
   });
 });

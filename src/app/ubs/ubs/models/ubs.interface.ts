@@ -9,6 +9,18 @@ export interface Bag {
   limitedIncluded?: boolean;
 }
 
+export interface Order {
+  additionalOrders: Array<string>;
+  addressId: number;
+  bags: OrderBag[];
+  certificates: Array<string>;
+  locationId: number;
+  orderComment: string;
+  personalData: PersonalData;
+  pointsToUse: number;
+  shouldBePaid: boolean;
+}
+
 export interface OrderBag {
   amount: number;
   id: number;
@@ -28,62 +40,9 @@ export interface OrderDetails {
   minAmountOfBigBags?: number;
 }
 
-export interface OrderDetailsNotification {
-  bags: Bag[];
-  points: number;
-  pointsToUse?: number;
-  certificates?: any;
-  additionalOrders?: any;
-  orderComment?: string;
-  certificatesSum?: number;
-  pointsSum?: number;
-  total?: number;
-  finalSum?: number;
-  minAmountOfBigBags?: number;
-}
-
-export interface OrderDetailsNotification {
-  bags: Bag[];
-  addressComment?: string;
-  orderBonusDiscount?: number;
-  orderCertificateTotalDiscount?: number;
-  orderFullPrice?: number;
-  orderDiscountedPrice?: number;
-  amountOfBagsOrdered?: number;
-  recipientName?: string;
-  recipientSurname?: string;
-  recipientEmail?: string;
-  recipientPhone?: string;
-  addressCity?: string;
-  addressCityEn?: string;
-  addressStreet?: string;
-  addressStreetEn?: string;
-  addressDistrict?: string;
-  addressDistrictEn?: string;
-  addressRegion?: string;
-  addressRegionEn?: string;
-}
-
-export interface FinalOrder {
-  bags: Bag[];
-  pointsToUse?: number;
-  cerfiticates?: any;
-  additionalOrders?: any;
-  orderComment?: string;
-  personalData?: PersonalData;
-  points?: number;
-}
-
-export interface Certificate {
-  codes: Array<string>;
-  points: Array<number>;
-  activatedStatus: Array<boolean>;
-  creationDates: Array<string>;
-  dateOfUses?: Array<string>;
-  expirationDates?: Array<string>;
-  failed: Array<boolean>;
-  status: Array<string>;
-  error: Array<boolean>;
+export interface IProcessOrderResponse {
+  orderId: number;
+  link: string | null;
 }
 
 export interface ICertificateResponse {
@@ -116,6 +75,7 @@ export interface PersonalData {
   houseNumber?: string;
   longitude?: number;
   latitude?: number;
+  isAnotherClient: boolean;
   senderEmail: string;
   senderFirstName: string;
   senderLastName: string;
@@ -148,43 +108,26 @@ export interface Address {
 }
 
 export interface AddressData {
-  addressComment: string;
+  searchAddress: string;
   districtEn: string;
   district: string;
-  entranceNumber: string;
-  houseCorpus: string;
-  houseNumber: string;
   regionEn: string;
   region: string;
-  searchAddress: string;
+  houseNumber: string;
+  entranceNumber: string;
+  houseCorpus: string;
+  addressComment: string;
   placeId: string;
-}
-
-export interface Locations {
-  id: number;
-  name: string;
-  languageCode: string;
-}
-
-export interface Location {
-  name: string;
-  key: number;
-}
-
-export interface Region {
-  regionName: string;
-  lang: string;
+  city: string;
+  cityEn: string;
+  street: string;
+  streetEn: string;
 }
 
 export interface CourierTranslationDtos {
   languageCode: string;
   limitDescription: string;
   name: string;
-}
-export interface CourierDtos {
-  courierId: number;
-  courierStatus: string;
-  courierTranslationDtos: CourierTranslationDtos[];
 }
 
 export interface LocationTranslation {
@@ -193,11 +136,6 @@ export interface LocationTranslation {
   languageCode: string;
 }
 
-export interface LocationsDtos {
-  locationId: number;
-  locationStatus: string;
-  locationTranslationDtoList: LocationTranslation[];
-}
 export interface LocationsName {
   locationId: number;
   locationName: string;
@@ -214,7 +152,7 @@ export interface CourierTranslation {
   name: string;
 }
 export interface CourierLocations {
-  courierLimit: string;
+  courierLimit: 'LIMIT_BY_AMOUNT_OF_BAG' | 'LIMIT_BY_SUM_OF_ORDER';
   courierStatus: string;
   tariffInfoId: number;
   locationsDtosList: LocationsDtosList[];

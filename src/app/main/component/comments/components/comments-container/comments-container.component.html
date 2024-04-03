@@ -17,7 +17,7 @@
     <hr />
   </div>
 
-  <app-add-comment *ngIf="isLoggedIn" [entityId]="entityId" (updateList)="updateElementsList()"></app-add-comment>
+  <app-add-comment *ngIf="isLoggedIn" [entityId]="entityId" (updateList)="initCommentsList()"></app-add-comment>
   <mat-spinner class="spinner" *ngIf="elementsList.length < 1 && elementsArePresent; else comments"></mat-spinner>
   <ng-template #comments>
     <app-comments-list
@@ -27,10 +27,10 @@
       [config]="config"
       [isLoggedIn]="isLoggedIn"
       [userId]="userId"
-      (changedList)="updateElementsList()"
+      (changedList)="initCommentsList()"
     >
     </app-comments-list>
-    <app-comment-pagination [config]="config" (setPage)="addCommentByPagination($event - 1)"> </app-comment-pagination>
+    <app-comment-pagination [config]="config" (setPage)="initCommentsList()"></app-comment-pagination>
   </ng-template>
 </ng-container>
 
@@ -39,24 +39,24 @@
     *ngIf="comment.showRelyButton && isLoggedIn"
     [entityId]="entityId"
     [commentId]="comment.id"
-    (updateList)="updateElementsList()"
+    (updateList)="updateElementsListReply($event)"
   ></app-add-comment>
-  <div *ngIf="comment.showAllRelies">
-    <mat-spinner class="spinner" *ngIf="elementsList.length < 1 && elementsArePresent; else reply"></mat-spinner>
+  <div *ngIf="comment.showAllRelies || userReplies.length">
+    <mat-spinner class="spinner" *ngIf="comment.showAllRelies && !elementsList.length && elementsArePresent; else reply"></mat-spinner>
     <ng-template #reply>
       <app-comments-list
         dataType="reply"
         [entityId]="entityId"
-        [elementsList]="elementsList"
+        [elementsList]="comment.showAllRelies ? elementsList : userReplies"
         [commentId]="comment.id"
         [config]="config"
         [isLoggedIn]="isLoggedIn"
         [userId]="userId"
-        (changedList)="updateElementsList()"
+        (changedList)="updateRepliesList($event)"
         class="list"
       >
       </app-comments-list>
-      <app-comment-pagination [config]="config" (setPage)="addCommentByPagination($event - 1)"> </app-comment-pagination>
+      <app-comment-pagination *ngIf="comment.showAllRelies" [config]="config" (setPage)="initCommentsList()"></app-comment-pagination>
     </ng-template>
   </div>
 </ng-template>

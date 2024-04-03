@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -29,7 +29,7 @@ import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar
   providers: [MatSnackBarComponent]
 })
 export class AddEditCustomHabitComponent extends FormBaseComponent implements OnInit {
-  habitForm: UntypedFormGroup;
+  habitForm: FormGroup;
   habit: any;
   complexityList = [
     { value: 1, name: 'user.habit.add-new-habit.difficulty.easy', alt: 'Easy difficulty' },
@@ -78,7 +78,7 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
     private injector: Injector,
     public dialog: MatDialog,
     public router: Router,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private localStorageService: LocalStorageService,
     private translate: TranslateService,
     private habitService: HabitService,
@@ -118,18 +118,18 @@ export class AddEditCustomHabitComponent extends FormBaseComponent implements On
 
   private initForm(): void {
     this.habitForm = this.fb.group({
-      title: new UntypedFormControl('', [Validators.required, Validators.maxLength(70)]),
-      description: new UntypedFormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
-      complexity: new UntypedFormControl(1, [Validators.required, Validators.max(3)]),
-      duration: new UntypedFormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
-      tagIds: new UntypedFormControl([], Validators.required),
-      image: new UntypedFormControl(''),
-      shopList: new UntypedFormControl([])
+      title: new FormControl('', [Validators.required, Validators.maxLength(70)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(63206)]),
+      complexity: new FormControl(1, [Validators.required, Validators.max(3)]),
+      duration: new FormControl(null, [Validators.required, Validators.min(7), Validators.max(56)]),
+      tagIds: new FormControl([], Validators.required),
+      image: new FormControl(''),
+      shopList: new FormControl([])
     });
   }
 
   private setEditHabit(): void {
-    this.habitForm.addControl('id', new UntypedFormControl(null));
+    this.habitForm.addControl('id', new FormControl(null));
     this.habitForm.patchValue({
       title: this.habit.habitTranslation.name,
       description: this.habit.habitTranslation.description,

@@ -1,6 +1,6 @@
 import { OrderService } from 'src/app/ubs/ubs-admin/services/order.service';
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray, UntypedFormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { IOrderDetails, IOrderInfo } from '../../models/ubs-admin.interface';
 import { Masks, Patterns } from 'src/assets/patterns/patterns';
 import { OrderStatus, PaymnetStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -50,7 +50,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Output() orderStatusChanged = new EventEmitter<boolean>();
 
   @Input() orderDetailsOriginal: IOrderDetails;
-  @Input() orderDetailsForm: UntypedFormGroup;
+  @Input() orderDetailsForm: FormGroup;
   @Input() orderStatusInfo;
   @Input() totalPaid: number;
   @Input() orderInfo: IOrderInfo;
@@ -58,7 +58,7 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   @Input() updateBonusAccount: number;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private orderService: OrderService,
     private langService: LanguageService
   ) {}
@@ -346,23 +346,23 @@ export class UbsAdminOrderDetailsFormComponent implements OnInit, OnChanges {
   }
 
   public getStoreOrderNumbers() {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as UntypedFormArray;
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     return arr.controls;
   }
 
   public checkMaxOrdersFromShop(): boolean {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as UntypedFormArray;
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     const currentAmountOfNumbersFromShop = arr.controls.length;
     return currentAmountOfNumbersFromShop < this.LIMIT_OF_ECO_SHOP_NUMBERS;
   }
 
   addOrderNumberFromShop(): void {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as UntypedFormArray;
-    arr.push(new UntypedFormControl('', [Validators.pattern(Patterns.orderEcoStorePattern)]));
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
+    arr.push(new FormControl('', [Validators.pattern(Patterns.orderEcoStorePattern)]));
   }
 
   deleteOrder(index: number): void {
-    const arr = this.orderDetailsForm.controls.storeOrderNumbers as UntypedFormArray;
+    const arr = this.orderDetailsForm.controls.storeOrderNumbers as FormArray;
     arr.removeAt(index);
     this.orderDetailsForm.markAsDirty();
     this.deleteNumberOrderFromEcoShopChanged.emit(true);

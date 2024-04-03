@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChangePasswordService } from '@global-service/auth/change-password.service';
-import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { UbsProfileChangePasswordPopUpComponent } from './ubs-profile-change-password-pop-up.component';
@@ -30,7 +30,7 @@ describe('UbsProfileChangePasswordPopUpComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: ChangePasswordService, useValue: changePasswordServiceFake },
         { provide: MatSnackBarComponent, useValue: MatSnackBarMock },
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

@@ -7,14 +7,16 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { of, Subject } from 'rxjs';
 import { FriendProfileDashboardComponent } from './friend-profile-dashboard.component';
 import { FRIENDS } from '@global-user/mocks/friends-mock';
+import { UserDashboardTab } from '@global-user/models/friend.model';
 
 describe('FriendProfileDashboardComponent', () => {
   let component: FriendProfileDashboardComponent;
   let fixture: ComponentFixture<FriendProfileDashboardComponent>;
   const userFriendsServiceMock: UserFriendsService = jasmine.createSpyObj('UserFriendsService', {
-    getAllFriends: of(FRIENDS),
     addFriend: of({}),
-    getNewFriends: of({})
+    getNewFriends: of({}),
+    getUserFriends: of(FRIENDS),
+    getMutualFriends: of(FRIENDS)
   });
   const activatedRouteMock = {
     snapshot: {
@@ -22,7 +24,7 @@ describe('FriendProfileDashboardComponent', () => {
         userId: 1,
         id: 2
       },
-      queryParams: { index: 4 }
+      queryParams: { tab: UserDashboardTab.mutualFriends }
     }
   };
   beforeEach(waitForAsync(() => {
@@ -49,26 +51,37 @@ describe('FriendProfileDashboardComponent', () => {
   });
 
   it('method ngOnInit should call getAllFriends', () => {
-    const spy = spyOn(component as any, 'getAllFriends');
+    const spy1 = spyOn(component as any, 'getAllFriends');
+    const spy2 = spyOn(component as any, 'getMutualFriends');
     component.ngOnInit();
-    expect(spy).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
-  it('method onScroll should call getAllFriends', () => {
-    component.numberAllFriends = 24;
+  it('should load more friends when scrolling on friends tab', () => {
+    (component as any).scroll = false;
+    (component as any).userId = 1;
     component.selectedIndex = 3;
-    const spy = spyOn(component as any, 'getAllFriends').and.callFake(() => {});
+    component.numberAllFriends = 10;
+    component.friendsList = [];
+    (component as any).currentFriendPage = 0;
+    const getAllFriendsSpy = spyOn(component as any, 'getAllFriends');
     component.onScroll();
-    expect(spy).toHaveBeenCalled();
-    fixture.detectChanges();
-    expect(userFriendsServiceMock.getAllFriends).toHaveBeenCalledWith(1, undefined);
+    expect((component as any).scroll).toBe(true);
+    expect((component as any).currentFriendPage).toBe(1);
+    expect(getAllFriendsSpy).toHaveBeenCalledWith((component as any).userId, (component as any).currentFriendPage);
   });
 
-  it('method addFriend should userFriendsService.addFriend', () => {
-    component.friendsList = FRIENDS.page;
-    component.addFriend(1);
-    expect(userFriendsServiceMock.addFriend).toHaveBeenCalled();
-    expect(userFriendsServiceMock.addFriend).toHaveBeenCalledWith(1);
+  it('should load more mutual friends when scrolling on mutual friends tab', () => {
+    component.selectedIndex = 4;
+    (component as any).scroll = false;
+    component.mutualFriendsList = new Array(component.numberAllMutualFriends - 1);
+    (component as any).currentMutualPage = 0;
+    const getMutualFriendsSpy = spyOn(component as any, 'getMutualFriends');
+    component.onScroll();
+    expect((component as any).scroll).toBe(true);
+    expect((component as any).currentMutualPage).toBe(1);
+    expect(getMutualFriendsSpy).toHaveBeenCalledWith((component as any).currentMutualPage);
   });
 
   it('should unsubscribe on destroy', () => {

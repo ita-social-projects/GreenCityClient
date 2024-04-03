@@ -1,3 +1,5 @@
+import { FilterItem } from './events.interface';
+
 export enum TimeBack {
   START = '00:00',
   END = '23:59'
@@ -5,61 +7,40 @@ export enum TimeBack {
 
 export enum TimeFront {
   START = '0:00',
-  END = '00:00',
+  END = '23:59',
   DIVIDER = ':',
   MINUTES = '00'
 }
 
-export interface OptionItem {
-  nameEn: string;
-  nameUa: string;
-}
-
-export interface AllSelectedFlags {
-  tags: boolean;
-  eventTime: boolean;
-  statuses: boolean;
-  cities: boolean;
-}
-
-export const allSelectedFlags = {
-  eventTime: false,
-  statuses: false,
-  tags: false,
-  cities: false
-};
-
-export const allSelectedFilter = {
-  eventTime: { nameEn: 'Any time', nameUa: 'Будь-який час' },
-  cities: { nameEn: 'All cites', nameUa: 'Всі міста' },
-  statuses: { nameEn: 'Any status', nameUa: 'Будь-який статус' },
-  tags: { nameEn: 'All types', nameUa: 'Всі типи' }
-};
-
-export const TagsArray = [
-  { nameEn: 'Economic', nameUa: 'Економічний', isActive: false },
-  { nameEn: 'Social', nameUa: 'Соціальний', isActive: false },
-  { nameEn: 'Environmental', nameUa: 'Екологічний', isActive: false }
+export const timeStatusFiltersData: FilterItem[] = [
+  { type: 'eventTimeStatus', nameEn: 'Future', nameUa: 'Майбутні' },
+  { type: 'eventTimeStatus', nameEn: 'Pasted', nameUa: 'Завершені' }
 ];
 
-export const eventTimeList = [
-  { nameEn: 'Future', nameUa: 'Майбутній' },
-  { nameEn: 'Past', nameUa: 'Завершений' }
+export enum DefaultCoordinates {
+  LATITUDE = 50.4501,
+  LONGITUDE = 30.5234
+}
+
+export const statusFiltersData: FilterItem[] = [
+  { type: 'status', nameEn: 'Open', nameUa: 'Відкритa' },
+  { type: 'status', nameEn: 'Closed', nameUa: 'Закритa' },
+  { type: 'status', nameEn: 'Joined', nameUa: 'Вже доєднані' },
+  { type: 'status', nameEn: 'Created', nameUa: 'Створенa' },
+  { type: 'status', nameEn: 'Saved', nameUa: 'Збережена' }
 ];
 
-export const eventStatusList = [
-  { nameEn: 'Open', nameUa: 'Відкритa' },
-  { nameEn: 'Closed', nameUa: 'Закритa' },
-  { nameEn: 'Joined', nameUa: 'Вже доєднані' },
-  { nameEn: 'Created', nameUa: 'Створенa' },
-  { nameEn: 'Saved', nameUa: 'Збережена' }
+export const typeFiltersData: FilterItem[] = [
+  { type: 'type', nameEn: 'Economic', nameUa: 'Економічний' },
+  { type: 'type', nameEn: 'Social', nameUa: 'Соціальний' },
+  { type: 'type', nameEn: 'Environmental', nameUa: 'Екологічний' }
 ];
 
 export const DateObj = {
   date: null,
   startDate: '',
   finishDate: '',
-  coordinatesDto: {
+  coordinates: {
     latitude: null,
     longitude: null
   },

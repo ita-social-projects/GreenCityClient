@@ -2,11 +2,7 @@
   <div class="friends-list">
     <div *ngIf="!searchMode || !isFetching" class="cards-box">
       <div *ngFor="let friend of friends" class="user-card">
-        <app-friend-item
-          [friend]="friend"
-          (friendEventEmit)="handleDeleteFriend($event)"
-          primaryBtnName="{{ 'profile.friends.delete-friend' | translate }}"
-        ></app-friend-item>
+        <app-friend-item [friend]="friend" (friendDelete)="onScroll()"></app-friend-item>
       </div>
     </div>
     <div infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" (scrolled)="onScroll()"></div>
@@ -19,7 +15,7 @@
         <img [src]="absent" alt="absent-friends" />
       </div>
       <p *ngIf="emptySearchList" class="noFriends">
-        {{ 'search.search-not-found.not-found-text' | translate: { searchQuery: searchQuery } }}
+        {{ 'search.search-not-found.not-found-friends-text' | translate }}
       </p>
       <div>
         <p *ngIf="!emptySearchList" class="noFriends">{{ 'profile.zero-friends' | translate }}</p>

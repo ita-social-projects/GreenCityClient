@@ -1,7 +1,8 @@
 export enum errorType {
   minlength = 'minlength',
   maxlength = 'maxlength',
-  required = 'required'
+  required = 'required',
+  pattern = 'pattern'
 }
 
 export enum inputsName {

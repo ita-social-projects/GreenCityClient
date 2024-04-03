@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   IResponsiblePersonsData,
@@ -32,14 +32,14 @@ export class UbsAdminSeveralOrdersPopUpComponent implements OnInit {
   public responsiblePersonsData: IResponsiblePersonsData[];
 
   values = {};
-  ordersForm: UntypedFormGroup;
+  ordersForm: FormGroup;
 
   @Input() dataFromTable: IDataForPopUp[];
   @Input() ordersId: number[];
   @Input() currentLang: string;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private orderService: OrderService,
     private dialogRef: MatDialogRef<UbsAdminSeveralOrdersPopUpComponent>
   ) {}

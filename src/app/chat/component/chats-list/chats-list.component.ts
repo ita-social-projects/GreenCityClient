@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatsService } from '../../service/chats/chats.service';
 import { SocketService } from 'src/app/chat/service/socket/socket.service';
 import { CHAT_ICONS } from '../../chat-icons';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Chat } from '../../model/Chat.model';
 
@@ -15,7 +15,7 @@ import { Chat } from '../../model/Chat.model';
 export class ChatsListComponent implements OnInit {
   public chatIcons = CHAT_ICONS;
   public searchField = '';
-  public searchFieldControl = new UntypedFormControl();
+  public searchFieldControl = new FormControl();
   @Input() isPopup: boolean;
   @Output() createNewMessageWindow: EventEmitter<Chat> = new EventEmitter<Chat>();
 

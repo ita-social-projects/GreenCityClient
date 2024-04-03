@@ -1,0 +1,18 @@
+<input
+  class="shadow-none form-control"
+  [class.ng-invalid]="isInvalid"
+  [class.ng-valid]="!isInvalid"
+  [formControl]="inputValue"
+  (change)="onUserChange()"
+  [matAutocomplete]="autoPrediction"
+/>
+<mat-autocomplete #autoPrediction="matAutocomplete">
+  <mat-option
+    class="autocomplete-dropdown"
+    *ngFor="let prediction of predictionList"
+    [value]="prediction.description"
+    (onSelectionChange)="onPredictionSelected(prediction)"
+  >
+    {{ prediction.description }}
+  </mat-option>
+</mat-autocomplete>

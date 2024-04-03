@@ -4,26 +4,26 @@ import { OpenHours } from '../model/openHours/open-hours.model';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class WeekDaysUtils {
-  static sortedUTCDays = [
+  static readonly sortedUTCDays = [
     WeekDays.SUNDAY,
     WeekDays.MONDAY,
     WeekDays.TUESDAY,
     WeekDays.WEDNESDAY,
     WeekDays.THURSDAY,
     WeekDays.FRIDAY,
-    WeekDays.SATURDAY,
+    WeekDays.SATURDAY
   ];
-  static sortedDays = [
+  static readonly sortedDays = [
     WeekDays.MONDAY,
     WeekDays.TUESDAY,
     WeekDays.WEDNESDAY,
     WeekDays.THURSDAY,
     WeekDays.FRIDAY,
     WeekDays.SATURDAY,
-    WeekDays.SUNDAY,
+    WeekDays.SUNDAY
   ];
 
   public static getCurrentDay(): string {
@@ -41,15 +41,15 @@ export class WeekDaysUtils {
       if (WeekDaysUtils.getCurrentDay() === oh.weekDay) {
         const now = new Date();
         if (null != oh.breakTime) {
-          const bStart = Number.parseInt(oh.breakTime.startTime.substr(0, 2), 10);
-          const bEnd = Number.parseInt(oh.breakTime.endTime.substr(0, 2), 10);
+          const bStart = Number.parseInt(oh.breakTime.startTime.substring(0, 2), 10);
+          const bEnd = Number.parseInt(oh.breakTime.endTime.substring(0, 2), 10);
           if (now.getHours() > bStart && now.getHours() < bEnd) {
             result = 'Break now ' + oh.breakTime.startTime + ' - ' + oh.breakTime.endTime;
             return result;
           }
         }
-        const open = Number.parseInt(oh.openTime.substr(0, 2), 10);
-        const close = Number.parseInt(oh.closeTime.substr(0, 2), 10);
+        const open = Number.parseInt(oh.openTime.substring(0, 2), 10);
+        const close = Number.parseInt(oh.closeTime.substring(0, 2), 10);
         if (now.getHours() > open && now.getHours() < close) {
           result = 'Open now ' + oh.openTime + ' - ' + oh.closeTime;
           return result;

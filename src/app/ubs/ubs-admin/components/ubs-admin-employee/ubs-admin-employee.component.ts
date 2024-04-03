@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UbsAdminEmployeeEditFormComponent } from './ubs-admin-employee-edit-form/ubs-admin-employee-edit-form.component';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Patterns } from 'src/assets/patterns/patterns';
 import { Subject } from 'rxjs';
 import { map, skip, startWith, takeUntil } from 'rxjs/operators';
@@ -92,7 +92,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
 
   locations$ = this.store.select((state: IAppState): Locations[] => state.locations.locations);
 
-  searchForm: UntypedFormGroup;
+  searchForm: FormGroup;
   private destroy: Subject<boolean> = new Subject<boolean>();
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
 
@@ -100,7 +100,7 @@ export class UbsAdminEmployeeComponent implements OnInit {
     private tariffsService: TariffsService,
     public dialog: MatDialog,
     private ubsAdminEmployeeService: UbsAdminEmployeeService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private translate: TranslateService,
     private languageService: LanguageService,

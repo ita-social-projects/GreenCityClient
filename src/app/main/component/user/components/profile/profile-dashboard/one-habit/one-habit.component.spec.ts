@@ -76,13 +76,16 @@ describe('OneHabitComponent', () => {
   habitAssignServiceMock.getAssignHabitsByPeriod.and.returnValue(of());
   const routerMock = jasmine.createSpyObj('router', ['navigate']);
 
+  const habitServiceMock: HabitService = jasmine.createSpyObj('HabitService', ['getFriendsTrakingSameHabitByHabitId']);
+  habitServiceMock.getFriendsTrakingSameHabitByHabitId = () => of();
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [OneHabitComponent],
       providers: [
         { provide: HabitAssignService, useValue: habitAssignServiceMock },
-        { provide: HabitService, useValue: {} },
+        { provide: HabitService, useValue: habitServiceMock },
         { provide: DatePipe, useClass: DatePipeMock },
         { provide: Router, useValue: routerMock }
       ],

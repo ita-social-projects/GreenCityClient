@@ -23,6 +23,8 @@ import { ResetEmployeePermissions } from 'src/app/store/actions/employee.actions
 import { Store } from '@ngrx/store';
 import { UserNotificationsPopUpComponent } from '@global-user/components/profile/user-notifications/user-notifications-pop-up/user-notifications-pop-up.component';
 import { IAppState } from 'src/app/store/state/app.state';
+import { ChatPopupComponent } from 'src/app/chat/component/chat-popup/chat-popup.component';
+import { ResetFriends } from 'src/app/store/actions/friends.actions';
 
 @Component({
   selector: 'app-header',
@@ -72,7 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private headerService: HeaderService;
   private orderService: OrderService;
   permissions$ = this.store.select((state: IAppState): Array<string> => state.employees.employeesPermissions);
-
   constructor(
     private dialog: MatDialog,
     injector: Injector,
@@ -365,20 +366,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
+  openChatPopUp() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.panelClass = 'dialog-chat';
+    dialogConfig.position = {
+      right: '450px',
+      top: '55px'
+    };
+    const matDialogRef = this.dialog.open(ChatPopupComponent, dialogConfig);
+    matDialogRef.afterClosed();
+  }
+
   public signOut(): void {
     this.dropdownVisible = false;
+
+    this.jwtService.userRole$.next('');
+
     this.router.navigateByUrl(this.isUBS ? '/' : '/greenCity').then((isRedirected: boolean) => {
-      if (isRedirected) {
-        this.userOwnAuthService.isLoginUserSubject.next(false);
-        this.localeStorageService.clear();
-        this.habitStatisticService.onLogout();
-        this.achievementService.onLogout();
-        this.orderService.cancelUBSwithoutSaving();
-        this.userOwnAuthService.getDataFromLocalStorage();
-        this.jwtService.userRole$.next('');
-      }
+      this.userOwnAuthService.isLoginUserSubject.next(false);
+      this.localeStorageService.clear();
+      this.habitStatisticService.onLogout();
+      this.achievementService.onLogout();
+      this.orderService.cancelUBSwithoutSaving();
+      this.userOwnAuthService.getDataFromLocalStorage();
     });
     this.store.dispatch(ResetEmployeePermissions());
+    this.store.dispatch(ResetFriends());
   }
 
   public toggleLangDropdown(event: KeyboardEvent): void {

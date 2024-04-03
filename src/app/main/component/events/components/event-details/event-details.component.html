@@ -89,17 +89,17 @@
                 <div class="event-date-content" *ngIf="event.dates.length === 1; else multipleDays">
                   <div class="event-duration">{{ event.dates[0].startDate | dateLocalisation }}</div>
                   <div>|</div>
-                  <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
+                  <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
                 </div>
                 <ng-template #multipleDays>
                   <div class="event-date-content">
                     <div class="event-duration">
                       {{ event.dates[0].startDate | dateLocalisation }}
                       &nbsp;-&nbsp;
-                      {{ event.dates[event.dates.length - 1].finishDate | date : 'MMM d, y' }}
+                      {{ event.dates[event.dates.length - 1].finishDate | date: 'MMM d, y' }}
                     </div>
                     <div>|</div>
-                    <div>{{ event.dates[0].startDate | date : 'hh:mm a' }}</div>
+                    <div>{{ event.dates[0].startDate | date: 'hh:mm a' }}</div>
                     <div class="event-info-days">
                       <app-event-schedule-overlay [days]="event.dates"></app-event-schedule-overlay>
                     </div>
@@ -146,7 +146,7 @@
               {{ (isEventFavorite ? 'homepage.events.btn.unsave-event' : 'homepage.events.btn.save-event') | translate }}
             </button>
             <button
-              *ngIf="isUserCanJoin && event.isRelevant && (isEventOrginizerFriend || event.open) && role !== 'UNAUTHENTICATED'"
+              *ngIf="isUserCanJoin && event.isRelevant"
               [ngClass]="isSubscribed ? 'secondary-global-button' : 'primary-global-button'"
               (click)="buttonAction($event)"
             >
@@ -158,7 +158,7 @@
 
         <div class="main-right">
           <div class="description-block-title">{{ 'create-event.event-description' | translate }}</div>
-          <div [innerHTML]="event.description | eventDescriptionTransform" class="description"></div>
+          <div [innerHTML]="event.description | safeHtmlTransform" class="ql-editor"></div>
         </div>
       </div>
       <app-comments-container *ngIf="!eventService.getForm()" class="event" [entityId]="eventId"></app-comments-container>

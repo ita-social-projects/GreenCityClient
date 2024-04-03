@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
@@ -72,7 +72,7 @@ export class UbsAdminTariffsDeactivatePopUpComponent implements OnInit, OnDestro
   public cityLabelUa = TariffLocationLabelName.ua;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private localeStorage: LocalStorageService,
     private tariffsService: TariffsService,
     private languageService: LanguageService,

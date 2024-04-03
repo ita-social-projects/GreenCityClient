@@ -3,7 +3,7 @@ import { RestoreDto } from './../../../../model/restroreDto';
 import { authImages, ubsAuthImages } from './../../../../image-pathes/auth-images';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AbstractControl, UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
+import { AbstractControl, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ChangePasswordService } from '@auth-service/change-password.service';
 import { ConfirmPasswordValidator, ValidatorRegExp } from '../sign-up/sign-up.validator';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -15,11 +15,11 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./confirm-restore-password.component.scss']
 })
 export class ConfirmRestorePasswordComponent implements OnInit {
-  public confirmRestorePasswordForm: UntypedFormGroup;
+  public confirmRestorePasswordForm: FormGroup;
   public passwordField: AbstractControl;
   public confirmPasswordField: AbstractControl;
-  public password: UntypedFormControl;
-  public confirmPassword: UntypedFormControl;
+  public password: FormControl;
+  public confirmPassword: FormControl;
   public closeBtn = SignInIcons;
   public authImages = authImages;
   public emailErrorMessageBackEnd: string;
@@ -36,7 +36,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   constructor(
     private router: Router,
     private changePasswordService: ChangePasswordService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBarComponent
   ) {}
@@ -53,8 +53,8 @@ export class ConfirmRestorePasswordComponent implements OnInit {
   public initFormReactive(): void {
     this.confirmRestorePasswordForm = this.formBuilder.group(
       {
-        password: new UntypedFormControl('', []),
-        confirmPassword: new UntypedFormControl('', [])
+        password: new FormControl('', []),
+        confirmPassword: new FormControl('', [])
       },
       {
         validator: [ConfirmPasswordValidator('password', 'confirmPassword'), ValidatorRegExp('password')]
@@ -87,7 +87,7 @@ export class ConfirmRestorePasswordComponent implements OnInit {
       },
       (error) => {
         this.form = error;
-        this.snackBar.openSnackBar('errorMessage', error);
+        this.snackBar.openSnackBar('sendNewLetter');
       }
     );
   }

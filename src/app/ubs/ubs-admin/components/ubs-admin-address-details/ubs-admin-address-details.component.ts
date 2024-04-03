@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -19,7 +19,7 @@ import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 })
 export class UbsAdminAddressDetailsComponent implements OnInit, OnDestroy {
   @Input() addressComment: string;
-  @Input() addressExportDetailsDto: UntypedFormGroup;
+  @Input() addressExportDetailsDto: FormGroup;
   @Input() generalInfo: IGeneralOrderInfo;
   @Input() isEmployeeCanEditOrder: boolean;
 

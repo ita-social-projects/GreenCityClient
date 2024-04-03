@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -13,6 +13,7 @@ import { CreateEditEventsComponent } from './create-edit-events.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateEditEventsComponent', () => {
   let component: CreateEditEventsComponent;
@@ -112,13 +113,14 @@ describe('CreateEditEventsComponent', () => {
     isActive: true,
     likes: 8,
     countComments: 9,
-    isRelevant: true
+    isRelevant: true,
+    isOrganizedByFriend: false
   };
 
-  const formDataMock: UntypedFormGroup = new UntypedFormGroup({
-    titleForm: new UntypedFormControl('title'),
-    description: new UntypedFormControl('1 day'),
-    eventDuration: new UntypedFormControl('titletitletitletitle')
+  const formDataMock: FormGroup = new FormGroup({
+    titleForm: new FormControl('title'),
+    description: new FormControl('1 day'),
+    eventDuration: new FormControl('titletitletitletitle')
   });
 
   const actionSub: ActionsSubject = new ActionsSubject();
@@ -320,15 +322,24 @@ describe('CreateEditEventsComponent', () => {
   });
 
   it('changeEventType expect isOpen to be true', () => {
+    const mouseEvent = { type: 'click' } as MouseEvent;
     component.isOpen = false;
-    component.changeEventType();
+    component.changeEventType(mouseEvent);
     expect(component.isOpen).toBeTruthy();
   });
 
   it('changeEventType expect isOpen to be false', () => {
+    const keyboardEnterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     component.isOpen = true;
-    component.changeEventType();
+    component.changeEventType(keyboardEnterEvent);
     expect(component.isOpen).toBeFalsy();
+  });
+
+  it('changeEventType should not change isOpen value', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', { key: 'P' });
+    component.isOpen = true;
+    component.changeEventType(keyboardEvent);
+    expect(component.isOpen).toBeTruthy();
   });
 
   describe('setOnlineLink', () => {

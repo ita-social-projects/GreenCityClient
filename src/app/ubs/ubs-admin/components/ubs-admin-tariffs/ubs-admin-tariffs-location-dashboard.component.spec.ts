@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FilterListByLangPipe } from '../../../../shared/sort-list-by-lang/filter-list-by-lang.pipe';
-import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../services/tariffs.service';
 import { of, Subject } from 'rxjs';
@@ -241,7 +241,7 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
         provideMockStore({ initialState }),
         { provide: Store, useValue: storeMock },
         TranslateService,
-        UntypedFormBuilder,
+        FormBuilder,
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MatDialogRef, useValue: dialogStub },
         { provide: TariffsService, useValue: tariffsServiceMock },

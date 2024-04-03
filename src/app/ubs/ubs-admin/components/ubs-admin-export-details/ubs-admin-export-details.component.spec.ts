@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { UbsAdminExportDetailsComponent } from './ubs-admin-export-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
@@ -25,11 +25,11 @@ describe('UbsAdminExportDetailsComponent', () => {
 
     fixture = TestBed.createComponent(UbsAdminExportDetailsComponent);
     component = fixture.componentInstance;
-    component.exportDetailsDto = new UntypedFormGroup({
-      dateExport: new UntypedFormControl(''),
-      timeDeliveryFrom: new UntypedFormControl('9-00'),
-      timeDeliveryTo: new UntypedFormControl('10-00'),
-      receivingStationId: new UntypedFormControl('')
+    component.exportDetailsDto = new FormGroup({
+      dateExport: new FormControl(''),
+      timeDeliveryFrom: new FormControl('9-00'),
+      timeDeliveryTo: new FormControl('10-00'),
+      receivingStationId: new FormControl('')
     });
     (component.exportInfo = {
       allReceivingStations: [

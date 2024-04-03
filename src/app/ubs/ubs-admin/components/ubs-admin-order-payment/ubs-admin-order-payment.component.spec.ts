@@ -159,7 +159,8 @@ describe('UbsAdminOrderPaymentComponent', () => {
       data: {
         orderId: 1,
         viewMode,
-        payment: viewMode ? component.paymentsArray[paymentIndex] : null
+        payment: viewMode ? component.paymentsArray[paymentIndex] : null,
+        isCanPaymentEdit: component.isOrderCanBePaid
       }
     });
   });

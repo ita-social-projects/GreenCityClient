@@ -138,8 +138,6 @@ You should install Angular CLI 9.1.15 writting this in console: npm install -g @
     app.module.ts - The root module of the application
     eco-news.module.ts - Eco News module
     about.module.ts
-    admin-routing.module.ts
-    admin.module.ts
     auth.module.ts
     comments.module.ts
     core.module.ts
@@ -191,5 +189,4 @@ You should install Angular CLI 9.1.15 writting this in console: npm install -g @
     category.service.ts
     google-sign-in.service.ts
     advice.service.ts
-    admin.service.ts
     achievement.service.ts

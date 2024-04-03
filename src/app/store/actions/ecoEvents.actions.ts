@@ -1,13 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  EventFilterCriteriaIntarface,
-  EventPageResponceDto,
-  EventResponseDto
-} from 'src/app/main/component/events/models/events.interface';
+import { EventPageResponseDto, EventResponseDto } from 'src/app/main/component/events/models/events.interface';
 
 export enum EventsActions {
   GetEcoEventsByPage = '[Events] Get events by page',
   GetEcoEventsByPageSuccess = '[Events] Get events by page Success',
+
+  GetEcoEventsById = '[Events] Get events by ID',
+  GetEcoEventsByIdSuccess = '[Events] Get events by ID Success',
 
   EditEcoEvent = '[Events] Edit event',
   EditEcoEventSuccess = '[Events] Edit event Success',
@@ -31,22 +30,24 @@ export enum EventsActions {
 }
 
 export const EditEcoEventAction = createAction(EventsActions.EditEcoEvent, props<{ data: FormData }>());
-export const EditEcoEventSuccessAction = createAction(EventsActions.EditEcoEventSuccess, props<{ event: EventPageResponceDto }>());
+export const EditEcoEventSuccessAction = createAction(EventsActions.EditEcoEventSuccess, props<{ event: EventPageResponseDto }>());
 
 export const CreateEcoEventAction = createAction(EventsActions.CreateEcoEvent, props<{ data: FormData }>());
-export const CreateEcoEventSuccessAction = createAction(EventsActions.CreateEcoEventSuccess, props<{ event: EventPageResponceDto }>());
+export const CreateEcoEventSuccessAction = createAction(EventsActions.CreateEcoEventSuccess, props<{ event: EventPageResponseDto }>());
 
 export const DeleteEcoEventAction = createAction(EventsActions.DeleteEcoEvent, props<{ id: number }>());
 export const DeleteEcoEventSuccessAction = createAction(EventsActions.DeleteEcoEventSuccess, props<{ id: number }>());
 
-export const GetEcoEventsByPageAction = createAction(
-  EventsActions.GetEcoEventsByPage,
-  props<{ currentPage: number; numberOfEvents: number; reset: boolean; filter: EventFilterCriteriaIntarface }>()
-);
-
 export const GetEcoEventsByPageSuccessAction = createAction(
   EventsActions.GetEcoEventsByPageSuccess,
-  props<{ ecoEvents: EventResponseDto | any; reset: boolean }>()
+  props<{ ecoEvents: EventResponseDto; reset: boolean }>()
+);
+
+export const GetEcoEventsByIdAction = createAction(EventsActions.GetEcoEventsById, props<{ eventId: number; reset: boolean }>());
+
+export const GetEcoEventsByIdSuccessAction = createAction(
+  EventsActions.GetEcoEventsByIdSuccess,
+  props<{ ecoEvents: EventResponseDto; reset: boolean }>()
 );
 
 export const RateEcoEventsByIdAction = createAction(EventsActions.RateEcoEventsById, props<{ id: number; grade: number }>());

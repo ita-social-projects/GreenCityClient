@@ -229,17 +229,6 @@ describe('SignIn component', () => {
       expect(router.navigate).toHaveBeenCalledWith(['profile', userSuccessSignIn.userId]);
     });
 
-    it('should navigate to events/eventId with params for isEventsDetails', () => {
-      component.isEventsDetails = true;
-      component.eventId = '45';
-      component.isOwnerParams = true;
-      component.isActiveParams = false;
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_OTHER');
-      spyOn(component, 'navigateToPage').and.callThrough();
-      component.onSignInSuccess(userSuccessSignIn);
-      expect(router.navigate).toHaveBeenCalledWith(['/events', '45', { isOwner: true, isActive: false }]);
-    });
-
     it('should navigate to ubs-admin/orders for ROLE_UBS_EMPLOYEE', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
       const result = component.navigateToPage({});
@@ -252,21 +241,8 @@ describe('SignIn component', () => {
       expect(result).toEqual(['profile', 123]);
     });
 
-    it('should navigate to /events/eventId with params for isEventsDetails', () => {
-      component.isEventsDetails = true;
-      component.eventId = '43';
-      component.isOwnerParams = true;
-      component.isActiveParams = false;
-      spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_OTHER');
-      const userRoleSubjectSpy = spyOn(jwtServiceMock.userRole$, 'next');
-      const result = component.navigateToPage({});
-      expect(result).toEqual(['/events', '43', { isOwner: true, isActive: false }]);
-      expect(userRoleSubjectSpy).toHaveBeenCalledTimes(1);
-    });
-
     it('should navigate to the correct page based on user role', () => {
       spyOn(jwtServiceMock, 'getUserRole').and.returnValue('ROLE_UBS_EMPLOYEE');
-      component.isEventsDetails = false;
       component.isUbs = false;
       const result = component.navigateToPage({ userId: 'user123' });
       expect(result).toEqual(['ubs-admin', 'orders']);

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
-import { Actions, createEffect } from '@ngrx/effects';
-import { ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GetColumnToDisplay,
   GetColumnToDisplaySuccess,
@@ -22,7 +21,11 @@ import { AdminTableService } from 'src/app/ubs/ubs-admin/services/admin-table.se
 
 @Injectable()
 export class BigOrderTableEffects {
-  constructor(private actions: Actions, private adminTableService: AdminTableService, private orderService: OrderService) {}
+  constructor(
+    private actions: Actions,
+    private adminTableService: AdminTableService,
+    private orderService: OrderService
+  ) {}
 
   getColumnToDisplay = createEffect(() => {
     return this.actions.pipe(

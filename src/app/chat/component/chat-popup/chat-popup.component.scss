@@ -4,22 +4,14 @@
   @include flex(column, flex-start, center);
 
   position: fixed;
-  bottom: 0;
-  right: 15px;
   background: var(--primary-white);
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
-  height: 70vh;
   width: 300px;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
-  transform: translateY(calc(100% - 45px));
-  transition: transform 0.2s ease-out;
   max-height: 650px;
-  z-index: 1000;
-
-  &.opened {
-    transform: translateY(0);
-  }
+  z-index: 5;
+  border-bottom-left-radius: 4px;
 }
 
 .popup-top-panel {
@@ -33,19 +25,6 @@
   border-top-right-radius: 7px;
   border: var(--primary-white) solid 0.5px;
   background: var(--quaternary-dark-grey);
-
-  &::after {
-    content: '';
-    width: 20%;
-    height: 3px;
-    border-radius: 1px;
-    background: var(--quintynary-light-grey);
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: 0.2s ease;
-  }
 
   .chat-popup.opened &::after {
     top: 100%;

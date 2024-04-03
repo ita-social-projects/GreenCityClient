@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { errorType } from '@global-user/models/error-type.model';
 
 @Component({
@@ -8,9 +8,11 @@ import { errorType } from '@global-user/models/error-type.model';
   styleUrls: ['./input-error.component.scss']
 })
 export class InputErrorComponent implements OnInit {
-  @Input() public formElement: UntypedFormControl;
+  @Input() public formElement: FormControl;
   @Input() public isEvent: boolean;
   @Input() public date: boolean;
+  @Input() public numberDate: boolean;
+  @Input() public isStartEventError: boolean;
 
   public errorMessage: string | undefined;
   private validationErrors = {
@@ -25,7 +27,14 @@ export class InputErrorComponent implements OnInit {
     pattern: 'input-error.pattern',
     maxlengthEventName: 'create-event.max-length-title',
     requiredEventName: 'create-event.title-required',
-    requiredEventDate: 'create-event.date-required'
+    requiredEventDate: 'create-event.date-required',
+    negativeNumberValue: 'ubs-tariffs-add-service.negative_number_value',
+    datepickerNotCorrect: 'create-event.datepicker-not-correct',
+    startTimeRequiered: 'create-event.start-time-required',
+    datepickerAndStartTimeRequiered: 'create-event.datepicker-and-start-time-not-correct',
+    datepickerAndEndTimeRequiered: 'create-event.datepicker-not-correct-date-required',
+    startTimeAndEndTimeRequiered: 'create-event.start-time-and-end-time-not-correct',
+    datepickerStartTimeAndEndTimeRequiered: 'create-event.start-time-end-time-and-datepicker-not-correct'
   };
 
   ngOnInit(): void {
@@ -39,6 +48,9 @@ export class InputErrorComponent implements OnInit {
     Object.values(errorType).forEach((err) => {
       if (this.formElement.errors?.[err]) {
         switch (err) {
+          case errorType.pattern:
+            this.errorMessage = this.getMinValueErrorMessage(this.formElement.errors.pattern.actualValue);
+            break;
           case errorType.minlength:
             this.errorMessage = this.getMinlengthErrorMessage(this.formElement.errors.minlength.requiredLength);
             break;
@@ -54,10 +66,37 @@ export class InputErrorComponent implements OnInit {
         }
       }
     });
+
+    switch (true) {
+      case this.numberDate && this.isStartEventError && this.date:
+        this.errorMessage = this.validationErrors.datepickerStartTimeAndEndTimeRequiered;
+        break;
+      case this.numberDate && this.isStartEventError:
+        this.errorMessage = this.validationErrors.datepickerAndStartTimeRequiered;
+        break;
+      case this.numberDate && this.date:
+        this.errorMessage = this.validationErrors.datepickerAndEndTimeRequiered;
+        break;
+      case this.isStartEventError && this.date:
+        this.errorMessage = this.validationErrors.startTimeAndEndTimeRequiered;
+        break;
+      case this.numberDate:
+        this.errorMessage = this.validationErrors.datepickerNotCorrect;
+        break;
+      case this.isStartEventError:
+        this.errorMessage = this.validationErrors.startTimeRequiered;
+        break;
+    }
   }
 
   private getRequiredErrorMessage(): string {
     return this.date ? this.validationErrors.requiredEventDate : this.validationErrors.requiredEventName;
+  }
+
+  private getMinValueErrorMessage(actualValue: number): string {
+    if (actualValue < 1) {
+      return this.validationErrors.negativeNumberValue;
+    }
   }
 
   getMinlengthErrorMessage(minlength: number): string {

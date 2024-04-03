@@ -1,19 +1,14 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-dialog-tariff',
   templateUrl: './dialog-tariff.component.html',
   styleUrls: ['./dialog-tariff.component.scss']
 })
-export class DialogTariffComponent implements OnInit {
+export class DialogTariffComponent {
   @Input() deactivatePopup: boolean;
   @Input() row: TemplateRef<any>;
   @Input() newDate;
   @Input() name: string;
   @Input() edit: boolean;
-
-  constructor() {}
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit(): void {}
 }

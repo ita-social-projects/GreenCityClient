@@ -47,11 +47,10 @@
   width: 100%;
   margin-top: 17px;
   border-radius: 4px;
-  height: 276px;
+  height: 100%;
   box-sizing: border-box;
 
   @media (min-width: 576px) {
     margin-top: 0;
-    height: 260px;
   }
 }

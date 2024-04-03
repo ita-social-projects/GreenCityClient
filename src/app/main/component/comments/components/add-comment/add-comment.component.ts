@@ -1,8 +1,9 @@
 import { take } from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
+import { AddedCommentDTO } from 'src/app/main/component/comments/models/comments-model';
 
 @Component({
   selector: 'app-add-comment',
@@ -12,18 +13,19 @@ import { ProfileService } from '@global-user/components/profile/profile-service/
 export class AddCommentComponent implements OnInit {
   @Input() public entityId: number;
   @Input() public commentId: number;
-  @Output() public updateList = new EventEmitter();
+  @Output() public updateList = new EventEmitter<AddedCommentDTO>();
   public userInfo;
   public avatarImage: string;
   public firstName: string;
-  public addCommentForm: UntypedFormGroup = this.fb.group({
+  public addCommentForm: FormGroup = this.fb.group({
     content: ['', [Validators.required, Validators.maxLength(8000), this.noSpaceValidator]]
   });
+  public commentHtml: string;
   public replyMaxLength = 8000;
 
   constructor(
     private commentsService: CommentsService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private profileService: ProfileService
   ) {}
 
@@ -31,7 +33,7 @@ export class AddCommentComponent implements OnInit {
     this.getUserInfo();
   }
 
-  noSpaceValidator(control: UntypedFormControl): ValidationErrors {
+  noSpaceValidator(control: FormControl): ValidationErrors {
     return (control.value || '').trim().length ? null : { spaces: true };
   }
 
@@ -42,14 +44,20 @@ export class AddCommentComponent implements OnInit {
     });
   }
 
+  setContent(data: { text: string; innerHTML: string }) {
+    this.addCommentForm.controls.content.setValue(data.text);
+    this.commentHtml = data.innerHTML;
+  }
+
   public onSubmit(): void {
     this.commentsService
-      .addComment(this.entityId, this.addCommentForm.value.content, this.commentId)
+      .addComment(this.entityId, this.commentHtml, this.commentId)
       .pipe(take(1))
-      .subscribe(() => {
-        this.updateList.emit();
+      .subscribe((coment: AddedCommentDTO) => {
+        this.updateList.emit(coment);
         this.addCommentForm.reset();
         this.addCommentForm.controls.content.setValue('');
+        this.commentHtml = '';
       });
   }
 }

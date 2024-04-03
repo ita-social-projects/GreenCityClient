@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject, Injector } from '@angular/core';
-import { UntypedFormArray, UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntil, catchError, take } from 'rxjs/operators';
@@ -8,9 +8,8 @@ import { EcoNewsService } from '../../services/eco-news.service';
 import { Subscription, ReplaySubject, throwError } from 'rxjs';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
 import { CreateEditNewsFormBuilder } from './create-edit-news-form-builder';
-import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
+import { FilterModel, TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
-import { TagInterface } from '@shared/components/tag-filter/tag-filter.model';
 import { ACTION_TOKEN, TEXT_AREAS_HEIGHT } from './action.constants';
 import { ActionInterface } from '../../models/action.interface';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
@@ -40,7 +39,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     public dialog: MatDialog,
     private injector: Injector,
     private langService: LanguageService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     @Inject(ACTION_TOKEN) private config: { [name: string]: ActionInterface }
   ) {
     super(router, dialog);
@@ -55,7 +54,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   }
 
   public isPosting = false;
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   public textAreasHeight: TextAreasHeight;
   public isLinkOrEmpty = true;
   public newsItemSubscription: Subscription;
@@ -69,11 +68,11 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public filters: FilterModel[] = [];
   public tagMaxLength = 3;
   public newsId: number;
-  public formData: UntypedFormGroup;
+  public formData: FormGroup;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
   public isFormInvalid: boolean;
   public formChangeSub: Subscription;
-  public previousPath = '/news';
+  public previousPath: string;
   public popupConfig = {
     hasBackdrop: true,
     closeOnNavigation: true,
@@ -99,14 +98,13 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public editorText = '';
   public editorHTML = '';
   public savingImages = false;
-  public backRoute: string;
   public updatedEcoNewsTags: Array<string>;
   public currentLang: string;
 
   // TODO: add types | DTO to service
 
   ngOnInit() {
-    this.backRoute = this.localStorageService.getPreviousPage();
+    this.previousPath = this.localStorageService.getPreviousPage() || '/news';
     this.getNewsIdFromQueryParams();
     this.initPageForCreateOrEdit();
     this.onSourceChange();
@@ -231,7 +229,10 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
           return throwError(err);
         })
       )
-      .subscribe(() => this.escapeFromCreatePage());
+      .subscribe(() => {
+        this.snackBar.openSnackBar('createEvent');
+        this.escapeFromCreatePage();
+      });
   }
 
   public createNews(): void {
@@ -258,7 +259,7 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
   public escapeFromCreatePage(): void {
     this.isPosting = false;
     this.allowUserEscape();
-    this.router.navigate([this.backRoute]).catch((err) => console.error(err));
+    this.router.navigate([this.previousPath]).catch((err) => console.error(err));
   }
 
   public editData(text: string): void {
@@ -330,8 +331,8 @@ export class CreateEditNewsComponent extends FormBaseComponent implements OnInit
     }
   }
 
-  tags(): UntypedFormArray {
-    return this.form.controls.tags as UntypedFormArray;
+  tags(): FormArray {
+    return this.form.controls.tags as FormArray;
   }
 
   getTagsList(list: FilterModel[]): void {

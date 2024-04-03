@@ -161,8 +161,8 @@ export class OrderService {
     return this.http.get<any>(`${this.backend}/management/read-order-detail-status/${orderId}`);
   }
 
-  public getOrderHistory(orderId: number): Observable<IOrderHistory[]> {
-    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}`);
+  public getOrderHistory(orderId: number, lang: string): Observable<IOrderHistory[]> {
+    return this.http.get<IOrderHistory[]>(`${this.backend}/order_history/${orderId}?lang=${lang}`);
   }
 
   public getNotTakenOutReason(historyId: number): Observable<INotTakenOutReason> {

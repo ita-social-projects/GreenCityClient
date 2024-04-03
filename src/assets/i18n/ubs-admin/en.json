@@ -355,6 +355,7 @@
   },
   "order-payment": {
     "title": "Order payment",
+    "payment-link": "Order payment",
     "order-size": "The order is paid in the amount of",
     "add-payment-btn": "Add payment",
     "order-date": "Payment date",
@@ -824,6 +825,7 @@
     "error_message": "Fill in the selected fields",
     "error_content": "The field must contain between 1 and 255 characters",
     "error_service_name_content": "The field must contain between 1 and 30 characters",
+    "negative_number_value": "The field value cannot be negative",
     "btn": {
       "add": "Add",
       "cancel": "Cancel",
@@ -958,7 +960,7 @@
     "pop-up-enter-you-location": "Enter a location",
     "pop-up-comment-placeholder": "The road is under repair. Access to the house is available from the house number 15.",
     "info-personal-data": "Personal data",
-    "info-other-client": "The recipient is another person",
+    "info-other-client": "The sender is another person",
     "info-name": "Name",
     "info-phone": "Phone number",
     "info-surname": "Surname",
@@ -999,7 +1001,8 @@
     "number-format": "Only 9 digits starting with: +380",
     "password-requirements": "Password must contain: minimum 8 symbols, 1 special symbol, 1 digit, 1 upper and lower cased characters. No spaces.",
     "newPassword-MatchesOld": "Enter the new password!",
-    "password-error-confirm": "Passwords do not match!"
+    "password-error-confirm": "Passwords do not match!",
+    "email-exist": "Active employee with this email already exists"
   },
   "ubs-notifications": {
     "page-title": "Notifications",
@@ -1201,7 +1204,7 @@
 
       "minimum-volume": {
         "title": "Minimum volume for export:",
-        "li_1": "2 packages of 120 l in Kyiv ",
+        "li_1": "2 packages of 120 l in Kyiv",
         "li_2": "20 packages of 120 liters in the suburbs within 20 km of Kyiv"
       }
     }

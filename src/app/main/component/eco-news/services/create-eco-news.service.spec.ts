@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateEcoNewsService } from './create-eco-news.service';
 import { environment } from '@environment/environment.js';
 import { of } from 'rxjs';
@@ -14,12 +14,12 @@ describe('CreateEcoNewsService', () => {
 
   const defaultImagePath =
     'https://csb10032000a548f571.blob.core.windows.net/allfiles/90370622-3311-4ff1-9462-20cc98a64d1ddefault_image.jpg';
-  const form = new UntypedFormGroup({
-    title: new UntypedFormControl('mock news'),
-    content: new UntypedFormControl('This is mock news content Greencity!!!!!!!!!!!!'),
-    tags: new UntypedFormArray([new UntypedFormControl('News'), new UntypedFormControl('Ads')]),
-    image: new UntypedFormControl(''),
-    source: new UntypedFormControl('http://mocknews.com')
+  const form = new FormGroup({
+    title: new FormControl('mock news'),
+    content: new FormControl('This is mock news content Greencity!!!!!!!!!!!!'),
+    tags: new FormArray([new FormControl('News'), new FormControl('Ads')]),
+    image: new FormControl(''),
+    source: new FormControl('http://mocknews.com')
   });
 
   beforeEach(() =>
@@ -50,7 +50,7 @@ describe('CreateEcoNewsService', () => {
   });
 
   it('should return formData', () => {
-    service.currentForm = new UntypedFormGroup({});
+    service.currentForm = new FormGroup({});
     expect(service.getFormData().value).toEqual(service.currentForm.value);
   });
 

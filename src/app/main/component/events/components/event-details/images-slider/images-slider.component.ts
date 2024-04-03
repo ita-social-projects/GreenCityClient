@@ -1,18 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-images-slider',
   templateUrl: './images-slider.component.html',
   styleUrls: ['./images-slider.component.scss']
 })
-export class ImagesSliderComponent implements OnInit {
+export class ImagesSliderComponent {
   @Input() images: [];
   public currentImageIdx = 0;
-
-  constructor() {}
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit(): void {}
 
   public selectImage(ind: number): void {
     this.currentImageIdx = ind;

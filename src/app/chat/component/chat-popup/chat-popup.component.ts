@@ -8,7 +8,7 @@ import { CommonService } from '../../service/common/common.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SocketService } from '../../service/socket/socket.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 
 @Component({
@@ -18,8 +18,6 @@ import { ChatModalComponent } from '../chat-modal/chat-modal.component';
 })
 export class ChatPopupComponent implements OnInit, OnDestroy {
   public chatIcons = CHAT_ICONS;
-  public isOpen = false;
-
   private onDestroy$ = new Subject();
   private userId: number;
 
@@ -38,7 +36,8 @@ export class ChatPopupComponent implements OnInit, OnDestroy {
     private factory: ComponentFactoryResolver,
     private socketService: SocketService,
     private dialog: MatDialog,
-    private localeStorageService: LocalStorageService
+    private localeStorageService: LocalStorageService,
+    public dialogRef: MatDialogRef<ChatPopupComponent>
   ) {}
 
   ngOnInit(): void {

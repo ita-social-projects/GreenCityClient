@@ -63,19 +63,19 @@ export class UbsAdminEmployeeService {
   }
 
   getAllEmployeePermissions(email: string) {
-    return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities/?email=${email}`);
+    return this.http.get(`${ubsAdminEmployeeLink}/get-all-authorities?email=${email}`);
   }
 
   updatePermissions(employeeEmail, permissions) {
-    return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities/`, { employeeEmail, authorities: permissions });
+    return this.http.put(`${ubsAdminEmployeeLink}/edit-authorities`, { employeeEmail, authorities: permissions });
   }
 
   getEmployeeLoginPositions(employeeEmail): Observable<any> {
-    return this.http.get(`${ubsAdminEmployeeLink}/get-employee-login-positions/?email=${employeeEmail}`);
+    return this.http.get(`${ubsAdminEmployeeLink}/get-employee-login-positions?email=${employeeEmail}`);
   }
 
   getEmployeePositionsAuthorities(employeeEmail): Observable<any> {
-    return this.http.get(`${ubsAdminEmployeeLink}/get-positions-authorities/?email=${employeeEmail}`);
+    return this.http.get(`${ubsAdminEmployeeLink}/get-positions-authorities?email=${employeeEmail}`);
   }
 
   updateFilterData(data: FilterData) {

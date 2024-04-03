@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
@@ -62,7 +62,7 @@ describe('AddPaymentComponent', () => {
         { provide: OrderService, useValue: orderServiceMock },
         { provide: LocalStorageService, useValue: localeStorageServiceMock },
         { provide: DateAdapter, useValue: dateAdapterMock },
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

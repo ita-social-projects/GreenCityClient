@@ -8,7 +8,7 @@ import { OrderService } from '../../services/order.service';
 import { AddPaymentComponent } from '../add-payment/add-payment.component';
 import { IAppState } from 'src/app/store/state/app.state';
 import { Store } from '@ngrx/store';
-import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
+import { OrderStatus, PaymentEnrollment } from 'src/app/ubs/ubs/order-status.enum';
 import { DialogPopUpComponent } from 'src/app/shared/dialog-pop-up/dialog-pop-up.component';
 import { PopUpsStyles } from '../ubs-admin-employee/ubs-admin-employee-table/employee-models.enum';
 
@@ -236,7 +236,8 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
         data: {
           orderId: this.orderInfo.generalOrderInfo.id,
           viewMode,
-          payment: viewMode ? this.paymentsArray[paymentIndex] : null
+          payment: viewMode ? this.paymentsArray[paymentIndex] : null,
+          isCanPaymentEdit: this.isOrderCanBePaid
         }
       })
       .afterClosed()
@@ -266,6 +267,14 @@ export class UbsAdminOrderPaymentComponent implements OnInit, OnChanges, OnDestr
             this.newPaymentStatus.emit(newValue);
           });
       });
+  }
+
+  get isOrderCanBePaid(): boolean {
+    return this.currentOrderStatus !== OrderStatus.CANCELED && this.isEmployeeCanEditOrder;
+  }
+
+  get returnToBonusAccount(): string {
+    return PaymentEnrollment.receiptLink;
   }
 
   ngOnDestroy(): void {

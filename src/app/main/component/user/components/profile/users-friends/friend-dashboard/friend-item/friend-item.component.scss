@@ -3,12 +3,14 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  max-width: 603px;
   height: 194px;
   background: var(--primary-white);
   font-family: var(--primary-font);
-  padding: 24px;
+  padding: 24px 24px 10px 24px;
   border-radius: 8px;
   box-shadow: 0 5px 10px rgba(202, 207, 211, 0.7);
+  cursor: pointer;
 
   ::ng-deep .profile-avatar {
     @media (max-width: 1200px) {
@@ -28,10 +30,11 @@
   }
 
   @media (max-width: 450px) {
-    padding: 24px 6px 16px 10px;
+    padding: 24px 6px 8px 10px;
   }
 
   @media (min-width: 280px) {
+    min-width: 280px;
     width: 100%;
   }
 }
@@ -45,10 +48,46 @@
   font-size: 18px;
   line-height: 28px;
   margin: 2px;
+  position: relative;
+  max-width: 280px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+
+  @media (max-width: 1199px) {
+    max-width: 170px;
+  }
+
+  @media (max-width: 1023px) {
+    max-width: 100%;
+  }
+
+  @media (max-width: 991px) {
+    max-width: 450px;
+  }
+
+  @media (max-width: 767px) {
+    max-width: 290px;
+  }
+
+  @media (max-width: 360px) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .friend-item-left {
   display: flex;
+  max-width: 60%;
+}
+
+.photo-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .friend-city,
@@ -59,6 +98,11 @@
   line-height: 20px;
   color: var(--quaternary-grey);
   margin: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  cursor: pointer;
 
   .friend-mutual-link {
     transition: 0.2s;
@@ -91,6 +135,11 @@
   flex: 3;
   margin-left: 5px;
 
+  @media (max-width: 450px) {
+    max-width: 160px;
+    overflow: hidden;
+  }
+
   @media (max-width: 360px) {
     max-width: 100px;
     overflow: hidden;
@@ -104,21 +153,34 @@
 .buttons {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 114px;
+  justify-content: end;
+  gap: 20px;
 }
 
 .friend-btn {
-  margin-bottom: 20px;
-
   button {
     line-height: 16px;
-    white-space: nowrap;
     width: 100%;
+    margin-bottom: 20px;
   }
 }
 
 .friend-with-photo {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.chat-btn {
+  width: 45px;
+  height: 40px;
+  border: none;
+  background: url('src/assets/img/chat/open-chat.png');
+  background-size: 100% 100%;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 12px;
+  text-align: justify;
+  max-width: 350px !important;
 }

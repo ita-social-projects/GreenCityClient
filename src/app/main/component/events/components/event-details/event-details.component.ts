@@ -13,18 +13,16 @@ import {
   EventsActions,
   RemoveAttenderEcoEventsByIdAction
 } from 'src/app/store/actions/ecoEvents.actions';
-import { Coordinates, EventPageResponceDto, PagePreviewDTO } from '../../models/events.interface';
+import { Coordinates, EventPageResponseDto, PagePreviewDTO } from '../../models/events.interface';
 import { EventsService } from '../../services/events.service';
 import { MapEventComponent } from '../map-event/map-event.component';
 import { JwtService } from '@global-service/jwt/jwt.service';
 import { Subject, Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthModalComponent } from '@global-auth/auth-modal/auth-modal.component';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { IEcoEventsState } from 'src/app/store/state/ecoEvents.state';
 import { IAppState } from 'src/app/store/state/app.state';
 import { EventsListItemModalComponent } from '@shared/components/events-list-item/events-list-item-modal/events-list-item-modal.component';
-import { UserFriendsService } from '@global-user/services/user-friends.service';
 
 @Component({
   selector: 'app-event-details',
@@ -72,7 +70,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   attendeesAvatars = [];
 
   public organizerName: string;
-  public event: EventPageResponceDto | PagePreviewDTO;
+  public event: EventPageResponseDto | PagePreviewDTO;
   public locationLink: string;
   public locationCoordinates: Coordinates;
   public place: string;
@@ -110,37 +108,29 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public addAttenderError: string;
   public isRegistered: boolean;
   public isReadonly = false;
-  public isEventOrginizerFriend: boolean;
   private userNameSub: Subscription;
+  private isOwner: boolean;
 
   constructor(
     private route: ActivatedRoute,
     public eventService: EventsService,
     public router: Router,
     public localStorageService: LocalStorageService,
-    private translate: TranslateService,
     private dialog: MatDialog,
     private store: Store,
     private actionsSubj: ActionsSubject,
     private jwtService: JwtService,
     private snackBar: MatSnackBarComponent,
-    private modalService: BsModalService,
-    private userFriendsService: UserFriendsService
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
-    if (!this.eventService.getForm()) {
+    if (this.route.snapshot.params.id) {
       this.eventId = this.route.snapshot.params.id;
       this.localStorageService.userIdBehaviourSubject.subscribe((id) => {
         this.userId = Number(id);
       });
-      const isAuthorized = this.jwtService.getUserRole();
-      if (isAuthorized) {
-        this.userFriendsService.getAllFriendsByUserId(this.userId).subscribe((res: any) => {
-          this.isEventOrginizerFriend = res.page.some((el) => el.id === this.userId);
-        });
-      }
-      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponceDto) => {
+      this.eventService.getEventById(this.eventId).subscribe((res: EventPageResponseDto) => {
         this.event = res;
         this.organizerName = this.event.organizer.name;
         this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
@@ -170,11 +160,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         this.attendeesAvatars = attendees.filter((attendee) => attendee.imagePath).map((attendee) => attendee.imagePath);
       });
 
-      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => this.router.navigate(['/events']));
+      this.actionsSubj.pipe(ofType(EventsActions.DeleteEcoEventSuccess)).subscribe(() => {
+        this.router.navigate(['/events']);
+      });
+
       this.routedFromProfile = this.localStorageService.getPreviousPage() === '/profile';
       this.backRoute = this.localStorageService.getPreviousPage();
     } else {
       this.event = this.eventService.getForm();
+      this.locationLink = this.event.dates[this.event.dates.length - 1].onlineLink;
       this.place = this.event.location.place;
       this.images = this.event.imgArrayToPreview;
       this.bindUserName();
@@ -292,6 +286,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   public buttonAction(event: Event): void {
     if (this.role === this.roles.UNAUTHENTICATED) {
       this.openAuthModalWindow('sign-in');
+      return;
     }
     if (this.isUserCanJoin && this.addAttenderError) {
       this.snackBar.openSnackBar('errorJoinEvent');
@@ -308,12 +303,17 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   public openAuthModalWindow(page: string): void {
-    this.dialog.open(AuthModalComponent, {
+    const matDialogRef = this.dialog.open(AuthModalComponent, {
       hasBackdrop: true,
       closeOnNavigation: true,
       panelClass: ['custom-dialog-container'],
       data: {
         popUpName: page
+      }
+    });
+    matDialogRef.afterClosed().subscribe((res) => {
+      if (this.userId) {
+        this.router.navigate(['/events', this.eventId]);
       }
     });
   }

@@ -16,6 +16,12 @@ form {
   }
 }
 
+textarea:focus {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
 input,
 select {
   border: 1px solid var(--ubs-quintynary-light-grey);
@@ -96,6 +102,11 @@ select {
   justify-content: flex-end;
   gap: 16px;
   margin-bottom: 6px;
+}
+
+.address-exists {
+  color: var(--ubs-error-ligh-red);
+  text-align: end;
 }
 
 @media (max-width: 767px) {

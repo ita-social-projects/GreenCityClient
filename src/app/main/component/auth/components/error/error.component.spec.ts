@@ -1,4 +1,4 @@
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ErrorComponent } from './error.component';
 
 describe('error component', () => {
@@ -6,7 +6,7 @@ describe('error component', () => {
 
   beforeEach(() => {
     component = new ErrorComponent();
-    component.formElement = new UntypedFormControl();
+    component.formElement = new FormControl();
   });
 
   it('Shoud call ngOnChanges hook', () => {
@@ -17,19 +17,8 @@ describe('error component', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Shoud return error type', () => {
-    component.formElement.setErrors({ required: true });
-    (component as any).getType();
-
-    expect(component.errorMessage).toBe('user.auth.sign-up.password-confirm-is-required');
-  });
-
   it('Error: get email message', () => {
     expect((component as any).getErrorMsg[`email`]()).toBe('user.auth.sign-in.email-is-required');
-  });
-
-  it('Error: get required message', () => {
-    expect((component as any).getErrorMsg[`required`]()).toBe('user.auth.sign-up.password-confirm-is-required');
   });
 
   it('Error: get passwordMismatch message', () => {

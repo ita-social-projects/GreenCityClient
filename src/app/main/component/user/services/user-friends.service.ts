@@ -43,16 +43,22 @@ export class UserFriendsService {
     return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?page=${page}&size=${size}`);
   }
 
-  public getAllFriendsByUserId(userId: number): Observable<FriendModel[]> {
-    return this.http.get<FriendModel[]>(`${this.urlFriend}friends/user/${userId}`);
-  }
-
   public getNewFriends(name = '', page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/not-friends-yet?name=${name}&page=${page}&size=${size}`);
+    return this.http.get<FriendArrayModel>(
+      `${this.urlFriend}friends/not-friends-yet?name=${encodeURIComponent(name)}&page=${page}&size=${size}`
+    );
   }
 
   public getFriendsByName(name: string, page = 0, size = this.size): Observable<FriendArrayModel> {
-    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${name}&page=${page}&size=${size}`);
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends?name=${encodeURIComponent(name)}&page=${page}&size=${size}`);
+  }
+
+  public getUserFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/${userId}/all-user-friends?page=${page}&size=${size}`);
+  }
+
+  public getMutualFriends(userId: number, page = 0, size = this.size): Observable<FriendArrayModel> {
+    return this.http.get<FriendArrayModel>(`${this.urlFriend}friends/mutual-friends?friendId=${userId}&page=${page}&size=${size}`);
   }
 
   public addFriend(idFriend: number): Observable<object> {
@@ -69,6 +75,10 @@ export class UserFriendsService {
 
   public deleteFriend(idFriend: number): Observable<object> {
     return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}`, this.httpOptions);
+  }
+
+  public unsendFriendRequest(idFriend: number): Observable<object> {
+    return this.http.delete<object>(`${this.urlFriend}friends/${idFriend}/cancelRequest`, {});
   }
 
   addedFriendsToHabit(friend) {

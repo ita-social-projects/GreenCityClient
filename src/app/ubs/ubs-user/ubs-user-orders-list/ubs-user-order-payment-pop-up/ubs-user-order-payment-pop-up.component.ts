@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrderService } from 'src/app/ubs/ubs/services/order.service';
 import { ResponceOrderFondyModel } from '../models/ResponceOrderFondyModel';
@@ -27,7 +27,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   public selectedRadio: string;
   public certificatePattern = Patterns.serteficatePattern;
   public certificateMask = Masks.certificateMask;
-  public orderDetailsForm: UntypedFormGroup;
+  public orderDetailsForm: FormGroup;
   public certificateStatus: boolean[] = [];
   public orderClientDto: OrderClientDto;
   public selectedPayment: string;
@@ -64,7 +64,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IOrderData,
     public dialogRef: MatDialogRef<UbsUserOrderPaymentPopUpComponent>,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private sanitizer: DomSanitizer,
     public router: Router,
     private injector: Injector
@@ -83,7 +83,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     this.orderClientDto = new OrderClientDto();
   }
 
-  public createCertificateItem(): UntypedFormGroup {
+  public createCertificateItem(): FormGroup {
     return this.fb.group({
       certificateCode: [null, [Validators.minLength(8), Validators.pattern(this.certificatePattern)]],
       certificateSum: [0, [Validators.min(0)]],
@@ -99,19 +99,19 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     });
   }
 
-  get formBonus(): UntypedFormControl {
-    return this.orderDetailsForm.get('bonus') as UntypedFormControl;
+  get formBonus(): FormControl {
+    return this.orderDetailsForm.get('bonus') as FormControl;
   }
 
-  get formArrayCertificates(): UntypedFormArray {
-    return this.orderDetailsForm.get('formArrayCertificates') as UntypedFormArray;
+  get formArrayCertificates(): FormArray {
+    return this.orderDetailsForm.get('formArrayCertificates') as FormArray;
   }
 
-  get formPaymentSystem(): UntypedFormControl {
-    return this.orderDetailsForm.get('paymentSystem') as UntypedFormControl;
+  get formPaymentSystem(): FormControl {
+    return this.orderDetailsForm.get('paymentSystem') as FormControl;
   }
 
-  public certificateSubmit(index: number, certificate: UntypedFormControl): void {
+  public certificateSubmit(index: number, certificate: FormControl): void {
     this.isCertBeenUsed = false;
     if (
       !this.usedCertificates ||
@@ -133,7 +133,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return this.isCertBeenUsed;
   }
 
-  public calculateCertificate(certificate: UntypedFormControl): void {
+  public calculateCertificate(certificate: FormControl): void {
     this.userCertificate.certificateSum = 0;
     this.userCertificate.certificateStatusActive = false;
     this.orderService.processCertificate(certificate.value.certificateCode).subscribe(
@@ -184,7 +184,7 @@ export class UbsUserOrderPaymentPopUpComponent implements OnInit {
     return date?.split('-').reverse().join('.');
   }
 
-  public deleteCertificate(index: number, certificate: UntypedFormControl): void {
+  public deleteCertificate(index: number, certificate: FormControl): void {
     const certSum = this.formArrayCertificates.value.reduce(
       (certificatesSum: number, certificateItem: ICertificatePayment) => certificatesSum + certificateItem.certificateSum,
       0

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect } from '@ngrx/effects';
-import { ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
   GetEmployees,
@@ -29,7 +28,10 @@ import { FilterData } from 'src/app/ubs/ubs-admin/models/tariffs.interface';
 
 @Injectable()
 export class EmployeesEffects {
-  constructor(private actions: Actions, private ubsAdminEmployeeService: UbsAdminEmployeeService) {}
+  constructor(
+    private actions: Actions,
+    private ubsAdminEmployeeService: UbsAdminEmployeeService
+  ) {}
 
   getEmployees = createEffect(() => {
     return this.actions.pipe(

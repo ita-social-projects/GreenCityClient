@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentsListComponent } from './comments-list.component';
 import { CommentsService } from '../../services/comments.service';
 import { of } from 'rxjs';
 import { DateLocalisationPipe } from '@pipe/date-localisation-pipe/date-localisation.pipe';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 describe('CommentsListComponent', () => {
   let component: CommentsListComponent;
@@ -15,6 +18,16 @@ describe('CommentsListComponent', () => {
 
   const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['editComment']);
   commentsServiceMock.editComment = () => of();
+  const matDialogMock = {
+    open() {
+      return {
+        afterClosed: () => of(true)
+      };
+    }
+  };
+
+  const matDialogRefMock = jasmine.createSpyObj(['close', 'afterClosed']);
+  matDialogRefMock.afterClosed.and.returnValue(of(true));
 
   const commentData = {
     author: {
@@ -33,11 +46,19 @@ describe('CommentsListComponent', () => {
     showRelyButton: true
   };
 
+  const routerMock = jasmine.createSpyObj('router', ['navigate']);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CommentsListComponent, DateLocalisationPipe],
-      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: CommentsService, useValue: commentsServiceMock }],
+      imports: [HttpClientTestingModule, NgxPaginationModule, ReactiveFormsModule, TranslateModule.forRoot(), RouterTestingModule],
+      providers: [
+        { provide: CommentsService, useValue: commentsServiceMock },
+        { provide: Renderer2, useValue: {} },
+        { provide: MatDialog, useValue: matDialogMock },
+        { provide: MatDialogRef, useValue: matDialogRefMock },
+        { provide: Router, useValue: routerMock }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
@@ -59,10 +80,18 @@ describe('CommentsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initialize property ', () => {
+    expect(component.types).toBeDefined();
+    expect(component.content).toBeDefined();
+    expect(component.content instanceof FormControl).toBe(true);
+    expect(component.content.errors).toEqual({ required: true });
+    expect((component as any).commentHtml).toBe('');
+  });
+
   it('should emit event when user delete comment', () => {
     const spy = spyOn(component.changedList, 'emit');
-    component.deleteComment();
-    expect(spy).toHaveBeenCalled();
+    component.deleteComment(1);
+    expect(spy).toHaveBeenCalledWith(1);
   });
 
   it('should return comments status', () => {
@@ -79,6 +108,24 @@ describe('CommentsListComponent', () => {
   it('should cancel edit comment', () => {
     component.cancelEditedComment(commentData);
     expect(commentData.isEdit).toBeFalsy();
+  });
+
+  it('should cancel edited comment when user confirms', () => {
+    spyOn((component as any).dialog, 'open').and.returnValue({ afterClosed: () => of(true) });
+
+    component.cancelEditedComment(commentData);
+
+    expect((component as any).isEdit).toBeFalsy();
+  });
+
+  it('should not cancel edited comment when user cancels', () => {
+    (component as any).isEdit = true;
+    spyOn((component as any).dialog, 'open').and.returnValue({
+      afterClosed: () => of(false)
+    } as any);
+    component.cancelEditedComment(commentData);
+
+    expect((component as any).isEdit).toBeTruthy();
   });
 
   it('should change counter if user clicks like', () => {
@@ -118,5 +165,17 @@ describe('CommentsListComponent', () => {
     component.updateContentControl(1);
     expect(component.content.value).toBe(commentData.text);
     expect(component.isEditTextValid).toBeTruthy();
+  });
+
+  it('should call router navigate if onComment click event is user-tag', async () => {
+    component.userId = 1;
+    const target = document.createElement('a');
+    target.setAttribute('data-userid', '5');
+    const event = {
+      target: target as HTMLElement
+    } as unknown as MouseEvent;
+
+    component.onCommentClick(event);
+    expect(routerMock.navigate).toHaveBeenCalled();
   });
 });

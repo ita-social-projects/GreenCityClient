@@ -14,14 +14,14 @@
   text-align: left;
 }
 
-.end-page {
-  height: 56px;
+.end-page-txt {
   font-family: var(--primary-font);
   font-size: 48px;
   font-weight: 700;
   line-height: 56px;
   letter-spacing: 0.2px;
   text-align: center;
+  margin: 0 auto 2rem;
 }
 
 .create-container {
@@ -42,6 +42,7 @@
   background-color: var(--primary-white);
   border-radius: 4px;
   box-shadow: 0 0 1px 0 var(--primary-grey);
+  cursor: pointer;
 
   span {
     transition: all 0.3s;
@@ -52,12 +53,6 @@
     min-height: 20px;
     background: url('/assets/events-icons/search.png');
     display: inline-block;
-
-    &:hover {
-      min-width: 20px;
-      min-height: 20px;
-      background: url('/assets/events-icons/search-hover.png');
-    }
   }
 
   .search-img-active {
@@ -84,7 +79,7 @@
 
   .cross-position {
     position: absolute;
-    top: 15px;
+    top: 14px;
     right: 10px;
     cursor: pointer;
   }
@@ -134,15 +129,14 @@
 }
 
 hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0 0;
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .reset {
   border: none;
-  background-color: var(--primary-white);
+  background-color: var(--ubs-secondary-white);
   white-space: nowrap;
 }
 
@@ -150,7 +144,7 @@ p {
   margin-top: 16px;
 }
 
-.sort-by {
+.filter-by {
   display: flex;
   align-items: center;
   margin-right: 20px;
@@ -166,20 +160,18 @@ p {
 }
 
 .active-filter-container {
-  font-family: var(--ubs-quaternary-font);
-  font-size: 14px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 30px;
+  align-items: center;
 }
 
 .active-filter {
   display: flex;
+  height: 24px;
   border-radius: 25px;
   padding: 0 16px;
-  margin-right: 8px;
-  gap: 4px;
+  margin-right: 10px;
+  gap: 8px;
   align-items: center;
   justify-content: center;
   background-color: var(--primary-green);
@@ -188,7 +180,6 @@ p {
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
-  line-height: 16px;
 }
 
 .cross-container {
@@ -197,6 +188,7 @@ p {
   align-items: center;
   width: 8px;
   height: 8px;
+  cursor: pointer;
 }
 
 .cross-img {
@@ -210,7 +202,6 @@ p {
   justify-content: flex-end;
   align-items: center;
   height: 24px;
-  border-radius: 25px;
 }
 
 .event-header {
@@ -265,4 +256,8 @@ p {
 ::ng-deep .cdk-overlay-pane {
   min-width: 165px !important;
   transform: translateX(-35px) translateY(10px) !important;
+}
+
+::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
+  display: none;
 }

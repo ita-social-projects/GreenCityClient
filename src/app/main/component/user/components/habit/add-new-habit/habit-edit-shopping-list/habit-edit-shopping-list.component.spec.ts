@@ -39,6 +39,10 @@ describe('HabitEditShoppingListComponent', () => {
     selected: false
   };
 
+  const mockText1 = 'This text does not contain any urls';
+  const mockText2 = 'This text contains http://softserveinc.com/ link';
+  const mockText3 = 'This text contains https://softserveinc.com/ link';
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HabitEditShoppingListComponent],

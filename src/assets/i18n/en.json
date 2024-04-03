@@ -68,6 +68,11 @@
           "confirm": "Yes, delete",
           "cancel": "Cancel"
         },
+        "comment-popup-cancel-edit": {
+          "title": "Do you really want to cancel editing a comment?",
+          "confirm": "Yes",
+          "cancel": "No"
+        },
         "reply": "Reply",
         "replies": {
           "zero-reply": "reply",
@@ -80,7 +85,7 @@
           "confirm": "Yes, delete",
           "cancel": "Cancel"
         },
-        "reply-error-message": "This reply text field shouldn't be more than 8000 characters",
+        "reply-error-message": "Comment is too long. The maximum number of characters is 8000",
         "btn": {
           "reply": "Reply",
           "like": "Like",
@@ -127,7 +132,7 @@
       "delete-title-admin": "Event will be deleted. Do you want to continue?",
       "delete-yes": "Yes",
       "delete-no": "No",
-      "filter-title": "Sort By",
+      "filter-title": "Filter",
       "filter-location": "Location",
       "filter-location-аny-location": "(Select All)",
       "filter-status": "Status",
@@ -139,8 +144,8 @@
       "time-any-time": "Any time",
       "item-found-text": "",
       "items-event-text": "Items found",
-      "no-event-left": "There's no events for now",
-      "no-matching-left": "We didn't find any results matching this search",
+      "no-event-left": "There are no more events for now",
+      "no-matching-left": "We didn't find any results matching to this search",
       "my-space": {
         "tag-title": "My Events",
         "event-type-online": "Online",
@@ -181,12 +186,13 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
+      "events": "Events",
       "see-all-news": "See all News",
       "see-all-results": "See all results"
     },
     "search-not-found": {
       "not-found-text": "We couldn't find results for '{{searchQuery}}'. Please change the search.",
-      "not-found-friends-text": "We didn't find any results matching this search.",
+      "not-found-friends-text": "We didn't find any results matching this search",
       "choose-alternative": "Maybe you can find some interesting stuff here:",
       "alternative-header-news": "News",
       "alternative-description-news": "Find the latest news, events and initiatives here. Find news and create ones.",
@@ -196,6 +202,7 @@
       "placeholder": "Search",
       "items-found": "items found",
       "news": "News",
+      "events": "Events",
       "sort": "Sort by:",
       "filter": "Filter by:",
       "relevance": "Relevance",
@@ -316,7 +323,7 @@
       "exists": "Already exists",
       "closeTime": "Closing time have to be later than opening time. Please, try again",
       "breakTime": "Invalid break time",
-      "photoUpload": "Download PNG or JPG only. File size should be less than 10MB"
+      "photoUpload": "Upload PNG or JPG only. File size should be less than 10MB"
     }
   },
   "users": {
@@ -389,8 +396,13 @@
       "joined-event": "You have successfully joined the event",
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
+      "updated-address": "The address has been updated",
+      "deleted-address": "The address has been deleted",
       "update-notification": "Notification was updated",
-      "rating-send": "Rating sent"
+      "rating-send": "Rating sent",
+      "add-friend": "Friend request sent",
+      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer",
+      "create-news": "Your news has been successfully published"
     }
   },
   "user": {
@@ -416,7 +428,7 @@
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
         "password-is-required": "Password is required.",
-        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
+        "password-must-be-at-least-8-characters-long": "Password have from 8 to 20 characters long without spaces and contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "too-long-password": "Password must be less than 20 characters long without spaces.",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
@@ -453,6 +465,7 @@
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
+        "password-match-is-empty": "Please type your password first!",
         "password-confirm": "Confirm password",
         "password-confirm-is-required": "Please confirm your password",
         "submit": "Sign up",
@@ -543,9 +556,9 @@
       "you-can-upload-max-photos-event": "You  can  upload max 5 photos",
       "photos": "photos",
       "your-photos-successfully-upload": "Your photos successfully upload",
-      "error-img-type-and-size": "Incorrect image type and size. Use file in JPG or PNG format and not bigger than 10MB",
-      "error-img-type": "Incorrect image type. Use file format JPG or PNG",
-      "error-img-size": "Incorrect image size. Image cannot be bigger than 10MB"
+      "error-img-type-and-size": "Incorrect image type and size. Use files in JPG or PNG format instead and not bigger than 10 MB",
+      "error-img-type": "Incorrect image type. Use files in JPG or PNG format instead",
+      "error-img-size": "Incorrect image size. Maximum allowed size is 10 MB"
     },
     "propose-cafe": {
       "new-cafe": "New cafe",
@@ -653,7 +666,7 @@
       "eco-place": "Show my eco places",
       "shopping-list": "Show my shopping list",
       "to-do-list": "Show my To-do list",
-      "picture-tooltip": "Download PNG or JPG only. File size should be less than 10MB",
+      "picture-tooltip": "Upload PNG or JPG only. File size should be less than 10MB",
       "change-photo": "Do you want to change your profile picture?",
       "would-you-like": "Would you like to save changes?",
       "notification": "Are you sure you want to delete the photo?",
@@ -748,7 +761,7 @@
       },
       "to-do-list": "To-do list",
       "no-shopping-items": "No items to recommend",
-      "too-long-input": "The input field should contain no more than 50 characters",
+      "too-long-input": "The input field should contain no more than 2048 characters",
       "add-custom-item": "Add custom item",
       "user-log": {
         "day": "Day",
@@ -810,6 +823,7 @@
         "btn-crate-habit": "Create habit",
         "btn-more": "More",
         "btn-add": "Add habit",
+        "btn-added": "Added habit",
         "new-habit-added": "You have successfully added a new habit to your list",
         "new-habit-updated": "You have successfully updated a habit",
         "habit-did-not-give-up": "We glad that you change your mind",
@@ -1005,6 +1019,7 @@
       "all-mutual-friends": "Mutual friends",
       "friends": "Friends",
       "add-new-friend": "Add friend",
+      "cancel-friend-request": " Cancel request",
       "no-city": "City is not selected",
       "open-chat": "Open chat",
       "create-chat": "Create chat",
@@ -1016,7 +1031,12 @@
       "search-friends": "Search",
       "find-friends": "Find a friend",
       "found-amount": "of people found",
-      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)"
+      "no-mutual-friends": "Sorry, it seems that you don't have mutual friends yet :-)",
+      "unfriend-popup": {
+        "title": "Are you sure you want to remove this user from your friends?",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      }
     }
   },
   "create-news": {
@@ -1111,6 +1131,7 @@
     "btn-edit": "Edit event",
     "btn-cancel": "Cancel Request",
     "btn-join": "Join event",
+    "btn-request-sent": "Request sent",
     "btn-delete": "Delete",
     "btn-see": "See rating",
     "btn-rate": "Rate Organizer",
@@ -1143,7 +1164,13 @@
     "duplicate-event-date": "You can't enter the same date for two days",
     "max-length-title": "This field shouldn’t contain more than 70 symbols",
     "title-required": "This field can't be empty and should contain up to 70 symbols",
-    "date-required": "This field can’t be empty",
+    "date-required": "End time field can’t be empty",
+    "start-time-required": "Start time field can't be empty.",
+    "datepicker-not-correct": "Enter correct date",
+    "datepicker-not-correct-date-required": "Enter correct date. End time field can’t be empty.",
+    "datepicker-and-start-time-not-correct": "Enter correct date. Start time field can't be empty.",
+    "start-time-and-end-time-not-correct": "Start time and end time fields can't be empty.",
+    "start-time-end-time-and-datepicker-not-correct": "Enter correct date. Start time and end time fields can't be empty.",
     "location-required": "Specify the search request or choose the location manually using the map below",
     "day": "day",
     "all-day": "All day",
@@ -1153,15 +1180,16 @@
     "event-place": "Place",
     "event-start": "Start",
     "event-online": "Online",
+    "apply-location": "Apply to all days of the event",
     "event-location": "Location",
     "event-link": "Online Link",
-    "event-offline-place": "Event Offline place.",
-    "event-online-link": "EventOnline link (should start with http:// or https://).",
+    "event-offline-place": "Event Offline place",
+    "event-online-link": "EventOnline link (should start with http:// or https://)",
     "enter-location": "Enter a location",
     "enter-link": "Enter link",
     "textarea-title": "Events Description",
     "picture": "Picture",
-    "picture-title": "Download PNG or JPG only. File size should be less than 10MB",
+    "picture-title": "Upload PNG or JPG only. File size should be less than 10MB",
     "event-theme": "Initiative type",
     "event-type-check": "You should choose at least one type",
     "event-type": "Event type",
@@ -1192,5 +1220,8 @@
     "delete-message": "All created content will be lost. Do you still want to cancel creation?",
     "btn.yes": "Yes, cancel",
     "btn.no": "Continue editing"
+  },
+  "chat": {
+    "empty-chat": "Chat hasn’t got any message yet"
   }
 }

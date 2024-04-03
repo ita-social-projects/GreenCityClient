@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -18,7 +18,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
     arrowDown: './assets/img/arrow-down.svg'
   };
 
-  form: UntypedFormGroup;
+  form: FormGroup;
   private destroy = new Subject<void>();
   triggers = notificationTriggersMock;
   times = notificationTriggerTimeMock;
@@ -26,7 +26,7 @@ export class UbsAdminNotificationSettingsComponent implements OnInit, OnDestroy 
   schedule: string | null = null;
 
   constructor(
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private langService: LanguageService,
     @Inject(MAT_DIALOG_DATA)
     public data: { title: { en: string; ua: string }; trigger: string; time: string; schedule: string },

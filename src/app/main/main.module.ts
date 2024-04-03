@@ -12,7 +12,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { environment } from '@environment/environment';
-import { AdminModule } from './component/admin/admin.module';
+import { RestoreComponent } from '@global-auth/restore/restore.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { CoreModule } from '@global-core/core.module';
 import { AuthModule } from './component/auth/auth.module';
@@ -25,6 +25,7 @@ import { MaterialModule } from '../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EditPhotoPopUpComponent } from '@shared/components/edit-photo-pop-up/edit-photo-pop-up.component';
 
 @NgModule({
   declarations: [MainComponent, ErrorComponent],
@@ -37,9 +38,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     InfiniteScrollModule,
     HttpClientModule,
     FormsModule,
-    AdminModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule,
     FirestoreModule,
     StorageModule,
     DragDropModule,

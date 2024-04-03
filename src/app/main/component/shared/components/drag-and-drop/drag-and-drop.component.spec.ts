@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DragAndDropComponent } from './drag-and-drop.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { FileHandle } from '@eco-news-models/create-news-interface';
 import { CreateEcoNewsService } from '@eco-news-service/create-eco-news.service';
@@ -36,12 +36,12 @@ describe('DragAndDropComponent', () => {
   createEcoNewsServiceMock.isImageValid = true;
   createEcoNewsServiceMock.getFormData.and.returnValue({ value: { image: defaultImagePath } });
 
-  const formDataMock: UntypedFormGroup = new UntypedFormGroup({
-    content: new UntypedFormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
-    image: new UntypedFormControl(defaultImagePath),
-    source: new UntypedFormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
-    tags: new UntypedFormControl(['news, ads']),
-    title: new UntypedFormControl('asd asd asd asd asd s')
+  const formDataMock: FormGroup = new FormGroup({
+    content: new FormControl('asd aspd kasd ksdfj ksdjfi sdjf osd'),
+    image: new FormControl(defaultImagePath),
+    source: new FormControl('https://www.telerik.com/blogs/testing-dynamic-forms-in-angular'),
+    tags: new FormControl(['news, ads']),
+    title: new FormControl('asd asd asd asd asd s')
   });
 
   beforeEach(waitForAsync(() => {

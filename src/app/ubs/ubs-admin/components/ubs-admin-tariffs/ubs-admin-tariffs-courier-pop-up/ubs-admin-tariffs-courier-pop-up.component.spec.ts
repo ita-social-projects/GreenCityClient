@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -45,9 +45,9 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
     }
   ];
 
-  const fakeCourierForm = new UntypedFormGroup({
-    name: new UntypedFormControl('fake'),
-    englishName: new UntypedFormControl('fake')
+  const fakeCourierForm = new FormGroup({
+    name: new FormControl('fake'),
+    englishName: new FormControl('fake')
   });
 
   const tariffsServiceMock = jasmine.createSpyObj('tariffsServiceMock', ['getCouriers', 'addCourier', 'editCourier']);
@@ -74,7 +74,7 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: MatSnackBarComponent, useValue: { openSnackBar: () => {} } },
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

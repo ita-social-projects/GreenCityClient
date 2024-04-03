@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { CancellationReason } from 'src/app/ubs/ubs/order-status.enum';
 export class AddOrderCancellationReasonComponent implements OnInit {
   closeButton = './assets/img/profile/icons/cancel.svg';
   date = new Date();
-  public commentForm: UntypedFormGroup;
+  public commentForm: FormGroup;
   public cancellationReason: string;
   public cancellationComment: string;
   public orderID: number;
@@ -27,7 +27,7 @@ export class AddOrderCancellationReasonComponent implements OnInit {
   private destroySub: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    public fb: UntypedFormBuilder,
+    public fb: FormBuilder,
     public orderService: OrderService,
     private localeStorageService: LocalStorageService,
     public dialogRef: MatDialogRef<AddOrderCancellationReasonComponent>,

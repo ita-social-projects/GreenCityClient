@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Subject } from 'rxjs';
@@ -50,7 +50,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
   public totalElements = 0;
   public allElements: number;
   public display = 'none';
-  public filterForm: UntypedFormGroup;
+  public filterForm: FormGroup;
   public hasChange = false;
   public filters: Filters;
   public filterValue = '';
@@ -79,7 +79,7 @@ export class UbsAdminCustomersComponent implements OnInit, AfterViewChecked, OnD
     private injector: Injector,
     private adapter: DateAdapter<any>,
     public dialog: MatDialog,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private router: Router

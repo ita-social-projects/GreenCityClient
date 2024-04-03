@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, FormGroup } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { TimePickerComponent } from './time-picker.component';
@@ -19,7 +19,7 @@ describe('TimePickerComponent', () => {
         }
       }
     }
-  } as unknown as UntypedFormGroup;
+  } as unknown as FormGroup;
 
   const fakeExportDate = {
     dateExport: { value: '2025-12-15' }

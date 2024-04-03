@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NewsDTO, NewsResponseDTO, FileHandle } from '../models/create-news-interface';
+import { NewsDTO, FileHandle } from '../models/create-news-interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environment/environment';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { EcoNewsModel } from '@eco-news-models/eco-news-model';
 import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
@@ -13,7 +13,7 @@ import { FilterModel } from '@shared/components/tag-filter/tag-filter.model';
 })
 export class CreateEcoNewsService {
   public newsId: number;
-  public currentForm: UntypedFormGroup;
+  public currentForm: FormGroup;
   private url: string = environment.backendLink;
   private accessToken: string = localStorage.getItem('accessToken');
   public files: FileHandle[] = [];
@@ -32,7 +32,7 @@ export class CreateEcoNewsService {
     private store: Store
   ) {}
 
-  public getFormData(): UntypedFormGroup {
+  public getFormData(): FormGroup {
     return this.currentForm;
   }
 
@@ -74,7 +74,7 @@ export class CreateEcoNewsService {
     return this.http.put<EcoNewsModel>(environment.backendLink + 'econews/update', formData, this.httpOptions);
   }
 
-  public setForm(form: UntypedFormGroup): void {
+  public setForm(form: FormGroup): void {
     this.currentForm = form;
     if (this.currentForm) {
       this.currentForm.value.image = this.files[0] ? this.files[0].url : this.fileUrl;

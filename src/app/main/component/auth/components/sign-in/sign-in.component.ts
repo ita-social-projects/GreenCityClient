@@ -1,7 +1,7 @@
 import { UserSuccessSignIn } from './../../../../model/user-success-sign-in';
 import { SignInIcons } from './../../../../image-pathes/sign-in-icons';
 import { UserOwnSignIn } from './../../../../model/user-own-sign-in';
-import { UntypedFormGroup, UntypedFormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Component, EventEmitter, OnInit, OnDestroy, Output, OnChanges, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -28,23 +28,18 @@ declare let google: any;
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() isUbs: boolean;
   public closeBtn = SignInIcons;
   public mainSignInImage = SignInIcons;
   public googleImage = SignInIcons;
   public hideShowPasswordImage = SignInIcons;
   public userOwnSignIn: UserOwnSignIn;
   public loadingAnim: boolean;
-  public signInForm: UntypedFormGroup;
+  public signInForm: FormGroup;
   public signInFormValid: boolean;
   public emailField: AbstractControl;
   public passwordField: AbstractControl;
   public emailFieldValue: string;
   public passwordFieldValue: string;
-  public isEventsDetails: boolean;
-  public eventId: string;
-  public isOwnerParams: boolean;
-  public isActiveParams: boolean;
   private destroy: Subject<boolean> = new Subject<boolean>();
   public isSignInPage: boolean;
   private errorUnverifiedEmail = 'You should verify the email first, check your email box!';
@@ -52,6 +47,7 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   public generalError: string;
 
   @Output() private pageName = new EventEmitter();
+  @Input() isUbs: boolean;
 
   constructor(
     public dialog: MatDialog,
@@ -75,18 +71,14 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.isEventsDetails = this.router.url.includes('isOwner');
-    this.eventId = this.route.snapshot.params?.id;
-    this.isOwnerParams = this.router.url.includes('isOwner=true');
-    this.isActiveParams = this.router.url.includes('isActive=true');
     this.userOwnSignIn = new UserOwnSignIn();
     this.configDefaultErrorMessage();
     this.checkIfUserId();
 
     // Initialization of reactive form
-    this.signInForm = new UntypedFormGroup({
-      email: new UntypedFormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
-      password: new UntypedFormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
+    this.signInForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.pattern(Patterns.ubsMailPattern)]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.maxLength(20)])
     });
 
     // Get form fields to use it in the template
@@ -208,9 +200,6 @@ export class SignInComponent implements OnInit, OnDestroy, OnChanges {
     this.jwtService.userRole$.next(getUbsRoleSignIn);
     if (getUbsRoleSignIn === 'ROLE_UBS_EMPLOYEE') {
       return ['ubs-admin', 'orders'];
-    }
-    if (this.isEventsDetails) {
-      return ['/events', this.eventId, { isOwner: this.isOwnerParams, isActive: this.isActiveParams }];
     }
     if (this.isUbs) {
       return ['ubs'];

@@ -1,12 +1,12 @@
 import { MapsAPILoader } from '@agm/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { EventDateTimePickerComponent } from './event-date-time-picker.component';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { EventsService } from '../../services/events.service';
@@ -22,7 +22,7 @@ describe('EventDateTimePickerComponent', () => {
   localStorageServiceMock.getCurrentLanguage = () => 'en' as Language;
   localStorageServiceMock.languageBehaviourSubject = new BehaviorSubject('en');
 
-  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs']);
+  const languageServiceMock = jasmine.createSpyObj('languageService', ['getLangValue', 'getCurrentLangObs', 'getCurrentLanguage']);
   languageServiceMock.getLangValue.and.returnValue(['fakeValue']);
   languageServiceMock.getCurrentLangObs.and.returnValue(of('fakeValue'));
 
@@ -41,8 +41,8 @@ describe('EventDateTimePickerComponent', () => {
 
   const editDateMock = {
     coordinates: {
-      latitude: 0,
-      longitude: 0,
+      latitude: 1,
+      longitude: 1,
       cityEn: 'Lviv',
       cityUa: 'Львів',
       countryEn: 'Ukraine',
@@ -63,10 +63,10 @@ describe('EventDateTimePickerComponent', () => {
     startDate: '2023-05-27T15:10:00+03:00'
   };
 
-  const formDataMock: UntypedFormGroup = new UntypedFormGroup({
-    date: new UntypedFormControl('day'),
-    startTime: new UntypedFormControl('10-00'),
-    endTime: new UntypedFormControl('18-00')
+  const formDataMock: FormGroup = new FormGroup({
+    date: new FormControl('day'),
+    startTime: new FormControl('10-00'),
+    endTime: new FormControl('18-00')
   });
 
   beforeEach(waitForAsync(() => {
@@ -151,6 +151,32 @@ describe('EventDateTimePickerComponent', () => {
     expect(spy).toHaveBeenCalledTimes(3);
 
     component.editDate = null;
+  });
+
+  it('toggleForAllLocations should emit coordinates or null based on appliedForAllLocations', () => {
+    spyOn(component.applyCoordToAll, 'emit');
+    component.toggleForAllLocations();
+    if (!component.appliedForAllLocations) {
+      expect(component.applyCoordToAll.emit).toHaveBeenCalledWith(component.coordinates);
+    } else {
+      expect(component.applyCoordToAll.emit).toHaveBeenCalledWith({ longitude: null, latitude: null });
+    }
+  });
+
+  it('applyLocationForAllDays is called in onInit during the edit phase', () => {
+    const spy = spyOn(component as any, 'applyLocationForAllDays');
+    component.editDate = editDateMock;
+    component.locationForAllDays = editDateMock.coordinates;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('applyLocationForAllDays is called in onInit after preview mode', () => {
+    const spy = spyOn(component as any, 'applyLocationForAllDays');
+    component.fromPreview = true;
+    component.locationForAllDays = editDateMock.coordinates;
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('checkIfAllDay expect startTime.disabled to be true', () => {

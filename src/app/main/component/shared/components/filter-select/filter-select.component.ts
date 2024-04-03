@@ -30,7 +30,7 @@ export class FilterSelectComponent implements OnInit {
   toggleAllSelection(): void {
     this.filter.isAllSelected = this.selectFilter.options.first.selected;
     this.selectFilter.options.forEach((item: MatOption) => (this.filter.isAllSelected ? item.select() : item.deselect()));
-    this.filter.options.forEach((el: FilterOptions) => (el.isActive = this.filter.isAllSelected ? true : false));
+    this.filter.options.forEach((el: FilterOptions) => (el.isActive = !!this.filter.isAllSelected));
     this.selectedList.emit(this.filter);
   }
 

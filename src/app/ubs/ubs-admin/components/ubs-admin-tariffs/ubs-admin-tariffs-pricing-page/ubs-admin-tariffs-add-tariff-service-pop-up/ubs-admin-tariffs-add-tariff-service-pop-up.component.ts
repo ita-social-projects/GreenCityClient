@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Bag } from '../../../../models/tariffs.interface';
@@ -17,7 +17,7 @@ import { Language } from 'src/app/main/i18n/Language';
   styleUrls: ['./ubs-admin-tariffs-add-tariff-service-pop-up.component.scss']
 })
 export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
-  addTariffServiceForm: UntypedFormGroup;
+  addTariffServiceForm: FormGroup;
   receivedData;
   tariffs;
   tariffService: Bag;
@@ -33,7 +33,7 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
     private tariffsService: TariffsService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddTariffServicePopUpComponent>,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private languageService: LanguageService
   ) {
@@ -65,46 +65,41 @@ export class UbsAdminTariffsAddTariffServicePopUpComponent implements OnInit {
 
   createTariffService() {
     return this.fb.group({
-      name: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-      nameEng: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
-      capacity: new UntypedFormControl('', [
-        Validators.required,
-        Validators.pattern(Patterns.ubsServicePrice),
-        Validators.min(1),
-        Validators.max(999)
-      ]),
-      commission: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      price: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
-      description: new UntypedFormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
-      descriptionEng: new UntypedFormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
+      name: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+      nameEng: new FormControl('', [Validators.required, Validators.pattern(Patterns.NamePattern), Validators.maxLength(30)]),
+      capacity: new FormControl('', [Validators.pattern(Patterns.ubsServicePrice), Validators.min(1), Validators.max(999)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      description: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
+      descriptionEng: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
     });
   }
 
   editForm(): void {
     this.addTariffServiceForm = this.fb.group({
-      name: new UntypedFormControl({ value: this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng) }, [
+      name: new FormControl(this.getLangValue(this.receivedData.bagData.name, this.receivedData.bagData.nameEng), [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      nameEng: new UntypedFormControl({ value: this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name) }, [
+      nameEng: new FormControl(this.getLangValue(this.receivedData.bagData.nameEng, this.receivedData.bagData.name), [
         Validators.required,
         Validators.maxLength(30)
       ]),
-      capacity: new UntypedFormControl({ value: this.receivedData.bagData.capacity }, [
+      capacity: new FormControl({ value: this.receivedData.bagData.capacity }, [
         Validators.pattern(Patterns.ubsServicePrice),
         Validators.min(1),
         Validators.max(999)
       ]),
-      price: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
-      commission: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
-      description: new UntypedFormControl(
-        { value: this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng) },
-        [Validators.required, Validators.maxLength(255)]
-      ),
-      descriptionEng: new UntypedFormControl(
-        { value: this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description) },
-        [Validators.required, Validators.maxLength(255)]
-      )
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      commission: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServicePrice)]),
+      description: new FormControl(this.getLangValue(this.receivedData.bagData.description, this.receivedData.bagData.descriptionEng), [
+        Validators.required,
+        Validators.maxLength(255)
+      ]),
+      descriptionEng: new FormControl(this.getLangValue(this.receivedData.bagData.descriptionEng, this.receivedData.bagData.description), [
+        Validators.required,
+        Validators.maxLength(255)
+      ])
     });
   }
 

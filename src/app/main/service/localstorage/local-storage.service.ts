@@ -1,8 +1,8 @@
 import { Language } from '../../i18n/Language';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { EventPageResponceDto, PagePreviewDTO } from '../../component/events/models/events.interface';
-import { CourierLocations, Address } from 'src/app/ubs/ubs/models/ubs.interface';
+import { EventPageResponseDto, PagePreviewDTO } from '../../component/events/models/events.interface';
+import { CourierLocations, Address, OrderDetails } from 'src/app/ubs/ubs/models/ubs.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class LocalStorageService {
     return localStorage.getItem(this.CAN_USER_EDIT_EVENT) === 'true';
   }
 
-  public setEventForEdit(key: string, event: EventPageResponceDto | PagePreviewDTO) {
+  public setEventForEdit(key: string, event: EventPageResponseDto | PagePreviewDTO) {
     localStorage.setItem(key, JSON.stringify(event));
   }
 
@@ -143,6 +143,10 @@ export class LocalStorageService {
   public setUbsOrderData(personalData: string, orderData: string) {
     localStorage.setItem('UBSpersonalData', personalData);
     localStorage.setItem('UBSorderData', orderData);
+  }
+
+  public setUBSOrderData(orderData: OrderDetails) {
+    localStorage.setItem('UBSorderData', JSON.stringify(orderData));
   }
 
   public setUbsOrderDataBeforeRedirect(personalData: string, orderData: string, anotherClientData: string, UBSExistingOrderId: string) {
@@ -249,7 +253,7 @@ export class LocalStorageService {
     return localStorage.getItem('UBSpersonalData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSpersonalData'));
   }
 
-  public getUbsOrderData(): any {
+  public getUbsOrderData(): OrderDetails {
     return localStorage.getItem('UBSorderData') === 'undefined' ? false : JSON.parse(localStorage.getItem('UBSorderData'));
   }
 

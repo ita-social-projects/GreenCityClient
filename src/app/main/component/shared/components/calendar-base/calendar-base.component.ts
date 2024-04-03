@@ -265,7 +265,7 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   isCheckedAllHabits(habitsForDay) {
-    return habitsForDay.find((habit) => !habit.enrolled) ? false : true;
+    return !habitsForDay.find((habit) => !habit.enrolled);
   }
 
   chooseDisplayClass(dayItem) {
@@ -300,7 +300,7 @@ export class CalendarBaseComponent implements OnDestroy {
   }
 
   checkCanOpenPopup(dayItem: CalendarInterface) {
-    return dayItem.hasHabitsInProgress ? true : false;
+    return !!dayItem.hasHabitsInProgress;
   }
 
   openDialogDayHabits(event, isMonthCalendar, dayItem: CalendarInterface) {

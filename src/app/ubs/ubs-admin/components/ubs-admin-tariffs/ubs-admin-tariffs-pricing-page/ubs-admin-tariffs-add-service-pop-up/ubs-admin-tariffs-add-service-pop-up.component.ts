@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TariffsService } from '../../../../services/tariffs.service';
 import { Service } from '../../../../models/tariffs.interface';
@@ -21,7 +21,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
   user: string;
   receivedData;
   loadingAnim: boolean;
-  addServiceForm: UntypedFormGroup;
+  addServiceForm: FormGroup;
   private isLangEn = false;
   private destroy: Subject<boolean> = new Subject<boolean>();
   name: string;
@@ -33,7 +33,7 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
     private tariffsService: TariffsService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UbsAdminTariffsAddServicePopUpComponent>,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private localeStorageService: LocalStorageService,
     private languageService: LanguageService
   ) {
@@ -66,36 +66,29 @@ export class UbsAdminTariffsAddServicePopUpComponent implements OnInit {
 
   createService() {
     return this.fb.group({
-      name: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ServiceNamePattern), Validators.maxLength(255)]),
-      nameEng: new UntypedFormControl('', [
-        Validators.required,
-        Validators.pattern(Patterns.ServiceNamePattern),
-        Validators.maxLength(255)
-      ]),
-      price: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
-      description: new UntypedFormControl('', Validators.compose([Validators.required, Validators.maxLength(255)])),
-      descriptionEng: new UntypedFormControl('', Validators.compose([Validators.required, Validators.maxLength(255)]))
+      name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+      nameEng: new FormControl('', [Validators.required, Validators.maxLength(30)]),
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+      descriptionEng: new FormControl('', [Validators.required, Validators.maxLength(255)])
     });
   }
 
   editForm(): void {
     this.addServiceForm = this.fb.group({
-      name: new UntypedFormControl({ value: this.receivedData.serviceData.name }, [
+      name: new FormControl({ value: this.receivedData.serviceData.name }, [
         Validators.required,
         Validators.pattern(Patterns.ServiceNamePattern),
         Validators.maxLength(255)
       ]),
-      nameEng: new UntypedFormControl({ value: this.receivedData.serviceData.nameEng }, [
+      nameEng: new FormControl({ value: this.receivedData.serviceData.nameEng }, [
         Validators.required,
         Validators.pattern(Patterns.ServiceNamePattern),
         Validators.maxLength(255)
       ]),
-      price: new UntypedFormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
-      description: new UntypedFormControl({ value: this.receivedData.serviceData.description }, [
-        Validators.maxLength(255),
-        Validators.required
-      ]),
-      descriptionEng: new UntypedFormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255), Validators.required])
+      price: new FormControl('', [Validators.required, Validators.pattern(Patterns.ubsServiceBasicPrice)]),
+      description: new FormControl({ value: this.receivedData.serviceData.description }, [Validators.maxLength(255), Validators.required]),
+      descriptionEng: new FormControl(this.receivedData.serviceData.descriptionEng, [Validators.maxLength(255), Validators.required])
     });
   }
 

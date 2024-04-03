@@ -62,7 +62,7 @@ export class HabitsPopupComponent implements OnInit, OnDestroy {
     this.language = this.languageService.getCurrentLanguage();
     this.habitsCalendarSelectedDate = this.formatSelectedDate(this.data.habitsCalendarSelectedDate);
     this.isHabitListEditable = this.data.isHabitListEditable;
-    this.popupHabits = this.data.habits.map((habit) => Object.assign({}, habit));
+    this.popupHabits = this.data.habits.map((habit) => ({ ...habit }));
     this.today = this.formatSelectedDate().toString();
   }
 

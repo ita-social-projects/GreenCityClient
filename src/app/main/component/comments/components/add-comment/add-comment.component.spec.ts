@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProfileService } from '@global-user/components/profile/profile-service/profile.service';
 import { of } from 'rxjs';
 
@@ -9,6 +9,17 @@ import { UserProfileImageComponent } from '@global-user/components/shared/compon
 import { TranslateModule } from '@ngx-translate/core';
 import { CommentsService } from '../../services/comments.service';
 import { EditProfileModel } from '@global-user/models/edit-profile.model';
+
+const COMMENT_MOCK = {
+  author: {
+    name: 'username',
+    id: 1,
+    userProfilePicturePath: null
+  },
+  id: 1,
+  modifiedDate: '01.12.2022',
+  text: 'some text'
+};
 
 describe('AddCommentComponent', () => {
   let component: AddCommentComponent;
@@ -35,18 +46,8 @@ describe('AddCommentComponent', () => {
   const profileServiceMock: ProfileService = jasmine.createSpyObj('ProfileService', ['getUserInfo']);
   profileServiceMock.getUserInfo = () => of(userData);
 
-  const commentsServiceMock: CommentsService = jasmine.createSpyObj('CommentsService', ['addComment']);
-  commentsServiceMock.addComment = () =>
-    of({
-      author: {
-        name: 'username',
-        id: 1,
-        userProfilePicturePath: null
-      },
-      id: 1,
-      modifiedDate: '01.12.2022',
-      text: 'some text'
-    });
+  const commentsServiceMock: jasmine.SpyObj<CommentsService> = jasmine.createSpyObj('CommentsService', ['addComment']);
+  commentsServiceMock.addComment.and.returnValue(of(COMMENT_MOCK));
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -84,4 +85,21 @@ describe('AddCommentComponent', () => {
     fixture.detectChanges();
     expect(component.addCommentForm.valid).toBe(false);
   });
+
+  it('should call onSubmit method and emit updateList event', fakeAsync(() => {
+    component.entityId = 1;
+    component.commentId = 1;
+
+    const updateListSpy = spyOn(component.updateList, 'emit');
+    component.setContent({
+      text: 'test text',
+      innerHTML: 'test html'
+    });
+    component.onSubmit();
+
+    flush();
+    expect(commentsServiceMock.addComment).toHaveBeenCalledWith(component.entityId, 'test html', component.commentId);
+    expect(updateListSpy).toHaveBeenCalledWith(COMMENT_MOCK);
+    expect(component.addCommentForm.value.content).toBe('');
+  }));
 });

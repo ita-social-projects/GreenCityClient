@@ -13,12 +13,15 @@
           <span
             class="item-text"
             [ngClass]="{ unselected: isAcquired || (!item.selected && !isEditing) }"
-            ngbPopover="{{ item.text }}"
-            triggers="mouseenter:mouseleave"
-            placement="top"
-            container="body"
+            appCustomTooltip
+            #tooltip="matTooltip"
+            [appCustomTooltip]="item.text"
+            [tooltip]="tooltip"
+            matTooltip="{{ item.text }}"
+            matTooltipClass="my-custom-tooltip"
+            font="bold 14px Lato, sans-serif"
+            [appLinkify]="item.text"
           >
-            {{ truncateShoppingItemName(item.text) }}
           </span>
         </div>
         <button *ngIf="item.custom && !isAcquired" class="del-btn" type="button" (click)="deleteItem(item.text)"></button>

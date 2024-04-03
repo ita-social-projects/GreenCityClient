@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -114,11 +114,11 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
   const transferFile = 'transferFile';
   const fakeEmployeePositions = ['fake'];
   const fakeReceivingStations = ['fake'];
-  const fakeEmployeeForm = new UntypedFormGroup({
-    firstName: new UntypedFormControl('fake'),
-    lastName: new UntypedFormControl('fake'),
-    phoneNumber: new UntypedFormControl('fake'),
-    email: new UntypedFormControl('fake')
+  const fakeEmployeeForm = new FormGroup({
+    firstName: new FormControl('fake'),
+    lastName: new FormControl('fake'),
+    phoneNumber: new FormControl('fake'),
+    email: new FormControl('fake')
   });
   const dataFileMock = new File([''], 'test-file.jpeg');
   const storeMock = jasmine.createSpyObj('store', ['select', 'dispatch']);
@@ -133,7 +133,7 @@ describe('UbsAdminEmployeeEditFormComponent', () => {
         { provide: MatDialog, useValue: matDialogMock },
         { provide: MAT_DIALOG_DATA, useValue: mockedData },
         { provide: Store, useValue: storeMock },
-        UntypedFormBuilder
+        FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

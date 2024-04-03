@@ -180,7 +180,7 @@ export class AddNewHabitComponent implements OnInit {
     this.habitImage = this.habitResponse.image ? this.habitResponse.image : this.defaultImage;
     this.isCustom = habit.isCustomHabit;
     this.getStars(habit.complexity);
-    if (this.habitResponse.tags && this.habitResponse.tags.length) {
+    if (this.habitResponse.tags?.length) {
       this.getRecommendedHabits(this.page, this.size, [this.habitResponse.tags[0]]);
     }
   }
@@ -300,23 +300,11 @@ export class AddNewHabitComponent implements OnInit {
     this.friendsIdsList = this.userFriendsService.addedFriends?.map((friend) => friend.id);
     const defailtItemsIds = this.standartShopList.filter((item) => item.selected === true).map((item) => item.id);
     const habitAssignProperties: HabitAssignPropertiesDto = { defaultShoppingListItems: defailtItemsIds, duration: this.newDuration };
-    this.habitAssignService
-      .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties)
-      .pipe(take(1))
-      .subscribe(() => {
-        if (this.customShopList.length) {
-          this.addCustomHabitItems();
-        }
-        this.afterHabitWasChanged('habitAdded');
-      });
-  }
-
-  private addCustomHabitItems(): void {
     const customItemsList: CustomShoppingItem[] = this.customShopList.map((item) => ({
       text: item.text
     }));
-    this.shopListService
-      .addHabitCustomShopList(this.userId, this.habitId, customItemsList)
+    this.habitAssignService
+      .assignCustomHabit(this.habitId, this.friendsIdsList, habitAssignProperties, customItemsList)
       .pipe(take(1))
       .subscribe(() => {
         this.afterHabitWasChanged('habitAdded');

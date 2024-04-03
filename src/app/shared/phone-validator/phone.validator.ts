@@ -1,5 +1,5 @@
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { PhoneNumberUtil, PhoneNumber } from 'google-libphonenumber';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 const phoneNumberUtil = PhoneNumberUtil.getInstance();
 

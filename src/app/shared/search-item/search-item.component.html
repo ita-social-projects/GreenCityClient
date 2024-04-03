@@ -3,16 +3,10 @@
     {{ tag }}
   </div>
   <div class="search_item-title">
-    <a [routerLink]="['/news', searchModel.id]" (click)="emitCloseSearch()">
+    <a [routerLink]="['/' + type, searchModel.id]">
       <p>
-        {{ searchModel.title | slice: 0:130 }}
+        {{ searchModel.title | slice: 0 : 130 }}
       </p>
     </a>
-  </div>
-
-  <div class="search_item-preview-text">
-    <p>
-      {{ searchModel.text | slice: 0:300 }}
-    </p>
   </div>
 </div>

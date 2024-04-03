@@ -37,6 +37,11 @@ export interface SocketAmountLikes {
   liked: boolean;
   userId: number;
 }
+export interface TaggedUser {
+  userId: number;
+  userName: string;
+  profilePicture: string;
+}
 
 export enum dataTypes {
   commentType = 'comment',

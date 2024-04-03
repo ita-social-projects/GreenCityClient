@@ -32,7 +32,7 @@ import {
   SetColumnToDisplay
 } from 'src/app/store/actions/bigOrderTable.actions';
 import { MouseEvents } from 'src/app/shared/mouse-events';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { OrderStatus } from 'src/app/ubs/ubs/order-status.enum';
 import { TableKeys, TableColorKeys } from '../../services/table-keys.enum';
@@ -101,7 +101,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
   columnsWidthPreference: Map<string, number>;
   restoredFilters = [];
   isRestoredFilters = false;
-  public dateForm: UntypedFormGroup;
+  public dateForm: FormGroup;
   public filters: IDateFilters[] = [];
 
   bigOrderTable$ = this.store.select((state: IAppState): IBigOrderTable => state.bigOrderTable.bigOrderTable);
@@ -117,7 +117,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private dateAdapter: DateAdapter<Date>
   ) {
     this.dateAdapter.setLocale('en-GB');
@@ -271,15 +271,15 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
 
   initDateForm(): void {
     this.dateForm = this.fb.group({
-      orderDateFrom: new UntypedFormControl(''),
-      orderDateTo: new UntypedFormControl(''),
-      orderDateCheck: new UntypedFormControl(false),
-      dateOfExportFrom: new UntypedFormControl(''),
-      dateOfExportTo: new UntypedFormControl(''),
-      dateOfExportCheck: new UntypedFormControl(false),
-      paymentDateFrom: new UntypedFormControl(''),
-      paymentDateTo: new UntypedFormControl(''),
-      paymentDateCheck: new UntypedFormControl(false)
+      orderDateFrom: new FormControl(''),
+      orderDateTo: new FormControl(''),
+      orderDateCheck: new FormControl(false),
+      dateOfExportFrom: new FormControl(''),
+      dateOfExportTo: new FormControl(''),
+      dateOfExportCheck: new FormControl(false),
+      paymentDateFrom: new FormControl(''),
+      paymentDateTo: new FormControl(''),
+      paymentDateCheck: new FormControl(false)
     });
     if (this.getLocalDateForm()) {
       this.dateForm.setValue(this.getLocalDateForm());
@@ -833,6 +833,7 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
       const resizeHandleWidth = 15; // Px
       const resizeStartX = event.pageX;
       const tableOffsetX = this.getTableOffsetX();
+      const minCellWidth = 150;
 
       const {
         left: leftColumnBoundary,
@@ -862,10 +863,12 @@ export class UbsAdminTableComponent implements OnInit, AfterViewChecked, OnDestr
         if (originalColumnWidth + dx < this.minColumnWidth || adjColumnOriginalWidth - dx < this.minColumnWidth) {
           return;
         }
-        newColumnWidth = originalColumnWidth + dx;
-        newAdjColumnWidth = adjColumnOriginalWidth - dx;
-        this.setColumnWidth(columnIndex, newColumnWidth);
-        this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+        newColumnWidth = originalColumnWidth + dx >= minCellWidth ? originalColumnWidth + dx : minCellWidth;
+        newAdjColumnWidth = adjColumnOriginalWidth - dx >= minCellWidth ? adjColumnOriginalWidth - dx : minCellWidth;
+        if (newColumnWidth > minCellWidth && newAdjColumnWidth > minCellWidth) {
+          this.setColumnWidth(columnIndex, newColumnWidth);
+          this.setColumnWidth(adjColumnIndex, newAdjColumnWidth);
+        }
         // Move column if it is sticky
         if (isAdjColumnSticky) {
           const leftColumnLeftBoundary = isResizingRight ? leftColumnBoundary : adjColumnLeftBoundary;

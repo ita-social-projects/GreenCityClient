@@ -12,6 +12,7 @@ import {
   ChangesFromCalendarToProgress
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
+import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,10 @@ export class HabitAssignService implements OnDestroy {
   habitDate: any;
   mapOfArrayOfAllDate = new Map();
 
-  constructor(private http: HttpClient, private localStorageService: LocalStorageService) {
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     localStorageService.userIdBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((userId) => (this.userId = userId));
     localStorageService.languageBehaviourSubject.pipe(takeUntil(this.destroyed$)).subscribe((language) => (this.language = language));
   }
@@ -49,9 +53,14 @@ export class HabitAssignService implements OnDestroy {
   assignCustomHabit(
     habitId: number,
     friendsIdsList: Array<number>,
-    habitAssignProperties: HabitAssignPropertiesDto
+    habitAssignProperties: HabitAssignPropertiesDto,
+    customShoppingListItemList?: Array<CustomShoppingItem>
   ): Observable<HabitAssignCustomPropertiesDto> {
-    const body: HabitAssignCustomPropertiesDto = { friendsIdsList, habitAssignPropertiesDto: habitAssignProperties };
+    const body: HabitAssignCustomPropertiesDto = {
+      friendsIdsList,
+      habitAssignPropertiesDto: habitAssignProperties,
+      customShoppingListItemList
+    };
     return this.http.post<HabitAssignCustomPropertiesDto>(`${habitAssignLink}/${habitId}/custom`, body);
   }
 
