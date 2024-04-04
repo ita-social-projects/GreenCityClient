@@ -92,8 +92,12 @@ describe('UbsAdminTariffsCourierPopUpComponent', () => {
 
   it('should set names correctly', () => {
     component.courierForm = fakeCourierForm;
+    const fakeCourierFormValue = {
+      name: 'fake',
+      englishName: 'fake'
+    };
     component.setNewCourierName();
-    component.courierForm.setValue(fakeCourierForm.value);
+    component.courierForm.setValue(fakeCourierFormValue);
     expect(component.courierForm.value).toEqual(fakeCourierForm.value);
   });
 

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 import { HabitService } from './habit.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { CUSTOMHABIT } from '@global-user/components/habit/mocks/habit-assigned-mock';
 import { HABITLIST } from '@global-user/components/habit/mocks/habit-mock';
 import { SHOPLIST } from '@global-user/components/habit/mocks/shopping-list-mock';

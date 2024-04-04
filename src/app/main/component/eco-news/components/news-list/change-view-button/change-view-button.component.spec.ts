@@ -28,7 +28,8 @@ describe('ChangeViewButtonComponent', () => {
         return (store[key] = value);
       });
       (component as any).setSessionStorageView();
-      expect(spy('viewGallery', 'true')).toBe('true');
+      expect(spy).toHaveBeenCalledWith('viewGallery', 'true');
+      expect(store['viewGallery']).toBe('true');
     });
 
     it('should get value from sessionStorage', () => {

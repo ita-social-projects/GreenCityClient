@@ -1,4 +1,3 @@
-import { MapsAPILoader } from '@agm/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -85,7 +84,6 @@ describe('EventDateTimePickerComponent', () => {
         { provide: LanguageService, useValue: languageServiceMock },
         { provide: LocalStorageService, useValue: localStorageServiceMock },
         {
-          provide: MapsAPILoader,
           useValue: {
             load: jasmine.createSpy('load').and.returnValue(new Promise(() => true))
           }

@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { UbsAdminEmployeeService } from './ubs-admin-employee.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 describe('UbsAdminEmployeeService', () => {
   let httpMock: HttpTestingController;

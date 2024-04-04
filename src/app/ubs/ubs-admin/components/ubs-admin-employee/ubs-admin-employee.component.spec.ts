@@ -8,12 +8,12 @@ import { UbsAdminEmployeeComponent } from './ubs-admin-employee.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { BehaviorSubject, of } from 'rxjs';
 import { Locations } from '../../models/tariffs.interface';
 import { Store } from '@ngrx/store';
 import { UbsAdminEmployeeService } from '../../services/ubs-admin-employee.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -355,8 +355,9 @@ describe('UbsAdminEmployeeComponent', () => {
     const eventMock = {
       option: {
         value: 'First'
-      }
-    };
+      },
+      source: {}
+    } as MatAutocompleteSelectedEvent;
     const spy = spyOn(component, 'selectCity');
     component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(eventMock);

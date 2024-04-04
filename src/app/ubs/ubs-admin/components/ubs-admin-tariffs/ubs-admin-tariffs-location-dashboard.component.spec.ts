@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { Locations } from '../../models/tariffs.interface';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -295,8 +295,9 @@ describe('UbsAdminTariffsLocationDashboardComponent', () => {
     const eventMock = {
       option: {
         value: 'First'
-      }
-    };
+      },
+      source: {}
+    } as MatAutocompleteSelectedEvent;
     const spy = spyOn(component, 'selectCity');
     component.onSelectCity(eventMock as any);
     expect(spy).toHaveBeenCalledWith(eventMock);

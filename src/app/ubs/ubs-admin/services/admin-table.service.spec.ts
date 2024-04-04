@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AdminTableService } from './admin-table.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { IFilteredColumnValue } from '../models/ubs-admin.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';

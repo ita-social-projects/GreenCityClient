@@ -5,7 +5,7 @@ import { LocalStorageService } from '@global-service/localstorage/local-storage.
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ProfileService } from './profile.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 describe('ProfileService', () => {
   const backUserLink = environment.backendUserLink;

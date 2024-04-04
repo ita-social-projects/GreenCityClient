@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CreateEcoNewsService } from './create-eco-news.service';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 

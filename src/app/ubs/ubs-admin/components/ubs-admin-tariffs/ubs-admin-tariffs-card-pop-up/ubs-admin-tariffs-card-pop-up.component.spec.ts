@@ -12,6 +12,7 @@ import { ModalTextComponent } from '../../shared/components/modal-text/modal-tex
 import { Language } from 'src/app/main/i18n/Language';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 describe('UbsAdminTariffsCardPopUpComponent', () => {
   let component: UbsAdminTariffsCardPopUpComponent;
@@ -150,8 +151,9 @@ describe('UbsAdminTariffsCardPopUpComponent', () => {
         ],
         longitude: 0
       }
-    }
-  };
+    },
+    source: {}
+  } as MatAutocompleteSelectedEvent;
 
   const eventMockStation = {
     option: {

@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { ShoppingListService } from './shopping-list.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 import {
   ALLUSERSHOPLISTS,
   CUSTOMSHOPITEM,

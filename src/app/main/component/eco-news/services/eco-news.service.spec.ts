@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 import { EcoNewsService } from './eco-news.service';
 

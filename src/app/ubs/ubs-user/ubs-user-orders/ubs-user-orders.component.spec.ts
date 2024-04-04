@@ -128,7 +128,7 @@ describe('UbsUserOrdersComponent', () => {
     spyOn(component, 'scroll');
     component.orderIdToScroll = 1315;
     component.orderToScroll = fakeOrder1;
-    component.selected = new FormControl({ value: 0 });
+    component.selected = new FormControl(0);
     fixture.detectChanges();
   };
 

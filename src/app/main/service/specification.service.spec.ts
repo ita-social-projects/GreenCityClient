@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SpecificationService } from './specification.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '@environment/environment.js';
+import { environment } from '@environment/environment';
 
 describe('Specification Service', () => {
   let specificationService: SpecificationService;

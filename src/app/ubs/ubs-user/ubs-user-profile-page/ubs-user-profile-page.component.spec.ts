@@ -279,7 +279,7 @@ describe('UbsUserProfilePageComponent', () => {
   }));
 
   it('method onSubmit should return submitData', () => {
-    const submitData = {
+    const submitData: UserProfile = {
       addressDto: [
         {
           ...component.userForm.value.address[0],
@@ -303,13 +303,10 @@ describe('UbsUserProfilePageComponent', () => {
           link: 'link to telegram',
           type: 'telegram'
         }
-      ],
-      addressRegionDistrictList: []
+      ]
     };
     component.toggleAlternativeEmail();
     component.onSubmit();
-
-    delete submitData.addressRegionDistrictList;
 
     expect(submitData).toEqual(userProfileDataMock);
   });
@@ -344,7 +341,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method onSubmit should return submitData without housecorpus ', () => {
     component.toggleAlternativeEmail();
     component.onSubmit();
-    const submitData = {
+    const submitData: UserProfile = {
       addressDto: [
         {
           ...component.userForm.value.address[0],
@@ -379,7 +376,7 @@ describe('UbsUserProfilePageComponent', () => {
   it('method onSubmit should return submitData  without entrance number ', () => {
     component.toggleAlternativeEmail();
     component.onSubmit();
-    const submitData = {
+    const submitData: UserProfile = {
       addressDto: [
         {
           ...component.userForm.value.address[0],
@@ -461,7 +458,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'ua';
     component.setPredictCities(0);
     expect(component.cityPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value, 'uk');
+    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value);
   });
 
   it('method setPredictCities should call method for predicting cities in en', () => {
@@ -476,7 +473,7 @@ describe('UbsUserProfilePageComponent', () => {
     component.currentLanguage = 'en';
     component.setPredictCities(0);
     expect(component.cityPredictionList).toBe(null);
-    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value, 'en');
+    expect(spy).toHaveBeenCalledWith(searchAddress, regionEn.value);
   });
 
   it('method inputCity should invoke getPlacePredictions', () => {
@@ -504,7 +501,7 @@ describe('UbsUserProfilePageComponent', () => {
       return promise;
     });
     const fakesearchAddress = `Київська область, Ше`;
-    component.inputCity(fakesearchAddress, regionEn.value, Language.UK);
+    component.inputCity(fakesearchAddress, regionEn.value);
     flush();
     expect(component.cityPredictionList).toEqual(ADDRESSESMOCK.KYIVREGIONSLIST);
   }));
@@ -526,7 +523,7 @@ describe('UbsUserProfilePageComponent', () => {
     });
 
     const fakesearchAddress = `Київ`;
-    component.inputCity(fakesearchAddress, regionEn.value, Language.UK);
+    component.inputCity(fakesearchAddress, regionEn.value);
     flush();
     expect(component.cityPredictionList).toEqual(result);
   }));

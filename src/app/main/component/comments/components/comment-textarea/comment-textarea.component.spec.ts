@@ -14,11 +14,11 @@ describe('CommentTextareaComponent', () => {
   let component: CommentTextareaComponent;
   let fixture: ComponentFixture<CommentTextareaComponent>;
 
-  let socketServiceMock: SocketService;
-  socketServiceMock = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
+  const socketServiceMock: SocketService = jasmine.createSpyObj('SocketService', ['onMessage', 'send']);
   socketServiceMock.onMessage = () => new Observable();
-  let localStorageServiceMock: jasmine.SpyObj<LocalStorageService>;
-  localStorageServiceMock = jasmine.createSpyObj('LocalStorageService', ['userIdBehaviourSubject']);
+  const localStorageServiceMock: jasmine.SpyObj<LocalStorageService> = jasmine.createSpyObj('LocalStorageService', [
+    'userIdBehaviourSubject'
+  ]);
   localStorageServiceMock.userIdBehaviourSubject = new BehaviorSubject(1);
 
   const users = [

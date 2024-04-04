@@ -11,7 +11,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { error } from 'console';
 
 const testBonuses: BonusesModel = {
   ubsUserBonuses: [
@@ -77,7 +76,7 @@ describe('UbsUserBonusesComponent', () => {
 
   it('should call getBonusesData and return error', async () => {
     await buildComponent();
-    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => throwError(error);
+    bonusesServiceMock.getUserBonusesWithPaymentHistory = () => throwError(console.error);
     component.getBonusesData();
     expect(component.isLoading).toEqual(false);
   });
