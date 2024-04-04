@@ -124,6 +124,7 @@ describe('LikeCommentComponent', () => {
       liked: true,
       userId: 1111
     };
+    (component as any).userId = 1111;
     // @ts-ignore
     spyOn(component.socketService, 'onMessage').and.returnValue(of(msg));
     const spy = spyOn(component, 'changeLkeBtn');
