@@ -375,7 +375,8 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
     this.isDialogOpen = true;
     const dialogRef = this.dialog.open(UbsOrderLocationPopupComponent, {
       hasBackdrop: true,
-      disableClose: false
+      disableClose: false,
+      closeOnNavigation: false
     });
 
     dialogRef
@@ -392,7 +393,10 @@ export class UBSOrderDetailsComponent extends FormBaseComponent implements OnIni
   openExtraPackages(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'extra-packages';
-    this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.hasBackdrop = true;
+
+    const dialogRef = this.dialog.open(ExtraPackagesPopUpComponent, dialogConfig);
   }
 
   private changeSecondStepDisabled(value: boolean): void {
