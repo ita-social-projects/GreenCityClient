@@ -192,6 +192,7 @@ export class EventsListItemComponent implements OnInit, OnDestroy {
     switch (buttonName) {
       case this.btnName.cancel:
         this.store.dispatch(RemoveAttenderEcoEventsByIdAction({ id: this.event.id }));
+        this.nameBtn = this.btnName.join;
         break;
       case this.btnName.join:
         if (this.addAttenderError) {
