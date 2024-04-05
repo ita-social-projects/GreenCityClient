@@ -18,11 +18,13 @@ export class SocketService implements OnDestroy {
   constructor() {}
 
   initiateConnection(connection: SocketConnection = this.connection.greenCity) {
-    connection.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
-    connection.socket = Stomp.over(() => new SockJS(connection.url));
-    connection.socket.connect({}, () => {
-      connection.state.next(SocketClientState.CONNECTED);
-    });
+    if (!connection.state) {
+      connection.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
+      connection.socket = Stomp.over(() => new SockJS(connection.url));
+      connection.socket.connect({}, () => {
+        connection.state.next(SocketClientState.CONNECTED);
+      });
+    }
   }
 
   public connect(connection: SocketConnection): Observable<any> {
