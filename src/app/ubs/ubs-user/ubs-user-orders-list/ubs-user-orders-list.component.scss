@@ -215,17 +215,12 @@ button {
       }
 
       .mat-tab-label-active .mat-tab-label-content {
-        color: var(--ubs-button-light-green);
         font-size: 16px;
       }
     }
 
     .mat-expansion-indicator {
       display: none;
-    }
-
-    .mat-ink-bar {
-      background-color: var(--ubs-button-light-green) !important;
     }
   }
 

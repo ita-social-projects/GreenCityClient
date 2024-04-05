@@ -302,7 +302,7 @@ $inputwidth: 260px;
   }
 
   .ubs_profile-container .input-group {
-    padding: 0;
+    padding: 16px;
   }
 }
 
@@ -344,4 +344,8 @@ $inputwidth: 260px;
   font-size: 12px;
   line-height: 16px;
   color: #444e55;
+
+  @media (max-width: 575px) {
+    width: unset;
+  }
 }
