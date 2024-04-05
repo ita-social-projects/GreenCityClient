@@ -14,6 +14,7 @@ import { FormBaseComponent } from '@shared/components/form-base/form-base.compon
 import { Patterns } from 'src/assets/patterns/patterns';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/main/i18n/language.service';
+import { PlaceService } from '@global-service/place/place.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -30,7 +31,7 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
   public socialNetworksToServer: string[] = [];
   public namePattern = Patterns.NamePattern;
   public builder: EditProfileFormBuilder;
-  public placeService;
+  public placeService: PlaceService;
   private editProfileService: EditProfileService;
   private profileService: ProfileService;
   private snackBar: MatSnackBarComponent;

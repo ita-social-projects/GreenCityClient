@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Coordinates } from '@global-user/models/edit-profile.model';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -26,6 +26,7 @@ export class InputGoogleAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Input() autoCompRequest?: google.maps.places.AutocompletionRequest;
   @Input() isReturnCoordinates = false;
   @Input() isInitAutoTranslate = false;
+  @Input() control: AbstractControl;
 
   @Output() selectedPredictionCoordinates = new EventEmitter<Coordinates>();
   @Output() predictionSelected = new EventEmitter<GooglePrediction | null>();
