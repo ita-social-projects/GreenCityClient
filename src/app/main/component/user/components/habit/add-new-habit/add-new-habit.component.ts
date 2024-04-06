@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBarComponent } from '@global-errors/mat-snack-bar/mat-snack-bar.component';
 import { HabitAssignService } from '@global-service/habit-assign/habit-assign.service';
-import { take, takeUntil } from 'rxjs/operators';
+import { concatMap, take, takeUntil } from 'rxjs/operators';
 import { HabitService } from '@global-service/habit/habit.service';
 import { LocalStorageService } from '@global-service/localstorage/local-storage.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ShoppingListService } from './habit-edit-shopping-list/shopping-list.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WarningPopUpComponent } from '@shared/components';
@@ -128,7 +128,7 @@ export class AddNewHabitComponent implements OnInit {
           this.assignedHabit = res;
           this.habitId = this.assignedHabit.habit.id;
           this.isAcquired = this.assignedHabit.status === HabitStatus.ACQUIRED;
-          this.initialDuration = res.habit.defaultDuration;
+          this.initialDuration = res.duration || res.habit.defaultDuration;
           this.initHabitData(res.habit);
           this.getCustomShopList();
         });
@@ -288,9 +288,13 @@ export class AddNewHabitComponent implements OnInit {
   }
 
   private assignStandartHabit() {
+    const conditionForDurationUpdate = this.newDuration && this.newDuration !== this.initialDuration;
     this.habitAssignService
       .assignHabit(this.habitId)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        concatMap((res) => (conditionForDurationUpdate ? this.habitAssignService.updateHabitDuration(res.id, this.newDuration) : of([])))
+      )
       .subscribe(() => {
         this.afterHabitWasChanged('habitAdded');
       });
