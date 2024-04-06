@@ -1,0 +1,128 @@
+@import '../../../../../../typography/typography';
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+
+  color: var(--quaternary-dark-grey);
+}
+
+.card-info {
+  outline: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  padding: 40px 100px 40px 34px;
+  line-height: 36px;
+  font-size: 24px;
+  font-family: var(--primary-font);
+
+  .card-link {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 8px 24px;
+    margin-top: 28px;
+    margin-left: auto;
+    color: var(--primary-green);
+    font-size: 18px;
+    line-height: 18.75px;
+    font-weight: 700;
+  }
+
+  .chevron-icon {
+    height: 22px;
+  }
+}
+
+.card-title-text {
+  font-size: 32px;
+  font-family: var(--primary-font);
+  font-weight: bold;
+}
+
+.card-title {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-direction: row;
+}
+
+.card-order-even {
+  flex-direction: row-reverse;
+}
+
+.card-title-number {
+  font-family: var(--primary-font);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 120px;
+  line-height: 144px;
+  letter-spacing: 0.2px;
+
+  /* Gradient/Green */
+  background: linear-gradient(180deg, #8fe02e 0%, #26b351 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media only screen and (max-width: 1199px) {
+  .container-vision {
+    margin: auto 30px;
+  }
+
+  .steps-main-block {
+    margin: auto 30px;
+  }
+
+  .card-title {
+    width: auto;
+  }
+
+  .card-info {
+    padding: 0;
+    margin: 0;
+  }
+
+  .card-title-text {
+    width: auto;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container-about,
+  .container-vision {
+    flex-direction: column;
+
+    .full-text-block {
+      margin-left: 0;
+    }
+  }
+
+  .container-about {
+    margin: auto 30px;
+  }
+
+  .container-vision {
+    img {
+      order: 2;
+    }
+  }
+
+  .card-content {
+    flex-direction: column;
+    margin: 0;
+
+    img {
+      max-width: 100%;
+      order: 2;
+    }
+
+    .card-info {
+      position: relative;
+      top: 0;
+    }
+  }
+}

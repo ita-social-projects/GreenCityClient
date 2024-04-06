@@ -1,9 +1,19 @@
 body {
   overflow-x: hidden;
+  color: var(--quaternary-dark-grey);
 }
 
-main {
-  margin-top: 98px;
+.page-wrapper {
+  background-color: pink;
+  // max-width: 1200px;
+  margin-inline: auto;
+}
+
+// main {
+//   padding-top: 98px;
+// }
+h2 {
+  font-weight: 700;
 }
 
 img {
@@ -19,14 +29,10 @@ img {
   margin: auto 150px;
 }
 
-.steps-wrapper {
-  margin-top: -3117px;
-}
-
 .full-text-block {
   h2 {
     font-style: normal;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 48px;
     line-height: 60px;
     font-family: var(--secondary-font);
@@ -36,6 +42,7 @@ img {
     font-size: 24px;
     line-height: 36px;
     font-family: var(--primary-font);
+    margin-bottom: 32px;
   }
 
   button {
@@ -45,6 +52,7 @@ img {
 }
 
 .container-about {
+  padding-top: 98px;
   .full-text-block {
     margin-left: 171px;
   }
@@ -65,8 +73,7 @@ img {
 }
 
 .container-vision {
-  margin: auto 171px;
-  padding-bottom: 250px;
+  gap: 118px;
 }
 
 .container-about,
@@ -77,58 +84,12 @@ img {
   align-items: center;
 }
 
-.card-content {
-  display: flex;
-  flex-direction: row;
-}
-
-.card-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-self: center;
-  padding: 40px 48px;
-  line-height: 36px;
-  font-size: 24px;
-  font-family: var(--primary-font);
-  position: relative;
-  top: 150px;
-  background: white;
-
-  .card-link {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 28px;
-    text-decoration: underline;
-    color: var(--secondary-dark-green);
-    font-size: 16px;
-    line-height: 18.75px;
-  }
-}
-
 .card-title-text {
   width: 441px;
-  background: white;
   font-size: 32px;
   font-family: var(--primary-font);
   margin: 44px auto auto 24px;
   font-weight: bold;
-}
-
-.card-store {
-  .card-title-number::before {
-    content: url('~/assets/img/1.png');
-  }
-
-  margin-bottom: 175px;
-}
-
-.card-eco-products {
-  .card-title-number::before {
-    content: url('~/assets/img/2.png');
-  }
-
-  margin-top: 216px;
 }
 
 .card-title {
@@ -136,29 +97,14 @@ img {
   flex-direction: row;
 }
 
-.card-story {
-  .card-title-number::before {
-    content: url('~/assets/img/3.png');
-  }
-
-  margin-top: 300px;
-}
-
-.card-people {
-  .card-title-number::before {
-    content: url('~/assets/img/4.png');
-  }
-
-  margin-top: 320px;
-}
-
 .dashed-line {
-  position: relative;
+  position: absolute;
   background: url('~/assets/img/dashed-line.png');
-  width: 832px;
+  // width: 832px;
   height: 2926px;
   margin: auto;
-  z-index: -1;
+  z-index: 1;
+  // display: none;
 }
 
 .leaves {
@@ -166,9 +112,9 @@ img {
   top: 12px;
   left: 107px;
   background: url('~/assets/img/leaves.png') no-repeat;
-  width: 641px;
+  // width: 641px;
   height: 2564px;
-  z-index: -1;
+  z-index: 1;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -178,19 +124,6 @@ img {
 
   .steps-main-block {
     margin: auto 30px;
-  }
-
-  .card-title {
-    width: auto;
-  }
-
-  .card-info {
-    padding: 0;
-    margin: 0;
-  }
-
-  .card-title-text {
-    width: auto;
   }
 }
 
@@ -204,28 +137,9 @@ img {
     }
   }
 
-  .container-about {
-    margin: auto 30px;
-  }
-
   .container-vision {
     img {
       order: 2;
-    }
-  }
-
-  .card-content {
-    flex-direction: column;
-    margin: 0;
-
-    img {
-      max-width: 100%;
-      order: 2;
-    }
-
-    .card-info {
-      position: relative;
-      top: 0;
     }
   }
 
