@@ -96,11 +96,8 @@ export class HabitAssignService implements OnDestroy {
     this.habitChangesFromCalendarSubj.next(changesFromCalendar);
   }
 
-  updateHabitDuration(habitAssignId: number, duration: number): Observable<Partial<UpdateHabitDuration>> {
-    return this.http.put<Partial<UpdateHabitDuration>>(
-      `${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`,
-      {}
-    );
+  updateHabitDuration(habitAssignId: number, duration: number): Observable<UpdateHabitDuration> {
+    return this.http.put<UpdateHabitDuration>(`${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`, {});
   }
 
   ngOnDestroy(): void {

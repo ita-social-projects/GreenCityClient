@@ -116,10 +116,10 @@ describe('HabitService', () => {
     });
 
     const req = httpMock.expectOne(`${habitAssignLink}/${habitId}/update-habit-duration?duration=${duration}`);
-    req.flush({});
+    req.flush(expectedRes);
     httpMock.verify();
     expect(req.request.method).toBe('PUT');
-    expect(expectedRes).toEqual(actualRes);
+    expect(actualRes).toEqual(expectedRes);
   });
 
   afterEach(() => {

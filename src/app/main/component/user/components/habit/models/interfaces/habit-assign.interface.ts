@@ -40,7 +40,11 @@ export interface ChangesFromCalendarToProgress {
   date: string;
 }
 
-export interface UpdateHabitDuration extends ResponseInterface {
+export interface UpdateHabitDuration {
   habitAssignId: number;
   habitId: number;
+  userId: number;
+  status: 'SUSPENDED' | 'INPROGRESS' | 'ACQUIRED';
+  workingDays: number;
+  duration: number;
 }
