@@ -10,6 +10,7 @@ import {
 } from '../../component/user/components/habit/mocks/habit-assigned-mock';
 import { HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
+import { UpdateHabitDuration } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 
 describe('HabitService', () => {
   let service: HabitAssignService;
@@ -102,6 +103,23 @@ describe('HabitService', () => {
     const customShoppingItemList: Array<CustomShoppingItem> = [{ text: '1234567890' }];
     service.assignCustomHabit(habitId, friendsIdsList, habitAssignProperties, customShoppingItemList);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should update habit duration', () => {
+    const habitId = 1;
+    const duration = 30;
+    const expectedRes: Partial<UpdateHabitDuration> = { habitId, duration };
+    let actualRes: Partial<UpdateHabitDuration>;
+
+    service.updateHabitDuration(habitId, duration).subscribe((res) => {
+      actualRes = res;
+    });
+
+    const req = httpMock.expectOne(`${habitAssignLink}/${habitId}/update-habit-duration?duration=${duration}`);
+    req.flush({});
+    httpMock.verify();
+    expect(req.request.method).toBe('PUT');
+    expect(expectedRes).toEqual(actualRes);
   });
 
   afterEach(() => {

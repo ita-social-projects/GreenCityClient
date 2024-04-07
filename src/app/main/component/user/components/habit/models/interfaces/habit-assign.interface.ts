@@ -39,3 +39,8 @@ export interface ChangesFromCalendarToProgress {
   isEnrolled: boolean;
   date: string;
 }
+
+export interface UpdateHabitDuration extends ResponseInterface {
+  habitAssignId: number;
+  habitId: number;
+}

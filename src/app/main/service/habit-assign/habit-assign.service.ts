@@ -9,7 +9,8 @@ import { HabitsForDateInterface } from '@global-user/components/profile/calendar
 import {
   HabitAssignInterface,
   ResponseInterface,
-  ChangesFromCalendarToProgress
+  ChangesFromCalendarToProgress,
+  UpdateHabitDuration
 } from '@global-user/components/habit/models/interfaces/habit-assign.interface';
 import { HabitAssignCustomPropertiesDto, HabitAssignPropertiesDto } from '@global-models/goal/HabitAssignCustomPropertiesDto';
 import { CustomShoppingItem } from '@global-user/models/shoppinglist.interface';
@@ -95,8 +96,8 @@ export class HabitAssignService implements OnDestroy {
     this.habitChangesFromCalendarSubj.next(changesFromCalendar);
   }
 
-  updateHabitDuration(habitAssignId: number, duration: number) {
-    return this.http.put<Partial<HabitAssignInterface>>(
+  updateHabitDuration(habitAssignId: number, duration: number): Observable<Partial<UpdateHabitDuration>> {
+    return this.http.put<Partial<UpdateHabitDuration>>(
       `${habitAssignLink}/${habitAssignId}/update-habit-duration?duration=${duration}`,
       {}
     );
