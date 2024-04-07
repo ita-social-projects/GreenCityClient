@@ -57,6 +57,7 @@ export class EventsListComponent implements OnInit, OnDestroy {
   public typeFiltersList: FilterItem[] = typeFiltersData;
   public userId: number;
   public isLoading = true;
+  public isGalleryView = true;
   private searchResultSubscription: Subscription;
   private dialog: MatDialog;
 
@@ -357,6 +358,11 @@ export class EventsListComponent implements OnInit, OnDestroy {
         popUpName: page
       }
     });
+  }
+
+  public changeViewMode(type: string): void {
+    this.isGalleryView = type === 'gallery' ? true : false;
+    console.log(this.isGalleryView);
   }
 
   ngOnDestroy(): void {

@@ -101,12 +101,34 @@
         {{ 'homepage.events.item-found-text' | translate }} {{ countOfEvents }}
         {{ 'homepage.events.items-event-text' | translate }}
       </p>
-      <div class="chips">
+      <!-- <div class="chips">
         <div class="active-filter" *ngFor="let selectedFilter of selectedFilters; let i = index">
           {{ getLangValue(selectedFilter.nameUa, selectedFilter.nameEn) }}
           <div class="cross-container" (click)="removeItemFromSelectedFiltersList(selectedFilter, i)">
             <img class="cross-img" src="assets/events-icons/cross.png" alt="cross" />
           </div>
+        </div>
+      </div> -->
+      <div class="change-view">
+        <div
+          class="gallery"
+          tabindex="0"
+          [attr.aria-pressed]="isGalleryView"
+          role="button"
+          aria-label="table view"
+          (click)="changeViewMode('gallery')"
+        >
+          <em class="fa fa-th-large"></em>
+        </div>
+        <div
+          class="list"
+          tabindex="0"
+          [attr.aria-pressed]="!isGalleryView"
+          role="button"
+          aria-label="list view"
+          (click)="changeViewMode('list')"
+        >
+          <em class="fa fa-bars"></em>
         </div>
       </div>
     </div>

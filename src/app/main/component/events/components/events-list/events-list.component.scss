@@ -204,6 +204,24 @@ p {
   height: 24px;
 }
 
+.change-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  > div {
+    font-size: 16px;
+    color: var(--secondary-grey);
+    cursor: pointer;
+    transition: all 0.1s;
+
+    &:hover {
+      color: var(--primary-green);
+    }
+  }
+}
+
 .event-header {
   margin-top: 40px;
   width: 100%;
@@ -217,10 +235,9 @@ p {
 }
 
 .event-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 359px);
+  grid-gap: 32px;
   margin-bottom: 30px;
 
   .mat-card {
