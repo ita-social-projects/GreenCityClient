@@ -21,7 +21,7 @@
             <label for="city">{{ 'user.edit-profile.city' | translate }}</label>
             <app-input-google-autocomplete
               id="city"
-              [control]="editProfileForm.get('city')"
+              [formControl]="city"
               [autoCompRequest]="cityOptions"
               [isReturnCoordinates]="true"
               [isInitAutoTranslate]="true"

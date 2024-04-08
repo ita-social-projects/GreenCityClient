@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { FormBaseComponent } from '@shared/components/form-base/form-base.component';
 import { Patterns } from 'src/assets/patterns/patterns';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/main/i18n/language.service';
 import { PlaceService } from '@global-service/place/place.service';
 
@@ -63,8 +63,8 @@ export class EditProfileComponent extends FormBaseComponent implements OnInit, O
     return this.editProfileForm.get('name');
   }
 
-  get city() {
-    return this.editProfileForm.get('city');
+  get city(): FormControl {
+    return this.editProfileForm.get('city') as FormControl;
   }
 
   get credo() {
