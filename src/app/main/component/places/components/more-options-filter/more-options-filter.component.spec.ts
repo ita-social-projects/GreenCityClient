@@ -6,6 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('MoreOptionsFilterComponent', () => {
   let component: MoreOptionsFilterComponent;
@@ -14,7 +15,7 @@ describe('MoreOptionsFilterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MoreOptionsFilterComponent],
-      imports: [TranslateModule.forRoot(), MatMenuModule, MatCheckboxModule, MatSliderModule, ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), MatMenuModule, MatCheckboxModule, MatSliderModule, ReactiveFormsModule, HttpClientModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

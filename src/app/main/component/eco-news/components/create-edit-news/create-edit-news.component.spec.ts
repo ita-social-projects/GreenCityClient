@@ -100,7 +100,6 @@ describe('CreateEditNewsComponent', () => {
   ecoNewsServiceMock.getEcoNewsById = (id) => {
     return of(FIRSTECONEWS);
   };
-  ecoNewsServiceMock.getAllPresentTags = () => of(tagsArray);
 
   createEditNewsFormBuilderMock = jasmine.createSpyObj('CreateEditNewsFormBuilder', ['getSetupForm', 'getEditForm']);
   createEditNewsFormBuilderMock.getSetupForm = () => {

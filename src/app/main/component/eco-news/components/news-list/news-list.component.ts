@@ -34,7 +34,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   public elementsArePresent = true;
   public tagList: FilterModel[] = tagsListEcoNewsData;
   private destroyed$: ReplaySubject<any> = new ReplaySubject<any>(1);
-  public tags: Observable<Array<TagInterface>>;
 
   public hasNext = true;
 
@@ -55,7 +54,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.checkUserSingIn();
     this.userOwnAuthService.getDataFromLocalStorage();
     this.scroll = false;
-    this.tags = this.ecoNewsService.getAllPresentTags();
     this.setLocalizedTags();
 
     this.dispatchStore(false);

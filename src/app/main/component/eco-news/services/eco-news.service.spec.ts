@@ -41,23 +41,6 @@ describe('EcoNewsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return all present tags', () => {
-    const tagMock = [
-      {
-        id: 0,
-        name: 'News',
-        nameUa: 'Новини'
-      }
-    ];
-    service.getAllPresentTags().subscribe((data) => {
-      expect(data).toBe(tagMock);
-    });
-
-    const req = httpTestingController.expectOne(`${environment.backendLink}tags/v2/search?type=ECO_NEWS`);
-    expect(req.request.method).toEqual('GET');
-    req.flush(tagMock);
-  });
-
   it('should return eco news list by current page', () => {
     service.getEcoNewsListByPage(0, 5).subscribe((data) => {
       expect(data).toBe(newsMock);

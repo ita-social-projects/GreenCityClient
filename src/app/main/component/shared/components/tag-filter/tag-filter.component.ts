@@ -53,7 +53,7 @@ export class TagFilterComponent implements OnInit {
     return filters !== null ? JSON.parse(filters) : this.tagsListData;
   }
 
-  getLangValue(valUa: string, valEn: string): string {
+  public getLangValue(valUa: string, valEn: string): string {
     return this.langService.getLangValue(valUa, valEn) as string;
   }
 }
