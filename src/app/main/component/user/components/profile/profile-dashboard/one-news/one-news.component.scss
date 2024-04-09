@@ -1,63 +1,78 @@
 .news {
-  height: 206px;
+  height: 192px;
   box-shadow: 1px 1px 12px rgba(27, 51, 38, 0.15);
   background: var(--primary-white);
   border-radius: 4px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 192px calc(100% - 192px);
   margin-bottom: 24px;
   cursor: pointer;
 
   &-content {
-    width: 100%;
-    padding: 0 10px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-}
 
-.tags {
-  display: flex;
-  padding: 10px 0;
-  flex-wrap: wrap;
-}
+    .info {
+      .tags {
+        display: flex;
+        padding-bottom: 2px;
+        flex-wrap: wrap;
+        font-size: 14px;
+        color: var(--primary-green);
+      }
 
-.tag-btn {
-  font-family: var(--primary-font);
-  font-size: 14px;
-  line-height: 16px;
-  color: var(--primary-green);
-  margin-right: 16px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+      .title {
+        overflow: hidden;
+        word-wrap: break-word;
+        height: 90px;
+        text-overflow: ellipsis;
 
-.title {
-  overflow: hidden;
+        h3 {
+          font-family: var(--primary-font);
+          font-weight: bold;
+          font-size: 20px;
+          line-height: 28px;
+          color: var(--quaternary-dark-grey);
+        }
+      }
+    }
 
-  h3 {
-    font-family: var(--secondary-font);
-    font-style: normal;
-    font-weight: 500;
-    font-size: 21px;
-    line-height: 26px;
-    color: var(--secondary-dark-grey);
-  }
-}
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
 
-.user-info {
-  display: flex;
-  justify-content: space-between;
-}
+      .user-info-date,
+      .user-info-icon {
+        display: flex;
+        align-items: center;
 
-@media (max-width: 700px) {
-  .news {
-    height: auto;
-    margin: 0 auto 24px;
-    display: block;
+        p {
+          font-size: 14px;
+          margin-bottom: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
+
+        img {
+          width: 12px;
+          margin-right: 5px;
+        }
+      }
+    }
   }
 
   .news-image {
-    width: 100%;
+    display: block;
+    width: 192px;
+    height: 192px;
+    background-position: left center;
+    background-size: cover;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
   }
 }

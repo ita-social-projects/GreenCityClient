@@ -31,7 +31,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .profile-wrapper {
     display: flex;
     flex-direction: column;
@@ -63,7 +63,7 @@
 @media (min-width: 768px) {
   .profile-wrapper {
     display: grid;
-    grid-template-columns: 219px 1fr;
+    grid-template-columns: 219px 469px;
     grid-template-rows: 156px 1fr;
     grid-gap: 32px;
     justify-content: center;
@@ -93,6 +93,12 @@
         display: none;
       }
     }
+  }
+}
+
+@media (min-width: 992px) {
+  .profile-wrapper {
+    grid-template-columns: 216px 710px;
   }
 }
 

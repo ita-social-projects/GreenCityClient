@@ -1,12 +1,11 @@
 .wrapper {
   display: grid;
   grid-template-rows: repeat(2, auto);
-  row-gap: 15px;
+  row-gap: 8px;
   align-items: center;
 
   .filter {
     display: inline-block;
-    margin-top: -10px;
     font-family: var(--primary-font);
     font-style: normal;
     font-weight: 700;

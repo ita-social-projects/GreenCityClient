@@ -16,6 +16,7 @@ export interface IOrderState {
   firstFormValid: boolean;
   existingOrderInfo: IUserOrderInfo | null;
   personalData: PersonalData | null;
+  isAddressLoading: boolean;
   addresses: Address[];
   addressId: number | null;
   error?: string | null;
@@ -35,6 +36,7 @@ export const initialOrderState: IOrderState = {
   existingOrderInfo: null,
   firstFormValid: false,
   personalData: null,
+  isAddressLoading: false,
   addresses: [],
   addressId: null,
   error: null

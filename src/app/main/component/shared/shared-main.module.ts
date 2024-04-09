@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WarningPopUpComponent, PhotoUploadComponent, EditPhotoPopUpComponent } from './components';
+import { WarningPopUpComponent, EditPhotoPopUpComponent } from './components';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragAndDropDirective } from '../eco-news/directives/drag-and-drop.directive';
@@ -42,7 +42,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { InputGoogleAutocompleteComponent } from './components/input-google-autocomplete/input-google-autocomplete.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 registerLocaleData(usLocale, 'en');
@@ -51,7 +50,6 @@ registerLocaleData(ukLocale, 'ua');
 
 @NgModule({
   declarations: [
-    PhotoUploadComponent,
     DragAndDropDirective,
     DragAndDropComponent,
     EditPhotoPopUpComponent,
@@ -67,8 +65,7 @@ registerLocaleData(ukLocale, 'ua');
     TagsSelectComponent,
     InputErrorComponent,
     SelectImagesComponent,
-    FilterSelectComponent,
-    InputGoogleAutocompleteComponent
+    FilterSelectComponent
   ],
   imports: [
     ModalModule.forRoot(),
@@ -103,7 +100,6 @@ registerLocaleData(ukLocale, 'ua');
   exports: [
     EditPhotoPopUpComponent,
     TranslateModule,
-    PhotoUploadComponent,
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule,
@@ -128,8 +124,7 @@ registerLocaleData(ukLocale, 'ua');
     SelectImagesComponent,
     FilterSelectComponent,
     MatDividerModule,
-    MatExpansionModule,
-    InputGoogleAutocompleteComponent
+    MatExpansionModule
   ],
   providers: [MatSnackBarComponent, TranslateService],
   entryComponents: [WarningPopUpComponent, HabitsPopupComponent]

@@ -1,3 +1,5 @@
+@import 'src/typography/_resp.scss';
+
 $header-height: 54px;
 $white-color: var(--ubs-primary-white);
 $ubs-header-height: 86px;
@@ -1216,7 +1218,7 @@ header {
   }
 }
 
-@media (min-width: 1440px) {
+@include responsiveMobileFirst(3xl) {
   .ubs-header-sing-in-img {
     display: none;
   }

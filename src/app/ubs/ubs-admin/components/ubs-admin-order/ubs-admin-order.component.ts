@@ -285,12 +285,15 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
         ],
         addressHouseNumber: [
           this.addressInfo.addressHouseNumber,
-          [Validators.required, Validators.maxLength(10), Validators.pattern(Patterns.ubsHousePattern)]
+          [Validators.required, Validators.maxLength(10), Validators.pattern(Patterns.numericAndAlphabetic)]
         ],
-        addressHouseCorpus: [this.addressInfo.addressHouseCorpus, [Validators.maxLength(4), Validators.pattern(Patterns.ubsCorpusPattern)]],
+        addressHouseCorpus: [
+          this.addressInfo.addressHouseCorpus,
+          [Validators.maxLength(4), Validators.pattern(Patterns.numericAndAlphabetic)]
+        ],
         addressEntranceNumber: [
           this.addressInfo.addressEntranceNumber,
-          [Validators.maxLength(2), Validators.pattern(Patterns.ubsEntrNumPattern)]
+          [Validators.maxLength(2), Validators.pattern(Patterns.numericAndAlphabetic)]
         ],
         addressDistrict: [{ value: this.addressInfo.addressDistrict, disabled: this.isStatus }],
         addressDistrictEng: [{ value: this.addressInfo.addressDistrictEng, disabled: this.isStatus }],
@@ -521,7 +524,7 @@ export class UbsAdminOrderComponent implements OnInit, OnDestroy, AfterContentCh
       .updateOrderInfo(this.orderId, this.currentLanguage, changedValues, this.notTakenOutReasonImages)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        response.ok ? this.matSnackBar.snackType.changesSaved() : this.matSnackBar.snackType.error();
+        this.matSnackBar.openSnackBar(response.ok ? 'changesSaved' : 'error');
         if (response.ok) {
           this.getOrderInfo(this.orderId, true);
           if (changedValues?.generalOrderInfo) {

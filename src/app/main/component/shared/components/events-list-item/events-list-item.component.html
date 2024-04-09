@@ -114,14 +114,12 @@
     </div>
     <div class="event-assign__content">
       <div *ngIf="event.dates[event.dates.length - 1]" class="event-assign__content__date-container">
-        <div class="event-assign__content__date-container__date">
-          <span class="clock"></span>
-          <p class="date">
-            {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
-          </p>
-          <span class="time-divider">|</span>
-          <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
-        </div>
+        <span class="clock"></span>
+        <p class="date">
+          {{ event.dates[event.dates.length - 1].startDate | dateLocalisation }}
+        </p>
+        <span class="time-divider">|</span>
+        <p class="time">{{ event.dates[event.dates.length - 1].startDate | date: 'shortTime' }}</p>
         <div
           class="event-assign__content__date-container__event-flags favourite-button"
           *ngIf="event.open"
@@ -129,12 +127,13 @@
         >
           <span [ngClass]="isEventFavorite ? 'flag-active' : 'flag'"></span>
         </div>
-      </div>
-      <div>
+        <span class="time-divider">|</span>
         <div class="event-assign__content__status-container">
           <span [ngClass]="event.open ? 'lock-open' : 'lock-closed'"></span>
           <div class="event-status">{{ (event.open ? 'homepage.events.open' : 'homepage.events.completed') | translate }}</div>
         </div>
+      </div>
+      <div>
         <div class="title">
           <h3>
             {{ event.title }}
@@ -148,19 +147,22 @@
           </p>
         </div>
       </div>
-      <div class="button-event-card">
-        <button class="secondary-global-button m-btn" (click)="routeToEvent()">
-          {{ 'event.btn-top' | translate }}
-        </button>
-      </div>
+
       <div class="event-assign__content__user-info">
-        <div class="event-assign__content__user-info-date">
-          <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
-          <p>{{ newDate | translate }}</p>
+        <div>
+          <div class="event-assign__content__user-info-date">
+            <img class="icon" [src]="profileIcons.calendarIcon" alt="calendar icon" />
+            <p>{{ newDate | translate }}</p>
+          </div>
+          <div class="event-assign__content__user-info-icon">
+            <img [src]="profileIcons.userIcon" class="author-image" alt="author" />
+            <p>{{ event.organizer.name }}</p>
+          </div>
         </div>
-        <div class="event-assign__content__user-info-icon">
-          <img [src]="profileIcons.userIcon" class="author-image" alt="author" />
-          <p>{{ event.organizer.name }}</p>
+        <div class="button-event-card">
+          <button class="secondary-global-button m-btn" (click)="routeToEvent()">
+            {{ 'event.btn-top' | translate }}
+          </button>
         </div>
       </div>
     </div>

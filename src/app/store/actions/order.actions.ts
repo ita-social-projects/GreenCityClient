@@ -10,8 +10,8 @@ export enum OrderActions {
   SetCertificates = '[Order] Set Certificates',
   SetCertificateUsed = '[Order] Set Certificate Used',
   SetFirstFormStatus = '[Order] Set First Form Status',
-  SetPersonalData = '[Order] Set Personal Data Client',
-  SetAddressId = '[Order] Set Address Id',
+  SetPersonalData = '[Order] Set Personal Data',
+  SetAddress = '[Order] Set Address',
   SetAdditionalOrders = '[Order] Set Additional Orders',
   SetOrderComment = '[Order] Set Order Comment',
   AddCertificate = '[Order] Add Certificate',
@@ -38,14 +38,14 @@ export enum OrderActions {
   GetExistingOrderTariff = '[Order] Get Existing Order Tariff',
   GetExistingOrderTariffSuccess = '[Order] Get Existing Order Tariff Success',
 
-  GetExistingOrderInfo = '[Order] Get Existing Order Personal Data',
-  GetExistingOrderInfoSuccess = '[Order] Get Existing Order Personal Data Success',
+  GetExistingOrderInfo = '[Order] Get Existing Order Info',
+  GetExistingOrderInfoSuccess = '[Order] Get Existing Order Info Success',
 
   GetPersonalData = '[Order] Get Personal Data',
   GetPersonalDataSuccess = '[Order] Get Personal Data Success',
 
-  GetAddresses = '[Order] Get User Locations',
-  GetAddressesSuccess = '[Order] Get User Locations Success',
+  GetAddresses = '[Order] Get User Addresses',
+  GetAddressesSuccess = '[Order] Get User Addresses Success',
 
   CreateAddress = '[Order] Create Address',
   CreateAddressSuccess = '[Order] Create Address Success',
@@ -71,7 +71,7 @@ export const SetFirstFormStatus = createAction(OrderActions.SetFirstFormStatus, 
 export const SetPersonalData = createAction(OrderActions.SetPersonalData, props<{ personalData: PersonalData }>());
 export const SetAdditionalOrders = createAction(OrderActions.SetAdditionalOrders, props<{ orders: string[] }>());
 export const SetOrderComment = createAction(OrderActions.SetOrderComment, props<{ comment: string }>());
-export const SetAddressId = createAction(OrderActions.SetAddressId, props<{ addressId: number }>());
+export const SetAddress = createAction(OrderActions.SetAddress, props<{ address: Address }>());
 export const AddCertificate = createAction(OrderActions.AddCertificate, props<{ certificate: CCertificate }>());
 export const RemoveCertificate = createAction(OrderActions.RemoveCertificate, props<{ code: string }>());
 

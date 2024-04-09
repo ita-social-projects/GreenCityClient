@@ -396,10 +396,13 @@
       "joined-event": "You have successfully joined the event",
       "saved-changes": "Your changes have been saved",
       "added-address": "The address has been added",
+      "updated-address": "The address has been updated",
+      "deleted-address": "The address has been deleted",
       "update-notification": "Notification was updated",
       "rating-send": "Rating sent",
       "add-friend": "Friend request sent",
-      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer"
+      "joint-event-request": "The request to join the closed event has been successfully sent to the organizer",
+      "create-news": "Your news has been successfully published"
     }
   },
   "user": {
@@ -425,7 +428,7 @@
         "this-is-not-email": "Please check that your e-mail address is indicated correctly",
         "password": "Password",
         "password-is-required": "Password is required.",
-        "password-must-be-at-least-8-characters-long": "Password must be at least 8 characters long without spaces",
+        "password-must-be-at-least-8-characters-long": "Password have from 8 to 20 characters long without spaces and contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "too-long-password": "Password must be less than 20 characters long without spaces.",
         "sign-in": "Sign in",
         "sign-up": "Sign up",
@@ -462,6 +465,7 @@
         "password-spaces-error": "Password must be at least 8 characters long without spaces",
         "password-symbols-error": "Password must contain at least one uppercase letter (A-Z), one lowercase letter (a-z), a digit (0-9), and a special character (~`!@#$%^&*()+=_-{}[]|:;”’?/<>,.)",
         "password-match": "Passwords do not match",
+        "password-match-is-empty": "Please type your password first!",
         "password-confirm": "Confirm password",
         "password-confirm-is-required": "Please confirm your password",
         "submit": "Sign up",

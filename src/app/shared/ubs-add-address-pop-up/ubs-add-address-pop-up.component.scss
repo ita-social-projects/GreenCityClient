@@ -104,6 +104,11 @@ select {
   margin-bottom: 6px;
 }
 
+.address-exists {
+  color: var(--ubs-error-ligh-red);
+  text-align: end;
+}
+
 @media (max-width: 767px) {
   .secondary-global-button,
   .primary-global-button,

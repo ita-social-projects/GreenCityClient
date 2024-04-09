@@ -12,7 +12,8 @@ enum errorType {
   required = 'required',
   newPasswordMatchesOld = 'newPasswordMatchesOld',
   confirmPasswordMistmatch = 'confirmPasswordMistmatch',
-  requiredFromDropdown = 'requiredFromDropdown'
+  requiredFromDropdown = 'requiredFromDropdown',
+  emailExist = 'emailExist'
 }
 
 @Component({
@@ -43,14 +44,13 @@ export class UBSInputErrorComponent implements OnInit {
     wrongName: 'input-error.name-wrong',
     wrongNumber: 'input-error.number-wrong',
     wrongCity: 'input-error.city-wrong',
-    wrongHouse: 'input-error.house-wrong',
-    wrongCorpus: 'input-error.corpus-wrong',
-    wrongEntrance: 'input-error.entrance-wrong',
+    lettersAndNumbericOnly: 'input-error.letters-and-numeric-only',
     numberLength: 'input-error.number-length',
     passwordRequirements: 'input-error.password-requirements',
     newPasswordMatchesOld: 'input-error.newPassword-MatchesOld',
     confirmPasswordMistmatch: 'ubs-client-profile.password-error-confirm',
-    requiredFromDropdown: 'personal-info.required-from-dropdown'
+    requiredFromDropdown: 'personal-info.required-from-dropdown',
+    emailExist: 'input-error.email-exist'
   };
 
   ngOnInit() {
@@ -72,18 +72,6 @@ export class UBSInputErrorComponent implements OnInit {
             break;
           case errorType.maxlength:
             this.errorMessage = this.getMaxlengthErrorMessage(this.formElement.errors.maxlength.requiredLength);
-            break;
-          case errorType.wrongNumber:
-            this.errorMessage = this.validationErrors.wrongNumber;
-            break;
-          case errorType.newPasswordMatchesOld:
-            this.errorMessage = this.validationErrors.newPasswordMatchesOld;
-            break;
-          case errorType.confirmPasswordMistmatch:
-            this.errorMessage = this.validationErrors.confirmPasswordMistmatch;
-            break;
-          case errorType.requiredFromDropdown:
-            this.errorMessage = this.validationErrors.requiredFromDropdown;
             break;
           default:
             this.errorMessage = this.validationErrors[err];
@@ -109,12 +97,8 @@ export class UBSInputErrorComponent implements OnInit {
     switch (pattern) {
       case Patterns.ubsWithDigitPattern.toString():
         return this.validationErrors.wrongCity;
-      case Patterns.ubsHousePattern.toString():
-        return this.validationErrors.wrongHouse;
-      case Patterns.ubsCorpusPattern.toString():
-        return this.validationErrors.wrongCorpus;
-      case Patterns.ubsEntrNumPattern.toString():
-        return this.validationErrors.wrongEntrance;
+      case Patterns.numericAndAlphabetic.toString():
+        return this.validationErrors.lettersAndNumbericOnly;
       case Patterns.NamePattern.toString():
         return this.validationErrors.wrongName;
       case Patterns.ubsMailPattern.toString():

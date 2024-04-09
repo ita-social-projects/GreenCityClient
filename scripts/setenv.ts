@@ -9,17 +9,7 @@ const environmentFileContent = `export const environment = {
     production: ${isProduction},
     apiKeys: '${process.env.apiKeys}',
     backendLink: '${process.env.backendLink}',
-    frontendLink: '${isProduction ? process.env.frontendLink : process.env.localFrontendLink}',
-    firebaseConfig: {
-        apiKey: '${process.env.apiKey}',
-        authDomain: '${process.env.authDomain}',
-        databaseURL: '${process.env.databaseURL}',
-        projectId: '${process.env.projectId}',
-        storageBucket: '${process.env.storageBucket}',
-        messagingSenderId: '${process.env.messagingSenderId}',
-        appId: '${process.env.appId}',
-        measurementId: '${process.env.measurementId}'
-    }
+    frontendLink: '${isProduction ? process.env.frontendLink : process.env.localFrontendLink}'
 };
 `;
 writeFile(targetPath, environmentFileContent, function (err) {

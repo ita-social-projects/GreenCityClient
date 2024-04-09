@@ -2,7 +2,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { FilterDiscountDtoModel } from '@global-models/filtering/filter-discount-dto.model';
 import { FilterDistanceDto } from '@global-models/filtering/filter-distance-dto.model';
-import { FilterPlaceDtoModel } from '@global-models/filtering/filter-place-dto.model';
 import { placeLink } from '../../links';
 import { WeekDays } from '../../model/weekDays.model';
 import { FilterPlaceService } from '../filtering/filter-place.service';
@@ -94,20 +93,6 @@ describe('PlaceService', () => {
     httpTest('info/favorite/5', 'GET', placeInfo);
   });
 
-  it('getPlacesByStatus: should get  place by status', () => {
-    service.getPlacesByStatus('PROPOSED', '?page=0&size=5').subscribe((data) => {
-      expect(data).toBe(placesByStatus);
-    });
-    httpTest('PROPOSED?page=0&size=5', 'GET', placesByStatus);
-  });
-
-  it('getPlaceByID: should retrurn place by id', () => {
-    service.getPlaceByID(5).subscribe((data) => {
-      expect(data).toBe(placeInfo);
-    });
-    httpTest('about/5', 'GET', placeInfo);
-  });
-
   it('getStatuse: should get statuses', () => {
     service.getStatuses().subscribe((data) => {
       expect(data).toBe(STATUSES);
@@ -135,64 +120,11 @@ describe('PlaceService', () => {
     httpTest('status', 'PATCH', queryData);
   });
 
-  it('bulkUpdatePlaceStatuses: should send patch request', () => {
-    const response = [{ id: 0, status: 'PROPOSED' }];
-    service.bulkUpdatePlaceStatuses([], '').subscribe((data) => {
-      expect(data).toEqual(response);
-    });
-    httpTest('statuses', 'PATCH', response);
-  });
-
   it('delete: should delete place ', () => {
     const id = 1;
     service.delete(id).subscribe((data) => {
       expect(data).toEqual(0);
     });
     httpTest(id, 'DELETE', 0);
-  });
-
-  it('bulkDelete: should Bulk delete places', () => {
-    const ids = [];
-    service.bulkDelete(ids).subscribe((data) => {
-      expect(data).toEqual(0);
-    });
-    httpTest('?ids=', 'DELETE', 0);
-  });
-
-  it('filterByRegex: should send post request', () => {
-    const filterDto = new FilterPlaceDtoModel(1, mapBounds, discountDto, distanceFromUserDto, '', '');
-    const response = {
-      page: [
-        {
-          id: 1,
-          name: '',
-          location: { lat: 1, lng: 1 },
-          category: { name: '' },
-          author: {
-            id: 1,
-            firstName: '',
-            lastName: '',
-            email: ''
-          },
-          openingHoursList: [{ openTime: '8:00', closeTime: '20:00', weekDay: 'MONDAY' }],
-          modifiedDate: '',
-          status: '',
-          isSelected: true
-        }
-      ],
-      totalElements: 22,
-      currentPage: 0
-    };
-    service.filterByRegex('', filterDto).subscribe((data) => {
-      expect(data).toBe(response);
-    });
-    httpTest('filter/predicate&sort=modifiedDate,desc', 'POST', response);
-  });
-
-  it('updatePlace: should update place and return object', () => {
-    service.updatePlace(placeInfo).subscribe((data) => {
-      expect(data).toBe(placeInfo);
-    });
-    httpTest('update', 'PUT', placeInfo);
   });
 });

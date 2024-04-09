@@ -117,21 +117,23 @@ export class OrderService {
   }
 
   findAllDistricts(region: string, city: string): Observable<DistrictsDtos[]> {
-    return this.http.get<DistrictsDtos[]>(`${this.url}/get-all-districts?city=${city}&region=${region}`).pipe(
-      map((districts) => {
-        if (districts.length > 1) {
-          return districts.map((item) => ({
-            nameUa: item.nameUa + DistrictEnum.UA,
-            nameEn: item.nameEn + DistrictEnum.EN
-          }));
-        } else {
-          return districts.map((item) => ({
-            nameUa: item.nameUa,
-            nameEn: item.nameEn
-          }));
-        }
-      })
-    );
+    return this.http
+      .get<DistrictsDtos[]>(`${this.url}/get-all-districts?city=${encodeURIComponent(city)}&region=${encodeURIComponent(region)}`)
+      .pipe(
+        map((districts) => {
+          if (districts.length > 1) {
+            return districts.map((item) => ({
+              nameUa: item.nameUa + DistrictEnum.UA,
+              nameEn: item.nameEn + DistrictEnum.EN
+            }));
+          } else {
+            return districts.map((item) => ({
+              nameUa: item.nameUa,
+              nameEn: item.nameEn
+            }));
+          }
+        })
+      );
   }
 
   setActualAddress(adressId: number): Observable<any> {

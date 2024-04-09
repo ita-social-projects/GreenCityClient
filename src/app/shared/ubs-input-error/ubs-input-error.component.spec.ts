@@ -1,4 +1,3 @@
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -103,24 +102,6 @@ describe('ErrorComponent ', () => {
     const pattern = Patterns.ubsWithDigitPattern.toString();
     const result = component.getPatternErrorMessage(pattern);
     expect(result).toEqual('input-error.city-wrong');
-  });
-
-  it('getPatternErrorMessage should have return correct error for wrong house input', () => {
-    const pattern = Patterns.ubsHousePattern.toString();
-    const result = component.getPatternErrorMessage(pattern);
-    expect(result).toEqual('input-error.house-wrong');
-  });
-
-  it('getPatternErrorMessage should have return correct error for wrong corpus input', () => {
-    const pattern = Patterns.ubsCorpusPattern.toString();
-    const result = component.getPatternErrorMessage(pattern);
-    expect(result).toEqual('input-error.corpus-wrong');
-  });
-
-  it('getPatternErrorMessage should have return correct error for wrong entrance input', () => {
-    const pattern = Patterns.ubsEntrNumPattern.toString();
-    const result = component.getPatternErrorMessage(pattern);
-    expect(result).toEqual('input-error.entrance-wrong');
   });
 
   it('getPatternErrorMessage should have return correct error for wrong name input', () => {

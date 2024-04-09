@@ -5,14 +5,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFireModule } from '@angular/fire';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { environment } from '@environment/environment';
-import { ProposeCafeComponent } from '@global-core/components';
-import { AdminModule } from './component/admin/admin.module';
 import { RestoreComponent } from '@global-auth/restore/restore.component';
 import { InterceptorService } from '../shared/interceptors/interceptor.service';
 import { CoreModule } from '@global-core/core.module';
@@ -39,18 +33,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
     InfiniteScrollModule,
     HttpClientModule,
     FormsModule,
-    AdminModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
-    AngularFireStorageModule,
     DragDropModule,
     NgxPaginationModule,
     MaterialModule,
     SharedModule,
     ChatModule
   ],
-  entryComponents: [MainComponent, ProposeCafeComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
+  entryComponents: [MainComponent, RestoreComponent, EditPhotoPopUpComponent, ErrorComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
