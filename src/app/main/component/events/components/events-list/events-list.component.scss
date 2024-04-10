@@ -4,8 +4,6 @@
   }
 }
 
-
-
 .main-header {
   height: 56px;
   font-family: var(--primary-font);
@@ -19,8 +17,6 @@
     font-size: 24px;
   }
 }
-
-
 
 .end-page-txt {
   font-family: var(--primary-font);
@@ -199,9 +195,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   gap: 10px;
-
   max-width: 100%;
   white-space: nowrap;
 
@@ -302,6 +296,7 @@ p {
     width: 100%;
     margin-left: 0;
   }
+
   .create .m-btn {
     min-width: unset;
     margin-left: 0;
